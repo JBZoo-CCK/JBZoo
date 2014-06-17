@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<element type="jbprice" group="JBZoo" orderable="true">
+    <name>JBZoo Price (Deprecated !)</name>
+    <description>Price element for catalog</description>
+    <author>JBZoo.com</author>
+    <creationDate>2013 07</creationDate>
+    <copyright>Copyright (C) JBZoo.com,  All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <params>
+        <param name="default" type="text" default="0" label="Default" description=""/>
+        <param name="currency" type="jbcurrency" default="RUB" label="JBZOO_CURRENCY"
+               description="JBZOO_CURRENCY_DESC"
+               multiple="0"/>
+        <param name="repeatable" type="radio" default="0" label="Repeatable" description="Add multiple text areas.">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </param>
+
+        <param name="basket-menuitem" type="jbmenuitems" default="" label="JBZOO_CART_MENUITEM"
+               description="JBZOO_CART_MENUITEM_DESC"/>
+
+        <param name="basket-appid" type="jbapplications" default="" label="JBZOO_CART_APPID"
+               description="JBZOO_CART_APPID_DESC"/>
+
+        <param name="basket-nopaid" type="jbbool" default="0" label="JBZOO_CART_NOPAID"
+               description="JBZOO_CART_NOPAID_DESC"/>
+
+    </params>
+
+    <params group="render">
+
+        <param name="template" type="list" default="default" label="JBZOO_CART_ELEMENT_TEMPLATE"
+               description="JBZOO_CART_ELEMENT_TEMPLATE_DESC">
+            <option value="default">JBZOO_CART_ELEMENT_TEMPLATE_DEFAULT</option>
+            <option value="modal">JBZOO_CART_ELEMENT_TEMPLATE_POPUP</option>
+            <option value="oneclick">JBZOO_CART_ELEMENT_TEMPLATE_ONECLICK</option>
+            <option value="onlyprice">JBZOO_CART_ELEMENT_TEMPLATE_ONLYPRICE</option>
+            <option value="onlybuttons-popup">JBZOO_CART_ELEMENT_TEMPLATE_ONLYBUTTONS</option>
+            <option value="onlybuttons-oneclick">JBZOO_CART_ELEMENT_TEMPLATE_ONLYBUTTONS_ONECLICK</option>
+        </param>
+
+        <param name="show_sku" type="jbbool" default="1" label="JBZOO_CART_SHOW_SKU"
+               description="JBZOO_CART_SHOW_SKU_DESC"/>
+
+        <param name="currency-list" type="jbcurrency" default="RUB" label="JBZOO_CURRENCY"
+               description="JBZOO_CURRENCY_DESC"
+               multiple="1"
+                />
+
+        <param name="separated_by" type="zoolist" default="Space" label="Separated by"
+               description="CHOOSE_SEPARATOR_REPEATED_ELEMENTS">
+            <option name="Space"><![CDATA[separator=[ ]]]></option>
+            <option name="Comma"><![CDATA[separator=[, ]]]></option>
+            <option name="Hyphen"><![CDATA[separator=[ - ]]]></option>
+            <option name="Pipe"><![CDATA[separator=[ | ]]]></option>
+            <option name="Break"><![CDATA[separator=[<br />]]]></option>
+            <option name="Span"><![CDATA[tag=[<span>%s</span>]]]></option>
+            <option name="Paragraph"><![CDATA[tag=[<p>%s</p>]]]></option>
+            <option name="Div"><![CDATA[tag=[<div>%s</div>]]]></option>
+            <option name="List Item"><![CDATA[tag=[<li>%s</li>]]]></option>
+            <option name="Unordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul>%s</ul>]]]></option>
+            <option name="Ordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ol>%s</ol>]]]></option>
+            <option name="Warp Item"><![CDATA[tag=[<article class="item">%s</article>]]]></option>
+        </param>
+    </params>
+</element>

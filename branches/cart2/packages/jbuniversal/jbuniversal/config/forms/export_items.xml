@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<form>
+    <fields>
+        <fieldset name="source_item" label="JBZOO_EXPORT_ITEM_SOURCE"
+                  addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
+            <field type="jbappcategorylist"
+                   default="0"
+                   name="items_app_category"
+                   show_categories="1"
+                   showcategories_all="1"
+                   label="JBZOO_EXPORT_APP_CATEGORY"
+                   description="JBZOO_EXPORT_APP_CATEGORY_DESC"/>
+
+            <field type="jbbool"
+                   default="1"
+                   name="category_nested"
+                   label="JBZOO_EXPORT_CATEGORY_NESTED"
+                   description="JBZOO_EXPORT_CATEGORY_NESTED_DESC"/>
+
+            <field type="jbtype"
+                   default=""
+                   name="type"
+                   label="JBZOO_EXPORT_TYPE"
+                   description="JBZOO_EXPORT_TYPE_DESC"/>
+
+            <field type="jbitemstate"
+                   default="0"
+                   name="state"
+                   label="JBZOO_EXPORT_ITEMSTATE"
+                   description="JBZOO_EXPORT_ITEMSTATE_DESC"/>
+
+        </fieldset>
+
+        <fieldset name="fields" label="JBZOO_EXPORT_FIELDS">
+
+            <field type="jbbool"
+                   default="1"
+                   name="fields_core"
+                   label="JBZOO_EXPORT_FIELDS_CORE"
+                   description="JBZOO_EXPORT_FIELDS_CORE_DESC"/>
+
+            <field type="jbbool"
+                   default="1"
+                   name="fields_user"
+                   label="JBZOO_EXPORT_FIELDS_USER"
+                   description="JBZOO_EXPORT_FIELDS_USER_DESC"/>
+
+            <field type="jbbool"
+                   default="1"
+                   name="fields_config"
+                   label="JBZOO_EXPORT_FIELDS_CONFIG"
+                   description="JBZOO_EXPORT_FIELDS_CONFIG_DESC"/>
+
+            <field type="jbbool"
+                   default="1"
+                   name="fields_meta"
+                   label="JBZOO_EXPORT_FIELDS_META"
+                   description="JBZOO_EXPORT_FIELDS_META_DESC"/>
+
+            <field type="jbbool"
+                   default="0"
+                   name="fields_price"
+                   label="JBZOO_EXPORT_FIELDS_PRICE"
+                   description="JBZOO_EXPORT_FIELDS_PRICE_DESC"/>
+
+            <field type="jbbool"
+                   default="1"
+                   name="fields_full_price"
+                   label="JBZOO_EXPORT_FIELDS_FULL_PRICE"
+                   description="JBZOO_EXPORT_FIELDS_FULL_PRICE_DESC"/>
+        </fieldset>
+
+        <fieldset name="other" label="JBZOO_EXPORT_OTHER">
+
+            <field type="jbbool"
+                   default="0"
+                   name="merge_repeatable"
+                   label="JBZOO_EXPORT_FIELDS_MERGE_REPEATABLE"
+                   description="JBZOO_EXPORT_FIELDS_MERGE_REPEATABLE_DESC"/>
+
+            <field type="jbitemorder"
+                   name="order"
+                   default="id"
+                   label="JBZOO_EXPORT_ORDER"
+                   description="JBZOO_EXPORT_ORDER_DESC"/>
+
+            <field type="text"
+                   default=""
+                   name="separator"
+                   maxlength="1"
+                   required="true"
+                   label="JBZOO_IMPORT_SEPARATOR"
+                   description="JBZOO_IMPORT_SEPARATOR_DESC"/>
+
+            <field type="text"
+                   default=""
+                   name="enclosure"
+                   maxlength="1"
+                   required="true"
+                   label="JBZOO_IMPORT_ENCLOSURE"
+                   description="JBZOO_IMPORT_ENCLOSURE_DESC"/>
+        </fieldset>
+
+    </fields>
+</form>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<bookmarks>
+    <bookmark type="google" name="Google">
+        <link><![CDATA[http://www.google.com/]]></link>
+        <click>
+            <![CDATA[window.open('http://www.google.com/bookmarks/mark?op=add&amp;hl=en&amp;bkmk='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title));return false;]]></click>
+    </bookmark>
+
+    <bookmark type="technorati" name="Technorati">
+        <link><![CDATA[http://www.technorati.com/]]></link>
+        <click>
+            <![CDATA[window.open('http://technorati.com/faves?add='+encodeURIComponent(location.href));return false;]]></click>
+    </bookmark>
+
+    <bookmark type="yahoo" name="Yahoo">
+        <link><![CDATA[http://www.yahoo.com/]]></link>
+        <click>
+            <![CDATA[window.open('http://myweb2.search.yahoo.com/myresults/bookmarklet?t='+encodeURIComponent(document.title)+'&amp;u='+encodeURIComponent(location.href));return false;]]></click>
+    </bookmark>
+
+    <bookmark type="delicious" name="Delicious">
+        <link><![CDATA[http://del.icio.us/]]></link>
+        <click>
+            <![CDATA[window.open('http://del.icio.us/post?v=2&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title));return false;]]></click>
+    </bookmark>
+
+    <bookmark type="stumbleupon" name="StumbleUpon">
+        <link><![CDATA[http://www.stumbleupon.com/]]></link>
+        <click>
+            <![CDATA[window.open('http://www.stumbleupon.com/submit?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title));return false;]]></click>
+    </bookmark>
+
+    <bookmark type="digg" name="Digg">
+        <link><![CDATA[http://digg.com/]]></link>
+        <click>
+            <![CDATA[window.open('http://digg.com/submit?phase=2&amp;url='+encodeURIComponent(location.href)+'&amp;bodytext=tags=title='+encodeURIComponent(document.title));return false;]]></click>
+    </bookmark>
+
+    <bookmark type="facebook" name="Facebook">
+        <link><![CDATA[http://www.facebook.com/]]></link>
+        <click>
+            <![CDATA[window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(location.href)+'&amp;t='+encodeURIComponent(document.title));return false;]]></click>
+    </bookmark>
+
+    <bookmark type="reddit" name="Reddit">
+        <link><![CDATA[http://reddit.com/]]></link>
+        <click>
+            <![CDATA[window.open('http://reddit.com/submit?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title));return false;]]></click>
+    </bookmark>
+
+    <bookmark type="myspace" name="Myspace">
+        <link><![CDATA[http://www.myspace.com/]]></link>
+        <click>
+            <![CDATA[window.open('http://www.myspace.com/index.cfm?fuseaction=postto&amp;'+'t='+encodeURIComponent(document.title)+'&amp;c=u='+encodeURIComponent(location.href)+'&amp;l=');return false;]]></click>
+    </bookmark>
+
+    <bookmark type="live" name="Live">
+        <link><![CDATA[http://www.live.com/]]></link>
+        <click>
+            <![CDATA[window.open('https://favorites.live.com/quickadd.aspx?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title));return false;]]></click>
+    </bookmark>
+
+    <bookmark type="twitter" name="Twitter">
+        <link><![CDATA[http://twitter.com/]]></link>
+        <click>
+            <![CDATA[window.open('http://twitter.com/home?status='+encodeURIComponent(document.title)+' '+encodeURIComponent(location.href));return false;]]></click>
+    </bookmark>
+
+    <bookmark type="email" name="Email">
+        <link><![CDATA[]]></link>
+        <click>
+            <![CDATA[this.href='mailto:?subject='+document.title+'&amp;body='+encodeURIComponent(location.href);]]></click>
+    </bookmark>
+
+    <bookmark type="blogger" name="Blogger">
+        <link><![CDATA[http://www.blogger.com/]]></link>
+        <click>
+            <![CDATA[window.open('http://www.blogger.com/blog_this.pyra?t&u='+encodeURIComponent(location.href)+'&amp;t='+encodeURIComponent(document.title));return false;]]></click>
+    </bookmark>
+
+    <bookmark type="bobrdobr" name="BobrDobr">
+        <link><![CDATA[http://bobrdobr.ru/]]></link>
+        <click>
+            <![CDATA[window.open('http://bobrdobr.ru/add.html?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title));return false;]]></click>
+    </bookmark>
+
+    <bookmark type="liveinternet" name="Liveinternet">
+        <link><![CDATA[http://www.liveinternet.ru/]]></link>
+        <click>
+            <![CDATA[window.open('http://www.liveinternet.ru/journal_post.php?action=n_add&cnurl='+encodeURIComponent(location.href)+'&amp;cntitle='+encodeURIComponent(document.title));return false;]]></click>
+    </bookmark>
+
+    <bookmark type="livejournal" name="Live Journal">
+        <link><![CDATA[http://www.livejournal.com/]]></link>
+        <click>
+            <![CDATA[window.open('http://www.livejournal.com/update.bml?event='+encodeURIComponent(location.href)+'&amp;subject='+encodeURIComponent(document.title));return false;]]></click>
+    </bookmark>
+
+    <bookmark type="mailru" name="Mailru">
+        <link><![CDATA[http://www.mail.ru/]]></link>
+        <click>
+            <![CDATA[window.open('http://connect.mail.ru/share?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title));return false;]]></click>
+    </bookmark>
+
+    <bookmark type="odnoklassniki" name="Odnoklassniki">
+        <link><![CDATA[http://www.odnoklassniki.ru/]]></link>
+        <click>
+            <![CDATA[window.open('http://www.odnoklassniki.ru/dk?st.cmd=addShare&st._surl='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title));return false;]]></click>
+    </bookmark>
+
+    <bookmark type="vkontakte" name="Vkontakte">
+        <link><![CDATA[http://vkontakte.ru/]]></link>
+        <click>
+            <![CDATA[window.open('http://vkontakte.ru/share.php?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'new','resizable=1, menubar=0, left=200, top=200, width=554, height=421, toolbar=0, status=0');return false;]]></click>
+    </bookmark>
+
+    <bookmark type="yandex" name="Yandex">
+        <link><![CDATA[http://www.yandex.ru/]]></link>
+        <click>
+            <![CDATA[window.open('http://zakladki.yandex.ru/newlink.xml?url='+encodeURIComponent(location.href)+'&amp;name='+encodeURIComponent(document.title));return false;]]></click>
+    </bookmark>
+</bookmarks>

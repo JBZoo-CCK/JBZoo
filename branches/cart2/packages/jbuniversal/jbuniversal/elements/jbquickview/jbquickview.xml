@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Vitaliy Yanovskiy <joejoker@jbzoo.com>
+-->
+<element type="jbsocial" group="JBZoo">
+    <name>JBZoo Quick View</name>
+    <description>JBZoo quick view element</description>
+    <author>JBZoo.com</author>
+    <creationDate>2013 09</creationDate>
+    <copyright>Copyright (C) JBZoo.com,  All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+
+    <params>
+
+    </params>
+
+    <params group="render">
+        <param name="layout" type="zoolayout" default="" label="JBZOO_QUICKVIEW_LAYOUT"
+               description="JBZOO_QUICKVIEW_LAYOUT_DESC"
+               constraint="related"/>
+
+        <param name="scroll_enable" type="jbbool" default="0" label="JBZOO_QUICKVIEW_SCROLL_ENABLE"
+               description="JBZOO_QUICKVIEW_SCROLL_ENABLE_DESC"/>
+
+        <param name="auto_size_enable" type="jbbool" default="0" label="JBZOO_QUICKVIEW_AUTO_SIZE_ENABLE"
+               description="JBZOO_QUICKVIEW_AUTO_SIZE_ENABLE_DESC"/>
+
+        <param name="button_text" type="text" default="" label="JBZOO_QUICKVIEW_BUTTON_TEXT"
+               description="JBZOO_QUICKVIEW_BUTTON_TEXT_DESC"/>
+
+        <param name="popup_width" type="text" default="600" label="JBZOO_QUICKVIEW_WIDTH"
+               description="JBZOO_QUICKVIEW_WIDTH_DESC"/>
+
+        <param name="popup_height" type="text" default="400" label="JBZOO_QUICKVIEW_HEIGHT"
+               description="JBZOO_QUICKVIEW_HEIGHT_DESC"/>
+    </params>
+</element>

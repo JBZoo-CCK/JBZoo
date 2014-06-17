@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<element type="jbpriceadvance" group="JBZoo" orderable="true">
+    <name>JBZoo Price - Advance</name>
+    <description>Price element for catalog</description>
+    <author>JBZoo.com</author>
+    <creationDate>2013 07</creationDate>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>2.0</version>
+    <params>
+        <param name="currency_default" type="jbcurrency" default="EUR" label="JBZOO_JBPRICE_CURRENCY_DEFAULT"
+               description="JBZOO_JBPRICE_CURRENCY_DEFAULT" multiple="0"/>
+
+        <param name="currency_list" type="jbcurrency" default="" label="JBZOO_JBPRICE_CURRENCY_LIST"
+               description="JBZOO_JBPRICE_CURRENCY_LIST_DESC" multiple="1"/>
+
+        <param name="balance_mode" type="jbbool" default="0" label="JBZOO_JBPRICE_BALANCE"
+               description="JBZOO_JBPRICE_BALANCE_DESC"/>
+
+        <param name="mode" type="radio" default="0" label="JBZOO_JBPRICE_MODE" description="JBZOO_JBPRICE_MODE_DESC">
+            <option value="0">JBZOO_JBPRICE_MODE_SIMPLE</option>
+            <option value="1">JBZOO_JBPRICE_MODE_ADV</option>
+        </param>
+
+        <param name="cache" type="jbbool" default="0" label="JBZOO_JBPRICE_ELEMENT_CACHE"
+               description="JBZOO_JBPRICE_ELEMENT_CACHE_DESC"/>
+
+        <!-- advaced mode ########################################################################################## -->
+        <param name="@advanced_label" type="jbspacer" default="JBZOO_JBPRICE_ADVANCED_PARAMS"/>
+
+        <param name="adv_all_exists_show" type="jbbool" default="1" label="JBZOO_JBPRICE_EMPTY_PARAMS_SHOW"
+               description="JBZOO_JBPRICE_EMPTY_PARAMS_SHOW_DESC"/>
+
+        <param name="adv_show_empty" type="jbbool" default="1" label="JBZOO_JBPRICE_SHOW_EMPTY"
+               description="JBZOO_JBPRICE_SHOW_EMPTY_DESC"/>
+
+        <param name="adv_field_param_edit" type="jbbool" default="0" label="JBZOO_JBPRICE_ADDITIONAL_PARAM_EDIT"
+               description="JBZOO_JBPRICE_ADDITIONAL_PARAM_EDIT_DESC"/>
+
+        <param name="adv_field_param_1" type="jbelementlistbytype" default="" label="JBZOO_JBPRICE_ADDITIONAL_PARAM_1"
+               description="JBZOO_JBPRICE_ADDITIONAL_PARAM_DESC" types="select,radio,checkbox"/>
+
+        <param name="adv_field_param_1_default" type="text" default="" label="JBZOO_JBPRICE_ADDITIONAL_PARAM_1_DEFAULT"
+               description="JBZOO_JBPRICE_ADDITIONAL_PARAM_1_DEFAULT_DESC"/>
+
+        <param name="adv_field_param_2" type="jbelementlistbytype" default="" label="JBZOO_JBPRICE_ADDITIONAL_PARAM_2"
+               description="JBZOO_JBPRICE_ADDITIONAL_PARAM_DESC" types="select,radio,checkbox"/>
+
+        <param name="adv_field_param_2_default" type="text" default="" label="JBZOO_JBPRICE_ADDITIONAL_PARAM_2_DEFAULT"
+               description="JBZOO_JBPRICE_ADDITIONAL_PARAM_2_DEFAULT_DESC"/>
+
+        <param name="adv_field_param_3" type="jbelementlistbytype" default="" label="JBZOO_JBPRICE_ADDITIONAL_PARAM_3"
+               description="JBZOO_JBPRICE_ADDITIONAL_PARAM_DESC" types="select,radio,checkbox"/>
+
+        <param name="adv_field_param_3_default" type="text" default="" label="JBZOO_JBPRICE_ADDITIONAL_PARAM_3_DEFAULT"
+               description="JBZOO_JBPRICE_ADDITIONAL_PARAM_3_DEFAULT_DESC"/>
+
+        <param name="adv_field_text" type="radio" default="0" label="JBZOO_JBPRICE_FIELD_TEXT"
+               description="JBZOO_JBPRICE_FIELD_TEXT_DESC">
+            <option value="0">JBZOO_JBPRICE_FIELD_TEXT_NONE</option>
+            <option value="1">JBZOO_JBPRICE_FIELD_TEXT_SIMPLE</option>
+            <option value="2">JBZOO_JBPRICE_FIELD_TEXT_AS_PARAM</option>
+        </param>
+
+        <param name="adv_field_text_default" type="text" default="" label="JBZOO_JBPRICE_ADDITIONAL_TEXT_DEFAULT"
+               description="JBZOO_JBPRICE_ADDITIONAL_TEXT_DEFAULT_DESC"/>
+
+        <!-- basket relation ####################################################################################### -->
+        <param name="@basket_label" type="jbspacer" default="JBZOO_JBPRICE_BASKET_RELATION"/>
+
+        <param name="basket_menuitem" type="jbmenuitems" default="" label="JBZOO_JBPRICE_BASKET_MENUITEM"
+               description="JBZOO_JBPRICE_BASKET_MENUITEM_DESC"/>
+
+        <param name="basket_appid" type="jbapplications" default="" cart_only="1" label="JBZOO_JBPRICE_BASKET_APPID"
+               description="JBZOO_JBPRICE_BASKET_APPID_DESC"/>
+
+        <param name="basket_nopaid" type="jbbool" default="0" label="JBZOO_JBPRICE_BASKET_NOPAID"
+               description="JBZOO_JBPRICE_BASKET_NOPAID_DESC"/>
+    </params>
+
+    <params group="render">
+
+        <!-- custom params ######################################################################################### -->
+        <param name="@custom_label" type="jbspacer" default="JBZOO_JBPRICE_TEMPLATE_CUSTOM_PARAMS_SPACER"/>
+
+        <param name="template" type="list" default="default" label="JBZOO_JBPRICE_TEMPLATE"
+               description="JBZOO_JBPRICE_TEMPLATE_DESC">
+            <option value="default">JBZOO_JBPRICE_TEMPLATE_DEFAULT</option>
+            <option value="only_price">JBZOO_JBPRICE_TEMPLATE_ONLYPRICE</option>
+            <option value="only_sku">JBZOO_JBPRICE_TEMPLATE_ONLYSKU</option>
+            <option value="only_sale">JBZOO_JBPRICE_TEMPLATE_ONLYSALE</option>
+            <option value="only_new">JBZOO_JBPRICE_TEMPLATE_ONLYNEW</option>
+            <option value="only_hit">JBZOO_JBPRICE_TEMPLATE_ONLYHIT</option>
+            <option value="only_balance">JBZOO_JBPRICE_TEMPLATE_ONLYBALANCE</option>
+            <option value="only_buttons">JBZOO_JBPRICE_TEMPLATE_ONLYBUTTONS</option>
+        </param>
+
+        <param name="show_empty_price" type="jbbool" default="1" label="JBZOO_JBPRICE_SHOW_EMPTY_PRICE"
+               description="JBZOO_JBPRICE_SHOW_EMPTY_PRICE_DESC"/>
+
+        <param name="show_empty_balance" type="jbbool" default="1" label="JBZOO_JBPRICE_SHOW_EMPTY_BALANCE"
+               description="JBZOO_JBPRICE_SHOW_EMPTY_BALANCE_DESC"/>
+
+        <param name="currency_default" type="jbcurrency" default="EUR" label="JBZOO_JBPRICE_CURRENCY_DEFAULT_TEMPLATE"
+               description="JBZOO_JBPRICE_CURRENCY_DEFAULT_TEMPLATE_DESC" multiple="0"/>
+
+        <param name="currency_list" type="jbcurrency" default="" label="JBZOO_CURRENCY_TEMPLATE"
+               description="JBZOO_CURRENCY_TEMPLATE_DESC" multiple="1"/>
+
+        <!-- complex label ######################################################################################### -->
+        <param name="@complex_label" type="jbspacer" default="JBZOO_JBPRICE_TEMPLATE_DEFAULT_PARAMS_SPACER"/>
+
+        <param name="params_tmpl" type="list" default="0" label="JBZOO_JBPRICE_PARAMS_TMPL"
+               description="JBZOO_JBPRICE_PARAMS_TMPL_SELECT_DESC">
+            <option value="0">JBZOO_JBPRICE_PARAMS_TMPL_NONE</option>
+            <option value="1">JBZOO_JBPRICE_PARAMS_TMPL_SELECT</option>
+            <option value="2">JBZOO_JBPRICE_PARAMS_TMPL_RADIO</option>
+        </param>
+
+        <param name="balance_show" type="radio" default="2" label="JBZOO_JBPRICE_BALANCE_SHOW"
+               description="JBZOO_JBPRICE_BALANCE_SHOW_DESC">
+            <option value="0">JBZOO_BALANCE_NO</option>
+            <option value="1">JBZOO_BALANCE_SIMPLE</option>
+            <option value="2">JBZOO_BALANCE_FULL</option>
+        </param>
+
+        <param name="sku_show" type="jbbool" default="1" label="JBZOO_JBPRICE_SKU_SHOW"
+               description="JBZOO_JBPRICE_SKU_SHOW_DESC"/>
+
+        <param name="description_show" type="jbbool" default="1" label="JBZOO_JBPRICE_TEXT_SHOW"
+               description="JBZOO_JBPRICE_TEXT_SHOW_DESC"/>
+
+        <param name="new_show" type="jbbool" default="1" label="JBZOO_JBPRICE_NEW_SHOW"
+               description="JBZOO_JBPRICE_NEW_SHOW_DESC"/>
+
+        <param name="hit_show" type="jbbool" default="1" label="JBZOO_JBPRICE_HIT_SHOW"
+               description="JBZOO_JBPRICE_HIT_SHOW_DESC"/>
+
+        <param name="sale_show" type="list" default="1" label="JBZOO_JBPRICE_SALE_SHOW"
+               description="JBZOO_JBPRICE_SALE_SHOW_DESC">
+            <option value="0">JBZOO_JBPRICE_SALE_NO</option>
+            <option value="1">JBZOO_JBPRICE_SALE_TEXT</option>
+            <option value="2">JBZOO_JBPRICE_SALE_TEXT_SIMPLE</option>
+            <option value="3">JBZOO_JBPRICE_SALE_ICON_SIMPLE</option>
+            <option value="4">JBZOO_JBPRICE_SALE_ICON_VALUE</option>
+        </param>
+
+        <param name="count_show" type="jbbool" default="1" label="JBZOO_JBPRICE_COUNT_SHOW"
+               description="JBZOO_JBPRICE_COUNT_SHOW_DESC"/>
+
+        <param name="count_default" type="text" default="1" label="JBZOO_JBPRICE_COUNT_DEFAULT"
+               description="JBZOO_JBPRICE_COUNT_DEFAULT_DESC"/>
+
+        <param name="count_multiple" type="text" default="1" label="JBZOO_JBPRICE_MULTIPLE_DEFAULT"
+               description="JBZOO_JBPRICE_MULTIPLE_DEFAULT_DESC"/>
+
+        <param name="button_mode" type="list" default="normal" label="JBZOO_JBPRICE_BUTTON_MODE"
+               description="JBZOO_JBPRICE_BUTTON_MODE_DESC">
+            <option value="none">JBZOO_JBPRICE_BUTTON_MODE_NONE</option>
+            <option value="normal">JBZOO_JBPRICE_BUTTON_MODE_NORMAL</option>
+            <option value="popup">JBZOO_JBPRICE_BUTTON_MODE_POPUP</option>
+            <option value="oneclick">JBZOO_JBPRICE_BUTTON_MODE_ONECLICK</option>
+        </param>
+
+        <!--  modal params ######################################################################################### -->
+        <param name="@modal_label" type="jbspacer" default="JBZOO_JBPRICE_TEMPLATE_POPUP_PARAMS_SPACER"/>
+
+        <param name="modal_params_tmpl" type="list" default="0" label="JBZOO_JBPRICE_PARAMS_TMPL"
+               description="JBZOO_JBPRICE_PARAMS_TMPL_SELECT_DESC">
+            <option value="0">JBZOO_JBPRICE_PARAMS_TMPL_NONE</option>
+            <option value="1">JBZOO_JBPRICE_PARAMS_TMPL_SELECT</option>
+            <option value="2">JBZOO_JBPRICE_PARAMS_TMPL_RADIO</option>
+        </param>
+
+        <param name="modal_balance_show" type="radio" default="2" label="JBZOO_JBPRICE_BALANCE_SHOW"
+               description="JBZOO_JBPRICE_BALANCE_SHOW_DESC">
+            <option value="0">JBZOO_BALANCE_NO</option>
+            <option value="1">JBZOO_BALANCE_SIMPLE</option>
+            <option value="2">JBZOO_BALANCE_FULL</option>
+        </param>
+
+        <param name="modal_sku_show" type="jbbool" default="1" label="JBZOO_JBPRICE_SKU_SHOW"
+               description="JBZOO_JBPRICE_SKU_SHOW_DESC"/>
+
+        <param name="modal_description_show" type="jbbool" default="1" label="JBZOO_JBPRICE_TEXT_SHOW"
+               description="JBZOO_JBPRICE_TEXT_SHOW_DESC"/>
+
+        <param name="modal_new_show" type="jbbool" default="1" label="JBZOO_JBPRICE_NEW_SHOW"
+               description="JBZOO_JBPRICE_NEW_SHOW_DESC"/>
+
+        <param name="modal_hit_show" type="jbbool" default="1" label="JBZOO_JBPRICE_HIT_SHOW"
+               description="JBZOO_JBPRICE_HIT_SHOW_DESC"/>
+
+        <param name="modal_sale_show" type="list" default="1" label="JBZOO_JBPRICE_SALE_SHOW"
+               description="JBZOO_JBPRICE_SALE_SHOW_DESC">
+            <option value="0">JBZOO_JBPRICE_SALE_NO</option>
+            <option value="1">JBZOO_JBPRICE_SALE_TEXT</option>
+            <option value="2">JBZOO_JBPRICE_SALE_TEXT_SIMPLE</option>
+            <option value="3">JBZOO_JBPRICE_SALE_ICON_SIMPLE</option>
+            <option value="4">JBZOO_JBPRICE_SALE_ICON_VALUE</option>
+        </param>
+
+        <param name="modal_count_show" type="jbbool" default="1" label="JBZOO_JBPRICE_COUNT_SHOW"
+               description="JBZOO_JBPRICE_COUNT_SHOW_DESC"/>
+
+        <param name="modal_count_default" type="text" default="1" label="JBZOO_JBPRICE_COUNT_DEFAULT"
+               description="JBZOO_JBPRICE_COUNT_DEFAULT_DESC"/>
+
+        <param name="modal_count_multiple" type="text" default="1" label="JBZOO_JBPRICE_MULTIPLE_DEFAULT"
+               description="JBZOO_JBPRICE_MULTIPLE_DEFAULT_DESC"/>
+
+        <param name="button_mode_popup" type="list" default="normal" label="JBZOO_JBPRICE_BUTTON_MODE"
+               description="JBZOO_JBPRICE_BUTTON_MODE_DESC">
+            <option value="normal">JBZOO_JBPRICE_BUTTON_MODE_NORMAL</option>
+            <option value="oneclick">JBZOO_JBPRICE_BUTTON_MODE_ONECLICK</option>
+        </param>
+
+        <!-- only price params ##################################################################################### -->
+        <param name="@only_price_label" type="jbspacer" default="JBZOO_JBPRICE_TEMPLATE_ONLYPRICE_SPACER"/>
+
+        <param name="only_price_mode" type="list" default="1" label="JBZOO_JBPRICE_ONLY_PRICE_MODE"
+               description="JBZOO_JBPRICE_ONLY_PRICE_MODE_DESC">
+            <option value="1">JBZOO_JBPRICE_ONLY_PRICE_MODE_FULL</option>
+            <option value="2">JBZOO_JBPRICE_ONLY_PRICE_MODE_PRICE</option>
+            <option value="3">JBZOO_JBPRICE_ONLY_PRICE_MODE_TOTAL</option>
+            <option value="4">JBZOO_JBPRICE_ONLY_PRICE_MODE_DISCOUNT</option>
+            <option value="5">JBZOO_JBPRICE_ONLY_PRICE_MODE_SAVE</option>
+        </param>
+
+        <!-- only balance params ################################################################################### -->
+        <param name="@only_balance_label" type="jbspacer" default="JBZOO_JBPRICE_TEMPLATE_ONLYBALANCE_SPACER"/>
+
+        <param name="only_balance_mode" type="radio" default="2" label="JBZOO_JBPRICE_BALANCE_SHOW"
+               description="JBZOO_JBPRICE_BALANCE_SHOW_DESC">
+            <option value="1">JBZOO_BALANCE_SIMPLE</option>
+            <option value="2">JBZOO_BALANCE_FULL</option>
+        </param>
+
+        <!-- only sale params ###################################################################################### -->
+        <param name="@only_sale_label" type="jbspacer" default="JBZOO_JBPRICE_TEMPLATE_ONLYSALE_SPACER"/>
+
+        <param name="only_sale_mode" type="list" default="4" label="JBZOO_JBPRICE_SALE_SHOW"
+               description="JBZOO_JBPRICE_SALE_SHOW_DESC">
+            <option value="2">JBZOO_JBPRICE_SALE_TEXT_SIMPLE</option>
+            <option value="3">JBZOO_JBPRICE_SALE_ICON_SIMPLE</option>
+            <option value="4">JBZOO_JBPRICE_SALE_ICON_VALUE</option>
+        </param>
+
+        <!-- default only buttons ################################################################################## -->
+        <param name="@only_buttons_label" type="jbspacer" default="JBZOO_JBPRICE_TEMPLATE_ONLYBUTTONS_SPACER"/>
+
+        <param name="only_button_mode" type="list" default="normal" label="JBZOO_JBPRICE_BUTTON_MODE"
+               description="JBZOO_JBPRICE_BUTTON_MODE_DESC">
+            <option value="normal">JBZOO_JBPRICE_BUTTON_MODE_NORMAL</option>
+            <option value="popup">JBZOO_JBPRICE_BUTTON_MODE_POPUP</option>
+            <option value="oneclick">JBZOO_JBPRICE_BUTTON_MODE_ONECLICK</option>
+        </param>
+
+    </params>
+</element>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<form>
+    <fields>
+
+        <fieldset name="cat_source" label="JBZOO_EXPORT_CAT_SOURCE"
+                  addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
+            <field type="jbappcategorylist"
+                   default="0:0"
+                   name="category_app"
+                   label="JBZOO_EXPORT_CATEGORY_LIST"
+                   show_categories="1"
+                   description="JBZOO_EXPORT_CATEGORY_LIST_DESC"/>
+        </fieldset>
+
+        <fieldset name="cat_params" label="JBZOO_EXPORT_CAT_PARAMS">
+
+            <field type="jbbool"
+                   default="0"
+                   name="category_settings"
+                   label="JBZOO_EXPORT_CATEGORY_SETTINGS"
+                   description="JBZOO_EXPORT_CATEGORY_SETTINGS_DESC"/>
+
+            <field type="jbbool"
+                   default="0"
+                   name="subcategory_settings"
+                   label="JBZOO_EXPORT_SUBCATEGORY_SETTINGS"
+                   description="JBZOO_EXPORT_SUBCATEGORY_SETTINGS_DESC"/>
+
+            <field type="jbbool"
+                   default="0"
+                   name="category_item_settings"
+                   label="JBZOO_EXPORT_CATEGORY_ITEM_SETTINGS"
+                   description="JBZOO_EXPORT_CATEGORY_ITEM_SETTINGS_DESC"/>
+
+            <field type="jbbool"
+                   default="0"
+                   name="config_category_settings"
+                   label="JBZOO_EXPORT_CONFIG_CATEGORY_SETTINGS"
+                   description="JBZOO_EXPORT_CONFIG_CATEGORY_SETTINGS_DESC"/>
+
+            <field type="jbbool"
+                   default="0"
+                   name="config_items_settings"
+                   label="JBZOO_EXPORT_CONFIG_ITEMS_SETTINGS"
+                   description="JBZOO_EXPORT_CONFIG_ITEMS_SETTINGS_DESC"/>
+
+            <field type="jbbool"
+                   default="0"
+                   name="config_layouts_settings"
+                   label="JBZOO_EXPORT_CONFIG_LAYOUTS_SETTINGS"
+                   description="JBZOO_EXPORT_CONFIG_LAYOUTS_SETTINGS_DESC"/>
+
+            <field type="jbbool"
+                   default="0"
+                   name="config_others_settings"
+                   label="JBZOO_EXPORT_CONFIG_OTHERS_SETTINGS"
+                   description="JBZOO_EXPORT_CONFIG_OTHERS_SETTINGS_DESC"/>
+
+            <field type="jbbool"
+                   default="0"
+                   name="config_items_order_settings"
+                   label="JBZOO_EXPORT_CONFIG_ITEMS_ORDER_SETTINGS"
+                   description="JBZOO_EXPORT_CONFIG_ITEMS_ORDER_SETTINGS_DESC"/>
+        </fieldset>
+
+        <fieldset name="other" label="JBZOO_EXPORT_OTHER">
+
+            <field type="text"
+                   default=""
+                   name="separator"
+                   maxlength="1"
+                   required="true"
+                   label="JBZOO_IMPORT_SEPARATOR"
+                   description="JBZOO_IMPORT_SEPARATOR_DESC"/>
+
+            <field type="text"
+                   default=""
+                   name="enclosure"
+                   maxlength="1"
+                   required="true"
+                   label="JBZOO_IMPORT_ENCLOSURE"
+                   description="JBZOO_IMPORT_ENCLOSURE_DESC"/>
+
+        </fieldset>
+
+    </fields>
+</form>

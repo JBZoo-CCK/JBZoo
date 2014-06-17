@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<element type="jbgallery" group="JBZoo">
+    <name>JBZoo Gallery</name>
+    <description>JBZoo Gallery</description>
+    <author>JBZoo.com</author>
+    <creationDate>2013 07</creationDate>
+    <copyright>Copyright (C) JBZoo.com,  All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+
+    <params>
+        <param name="name" type="text" default="" label="Name" description="Name used in item editor"/>
+        <param name="description" type="text" default="" label="Description"
+               description="DESCRIPTION_TOOLTIP_ITEM_EDITOR"/>
+        <param name="directory" type="text" default="images" label="Source Directory"
+               description="The gallery source directory inside the Joomla root directory"/>
+    </params>
+
+    <params group="render">
+        <param name="showlabel" type="radio" default="0" label="Show Label" description="Show/Hide element label">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+        <param name="altlabel" type="text" default="" label="Alternative Label" description="CUSTOM_LABEL"/>
+        <param name="order" type="list" default="asc" label="Thumbnail Ordering" description="The thumbnail ordering">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+            <option value="random">Random</option>
+        </param>
+        <param name="width" type="text" default="0" label="JBZOO_RESIZE_WIDTH" description="JBZOO_RESIZE_WIDTH_DESC"/>
+        <param name="height" type="text" default="100" label="JBZOO_RESIZE_HEIGHT" description="JBZOO_RESIZE_HEIGHT_DESC"/>
+        <param name="count" type="text" default="0" label="Thumbnail Count" description="LIMIT_THUMBNAILS_TO_SHOW"/>
+    </params>
+
+</element>

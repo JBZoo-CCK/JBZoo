@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<config>
+    <name>Comments</name>
+    <params>
+        <param name="enable_comments" type="jbbool" default="1" label="Enable comments"
+               description="ENABLE_COMMENTING_SYSTEM"/>
+
+        <param name="require_name_and_mail" type="jbbool" default="1" label="Name and e-mail required"
+               description="Comment author must fill out name and e-mail"/>
+
+        <param name="registered_users_only" type="jbbool" default="0" label="Registered users only"
+               description="REGISTERED_USERS_ONLY"/>
+
+        <param name="approved" type="list" default="0" label="Approved by default"
+               description="Comments are approved by default">
+            <option value="0">not approved by default</option>
+            <option value="1">approved by default</option>
+            <option value="2">approval required only once</option>
+        </param>
+
+        <param name="time_between_user_posts" type="text" size="55" default="120" label="Time between user posts"
+               description="TIME_BEFORE_ALLOWED_POST_AGAIN"/>
+
+        <param name="@spacer" type="jbspacer"/>
+
+        <param name="email_notification" type="text" size="55" default="" label="Email Notification"
+               description="EMAIL_NOTIFICATION_DESCRIPTION"/>
+
+        <param name="email_reply_notification" type="jbbool" default="0" label="Email on reply"
+               description="EMAIL_REPLY_DESCRIPTION"/>
+
+        <param name="@spacer" type="jbspacer"/>
+
+        <param name="avatar" type="jbbool" default="1" label="Show avatar" description="Show avatar"/>
+
+        <param name="order" type="list" default="ASC" label="Order of comments" description="Comment order">
+            <option value="DESC">Latest first</option>
+            <option value="ASC">Latest last</option>
+        </param>
+
+        <param name="max_depth" type="list" default="5" label="Nested comments depth"
+               description="Maximum depth of nested comments">
+            <option value="1">No nested comments</option>
+            <option value="2">J2</option>
+            <option value="3">J3</option>
+            <option value="4">J4</option>
+            <option value="5">J5</option>
+            <option value="6">J6</option>
+            <option value="7">J7</option>
+            <option value="8">J8</option>
+            <option value="9">J9</option>
+            <option value="10">J10</option>
+        </param>
+
+        <param name="@spacer" type="jbspacer"/>
+
+        <param name="facebook_enable" type="jbbool" default="0" label="Enable Facebook"
+               description="COMMENT_FACEBOOK_AUTHENTICATION"/>
+
+        <param name="facebook_app_id" type="text" size="55" default="" label="Facebook Application ID"
+               description="FACEBOOK_APPLICATION_ID"/>
+
+        <param name="facebook_app_secret" type="text" size="55" default="" label="Facebook Application Secret"
+               description="FACEBOOK_APPLICATION_SECRET"/>
+
+        <param name="@spacer" type="jbspacer"/>
+        <param name="twitter_enable" type="jbbool" default="0" label="Enable Twitter"
+               description="COMMENT_TWITTER_AUTHENTICATION"/>
+
+        <param name="twitter_consumer_key" type="text" size="55" default="" label="Twitter Consumer Key"
+               description="TWITTER_CONSUMER_KEY"/>
+
+        <param name="twitter_consumer_secret" type="text" size="55" default="" label="Twitter Consumer Secret"
+               description="TWITTER_CONSUMER_SECRET"/>
+
+        <param name="@spacer" type="jbspacer"/>
+        <param name="akismet_enable" type="jbbool" default="0" label="Enable Akismet" description="CHECK_AKISMET"/>
+
+        <param name="akismet_api_key" type="text" size="55" default="" label="Wordpress API Key"
+               description="WORDPRESS_APPLICATION_KEY"/>
+
+        <param name="@spacer" type="jbspacer"/>
+        <param name="mollom_enable" type="jbbool" default="0" label="Enable Mollom" description="CHECK_MOLLOM"/>
+
+        <param name="mollom_public_key" type="text" size="55" default="" label="Mollom Public Key"
+               description="The Mollom public key."/>
+
+        <param name="mollom_private_key" type="text" size="55" default="" label="Mollom Private Key"
+               description="The Mollom private key."/>
+
+        <param name="@spacer" type="jbspacer"/>
+        <param name="captcha" type="zooplugin" default="" label="Enable Captcha"
+               description="Enabled Captcha on comment submission" folder="captcha"/>
+
+        <param name="captcha_guest_only" type="jbbool" default="1" label="Guests only" description=""/>
+
+        <param name="@spacer" type="jbspacer"/>
+        <param name="blacklist" type="textarea" cols="40" rows="10" default="" label="Blacklist"
+               description="BLACKLIST_DESCRIPTION"/>
+    </params>
+</config>

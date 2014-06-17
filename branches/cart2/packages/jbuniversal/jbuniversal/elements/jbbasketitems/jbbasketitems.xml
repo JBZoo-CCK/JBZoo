@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<element type="jbbasketitems" group="JBZoo" orderable="true">
+    <name>JBZoo Cart Items</name>
+    <description>JBZoo Cart Items</description>
+    <author>JBZoo.com</author>
+    <creationDate>2013 07</creationDate>
+    <copyright>Copyright (C) JBZoo.com,  All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+
+    
+    <params>
+    </params>
+    
+    <params group="render">
+
+    <param name="template" type="list" default="default" label="JBZOO_JBBASKETITEMS_TEMPLATE"
+               description="JBZOO_JBBASKETITEMS_TEMPLATE_DESC">
+            <option value="default">JBZOO_JBBASKETITEMS_DEFAULT</option>
+            <option value="table">JBZOO_JBBASKETITEMS_TABLE</option>
+            <option value="totalprice">JBZOO_JBBASKETITEMS_TOTALPRICE</option>
+            <option value="method">JBZOO_JBBASKETITEMS_METHOD</option>
+            <option value="status">JBZOO_JBBASKETITEMS_STATUS</option>
+            <option value="paymentlink">JBZOO_JBBASKETITEMS_PAYMENTLINK</option>
+        </param>
+        
+        <param name="basket-menuitem" type="jbmenuitems" default="" label="JBZOO_CART_MENUITEM"
+               description="JBZOO_CART_MENUITEM_DESC"/>
+    </params>
+
+</element>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+-->
+<renderer>
+    <positions layout="full">
+        <position name="title">Title</position>
+        <position name="gallery">Gallery</position>
+        <position name="text">Text</position>
+        <position name="properties">Properties</position>
+        <position name="price">Price</position>
+        <position name="agent">Agent</position>
+        <position name="map">Map</position>
+        <position name="favourite">Favourite</position>
+        <position name="related">Related</position>
+        <position name="comments">Comments</position>
+    </positions>
+
+    <positions layout="teaser">
+        <position name="image">Image</position>
+        <position name="price">Price</position>
+        <position name="beds">Beds</position>
+        <position name="baths">Baths</position>
+        <position name="address">Address</position>
+        <position name="year">Year Built</position>
+        <position name="sqft">Sq Ft</position>
+        <position name="save">Save</position>
+        <position name="additionally">Additionally</position>
+        <position name="type">Type</position>
+        <position name="agent">Agent</position>
+        <position name="compare">Compare</position>
+        <position name="date">Date</position>
+        <position name="marked">Marked</position>
+    </positions>
+
+    <positions layout="submission">
+        <position name="main">Main</position>
+        <position name="properties">Properties</position>
+    </positions>
+
+    <positions layout="related">
+        <position name="main">Main</position>
+        <position name="properties">Properties</position>
+    </positions>
+
+    <positions layout="compare">
+        <position name="fields">Fields</position>
+    </positions>
+
+    <positions layout="favorite">
+        <position name="title">Title</position>
+        <position name="image">Image</position>
+        <position name="properties">Properties</position>
+        <position name="text">Text</position>
+        <position name="meta">Meta</position>
+    </positions>
+</renderer>

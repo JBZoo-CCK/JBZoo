@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+-->
+<metadata>
+    <layout name="feed">
+        <name>Feed</name>
+        <description>Feed layout</description>
+    </layout>
+
+    <layout name="full">
+        <name>Full</name>
+        <description>Full layout</description>
+    </layout>
+
+    <layout name="teaser" type="related">
+        <name>Teaser</name>
+        <description>Teaser layout</description>
+    </layout>
+
+    <layout name="submission" type="submission">
+        <name>Submission</name>
+        <description>An item is rendered with the submission layout in the submission view.</description>
+    </layout>
+
+</metadata>

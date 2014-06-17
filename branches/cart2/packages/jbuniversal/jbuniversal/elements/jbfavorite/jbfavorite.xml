@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<element type="jbfavorite" group="JBZoo">
+    <name>JBZoo Favorite</name>
+    <description>JBZoo Favorite (wishlist) element</description>
+    <author>JBZoo.com</author>
+    <creationDate>2013 07</creationDate>
+    <copyright>Copyright (C) JBZoo.com,  All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    
+    <params>
+        <param name="menuitem" type="jbmenuitems" default="" label="JBZOO_COMPARE_MENUITEM" description="JBZOO_COMPARE_MENUITEM_DESC" />
+    </params>
+    
+    <params group="render">
+    </params>
+</element>

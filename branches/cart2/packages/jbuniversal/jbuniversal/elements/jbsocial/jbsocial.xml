@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Vitaliy Yanovskiy <joejoker@jbzoo.com>
+-->
+<element type="jbsocial" group="JBZoo">
+    <name>JBZoo Social</name>
+    <description>JBZoo social element</description>
+    <author>JBZoo.com</author>
+    <creationDate>2013 07</creationDate>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <params>
+        <param name="likes_enabled" type="jbbool" default="1" label="JBZOO_SOCIAL_LIKES_ENABLED"
+               description="JBZOO_SOCIAL_LIKES_ENABLED_DESC"/>
+
+        <param name="bookmarks_enabled" type="jbbool" default="1" label="JBZOO_SOCIAL_BOOKMARKS_ENABLED"
+               description="JBZOO_SOCIAL_BOOKMARKS_ENABLED_DESC"/>
+
+        <param name="complex_enabled" type="jbbool" default="1" label="JBZOO_SOCIAL_YANDEX_SHARE_ENABLED"
+               description="JBZOO_SOCIAL_YANDEX_SHARE_ENABLED_DESC"/>
+
+        <param name="bookmark_google" type="jbbool" default="0" label="JBZOO_BOOKMARK_GOOGLE"
+               description="JBZOO_BOOKMARK_GOOGLE_DESC"/>
+
+        <param name="bookmark_technorati" type="jbbool" default="0" label="JBZOO_BOOKMARK_TECHNORATI"
+               description="JBZOO_BOOKMARK_TECHNORATI_DESC"/>
+
+        <param name="bookmark_yahoo" type="jbbool" default="0" label="JBZOO_BOOKMARK_YAHOO"
+               description="JBZOO_BOOKMARK_YAHOO_DESC"/>
+
+        <param name="bookmark_delicious" type="jbbool" default="0" label="JBZOO_BOOKMARK_DELICIOUS"
+               description="JBZOO_BOOKMARK_DELICIOUS_DESC"/>
+
+        <param name="bookmark_stumbleupon" type="jbbool" default="0" label="JBZOO_BOOKMARK_STUMBLEUPON"
+               description="JBZOO_BOOKMARK_STUMBLEUPON_DESC"/>
+
+        <param name="bookmark_digg" type="jbbool" default="0" label="JBZOO_BOOKMARK_DIGG"
+               description="JBZOO_BOOKMARK_DIGG_DESC"/>
+
+        <param name="bookmark_facebook" type="jbbool" default="1" label="JBZOO_BOOKMARK_FACEBOOK"
+               description="JBZOO_BOOKMARK_FACEBOOK_DESC"/>
+
+        <param name="bookmark_reddit" type="jbbool" default="0" label="JBZOO_BOOKMARK_REDDIT"
+               description="JBZOO_BOOKMARK_REDDIT_DESC"/>
+
+        <param name="bookmark_myspace" type="jbbool" default="0" label="JBZOO_BOOKMARK_MYSPACE"
+               description="JBZOO_BOOKMARK_MYSPACE_DESC"/>
+
+        <param name="bookmark_live" type="jbbool" default="0" label="JBZOO_BOOKMARK_WINDOWSLIVE"
+               description="JBZOO_BOOKMARK_WINDOWSLIVE_DESC"/>
+
+        <param name="bookmark_twitter" type="jbbool" default="1" label="JBZOO_BOOKMARK_TWITTER"
+               description="JBZOO_BOOKMARK_TWITTER_DESC"/>
+
+        <param name="bookmark_email" type="jbbool" default="1" label="JBZOO_BOOKMARK_EMAIL"
+               description="JBZOO_BOOKMARK_EMAIL_DESC"/>
+
+        <param name="bookmark_blogger" type="jbbool" default="0" label="JBZOO_BOOKMARK_BLOGGER"
+               description="JBZOO_BOOKMARK_BLOGGER_DESC"/>
+
+        <param name="bookmark_bobrdobr" type="jbbool" default="1" label="JBZOO_BOOKMARK_BOBRDOBR"
+               description="JBZOO_BOOKMARK_BOBRDOBR_DESC"/>
+
+        <param name="bookmark_liveinternet" type="jbbool" default="1" label="JBZOO_BOOKMARK_LIVEINTERNET"
+               description="JBZOO_BOOKMARK_LIVEINTERNET_DESC"/>
+
+        <param name="bookmark_livejournal" type="jbbool" default="1" label="JBZOO_BOOKMARK_LIVEJOURNAL"
+               description="JBZOO_BOOKMARK_LIVEJOURNAL_DESC"/>
+
+        <param name="bookmark_mailru" type="jbbool" default="1" label="JBZOO_BOOKMARK_MOYMIR"
+               description="JBZOO_BOOKMARK_MOYMIR_DESC"/>
+
+        <param name="bookmark_odnoklassniki" type="jbbool" default="1" label="JBZOO_BOOKMARK_ODNOKLASSNIKI"
+               description="JBZOO_BOOKMARK_ODNOKLASSNIKI_DESC"/>
+
+        <param name="bookmark_vkontakte" type="jbbool" default="1" label="JBZOO_BOOKMARK_VKONTAKTE"
+               description="JBZOO_BOOKMARK_VKONTAKTE_DESC"/>
+
+        <param name="bookmark_yandex" type="jbbool" default="1" label="JBZOO_BOOKMARK_YANDEXBOOKMARKS"
+               description="JBZOO_BOOKMARK_YANDEXBOOKMARKS_DESC"/>
+    </params>
+
+    <params group="render">
+        <param name="jbzoo_bukmarks" type="jbspacer" default="JBZOO_BOOKMARK"/>
+        <param name="bookmark_enabled" type="jbbool" default="1" label="JBZOO_BOOKMARK_ENABLED"
+               description="JBZOO_BOOKMARK_ENABLED_DESC"/>
+
+        <param name="jbzoo_like_vk" type="jbspacer" default="JBZOO_LIKE_VK"/>
+        <param name="like_vk_enabled" type="jbbool" default="1" label="JBZOO_LIKE_VK_ENABLED"
+               description="JBZOO_LIKE_VK_ENABLED_DESC"/>
+
+        <param name="like_vk_variants" type="list" default="like_vk_mini" label="JBZOO_LIKE_VK_VARIANTS"
+               description="JBZOO_LIKE_VK_VARIANTS_DESC">
+            <option value="like_vk_full">JBZOO_LIKE_VK_FULL</option>
+            <option value="like_vk_button">JBZOO_LIKE_VK_BUTTON</option>
+            <option value="like_vk_mini">JBZOO_LIKE_VK_MINI</option>
+            <option value="like_vk_vertical">JBZOO_LIKE_VK_VERTICAL</option>
+        </param>
+
+        <param name="like_vk_height" type="list" default="20" label="JBZOO_LIKE_VK_HEIGHT"
+               description="JBZOO_LIKE_VK_HEIGHT_DESC">
+            <option value="18">18</option>
+            <option value="20">20</option>
+            <option value="22">22</option>
+            <option value="24">24</option>
+        </param>
+
+        <param name="like_vk_verb" type="list" default="0" label="JBZOO_LIKE_VK_VERB"
+               description="JBZOO_LIKE_VK_VERB_DESC">
+            <option value="1">JBZOO_LIKE_VK_VERB_1</option>
+            <option value="0">JBZOO_LIKE_VK_VERB_0</option>
+        </param>
+
+        <param name="like_vk_id" type="text" default="" label="JBZOO_LIKE_VK_ID" description="JBZOO_LIKE_VK_ID_DESC"/>
+
+        <param name="jbzoo_like_fb" type="jbspacer" default="JBZOO_LIKE_FB"/>
+        <param name="like_fb_enabled" type="jbbool" default="1" label="JBZOO_LIKE_FB_ENABLED"
+               description="JBZOO_LIKE_FB_ENABLED_DESC"/>
+
+        <param name="like_fb_send" type="radio" default="false" label="JBZOO_LIKE_FB_SEND"
+               description="JBZOO_LIKE_FB_SEND_DESC">
+            <option value="false">JBZOO_LIKE_NO</option>
+            <option value="true">JBZOO_LIKE_YES</option>
+        </param>
+
+        <param name="like_fb_layout" type="list" default="button_count" label="JBZOO_LIKE_FB_LAYOUT"
+               description="JBZOO_LIKE_FB_LAYOUT_DESC">
+            <option value="standart">JBZOO_LIKE_FB_STANDART</option>
+            <option value="button_count">JBZOO_LIKE_FB_BUTTON_COUNT</option>
+            <option value="box_count">JBZOO_LIKE_FB_BOX_COUNT</option>
+        </param>
+
+        <param name="like_fb_show_faces" type="radio" default="false" label="JBZOO_LIKE_FB_SHOW_FACES"
+               description="JBZOO_LIKE_FB_SHOW_FACES_DESC">
+            <option value="false">JBZOO_LIKE_NO</option>
+            <option value="true">JBZOO_LIKE_YES</option>
+        </param>
+
+        <param name="like_fb_colorscheme" type="list" default="light" label="JBZOO_LIKE_FB_COLORSCHEME"
+               description="JBZOO_LIKE_FB_COLORSCHEME_DESC">
+            <option value="light">JBZOO_LIKE_FB_LIGHT</option>
+            <option value="dark">JBZOO_LIKE_FB_DARK</option>
+        </param>
+
+        <param name="like_fb_action" type="list" default="like_fb_light" label="JBZOO_LIKE_FB_ACTION"
+               description="JBZOO_LIKE_FB_ACTION_DESC">
+            <option value="like">JBZOO_LIKE_FB_LIKE</option>
+            <option value="recommend">JBZOO_LIKE_FB_RECOMMEND</option>
+        </param>
+
+        <param name="like_fb_locale" type="list" default="ru_RU" label="JBZOO_LIKE_LOCALE"
+               description="JBZOO_LIKE_LOCALE_DESC">
+            <option value="ru_RU">JBZOO_LIKE_RUSSIAN</option>
+            <option value="en_GB">JBZOO_LIKE_ENGLISH</option>
+        </param>
+
+        <param name="jbzoo_like_tw" type="jbspacer" default="JBZOO_LIKE_TW"/>
+        <param name="like_tw_enabled" type="jbbool" default="1" label="JBZOO_LIKE_TW_ENABLED"
+               description="JBZOO_LIKE_TW_ENABLED_DESC"/>
+
+        <param name="like_tw_via" type="text" default="" label="JBZOO_LIKE_TW_VIA"
+               description="JBZOO_LIKE_TW_VIA_DESC">
+        </param>
+
+        <param name="like_tw_locale" type="list" default="ru_RU" label="JBZOO_LIKE_LOCALE"
+               description="JBZOO_LIKE_LOCALE_DESC">
+            <option value="ru">JBZOO_LIKE_RUSSIAN</option>
+            <option value="en">JBZOO_LIKE_ENGLISH</option>
+        </param>
+
+        <param name="like_tw_size" type="list" default="" label="JBZOO_LIKE_TW_SIZE"
+               description="JBZOO_LIKE_TW_SIZE_DESC">
+            <option value="">JBZOO_LIKE_TW_SMALL</option>
+            <option value="large">JBZOO_LIKE_TW_LARGE</option>
+        </param>
+
+        <param name="like_tw_related" type="text" default="" label="JBZOO_LIKE_TW_RELATED"
+               description="JBZOO_LIKE_TW_RELATED_DESC">
+        </param>
+
+        <param name="like_tw_hashtags" type="text" default="" label="JBZOO_LIKE_TW_HASHTAGS"
+               description="JBZOO_LIKE_TW_HASHTAGS_DESC">
+        </param>
+
+        <param name="like_tw_dnt" type="radio" default="false" label="JBZOO_LIKE_TW_DNT"
+               description="JBZOO_LIKE_TW_DNT_DESC">
+            <option value="false">JBZOO_LIKE_NO</option>
+            <option value="true">JBZOO_LIKE_YES</option>
+        </param>
+
+        <param name="like_tw_count" type="jbbool" default="0" label="JBZOO_LIKE_TW_COUNT"
+               description="JBZOO_LIKE_TW_COUNT_DESC"/>
+
+        <param name="jbzoo_like_ok" type="jbspacer" default="JBZOO_LIKE_OK"/>
+        <param name="like_ok_enabled" type="jbbool" default="0" label="JBZOO_LIKE_OK_ENABLED"
+               description="JBZOO_LIKE_OK_ENABLED_DESC"/>
+
+        <param name="like_ok_url" type="text" default="" label="JBZOO_LIKE_OK_URL"
+               description="JBZOO_LIKE_OK_URL_DESC">
+        </param>
+
+        <param name="like_ok_count_enable" type="radio" default="0" label="JBZOO_LIKE_OK_COUNT_ENABLE"
+               description="JBZOO_LIKE_OK_COUNT_ENABLE_DESC">
+            <option value="1">JBZOO_LIKE_NO</option>
+            <option value="0">JBZOO_LIKE_YES</option>
+        </param>
+
+        <param name="like_ok_count" type="radio" default="right" label="JBZOO_LIKE_OK_COUNT"
+               description="JBZOO_LIKE_OK_COUNT_DESC">
+            <option value="right">JBZOO_LIKE_OK_COUNT_RIGHT</option>
+            <option value="vert">JBZOO_LIKE_OK_COUNT_VERT</option>
+        </param>
+
+        <param name="like_ok_text" type="radio" default="0" label="JBZOO_LIKE_OK_TEXT"
+               description="JBZOO_LIKE_OK_TEXT_DESC">
+            <option value="1">JBZOO_LIKE_NO</option>
+            <option value="0">JBZOO_LIKE_YES</option>
+        </param>
+
+        <param name="like_ok_ok_text" type="list" default="1" label="JBZOO_LIKE_OK_OK_TEXT"
+               description="JBZOO_LIKE_OK_OK_TEXT_DESC">
+            <option value="1">JBZOO_LIKE_OK_CLASS</option>
+            <option value="2">JBZOO_LIKE_OK_SHARE</option>
+            <option value="3">JBZOO_LIKE_OK_RECOMENDED</option>
+        </param>
+
+        <param name="like_ok_view" type="list" default="straight" label="JBZOO_LIKE_OK_VIEW"
+               description="JBZOO_LIKE_OK_VIEW_DESC">
+            <option value="oval">JBZOO_LIKE_OK_OVAL</option>
+            <option value="rounded">JBZOO_LIKE_OK_ROUNDED</option>
+            <option value="straight">JBZOO_LIKE_OK_SQUARE</option>
+        </param>
+
+        <param name="like_ok_size" type="list" default="12" label="JBZOO_LIKE_OK_SIZE"
+               description="JBZOO_LIKE_OK_SIZE_DESC">
+            <option value="12">12</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="45">45</option>
+            <option value="70">70</option>
+            <option value="100">100</option>
+            <option value="150">150</option>
+        </param>
+
+        <param name="jbzoo_like_gp" type="jbspacer" default="JBZOO_LIKE_GP"/>
+        <param name="like_gp_enabled" type="jbbool" default="0" label="JBZOO_LIKE_GP_ENABLED"
+               description="JBZOO_LIKE_GP_ENABLED_DESC"/>
+
+        <param name="like_gp_size" type="list" default="tall" label="JBZOO_LIKE_GP_SIZE"
+               description="JBZOO_LIKE_GP_SIZE_DESC">
+            <option value="small">JBZOO_LIKE_GP_SMALL</option>
+            <option value="medium">JBZOO_LIKE_GP_MEDIUM</option>
+            <option value="standart">JBZOO_LIKE_GP_STANDART</option>
+            <option value="tall">JBZOO_LIKE_GP_TALL</option>
+        </param>
+
+        <param name="like_gp_annotation" type="list" default="none" label="JBZOO_LIKE_GP_ANNOTATION"
+               description="JBZOO_LIKE_GP_ANNOTATION_DESC">
+            <option value="inline">JBZOO_LIKE_GP_INLINE</option>
+            <option value="">JBZOO_LIKE_GP_BUBLE</option>
+            <option value="none">JBZOO_LIKE_GP_NONE</option>
+        </param>
+
+        <param name="like_gp_width" type="text" default="300" label="JBZOO_LIKE_GP_WIDTH"
+               description="JBZOO_LIKE_GP_WIDTH_DESC">
+        </param>
+
+        <param name="like_gp_lang" type="list" default="ru" label="JBZOO_LIKE_LOCALE"
+               description="JBZOO_LIKE_LOCALE_DESC">
+            <option value="ru">JBZOO_LIKE_RUSSIAN</option>
+            <option value="en-GB">JBZOO_LIKE_ENGLISH</option>
+        </param>
+
+        <param name="jbzoo_like_li" type="jbspacer" default="JBZOO_LIKE_LI"/>
+        <param name="like_li_enabled" type="jbbool" default="0" label="JBZOO_LIKE_LI_ENABLED"
+               description="JBZOO_LIKE_LI_ENABLED_DESC"/>
+
+        <param name="like_li_url" type="text" default="" label="JBZOO_LIKE_LI_URL"
+               description="JBZOO_LIKE_LI_URL_DESC">
+        </param>
+
+        <param name="like_li_counter" type="list" default="right" label="JBZOO_LIKE_LI_COUNTER"
+               description="JBZOO_LIKE_LI_COUNTER_DESC">
+            <option value="">JBZOO_LIKE_LI_COUNTER_NONE</option>
+            <option value="right">JBZOO_LIKE_LI_COUNTER_RIGHT</option>
+            <option value="top">JBZOO_LIKE_LI_COUNTER_TOP</option>
+        </param>
+
+        <param name="like_li_lang" type="list" default="ru" label="JBZOO_LIKE_LOCALE"
+               description="JBZOO_LIKE_LOCALE_DESC">
+            <option value="ru_RU">JBZOO_LIKE_RUSSIAN</option>
+            <option value="en_US">JBZOO_LIKE_ENGLISH</option>
+        </param>
+
+        <param name="jbzoo_like_ya_share" type="jbspacer" default="JBZOO_LIKE_YA_SHARE"/>
+        <param name="like_ya_share_enabled" type="jbbool" default="1" label="JBZOO_LIKE_YA_SHARE_ENABLED"
+               description="JBZOO_LIKE_YA_SHARE_ENABLED_DESC"/>
+
+        <param name="like_ya_share_services" type="textarea" default="" label="JBZOO_LIKE_YA_SHARE_SERVICES"
+               description="JBZOO_LIKE_YA_SHARE_SERVICES_DESC">
+        </param>
+
+        <param name="like_ya_share_style" type="list" default="button" label="JBZOO_LIKE_YA_SHARE_STYLE"
+               description="JBZOO_LIKE_YA_SHARE_STYLE_DESC">
+            <option value="button">JBZOO_LIKE_YA_SHARE_BUTTON</option>
+            <option value="link">JBZOO_LIKE_YA_SHARE_LINK</option>
+            <option value="icon">JBZOO_LIKE_YA_SHARE_ICON</option>
+            <option value="none">JBZOO_LIKE_YA_SHARE_NONE</option>
+        </param>
+
+        <param name="like_ya_share_theme" type="list" default="default" label="JBZOO_LIKE_YA_SHARE_THEME"
+               description="JBZOO_LIKE_YA_SHARE_THEME_DESC">
+            <option value="default">JBZOO_LIKE_YA_SHARE_THEME_DEFAULT</option>
+            <option value="dark">JBZOO_LIKE_YA_SHARE_THEME_DARK</option>
+            <option value="counter">JBZOO_LIKE_YA_SHARE_THEME_COUNTER</option>
+        </param>
+
+    </params>
+</element>

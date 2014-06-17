@@ -1,0 +1,275 @@
+/**
+ * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ *
+ * @package     jbzoo
+ * @version     2.x Pro
+ * @author      JBZoo App http://jbzoo.com
+ * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+ * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @coder       Denis Smetannikov <denis@jbzoo.com>
+ */
+
+/*********************** custom */
+.jbzoo-filter label,
+.jbzoo-filter .label,
+.jbzoo-props .label {
+    cursor: pointer;
+    display: block;
+    font-weight: bold;
+}
+
+.jbzoo-filter .checkbox-lbl {
+    font-weight: normal;
+}
+
+.jbzoo-filter {
+    margin-bottom: 1em;
+}
+
+.jbzoo-filter .filter-element {
+    margin-bottom: 1em;
+}
+
+/*********************** controls in bottom */
+.jbzoo-filter .controls {
+    /*text-align: center !important;*/
+}
+
+.jbzoo-filter .controls input {
+    border-radius: 3px !important;
+    display: inline-block;
+    padding: 10px 15px 10px 15px;
+    border: 1px solid #C8C8C8;
+    border-bottom-color: #AAA;
+    min-width: 100px;
+    font-size: 12px;
+    line-height: 16px;
+    color: #323232;
+    cursor: pointer;
+    background: #EBEBEB;
+    background: -moz-linear-gradient(50% 0%, white, #EBEBEB 70%);
+    background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(white), to(#EBEBEB), color-stop(70%, #EBEBEB));
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 1.0);
+    border-image: initial;
+}
+
+.jbzoo-filter .controls input:hover {
+    border: 1px solid #c8c8c8;
+    border-top-color: #aaaaaa;
+    color: #404040;
+    text-decoration: none;
+    background: #e1e1e1;
+    background: -moz-linear-gradient(50% 0%, #e1e1e1, #f5f5f5 96%, #ffffff 96%);
+    background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(#e1e1e1), to(#ffffff), color-stop(90%, #f5f5f5));
+    text-shadow: 0px -1px 0px rgba(255, 255, 255, 1.0);
+}
+
+/*********************** all elements */
+.jbzoo-filter .field {
+    width: 98%;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.jbzoo-filter .filter-element input[type=text],
+.jbzoo-filter .filter-element select,
+.jbzoo-filter .jbzoofilter_row.pages select,
+.jbzoo-filter .jbzoofilter_row.ordering select,
+.jbzoo-filter .ui-slider {
+    width: 95%;
+}
+
+.jbzoo-filter select,
+.jbzoo-filter input[type=text] {
+    padding: 3px;
+}
+
+/*********************** checkbox & radio */
+.jbzoo-filter .checkbox input[type=checkbox],
+.jbzoo-filter .checkbox input[type=radio] {
+    float: none;
+}
+
+.jbzoo-filter .radio label,
+.jbzoo-filter .checkbox label {
+    float: none;
+}
+
+/*********************** jquery-ui timepicker */
+.ui-widget {
+    font-size: 12px !important;
+}
+
+/*********************** date range input */
+.jbzoo-filter input.element-date-range {
+    width: 140px !important;
+}
+
+.jbzoo .slider-value-0 {
+    float: left;
+}
+
+.jbzoo .slider-value-1 {
+    float: right;
+}
+
+/*********************** jquery-ui autocomplete */
+.jbzoo .ui-autocomplete-loading {
+    background: url('../img/autocomplete/loader.gif') 98% 50% no-repeat;
+}
+
+.ui-autocomplete {
+    text-align: left;
+}
+
+.jbzoo-filter label.ui-button {
+    display: inline-block;
+}
+
+.jbzoo-filter .element-checkbox input {
+    float: left;
+    margin-bottom: 0.5em;
+    margin-right: 0.5em;
+}
+
+.jbzoo-filter .element-checkbox .checkbox-lbl {
+    height: 2em;
+}
+
+.jbzoo-filter .filter-inline .filter-element {
+    float: left;
+    width: 24%;
+    margin-right: 1em;
+}
+
+.jbzoo-filter .slider-value-0,
+.jbzoo-filter .slider-value-1 {
+    margin-top: 0.5em;
+}
+
+.jbzoo-filter.filter-inline .controls {
+    padding-top: 1em;
+}
+
+/***********************  jbzoo properties list module */
+.jbzoo-props .props-element {
+    margin-bottom: 1em;
+}
+
+.jbzoo-props .jbzoo-props-list li {
+    margin-top: 0.5em;
+    padding: 2px;
+    display: block;
+}
+
+.jbzoo-props .cancel {
+    background: url('../img/icon/cancel.gif') 50% 98% no-repeat;
+    width: 11px;
+    height: 11px;
+    float: right;
+    text-decoration: none !important;
+    margin-right: 0.5em;
+    margin-top: 3px;
+}
+
+.jbzoo-filter .filter-table {
+    width: 100%;
+    border: none !important;
+    border-collapse: collapse;
+}
+
+.jbzoo-filter .filter-table td {
+    border: none !important;
+    vertical-align: middle;
+}
+
+.jbzoo-filter .filter-table tr {
+    border: none !important;
+}
+
+.jbzoo-filter .element-slider .field {
+    margin-left: 0.5em;
+}
+
+.jbzoo-filter select {
+    height: auto;
+}
+
+.jbzoo-filter.filter-2columns .static-fields .jbzoofilter_row {
+    float: left;
+    width: 30%;
+    margin-right: 1em;
+}
+
+.jbzoo-filter .jbzoofilter_row.logic label {
+    display: inline-block;
+}
+
+.jbzoo-filter .filter-element input[type=radio] {
+    float: left;
+    margin-right: 0.5em;
+}
+
+.jbzoo-filter .filter-element .radio-lbl {
+    font-weight: normal;
+    margin-bottom: 0.5em;
+}
+
+.jbzoo-filter .filter-element input[type=checkbox] {
+    float: left;
+    margin-right: 0.5em;
+}
+
+.jbzoo-filter .filter-element .checkbox-lbl {
+    font-weight: normal;
+    margin-bottom: 0.5em;
+}
+
+.jbzoo-filter .filter-element .ui-buttonset label {
+    display: block;
+    width: auto;
+    float: left;
+    margin-right: 0.5em;
+}
+
+.jbzoo .ui-accordion-header {
+    padding-left: 24px;
+}
+
+.jbzoo .ui-accordion .ui-accordion-header .ui-icon {
+    left: 4px;
+}
+
+.jbzoo .ui-accordion .ui-accordion-content {
+    padding-top: 0.5em;
+}
+
+.jbzoo .element-date-range input,
+.jbzoo .element-date input {
+    background: url('../img/icon/calendar.png') 98% 50% no-repeat transparent;
+}
+
+.jbzoo input.calendar-element {
+    background-image: none;
+}
+
+.ui-autocomplete.ui-menu {
+    z-index: 100 !important;
+}
+
+.jbzoo .filter-table td {
+    padding: 0 1em;
+}
+
+.jbzoo .jbzootabs-accordion-content input[type=text] {
+    width: 95%;
+}
+
+.jbzoo .jbzoo-filter input[type=radio] {
+    float: left;
+    margin-right: 12px;
+}
+
+.jbzoo .jbzoo-filter label {
+    margin-bottom: 6px;
+}

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<renderer>
+    <positions layout="default">
+        <position name="fields">Fields</position>
+    </positions>
+
+    <positions layout="inline">
+        <position name="fields">Fields</position>
+    </positions>
+
+    <positions layout="2colomns">
+        <position name="left">Left fields</position>
+        <position name="right">Right fields</position>
+    </positions>
+
+    <positions layout="table">
+        <position name="cell_1_1">Table cell #1:1</position>
+        <position name="cell_1_2">Table cell #1:2</position>
+        <position name="cell_1_3">Table cell #1:3</position>
+        <position name="cell_1_4">Table cell #1:4</position>
+        <position name="cell_2_1">Table cell #2:1</position>
+        <position name="cell_2_2">Table cell #2:2</position>
+        <position name="cell_2_3">Table cell #2:3</position>
+        <position name="cell_2_4">Table cell #2:4</position>
+    </positions>
+
+    <positions layout="accordion">
+        <position name="tab-1">Tab #1</position>
+        <position name="tab-2">Tab #2</position>
+        <position name="tab-3">Tab #3</position>
+        <position name="tab-4">Tab #4</position>
+        <position name="tab-5">Tab #5</position>
+        <position name="tab-6">Tab #6</position>
+        <position name="tab-7">Tab #7</position>
+        <position name="tab-8">Tab #8</position>
+        <position name="tab-9">Tab #9</position>
+        <position name="tab-10">Tab #10</position>
+    </positions>
+
+</renderer>

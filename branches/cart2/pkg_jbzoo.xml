@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<extension type="package" version="2.5" method="upgrade">
+    <name>JBZoo Package</name>
+    
+	<author>JBZoo.com</author>
+	<creationDate>2014 06</creationDate>
+	<copyright>Copyright (C) JBZoo.com,  All rights reserved.</copyright>
+	<authorEmail>admin@jbzoo.com</authorEmail>
+	<authorUrl>http://jbzoo.com</authorUrl>
+	<version>2.1.4 Pro</version>
+    <updateUrl>http://server.jbzoo.com/checkupdates</updateUrl>
+	<license>http://jbzoo.com/license JBZoo Licence</license>
+    <packagename>jbzoo</packagename>
+    <description>JBZoo App is universal Joomla CCK, application for YooTheme Zoo component. Developed by JBZoo.com</description>
+
+    <files folder="packages">
+        <file type="file" id="jbuniversal">jbuniversal</file>
+        <file type="plugin" id="jbzoo" group="system">plg_sys_jbzoo</file>
+        <file type="module" id="mod_jbzoo_basket" client="site">mod_jbzoo_basket</file>
+        <file type="module" id="mod_jbzoo_category" client="site">mod_jbzoo_category</file>
+        <file type="module" id="mod_jbzoo_props" client="site">mod_jbzoo_props</file>
+        <file type="module" id="mod_jbzoo_search" client="site">mod_jbzoo_search</file>
+        <file type="module" id="mod_jbzoo_item" client="site">mod_jbzoo_item</file>
+    </files>
+    
+    <scriptfile>file.script.php</scriptfile>
+    
+</extension>

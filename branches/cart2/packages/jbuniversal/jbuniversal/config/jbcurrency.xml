@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<currency>
+
+    <formatlist>
+        <format_1  decimals="2" dec_point="." thousands_sep=" "/>   <!-- 1 000 000.00  -->
+        <format_2  decimals="2" dec_point="," thousands_sep=" "/>   <!-- 1 000 000,00  -->
+        <format_3  decimals="2" dec_point="." thousands_sep=""/>    <!-- 1000000.00  -->
+        <format_4  decimals="2" dec_point="," thousands_sep=""/>    <!-- 1000000,00  -->
+        <format_5  decimals="0" dec_point=""  thousands_sep=" "/>   <!-- 1 000 000  -->
+        <format_6  decimals="0" dec_point=""  thousands_sep=""/>    <!-- 1000000  -->
+        <format_7  decimals="2" dec_point="." thousands_sep=","/>   <!-- 1,000,000.00  -->
+        <format_8  decimals="2" dec_point="," thousands_sep="."/>   <!-- 1.000.000,00  -->
+        <format_9  decimals="2" dec_point="." thousands_sep=", "/>  <!-- 1,000,000.00  -->
+        <format_10 decimals="2" dec_point="-" thousands_sep=" "/>   <!-- 1 000 000-00  -->
+        <format_11 decimals="2" dec_point=";" thousands_sep=" "/>   <!-- 1 000 000;00  -->
+        <format_12 decimals="2" dec_point="." thousands_sep="'"/>   <!-- 1'000'000.00  -->
+        <format_13 decimals="0" dec_point=""  thousands_sep=","/>   <!-- 1,000,000  -->
+        <format_14 decimals="0" dec_point=""  thousands_sep="."/>   <!-- 1.000.000  -->
+
+        <default   decimals="2" dec_point="." thousands_sep=" "/>   <!-- 1 000 000,00  -->
+    </formatlist>
+
+    <curencylist>
+        <eur value="1.00000"  prefix=""	    postfix=" €"	major="euro"	   minor="cent"		format="8"/>
+        <usd value="1.38110"  prefix="$"	postfix=""	    major="dollar"	   minor="cent"		format="7"/>
+        <rub value="49.7435"  prefix=""	    postfix=" р."	major="ruble"	   minor="kopeck"	format="2"/>
+        <uah value="17.1016"  prefix=""     postfix=" грн." major="hryvnia"	   minor="kopiyka"	format="5"/>
+        <amd value="572.701"  prefix=""	    postfix=" դր."	major="dram"	   minor="luma"		format="7"/>
+        <aud value="1.47205"  prefix="$"	postfix=""	    major="dollar"	   minor="cent"	    format="7"/>
+        <azn value="1.08251"  prefix=""	    postfix=" ман."	major="manat"	   minor="qäpik"	format="2"/>
+        <bgn value="1.95536"  prefix=""	    postfix=" лв."	major="leva"	   minor="stotinki"	format="2"/>
+        <brl value="3.06295"  prefix="R$ "	postfix=""	    major="real"	   minor="centavo"	format="8"/>
+        <byr value="13689.3" prefix=""	    postfix=" р."	major="ruble"	   minor=""		    format="2"/>
+        <cad value="1.51659"  prefix="$"	postfix=""	    major="dollar"	   minor="cent"		format="7"/>
+        <chf value="1.21586"  prefix="fr."	postfix=""	    major="franken"	   minor="rappen"	format="12"/>
+        <cny value="8.52629"  prefix="¥"	postfix=""	    major="yuan"	   minor="jiao"	    format="7"/>
+        <czk value="27.4480"  prefix=""	    postfix=" Kč"	major="koruna"	   minor="haler"	format="2"/>
+        <dkk value="7.46612"  prefix="kr."	postfix=""	    major="krone"	   minor="øre"		format="8"/>
+        <gbp value="0.82589"  prefix="£"	postfix=""	    major="pound"	   minor="pence"	format="7"/>
+        <hkd value="10.7082"  prefix="HK$"	postfix=""	    major="dollar"	   minor="cent"		format="7"/>
+        <hrk value="7.61882"  prefix=""	    postfix=" kn"	major="kuna"	   minor="lipa"		format="8"/>
+        <huf value="307.453"  prefix=""	    postfix=" Ft"	major="forint"	   minor=""		    format="2"/>
+        <idr value="15784.0" prefix="Rp"	postfix=""	    major="rupiah"	   minor="sen"		format="14"/>
+        <ils value="4.78261"  prefix="₪"	postfix=""	    major="new shekel" minor="agorot"	format="7"/>
+        <jpy value="140.62"  prefix="¥"	postfix=""	    major="yen"	       minor="sen"		format="13"/>
+        <kgs value="75.1249"  prefix=""	    postfix=" сом"	major="som"	       minor="tyyn"		format="10"/>
+        <krw value="1436.25"  prefix="₩"	postfix=""	    major="won"	       minor="chon"		format="13"/>
+        <kzt value="248.554"  prefix="Т"	postfix=""	    major="tenge"	   minor="tiyn"		format="10"/>
+        <ltl value="3.45198"  prefix=""	    postfix=" Lt"	major="litas"	   minor="centu"	format="8"/>
+        <lvl value="0.70902"  prefix="Ls "	postfix=""	    major="lat"	       minor="santim"	format="2"/>
+        <mdl value="18.1949"  prefix=""	    postfix=""	    major="leu"	       minor=""		    format=""/>
+        <mxn value="18.0263"  prefix="$"	postfix=""	    major="peso"	   minor="centavo"	format="7"/>
+        <myr value="4.48784"  prefix="RM"	postfix=""	    major="ringgit"	   minor="sen"		format="13"/>
+        <nok value="8.23235"  prefix="kr "	postfix=""	    major="krone"	   minor="øre"		format="2"/>
+        <nzd value="1.59565"  prefix="$"	postfix=""	    major="dollar"	   minor="cent"		format="7"/>
+        <php value="61.4214"  prefix="Php"	postfix=""	    major="peso"	   minor="centavo"	format="7"/>
+        <pln value="4.18264"  prefix=""	    postfix=" zł"	major="zloty"	   minor="grosz"	format="2"/>
+        <ron value="4.46394"  prefix=""	    postfix=" lei"	major="leu"	       minor=""		    format="8"/>
+        <sek value="9.07424"  prefix=""	    postfix=" kr"	major="krona"	   minor="öre"		format="8"/>
+        <sgd value="1.73030"  prefix="$"	postfix=""	    major="dollar"	   minor="cent"		format="7"/>
+        <thb value="44.5312"  prefix="฿"	postfix=""	    major="baht"	   minor="satang"	format="7"/>
+        <tjs value="6.67113"  prefix=""	    postfix=" т.р."	major="somoni"	   minor=""		    format="11"/>
+        <tmt value="3.93613"  prefix=""	    postfix="m."	major="manat"	   minor="tenga"	format="2"/>
+        <try value="2.94003"  prefix=""	    postfix=" TL"	major="lira"	   minor="kurus"	format="8"/>
+        <uzs value="3135.10"  prefix=""	    postfix=" сўм"	major="som"	       minor="tiyin"	format="2"/>
+        <zar value="14.5377"  prefix="R "	postfix=""	    major="rand"	   minor="cent"		format="7"/>
+    </curencylist>
+</currency>
