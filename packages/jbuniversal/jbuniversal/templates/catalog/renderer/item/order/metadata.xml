@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+-->
+<metadata>
+
+    <layout name="order" type="submission">
+        <name>Order Form</name>
+        <description>Order form</description>
+    </layout>
+
+    <layout name="orderemail">
+        <name>Order Email</name>
+        <description>Order email template</description>
+    </layout>
+
+    <layout name="paymentemail">
+        <name>Payment Email</name>
+        <description>Payment email template</description>
+    </layout>
+
+    <layout name="teaser">
+        <name>Teaser</name>
+        <description>Teaser, for order list in user profile</description>
+    </layout>
+
+    <layout name="full">
+        <name>Full</name>
+        <description>Detail page, full order information</description>
+    </layout>
+
+</metadata>

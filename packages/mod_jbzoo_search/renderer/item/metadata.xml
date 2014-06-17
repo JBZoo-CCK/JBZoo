@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<metadata>
+    <layout name="default">
+        <name>Default</name>
+        <description>This is the default layout to render an item in the module themes</description>
+    </layout>
+
+    <layout name="inline">
+        <name>Inline</name>
+        <description>As default template</description>
+    </layout>
+
+    <layout name="2colomns">
+        <name>2 Colomns</name>
+        <description>2 columns filter template</description>
+    </layout>
+
+    <layout name="table">
+        <name>Table</name>
+        <description>Table filter template</description>
+    </layout>
+
+    <layout name="accordion">
+        <name>Accordion</name>
+        <description>jQuery Accordion</description>
+    </layout>
+</metadata>

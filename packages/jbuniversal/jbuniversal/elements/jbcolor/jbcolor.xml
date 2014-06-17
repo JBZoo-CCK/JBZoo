@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Alexander Oganov <t_tapak@yahoo.com>
+-->
+<element type="jbcolor" group="JBZoo" orderable="true">
+    <name>JBZoo Colors</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014 06</creationDate>
+    <copyright>Copyright (C) JBZoo.com,  All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0.0</version>
+    <description>JBZoo colors element</description>
+    <params>
+
+        <param name="multiplicity"
+               type="radio"
+               default="1"
+               label="JBZOO_FILTER_MULTIPLE"
+               description="JBZOO_FILTER_MULTIPLE"
+               >
+
+            <option value="0">JBZOO_NO</option>
+            <option value="1">JBZOO_YES</option>
+        </param>
+
+        <param name="colors"
+               type="jbcolor"
+               rows="10"
+               cols="35"
+               label="JBZOO_JBCOLORS_ITEM_COLORS_LABEL"
+               description="JBZOO_JBCOLORS_ITEM_COLORS_DESC"/>
+
+        <param name="default_color"
+               type="text"
+               default=""
+               label="JBZOO_JBCOLORS_DEFAULT_COLOR_LABEL"
+               description="JBZOO_JBCOLORS_DEFAULT_COLOR_DESC"/>
+
+        <param name="path"
+               type="text"
+               default="images/jbcolor"
+               label="JBZOO_JBCOLORS_DEFAULT_FOLDER"
+               description="JBZOO_JBCOLORS_DEFAULT_FOLDER_DESC"/>
+
+    </params>
+
+    <params group="render">
+
+        <param name="template"
+               type="list"
+               default="default"
+               label="JBZOO_JBCOLORS_TEMPLATE_LABEL"
+               description="JBZOO_JBCOLORS_TEMPLATE_DESC"
+                >
+
+            <option value="default">Цветные блоки</option>
+            <option value="alphabetic">Только названия</option>
+        </param>
+
+        <param name="width"
+               type="text"
+               default="26"
+               label="JBZOO_WIDTH"
+               description="JBZOO_WIDTH"/>
+
+        <param name="height"
+               type="text"
+               default="26"
+               label="JBZOO_HEIGHT"
+               description="JBZOO_HEIGHT"/>
+
+        <param name="separated_by" type="zoolist" default="Space" label="Separated by"
+               description="CHOOSE_SEPARATOR_REPEATED_ELEMENTS">
+            <option name="Space"><![CDATA[separator=[ ]]]></option>
+            <option name="Comma"><![CDATA[separator=[, ]]]></option>
+            <option name="Hyphen"><![CDATA[separator=[ - ]]]></option>
+            <option name="Pipe"><![CDATA[separator=[ | ]]]></option>
+            <option name="Break"><![CDATA[separator=[<br />]]]></option>
+            <option name="Span"><![CDATA[tag=[<span>%s</span>]]]></option>
+            <option name="Paragraph"><![CDATA[tag=[<p>%s</p>]]]></option>
+            <option name="Div"><![CDATA[tag=[<div>%s</div>]]]></option>
+            <option name="List Item"><![CDATA[tag=[<li>%s</li>]]]></option>
+            <option name="Unordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul>%s</ul>]]]></option>
+            <option name="Ordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ol>%s</ol>]]]></option>
+            <option name="Warp Item"><![CDATA[tag=[<article class="item">%s</article>]]]></option>
+            <option name="Blank"><![CDATA[tag=[%s]]]></option>
+            <option name="UIkit Block"><![CDATA[tag=[<div class="uk-margin">%s</div>]]]></option>
+            <option name="UIkit Article"><![CDATA[tag=[<article class="uk-article">%s</article>]]]></option>
+            <option name="UIkit List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul class="uk-list">%s</ul>]]]></option>
+            <option name="UIkit List Line"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul class="uk-list uk-list-line">%s</ul>]]]></option>
+        </param>
+
+    </params>
+</element>

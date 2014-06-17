@@ -1,0 +1,104 @@
+/**
+ * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ *
+ * @package     jbzoo
+ * @version     2.x Pro
+ * @author      JBZoo App http://jbzoo.com
+ * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+ * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @coder       Denis Smetannikov <denis@jbzoo.com>
+ */
+
+.jbzoo-app-product .subcategory-title {
+    text-align: center;
+    margin-top: 1em;
+}
+
+.jbzoo-app-product .element-socialbookmarks {
+    margin-top: 1em;
+}
+
+.jbzoo-app-product .item-anons {
+    margin-bottom: 1em;
+}
+
+.jbzoo-app-product .item-meta {
+    margin-bottom: 1em;
+}
+
+.jbzoo-app-product .item-body {
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+.jbzoo-app-product .element-jbblock {
+    margin-bottom: 1em;
+}
+
+.jbzoo-app-product .jbzoo-item-related .element-jbrelatedauto {
+    margin-top: 2em;
+}
+
+.jbzoo-app-product .jbzoo-item-related .item-title {
+    margin-bottom: 0.5em;
+}
+
+.jbzoo-app-product .related-items .rborder {
+    min-height: 310px;
+}
+
+.jbzoo-app-product .product-buttons {
+    float: left;
+}
+
+.jbzoo-app-product .items .column {
+    padding: 0;
+}
+
+.jbzoo-app-product .item-body {
+    padding: 12px;
+}
+
+.wk-slideshow .slides > li {
+    text-align: center;
+}
+
+.jbzoo-app-product .jbzoo-item-teaser .item-image {
+    margin-right: 30px;
+}
+
+.jbzoo-app-product .jbzoo-item-teaser .wrapper-jbcompare {
+    right: 10px;
+    top: 48px;
+    float: left;
+    position: absolute;
+}
+
+.jbzoo-app-product .column {
+    position: relative;
+}
+
+.jbzoo-app-product .jbzoo-item-teaser .wrapper-jbfavorite {
+    position: absolute;
+    right: 10px;
+    bottom: 62px;
+}
+
+.jbzoo-app-product .jbzoo-item-teaser .element-rating {
+    margin-bottom: 10px;
+}
+
+.jbzoo-app-product .subtitle h2 {
+    color: #777;
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.jbzoo-app-product .price-value-position .jbprice-buttons {
+    display: none;
+}
+
+.jbzoo-app-product .item-price-position {
+    float: left;
+}
+

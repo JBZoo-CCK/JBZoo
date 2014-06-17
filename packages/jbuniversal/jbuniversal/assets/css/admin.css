@@ -1,0 +1,715 @@
+/**
+ * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ *
+ * @package     jbzoo
+ * @version     2.x Pro
+ * @author      JBZoo App http://jbzoo.com
+ * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+ * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @coder       Denis Smetannikov <denis@jbzoo.com>
+ */
+
+/*********************************** JBZoo misc ***********************************************************************/
+.jbzoo .clr {
+    clear: both;
+    overflow: hidden;
+    line-height: 0 !important;
+    height: 0 !important;
+    font-size: 0;
+    margin: 0;
+    padding: 0;
+}
+
+a.jbajaxlink {
+    border-bottom: 1px dashed #025A8D !important;
+    text-decoration: none !important;
+}
+
+a.jbajaxlink:hover {
+    border-bottom: none !important;
+    text-decoration: none !important;
+}
+
+.icon-32-jbzoosupport {
+    background: url('../img/toolbar/support_32.png') 50% 100% no-repeat;;
+}
+
+.jbzoo div.application-list img {
+    width: 48px;
+    height: 48px;
+}
+
+#nav li.jbzoo span.icon {
+    background: url('../img/toolbar/navicon.png') 0 0 no-repeat !important;
+    width: 22px;
+    height: 22px;
+    margin-top: 4px;
+    opacity: .7;
+}
+
+#nav .jbzoo:hover span.icon {
+    background-position: 0 0;
+    opacity: 1;
+}
+
+/*********************************** Form fields styles ***************************************************************/
+.jbadminform .jbcategory-list select {
+    width: 160px;
+}
+
+.jbadminform .jbapp-list select {
+    width: 160px;
+}
+
+.jbadminform .jbapp-list {
+    float: left;
+    margin-right: 12px;
+}
+
+.jbkeyvalue-row {
+    margin-bottom: 12px;
+}
+
+.jsJKeyValueRemove {
+    position: relative;
+    top: 4px;
+    left: 10px;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJdSURBVDjLpZP7S1NhGMf9W7YfogSJboSEUVCY8zJ31trcps6zTI9bLGJpjp1hmkGNxVz4Q6ildtXKXzJNbJRaRmrXoeWx8tJOTWptnrNryre5YCYuI3rh+8vL+/m8PA/PkwIg5X+y5mJWrxfOUBXm91QZM6UluUmthntHqplxUml2lciF6wrmdHriI0Wx3xw2hAediLwZRWRkCPzdDswaSvGqkGCfq8VEUsEyPF1O8Qu3O7A09RbRvjuIttsRbT6HHzebsDjcB4/JgFFlNv9MnkmsEszodIIY7Oaut2OJcSF68Qx8dgv8tmqEL1gQaaARtp5A+N4NzB0lMXxon/uxbI8gIYjB9HytGYuusfiPIQcN71kjgnW6VeFOkgh3XcHLvAwMSDPohOADdYQJdF1FtLMZPmslvhZJk2ahkgRvq4HHUoWHRDqTEDDl2mDkfheiDgt8pw340/EocuClCuFvboQzb0cwIZgki4KhzlaE6w0InipbVzBfqoK/qRH94i0rgokSFeO11iBkp8EdV8cfJo0yD75aE2ZNRvSJ0lZKcBXLaUYmQrCzDT6tDN5SyRqYlWeDLZAg0H4JQ+Jt6M3atNLE10VSwQsN4Z6r0CBwqzXesHmV+BeoyAUri8EyMfi2FowXS5dhd7doo2DVII0V5BAjigP89GEVAtda8b2ehodU4rNaAW+dGfzlFkyo89GTlcrHYCLpKD+V7yeeHNzLjkp24Uu1Ed6G8/F8qjqGRzlbl2H2dzjpMg1KdwsHxOlmJ7GTeZC/nesXbeZ6c9OYnuxUc3fmBuFft/Ff8xMd0s65SXIb/gAAAABJRU5ErkJggg==');
+}
+
+.jbjkeyvalue-row .chzn-container {
+    float: left;
+}
+
+.jbjkeyvalue-row strong {
+    position: relative;
+    top: 4px;
+    margin-right: 5px;
+}
+
+.jsJKeyValueAdd {
+    position: absolute;
+    left: 0;
+    bottom: 8px;
+}
+
+.jsJKeyValue {
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.jsJKeyValue, .jbjkeyvalue-row strong {
+    float: left;
+}
+
+.jbjkeyvalue-row {
+    margin-bottom: 8px;
+    height: 25px;
+
+}
+
+.jbzoo-itemorder .jbzoo-itemorder-row {
+    padding-bottom: 6px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #ccc;
+}
+
+.jbzoo-itemorder .jbzoo-itemorder-row-field {
+    margin-bottom: 4px;
+}
+
+.jbzoo-itemorder .jbzoo-itemorder-row-field select {
+    width: 200px !important;
+}
+
+.jbzoo-itemorder .jbzoo-itemorder-label {
+    display: inline-block;
+    width: 105px;
+}
+
+.jbzoo .checkfiles-result {
+    margin-top: 24px;
+}
+
+.jbzoo-complex-field {
+    float: left;
+}
+
+.jbzoo-complex-field > * {
+    margin-top: 5px;
+    float: none;
+    display: block;
+}
+
+.jbzoo-complex-field .radio-lbl {
+    float: left;
+    margin-right: 25px;
+}
+
+.jbzoo-complex-field select {
+    float: none;
+}
+
+/*********************************** Markup && Cross-Joomla fixes *****************************************************/
+#parameter-accordion textarea {
+    font-size: 12px;
+}
+
+/*********************************** Import fields ********************************************************************/
+.jbzoo-import-fields {
+    max-width: 625px;
+}
+
+.jbzoo-import-fields .type-select {
+    display: none;
+}
+
+.jbzoo-import-fields .box-bottom {
+    border: none !important;
+}
+
+.jbzoo-import-fields .box-bottom > div {
+    width: 600px;
+}
+
+.jbzoo-import-fields .box-bottom fieldset {
+    margin-bottom: 15px;
+}
+
+.jbzoo-import-fields .frontpage > span,
+.jbzoo-import-fields .frontpage > input,
+.jbzoo-import-fields .categories > span,
+.jbzoo-import-fields .categories > input {
+    vertical-align: middle;
+}
+
+.jbzoo-import-fields .frontpage > span,
+.jbzoo-import-fields .categories > span {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.jbzoo-import-fields div.assign-group {
+    padding: 0px 10px 0px 5px;
+}
+
+.jbzoo-import-fields .items div.info {
+    overflow: hidden;
+}
+
+.jbzoo-import-fields .items div.info label {
+    float: left;
+}
+
+.jbzoo-import-fields .items div.info select {
+    float: right;
+}
+
+.jbzoo-import-fields .box-bottom ul {
+    list-style: none;
+    margin: 10px 0px 10px 0px;
+    padding: 0px;
+}
+
+.jbzoo-import-fields li.assign {
+    padding: 5px 0px 5px 0px;
+    margin-bottom: 4px;
+    line-height: 25px;
+}
+
+.jbzoo-import-fields li.assign:first-child {
+    border-top: none;
+}
+
+.jbzoo-import-fields li.assign:hover {
+    background: #ffffdd;
+}
+
+.jbzoo-import-fields li.assign span.name {
+    color: #323232;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.jbzoo-import-fields .items li.assign span.type {
+    display: block;
+    width: 50%;
+    height: 12px;
+    margin-top: -6px;
+    line-height: 12px;
+    visibility: hidden;
+    color: #666666;
+    font-size: 10px;
+}
+
+.jbzoo-import-fields .items li.assign:hover span.type {
+    visibility: visible;
+}
+
+.jbzoo-import-fields select.type-select {
+    float: right;
+}
+
+.jbzoo-import-fields .items select.type-select {
+    display: none;
+}
+
+.jbzoo-import-fields .button-grey {
+    float: right;
+}
+
+.jbzoo-import-fields #fields-assign {
+    padding: 0;
+}
+
+.jbzoo-import-fields #fields-assign li {
+    list-style: none;
+}
+
+/*********************************** uikit fixes **********************************************************************/
+.jbzoo .uk-grid {
+    font-size: 13px;
+}
+
+.uk-grid h2 {
+    margin-bottom: 16px;
+    border-bottom: 1px solid #dddddd;
+    padding-bottom: 12px;
+}
+
+.jbzoo .uk-table tr.uk-success td {
+    background-color: rgba(223, 240, 216, 0.5);
+}
+
+.jbzoo .uk-table tr.uk-error td {
+    background-color: rgba(242, 222, 222, 0.5);
+}
+
+.jbzoo .uk-nav.uk-nav-side {
+    padding-left: 0;
+}
+
+.jbzoo .uk-form-horizontal .uk-form-label {
+    width: 350px !important;
+}
+
+.jbzoo .uk-form-horizontal .uk-form-controls {
+    margin-left: 365px !important;
+}
+
+.jbzoo .uk-button {
+    text-decoration: none;
+}
+
+.jbzoo .uk-button-danger,
+.jbzoo .uk-button-success,
+.jbzoo .uk-button-primary {
+    color: #fff;
+}
+
+.jbzoo .uk-form .checkbox-lbl,
+.jbzoo .uk-form .radio-lbl {
+    clear: none;
+    display: inline;
+    cursor: pointer;
+    vertical-align: baseline;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.jbzoo .uk-form input[type=checkbox],
+.jbzoo .uk-form input[type=radio] {
+    margin-right: 6px;
+    margin-left: 0;
+    vertical-align: baseline;
+}
+
+.jbzoo .uk-form input[type=text],
+.jbzoo .uk-form input[type=password],
+.jbzoo .uk-form select {
+    width: 250px;
+}
+
+.jbzoo .jbprogressbar {
+    margin-bottom: 12px;
+}
+
+.jbzoo .statistic {
+    margin-top: 24px;
+}
+
+.jbzoo .uk-button-primary:hover,
+.jbzoo .uk-button-primary:focus {
+    background-color: #00aff2;
+    color: #fff;
+    background-image: none;
+}
+
+.jbzoo .uk-button-success:hover,
+.jbzoo .uk-button-success:focus {
+    background-color: #8fce48;
+    color: #fff;
+    background-image: none;
+}
+
+.jbzoo .uk-button-danger:hover,
+.jbzoo .uk-button-danger:focus {
+    background-color: #e33551;
+    color: #fff;
+    background-image: none;
+}
+
+.jbzoo .uk-form legend {
+    border: none;
+    width: 70%;
+}
+
+/*********************************** admin menu ***********************************************************************/
+#jbzoo-adminmenu {
+    margin-left: 4px;
+}
+
+#jbzoo-adminmenu > a {
+    background: url('../img/toolbar/adminmenu_16.png') 0 50% no-repeat;
+    padding-left: 20px !important;
+}
+
+#jbzoo-adminmenu .parent-link {
+    background-image: url('../img/adminmenu/app.png');
+    background-position: 0 50%;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-left: 24px;
+    margin-left: 6px
+}
+
+#nav .jbzoo > a > span {
+    padding: 0 3px 0 3px !important;
+}
+
+#jbzoo-adminmenu .item-config-item {
+    background-image: url('../img/adminmenu/config.png');
+}
+
+#jbzoo-adminmenu .jbzoo-admin-item {
+    background-image: url('../img/adminmenu/jbzoo.png');
+}
+
+#jbzoo-adminmenu .jbzoo-import-item {
+    background-image: url('../img/adminmenu/import.png');
+}
+
+#jbzoo-adminmenu .jbzoo-export-item {
+    background-image: url('../img/adminmenu/export.png');
+}
+
+#jbzoo-adminmenu .jbzoo-info-item {
+    background-image: url('../img/adminmenu/info.png');
+}
+
+#jbzoo-adminmenu .jbzoo-support-item {
+    background-image: url('../img/adminmenu/support.png');
+}
+
+/*********************************** JPrice & JBpriceAdvance elements *************************************************/
+.jbprice {
+    width: 200px !important;
+    max-width: 200px !important;
+    min-width: 200px !important;
+    margin-right: 12px !important;
+}
+
+.jbzoo-price-advance label.row-field {
+    display: block !important;
+    float: left !important;
+    width: 160px !important;
+}
+
+.jbzoo-price-advance .jbpriceadv-row-radio label.radio-lbl,
+.jbzoo-price-advance .jbpriceadv-row-radio label.radiobtn {
+    float: left;
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+.jbzoo-price-advance .basic-balance-wrap input {
+    float: left;
+    margin-right: 3px;
+}
+
+.jbzoo-price-advance .jbpriceadv-row {
+    margin-bottom: 12px;
+}
+
+.jbzoo-price-advance .jbpriceadv-row-radio label.radiobtn {
+    display: inline-block !important;
+    float: none !important;
+}
+
+.jbzoo-price-advance .variations fieldset {
+    padding: 8px;
+}
+
+.jbzoo-price-advance .variations .variation-label {
+    display: block;
+    width: 100%;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #333;
+}
+
+.jbzoo-price-advance .variations .jbpriceadv-variation-row {
+    width: 400px;
+    border-color: #999;
+}
+
+.jbzoo-price-advance input[type=text] {
+    text-align: right;
+}
+
+.jbzoo-price-advance .variations {
+    margin-top: 6px;
+}
+
+.jbzoo-price-advance {
+    padding-bottom: 6px;
+}
+
+.jbremove {
+    background: url('../img/misc/delete.png') 0 0 no-repeat;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    display: block;
+}
+
+.jbzoo-price-advance .variations .jbremove {
+    float: right;
+}
+
+.jbzoo-price-advance .row-param {
+    margin-top: 8px;
+    width: 125px;
+    float: left;
+}
+
+.jbzoo-price-advance .row-param2 {
+    margin-right: 12px;
+    margin-left: 12px;
+}
+
+.submission .jbzoo-price-advance .variations .jbpriceadv-variation-row {
+    width: 500px;
+}
+
+/*********************************** JBImage element ******************************************************************/
+
+.creation-form .element-jbimage input.jbimage-select {
+    width: 284px !important;
+    padding-right: 25px;
+    vertical-align: top;
+}
+
+.creation-form .element-jbimage span.image-cancel {
+    margin: 5px 15px 0 -25px;
+    vertical-align: text-top;
+}
+
+.creation-form .element-jbimage button {
+    display: inline-block;
+    width: 90px;
+    height: 32px;
+    padding: 0px 0px 2px 0px;
+    border: 1px solid #c8c8c8;
+    border-bottom-color: #aaaaaa;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background: #ebebeb;
+    background: -moz-linear-gradient(50% 0%, #ffffff, #ebebeb 70%);
+    background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(#ffffff), to(#ebebeb), color-stop(70%, #ebebeb));
+    font-size: 12px;
+    line-height: 24px;
+    color: #323232;
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 1.0);
+}
+
+.creation-form .element-jbimage button:hover {
+    border: 1px solid #c8c8c8;
+    border-top-color: #aaaaaa;
+    background: #e1e1e1;
+    background: -moz-linear-gradient(50% 0%, #e1e1e1, #f5f5f5 96%, #ffffff 96%);
+    background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(#e1e1e1), to(#ffffff), color-stop(90%, #f5f5f5));
+    text-shadow: 0px -1px 0px rgba(255, 255, 255, 1.0);
+    color: #404040;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.creation-form div.image-preview {
+    width: 408px;
+    height: 170px;
+    margin-top: 10px;
+    padding: 3px;
+    border: 1px solid #CCCCCC;
+    overflow: hidden;
+    background: #FFFFFF;
+}
+
+.creation-form div.image-preview img {
+    vertical-align: middle;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/*********************************** Order table list *****************************************************************/
+.jbbasket-table {
+    border: 1px solid #ccc;
+    width: 95%;
+    border-collapse: collapse;
+}
+
+.jbbasket-table td,
+.jbbasket-table th {
+    padding: 4px;
+}
+
+.jbbasket-table tbody td {
+    border: 1px solid #ccc;
+}
+
+.element-jbbasketitems .payment-system strong {
+    vertical-align: baseline !important;
+}
+
+.jbzoo .orderStatus {
+    width: 200px;
+    margin-top: 6px;
+}
+
+.jbzoo .orderDescription {
+    width: 400px;
+    height: 70px;
+    font-size: 12px;
+    line-height: 16px;
+    margin-top: 6px;
+}
+
+/*********************************** Benchmark table ******************************************************************/
+.jbzoo .table-performance .col-group {
+    font-weight: bold;
+    color: #a00;
+    padding-top: 24px;
+    font-size: 1.15em;
+}
+
+.jbzoo .jstest-total_score .jsValue {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #a00;
+}
+
+.jbzoo .jstest-total_score .testname {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #a00;
+}
+
+.jbzoo .application-list p {
+    display: block;
+    white-space: nowrap;
+    margin: 0 auto;
+    max-width: 95%;
+    overflow: hidden;
+    position: relative;
+    text-overflow: ellipsis
+}
+
+/*********************************** Joomla admin UI fixes ************************************************************/
+.box-bottom #item-type li {
+    margin-bottom: 12px;
+}
+
+.box-bottom #item-type li a {
+    font-size: 16px;
+}
+
+ul.parameter-form li .field input[type='password'] {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    margin: 0;
+    height: auto;
+    line-height: normal;
+    font-size: 10px;
+    width: 110px;
+    padding: 1px 0px;
+}
+
+.field-jbspacer {
+    color: #a00;
+    line-height: 1.8em;
+    background: #eaeaea;
+    font-weight: bold;
+    padding-left: 6px;
+}
+
+/****************************************** JBColor styles *******************************************/
+
+.jbzoo-picker .jbpicker {
+    padding-top: 15px;
+    clear: both;
+}
+
+div.jbzoo-picker .jbpicker .jbcolor-input {
+    padding: 4px 6px !important;
+    font-size: 14px !important;
+    height: 19px !important;
+    width: 105px !important;
+    margin: 0 !important;
+}
+
+.jbzoo-picker .jbpicker .jbcolor {
+    text-indent: 20px;
+}
+
+.jbzoo-picker .jbcolor-textarea {
+    font-family: 'Courier New';
+    width: 400px;
+    height: 300px;
+}
+
+div.jbzoo-picker .jbpicker span.jsColorAdd {
+    background: url('../../../../assets/images/add.png') no-repeat;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    position: relative;
+    top: 5px;
+    left: 10px;
+}
+
+.jbzoo-picker .error {
+    border: 1px solid #FF0000;
+}
+
+.jbzoo-picker .error:focus {
+    outline: none;
+    border: 1px solid #FF0000;
+    -webkit-box-shadow: 0 0;
+    -moz-box-shadow: 0 0;
+    box-shadow: 0 0;
+}
+
+.jbdelimiter {
+    width: 100%;
+    float: left;
+    color:#a00;
+    font-size:1.1em;
+}
+
+

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<form>
+    <fields>
+        <fieldset name="configsef" label="" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
+            <field name="enabled" type="jbbool" default="0" label="JBZOO_CONFIG_SEF_ENABLED"
+                   description="JBZOO_CONFIG_SEF_ENABLED_DESC"/>
+
+            <field name="spacer_item" type="jbspacer" default="JBZOO_CONFIG_SEF_ITEM"/>
+
+            <field name="fix_item" type="jbbool" default="0" label="JBZOO_CONFIG_SEF_FIX_ITEM"
+                   description="JBZOO_CONFIG_SEF_FIX_ITEM_DESC"/>
+
+            <field name="item_alias_id" type="jbbool" default="0" label="JBZOO_CONFIG_SEF_ITEM_ALIAS_ID"
+                   description="JBZOO_CONFIG_SEF_ITEM_ALIAS_ID_DESC"/>
+
+            <field name="fix_category_id" type="jbbool" default="0" label="JBZOO_CONFIG_SEF_FIX_CATEGORY_ID"
+                   description="JBZOO_CONFIG_SEF_FIX_CATEGORY_ID_DESC"/>
+
+            <field name="spacer_category" type="jbspacer" default="JBZOO_CONFIG_SEF_CATEGORY"/>
+
+            <field name="fix_category" type="jbbool" default="0" label="JBZOO_CONFIG_SEF_FIX_CATEGORY"
+                   description="JBZOO_CONFIG_SEF_FIX_CATEGORY_DESC"/>
+
+            <field name="category_alias_id" type="jbbool" default="0" label="JBZOO_CONFIG_SEF_FIX_CATEGORY_ALIAS_ID"
+                   description="JBZOO_CONFIG_SEF_FIX_CATEGORY_ALIAS_ID_DESC"/>
+
+            <field name="spacer_others" type="jbspacer" default="JBZOO_CONFIG_SEF_OTHERS"/>
+
+            <field name="fix_feed" type="jbbool" default="0" label="JBZOO_CONFIG_SEF_FIX_FEED"
+                   description="JBZOO_CONFIG_SEF_FIX_FEED_DESC"/>
+
+            <field name="spacer_misc" type="jbspacer" default="JBZOO_CONFIG_SEF_MISC"/>
+
+            <field name="redirect" type="jbbool" default="0" label="JBZOO_CONFIG_SEF_REDIRECT"
+                   description="JBZOO_CONFIG_SEF_REDIRECT_DESC"/>
+
+            <field name="fix_canonical" type="jbbool" default="0" label="JBZOO_CONFIG_SEF_FIX_CANONICAL"
+                   description="JBZOO_CONFIG_SEF_FIX_CANONICAL_DESC"/>
+
+            <field name="parse_priority" type="list" default="item" label="JBZOO_CONFIG_SEF_PARSE_PRIORITY"
+                   description="JBZOO_CONFIG_SEF_PARSE_PRIORITY_DESC">
+                <option value="item">JBZOO_CONFIG_SEF_PARSE_PRIORITY_ITEM</option>
+                <option value="category">JBZOO_CONFIG_SEF_PARSE_PRIORITY_CATEGORY</option>
+            </field>
+
+            <field name="zoo_route_caching" type="jbbool" default="0" label="JBZOO_CONFIG_SEF_ZOO_ROUTE_CACHING"
+                   description="JBZOO_CONFIG_SEF_ZOO_ROUTE_CACHING_DESC"/>
+
+        </fieldset>
+    </fields>
+</form>

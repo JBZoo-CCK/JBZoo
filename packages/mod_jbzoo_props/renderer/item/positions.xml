@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<renderer>
+    <positions layout="default">
+        <position name="fields">Fields</position>
+    </positions>
+
+    <positions layout="accordion">
+        <position name="tab-1">Tab #1</position>
+        <position name="tab-2">Tab #2</position>
+        <position name="tab-3">Tab #3</position>
+        <position name="tab-4">Tab #4</position>
+        <position name="tab-5">Tab #5</position>
+        <position name="tab-6">Tab #6</position>
+        <position name="tab-7">Tab #7</position>
+        <position name="tab-8">Tab #8</position>
+        <position name="tab-9">Tab #9</position>
+        <position name="tab-10">Tab #10</position>
+    </positions>
+
+</renderer>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<element type="jbselectcascade" group="JBZoo" orderable="true">
+    <name>JBZoo Cascading Select</name>
+    <description>Cascading select</description>
+    <author>JBZoo.com</author>
+    <creationDate>2013 07</creationDate>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <params>
+        <param name="default" type="text" default="" label="Default" description=""/>
+        <param name="repeatable" type="jbbool" default="0" label="Repeatable" description="Add multiple text areas."/>
+
+        <param name="select_names" type="jbtextarea" rows="3" cols="30" default="" label="JBZOO_SELECT_NAMES"
+               description="JBZOO_SELECT_NAMES_DESC"/>
+        <param name="items" type="jbtextarea" rows="20" cols="30" default="" label="JBZOO_ITEMS"
+               description="JBZOO_ITEMS_DESC"/>
+    </params>
+    <params group="render">
+        <param name="separated_by" type="zoolist" default="Space" label="Separated by"
+               description="CHOOSE_SEPARATOR_REPEATED_ELEMENTS">
+            <option name="Space"><![CDATA[separator=[ ]]]></option>
+            <option name="Comma"><![CDATA[separator=[, ]]]></option>
+            <option name="Hyphen"><![CDATA[separator=[ - ]]]></option>
+            <option name="Pipe"><![CDATA[separator=[ | ]]]></option>
+            <option name="Break"><![CDATA[separator=[<br />]]]></option>
+            <option name="Span"><![CDATA[tag=[<span>%s</span>]]]></option>
+            <option name="Paragraph"><![CDATA[tag=[<p>%s</p>]]]></option>
+            <option name="Div"><![CDATA[tag=[<div>%s</div>]]]></option>
+            <option name="List Item"><![CDATA[tag=[<li>%s</li>]]]></option>
+            <option name="Unordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul>%s</ul>]]]></option>
+            <option name="Ordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ol>%s</ol>]]]></option>
+            <option name="Warp Item"><![CDATA[tag=[<article class="item">%s</article>]]]></option>
+        </param>
+        <param name="separated_values_by" type="zoolist" default="Space" label="JBZOO_SELECT_SEPORATE_BY"
+               description="JBZOO_SELECT_SEPORATE_BY_DESC">
+            <option name="Space"><![CDATA[separator=[ ]]]></option>
+            <option name="Comma"><![CDATA[separator=[, ]]]></option>
+            <option name="Hyphen"><![CDATA[separator=[ - ]]]></option>
+            <option name="Pipe"><![CDATA[separator=[ | ]]]></option>
+            <option name="Break"><![CDATA[separator=[<br />]]]></option>
+            <option name="Span"><![CDATA[tag=[<span>%s</span>]]]></option>
+            <option name="Paragraph"><![CDATA[tag=[<p>%s</p>]]]></option>
+            <option name="Div"><![CDATA[tag=[<div>%s</div>]]]></option>
+            <option name="List Item"><![CDATA[tag=[<li>%s</li>]]]></option>
+            <option name="Unordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul>%s</ul>]]]></option>
+            <option name="Ordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ol>%s</ol>]]]></option>
+            <option name="Warp Item"><![CDATA[tag=[<article class="item">%s</article>]]]></option>
+        </param>
+        <param name="display" type="list" default="all" label="Display"
+               description="CHOOSE_RENDERING_MODE_ELEMENT_POSITION">
+            <option value="all">all</option>
+            <option value="first">first</option>
+            <option value="all_without_first">all without first</option>
+        </param>
+        <param name="template" type="jbselect" default="default" label="JBZOO_SELECT_TEMPLATE"
+               description="JBZOO_SELECT_TEMPLATE_DESC">
+            <option value="default">JBZOO_SELECT_DEFAULT</option>
+            <option value="last">JBZOO_SELECT_LAST</option>
+            <option value="label">JBZOO_SELECT_LABEL</option>
+        </param>
+    </params>
+    <params group="submission">
+        <param name="mode" type="jbselect" default="all" label="JBZOO_CASCADING_SUBMISSION_VALIDATE_MODE"
+               description="JBZOO_CASCADING_SUBMISSION_VALIDATE_MODE_DESC">
+            <option value="all">JBZOO_CASCADING_SUBMISSION_VALIDATE_MODE_ALL</option>
+            <option value="any">JBZOO_CASCADING_SUBMISSION_VALIDATE_MODE_ANY</option>
+        </param>
+    </params>
+</element>

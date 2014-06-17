@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<extension type="module" version="2.5" method="upgrade" client="site">
+    <name>JBZoo Cart</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014 06</creationDate>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>2.1.4 Pro</version>
+    <updateUrl>http://server.jbzoo.com/checkupdates</updateUrl>
+    <license>http://jbzoo.com/license JBZoo Licence</license>
+    <description>JBZOO_CART_MODULE_DESCRIPTION</description>
+
+    <files>
+        <filename module="mod_jbzoo_basket">mod_jbzoo_basket.php</filename>
+        <filename>helper.php</filename>
+        <filename>index.html</filename>
+        <folder>tmpl</folder>
+    </files>
+
+    <config>
+        <fields name="params">
+
+            <fieldset name="basic" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+                <field name="@spacer" type="jbzooinit"/>
+
+                <field name="app_id" type="jbbasketapp" default="0" label="JBZOO_APPLICATION"
+                       description="JBZOO_APPLICATION_DESC"/>
+
+                <field name="currency" type="jbcurrency" default="RUR" label="JBZOO_CURRENCY"
+                       description="JBZOO_CURRENCY_DESC"/>
+
+                <field name="menuitem" type="menuitem" default="0" state="1" label="JBZOO_FILTER_MENU"
+                       description="JBZOO_FILTER_MENU_DESC"/>
+
+            </fieldset>
+
+            <fieldset name="template">
+                <field name="items_show" type="jbbool" default="1" label="JBZOO_BASKET_ITEMS_SHOW"
+                       description="JBZOO_BASKET_ITEMS_SHOW_DESC"/>
+
+                <field name="lots_show" type="jbbool" default="1" label="JBZOO_BASKET_LOTS_SHOW"
+                       description="JBZOO_BASKET_LOTS_SHOW_DESC"/>
+
+                <field name="summa_show" type="jbbool" default="1" label="JBZOO_BASKET_SUMMA_SHOW"
+                       description="JBZOO_BASKET_SUMMA_SHOW_DESC"/>
+
+                <field name="cancel_show" type="jbbool" default="1" label="JBZOO_BASKET_CANCEL_SHOW"
+                       description="JBZOO_BASKET_CANCEL_SHOW_DESC"/>
+
+                <field name="link_show" type="jbbool" default="1" label="JBZOO_BASKET_LINK_SHOW"
+                       description="JBZOO_BASKET_LINK_SHOW_DESC"/>
+            </fieldset>
+
+            <fieldset name="advanced">
+                <field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL"
+                       description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
+
+                <field name="moduleclass_sfx" type="textarea" rows="3" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                       description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"/>
+
+                <field name="cache" type="hidden" default="0"/>
+                <field name="owncache" type="hidden" default="0"/>
+                <field name="cache_time" type="hidden" default="0"/>
+                <field name="cachemode" type="hidden" default="itemid"/>
+            </fieldset>
+
+        </fields>
+    </config>
+
+</extension>

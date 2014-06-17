@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<alphaindex other="#">
+    <option>a</option>
+    <option>b</option>
+    <option>c</option>
+    <option>d</option>
+    <option>e</option>
+    <option>f</option>
+    <option>g</option>
+    <option>h</option>
+    <option>i</option>
+    <option>j</option>
+    <option>k</option>
+    <option>l</option>
+    <option>m</option>
+    <option>n</option>
+    <option>o</option>
+    <option>p</option>
+    <option>q</option>
+    <option>r</option>
+    <option>s</option>
+    <option>t</option>
+    <option>u</option>
+    <option>v</option>
+    <option>w</option>
+    <option>x</option>
+    <option>y</option>
+    <option>z</option>
+    <option>#</option>
+    <option>а</option>
+    <option>б</option>
+    <option>в</option>
+    <option>г</option>
+    <option>д</option>
+    <option>е</option>
+    <option>ж</option>
+    <option>з</option>
+    <option>и</option>
+    <option>к</option>
+    <option>л</option>
+    <option>м</option>
+    <option>н</option>
+    <option>о</option>
+    <option>п</option>
+    <option>р</option>
+    <option>с</option>
+    <option>т</option>
+    <option>у</option>
+    <option>ф</option>
+    <option>х</option>
+    <option>ц</option>
+    <option>ч</option>
+    <option>ш</option>
+    <option>щ</option>
+    <option>э</option>
+    <option>ю</option>
+    <option>я</option>
+
+    <option value="other">#</option>
+</alphaindex>

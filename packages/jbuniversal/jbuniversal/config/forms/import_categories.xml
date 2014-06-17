@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<form>
+    <fields>
+        <fieldset name="source" label="JBZOO_IMPORT_SOURCE"
+                  addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
+            <field type="file"
+                   name="csvfile"
+                   label="JBZOO_IMPORT_FILE"
+                   description="JBZOO_IMPORT_FILE_DESC"/>
+
+        </fieldset>
+
+        <fieldset name="config" label="JBZOO_IMPORT_CONFIG">
+            <field type="jbbool"
+                   default="1"
+                   name="header"
+                   label="JBZOO_IMPORT_IS_HEADER"
+                   description="JBZOO_IMPORT_IS_HEADER_DESC"/>
+
+            <field type="text"
+                   default=""
+                   name="separator"
+                   maxlength="1"
+                   label="JBZOO_IMPORT_SEPARATOR"
+                   description="JBZOO_IMPORT_SEPARATOR_DESC"/>
+
+            <field type="text"
+                   default=""
+                   name="enclosure"
+                   maxlength="1"
+                   label="JBZOO_IMPORT_ENCLOSURE"
+                   description="JBZOO_IMPORT_ENCLOSURE_DESC"/>
+
+            <field type="hidden" name="import-type" default="categories" />
+
+        </fieldset>
+    </fields>
+</form>

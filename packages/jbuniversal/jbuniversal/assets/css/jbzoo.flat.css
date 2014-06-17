@@ -1,0 +1,422 @@
+/**
+ * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ *
+ * @package     jbzoo
+ * @version     2.x Pro
+ * @author      JBZoo App http://jbzoo.com
+ * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+ * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @coder       Denis Smetannikov <denis@jbzoo.com>
+ */
+
+/*
+** Teaser styles
+*/
+.listings-title {
+    background: #617ba0;
+    background: -moz-linear-gradient(#617ba0, #204375);
+    background: -ms-linear-gradient(#617ba0, #204375);
+    background: -webkit-linear-gradient(#617ba0, #204375);
+    background: -o-linear-gradient(#617ba0, #204375);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#617ba0, endColorstr=#204375);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#FF617ba0,endColorstr=#FF204375)";
+    background: linear-gradient(#617ba0, #204375);
+    border-radius: 4px 4px 0 0;
+    -ms-border-radius: 4px 4px 0 0;
+    padding: 8px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.jbzoo-app-flat .listings-realty {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
+    border-radius: 4px;
+}
+
+.jbzoo-app-flat .realty-row {
+    clear: both;
+    padding: 10px 0;
+    height: 106px;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+}
+
+.jbzoo-app-flat .realty-row:hover {
+    background: #FFF;
+    box-shadow: 0 0 50px 0 rgba(0, 0, 0, .3);
+    z-index: 50;
+    -webkit-transition: background 400ms;
+    -webkit-transition: box-shadow 400ms;
+    -moz-transition: background 400ms;
+    -moz-transition: box-shadow 400ms;
+    border-radius: 4px;
+}
+
+.marked-realty {
+    color: #a00;
+}
+
+.jbzoo-app-flat .teaser-image {
+    float: left;
+    margin-right: 20px;
+    padding-left: 10px;
+}
+
+.jbzoo-app-flat .teaser-image img {
+    border: 3px solid #FFF;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .4);
+    margin: 5px;
+}
+
+.jbzoo-app-flat .main-info {
+    float: left;
+    width: 138px;
+    font-size: 14px;
+    height: 106px;
+    position: relative;
+}
+
+.jbzoo-app-flat .jbprice-wrapper .price-value {
+    color: #a00;
+    font-weight: normal !important;
+    margin-bottom: 8px;
+}
+
+.jbzoo-app-flat .rooms {
+    width: 104px;
+}
+
+.jbzoo-app-flat .baths {
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left: 1px solid #999;
+}
+
+.jbzoo-app-flat .beds, .jbzoo-app-flat .baths {
+    float: left;
+    margin-bottom: 6px;
+}
+
+.jbzoo-app-flat .value-beds, .jbzoo-app-flat .value-baths {
+    margin: 0 0 8px;
+    text-align: center;
+}
+
+.no-baths .value-beds {
+    float: left;
+    margin-right: 6px;
+}
+
+.no-baths .label-beds {
+    float: right;
+}
+
+.jbzoo-app-flat .realty-save {
+    clear: both;
+    position: absolute;
+    bottom: 0;
+}
+
+.jbzoo-app-flat .realty-save a {
+    float: left;
+}
+
+.jbzoo-app-flat .realty-save a:first-child {
+    margin-right: 6px;
+}
+
+.jbzoo-app-flat .address,
+.jbzoo-app-flat .value-beds,
+.jbzoo-app-flat .value-baths {
+    font-size: 16px;
+    line-height: 18px;
+}
+
+.jbzoo-app-flat .more-info {
+    width: 456px;
+    float: left;
+    position: relative;
+}
+
+.jbzoo-app-flat .more-info span {
+    color: #a00;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.jbzoo-app-flat .listing-date {
+    position: absolute;
+    right: 0;
+    font-size: 12px;
+}
+
+.jbzoo-app-flat .address {
+    margin: 0 0 10px;
+}
+
+.jbzoo-app-flat .left-info,
+.jbzoo-app-flat .right-info {
+    float: left;
+    font-size: 14px;
+}
+
+.jbzoo-app-flat .left-info {
+    margin-right: 20px;
+    width: 160px;
+    position: relative;
+    height: 78px;
+}
+
+.jbzoo-app-flat .agent-info {
+    clear: both;
+    right: 0;
+    font-size: 13px;
+    position: absolute;
+    bottom: 0;
+    text-align: right;
+    line-height: 13px;
+}
+
+.jbzoo-app-flat .realty-compare {
+    position: absolute;
+    bottom: 0;
+}
+
+.jbzoo-app-flat .right-info {
+    width: 276px;
+    position: relative;
+    height: 76px;
+}
+
+.jbzoo-app-flat .related-property .right-info {
+    width: 250px;
+}
+
+/*
+** Full styles
+*/
+.jbzoo-app-flat .top-info {
+    -moz-box-shadow: 0 0 2px 2px #ccc;
+    -webkit-box-shadow: 0 0 2px 2px #ccc;
+    box-shadow: 0 0 2px 2px #ccc;
+    border-radius: 5px;
+    padding: 12px;
+    margin-bottom: 20px;
+}
+
+.jbzoo-app-flat .full-gallery {
+    width: 56%;
+    float: left;
+}
+
+.jbzoo-app-flat .full-gallery img {
+    border: 3px solid #FFF;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .4);
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.jbzoo-app-flat .full-gallery div {
+    margin-top: 10px;
+}
+
+.jbzoo-app-flat .full-gallery div img {
+    border: 1px solid #999;
+}
+
+.jbzoo-app-flat .features {
+    float: right;
+    width: 42%;
+}
+
+.jbzoo-app-flat .price-flat {
+    clear: both;
+}
+
+.jbzoo-app-flat .price-flat .currency-list {
+    float: right;
+}
+
+.jbzoo-app-flat .price-flat label {
+    float: left;
+    font-size: 24px;
+}
+
+.price-flat .price-value.active {
+    font-weight: normal !important;
+    font-size: 28px;
+    line-height: 28px;
+}
+
+.jbzoo-app-flat .properties {
+    margin: 10px 0;
+    padding-left: 0;
+}
+
+.jbzoo-app-flat .properties li {
+    list-style: none;
+    border-bottom: 1px solid #ccc;
+    clear: both;
+    padding: 10px 0;
+}
+
+.jbzoo-app-flat .properties strong {
+    float: left;
+    display: block;
+    width: 150px;
+}
+
+.jbzoo-app-flat .favourite {
+    float: right;
+}
+
+.jbzoo-app-flat .description-block {
+    padding: 14px 0;
+}
+
+.jbzoo-app-flat .description-block:last-child {
+    border-bottom: none;
+}
+
+.jbzoo-app-flat .related-property .more-info {
+    width: 430px;
+}
+
+.jbzoo-app-flat .agent-photo {
+    float: left;
+    margin: 0 10px 6px 0;
+    border: 2px solid #FFF;
+    border-radius: 3px;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, .4);
+}
+
+.jbzoo-app-flat .agent-rating {
+    float: right;
+}
+
+.jbzoo-app-flat .agent-title {
+    float: left;
+}
+
+.jbzoo-app-flat .contacts li {
+    list-style: none;
+}
+
+/*
+** Filter styles
+*/
+.filter-flats .jbzoo .element-text-range .field input {
+    width: 78%;
+    margin-bottom: 10px;
+}
+
+.filter-flats .element-text-range .field label {
+    float: left;
+    width: 36px;
+}
+
+.filter-flats .element-checkbox .field label {
+    float: left;
+    margin-right: 10px;
+}
+
+body .jbzoo-filter .filter-element input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/*
+** Menu for submit add
+*/
+
+body .module-submit-flat {
+    padding: 0;
+    background: none;
+    margin: 0 0 20px 0;
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.module-submit-flat ul {
+    text-align: center;
+}
+
+.module-submit-flat li {
+    border-bottom: none;
+    display: block;
+    border-radius: 4px;
+    width: 180px;
+    margin: 10px auto;
+    background: #617ba0;
+    background: -moz-linear-gradient(#617ba0, #204375);
+    background: -ms-linear-gradient(#617ba0, #204375);
+    background: -webkit-linear-gradient(#617ba0, #204375);
+    background: -o-linear-gradient(#617ba0, #204375);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#617ba0, endColorstr=#204375);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#FF617ba0,endColorstr=#FF204375)";
+    background: linear-gradient(#617ba0, #204375);
+}
+
+.module-submit-flat a, .container .module-submit-flat a:hover {
+    color: #fff;
+    background: none;
+    text-decoration: none;
+    padding: 10px 20px 10px 20px;
+    display: block;
+    font-size: 14px;
+}
+
+.module-submit-flat li:hover {
+    opacity: 0.8;
+}
+
+/*
+** Submission form
+*/
+.jbuniversal-catalog-flats .element-checkbox input,
+.jbuniversal-catalog-flats .element-checkbox label {
+    float: left;
+}
+
+.jbuniversal-catalog-flats .element-checkbox input {
+    margin-top: 8px;
+}
+
+.jbuniversal-catalog-flats .element-checkbox label {
+    margin: 4px 0 0 0;
+}
+
+body .mysubmissions .toolbar div.links,
+body .mysubmissions .toolbar .submission-add .trigger {
+    border-radius: 6px;
+}
+
+body .mysubmissions .toolbar div.links {
+    min-width: 68px;
+    padding: 2px 10px;
+    background: #F0F0F0;
+    top: 34px;
+}
+
+body .mysubmissions .toolbar div.links a {
+    display: block;
+}
+
+body .mysubmissions .toolbar .submission-add:hover .trigger {
+    border-bottom-color: #CCCCCC;
+}
+
+.jbzoo-app-flat .marked-element, .jbzoo-app-flat .marked-element:hover {
+    background: #ffffcc;
+}
+
+.jbzoo-app-flat .marked-element .mark-vip {
+    position: absolute;
+    width: 67px;
+    height: 67px;
+    top: 18px;
+    left: 18px;
+    background: url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAyCAYAAAAjrenXAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABNVJREFUeNrUmU1IVFEUx4/P6YNIwTAQNKUgS7KilCzaRLYoaJNQtOm7leWqgr52UbTIVV+boqIWUVAUbYJqES0qRgoiNAXpSwiKhiytDLPzf8553bneO/Pemzc6c+DM8903vvndc8/933PfKxoZGaForPEofxxLacKtiyhq+8zeXBQNeGMrf5wdB+if7KuI4s9jOOtoDP8LDfGGHXw4o7cnHiaobE1ZlNDD7JsBjRMnmzsxdAsfLuqx/XLrC/Ue7KW+031Rgu9m6Lty4mQB3cyHmzp04kGC3p14R8WlxVTeUh4V9CGGvqw2OCGhl/Phvv7/g52DHvSck3NoSuUUt/133+9soM8z9Em90QkB3cCHx+zFajvguvd003D/MNUcrqHSZaWjicnnPa09roewtwzdarrgBISez4cn7JP0a9+ffXchYf3P+z1odAadKmkqCQqdYF9ouxgLAD0LAsQ+1XRd8hmpgsk59HHISx9cq9hWkTI6sZKYm1IWG2RfzNH+YfuCq+OZ5JChZ4wOG2UMG6INRZHoI2Xmnpv7X9O4vXNLp/t3/Z160y3+sC9i6K50v+P4iPR0PnT7gRbQ2rO1XjQRXXVyolNpUucv+7pM0BkjnoTGrKoIvFok8xupIiqDFIJc6qOgrLVbGfqan/tbwRl6chK6WlcPKISetzZ4RFgmK2xa3bSUEVFsP0O3+w1MulR5pUOLegAeqyImYjoDHCIrExe6boFGndMeZERjlhR5wYdav+qBNDAphKgHdB3QSBHD966z7w2aimNShaGh0yuDqIdp+EU90FZ3tc52m6fsK/6fxilUqjD0PRM0JhQmmU09cA2QJvVApyzWmwodMuIMfYPPN5qgASETa+aGmW65KtENoR6wT+w17EOpzfFg4LwRuMAfu4y/cOXTmPIUgIBHJ9CZgOoxgEnf0djxlYNFWYA3nOLjvnSSJmmAiYnIqmkjo4BrMmExEZHXBuhf7EsYuiuZmoFgdfCMezdJFxl6gEsO66Mg6mHIbdQATQzdocyp0OC+qkMAAQapIBNVJh4WIUBjZBBttBmgEZxNKnTQ1AgVcanyRN4AqacDOoR2y65nJ0NfGrtehN+oO/pEfLn6pVfZqYYoAgrXZEVUcxijYoE+boLO1jxwKAccYANdA8YvV+2t8iJu6pzBrjH0UcqBOZIGiDaGHzWybLtMtYcUVpnqFOxJGXoL5cgcdatVfaTa2+CKFKJTanQBju+gHZPRYq8Zei3l0GKmXTjOAYVRUIEr2yq9DkIOLZuB9+xLKcfmqoq6rCOatscJqPJkAiLiBtlLJFfFH/72sVmqChRBHpcJNM6hHFgkUH+I5KkqY1gVF/uFjiRVYIBTFxY119WiymJ/kkv5Bxoni+labSpDketSd9s2uFJ/TAi4qcACNFyVQm0p383QD2mcLS04tBp5LXW2IV0O5GJVzBrcLaBKONLbK1JyXja4DN1OE2S+iyzNbrO3RFXpRR5x+wY33kITbEEfM+Ox7wrKAwsCjvV/HuWJ+QVHnbuAoz1USOBv2Gcz9FfKI8sEjucSzQz9mfLM0oF/o9Fn1X2Uh2YDxxvc9Qz9ivLUTODyBvcJ5bGZwNvUN7iFAo43uOepAEwFN77BzXfw26MpUjgG8EfJyThcSOD/BBgAnYiBNaeEhwAAAAAASUVORK5CYII=) no-repeat;
+}

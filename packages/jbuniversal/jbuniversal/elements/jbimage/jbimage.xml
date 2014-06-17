@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<element type="jbimage" group="JBZoo">
+    <name>JBZoo Image</name>
+    <description>JBZoo image element</description>
+    <author>JBZoo.com</author>
+    <creationDate>2013 07</creationDate>
+    <copyright>Copyright (C) JBZoo.com,  All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <params>
+        <param name="upload_directory" type="text" default="images/uploads/" label="JBZOO_UPLOAD_DIRECTORY"
+               description="JBZOO_UPLOAD_DIRECTORY_DESC"/>
+
+        <param name="max_upload_size" type="text" default="512" label="JBZOO_MAX_UPLOAD_SIZE"
+               description="JBZOO_MAX_UPLOAD_SIZE_DESC"/>
+
+        <param name="upload_by_user" type="jbbool" default="0" label="JBZOO_JBIMAGE_UPLOAD_BY_USER"
+               description="JBZOO_JBIMAGE_UPLOAD_BY_USER_DESC"/>
+
+        <param name="default_enable" type="jbbool" default="0" label="JBZOO_JBIMAGE_DEFAULT_ENABLE"
+               description="JBZOO_JBIMAGE_DEFAULT_ENABLE_DESC"/>
+
+        <param name="default_image" type="text" default="" label="JBZOO_JBIMAGE_DEFAULT"
+               description="JBZOO_JBIMAGE_DEFAULT_DESC"/>
+
+        <param name="remove_with_item" type="jbbool" default="0" label="JBZOO_JBIMAGE_REMOVE_WITH_ITEM"
+               description="JBZOO_JBIMAGE_REMOVE_WITH_ITEM_DESC"/>
+
+    </params>
+    <params group="render">
+        <param name="separated_by" type="zoolist" default="Space" label="Separated by"
+               description="CHOOSE_SEPARATOR_REPEATED_ELEMENTS">
+            <option name="Space"><![CDATA[separator=[ ]]]></option>
+            <option name="Break"><![CDATA[separator=[<br />]]]></option>
+            <option name="Span"><![CDATA[tag=[<span>%s</span>]]]></option>
+            <option name="Paragraph"><![CDATA[tag=[<p>%s</p>]]]></option>
+            <option name="Div"><![CDATA[tag=[<div>%s</div>]]]></option>
+            <option name="List Item"><![CDATA[tag=[<li>%s</li>]]]></option>
+            <option name="Unordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul>%s</ul>]]]></option>
+            <option name="Ordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ol>%s</ol>]]]></option>
+            <option name="Warp Item"><![CDATA[tag=[<article class="item">%s</article>]]]></option>
+        </param>
+
+        <param name="display" type="list" default="all" label="Display"
+               description="CHOOSE_RENDERING_MODE_ELEMENT_POSITION">
+            <option value="all">all</option>
+            <option value="first">first</option>
+            <option value="all_without_first">all without first</option>
+        </param>
+
+        <param name="template" type="list" default="default" label="JBZOO_JBIMAGE_TEMPLATE"
+               description="JBZOO_JBIMAGE_TEMPLATE_DESC">
+            <option value="default">JBZOO_DEFAULT</option>
+            <option value="link">JBZOO_LINK</option>
+            <option value="itemlink">JBZOO_ITEM_LINK</option>
+            <option value="popup">JBZOO_POPUP</option>
+        </param>
+
+        <param name="group_popup" type="jbbool" default="1" label="JBZOO_GROUP_POPUP"
+               description="JBZOO_GROUP_POPUP_DESC"/>
+
+        <param name="width" type="text" default="400" label="JBZOO_RESIZE_WIDTH"
+               description="JBZOO_RESIZE_WIDTH_DESC"/>
+
+        <param name="height" type="text" default="300" label="JBZOO_RESIZE_HEIGHT"
+               description="JBZOO_RESIZE_WIDTH_DESC"/>
+
+        <param name="width_popup" type="text" default="1280" label="JBZOO_RESIZE_POPUP_WIDTH"
+               description="JBZOO_RESIZE_WIDTH_POPUP_DESC"/>
+
+        <param name="height_popup" type="text" default="800" label="JBZOO_RESIZE_POPUP_HEIGHT"
+               description="JBZOO_RESIZE_WIDTH_POPUP_DESC"/>
+
+    </params>
+</element>

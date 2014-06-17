@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Vitaliy Yanovskiy <joejoker@jbzoo.com>
+-->
+<renderer>
+    <positions layout="default">
+        <position name="image">Image</position>
+        <position name="title">Title</position>
+        <position name="price">Price</position>
+        <position name="description">Description</position>
+        <position name="properties">Properties</position>
+        <position name="links">Links</position>
+    </positions>
+
+    <positions layout="table">
+        <position name="cell1">Table cell #1</position>
+        <position name="cell2">Table cell #2</position>
+        <position name="cell3">Table cell #3</position>
+        <position name="cell4">Table cell #4</position>
+        <position name="cell5">Table cell #5</position>
+    </positions>
+</renderer>

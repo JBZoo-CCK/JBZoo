@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<form>
+    <fields>
+        <fieldset name="source"
+                  addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
+            <field type="text"
+                   default=""
+                   required="1"
+                   name="hoster"
+                   label="JBZOO_PERFORMANCE_HOSTER_URL"
+                   description="JBZOO_PERFORMANCE_HOSTER_URL_DESC"/>
+
+            <field type="text"
+                   default=""
+                   name="tariff"
+                   label="JBZOO_PERFORMANCE_TARIFF_NAME"
+                   description="JBZOO_PERFORMANCE_TARIFF_NAME_DESC"/>
+
+            <field type="list"
+                   default=""
+                   required="1"
+                   name="tariff_type"
+                   label="JBZOO_PERFORMANCE_SERVERTYPE"
+                   description="JBZOO_PERFORMANCE_SERVERTYPE_DESC">
+                <option value="">JBZOO_PERFORMANCE_SERVERTYPE_NONE</option>
+                <option value="home">JBZOO_PERFORMANCE_SERVERTYPE_HOME</option>
+                <option value="free">JBZOO_PERFORMANCE_SERVERTYPE_FREE</option>
+                <option value="shared">JBZOO_PERFORMANCE_SERVERTYPE_SHARED</option>
+                <option value="vps">JBZOO_PERFORMANCE_SERVERTYPE_VPS</option>
+                <option value="dedicated">JBZOO_PERFORMANCE_SERVERTYPE_DEDICATED</option>
+                <option value="colocation">JBZOO_PERFORMANCE_SERVERTYPE_COLOCATION</option>
+            </field>
+
+            <field type="textarea"
+                   default=""
+                   name="comment"
+                   rows="7"
+                   cols="50"
+                   label="JBZOO_PERFORMANCE_COMMENT"
+                   description="JBZOO_PERFORMANCE_COMMENT_DESC"/>
+
+        </fieldset>
+    </fields>
+</form>

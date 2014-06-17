@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Vitaliy Yanovskiy <joejoker@jbzoo.com>
+-->
+<element type="jbcomments" group="JBZoo">
+    <name>JBZoo Comments</name>
+    <description>JBZoo comments element</description>
+    <author>JBZoo.com</author>
+    <creationDate>2013 07</creationDate>
+    <copyright>Copyright (C) JBZoo.com,  All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+
+    <params>
+        <param name="fb_comments_enabled" type="jbbool" default="0" label="JBZOO_FB_COMMENTS_ENABLED"
+               description="JBZOO_FB_COMMENTS_ENABLED_DESC"/>
+        <param name="vk_comments_enabled" type="jbbool" default="0" label="JBZOO_VK_COMMENTS_ENABLED"
+               description="JBZOO_VK_COMMENTS_ENABLED_DESC"/>
+        <param name="fb_comm_app_id" type="text" default="" label="JBZOO_COMMENTS_FB_APP_ID"
+               description="JBZOO_COMMENTS_FB_APP_ID_DESC">
+        </param>
+        <param name="vk_comm_app_id" type="text" default="" label="JBZOO_COMMENTS_VK_APP_ID"
+               description="JBZOO_COMMENTS_VK_APP_ID_DESC">
+        </param>
+    </params>
+
+    <params group="render">
+        <param name="fb_comm" type="jbspacer" default="JBZOO_COMMENTS_FACEBOOK"/>
+
+        <param name="fb_comm_width" type="text" default="500" label="JBZOO_COMMENTS_FB_WIDTH"
+               description="JBZOO_COMMENTS_FB_WIDTH_DESC">
+        </param>
+
+        <param name="fb_comm_limit" type="text" default="10" label="JBZOO_COMMENTS_FB_LIMIT"
+               description="JBZOO_COMMENTS_FB_LIMIT_DESC">
+        </param>
+
+        <param name="fb_comm_color_scheme" type="list" default="light" label="JBZOO_COMMENTS_FB_COLOR_SCHEME"
+               description="JBZOO_COMMENTS_FB_COLOR_SCHEME_DESC">
+            <option value="light">JBZOO_COMMENTS_FB_LIGHT</option>
+            <option value="dark">JBZOO_COMMENTS_FB_DARK</option>
+        </param>
+
+        <param name="fb_comm_locale" type="list" default="en_GB" label="JBZOO_COMMENTS_FB_LOCALE"
+               description="JBZOO_COMMENTS_FB_LOCALE_DESC">
+            <option value="ru_RU">JBZOO_COMMENTS_FB_RUSSIAN</option>
+            <option value="en_GB">JBZOO_COMMENTS_FB_ENGLISH</option>
+        </param>
+
+        <param name="vk_comm" type="jbspacer" default="JBZOO_COMMENTS_VKONTAKTE"/>
+
+        <param name="vk_comm_width" type="text" default="500" label="JBZOO_COMMENTS_VK_WIDTH"
+               description="JBZOO_COMMENTS_VK_WIDTH_DESC">
+        </param>
+
+        <param name="vk_comm_limit" type="text" default="10" label="JBZOO_COMMENTS_VK_LIMIT"
+               description="JBZOO_COMMENTS_VK_LIMIT_DESC">
+        </param>
+
+        <param name="vk_comm_attach" type="jbbool" default="1" label="JBZOO_COMMENTS_VK_ATTACH"
+               description="JBZOO_COMMENTS_VK_ATTACH_DESC"/>
+
+        <param name="vk_comm_auto_publish" type="jbbool" default="1" label="JBZOO_COMMENTS_VK_AUTO_PUBLISH"
+               description="JBZOO_COMMENTS_VK_AUTO_PUBLISH_DESC"/>
+
+        <param name="vk_comm_height" type="text" default="500" label="JBZOO_COMMENTS_VK_HEIGHT"
+               description="JBZOO_COMMENTS_VK_HEIGHT_DESC">
+        </param>
+
+        <param name="vk_comm_norealtime" type="jbbool" default="0" label="JBZOO_COMMENTS_VK_NOREALTIME"
+               description="JBZOO_COMMENTS_VK_NOREALTIME_DESC"/>
+
+        <param name="vk_comm_mini" type="radio" default="auto" label="JBZOO_COMMENTS_VK_MINI"
+               description="JBZOO_COMMENTS_VK_MINI_DESC">
+            <option value="0">JBZOO_COMMENTS_VK_DISABLE</option>
+            <option value="1">JBZOO_COMMENTS_VK_ENABLE</option>
+            <option value="auto">JBZOO_COMMENTS_VK_AUTO</option>
+        </param>
+
+    </params>
+</element>
