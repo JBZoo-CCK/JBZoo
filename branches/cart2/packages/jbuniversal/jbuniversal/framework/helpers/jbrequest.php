@@ -20,6 +20,23 @@ defined('_JEXEC') or die('Restricted access');
 class JBRequestHelper extends AppHelper
 {
 
+    const ADMIN_FORM_KEY = 'jbzooform';
+
+    /**
+     * @var RequestHelper|JRequest
+     */
+    protected $_request = null;
+
+    /**
+     * @param App $app
+     */
+    public function __construct($app)
+    {
+        parent::__construct($app);
+
+        $this->_request = $this->app->request;
+    }
+
     /**
      * Clear and escape all values (recursive)
      * @param string|array $value
@@ -86,7 +103,7 @@ class JBRequestHelper extends AppHelper
 
         if (!isset($result)) {
 
-            $elements = $this->app->request->get('e', 'array', array());
+            $elements = $this->_request->get('e', 'array', array());
             $elements = $this->clear($elements);
 
             $result = array();
@@ -193,7 +210,7 @@ class JBRequestHelper extends AppHelper
      */
     public function getArray($arrayName, $default = array())
     {
-        $result = $this->app->request->get($arrayName, 'array');
+        $result = $this->_request->get($arrayName, 'array');
 
         if (is_null($result)) {
             return $default;
@@ -201,6 +218,17 @@ class JBRequestHelper extends AppHelper
 
         return $result;
     }
+
+    /**
+     * Get request from Control Panel form
+     * @param array $default
+     * @return array
+     */
+    public function getAdminForm($default = array())
+    {
+        return $this->getArray(self::ADMIN_FORM_KEY, $default);
+    }
+
 
     /**
      * Set request value
@@ -214,7 +242,7 @@ class JBRequestHelper extends AppHelper
             JRequest::setVar($key, $value);
         }
 
-        return $this->app->request->set($key, $value);
+        return $this->_request->set($key, $value);
     }
 
     /**
@@ -282,7 +310,7 @@ class JBRequestHelper extends AppHelper
         }
 
         $activeMenu = JFactory::getApplication()->getMenu()->getActive();
-        $result = 0;
+        $result     = 0;
         if ($activeMenu && $activeMenu->params) {
             $result = (int)$activeMenu->params->get($menuParam);
         }

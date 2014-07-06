@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<form>
+    <fields>
+        <fieldset name="others" label="" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
+            <field name="enable" type="jbbool" default="0" label="JBZOO_CART_ENABLE"
+                   description="JBZOO_CART_ENABLE_DESC"/>
+
+            <!-- заменить на уровень доступа -->
+            <field name="user-group" type="jbbool" default="0" label="JBZOO_CART_AUTH_ONLY"
+                   description="JBZOO_CART_AUTH_ONLY_DESC"/>
+
+            <field name="cart-image" type="text" default="" label="JBZOO_CART_IMAGE_ELEMENT"
+                   description="JBZOO_CART_IMAGE_ELEMENT_DESC" types="jbimage,image,imagepro" multiple="1"/>
+
+            <!-- заменить на уровень доступа -->
+            <field name="spacer_store_info" type="jbspacer" default="JBZOO_CART_CONFIG_STORE_INFO"/>
+
+            <field name="store_name" type="text" default="" label="JBZOO_CART_CONFIG_STORE_NAME"
+                   description="JBZOO_CART_CONFIG_STORE_NAME_DESC"/>
+
+        </fieldset>
+    </fields>
+</form>

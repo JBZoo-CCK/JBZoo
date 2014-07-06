@@ -21,8 +21,8 @@ jQuery(function ($) {
     $.fn.JBColorElement = function (options) {
 
         var options = $.extend({}, {
-            message: ' already in the list settings',
-            theme: 'bootstrap',
+            message : ' already in the list settings',
+            theme   : 'bootstrap',
             position: 'bottom'
         }, options);
 
@@ -38,7 +38,7 @@ jQuery(function ($) {
                 }
 
                 $minicolors.minicolors({
-                    theme: options.theme,
+                    theme   : options.theme,
                     position: options.position
                 });
 
@@ -53,8 +53,8 @@ jQuery(function ($) {
                     }
 
                     new MooRainbow(item, {
-                        id: item.id,
-                        imgPath: '../media/system/images/mooRainbow/',
+                        id        : item.id,
+                        imgPath   : '../media/system/images/mooRainbow/',
                         startColor: [255, 0, 0],
                         onComplete: function (color) {
                             this.element.value = color.hex;
@@ -283,7 +283,6 @@ jQuery(function ($) {
         });
     }
 
-
     /**
      * Pseudo jQuery plugin for form filed joomla key-value
      * @param options
@@ -308,7 +307,7 @@ jQuery(function ($) {
                 $template.append('<a href="#jbjkeyvalue-rem" class="jsJKeyValueRemove">');
             }
 
-            html = '<div class="jbjkeyvalue-row">' + $template.html() + '</div>';
+            var html = '<div class="jbjkeyvalue-row">' + $template.html() + '</div>';
             html = html.replace('[0][key]', '[' + (length) + '][key]');
             html = html.replace('0key', (length) + 'key');
             html = html.replace('[0][value]', '[' + (length) + '][value]');
@@ -318,7 +317,7 @@ jQuery(function ($) {
             if (typeof jQuery.fn.chosen !== 'undefined') {
                 jQuery('.jbjkeyvalue-row:last select').chosen({
                     disable_search_threshold: 10,
-                    allow_single_deselect: true
+                    allow_single_deselect   : true
                 });
             }
 
@@ -349,7 +348,7 @@ jQuery(function ($) {
 
                     jQuery('select', $obj).chosen({
                         disable_search_threshold: 10,
-                        allow_single_deselect: true
+                        allow_single_deselect   : true
                     });
                 }
 
@@ -378,7 +377,7 @@ jQuery(function ($) {
             $template.find('input[type=checkbox]').removeAttr('checked');
             $template.find('label').removeAttr('for');
 
-            html = '<div class="jbzoo-itemorder-row">' + $template.html() + '</div><br>';
+            var html = '<div class="jbzoo-itemorder-row">' + $template.html() + '</div><br>';
             html = html.split(/_jbzoo_[0-9]_/).join('_jbzoo_' + length + '_');
 
             $addButton.before(html);
@@ -386,6 +385,232 @@ jQuery(function ($) {
             return false;
         });
     }
+
+    /**
+     * @author YOOtheme.com
+     * @author JBZoo.com
+     * @param options
+     * @constructor
+     */
+    $.fn.JBZooEditPositions = function (options) {
+
+        var $this = $(this),
+            defaultOptions = {
+                'urlAddElement'    : "index.php?option=com_zoo",
+                'textNoElements'   : "No elements",
+                'textElementRemove': "Are you sure you want to delete the element?"
+            },
+            options = $.extend({}, defaultOptions, options),
+            $allLists = $(".jsElementList", $this),
+            $editableLists = $(".jsElementList:not(.unassigned)", $this),
+            $newElelements = $(".jsElement", $(".jsElementList.unassigned"));
+
+        $this.emptyList = function () {
+
+            $(".jsElementList:not(.unassigned)", $this).each(function () {
+
+                var $list = $(this),
+                    $emptyLists = $list.hasClass("empty-list"),
+                    $notSorts = $list.children(":not(.ui-sortable-helper)").length;
+
+                if ($emptyLists && $notSorts || !$emptyLists && !$notSorts) {
+                    $list.toggleClass("empty-list");
+                }
+            });
+        };
+
+        $this.rebuildList = function () {
+            var regReplace = new RegExp(/(elements\[[a-z0-9_-]+\])|(positions\[[a-z0-9_-]+\]\[[0-9]+\])/);
+
+            $editableLists.each(function () {
+                var $position = $(this),
+                    positionName = "positions[" + $position.data("position") + "]";
+
+                $('.jsElement', this).each(function (placeIndex, element) {
+
+                    var $element = $(element),
+                        elementId = $('.jsElementId', $element).val();
+
+                    $element.find("[name]").each(function () {
+
+                        var $input = $(this),
+                            oldName = $input.attr("name"),
+                            newName = oldName.replace(regReplace, positionName + "[" + placeIndex + "]");
+
+                        dump(newName);
+
+                        $input.attr("name", newName);
+                    });
+                });
+            });
+        };
+
+        $this.noElements = function ($elementList) {
+
+            $elementList.find(".jsNoElements").remove();
+            if ($this.children(".jsElement").length == 0) {
+                $("<li>").addClass("jsNoElements").text(options.textNoElements).appendTo($elementList)
+            }
+        };
+
+        $allLists
+            .delegate(".jsSort", "mousedown", function () {
+                $(".jsElement", $this).not(".hideconfig").addClass("hideconfig");
+            })
+            .delegate(".jsEdit", "click", function () {
+                $(this).closest(".jsElement").toggleClass("hideconfig");
+            })
+            .delegate(".jsDelete", "click", function () {
+                if (confirm(options.textElementRemove)) {
+                    $(this).closest(".jsElement").slideUp(300, function () {
+                        $(this).remove();
+                        $this.emptyList();
+                        $this.rebuildList();
+                    });
+                }
+            });
+
+        $editableLists.each(function (n, list) {
+            var $list = $(list);
+
+            $list.sortable({
+                forcePlaceholderSize: true,
+                connectWith         : ".jsElementList",
+                placeholder         : "jsElement",
+                handle              : ".jsSort",
+                cursorAt            : {top: 16},
+                tolerance           : "pointer",
+                scroll              : false,
+
+                change: function () {
+                    $this.emptyList();
+                },
+
+                update: function (event, ui) {
+                    if (ui.item.hasClass("jsAssigning")) {
+
+                        $this.find(".jsAssigning").each(function () {
+
+                            if ($(this).data("config")) {
+
+                                var $newElem = $(this).data("config").clone();
+
+                                $newElem.find("input:radio").each(function () {
+                                    var newAttrs = $(this).attr("name").replace(/^elements\[[\w_-]+\]/, "elements[_temp]");
+                                    $(this).attr("name", newAttrs);
+                                });
+
+                                ui.item.append($newElem);
+                            }
+                        });
+
+                        ui.item.removeClass("jsAssigning");
+                    }
+
+                    $this.emptyList();
+                },
+
+                start: function (e, ui) {
+                    ui.helper.addClass("ghost")
+                },
+
+                stop: function (e, ui) {
+                    ui.item.removeClass("ghost");
+                    $this.emptyList();
+                    $this.rebuildList();
+                }
+            });
+        });
+
+        $newElelements
+            .draggable({
+                connectToSortable: ".jsElementList",
+                handle           : ".jsSort",
+                scroll           : false,
+                zIndex           : 1000,
+
+                helper: function () {
+                    var $newElem = $(this).clone();
+                    $newElem.find(".jsConfig").remove();
+                    return $newElem;
+                },
+
+                drag: function () {
+                    $this.emptyList();
+                },
+
+                start: function (event, ui) {
+                    $(this).addClass("jsAssigning");
+                    $(this).data("config", $(this).find(".jsConfig").remove());
+                    ui.helper.addClass("ghost");
+                },
+
+                stop: function (event, ui) {
+                    $(this).removeClass("jsAssigning");
+                    ui.helper.removeClass("ghost");
+                    $(this).append($(this).data("config"));
+                    $this.emptyList();
+                    $this.rebuildList();
+                }
+            });
+
+        $(".jsAddNewElement", $this).bind("click", function () {
+
+            var $link = $(this),
+                type = $link.data('type'),
+                group = $link.closest('.jsElementsGroup').data('group'),
+                $elementList = $('.jsElementList:first', $this),
+                $place = $("<li>").addClass("element loading").prependTo($elementList);
+
+            $elementList.removeClass('empty-list');
+
+            JBZoo.ajax({
+                'url'     : options.urlAddElement,
+                'data'    : {
+                    elementType : type,
+                    elementGroup: group,
+                    count       : 0
+                },
+                'dataType': 'html',
+                'success' : function (data) {
+                    var $newElement = $(data),
+                        elemHeight = $newElement.height();
+
+                    $newElement.removeClass('hideconfig').hide();
+
+                    $place
+                        .removeClass("loading")
+                        .css('min-height', elemHeight)
+                        .replaceWith($newElement);
+
+                    $newElement.find(".hasTip").each(function () {
+                        var title = $(this).attr('title').split('::');
+                        if (title[1]) {
+                            $(this).attr('title', title[1]);
+                        } else {
+                            $(this).attr('title', title[0]);
+                        }
+                    });
+
+                    new Tips($newElement.find(".hasTip[title]").get(), {
+                        maxTitleChars: 1000,
+                        fixed        : false
+                    });
+
+                    $this.trigger("element.added", $place);
+                    $newElement.fadeIn(300, function () {
+                        $(this).effect("highlight", {}, 1000)
+                    });
+
+                    $this.rebuildList();
+                }
+            });
+
+        });
+
+        $this.emptyList();
+        $this.rebuildList();
+    };
 
     /**
      * Menu tabs hack

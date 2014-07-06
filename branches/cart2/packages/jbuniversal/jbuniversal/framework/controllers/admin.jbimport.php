@@ -94,8 +94,8 @@ class JBImportJBuniversalController extends JBuniversalController
      */
     public function assign()
     {
-        $csvfile    = $this->_jbrequest->getFile('csvfile', 'jbzooform');
-        $request    = $this->_jbrequest->getArray('jbzooform');
+        $csvfile    = $this->_jbrequest->getFile('csvfile', JBRequestHelper::ADMIN_FORM_KEY);
+        $request    = $this->_jbrequest->getAdminForm();
         $importType = isset($request['import-type']) ? $request['import-type'] : null;
 
         if (empty($request['separator'])) {

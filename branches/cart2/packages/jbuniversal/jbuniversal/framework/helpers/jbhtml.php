@@ -304,8 +304,8 @@ class JBHTMLHelper extends AppHelper
                 "values": [' . round((float)$value['0'], 2) . ', ' . round((float)$value['1'], 2) . '],
                 "slide" : function(event,ui) {
                     $("#' . $idtag . '-value").val(ui.values[0] + "/" + ui.values[1]);
-                    $("#' . $idtag . '-value-0").html(numberFormat(ui.values[0], 0, ".", " "));
-                    $("#' . $idtag . '-value-1").html(numberFormat(ui.values[1], 0, ".", " "));
+                    $("#' . $idtag . '-value-0").html(JBZoo.numberFormat(ui.values[0], 0, ".", " "));
+                    $("#' . $idtag . '-value-1").html(JBZoo.numberFormat(ui.values[1], 0, ".", " "));
                 }
             });
 		    $("#' . $idtag . '-value").val(' . (float)$value['0'] . '+ "/" +' . (float)$value['1'] . ');

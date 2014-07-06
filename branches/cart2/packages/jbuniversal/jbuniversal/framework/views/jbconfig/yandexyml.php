@@ -33,9 +33,7 @@ defined('_JEXEC') or die('Restricted access');
     <p>&nbsp;</p>
 
     <?php
-    echo $this->app->jbform->render('config_yandexyml', array(
-        'submit' => JText::_('JBZOO_FORM_YML_SUBMIT'),
-    ), $this->configData);
+    echo $this->app->jbform->render('config_yandexyml', array(), $this->configData);
     ?>
 
     <?php echo $this->partial('footer'); ?>

@@ -24,6 +24,7 @@ if (defined('JBZOO_DISPATCHED')) {
 
     // add children items
     $jbmenu->addItem($tab, array('controller' => 'jbindex'));
+    $jbmenu->addItem($tab, array('controller' => 'jbcart'));
     $jbmenu->addItem($tab, array('controller' => 'jbimport'));
     $jbmenu->addItem($tab, array('controller' => 'jbexport'));
     $jbmenu->addItem($tab, array('controller' => 'jbtools'));

@@ -59,6 +59,26 @@ $allItems = array(
             'sef'       => array('sef'),
         )
     ),
+    'jbcart'   => array(
+        'basic'  => array(
+            'index' => array('index'),
+        ),
+        'config' => array(
+            'config'      => array('config'),
+            'currency'    => array('currency'),
+            'status'      => array('status'),
+            'fields'      => array('fields'),
+            'priceparams' => array('priceparams'),
+            'payment'     => array('payment'),
+            'delivery'    => array('delivery'),
+        ),
+        'events' => array(
+            'modifier'     => array('modifierEvents'),
+            'validator'    => array('validatorEvents'),
+            'notification' => array('notificationEvents'),
+            'statusEvents' => array('statusEvents'),
+        )
+    ),
     'jbexport' => array(
         'jbzoo' => array(
             'items'      => array('items'),
@@ -100,7 +120,8 @@ if (isset($allItems[$curMenu])) {
                     $html[] = '<li>';
                 }
 
-                $name = JText::_('JBZOO_NAV_' . $curMenu . '_' . $headItem . '_' . $itemName);
+                $labelKey = strtoupper('JBZOO_NAV_' . $curMenu . '_' . $headItem . '_' . $itemName);
+                $name     = JText::_($labelKey);
 
                 $html[] = '<a href="' . $url . '">' . $name . '</a>';
                 $html[] = '</li>';

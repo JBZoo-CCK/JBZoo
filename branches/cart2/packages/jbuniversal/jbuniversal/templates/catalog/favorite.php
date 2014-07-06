@@ -23,6 +23,19 @@ $this->app->jbwrapper->start();
 
 if (!empty($this->items)) {
     // items
+    ?>
+    <a class="jsFavoriteClear" href="<?php echo $this->app->jbrouter->favoriteClear(); ?>">Удалить избрнное</a>
+    <script>
+        jQuery(function ($) {
+            $('.jsFavoriteClear').click(function () {
+                $.post($(this).attr('href'), {}, function () {
+                    window.location.reload();
+                }, 'json');
+                return false;
+            });
+        });
+    </script>
+    <?php
     echo $this->app->jblayout->render('favorite', $this->items);
     echo '<p class="jsJBZooFavoriteEmpty" style="display:none;">' . JText::_('JBZOO_FAVORITE_ITEMS_NOT_FOUND') . '</p>';
 } else {

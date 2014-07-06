@@ -12,102 +12,63 @@
 
 
 /**
- * Set number format (as PHP function)
- * @param number
- * @param decimals
- * @param point
- * @param separator
- * @returns {*}
+ * JBZoo JSLibHelper
+ * @constructor
  */
-function numberFormat(number, decimals, point, separator) {
+var JBZooHelper = function () {
 
-    if (isNaN(number)) {
-        return(null);
-    }
+    var $this = this,
+        $ = jQuery;
 
-    point = point ? point : '.';
-    number = new String(number);
-    number = number.split('.');
+    $this.DEBUG = false; // general debug flag
 
-    if (separator) {
+    /**
+     * Set number format (as PHP function)
+     * @param number
+     * @param decimals
+     * @param point
+     * @param separator
+     * @returns {*}
+     */
+    $this.numberFormat = function (number, decimals, point, separator) {
 
-        var tmpNumber = new Array();
-
-        for (var i = number[0].length, j = 0; i > 0; i -= 3) {
-            var pos = i > 0 ? i - 3 : i;
-            tmpNumber[j++] = number[0].substring(i, pos);
+        if (isNaN(number)) {
+            return(null);
         }
 
-        number[0] = tmpNumber.reverse().join(separator);
-    }
+        point = point ? point : '.';
+        number = new String(number);
+        number = number.split('.');
 
-    if (decimals) {
+        if (separator) {
 
-        number[1] = number[1] ? number[1] : '';
-        number[1] = Math.round(parseFloat(number[1].substr(0, decimals) + '.' + number[1].substr(decimals, number[1].length), 10));
+            var tmpNumber = new Array();
 
-        if (isNaN(number[1])) {
-            number[1] = '';
+            for (var i = number[0].length, j = 0; i > 0; i -= 3) {
+                var pos = i > 0 ? i - 3 : i;
+                tmpNumber[j++] = number[0].substring(i, pos);
+            }
+
+            number[0] = tmpNumber.reverse().join(separator);
         }
 
-        var k = decimals - number[1].toString().length;
-        for (var i = 0; i < k; i++) {
-            number[1] += '0';
+        if (decimals) {
+
+            number[1] = number[1] ? number[1] : '';
+            number[1] = Math.round(parseFloat(number[1].substr(0, decimals) + '.' + number[1].substr(decimals, number[1].length), 10));
+
+            if (isNaN(number[1])) {
+                number[1] = '';
+            }
+
+            var k = decimals - number[1].toString().length;
+            for (var i = 0; i < k; i++) {
+                number[1] += '0';
+            }
         }
+
+        return(number.join(point));
     }
-
-    return(number.join(point));
-}
-
-/**
- * Alias for console log + backtrace
- * For debug only
- * Work only if environment is "development"
- * @param vars mixed
- * @param name String
- * @param showTrace Boolean
- * @return {Boolean}
- */
-function jbdump(vars, name, showTrace) {
-
-    // get type
-    if (typeof vars == 'string' || typeof vars == 'array') {
-        var type = ' (' + typeof(vars) + ', ' + vars.length + ')';
-    } else {
-        var type = ' (' + typeof(vars) + ')';
-    }
-
-    // wrap in vars quote if string
-    if (typeof vars == 'string') {
-        vars = '"' + vars + '"';
-    }
-
-    // get var name
-    if (typeof name == 'undefined') {
-        name = '...' + type + ' = ';
-    } else {
-        name += type + ' = ';
-    }
-
-    // is show trace in console
-    if (typeof showTrace == 'undefined') {
-        showTrace = false;
-    }
-
-    // dump var
-    console.log(name, vars);
-
-    // show console
-    if (showTrace && typeof console.trace != 'undefined') {
-        console.trace();
-    }
-
-    return true;
-}
-
-(function ($) {
-
-    var DEBUG = false;
 
     /**
      * Event logger to browser console
@@ -115,9 +76,9 @@ function jbdump(vars, name, showTrace) {
      * @param message String
      * @param vars mixed
      */
-    function logger(type, message, vars) {
+    $this.logger = function (type, message, vars) {
 
-        if (!DEBUG || typeof console == 'undefined') {
+        if (!$this.DEBUG || typeof console == 'undefined') {
             return false;
         }
 
@@ -142,11 +103,18 @@ function jbdump(vars, name, showTrace) {
 
     /**
      * Ajax call
-     * @param options
+     * @param options = {
+     *      'url'     : 'index.php?format=raw&tmpl=component',
+     *      'data'    : {},
+     *      'dataType': 'json',
+     *      'success' : false,
+     *      'error'   : false,
+     *      'onFatal' : function () {}
+     *  }
      */
-    function jbzooAjax(options) {
+    $this.ajax = function (options) {
 
-        logger('w', 'ajax::request', options);
+        $this.logger('w', 'ajax::request', options);
 
         var options = $.extend({}, {
             'url'     : 'index.php?format=raw&tmpl=component',
@@ -155,15 +123,14 @@ function jbdump(vars, name, showTrace) {
             'success' : false,
             'error'   : false,
             'onFatal' : function (responce) {
-                if (typeof DEBUG != 'undefined' && DEBUG) {
-
-                    logger('e', 'ajax::request - ' + options.url, options.data);
+                if ($this.DEBUG) {
+                    $this.logger('e', 'ajax::request - ' + options.url, options.data);
 
                     // parse exeption message
                     var $nodes = $.parseHTML(responce.responseText),
                         exceptionMessage = '';
 
-                    if (!empty($nodes)) {
+                    if (!JBZoo.empty($nodes)) {
                         $.each($nodes, function (n, obj) {
                             if ($(obj).find('#techinfo').length == 1) {
                                 exceptionMessage = $.trim($(obj).find('#techinfo').text());
@@ -202,8 +169,12 @@ function jbdump(vars, name, showTrace) {
             'type'    : 'POST',
             'success' : function (data) {
 
+                if (typeof data == 'string') {
+                    data = $.trim(data);
+                }
+
                 if (options.dataType == 'json') {
-                    //logger('i', 'ajax::responce', {'result': data.result, 'message': data.message});
+                    //$this.logger('i', 'ajax::responce', {'result': data.result, 'message': data.message});
 
                     if (data.result && $.isFunction(options.success)) {
                         options.success.apply(this, arguments);
@@ -230,7 +201,7 @@ function jbdump(vars, name, showTrace) {
      * @param mixedVar
      * @return {Boolean}
      */
-    function empty(mixedVar) {
+    $this.empty = function (mixedVar) {
 
         // check simple var
         if (typeof mixedVar === 'undefined'
@@ -245,7 +216,7 @@ function jbdump(vars, name, showTrace) {
 
         // check object
         if (typeof mixedVar == 'object') {
-            if (countProps(mixedVar) == 0) {
+            if ($this.countProps(mixedVar) == 0) {
                 return true
             }
         }
@@ -253,12 +224,13 @@ function jbdump(vars, name, showTrace) {
         return false;
     }
 
+
     /**
      * Count object properties
      * @param object
      * @return {Number}
      */
-    function countProps(object) {
+    $this.countProps = function (object) {
 
         var count = 0;
 
@@ -278,13 +250,13 @@ function jbdump(vars, name, showTrace) {
      * Work only if environment is "development"
      * @param asString
      */
-    function trace(asString) {
+    $this.trace = function (asString) {
 
-        if (!DEBUG || typeof console == 'undefined') {
+        if (!$this.DEBUG || typeof console == 'undefined') {
             return false;
         }
 
-        if (empty(asString)) {
+        if ($this.empty(asString)) {
             asString = false;
         }
 
@@ -301,20 +273,19 @@ function jbdump(vars, name, showTrace) {
                 console.trace();
             }
         }
-
     }
 
     /**
      * Die script
      * @param dieMessage
      */
-    function die(dieMessage) {
+    $this.die = function (dieMessage) {
 
-        if (!DEBUG) {
+        if (!$this.DEBUG) {
             return false;
         }
 
-        if (empty(dieMessage)) {
+        if ($this.empty(dieMessage)) {
             dieMessage = ' -= ! DIE ! =-';
         }
 
@@ -328,7 +299,7 @@ function jbdump(vars, name, showTrace) {
      * @param strict
      * @return {Boolean}
      */
-    function in_array(needle, haystack, strict) {
+    $this.in_array = function (needle, haystack, strict) {
 
         var found = false, key;
 
@@ -345,11 +316,64 @@ function jbdump(vars, name, showTrace) {
     }
 
     /**
+     * Alias for console log + backtrace
+     * For debug only
+     * Work only if environment is "development"
+     * @param vars mixed
+     * @param name String
+     * @param showTrace Boolean
+     * @return {Boolean}
+     */
+    $this.jbdump = function (vars, name, showTrace) {
+
+        // get type
+        if (typeof vars == 'string' || typeof vars == 'array') {
+            var type = ' (' + typeof(vars) + ', ' + vars.length + ')';
+        } else {
+            var type = ' (' + typeof(vars) + ')';
+        }
+
+        // wrap in vars quote if string
+        if (typeof vars == 'string') {
+            vars = '"' + vars + '"';
+        }
+
+        // get var name
+        if (typeof name == 'undefined') {
+            name = '...' + type + ' = ';
+        } else {
+            name += type + ' = ';
+        }
+
+        // is show trace in console
+        if (typeof showTrace == 'undefined') {
+            showTrace = false;
+        }
+
+        // dump var
+        console.log(name, vars);
+
+        // show console
+        if (showTrace && typeof console.trace != 'undefined') {
+            console.trace();
+        }
+
+        return true;
+    }
+
+};
+
+/**
+ * JBZoo UI jQuery plugins
+ */
+(function ($) {
+
+    /**
      * Empty cart action
      */
     $(document).on('click', '.jbzoo .jsEmptyCart', function () {
 
-        jbzooAjax({
+        JBZoo.ajax({
             'url'    : $(this).attr('href'),
             'success': function () {
                 $.fn.JBZooPriceReloadBasket();
@@ -602,7 +626,7 @@ function jbdump(vars, name, showTrace) {
                     itemid = $button.closest('tr').data('itemid'),
                     hash = $button.closest('tr').data('hash');
 
-                jbzooAjax({
+                JBZoo.ajax({
                     'url'    : options.deleteUrl,
                     'data'   : {
                         'itemid': itemid,
@@ -631,7 +655,7 @@ function jbdump(vars, name, showTrace) {
 
                 if (confirm(options.clearConfirm)) {
 
-                    jbzooAjax({
+                    JBZoo.ajax({
                         'url'    : options.clearUrl,
                         'success': function () {
                             window.location.reload();
@@ -653,7 +677,7 @@ function jbdump(vars, name, showTrace) {
 
                     if ($input.val().length && value >= 0) {
                         lastQuantityVal = value;
-                        jbzooAjax({
+                        JBZoo.ajax({
                             'url'    : options.quantityUrl,
                             'data'   : {
                                 'value' : value,
@@ -729,7 +753,7 @@ function jbdump(vars, name, showTrace) {
 
                 var $toggle = $(this);
 
-                jbzooAjax({
+                JBZoo.ajax({
                     'url'    : $toggle.attr("href"),
                     'success': function (data) {
                         if (data.status) {
@@ -776,7 +800,7 @@ function jbdump(vars, name, showTrace) {
 
                 var $toggle = $(this);
 
-                jbzooAjax({
+                JBZoo.ajax({
                     'url'    : $toggle.attr("href"),
                     'success': function (data) {
 
@@ -798,7 +822,7 @@ function jbdump(vars, name, showTrace) {
             $('.jsJBZooFavoriteRemove', $favorite).click(function () {
                 var $toggle = $(this);
 
-                jbzooAjax({
+                JBZoo.ajax({
                     'url'    : $toggle.attr("href"),
                     'success': function (data) {
                         if (data.result) {
@@ -1128,7 +1152,7 @@ function jbdump(vars, name, showTrace) {
                     indexPrice = $('.jbprice-row input:checked', $obj).val();
                 }
 
-                jbzooAjax({
+                JBZoo.ajax({
                     'url'    : $link.data('href'),
                     'data'   : {
                         "args": {
@@ -1149,7 +1173,7 @@ function jbdump(vars, name, showTrace) {
             $(".jsRemoveFromCart", $obj).click(function () {
                 var $link = $(this);
 
-                jbzooAjax({
+                JBZoo.ajax({
                     'url'    : $link.data("href"),
                     'success': function (data) {
                         $obj.removeClass('in-cart').addClass('not-in-cart');
@@ -1186,7 +1210,7 @@ function jbdump(vars, name, showTrace) {
 
             var $obj = $(obj);
 
-            jbzooAjax({
+            JBZoo.ajax({
                 'data'    : {
                     'controller': 'basket',
                     'task'      : 'reloadModule',
@@ -1320,7 +1344,7 @@ function jbdump(vars, name, showTrace) {
                 return;
             }
 
-            jbzooAjax({
+            JBZoo.ajax({
                 'url'    : options.url,
                 'data'   : {
                     'page': page
@@ -1419,7 +1443,7 @@ function jbdump(vars, name, showTrace) {
                 currency = options.params.currencyDefault;
 
             function togglePrices(newCurrency) {
-                if (empty(options.prices)) {
+                if (JBZoo.empty(options.prices)) {
                     return false;
                 }
 
@@ -1504,7 +1528,7 @@ function jbdump(vars, name, showTrace) {
                     count = $('.jsCount', $obj).val();
                 }
 
-                jbzooAjax({
+                JBZoo.ajax({
                     'url'    : options.addToCartUrl,
                     'data'   : {
                         "args": {
@@ -1527,7 +1551,7 @@ function jbdump(vars, name, showTrace) {
             }
 
             function removeFromCart() {
-                jbzooAjax({
+                JBZoo.ajax({
                     'url'    : options.removeFromCartUrl,
                     'success': function (data) {
                         $obj.removeClass('in-cart').addClass('not-in-cart');
@@ -1686,16 +1710,16 @@ function jbdump(vars, name, showTrace) {
                     'autoHeight': true,
                     'autoResize': true,
 
-                    'iframe'    : {
+                    'iframe' : {
                         'scrolling': 'no',
 
-                        'preload'  : true
+                        'preload': true
                     },
-                    'helpers'   : {
+                    'helpers': {
                         'overlay': {
                             'locked': false,
 
-                            'css'   : {
+                            'css': {
                                 'background': 'rgba(119, 119, 119, 0.4)'
                             }
                         }
@@ -1763,13 +1787,13 @@ function jbdump(vars, name, showTrace) {
      */
     $.fn.JBZooViewed = function (options) {
 
-        var options = $.extend({},{
-                'message' : 'Do you really want to delete the history?',
-                'app_id'  : ''
-            }, options);
+        var options = $.extend({}, {
+            'message': 'Do you really want to delete the history?',
+            'app_id' : ''
+        }, options);
         var $this = $(this);
 
-        if($this.hasClass('module-items-init')) {
+        if ($this.hasClass('module-items-init')) {
             return $this;
         } else {
             $this.addClass('module-items-init');
@@ -1779,14 +1803,14 @@ function jbdump(vars, name, showTrace) {
             var ok = confirm(options.message);
 
             if (ok) {
-                jbzooAjax({
+                JBZoo.ajax({
                     'data'    : {
                         'controller': 'viewed',
                         'task'      : 'clear',
                         'app_id'    : options.app_id
                     },
                     'dataType': 'html',
-                    'success' : function() {
+                    'success' : function () {
                         $this.slideUp('slow');
                     }
                 });
@@ -1803,13 +1827,13 @@ function jbdump(vars, name, showTrace) {
 
         var $this = $(this), maxHeight = 0;
 
-        setTimeout(function(){
+        setTimeout(function () {
             $('.column', $this).each(function (n, obj) {
                 var tmpHeight = parseInt($(obj).height(), 10);
                 if (maxHeight < tmpHeight) {
                     maxHeight = tmpHeight;
                 }
-            }).css({height:maxHeight});
+            }).css({height: maxHeight});
         }, 300);
     }
 
@@ -1876,3 +1900,21 @@ function jbdump(vars, name, showTrace) {
     };
 
 })(jQuery);
+
+
+/**
+ * JBZoo main init
+ */
+(function () {
+    // init JS helper
+    window.JBZoo = new JBZooHelper();
+
+    // add debuger
+    window.jbdump = window.dump = function () {
+        if (JBZoo.DEBUG) {
+            JBZoo.jbdump.apply(this, arguments)
+        }
+    };
+
+}());
+

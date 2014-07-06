@@ -628,6 +628,15 @@ a.jbajaxlink:hover {
     text-overflow: ellipsis
 }
 
+.jbzoo .footer-copyrights {
+    float: right;
+}
+
+.jbzoo .footer-version-row {
+    display: inline-block;
+    margin-right: 24px;
+}
+
 /*********************************** Joomla admin UI fixes ************************************************************/
 .box-bottom #item-type li {
     margin-bottom: 12px;
@@ -708,8 +717,49 @@ div.jbzoo-picker .jbpicker span.jsColorAdd {
 .jbdelimiter {
     width: 100%;
     float: left;
-    color:#a00;
-    font-size:1.1em;
+    color: #a00;
+    font-size: 1.1em;
 }
 
+.jbzoo #sidebar {
+    width: 280px;
+}
 
+/************************ JBZoo Edit positions ************************/
+ul.element-list li.hideconfig.ghost {
+    opacity: 0.7;
+}
+
+ul.element-list.ui-sortable {
+    padding-left: 0;
+    margin-top: 3px;
+    margin-bottom: 20px;
+}
+
+ul.element-list .loading {
+    background: url('../img/misc/loader.gif') 50% 50% no-repeat;
+    min-height: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+.uk-grid .assign-elements ul,
+.uk-grid .assign-elements li {
+    margin: 0;
+    padding: 0;
+}
+
+.uk-grid .assign-elements .element-list {
+    margin-bottom: 24px !important;
+}
+
+.uk-grid ul.parameter-form li .label {
+    width: 150px;
+    min-width: 150px;
+}
+
+.jbzoo .positions-empty {
+    font-style: italic;
+    margin: 0;
+    padding: 0;
+}

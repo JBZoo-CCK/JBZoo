@@ -59,6 +59,7 @@ class JBAssetsHelper extends AppHelper
     {
         if (!$this->app->jbenv->isSite()) {
             $this->jQuery();
+            $this->tools();
             $this->_include(array('jbassets:css/admin.css',), 'css');
             $this->_include(array('jbassets:js/admin.js'), 'js');
         }
@@ -85,6 +86,7 @@ class JBAssetsHelper extends AppHelper
 
         if (defined('JDEBUG') && JDEBUG) {
             $this->_include(array('jbassets:js/jquery.jbzootools.orig.js'), 'js');
+            $this->addScript('jQuery(function($){ JBZoo.DEBUG = 1; jQuery.migrateMute = true; });');
         } else {
             $this->_include(array('jbassets:js/jquery.jbzootools.min.js'), 'js');
         }
@@ -539,7 +541,7 @@ class JBAssetsHelper extends AppHelper
     /**
      * Init color widget
      * @param string $queryElement
-     * @param boolean  $type
+     * @param boolean $type
      */
     public function initJBColorHelper($queryElement, $type = true)
     {
@@ -549,9 +551,9 @@ class JBAssetsHelper extends AppHelper
         $this->_include(array('jbassets:css/jbzoo.css'), 'css');
         $this->tools();
 
-        if($queryElement) {
+        if ($queryElement) {
             $this->addScript('jQuery(function($){
-                $("#'. $queryElement .'").JBColorHelper({multiple: "' . (boolean) $type . '"});
+                $("#' . $queryElement . '").JBColorHelper({multiple: "' . (boolean)$type . '"});
             });');
         }
     }
@@ -565,9 +567,9 @@ class JBAssetsHelper extends AppHelper
     {
         $this->jQuery();
 
-        if($queryElement) {
+        if ($queryElement) {
             $this->addScript('jQuery(document).ready(function($){
-                $("'. $queryElement .'").JBColorElement({message: "' .$text. '"});
+                $("' . $queryElement . '").JBColorElement({message: "' . $text . '"});
             });');
         }
     }
@@ -593,7 +595,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->jQuery();
 
-        if(empty($version)) {
+        if (empty($version)) {
             $version = JString::substr($this->app->jbversion->joomla(), 0, 1);
         }
 

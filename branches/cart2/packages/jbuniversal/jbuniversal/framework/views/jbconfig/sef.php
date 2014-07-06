@@ -32,11 +32,7 @@ defined('_JEXEC') or die('Restricted access');
     </ul>
     <p>&nbsp;</p>
 
-    <?php
-    echo $this->app->jbform->render('config_sef', array(
-        'submit' => JText::_('JBZOO_FORM_SEF_SUBMIT'),
-    ), $this->configData);
-    ?>
+    <?php echo $this->app->jbform->render('config_sef', array(), $this->configData); ?>
 
     <?php echo $this->partial('footer'); ?>
 </div>

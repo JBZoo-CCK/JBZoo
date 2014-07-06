@@ -137,9 +137,37 @@ class JBModelConfig extends JBModel
     public function setGroup($group, $values)
     {
         $values = (array)$values;
-        foreach ($values as $key => $value) {
-            $this->set($key, $value, $group);
+
+        if (!empty($values)) {
+            foreach ($values as $key => $value) {
+                $this->set($key, $value, $group);
+            }
+        } else {
+            $this->removeGroup($group);
         }
+    }
+
+
+    /**
+     * Remove group from DB
+     * @param string $group
+     * @return bool
+     */
+    public function removeGroup($group)
+    {
+        $group = $this->_clean($group);
+        if (empty($group)) {
+            return false;
+        }
+
+        $sql = $this->_getSelect()
+            ->delete(ZOO_TABLE_JBZOO_CONFIG)
+            ->where('`group` = ?', $group);
+        $this->sqlQuery($sql);
+
+        $this->_init();
+
+        return true;
     }
 
     /**
