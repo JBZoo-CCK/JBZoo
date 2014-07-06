@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Class JBCartElementmodifierItemActivate
  */
-class JBCartElementmodifierItemActivate extends JBCartElementModifierItem
+class JBCartElementModifierItemActivate extends JBCartElementModifierItem
 {
 
 }
