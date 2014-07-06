@@ -21,6 +21,11 @@ class JBCartPositionHelper extends AppHelper
 {
 
     /**
+     * @var string
+     */
+    protected $_mainGroup = 'cart.';
+
+    /**
      * Load positions group with elements
      * @param $group
      * @param array $mustHave
@@ -31,7 +36,7 @@ class JBCartPositionHelper extends AppHelper
         $group            = trim(strtolower($group));
         $config           = JBModelConfig::model();
         $jbcartelement    = $this->app->jbcartelement;
-        $positionsConfigs = $config->getGroup('cart.' . $group, array());
+        $positionsConfigs = $config->getGroup($this->_mainGroup . $group, array());
 
         $positions = array();
         foreach ($positionsConfigs as $posName => $elements) {
@@ -80,8 +85,11 @@ class JBCartPositionHelper extends AppHelper
      */
     public function save($group, $positions)
     {
-        $config = JBModelConfig::model();
-        $config->setGroup('cart.' . $group, $positions);
+        $config      = JBModelConfig::model();
+        $configGroup = $this->_mainGroup . $group;
+
+        $config->removeGroup($configGroup);
+        $config->setGroup($configGroup, $positions);
     }
 
     /**
