@@ -437,8 +437,6 @@ jQuery(function ($) {
                             oldName = $input.attr("name"),
                             newName = oldName.replace(regReplace, positionName + "[" + placeIndex + "]");
 
-                        dump(newName);
-
                         $input.attr("name", newName);
                     });
                 });
