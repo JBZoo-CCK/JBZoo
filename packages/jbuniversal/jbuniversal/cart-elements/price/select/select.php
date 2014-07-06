@@ -14,9 +14,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBCartElementNotificationSendemail
+ * Class JBCartElementPriceSelect
  */
-class JBCartElementNotificationSendemail extends JBCartElementNotification
+class JBCartElementPriceSelect extends JBCartElementPrice
 {
 
 }

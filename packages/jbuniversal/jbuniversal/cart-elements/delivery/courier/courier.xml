@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <element type="element" group="Core" hidden="false">
-    <name>Select param</name>
+    <name>Сourier</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>
@@ -17,9 +17,6 @@
 
         <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
                description="JBZOO_ELEMENT_ACCESS_DESC"/>
-
-        <!--<param name="options" type="options" default="" label="JBZOO_ELEMENT_ACCESS"
-               description="JBZOO_ELEMENT_ACCESS_DESC"/>-->
 
     </params>
 

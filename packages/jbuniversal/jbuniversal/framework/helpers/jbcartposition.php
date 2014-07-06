@@ -47,12 +47,14 @@ class JBCartPositionHelper extends AppHelper
                 $identifier = $elemConfig['identifier'];
                 $element    = $jbcartelement->create($elemConfig['type'], $elemConfig['group']);
 
-                // bind data
-                $element->identifier = $identifier;
-                $element->identifier = $elemConfig['identifier'];
-                $element->setConfig($elemConfig);
+                if ($element) {
+                    // bind data
+                    $element->identifier = $identifier;
+                    $element->identifier = $elemConfig['identifier'];
+                    $element->setConfig($elemConfig);
 
-                $positions[$posName][$identifier] = $element;
+                    $positions[$posName][$identifier] = $element;
+                }
             }
         }
 
@@ -80,6 +82,25 @@ class JBCartPositionHelper extends AppHelper
     {
         $config = JBModelConfig::model();
         $config->setGroup('cart.' . $group, $positions);
+    }
+
+    /**
+     * @param ElementJBPriceAdvance $element
+     * @return array
+     */
+    public function loadForPrice(ElementJBPriceAdvance $element)
+    {
+        $data = $this->load('priceparams');
+
+        if (isset($data[$element->identifier])) {
+            return $data[$element->identifier];
+        }
+
+        if (isset($data['list'])) {
+            return $data['list'];
+        }
+
+        return array();
     }
 
 }

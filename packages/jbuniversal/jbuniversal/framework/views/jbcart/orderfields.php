@@ -13,17 +13,21 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-/**
- * Class JBCartElementPayment
- */
-abstract class JBCartElementPayment extends JBCartElement
-{
+?>
 
-}
+<div id="sidebar" class="uk-width-1-6">
+    <?php echo $this->partial('navigation'); ?>
+</div>
 
-/**
- * Class JBCartElementPaymentException
- */
-class JBCartElementPaymentException extends JBCartElementException
-{
-}
+
+<div class="uk-width-4-6">
+
+    <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_CART_' . $this->task); ?></h2>
+
+    <?php echo $this->partial('editpositions', array(
+        'positions' => $this->positions,
+        'groupList' => $this->groupList,
+    ));?>
+
+    <?php echo $this->partial('footer'); ?>
+</div>

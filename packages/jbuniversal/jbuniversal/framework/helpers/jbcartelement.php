@@ -30,8 +30,10 @@ class JBCartElementHelper extends AppHelper
         'JBCartElementModifierItem'  => 'cart-elements:core/modifieritem/modifieritem.php',
         'JBCartElementModifierPrice' => 'cart-elements:core/modifierprice/modifierprice.php',
         'JBCartElementNotification'  => 'cart-elements:core/notification/notification.php',
+        'JBCartElementOrder'         => 'cart-elements:core/order/order.php',
         'JBCartElementPayment'       => 'cart-elements:core/payment/payment.php',
-        'JBCartElementPriceparam'    => 'cart-elements:core/priceparam/priceparam.php',
+        'JBCartElementPrice'         => 'cart-elements:core/price/price.php',
+        'JBCartElementStatus'        => 'cart-elements:core/status/status.php',
         'JBCartElementValidator'     => 'cart-elements:core/validator/validator.php',
     );
 

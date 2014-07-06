@@ -14,9 +14,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBCartElementNotificationSendemail
+ * Class JBCartElementValidatorMaxsum
  */
-class JBCartElementNotificationSendemail extends JBCartElementNotification
+class JBCartElementValidatorMaxsum extends JBCartElementValidator
 {
 
 }

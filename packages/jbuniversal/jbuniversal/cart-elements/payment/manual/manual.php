@@ -14,9 +14,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBCartElementPriceparamSelect
+ * Class JBCartElementPaymentManual
  */
-class JBCartElementPriceparamDate extends JBCartElementPriceparam
+class JBCartElementPaymentManual extends JBCartElementNotification
 {
 
 }

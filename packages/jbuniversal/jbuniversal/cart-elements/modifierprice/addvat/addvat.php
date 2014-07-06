@@ -14,9 +14,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBCartElementPriceparamBool
+ * Class JBCartElementModifierPriceAddVAT
  */
-class JBCartElementPriceparamBool extends JBCartElementPriceparam
+class JBCartElementModifierPriceAddVAT extends JBCartElementModifierPrice
 {
 
 }
