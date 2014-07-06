@@ -14,16 +14,16 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBCartElementPayment
+ * Class JBCartElementCurrency
  */
-abstract class JBCartElementPayment extends JBCartElement
+abstract class JBCartElementStatus extends JBCartElement
 {
 
 }
 
 /**
- * Class JBCartElementPaymentException
+ * Class JBCartElementStatusException
  */
-class JBCartElementPaymentException extends JBCartElementException
+class JBCartElementStatusException extends JBCartElementException
 {
 }

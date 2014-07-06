@@ -34,7 +34,8 @@ class JBToolbarHelper extends AppHelper
      */
     public function save()
     {
-        $this->app->jbassets->addScript('submitform = function() {
+        $this->app->jbassets->addScript('
+        submitform = function() {
             var $ = jQuery,
                 $jbform = $("#jbzooForm"),
                 $jform = $("#adminForm");

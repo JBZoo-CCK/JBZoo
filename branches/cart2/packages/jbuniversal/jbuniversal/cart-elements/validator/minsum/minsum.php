@@ -14,9 +14,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBCartElementPriceparamSelect
+ * Class JBCartElementValidatorMinsum
  */
-class JBCartElementPriceparamImage extends JBCartElementPriceparam
+class JBCartElementValidatorMinsum extends JBCartElementValidator
 {
 
 }

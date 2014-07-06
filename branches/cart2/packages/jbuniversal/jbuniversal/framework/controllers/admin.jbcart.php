@@ -88,7 +88,7 @@ class JBCartJBuniversalController extends JBUniversalController
     public function modifierEvents()
     {
         $this->groupList = $this->_jbcartelement->getGroups(array('modifierprice'));
-        $this->positions = $this->_jbcartposition->load('modifier', array(
+        $this->positions = $this->_jbcartposition->load('modifierprice', array(
             'taxes',
             'discounts',
         ));
@@ -134,10 +134,8 @@ class JBCartJBuniversalController extends JBUniversalController
      */
     public function priceParams()
     {
-        $this->groupList = $this->_jbcartelement->getGroups(array('priceparam'));
-        $this->positions = $this->_jbcartposition->load('priceParams', array(
-            'asd-as-d-asda-sda-sdas',
-        ));
+        $this->groupList = $this->_jbcartelement->getGroups(array('price'));
+        $this->positions = $this->_jbcartposition->load('priceParams', array('list'));
 
         $this->renderView();
     }
@@ -197,8 +195,11 @@ class JBCartJBuniversalController extends JBUniversalController
     /**
      * Field list action
      */
-    public function fields()
+    public function orderfields()
     {
+        $this->groupList = $this->_jbcartelement->getGroups(array('order'));
+        $this->positions = $this->_jbcartposition->load('orderfields', array('list'));
+
         $this->renderView();
     }
 
