@@ -481,9 +481,9 @@ class JBFieldHelper extends AppHelper
         $html[] = '<textarea ' . $this->app->jbhtml->buildAttrs($attrs) . '>' . $value . '</textarea>';
 
         $html[] = '<div class="jbpicker">';
-        $html[] = '<input type="text" placeholder="'.JText::_('JBZOO_NAME').'"  class="jbcolor-input jbname" />';
+        $html[] = '<input type="text" placeholder="' . JText::_('JBZOO_NAME') . '"  class="jbcolor-input jbname" />';
         $html[] = '<input type="text" ' . $this->app->jbhtml->buildAttrs($colorAttrs) . ' />';
-        $html[] = '<span title="'.JText::_('JBZOO_JBCOLOR_ADD_COLOR').'" class="jsColorAdd"></span>';
+        $html[] = '<span title="' . JText::_('JBZOO_JBCOLOR_ADD_COLOR') . '" class="jsColorAdd"></span>';
         $html[] = '</div></div>';
 
         $html[] = '<script type="text/javascript">';
@@ -612,6 +612,187 @@ class JBFieldHelper extends AppHelper
     }
 
     /**
+     * Render element list
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
+     * @param SimpleXMLElement $node
+     * @param SimpleXMLElement $parent
+     * @return mixed
+     */
+    public function JBElementListByType($name, $value, $controlName, SimpleXMLElement $node, $parent)
+    {
+        $elTypes = $this->_getAttr($node, 'types', '');
+
+        if ($elTypes) {
+            $elTypes = explode(',', $elTypes);
+        }
+
+        $type       = $this->app->jbrequest->get('type', 'product');
+        $layout     = $this->app->jbrequest->get('layout', 'product');
+        $optionList = array();
+
+        // TODO remove paths hardcode
+        $paths = array(
+            $this->app->path->path('jbapp:templates/catalog/renderer/item/positions.config'),
+            JPATH_BASE . '/modules/mod_zooitem/renderer/item/positions.config',
+            JPATH_BASE . '/plugins/system/widgetkit_zoo/widgets/slideset/renderer/item/positions.config',
+            $this->app->path->path('mod_jbzoo_item:renderer/item/positions.config')
+        );
+
+        foreach ($paths as $path) {
+            $config = $this->app->parameter->create($this->app->jbfile->read($path));
+            $params = $config->get(JBZOO_APP_GROUP . '.' . $type . '.' . $layout);
+            if (!empty($params)) {
+                break;
+            }
+        }
+
+
+        $files = JFolder::files($this->app->path->path('jbtypes:'), '\.config');
+
+        foreach ($files as $file) {
+
+            $json = $this->app->jbfile->read($this->app->path->path('jbtypes:' . $file));
+            $data = @json_decode($json, true);
+
+            if (!$data) {
+                continue;
+            }
+
+            foreach ($data['elements'] as $key => $element) {
+                if (in_array($element['type'], $elTypes)) {
+
+                    if (!empty($params)) {
+                        foreach ($params as $el) {
+                            for ($i = 0; $i < count($el); $i++) {
+                                if ($key == $el[$i]['element']) {
+                                    $optionList[json_encode($el[$i])] = $data['name'] . ' - ' . $element['name'];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+        $optionList = array_unique($optionList);
+        return $this->_renderList($optionList, $value, $this->_getName($controlName, $name), $node);
+    }
+
+    /**
+     * Field for type - jbpricefields
+     * @param $name
+     * @param $values
+     * @param $controlName
+     * @param SimpleXMLElement $node
+     * @param $parent
+     * @return string
+     */
+    public function priceAdvanceFields($name, $values, $controlName, SimpleXMLElement $node, $parent)
+    {
+        $html   = array();
+        $unique = $this->app->jbstring->getId('jbprice-advance-fields-');
+
+        $html[] = '<div class="jbprice-advance-fields" id="' . $unique . '">';
+
+        $html[] = '<div class="hidden">';
+
+        $html[] = '<div class="jbprice-fields-parameter clearfix">';
+        $html[] = '<input type="text"
+                          name="' . $controlName . '[' . $name . '][params][0][name]"
+                          class="jsJBPriceParamAddValue" disabled>';
+
+        $html[] = '<input type="hidden" name="' . $controlName . '[' . $name . '][params][0][value]"
+                                        value="" disabled>';
+        $html[] = '<a class="jsJBPriceDeleteParam jbprice-adv-delete-param" href=""></a>';
+        $html[] = '<div class="jbprice-fields-options"></div>';
+        $html[] = '<a href="javascript:void(0)" class="jbprice-addOption jsJBPriceAddOption clearfix"></a>';
+        $html[] = '</div>';
+
+        $html[] = '<div class="jbprice-field-option">';
+        $html[] = '<input type="text"
+                          name="' . $controlName . '[' . $name . '][params][0][option][0][name]"
+                          class="jsJBPriceOptionAddValue" disabled/>';
+
+        $html[] = '<input type="hidden"
+                          name="' . $controlName . '[' . $name . '][params][0][option][0][value]"
+                          value=""disabled/>';
+
+        $html[] = '<a class="jsJBPriceDeleteOption jbprice-adv-delete-option" href=""></a>';
+        $html[] = '</div></div>';
+
+        if (!empty($values['params'])) {
+
+            foreach ($values['params'] as $key => $value) {
+
+                $html[] = '<div class="jbprice-fields-parameter clearfix">';
+                $html[] = '<input type="text"
+                              name="' . $controlName . '[' . $name . '][params][' . $key . '][name]"
+                              value="' . $value['name'] . '"
+                              class="jsJBPriceParamAddValue" />';
+
+                $html[] = '<input type="hidden"
+                              name="' . $controlName . '[' . $name . '][params][' . $key . '][value]"
+                              value="' . $value['value'] . '" />';
+
+                $html[] = '<a class="jsJBPriceDeleteParam jbprice-adv-delete-param" href=""></a>';
+                $html[] = '<div class="jbprice-fields-options">';
+
+                if (!empty($value['option'])) {
+
+                    for ($i = 0; $i < count($value['option']); $i++) {
+
+                        if (empty($value['option'][$i]['name']) ||
+                            (empty($value['option'][$i]['value']))
+                        ) {
+                            continue;
+                        }
+                        $html[] = '<div class="jbprice-field-option">';
+                        $html[] = '<input type="text"
+                                          name="' . $controlName . '[' . $name . '][params][' . $key . '][option][' . $i . '][name]"
+                                          value="' . $value['option'][$i]['name'] . '"
+                                          class="jsJBPriceOptionAddValue" />';
+
+                        $html[] = '<input type="hidden"
+                                      name="' . $controlName . '[' . $name . '][params][' . $key . '][option][' . $i . '][value]"
+                                      value="' . $value['option'][$i]['value'] . '" />';
+
+                        $html[] = '<a class="jsJBPriceDeleteOption jbprice-adv-delete-option" href=""></a>';
+                        $html[] = '</div>';
+
+                    }
+
+                }
+
+                $html[] = '</div>';
+                $html[] = '<a href="javascript:void(0)" class="jbprice-addOption jsJBPriceAddOption clearfix"></a>';
+                $html[] = '</div>';
+            }
+        }
+        $html[] = '<a href="javascript:void(0)" class="jbprice-addParam">
+                    <span class="jsJBPriceAddParam">' . JText::_('JBZOO_JBPRICE_ADVANCEFIELDS_PARAMETER_ADD') . '</span></a>';
+
+        $html[] = '</div>';
+
+        $html[] = '<script type="text/javascript">';
+        $html[] = 'jQuery(document).ready(function ($) {';
+        $html[] = '$("#' . $unique . '").JBZooPriceAdvanceFields({
+                    "url": "' . $this->app->link(
+                array(
+                    'controller' => 'manager',
+                    'format'     => 'raw',
+                    'task'       => 'getalias',
+                    'force_safe' => 1
+                ), false) . '"
+                   });
+                   });';
+        $html[] = '</script>';
+
+        return implode($html);
+    }
+
+    /**
      * Render element id
      * @param string $name
      * @param string|array $value
@@ -641,7 +822,7 @@ class JBFieldHelper extends AppHelper
     public function spacer($name, $value, $controlName, SimpleXMLElement $node, $parent)
     {
         if ($value) {
-                return '<div class="field-jbspacer"><b> -= ' . JText::_($value) . ' =- </b></div>';
+            return '<div class="field-jbspacer"><b> -= ' . JText::_($value) . ' =- </b></div>';
         }
 
         return null;

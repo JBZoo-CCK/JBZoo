@@ -16,6 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $uniqClass = 'jsJBPriceAdvance-' . $this->identifier . '-' . $this->getItem()->id;
 $iniqId = uniqid('jbprice-adv-');
+
 ?>
 
 <div class="jsJBPriceAdvance jbprice-advance <?php echo $uniqClass; ?>" id="<?php echo $iniqId; ?>">
@@ -36,11 +37,14 @@ $iniqId = uniqid('jbprice-adv-');
             'mainHash': "<?php echo $this->_getHash();?>",
             'itemId': <?php echo $this->getItem()->id;?>,
             'identifier': "<?php echo $this->identifier;?>",
+            'relatedImage': "<?php echo $relatedImage;?>",
+            'popup': "<?php echo $popup; ?>",
 
             'isInCart': <?php echo $isInCart;?>,
 
             'addToCartUrl': "<?php echo $addToCartUrl; ?>",
             'removeFromCartUrl': "<?php echo $removeFromCartUrl; ?>",
+            'changeCurrencyUrl': "<?php echo $changeCurrencyUrl; ?>",
             'modalUrl': "<?php echo $modalUrl; ?>",
             'basketUrl': "<?php echo $basketUrl; ?>"
         });

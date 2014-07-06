@@ -48,6 +48,9 @@
         <param name="adv_field_param_edit" type="jbbool" default="0" label="JBZOO_JBPRICE_ADDITIONAL_PARAM_EDIT"
                description="JBZOO_JBPRICE_ADDITIONAL_PARAM_EDIT_DESC"/>
 
+        <param name="adv_fields" type="jbpricefields" default="" label="JBZOO_JBPRICE_ADDITIONAL_PARAM_1"
+               description="JBZOO_JBPRICE_ADDITIONAL_PARAM_DESC" types="select,radio,checkbox"/>
+
         <param name="adv_field_param_1" type="jbelementlistbytype" default="" label="JBZOO_JBPRICE_ADDITIONAL_PARAM_1"
                description="JBZOO_JBPRICE_ADDITIONAL_PARAM_DESC" types="select,radio,checkbox"/>
 
@@ -91,6 +94,7 @@
 
     <params group="render">
 
+        <param name="relatedimage" type="elementlistbytype" label="JBZOO_JBPRICE_CHOOSE_PHOTO_ELEMENT" types="jbimage"/>
         <!-- custom params ######################################################################################### -->
         <param name="@custom_label" type="jbspacer" default="JBZOO_JBPRICE_TEMPLATE_CUSTOM_PARAMS_SPACER"/>
 
