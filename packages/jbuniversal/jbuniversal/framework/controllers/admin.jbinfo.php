@@ -151,7 +151,7 @@ class JBInfoJBUniversalController extends JBUniversalController
 
             $sendData = array(
                 'data'   => array(
-                    'hosting' => $this->_jbrequest->getArray('jbzooform'),
+                    'hosting' => $this->_jbrequest->getAdminForm(),
                     'tests'   => $prevData,
                     'host'    => JUri::root(),
                     'jbuser'  => JBZOO_USERNAME,

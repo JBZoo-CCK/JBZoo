@@ -43,6 +43,9 @@ class JBCSVCategoryParent extends JBCSVCategory
     {
         if ($value && $category = JBModelCategory::model()->getByAlias($value)) {
             $this->_category->parent = $category->id;
+        } else {
+            $parentCategory          = JBModelCategory::model()->createEmpty($this->_category->application_id);
+            $this->_category->parent = $parentCategory->id;
         }
 
         return $this->_category;

@@ -30,6 +30,18 @@ class JBToolbarHelper extends AppHelper
     }
 
     /**
+     * @return string
+     */
+    public function save()
+    {
+        $this->app->jbassets->addScript("submitform = function() {
+            jQuery('#jbzooForm').submit();
+        }");
+
+        return JToolbar::getInstance('toolbar')->appendButton('Standard', 'apply', 'JTOOLBAR_APPLY', 'save', false);
+    }
+
+    /**
      * Show button for popup window
      * @param string $icon
      * @param string $name

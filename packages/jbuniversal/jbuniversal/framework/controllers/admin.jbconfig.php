@@ -27,7 +27,7 @@ class JBConfigJBuniversalController extends JBUniversalController
     public function index()
     {
         if ($this->app->jbrequest->isPost()) {
-            $this->_config->setGroup('config.custom', $this->app->jbrequest->get('jbzooform'));
+            $this->_config->setGroup('config.custom', $this->app->jbrequest->getAdminForm());
             $this->setRedirect($this->app->jbrouter->admin(), JText::_('JBZOO_CONFIG_SAVED'));
         }
 
@@ -42,7 +42,7 @@ class JBConfigJBuniversalController extends JBUniversalController
     public function yandexYml()
     {
         if ($this->app->jbrequest->isPost()) {
-            $this->_config->setGroup('config.yml', $this->app->jbrequest->get('jbzooform'));
+            $this->_config->setGroup('config.yml', $this->app->jbrequest->getAdminForm());
             $this->setRedirect($this->app->jbrouter->admin(), JText::_('JBZOO_CONFIG_SAVED'));
         }
 
@@ -58,7 +58,7 @@ class JBConfigJBuniversalController extends JBUniversalController
     {
         if ($this->app->jbrequest->isPost()) {
             // save new config
-            $this->_config->setGroup('config.sef', $this->app->jbrequest->get('jbzooform'));
+            $this->_config->setGroup('config.sef', $this->app->jbrequest->getAdminForm());
 
             // save route caching state
             $cacheState = $this->_config->get('zoo_route_caching', 0, 'config.sef');

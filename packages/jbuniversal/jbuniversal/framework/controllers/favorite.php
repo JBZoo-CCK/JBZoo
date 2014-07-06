@@ -86,5 +86,13 @@ class FavoriteJBUniversalController extends JBUniversalController
         $this->app->jbajax->send();
     }
 
-}
+    /**
+     * Remove all action
+     */
+    public function removeAll()
+    {
+        $this->app->jbfavorite->removeItems();
+        $this->app->jbajax->send();
+    }
 
+}

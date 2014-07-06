@@ -97,7 +97,7 @@ class JBExportJBuniversalController extends JBuniversalController
 
         } else {
             try {
-                $request = $this->app->data->create($this->_jbrequest->get('jbzooform'));
+                $request = $this->app->data->create($this->_jbrequest->getAdminForm());
 
                 $data['separator'] = $request->get('separator');
                 $data['enclosure'] = $request->get('enclosure');
@@ -152,7 +152,7 @@ class JBExportJBuniversalController extends JBuniversalController
         } else {
 
             try {
-                $request = $this->app->data->create($this->_jbrequest->get('jbzooform'));
+                $request = $this->app->data->create($this->_jbrequest->getAdminForm());
 
                 $data['separator'] = $request->get('separator');
                 $data['enclosure'] = $request->get('enclosure');

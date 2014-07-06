@@ -18,15 +18,16 @@ defined('_JEXEC') or die('Restricted access');
 <div class="jbfooter">
     <hr>
 
-    <div style="float: right;">
-        <a href="http://jbzoo.com" target="_blank" title="JBZoo.com">JBZoo CCK Project Page</a>
-    </div>
+    <span class="footer-copyrights">
+        &copy; 2011 - <?php echo date('Y'); ?>
+        <?php echo JText::_('JBZOO_ADMIN_WEBSITE'); ?>
+    </span>
 
-    Joomla: <strong><?php echo $this->app->jbversion->joomla(); ?></strong>&nbsp;&nbsp;&nbsp;&nbsp;
-    JBZoo: <strong><?php echo $this->app->jbversion->jbzoo(); ?></strong>&nbsp;&nbsp;&nbsp;&nbsp;
-    Zoo: <strong><?php echo $this->app->jbversion->zoo(); ?></strong>&nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="footer-version-row">Joomla: <strong><?php echo $this->app->jbversion->joomla(); ?></strong></span>
+    <span class="footer-version-row">JBZoo: <strong><?php echo $this->app->jbversion->jbzoo(); ?></strong></span>
+    <span class="footer-version-row">Zoo: <strong><?php echo $this->app->jbversion->zoo(); ?></strong></span>
 
-    <?php if ($widgetKit = $this->app->jbversion->widgetkit()) :?>
-        WidgetKit: <strong><?php echo $widgetKit; ?></strong>
+    <?php if ($widgetKit = $this->app->jbversion->widgetkit()) : ?>
+        <span class="footer-version-row">WidgetKit: <strong><?php echo $widgetKit; ?></strong></span>
     <?php endif; ?>
 </div>

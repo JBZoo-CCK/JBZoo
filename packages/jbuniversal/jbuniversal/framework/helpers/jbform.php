@@ -68,6 +68,7 @@ class JBFormHelper extends AppHelper
 
         JHtml::_('behavior.tooltip');
         JHtml::_('behavior.formvalidation');
+        $this->app->jbtoolbar->save();
 
         $options = array_merge(array(
             'action'         => $this->app->jbrouter->admin(),
@@ -75,15 +76,14 @@ class JBFormHelper extends AppHelper
             'class'          => 'uk-form uk-form-horizontal jbadminform form-validate',
             'accept-charset' => "UTF-8",
             'enctype'        => 'multipart/form-data',
+            'name'           => 'jbzooForm',
+            'id'             => 'jbzooForm',
         ), $options);
 
-        $submitLabel = isset($options['submit']) ? $options['submit'] : JText::_('JBZOO_FORM_SUBMIT');
+        $submitLabel = isset($options['submit']) ? $options['submit'] : JText::_('JBZOO_FORM_SAVE');
 
         $html = '<form ' . $this->app->jbhtml->buildAttrs($options) . ' >'
             . implode(" \n", $html)
-            . '<div class="submit-btn">'
-            . '<input type="submit" class="uk-button uk-button-primary" name="send" value="' . $submitLabel . '" />'
-            . '</div>'
             . '</form>'
             . '<div class="clr"></div>';
 
@@ -121,8 +121,9 @@ class JBFormHelper extends AppHelper
     protected function _createJoomlaForm($name, $xmlPath, array $options = array())
     {
         jimport('joomla.form.form');
-        $jform = JForm::getInstance($name, $xmlPath, array(
-            'control' => 'jbzooform'
+        $options = $this->app->data->create($options);
+        $jform   = JForm::getInstance($name, $xmlPath, array(
+            'control' => $options->get('control', JBRequestHelper::ADMIN_FORM_KEY),
         ));
 
         return $jform;

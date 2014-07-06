@@ -202,6 +202,26 @@ class JBRouterHelper extends AppHelper
     }
 
     /**
+     * Favorite link (remove)
+     * @return string
+     */
+    public function favoriteClear()
+    {
+        $appId  = (int)$this->_jbrequest->get('app_id');
+        $Itemid = (int)$this->_jbrequest->get('Itemid');
+
+        $linkParams = array(
+            'option'     => 'com_zoo',
+            'controller' => 'favorite',
+            'task'       => 'favorite',
+            'app_id'     => (int)$appId,
+            'Itemid'     => (int)$Itemid,
+        );
+
+        return $this->_url($linkParams, true);
+    }
+
+    /**
      * Favorite remove item link
      * @param int $itemId
      * @param int $appId
