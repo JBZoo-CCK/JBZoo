@@ -18,6 +18,9 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElement
 {
+
+    const DEFAULT_GROUP = '_default';
+
     /**
      * @var String
      */
@@ -161,7 +164,8 @@ abstract class JBCartElement
     public function getLayout($layout = null)
     {
         // init vars
-        $type = $this->getElementType();
+        $type  = $this->getElementType();
+        $group = $this->getElementGroup();
 
         // set default
         if ($layout == null) {
@@ -169,7 +173,7 @@ abstract class JBCartElement
         }
 
         // find layout
-        return $this->app->path->path("elements:{$type}/tmpl/{$layout}");
+        return $this->app->path->path("cart-elements:{$group}/{$type}/tmpl/{$layout}");
     }
 
     /**
@@ -312,7 +316,11 @@ abstract class JBCartElement
      * Get parameter form object to render input form
      * @return AppParameterForm
      */
-    public function getConfigForm()
+    /**
+     * @param string $groupData
+     * @return null
+     */
+    public function getConfigForm($groupData = self::DEFAULT_GROUP)
     {
         // get form
         $form = $this->app->parameterform->create();

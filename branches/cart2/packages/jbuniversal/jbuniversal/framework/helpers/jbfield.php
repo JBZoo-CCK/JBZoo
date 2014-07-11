@@ -312,7 +312,10 @@ class JBFieldHelper extends AppHelper
      */
     public function bool($name, $value, $controlName, SimpleXMLElement $node, $parent)
     {
-        $optionList = array(0 => 'JBZOO_NO', 1 => 'JBZOO_YES');
+        $optionList = array(
+            0 => 'JBZOO_NO',
+            1 => 'JBZOO_YES'
+        );
 
         return $this->_renderRadio($optionList, $value, $this->_getName($controlName, $name), $node);
     }

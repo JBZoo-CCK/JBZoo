@@ -275,6 +275,14 @@ class JBLayoutHelper extends AppHelper
     private function _getItemLayout($item, $layout)
     {
 
+        $categoryId = $this->app->jbrequest->getSystem('category');
+        if ($categoryId) {
+            $category = $this->app->table->category->get($categoryId);
+            if ($category) {
+                $layout = $layout . '_' . $category->alias;
+            }
+        }
+
         if ($this->_params) {
             if (!isset($this->_params['template.layout_' . $layout])) {
                 $layout = $this->_params->get('template.layout_' . $layout, $layout);

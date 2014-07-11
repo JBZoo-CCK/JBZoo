@@ -67,7 +67,7 @@ $allItems = array(
             'config'      => array('config'),
             'currency'    => array('currency'),
             'status'      => array('status'),
-            'order'       => array('order'),
+            'fields'      => array('fields'),
             'priceparams' => array('priceparams'),
             'payment'     => array('payment'),
             'delivery'    => array('delivery'),
@@ -77,6 +77,11 @@ $allItems = array(
             'validator'    => array('validatorEvents'),
             'notification' => array('notificationEvents'),
             'statusEvents' => array('statusEvents'),
+        ),
+        'tmpl'   => array(
+            'emailTmpl'   => array('emailTmpl'),
+            'jbpriceTmpl' => array('jbpriceTmpl'),
+            'cartTmpl'    => array('cartTmpl'),
         )
     ),
     'jbexport' => array(

@@ -124,6 +124,11 @@ class JBZoo
         require $path . '/database/JBDatabaseQuery.php';
         require $path . '/database/JBDatabaseQueryElement.php';
 
+        // cart
+        require $path . '/cart/jbcartform.php';
+        require $path . '/cart/jborder.php';
+        require $path . '/cart/jbcart.php';        
+        
         // models
         $path = JPATH_SITE . '/media/zoo/applications/jbuniversal/framework/models';
         require $path . '/jbmodel.php';

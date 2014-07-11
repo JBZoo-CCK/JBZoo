@@ -52,11 +52,13 @@ class JBCartElementHelper extends AppHelper
 
     /**
      * Returns an array of all Elements.
-     * @param $groups
+     * @param array $groups
      * @return array
      */
-    public function getGroups($groups = array('delivery', 'modifieritem', 'modifierprice', 'notification', 'payment', 'validator'))
+    public function getGroups($groups)
     {
+        $groups = (array)$groups;
+
         $elements = array();
 
         foreach ($this->app->path->dirs('cart-elements:') as $group) {

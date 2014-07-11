@@ -20,16 +20,15 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartJBuniversalController extends JBUniversalController
 {
-
     /**
      * @var JBCartElementHelper
      */
-    protected $_jbcartelement = null;
+    protected $_element = null;
 
     /**
      * @var JBCartPositionHelper
      */
-    protected $_jbcartposition = null;
+    protected $_position = null;
 
     /**
      * @param array $app
@@ -39,8 +38,8 @@ class JBCartJBuniversalController extends JBUniversalController
     {
         parent::__construct($app, $config);
 
-        $this->_jbcartelement  = $this->app->jbcartelement;
-        $this->_jbcartposition = $this->app->jbcartposition;
+        $this->_element  = $this->app->jbcartelement;
+        $this->_position = $this->app->jbcartposition;
     }
 
     /**
@@ -71,8 +70,8 @@ class JBCartJBuniversalController extends JBUniversalController
      */
     public function notificationEvents()
     {
-        $this->groupList = $this->_jbcartelement->getGroups(array('notification', 'modifieritem'));
-        $this->positions = $this->_jbcartposition->load('notificationEvents', array(
+        $this->groupList = $this->_element->getGroups(array('notification', 'modifieritem'));
+        $this->positions = $this->_position->loadPostions('notificationEvents', array(
             'order-create',
             'order-edit',
             'order-status',
@@ -87,8 +86,8 @@ class JBCartJBuniversalController extends JBUniversalController
      */
     public function modifierEvents()
     {
-        $this->groupList = $this->_jbcartelement->getGroups(array('modifierprice'));
-        $this->positions = $this->_jbcartposition->load('modifierEvents', array(
+        $this->groupList = $this->_element->getGroups(array('modifierprice'));
+        $this->positions = $this->_position->loadPostions('modifierEvents', array(
             'taxes',
             'discounts',
         ));
@@ -101,8 +100,8 @@ class JBCartJBuniversalController extends JBUniversalController
      */
     public function validatorEvents()
     {
-        $this->groupList = $this->_jbcartelement->getGroups(array('validator'));
-        $this->positions = $this->_jbcartposition->load('validatorEvents', array('before-create'));
+        $this->groupList = $this->_element->getGroups(array('validator'));
+        $this->positions = $this->_position->loadPostions('validatorEvents', array('before-create'));
 
         $this->renderView();
     }
@@ -112,8 +111,8 @@ class JBCartJBuniversalController extends JBUniversalController
      */
     public function payment()
     {
-        $this->groupList = $this->_jbcartelement->getGroups(array('payment'));
-        $this->positions = $this->_jbcartposition->load('payment', array('list'));
+        $this->groupList = $this->_element->getGroups(array('payment'));
+        $this->positions = $this->_position->loadPostions('payment', array('list'));
 
         $this->renderView();
     }
@@ -123,8 +122,8 @@ class JBCartJBuniversalController extends JBUniversalController
      */
     public function delivery()
     {
-        $this->groupList = $this->_jbcartelement->getGroups(array('delivery'));
-        $this->positions = $this->_jbcartposition->load('delivery', array('list'));
+        $this->groupList = $this->_element->getGroups(array('delivery'));
+        $this->positions = $this->_position->loadPostions('delivery', array('list'));
 
         $this->renderView();
     }
@@ -134,8 +133,8 @@ class JBCartJBuniversalController extends JBUniversalController
      */
     public function priceParams()
     {
-        $this->groupList = $this->_jbcartelement->getGroups(array('price'));
-        $this->positions = $this->_jbcartposition->load('priceParams', array('list'));
+        $this->groupList = $this->_element->getGroups(array('price'));
+        $this->positions = $this->_position->loadPostions('priceParams', array('list'));
 
         $this->renderView();
     }
@@ -145,8 +144,8 @@ class JBCartJBuniversalController extends JBUniversalController
      */
     public function statusEvents()
     {
-        $this->groupList = $this->_jbcartelement->getGroups(array('notification', 'modifierprice', 'modifieritem'));
-        $this->positions = $this->_jbcartposition->load('statusevents', array(
+        $this->groupList = $this->_element->getGroups(array('notification', 'modifierprice', 'modifieritem'));
+        $this->positions = $this->_position->loadPostions('statusevents', array(
             'order-success',
             'order-paid',
             'order-canceled',
@@ -175,8 +174,8 @@ class JBCartJBuniversalController extends JBUniversalController
      */
     public function currency()
     {
-        $this->groupList = $this->_jbcartelement->getGroups(array('currency'));
-        $this->positions = $this->_jbcartposition->load('currency', array('list'));
+        $this->groupList = $this->_element->getGroups(array('currency'));
+        $this->positions = $this->_position->loadPostions('currency', array('list'));
 
         $this->renderView();
     }
@@ -186,8 +185,8 @@ class JBCartJBuniversalController extends JBUniversalController
      */
     public function status()
     {
-        $this->groupList = $this->_jbcartelement->getGroups(array('status'));
-        $this->positions = $this->_jbcartposition->load('status', array('list'));
+        $this->groupList = $this->_element->getGroups(array('status'));
+        $this->positions = $this->_position->loadPostions('status', array('list'));
 
         $this->renderView();
     }
@@ -195,10 +194,61 @@ class JBCartJBuniversalController extends JBUniversalController
     /**
      * Field list action
      */
-    public function order()
+    public function fields()
     {
-        $this->groupList = $this->_jbcartelement->getGroups(array('order'));
-        $this->positions = $this->_jbcartposition->load('order', array('list'));
+        $this->groupList = $this->_element->getGroups(array('order'));
+        $this->positions = $this->_position->loadPostions('fields', array('list'));
+
+        $this->renderView();
+    }
+
+    /**
+     * Field list action
+     */
+    public function emailTmpl()
+    {
+        $this->groupList = $this->_element->getGroups(array('order'));
+        $this->positions = $this->_position->loadPostions('fields', array('list'));
+
+        $this->renderView();
+    }
+
+    /**
+     * Field list action
+     */
+    public function cartTmpl()
+    {
+        $layout = $this->_jbrequest->get('layout', 'default');
+
+        $renderer = $this->app->renderer->create('order')->addPath(
+            $this->app->path->path('jbtmpl:catalog')
+        );
+
+        $this->layoutList     = $renderer->getLayouts('order');
+        $this->positionList   = $renderer->getPositions('order.' . $layout);
+        $this->dragElements   = $this->_position->loadElements('fields');
+        $this->elementsParams = $this->_position->loadParams('cartTmpl.' . $layout);
+        $this->positions      = $this->_position->loadPostionsTmpl('cartTmpl.' . $layout, 'fields', $this->positionList);
+
+        $this->renderView();
+    }
+
+    /**
+     * Field list action
+     */
+    public function jbpriceTmpl()
+    {
+        $layout = $this->_jbrequest->get('layout', 'default');
+
+        $renderer = $this->app->renderer->create('jbprice')->addPath(
+            $this->app->path->path('jbtmpl:catalog')
+        );
+
+        $this->layoutList     = $renderer->getLayouts('jbprice');
+        $this->positionList   = $renderer->getPositions('jbprice.' . $layout);
+        $this->dragElements   = $this->_position->loadElements('priceparams');
+        $this->elementsParams = $this->_position->loadParams('jbpriceTmpl.' . $layout);
+        $this->positions      = $this->_position->loadPostionsTmpl('jbpriceTmpl.' . $layout, 'priceparams', $this->positionList);
 
         $this->renderView();
     }
@@ -213,7 +263,7 @@ class JBCartJBuniversalController extends JBUniversalController
         $elementGroup = $this->_jbrequest->getWord('elementGroup');
 
         // load element
-        $this->element             = $this->_jbcartelement->create($elementType, $elementGroup);
+        $this->element             = $this->_element->create($elementType, $elementGroup);
         $this->element->identifier = $this->app->utility->generateUUID();
 
         $this->app->jbdoc->disableTmpl();
@@ -225,6 +275,9 @@ class JBCartJBuniversalController extends JBUniversalController
      */
     public function savePositions()
     {
+        // session token
+        $this->app->session->checkToken() or jexit('Invalid Token');
+
         $defaultRedirect = $this->app->jbrouter->admin(array('task' => 'index'));
         if (!$this->_jbrequest->isPost()) {
             $this->setRedirect($defaultRedirect);
@@ -232,9 +285,10 @@ class JBCartJBuniversalController extends JBUniversalController
 
         $positions = $this->_jbrequest->getArray('positions');
         $group     = $this->_jbrequest->get('group');
+        $layout    = $this->_jbrequest->get('layout');
         $redirect  = $this->_jbrequest->get('redirect', $defaultRedirect);
 
-        $this->_jbcartposition->save($group, $positions);
+        $this->_position->save($group, $positions, $layout);
 
         $this->setRedirect($redirect, JText::_('JBZOO_ADMIN_MESSAGE_SAVED'));
     }
