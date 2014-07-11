@@ -426,16 +426,16 @@ jQuery(function ($) {
                 var $position = $(this),
                     positionName = "positions[" + $position.data("position") + "]";
 
-                $('.jsElement', this).each(function (placeIndex, element) {
+                $('.jsElement', this).each(function () {
 
-                    var $element = $(element),
+                    var $element = $(this),
                         elementId = $('.jsElementId', $element).val();
 
                     $element.find("[name]").each(function () {
 
                         var $input = $(this),
                             oldName = $input.attr("name"),
-                            newName = oldName.replace(regReplace, positionName + "[" + placeIndex + "]");
+                            newName = oldName.replace(regReplace, positionName + "[" + elementId + "]");
 
                         $input.attr("name", newName);
                     });
@@ -453,7 +453,7 @@ jQuery(function ($) {
 
         $allLists
             .delegate(".jsSort", "mousedown", function () {
-                $(".jsElement", $this).not(".hideconfig").addClass("hideconfig");
+                $(".jsElement", $this).addClass("hideconfig");
             })
             .delegate(".jsEdit", "click", function () {
                 $(this).closest(".jsElement").toggleClass("hideconfig");
@@ -473,18 +473,20 @@ jQuery(function ($) {
 
             $list.sortable({
                 forcePlaceholderSize: true,
-                connectWith         : ".jsElementList",
-                placeholder         : "jsElement",
-                handle              : ".jsSort",
-                cursorAt            : {top: 16},
-                tolerance           : "pointer",
-                scroll              : false,
+
+                connectWith: ".jsElementList",
+                placeholder: "jsElement",
+                handle     : ".jsSort",
+                cursorAt   : {top: 16},
+                tolerance  : "pointer",
+                scroll     : false,
 
                 change: function () {
                     $this.emptyList();
                 },
 
                 update: function (event, ui) {
+
                     if (ui.item.hasClass("jsAssigning")) {
 
                         $this.find(".jsAssigning").each(function () {
@@ -495,6 +497,7 @@ jQuery(function ($) {
 
                                 $newElem.find("input:radio").each(function () {
                                     var newAttrs = $(this).attr("name").replace(/^elements\[[\w_-]+\]/, "elements[_temp]");
+
                                     $(this).attr("name", newAttrs);
                                 });
 
@@ -523,9 +526,10 @@ jQuery(function ($) {
         $newElelements
             .draggable({
                 connectToSortable: ".jsElementList",
-                handle           : ".jsSort",
-                scroll           : false,
-                zIndex           : 1000,
+
+                handle: ".jsSort",
+                scroll: false,
+                zIndex: 1000,
 
                 helper: function () {
                     var $newElem = $(this).clone();
@@ -736,10 +740,10 @@ jQuery(function ($) {
 
             function getValue($input) {
                 $.ajax({
-                    url: options.url,
+                    url     : options.url,
                     dataType: 'json',
-                    data: 'name=' + $input.val(),
-                    success: function (value) {
+                    data    : 'name=' + $input.val(),
+                    success : function (value) {
                         $input.next().val(value);
                     }
                 });

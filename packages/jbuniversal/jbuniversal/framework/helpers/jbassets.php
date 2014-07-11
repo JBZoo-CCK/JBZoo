@@ -84,9 +84,17 @@ class JBAssetsHelper extends AppHelper
     {
         $this->jQuery();
 
+        static $debugOn;
+
         if (defined('JDEBUG') && JDEBUG) {
             $this->_include(array('jbassets:js/jquery.jbzootools.orig.js'), 'js');
-            $this->addScript('jQuery(function($){ JBZoo.DEBUG = 1; jQuery.migrateMute = true; });');
+
+            if (!isset($debugOn)) {
+                $this->addScript('JBZoo.DEBUG = 1;');
+                $this->addScript('jQuery.migrateMute = true;');
+                $debugOn = true;
+            }
+
         } else {
             $this->_include(array('jbassets:js/jquery.jbzootools.min.js'), 'js');
         }

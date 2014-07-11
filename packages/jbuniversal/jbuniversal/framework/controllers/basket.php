@@ -13,7 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 /**
  * Class BasketJBUniversalController
  */
@@ -24,6 +23,28 @@ class BasketJBUniversalController extends JBUniversalController
     const SESSION_PREFIX                  = 'JBZOO_';
 
     /**
+     * @var JBModelConfig
+     */
+    protected $_config = null;
+
+    /**
+     * @var JBCartHelper
+     */
+    protected $_jbcart = null;
+
+    /**
+     * @param array $app
+     * @param array $config
+     */
+    public function __construct($app, $config = array())
+    {
+        parent::__construct($app, $config);
+
+        $this->app->jbdoc->noindex();
+        $this->_config = JBModelConfig::model()->getGroup('cart.config');
+    }
+
+    /**
      * Filter action
      * @throws AppException
      */
@@ -32,68 +53,42 @@ class BasketJBUniversalController extends JBUniversalController
         // init
         $this->app->jbdebug->mark('basket::init');
 
-        $this->app->jbdoc->noindex();
+        $basketItems = $this->app->jbcart->getBasketItems();
 
-        $appId  = $this->_jbrequest->get('app_id');
-        $Itemid = $this->_jbrequest->get('Itemid');
+        $this->template = $this->application->getTemplate();
 
-        if (!$appId) {
-            $this->app->jbnotify->warning(JText::_('JBZOO_BASKET_APP_ID_IS_NO_SET'));
-            return false;
-        }
+        $form = new JBCartForm($this->app);
 
-        $appParams = $this->application->getParams();
-        $isAdvance = (int)$appParams->get('global.jbzoo_cart_config.is_advance', 0);
-
-        if ((int)$appParams->get('global.jbzoo_cart_config.enable', 0) == 0) {
-            $this->app->jbnotify->warning(JText::_('JBZOO_BASKET_APPLICATION_IS_NOT_A_BASKET'));
-            return false;
-        }
-
-        // get items
-        $basketItems = $this->app->jbcart->getBasketItems($isAdvance);
-        $itemIds     = $this->app->jbcart->getItemIds($isAdvance);
-        $items       = JBModelFilter::model()->getZooItemsByIds($itemIds);
-
-        if ($appParams->get('global.jbzoo_cart_config.type-layout')) {
-            list($type, $layout) = explode(':', $appParams->get('global.jbzoo_cart_config.type-layout'));
-        } else {
-            $this->app->jbnotify->warning(JText::_('JBZOO_BASKET_FORM_TEMPLATE_IS_NO_SET'));
-            return false;
-        }
-
-        if (!JFactory::getUser()->id && (int)$appParams->get('global.jbzoo_cart_config.auth', 0)) {
-            $this->setRedirect(JRoute::_($this->app->jbrouter->auth(), false), JText::_('JBZOO_AUTH_PLEASE'));
-        }
-
-        $this->basketItems    = $basketItems;
-        $this->params         = $this->_params;
-        $this->items          = $items;
-        $this->appId          = $appId;
-        $this->Itemid         = $Itemid;
-        $this->errors         = array();
-        $this->layout_path    = $layout;
-        $this->submissionType = $type;
-        $this->appParams      = $appParams;
-        $this->isAdvance      = $isAdvance;
-
-        if (!$this->template = $this->application->getTemplate()) {
-            $this->app->jbnotify->error(JText::_('No template selected'));
-
-            return;
-        }
-
-        // set renderer
         $this->renderer = $this->app->renderer->create('basket')->addPath(array(
             $this->app->path->path('component.site:'),
             $this->template->getPath()
         ));
 
-        $this->type = $this->application->getType($type);
+        dump($this->app->path->_paths, 0);
+
+        dump($this->renderer->render('cart.form'));
+
+
+        // get items
+        $itemIds = $this->app->jbcart->getItemIds($isAdvance);
+        $items   = JBModelFilter::model()->getZooItemsByIds($itemIds);
+
+        if (!JFactory::getUser()->id && (int)$appParams->get('global.jbzoo_cart_config.auth', 0)) {
+            $this->setRedirect(JRoute::_($this->app->jbrouter->auth(), false), JText::_('JBZOO_AUTH_PLEASE'));
+        }
+
+        $this->basketItems = $basketItems;
+        $this->params      = $this->_params;
+        $this->items       = $items;
+        $this->appId       = $appId;
+        $this->Itemid      = $Itemid;
+        $this->errors      = array();
+        $this->appParams   = $appParams;
+        $this->isAdvance   = $isAdvance;
+
         $this->item = $this->_createEmptyItem($this->type);
 
         // get submition
-        $submissionId     = (int)$appParams->get('global.jbzoo_cart_config.submission-id', 0);
         $this->submission = $this->app->table->submission->get((int)$submissionId);
 
         if ($this->submission) {

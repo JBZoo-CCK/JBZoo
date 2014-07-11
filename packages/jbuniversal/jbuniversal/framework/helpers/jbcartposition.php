@@ -19,24 +19,23 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartPositionHelper extends AppHelper
 {
-
     /**
      * @var string
      */
     protected $_mainGroup = 'cart.';
 
+
     /**
      * Load positions group with elements
      * @param $group
      * @param array $mustHave
-     * @return mixed
+     * @param array $forceElements
+     * @return array
      */
-    public function load($group, $mustHave = array())
+    public function loadPostions($group, $mustHave = array(), $forceElements = array())
     {
-        $group            = trim(strtolower($group));
-        $config           = JBModelConfig::model();
         $jbcartelement    = $this->app->jbcartelement;
-        $positionsConfigs = $config->getGroup($this->_mainGroup . $group, array());
+        $positionsConfigs = $this->_getConfig($group);
 
         $positions = array();
         foreach ($positionsConfigs as $posName => $elements) {
@@ -49,15 +48,26 @@ class JBCartPositionHelper extends AppHelper
 
             foreach ($elements as $elemConfig) {
 
+                $element    = null;
                 $identifier = $elemConfig['identifier'];
-                $element    = $jbcartelement->create($elemConfig['type'], $elemConfig['group']);
+
+                if (!empty($forceElements)) {
+
+                    // get from forced arg
+                    if (isset($forceElements[$identifier])) {
+                        $element = $forceElements[$identifier];
+                    }
+
+                } else {
+
+                    // create new and bind configs
+                    if ($element = $jbcartelement->create($elemConfig['type'], $elemConfig['group'])) {
+                        $element->identifier = $elemConfig['identifier'];
+                        $element->setConfig($elemConfig);
+                    }
+                }
 
                 if ($element) {
-                    // bind data
-                    $element->identifier = $identifier;
-                    $element->identifier = $elemConfig['identifier'];
-                    $element->setConfig($elemConfig);
-
                     $positions[$posName][$identifier] = $element;
                 }
             }
@@ -74,19 +84,79 @@ class JBCartPositionHelper extends AppHelper
                     $result[$mustPosition] = $positions[$mustPosition];
                 }
             }
+        } else {
+            $result = $positions;
         }
 
         return $result;
     }
 
     /**
+     * @param $tmplGroup
+     * @param $configGroup
+     * @param array $tmplPoitions
+     * @return array
+     */
+    public function loadPostionsTmpl($tmplGroup, $configGroup, $tmplPoitions = array())
+    {
+        $positions = array();
+
+        if (isset($tmplPoitions['positions'])) {
+
+            $mustHave  = array_keys($tmplPoitions['positions']);
+            $elements  = $this->loadElements($configGroup);
+            $positions = $this->loadPostions($tmplGroup, $mustHave, $elements);
+        }
+
+        return $positions;
+    }
+
+    /**
+     * @param $tmplGroup
+     * @return array
+     */
+    public function loadParams($tmplGroup)
+    {
+        $list = $this->_getConfig($tmplGroup);
+
+        $elements = array();
+        foreach ($list as $items) {
+            $elements = array_merge($elements, $items);
+        }
+
+        return $elements;
+    }
+
+    /**
+     * @param $group
+     * @return array
+     */
+    public function loadElements($group)
+    {
+        $list = $this->loadPostions($group);
+
+        $elements = array();
+        foreach ($list as $items) {
+            $elements = array_merge($elements, $items);
+        }
+
+        return $elements;
+    }
+
+
+    /**
      * @param  string $group
      * @param array $positions
+     * @param string $layout
      */
-    public function save($group, $positions)
+    public function save($group, $positions, $layout = null)
     {
-        $config      = JBModelConfig::model();
+        $config = JBModelConfig::model();
+
         $configGroup = $this->_mainGroup . $group;
+        if ($layout) {
+            $configGroup .= '.' . $layout;
+        }
 
         $config->removeGroup($configGroup);
         $config->setGroup($configGroup, $positions);
@@ -98,7 +168,7 @@ class JBCartPositionHelper extends AppHelper
      */
     public function loadForPrice(ElementJBPriceAdvance $element)
     {
-        $data = $this->load('priceparams', array('list'));
+        $data = $this->loadPostions('priceparams', array('list'));
 
         if (isset($data[$element->identifier])) {
             return $data[$element->identifier];
@@ -109,6 +179,20 @@ class JBCartPositionHelper extends AppHelper
         }
 
         return array();
+    }
+
+    /**
+     * @param string $group
+     * @return JSONData
+     */
+    protected function _getConfig($group)
+    {
+        $group = trim(strtolower($group));
+        $model = JBModelConfig::model();
+
+        $configs = $model->getGroup($this->_mainGroup . $group, array());
+
+        return $configs;
     }
 
 }

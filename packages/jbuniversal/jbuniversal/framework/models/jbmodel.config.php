@@ -73,7 +73,7 @@ class JBModelConfig extends JBModel
     /**
      * @param $group
      * @param null $default
-     * @return mixed
+     * @return JSONData
      */
     public function getGroup($group, $default = null)
     {

@@ -17,10 +17,10 @@ defined('_JEXEC') or die('Restricted access');
 $groupList = isset($groupList) ? $groupList : array();
 
 ?>
-<fieldset>
-    <legend><?php echo JText::_('JBZOO_ADMIN_POSITIONS_LIBS'); ?></legend>
+<?php if (!empty($groupList)) : ?>
+    <fieldset>
 
-    <?php if (!empty($groupList)) : ?>
+        <legend><?php echo JText::_('JBZOO_ADMIN_POSITIONS_LIBS'); ?></legend>
 
         <div class="groups">
             <?php foreach ($groupList as $groupKey => $groupItems) : ?>
@@ -41,8 +41,5 @@ $groupList = isset($groupList) ? $groupList : array();
             <?php endforeach; ?>
         </div>
 
-    <?php else: ?>
-        <p class="positions-empty"><?php echo JText::_('JBZOO_ADMIN_POSITIONS_EMPTY_ELEMENTS'); ?></p>
-    <?php endif; ?>
-
-</fieldset>
+    </fieldset>
+<?php endif; ?>

@@ -22,6 +22,11 @@ defined('_JEXEC') or die('Restricted access');
 
     <?php echo $this->partial('icons', array('items' => array(
         array(
+            'name' => 'JBZOO_ICON_INDEX_CART',
+            'icon' => 'cart.png',
+            'link' => array('controller' => 'jbcart', 'task' => 'index'),
+        ),
+        array(
             'name' => 'JBZOO_ICON_INDEX_IMPORT',
             'icon' => 'import.png',
             'link' => array('controller' => 'jbimport', 'task' => 'index'),
@@ -51,9 +56,6 @@ defined('_JEXEC') or die('Restricted access');
             'icon' => 'performance.png',
             'link' => array('controller' => 'jbinfo', 'task' => 'performance'),
         ),
-    ))); ?>
-
-    <?php echo $this->partial('icons', array('items' => array(
         array(
             'name' => 'JBZOO_ICON_INDEX_LICENCE',
             'icon' => 'licence.png',
