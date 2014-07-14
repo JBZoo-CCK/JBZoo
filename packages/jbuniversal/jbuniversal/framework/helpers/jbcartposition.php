@@ -62,7 +62,11 @@ class JBCartPositionHelper extends AppHelper
 
                     // create new and bind configs
                     if ($element = $jbcartelement->create($elemConfig['type'], $elemConfig['group'])) {
-                        $element->identifier = $elemConfig['identifier'];
+                        $identifier = $elemConfig['identifier'];
+                        if ($element->getMetaData('core') == 'true') {
+                            $identifier = '_' . strtolower($elemConfig['type']);
+                        }
+                        $element->identifier = $identifier;
                         $element->setConfig($elemConfig);
                     }
                 }
