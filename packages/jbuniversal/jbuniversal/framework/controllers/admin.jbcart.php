@@ -266,6 +266,10 @@ class JBCartJBuniversalController extends JBUniversalController
         $this->element             = $this->_element->create($elementType, $elementGroup);
         $this->element->identifier = $this->app->utility->generateUUID();
 
+        if ($this->element->getMetaData('core') == 'true') {
+            $this->element->identifier = '_' . strtolower($elementType);
+        }
+
         $this->app->jbdoc->disableTmpl();
         $this->renderView();
     }
