@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<element type="element" group="Core" hidden="false" core="true" system="true">
+    <name>Sku field</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZoo Cart Element Core System</description>
+
+    <params>
+        <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME" description="JBZOO_ELEMENT_NAME_DESC"/>
+
+        <param name="description" type="text" default="" label="JBZOO_ELEMENT_DESCRIPTION"
+               description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
+
+        <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
+               description="JBZOO_ELEMENT_ACCESS_DESC"/>
+
+        <param name="options" type="textarea" default="" label="Options"/>
+
+    </params>
+
+    <params group="render">
+
+        <param name="jbprice_template"
+               type="list"
+               label="JBZOO_ELEMENT_TEMPLATE"
+               description="JBZOO_ELEMENT_TEMPLATE_DESC"
+               default="_auto_"
+                >
+            <option value="_auto_">JBZOO_ELEMENT_TEMPLATE_AUTO</option>
+            <option value="text">JBZOO_ELEMENT_TEMPLATE_TEXT</option>
+            <option value="text-range">JBZOO_ELEMENT_TEMPLATE_TEXT_RANGE</option>
+            <option value="checkbox">JBZOO_ELEMENT_TEMPLATE_CHECKBOX</option>
+            <option value="jqueryui">JBZOO_ELEMENT_TEMPLATE_JQUERYUI</option>
+            <option value="radio">JBZOO_ELEMENT_TEMPLATE_RADIO</option>
+            <option value="select">JBZOO_ELEMENT_TEMPLATE_SELECT</option>
+            <option value="select-chosen">JBZOO_ELEMENT_TEMPLATE_SELECT_CHOSEN</option>
+            <option value="slider">JBZOO_ELEMENT_TEMPLATE_SLIDER</option>
+            <option value="date">JBZOO_ELEMENT_TEMPLATE_DATE</option>
+            <option value="date-range">JBZOO_ELEMENT_TEMPLATE_DATE_RANGE</option>
+            <option value="hidden">JBZOO_ELEMENT_TEMPLATE_HIDDEN</option>
+        </param>
+    </params>
+
+</element>

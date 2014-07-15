@@ -398,6 +398,8 @@ abstract class JBCartElement
         $data['type']         = $xml->attributes()->type ? (string)$xml->attributes()->type : 'Unknown';
         $data['group']        = $xml->attributes()->group ? (string)$xml->attributes()->group : 'Unknown';
         $data['hidden']       = $xml->attributes()->hidden ? (string)$xml->attributes()->hidden : 'false';
+        $data['core']         = $xml->attributes()->core ? (string)$xml->attributes()->core : 'false';
+        $data['system']       = $xml->attributes()->system ? (string)$xml->attributes()->system : 'false';
         $data['trusted']      = $xml->attributes()->trusted ? (string)$xml->attributes()->trusted : 'false';
         $data['orderable']    = $xml->attributes()->orderable ? (string)$xml->attributes()->orderable : 'false';
         $data['name']         = (string)$xml->name;
@@ -454,6 +456,34 @@ abstract class JBCartElement
     public function getPath()
     {
         return $this->app->path->path("cart-elements:" . $this->getElementGroup() . '/' . $this->getElementType());
+    }
+
+    /**
+     * Check if element is system
+     * @return bool
+     */
+    public function isSystem()
+    {
+        $system = $this->getMetaData('system');
+        if($system == 'true') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if element is core
+     * @return bool
+     */
+    public function isCore()
+    {
+        $core = $this->getMetaData('core');
+        if($core == 'true') {
+            return true;
+        }
+
+        return false;
     }
 
 }
