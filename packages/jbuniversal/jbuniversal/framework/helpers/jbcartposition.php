@@ -51,7 +51,7 @@ class JBCartPositionHelper extends AppHelper
                 $element    = null;
                 $identifier = $elemConfig['identifier'];
 
-                if (!empty($forceElements)) {
+                if (!empty($forceElements) && strpos($identifier, '_') === false) {
 
                     // get from forced arg
                     if (isset($forceElements[$identifier])) {
@@ -63,9 +63,11 @@ class JBCartPositionHelper extends AppHelper
                     // create new and bind configs
                     if ($element = $jbcartelement->create($elemConfig['type'], $elemConfig['group'])) {
                         $identifier = $elemConfig['identifier'];
-                        if ($element->getMetaData('core') == 'true') {
+
+                        if ($element->isCore()) {
                             $identifier = '_' . strtolower($elemConfig['type']);
                         }
+
                         $element->identifier = $identifier;
                         $element->setConfig($elemConfig);
                     }

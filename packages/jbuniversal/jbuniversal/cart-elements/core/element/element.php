@@ -42,7 +42,7 @@ abstract class JBCartElement
     protected $_group;
 
     /**
-     * @var JBOrder
+     * @var JBCartOrder
      */
     protected $_order;
 
@@ -60,6 +60,16 @@ abstract class JBCartElement
      * @var JBCartElementHelper
      */
     protected $_jbcartelement = null;
+
+    /**
+     * @var SimpleXMLElement
+     */
+    protected $_xmlData = null;
+
+    /**
+     * @var JSONData
+     */
+    protected $_metaData = null;
 
     /**
      * Constructor
@@ -127,7 +137,11 @@ abstract class JBCartElement
      */
     public function get($key, $default = null)
     {
-        return $this->_order->elements->find("{$this->identifier}.{$key}", $default);
+        if ($this->_order) {
+            return $this->_order->elements->find("{$this->identifier}.{$key}", $default);
+        }
+
+        return $default;
     }
 
     /**
@@ -138,7 +152,10 @@ abstract class JBCartElement
      */
     public function set($key, $value)
     {
-        $this->_order->elements[$this->identifier][$key] = $value;
+        if ($this->_order) {
+            $this->_order->elements[$this->identifier][$key] = $value;
+        }
+
         return $this;
     }
 
@@ -178,7 +195,7 @@ abstract class JBCartElement
 
     /**
      * Get related order object
-     * @return JBOrder
+     * @return JBCartOrder
      */
     public function getOrder()
     {
@@ -205,9 +222,9 @@ abstract class JBCartElement
 
     /**
      * Set related item object
-     * @param JBOrder $order
+     * @param JBCartOrder $order
      */
-    public function setOrder(JBOrder $order)
+    public function setOrder(JBCartOrder $order)
     {
         $this->_order = $order;
     }
@@ -387,33 +404,35 @@ abstract class JBCartElement
      */
     public function getMetaData($key = null)
     {
-        $data = array();
-        $type = $this->getElementType();
-        $xml  = $this->loadXML();
 
-        if (!$xml) {
-            return false;
+        if (!isset($this->_metaData)) {
+            $data = array();
+            $xml  = $this->loadXML();
+
+            if (!$xml) {
+                return false;
+            }
+
+            $data['type']         = $xml->attributes()->type ? (string)$xml->attributes()->type : 'Unknown';
+            $data['group']        = $xml->attributes()->group ? (string)$xml->attributes()->group : 'Unknown';
+            $data['hidden']       = $xml->attributes()->hidden ? (string)$xml->attributes()->hidden : 'false';
+            $data['core']         = $xml->attributes()->core ? (string)$xml->attributes()->core : 'false';
+            $data['system-tmpl']  = $xml->attributes()->{'system-tmpl'} ? (string)$xml->attributes()->{'system-tmpl'} : 'false';
+            $data['trusted']      = $xml->attributes()->trusted ? (string)$xml->attributes()->trusted : 'false';
+            $data['orderable']    = $xml->attributes()->orderable ? (string)$xml->attributes()->orderable : 'false';
+            $data['name']         = (string)$xml->name;
+            $data['creationdate'] = $xml->creationDate ? (string)$xml->creationDate : 'Unknown';
+            $data['author']       = $xml->author ? (string)$xml->author : 'Unknown';
+            $data['copyright']    = (string)$xml->copyright;
+            $data['authorEmail']  = (string)$xml->authorEmail;
+            $data['authorUrl']    = (string)$xml->authorUrl;
+            $data['version']      = (string)$xml->version;
+            $data['description']  = (string)$xml->description;
+
+            $this->_metaData = $this->app->data->create($data);
         }
 
-        $data['type']         = $xml->attributes()->type ? (string)$xml->attributes()->type : 'Unknown';
-        $data['group']        = $xml->attributes()->group ? (string)$xml->attributes()->group : 'Unknown';
-        $data['hidden']       = $xml->attributes()->hidden ? (string)$xml->attributes()->hidden : 'false';
-        $data['core']         = $xml->attributes()->core ? (string)$xml->attributes()->core : 'false';
-        $data['system']       = $xml->attributes()->system ? (string)$xml->attributes()->system : 'false';
-        $data['trusted']      = $xml->attributes()->trusted ? (string)$xml->attributes()->trusted : 'false';
-        $data['orderable']    = $xml->attributes()->orderable ? (string)$xml->attributes()->orderable : 'false';
-        $data['name']         = (string)$xml->name;
-        $data['creationdate'] = $xml->creationDate ? (string)$xml->creationDate : 'Unknown';
-        $data['author']       = $xml->author ? (string)$xml->author : 'Unknown';
-        $data['copyright']    = (string)$xml->copyright;
-        $data['authorEmail']  = (string)$xml->authorEmail;
-        $data['authorUrl']    = (string)$xml->authorUrl;
-        $data['version']      = (string)$xml->version;
-        $data['description']  = (string)$xml->description;
-
-        $data = $this->app->data->create($data);
-
-        return $key == null ? $data : $data->get($key);
+        return $key == null ? $this->_metaData : $this->_metaData->get($key);
     }
 
     /**
@@ -422,10 +441,15 @@ abstract class JBCartElement
      */
     public function loadXML()
     {
-        $type  = $this->getElementType();
-        $group = $this->getElementGroup();
+        if (!isset($this->_xmlData)) {
 
-        return simplexml_load_file($this->app->path->path("cart-elements:$group/$type/$type.xml"));
+            $type  = $this->getElementType();
+            $group = $this->getElementGroup();
+
+            $this->_xmlData = simplexml_load_file($this->app->path->path("cart-elements:$group/$type/$type.xml"));
+        }
+
+        return $this->_xmlData;
     }
 
     /**
@@ -462,10 +486,10 @@ abstract class JBCartElement
      * Check if element is system
      * @return bool
      */
-    public function isSystem()
+    public function isSystemTmpl()
     {
-        $system = $this->getMetaData('system');
-        if($system == 'true') {
+        $systemTmpl = strtolower($this->getMetaData('system-tmpl'));
+        if ($systemTmpl == 'true') {
             return true;
         }
 
@@ -478,8 +502,22 @@ abstract class JBCartElement
      */
     public function isCore()
     {
-        $core = $this->getMetaData('core');
-        if($core == 'true') {
+        $core = strtolower($this->getMetaData('core'));
+        if ($core == 'true') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if element is core
+     * @return bool
+     */
+    public function isHidden()
+    {
+        $hidden = strtolower($this->getMetaData('hidden'));
+        if ($hidden == 'true') {
             return true;
         }
 

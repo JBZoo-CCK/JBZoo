@@ -220,9 +220,7 @@ class JBCartJBuniversalController extends JBUniversalController
     {
         $layout = $this->_jbrequest->get('layout', 'default');
 
-        $renderer = $this->app->renderer->create('order')->addPath(
-            $this->app->path->path('jbtmpl:catalog')
-        );
+        $renderer = $this->app->jbrenderer->create('order');
 
         $this->layoutList     = $renderer->getLayouts('order');
         $this->positionList   = $renderer->getPositions('order.' . $layout);
@@ -240,12 +238,11 @@ class JBCartJBuniversalController extends JBUniversalController
     {
         $layout = $this->_jbrequest->get('layout', 'default');
 
-        $renderer = $this->app->renderer->create('jbprice')->addPath(
-            $this->app->path->path('jbtmpl:catalog')
-        );
+        $renderer           = $this->app->jbrenderer->create('jbprice');
+        $this->layoutList   = $renderer->getLayouts('jbprice');
+        $this->positionList = $renderer->getPositions('jbprice.' . $layout);
 
-        $this->layoutList     = $renderer->getLayouts('jbprice');
-        $this->positionList   = $renderer->getPositions('jbprice.' . $layout);
+        $this->systemElements = $this->_element->getSystemTmpl('price');
         $this->dragElements   = $this->_position->loadElements('priceparams');
         $this->elementsParams = $this->_position->loadParams('jbpriceTmpl.' . $layout);
         $this->positions      = $this->_position->loadPostionsTmpl('jbpriceTmpl.' . $layout, 'priceparams', $this->positionList);
