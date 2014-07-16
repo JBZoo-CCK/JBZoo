@@ -74,7 +74,7 @@ class JBCartElementHelper extends AppHelper
 
                 if ($type != 'element' && is_file($filePath)) {
                     if ($element = $this->create($type, $group)) {
-                        if ($element->getMetaData('hidden') != 'true') {
+                        if ($element->isHidden() != 'true') {
                             $elements[$group][$type] = $element;
                         }
                     }
@@ -109,6 +109,28 @@ class JBCartElementHelper extends AppHelper
     }
 
     /**
+     * @param $group
+     * @return array
+     */
+    public function getSystemTmpl($group)
+    {
+        $elements = array();
+        $list     = $this->getGroups($group);
+
+        if (isset($list[$group])) {
+
+            foreach ($list[$group] as $type => $element) {
+                if ($element->isSystemTmpl()) {
+                    $elements[$type] = $element;
+                }
+            }
+
+        }
+
+        return $elements;
+    }
+
+    /**
      * Creates element of given type
      * @param string $type The type to create
      * @param string $group The group to create
@@ -128,6 +150,10 @@ class JBCartElementHelper extends AppHelper
         }
 
         $element = new $elementClass($this->app, $type, $group);
+
+        if ($element->isCore()) {
+            $element->identifier = '_' . strtolower($element->getElementType());
+        }
 
         return $element;
     }

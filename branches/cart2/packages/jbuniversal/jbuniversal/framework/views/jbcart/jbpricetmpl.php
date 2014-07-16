@@ -29,6 +29,7 @@ defined('_JEXEC') or die('Restricted access');
         'layoutList'     => $this->layoutList,
         'dragElements'   => $this->dragElements,
         'elementsParams' => $this->elementsParams,
+        'systemElements' => $this->systemElements,
         'elementGroup'   => 'render',
     ));?>
 
