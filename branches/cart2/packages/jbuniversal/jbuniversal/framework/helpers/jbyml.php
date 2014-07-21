@@ -284,7 +284,7 @@ class JBYmlHelper extends AppHelper
     public function init()
     {
         // Init vars
-        $this->_appParams = $this->app->jbconfig->getList();
+        $this->_appParams = $this->app->jbconfig->getList('config.yml');
         $appList = $this->_appParams->get('app_list');
 
         if (!empty($appList)) {
