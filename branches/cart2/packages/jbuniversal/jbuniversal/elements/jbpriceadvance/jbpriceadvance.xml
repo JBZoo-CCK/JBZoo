@@ -94,20 +94,13 @@
 
     <params group="render">
 
-        <param name="relatedimage" type="elementlistbytype" label="JBZOO_JBPRICE_CHOOSE_PHOTO_ELEMENT" types="jbimage"/>
         <!-- custom params ######################################################################################### -->
         <param name="@custom_label" type="jbspacer" default="JBZOO_JBPRICE_TEMPLATE_CUSTOM_PARAMS_SPACER"/>
 
         <param name="template" type="list" default="default" label="JBZOO_JBPRICE_TEMPLATE"
                description="JBZOO_JBPRICE_TEMPLATE_DESC">
             <option value="default">JBZOO_JBPRICE_TEMPLATE_DEFAULT</option>
-            <option value="only_price">JBZOO_JBPRICE_TEMPLATE_ONLYPRICE</option>
-            <option value="only_sku">JBZOO_JBPRICE_TEMPLATE_ONLYSKU</option>
-            <option value="only_sale">JBZOO_JBPRICE_TEMPLATE_ONLYSALE</option>
-            <option value="only_new">JBZOO_JBPRICE_TEMPLATE_ONLYNEW</option>
-            <option value="only_hit">JBZOO_JBPRICE_TEMPLATE_ONLYHIT</option>
-            <option value="only_balance">JBZOO_JBPRICE_TEMPLATE_ONLYBALANCE</option>
-            <option value="only_buttons">JBZOO_JBPRICE_TEMPLATE_ONLYBUTTONS</option>
+            <option value="advance">JBZOO_JBPRICE_TEMPLATE_ADVANCE</option>
         </param>
 
         <param name="show_empty_price" type="jbbool" default="1" label="JBZOO_JBPRICE_SHOW_EMPTY_PRICE"

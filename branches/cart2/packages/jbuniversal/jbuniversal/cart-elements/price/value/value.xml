@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<element type="element" group="Core" hidden="false" core="true" system-tmpl="true">
+    <name>Value field</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZoo Cart Element Core System</description>
+
+    <params>
+        <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME" description="JBZOO_ELEMENT_NAME_DESC"/>
+
+        <param name="description" type="text" default="" label="JBZOO_ELEMENT_DESCRIPTION"
+               description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
+
+        <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
+               description="JBZOO_ELEMENT_ACCESS_DESC"/>
+
+        <param name="options" type="textarea" default="" label="Options"/>
+
+    </params>
+
+    <params group="render">
+
+        <param name="template" type="list" default="1" label="JBZOO_JBPRICE_ONLY_PRICE_MODE"
+               description="JBZOO_JBPRICE_ONLY_PRICE_MODE_DESC">
+            <option value="1">JBZOO_JBPRICE_ONLY_PRICE_MODE_FULL</option>
+            <option value="2">JBZOO_JBPRICE_ONLY_PRICE_MODE_PRICE</option>
+            <option value="3">JBZOO_JBPRICE_ONLY_PRICE_MODE_TOTAL</option>
+            <option value="4">JBZOO_JBPRICE_ONLY_PRICE_MODE_DISCOUNT</option>
+            <option value="5">JBZOO_JBPRICE_ONLY_PRICE_MODE_SAVE</option>
+        </param>
+    </params>
+
+</element>

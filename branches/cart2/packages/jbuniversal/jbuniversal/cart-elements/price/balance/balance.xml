@@ -24,24 +24,10 @@
 
     <params group="render">
 
-        <param name="jbprice_template"
-               type="list"
-               label="JBZOO_ELEMENT_TEMPLATE"
-               description="JBZOO_ELEMENT_TEMPLATE_DESC"
-               default="_auto_"
-                >
-            <option value="_auto_">JBZOO_ELEMENT_TEMPLATE_AUTO</option>
-            <option value="text">JBZOO_ELEMENT_TEMPLATE_TEXT</option>
-            <option value="text-range">JBZOO_ELEMENT_TEMPLATE_TEXT_RANGE</option>
-            <option value="checkbox">JBZOO_ELEMENT_TEMPLATE_CHECKBOX</option>
-            <option value="jqueryui">JBZOO_ELEMENT_TEMPLATE_JQUERYUI</option>
-            <option value="radio">JBZOO_ELEMENT_TEMPLATE_RADIO</option>
-            <option value="select">JBZOO_ELEMENT_TEMPLATE_SELECT</option>
-            <option value="select-chosen">JBZOO_ELEMENT_TEMPLATE_SELECT_CHOSEN</option>
-            <option value="slider">JBZOO_ELEMENT_TEMPLATE_SLIDER</option>
-            <option value="date">JBZOO_ELEMENT_TEMPLATE_DATE</option>
-            <option value="date-range">JBZOO_ELEMENT_TEMPLATE_DATE_RANGE</option>
-            <option value="hidden">JBZOO_ELEMENT_TEMPLATE_HIDDEN</option>
+        <param name="template" type="radio" default="simple" label="JBZOO_JBPRICE_BALANCE_SHOW"
+               description="JBZOO_JBPRICE_BALANCE_SHOW_DESC">
+            <option value="simple">JBZOO_BALANCE_SIMPLE</option>
+            <option value="full">JBZOO_BALANCE_FULL</option>
         </param>
     </params>
 

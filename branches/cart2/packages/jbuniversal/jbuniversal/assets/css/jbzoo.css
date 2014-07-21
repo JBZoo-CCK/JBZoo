@@ -962,11 +962,64 @@
 }
 
 .jbzoo .jbprice-sku .sku {
-    display: none;
+    /*display: none;*/
 }
 
 .jbzoo .jbprice-balance .balance {
-    display: none;
+    /*display: none;*/
+}
+
+.jbzoo .jbprice-count .item-count-wrapper {
+    margin: 0 auto;
+    padding: 7px 0 7px 0;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #fff;
+    width: 60px;
+}
+
+.jbzoo .jbprice-count .item-count-wrapper .item-count {
+    width: 60px;
+    margin: 0 0 0 0;
+    position: relative;
+    z-index: 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.jbzoo .jbprice-count .item-count-wrapper .item-count .item-count-digits {
+    width: 60px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 0;
+}
+
+.jbzoo .jbprice-count .item-count-wrapper .item-count .item-count-digits dd {
+    height: 1.6em;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6em;
+    text-align: center;
+}
+
+.jbzoo .jbprice-count .item-count-wrapper .item-count .count {
+    width: 60px;
+    height: 1.6em;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 1;
+    display: block;
+    border: 0;
+    background: none;
+    line-height: 1em;
+    outline: none !important;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    font: 14px/1.6em Arial;
+    text-align: center;
 }
 
 .jbzoo .jbprice-count .btn-mini {
@@ -1001,7 +1054,7 @@
     width: 60px !important;
     min-width: 60px !important;
     max-width: 60px !important;
-    height: 34px !important;
+    /*height: 34px !important;*/
     margin: 0;
     border: 1px solid #ccc;
     border-radius: 3px;

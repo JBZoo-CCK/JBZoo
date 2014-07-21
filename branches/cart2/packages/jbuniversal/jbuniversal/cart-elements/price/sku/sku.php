@@ -25,11 +25,7 @@ class JBCartElementPriceSku extends JBCartElementPrice
     {
         $params = $this->getParams();
 
-        if ((int)$params->get('basic', 0)) {
-            return $this->getBasicTmpl();
-        }
-
-        if ($layout = $this->getLayout('default.php')) {
+        if ($layout = $this->getLayout('edit.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params
             ));
@@ -38,9 +34,14 @@ class JBCartElementPriceSku extends JBCartElementPrice
         return null;
     }
 
+    /**
+     * @param array $params
+     * @return array|mixed|null|string
+     */
     public function render($params = array())
     {
         $params = $this->app->data->create($params);
+
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'params' => $params

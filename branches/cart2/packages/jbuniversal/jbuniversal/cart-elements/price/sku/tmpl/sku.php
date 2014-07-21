@@ -15,5 +15,11 @@ defined('_JEXEC') or die('Restricted access');
 
 $unique = $this->app->jbstring->getId('-sku');
 
-echo $this->_jbhtml->text($unique);
+?>
 
+<div class="jbprice-sku">
+    <span class="field-name"><?php echo JText::_('JBZOO_JBPRICE_SKU'); ?>:</span>
+
+    <span class="sku"><?php echo $this->getBasic('_sku'); ?></span>
+
+</div>

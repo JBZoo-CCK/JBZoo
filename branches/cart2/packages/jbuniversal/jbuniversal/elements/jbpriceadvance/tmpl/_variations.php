@@ -12,21 +12,34 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-$zoo    = $this->app;
+$zoo = $this->app;
 $jbhtml = $this->app->jbhtml;
 
 foreach ($variations as $rowKey => $row) : ?>
-
+    <?php $key = $rowKey + 1; ?>
     <fieldset class="jbpriceadv-variation-row">
 
     <span class="jbremove"></span>
 
     <span class="variation-label">
         <?php echo JText::_('JBZOO_JBPRICE_VARIATION_ROW'); ?>
-        #<span class="list-num"><?php echo $rowKey + 1; ?></span>
+        #<span class="list-num"><?php echo $key; ?></span>
     </span>
+    <?php
+    $renderer = $this->app->jbrenderer->create('jbprice');
+
+    echo $renderer->render('_edit',
+        array(
+            'price' => $this,
+            'style' => 'variations',
+            'data'  => $row
+        )
+    );
+    ?>
 
     <?php
+
+    /*
     //Render sku input
     echo $this->_renderRow('sku', $row['sku']);
 
@@ -51,6 +64,7 @@ foreach ($variations as $rowKey => $row) : ?>
         echo $jbhtml->hidden($this->getRowControlName('description'), '');
     }
 
-    echo $this->_renderFields($row['params']);
+    echo $this->_renderEditFields($row['params'], $rowKey);
+    */
     echo '</fieldset>';
 endforeach;

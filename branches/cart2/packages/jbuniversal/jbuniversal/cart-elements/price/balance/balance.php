@@ -18,6 +18,10 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementPriceBalance extends JBCartElementPrice
 {
+    const NOT_AVAILABLE = 0;
+    const AVAILABLE     = -1;
+    const UNDER_ORDER   = -2;
+
     /**
      * @param  array $params
      * @return mixed|null|string
@@ -26,11 +30,7 @@ class JBCartElementPriceBalance extends JBCartElementPrice
     {
         $params = $this->getParams();
 
-        if ((int)$params->get('basic', 0)) {
-            return $this->getBasicTmpl();
-        }
-
-        if ($layout = $this->getLayout('default.php')) {
+        if ($layout = $this->getLayout('edit.php')) {
 
             return self::renderLayout($layout, array(
                 'params' => $params
@@ -40,8 +40,23 @@ class JBCartElementPriceBalance extends JBCartElementPrice
         return null;
     }
 
+    /**
+     * @param array $params
+     * @return array|mixed|null|string
+     */
     public function render($params = array())
     {
+        $params   = $this->app->data->create($params);
+        $template = $params->get('template', 'simple');
 
+        if ($layout = $this->getLayout($template . '.php')) {
+            return self::renderLayout($layout, array(
+                'textNo'    => '<span class="not-available">' . JText::_('JBZOO_JBPRICE_NOT_AVAILABLE') . '</span>',
+                'textYes'   => '<span class="available">' . JText::_('JBZOO_JBPRICE_AVAILABLE') . '</span>',
+                'textOrder' => '<span class="under-order">' . JText::_('JBZOO_JBPRICE_BALANCE_UNDER_ORDER') . '</span>'
+            ));
+        }
+
+        return null;
     }
 }

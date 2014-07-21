@@ -34,6 +34,11 @@ class JBPriceRenderer extends PositionRenderer
     protected $_jbconfig;
 
     /**
+     * @var ElementJBPriceAdvance
+     */
+    protected $_jbprice;
+
+    /**
      * @param App $app
      * @param null $path
      */
@@ -53,7 +58,7 @@ class JBPriceRenderer extends PositionRenderer
     public function checkPosition($position)
     {
         foreach ($this->_getConfigPosition($position) as $key => $data) {
-            if ($element = $this->_cartelement->create($data['type'], $data['group'])) {
+            if ($element = $this->_jbprice->loadElement($data['identifier'])) {
 
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
@@ -75,6 +80,9 @@ class JBPriceRenderer extends PositionRenderer
      */
     public function render($layout, $args = array())
     {
+        $this->_jbprice = $args['price'];
+        unset($args['price']);
+
         $result = null;
         $this->addPath(array(
                 $this->app->path->path('jbtmpl:catalog/'),
@@ -85,6 +93,47 @@ class JBPriceRenderer extends PositionRenderer
         $result .= parent::render('jbprice.' . $layout, $args);
 
         return $result;
+    }
+
+    public function renderEditPositions($args = array())
+    {
+        // init vars
+        $elements = array();
+        $output   = array();
+
+        // get style
+        $style  = isset($args['style']) ? $args['style'] : 'default';
+        $config = $this->_getConfig();
+
+        foreach ($config as $data) {
+            if ($element = $this->_jbprice->loadElement($data['identifier'])) {
+
+                if($style == ElementJBPriceAdvance::BASIC_GROUP && $element->getMetaData('core') != 'true') {
+                    continue;
+                }
+
+                $data['related_identifier'] = $this->_jbprice->identifier;
+                $params = array_merge($data, $args);
+
+                if ($element->edit()) {
+                    $element->setConfig($params);
+                    $elements[] = compact('element', 'params');
+                }
+            }
+        }
+
+        foreach ($elements as $i => $data) {
+            $params = array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1)), $data['params']);
+
+            $this->addPath(array(
+                $this->app->path->path('jbtmpl:catalog/'),
+                'element.' . $style
+            ));
+
+            $output[$i] = parent::render('element.' . $style, array('element' => $data['element'], 'params' => $params));
+        }
+
+        return implode("\n", $output);
     }
 
     /**
@@ -99,14 +148,13 @@ class JBPriceRenderer extends PositionRenderer
         $output   = array();
 
         // get style
-        $style = isset($args['style']) ? $args['style'] : 'jbblock';
-
+        $style = isset($args['style']) ? $args['style'] : 'default';
 
         // store layout
         $layout = $this->_layout;
 
         foreach ($this->_getConfigPosition($position) as $key => $data) {
-            if ($element = $this->_cartelement->create($data['type'], $data['group'])) {
+            if ($element = $this->_jbprice->loadElement($data['identifier'])) {
 
                 if (!$element->canAccess()) {
                     continue;
@@ -115,7 +163,6 @@ class JBPriceRenderer extends PositionRenderer
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
                 $data['_index']    = $key;
-                $data['altlabel']  = ' ';
 
                 // set params
                 $params = array_merge($data, $args);
@@ -128,6 +175,7 @@ class JBPriceRenderer extends PositionRenderer
 
         foreach ($elements as $i => $data) {
             $params = array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1)), $data['params']);
+
             $this->addPath(array(
                 $this->app->path->path('jbtmpl:catalog/'),
                 'element.' . $style
@@ -147,17 +195,16 @@ class JBPriceRenderer extends PositionRenderer
      */
     public function _getConfigPosition($position)
     {
-        $positions = $this->_getPositions();
-        $position  = $positions->get($this->_layout . '.' . $position);
+        $config   = $this->_getPositions();
+        $position = $config->get($this->_layout . '.' . $position);
 
-        return $position;
+        return isset($position) ? $position : array();
     }
 
     /**
-     * @param null $dir
-     * @return AppParameter|mixed
+     * @return mixed
      */
-    public function getConfig($dir = null)
+    protected function _getConfig()
     {
         $priceparams = $this->_jbconfig->getGroup('cart.priceparams');
         return $priceparams->get('list');
@@ -168,7 +215,7 @@ class JBPriceRenderer extends PositionRenderer
      */
     public function _getPositions()
     {
-        $layouts = $this->_jbconfig->getGroup('cart.jbpricetmpl');
+        $layouts = $this->_jbconfig->getGroup(ElementJBPriceAdvance::RENDER_GROUP);
         return $layouts;
     }
 
