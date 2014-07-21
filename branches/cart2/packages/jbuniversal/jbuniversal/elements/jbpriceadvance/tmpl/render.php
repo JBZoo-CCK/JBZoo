@@ -12,7 +12,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-$prices    = array();
+
 $uniqClass = 'jsJBPriceAdvance-' . $this->identifier . '-' . $this->getItem()->id;
 $iniqId = uniqid('jbprice-adv-');
 

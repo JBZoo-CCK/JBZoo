@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <element type="element" group="Core" hidden="false">
-    <name>Bool field</name>
+    <name>Text field</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>
@@ -22,24 +22,5 @@
 
     </params>
 
-    <params group="render">
-
-        <param name="template"
-               type="list"
-               label="JBZOO_ELEMENT_TEMPLATE"
-               description="JBZOO_ELEMENT_TEMPLATE_DESC"
-               default="_auto_"
-                >
-            <option value="image">JBZOO_ELEMENT_TEMPLATE_IMAGE</option>
-            <option value="bool">JBZOO_ELEMENT_TEMPLATE_BOOL</option>
-        </param>
-
-        <param name="image"
-               type="text"
-               label="JBZOO_ELEMENT_IMAGE"
-               description="JBZOO_ELEMENT_IMAGE_DESC"
-               default=""
-                />
-    </params>
 
 </element>

@@ -50,4 +50,13 @@ class JBCartElementPriceRadio extends JBCartElementPrice
         return "elements[{$identifier}][variations][{$index}][params][{$this->identifier}][{$name}]";
     }
 
+    public function getBasicName($identifier = null, $name)
+    {
+        if (empty($identifier)) {
+            $identifier = $this->identifier;
+        }
+
+        return "elements[{$identifier}][basic][params][{$this->identifier}][{$name}]";
+    }
+
 }

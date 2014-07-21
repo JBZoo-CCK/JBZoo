@@ -463,14 +463,14 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Generates an HTML checkbox/radio list.
-     * @param   string $inputType    Type of html input element
-     * @param   array $data         An array of objects
-     * @param   string $name         The value of the HTML name attribute
-     * @param   string $attribs      Additional HTML attributes for the <select> tag
-     * @param   string $selected     The name of the object variable for the option text
-     * @param   boolean $idtag        Value of the field id or null by default
-     * @param   boolean $translate    True if options will be translated
-     * @param   boolean $isLabelWrap  True if options wrappeed label tag
+     * @param   string $inputType Type of html input element
+     * @param   array $data An array of objects
+     * @param   string $name The value of the HTML name attribute
+     * @param   string $attribs Additional HTML attributes for the <select> tag
+     * @param   string $selected The name of the object variable for the option text
+     * @param   boolean $idtag Value of the field id or null by default
+     * @param   boolean $translate True if options will be translated
+     * @param   boolean $isLabelWrap True if options wrappeed label tag
      * @return  string HTML for the select list
      */
     private function _list($inputType, $data, $name, $attribs = null, $selected = null, $idtag = false,
@@ -521,8 +521,12 @@ class JBHTMLHelper extends AppHelper
                 }
 
             } else {
-                if ((string)$value == (string)$selected) {
-                    $extra['checked'] = 'checked';
+                $value = JString::trim($value);
+                if (isset($value)) {
+                    if ((string)$value == (string)$selected) {
+                        $extra['checked'] = 'checked';
+                    }
+
                 }
             }
 

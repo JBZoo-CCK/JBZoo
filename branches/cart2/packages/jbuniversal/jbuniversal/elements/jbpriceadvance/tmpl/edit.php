@@ -7,7 +7,7 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 // no direct access
@@ -75,11 +75,6 @@ $uniqid = uniqid('jsJBPriceAdvance-');
             'text_variation_show': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?>",
             'text_variation_hide': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_HIDE'); ?>",
             'adv_field_param_edit': <?php echo (int)$config->get('adv_field_param_edit', 0); ?>,
-            'all_params': <?php echo json_encode(array(
-                                        'param1' => $config->get('adv_field_param_1'),
-                                        'param2' => $config->get('adv_field_param_2'),
-                                        'param3' => $config->get('adv_field_param_3'),
-                                    )) ;?>
         });
     });
 </script>

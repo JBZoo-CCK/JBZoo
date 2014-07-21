@@ -13,20 +13,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$jbhtml = $this->app->jbhtml;
-
-$containerId = $this->app->jbstring->getId('color-');
-$value = $this->app->data->create($this->getValue($this->identifier));
+$unique = $this->app->jbstring->getId('bool-');
 
 ?>
 
-<?php if (count($colorItems)) : ?>
-
-    <div id="<?php echo $containerId; ?>" class="jbzoo-color jbzoo">
-        <?php echo $jbhtml->colors($type, $colorItems, $this->getName('color'), $value->get('color')); ?>
-    </div>
-
-<?php endif;
-
-
-
+<div class="jbprice-bool" id="<?php echo $unique; ?>">
+    <img src="<?php echo $params->get('image'); ?>" />
+</div>

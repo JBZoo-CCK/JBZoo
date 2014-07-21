@@ -22,7 +22,7 @@ class JBCartElementPriceImage extends JBCartElementPrice
     {
         $params = $this->getParams();
 
-        if ($layout = $this->getLayout('default.php')) {
+        if ($layout = $this->getLayout('edit.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params
             ));
