@@ -32,7 +32,7 @@ $iniqId = uniqid('jbprice-adv-');
 
         $('#<?php echo $iniqId;?>').JBZooPriceAdvance({
             'params': <?php echo json_encode($interfaceParams);?>,
-            'prices': <?php echo json_encode($prices);?>,
+            'prices': <?php echo json_encode(array('prices' => $prices));?>,
 
             'mainHash': "<?php echo $this->_getHash();?>",
             'itemId': <?php echo $this->getItem()->id;?>,
@@ -44,7 +44,7 @@ $iniqId = uniqid('jbprice-adv-');
 
             'addToCartUrl': "<?php echo $addToCartUrl; ?>",
             'removeFromCartUrl': "<?php echo $removeFromCartUrl; ?>",
-            'changeCurrencyUrl': "<?php echo $changeCurrencyUrl; ?>",
+            'changeVariantUrl': "<?php echo $changeVariantUrl; ?>",
             'modalUrl': "<?php echo $modalUrl; ?>",
             'basketUrl': "<?php echo $basketUrl; ?>"
         });

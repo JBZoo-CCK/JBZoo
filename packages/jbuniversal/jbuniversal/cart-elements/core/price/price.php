@@ -29,6 +29,11 @@ abstract class JBCartElementPrice extends JBCartElement
     protected $_jbhtml;
 
     /**
+     * @var ElementJBPriceAdvance
+     */
+    protected $_jbprice;
+
+    /**
      * Constructor
      */
     public function __construct($app, $type, $group)
@@ -67,14 +72,12 @@ abstract class JBCartElementPrice extends JBCartElement
     public function getParams()
     {
         $params = array();
+        $config = $this->config;
+        $data   = $this->app->data->create($config->get('data'));
 
-        $params['identifier'] = $this->config->get('related_identifier');
-        $params['key']        = $this->config->get('key');
-        $params['variant']    = $this->config->get('variant', 0);
-        $params['selected']   = $this->config->get('selected', array());
-        $params['config']     = $this->config->get('config', array());
-        $params['basic']      = $this->config->get('basic', 0);
-        $params['basicData']  = $this->config->get('basicData', array());
+        $params['identifier'] = $config->get('related_identifier');
+        $params['basic']      = (int)$data->get('basic', 0);
+        $params['data']       = $data->get('params');
 
         return $this->app->data->create($params);
     }
@@ -86,14 +89,35 @@ abstract class JBCartElementPrice extends JBCartElement
         return $this->app->jbhtml->hidden("elements[{$identifier}][variations][0][params][variant]", $this->config->get('variant', 0), 'class="hidden-variant"');
     }
 
-    public function getBasic($key = '_sku', $default = null)
+    public function getBasic($key, $default = null)
     {
-        $key = JString::trim($key, '_');
+        $basic  = $this->app->data->create($this->_jbprice->getBasicData());
+        $params = $this->app->data->create($basic->get('params'));
 
-        $params = $this->getParams();
-        $basic  = $this->app->data->create($params->get('basicData'));
+        $value = $basic->get($key);
+        if (empty($value)) {
+            $value = $params->get($key, $default);
+        }
 
-        return $basic->get($key, $default);
+        return $value;
+    }
+
+    public function getBasicData($default = null)
+    {
+        $basicData  = $this->_jbprice->getBasicData();
+        $identifier = JString::trim($this->identifier, '_');
+
+        return isset($basicData[$identifier]) ? $basicData[$identifier] : $default;
+    }
+
+    public function setJBPrice(ElementJBPriceAdvance $object)
+    {
+        static $add = false;
+
+        if (!$add) {
+            $this->_jbprice = $object;
+        }
+
     }
 
     /**
@@ -102,13 +126,7 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function hasValue($params = array())
     {
-        $result  = false;
-        $options = $this->config->get('options', array());
-        if (!empty($options)) {
-            $result = true;
-        }
-
-        return $result;
+        return true;
     }
 
     /**
@@ -116,62 +134,12 @@ abstract class JBCartElementPrice extends JBCartElement
      * @param null $default
      * @return mixed|null
      */
-    public function getValue($key = '_sku', $default = null)
+    public function getValue($key, $default = null)
     {
         $params = $this->getParams();
-        $value  = $this->config->get($key, $default);
+        $param  = $this->app->data->create($params->get('data'));
 
-        if ((int)$params->get('basic', 0)) {
-            $value = $this->getBasic($key, $default);
-        }
-
-        if (is_array($value)) {
-            return !empty($value[$key]) ? $value[$key] : null;
-        }
-
-        return (!empty($value) ? $value : $default);
-    }
-
-    public function getBasicTmpl()
-    {
-        $params  = $this->getParams();
-        $content = null;
-
-        if ((int)$params->get('basic', 0) && $layout = $this->getLabelLayout('label.php')) {
-
-            if ($default = $this->getLayout('default.php')) {
-                $content = self::renderLayout($default, array(
-                    'params' => $params,
-                ));
-            }
-
-            return self::renderLayout($layout, array(
-                'params'  => $params,
-                'type'    => JString::strtolower($this->getElementType()),
-                'content' => $content
-            ));
-        }
-
-        return null;
-    }
-
-    /**
-     * Get element layout path and use override if exists
-     * @param null $layout
-     * @return string
-     */
-    public function getLabelLayout($layout = null)
-    {
-        $group = 'core';
-        $type  = 'price';
-
-        // set default
-        if ($layout == null) {
-            $layout = "{$type}.php";
-        }
-
-        // find layout
-        return $this->app->path->path("cart-elements:{$group}/{$type}/tmpl/{$layout}");
+        return $param->get($key, $default);
     }
 
     public function getConfig()
@@ -201,7 +169,7 @@ abstract class JBCartElementPrice extends JBCartElement
             $identifier = $this->identifier;
         }
 
-        return "elements[{$identifier}][basic][{$name}]";
+        return "elements[{$identifier}][basic][params][{$name}]";
     }
 
     /**

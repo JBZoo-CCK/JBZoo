@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<element type="element" group="Core" hidden="false" core="true" system-tmpl="true">
+    <name>Buttons field</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZoo Cart Element Core System</description>
+
+    <params>
+        <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME" description="JBZOO_ELEMENT_NAME_DESC"/>
+
+        <param name="description" type="text" default="" label="JBZOO_ELEMENT_DESCRIPTION"
+               description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
+
+        <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
+               description="JBZOO_ELEMENT_ACCESS_DESC"/>
+
+        <param name="options" type="textarea" default="" label="Options"/>
+
+    </params>
+
+    <params group="render">
+
+        <param name="template" type="list" default="normal" label="JBZOO_JBPRICE_BUTTON_MODE"
+               description="JBZOO_JBPRICE_BUTTON_MODE_DESC">
+            <option value="add">JBZOO_JBPRICE_BUTTON_MODE_NORMAL</option>
+            <option value="popup">JBZOO_JBPRICE_BUTTON_MODE_POPUP</option>
+            <option value="oneclick">JBZOO_JBPRICE_BUTTON_MODE_ONECLICK</option>
+        </param>
+    </params>
+
+
+</element>

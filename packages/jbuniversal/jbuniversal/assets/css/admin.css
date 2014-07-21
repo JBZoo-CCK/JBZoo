@@ -440,6 +440,52 @@ a.jbajaxlink:hover {
     margin-right: 3px;
 }
 
+.jbzoo-price-advance .basic-balance-wrap .balance {
+    display: inline-block;
+}
+
+.jbzoo-price-advance .basic-balance-wrap .balance > label {
+    margin: 5px 0;
+}
+
+.jbzoo-price-advance .basic-balance-wrap .balance .balance-custom label,
+.jbzoo-price-advance .balance-variant .balance-custom label {
+    float: left;
+}
+
+.jbzoo-price-advance .basic-balance-wrap .balance .balance-custom > input,
+.jbzoo-price-advance .balance-variant .balance-custom > input{
+    width: 100px;
+}
+
+.creation-form .jbzoo-price-advance .basic-discount-wrap select,
+.creation-form .jbzoo-price-advance .basic-discount-wrap input {
+    width: 13%;
+    display: inline-block;
+    text-align: left;
+}
+
+.jbzoo-price-advance .variations .jbpriceadv-variation-row .jbprice-img-row-file {
+    position: relative;
+    margin-top: 10px;
+}
+
+.jbzoo-price-advance .variations .jbpriceadv-variation-row .row-file {
+    width: 69%;
+    text-align: left;
+}
+
+.creation-form .jbzoo-price-advance .basic-balance-wrap input,
+.creation-form .jbzoo-price-advance .basic-sku-wrap input {
+    /*width: 13%;*/
+    text-align: left;
+}
+
+.creation-form .jbzoo-price-advance .basic-description-wrap input {
+    width: 230px;
+    text-align: left;
+}
+
 .jbzoo-price-advance .jbpriceadv-row {
     margin-bottom: 12px;
 }
@@ -950,4 +996,88 @@ ul.parameter-form li .field .jbprice-advance-fields .jbprice-fields-parameter .j
 
 .jbprice-advance-fields .jbprice-fields-parameter .jbprice-field-option:hover {
     background: #F0F0F0;
+}
+
+.jbzoo-price-advance .variations .jbpriceadv-variation-row {
+    width: 400px;
+    border-color: #999;
+}
+
+.jbzoo-price-advance .variations .jbpriceadv-variation-row .row-sku {
+    width: 80px;
+    min-width: 80px;
+    margin-right: 16px;
+    text-align: left;
+}
+
+.jbzoo-price-advance .variations .jbpriceadv-variation-row .row-value {
+    width: 80px;
+}
+
+.jbzoo-price-advance .variations .jbpriceadv-variation-row .row-currency {
+    width: 69px;
+    min-width: 69px;
+    margin-right: 16px;
+    height: 27px;
+}
+
+.jbzoo-price-advance .variations .jbpriceadv-variation-row .row-balance {
+    width: 80px;
+    min-width: 80px;
+}
+
+.jbzoo-price-advance .variations .jbpriceadv-variation-row .row-description {
+    width: 383px;
+    text-align: left;
+    margin-top: 12px;
+}
+
+.jbzoo-price-advance .variations .jbpriceadv-variation-row .row-file {
+    width: 69%;
+    text-align: left;
+}
+
+.jbzoo-price-advance .variations .jbpriceadv-variation-row .jbprice-img-button,
+.jbzoo-price-advance .variations .jbpriceadv-variation-row .jbprice-img-cancel {
+    position: absolute;
+    top: 50%;
+}
+
+.jbzoo-price-advance .variations .jbpriceadv-variation-row .jbprice-img-row-file {
+    position: relative;
+    margin-top: 10px;
+}
+
+.jbzoo-price-advance .variations .variations-list .jbpriceadv-variation-row .discount-variant-input {
+    width: 100px;
+}
+
+.jbzoo-price-advance .variations .variations-list .jbpriceadv-variation-row .discount-currency-variant,
+.jbzoo-price-advance .variations .variations-list .jbpriceadv-variation-row .discount-variant-input {
+    width: 13%;
+    display: inline-block;
+    text-align: left;
+}
+
+.jbzoo-price-advance .variations .variations-list .jbpriceadv-variation-row > div {
+    margin: 4px 0;
+}
+
+.creation-form .jbzoo-price-advance .jbpriceadvimage .jbprice-img-row-file input {
+    text-align: left;
+}
+
+.jbzoo-price-advance .variations .jbpriceadv-variation-row .jbprice-img-cancel {
+    margin-top: -5px;
+    width: 10px;
+    height: 10px;
+    right: 125px;
+}
+
+.jbzoo-price-advance .variations .jbpriceadv-variation-row .jbprice-img-button {
+    right: 10px;
+    width: 100px;
+    height: 25px;
+    margin-top: -12.5px;
+    top: 50%;
 }

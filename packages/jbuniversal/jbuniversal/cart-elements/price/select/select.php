@@ -19,4 +19,36 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceSelect extends JBCartElementPrice
 {
 
+    /**
+     * @return mixed|null|string
+     */
+    public function edit()
+    {
+        $params = $this->getParams();
+
+        if ($layout = $this->getLayout('edit.php')) {
+            return self::renderLayout($layout, array(
+                'params'  => $params,
+                'options' => $this->_renderOptions()
+            ));
+        }
+
+        return null;
+    }
+
+    /**
+     * @param null $identifier
+     * @param $name
+     * @param int $index
+     * @return string
+     */
+    public function getParamName($identifier = null, $name, $index = 0)
+    {
+        if (empty($identifier)) {
+            $identifier = $this->identifier;
+        }
+
+        return "elements[{$identifier}][variations][{$index}][params][{$this->identifier}][{$name}]";
+    }
+
 }

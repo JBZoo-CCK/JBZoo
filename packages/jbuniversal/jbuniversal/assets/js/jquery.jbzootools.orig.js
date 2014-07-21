@@ -117,12 +117,12 @@ var JBZooHelper = function () {
         $this.logger('w', 'ajax::request', options);
 
         var options = $.extend({}, {
-            'url'     : 'index.php?format=raw&tmpl=component',
-            'data'    : {},
+            'url': 'index.php?format=raw&tmpl=component',
+            'data': {},
             'dataType': 'json',
-            'success' : false,
-            'error'   : false,
-            'onFatal' : function (responce) {
+            'success': false,
+            'error': false,
+            'onFatal': function (responce) {
                 if ($this.DEBUG) {
                     $this.logger('e', 'ajax::request - ' + options.url, options.data);
 
@@ -157,17 +157,17 @@ var JBZooHelper = function () {
         // set default request data
         options.data = $.extend({}, {
             'nocache': Math.random(),
-            'option' : 'com_zoo',
-            'tmpl'   : 'component',
-            'format' : 'raw'
+            'option': 'com_zoo',
+            'tmpl': 'component',
+            'format': 'raw'
         }, options.data);
 
         $.ajax({
-            'url'     : options.url,
-            'data'    : options.data,
+            'url': options.url,
+            'data': options.data,
             'dataType': options.dataType,
-            'type'    : 'POST',
-            'success' : function (data) {
+            'type': 'POST',
+            'success': function (data) {
 
                 if (typeof data == 'string') {
                     data = $.trim(data);
@@ -187,9 +187,9 @@ var JBZooHelper = function () {
                 }
 
             },
-            'error'   : options.onFatal,
-            'cache'   : false,
-            'headers' : {
+            'error': options.onFatal,
+            'cache': false,
+            'headers': {
                 "cache-control": "no-cache"
             }
         });
@@ -374,7 +374,7 @@ var JBZooHelper = function () {
     $(document).on('click', '.jbzoo .jsEmptyCart', function () {
 
         JBZoo.ajax({
-            'url'    : $(this).attr('href'),
+            'url': $(this).attr('href'),
             'success': function () {
                 $.fn.JBZooPriceReloadBasket();
             }
@@ -419,7 +419,7 @@ var JBZooHelper = function () {
 
         var options = $.extend({}, {
             'onTabShow': false,
-            'indexTab' : 0
+            'indexTab': 0
         }, options);
 
         return $(this).each(function () {
@@ -514,10 +514,10 @@ var JBZooHelper = function () {
     $.fn.JBZooAccordion = function (options) {
 
         var options = $.extend({}, {
-            'onTabShow'    : false,
-            'headerWidget' : 'h3',
+            'onTabShow': false,
+            'headerWidget': 'h3',
             'contentWidget': 'div',
-            'activeTab'    : 0
+            'activeTab': 0
         }, options);
 
         return $(this).each(function () {
@@ -627,10 +627,10 @@ var JBZooHelper = function () {
                     hash = $button.closest('tr').data('hash');
 
                 JBZoo.ajax({
-                    'url'    : options.deleteUrl,
-                    'data'   : {
+                    'url': options.deleteUrl,
+                    'data': {
                         'itemid': itemid,
-                        'hash'  : hash
+                        'hash': hash
                     },
                     'success': function (data) {
                         var $row = $button.closest('tr');
@@ -656,7 +656,7 @@ var JBZooHelper = function () {
                 if (confirm(options.clearConfirm)) {
 
                     JBZoo.ajax({
-                        'url'    : options.clearUrl,
+                        'url': options.clearUrl,
                         'success': function () {
                             window.location.reload();
                         }
@@ -678,17 +678,17 @@ var JBZooHelper = function () {
                     if ($input.val().length && value >= 0) {
                         lastQuantityVal = value;
                         JBZoo.ajax({
-                            'url'    : options.quantityUrl,
-                            'data'   : {
-                                'value' : value,
+                            'url': options.quantityUrl,
+                            'data': {
+                                'value': value,
                                 'itemId': itemid,
-                                'hash'  : hash
+                                'hash': hash
                             },
                             'success': function (data) {
                                 recount(data);
                                 $.fn.JBZooPriceReloadBasket();
                             },
-                            'error'  : function (data) {
+                            'error': function (data) {
                                 if (data.message) {
                                     alert(data.message);
                                 }
@@ -754,7 +754,7 @@ var JBZooHelper = function () {
                 var $toggle = $(this);
 
                 JBZoo.ajax({
-                    'url'    : $toggle.attr("href"),
+                    'url': $toggle.attr("href"),
                     'success': function (data) {
                         if (data.status) {
                             $compare.removeClass('unactive').addClass('active');
@@ -801,7 +801,7 @@ var JBZooHelper = function () {
                 var $toggle = $(this);
 
                 JBZoo.ajax({
-                    'url'    : $toggle.attr("href"),
+                    'url': $toggle.attr("href"),
                     'success': function (data) {
 
                         if (data.status) {
@@ -823,7 +823,7 @@ var JBZooHelper = function () {
                 var $toggle = $(this);
 
                 JBZoo.ajax({
-                    'url'    : $toggle.attr("href"),
+                    'url': $toggle.attr("href"),
                     'success': function (data) {
                         if (data.result) {
                             $favorite.slideUp(function () {
@@ -855,12 +855,12 @@ var JBZooHelper = function () {
                 $variations = $('.variations', $obj);
 
             options = $.extend({}, {
-                'text_variation_show' : 'Show variations',
-                'text_variation_hide' : 'Hide variations',
+                'text_variation_show': 'Show variations',
+                'text_variation_hide': 'Hide variations',
                 'adv_field_param_edit': 0,
-                'all_params'          : {},
-                'base_currency'       : $('.basic-currency', $obj).val(),
-                'base_sku'            : $('.basic-sku', $obj).val()
+                'all_params': {},
+                'base_currency': $('.basic-currency', $obj).val(),
+                'base_sku': $('.basic-sku', $obj).val()
             }, options);
 
             function rebuildList() {
@@ -880,11 +880,14 @@ var JBZooHelper = function () {
                     if ($('.row-balance', $row).val() == '') {
                         $('.row-balance', $row).val('-1');
                     }
+                    //$('.hidden-variant', $row).val(n);
 
-                    $('input, select', $row).each(function () {
+                    $('input, select, textarea', $row).each(function () {
                         var $control = $(this);
                         $control.attr('name', $control.attr('name').replace(/\[variations\]\[\d\]/i, '[variations][' + n + ']'));
                     });
+
+                    $.fn.initJBPriceAdvImage(n, row);
                 });
             }
 
@@ -936,6 +939,62 @@ var JBZooHelper = function () {
         });
     };
 
+    $.fn.initJBPriceAdvImage = function (n, row) {
+        var url = location.href.match(/^(.+)administrator\/index\.php.*/i)[1];
+
+        var $parentFieldset = $(row);
+
+        if ($parentFieldset.hasClass('JBPriceImage-init')) {
+            return $parentFieldset;
+        }
+
+        $parentFieldset.addClass('JBPriceImage-init');
+        var $jsJBPriceImage = $parentFieldset.find('.jsJBPriceImage'),
+            id = "jsJBPriceImage-" + n,
+            $selectButton = $('<button type="button" class="jbprice-img-button" />').text("Select Image").insertAfter($jsJBPriceImage),
+            $cancelSelect = $('<span class="jbprice-img-cancel image-cancel"/>').insertAfter($jsJBPriceImage);
+
+        $jsJBPriceImage.attr("id", id);
+
+        $cancelSelect.click(function () {
+            $cancelSelect.prev().val("");
+        });
+
+        $selectButton.click(function (event) {
+            event.preventDefault();
+
+            SqueezeBox.fromElement(this, {
+                handler: "iframe",
+                url: "index.php?option=com_media&view=images&tmpl=component&e_name=" + id,
+                size: {x: 850, y: 500}
+            });
+        });
+        var func = 'insertJBPriceImage' + id;
+        if ($.isFunction(window.jInsertEditorText)) {
+            window[func] = window.jInsertEditorText;
+        }
+
+        window.jInsertEditorText = function (c, a) {
+
+            if (a.match(/^jsJBPriceImage-/)) {
+
+                var $element = $("#" + a),
+                    value = c.match(/src="([^\"]*)"/)[1];
+
+                $element.parent()
+                    .find("img")
+                    .attr("src", url + value);
+
+                $element.val(value);
+
+            } else {
+                $.isFunction(window[func]) &&
+                window[func](c, a);
+            }
+
+        };
+    };
+
     /**
      * Plugin constructor
      * @param options
@@ -950,8 +1009,8 @@ var JBZooHelper = function () {
          */
         var $this = $(this),
             _options = {
-                'uniqid'  : '',
-                'items'   : null,
+                'uniqid': '',
+                'items': null,
                 'text_all': 'All'
             },
             _selects = {},
@@ -1119,20 +1178,20 @@ var JBZooHelper = function () {
                 }
 
                 $.fancybox({
-                    'type'      : 'iframe',
-                    'href'      : href,
-                    'width'     : 360,
+                    'type': 'iframe',
+                    'href': href,
+                    'width': 360,
                     'autoHeight': true,
                     'autoResize': true,
-                    'fitToView' : true,
-                    'iframe'    : {
+                    'fitToView': true,
+                    'iframe': {
                         'scrolling': 'no',
-                        'preload'  : true
+                        'preload': true
                     },
-                    'helpers'   : {
+                    'helpers': {
                         'overlay': {
                             'locked': false,
-                            'css'   : {
+                            'css': {
                                 'background': 'rgba(119, 119, 119, 0.4)'
                             }
                         }
@@ -1153,10 +1212,10 @@ var JBZooHelper = function () {
                 }
 
                 JBZoo.ajax({
-                    'url'    : $link.data('href'),
-                    'data'   : {
+                    'url': $link.data('href'),
+                    'data': {
                         "args": {
-                            'quantity'  : $('.jsQuantity').val(),
+                            'quantity': $('.jsQuantity').val(),
                             'indexPrice': indexPrice
                         }
                     },
@@ -1174,7 +1233,7 @@ var JBZooHelper = function () {
                 var $link = $(this);
 
                 JBZoo.ajax({
-                    'url'    : $link.data("href"),
+                    'url': $link.data("href"),
                     'success': function (data) {
                         $obj.removeClass('in-cart').addClass('not-in-cart');
                         $.fn.JBZooPriceReloadBasket();
@@ -1211,14 +1270,14 @@ var JBZooHelper = function () {
             var $obj = $(obj);
 
             JBZoo.ajax({
-                'data'    : {
+                'data': {
                     'controller': 'basket',
-                    'task'      : 'reloadModule',
-                    'app_id'    : $obj.attr('appId'),
-                    'moduleId'  : $obj.attr('moduleId')
+                    'task': 'reloadModule',
+                    'app_id': $obj.attr('appId'),
+                    'moduleId': $obj.attr('moduleId')
                 },
                 'dataType': 'html',
-                'success' : function (data) {
+                'success': function (data) {
                     $obj.closest('.jbzoo').replaceWith(data);
                 }
             })
@@ -1253,20 +1312,20 @@ var JBZooHelper = function () {
         }
 
         var options = $.extend({}, {
-            'text_complete'     : "Complete!",
-            'text_stop_confirm' : "Are you sure?",
+            'text_complete': "Complete!",
+            'text_stop_confirm': "Are you sure?",
             'text_start_confirm': "Are you sure?",
-            'text_start'        : "Start",
-            'text_stop'         : "Stop",
-            'text_ready'        : "Ready",
-            'text_wait'         : "Wait please ...",
-            'autoStart'         : false,
-            'url'               : '',
-            'onStart'           : new Function(),
-            'onStop'            : new Function(),
-            'onRequest'         : new Function(),
-            'onTimer'           : new Function(),
-            'onFinal'           : function (callback) {
+            'text_start': "Start",
+            'text_stop': "Stop",
+            'text_ready': "Ready",
+            'text_wait': "Wait please ...",
+            'autoStart': false,
+            'url': '',
+            'onStart': new Function(),
+            'onStop': new Function(),
+            'onRequest': new Function(),
+            'onTimer': new Function(),
+            'onFinal': function (callback) {
                 callback()
             }
         }, options);
@@ -1297,7 +1356,7 @@ var JBZooHelper = function () {
             secondsPassed = 0;
             timerId = setInterval(function () {
                 options.onTimer({
-                    'passed'   : timeFormat(++secondsPassed),
+                    'passed': timeFormat(++secondsPassed),
                     'remaining': timeFormat(parseInt((secondsPassed * 100 / currentProgress) - secondsPassed, 10))
                 });
             }, 1000);
@@ -1345,8 +1404,8 @@ var JBZooHelper = function () {
             }
 
             JBZoo.ajax({
-                'url'    : options.url,
-                'data'   : {
+                'url': options.url,
+                'data': {
                     'page': page
                 },
                 'success': function (data, status) {
@@ -1407,22 +1466,26 @@ var JBZooHelper = function () {
     $.fn.JBZooPriceAdvance = function (options) {
 
         var options = $.extend({}, {
-            'mainHash'         : '',
-            'itemId'           : 0,
-            'identifier'       : '',
-            'prices'           : {},
-            'addToCartUrl'     : '',
+            'mainHash': '',
+            'itemId': 0,
+            'identifier': '',
+            'relatedImage': '',
+            'mainImage': '',
+            'popup': 0,
+            'prices': {},
+            'addToCartUrl': '',
             'removeFromCartUrl': '',
-            'basketUrl'        : '',
-            'modalUrl'         : '',
-            'isInCart'         : 0
+            'changeVariantUrl': '',
+            'basketUrl': '',
+            'modalUrl': '',
+            'isInCart': 0
         }, options);
 
         options.params = $.extend({}, {
-            'startValue'     : 1,
-            'multipleValue'  : 1,
+            'startValue': 1,
+            'multipleValue': 1,
             'currencyDefault': 'EUR',
-            'advFieldText'   : 0,
+            'advFieldText': 0,
             'advAllExistShow': 0
         }, options.params);
 
@@ -1435,30 +1498,82 @@ var JBZooHelper = function () {
             } else {
                 $obj.addClass('jbprice-adv-inited');
             }
+            var AjaxProcess = false,
+                currency = options.params.currencyDefault,
+                prices = {};
+            prices[options.mainHash] = options.prices;
 
-            var $mainPrice = $('.jbprice-price .price', $obj),
-                $totalPrice = $('.jbprice-price .total', $obj),
-                $description = $('.jbprice-price .description', $obj),
-                hash = options.mainHash,
-                currency = options.params.currencyDefault;
+            function getPrices(newCurrency) {
+                var hash = getCurrentHash();
+
+                if (typeof prices[hash] != 'undefined') {
+                    $(".jbprice-currency-list", $obj).removeClass('jbprice-lock');
+                    AjaxProcess = false;
+                    toggle(prices, newCurrency);
+                } else {
+                    JBZoo.ajax({
+                        'url': options.changeVariantUrl,
+                        'data': {
+                            'args': {
+                                'hash': hash
+                            }
+                        },
+                        'success': function (data) {
+                            $(".jbprice-currency-list", $obj).removeClass('jbprice-lock');
+                            AjaxProcess = false;
+
+                            if (typeof data.prices[hash] != 'undefined') {
+                                prices[hash] = data;
+                            } else {
+                                prices[hash] = prices[options.mainHash];
+                            }
+
+                            toggle(prices, newCurrency);
+                        },
+                        'error': function (error) {
+                            alert(error);
+                            AjaxProcess = false;
+                        }
+                    });
+                }
+            }
 
             function togglePrices(newCurrency) {
-                if (JBZoo.empty(options.prices)) {
+
+                if (AjaxProcess) {
                     return false;
                 }
+                AjaxProcess = true;
 
-                var hash = getCurrentHash(),
-                    values = options.prices[options.mainHash].prices[newCurrency],
+                getPrices(newCurrency);
+                currency = newCurrency;
+            }
+
+            function toggle(prices, newCurrency) {
+                var hash = getCurrentHash();
+
+                var values = '',
                     description = '';
 
-                if (typeof options.prices[hash] != 'undefined') {
-                    values = options.prices[hash].prices[newCurrency];
-                    description = $.trim(options.prices[hash].description);
+                //TODO optimize code
+                if (typeof prices[hash] != 'undefined') {
+
+                    if (typeof prices[hash].prices[hash] != 'undefined') {
+                        values = prices[hash].prices[hash].prices[newCurrency];
+
+                        description = $.trim(prices[hash].prices[hash].description);
+                    } else {
+                        values = prices[hash].prices[options.mainHash].prices[newCurrency];
+
+                        description = $.trim(prices[hash].prices[options.mainHash].description);
+                        hash = options.mainHash;
+                    }
 
                     if (options.params.advAllExistShow == 0) {
                         $('.jbprice-buttons', $obj).removeClass('disabled');
                     }
                 } else {
+                    values = prices[options.mainHash].prices[options.mainHash].prices[newCurrency]
                     if (options.params.advAllExistShow == 0) {
                         $('.jbprice-buttons', $obj).addClass('disabled');
                     }
@@ -1483,8 +1598,21 @@ var JBZooHelper = function () {
 
                 $('.jbprice-sku .sku', $obj).hide();
                 $('.jbprice-sku .' + hash, $obj).show();
+                $('.jbprice-sku .sku', $obj).html(prices[hash].prices[hash].sku);
 
-                currency = newCurrency;
+
+                if (typeof prices[hash] != 'undefined') {
+                    if (prices[hash].file) {
+                        var $relatedImg = $('.' + options.relatedImage);
+
+                        $relatedImg.attr('src', prices[hash].prices[hash].file);
+
+                        if (options.popup == 1) {
+                            $relatedImg.parent().attr('href', prices[hash].prices[hash].file_popup);
+                        }
+                    }
+                }
+
             }
 
             function isTextParam() {
@@ -1501,9 +1629,9 @@ var JBZooHelper = function () {
 
                 if (isTextParam()) {
                     var values = {
-                        '1'   : values['p1-'],
-                        '2'   : values['p2-'],
-                        '3'   : values['p3-'],
+                        '1': values['p1-'],
+                        '2': values['p2-'],
+                        '3': values['p3-'],
                         'desc': values['d-']
                     };
                 } else {
@@ -1529,11 +1657,11 @@ var JBZooHelper = function () {
                 }
 
                 JBZoo.ajax({
-                    'url'    : options.addToCartUrl,
-                    'data'   : {
+                    'url': options.addToCartUrl,
+                    'data': {
                         "args": {
                             'quantity': count,
-                            'params'  : getParamValues()
+                            'params': getParamValues()
                         }
                     },
                     'success': function (data) {
@@ -1542,7 +1670,7 @@ var JBZooHelper = function () {
                             callback(data);
                         }
                     },
-                    'error'  : function (data) {
+                    'error': function (data) {
                         if (data.message) {
                             alert(data.message);
                         }
@@ -1552,7 +1680,7 @@ var JBZooHelper = function () {
 
             function removeFromCart() {
                 JBZoo.ajax({
-                    'url'    : options.removeFromCartUrl,
+                    'url': options.removeFromCartUrl,
                     'success': function (data) {
                         $obj.removeClass('in-cart').addClass('not-in-cart');
                         $.fn.JBZooPriceReloadBasket();
@@ -1597,6 +1725,7 @@ var JBZooHelper = function () {
 
                     $('.jsParam', $obj).each(function (n, obj) {
                         var value = $.trim($(obj).val());
+                        console.log(value);
                         data[$(obj).data('index')] = value;
                     });
 
@@ -1627,35 +1756,41 @@ var JBZooHelper = function () {
                 return result;
             }
 
-            // count
-            $('.jsAddQuantity', $obj).click(function () {
-                var quantity = parseInt($('.jsCount', $obj).val(), 10);
-                quantity += parseInt(options.params.multipleValue, 10);
-                $('.jsCount', $obj).val(quantity);
-                return false;
-            });
+            //init quantity plugin
+            $.fn.JBZooPriceAdvanceQuantity($obj);
 
-            $('.jsRemoveQuantity', $obj).click(function () {
-                var quantity = parseInt($('.jsCount', $obj).val(), 10);
-                quantity -= parseInt(options.params.multipleValue, 10);
-                if (quantity <= 0) {
-                    quantity = options.params.startValue;
-                }
+            /*// count
+             $('.jsAddQuantity', $obj).click(function () {
+             var quantity = parseInt($('.jsCount', $obj).val(), 10);
+             quantity += parseInt(options.params.multipleValue, 10);
+             $('.jsCount', $obj).val(quantity);
+             return false;
+             });
 
-                $('.jsCount', $obj).val(quantity);
-                return false;
-            });
+             $('.jsRemoveQuantity', $obj).click(function () {
+             var quantity = parseInt($('.jsCount', $obj).val(), 10);
+             quantity -= parseInt(options.params.multipleValue, 10);
+             if (quantity <= 0) {
+             quantity = options.params.startValue;
+             }
 
-            $('.jsCount', $obj).bind('change', function () {
-                var value = parseInt($.trim($(this).val()));
-                value = (isNaN(value) || value < 1) ? options.params.startValue : value;
-                $(this).val(value);
-            });
+             $('.jsCount', $obj).val(quantity);
+             return false;
+             });
+
+             $('.jsCount', $obj).bind('change', function () {
+             var value = parseInt($.trim($(this).val()));
+             value = (isNaN(value) || value < 1) ? options.params.startValue : value;
+             $(this).val(value);
+             });*/
 
             // currency list
             $(".jsPriceCurrency", $obj).bind('click', function () {
                 var $cur = $(this),
+                    $parent = $(this).parent(),
                     currency = $cur.data('currency');
+
+                $parent.addClass('jbprice-lock');
 
                 $(".jsPriceValue", $obj).removeClass('active');
                 $(".jbprice-" + currency, $obj).addClass('active');
@@ -1703,14 +1838,14 @@ var JBZooHelper = function () {
                 }
 
                 $.fancybox({
-                    'type'      : 'iframe',
-                    'href'      : href,
-                    'width'     : 400,
-                    'fitToView' : true,
+                    'type': 'iframe',
+                    'href': href,
+                    'width': 400,
+                    'fitToView': true,
                     'autoHeight': true,
                     'autoResize': true,
 
-                    'iframe' : {
+                    'iframe': {
                         'scrolling': 'no',
 
                         'preload': true
@@ -1769,18 +1904,309 @@ var JBZooHelper = function () {
 
             // init
             (function () {
-                $('.jsCount', $obj).val(options.params.startValue);
-                $('.jsCountValue', $obj).text(options.params.startValue);
-                if (options.params.startValue <= 1) {
-                    $('.count-value-wrapper', $obj).hide();
-                }
-
                 $obj.addClass(options.isInCart ? 'in-cart' : 'not-in-cart');
-                togglePrices(options.params.currencyDefault);
             }());
+            /*
+             *                 togglePrices(options.params.currencyDefault);
+             * */
 
         });
     };
+
+    $.fn.JBZooPriceAdvanceBalanceHelper = function () {
+
+        return $(this).each(function () {
+
+            var $this = $(this),
+                init = false;
+
+            if (init == true) {
+                return $this;
+            }
+
+            var $input = $('.jsBalanceInput', $this);
+
+            function change(val) {
+                $input.removeAttr('disabled');
+
+                if (val != 1) {
+                    $input.attr('disabled', true);
+                    $input.val('');
+                }
+            }
+
+            $('input[type="radio"]', $this).on('change', function () {
+                var $radio = $(this);
+
+                change($radio.val());
+            });
+
+            change($('input[type="radio"]:checked', $this).val());
+
+            init = true;
+        });
+    }
+
+    $.fn.JBZooPriceAdvanceQuantity = function ($obj) {
+
+        var $quantity = $('.jbprice-quantity', $obj),
+            multiple = $quantity.data('multiple'),
+            $default = $quantity.data('default');
+
+        var digits = $('.item-count-digits dd', $quantity),
+            digits_box = $('.item-count-digits', $quantity),
+            jsCount = $('input.jsCount', $quantity),
+            processing = false,
+            min_val = 1;
+
+        function scroll(e, i) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            jsCount.blur();
+
+            if (processing) return;
+            var val = parseInt(jsCount.val());
+
+            i = i > 0 ? 1 : -1;
+            var newVal = val + i;
+
+            if (!checkVal(newVal)) return;
+
+            processing = true;
+
+            setDigitVals(val);
+            placeDigits();
+
+            digits_box
+                .stop()
+                .animate({
+                    top: i * digits.height() + 'px'
+                    //marginTop:0
+                }, {
+                    duration: 500,
+                    //easing : '',
+                    complete: function () {
+                        processing = false;
+                        jsCount.val(newVal);
+                    }
+                });
+        }
+
+        function setDigitVals(value) {
+            var max = value + 2;
+
+            for (var i = 0; i < 5; i++) {
+                var num = max - i;
+
+                digits.eq(i).html(checkVal(num) ? num : '');
+            }
+        }
+
+        function refresh() {
+            setDigitVals(parseInt(jsCount.val(), 10));
+            placeDigits();
+        }
+
+        function checkVal(i) {
+            return i >= min_val;
+        }
+
+        function placeDigits() {
+
+            digits_box.css({
+                top: 0,
+                'marginTop': -digits.height() * 2 + 'px'
+            });
+        }
+
+        // count
+        $('.jsAddQuantity', $quantity).click(function (e) {
+
+            scroll(e, 1);
+            return false;
+        });
+
+        $('.jsRemoveQuantity', $quantity).click(function (e) {
+
+            scroll(e, -1);
+            return false;
+        });
+
+        $('.jsCount', $quantity).bind('change', function () {
+
+            var value = parseInt($.trim($(this).val()));
+            value = (isNaN(value) || value < 1) ? $default : value;
+            $(this).val(value);
+        });
+
+        setDigitVals($default);
+        placeDigits();
+
+        jsCount
+            .focus(function () {
+                jsCount.css('opacity', '1');
+                digits_box.hide();
+            }).keyup(function () {
+                refresh();
+            }).blur(function () {
+                jsCount.css('opacity', '0');
+                digits_box.show();
+            });
+
+        $('.jsCount', $quantity).val($default);
+        $('.jsCountValue', $quantity).text($default);
+
+        if ($default <= 1) {
+            $('.count-value-wrapper', $quantity).hide();
+        }
+
+        /*var CountBox = function (box, onChange) {
+         var
+         self = this,
+         box = $(box),
+         inp = box.find('input.jsCount'),
+         digits_box = box.find('.item-count-digits'),
+         digits = box.find('.item-count-digits dd'),
+
+         minus = box.find('.jsAddQuantity'),
+         plus = box.find('.jsRemoveQuantity'),
+
+         processing = false,
+         min_val = 1,
+         max_val = 99,
+         duration = 500
+         ;
+         this.getValue = function () {
+         return parse();
+         };
+         this.setValue = function (num) {
+         val(num);
+
+         applyInpVal();
+         };
+
+         if (box.length) init();
+
+         function init() {
+         inp
+         .focus(function () {
+         inp.css('opacity', '1');
+         digits_box.hide();
+         })
+         .keyup(function () {
+         applyInpVal();
+         })
+         .blur(function () {
+         applyInpVal();
+
+         inp.css('opacity', '0');
+         digits_box.show();
+         })
+         ;
+
+         applyInpVal(true);
+
+
+         minus.click(function (e) {
+         scroll(e, -1);
+         });
+         plus.click(function (e) {
+         scroll(e, 1);
+         });
+
+         box.data('CountBox', self);
+         }
+
+         function scroll(e, iVal) {
+         e.preventDefault();
+         e.stopPropagation();
+
+         inp.blur();
+
+         if (processing) return;
+
+         iVal = iVal > 0 ? 1 : -1;
+         var newVal = parse() + iVal;
+
+         if (!checkVal(newVal)) return;
+
+         processing = true;
+
+         placeDigits();
+         applyInpVal();
+
+         digits_box
+         .stop()
+         .animate({
+         top: iVal * digits.height() + 'px'
+         //				marginTop:0
+         }, {
+         duration: duration,
+         //easing : '',
+         complete: function () {
+         val(newVal);
+         processing = false;
+         }
+         })
+         ;
+         }
+
+
+         function applyInpVal(first) {
+         var iVal = setInpVal();
+         setDigitVals(iVal);
+         placeDigits();
+
+         if (!first && onChange) onChange();
+         }
+
+         function setInpVal() {
+         var res = parse();
+         val(res);
+         return res;
+         }
+
+         function setDigitVals(iVal) {
+         var max = iVal + 2;
+
+         for (var i = 0; i < 5; i++) {
+         var num = max - i;
+         digits.eq(i).html(checkVal(num) ? num : '');
+         }
+         }
+
+         function placeDigits() {
+         digits_box.css({
+         top: 0,
+         'marginTop': -digits.height() * 2 + 'px'
+         });
+         }
+
+         function checkVal(iVal) {
+         return iVal >= min_val && iVal <= max_val;
+         }
+
+         function parse() {
+         var res = val()
+         .replace(',', '.')
+         .replace(/[^\d\.]/gi, '')
+         ;
+
+         return parseInt(res) || 0;
+         }
+
+         function val() {
+         if (arguments.length) {
+         //inp.val(arguments[0]);
+         }
+         return inp.val() + '';
+         }
+         }
+
+         //CountBox($quantity);*/
+    }
+
 
     /**
      * @param options
@@ -1789,7 +2215,7 @@ var JBZooHelper = function () {
 
         var options = $.extend({}, {
             'message': 'Do you really want to delete the history?',
-            'app_id' : ''
+            'app_id': ''
         }, options);
         var $this = $(this);
 
@@ -1804,13 +2230,13 @@ var JBZooHelper = function () {
 
             if (ok) {
                 JBZoo.ajax({
-                    'data'    : {
+                    'data': {
                         'controller': 'viewed',
-                        'task'      : 'clear',
-                        'app_id'    : options.app_id
+                        'task': 'clear',
+                        'app_id': options.app_id
                     },
                     'dataType': 'html',
-                    'success' : function () {
+                    'success': function () {
                         $this.slideUp('slow');
                     }
                 });
