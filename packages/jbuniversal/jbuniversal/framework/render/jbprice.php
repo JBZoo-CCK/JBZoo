@@ -105,32 +105,32 @@ class JBPriceRenderer extends PositionRenderer
         $style  = isset($args['style']) ? $args['style'] : 'default';
         $config = $this->_getConfig();
 
-        foreach ($config as $data) {
-            if ($element = $this->_jbprice->loadElement($data['identifier'])) {
+        if (!empty($config)) {
+            foreach ($config as $data) {
+                if ($element = $this->_jbprice->loadElement($data['identifier'])) {
+                    $data['related_identifier'] = $this->_jbprice->identifier;
 
-                if($style == ElementJBPriceAdvance::BASIC_GROUP && $element->getMetaData('core') != 'true') {
-                    continue;
-                }
-
-                $data['related_identifier'] = $this->_jbprice->identifier;
-                $params = array_merge($data, $args);
-
-                if ($element->edit()) {
-                    $element->setConfig($params);
-                    $elements[] = compact('element', 'params');
+                    $params = array_merge($data, $args);
+                    if ($element->edit()) {
+                        $element->setConfig($params);
+                        $elements[] = compact('element', 'params');
+                    }
                 }
             }
         }
 
-        foreach ($elements as $i => $data) {
-            $params = array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1)), $data['params']);
+        if (!empty($elements)) {
 
-            $this->addPath(array(
-                $this->app->path->path('jbtmpl:catalog/'),
-                'element.' . $style
-            ));
+            foreach ($elements as $i => $data) {
+                $params = array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1)), $data['params']);
 
-            $output[$i] = parent::render('element.' . $style, array('element' => $data['element'], 'params' => $params));
+                $this->addPath(array(
+                    $this->app->path->path('jbtmpl:catalog/'),
+                    'element.' . $style
+                ));
+
+                $output[$i] = parent::render('element.' . $style, array('element' => $data['element'], 'params' => $params));
+            }
         }
 
         return implode("\n", $output);

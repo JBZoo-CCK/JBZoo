@@ -13,10 +13,16 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$unique = $this->app->jbstring->getId('-sku');
+$unique = $this->app->jbstring->getId('bool-');
+$value  = $this->getBasic($this->identifier);
+$arr    = array(
+    '1' => JText::_('JBZOO_YES'),
+    '0' => JText::_('JBZOO_NO')
+);
+
 
 ?>
 
-<div class="jbprice-bool">
-    <span class="bool"><?php echo $this->getBasic($this->identifier); ?></span>
+<div class="jbprice-bool" id="<?php echo $unique; ?>">
+    <span class="bool"><?php echo $arr[$value['value']]; ?></span>
 </div>

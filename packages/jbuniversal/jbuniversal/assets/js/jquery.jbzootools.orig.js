@@ -863,6 +863,8 @@ var JBZooHelper = function () {
                 'base_sku': $('.basic-sku', $obj).val()
             }, options);
 
+            $.fn.initJBPriceAdvImage(n, obj);
+
             function rebuildList() {
                 $('.jbpriceadv-variation-row .jbremove', $obj).show();
                 $('.jbpriceadv-variation-row', $obj).each(function (n, row) {
@@ -882,7 +884,7 @@ var JBZooHelper = function () {
                     }
                     //$('.hidden-variant', $row).val(n);
 
-                    $('input, select, textarea', $row).each(function () {
+                    $('input, select', $row).each(function () {
                         var $control = $(this);
                         $control.attr('name', $control.attr('name').replace(/\[variations\]\[\d\]/i, '[variations][' + n + ']'));
                     });
@@ -939,17 +941,17 @@ var JBZooHelper = function () {
         });
     };
 
-    $.fn.initJBPriceAdvImage = function (n, row) {
+    $.fn.initJBPriceAdvImage = function(n, row) {
         var url = location.href.match(/^(.+)administrator\/index\.php.*/i)[1];
 
-        var $parentFieldset = $(row);
-
-        if ($parentFieldset.hasClass('JBPriceImage-init')) {
-            return $parentFieldset;
+        var $parent = $('.jbprice-img-row-file', row);
+console.log(row);
+        if ($parent.hasClass('JBPriceImage-init')) {
+            return $parent;
         }
 
-        $parentFieldset.addClass('JBPriceImage-init');
-        var $jsJBPriceImage = $parentFieldset.find('.jsJBPriceImage'),
+        $parent.addClass('JBPriceImage-init');
+        var $jsJBPriceImage = $('.jsJBPriceImage', $parent),
             id = "jsJBPriceImage-" + n,
             $selectButton = $('<button type="button" class="jbprice-img-button" />').text("Select Image").insertAfter($jsJBPriceImage),
             $cancelSelect = $('<span class="jbprice-img-cancel image-cancel"/>').insertAfter($jsJBPriceImage);

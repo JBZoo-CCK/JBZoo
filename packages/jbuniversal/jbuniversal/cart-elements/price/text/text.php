@@ -13,20 +13,17 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$jbhtml = $this->app->jbhtml;
+/**
+ * Class JBCartElementPriceText
+ */
+class JBCartElementPriceText extends JBCartElementPrice
+{
+    public function edit() {
+        echo $this->app->jbhtml->text($this->getName(), $this->getValue($this->identifier));
+    }
 
-$containerId = $this->app->jbstring->getId('color-');
-$value = $this->app->data->create($this->getValue($this->identifier));
+    public function render($param = array())
+    {
 
-?>
-
-<?php if (count($colorItems)) : ?>
-
-    <div id="<?php echo $containerId; ?>" class="jbzoo-color jbzoo">
-        <?php echo $jbhtml->colors($type, $colorItems, $this->getName('color'), $value->get('color')); ?>
-    </div>
-
-<?php endif;
-
-
-
+    }
+}

@@ -26,7 +26,7 @@
             <field name="company_name" type="text" default="" label="JBZOO_CONFIG_YML_COMPANY_NAME"
                    description="JBZOO_CONFIG_YML_COMPANY_NAME_DESC"/>
 
-            <field name="item_type" type="jbtype" headhide="1" required="1" multiple="1" default=""
+            <field name="type_list" type="jbtype" headhide="1" required="1" multiple="1" default=""
                    label="JBZOO_CONFIG_YML_TYPE"
                    description="JBZOO_CONFIG_YML_TYPE_DESC"/>
 

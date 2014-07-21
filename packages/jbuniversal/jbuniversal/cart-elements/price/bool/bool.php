@@ -42,12 +42,41 @@ class JBCartElementPriceBool extends JBCartElementPrice
     {
         $params = $this->app->data->create($params);
 
-        if ($layout = $this->getLayout()) {
+        if ($layout = $this->getLayout($params->get('template', 'bool') . '.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params
             ));
         }
 
         return null;
+    }
+
+    /**
+     * @param null $identifier
+     * @param $name
+     * @param int $index
+     * @return string
+     */
+    public function getParamName($identifier = null, $name, $index = 0)
+    {
+        if (empty($identifier)) {
+            $identifier = $this->identifier;
+        }
+
+        return "elements[{$identifier}][variations][{$index}][params][{$this->identifier}][{$name}]";
+    }
+
+    /**
+     * @param null $identifier
+     * @param $name
+     * @return string
+     */
+    public function getBasicName($identifier = null, $name)
+    {
+        if (empty($identifier)) {
+            $identifier = $this->identifier;
+        }
+
+        return "elements[{$identifier}][basic][params][{$this->identifier}][{$name}]";
     }
 }
