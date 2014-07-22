@@ -8,4 +8,16 @@
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
+
+    <params group="render">
+
+        <param name="template"
+               type="list"
+               label="JBZOO_ELEMENT_TEMPLATE"
+               default="currency">
+            <option value="currency">JBZOO_ELEMENT_CURRENCY_TMPL_CURRENCY</option>
+            <option value="code">JBZOO_ELEMENT_CURRENCY_TMPL_WORDS</option>
+        </param>
+
+    </params>
 </element>
