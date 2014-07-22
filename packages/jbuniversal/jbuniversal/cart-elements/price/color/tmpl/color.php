@@ -19,10 +19,9 @@ $attributes = ' width:' . $width . 'px; height:' . $height . 'px;';
 
 ?>
 
-<div class="jbprice-sku">
-    <div id="<?php echo $containerId; ?>" class="jbzoo-color jbzoo">
-        <?php echo $this->app->jbhtml->colors($type, $colorItems, $this->getName('color'), null, $attributes); ?>
-    </div>
-
+<div class="jbprice-param-radio jbprice-param-list jbpriceParams" data-index="0" data-type="<?php echo $type; ?>">
+    <?php echo $this->app->jbhtml->colors($type, $colorItems, $this->getName('color'), null, $attributes); ?>
 </div>
+
+
 

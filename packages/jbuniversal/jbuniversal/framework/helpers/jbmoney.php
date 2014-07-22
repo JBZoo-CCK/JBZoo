@@ -161,6 +161,11 @@ class JBMoneyHelper extends AppHelper
         $this->init();
 
         $result = array();
+
+        if (empty(self::$curList)) {
+            return $result;
+        }
+
         foreach (self::$curList as $code => $currency) {
 
             if ($isShort) {

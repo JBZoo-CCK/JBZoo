@@ -880,15 +880,29 @@ var JBZooHelper = function () {
                     if ($('.row-balance', $row).val() == '') {
                         $('.row-balance', $row).val('-1');
                     }
-                    //$('.hidden-variant', $row).val(n);
 
-                    $('input, select', $row).each(function () {
+                    $('input, select, textarea', $row).each(function () {
                         var $control = $(this);
                         $control.attr('name', $control.attr('name').replace(/\[variations\]\[\d\]/i, '[variations][' + n + ']'));
+
                     });
 
                 });
             }
+
+            $('.jsToggleVariation', $obj).on('click', function () {
+                var $toggle = $(this),
+                    $fieldset = $toggle.parents('.jbpriceadv-variation-row');
+
+                if (!$fieldset.hasClass('visible')) {
+                    $fieldset.removeClass('fieldset-hidden');
+                    $fieldset.addClass('visible');
+                } else {
+                    $fieldset.removeClass('visible');
+                    $fieldset.addClass('fieldset-hidden');
+                }
+
+            });
 
             $('.jsShowVariations', $obj).click(function () {
 
@@ -903,15 +917,35 @@ var JBZooHelper = function () {
                 return false;
             });
 
+
+            $('.jbpriceadv-variation-row', $obj).delegate(".jbmove", "mousedown", function () {
+                $(".jbpriceadv-variation-row", $obj).removeClass('visible');
+                $(".jbpriceadv-variation-row", $obj).addClass("fieldset-hidden");
+            });
+
+            $('.jbmove', $obj).sortable({
+                forcePlaceholderSize: true,
+                'items': $('.jbpriceadv-variation-row', $obj),
+                'placeholder': "ui-state-highlight",
+                'stop': function (ev, ui) {
+                    $('.variations-list').trigger('oops');
+                }
+            }).disableSelection();
+
+
+            $('.variations-list').on('oops', function () {
+                rebuildList();
+            });
             $('.jsNewPrice', $obj).click(function () {
 
                 var $newRow = $('.jbpriceadv-variation-row:first', $obj).clone().hide();
-                $('input, select', $newRow).val('');
-                $('.row-currency', $newRow).val(options.base_currency);
-                $('.row-value', $newRow).val($('.basic-value', $obj).val());
+                $('input, select', $newRow).removeAttr('value');
+                $('input, select', $newRow).removeAttr('checked');
+
                 $('.variations-list', $obj).append($newRow);
-                $newRow.slideDown();
                 rebuildList();
+
+                $newRow.slideDown();
 
                 return false;
             });
@@ -927,7 +961,7 @@ var JBZooHelper = function () {
             // init
             (function () {
                 rebuildList();
-
+                $('.jbpriceadv-variation-row', $obj).addClass('fieldset-hidden');
                 if (!options.adv_field_param_edit) {
                     $.each(options.all_params, function (n, obj) {
                         $('.element-' + obj).hide();
@@ -938,7 +972,7 @@ var JBZooHelper = function () {
         });
     };
 
-    $.fn.initJBPriceAdvImage = function() {
+    $.fn.initJBPriceAdvImage = function () {
         var url = location.href.match(/^(.+)administrator\/index\.php.*/i)[1];
 
         var $form = $('form.item-edit');
@@ -1501,9 +1535,10 @@ var JBZooHelper = function () {
 
             if ($obj.hasClass('jbprice-adv-inited')) {
                 return $obj;
-            } else {
-                $obj.addClass('jbprice-adv-inited');
             }
+
+            $obj.addClass('jbprice-adv-inited');
+
             var AjaxProcess = false,
                 currency = options.params.currencyDefault,
                 prices = {};
@@ -1513,7 +1548,7 @@ var JBZooHelper = function () {
                 var hash = getCurrentHash();
 
                 if (typeof prices[hash] != 'undefined') {
-                    $(".jbprice-currency-list", $obj).removeClass('jbprice-lock');
+
                     AjaxProcess = false;
                     toggle(prices, newCurrency);
                 } else {
@@ -1525,10 +1560,9 @@ var JBZooHelper = function () {
                             }
                         },
                         'success': function (data) {
-                            $(".jbprice-currency-list", $obj).removeClass('jbprice-lock');
                             AjaxProcess = false;
 
-                            if (typeof data.prices[hash] != 'undefined') {
+                            if (typeof data != 'undefined') {
                                 prices[hash] = data;
                             } else {
                                 prices[hash] = prices[options.mainHash];
@@ -1536,9 +1570,13 @@ var JBZooHelper = function () {
 
                             toggle(prices, newCurrency);
                         },
-                        'error': function (error) {
-                            alert(error);
+                        'error': function (data) {
                             AjaxProcess = false;
+                            if (data.result == false) {
+                                prices[hash] = prices[options.mainHash];
+                            }
+
+                            toggle(prices, newCurrency);
                         }
                     });
                 }
@@ -1561,30 +1599,25 @@ var JBZooHelper = function () {
                 var values = '',
                     description = '';
 
+                values = prices[options.mainHash][newCurrency];
+                console.log(prices);
                 //TODO optimize code
                 if (typeof prices[hash] != 'undefined') {
 
-                    if (typeof prices[hash].prices[hash] != 'undefined') {
-                        values = prices[hash].prices[hash].prices[newCurrency];
+                    values = prices[hash][newCurrency];
+                    description = $.trim(prices[hash].description);
 
-                        description = $.trim(prices[hash].prices[hash].description);
-                    } else {
-                        values = prices[hash].prices[options.mainHash].prices[newCurrency];
-
-                        description = $.trim(prices[hash].prices[options.mainHash].description);
-                        hash = options.mainHash;
-                    }
 
                     if (options.params.advAllExistShow == 0) {
                         $('.jbprice-buttons', $obj).removeClass('disabled');
                     }
                 } else {
-                    values = prices[options.mainHash].prices[options.mainHash].prices[newCurrency]
+                    values = prices[options.mainHash][newCurrency];
+
                     if (options.params.advAllExistShow == 0) {
                         $('.jbprice-buttons', $obj).addClass('disabled');
                     }
 
-                    hash = options.mainHash;
                 }
 
                 $('.not-paid-box', $obj).show();
@@ -1602,19 +1635,20 @@ var JBZooHelper = function () {
                 $('.jbprice-balance .balance', $obj).hide();
                 $('.jbprice-balance .' + hash, $obj).show();
 
-                $('.jbprice-sku .sku', $obj).hide();
-                $('.jbprice-sku .' + hash, $obj).show();
-                $('.jbprice-sku .sku', $obj).html(prices[hash].prices[hash].sku);
+                //$('.jbprice-sku .sku', $obj).hide();
+                //$('.jbprice-sku .' + hash, $obj).show();
+
+                $('.jbprice-sku .sku', $obj).html(prices[hash].sku);
 
 
                 if (typeof prices[hash] != 'undefined') {
                     if (prices[hash].file) {
                         var $relatedImg = $('.' + options.relatedImage);
 
-                        $relatedImg.attr('src', prices[hash].prices[hash].file);
+                        $relatedImg.attr('src', prices[hash].file);
 
                         if (options.popup == 1) {
-                            $relatedImg.parent().attr('href', prices[hash].prices[hash].file_popup);
+                            $relatedImg.parent().attr('href', prices[hash].file_popup);
                         }
                     }
                 }
@@ -1623,6 +1657,14 @@ var JBZooHelper = function () {
 
             function isTextParam() {
                 return options.params.advFieldText == 2; // replace number to const
+            }
+
+            function bindDataIndex() {
+                $('.jbpriceParams', $obj).each(function (n) {
+                    n++;
+                    var $param = $(this);
+                    $param.attr('data-index', n);
+                })
             }
 
             /**
@@ -1710,35 +1752,53 @@ var JBZooHelper = function () {
                 return result.join('_');
             }
 
+            function buildValue(value) {
+                var result = [];
+
+                for (var key in value) {
+                    var val = value[key];
+                    result.push(val);
+                }
+
+                return result.join('-');
+            }
+
             function getCurrentValues() {
 
                 var data = {};
-                if (isTextParam()) {
-                    data = {'p1-': '', 'p2-': '', 'p3-': '', 'd-': ''};
-                } else {
-                    data = {'p1-': '', 'p2-': '', 'p3-': ''};
-                }
 
-                if ($obj.find('.jbprice-param-radio').length) {
+                $('.jbpriceParams', $obj).each(function (n, row) {
+                    var $param = $(row),
+                        type = $param.data('type'),
+                        index = $param.data('index');
 
-                    $('.jbprice-param-radio input:checked', $obj).each(function (n, obj) {
-                        var value = $.trim($(obj).val()),
-                            $parent = $(obj).closest('.jbprice-param-radio');
-                        data[$parent.data('index')] = value;
-                    });
+                    if (type == 'radio') {
+                        var radio = $('input[type="radio"]:checked', $param);
 
-                } else if ($obj.find('.jbprice-param-select').length) {
+                        data['p' + index + '-'] = $.trim(radio.val());
 
-                    $('.jsParam', $obj).each(function (n, obj) {
-                        var value = $.trim($(obj).val());
-                        console.log(value);
-                        data[$(obj).data('index')] = value;
-                    });
-
-                    if (isTextParam()) {
-                        data['d-'] = $('.jsParamDesc', $obj).val();
                     }
-                }
+
+                    if (type == 'select') {
+                        var select = $('select.jsParam', $param);
+                        data['p' + index + '-'] = $.trim(select.val());
+                    }
+
+                    if (type == 'checkbox') {
+                        var checkbox = {};
+
+
+                        $('input[type="checkbox"]:checked', $param).each(function (n) {
+                            var $checkbox = $(this);
+                            checkbox[n] = $checkbox.val();
+
+                        });
+
+                        data['p' + index + '-'] = $.trim(buildValue(checkbox));
+                    }
+
+
+                });
 
                 return data;
             }
@@ -1758,6 +1818,9 @@ var JBZooHelper = function () {
                 }
 
                 result = options.mainHash + '-' + buildHash(newHash);
+                if (!buildHash(newHash).length) {
+                    result = options.mainHash;
+                }
 
                 return result;
             }
@@ -1911,6 +1974,10 @@ var JBZooHelper = function () {
             // init
             (function () {
                 $obj.addClass(options.isInCart ? 'in-cart' : 'not-in-cart');
+                bindDataIndex();
+                $(".jbcurrency-" + options.params.currencyDefault, $obj).addClass('active');
+                togglePrices(options.params.currencyDefault);
+
             }());
             /*
              *                 togglePrices(options.params.currencyDefault);

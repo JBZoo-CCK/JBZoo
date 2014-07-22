@@ -104,7 +104,7 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function getPrices()
     {
-        $currencyDefault = $this->_jbprice->config->get('default_currency', 'EUR');
+        $currencyDefault = $this->_jbprice->config->get('currency_default', 'EUR');
         $basicCurrency   = $this->getBasic('_currency', $currencyDefault);
 
         $jbmoney = $this->app->jbmoney;

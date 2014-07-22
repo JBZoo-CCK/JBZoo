@@ -13,8 +13,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$attributes = array(
+    'class' => 'jsParam'
+);
+
 ?>
 
-<div class="jbprice-param-<?php echo $this->getElementType(); ?> jbprice-param-list">
-    <?php echo $this->app->jbhtml->select($data, $this->getName());; ?>
+<div class="jbprice-param-select jbprice-param-list ">
+    <?php echo $this->app->jbhtml->select($data, $this->getName(), $attributes); ?>
 </div>

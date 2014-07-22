@@ -19,16 +19,6 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceDescription extends JBCartElementPrice
 {
     /**
-     * If elements value is set
-     * @param  array $params
-     * @return bool|void
-     */
-    public function hasValue($params = array())
-    {
-        return $this->getBasicData();
-    }
-
-    /**
      * @param array $params
      * @return mixed|null|string
      */

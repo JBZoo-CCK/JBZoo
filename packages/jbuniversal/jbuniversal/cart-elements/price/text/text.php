@@ -36,13 +36,18 @@ class JBCartElementPriceText extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $params = $this->app->data->create($params);
-        $data   = array();
+        $params  = $this->app->data->create($params);
+        $data    = array();
 
         $template = $params->get('template', 'radio');
 
-        foreach ($this->getAllData() as $value) {
-            $data[] = $value['value'];
+        $i = 0;
+        foreach ($this->getAllData() as $name) {
+            $value = $this->app->string->sluggify($name['value']);
+
+            $data[$value] = $name['value'];
+
+            $i++;
         }
 
         if ($layout = $this->getLayout($template . '.php')) {

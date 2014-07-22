@@ -22,10 +22,6 @@ $attr    = array(
     'placeholder' => 'Sku'
 );
 
-?>
-
-<div class="sku<?php echo $variant; ?>">
-    <?php echo $jbhtml->text($this->getName('_sku'), $this->getValue('_sku', 0), $attr); ?>
-</div>
+echo $jbhtml->text($this->getName('_sku'), $this->getValue('_sku', 0), $attr);
 
 

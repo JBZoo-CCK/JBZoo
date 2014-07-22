@@ -28,7 +28,7 @@ $unique = $this->app->jbstring->getId('jbprice-adv-');
 
         $('#<?php echo $unique;?>').JBZooPriceAdvance({
             'params': <?php echo json_encode($interfaceParams);?>,
-            'prices': <?php echo json_encode(array('prices' => $prices));?>,
+            'prices': <?php echo json_encode($prices);?>,
 
             'mainHash': "<?php echo $this->_getHash();?>",
             'itemId': <?php echo $this->getItem()->id;?>,

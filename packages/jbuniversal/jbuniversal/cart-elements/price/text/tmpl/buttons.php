@@ -15,4 +15,8 @@ defined('_JEXEC') or die('Restricted access');
 
 $unique = $this->app->jbstring->getId();
 
-echo $this->app->jbhtml->buttonsJqueryUI($data, $this->getName(), null, null, $unique);
+?>
+
+<div class="jbprice-param-radio jbprice-param-list jbpriceParams" data-index="0" data-type="radio">
+    <?php echo $this->app->jbhtml->buttonsJqueryUI($data, $this->getName(), null, null, $unique); ?>
+</div>

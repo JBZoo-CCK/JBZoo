@@ -19,7 +19,6 @@ echo $this->app->html->_('control.text', $this->getName('_value'), $this->getVal
     'size'        => '10',
     'maxlength'   => '255',
     'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_VALUE'),
-    'style'       => 'width:100px;',
     'id'          => $elId . '-basic-value',
     'class'       => 'basic-value',
 ));
@@ -29,5 +28,5 @@ if (count($currencyList) == 1) {
     $currency = current($currencyList);
     echo $currency, $this->app->jbhtml->hidden($this->getName('_currency'), $currency, 'class="basic-currency"');
 } else {
-    echo $this->app->jbhtml->select($currencyList, $this->getName('_currency'), 'class="basic-currency" style="width: auto;"', $this->getValue('_currency'));
+    echo $this->app->jbhtml->select($currencyList, $this->getName('_currency'), 'class="basic-currency"', $this->getValue('_currency'));
 }

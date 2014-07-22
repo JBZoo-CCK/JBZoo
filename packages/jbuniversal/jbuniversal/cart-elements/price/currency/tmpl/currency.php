@@ -22,4 +22,4 @@ if (count($currencyList) > 1) : ?>
         <?php endforeach; ?>
         <div class="clear clr"></div>
     </div>
-<?php endif; ?>
+<?php endif;
