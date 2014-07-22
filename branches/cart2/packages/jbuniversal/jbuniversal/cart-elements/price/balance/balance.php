@@ -59,4 +59,19 @@ class JBCartElementPriceBalance extends JBCartElementPrice
 
         return null;
     }
+
+    /**
+     * @param null $identifier
+     * @param $name
+     * @param int $index
+     * @return string
+     */
+    public function getParamName($identifier = null, $name, $index = 0)
+    {
+        if (empty($identifier)) {
+            $identifier = $this->identifier;
+        }
+
+        return "elements[{$identifier}][variations][{$index}][params][{$name}]";
+    }
 }

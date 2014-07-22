@@ -13,4 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $this->getBasic('description', $this->getBasicData());
+?>
+<div class="jbprice-description jsDescription">
+    <?php echo $this->getBasic('_description'); ?>
+</div>

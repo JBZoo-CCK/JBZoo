@@ -33,12 +33,13 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $params = $this->app->data->create($params);
+        $currencyList = $this->_jbprice->getCurrencyList();
 
+        $params = $this->app->data->create($params);
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'params'       => $params,
-                'currencyList' => $this->app->jbmoney->getCurrencyList(true),
+                'currencyList' => $currencyList,
             ));
         }
 

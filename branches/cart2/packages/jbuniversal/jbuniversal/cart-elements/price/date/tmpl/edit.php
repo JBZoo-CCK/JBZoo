@@ -16,24 +16,17 @@ defined('_JEXEC') or die('Restricted access');
 $variant = (int)$params->get('basic', 0) ? '' : '-variant';
 $unique  = $this->app->jbstring->getId('calendar-');
 
-?>
+if ($value = $this->getValue('_date', '')) {
+    try {
 
-<div class="date<?php echo $variant; ?>">
-    <?php
+        $value = $this->app->html->_('date', $value, $this->app->date->format($format), $this->app->date->getOffset());
 
-    if ($value = $this->getValue('_date', '')) {
-        try {
-
-            $value = $this->app->html->_('date', $value, $this->app->date->format($format), $this->app->date->getOffset());
-
-        } catch (Exception $e) {
-        }
+    } catch (Exception $e) {
     }
-    echo $this->app->html->_('zoo.calendar', $value, $this->getName('_date'), $unique, array(
-        'class' =>  $this->app->jbstring->getId('calendar-element-')
-    ), true);
-    ?>
+}
+echo $this->app->html->_('zoo.calendar', $value, $this->getName('_date'), $unique, array(
+    'class' => $this->app->jbstring->getId('calendar-element-')
+), true);
 
-</div>
 
 

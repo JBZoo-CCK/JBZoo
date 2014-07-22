@@ -13,4 +13,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $this->app->jbhtml->radio($data, $this->getName());
+?>
+
+<div class="jbprice-param-radio jbprice-param-list jbpriceParams" data-index="0" data-type="radio">
+    <?php echo $this->app->jbhtml->radio($data, $this->getName()); ?>
+</div>

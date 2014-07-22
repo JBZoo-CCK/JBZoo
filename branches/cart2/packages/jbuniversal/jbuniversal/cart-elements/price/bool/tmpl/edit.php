@@ -13,11 +13,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-?>
 
-<div class="bool">
-    <?php echo $this->app->html->_('select.booleanlist', $this->getName(), null, $this->getValue($this->identifier)); ?>
-</div>
+echo $this->app->html->_('select.booleanlist', $this->getName(), null, $this->getValue($this->identifier));
 
 
 

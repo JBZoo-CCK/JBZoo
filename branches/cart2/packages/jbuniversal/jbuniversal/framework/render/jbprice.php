@@ -58,7 +58,7 @@ class JBPriceRenderer extends PositionRenderer
     public function checkPosition($position)
     {
         foreach ($this->_getConfigPosition($position) as $key => $data) {
-            if ($element = $this->_jbprice->loadElement($data['identifier'])) {
+            if ($element = $this->_jbprice->loadElement($data)) {
 
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
@@ -158,6 +158,7 @@ class JBPriceRenderer extends PositionRenderer
         $layout = $this->_layout;
 
         foreach ($this->_getConfigPosition($position) as $key => $data) {
+
             if ($element = $this->_jbprice->loadElement($data)) {
 
                 if (!$element->canAccess()) {

@@ -77,15 +77,35 @@ class JBCartElementPriceColor extends JBCartElementPrice
     }
 
     /**
+     * @param array $selected
      * @return mixed
      */
-    public function getColors()
+    public function getColors($selected = array())
     {
         $colors = explode("\n", $this->config->get('options'));
+        $result = array();
+        $data   = array();
 
         $colorItems = $this->app->jbcolor->getColors($colors, $this->config->get('path', 'images'));
 
-        return $colorItems;
+        foreach ($colorItems as $key => $value) {
+            $result[$key] = $value;
+        }
+
+
+        if (!empty($selected)) {
+            foreach ($selected as $color) {
+                $key = $this->app->string->sluggify(JString::trim($color));
+
+                if (!empty($result[$key])) {
+                    $data[$key] = $color;
+                }
+            }
+
+            return $data;
+        }
+
+        return $result;
     }
 
     /**

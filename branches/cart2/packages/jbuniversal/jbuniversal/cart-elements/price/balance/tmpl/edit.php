@@ -39,7 +39,7 @@ $inputAttr = array(
     'class'       => 'balance' . $variant . '-input jsBalanceInput',
     'size'        => '60',
     'maxlength'   => '255',
-    'placeholder' => 'balance'
+    'placeholder' => JText::_('JBZOO_JBPRICE_VARIATION_BALANCE')
 );
 
 $selected = null;
@@ -50,6 +50,7 @@ if ($this->getValue('_balance') > 0) {
 ?>
 
 <div class="balance<?php echo $variant; ?>" id="<?php echo $unique; ?>">
+
     <?php
     echo $jbhtml->radio($list, $this->getName('_balance'), $jbhtml->buildAttrs($attr), $this->getValue('_balance'));
     ?>
@@ -59,6 +60,7 @@ if ($this->getValue('_balance') > 0) {
         echo $jbhtml->text($this->getName('_balance'), $this->getValue('_balance'), $jbhtml->buildAttrs($inputAttr));
         ?>
     </div>
+
 </div>
 
 
