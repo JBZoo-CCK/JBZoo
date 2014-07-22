@@ -18,8 +18,6 @@
         <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
                description="JBZOO_ELEMENT_ACCESS_DESC"/>
 
-        <param name="options" type="textarea" default="" label="Options"/>
-
     </params>
 
     <params group="render">

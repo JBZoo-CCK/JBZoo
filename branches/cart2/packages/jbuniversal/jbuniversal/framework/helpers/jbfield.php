@@ -467,7 +467,7 @@ class JBFieldHelper extends AppHelper
         $html  = array();
         $id    = $this->app->jbstring->getId('jbcolor-input-');
         $divId = $this->app->jbstring->getId('jbcolor-');
-
+        $this->app->jbassets->initJBColorElement($divId);
         $attrs = array(
             'name'  => $this->_getName($controlName, $name),
             'class' => 'jbcolor-textarea ' . $this->_getAttr($node, 'class'),
@@ -626,14 +626,14 @@ class JBFieldHelper extends AppHelper
     public function JBElementListByType($name, $value, $controlName, SimpleXMLElement $node, $parent)
     {
         $elTypes = $this->_getAttr($node, 'types', '');
+        $layout  = $this->_getAttr($node, 'layout', 'teaser');
 
         if ($elTypes) {
             $elTypes = explode(',', $elTypes);
         }
 
-        $type       = $this->app->jbrequest->get('type', 'product');
-        $layout     = $this->app->jbrequest->get('layout', 'product');
         $optionList = array();
+        $result     = array();
 
         // TODO remove paths hardcode
         $paths = array(
@@ -642,17 +642,24 @@ class JBFieldHelper extends AppHelper
             JPATH_BASE . '/plugins/system/widgetkit_zoo/widgets/slideset/renderer/item/positions.config',
             $this->app->path->path('mod_jbzoo_item:renderer/item/positions.config')
         );
+        $files = JFolder::files($this->app->path->path('jbtypes:'), '\.config');
 
-        foreach ($paths as $path) {
-            $config = $this->app->parameter->create($this->app->jbfile->read($path));
-            $params = $config->get(JBZOO_APP_GROUP . '.' . $type . '.' . $layout);
-            if (!empty($params)) {
-                break;
+        $types = $this->app->zoo->getApplication()->getTypes();
+        $types = $this->app->data->create($types);
+
+
+        foreach ($types as $type) {
+            foreach ($paths as $path) {
+
+                $config = $this->app->parameter->create($this->app->jbfile->read($path));
+                $param  = $config->get(JBZOO_APP_GROUP . '.' . $type->id . '.' . $layout);
+                if (empty($param)) {
+                    continue;
+                }
+
+                $result[] = $param;
             }
         }
-
-
-        $files = JFolder::files($this->app->path->path('jbtypes:'), '\.config');
 
         foreach ($files as $file) {
 
@@ -664,21 +671,28 @@ class JBFieldHelper extends AppHelper
             }
 
             foreach ($data['elements'] as $key => $element) {
+
                 if (in_array($element['type'], $elTypes)) {
 
-                    if (!empty($params)) {
-                        foreach ($params as $el) {
-                            for ($i = 0; $i < count($el); $i++) {
-                                if ($key == $el[$i]['element']) {
-                                    $optionList[json_encode($el[$i])] = $data['name'] . ' - ' . $element['name'];
+                    if (!empty($result)) {
+                        foreach ($result as $elem) {
+
+                            $elem = $this->app->data->create($elem);
+                            $kee  = $elem->searchRecursive($key);
+
+                            $position = $this->app->data->create($elem->get($kee));
+                            for ($i = 0; $i < count($position); $i++) {
+                                if ($position[$i]['element'] == $key) {
+                                    $optionList[json_encode($position[$i])] = $data['name'] . ' - ' . $element['name'];
                                 }
                             }
+
                         }
                     }
                 }
             }
-
         }
+
         $optionList = array_unique($optionList);
         return $this->_renderList($optionList, $value, $this->_getName($controlName, $name), $node);
     }

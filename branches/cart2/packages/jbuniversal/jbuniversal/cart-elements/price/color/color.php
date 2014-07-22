@@ -46,11 +46,15 @@ class JBCartElementPriceColor extends JBCartElementPrice
     {
         $params = $this->app->data->create($params);
         $type   = $this->getInputType();
+        $height = (int)$params->get('height', 26);
+        $width  = (int)$params->get('width', 26);
 
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
-                'params'      => $params,
-                'type'        => $type,
+                'params'     => $params,
+                'type'       => $type,
+                'width'      => $width,
+                'height'     => $height,
                 'colorItems' => $this->getColors()
             ));
         }
@@ -72,11 +76,14 @@ class JBCartElementPriceColor extends JBCartElementPrice
         return 'checkbox';
     }
 
+    /**
+     * @return mixed
+     */
     public function getColors()
     {
         $colors = explode("\n", $this->config->get('options'));
 
-        $colorItems = $this->app->jbcolor->getColors($colors, 'images');
+        $colorItems = $this->app->jbcolor->getColors($colors, $this->config->get('path', 'images'));
 
         return $colorItems;
     }
@@ -96,6 +103,11 @@ class JBCartElementPriceColor extends JBCartElementPrice
         return "elements[{$identifier}][variations][{$index}][params][{$this->identifier}][{$name}]";
     }
 
+    /**
+     * @param null $identifier
+     * @param $name
+     * @return string
+     */
     public function getBasicName($identifier = null, $name)
     {
         if (empty($identifier)) {

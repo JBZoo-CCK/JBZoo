@@ -144,8 +144,11 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     public function getSearchData()
     {
         $data = $this->getBasicData();
+        if (!empty($data['params'])) {
+            return isset($data['params']['_sku']) ? $data['params']['_sku'] : $this->getItem()->id;
+        }
 
-        return $data['sku'];
+        return null;
     }
 
     /**
@@ -199,6 +202,39 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         }
 
         return null;
+    }
+
+    public function getAllParamData($identifier)
+    {
+        $result      = array();
+        $data        = $this->data();
+        $basicData   = $this->app->data->create($data['basic']);
+        $basicParams = $this->app->data->create($basicData->get('params'));
+
+        if ($value = $basicData->get($identifier)) {
+            $result[] = $value;
+        }
+
+        if ($value = $basicParams->get($identifier)) {
+            $result[] = $value;
+        }
+        unset($data['basic']);
+
+        for ($i = 0; $i < count($data['variations']); $i++) {
+            $variant       = $this->app->data->create($data['variations'][$i]);
+            $variantParams = $this->app->data->create($variant->get('params'));
+
+            if ($value = $variant->get($identifier)) {
+                $result[] = $value;
+            }
+
+            if ($value = $variantParams->get($identifier)) {
+                $result[] = $value;
+            }
+        }
+
+        //$result[] = $basicData->get($identifier);
+        return $result;
     }
 
     /**
@@ -1916,13 +1952,6 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         return false;
     }
 
-    /**
-     * Get render params
-     * @param $layout
-     * @param $position
-     * @param $index
-     * @return null|array
-     */
     /**
      * Get render params
      * @param $layout

@@ -557,6 +557,7 @@ class JBAssetsHelper extends AppHelper
 
         // included in the back-end. Do not delete.
         $this->_include(array('jbassets:css/jbzoo.css'), 'css');
+
         $this->tools();
 
         if ($queryElement) {
@@ -576,6 +577,8 @@ class JBAssetsHelper extends AppHelper
         $this->jQuery();
 
         if ($queryElement) {
+            $this->_include(array('media:jui/js/jquery.minicolors.min.js'), 'js');
+            $this->_include(array('media:jui/css/jquery.minicolors.css'), 'css');
             $this->addScript('jQuery(document).ready(function($){
                 $("' . $queryElement . '").JBColorElement({message: "' . $text . '"});
             });');

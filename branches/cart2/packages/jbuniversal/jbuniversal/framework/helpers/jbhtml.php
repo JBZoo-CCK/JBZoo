@@ -151,9 +151,10 @@ class JBHTMLHelper extends AppHelper
      * @param array $data
      * @param string $name
      * @param null $selected
+     * @param null $attrs
      * @return string
      */
-    public function colors($inputType = 'checkbox', $data, $name, $selected = null)
+    public function colors($inputType = 'checkbox', $data, $name, $selected = null, $attrs = null)
     {
         $html = array();
         $uniq = $this->app->jbstring->getId();
@@ -189,7 +190,7 @@ class JBHTMLHelper extends AppHelper
             );
 
             $divAttribs = array(
-                'style' => 'background-color: ' . (!$isFile ? '#' . $value : 'transparent')
+                'style' => 'background-color: ' . (!$isFile ? '#' . $value . ';' : 'transparent;') . $attrs
             );
 
             if (is_array($selected)) {

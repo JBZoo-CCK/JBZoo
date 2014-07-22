@@ -87,6 +87,11 @@ class JBCartElementPriceValue extends JBCartElementPrice
         return "elements[{$identifier}][variations][{$index}][{$name}]";
     }
 
+    /**
+     * @param string $key
+     * @param null $default
+     * @return mixed|null
+     */
     public function getValue($key, $default = null)
     {
         $data = $this->app->data->create($this->config->get('data'));
@@ -100,26 +105,24 @@ class JBCartElementPriceValue extends JBCartElementPrice
     public function getPrices()
     {
         $currencyDefault = $this->_jbprice->config->get('default_currency', 'EUR');
-        $basicCurrency   = $this->getBasic('currency');
+        $basicCurrency   = $this->getBasic('_currency', $currencyDefault);
 
         $jbmoney = $this->app->jbmoney;
         $data    = $this->getBasic('_discount');
 
-        $curr     = $data['currency'];
-        $discount = $data['value'];
-        $value    = $this->getBasic('_value');
+        $discountCurrency = $data['currency'];
+        $discountValue    = $data['value'];
 
-        $basePrice = $jbmoney->calcDiscount($value, $basicCurrency, $discount, $curr);
+        $value = $this->getBasic('_value');
 
-        $total         = $jbmoney->convert($basicCurrency, $currencyDefault, $basePrice);
-        $totalNoFormat = $jbmoney->convert($basicCurrency, $curr, $total);
+        $priceNoFormat = $jbmoney->convert($basicCurrency, $currencyDefault, $value);
+        $price         = $jbmoney->toFormat($priceNoFormat, $basicCurrency);
 
-        $priceNoFormat = $jbmoney->convert($basicCurrency, $curr, $value);
-        $price         = $jbmoney->toFormat($priceNoFormat, $curr);
+        $totalNoFormat = $jbmoney->calcDiscount($value, $basicCurrency, $discountValue, $discountCurrency);
+        $total         = $jbmoney->toFormat($totalNoFormat, $basicCurrency);
 
         $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
-        $save         = $jbmoney->toFormat($saveNoFormat, $curr);
-
+        $save         = $jbmoney->toFormat($saveNoFormat, $basicCurrency);
 
         $prices = array(
             'totalNoFormat' => $totalNoFormat,

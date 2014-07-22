@@ -13,16 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$containerId = $this->app->jbstring->getId('color-');
-$value = $this->app->data->create($this->getValue($this->identifier));
-$attributes = ' width:' . $width . 'px; height:' . $height . 'px;';
+$unique = $this->app->jbstring->getId('select-chosen-');
 
-?>
-
-<div class="jbprice-sku">
-    <div id="<?php echo $containerId; ?>" class="jbzoo-color jbzoo">
-        <?php echo $this->app->jbhtml->colors($type, $colorItems, $this->getName('color'), null, $attributes); ?>
-    </div>
-
-</div>
+echo $this->app->jbhtml->selectChosen($data, $this->getName(), null, null, $unique);
 

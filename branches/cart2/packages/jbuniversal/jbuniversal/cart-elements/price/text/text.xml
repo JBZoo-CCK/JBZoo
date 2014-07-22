@@ -18,9 +18,22 @@
         <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
                description="JBZOO_ELEMENT_ACCESS_DESC"/>
 
-        <param name="options" type="textarea" default="" label="Options"/>
-
     </params>
 
+    <params group="render">
+
+        <param name="template"
+               type="list"
+               label="JBZOO_ELEMENT_TEMPLATE"
+               description="JBZOO_ELEMENT_TEMPLATE_DESC"
+               default="_auto_"
+                >
+            <option value="radio">JBZOO_ELEMENT_TEMPLATE_RADIO</option>
+            <option value="select">JBZOO_ELEMENT_TEMPLATE_SELECT</option>
+            <option value="chosen">JBZOO_ELEMENT_TEMPLATE_SELECT_CHOSEN</option>
+            <option value="buttons">JBZOO_ELEMENT_TEMPLATE_JQUERYUI</option>
+        </param>
+
+    </params>
 
 </element>
