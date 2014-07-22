@@ -15,9 +15,6 @@
         <param name="description" type="text" default="" label="JBZOO_ELEMENT_DESCRIPTION"
                description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
 
-        <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
-               description="JBZOO_ELEMENT_ACCESS_DESC"/>
-
     </params>
 
     <params group="render">

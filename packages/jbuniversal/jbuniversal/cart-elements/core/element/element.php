@@ -138,7 +138,7 @@ abstract class JBCartElement
     public function get($key, $default = null)
     {
         if ($this->_order) {
-            return $this->_order->elements->find("{$this->identifier}.{$key}", $default);
+            //return $this->_order->elements->find("{$this->identifier}.{$key}", $default);
         }
 
         return $default;

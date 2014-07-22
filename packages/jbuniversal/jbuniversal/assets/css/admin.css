@@ -801,8 +801,9 @@ ul.element-list .loading {
 }
 
 .uk-grid ul.parameter-form li .label {
-    width: 150px;
+    width: 200px;
     min-width: 150px;
+    padding-left: 10px;
 }
 
 .jbzoo .positions-empty {
@@ -997,6 +998,28 @@ ul.parameter-form li .field .jbprice-advance-fields .jbprice-fields-parameter .j
 
 .jbprice-advance-fields .jbprice-fields-parameter .jbprice-field-option:hover {
     background: #F0F0F0;
+}
+.jbzoo-assign-elements ul.parameter-form li .field input[type='text'] {
+    padding: 3px;
+    width: 150px;
+}
+
+.jbzoo-assign-elements ul.parameter-form li .field input[type='text'],
+.jbzoo-assign-elements ul.parameter-form li .field select {
+    font-size: 12px;
+}
+
+.jbzoo-assign-elements ul.parameter-form li .label label {
+    font-size: 12px;
+}
+
+.jbzoo-assign-elements ul.parameter-form li .field select {
+    min-width: 150px;
+    padding: 3px;
+}
+
+.jbzoo-assign-elements #add-element div.groups {
+    width: 300px;
 }
 
 .jbzoo-price-advance .variations .jbpriceadv-variation-row {

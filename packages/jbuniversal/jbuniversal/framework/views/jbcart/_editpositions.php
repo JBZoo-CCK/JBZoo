@@ -33,7 +33,7 @@ $this->app->jbtoolbar->save();
     'layoutList' => $layoutList
 )); ?>
 
-<form class="assign-elements jsAssignElements" action="index.php" method="post" name="adminForm" id="adminForm" accept-charset="utf-8">
+<form class="jbzoo-assign-elements assign-elements jsAssignElements" action="index.php" method="post" name="adminForm" id="adminForm" accept-charset="utf-8">
 
     <!-- left col -->
     <div class="col col-left width-65" style="margin-right: 24px;">
