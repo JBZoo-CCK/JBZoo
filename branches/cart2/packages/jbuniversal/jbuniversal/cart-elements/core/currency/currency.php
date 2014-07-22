@@ -51,19 +51,7 @@ abstract class JBCartElementCurrency extends JBCartElement
         $mode = strtolower(get_class($this));
         $this->app->jbdebug->mark('jbmoney::getData::' . $mode . '-start');
 
-        $cacheKey = serialize(array(
-            'mode'     => $mode,
-            'date'     => date('d-m-Y'). time(),
-            'currency' => $currency,
-            'config'   => $this->config->getArrayCopy(),
-        ));
-
-        $data = $this->app->jbcache->get($cacheKey, 'currency', true);
-
-        if (empty($data)) {
-            $data = $this->_loadData($currency);
-            $this->app->jbcache->set($cacheKey, $data, 'currency', true);
-        }
+        $data = $this->_loadData($currency);
 
         $this->app->jbdebug->mark('jbmoney::getData::' . $mode . '-finish');
 
@@ -85,7 +73,6 @@ abstract class JBCartElementCurrency extends JBCartElement
     protected function _loadUrl($url)
     {
         $httpClient = JHttpFactory::getHttp();
-        //dump($url, 0, 'request');
 
         try {
             $responce = $httpClient->get($url);
