@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <element type="sku" group="Core" hidden="true" core="true">
-    <name>Sku (Core)</name>
+    <name>Sku - Core</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>

@@ -53,9 +53,10 @@ class JBCartElementHelper extends AppHelper
     /**
      * Returns an array of all Elements.
      * @param array $groups
+     * @param bool $getHidden
      * @return array
      */
-    public function getGroups($groups)
+    public function getGroups($groups, $getHidden = false)
     {
         $groups = (array)$groups;
 
@@ -73,20 +74,42 @@ class JBCartElementHelper extends AppHelper
                 $filePath = $this->app->path->path('cart-elements:' . $group . '/' . $type . '/' . $type . '.php');
 
                 if ($type != 'element' && is_file($filePath)) {
+
                     if ($element = $this->create($type, $group)) {
-                        if ($element->isHidden() != 'true') {
+
+                        $isHidden = $element->isHidden() == 'true';
+
+                        if (!$isHidden || $getHidden) {
                             $elements[$group][$type] = $element;
                         }
+
                     }
                 }
             }
+
+            uasort($elements[$group], array($this, '_sortGroup'));
         }
 
         $elements = array_filter($elements);
-        ksort($elements);
 
         return $elements;
     }
+
+    /**
+     * User compare function for element grouping
+     * @param JBCartElement $elem1
+     * @param JBCartElement $elem2
+     * @return int
+     */
+    protected function _sortGroup($elem1, $elem2)
+    {
+        if ($elem1->isCore() == $elem2->isCore()) {
+            return 0;
+        }
+
+        return ($elem1->isCore() && !$elem2->isCore()) ? -1 : 1;
+    }
+
 
     /**
      * Get core
@@ -115,12 +138,17 @@ class JBCartElementHelper extends AppHelper
     public function getSystemTmpl($group)
     {
         $elements = array();
-        $list     = $this->getGroups($group);
+        $list     = $this->getGroups($group, true);
 
         if (isset($list[$group])) {
 
             foreach ($list[$group] as $type => $element) {
                 if ($element->isSystemTmpl()) {
+
+                    $element->setConfig(array(
+                        'name' => 'JBZOO_ELEMENT_CORE_' . strtoupper($element->getElementType())
+                    ));
+
                     $elements[$type] = $element;
                 }
             }
@@ -156,12 +184,15 @@ class JBCartElementHelper extends AppHelper
             $element->identifier = $config['identifier'];
         }
 
-        if ($config) {
-            $element->setConfig($config);
-        }
-
         if ($element->isCore()) {
             $element->identifier = '_' . strtolower($element->getElementType());
+            $element->setConfig(array(
+                'name' => JText::_('JBZOO_ELEMENT_CORE_' . $element->getElementType())
+            ));
+        }
+
+        if ($config) {
+            $element->setConfig($config);
         }
 
         return $element;

@@ -51,21 +51,22 @@ class JBCartPositionHelper extends AppHelper
                 $element    = null;
                 $identifier = $elemConfig['identifier'];
 
-                if (!empty($forceElements) && strpos($identifier, '_') === false) {
+                if (!empty($forceElements)) {
 
                     // get from forced arg
                     if (isset($forceElements[$identifier])) {
                         $element = $forceElements[$identifier];
                     }
+                }
 
-                } else {
+                if (!$element) {
 
                     // create new and bind configs
                     if ($element = $jbcartelement->create($elemConfig['type'], $elemConfig['group'])) {
                         $identifier = $elemConfig['identifier'];
 
-                        if ($element->isCore()) {
-                            $identifier = '_' . strtolower($elemConfig['type']);
+                        if (!isset($elemConfig['name'])) {
+                            $elemConfig['name'] = 'JBZOO_ELEMENT_CORE_' . $element->getElementType();
                         }
 
                         $element->identifier = $identifier;

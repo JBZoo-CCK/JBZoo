@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <element type="value" group="Core" hidden="true" core="true" system-tmpl="true">
-    <name>Value (Core)</name>
+    <name>Price Value - Core</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>

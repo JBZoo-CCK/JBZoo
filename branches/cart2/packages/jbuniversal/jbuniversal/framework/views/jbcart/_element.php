@@ -19,7 +19,7 @@ $elementParams = isset($elementParams) ? $elementParams : null;
 
 // get elements meta data
 $form = $element->getConfigForm($elementGroup);
-$name = $element->config->get('name', 'New');
+$name = JText::_($element->config->get('name', 'JBZOO_ADMIN_ELEMENT_NEW'));
 $var = 'elements[' . $this->app->jbstring->getId($element->identifier . '--') . ']'; // uniqid vs radio input "checked" bug
 
 ?>
@@ -32,7 +32,7 @@ $var = 'elements[' . $this->app->jbstring->getId($element->identifier . '--') . 
 
     <div class="name jsSort" title="<?php echo JText::_('JBZOO_ADMIN_ELEMENT_SORT'); ?>">
         <?php echo $name; ?>
-        <span>(<?php echo $element->getMetaData('name'); ?>)</span>
+        <span>(<?php echo trim($element->getMetaData('name')); ?>)</span>
     </div>
 
     <div class="config jsConfig">
