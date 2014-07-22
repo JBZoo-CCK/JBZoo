@@ -18,7 +18,6 @@ $attributes = array(
     'class' => 'jsParam'
 );
 
-
 ?>
 
 <div class="jbprice-param-select jbprice-param-list jbpriceParams" data-index="0" data-type="select">

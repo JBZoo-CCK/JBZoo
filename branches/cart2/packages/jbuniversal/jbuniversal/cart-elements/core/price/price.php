@@ -238,6 +238,24 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     * @param bool $params
+     * @return mixed
+     */
+    public function getDefaultVariantData($params = false)
+    {
+        $defaultVariant = $this->_jbprice->config->get('default');
+        $defaultVariant = $this->app->data->create($defaultVariant);
+
+        if ($params) {
+            $variantParmas = $this->app->data->create($defaultVariant->get('params'));
+
+            return $variantParmas;
+        }
+
+        return $defaultVariant;
+    }
+
+    /**
      * @return null
      */
     protected function renderFieldByType()

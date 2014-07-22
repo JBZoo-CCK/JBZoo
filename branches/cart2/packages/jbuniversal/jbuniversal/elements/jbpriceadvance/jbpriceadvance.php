@@ -367,9 +367,12 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      */
     public function render($params = array())
     {
-        $params = $this->app->data->create($params);
-        $item   = $this->getItem();
-        $hash   = $this->_getHash();
+        $params    = $this->app->data->create($params);
+        $item      = $this->getItem();
+        $hash      = $this->_getHash();
+        $data      = $this->data();
+        $basicData = $this->getBasicData();
+        $variant   = isset($basicData['default_variant']) ? $basicData['default_variant'] : null;
 
         $mainPrices = $this->_getPrices($params, $this->_getHash());
 
@@ -387,6 +390,9 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             $this->app->path->path('component.site:'),
             $this->app->path->path('jbtmpl:catalog')
         );
+
+        $defaultVariantData = isset($data['variations'][$variant]) ? $data['variations'][$variant] : null;
+        $this->config->set('default', $defaultVariantData);
 
         $elements = $renderer->render($this->_layout, array('price' => $this));
 
@@ -1482,13 +1488,21 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         $result    = array();
         $basicData = $data['basic'];
 
-        $result['basic']['_value']    = $basicData['_value'];
-        $result['basic']['_currency'] = $basicData['_currency'];
-        $result['basic']['hash']      = $this->_getHash();
+        foreach ($basicData as $key => $basic) {
+
+            $result['basic'][$key] = $basic;
+
+            if (!is_array($basic)) {
+                $result['basic'][$key] = JString::trim($basic);
+            }
+        }
+        $result['basic']['hash'] = $this->_getHash();
+
 
         foreach ($basicData['params'] as $key => $basic) {
             $result['basic']['params'][$key] = $basic;
         }
+
 
         if (isset($data['variations'])) {
             $variations = $data['variations'];
@@ -1523,7 +1537,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
             $result['variations'] = $variations;
         }
-        //die;
+
         parent::bindData($result);
 
         /*$data = $this->_mergeDefaultData($data);
@@ -1642,14 +1656,12 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                 $discountVal  = isset($discount['value']) ? $discount['value'] : 0;
                 $discountCurr = isset($discount['currency']) ? $discount['currency'] : $this->_getDefaultCurrency();
 
-
                 $variations      = $this->_getVariations();
                 $currencyDefault = $this->_getDefaultCurrency();
 
                 $price     = $this->_jbmoney->convert($basic['_currency'], $currencyDefault, $basic['_value']);
                 $basePrice = $this->_jbmoney->calcDiscount($basic['_value'], $basic['_currency'], $discountVal, $discountCurr);
                 $total     = $this->_jbmoney->convert($basic['_currency'], $currencyDefault, $basePrice);
-
 
                 $mainHash = $this->_getHash();
                 $mainSku  = !empty($basicParamSku) ? $basicParamSku : $mainHash;
@@ -1685,10 +1697,12 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                     $discountVal   = $discount['value'];
                     $discountCurr  = $discount['currency'];
 
-                    $value = $this->_jbmoney->calc($variant->get('_value'), $variant->get('_currency'), $variant['_value'], $variant['_currency']);
-                    $price = $this->_jbmoney->convert($variant->get('_currency'), $currencyDefault, $value);
-                    $total = $this->_jbmoney->calcDiscount($value, $variant->get('_currency'), $discountVal, $discountCurr);
-                    $total = $this->_jbmoney->convert($variant->get('_currency'), $currencyDefault, $total);
+                    $basic = $this->app->data->create($basic);
+
+                    $value = $this->_jbmoney->calc($basic->get('_value'), $basic->get('_currency'), $variant->get('_value'), $variant->get('_currency'));
+                    $price = $this->_jbmoney->convert($basic->get('_currency'), $currencyDefault, $value);
+                    $total = $this->_jbmoney->calcDiscount($value, $basic->get('_currency'), $discountVal, $discountCurr);
+                    $total = $this->_jbmoney->convert($basic->get('_currency'), $currencyDefault, $total);
 
                     $result[$hash] = array(
                         'hash'        => $hash,

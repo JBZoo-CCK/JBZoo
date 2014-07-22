@@ -15,6 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $jbhtml = $this->app->jbhtml;
 $elId = $this->app->jbstring->getId();
+$defaultVariant = isset($basicData['default_variant']) ? $basicData['default_variant'] : null;
 
 foreach ($variations as $rowKey => $row) : ?>
     <?php $key = $rowKey + 1; ?>
@@ -24,8 +25,10 @@ foreach ($variations as $rowKey => $row) : ?>
     <span class="jbremove"></span>
 
     <div class="default_variant">
-        <?php $data = array($key => JText::_('JBZOO_JBPRICE_DEFAULT_VARIANT')); ?>
-        <?php echo $jbhtml->radio($data, $this->getControlName('default_variant')); ?>
+        <?php $data = array($rowKey => JText::_('JBZOO_JBPRICE_DEFAULT_VARIANT')); ?>
+        <?php echo $jbhtml->radio($data, $this->getControlName('default_variant'), array(
+            'id' => $this->app->jbstring->getId('default-variant')
+        ), $defaultVariant, $this->app->jbstring->getId('default-variant')); ?>
     </div>
 
     <span class="variation-label">
