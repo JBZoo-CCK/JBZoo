@@ -246,6 +246,7 @@ class JBCartJBuniversalController extends JBUniversalController
         $this->dragElements   = $this->_position->loadElements('priceparams');
         $this->elementsParams = $this->_position->loadParams('jbpriceTmpl.' . $layout);
         $this->positions      = $this->_position->loadPostionsTmpl('jbpriceTmpl.' . $layout, 'priceparams', $this->positionList);
+        //dump($this->positions);
 
         $this->renderView();
     }
