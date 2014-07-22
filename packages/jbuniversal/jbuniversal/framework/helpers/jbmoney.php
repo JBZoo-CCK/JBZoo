@@ -22,12 +22,17 @@ class JBMoneyHelper extends AppHelper
     const BASE_CURRENCY = 'EUR'; // don't touch!
     const PERCENT = '%';
 
-    static $curList = null;
+    static $curList = array();
 
     /**
      * @var array
      */
     protected $_config = array();
+
+    /**
+     * @var boolean
+     */
+    protected $_isBuilded = false;
 
     /**
      * @var array
@@ -57,7 +62,7 @@ class JBMoneyHelper extends AppHelper
     public function init()
     {
         // optimize
-        if (!empty(self::$curList)) {
+        if ($this->_isBuilded || !empty(self::$curList)) {
             return self::$curList;
         }
 
@@ -71,10 +76,7 @@ class JBMoneyHelper extends AppHelper
         ));
 
         self::$curList = $this->app->jbcache->get($cacheKey, 'currency', true);
-
         if (empty(self::$curList)) {
-
-            self::$curList = array();
 
             $elements = $this->app->jbcartposition->loadElements('currency');
 
@@ -96,6 +98,8 @@ class JBMoneyHelper extends AppHelper
 
             $this->app->jbcache->set($cacheKey, self::$curList, 'currency', true);
         }
+
+        $this->_isBuilded = true;
 
         $this->app->jbdebug->mark('jbmoney::init::finish');
 
