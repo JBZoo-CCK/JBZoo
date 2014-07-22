@@ -28,7 +28,9 @@ $var = 'elements[' . $this->app->jbstring->getId($element->identifier . '--') . 
 
     <div class="element-icon edit-element jsEdit" title="<?php echo JText::_('JBZOO_ADMIN_ELEMENT_EDIT'); ?>"></div>
 
-    <div class="element-icon delete-element jsDelete" title="<?php echo JText::_('JBZOO_ADMIN_ELEMENT_DELETE'); ?>"></div>
+ 
+    <div class="element-icon delete-element jsDelete"
+         title="<?php echo JText::_('JBZOO_ADMIN_ELEMENT_DELETE'); ?>"></div>
 
     <div class="name jsSort" title="<?php echo JText::_('JBZOO_ADMIN_ELEMENT_SORT'); ?>">
         <?php echo $name; ?>
@@ -48,10 +50,12 @@ $var = 'elements[' . $this->app->jbstring->getId($element->identifier . '--') . 
         echo $form->render($var, $elementGroup);
 
         ?>
-
-        <input type="hidden" name="<?php echo $var; ?>[type]" value="<?php echo $element->getElementType(); ?>" class="jsElementType" />
-        <input type="hidden" name="<?php echo $var; ?>[group]" value="<?php echo $element->getElementGroup(); ?>" class="jsElementGroup" />
-        <input type="hidden" name="<?php echo $var; ?>[identifier]" value="<?php echo $element->identifier; ?>" class="jsElementId" />
+        <input type="hidden" name="<?php echo $var; ?>[type]" value="<?php echo $element->getElementType(); ?>"
+               class="jsElementType"/>
+        <input type="hidden" name="<?php echo $var; ?>[group]" value="<?php echo $element->getElementGroup(); ?>"
+               class="jsElementGroup"/>
+        <input type="hidden" name="<?php echo $var; ?>[identifier]" value="<?php echo $element->identifier; ?>"
+               class="jsElementId"/>
 
     </div>
 
