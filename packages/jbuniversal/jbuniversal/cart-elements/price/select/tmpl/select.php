@@ -16,5 +16,5 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 <div class="jbprice-param-<?php echo $this->getElementType(); ?> jbprice-param-list">
-    <?php echo $field; ?>
+    <?php echo $this->app->jbhtml->select($data, $this->getName());; ?>
 </div>

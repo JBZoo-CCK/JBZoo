@@ -37,6 +37,31 @@ class JBCartElementPriceSelect extends JBCartElementPrice
     }
 
     /**
+     * @param array $params
+     * @return array|mixed|null|string|void
+     */
+    public function render($params = array())
+    {
+        $params = $this->app->data->create($params);
+        $data   = array();
+
+        $template = $params->get('template', 'radio');
+
+        foreach ($this->getAllData() as $value) {
+            $data[] = $value['value'];
+        }
+
+        if ($layout = $this->getLayout($template . '.php')) {
+            return self::renderLayout($layout, array(
+                'params' => $params,
+                'data'   => $data
+            ));
+        }
+
+        return null;
+    }
+
+    /**
      * @param null $identifier
      * @param $name
      * @param int $index
@@ -51,6 +76,11 @@ class JBCartElementPriceSelect extends JBCartElementPrice
         return "elements[{$identifier}][variations][{$index}][params][{$this->identifier}][{$name}]";
     }
 
+    /**
+     * @param null $identifier
+     * @param $name
+     * @return string
+     */
     public function getBasicName($identifier = null, $name)
     {
         if (empty($identifier)) {

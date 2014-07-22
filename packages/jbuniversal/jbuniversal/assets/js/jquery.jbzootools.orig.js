@@ -863,8 +863,6 @@ var JBZooHelper = function () {
                 'base_sku': $('.basic-sku', $obj).val()
             }, options);
 
-            $.fn.initJBPriceAdvImage(n, obj);
-
             function rebuildList() {
                 $('.jbpriceadv-variation-row .jbremove', $obj).show();
                 $('.jbpriceadv-variation-row', $obj).each(function (n, row) {
@@ -889,7 +887,6 @@ var JBZooHelper = function () {
                         $control.attr('name', $control.attr('name').replace(/\[variations\]\[\d\]/i, '[variations][' + n + ']'));
                     });
 
-                    $.fn.initJBPriceAdvImage(n, row);
                 });
             }
 
@@ -941,60 +938,67 @@ var JBZooHelper = function () {
         });
     };
 
-    $.fn.initJBPriceAdvImage = function(n, row) {
+    $.fn.initJBPriceAdvImage = function() {
         var url = location.href.match(/^(.+)administrator\/index\.php.*/i)[1];
 
-        var $parent = $('.jbprice-img-row-file', row);
-console.log(row);
-        if ($parent.hasClass('JBPriceImage-init')) {
-            return $parent;
-        }
+        var $form = $('form.item-edit');
 
-        $parent.addClass('JBPriceImage-init');
-        var $jsJBPriceImage = $('.jsJBPriceImage', $parent),
-            id = "jsJBPriceImage-" + n,
-            $selectButton = $('<button type="button" class="jbprice-img-button" />').text("Select Image").insertAfter($jsJBPriceImage),
-            $cancelSelect = $('<span class="jbprice-img-cancel image-cancel"/>').insertAfter($jsJBPriceImage);
+        return $('.jbprice-img-row-file', $form).each(function (n) {
 
-        $jsJBPriceImage.attr("id", id);
+            var $this = $(this);
 
-        $cancelSelect.click(function () {
-            $cancelSelect.prev().val("");
-        });
-
-        $selectButton.click(function (event) {
-            event.preventDefault();
-
-            SqueezeBox.fromElement(this, {
-                handler: "iframe",
-                url: "index.php?option=com_media&view=images&tmpl=component&e_name=" + id,
-                size: {x: 850, y: 500}
-            });
-        });
-        var func = 'insertJBPriceImage' + id;
-        if ($.isFunction(window.jInsertEditorText)) {
-            window[func] = window.jInsertEditorText;
-        }
-
-        window.jInsertEditorText = function (c, a) {
-
-            if (a.match(/^jsJBPriceImage-/)) {
-
-                var $element = $("#" + a),
-                    value = c.match(/src="([^\"]*)"/)[1];
-
-                $element.parent()
-                    .find("img")
-                    .attr("src", url + value);
-
-                $element.val(value);
-
-            } else {
-                $.isFunction(window[func]) &&
-                window[func](c, a);
+            if ($this.hasClass('JBPriceImage-init')) {
+                return $this;
             }
 
-        };
+            $this.addClass('JBPriceImage-init');
+            var $jsJBPriceImage = $('.jsJBPriceImage', $this),
+                id = "jsJBPriceImage-" + n,
+                $selectButton = $('<button type="button" class="jbprice-img-button" />').text("Select Image").insertAfter($jsJBPriceImage),
+                $cancelSelect = $('<span class="jbprice-img-cancel image-cancel"/>').insertAfter($jsJBPriceImage);
+
+            $jsJBPriceImage.attr("id", id);
+
+            $cancelSelect.click(function () {
+                $cancelSelect.prev().val("");
+            });
+
+            $selectButton.click(function (event) {
+                event.preventDefault();
+
+                SqueezeBox.fromElement(this, {
+                    handler: "iframe",
+                    url: "index.php?option=com_media&view=images&tmpl=component&e_name=" + id,
+                    size: {x: 850, y: 500}
+                });
+            });
+            var func = 'insertJBPriceImage' + id;
+            if ($.isFunction(window.jInsertEditorText)) {
+                window[func] = window.jInsertEditorText;
+            }
+
+            window.jInsertEditorText = function (c, a) {
+
+                if (a.match(/^jsJBPriceImage-/)) {
+
+                    var $element = $("#" + a),
+                        value = c.match(/src="([^\"]*)"/)[1];
+
+                    $element.parent()
+                        .find("img")
+                        .attr("src", url + value);
+
+                    $element.val(value);
+
+                } else {
+                    $.isFunction(window[func]) &&
+                    window[func](c, a);
+                }
+
+            };
+
+        })
+
     };
 
     /**

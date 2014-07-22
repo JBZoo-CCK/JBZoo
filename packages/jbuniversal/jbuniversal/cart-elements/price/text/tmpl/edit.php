@@ -12,9 +12,3 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
-?>
-
-<div class="jbprice-param-<?php echo $this->getElementType(); ?> jbprice-param-list">
-    <?php echo $this->app->jbhtml->radio($data, $this->getName());; ?>
-</div>

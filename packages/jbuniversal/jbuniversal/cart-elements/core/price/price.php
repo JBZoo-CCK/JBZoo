@@ -82,13 +82,24 @@ abstract class JBCartElementPrice extends JBCartElement
         return $this->app->data->create($params);
     }
 
-    public function getPosition()
+    /**
+     * @param null $identifier
+     * @return array
+     */
+    public function getAllData($identifier = null)
     {
-        $identifier = $this->config->get('related_identifier');
+        if (empty($identifier)) {
+            $identifier = $this->identifier;
+        }
 
-        return $this->app->jbhtml->hidden("elements[{$identifier}][variations][0][params][variant]", $this->config->get('variant', 0), 'class="hidden-variant"');
+        return $this->_jbprice->getAllParamData($identifier);
     }
 
+    /**
+     * @param $key
+     * @param null $default
+     * @return mixed
+     */
     public function getBasic($key, $default = null)
     {
         $basic  = $this->app->data->create($this->_jbprice->getBasicData());
@@ -102,14 +113,9 @@ abstract class JBCartElementPrice extends JBCartElement
         return $value;
     }
 
-    public function getBasicData($default = null)
-    {
-        $basicData  = $this->_jbprice->getBasicData();
-        $identifier = JString::trim($this->identifier, '_');
-
-        return isset($basicData[$identifier]) ? $basicData[$identifier] : $default;
-    }
-
+    /**
+     * @param ElementJBPriceAdvance $object
+     */
     public function setJBPrice(ElementJBPriceAdvance $object)
     {
         static $add = false;
@@ -142,6 +148,9 @@ abstract class JBCartElementPrice extends JBCartElement
         return $param->get($key, $default);
     }
 
+    /**
+     * @return mixed
+     */
     public function getConfig()
     {
         $priceparams = $this->_jbconfig->getGroup('cart.priceparams');
@@ -151,6 +160,10 @@ abstract class JBCartElementPrice extends JBCartElement
         return $this->app->data->create($list);
     }
 
+    /**
+     * @param string $key
+     * @return string
+     */
     public function getName($key = 'value')
     {
         $params = $this->getParams();
@@ -163,6 +176,11 @@ abstract class JBCartElementPrice extends JBCartElement
         return $name;
     }
 
+    /**
+     * @param null $identifier
+     * @param $name
+     * @return string
+     */
     public function getBasicName($identifier = null, $name)
     {
         if (empty($identifier)) {
@@ -187,6 +205,9 @@ abstract class JBCartElementPrice extends JBCartElement
         return "elements[{$identifier}][variations][{$index}][params][{$name}]";
     }
 
+    /**
+     * @return mixed
+     */
     protected function _getOptions()
     {
         $data = $this->config->get('options', array());
@@ -216,6 +237,9 @@ abstract class JBCartElementPrice extends JBCartElement
         return null;
     }
 
+    /**
+     * @return null
+     */
     protected function renderFieldByType()
     {
         $values = $this->_renderOptions();

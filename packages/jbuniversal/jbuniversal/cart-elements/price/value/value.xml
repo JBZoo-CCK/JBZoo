@@ -18,13 +18,11 @@
         <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
                description="JBZOO_ELEMENT_ACCESS_DESC"/>
 
-        <param name="options" type="textarea" default="" label="Options"/>
-
     </params>
 
     <params group="render">
 
-        <param name="template" type="list" default="1" label="JBZOO_JBPRICE_ONLY_PRICE_MODE"
+        <param name="only_price_mode" type="list" default="1" label="JBZOO_JBPRICE_ONLY_PRICE_MODE"
                description="JBZOO_JBPRICE_ONLY_PRICE_MODE_DESC">
             <option value="1">JBZOO_JBPRICE_ONLY_PRICE_MODE_FULL</option>
             <option value="2">JBZOO_JBPRICE_ONLY_PRICE_MODE_PRICE</option>

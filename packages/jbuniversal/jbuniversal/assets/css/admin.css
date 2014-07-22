@@ -720,6 +720,7 @@ ul.parameter-form li .field input[type='password'] {
 }
 
 div.jbzoo-picker .jbpicker .jbcolor-input {
+    box-sizing: content-box;
     padding: 4px 6px !important;
     font-size: 14px !important;
     height: 19px !important;

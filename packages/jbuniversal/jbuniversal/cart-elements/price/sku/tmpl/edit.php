@@ -26,7 +26,6 @@ $attr    = array(
 
 <div class="sku<?php echo $variant; ?>">
     <?php echo $jbhtml->text($this->getName('_sku'), $this->getValue('_sku', 0), $attr); ?>
-    <?php echo $this->getPosition(); ?>
 </div>
 
 

@@ -22,5 +22,11 @@
 
     </params>
 
+    <params group="render">
+        <param name="teaser-image" type="elementlistbytype" types="jbimage" layout="teaser"
+               label="Choose element teaser image"/>
+
+        <param name="full-image" type="elementlistbytype" types="jbimage" layout="full" label="Choose element full image"/>
+    </params>
 
 </element>
