@@ -56,14 +56,28 @@ class JBMoneyHelper extends AppHelper
      */
     public function init()
     {
+        // optimize
+        if (!empty(self::$curList)) {
+            return self::$curList;
+        }
+
         $this->app->jbdebug->mark('jbmoney::init::start');
 
-        if (is_null(self::$curList)) {
+        $curParams = $this->_config->getGroup('cart.currency')->get('list');
+
+        $cacheKey = serialize(array(
+            'params' => (array)$curParams,
+            'date'   => date('d-m-Y'),
+        ));
+
+        self::$curList = $this->app->jbcache->get($cacheKey, 'currency', true);
+
+        if (empty(self::$curList)) {
 
             self::$curList = array();
-            $elements      = $this->app->jbcartposition->loadElements('currency');
 
-            self::$curList = array();
+            $elements = $this->app->jbcartposition->loadElements('currency');
+
             foreach ($elements as $element) {
 
                 $code = $element->getCode();
@@ -78,11 +92,9 @@ class JBMoneyHelper extends AppHelper
                     );
 
                 }
-
             }
 
-            //dump(self::$curList, 0);
-
+            $this->app->jbcache->set($cacheKey, self::$curList, 'currency', true);
         }
 
         $this->app->jbdebug->mark('jbmoney::init::finish');
