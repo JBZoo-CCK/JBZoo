@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<element type="element" group="Core" hidden="false" core="true" system-tmpl="true">
-    <name>Buttons field</name>
+<element type="buttons" group="Core" hidden="true" core="true" system-tmpl="true">
+    <name>Buttons (Core)</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>
@@ -17,8 +17,6 @@
 
         <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
                description="JBZOO_ELEMENT_ACCESS_DESC"/>
-
-        <param name="options" type="textarea" default="" label="Options"/>
 
     </params>
 

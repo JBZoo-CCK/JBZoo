@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <element type="element" group="Core" hidden="false">
-    <name>Radio field</name>
+    <name>Radio </name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>
@@ -8,7 +8,6 @@
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
-
     <params>
         <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME" description="JBZOO_ELEMENT_NAME_DESC"/>
 
@@ -18,10 +17,11 @@
         <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
                description="JBZOO_ELEMENT_ACCESS_DESC"/>
 
+        <param name="default" type="text" label="Default" />
+
         <param name="options" type="textarea" default="" label="Options"/>
 
     </params>
-
     <params group="render">
 
         <param name="template"
