@@ -134,9 +134,10 @@ class JBCartElementHelper extends AppHelper
      * Creates element of given type
      * @param string $type The type to create
      * @param string $group The group to create
+     * @param array $config
      * @return JBCartElement
      */
-    public function create($type, $group)
+    public function create($type, $group, $config = array())
     {
         // load element class
         $elementClass = 'JBCartElement' . $group . $type;
@@ -146,10 +147,18 @@ class JBCartElementHelper extends AppHelper
         }
 
         if (!class_exists($elementClass)) {
-            return false;
+            return null;
         }
 
         $element = new $elementClass($this->app, $type, $group);
+
+        if (isset($config['identifier'])) {
+            $element->identifier = $config['identifier'];
+        }
+
+        if ($config) {
+            $element->setConfig($config);
+        }
 
         if ($element->isCore()) {
             $element->identifier = '_' . strtolower($element->getElementType());
@@ -159,3 +168,4 @@ class JBCartElementHelper extends AppHelper
     }
 
 }
+

@@ -8,4 +8,36 @@
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
+
+    <params>
+        <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME" description="JBZOO_ELEMENT_NAME_DESC"/>
+
+        <param name="description" type="text" default="" label="JBZOO_ELEMENT_DESCRIPTION"
+               description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
+
+        <param name="code" type="text" default="" label="JBZOO_ELEMENT_CURRENCY_CODE"
+               description="JBZOO_ELEMENT_CURRENCY_CODE_DESC"/>
+
+        <param name="symbol" type="text" default="" label="JBZOO_ELEMENT_CURRENCY_SYMBOL"
+               description="JBZOO_ELEMENT_CURRENCY_SYMBOL_DESC"/>
+
+        <param name="format_positive" type="text" default="%v %s" label="JBZOO_ELEMENT_CURRENCY_FORMAT_POSITIVE"
+               description="JBZOO_ELEMENT_CURRENCY_FORMAT_POSITIVE_DESC"/>
+
+        <param name="format_negative" type="text" default="-%v %s" label="JBZOO_ELEMENT_CURRENCY_FORMAT_NEGATIVE"
+               description="JBZOO_ELEMENT_CURRENCY_FORMAT_NEGATIVE_DESC"/>
+
+        <param name="num_decimals" type="text" default="2" label="JBZOO_ELEMENT_CURRENCY_NUM_DECIMALS"
+               description="JBZOO_ELEMENT_CURRENCY_NUM_DECIMALS_DESC"/>
+
+        <param name="decimal_sep" type="text" default="." label="JBZOO_ELEMENT_CURRENCY_DECIMAL_SEP"
+               description="JBZOO_ELEMENT_CURRENCY_DECIMAL_SEP_DESC"/>
+
+        <param name="thousands_sep" type="text" default=" " label="JBZOO_ELEMENT_CURRENCY_THOUSANDS_SEP"
+               description="JBZOO_ELEMENT_CURRENCY_THOUSANDS_SEP_DESC"/>
+
+        <param name="rate" type="text" default="1" label="JBZOO_ELEMENT_CURRENCY_RATE"
+               description="JBZOO_ELEMENT_CURRENCY_RATE_DESC"/>
+    </params>
+
 </element>

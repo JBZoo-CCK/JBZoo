@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<element type="element" group="Core" hidden="false">
+    <name>Local XML file</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZoo Cart Element Core System</description>
+
+    <params>
+
+        <param name="rate" type="text" default="jbconfig:jbcurrency.xml" label="JBZOO_ELEMENT_CURRENCY_LOCALXML"
+               description="JBZOO_ELEMENT_CURRENCY_LOCALXML_DESC"/>
+
+    </params>
+
+
+</element>
