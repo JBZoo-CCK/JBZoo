@@ -14,6 +14,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $variant = (int)$params->get('basic', 0) ? '' : '-variant';
+$unique  = $this->app->jbstring->getId('calendar-');
 
 ?>
 
@@ -28,7 +29,7 @@ $variant = (int)$params->get('basic', 0) ? '' : '-variant';
         } catch (Exception $e) {
         }
     }
-    echo $this->app->html->_('zoo.calendar', $value, $this->getName('_date'), $this->getName('_date'), array(
+    echo $this->app->html->_('zoo.calendar', $value, $this->getName('_date'), $unique, array(
         'class' =>  $this->app->jbstring->getId('calendar-element-')
     ), true);
     ?>
