@@ -1791,7 +1791,6 @@ var JBZooHelper = function () {
                     if (type == 'checkbox') {
                         var checkbox = {};
 
-
                         $('input[type="checkbox"]:checked', $param).each(function (n) {
                             var $checkbox = $(this);
 
@@ -1800,11 +1799,10 @@ var JBZooHelper = function () {
                             }
                         });
 
-                        if (checkbox.length) {
+                        if (Object.keys(checkbox).length) {
                             data['p' + index + '-'] = $.trim(buildValue(checkbox));
                         }
                     }
-
 
                 });
 
@@ -1929,7 +1927,7 @@ var JBZooHelper = function () {
                 togglePrices(currency);
             });
 
-            $('.jbprice-param-radio input', $obj).bind('change', function () {
+            $('.jbpriceParams input', $obj).bind('change', function () {
                 togglePrices(currency);
             });
 

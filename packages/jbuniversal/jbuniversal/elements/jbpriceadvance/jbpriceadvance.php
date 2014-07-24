@@ -448,58 +448,6 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         return null;
     }
 
-    public function getBasicPrices()
-    {
-        $basic = $this->getBasicData();
-        $basic = $this->app->data->create($basic);
-        $basicParams = $this->app->data->create($basic->get('params'));
-
-        $currencyList    = $this->getCurrencyList();
-        $currencyDefault = $this->_getDefaultCurrency();
-        $basicCurrency   = $basic->get('_currency', $currencyDefault);
-
-        $discount = $basicParams->get('_discount');
-
-        $discountCurrency = isset($discount['currency']) ? $discount['currency'] : $currencyDefault;
-        $discountValue    = isset($discount['value']) ? $discount['value'] : 0;
-
-        $value = $basic->get('_value');
-
-        $prices = array(
-            'sku'         => $basicParams->get('_sku', $this->_item->id),
-            'image'       => $basicParams->get('_image', ''),
-            'description' => $basicParams->get('_description', ''),
-            'balance'     => $basicParams->get('_balance', -1),
-        );
-
-        $price     = $this->_jbmoney->convert($basicCurrency, $currencyDefault, $value);
-        $basePrice = $this->_jbmoney->calcDiscount($value, $basicCurrency, $discountValue, $discountCurrency);
-        $total     = $this->_jbmoney->convert($basicCurrency, $currencyDefault, $basePrice);
-
-        foreach ($currencyList as $currency) {
-
-            $priceNoFormat = $this->_jbmoney->convert($currencyDefault, $currency, $price);
-            $price         = $this->_jbmoney->toFormat($priceNoFormat, $currency);
-
-            $totalNoFormat = $this->_jbmoney->convert($currencyDefault, $currency, $total);
-            $total         = $this->_jbmoney->toFormat($totalNoFormat, $currency);
-
-            $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
-            $save         = $this->_jbmoney->toFormat($saveNoFormat, $currency);
-
-            $prices[$currency] = array(
-                'totalNoFormat' => $totalNoFormat,
-                'priceNoFormat' => $priceNoFormat,
-                'saveNoFormat'  => $saveNoFormat,
-                'total'         => $total,
-                'price'         => $price,
-                'save'          => $save
-            );
-        }
-
-        return $prices;
-    }
-
     /**
      * Render default (complex) layout
      * @param $params
@@ -1192,14 +1140,13 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         $basic = $this->getBasicData();
         $basic = $this->app->data->create($basic);
 
-        $value = $this->_jbmoney->calc($basic->get('_value'), $basic->get('_currency'), $variant->get('_value'), $variant->get('_currency'));
-        $price = $this->_jbmoney->convert($basic->get('_currency'), $currencyDefault, $value);
-        $total = $this->_jbmoney->calcDiscount($value, $basic->get('_currency'), $discountVal, $discountCurr);
-        $total = $this->_jbmoney->convert($basic->get('_currency'), $currencyDefault, $total);
+        $value      = $this->_jbmoney->calc($basic->get('_value'), $basic->get('_currency'), $variant->get('_value'), $variant->get('_currency'));
+        $basicPrice = $this->_jbmoney->convert($basic->get('_currency'), $currencyDefault, $value);
+        $basicTotal = $this->_jbmoney->calcDiscount($value, $basic->get('_currency'), $discountVal, $discountCurr);
+        $basicTotal = $this->_jbmoney->convert($basic->get('_currency'), $currencyDefault, $basicTotal);
 
         $result = array(
             'sku'         => $variantParams->get('_sku'),
-            'currency'    => $currencyDefault,
             'balance'     => $variantParams->get('_balance', -1),
             'image'       => $variantParams->get('_image', ''),
             'description' => $variantParams->get('_description', '')
@@ -1207,10 +1154,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
         foreach ($currencyList as $currency) {
 
-            $priceNoFormat = $this->_jbmoney->convert($currencyDefault, $currency, $price);
+            $priceNoFormat = $this->_jbmoney->convert($currencyDefault, $currency, $basicPrice);
             $price         = $this->_jbmoney->toFormat($priceNoFormat, $currency);
 
-            $totalNoFormat = $this->_jbmoney->convert($currencyDefault, $currency, $total);
+            $totalNoFormat = $this->_jbmoney->convert($currencyDefault, $currency, $basicTotal);
             $total         = $this->_jbmoney->toFormat($totalNoFormat, $currency);
 
             $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
@@ -1227,6 +1174,58 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         }
 
         return $result;
+    }
+
+    public function getBasicPrices()
+    {
+        $basic       = $this->getBasicData();
+        $basic       = $this->app->data->create($basic);
+        $basicParams = $this->app->data->create($basic->get('params'));
+
+        $currencyList    = $this->getCurrencyList();
+        $currencyDefault = $this->_getDefaultCurrency();
+        $basicCurrency   = $basic->get('_currency', $currencyDefault);
+
+        $discount = $basicParams->get('_discount');
+
+        $discountCurrency = isset($discount['currency']) ? $discount['currency'] : $currencyDefault;
+        $discountValue    = isset($discount['value']) ? $discount['value'] : 0;
+
+        $value = $basic->get('_value');
+
+        $prices = array(
+            'sku'         => $basicParams->get('_sku', $this->_item->id),
+            'image'       => $basicParams->get('_image', ''),
+            'description' => $basicParams->get('_description', ''),
+            'balance'     => $basicParams->get('_balance', -1),
+        );
+
+        $basicPrice = $this->_jbmoney->convert($basicCurrency, $currencyDefault, $value);
+        $basePrice  = $this->_jbmoney->calcDiscount($value, $basicCurrency, $discountValue, $discountCurrency);
+        $basicTotal = $this->_jbmoney->convert($basicCurrency, $currencyDefault, $basePrice);
+
+        foreach ($currencyList as $currency) {
+
+            $priceNoFormat = $this->_jbmoney->convert($currencyDefault, $currency, $basicPrice);
+            $price         = $this->_jbmoney->toFormat($priceNoFormat, $currency);
+
+            $totalNoFormat = $this->_jbmoney->convert($currencyDefault, $currency, $basicTotal);
+            $total         = $this->_jbmoney->toFormat($totalNoFormat, $currency);
+
+            $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
+            $save         = $this->_jbmoney->toFormat($saveNoFormat, $currency);
+
+            $prices[$currency] = array(
+                'totalNoFormat' => $totalNoFormat,
+                'priceNoFormat' => $priceNoFormat,
+                'saveNoFormat'  => $saveNoFormat,
+                'total'         => $total,
+                'price'         => $price,
+                'save'          => $save
+            );
+        }
+
+        return $prices;
     }
 
     protected function _getValues()

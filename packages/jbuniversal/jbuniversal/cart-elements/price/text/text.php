@@ -46,7 +46,6 @@ class JBCartElementPriceText extends JBCartElementPrice
             $value = $this->app->string->sluggify($name['value']);
 
             $data[$value] = $name['value'];
-
             $i++;
         }
 
