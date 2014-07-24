@@ -371,19 +371,18 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     {
         $a = array(
             '8b36e9e0-8efa-458f-9571-cc2c4276b53a' => array(
-                '0' => 'белый1',
-                '1' => 'черный2',
-                '2' => 'белый3',
-                '3' => 'черный4'
+                '0' => 'белый5',
+                '1' => 'черный6',
+                '2' => 'белый7',
+                '3' => 'черный8'
             ),
             '913adc8a-3d91-4dcc-8a0f-9c21e4a3eaf8' => array
             (
-                'value' => 'ola-le'
+                'value' => 'ola-la'
             ),
-
             '97377ede-c0a5-4bec-a3eb-8fdb231a137a' => array
             (
-                'value' => 'option1'
+                'value' => 'option2'
             )
         );
 
@@ -1101,16 +1100,13 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
                 if (!isset($values[$identifier])) {
                     $idError = true;
-
-                    $variations[$i]['idError'] = 1;
                 }
 
                 if ($idError === false) {
-                    $diff = array_diff($fields, $values[$identifier]);
+                    $diff = array_diff_assoc($fields, $values[$identifier]);
+
                     if (!empty($diff)) {
                         $valError = true;
-
-                        $variations[$i]['valError'] = 1;
                     }
                 }
 
@@ -1640,7 +1636,6 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             $result['basic']['params'][$key] = $basic;
         }
 
-
         if (isset($data['variations'])) {
             $variations = $data['variations'];
 
@@ -1650,13 +1645,16 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                 $result['variations'][$i]['_currency'] = JString::trim($variations[$i]['_currency']);
 
                 foreach ($variations[$i]['params'] as $key => $variant) {
+
                     if (strlen($key) == 36) {
                         $result['values'][$i][$key] = $variant;
                     }
 
                     $result['variations'][$i]['params'][$key] = $variant;
                 }
+
             }
+
         }
 
         parent::bindData($result);
