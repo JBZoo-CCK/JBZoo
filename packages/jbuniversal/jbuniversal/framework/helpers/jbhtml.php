@@ -44,7 +44,7 @@ class JBHTMLHelper extends AppHelper
             return null;
         }
 
-        $attribs = $this->_buildAttrs($attribs);
+        //$attribs = $this->_buildAttrs($attribs);
 
         return $this->_list('radio', $data, $name, $attribs, $selected, $idtag, $translate, $isLabelWrap);
     }
@@ -151,10 +151,10 @@ class JBHTMLHelper extends AppHelper
      * @param array $data
      * @param string $name
      * @param null $selected
-     * @param null $attrs
+     * @param array $attrs
      * @return string
      */
-    public function colors($inputType = 'checkbox', $data, $name, $selected = null, $attrs = null)
+    public function colors($inputType = 'checkbox', $data, $name, $selected = null, $attrs = array())
     {
         $html = array();
         $uniq = $this->app->jbstring->getId();
@@ -172,14 +172,14 @@ class JBHTMLHelper extends AppHelper
 
             $id = $this->app->jbstring->getId();
 
-            $attribs = array(
+            $attribs = array_merge(array(
                 'type'  => $inputType,
                 'name'  => $name . '[]',
                 'id'    => $id,
                 'title' => $key,
                 'value' => $key,
                 'class' => 'jbcolor-input'
-            );
+            ), $attrs);
 
             $valueSlug = $this->app->string->sluggify(!$isFile ? $key : basename($value));
 
@@ -190,7 +190,7 @@ class JBHTMLHelper extends AppHelper
             );
 
             $divAttribs = array(
-                'style' => 'background-color: ' . (!$isFile ? '#' . $value . ';' : 'transparent;') . $attrs
+                'style' => 'background-color: ' . (!$isFile ? '#' . $value . ';' : 'transparent;')
             );
 
             if (is_array($selected)) {
@@ -467,25 +467,24 @@ class JBHTMLHelper extends AppHelper
      * @param   string $inputType Type of html input element
      * @param   array $data An array of objects
      * @param   string $name The value of the HTML name attribute
-     * @param   string $attribs Additional HTML attributes for the <select> tag
+     * @param   array $attribs Additional HTML attributes for the <select> tag
      * @param   string $selected The name of the object variable for the option text
      * @param   boolean $idtag Value of the field id or null by default
      * @param   boolean $translate True if options will be translated
      * @param   boolean $isLabelWrap True if options wrappeed label tag
      * @return  string HTML for the select list
      */
-    private function _list($inputType, $data, $name, $attribs = null, $selected = null, $idtag = false,
+    private function _list($inputType, $data, $name, $attribs = array(), $selected = null, $idtag = false,
                            $translate = false, $isLabelWrap = false
     )
     {
         reset($data);
 
-        if (is_array($attribs)) {
-            $attribs = $this->_buildAttrs($attribs);
-        }
-
         if ($inputType == 'checkbox') {
             $name = $name . '[]';
+        }
+        if(!is_array($attribs)) {
+            $attribs = array();
         }
 
         $html = array();
@@ -503,13 +502,13 @@ class JBHTMLHelper extends AppHelper
 
             $valueSlug = $this->app->string->sluggify($value);
 
-            $extra = array(
+            $extra = array_merge($attribs, array(
                 'value' => $value,
                 'name'  => $name,
                 'type'  => $inputType,
                 'id'    => 'id' . $valueSlug . '-' . $this->app->jbstring->getId(),
                 'class' => 'value-' . $valueSlug
-            );
+            ));
 
             if (is_array($selected)) {
 

@@ -917,7 +917,6 @@ var JBZooHelper = function () {
                 return false;
             });
 
-
             $('.jbpriceadv-variation-row', $obj).delegate(".jbmove", "mousedown", function () {
                 $(".jbpriceadv-variation-row", $obj).removeClass('visible');
                 $(".jbpriceadv-variation-row", $obj).addClass("fieldset-hidden");
@@ -1544,8 +1543,11 @@ var JBZooHelper = function () {
                 prices = {};
             prices[options.mainHash] = options.prices;
 
+            options.relatedImage = $('.jsImageRelated', $obj).data('element');
+
             function getPrices(newCurrency) {
-                var hash = getCurrentHash();
+                var hash = getCurrentHash(),
+                    values = getValues();
 
                 if (typeof prices[hash] != 'undefined') {
 
@@ -1556,12 +1558,12 @@ var JBZooHelper = function () {
                         'url': options.changeVariantUrl,
                         'data': {
                             'args': {
-                                'hash': hash
+                                'values': values
                             }
                         },
                         'success': function (data) {
                             AjaxProcess = false;
-
+                            console.log(data);
                             if (typeof data != 'undefined') {
                                 prices[hash] = data;
                             } else {
@@ -1572,6 +1574,7 @@ var JBZooHelper = function () {
                         },
                         'error': function (data) {
                             AjaxProcess = false;
+                            console.log(data);
                             if (data.result == false) {
                                 prices[hash] = prices[options.mainHash];
                             }
@@ -1600,7 +1603,7 @@ var JBZooHelper = function () {
                     description = '';
 
                 values = prices[options.mainHash][newCurrency];
-                console.log(prices);
+
                 //TODO optimize code
                 if (typeof prices[hash] != 'undefined') {
 
@@ -1620,39 +1623,35 @@ var JBZooHelper = function () {
 
                 }
 
-                $('.not-paid-box', $obj).show();
-                if (values.totalNoFormat == 0) {
-                    $('.not-paid-box', $obj).hide();
-                }
+                if (typeof values != 'undefined') {
 
-                $('.jsSave', $obj).text(values.save);
-                $('.jsTotal', $obj).text(values.total);
+                    $('.not-paid-box', $obj).show();
+                    if (values.totalNoFormat == 0) {
+                        $('.not-paid-box', $obj).hide();
+                    }
 
-                $('.jsPrice', $obj).html('&nbsp;' + values.price + '&nbsp;');
-                $('.jbcurrency-' + newCurrency.toLowerCase(), $obj).addClass('active');
-                $('.jsDescription', $obj).text(description);
+                    $('.jsSave', $obj).text(values.save);
+                    $('.jsTotal', $obj).text(values.total);
 
-                $('.jbprice-balance .balance', $obj).hide();
-                $('.jbprice-balance .' + hash, $obj).show();
+                    $('.jsPrice', $obj).html('&nbsp;' + values.price + '&nbsp;');
+                    $('.jbcurrency-' + newCurrency.toLowerCase(), $obj).addClass('active');
+                    $('.jsDescription', $obj).text(description);
 
-                //$('.jbprice-sku .sku', $obj).hide();
-                //$('.jbprice-sku .' + hash, $obj).show();
-
-                $('.jbprice-sku .sku', $obj).html(prices[hash].sku);
+                    $('.jbprice-sku .sku', $obj).html(prices[hash].sku);
 
 
-                if (typeof prices[hash] != 'undefined') {
-                    if (prices[hash].file) {
-                        var $relatedImg = $('.' + options.relatedImage);
+                    if (typeof prices[hash] != 'undefined') {
+                        if (prices[hash].file) {
+                            var $relatedImg = $('.' + options.relatedImage);
 
-                        $relatedImg.attr('src', prices[hash].file);
+                            $relatedImg.attr('src', prices[hash].file);
 
-                        if (options.popup == 1) {
-                            $relatedImg.parent().attr('href', prices[hash].file_popup);
+                            if (options.popup == 1) {
+                                $relatedImg.parent().attr('href', prices[hash].file_popup);
+                            }
                         }
                     }
                 }
-
             }
 
             function isTextParam() {
@@ -1775,13 +1774,18 @@ var JBZooHelper = function () {
                     if (type == 'radio') {
                         var radio = $('input[type="radio"]:checked', $param);
 
-                        data['p' + index + '-'] = $.trim(radio.val());
+                        if ($.trim(radio.val()).length) {
+                            data['p' + index + '-'] = $.trim(radio.val());
+                        }
 
                     }
 
                     if (type == 'select') {
                         var select = $('select.jsParam', $param);
-                        data['p' + index + '-'] = $.trim(select.val());
+
+                        if ($.trim(radio.val()).length) {
+                            data['p' + index + '-'] = $.trim(select.val());
+                        }
                     }
 
                     if (type == 'checkbox') {
@@ -1790,14 +1794,63 @@ var JBZooHelper = function () {
 
                         $('input[type="checkbox"]:checked', $param).each(function (n) {
                             var $checkbox = $(this);
-                            checkbox[n] = $checkbox.val();
 
+                            if ($.trim($checkbox.val()).length) {
+                                checkbox[n] = $checkbox.val();
+                            }
                         });
 
-                        data['p' + index + '-'] = $.trim(buildValue(checkbox));
+                        if (checkbox.length) {
+                            data['p' + index + '-'] = $.trim(buildValue(checkbox));
+                        }
                     }
 
 
+                });
+
+                return data;
+            }
+
+            function getValues() {
+                var data = {};
+
+                $('.jbpriceParams', $obj).each(function (n, row) {
+                    var $param = $(row),
+                        type = $param.data('type');
+
+                    if (type == 'radio') {
+                        var radio = $('input[type="radio"]:checked', $param);
+
+                        if (radio.is(':checked') && radio.val().length > 0) {
+                            var value = {};
+                            value['value'] = radio.val();
+                            data[radio.data('identifier')] = value;
+                        }
+
+                    }
+
+                    if (type == 'select') {
+                        var select = $('select.jsParam', $param);
+
+                        if ($.trim(select.val()).length) {
+                            data[select.data('identifier')] = $.trim(select.val());
+                        }
+                    }
+
+                    if (type == 'checkbox') {
+                        var checkbox = [];
+                        $('input[type="checkbox"]', $param).each(function () {
+                            var $checkbox = $(this);
+
+                            if ($checkbox.is(':checked') && $checkbox.val().length > 0) {
+                                checkbox.push($checkbox.val());
+                            }
+
+                            if (checkbox.length) {
+                                data[$checkbox.data('identifier')] = checkbox;
+                            }
+                        });
+                    }
                 });
 
                 return data;

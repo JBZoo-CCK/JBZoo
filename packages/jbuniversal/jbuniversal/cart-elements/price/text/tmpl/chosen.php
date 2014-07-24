@@ -15,7 +15,8 @@ defined('_JEXEC') or die('Restricted access');
 
 $unique = $this->app->jbstring->getId('select-chosen-');
 $attributes = array(
-    'class' => 'jsParam'
+    'class' => 'jsParam',
+    'data-identifier' => $this->identifier
 );
 
 ?>

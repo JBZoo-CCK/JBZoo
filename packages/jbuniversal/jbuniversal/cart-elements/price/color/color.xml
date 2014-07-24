@@ -33,7 +33,6 @@
 
         <param name="options"
                type="jbcolor"
-               rows="10"
                cols="35"
                label="JBZOO_JBCOLORS_ITEM_COLORS_LABEL"
                description="JBZOO_JBCOLORS_ITEM_COLORS_DESC"/>
