@@ -14,17 +14,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 if (count($options)) {
-    $value  = null;
-    $radio  = array();
     $value  = $this->getValue($this->identifier);
     $jbhtml = $this->app->jbhtml;
 
-    foreach ($options as $key => $option) {
-
-        $radio[] = $this->app->html->_('select.option', $this->app->string->sluggify($option['value']), $option['name']);
-    }
-
-
-    echo $this->app->html->_('select.radiolist', $radio, $this->getName(), null, 'value', 'text', $value['value']);
+    echo $this->app->jbhtml->radio($options, $this->getName(), null, $value['value']);
 
 }

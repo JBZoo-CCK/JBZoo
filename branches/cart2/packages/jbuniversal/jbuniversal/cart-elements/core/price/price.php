@@ -227,7 +227,10 @@ abstract class JBCartElementPrice extends JBCartElement
             $options = explode("\n", $options);
             foreach ($options as $key => $value) {
                 list($name, $value) = explode('||', $value);
-                $result[JString::strtolower(JString::trim($value))] = JString::trim($name);
+                $value = JString::strtolower(JString::trim($value));
+                $value = $this->app->string->sluggify($value);
+
+                $result[$value] = JString::trim($name);
             }
 
             return $result;
