@@ -22,7 +22,7 @@ $currencyList = $app->jbarray->unshiftAssoc($currencyList, '%', '%');
 $variant = (int)$params->get('basic', 0) ? '' : '-variant';
 $value   = $this->getValue('_discount');
 
-echo $jbhtml->text($this->getName('value'), $value['value'], array(
+echo $jbhtml->text($this->getName('value'), $value['value'] ? $value['value'] : 0, array(
     'class'       => 'discount' . $variant . '-input',
     'size'        => "60",
     'maxlength'   => "255",

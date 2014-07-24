@@ -14,10 +14,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 $jbhtml = $this->app->jbhtml;
-$value  = $this->app->data->create($this->getValue($this->identifier));
+$value  = $this->getValue($this->identifier);
 
 if (count($colorItems)) :
-    echo $jbhtml->colors($type, $colorItems, $this->getName('color'), $value->get('color'));
+    echo $jbhtml->colors($type, $colorItems, $this->getName(), $value);
 endif;
 
 

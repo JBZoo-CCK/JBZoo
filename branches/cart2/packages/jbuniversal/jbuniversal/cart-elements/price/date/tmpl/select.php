@@ -14,7 +14,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 $attributes = array(
-    'class' => 'jsParam'
+    'class' => 'jsParam',
+    'data-identifier' => $this->identifier
 );
 
 ?>

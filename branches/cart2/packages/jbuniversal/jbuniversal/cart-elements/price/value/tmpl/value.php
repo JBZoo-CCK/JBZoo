@@ -15,11 +15,10 @@ defined('_JEXEC') or die('Restricted access');
 
 $mode = (int)$params->get('only_price_mode', 1);
 
-
 if ($mode == ElementJBPriceAdvance::PRICE_VIEW_FULL) : ?>
     <div class="jbprice-price">
         <?php if ($discount['value'] == 0) : ?>
-            <span class="total"><?php echo $base['total']; ?></span>
+            <span class="jsTotal total"><?php echo $base['total']; ?></span>
         <?php endif; ?>
 
         <?php if ($discount['value'] > 0) : ?>

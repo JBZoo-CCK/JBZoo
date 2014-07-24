@@ -52,11 +52,11 @@ if ($this->getValue('_balance') > 0) {
 <div class="balance<?php echo $variant; ?>" id="<?php echo $unique; ?>">
 
     <?php
-    echo $jbhtml->radio($list, $this->getName('_balance'), $jbhtml->buildAttrs($attr), $this->getValue('_balance'));
+    echo $jbhtml->radio($list, $this->getName('_balance'), $attr, $this->getValue('_balance', -1));
     ?>
     <div class="balance-custom">
         <?php
-        echo $jbhtml->radio($text, $this->getName('_balance'), $jbhtml->buildAttrs($radioAttr), $selected);
+        echo $jbhtml->radio($text, $this->getName('_balance'), $radioAttr, $selected);
         echo $jbhtml->text($this->getName('_balance'), $this->getValue('_balance'), $jbhtml->buildAttrs($inputAttr));
         ?>
     </div>

@@ -18,6 +18,9 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementPriceImage extends JBCartElementPrice
 {
+    /**
+     * @return mixed|null|string
+     */
     public function edit()
     {
         $params = $this->getParams();
@@ -25,6 +28,25 @@ class JBCartElementPriceImage extends JBCartElementPrice
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params
+            ));
+        }
+
+        return null;
+    }
+
+    /**
+     * @param array $params
+     * @return array|mixed|null|string
+     */
+    public function render($params = array())
+    {
+        $params = $this->app->data->create($params);
+        $teaser = json_decode($params->get('teaser-image'));
+
+        if($layout = $this->getLayout()) {
+            return self::renderLayout($layout, array(
+                'params' => $params,
+                'element' => $teaser->element
             ));
         }
 

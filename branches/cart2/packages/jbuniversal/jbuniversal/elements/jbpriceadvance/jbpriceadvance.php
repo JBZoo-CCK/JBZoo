@@ -220,16 +220,23 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         }
         unset($data['basic']);
 
-        for ($i = 0; $i < count($data['variations']); $i++) {
-            $variant       = $this->app->data->create($data['variations'][$i]);
-            $variantParams = $this->app->data->create($variant->get('params'));
+        if (isset($data['variations'])) {
+            for ($i = 0; $i < count($data['variations']); $i++) {
 
-            if ($value = $variant->get($identifier)) {
-                $result[] = $value;
-            }
+                if (!isset($data['variations'][$i])) {
+                    continue;
+                }
 
-            if ($value = $variantParams->get($identifier)) {
-                $result[] = $value;
+                $variant       = $this->app->data->create($data['variations'][$i]);
+                $variantParams = $this->app->data->create($variant->get('params'));
+
+                if ($value = $variant->get($identifier)) {
+                    $result[] = $value;
+                }
+
+                if ($value = $variantParams->get($identifier)) {
+                    $result[] = $value;
+                }
             }
         }
 
@@ -360,6 +367,29 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         return $value;
     }
 
+    public function getArray()
+    {
+        $a = array(
+            '8b36e9e0-8efa-458f-9571-cc2c4276b53a' => array(
+                '0' => 'белый1',
+                '1' => 'черный2',
+                '2' => 'белый3',
+                '3' => 'черный4'
+            ),
+            '913adc8a-3d91-4dcc-8a0f-9c21e4a3eaf8' => array
+            (
+                'value' => 'ola-le'
+            ),
+
+            '97377ede-c0a5-4bec-a3eb-8fdb231a137a' => array
+            (
+                'value' => 'option1'
+            )
+        );
+
+        return $a;
+    }
+
     /**
      * Render for front-end
      * @param array $params
@@ -369,20 +399,14 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     {
         $params    = $this->app->data->create($params);
         $item      = $this->getItem();
-        $hash      = $this->_getHash();
-        $data      = $this->data();
         $basicData = $this->getBasicData();
         $variant   = isset($basicData['default_variant']) ? $basicData['default_variant'] : null;
+        $prices    = $this->getBasicPrices();
 
-        $mainPrices = $this->_getPrices($params, $this->_getHash());
-
-        $prices            = $mainPrices['prices'];
-        $prices['balance'] = $mainPrices['balance'];
-        $prices['sku']     = $mainPrices['sku'];
-        $prices['image']   = $mainPrices['image'];
-        $prices['hash']    = $hash;
-
-        $prices['description'] = $mainPrices['description'];
+        if (isset($variant)) {
+            $dataVariant = $this->_getVariations($variant);
+            $prices      = $this->getPricesByVariant($dataVariant);
+        }
 
         $this->_layout = $params->get('template', 'default');
 
@@ -390,9 +414,6 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             $this->app->path->path('component.site:'),
             $this->app->path->path('jbtmpl:catalog')
         );
-
-        $defaultVariantData = isset($data['variations'][$variant]) ? $data['variations'][$variant] : null;
-        $this->config->set('default', $defaultVariantData);
 
         $elements = $renderer->render($this->_layout, array('price' => $this));
 
@@ -425,6 +446,58 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         }
 
         return null;
+    }
+
+    public function getBasicPrices()
+    {
+        $basic = $this->getBasicData();
+        $basic = $this->app->data->create($basic);
+        $basicParams = $this->app->data->create($basic->get('params'));
+
+        $currencyList    = $this->getCurrencyList();
+        $currencyDefault = $this->_getDefaultCurrency();
+        $basicCurrency   = $basic->get('_currency', $currencyDefault);
+
+        $discount = $basicParams->get('_discount');
+
+        $discountCurrency = isset($discount['currency']) ? $discount['currency'] : $currencyDefault;
+        $discountValue    = isset($discount['value']) ? $discount['value'] : 0;
+
+        $value = $basic->get('_value');
+
+        $prices = array(
+            'sku'         => $basicParams->get('_sku', $this->_item->id),
+            'image'       => $basicParams->get('_image', ''),
+            'description' => $basicParams->get('_description', ''),
+            'balance'     => $basicParams->get('_balance', -1),
+        );
+
+        $price     = $this->_jbmoney->convert($basicCurrency, $currencyDefault, $value);
+        $basePrice = $this->_jbmoney->calcDiscount($value, $basicCurrency, $discountValue, $discountCurrency);
+        $total     = $this->_jbmoney->convert($basicCurrency, $currencyDefault, $basePrice);
+
+        foreach ($currencyList as $currency) {
+
+            $priceNoFormat = $this->_jbmoney->convert($currencyDefault, $currency, $price);
+            $price         = $this->_jbmoney->toFormat($priceNoFormat, $currency);
+
+            $totalNoFormat = $this->_jbmoney->convert($currencyDefault, $currency, $total);
+            $total         = $this->_jbmoney->toFormat($totalNoFormat, $currency);
+
+            $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
+            $save         = $this->_jbmoney->toFormat($saveNoFormat, $currency);
+
+            $prices[$currency] = array(
+                'totalNoFormat' => $totalNoFormat,
+                'priceNoFormat' => $priceNoFormat,
+                'saveNoFormat'  => $saveNoFormat,
+                'total'         => $total,
+                'price'         => $price,
+                'save'          => $save
+            );
+        }
+
+        return $prices;
     }
 
     /**
@@ -834,19 +907,25 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         $relatedImg = $this->_getRelatedImageParams($params);
 
         foreach ($data['variations'] as $key => $variant) {
-            if (!empty($variant['image'])) {
-                $file       = $jbimage->resize($variant['image'], $relatedImg->get('width'), $relatedImg->get('height'));
-                $file_popup = $jbimage->resize($variant['image'], $relatedImg->get('width_popup'), $relatedImg->get('height_popup'));
+            $variantParams = $this->app->data->create($variant['params']);
+            $image         = $variantParams->get('_image');
 
-                $prices[$key]['image']      = $file->url;
-                $prices[$key]['file_popup'] = $file_popup->url;
+            if (!empty($image)) {
+                $file       = $jbimage->resize($image, $relatedImg->get('width'), $relatedImg->get('height'));
+                $file_popup = $jbimage->resize($image, $relatedImg->get('width_popup'), $relatedImg->get('height_popup'));
+
+                if (isset($prices[$variant['hash']])) {
+                    $prices[$variant['hash']]['image']      = $file->url;
+                    $prices[$variant['hash']]['file_popup'] = $file_popup->url;
+                }
+
             }
         }
 
         reset($prices);
-        if (!empty($data['basic']['image'])) {
-            $file       = $jbimage->resize($data['basic']['image'], $relatedImg->get('width'), $relatedImg->get('height'));
-            $file_popup = $jbimage->resize($data['basic']['image'], $relatedImg->get('width_popup'), $relatedImg->get('height_popup'));
+        if (!empty($data['basic']['params']['_image'])) {
+            $file       = $jbimage->resize($data['basic']['params']['_image'], $relatedImg->get('width'), $relatedImg->get('height'));
+            $file_popup = $jbimage->resize($data['basic']['params']['_image'], $relatedImg->get('width_popup'), $relatedImg->get('height_popup'));
             $url        = $file->url;
             $url_popup  = $file_popup->url;
 
@@ -1003,98 +1082,158 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     /**
      * @param $params
-     * @param  null | string $hash
-     * @return array
+     * @param  array $values
+     * @return array|mixed
      */
-    protected function _getPrices($params, $hash = null)
+    protected function _getPrices($params, $values = array())
     {
         $indexData    = $this->getIndexData();
         $currencyList = $this->getCurrencyList();
 
         $prices = array();
 
-        $hash = JString::trim($hash);
+        $i = 0;
+        if (!empty($indexData)) {
+            foreach ($indexData as $data) {
 
-        if (!empty($hash)) {
-            if (empty($indexData[$hash])) {
-                return $prices;
-            }
-            $data = $indexData[$hash];
-
-            $prices[$hash] = array(
-                'balance'     => $data['balance'],
-                'description' => $data['description'],
-                'sku'         => isset($data['sku']) ? $data['sku'] : '',
-                'image'       => isset($data['image']) ? $data['image'] : '',
-                'prices'      => array()
-            );
-
-            foreach ($currencyList as $currency) {
-
-                $priceNoFormat = $this->_jbmoney->convert($data['currency'], $currency, $data['price']);
-                $price         = $this->_jbmoney->toFormat($priceNoFormat, $currency);
-
-                $totalNoFormat = $this->_jbmoney->convert($data['currency'], $currency, $data['total']);
-                $total         = $this->_jbmoney->toFormat($totalNoFormat, $currency);
-
-                $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
-                $save         = $this->_jbmoney->toFormat($saveNoFormat, $currency);
-
-                $prices[$hash]['prices'][$currency] = array(
-                    'totalNoFormat' => $totalNoFormat,
-                    'priceNoFormat' => $priceNoFormat,
-                    'saveNoFormat'  => $saveNoFormat,
-                    'total'         => $total,
-                    'price'         => $price,
-                    'save'          => $save,
+                $prices[$i] = array(
+                    'balance'     => $data['balance'],
+                    'sku'         => isset($data['sku']) ? $data['sku'] : '',
+                    'description' => $data['description'],
+                    'image'       => isset($data['image']) ? $data['image'] : '',
                 );
-            }
 
-            if (!empty($prices)) {
-                $prices = $this->_prepareData($prices, $params);
-            }
+                foreach ($currencyList as $currency) {
 
-            return isset($prices[$hash]) ? $prices[$hash] : array();
-        }
+                    $priceNoFormat = $this->_jbmoney->convert($data['currency'], $currency, $data['price']);
+                    $price         = $this->_jbmoney->toFormat($priceNoFormat, $currency);
 
-        foreach ($indexData as $data) {
-            $dataHash = JString::trim($data['hash']);
+                    $totalNoFormat = $this->_jbmoney->convert($data['currency'], $currency, $data['total']);
+                    $total         = $this->_jbmoney->toFormat($totalNoFormat, $currency);
 
-            $prices[$dataHash] = array(
-                'balance'     => $data['balance'],
-                'description' => $data['description'],
-                'image'       => isset($data['image']) ? $data['image'] : '',
-                'prices'      => array()
-            );
+                    $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
+                    $save         = $this->_jbmoney->toFormat($saveNoFormat, $currency);
 
-            foreach ($currencyList as $currency) {
+                    $prices[$i][$currency] = array(
+                        'totalNoFormat' => $totalNoFormat,
+                        'priceNoFormat' => $priceNoFormat,
+                        'saveNoFormat'  => $saveNoFormat,
+                        'total'         => $total,
+                        'price'         => $price,
+                        'save'          => $save,
+                    );
+                }
 
-                $priceNoFormat = $this->_jbmoney->convert($data['currency'], $currency, $data['price']);
-                $price         = $this->_jbmoney->toFormat($priceNoFormat, $currency);
-
-                $totalNoFormat = $this->_jbmoney->convert($data['currency'], $currency, $data['total']);
-                $total         = $this->_jbmoney->toFormat($totalNoFormat, $currency);
-
-                $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
-                $save         = $this->_jbmoney->toFormat($saveNoFormat, $currency);
-
-                $prices[$dataHash]['prices'][$currency] = array(
-                    'totalNoFormat' => $totalNoFormat,
-                    'priceNoFormat' => $priceNoFormat,
-                    'saveNoFormat'  => $saveNoFormat,
-                    'total'         => $total,
-                    'price'         => $price,
-                    'save'          => $save,
-                );
+                $i++;
             }
 
         }
-
         if (!empty($prices)) {
-            $prices = $this->_prepareData($prices, $params);
+            //$prices = $this->_prepareData($prices, $params);
         }
 
         return $prices;
+    }
+
+    public function getPricesByValues($values = array())
+    {
+        $data = $this->_getValues();
+
+        if (empty($values) || empty($data)) {
+            return $values;
+        }
+
+        $variations = $this->_getVariations();
+
+        foreach ($data as $i => $value) {
+            foreach ($value as $identifier => $fields) {
+
+                $valError = false;
+                $idError  = false;
+
+                if (!isset($values[$identifier])) {
+                    $idError = true;
+
+                    $variations[$i]['idError'] = 1;
+                }
+
+                if ($idError === false) {
+                    $diff = array_diff($fields, $values[$identifier]);
+                    if (!empty($diff)) {
+                        $valError = true;
+
+                        $variations[$i]['valError'] = 1;
+                    }
+                }
+
+                if ($idError === true || $valError === true) {
+                    unset($variations[$i]);
+                }
+
+            }
+        }
+
+        return !empty($variations) ? $this->getPricesByVariant($variations[key($variations)]) : array();
+    }
+
+    public function getPricesByVariant($variant = array())
+    {
+        $currencyList = $this->getCurrencyList();
+
+        $variant       = $this->app->data->create($variant);
+        $variantParams = $this->app->data->create($variant->get('params'));
+
+        $discount     = $variantParams->get('_discount');
+        $discountVal  = $discount['value'];
+        $discountCurr = $discount['currency'];
+
+        $currencyDefault = $this->_getDefaultCurrency();
+
+        $basic = $this->getBasicData();
+        $basic = $this->app->data->create($basic);
+
+        $value = $this->_jbmoney->calc($basic->get('_value'), $basic->get('_currency'), $variant->get('_value'), $variant->get('_currency'));
+        $price = $this->_jbmoney->convert($basic->get('_currency'), $currencyDefault, $value);
+        $total = $this->_jbmoney->calcDiscount($value, $basic->get('_currency'), $discountVal, $discountCurr);
+        $total = $this->_jbmoney->convert($basic->get('_currency'), $currencyDefault, $total);
+
+        $result = array(
+            'sku'         => $variantParams->get('_sku'),
+            'currency'    => $currencyDefault,
+            'balance'     => $variantParams->get('_balance', -1),
+            'image'       => $variantParams->get('_image', ''),
+            'description' => $variantParams->get('_description', '')
+        );
+
+        foreach ($currencyList as $currency) {
+
+            $priceNoFormat = $this->_jbmoney->convert($currencyDefault, $currency, $price);
+            $price         = $this->_jbmoney->toFormat($priceNoFormat, $currency);
+
+            $totalNoFormat = $this->_jbmoney->convert($currencyDefault, $currency, $total);
+            $total         = $this->_jbmoney->toFormat($totalNoFormat, $currency);
+
+            $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
+            $save         = $this->_jbmoney->toFormat($saveNoFormat, $currency);
+
+            $result[$currency] = array(
+                'totalNoFormat' => $totalNoFormat,
+                'priceNoFormat' => $priceNoFormat,
+                'saveNoFormat'  => $saveNoFormat,
+                'total'         => $total,
+                'price'         => $price,
+                'save'          => $save,
+            );
+        }
+
+        return $result;
+    }
+
+    protected function _getValues()
+    {
+        $data = $this->data();
+
+        return isset($data['values']) ? $data['values'] : array();
     }
 
     /**
@@ -1317,9 +1456,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     /**
      * Get variation list
+     * @param  int $variant
      * @return array
      */
-    protected function _getVariations()
+    protected function _getVariations($variant = null)
     {
         $result = array();
 
@@ -1329,15 +1469,15 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
         $data        = $this->data();
         $defaultData = $this->_getDefaultData();
-        $mainHash    = $this->_getHash();
+
+        if (isset($variant) && isset($data['variations'][$variant])) {
+            return array_merge($defaultData, $data['variations'][$variant]);
+        }
 
         if (isset($data['variations'])) {
+
             foreach ($data['variations'] as $variant) {
-                $hash = $this->_getHash($variant);
-                if ($mainHash !== $hash) {
-                    $variant['hash'] = $this->_getHash($variant);
-                    $result[]        = array_merge($defaultData, $variant);
-                }
+                $result[] = array_merge($defaultData, $variant);
             }
 
         }
@@ -1496,8 +1636,6 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                 $result['basic'][$key] = JString::trim($basic);
             }
         }
-        $result['basic']['hash'] = $this->_getHash();
-
 
         foreach ($basicData['params'] as $key => $basic) {
             $result['basic']['params'][$key] = $basic;
@@ -1511,31 +1649,15 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
                 $result['variations'][$i]['_value']    = JString::trim($variations[$i]['_value']);
                 $result['variations'][$i]['_currency'] = JString::trim($variations[$i]['_currency']);
-                $result['variations'][$i]['hash']      = $this->_getHash($variations[$i]);
 
                 foreach ($variations[$i]['params'] as $key => $variant) {
+                    if (strlen($key) == 36) {
+                        $result['values'][$i][$key] = $variant;
+                    }
+
                     $result['variations'][$i]['params'][$key] = $variant;
                 }
             }
-
-            $variations = $uniqHashes = array();
-
-            foreach ($result['variations'] as $key => $variant) {
-
-                $variant['hash'] = $this->_getHash($variant);
-
-                if ($variant['hash'] !== $this->_getHash() && !in_array($variant['hash'], $uniqHashes, true)) {
-                    $uniqHashes[] = $variant['hash'];
-
-                    $variations[$key] = $variant;
-
-                } else {
-                    unset($data['variations'][$key]);
-                }
-
-            }
-
-            $result['variations'] = $variations;
         }
 
         parent::bindData($result);
@@ -1611,7 +1733,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
             $data['variations'] = $variations;
         }
-        //eva::p($data['variations']);
+
         //die;
         parent::bindData($data);*/
     }
@@ -1666,7 +1788,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                 $mainHash = $this->_getHash();
                 $mainSku  = !empty($basicParamSku) ? $basicParamSku : $mainHash;
 
-                $result = array($mainHash => array(
+                $result[] = array(
                     'hash'        => $mainHash,
                     'is_sale'     => (int)($discountVal < 0),
                     'item_id'     => $itemId,
@@ -1676,26 +1798,21 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                     'price'       => $price,
                     'total'       => $total,
                     'currency'    => $currencyDefault,
-                    'balance'     => $basicParams->get('_balance'),
+                    'balance'     => $basicParams->get('_balance', -1),
                     'image'       => $basicParams->get('_image'),
                     'description' => $basicParams->get('_description')
-                ));
+                );
             }
 
             if (!empty($variations)) {
                 foreach ($variations as $variant) {
 
-                    $hash = $this->_getHash($variant);
-
-                    if ($hash === $mainHash) {
-                        continue;
-                    }
-
                     $variant       = $this->app->data->create($variant);
                     $variantParams = $this->app->data->create($variant->get('params'));
-                    $discount      = $variantParams->get('_discount');
-                    $discountVal   = $discount['value'];
-                    $discountCurr  = $discount['currency'];
+
+                    $discount     = $variantParams->get('_discount');
+                    $discountVal  = $discount['value'];
+                    $discountCurr = $discount['currency'];
 
                     $basic = $this->app->data->create($basic);
 
@@ -1704,8 +1821,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                     $total = $this->_jbmoney->calcDiscount($value, $basic->get('_currency'), $discountVal, $discountCurr);
                     $total = $this->_jbmoney->convert($basic->get('_currency'), $currencyDefault, $total);
 
-                    $result[$hash] = array(
-                        'hash'        => $hash,
+                    $result[] = array(
                         'item_id'     => $itemId,
                         'is_sale'     => (int)($discount['value'] < 0),
                         'element_id'  => $this->identifier,
@@ -1942,29 +2058,19 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     /**
      * @param string $layout
      * @param string $position
+     * @param array $values
      * @param int $index
-     * @param string $hash
      */
-    public function ajaxChangeVariant($layout = 'full', $position = '', $index = 1, $hash)
+    public function ajaxChangeVariant($layout = 'full', $position = '', $index = 1, $values = array())
     {
         if ($params = $this->_getRenderParams($layout, $position, $index)) {
 
             $params = $this->app->data->create($params);
-            $prices = $this->_getPrices($params, $hash);
+            $prices = $this->getPricesByValues($values);
 
             if (!empty($prices)) {
-                $prices            = $this->app->data->create($prices);
-                $result            = $prices->get('prices');
-                $result['balance'] = $prices->get('balance');
-                $result['sku']     = $prices->get('sku');
-                $result['image']   = $prices->get('image');
-                $result['hash']    = $hash;
-
-                $result['description'] = $prices->get('description');
-                unset($prices);
-
                 $this->app->jbajax->send(
-                    $result
+                    $prices
                 );
             }
 
@@ -2170,11 +2276,6 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
         if (isset($data['variations'])) {
             foreach ($data['variations'] as $key => $variant) {
-
-                if (!isset($variant['hash'])) {
-                    $variant['hash'] = $this->_getHash($variant);
-                }
-
                 $data['variations'][$key] = array_merge($defaultData, $variant);
             }
         }
