@@ -134,6 +134,8 @@ class JBTablesHelper extends AppHelper
                 '`total` FLOAT NOT NULL',
                 '`currency` VARCHAR(20) NOT NULL',
                 '`balance` INT(11) NOT NULL DEFAULT \'0\'',
+                '`image` VARCHAR(150) NULL DEFAULT NULL',
+                '`description` VARCHAR(150) NULL DEFAULT NULL',
                 '`hash` VARCHAR(150) NULL DEFAULT NULL',
                 '`params` TEXT NULL'
             ), array(

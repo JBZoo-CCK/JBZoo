@@ -41,6 +41,7 @@ class JBEventItem extends JBEvent
         $item     = $event->getSubject();
         $itemType = $item->getType()->id;
 
+        return null;
         // hack for JBZoo import optimization
         if ($item->getParams()->get('jbzoo.no_index', 0) == 1) {
             return null;

@@ -24,7 +24,6 @@ class JBCartPositionHelper extends AppHelper
      */
     protected $_mainGroup = 'cart.';
 
-
     /**
      * Load positions group with elements
      * @param $group
