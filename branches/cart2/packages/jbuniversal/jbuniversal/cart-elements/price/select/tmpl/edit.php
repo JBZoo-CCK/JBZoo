@@ -17,10 +17,6 @@ if (count($options)) {
 
     $jbhtml = $this->app->jbhtml;
 
-    foreach ($options as $option) {
-        $selects[] = $this->app->html->_('select.option', $option['value'], $option['name']);
-    }
-
-    echo $jbhtml->select($selects, $this->getName(), null, $this->getValue($this->identifier));
+    echo $jbhtml->select($options, $this->getName(), null, $this->getValue($this->identifier));
 
 }

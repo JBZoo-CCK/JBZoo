@@ -47,9 +47,13 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     const PARAMS_TMPL_SELECT = 1;
     const PARAMS_TMPL_RADIO  = 2;
 
-    const CONFIG_GROUP = 'cart.priceparams';
-    const RENDER_GROUP = 'cart.jbpricetmpl';
-    const BASIC_GROUP  = 'basic';
+    const CONFIG_GROUP  = 'cart.priceparams';
+    const RENDER_GROUP  = 'cart.jbpricetmpl';
+    const BASIC_GROUP   = 'basic';
+    const VARIANT_GROUP = 'variations';
+
+    const PRICE_MODE_DEFAULT = 0;
+    const PRICE_MODE_OVERLAY = 1;
 
     /**
      * @var JBMoneyHelper
@@ -165,8 +169,6 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             $variationsTpl = $this->getLayout('_variations.php');
             $variations    = $this->_getVariations();
 
-            $fields = $this->_position->loadForPrice($this);
-
             if (empty($variations) && (int)$this->config->get('mode', 0)) {
                 $basic      = $this->getBasicData();
                 $variations = array($basic);
@@ -178,8 +180,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                 'config'       => $this->config,
                 'currencyList' => $this->getCurrencyList($this->config),
                 'variations'   => $variations,
-                'basicData'    => $this->getBasicData(),
-                'fields'       => $fields
+                'basicData'    => $this->getBasicData()
             );
 
             $variationsHTML = self::renderLayout($variationsTpl, $params);
@@ -371,17 +372,9 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     {
         $a = array(
             '8b36e9e0-8efa-458f-9571-cc2c4276b53a' => array(
-                '0' => 'белый5',
-                '1' => 'черный6',
-                '2' => 'белый7',
-                '3' => 'черный8'
+                '0' => 'белый1'
             ),
-            '913adc8a-3d91-4dcc-8a0f-9c21e4a3eaf8' => array
-            (
-                'value' => 'ola-la'
-            ),
-            '97377ede-c0a5-4bec-a3eb-8fdb231a137a' => array
-            (
+            '97377ede-c0a5-4bec-a3eb-8fdb231a137a' => array(
                 'value' => 'option2'
             )
         );
@@ -400,12 +393,16 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         $item      = $this->getItem();
         $basicData = $this->getBasicData();
         $variant   = isset($basicData['default_variant']) ? $basicData['default_variant'] : null;
-        $prices    = $this->getBasicPrices();
+        $prices    = $this->getPricesByVariant($basicData);
 
         if (isset($variant)) {
             $dataVariant = $this->_getVariations($variant);
             $prices      = $this->getPricesByVariant($dataVariant);
         }
+
+        $var = $this->getVariantByValuesOverlay($this->getArray());
+
+        //$pr = $this->getPricesByVariant($var);
 
         $this->_layout = $params->get('template', 'default');
 
@@ -1082,7 +1079,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         return $prices;
     }
 
-    public function getPricesByValues($values = array())
+    public function getVariantByValues($values = array())
     {
         $data = $this->_getValues();
 
@@ -1117,13 +1114,107 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             }
         }
 
-        return !empty($variations) ? $this->getPricesByVariant($variations[key($variations)]) : array();
+        //$this->getPricesByVariant($variations[key($variations)])
+        return !empty($variations) ? $variations[key($variations)] : array();
+    }
+
+    public function getVariantByValuesOverlay($values = array())
+    {
+        $data = $this->_getValues();
+
+        if (empty($values) || empty($data)) {
+            return $values;
+        }
+
+        $basicData = $this->getBasicData();
+        $result    = array();
+
+        foreach ($data as $i => $value) {
+            foreach ($value as $identifier => $fields) {
+
+                if (isset($values[$identifier])) {
+                    $diff = array_diff_assoc($fields, $values[$identifier]);
+
+                    if (empty($diff)) {
+                        $result[$i] = $this->_getVariations($i);
+                    }
+                }
+            }
+        }
+
+        $val      = 0;
+        $value    = $basicData['_value'];
+        $currency = $basicData['_currency'];
+        if (!empty($result)) {
+            foreach ($result as $variant) {
+
+                $variantValue    = $variant['_value'];
+                $variantCurrency = $variant['_currency'];
+
+                $newVal = $this->_jbmoney->calcDiscount($value, $currency, $variantValue, $variantCurrency);
+
+                if ($newVal > $value) {
+                    $val = $newVal - $value;
+                }
+
+                $basicData['_value'] += $val;
+            }
+        }
+
+        return !empty($basicData) ? $basicData : array();
+    }
+
+    public function next($data = array(), &$values = array())
+    {
+        if (!is_array($data)) {
+            return false;
+        }
+
+        foreach ($data as $identifier => $element) {
+
+            $valError = false;
+            $idError  = false;
+
+            if (!isset($values[$identifier])) {
+                $idError = true;
+            }
+
+            if ($idError === false) {
+                $diff = array_diff_assoc($element, $values[$identifier]);
+
+                if (!empty($diff)) {
+                    $valError = true;
+                }
+            }
+
+            if ($idError === false && $valError === false) {
+                return true;
+            } else {
+                $count = count($values);
+
+                if ($count == 0) {
+                    return false;
+                }
+
+                end($values);
+                $key = key($values);
+
+                unset($values[$key]);
+
+                $this->next($data, $values);
+            }
+        }
+
+        return false;
     }
 
     public function getPricesByVariant($variant = array())
     {
-        $currencyList = $this->getCurrencyList();
+        if (empty($variant)) {
+            return false;
+        }
 
+        $currencyList  = $this->getCurrencyList();
         $variant       = $this->app->data->create($variant);
         $variantParams = $this->app->data->create($variant->get('params'));
 
@@ -1647,7 +1738,19 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                 foreach ($variations[$i]['params'] as $key => $variant) {
 
                     if (strlen($key) == 36) {
+
                         $result['values'][$i][$key] = $variant;
+
+                        if (is_array($variant)) {
+                            foreach ($variant as $j => $var) {
+                                $var = JString::trim($var);
+
+                                $variant[$j] = $var;
+                                if (empty($var)) {
+                                    unset($result['values'][$i][$key]);
+                                }
+                            }
+                        }
                     }
 
                     $result['variations'][$i]['params'][$key] = $variant;
@@ -2062,8 +2165,16 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     {
         if ($params = $this->_getRenderParams($layout, $position, $index)) {
 
-            $params = $this->app->data->create($params);
-            $prices = $this->getPricesByValues($values);
+            $params    = $this->app->data->create($params);
+            $priceMode = (int)$this->config->get('price_mode', 0);
+
+            if ($priceMode == self::PRICE_MODE_OVERLAY) {
+                $variant = $this->getVariantByValuesOverlay($values);
+            } else {
+                $variant = $this->getVariantByValues($values);
+            }
+
+            $prices = $this->getPricesByVariant($variant);
 
             if (!empty($prices)) {
                 $this->app->jbajax->send(

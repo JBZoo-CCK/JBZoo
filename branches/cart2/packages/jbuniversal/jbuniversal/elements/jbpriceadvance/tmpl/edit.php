@@ -14,37 +14,46 @@
 defined('_JEXEC') or die('Restricted access');
 
 $jbhtml = $this->app->jbhtml;
-$item   = $this->getItem();
-$elId   = $this->identifier;
+$item = $this->getItem();
+$elId = $this->identifier;
 $uniqid = uniqid('jsJBPriceAdvance-');
 
 $basicData = $this->app->data->create($basicData);
 $basicParams = $this->app->data->create($basicData->get('params'));
+$defaultVariant = isset($basicData['default_variant']) ? $basicData['default_variant'] : null;
 
 ?>
 
-<div class="jbzoo-price-advance jbzoo" id="<?php echo $uniqid; ?>">
+<div class="jbzoo-price-advance jbzoo" id="<?php echo $uniqid; ?>" data-valid="false">
 
-    <div class="jbpriceadv-row">
-        <label for="<?php echo $elId . '-basic-value'; ?>"
+    <div class="jbpriceadv-row basic-variant-wrap">
+        <div class="default_variant">
+            <?php $data = array("" => JText::_('JBZOO_JBPRICE_DEFAULT_VARIANT')); ?>
+            <?php echo $jbhtml->radio($data, $this->getControlName('default_variant'), array(
+                'id' => $this->app->jbstring->getId('default-variant')
+            ), $defaultVariant, $this->app->jbstring->getId('default-variant')); ?>
+        </div>
+    </div>
+
+    <div class="jbpriceadv-row basic-value-wrap">
+        <label for="basic-value"
                title="<?php echo JText::_('JBZOO_JBPRICE_BASIC_VALUE_DESC'); ?>"
                class="hasTip row-field"
             >
             <?php echo JText::_('JBZOO_JBPRICE_BASIC_VALUE'); ?>
         </label>
 
-        <?php echo $jbhtml->text($this->getControlName('_value'), $basicData->get('_value'),
-            $jbhtml->buildAttrs(
-                array(
-                    'size'        => '10',
-                    'maxlength'   => '255',
-                    'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_VALUE'),
-                    'style'       => 'width:100px;',
-                    'id'          => $elId . '-basic-value',
-                    'class'       => 'basic-value',
-                )
+        <?php echo $jbhtml->text($this->getControlName('_value'), $basicData->get('_value'), $jbhtml->buildAttrs(
+            array(
+                'type'        => 'text',
+                'size'        => '10',
+                'maxlength'   => '255',
+                'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_VALUE'),
+                'style'       => 'width:100px;',
+                'id'          => 'basic-value',
+                'class'       => 'basic-value'
             )
-        );
+        ));
 
         if (count($currencyList) == 1) {
             reset($currencyList);
@@ -56,9 +65,8 @@ $basicParams = $this->app->data->create($basicData->get('params'));
         ?>
     </div>
 
-    <div class="jbpriceadv-row">
-        <label for="<?php echo $elId . '-basic-value'; ?>"
-               class="hasTip row-field"
+    <div class="jbpriceadv-row basic-sku-wrap">
+        <label for="basic-sku" class="hasTip row-field"
                title="<?php echo JText::_('JBZOO_JBPRICE_BASIC_SKU_DESC'); ?>"
             >
             <?php echo JText::_('JBZOO_JBPRICE_BASIC_SKU'); ?>
@@ -68,7 +76,7 @@ $basicParams = $this->app->data->create($basicData->get('params'));
                 array(
                     'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_SKU'),
                     'style'       => 'width:100px;',
-                    'id'          => $elId . '-basic-sku',
+                    'id'          => 'basic-sku',
                     'class'       => 'basic-sku',
                 )
             )
@@ -98,11 +106,29 @@ $basicParams = $this->app->data->create($basicData->get('params'));
 </div>
 
 <script type="text/javascript">
+
     jQuery(function ($) {
         $('#<?php echo $uniqid;?>').JBZooPriceAdvanceAdmin({
             'text_variation_show': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?>",
             'text_variation_hide': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_HIDE'); ?>",
-            'adv_field_param_edit': <?php echo (int)$config->get('adv_field_param_edit', 0); ?>,
+            'price_mode': <?php echo $this->config->get('price_mode', 0); ?>,
+            'adv_field_param_edit': <?php echo (int)$config->get('adv_field_param_edit', 0); ?>
         });
     });
+
+    function submitbutton(pressbutton) {
+
+        if (pressbutton == 'cancel') {
+            submitform(pressbutton);
+        } else {
+            var valid = jQuery('#<?php echo $uniqid;?>').data('valid');
+
+            if (valid) {
+                submitform(pressbutton);
+            }
+
+            jQuery('#<?php echo $uniqid;?>').trigger('errorsExists');
+        }
+    }
+
 </script>

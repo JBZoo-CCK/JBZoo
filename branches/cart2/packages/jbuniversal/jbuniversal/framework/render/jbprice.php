@@ -107,18 +107,25 @@ class JBPriceRenderer extends PositionRenderer
 
         if (!empty($config)) {
             foreach ($config as $data) {
+
                 if ($element = $this->_jbprice->loadElement($data['identifier'])) {
-                    $data['related_identifier'] = $this->_jbprice->identifier;
 
                     if ($style == ElementJBPriceAdvance::BASIC_GROUP && $element->getMetaData('core') != 'true') {
                         continue;
                     }
 
-                    $params = array_merge($data, $args);
+                    if ($this->_jbprice->config->get('price_mode', 0) == ElementJBPriceAdvance::PRICE_MODE_OVERLAY &&
+                        $element->getMetaData('core') == 'true' && $element->identifier != '_description'
+                    ) {
+                        continue;
+                    }
+
                     if ($element->edit()) {
-                        $element->setConfig($params);
+                        $params = array_merge($data, $args);
+                        $element->config = $this->app->data->create($params);
                         $elements[] = compact('element', 'params');
                     }
+
                 }
             }
         }
@@ -126,7 +133,7 @@ class JBPriceRenderer extends PositionRenderer
         if (!empty($elements)) {
 
             foreach ($elements as $i => $data) {
-                $params = array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1), 'second' => $i % 2), $data['params']);
+                $params = array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1)), $data['params']);
 
                 $this->addPath(array(
                     $this->app->path->path('jbtmpl:catalog/'),

@@ -73,9 +73,11 @@ abstract class JBCartElementPrice extends JBCartElement
     {
         $params = array();
         $config = $this->config;
-        $data   = $this->app->data->create($config->get('data'));
 
-        $params['identifier'] = $config->get('related_identifier');
+        $data = $this->app->data->create($config->get('data'));
+
+        $params['identifier'] = $this->_jbprice->identifier;
+        $params['index']      = $config->get('index', 0);
         $params['basic']      = (int)$data->get('basic', 0);
         $params['data']       = $data->get('params');
 
@@ -168,7 +170,7 @@ abstract class JBCartElementPrice extends JBCartElement
     {
         $params = $this->getParams();
 
-        $name = $this->getParamName($params->get('identifier'), $key, $params->get('variant', 0));
+        $name = $this->getParamName($params->get('identifier'), $key, $params->get('index', 0));
         if ((int)$params->get('basic', 0)) {
             $name = $this->getBasicName($params->get('identifier'), $key);
         }
@@ -225,6 +227,8 @@ abstract class JBCartElementPrice extends JBCartElement
 
         if (!empty($options)) {
             $options = explode("\n", $options);
+
+            $result[''] = 'Chose your variant';
             foreach ($options as $key => $value) {
                 list($name, $value) = explode('||', $value);
                 $value = JString::strtolower(JString::trim($value));

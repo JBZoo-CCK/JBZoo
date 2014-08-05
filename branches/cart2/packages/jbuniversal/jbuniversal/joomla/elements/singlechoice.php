@@ -13,10 +13,5 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (count($options)) {
-    $value  = $this->getValue($this->identifier);
 
-    echo '<div class="controls">';
-    echo $this->app->jbhtml->radio($options, $this->getName(), null, $value['value']);
-    echo '</div>';
-}
+echo App::getInstance('zoo')->jbfield->singlechoice($name, $value, $control_name, $node, $parent);

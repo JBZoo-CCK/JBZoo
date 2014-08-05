@@ -21,8 +21,8 @@ $attributes = array(
 
 ?>
 
-<div class="jbprice-param-radio jbprice-param-list jbpriceParams" data-index="0" data-type="<?php echo $type; ?>">
-    <?php echo $this->app->jbhtml->colors($type, $colorItems, $this->getName('color'), null, $attributes); ?>
+<div class="jbprice-param-radio jbprice-param-colors jbpriceParams" data-index="0" data-type="<?php //echo $type; ?>radio">
+    <?php echo $this->app->jbhtml->colors('radio', $colorItems, $this->getName('color'), null, $attributes); ?>
 </div>
 
 

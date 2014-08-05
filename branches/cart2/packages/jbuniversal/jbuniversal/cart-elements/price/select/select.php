@@ -47,8 +47,13 @@ class JBCartElementPriceSelect extends JBCartElementPrice
 
         $template = $params->get('template', 'radio');
 
-        foreach ($this->getAllData() as $value) {
-            $data[] = $value['value'];
+        foreach ($this->getAllData() as $name) {
+            if (empty($name['value'])) {
+                continue;
+            }
+            $value = $this->app->string->sluggify($name['value']);
+
+            $data[$value] = $name['value'];
         }
 
         if ($layout = $this->getLayout($template . '.php')) {
