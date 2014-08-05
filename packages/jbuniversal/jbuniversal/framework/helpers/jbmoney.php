@@ -141,7 +141,6 @@ class JBMoneyHelper extends AppHelper
         $to    = $this->clearCurrency($to);
 
         if (isset(self::$curList[$to]) && isset(self::$curList[$from])) {
-
             $normValue = $value / self::$curList[$from]['value'];
             $result    = $normValue * self::$curList[$to]['value'];
 
