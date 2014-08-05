@@ -483,7 +483,7 @@ class JBHTMLHelper extends AppHelper
         if ($inputType == 'checkbox') {
             $name = $name . '[]';
         }
-        if(!is_array($attribs)) {
+        if (!is_array($attribs)) {
             $attribs = array();
         }
 

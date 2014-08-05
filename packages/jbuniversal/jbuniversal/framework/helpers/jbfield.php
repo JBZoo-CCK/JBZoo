@@ -302,6 +302,32 @@ class JBFieldHelper extends AppHelper
     }
 
     /**
+     * @param $name
+     * @param $value
+     * @param $controlName
+     * @param SimpleXMLElement $node
+     * @param $parent
+     * @return mixed
+     */
+    public function singlechoice($name, $value, $controlName, SimpleXMLElement $node, $parent)
+    {
+        $optionList = array();
+        foreach ($node->children() as $option) {
+            $optionList[$this->_getAttr($option, 'value', '')] = JText::_((string)$option);
+        }
+
+        $options = $this->app->html->listOptions($optionList);
+
+        $attributes['class'] = $this->_getAttr($node, 'class', 'inputbox');
+
+        if (!empty($value) || $value == 0) {
+            $attributes['disabled'] = 'disabled';
+        }
+
+        return $this->app->html->genericList($options, $this->_getName($controlName, $name), $attributes, 'value', 'text', $value);
+    }
+
+    /**
      * Render boolean list
      * @param string $name
      * @param string|array $value

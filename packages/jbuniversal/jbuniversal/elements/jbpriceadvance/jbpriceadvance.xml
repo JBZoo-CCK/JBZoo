@@ -19,6 +19,13 @@
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>2.0</version>
     <params>
+
+        <param name="price_mode" type="singlechoice" default="0" label="JBZOO_JBPRICE_PRICE_MODE"
+               description="JBZOO_JBPRICE_PRICE_MODE_DESC">
+            <option value="0">JBZOO_JBPRICE_PRICE_MODE_DEFAULT</option>
+            <option value="1">JBZOO_JBPRICE_PRICE_MODE_OVERLAY</option>
+        </param>
+
         <param name="currency_default" type="jbcurrency" default="EUR" label="JBZOO_JBPRICE_CURRENCY_DEFAULT"
                description="JBZOO_JBPRICE_CURRENCY_DEFAULT" multiple="0"/>
 

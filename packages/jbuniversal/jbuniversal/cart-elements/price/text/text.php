@@ -25,7 +25,7 @@ class JBCartElementPriceText extends JBCartElementPrice
     {
         $value  = $this->app->data->create($this->getValue($this->identifier));
         $html   = array();
-        $html[] = $this->app->html->_('control.text', $this->getName(), $value->get('value'));
+        $html[] = $this->app->jbhtml->text($this->getName(), $value->get('value'));
 
         return implode($html);
     }
@@ -41,16 +41,13 @@ class JBCartElementPriceText extends JBCartElementPrice
 
         $template = $params->get('template', 'radio');
 
-        $i = 0;
         foreach ($this->getAllData() as $name) {
             if (empty($name['value'])) {
                 continue;
             }
-
             $value = $this->app->string->sluggify($name['value']);
 
             $data[$value] = $name['value'];
-            $i++;
         }
 
         if ($layout = $this->getLayout($template . '.php')) {

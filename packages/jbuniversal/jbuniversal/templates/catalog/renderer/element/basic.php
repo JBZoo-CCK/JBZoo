@@ -13,7 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 $type = strtoupper($params['type']);
-$elId = $this->app->jbstring->getId('');
+$elId = $this->app->jbstring->getId('basic-');
 
 ?>
 
@@ -23,7 +23,7 @@ $elId = $this->app->jbstring->getId('');
         <?php echo JText::_('JBZOO_JBPRICE_BASIC_' . $type); ?>
     </label>
 
-    <?php echo $element->edit($params['data']); ?>
+    <?php echo $element->edit(); ?>
 
     <div class="clear clr"></div>
 </div>

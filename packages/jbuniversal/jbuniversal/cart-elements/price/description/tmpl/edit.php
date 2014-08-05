@@ -18,10 +18,11 @@ $attrs  = $jbhtml->buildAttrs(array(
     'size'        => '60',
     'rows'        => '5',
     'style'       => 'resize: none;',
+    'class'       => 'description',
     'maxlength'   => '255',
     'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_DESCRIPTION')
 ));
 
-echo '<textarea name="' . $this->getName('_description') . '
+echo '<textarea name="' . $this->getName('_description') . '"
                 ' . $attrs . '
                 >' . $this->getValue('_description') . '</textarea>';

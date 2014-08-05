@@ -14,20 +14,26 @@
 defined('_JEXEC') or die('Restricted access');
 
 $elId = $this->app->jbstring->getId('');
-$name = $element->config->get('name');
+$name = $element->config->get('type');
 $lang = JText::_($name);
+$class = 'simple-param';
 
 if ($element->isCore()) {
-    $name = strtoupper($params['type']);
-    $lang = JText::_('JBZOO_JBPRICE_VARIATION_' . $name);
+    $name  = strtoupper($params['type']);
+    $lang  = JText::_('JBZOO_JBPRICE_VARIATION_' . $name);
+    $class = 'core-param';
 }
 
 ?>
-<div class="variant-<?php echo strtolower($name); ?>-wrap">
-    <label for="<?php echo $elId . '-' . $name; ?>" class="hasTip row-field"
-           title="<?php echo $lang; ?>">
-        <?php echo $lang; ?>
-    </label>
-    <?php echo $element->edit(); ?>
+<div class="variant-<?php echo strtolower($name); ?>-wrap <?php echo $class; ?> variant-param">
+    <strong class="hasTip row-field label"
+            title="<?php echo $lang; ?>">
+        <?php echo ucfirst($lang); ?>
+    </strong>
+    <span class="attention jsJBpriceAttention"></span>
+
+    <div class="field">
+        <?php echo $element->edit($params); ?>
+    </div>
 
 </div>
