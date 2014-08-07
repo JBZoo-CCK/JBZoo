@@ -52,8 +52,8 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     const BASIC_GROUP   = 'basic';
     const VARIANT_GROUP = 'variations';
 
-    const PRICE_MODE_DEFAULT = 0;
-    const PRICE_MODE_OVERLAY = 1;
+    const PRICE_MODE_DEFAULT = 1;
+    const PRICE_MODE_OVERLAY = 2;
 
     /**
      * @var JBMoneyHelper
@@ -399,7 +399,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             $dataVariant = $this->_getVariations($variant);
             $prices      = $this->getPricesByVariant($dataVariant);
         }
-
+        $this->getIndexDataParameters();
         $var = $this->getVariantByValuesOverlay($this->getArray());
 
         //$pr = $this->getPricesByVariant($var);
@@ -1850,7 +1850,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
         $isCacheEnabled = (int)$this->config->get('cache', 0) && !$force;
 
-        $result = null;
+        $result = array();
         if ($isCacheEnabled) {
             $cache     = $this->app->jbcache;
             $cacheHash = array(
@@ -1889,7 +1889,6 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                 $mainSku  = !empty($basicParamSku) ? $basicParamSku : $mainHash;
 
                 $result[] = array(
-                    'hash'        => $mainHash,
                     'is_sale'     => (int)($discountVal < 0),
                     'item_id'     => $itemId,
                     'element_id'  => $this->identifier,
@@ -1909,6 +1908,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
                     $variant       = $this->app->data->create($variant);
                     $variantParams = $this->app->data->create($variant->get('params'));
+                    $variantSku    = $variantParams->get('_sku', $basicParamSku);
 
                     $discount     = $variantParams->get('_discount');
                     $discountVal  = $discount['value'];
@@ -1925,7 +1925,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                         'item_id'     => $itemId,
                         'is_sale'     => (int)($discount['value'] < 0),
                         'element_id'  => $this->identifier,
-                        'sku'         => $variantParams->get('_sku', $basicParamSku),
+                        'sku'         => !empty($variantSku) ? $variantSku : $mainSku,
                         'type'        => self::TYPE_SECONDARY,
                         'price'       => $price,
                         'total'       => $total,
@@ -1945,6 +1945,28 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         //$this->app->jbdebug->mark('JBPrice::indexData::finish-' . $itemId);
 
         return $result;
+    }
+
+    public function getIndexDataParameters()
+    {
+        $variations = $this->_getVariations();
+        $elements   = array();
+
+        if (!empty($variations)) {
+            foreach ($variations as $variant) {
+                foreach ($variant['params'] as $identifier => $value) {
+                    if (strpos($identifier, '_') !== 0) {
+                        $elements[] = array(
+                            'element_id' => $identifier,
+                            'value'      => $value[key($value)],
+                            'item_id'    => $this->_item->id
+                        );
+                    }
+                }
+            }
+        }
+
+        return $elements;
     }
 
     /**

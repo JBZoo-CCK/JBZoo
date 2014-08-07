@@ -320,7 +320,7 @@ class JBFieldHelper extends AppHelper
 
         $attributes['class'] = $this->_getAttr($node, 'class', 'inputbox');
 
-        if (!empty($value) || $value == 0) {
+        if (!empty($value)) {
             $attributes['disabled'] = 'disabled';
         }
 
