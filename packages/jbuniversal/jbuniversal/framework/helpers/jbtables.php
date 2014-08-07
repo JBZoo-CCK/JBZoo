@@ -135,6 +135,8 @@ class JBTablesHelper extends AppHelper
                 '`currency` VARCHAR(20) NOT NULL',
                 '`balance` INT(11) NOT NULL DEFAULT \'0\'',
                 '`hash` VARCHAR(150) NULL DEFAULT NULL',
+                '`description` VARCHAR(255) NULL DEFAULT NULL',
+                '`image` VARCHAR(255) NULL DEFAULT NULL',
                 '`params` TEXT NULL'
             ), array(
                 'INDEX `hash` (`hash`)',
@@ -147,6 +149,51 @@ class JBTablesHelper extends AppHelper
                 'INDEX `is_new` (`is_new`)',
                 'INDEX `is_hit` (`is_hit`)',
                 'INDEX `is_sale` (`is_sale`)'
+            ));
+        }
+
+        $checked = true;
+    }
+
+    /**
+     * Check and create JBPrice elements tables
+     */
+    public function checkPriceElements($force = false)
+    {
+        static $checked;
+
+        if (!isset($checked) || $force) {
+
+            $this->createTable(ZOO_TABLE_JBZOO_PRICE_CORE, array(
+                '`item_id` INT(11) NOT NULL',
+                '`element_id` VARCHAR(50) NOT NULL',
+                '`sku` VARCHAR(100) NOT NULL',
+                '`type` INT(11) NOT NULL',
+                '`is_sale` TINYINT(4) NOT NULL DEFAULT \'0\'',
+                '`price` FLOAT NOT NULL',
+                '`total` FLOAT NOT NULL',
+                '`currency` VARCHAR(20) NOT NULL',
+                '`balance` INT(11) NOT NULL DEFAULT \'0\'',
+                '`description` VARCHAR(255) NULL DEFAULT NULL',
+                '`image` VARCHAR(255) NULL DEFAULT NULL'
+            ), array(
+                'INDEX `item_id` (`item_id`)',
+                'INDEX `type` (`type`)',
+                'INDEX `element_id` (`element_id`)',
+                'INDEX `price` (`price`)',
+                'INDEX `total` (`total`)',
+                'INDEX `sku` (`sku`)',
+                'INDEX `is_sale` (`is_sale`)'
+            ));
+
+            $this->createTable(ZOO_TABLE_JBZOO_PRICE_PARAMS, array(
+                '`id` INT(255) AUTO_INCREMENT PRIMARY KEY',
+                '`item_id` INT(11) NOT NULL',
+                '`element_id` VARCHAR(50) NOT NULL',
+                '`value` varchar(255) NULL DEFAULT NULL'
+            ), array(
+                'INDEX `item_id` (`item_id`)',
+                'INDEX `element_id` (`element_id`)'
             ));
         }
 
