@@ -97,7 +97,7 @@ foreach ($variations as $rowKey => $row) : ?>
             'price'      => $this,
             'style'      => 'variations',
             'data'       => $row,
-            'price_mode' => $this->config->get('price_mode', 0)
+            'price_mode' => $this->config->get('price_mode', 1)
         )
     );
 

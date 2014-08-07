@@ -2188,7 +2188,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         if ($params = $this->_getRenderParams($layout, $position, $index)) {
 
             $params    = $this->app->data->create($params);
-            $priceMode = (int)$this->config->get('price_mode', 0);
+            $priceMode = (int)$this->config->get('price_mode', 1);
 
             if ($priceMode == self::PRICE_MODE_OVERLAY) {
                 $variant = $this->getVariantByValuesOverlay($values);
