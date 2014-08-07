@@ -111,7 +111,7 @@ $defaultVariant = isset($basicData['default_variant']) ? $basicData['default_var
         $('#<?php echo $uniqid;?>').JBZooPriceAdvanceAdmin({
             'text_variation_show': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?>",
             'text_variation_hide': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_HIDE'); ?>",
-            'price_mode': <?php echo $this->config->get('price_mode', 0); ?>,
+            'price_mode': <?php echo $this->config->get('price_mode', 1); ?>,
             'adv_field_param_edit': <?php echo (int)$config->get('adv_field_param_edit', 0); ?>
         });
     });

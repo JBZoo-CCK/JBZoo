@@ -1430,13 +1430,13 @@ var JBZooHelper = function () {
             return $this.each(function () {
 
                 options = $.extend({}, {
-                    'price_mode': 0
+                    'price_mode': 1
                 }, options);
 
-                if (options.price_mode === 1) {
+                if (options.price_mode === 2) {
                     return $.fn.JBZooPriceAdvanceOverlayValidator($this);
 
-                } else if (options.price_mode === 0) {
+                } else if (options.price_mode === 1) {
                     return $.fn.JBZooPriceAdvanceDefaultValidator($this);
                 }
             });
