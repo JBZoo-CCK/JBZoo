@@ -422,6 +422,10 @@ a.jbajaxlink:hover {
     margin-right: 12px !important;
 }
 
+.jbzoo-price-advance {
+    width: 600px;
+}
+
 .jbzoo-price-advance .row-field {
     display: block !important;
     float: left !important;

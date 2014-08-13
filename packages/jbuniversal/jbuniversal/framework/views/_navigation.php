@@ -79,9 +79,10 @@ $allItems = array(
             'statusEvents' => array('statusEvents'),
         ),
         'tmpl'   => array(
-            'emailTmpl'   => array('emailTmpl'),
-            'jbpriceTmpl' => array('jbpriceTmpl'),
-            'cartTmpl'    => array('cartTmpl'),
+            'emailTmpl'         => array('emailTmpl'),
+            'jbpriceTmpl'       => array('jbpriceTmpl'),
+            'jbpriceFilterTmpl' => array('jbpriceFilterTmpl'),
+            'cartTmpl'          => array('cartTmpl'),
         )
     ),
     'jbexport' => array(

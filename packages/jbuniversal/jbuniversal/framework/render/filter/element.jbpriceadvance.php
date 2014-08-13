@@ -57,9 +57,13 @@ class JBFilterElementJBPriceAdvance extends JBFilterElement
      */
     public function html()
     {
-        $values = $this->_prepareValues();
+        $values   = $this->_prepareValues();
+        $renderer = $this->app->renderer->create('jbpricefilter');
+        $html     = array();
 
-        $html = array();
+        echo $renderer->render('default', array(
+            'price' => $this->app->jbfilter->getElement($this->_identifier)
+        ));
 
         if ($valueTmpl = (int)$this->_params->get('jbzoo_filter_value', 1)) {
             $html[] = $this->_renderValueControl($values, $valueTmpl);

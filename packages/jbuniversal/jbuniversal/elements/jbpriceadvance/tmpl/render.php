@@ -17,6 +17,7 @@ $uniqClass = 'jsJBPriceAdvance-' . $this->identifier . '-' . $this->getItem()->i
 $iniqId = uniqid('jbprice-adv-');
 
 $unique = $this->app->jbstring->getId('jbprice-adv-');
+
 ?>
 
 <div class="jsJBPriceAdvance jbprice-advance <?php echo $uniqClass; ?>" id="<?php echo $unique; ?>">
@@ -29,6 +30,7 @@ $unique = $this->app->jbstring->getId('jbprice-adv-');
         $('#<?php echo $unique;?>').JBZooPriceAdvance({
             'params': <?php echo json_encode($interfaceParams);?>,
             'prices': <?php echo json_encode($prices);?>,
+            'default_variant': <?php echo json_encode($default_variant); ?>,
 
             'mainHash': "<?php echo $this->_getHash();?>",
             'itemId': <?php echo $this->getItem()->id;?>,

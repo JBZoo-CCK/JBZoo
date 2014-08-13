@@ -8,6 +8,11 @@
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
+
+    <params>
+        <param name="balance_mode" type="jbbool" default="0" label="JBZOO_JBPRICE_BALANCE"
+               description="JBZOO_JBPRICE_BALANCE_DESC"/>
+    </params>
     <params group="render">
 
         <param name="template" type="radio" default="simple" label="JBZOO_JBPRICE_BALANCE_SHOW"

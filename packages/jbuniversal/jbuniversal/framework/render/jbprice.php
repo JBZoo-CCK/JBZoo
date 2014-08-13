@@ -137,10 +137,10 @@ class JBPriceRenderer extends PositionRenderer
 
                 $this->addPath(array(
                     $this->app->path->path('jbtmpl:catalog/'),
-                    'element.' . $style
+                    'element' . $style
                 ));
 
-                $output[$i] = parent::render('element.' . $style, array('element' => $data['element'], 'params' => $params));
+                $output[$i] = parent::render('element.jbprice.' . $style, array('element' => $data['element'], 'params' => $params));
             }
         }
 

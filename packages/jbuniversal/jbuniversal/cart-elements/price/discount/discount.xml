@@ -10,7 +10,12 @@
     <description>JBZoo Cart Element Core System</description>
 
     <params group="render">
-
+        <param name="sale_show" type="list" default="4" label="JBZOO_JBPRICE_SALE_SHOW"
+               description="JBZOO_JBPRICE_SALE_SHOW_DESC">
+            <option value="2">JBZOO_JBPRICE_SALE_TEXT_SIMPLE</option>
+            <option value="3">JBZOO_JBPRICE_SALE_ICON_SIMPLE</option>
+            <option value="4">JBZOO_JBPRICE_SALE_ICON_VALUE</option>
+        </param>
     </params>
 
 

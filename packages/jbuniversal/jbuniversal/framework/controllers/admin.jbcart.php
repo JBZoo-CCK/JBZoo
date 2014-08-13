@@ -231,6 +231,23 @@ class JBCartJBuniversalController extends JBUniversalController
         $this->renderView();
     }
 
+    public function jbpricefiltertmpl()
+    {
+        $layout = $this->_jbrequest->get('layout', 'default');
+
+        $renderer           = $this->app->jbrenderer->create('jbpricefilter');
+        $this->layoutList   = $renderer->getLayouts('jbpricefilter');
+        $this->positionList = $renderer->getPositions('jbpricefilter.' . $layout);
+
+        $this->systemElements = $this->_element->getSystemTmpl('price');
+        $this->dragElements   = $this->_position->loadElements('priceparams');
+        $this->elementsParams = $this->_position->loadParams('jbpriceFilterTmpl.' . $layout);
+        $this->positions      = $this->_position->loadPostionsTmpl('jbpriceFilterTmpl.' . $layout, 'priceparams', $this->positionList);
+        //dump($this->positions);
+
+        $this->renderView();
+    }
+
     /**
      * Field list action
      */

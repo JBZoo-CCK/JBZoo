@@ -99,40 +99,4 @@ class JBCartElementPriceValue extends JBCartElementPrice
         return $data->get($key);
     }
 
-    /**
-     * @return array
-     */
-    public function getPrices()
-    {
-        $currencyDefault = $this->_jbprice->config->get('currency_default', 'EUR');
-        $basicCurrency   = $this->getBasic('_currency', $currencyDefault);
-
-        $jbmoney = $this->app->jbmoney;
-        $data    = $this->getBasic('_discount');
-
-        $discountCurrency = $data['currency'];
-        $discountValue    = $data['value'];
-
-        $value = $this->getBasic('_value');
-
-        $priceNoFormat = $jbmoney->convert($basicCurrency, $currencyDefault, $value);
-        $price         = $jbmoney->toFormat($priceNoFormat, $basicCurrency);
-
-        $totalNoFormat = $jbmoney->calcDiscount($value, $basicCurrency, $discountValue, $discountCurrency);
-        $total         = $jbmoney->toFormat($totalNoFormat, $basicCurrency);
-
-        $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
-        $save         = $jbmoney->toFormat($saveNoFormat, $basicCurrency);
-
-        $prices = array(
-            'totalNoFormat' => $totalNoFormat,
-            'priceNoFormat' => $priceNoFormat,
-            'saveNoFormat'  => $saveNoFormat,
-            'total'         => $total,
-            'price'         => $price,
-            'save'          => $save
-        );
-
-        return $prices;
-    }
 }

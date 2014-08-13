@@ -13,7 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 ?>
 
 <div id="sidebar" class="uk-width-1-6">

@@ -65,6 +65,7 @@ class JBModelSku extends JBModel
 
                 foreach ($priceElements as $element) {
                     $this->_indexPrice($element->getIndexData(true));
+                    $this->_indexPrice($element->getIndexDataParameters(), ZOO_TABLE_JBZOO_SKU_PARAMS);
                 }
 
                 return true;
@@ -77,15 +78,15 @@ class JBModelSku extends JBModel
     /**
      * Save to index table
      * @param array $data
+     * @param string $table
      * @return bool
      */
-    public function _indexPrice(array $data)
+    public function _indexPrice(array $data, $table = ZOO_TABLE_JBZOO_SKU)
     {
         if (!empty($data)) {
 
             foreach ($data as $values) {
-                $values['params'] = (string)$this->app->data->create($values['params']);
-                $this->_insert($values, ZOO_TABLE_JBZOO_SKU);
+                $this->_insert($values, $table);
             }
 
             return true;
@@ -101,6 +102,12 @@ class JBModelSku extends JBModel
     {
         $select = $this->_getSelect()
             ->delete(ZOO_TABLE_JBZOO_SKU)
+            ->where('item_id = ?', $item->id);
+
+        $this->sqlQuery($select);
+
+        $select->clear()
+            ->delete(ZOO_TABLE_JBZOO_SKU_PARAMS)
             ->where('item_id = ?', $item->id);
 
         $this->sqlQuery($select);

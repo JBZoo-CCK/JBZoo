@@ -73,10 +73,21 @@ class JBModelElementJBPriceAdvance extends JBModelElement
         $value = $this->_prepareValue($value, $exact);
 
         $isUse = false;
+        $ids   = array();
         $where = array();
         $i     = 0;
 
+        $innerSelect = $this->_getSelect()
+            ->select('DISTINCT tSku.item_id as id')
+            ->from(ZOO_TABLE_JBZOO_SKU . ' AS tSku');
+
         foreach ($value as $val) {
+
+            if (isset($val['params'])) {
+                if ($ids = $this->getItemdIdsByParams($val['params'])) {
+                    $ids = array_unique($ids);
+                }
+            }
 
             // by SKU value
             if (!empty($val['sku'])) {
@@ -110,17 +121,28 @@ class JBModelElementJBPriceAdvance extends JBModelElement
             }
 
             if (!empty($val['val']) || !empty($val['val_min']) || !empty($val['val_max']) || !empty($val['range'])) {
+
                 $isUse   = true;
                 $where[] = '(' . implode(' AND ', $this->_conditionValue($val)) . ')';
             }
 
             if ($isUse && $i <= 0) {
-                $select->where('tSku.element_id = ?', $elementId);
+                $innerSelect->where('tSku.element_id = ?', $elementId);
                 $i++;
             }
         }
 
-        return array(implode(' AND ', $where));
+        $innerSelect->where(implode(' AND ', $where));
+
+        $idList  = $this->_groupBy($this->fetchAll($innerSelect), 'id');
+        $itemIds = array_merge($idList, $ids);
+        $itemIds = array_unique($itemIds);
+
+        if (!empty($itemIds)) {
+            return array('tItem.id IN (' . implode(',', $itemIds) . ')');
+        }
+
+        return array('tItem.id IN (0)');
     }
 
     /**
@@ -197,7 +219,6 @@ class JBModelElementJBPriceAdvance extends JBModelElement
                     $where[] = 'tSku.total <= ' . $this->_quote($max);
                 }
             }
-
         }
 
         $priceType = (int)$value['price_type'];
@@ -278,6 +299,54 @@ class JBModelElementJBPriceAdvance extends JBModelElement
         }
 
         return $value;
+    }
+
+    protected function getItemdIdsByParams($data = array())
+    {
+        $valueEmpty = true;
+
+        $select = $this->_getItemSelect()
+            ->leftJoin(ZOO_TABLE_JBZOO_SKU_PARAMS . ' AS tParams ON tParams.item_id = tItem.id')
+            ->clear('select')
+            ->select('tParams.item_id');
+
+        $i = 0;
+        foreach ($data as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
+
+            $logic = 'OR';
+            if ($i === 0) {
+                $logic = 'AND';
+            }
+
+            if (is_array($value) && count($value) > 0) {
+                foreach ($value as $val) {
+
+                    $logic = 'OR';
+                    if ($i === 0) {
+                        $logic = 'AND';
+                    }
+                    $i++;
+                    $select
+                        ->where('(tParams.element_id = "' . $key . '"', $key, $logic)
+                        ->where('tParams.value = "' . $val . '")', $val, 'AND');
+                }
+            } else {
+                $select
+                    ->where('(tParams.element_id = "' . $key . '"', $key, $logic)
+                    ->where('tParams.value = "' . $value . '")', $value, 'AND');
+            }
+
+            $valueEmpty = false;
+            $i++;
+        }
+
+        $select->group('tParams.item_id');
+        $result = $this->fetchList($select);
+
+        return $valueEmpty ? array() : array_filter($result);
     }
 
 }

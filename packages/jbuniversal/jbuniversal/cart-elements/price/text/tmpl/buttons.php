@@ -20,6 +20,6 @@ $attributes = array(
 
 ?>
 
-<div class="jbprice-param-radio jbprice-param-list jbpriceParams" data-index="0" data-type="radio">
-    <?php echo $this->app->jbhtml->buttonsJqueryUI($data, $this->getName(), $attributes, null, $unique); ?>
+<div class="jbprice-param-radio jbprice-param-list jbpriceParams"  data-type="radio">
+    <?php echo $this->app->jbhtml->buttonsJqueryUI($data, $this->getName(), $attributes, $this->getBasic($this->identifier), $unique); ?>
 </div>

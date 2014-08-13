@@ -1488,7 +1488,7 @@ var JBZooHelper = function () {
 
                     $('input[type="radio"]', $row).each(function () {
                         var $this = $(this),
-                        random = Math.floor((Math.random() * 999999) + 1);
+                            random = Math.floor((Math.random() * 999999) + 1);
 
                         $this.attr('name', $this.attr('name').replace(/\[variations\]\[\d\]/i, '[variations-' + random + '][' + n + ']'));
                     });
@@ -2199,6 +2199,7 @@ var JBZooHelper = function () {
             'mainImage': '',
             'popup': 0,
             'prices': {},
+            'default_variant': {},
             'addToCartUrl': '',
             'removeFromCartUrl': '',
             'changeVariantUrl': '',
@@ -2228,11 +2229,13 @@ var JBZooHelper = function () {
             var AjaxProcess = false,
                 currency = options.params.currencyDefault,
                 prices = {};
+
             prices[options.mainHash] = options.prices;
 
             options.relatedImage = $('.jsImageRelated', $obj).data('element');
 
             function getPrices(newCurrency) {
+
                 var hash = getCurrentHash(),
                     values = getValues();
 
@@ -2240,6 +2243,7 @@ var JBZooHelper = function () {
 
                     AjaxProcess = false;
                     toggle(prices, newCurrency);
+
                 } else {
                     JBZoo.ajax({
                         'url': options.changeVariantUrl,
@@ -2249,19 +2253,18 @@ var JBZooHelper = function () {
                             }
                         },
                         'success': function (data) {
+
                             AjaxProcess = false;
-                            console.log(data);
                             if (typeof data != 'undefined') {
                                 prices[hash] = data;
                             } else {
                                 prices[hash] = prices[options.mainHash];
                             }
-
                             toggle(prices, newCurrency);
                         },
                         'error': function (data) {
                             AjaxProcess = false;
-                            console.log(data);
+
                             if (data.result == false) {
                                 prices[hash] = prices[options.mainHash];
                             }
@@ -2297,7 +2300,6 @@ var JBZooHelper = function () {
                     values = prices[hash][newCurrency];
                     description = $.trim(prices[hash].description);
 
-
                     if (options.params.advAllExistShow == 0) {
                         $('.jbprice-buttons', $obj).removeClass('disabled');
                     }
@@ -2309,7 +2311,7 @@ var JBZooHelper = function () {
                     }
 
                 }
-
+                console.log(prices[hash]);
                 if (typeof values != 'undefined') {
 
                     $('.not-paid-box', $obj).show();
@@ -2339,6 +2341,7 @@ var JBZooHelper = function () {
                         }
                     }
                 }
+
             }
 
             function isTextParam() {
@@ -2461,6 +2464,7 @@ var JBZooHelper = function () {
                     if (type == 'radio') {
                         var radio = $('input[type="radio"]:checked', $param);
 
+
                         if ($.trim(radio.val()).length) {
                             data['p' + index + '-'] = $.trim(radio.val());
                         }
@@ -2470,7 +2474,7 @@ var JBZooHelper = function () {
                     if (type == 'select') {
                         var select = $('select.jsParam', $param);
 
-                        if ($.trim(radio.val()).length) {
+                        if ($.trim(select.val()).length) {
                             data['p' + index + '-'] = $.trim(select.val());
                         }
                     }
@@ -2522,10 +2526,12 @@ var JBZooHelper = function () {
                     }
 
                     if (type == 'select') {
-                        var select = $('select.jsParam', $param);
+                        var select = $('select.jsParam', $param),
+                            value = {};
 
                         if ($.trim(select.val()).length) {
-                            data[select.data('identifier')] = $.trim(select.val());
+                            value['value'] = $.trim(select.val());
+                            data[select.data('identifier')] = value;
                         }
                     }
 
@@ -2564,7 +2570,7 @@ var JBZooHelper = function () {
                 }
 
                 result = options.mainHash + '-' + buildHash(newHash);
-                if (!buildHash(newHash).length) {
+                if (buildHash(newHash).length == 0) {
                     result = options.mainHash;
                 }
 
@@ -2717,11 +2723,17 @@ var JBZooHelper = function () {
                 return false;
             });
 
+
             // init
             (function () {
                 $obj.addClass(options.isInCart ? 'in-cart' : 'not-in-cart');
                 bindDataIndex();
                 $(".jbcurrency-" + options.params.currencyDefault, $obj).addClass('active');
+
+                if (options.default_variant.length > 0) {
+                    prices[getCurrentHash()] = options.default_variant;
+                }
+
                 togglePrices(options.params.currencyDefault);
 
             }());

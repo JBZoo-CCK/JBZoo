@@ -306,10 +306,9 @@ class JBFieldHelper extends AppHelper
      * @param $value
      * @param $controlName
      * @param SimpleXMLElement $node
-     * @param $parent
      * @return mixed
      */
-    public function singlechoice($name, $value, $controlName, SimpleXMLElement $node, $parent)
+    public function singlechoice($name, $value, $controlName, SimpleXMLElement $node)
     {
         $optionList = array();
         foreach ($node->children() as $option) {
