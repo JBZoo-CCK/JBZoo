@@ -22,6 +22,11 @@ class JBCartElementPriceBalance extends JBCartElementPrice
     const AVAILABLE     = -1;
     const UNDER_ORDER   = -2;
 
+    public function hasFilterValue($params = array())
+    {
+        return false;
+    }
+
     /**
      * @param  array $params
      * @return mixed|null|string

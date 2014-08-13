@@ -68,7 +68,7 @@ class JBModelFilter extends JBModel
             $select->limit($limit, $offset);
             $this->_addOrder($select, $order, $type);
 
-            //jbdump::sql($select);
+            jbdump::sql($select);
             //$this->_explain($select);
 
             // query
@@ -152,8 +152,7 @@ class JBModelFilter extends JBModel
         $select = $this->_getItemSelect($itemType, $appId)
             ->clear('select')
             ->select('DISTINCT tItem.id as id')
-            ->leftJoin($tableName . ' AS tIndex ON tIndex.item_id = tItem.id')
-            ->leftJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id');
+            ->leftJoin($tableName . ' AS tIndex ON tIndex.item_id = tItem.id');
 
         $where = array();
 
@@ -291,8 +290,8 @@ class JBModelFilter extends JBModel
 
                     list ($elementId, $priceField) = explode('__', $field);
                     if (in_array($priceField, array('sku', 'total', 'price'), true)) {
-
                         $select
+                            ->leftJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
                             ->order('tSku.' . $priceField . ' ' . $dir)
                             ->where('tSku.type = ?', 1);
                     }

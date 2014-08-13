@@ -9,7 +9,7 @@
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
 
-    <params group="render">
+    <params group="filter">
 
     </params>
 

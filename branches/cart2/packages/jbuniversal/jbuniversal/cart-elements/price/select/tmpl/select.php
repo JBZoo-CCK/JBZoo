@@ -21,5 +21,5 @@ $attributes = array(
 ?>
 
 <div class="jbprice-param-select jbprice-param-list ">
-    <?php echo $this->app->jbhtml->select($data, $this->getName(), $attributes); ?>
+    <?php echo $this->app->jbhtml->select($data, $this->getName(), $attributes, $this->getBasic($this->identifier)); ?>
 </div>

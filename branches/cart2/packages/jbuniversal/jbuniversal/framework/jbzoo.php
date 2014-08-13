@@ -116,6 +116,7 @@ class JBZoo
     {
         // defines
         define('ZOO_TABLE_JBZOO_SKU', '#__zoo_jbzoo_sku');
+        define('ZOO_TABLE_JBZOO_SKU_PARAMS', '#__zoo_jbzoo_sku_params');
         define('ZOO_TABLE_JBZOO_FAVORITE', '#__zoo_jbzoo_favorite');
         define('ZOO_TABLE_JBZOO_CONFIG', '#__zoo_jbzoo_config');
 

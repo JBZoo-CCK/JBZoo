@@ -207,40 +207,43 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     public function getAllParamData($identifier)
     {
-        $result      = array();
-        $data        = $this->data();
-        $basicData   = $this->app->data->create($data['basic']);
-        $basicParams = $this->app->data->create($basicData->get('params'));
+        $result = array();
+        $data   = $this->data();
 
-        if ($value = $basicData->get($identifier)) {
-            $result[] = $value;
-        }
+        if (!empty($data['basic'])) {
+            $basicData   = $this->app->data->create($data['basic']);
+            $basicParams = $this->app->data->create($basicData->get('params'));
 
-        if ($value = $basicParams->get($identifier)) {
-            $result[] = $value;
-        }
-        unset($data['basic']);
 
-        if (isset($data['variations'])) {
-            for ($i = 0; $i < count($data['variations']); $i++) {
+            if ($value = $basicData->get($identifier)) {
+                $result[] = $value;
+            }
 
-                if (!isset($data['variations'][$i])) {
-                    continue;
-                }
+            if ($value = $basicParams->get($identifier)) {
+                $result[] = $value;
+            }
+            unset($data['basic']);
 
-                $variant       = $this->app->data->create($data['variations'][$i]);
-                $variantParams = $this->app->data->create($variant->get('params'));
+            if (isset($data['variations'])) {
+                for ($i = 0; $i < count($data['variations']); $i++) {
 
-                if ($value = $variant->get($identifier)) {
-                    $result[] = $value;
-                }
+                    if (!isset($data['variations'][$i])) {
+                        continue;
+                    }
 
-                if ($value = $variantParams->get($identifier)) {
-                    $result[] = $value;
+                    $variant       = $this->app->data->create($data['variations'][$i]);
+                    $variantParams = $this->app->data->create($variant->get('params'));
+
+                    if ($value = $variant->get($identifier)) {
+                        $result[] = $value;
+                    }
+
+                    if ($value = $variantParams->get($identifier)) {
+                        $result[] = $value;
+                    }
                 }
             }
         }
-
         //$result[] = $basicData->get($identifier);
         return $result;
     }
@@ -374,6 +377,12 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             '8b36e9e0-8efa-458f-9571-cc2c4276b53a' => array(
                 '0' => 'белый1'
             ),
+            '913adc8a-3d91-4dcc-8a0f-9c21e4a3eaf8' => array(
+                'value' => 'фчф1'
+            ),
+            '8a329e3a-a7bc-47d4-8215-0cd72b5087e3' => array(
+                'value' => 'option12'
+            ),
             '97377ede-c0a5-4bec-a3eb-8fdb231a137a' => array(
                 'value' => 'option2'
             )
@@ -389,20 +398,14 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      */
     public function render($params = array())
     {
-        $params    = $this->app->data->create($params);
-        $item      = $this->getItem();
-        $basicData = $this->getBasicData();
-        $variant   = isset($basicData['default_variant']) ? $basicData['default_variant'] : null;
-        $prices    = $this->getPricesByVariant($basicData);
+        $params     = $this->app->data->create($params);
+        $item       = $this->getItem();
+        $basicData  = $this->getBasicData();
+        $mainPrices = $this->getPricesByVariant($basicData);
+        $prices     = $this->getDefaultVariantPrices();
 
-        if (isset($variant)) {
-            $dataVariant = $this->_getVariations($variant);
-            $prices      = $this->getPricesByVariant($dataVariant);
-        }
-        $this->getIndexDataParameters();
-        $var = $this->getVariantByValuesOverlay($this->getArray());
-
-        //$pr = $this->getPricesByVariant($var);
+        $array  = $this->getArray();
+        $values = $this->getVariantByValues($array);
 
         $this->_layout = $params->get('template', 'default');
 
@@ -416,7 +419,8 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         if ($layout = $this->getLayout('render.php')) {
             return self::renderLayout($layout, array(
                 'elements'          => $elements,
-                'prices'            => $prices,
+                'prices'            => $mainPrices,
+                'default_variant'   => $prices,
                 'isInCart'          => (int)$this->app->jbcart->isExists($item),
                 'basketUrl'         => $this->_getBasketUrl(),
                 'addToCartUrl'      => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxAddToCart'),
@@ -442,6 +446,37 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         }
 
         return null;
+    }
+
+    /**
+     * Get default variant if it is
+     * @return array|bool
+     */
+    public function getDefaultVariant()
+    {
+        $basicData = $this->getBasicData();
+        if (!empty($basicData['default_variant'])) {
+            $dataVariant = $this->_getVariations($basicData['default_variant']);
+
+            return $dataVariant;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get prices for default variant
+     * @return array|bool
+     */
+    public function getDefaultVariantPrices()
+    {
+        $prices = array();
+
+        if ($default = $this->getDefaultVariant()) {
+            $prices = $this->getPricesByVariant($default);
+        }
+
+        return $prices;
     }
 
     /**
@@ -1079,6 +1114,13 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         return $prices;
     }
 
+    /**
+     * Get variant from $this->data() by values
+     * MODE: DEFAULT
+     *
+     * @param  array $values
+     * @return array
+     */
     public function getVariantByValues($values = array())
     {
         $data = $this->_getValues();
@@ -1090,17 +1132,18 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         $variations = $this->_getVariations();
 
         foreach ($data as $i => $value) {
-            foreach ($value as $identifier => $fields) {
-
+            foreach ($values as $identifier => $fields) {
                 $valError = false;
                 $idError  = false;
 
-                if (!isset($values[$identifier])) {
+                if (!isset($value[$identifier]) ||
+                    count($values) !== count($value)
+                ) {
                     $idError = true;
                 }
 
                 if ($idError === false) {
-                    $diff = array_diff_assoc($fields, $values[$identifier]);
+                    $diff = array_diff_assoc($fields, $value[$identifier]);
 
                     if (!empty($diff)) {
                         $valError = true;
@@ -1110,14 +1153,21 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                 if ($idError === true || $valError === true) {
                     unset($variations[$i]);
                 }
-
             }
         }
+
 
         //$this->getPricesByVariant($variations[key($variations)])
         return !empty($variations) ? $variations[key($variations)] : array();
     }
 
+    /**
+     * Get variant from $this->data() by values
+     * MODE: OVERLAY
+     *
+     * @param  array $values
+     * @return array
+     */
     public function getVariantByValuesOverlay($values = array())
     {
         $data = $this->_getValues();
@@ -1421,10 +1471,6 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         }
 
         return null;
-    }
-
-    protected function _setElementConfig($identifier)
-    {
     }
 
     protected function _getFields($selected, $function = 'edit')
@@ -1747,6 +1793,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
                                 $variant[$j] = $var;
                                 if (empty($var)) {
+                                    unset($result['variations'][$i][$key]);
                                     unset($result['values'][$i][$key]);
                                 }
                             }
@@ -1755,7 +1802,6 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
                     $result['variations'][$i]['params'][$key] = $variant;
                 }
-
             }
 
         }
@@ -1956,11 +2002,15 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             foreach ($variations as $variant) {
                 foreach ($variant['params'] as $identifier => $value) {
                     if (strpos($identifier, '_') !== 0) {
-                        $elements[] = array(
-                            'element_id' => $identifier,
-                            'value'      => $value[key($value)],
-                            'item_id'    => $this->_item->id
-                        );
+
+                        $value = is_array($value) ? $value[key($value)] : $value;
+                        if (!empty($value)) {
+                            $elements[] = array(
+                                'element_id' => $identifier,
+                                'value'      => $value,
+                                'item_id'    => $this->_item->id
+                            );
+                        }
                     }
                 }
             }
@@ -2187,12 +2237,12 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     {
         if ($params = $this->_getRenderParams($layout, $position, $index)) {
 
-            $params    = $this->app->data->create($params);
             $priceMode = (int)$this->config->get('price_mode', 1);
 
+            $variant = array();
             if ($priceMode == self::PRICE_MODE_OVERLAY) {
                 $variant = $this->getVariantByValuesOverlay($values);
-            } else {
+            } else if ($priceMode == self::PRICE_MODE_DEFAULT) {
                 $variant = $this->getVariantByValues($values);
             }
 

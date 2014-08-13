@@ -13,5 +13,4 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
-echo App::getInstance('zoo')->jbfield->singlechoice($name, $value, $control_name, $node, $parent);
+echo App::getInstance('zoo')->jbfield->singlechoice($name, $value, $control_name, $node);

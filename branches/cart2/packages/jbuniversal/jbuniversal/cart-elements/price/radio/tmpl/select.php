@@ -14,12 +14,15 @@
 defined('_JEXEC') or die('Restricted access');
 
 $attributes = array(
-    'class' => 'jsParam',
+    'class'           => 'jsParam',
     'data-identifier' => $this->identifier
 );
 
-?>
+if (count($options) > 1) :
+    ?>
 
-<div class="jbprice-param-select jbprice-param-list jbpriceParams" data-index="0" data-type="select">
-    <?php echo $this->app->jbhtml->select($data, $this->getName(), $attributes); ?>
-</div>
+    <div class="jbprice-param-select jbprice-param-list jbpriceParams"  data-type="select">
+        <?php echo $this->app->jbhtml->select($options, $this->getName(), $attributes, $this->getBasic($this->identifier)); ?>
+    </div>
+
+<?php endif;

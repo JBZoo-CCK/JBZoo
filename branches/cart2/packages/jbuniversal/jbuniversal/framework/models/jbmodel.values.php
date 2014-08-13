@@ -95,6 +95,20 @@ class JBModelValues extends JBModel
         return $result;
     }
 
+    public function getParamsValues($elementId, $itemType, $applicationId)
+    {
+        $select = $this->_getItemSelect($itemType, $applicationId)
+            ->innerJoin(ZOO_TABLE_JBZOO_SKU_PARAMS . ' AS tParams ON tParams.item_id = tItem.id')
+            ->clear('select')
+            ->select('tParams.value as value, tParams.value as text, COUNT(DISTINCT tParams.item_id) as count')
+            ->where('tParams.element_id = "' . $elementId . '"')
+            ->group('tParams.value');
+
+        $values = $this->fetchAll($select, true);
+
+        return $values;
+    }
+
     /**
      * @param $data
      * @param $identifier
@@ -292,6 +306,7 @@ class JBModelValues extends JBModel
                 ->where('tSku.element_id = ?', $identifier);
 
             $result = $this->fetchRow($select);
+
             $this->_jbcache->set(func_get_args(), $result, 'get-range-by-price');
         }
 

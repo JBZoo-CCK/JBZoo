@@ -19,5 +19,11 @@
             <option value="code">JBZOO_ELEMENT_CURRENCY_TMPL_WORDS</option>
         </param>
 
+        <param name="currency_default" type="jbcurrency" default="EUR" label="JBZOO_JBPRICE_CURRENCY_DEFAULT"
+               description="JBZOO_JBPRICE_CURRENCY_DEFAULT" multiple="0"/>
+
+        <param name="currency_list" type="jbcurrency" default="" label="JBZOO_JBPRICE_CURRENCY_LIST"
+               description="JBZOO_JBPRICE_CURRENCY_LIST_DESC" multiple="1"/>
+
     </params>
 </element>

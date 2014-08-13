@@ -97,6 +97,26 @@ abstract class JBCartElementPrice extends JBCartElement
         return $this->_jbprice->getAllParamData($identifier);
     }
 
+    public function getAllOptions()
+    {
+        $allData = $this->getAllData();
+        $data    = array();
+
+        if (!empty($allData)) {
+            $data[''] = 'Chose your variant';
+
+            foreach ($allData as $name) {
+                if (empty($name['value'])) {
+                    continue;
+                }
+
+                $data[$name['value']] = $name['value'];
+            }
+        }
+
+        return $data;
+    }
+
     /**
      * @param $key
      * @param null $default
@@ -104,12 +124,23 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function getBasic($key, $default = null)
     {
-        $basic  = $this->app->data->create($this->_jbprice->getBasicData());
-        $params = $this->app->data->create($basic->get('params'));
+        if ($defaultVariant = $this->_jbprice->getDefaultVariant()) {
+            $defaultVariant = $this->app->data->create($defaultVariant);
+            $defaultParams  = $this->app->data->create($defaultVariant->get('params'));
+            $value          = $defaultVariant->get($key);
 
-        $value = $basic->get($key);
-        if (empty($value)) {
-            $value = $params->get($key, $default);
+            if (empty($value)) {
+                $value = $defaultParams->get($key, $default);
+            }
+        } else {
+
+            $basic  = $this->app->data->create($this->_jbprice->getBasicData());
+            $params = $this->app->data->create($basic->get('params'));
+            $value  = $basic->get($key);
+
+            if (empty($value)) {
+                $value = $params->get($key, $default);
+            }
         }
 
         return $value;
@@ -129,10 +160,27 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     * @return ElementJBPriceAdvance
+     */
+    public function getJBPrice()
+    {
+        return $this->_jbprice;
+    }
+
+    /**
      * @param array $params
      * @return bool
      */
     public function hasValue($params = array())
+    {
+        return true;
+    }
+
+    /**
+     * @param  array $params
+     * @return bool
+     */
+    public function hasFilterValue($params = array())
     {
         return true;
     }
@@ -229,7 +277,7 @@ abstract class JBCartElementPrice extends JBCartElement
             $options = explode("\n", $options);
 
             $result[''] = 'Chose your variant';
-            foreach ($options as $key => $value) {
+            foreach ($options as $value) {
                 list($name, $value) = explode('||', $value);
                 $value = JString::strtolower(JString::trim($value));
                 $value = $this->app->string->sluggify($value);
@@ -259,6 +307,43 @@ abstract class JBCartElementPrice extends JBCartElement
         }
 
         return $defaultVariant;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPrices()
+    {
+        $currencyDefault = $this->_jbprice->config->get('currency_default', 'EUR');
+        $basicCurrency   = $this->getBasic('_currency', $currencyDefault);
+
+        $jbmoney = $this->app->jbmoney;
+        $data    = $this->getBasic('_discount');
+
+        $discountCurrency = $data['currency'];
+        $discountValue    = $data['value'];
+
+        $value = $this->getBasic('_value');
+
+        $priceNoFormat = $jbmoney->convert($basicCurrency, $currencyDefault, $value);
+        $price         = $jbmoney->toFormat($priceNoFormat, $basicCurrency);
+
+        $totalNoFormat = $jbmoney->calcDiscount($value, $basicCurrency, $discountValue, $discountCurrency);
+        $total         = $jbmoney->toFormat($totalNoFormat, $basicCurrency);
+
+        $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
+        $save         = $jbmoney->toFormat($saveNoFormat, $basicCurrency);
+
+        $prices = array(
+            'totalNoFormat' => $totalNoFormat,
+            'priceNoFormat' => $priceNoFormat,
+            'saveNoFormat'  => $saveNoFormat,
+            'total'         => $total,
+            'price'         => $price,
+            'save'          => $save
+        );
+
+        return $prices;
     }
 
     /**

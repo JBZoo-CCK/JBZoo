@@ -29,6 +29,15 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
 
     /**
      * @param array $params
+     * @return bool
+     */
+    public function hasFilterValue($params = array())
+    {
+        return false;
+    }
+
+    /**
+     * @param array $params
      * @return array|mixed|null|string
      */
     public function render($params = array())

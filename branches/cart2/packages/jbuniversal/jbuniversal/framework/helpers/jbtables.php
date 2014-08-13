@@ -164,7 +164,7 @@ class JBTablesHelper extends AppHelper
 
         if (!isset($checked) || $force) {
 
-            $this->createTable(ZOO_TABLE_JBZOO_PRICE_CORE, array(
+            $this->createTable(ZOO_TABLE_JBZOO_SKU, array(
                 '`item_id` INT(11) NOT NULL',
                 '`element_id` VARCHAR(50) NOT NULL',
                 '`sku` VARCHAR(100) NOT NULL',
@@ -186,7 +186,7 @@ class JBTablesHelper extends AppHelper
                 'INDEX `is_sale` (`is_sale`)'
             ));
 
-            $this->createTable(ZOO_TABLE_JBZOO_PRICE_PARAMS, array(
+            $this->createTable(ZOO_TABLE_JBZOO_SKU_PARAMS, array(
                 '`id` INT(255) AUTO_INCREMENT PRIMARY KEY',
                 '`item_id` INT(11) NOT NULL',
                 '`element_id` VARCHAR(50) NOT NULL',
