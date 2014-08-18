@@ -15,6 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $layoutList = isset($layoutList) ? $layoutList : array();
 $layout = $this->app->jbrequest->get('layout', 'index');
+$jbprice = $this->app->jbrequest->get('jbprice');
 
 $fields = array(
     'option'     => $this->app->jbrequest->get('option'),
@@ -23,18 +24,28 @@ $fields = array(
 );
 ?>
 
-<?php if (!empty($layoutList)) : ?>
+<?php if (!empty($layoutList) || !empty($priceList)) : ?>
     <form action="index.php" method="get">
 
         <?php foreach ($fields as $key => $value) {
             echo '<input type="hidden" name="' . $key . '" value="' . $value . '" />';
         } ?>
 
-        <label for="layout-list-select">
-            <?php echo JText::_('JBZOO_ADMIN_POSITIONS_LAYOUT_LIST'); ?>
-        </label>
+        <?php if (!empty($layoutList)) : ?>
+            <label for="layout-list-select">
+                <?php echo JText::_('JBZOO_ADMIN_POSITIONS_LAYOUT_LIST'); ?>
+            </label>
 
-        <?php echo $this->app->jbhtml->select($layoutList, 'layout', '', $layout, 'layout-list-select'); ?>
+            <?php echo $this->app->jbhtml->select($layoutList, 'layout', '', $layout, 'layout-list-select'); ?>
+
+        <?php endif; ?>
+
+        <?php if (!empty($priceList)) :
+            echo $this->partial('priceslist', array(
+                'priceList' => $priceList
+            ));
+        endif; ?>
+
     </form>
 
     <script type="text/javascript">
@@ -47,6 +58,15 @@ $fields = array(
             });
 
             $('.jsAssignElements .jsLayout').val($select.val());
+
+            var $select = $('#jbprice-list-select').change(function () {
+                var $select = $(this);
+
+                $('.jsAssignElements .jsJBprice').val($select.val());
+                $select.closest('form').submit();
+            });
+
+            $('.jsAssignElements .jsJBprice').val($select.val());
         });
     </script>
 

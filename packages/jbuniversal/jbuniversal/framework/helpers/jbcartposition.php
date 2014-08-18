@@ -152,7 +152,7 @@ class JBCartPositionHelper extends AppHelper
 
 
     /**
-     * @param  string $group
+     * @param string $group
      * @param array $positions
      * @param string $layout
      */
@@ -161,6 +161,29 @@ class JBCartPositionHelper extends AppHelper
         $config = JBModelConfig::model();
 
         $configGroup = $this->_mainGroup . $group;
+        if ($layout) {
+            $configGroup .= '.' . $layout;
+        }
+
+        $config->removeGroup($configGroup);
+        $config->setGroup($configGroup, $positions);
+    }
+
+    /**
+     * @param $group
+     * @param $positions
+     * @param $layout
+     * @param $identifier
+     */
+    public function savePrice($group, $positions, $layout, $identifier)
+    {
+        $config = JBModelConfig::model();
+
+        $configGroup = $this->_mainGroup . $group;
+
+        if ($identifier) {
+            $configGroup .= '.' . $identifier;
+        }
         if ($layout) {
             $configGroup .= '.' . $layout;
         }

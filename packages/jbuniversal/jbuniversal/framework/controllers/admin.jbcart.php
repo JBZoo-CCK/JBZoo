@@ -134,7 +134,12 @@ class JBCartJBuniversalController extends JBUniversalController
     public function priceParams()
     {
         $this->groupList = $this->_element->getGroups(array('price'));
-        $this->positions = $this->_position->loadPostions('priceParams', array('list'));
+        $this->priceList = $this->app->jbpriceparams->getJBPriceElements();
+        $this->tempTask  = 'savePricePositions';
+
+        $jbprice = $this->_jbrequest->get('jbprice', key($this->priceList));
+
+        $this->positions = $this->_position->loadPostions('priceParams.' . $jbprice, array('list'));
 
         $this->renderView();
     }
@@ -239,10 +244,15 @@ class JBCartJBuniversalController extends JBUniversalController
         $this->layoutList   = $renderer->getLayouts('jbpricefilter');
         $this->positionList = $renderer->getPositions('jbpricefilter.' . $layout);
 
+        $jbprice = $this->_jbrequest->get('jbprice');
+
+        $this->tempTask       = 'savePricePositions';
+        $this->priceList      = $this->app->jbpriceparams->getJBPriceElements();
         $this->systemElements = $this->_element->getSystemTmpl('price');
         $this->dragElements   = $this->_position->loadElements('priceparams');
-        $this->elementsParams = $this->_position->loadParams('jbpriceFilterTmpl.' . $layout);
-        $this->positions      = $this->_position->loadPostionsTmpl('jbpriceFilterTmpl.' . $layout, 'priceparams', $this->positionList);
+        $this->elementsParams = $this->_position->loadParams('jbpriceFilterTmpl.' . $jbprice . '.' . $layout);
+
+        $this->positions = $this->_position->loadPostionsTmpl('jbpriceFilterTmpl.' . $jbprice . '.' . $layout, 'priceparams', $this->positionList);
         //dump($this->positions);
 
         $this->renderView();
@@ -254,15 +264,22 @@ class JBCartJBuniversalController extends JBUniversalController
     public function jbpriceTmpl()
     {
         $layout = $this->_jbrequest->get('layout', 'default');
+        $id     = null;
 
-        $renderer           = $this->app->jbrenderer->create('jbprice');
+        $jbprice = $this->_jbrequest->get('jbprice');
+
+        $renderer = $this->app->jbrenderer->create('jbprice');
+
+        $this->priceList    = $this->app->jbpriceparams->getJBPriceElements();
         $this->layoutList   = $renderer->getLayouts('jbprice');
         $this->positionList = $renderer->getPositions('jbprice.' . $layout);
+        $this->tempTask     = 'savePricePositions';
 
         $this->systemElements = $this->_element->getSystemTmpl('price');
         $this->dragElements   = $this->_position->loadElements('priceparams');
-        $this->elementsParams = $this->_position->loadParams('jbpriceTmpl.' . $layout);
-        $this->positions      = $this->_position->loadPostionsTmpl('jbpriceTmpl.' . $layout, 'priceparams', $this->positionList);
+        $this->elementsParams = $this->_position->loadParams('jbpriceTmpl.' . $jbprice . '.' . $layout);
+
+        $this->positions = $this->_position->loadPostionsTmpl('jbpriceTmpl.' . $jbprice . '.' . $layout, 'priceparams', $this->positionList);
         //dump($this->positions);
 
         $this->renderView();
@@ -308,6 +325,30 @@ class JBCartJBuniversalController extends JBUniversalController
         $redirect  = $this->_jbrequest->get('redirect', $defaultRedirect);
 
         $this->_position->save($group, $positions, $layout);
+
+        $this->setRedirect($redirect, JText::_('JBZOO_ADMIN_MESSAGE_SAVED'));
+    }
+
+    /**
+     * Custom save action for any positions data
+     */
+    public function savePricePositions()
+    {
+        // session token
+        $this->app->session->checkToken() or jexit('Invalid Token');
+
+        $defaultRedirect = $this->app->jbrouter->admin(array('task' => 'index'));
+        if (!$this->_jbrequest->isPost()) {
+            $this->setRedirect($defaultRedirect);
+        }
+
+        $positions = $this->_jbrequest->getArray('positions');
+        $group     = $this->_jbrequest->get('group');
+        $layout    = $this->_jbrequest->get('layout');
+        $jbprice   = $this->_jbrequest->get('jbprice');
+        $redirect  = $this->_jbrequest->get('redirect', $defaultRedirect);
+
+        $this->_position->savePrice($group, $positions, $layout, $jbprice);
 
         $this->setRedirect($redirect, JText::_('JBZOO_ADMIN_MESSAGE_SAVED'));
     }
