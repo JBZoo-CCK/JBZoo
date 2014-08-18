@@ -127,8 +127,7 @@ class JBPriceFilterRenderer extends PositionRenderer
                 $attrs = array(
                     'id'    => 'filterEl_' . $element->identifier,
                     'class' => array(
-                        'element-' . strtolower($element->getElementType()),
-                        'element-tmpl-' . $params['jbzoo_filter_render']
+                        'element-' . strtolower($element->getElementType())
                     )
                 );
 
@@ -166,7 +165,7 @@ class JBPriceFilterRenderer extends PositionRenderer
     public function _getConfigPosition($position)
     {
         $config   = $this->_getPositions();
-        $position = $config->get($this->_layout . '.' . $position);
+        $position = $config->get($this->_jbprice->identifier . '.' . $this->_layout . '.' . $position);
 
         return isset($position) ? $position : array();
     }

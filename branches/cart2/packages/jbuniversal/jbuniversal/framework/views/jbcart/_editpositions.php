@@ -15,6 +15,8 @@ defined('_JEXEC') or die('Restricted access');
 
 
 // get vars
+$task = isset($this->tempTask) ? $this->tempTask : 'savePositions';
+$priceList = isset($this->priceList) ? $this->priceList : array();
 $layoutList = isset($layoutList) ? $layoutList : array();
 $positions = isset($positions) ? $positions : array();
 $groupList = isset($groupList) ? $groupList : array();
@@ -30,10 +32,14 @@ $this->app->jbtoolbar->save();
 ?>
 
 <?php echo $this->partial('layoutlist', array(
-    'layoutList' => $layoutList
-)); ?>
+    'layoutList' => $layoutList,
+    'priceList' => $priceList
+));
 
-<form class="jbzoo-assign-elements assign-elements jsAssignElements" action="index.php" method="post" name="adminForm" id="adminForm" accept-charset="utf-8">
+?>
+
+<form class="jbzoo-assign-elements assign-elements jsAssignElements" action="index.php" method="post" name="adminForm"
+      id="adminForm" accept-charset="utf-8">
 
     <!-- left col -->
     <div class="col col-left width-65" style="margin-right: 24px;">
@@ -69,12 +75,17 @@ $this->app->jbtoolbar->save();
 
     <div class="clear clr"></div>
 
-    <input type="hidden" name="option" value="com_zoo" />
-    <input type="hidden" name="controller" value="jbcart" />
-    <input type="hidden" name="task" value="savePositions" />
-    <input type="hidden" name="layout" value="<?= $this->app->jbrequest->get('layout'); ?>" class="jsLayout" />
-    <input type="hidden" name="group" value="<?php echo $this->task; ?>" />
-    <input type="hidden" name="redirect" value="<?php echo $this->app->jbrouter->admin(array('layout' => $this->app->jbrequest->get('layout'))); ?>" />
+    <input type="hidden" name="option" value="com_zoo"/>
+    <input type="hidden" name="controller" value="jbcart"/>
+    <input type="hidden" name="task" value="<?php echo $task; ?>"/>
+    <input type="hidden" name="layout" value="<?= $this->app->jbrequest->get('layout'); ?>" class="jsLayout"/>
+    <input type="hidden" name="jbprice" value="<?= $this->app->jbrequest->get('jbprice'); ?>" class="jsJBprice"/>
+    <input type="hidden" name="group" value="<?php echo $this->task; ?>"/>
+    <input type="hidden" name="redirect"
+           value="<?php echo $this->app->jbrouter->admin(array(
+               'layout' => $this->app->jbrequest->get('layout'),
+               'jbprice' => $this->app->jbrequest->get('jbprice')
+           )); ?>"/>
     <?php echo $this->app->html->_('form.token'); ?>
 
 </form>
@@ -83,9 +94,9 @@ $this->app->jbtoolbar->save();
     jQuery(function ($) {
 
         $('.jsAssignElements').JBZooEditPositions({
-            'urlAddElement'    : '<?php echo $this->app->jbrouter->admin(array('task' => 'addElement'));?>',
+            'urlAddElement': '<?php echo $this->app->jbrouter->admin(array('task' => 'addElement'));?>',
             'textEmptyPosition': '<?php echo JText::_('JBZOO_ADMIN_POSITIONS_EMPTY_POSITION');?>',
-            'textRemove'       : '<?php echo JText::_('JBZOO_ADMIN_POSITIONS_REMOVE');?>'
+            'textRemove': '<?php echo JText::_('JBZOO_ADMIN_POSITIONS_REMOVE');?>'
         });
 
     });

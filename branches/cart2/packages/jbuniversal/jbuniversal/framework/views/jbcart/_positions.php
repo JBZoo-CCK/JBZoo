@@ -20,6 +20,7 @@ $elementsParams = isset($elementsParams) ? $elementsParams : array();
 <fieldset>
 
     <legend><?php echo JText::_('JBZOO_ADMIN_POSITIONS_' . $this->task); ?></legend>
+
     <?php if (!empty($positions)) : ?>
 
         <?php foreach ($positions as $posKey => $position) : ?>

@@ -13,7 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 /**
  * Class ElementJBPriceAdvance
  * The Price element for JBZoo
@@ -88,7 +87,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     /**
      * @var
      */
-    public $elementsConfig;
+    public $elementsConfig = array();
 
     /**
      * Constructor
@@ -108,10 +107,6 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         $this->_jbcartelement = $this->app->jbcartelement;
         $this->_position      = $this->app->jbcartposition;
         $this->_config        = JBModelConfig::model();
-
-        $groupConfig = $this->_config->getGroup(self::CONFIG_GROUP);
-
-        $this->elementsConfig = $groupConfig->get('list');
     }
 
     /**
@@ -178,7 +173,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
             $params = array(
                 'config'       => $this->config,
-                'currencyList' => $this->getCurrencyList($this->config),
+                'currencyList' => $this->getCurrencyList(),
                 'variations'   => $variations,
                 'basicData'    => $this->getBasicData()
             );
@@ -958,6 +953,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         $default = $params->get('currency_default', 'EUR');
         $list    = $params->get('currency_list', array());
 
+        if (empty($list)) {
+            return $all;
+        }
+
         if (!in_array($default, $list)) {
             $list[] = $default;
         }
@@ -1433,6 +1432,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
         if (!$element = isset($this->_elements[$identifier]) ? $this->_elements[$identifier] : null) {
             if ($config = $this->_getElementConfig($identifier)) {
+
                 if ($element = $this->_jbcartelement->create($config->get('type'), $config->get('group'))) {
 
                     $element->identifier = $identifier;
@@ -1445,6 +1445,8 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             } else {
 
                 if (strpos($identifier, '_') === 0 &&
+                    isset($type)  &&
+                    isset($group) &&
                     $element = $this->_jbcartelement->create($type, $group)
                 ) {
 
@@ -1466,7 +1468,11 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     protected function _getElementConfig($identifier)
     {
-        if (isset($this->elementsConfig[$identifier])) {
+        $groupConfig = $this->_config->getGroup(self::CONFIG_GROUP);
+        $config      = $groupConfig->get($this->identifier . '.list');
+
+        if (isset($config[$identifier])) {
+            $this->elementsConfig[$identifier] = $config[$identifier];
             return $this->app->data->create($this->elementsConfig[$identifier]);
         }
 
@@ -1748,7 +1754,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      */
     protected function _getDefaultCurrency()
     {
-        return $this->config->get('currency_default', 'EUR');
+        return 'eur';
     }
 
     /**
