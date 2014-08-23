@@ -36,14 +36,22 @@ class JBCSVItemPricePrice_currency extends JBCSVItem
 
     /**
      * @param $value
-     * @param null $position
+     * @param  int|null $variant
      * @return Item|void
      */
-    public function fromCSV($value, $position = null)
+    public function fromCSV($value, $variant = null)
     {
         // save data
-        $data                      = $this->_element->data();
-        $data['basic']['currency'] = isset($value) ? $value : '';
+        $data = $this->_element->data();
+
+        if (!isset($variant)) {
+            $data['basic']['_currency'] = isset($value) ? $value : '';
+
+        } elseif ($variant >= 0) {
+            $data['variations'][$variant]['_currency'] = isset($value) ? $value : '';
+
+        }
+
         $this->_element->bindData($data);
 
         return $this->_item;

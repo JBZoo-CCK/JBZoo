@@ -25,7 +25,7 @@ class JBCartElementPriceText extends JBCartElementPrice
     {
         $value  = $this->app->data->create($this->getValue($this->identifier));
         $html   = array();
-        $html[] = $this->app->jbhtml->text($this->getName(), $value->get('value'));
+        $html[] = $this->app->jbhtml->text($this->getControlName(), $value->get('value'));
 
         return implode($html);
     }

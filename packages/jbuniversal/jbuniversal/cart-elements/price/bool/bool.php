@@ -72,7 +72,7 @@ class JBCartElementPriceBool extends JBCartElementPrice
             $identifier = $this->identifier;
         }
 
-        return "elements[{$identifier}][variations][{$index}][params][{$this->identifier}][{$name}]";
+        return "elements[{$identifier}][variations][{$index}][params][{$this->identifier}][{$name}][value]";
     }
 
     /**
@@ -86,6 +86,6 @@ class JBCartElementPriceBool extends JBCartElementPrice
             $identifier = $this->identifier;
         }
 
-        return "elements[{$identifier}][basic][params][{$this->identifier}][{$name}]";
+        return "elements[{$identifier}][basic][params][{$this->identifier}][{$name}][value]";
     }
 }

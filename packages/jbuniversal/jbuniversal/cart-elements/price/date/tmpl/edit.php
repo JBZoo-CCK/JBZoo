@@ -24,7 +24,7 @@ if ($value = $this->getValue('_date', '')) {
     } catch (Exception $e) {
     }
 }
-echo $this->app->html->_('zoo.calendar', $value, $this->getName('_date'), $unique, array(
+echo $this->app->html->_('zoo.calendar', $value, $this->getControlName('_date'), $unique, array(
     'class' => $this->app->jbstring->getId('calendar-element-')
 ), true);
 

@@ -42,8 +42,9 @@ class JBCSVItemPricePrice_hit extends JBCSVItem
     public function fromCSV($value, $position = null)
     {
         // save data
-        $data                 = $this->_element->data();
-        $data['basic']['hit'] = isset($value) ? $value : 0;
+        $data = $this->_element->data();
+
+        //$data['basic']['hit'] = isset($value) ? $value : 0;
         $this->_element->bindData($data);
 
         return $this->_item;

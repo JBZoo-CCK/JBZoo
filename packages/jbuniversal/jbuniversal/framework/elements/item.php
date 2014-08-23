@@ -179,7 +179,7 @@ class JBCSVItem
                     $tmpData = $this->_getArray($value, JBCSVItem::SEP_ROWS);
                     foreach ($tmpData as $val) {
 
-                        if($val === '') {
+                        if ($val === '') {
                             return $this->_item;
                         }
 
@@ -384,13 +384,50 @@ class JBCSVItem
             $from = array(':', ';');
             $to   = array('%col%', '%sem%');
 
-            foreach ($data as $key => $value) {
-                $key = JString::strtolower($key);
-                if ($nullElement) {
-                    $result[] = $key . ':' . JString::str_ireplace($from, $to, $value);
-                } else {
-                    if (JString::strlen($value) > 0 && $key) {
+            $dataValue = JString::trim($data['_value']);
+            $dataCurr  = JString::trim($data['_currency']);
+
+            if (!empty($dataValue)) {
+                $result['_value'] = '_value:' . JString::str_ireplace($from, $to, $data['_value']);
+            }
+            if (!empty($dataCurr)) {
+                $result['_currency'] = '_currency:' . JString::str_ireplace($from, $to, $data['_currency']);
+            }
+
+            unset($data['_value']);
+            unset($data['_currency']);
+            if (!empty($data)) {
+                foreach ($data as $key => $value) {
+
+                    $key = JString::strtolower($key);
+                    if ($nullElement) {
                         $result[] = $key . ':' . JString::str_ireplace($from, $to, $value);
+                    }
+
+                    if (is_string($value)) {
+                        $value = JString::trim($value);
+                        if (JString::strlen($value) > 0 && !empty($value) && $key) {
+                            $result[] = $key . ':' . JString::str_ireplace($from, $to, $value);
+                        }
+                    } else if (!empty($value) && is_array($value)) {
+
+                        foreach ($value as $key => $val) {
+
+                            if (is_string($val)) {
+                                $val = JString::trim($val);
+                                if (JString::strlen($val) > 0 && !empty($val) && $key) {
+                                    $result[$key] = $key . ':' . JString::str_ireplace($from, $to, $val);
+                                }
+                            } else if (is_array($val)) {
+                                $val = $val[key($val)];
+                                $val = JString::trim($val);
+                                if (JString::strlen($val) > 0 && !empty($val) && $key) {
+                                    $result[$key] = $key . ':' . JString::str_ireplace($from, $to, $val);
+                                }
+                            }
+
+                        }
+
                     }
                 }
             }
@@ -401,7 +438,7 @@ class JBCSVItem
 
     /**
      * Unpack data from string
-     * @param $string
+     * @param  $string
      * @return array
      */
     protected function _unpackFromLine($string)
@@ -415,7 +452,8 @@ class JBCSVItem
             $list = explode(';', $string);
             foreach ($list as $item) {
                 list($key, $value) = explode(':', $item);
-                $key          = JString::strtolower($key);
+                $key = JString::strtolower($key);
+
                 $result[$key] = JString::str_ireplace($from, $to, $value);
             }
         }

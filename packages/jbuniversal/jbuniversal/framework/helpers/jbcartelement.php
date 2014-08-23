@@ -168,7 +168,7 @@ class JBCartElementHelper extends AppHelper
     public function create($type, $group, $config = array())
     {
         // load element class
-        $elementClass = 'JBCartElement' . $group . $type;
+        $elementClass  = 'JBCartElement' . $group . $type;
 
         if (!class_exists($elementClass)) {
             $this->app->loader->register($elementClass, "cart-elements:$group/$type/$type.php");

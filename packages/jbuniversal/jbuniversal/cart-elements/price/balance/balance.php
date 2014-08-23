@@ -77,6 +77,6 @@ class JBCartElementPriceBalance extends JBCartElementPrice
             $identifier = $this->identifier;
         }
 
-        return "elements[{$identifier}][variations][{$index}][params][{$name}]";
+        return "elements[{$identifier}][variations][{$index}][params][{$name}][value]";
     }
 }

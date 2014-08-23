@@ -22,6 +22,6 @@ $attr    = array(
     'placeholder' => 'Sku'
 );
 
-echo $jbhtml->text($this->getName('_sku'), $this->getValue('_sku', 0), $attr);
+echo $jbhtml->text($this->getControlName('_sku'), $this->getValue('_sku', 0), $attr);
 
 

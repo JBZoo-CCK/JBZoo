@@ -20,5 +20,5 @@ $attributes = array(
 ?>
 
 <div class="jbprice-param-radio jbprice-param-list jbpriceParams"  data-type="radio">
-    <?php echo $this->app->jbhtml->radio($options, $this->getName(), $attributes, $this->getBasic($this->identifier)); ?>
+    <?php echo $this->app->jbhtml->radio($options, $this->getControlName(), $attributes, $this->getBasic($this->identifier)); ?>
 </div>

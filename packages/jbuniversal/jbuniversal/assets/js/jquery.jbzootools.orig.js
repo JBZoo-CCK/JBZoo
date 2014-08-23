@@ -865,8 +865,12 @@ var JBZooHelper = function () {
 
                 for (var j in data) {
                     var $row = $('.jbpriceadv-variation-row', $this).eq(data[j].variant);
+                    $this.super.setValid(false);
 
-                    if (data[j].empty == true) {
+                    if (data[j].exists === false) {
+                        $this.super.setValid(true);
+
+                    } else if (data[j].empty == true) {
 
                         $this.super.setValid(false);
                         var $attention = $('.variation-label .jsAttention', $row);
@@ -885,8 +889,6 @@ var JBZooHelper = function () {
                         $this.super.addTooltipMessage($attention);
                     }
                 }
-
-                $this.super.setValid(false);
 
             } else {
                 $this.super.setValid(true);
@@ -945,7 +947,7 @@ var JBZooHelper = function () {
                 var $row = $(this),
                     param = {};
 
-                $('.simple-param', $row).each(function (p) {
+                var exists = $('.simple-param', $row).each(function (p) {
 
                     var $param = $(this);
 
@@ -954,13 +956,21 @@ var JBZooHelper = function () {
                     if (value.length > 0) {
                         param[p] = {
                             'value': value,
-                            'index': $param.index()
+                            'index': $param.index(),
+                            'exists': true
                         };
                     }
 
                 });
+
                 if (Object.keys(param).length > 0) {
                     objects[i] = param;
+
+                } else if (exists.length === 0) {
+                    objects[i] = {
+                        'exists': false
+                    }
+
                 } else {
                     objects[i] = {
                         'empty': true
@@ -994,12 +1004,18 @@ var JBZooHelper = function () {
                         }
                     }
                 }
+                if (data.exists === false) {
+                    result[n] = {
+                        'variant': n,
+                        'exists': data.exists
+                    }
 
-                if (data.empty === true) {
+                } else if (data.empty === true) {
                     result[n] = {
                         'variant': n,
                         'empty': data.empty
                     };
+
                 } else if (Object.keys(data).length > 0 &&
                     Object.keys(repeatable).length == Object.keys(data).length) {
                     result[n] = {
@@ -1007,6 +1023,7 @@ var JBZooHelper = function () {
                         'length': Object.keys(data).length,
                         'repeat': repeatable
                     };
+
                 }
             }
 
@@ -1048,7 +1065,9 @@ var JBZooHelper = function () {
         $this.on('errorsExists', function () {
 
             $this.showErrors();
-            scrollToRow();
+            if($this.data('valid') === false) {
+                scrollToRow();
+            }
         });
 
     }
@@ -1254,7 +1273,7 @@ var JBZooHelper = function () {
         $this.on('errorsExists', function () {
 
             $this.showErrors();
-            scrollToRow();
+
         });
 
         return this;

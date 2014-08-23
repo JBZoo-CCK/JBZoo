@@ -15,10 +15,23 @@
  */
 class JBPriceParamsHelper extends AppHelper
 {
+    /**
+     * @var array
+     */
+    public $mainParams = array(
+        '_value'    => 'value',
+        '_currency' => 'currency'
+    );
+
+    /**
+     * Get all jbpriceelements from all types
+     * @return array
+     */
     public function getJBPriceElements()
     {
-        $elements = array();
+        $elements    = array();
         $application = $this->app->zoo->getApplication();
+
         foreach ($application->getTypes() as $type) {
 
             $typeElements = $type->getElementsByType('jbpriceadvance');
@@ -32,4 +45,195 @@ class JBPriceParamsHelper extends AppHelper
 
         return $elements;
     }
+
+    /**
+     * @param  $price
+     * @param  $id
+     * @param  $value
+     * @return bool
+     */
+    public function addValueToParam($price, $id, $value)
+    {
+        $position  = $this->app->jbcartposition;
+        $model     = JBModelConfig::model();
+        $positions = $model->getGroup(ElementJBPriceAdvance::CONFIG_GROUP . '.' . $price)->get('list', array());
+
+        if (isset($positions[$id])) {
+            $element = $positions[$id];
+
+            if ($element['type'] == 'color') {
+                $jbcolor = $this->app->jbcolor;
+
+                if (strpos($value, '#')) {
+                    list($label, $color) = explode('#', $value);
+                } else {
+                    $label = $value;
+                }
+
+                $label = JString::trim($label);
+
+                if (empty($label)) {
+                    return false;
+                }
+
+                $oldData   = $element['options'];
+                $clearData = $jbcolor->parse($oldData);
+                $newData   = $jbcolor->build($value, $clearData);
+
+                if ($oldData == $newData) {
+                    return false;
+
+                } else if (!empty($newData)) {
+                    $element['options'] = $newData;
+                    $positions[$id]     = $element;
+                    $result['list']     = $positions;
+
+                    $position->savePrice('priceparams', $result, null, $price);
+                }
+
+            } else {
+                $oldData = $element['options'];;
+                $clearData = $this->parse($oldData);
+                $newData   = $this->build($value, $clearData);
+
+                if ($oldData == $newData) {
+                    return false;
+
+                } else if (!empty($newData)) {
+                    $element['options'] = $newData;
+                    $positions[$id]     = $element;
+                    $result['list']     = $positions;
+
+                    $position->savePrice('priceparams', $result, null, $price);
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param  $options
+     * @return array
+     */
+    public function parse($options)
+    {
+        $data    = explode("\n", $options);
+        $options = array();
+
+        foreach ($data as $param) {
+
+            $param = $this->_clean($param);
+            if (!empty($param)) {
+
+                if (!$hasSeparator = strpos($param, '||')) {
+                    $options[$this->_clean($param)] = $this->_clean($param);
+                } else {
+                    list($label, $value) = explode('||', $param);
+                    $options[$this->_clean($label)] = $this->_clean($value);
+                }
+
+            }
+        }
+
+        return $options;
+    }
+
+    /**
+     * @param $new
+     * @param $options
+     * @return string
+     */
+    public function build($new, $options)
+    {
+        $result = array();
+        $keys   = array_keys($options);
+        $val    = $this->app->string->sluggify($new);
+
+        if (!$hasSeparator = strpos($new, '||')) {
+            $label = $this->_clean($new);
+        } else {
+            list($label, $val) = explode('||', $new);
+        }
+
+        $label = $this->_clean($label);
+
+        if (empty($label)) {
+            return false;
+        }
+        if (!in_array($label, $keys)) {
+            $options[$label] = $val;
+        }
+
+        foreach ($options as $key => $value) {
+            $result[] = $key . '||' . $value;
+        }
+
+        return implode("\n", $result);
+    }
+
+    /**
+     * Cleans data
+     * @param string $data
+     * @return string mixed
+     */
+    public function clean($data)
+    {
+        if (!is_array($data)) {
+            return $this->_clean($data);
+        }
+
+        foreach ($data as $key => $value) {
+            $data[$this->_clean($key)] = $this->_clean($value);
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param  string $id
+     * @param  string $value
+     * @return array
+     */
+    public function getNestingValue($id, $value)
+    {
+        $result = $value;
+        if (JString::strlen($id) == ElementJBPriceAdvance::SIMPLE_PARAM_LENGTH) {
+            $result = array('value' => $value);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Check if is param main
+     * Main param like this - _value, _currency
+     *
+     * @param $id
+     * @return bool
+     */
+    public function isMain($id)
+    {
+        $converse = array_flip($this->mainParams);
+
+        if (in_array($id, $converse) || in_array($id, $this->mainParams)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param  string $str
+     * @param  bool|string $charlist
+     * @return mixed|string
+     */
+    private function _clean($str, $charlist = false)
+    {
+        $str = JString::trim($str, $charlist);
+        $str = JString::strtolower($str);
+
+        return $str;
+    }
+
 }

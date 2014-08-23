@@ -17,6 +17,6 @@ if (count($options)) {
 
     $jbhtml = $this->app->jbhtml;
 
-    echo $jbhtml->select($options, $this->getName(), null, $this->getValue($this->identifier));
+    echo $jbhtml->select($options, $this->getControlName(), null, $this->getValue($this->identifier));
 
 }

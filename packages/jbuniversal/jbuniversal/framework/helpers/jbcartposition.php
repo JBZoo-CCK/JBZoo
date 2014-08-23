@@ -198,7 +198,7 @@ class JBCartPositionHelper extends AppHelper
      */
     public function loadForPrice(ElementJBPriceAdvance $element)
     {
-        $data = $this->loadPostions('priceparams', array('list'));
+        $data = $this->loadPostions('priceparams.' . $element->identifier, array('list'));
 
         if (isset($data[$element->identifier])) {
             return $data[$element->identifier];

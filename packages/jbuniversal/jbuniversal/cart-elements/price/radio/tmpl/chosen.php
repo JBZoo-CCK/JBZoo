@@ -23,7 +23,7 @@ if (count($options) > 0) :
     ?>
 
     <div class="jbprice-param-select jbprice-param-list jbpriceParams" data-type="select">
-        <?php echo $this->app->jbhtml->selectChosen($options, $this->getName(), $attributes, $this->getBasic($this->identifier), $unique); ?>
+        <?php echo $this->app->jbhtml->selectChosen($options, $this->getControlName(), $attributes, $this->getBasic($this->identifier), $unique); ?>
     </div>
 
 <?php endif;
