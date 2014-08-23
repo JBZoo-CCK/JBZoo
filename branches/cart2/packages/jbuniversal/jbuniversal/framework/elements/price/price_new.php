@@ -42,9 +42,10 @@ class JBCSVItemPricePrice_new extends JBCSVItem
     public function fromCSV($value, $position = null)
     {
         // save data
-        $data                 = $this->_element->data();
+        $data = $this->_element->data();
+
         $data['basic']['new'] = isset($value) ? $value : 0;
-        $this->_element->bindData($data);
+        //$this->_element->bindData($data);
 
         return $this->_item;
     }

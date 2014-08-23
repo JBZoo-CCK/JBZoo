@@ -85,7 +85,9 @@ $defaultVariant = isset($basicData['default_variant']) ? $basicData['default_var
 
     <?php echo $basic; ?>
 
-    <?php if ((int)$config->get('mode') && count($variations) >= 1) : ?>
+    <?php if (empty($submission) && (int)$config->get('mode', 0) && count($variations) >= 1 ||
+        !empty($submission) && (int)$submission->get('mode', 0)
+    ) : ?>
         <a href="#show-variations"
            class="jbajaxlink jsShowVariations"><?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?></a>
 

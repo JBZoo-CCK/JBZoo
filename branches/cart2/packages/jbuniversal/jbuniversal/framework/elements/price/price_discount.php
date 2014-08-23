@@ -35,15 +35,23 @@ class JBCSVItemPricePrice_discount extends JBCSVItem
     }
 
     /**
-     * @param $value
-     * @param null $position
+     * @param  $value
+     * @param  int|null $variant
      * @return Item|void
      */
-    public function fromCSV($value, $position = null)
+    public function fromCSV($value, $variant = null)
     {
         // save data
-        $data                      = $this->_element->data();
-        $data['basic']['discount'] = isset($value) ? $value : '';
+        $data = $this->_element->data();
+
+        if (!isset($variant)) {
+            $data['basic']['params']['_discount']['value'] = isset($value) ? $value : '';
+
+        } elseif ($variant >= 0) {
+            $data['variations'][$variant]['params']['_discount']['value'] = isset($value) ? $value : '';
+
+        }
+
         $this->_element->bindData($data);
 
         return $this->_item;

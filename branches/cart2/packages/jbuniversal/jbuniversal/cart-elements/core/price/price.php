@@ -211,10 +211,11 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
-     * @param string $key
+     * @param  string $key
+     * @param  boolean $array
      * @return string
      */
-    public function getName($key = 'value')
+    public function getControlName($key = 'value', $array = false)
     {
         $params = $this->getParams();
 
@@ -364,7 +365,7 @@ abstract class JBCartElementPrice extends JBCartElement
                 $option[] = $this->app->html->_('select.option', $options['value'], $options['name']);
             }
 
-            return $this->_jbhtml->$type($option, $this->getName(), $attr, $attr);
+            return $this->_jbhtml->$type($option, $this->getControlName(), $attr, $attr);
         }
 
         return null;

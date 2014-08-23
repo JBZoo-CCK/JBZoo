@@ -54,6 +54,8 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     const PRICE_MODE_DEFAULT = 1;
     const PRICE_MODE_OVERLAY = 2;
 
+    const SIMPLE_PARAM_LENGTH = 36;
+
     /**
      * @var JBMoneyHelper
      */
@@ -121,7 +123,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
             $basic = $this->getBasicData();
 
-            if (empty($basic['value']) || $basic['value'] == 0) {
+            if (empty($basic['_value']) || $basic['_value'] == 0) {
                 return false;
             }
         }
@@ -129,7 +131,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         if (!(int)$params->get('show_empty_balance', 1)) {
             $basic = $this->getBasicData();
 
-            if ((int)$basic['balance'] == 0) {
+            if ((int)$basic['params']['_balance']['value'] == 0) {
                 return false;
             }
         }
@@ -151,13 +153,13 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
+     * @param array $submission
      * @return null|string
      */
-    public function edit()
+    public function edit($submission = array())
     {
         $this->app->jbassets->admin();
-        $basicData = $this->getBasicData();
-
+        $basicData          = $this->getBasicData();
         $basicData['basic'] = 1;
 
         if ($layout = $this->getLayout('edit.php')) {
@@ -175,10 +177,9 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                 'config'       => $this->config,
                 'currencyList' => $this->getCurrencyList(),
                 'variations'   => $variations,
+                'submission'   => $submission,
                 'basicData'    => $this->getBasicData()
             );
-
-            $variationsHTML = self::renderLayout($variationsTpl, $params);
 
             $renderer = $this->app->jbrenderer->create('jbprice');
 
@@ -190,7 +191,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                 )
             );
 
+
+            $variationsHTML           = self::renderLayout($variationsTpl, $params);
             $params['variationsTmpl'] = $variationsHTML;
+
 
             $params['basic'] = $basic;
 
@@ -358,9 +362,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     {
         if ((int)$params->get('required', 0)) {
             $basic = $value->get('basic');
-            if (empty($basic['value']) || $basic['value'] == 0) {
-                throw new AppValidatorException('This field is required');
-            }
+            $this->app->validator->create('textfilter', array('required' => $params->get('required')))->clean($basic['_value']);
+            //if (empty($basic['_value']) || $basic['_value'] == 0) {
+            //throw new AppValidatorException('This field is required');
+            //}
         }
 
         return $value;
@@ -1445,7 +1450,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             } else {
 
                 if (strpos($identifier, '_') === 0 &&
-                    isset($type)  &&
+                    isset($type) &&
                     isset($group) &&
                     $element = $this->_jbcartelement->create($type, $group)
                 ) {
@@ -1597,7 +1602,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      * @param  int $variant
      * @return array
      */
-    protected function _getVariations($variant = null)
+    public function _getVariations($variant = null)
     {
         $result = array();
 
@@ -1608,8 +1613,12 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         $data        = $this->data();
         $defaultData = $this->_getDefaultData();
 
-        if (isset($variant) && isset($data['variations'][$variant])) {
-            return array_merge($defaultData, $data['variations'][$variant]);
+        if (isset($variant)) {
+            if (isset($data['variations'][$variant])) {
+                return array_merge($defaultData, $data['variations'][$variant]);
+            }
+
+            return $result;
         }
 
         if (isset($data['variations'])) {
@@ -1771,7 +1780,12 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             $result['basic'][$key] = $basic;
 
             if (!is_array($basic)) {
-                $result['basic'][$key] = JString::trim($basic);
+
+                $basic = JString::trim($basic);
+                if (empty($basic)) {
+                    $basic = 0;
+                }
+                $result['basic'][$key] = $basic;
             }
         }
 
@@ -1806,10 +1820,14 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                         }
                     }
 
+                    /*if (is_array($variant)) {
+                        $variantKey = key($variant);
+                        $variant    = $variant[$variantKey];
+                    }*/
+
                     $result['variations'][$i]['params'][$key] = $variant;
                 }
             }
-
         }
 
         parent::bindData($result);

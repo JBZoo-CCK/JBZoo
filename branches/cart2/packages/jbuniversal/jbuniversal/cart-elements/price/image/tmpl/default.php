@@ -18,7 +18,7 @@ $jbhtml = $this->app->jbhtml;
 
 <div class="jbprice-img-row-file">
     <?php
-    echo $jbhtml->text($this->getName('_image'), $this->getBasic('image'), 'class="jsJBPriceImage row-file" placeholder="Image"');
+    echo $jbhtml->text($this->getControlName('_image'), $this->getBasic('image'), 'class="jsJBPriceImage row-file" placeholder="Image"');
     ?>
 </div>
 

@@ -37,17 +37,26 @@ class JBCSVItemPricePrice_balance extends JBCSVItem
     }
 
     /**
-     * @param $value
-     * @param null $position
+     * @param  $value
+     * @param  null $variant
      * @return Item|void
      */
-    public function fromCSV($value, $position = null)
+    public function fromCSV($value, $variant = null)
     {
         // save data
-        $data                     = $this->_element->data();
-        $data['basic']['balance'] = isset($value) ? $value : -1;
+        $data = $this->_element->data();
+
+        if ($variant == 0) {
+            $data['basic']['params']['_balance'] = isset($value) ? $value : -1;
+
+        } elseif ($variant >= 1) {
+            $data['variations'][$variant]['params']['_balance'] = isset($value) ? $value : '';
+
+        }
+
         $this->_element->bindData($data);
 
         return $this->_item;
     }
+
 }

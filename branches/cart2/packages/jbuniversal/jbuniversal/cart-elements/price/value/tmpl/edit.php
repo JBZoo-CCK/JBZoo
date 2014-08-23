@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $elId = $this->app->jbstring->getId('value-');
 
-echo $this->app->html->_('control.text', $this->getName('_value'), $this->getValue($this->identifier), array(
+echo $this->app->html->_('control.text', $this->getControlName('_value'), $this->getValue($this->identifier), array(
     'size'        => '10',
     'maxlength'   => '255',
     'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_VALUE'),
@@ -26,7 +26,7 @@ echo $this->app->html->_('control.text', $this->getName('_value'), $this->getVal
 if (count($currencyList) == 1) {
     reset($currencyList);
     $currency = current($currencyList);
-    echo $currency, $this->app->jbhtml->hidden($this->getName('_currency'), $currency, 'class="basic-currency"');
+    echo $currency, $this->app->jbhtml->hidden($this->getControlName('_currency'), $currency, 'class="basic-currency"');
 } else {
-    echo $this->app->jbhtml->select($currencyList, $this->getName('_currency'), 'class="basic-currency"', $this->getValue('_currency'));
+    echo $this->app->jbhtml->select($currencyList, $this->getControlName('_currency'), 'class="basic-currency"', $this->getValue('_currency'));
 }

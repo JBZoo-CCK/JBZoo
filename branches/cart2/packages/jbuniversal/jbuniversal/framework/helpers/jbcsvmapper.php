@@ -131,15 +131,11 @@ class JBCSVMapperHelper extends AppHelper
                     'elementId' => $identifier
                 );
 
-                $result['price_sku_' . $i]               = $cell->createItem('price_sku', $item, 'price', $options)->toCSV();
-                $result['price_balance_' . $i]           = $cell->createItem('price_balance', $item, 'price', $options)->toCSV();
-                $result['price_basic_' . $i]             = $cell->createItem('price_basic', $item, 'price', $options)->toCSV();
-                $result['price_currency_' . $i]          = $cell->createItem('price_currency', $item, 'price', $options)->toCSV();
-                $result['price_description_' . $i]       = $cell->createItem('price_description', $item, 'price', $options)->toCSV();
-                $result['price_discount_' . $i]          = $cell->createItem('price_discount', $item, 'price', $options)->toCSV();
-                $result['price_discount_currency_' . $i] = $cell->createItem('price_discount_currency', $item, 'price', $options)->toCSV();
-                $result['price_new_' . $i]               = $cell->createItem('price_new', $item, 'price', $options)->toCSV();
-                $result['price_hit_' . $i]               = $cell->createItem('price_hit', $item, 'price', $options)->toCSV();
+                $csv = $cell->createItem('jbpriceadvance', $item, 'user', $options)->toCSV();
+
+                for ($i = 0; $i < count($csv); $i++) {
+                    $result[$itemPrice->config->get('name') . '(Variant #' . $i . ')'] = $csv[$i];
+                }
             }
         }
 
@@ -230,12 +226,12 @@ class JBCSVMapperHelper extends AppHelper
                 'published' => JText::_('JBZOO_CATEGORY_PUBLISHED'),
             ),
             'content'  => array(
-                'title'          => JText::_('JBZOO_CATEGORY_TITLE'),
-                'description'    => JText::_('JBZOO_CATEGORY_DESCRIPTION'),
-                'subtitle'       => JText::_('JBZOO_CATEGORY_SUBTITLE'),
-                'image'          => JText::_('JBZOO_CATEGORY_IMAGE'),
-                'teaser_text'    => JText::_('JBZOO_CATEGORY_TEASER_TEXT'),
-                'teaser_image'   => JText::_('JBZOO_CATEGORY_TEASER_IMAGE'),
+                'title'        => JText::_('JBZOO_CATEGORY_TITLE'),
+                'description'  => JText::_('JBZOO_CATEGORY_DESCRIPTION'),
+                'subtitle'     => JText::_('JBZOO_CATEGORY_SUBTITLE'),
+                'image'        => JText::_('JBZOO_CATEGORY_IMAGE'),
+                'teaser_text'  => JText::_('JBZOO_CATEGORY_TEASER_TEXT'),
+                'teaser_image' => JText::_('JBZOO_CATEGORY_TEASER_IMAGE'),
             ),
             'meta'     => array(
                 'metadata_title'       => JText::_('JBZOO_CATEGORY_METADATA_TITLE'),
@@ -245,14 +241,14 @@ class JBCSVMapperHelper extends AppHelper
                 'metadata_author'      => JText::_('JBZOO_CATEGORY_METADATA_AUTHOR'),
             ),
             'template' => array(
-                'tmpl_category'           => JText::_('JBZOO_CATEGORY_TMPL_CATEGORY'),
-                'tmpl_subcategory'        => JText::_('JBZOO_CATEGORY_TMPL_SUBCATEGORY'),
-                'tmpl_item'               => JText::_('JBZOO_CATEGORY_TMPL_ITEM'),
-                'config_category'         => JText::_('JBZOO_CATEGORY_CONFIG_CATEGORY'),
-                'config_items'            => JText::_('JBZOO_CATEGORY_CONFIG_ITEMS'),
-                'config_layouts'          => JText::_('JBZOO_CATEGORY_CONFIG_LAYOUTS'),
-                'config_others'           => JText::_('JBZOO_CATEGORY_CONFIG_OTHERS'),
-                'config_items_order'      => JText::_('JBZOO_CATEGORY_CONFIG_ITEMS_ORDER')
+                'tmpl_category'      => JText::_('JBZOO_CATEGORY_TMPL_CATEGORY'),
+                'tmpl_subcategory'   => JText::_('JBZOO_CATEGORY_TMPL_SUBCATEGORY'),
+                'tmpl_item'          => JText::_('JBZOO_CATEGORY_TMPL_ITEM'),
+                'config_category'    => JText::_('JBZOO_CATEGORY_CONFIG_CATEGORY'),
+                'config_items'       => JText::_('JBZOO_CATEGORY_CONFIG_ITEMS'),
+                'config_layouts'     => JText::_('JBZOO_CATEGORY_CONFIG_LAYOUTS'),
+                'config_others'      => JText::_('JBZOO_CATEGORY_CONFIG_OTHERS'),
+                'config_items_order' => JText::_('JBZOO_CATEGORY_CONFIG_ITEMS_ORDER')
             )
         );
     }
@@ -312,20 +308,35 @@ class JBCSVMapperHelper extends AppHelper
 
                 if ($elementType == 'jbpriceadvance') {
 
-                    $postFix = '__' . $element->identifier;
-                    $name    = $element->config->get('name');
+                    $priceParams = $this->app->jbcartposition->loadForPrice($element);
+                    $params      = $this->app->jbcartelement->getGroups('price', true);
+                    $params      = $params['price'];
+                    $name        = $element->config->get('name');
 
-                    $result['price__' . $name] = array(
-                        'price_sku' . $postFix               => JText::_('JBZOO_ITEM_PRICE_SKU'),
-                        'price_balance' . $postFix           => JText::_('JBZOO_ITEM_PRICE_BALANCE'),
-                        'price_basic' . $postFix             => JText::_('JBZOO_ITEM_PRICE_BASIC'),
-                        'price_currency' . $postFix          => JText::_('JBZOO_ITEM_PRICE_CURRENCY'),
-                        'price_description' . $postFix       => JText::_('JBZOO_ITEM_PRICE_DESCRIPTION'),
-                        'price_discount' . $postFix          => JText::_('JBZOO_ITEM_PRICE_DISCOUNT'),
-                        'price_discount_currency' . $postFix => JText::_('JBZOO_ITEM_PRICE_DISCOUNT_CURRENCY'),
-                        'price_new' . $postFix               => JText::_('JBZOO_ITEM_PRICE_NEW'),
-                        'price_hit' . $postFix               => JText::_('JBZOO_ITEM_PRICE_HIT'),
-                    );
+                    $result['price__' . $name] = array();
+
+                    $result['price__' . $name]['_currency__' . $element->identifier] = JText::_('JBZOO_JBPRICE_CURRENCY');
+
+                    if (!empty($params)) {
+                        foreach ($params as $identifier => $param) {
+
+                            if (isset($priceParams[$identifier])) {
+                                $param->config = $priceParams[$priceParams]->config;
+                            }
+
+                            if (!$param->isSystemTmpl() && $param->identifier == null) {
+                                continue;
+                            }
+
+                            $postFix = $param->identifier . '__';
+                            if ($param->isCore()) {
+                                $result['price__' . $name][$postFix . $element->identifier] = $param->config->get('name');
+                            } else {
+                                $result['price__' . $name][$postFix . $element->identifier] = $param->config->get('name');
+                            }
+
+                        }
+                    }
                 }
 
                 $result['user'][$elementType . '__' . $element->identifier] =
@@ -375,28 +386,31 @@ class JBCSVMapperHelper extends AppHelper
             'metadata_author'         => array('group' => 'meta', 'name' => 'author'),
             'metadata_keywords'       => array('group' => 'meta', 'name' => 'keywords'),
             'metadata_description'    => array('group' => 'meta', 'name' => 'description'),
-            //price group
-            'price_sku'               => array('group' => 'price', 'name' => 'price_sku'),
-            'price_balance'           => array('group' => 'price', 'name' => 'price_balance'),
-            'price_basic'             => array('group' => 'price', 'name' => 'price_basic'),
-            'price_currency'          => array('group' => 'price', 'name' => 'price_currency'),
-            'price_description'       => array('group' => 'price', 'name' => 'price_description'),
-            'price_discount'          => array('group' => 'price', 'name' => 'price_discount'),
-            'price_discount_currency' => array('group' => 'price', 'name' => 'price_discount_currency'),
-            'price_new'               => array('group' => 'price', 'name' => 'price_new'),
-            'price_hit'               => array('group' => 'price', 'name' => 'price_hit'),
+
         );
+
+        list($name, $elementId) = explode('__', $fieldName);
+
+        $params = $this->app->jbcartelement->getGroups('price', true);
+        $params = $params['price'];
 
         if (isset($assign[$fieldName])) {
             return $assign[$fieldName];
         }
 
-        // user group
-        list($name, $elementId) = explode('__', $fieldName);
-
         if (isset($assign[$name])) {
             $assign[$name]['elementId'] = $elementId;
             return $assign[$name];
+        }
+
+        foreach ($params as $param) {
+            if ($param->identifier == $name) {
+
+                $identifier = $name;
+                $name       = 'JBPriceAdvance';
+
+                return array('group' => 'user', 'name' => $name, 'elementId' => $elementId, 'identifier' => $identifier);
+            }
         }
 
         return array('group' => 'user', 'name' => $name, 'elementId' => $elementId);

@@ -17,7 +17,7 @@ $jbhtml = $this->app->jbhtml;
 $value  = $this->getValue($this->identifier);
 
 if (count($colorItems)) :
-    echo $jbhtml->colors('radio', $colorItems, $this->getName(), $value);
+    echo $jbhtml->colors('radio', $colorItems, $this->getControlName(), $value);
 endif;
 
 

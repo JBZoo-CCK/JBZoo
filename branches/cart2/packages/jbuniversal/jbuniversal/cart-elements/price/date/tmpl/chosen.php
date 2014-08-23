@@ -22,6 +22,6 @@ $attributes = array(
 ?>
 
 <div class="jbprice-param-select jbprice-param-list jbpriceParams"  data-type="select">
-    <?php echo $this->app->jbhtml->selectChosen($data, $this->getName(), $attributes, null, $unique); ?>
+    <?php echo $this->app->jbhtml->selectChosen($data, $this->getControlName(), $attributes, null, $unique); ?>
 </div>
 

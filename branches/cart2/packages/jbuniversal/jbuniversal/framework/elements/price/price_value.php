@@ -14,9 +14,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBCSVItemPricePrice_description
+ * Class JBCSVItemPricePrice_base
  */
-class JBCSVItemPricePrice_description extends JBCSVItem
+class JBCSVItemPricePrice_value extends JBCSVItem
 {
     /**
      * @return string|void
@@ -24,18 +24,14 @@ class JBCSVItemPricePrice_description extends JBCSVItem
     public function toCSV()
     {
         $priceElements = $this->_element;
-
         if (!empty($priceElements)) {
             $data = $priceElements->data();
             if (!empty($data)) {
                 $basic = $data['basic'];
             }
-            return isset($basic['description']) ? $basic['description'] : '';
+            return isset($basic['value']) ? $basic['value'] : '';
         }
-
         return null;
-
-
     }
 
     /**
@@ -49,11 +45,10 @@ class JBCSVItemPricePrice_description extends JBCSVItem
         $data = $this->_element->data();
 
         if (!isset($variant)) {
-            $data['basic']['params']['_description'] = isset($value) ? $value : null;
+            $data['basic']['_value'] = $this->_getFloat($value);
 
         } elseif ($variant >= 0) {
-            $data['variations'][$variant]['params']['_description'] = isset($value) ? $value : null;
-
+            $data['variations'][$variant]['_value'] = $this->_getFloat($value);
         }
 
         $this->_element->bindData($data);

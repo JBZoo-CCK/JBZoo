@@ -21,5 +21,5 @@ $attributes = array(
 ?>
 
 <div class="jbprice-param-radio jbprice-param-list jbpriceParams"  data-type="radio">
-    <?php echo $this->app->jbhtml->buttonsJqueryUI($data, $this->getName(), $attributes, $this->getBasic($this->identifier), $unique); ?>
+    <?php echo $this->app->jbhtml->buttonsJqueryUI($data, $this->getControlName(), $attributes, $this->getBasic($this->identifier), $unique); ?>
 </div>

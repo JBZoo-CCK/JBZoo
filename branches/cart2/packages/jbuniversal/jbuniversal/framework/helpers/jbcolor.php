@@ -23,7 +23,7 @@ class JBColorHelper extends AppHelper
      * @param  string $path
      * @return array
      */
-    public function getColors($colors, $path)
+    public function getColors($colors, $path = '/images/jbcolor')
     {
         $options = array();
         $default = true;
