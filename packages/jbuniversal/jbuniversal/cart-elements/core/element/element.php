@@ -72,6 +72,16 @@ abstract class JBCartElement
     protected $_metaData = null;
 
     /**
+     * @var string
+     */
+    protected $_namespace = JBCartOrder::ELEMENT_TYPE_DEFAULT;
+
+    /**
+     * @var JSONData
+     */
+    protected $_data = array();
+
+    /**
      * Constructor
      * @param App $app
      * @param string $type
@@ -88,6 +98,12 @@ abstract class JBCartElement
         $this->_type  = strtolower(trim($type));
 
         $this->_jbcartelement = $this->app->jbcartelement;
+
+        $this->_data = $this->app->data->create($this->_data);
+
+        // load langs
+        $joomlLang = JFactory::getLanguage();
+        $joomlLang->load('elem_' . $this->getElementType(), $this->getPath(), null, true);
     }
 
     /**
@@ -120,14 +136,16 @@ abstract class JBCartElement
     /**
      * Set data through data array.
      * @param array $data
+     * @return $this
      */
     public function bindData($data = array())
     {
-        if (isset($this->_order)) {
-            $this->_order->elements->set($this->identifier, $data);
+        foreach ($data as $key => $value) {
+            $this->set($key, $value);
         }
-    }
 
+        return $this;
+    }
 
     /**
      * Gets the elements data
@@ -137,11 +155,7 @@ abstract class JBCartElement
      */
     public function get($key, $default = null)
     {
-        if ($this->_order) {
-            //return $this->_order->elements->find("{$this->identifier}.{$key}", $default);
-        }
-
-        return $default;
+        return $this->_data->get($key, $default);
     }
 
     /**
@@ -152,13 +166,9 @@ abstract class JBCartElement
      */
     public function set($key, $value)
     {
-        if ($this->_order) {
-            $this->_order->elements[$this->identifier][$key] = $value;
-        }
-
+        $this->_data->set($key, $value);
         return $this;
     }
-
 
     /**
      * Gets data array
@@ -166,11 +176,7 @@ abstract class JBCartElement
      */
     public function data()
     {
-        if (isset($this->_order)) {
-            return $this->_order->elements->get($this->identifier);
-        }
-
-        return array();
+        return $this->_data;
     }
 
     /**
@@ -379,6 +385,8 @@ abstract class JBCartElement
             return null;
         }
 
+        // $params = array_reverse($params);
+
         // add config xml files
         foreach ($params as $xml) {
             $form->addXML($xml);
@@ -460,7 +468,7 @@ abstract class JBCartElement
      */
     public function getControlName($name, $array = false)
     {
-        return "elements[{$this->identifier}][{$name}]" . ($array ? "[]" : "");
+        return $this->_namespace . '[' . $this->identifier . '][' . $name . ']' . ($array ? '[]' : '');
     }
 
     /**
@@ -522,6 +530,53 @@ abstract class JBCartElement
         }
 
         return false;
+    }
+
+    /**
+     * Renders the element in submission
+     * @param array $params
+     * @return string
+     */
+    public function renderSubmission($params = array())
+    {
+        return $this->edit($params);
+    }
+
+    /**
+     * Validates the submitted element
+     * @param $value
+     * @param $params
+     * @return array
+     */
+    public function validateSubmission($value, $params)
+    {
+        $params = $this->app->data->create($params);
+        $value  = $this->app->data->create($value);
+
+        return array(
+            'value' => $this->app->validator
+                    ->create('textfilter', array('required' => (int)$params->get('required')))
+                    ->clean($value->get('value'))
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->config->get('name');
+    }
+
+    /**
+     * @return JSONData
+     */
+    public function getOrderData()
+    {
+        return $this->app->data->create(array(
+            'data'   => array(),
+            'config' => $this->config->getArrayCopy(),
+        ));
     }
 
 }

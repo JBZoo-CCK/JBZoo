@@ -66,6 +66,7 @@ class JBZoo
         $this->_initAssets();
         $this->_checkTmpDirectory();
         $this->_checkCacheDirectory();
+        $this->_initClasses();
     }
 
     /**
@@ -119,6 +120,7 @@ class JBZoo
         define('ZOO_TABLE_JBZOO_SKU_PARAMS', '#__zoo_jbzoo_sku_params');
         define('ZOO_TABLE_JBZOO_FAVORITE', '#__zoo_jbzoo_favorite');
         define('ZOO_TABLE_JBZOO_CONFIG', '#__zoo_jbzoo_config');
+        define('ZOO_TABLE_JBZOO_ORDER', '#__zoo_jbzoo_orders');
 
         // query builder
         $path = JPATH_SITE . '/media/zoo/applications/jbuniversal/framework/classes';
@@ -128,8 +130,8 @@ class JBZoo
         // cart
         require $path . '/cart/jbcartform.php';
         require $path . '/cart/jborder.php';
-        require $path . '/cart/jbcart.php';        
-        
+        require $path . '/cart/jbcart.php';
+
         // models
         $path = JPATH_SITE . '/media/zoo/applications/jbuniversal/framework/models';
         require $path . '/jbmodel.php';
@@ -573,6 +575,14 @@ class JBZoo
         if (JFile::exists($f)) {
             require($f);
         }
+    }
+
+    /**
+     * Init third-parry classes
+     */
+    private function _initClasses()
+    {
+        $this->app->loader->register('AppValidator', 'classes:validator.php');
     }
 
     /**

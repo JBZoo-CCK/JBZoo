@@ -19,100 +19,101 @@ $jbperform = $this->app->jbperform;
 
 ?>
 
+<div class="uk-grid">
+    <div id="sidebar" class="uk-width-1-6">
+        <?php echo $this->partial('navigation'); ?>
+    </div>
 
-<div id="sidebar" class="uk-width-1-6">
-    <?php echo $this->partial('navigation'); ?>
-</div>
+    <div class="uk-width-4-6">
+        <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_INFO_PERFORMANCE'); ?></h2>
 
-<div class="uk-width-4-6">
-    <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_INFO_PERFORMANCE'); ?></h2>
+        <p><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_DESC'); ?></p>
 
-    <p><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_DESC'); ?></p>
+        <p><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_WEBSITE_1'); ?></p>
 
-    <p><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_WEBSITE_1'); ?></p>
+        <p><em><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_WEBSITE_2'); ?></em></p>
 
-    <p><em><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_WEBSITE_2'); ?></em></p>
+        <a class="uk-button uk-button-primary jsStart"
+           href="<?php echo $testUrl; ?>"><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_START'); ?></a>
 
-    <a class="uk-button uk-button-primary jsStart"
-       href="<?php echo $testUrl; ?>"><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_START'); ?></a>
+        <a class="uk-button uk-button-success jsReport"
+           href="<?php echo $reportUrl; ?>"><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_SHARE'); ?></a>
 
-    <a class="uk-button uk-button-success jsReport"
-       href="<?php echo $reportUrl; ?>"><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_SHARE'); ?></a>
+        <p>&nbsp;</p>
 
-    <p>&nbsp;</p>
-
-    <table class="uk-table uk-table-hover uk-table-striped table-performance">
-        <thead>
-        <tr>
-            <th class="uk-width-6-10 uk-text-bold uk-text-center"><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_TESTNAME'); ?></th>
-            <th class="uk-width-2-10 uk-text-bold uk-text-center"><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_CURRENT'); ?></th>
-            <th class="uk-width-2-10 uk-text-bold uk-text-center"><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_STANDART'); ?></th>
-        </tr>
-        </thead>
-
-        <tbody>
-
-        <?php foreach ($this->testList as $group => $tests) : ?>
+        <table class="uk-table uk-table-hover uk-table-striped table-performance">
+            <thead>
             <tr>
-                <td colspan="4">
-                    <div class="col-group"><?php echo JText::_('JBZOO_BENCHMARK_' . $group); ?></div>
-                    <?php echo JText::_('JBZOO_BENCHMARK_' . $group . '_DESC'); ?>
-                </td>
+                <th class="uk-width-6-10 uk-text-bold uk-text-center"><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_TESTNAME'); ?></th>
+                <th class="uk-width-2-10 uk-text-bold uk-text-center"><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_CURRENT'); ?></th>
+                <th class="uk-width-2-10 uk-text-bold uk-text-center"><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_STANDART'); ?></th>
             </tr>
-            <?php foreach ($tests as $test) :
+            </thead>
 
-                $isAlert = '';
-                if ($test['value'] != '-') {
-                    $isAlert = $jbperform->isAlert($test['value'], $test['key']);
-                    if ($isAlert !== -1) {
-                        $isAlert = ($isAlert) ? 'uk-error' : 'uk-success';
-                    }
-                }
+            <tbody>
 
-                ?>
-                <tr class="jstest jstest-<?php echo $test['key']; ?> <?php echo $isAlert; ?>"
-                    data-testname="<?php echo $test['key']; ?>">
-                    <td>
-                        <strong class="testname"><?php echo JText::_('JBZOO_BENCHMARK_' . $test['key']); ?></strong><br>
-                        <?php echo JText::_('JBZOO_BENCHMARK_' . $test['key'] . '_DESC'); ?>
-                    </td>
-
-                    <td class="uk-text-center jsValue">
-                        <?php echo $jbperform->toFormat($test['value'], $test['key']); ?>
-                    </td>
-
-                    <td class="uk-text-center jsStandard">
-                        <?php echo $jbperform->toFormat($test['standart'], $test['key']); ?>
-
-                        <?php if ($test['postfix']) : ?>
-                            <?php echo JText::_('JBZOO_BENCHMARK_POSTFIX_' . $test['postfix']); ?>
-                        <?php endif; ?>
+            <?php foreach ($this->testList as $group => $tests) : ?>
+                <tr>
+                    <td colspan="4">
+                        <div class="col-group"><?php echo JText::_('JBZOO_BENCHMARK_' . $group); ?></div>
+                        <?php echo JText::_('JBZOO_BENCHMARK_' . $group . '_DESC'); ?>
                     </td>
                 </tr>
+                <?php foreach ($tests as $test) :
+
+                    $isAlert = '';
+                    if ($test['value'] != '-') {
+                        $isAlert = $jbperform->isAlert($test['value'], $test['key']);
+                        if ($isAlert !== -1) {
+                            $isAlert = ($isAlert) ? 'uk-error' : 'uk-success';
+                        }
+                    }
+
+                    ?>
+                    <tr class="jstest jstest-<?php echo $test['key']; ?> <?php echo $isAlert; ?>"
+                        data-testname="<?php echo $test['key']; ?>">
+                        <td>
+                            <strong class="testname"><?php echo JText::_('JBZOO_BENCHMARK_' . $test['key']); ?></strong><br>
+                            <?php echo JText::_('JBZOO_BENCHMARK_' . $test['key'] . '_DESC'); ?>
+                        </td>
+
+                        <td class="uk-text-center jsValue">
+                            <?php echo $jbperform->toFormat($test['value'], $test['key']); ?>
+                        </td>
+
+                        <td class="uk-text-center jsStandard">
+                            <?php echo $jbperform->toFormat($test['standart'], $test['key']); ?>
+
+                            <?php if ($test['postfix']) : ?>
+                                <?php echo JText::_('JBZOO_BENCHMARK_POSTFIX_' . $test['postfix']); ?>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+
             <?php endforeach; ?>
 
-        <?php endforeach; ?>
+            </tbody>
+        </table>
 
-        </tbody>
-    </table>
+        <h3><em><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_TITLE'); ?></em></h3>
 
-    <h3><em><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_TITLE'); ?></em></h3>
+        <ul>
+            <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_1'); ?></li>
+            <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_2'); ?></li>
+            <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_3'); ?></li>
+            <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_4'); ?></li>
+            <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_5'); ?></li>
+            <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_6'); ?></li>
+            <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_7'); ?></li>
+            <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_8'); ?></li>
+            <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_9'); ?></li>
+            <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_10'); ?></li>
+        </ul>
 
-    <ul>
-        <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_1'); ?></li>
-        <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_2'); ?></li>
-        <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_3'); ?></li>
-        <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_4'); ?></li>
-        <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_5'); ?></li>
-        <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_6'); ?></li>
-        <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_7'); ?></li>
-        <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_8'); ?></li>
-        <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_9'); ?></li>
-        <li><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_10'); ?></li>
-    </ul>
+        <?php echo $this->partial('footer'); ?>
 
-    <?php echo $this->partial('footer'); ?>
-
+    </div>
 </div>
 
 <script type="text/javascript">

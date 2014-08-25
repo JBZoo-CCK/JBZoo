@@ -52,9 +52,37 @@ a.jbajaxlink:hover {
     opacity: 1;
 }
 
+#nav li.jbzoo-orders span.icon {
+    background: url('../img/toolbar/cart.png') 0 0 no-repeat !important;
+    width: 22px;
+    height: 22px;
+    margin-top: 4px;
+    opacity: .7;
+}
+
+#nav .jbzoo:hover span.icon {
+    background-position: 0 0;
+    opacity: 1;
+}
+
+#nav .jbzoo-orders.active .level1 > span,
+#nav .jbzoo.active .level1 > span {
+    padding: 0 5px !important;
+}
+
 /*********************************** Form fields styles ***************************************************************/
 .jbadminform .jbcategory-list select {
     width: 160px;
+}
+
+.jbadminform .description-label {
+    font-style: italic;
+    font-size: 11px;
+    line-height: 12px;
+}
+
+.jbadminform .uk-form-label label {
+    font-weight: bold;
 }
 
 .jbadminform .jbapp-list select {
@@ -601,7 +629,6 @@ a.jbajaxlink:hover {
     display: none;
 }
 
-
 .creation-form .jbzoo-price-advance .jbpriceadv-variation-row.fieldset-hidden > .visible {
     display: block;
 }
@@ -681,7 +708,6 @@ a.jbajaxlink:hover {
 .creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .attention.error {
     background: url('../img/icon/attention_red.png') no-repeat;
 }
-
 
 .creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variant-param .field {
     overflow: hidden;
@@ -1356,4 +1382,31 @@ ul.parameter-form li .field .jbprice-advance-fields .jbprice-fields-parameter .j
     height: 25px;
     margin-top: -12.5px;
     top: 50%;
+}
+
+/*********************************** Form fields styles ***************************************************************/
+table.list.order-list tbody td,
+table.list.order-list thead th {
+    padding-left: 5px;
+}
+
+.jbzoo .filter li.filter-right {
+    margin-left: 25px;
+    margin-bottom: 8px;
+}
+
+.jbzoo .filter li.filter-right.filter-total input {
+    width: 100px;
+}
+
+.jbzoo .order-filter select {
+    height: 28px;
+}
+
+.jbzoo .order-filter .zoo-calendar input {
+    width: 120px !important;
+}
+
+.jbzoo .pagination-list {
+    margin-top: 10px;
 }

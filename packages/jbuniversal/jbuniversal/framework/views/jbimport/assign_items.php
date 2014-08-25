@@ -17,71 +17,72 @@ $actionUrl = $this->app->jbrouter->admin(array('task' => 'itemsSteps'));
 $jbform = $this->app->jbform;
 ?>
 
+<div class="uk-grid">
+    <div id="sidebar" class="uk-width-1-6">
+        <?php echo $this->partial('navigation'); ?>
+    </div>
 
-<div id="sidebar" class="uk-width-1-6">
-    <?php echo $this->partial('navigation'); ?>
-</div>
+    <div class="uk-width-4-6">
 
-<div class="uk-width-4-6">
+        <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_IMPORT_ITEMS_FIELDS'); ?></h2>
 
-    <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_IMPORT_ITEMS_FIELDS'); ?></h2>
+        <form class="jbzoo-import-fields jbadminform uk-form uk-form-horizontal" id="jbzooimport"
+              action="<?php echo $actionUrl; ?>" name="jbzooimport" method="post" enctype="multipart/form-data">
 
-    <form class="jbzoo-import-fields jbadminform uk-form uk-form-horizontal" id="jbzooimport"
-          action="<?php echo $actionUrl; ?>" name="jbzooimport" method="post" enctype="multipart/form-data">
+            <fieldset class="items">
 
-        <fieldset class="items">
+                <div class="assign-group">
+                    <div class="uk-form-row">
+                        <input type="submit" name="send" value="<?php echo JText::_('JBZOO_FORM_IMPORT'); ?>"
+                               class="uk-button uk-button-primary" style="float: right;" />
+                    </div>
 
-            <div class="assign-group">
-                <div class="uk-form-row">
-                    <input type="submit" name="send" value="<?php echo JText::_('JBZOO_FORM_IMPORT'); ?>"
-                           class="uk-button uk-button-primary" style="float: right;"/>
-                </div>
+                    <?php echo $jbform->renderRow($this->controls['apps'], 'JBZOO_IMPORT_CHOOSE_APP', 'appid'); ?>
 
-                <?php echo $jbform->renderRow($this->controls['apps'], 'JBZOO_IMPORT_CHOOSE_APP', 'appid'); ?>
+                    <?php echo $jbform->renderRow($this->controls['types'], 'JBZOO_IMPORT_CHOOSE_TYPE', 'typeid'); ?>
 
-                <?php echo $jbform->renderRow($this->controls['types'], 'JBZOO_IMPORT_CHOOSE_TYPE', 'typeid'); ?>
+                    <?php echo $jbform->renderRow($this->controls['key'], 'JBZOO_IMPORT_KEY', 'key'); ?>
 
-                <?php echo $jbform->renderRow($this->controls['key'], 'JBZOO_IMPORT_KEY', 'key'); ?>
+                    <?php echo $jbform->renderRow($this->controls['create'], 'JBZOO_IMPORT_ITEMS_CREATE', 'create'); ?>
 
-                <?php echo $jbform->renderRow($this->controls['create'], 'JBZOO_IMPORT_ITEMS_CREATE', 'create'); ?>
+                    <?php echo $jbform->renderRow($this->controls['checkOptions'], 'JBZOO_IMPORT_CHECK_OPTIONS', 'checkOptions'); ?>
 
-                <?php echo $jbform->renderRow($this->controls['checkOptions'], 'JBZOO_IMPORT_CHECK_OPTIONS', 'checkOptions'); ?>
+                    <?php echo $jbform->renderRow($this->controls['lose'], 'JBZOO_IMPORT_LOSE', 'lose'); ?>
 
-                <?php echo $jbform->renderRow($this->controls['lose'], 'JBZOO_IMPORT_LOSE', 'lose'); ?>
+                    <?php echo $jbform->renderRow($this->controls['createAlias'], 'JBZOO_IMPORT_CREATE_ALIAS', 'createAlias'); ?>
 
-                <?php echo $jbform->renderRow($this->controls['createAlias'], 'JBZOO_IMPORT_CREATE_ALIAS', 'createAlias'); ?>
+                    <hr />
 
-                <hr/>
+                    <ul id="fields-assign">
+                        <?php foreach ($this->info['columns'] as $key => $column) : ?>
+                            <li class="assign">
+                                <?php
+                                foreach ($this->controls['fields_types'] as $control) {
+                                    echo JString::str_ireplace('__name_placeholder__', $key, $control);
+                                }
+                                ?>
 
-                <ul id="fields-assign">
-                    <?php foreach ($this->info['columns'] as $key => $column) : ?>
-                        <li class="assign">
-                            <?php
-                            foreach ($this->controls['fields_types'] as $control) {
-                                echo JString::str_ireplace('__name_placeholder__', $key, $control);
-                            }
-                            ?>
-
-                            <span class="name">
+                                <span class="name">
                                 <?php echo JText::_('JBZOO_COLUMN'); ?> #<?php echo($key + 1); ?>
-                                <?php echo !empty($column) ? ' - ' . $column : ''; ?>
+                                    <?php echo !empty($column) ? ' - ' . $column : ''; ?>
                             </span>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
 
-                <div class="uk-form-row">
-                    <input type="submit" name="send" value="<?php echo JText::_('JBZOO_FORM_IMPORT'); ?>"
-                           class="uk-button uk-button-primary" style="float: right;"/>
+                    <div class="uk-form-row">
+                        <input type="submit" name="send" value="<?php echo JText::_('JBZOO_FORM_IMPORT'); ?>"
+                               class="uk-button uk-button-primary" style="float: right;" />
+                    </div>
+
                 </div>
 
-            </div>
+            </fieldset>
 
-        </fieldset>
+        </form>
 
-    </form>
-
-    <?php echo $this->partial('footer'); ?>
+        <?php echo $this->partial('footer'); ?>
+    </div>
 </div>
 
 

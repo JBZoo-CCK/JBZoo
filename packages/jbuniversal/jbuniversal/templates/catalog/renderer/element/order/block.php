@@ -31,7 +31,7 @@ if ($isError) {
 
 // create class attribute
 $classes = array_filter(array(
-    'form-field-row',
+    'control-group',
     'element',
     'element-' . $element->getElementType(),
     $params->get('first') ? ' first' : '',
@@ -48,10 +48,16 @@ $label = $params->get('required') ? ($label . ' <span class="dot">*</span>') : $
 ?>
 <div class="<?php echo implode(' ', $classes); ?>">
     <?php
-    echo '<div' . $tooltip . '>';
-    echo '<div class="field-label"> ' . $label . ' </div>';
-    echo '<div class="field-input"> ' . $element->renderSubmission($params) . $error . ' </div>';
-    echo '</div>';
+    echo '<div class="control-label">'
+        . '<label class="field-label" for="order-' . $element->identifier . '">'
+        . $label
+        . '</label></div>';
+
+    echo '<div class="controls"> '
+        . $element->renderSubmission($params)
+        . $error
+        . '</div>';
+
     ?>
     <div class="clear"></div>
 </div>

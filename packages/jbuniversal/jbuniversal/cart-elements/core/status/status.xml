@@ -8,4 +8,16 @@
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
+
+    <params>
+        <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME"
+               description="JBZOO_ELEMENT_NAME_DESC"/>
+
+        <param name="description" type="text" default="" label="JBZOO_ELEMENT_DESCRIPTION"
+               description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
+
+        <param name="code" type="jbcode" default="" label="JBZOO_ELEMENT_STATUS_CODE"
+               description="JBZOO_ELEMENT_STATUS_CODE_DESC"/>
+    </params>
+
 </element>

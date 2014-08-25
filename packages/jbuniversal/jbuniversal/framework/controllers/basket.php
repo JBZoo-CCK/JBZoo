@@ -18,9 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class BasketJBUniversalController extends JBUniversalController
 {
-
-    const TIME_BETWEEN_PUBLIC_SUBMISSIONS = 10;
-    const SESSION_PREFIX                  = 'JBZOO_';
+    const SESSION_PREFIX = 'JBZOO_';
 
     /**
      * @var JBModelConfig
@@ -33,6 +31,21 @@ class BasketJBUniversalController extends JBUniversalController
     protected $_jbcart = null;
 
     /**
+     * @var JBMoneyHelper
+     */
+    protected $_jbmoney = null;
+
+    /**
+     * @var JBCartOrder
+     */
+    public $order = null;
+
+    /**
+     * @var JBCart
+     */
+    protected $_cart = null;
+
+    /**
      * @param array $app
      * @param array $config
      */
@@ -41,89 +54,89 @@ class BasketJBUniversalController extends JBUniversalController
         parent::__construct($app, $config);
 
         $this->app->jbdoc->noindex();
-        $this->_config = JBModelConfig::model()->getGroup('cart.config');
+        $this->_jbmoney = $this->app->jbmoney;
+        $this->_config  = JBModelConfig::model()->getGroup('cart');
+        $this->_cart    = JBcart::getInstance();
     }
 
     /**
      * Filter action
-     * @throws AppException
      */
     function index()
     {
-        // init
-        $this->app->jbdebug->mark('basket::init');
+        $this->formRenderer          = $this->app->jbrenderer->create('OrderSubmission');
+        $this->shippingRenderer      = $this->app->jbrenderer->create('Shipping');
+        $this->paymentRenderer       = $this->app->jbrenderer->create('Payment');
+        $this->shippingFieldRenderer = $this->app->jbrenderer->create('ShippingFields');
 
-        $basketItems = $this->app->jbcart->getBasketItems();
+        $this->application = $this->app->zoo->getApplication();
+        $this->template    = $this->application->getTemplate();
 
-        $this->template = $this->application->getTemplate();
+        $this->shipping       = $this->app->jbshipping->getEnabled();
+        $this->shippingFields = $this->app->jbshipping->getFields();
+        $this->payment        = $this->app->jbpayment->getEnabled();
 
-        $form = new JBCartForm($this->app);
+        $this->Itemid = $this->_jbrequest->get('Itemid');
+        $this->order  = $this->_cart->newOrder();
 
-        $this->renderer = $this->app->renderer->create('basket')->addPath(array(
-            $this->app->path->path('component.site:'),
-            $this->template->getPath()
-        ));
+        $errors     = 0;
+        $orderSaved = false;
+        if ($this->_jbrequest->isPost()) {
 
-        dump($this->app->path->_paths, 0);
+            $formData = $this->_getRequest();
 
-        dump($this->renderer->render('cart.form'));
+            try {
 
+                $errors += $this->order->bind($formData);
 
-        // get items
-        $itemIds = $this->app->jbcart->getItemIds($isAdvance);
-        $items   = JBModelFilter::model()->getZooItemsByIds($itemIds);
+                $errorMessages = $this->order->isValid();
+                $errors += count($errorMessages);
 
-        if (!JFactory::getUser()->id && (int)$appParams->get('global.jbzoo_cart_config.auth', 0)) {
-            $this->setRedirect(JRoute::_($this->app->jbrouter->auth(), false), JText::_('JBZOO_AUTH_PLEASE'));
-        }
+                if ($errors) {
+                    $this->app->system->application->setUserState('JBZOO_ORDDER_SUBMISSION_FORM', serialize($formData));
 
-        $this->basketItems = $basketItems;
-        $this->params      = $this->_params;
-        $this->items       = $items;
-        $this->appId       = $appId;
-        $this->Itemid      = $Itemid;
-        $this->errors      = array();
-        $this->appParams   = $appParams;
-        $this->isAdvance   = $isAdvance;
+                    // show custom error messages
+                    $this->app->jbnotify->warning($errorMessages);
 
-        $this->item = $this->_createEmptyItem($this->type);
+                } else {
 
-        // get submition
-        $this->submission = $this->app->table->submission->get((int)$submissionId);
+                    // saving order
+                    $this->app->event->dispatcher->notify($this->app->event->create($this->order, 'basket:beforesave', array()));
+                    JBModelOrder::model()->save($this->order);
+                    $this->app->event->dispatcher->notify($this->app->event->create($this->order, 'basket:aftersave', array()));
 
-        if ($this->submission) {
+                    dump(JBModelOrder::model()->getById($this->order->id));
 
-            $this->application = $this->submission->getApplication();
+                    // empty cart items
+                    $this->_cart->removeItems();
 
-            $layout     = $this->submission->getForm($this->type->id)->get('layout', '');
-            $layoutPath = $this->application->getGroup() . '.' . $this->type->id . '.' . $layout;
-            $positions  = $this->renderer->getConfig('item')->get($layoutPath, array());
-
-            // get elements from positions
-            $elementsConfig = array();
-            foreach ($positions as $position) {
-                foreach ($position as $element) {
-                    if (isset($element['element'])) {
-                        $elementsConfig[$element['element']] = $element;
+                    // go to payment page
+                    $payment = $this->order->getPayment();
+                    if ($payment && $paymentUrl = $payment->getRedirectUrl()) {
+                        $this->setRedirect($paymentUrl, JText::_('JBZOO_CART_PAYMENT_REDIRECT'));
                     }
+
+                    $orderSaved = true;
+                    $this->app->jbnotify->notice(JText::_('JBZOO_CART_ORDER_SUCCESS_CREATED'));
                 }
-            }
 
-            $this->template = $this->application->getTemplate();
-            $sessionFormKey = self::SESSION_PREFIX . 'SUBMISSION_FORM_' . $this->submission->id;
-            if ($post = unserialize($this->app->system->application->getUserState($sessionFormKey))) {
-                $this->app->system->application->setUserState($sessionFormKey, null);
-                $this->errors = $this->_bind($post, $elementsConfig, $this->item);
+            } catch (JBCartOrderException $e) {
+                $this->app->jbnotify->warning(JText::_($e->getMessage()));
             }
-
-        } else {
-            $this->app->jbnotify->warning(JText::_('JBZOO_BASKET_SUBMISSION_FORM_IS_NO_SET'));
-            return false;
         }
 
-        $this->app->jbdebug->mark('basket::renderInit');
-        $this->getView('basket')->addTemplatePath($this->template->getPath())->setLayout('basket')->display();
-        $this->app->jbdebug->mark('basket::display');
+        $this->isError = $errors;
+
+        $templatedName = 'basket';
+        if ($orderSaved) {
+            $templatedName = 'basket-success';
+        }
+
+        $this
+            ->getView($templatedName)
+            ->addTemplatePath($this->template->getPath())
+            ->setLayout($templatedName)
+            ->display();
     }
 
     /**
@@ -136,305 +149,21 @@ class BasketJBUniversalController extends JBUniversalController
     }
 
     /**
-     * Clear action
+     * Get request
+     * @return array
      */
-    public function delete()
+    protected function _getRequest()
     {
-        $itemId    = $this->_jbrequest->get('itemid');
-        $hash      = $this->_jbrequest->get('hash');
-        $item      = $this->app->table->item->get($itemId);
-        $appParams = $this->application->getParams();
+        $formData = $this->app->request->get('post:', 'array');
 
-        $isAdvance = (int)$appParams->get('global.jbzoo_cart_config.is_advance', 0);
-
-        $this->app->jbcart->removeItem($item, $isAdvance, $hash);
-        $recountResult = $this->app->jbcart->recount($appParams);
-
-        $this->app->jbajax->send($recountResult);
-    }
-
-    /**
-     * Reload module action
-     */
-    public function reloadModule()
-    {
-        $moduleId = $this->_jbrequest->get('moduleId');
-        $html     = $this->app->jbjoomla->renderModuleById($moduleId);
-
-        header('Content-Type: text/html; charset=utf-8'); // fix apache default charset
-        jexit($html);
-    }
-
-    /**
-     * Quantity action
-     */
-    public function quantity()
-    {
-        $appParams = $this->application->getParams();
-        $isAdvance = (int)$appParams->get('global.jbzoo_cart_config.is_advance', 0);
-
-        // get request
-        $value  = (int)$this->_jbrequest->get('value');
-        $itemId = (int)$this->_jbrequest->get('itemId');
-        $hash   = trim($this->_jbrequest->get('hash'));
-
-        // get product item
-        $item = $this->app->table->item->get($itemId);
-
-        if ($isAdvance) {
-
-            $jbPrices = $item->getElementsByType('jbpriceadvance');
-            if (!empty($jbPrices)) {
-                $jbPrice = current($jbPrices);
-
-                if ($jbPrice->isInStock($hash, $value)) {
-                    $this->app->jbcart->changeQuantity($item, $value, $hash, $isAdvance);
-                    $recountResult = $this->app->jbcart->recount($appParams, $isAdvance);
-                    $this->app->jbajax->send($recountResult);
-
-                } else {
-                    $this->app->jbajax->send(array('message' => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE')), false);
-                }
+        // add _FILES data
+        foreach ($_FILES as $key => $userfile) {
+            if (strpos($key, 'elements_') === 0) {
+                $formData[str_replace('elements_', '', $key)]['userfile'] = $userfile;
             }
         }
 
-        $this->app->jbcart->changeQuantity($item, $value, $hash, $isAdvance);
-        $recountResult = $this->app->jbcart->recount($appParams, $isAdvance);
-
-        $this->app->jbajax->send($recountResult);
-    }
-
-    /**
-     * Create order action
-     */
-    public function createOrder()
-    {
-        $this->app->request->checkToken() or jexit('Invalid Token');
-
-        $post   = $this->app->request->get('post:', 'array');
-        $appId  = $this->_jbrequest->get('app_id');
-        $Itemid = $this->_jbrequest->get('Itemid');
-
-        try {
-            $application = $this->app->table->application->get($appId);
-
-            if (!$application) {
-                throw new AppException('AppId is no set');
-            }
-
-            $appParams = $this->application->getParams();
-            list($type, $layoutPath) = explode(':', $appParams->get('global.jbzoo_cart_config.type-layout'));
-
-            $this->type = $application->getType($type);
-
-            $item = $this->_createEmptyItem($this->type, $application);
-
-            if (!$this->type) {
-                throw new AppException('Type is not defined');
-            }
-
-            $this->template = $application->getTemplate();
-            $this->renderer = $this->app->renderer->create('basket')->addPath(array(
-                $this->app->path->path('component.site:'),
-                $this->template->getPath()
-            ));
-
-            $submissionId = $appParams->get('global.jbzoo_cart_config.submission-id');
-            $submission   = $this->app->table->submission->get($submissionId);
-            $layout       = $submission->getForm($this->type->id)->get('layout', '');
-            $layoutPath   = $application->getGroup() . '.' . $this->type->id . '.' . $layout;
-            $positions    = $this->renderer->getConfig('item')->get($layoutPath, array());
-
-            // get elements from positions
-            $elementsConfig = array();
-            foreach ($positions as $position) {
-                foreach ($position as $element) {
-                    $elementsConfig[$element['element']] = $element;
-                }
-            }
-
-            if (isset($post['elements'])) {
-                $this->app->request->setVar('elements', $this->app->submission->filterData($post['elements']));
-                $post = $this->app->request->get('post:', 'array');
-                $post = array_merge($post, $post['elements']);
-            }
-
-            foreach ($_FILES as $key => $userfile) {
-                if (strpos($key, 'elements_') === 0) {
-                    $post[str_replace('elements_', '', $key)]['userfile'] = $userfile;
-                }
-            }
-
-            $error = $this->_bind($post, $elementsConfig, $item);
-
-            $sessionFormKey = self::SESSION_PREFIX . 'SUBMISSION_FORM_' . $submission->id;
-
-            $order = JBModelOrder::model()->getDetails($item);
-            if ($order) {
-                $totalPrice   = $order->getTotalPrice();
-                $mimimalPrice = (float)$appParams->get('global.jbzoo_cart_config.minimal-summa', 0);
-
-                if ($mimimalPrice > 0 && $mimimalPrice > $totalPrice) {
-                    $this->app->jbnotify->warning(JString::str_ireplace('%S', $mimimalPrice, JText::_('JBZOO_CART_MINIMAL_PRICE_ERROR')));
-                    $error = true;
-                }
-            }
-
-            // save item if it is valid
-            if ($error) {
-                $this->app->system->application->setUserState($sessionFormKey, serialize($post));
-                $this->app->jbnotify->warning(JText::_('JBZOO_CART_SUBMIT_ERRROS'));
-
-            } else {
-                $user = JFactory::getUser();
-
-                $nowDate     = $this->app->date->create()->toSql();
-                $nowDateTime = new DateTime($nowDate);
-                $date        = JHTML::_('date', 'now', JText::_('Y-m-d H:i:s')) . ' (GMT ' . ($nowDateTime->getOffset() / 3600) . ')';
-
-                $item->name        = $this->type->name . ' #__ID__ / ' . $date . ($user->email ? ' / ' . $user->email : '');
-                $item->alias       = $this->app->alias->item->getUniqueAlias($item->id, $this->app->string->sluggify($item->name));
-                $item->state       = 1;
-                $item->modified    = $nowDate;
-                $item->modified_by = $user->get('id');
-
-                $timestamp = time();
-                if ($timestamp < $this->app->system->session->get('ZOO_LAST_SUBMISSION_TIMESTAMP') + BasketJBUniversalController::TIME_BETWEEN_PUBLIC_SUBMISSIONS) {
-                    $this->app->system->application->setUserState($sessionFormKey, serialize($post));
-                    throw new AppException('You are submitting too fast, please try again in a few moments.');
-                }
-
-                $this->app->system->session->set('ZOO_LAST_SUBMISSION_TIMESTAMP', $timestamp);
-
-                foreach ($elementsConfig as $element) {
-                    if (($element = $item->getElement($element['element'])) && $element instanceof iSubmissionUpload) {
-                        $element->doUpload();
-                    }
-                }
-
-                // set category
-                $primaryCategory = $item->getPrimaryCategoryId();
-                $categoryId      = (int)$submission->getForm($item->type)->get('category', 0);
-                if (empty($primaryCategory) && $categoryId > 0) {
-                    $item->getParams()->set('config.primary_category', $categoryId);
-                }
-
-                // save
-                $this->app->event->dispatcher->notify($this->app->event->create($item, 'basket:beforesave', array('item' => $item, 'appParams' => $appParams)));
-                $this->app->event->dispatcher->notify($this->app->event->create($submission, 'submission:beforesave', array('item' => $item, 'new' => true)));
-                $this->app->table->item->save($item);
-
-                // change name to ID
-                $item->name = JString::str_ireplace('__ID__', $item->id, $item->name);
-                $this->app->table->item->save($item);
-
-                // save relative category
-                if ($categoryId > 0) {
-                    $this->app->category->saveCategoryItemRelations($item, array($categoryId));
-                }
-
-                // after save event
-                $this->app->event->dispatcher->notify($this->app->event->create($item, 'basket:saved', array('item' => $item, 'appParams' => $appParams)));
-
-                // empty cart items
-                $this->app->jbcart->removeItems();
-
-                // redirect
-                $orderDetails = JBModelOrder::model()->getDetails($item);
-                if ((int)$appParams->get('global.jbzoo_cart_config.payment-enabled') && $orderDetails->getTotalPrice() > 0) {
-                    $msg = JText::_('JBZOO_CART_SUCCESS_TO_PAYMENT_MESSAGE');
-                    $this->setRedirect(JRoute::_($this->app->jbrouter->basketPayment($Itemid, $appId, $item->id), false));
-
-                    return;
-
-                } else {
-                    $msg = JText::_('JBZOO_CART_SUCCESS_MESSAGE');
-                    $this->setRedirect(JRoute::_($this->app->jbrouter->paymentNotPaid($Itemid, $appId, $item->id), false), $msg);
-
-                    return;
-                }
-            }
-
-        } catch (AppException $e) {
-
-            $error = true;
-            $this->app->jbnotify->warning(JText::_('There was an error saving your submission, please try again later.'));
-            $this->app->jbnotify->warning((string)JText::_($e));
-        }
-
-        $this->setRedirect(JRoute::_($this->app->jbrouter->basket($Itemid, $appId), false));
-    }
-
-    /**
-     * Create empty item
-     */
-    protected function _createEmptyItem($type, $application = null)
-    {
-        if (!$application) {
-            $application = $this->application;
-        }
-
-        $user = JFactory::getUser();
-
-        // Joomla ViewLevel (Registered)
-        $accessLevel = $user->getAuthorisedViewLevels();
-        if (count($accessLevel) > 1) {
-            $accessLevel = $accessLevel[1];
-        } else if (count($accessLevel) == 1) {
-            $accessLevel = $accessLevel[0];
-        } else {
-            $accessLevel = 1;
-        }
-
-        // get item
-        $item                   = $this->app->object->create('Item');
-        $item->application_id   = $application->id;
-        $item->type             = $type->id;
-        $item->publish_up       = $this->app->date->create()->toSQL();
-        $item->publish_down     = $this->app->database->getNullDate();
-        $item->access           = $accessLevel;
-        $item->created          = $this->app->date->create()->toSQL();
-        $item->created_by       = $user->id;
-        $item->created_by_alias = '';
-        $item->state            = 0;
-        $item->searchable       = 0;
-        $item->getParams()
-            ->set('config.enable_comments', 1)
-            ->set('config.primary_category', 0)
-            ->set('metadata.robots', 'noindex, nofollow');
-
-        return $item;
-    }
-
-    /**
-     * Bind data
-     * @param array $post
-     * @param array $elementsConfig
-     * @param Item $item
-     * @return int
-     */
-    protected function _bind($post, $elementsConfig, $item)
-    {
-        $errors = 0;
-
-        foreach ($elementsConfig as $elementData) {
-            try {
-
-                if (($element = $item->getElement($elementData['element']))) {
-                    $params = $this->app->data->create(array_merge(array('trusted_mode' => true), $elementData));
-                    $element->bindData($element->validateSubmission($this->app->data->create(@$post[$element->identifier]), $params));
-                }
-
-            } catch (AppValidatorException $e) {
-                if (isset($element)) {
-                    $element->error = $e;
-                    $element->bindData(@$post[$element->identifier]);
-                }
-                $errors++;
-            }
-        }
-
-        return $errors;
+        return $formData;
     }
 
 }

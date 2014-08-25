@@ -63,6 +63,10 @@ class JBDateHelper extends AppHelper
      */
     public function toMysql($time = null)
     {
+        if (is_null($time)) {
+            $time = time();
+        }
+
         if (!empty($time)) {
             if (is_numeric($time)) {
                 $time = (int)$time;
@@ -73,10 +77,9 @@ class JBDateHelper extends AppHelper
 
         if ($time) {
             return date('Y-m-d H:i:s', $time);
-        } else {
-            return null;
         }
 
+        return null;
     }
 
     /**

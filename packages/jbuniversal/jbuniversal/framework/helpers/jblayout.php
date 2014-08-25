@@ -379,4 +379,56 @@ class JBLayoutHelper extends AppHelper
         return true;
     }
 
+    /**
+     * Simple subtemplate including
+     * @param string $layout
+     * @param string $name
+     * @param array $args
+     * @return null|string
+     */
+    public function partial($layout, $name, $args = array())
+    {
+        $args['view'] = $this->_view;
+
+        $name      = preg_replace('/[^A-Z0-9_\.-]/i', '', '_' . $name);
+        $__partial = JPath::clean($this->_rendererPath . '/' . $layout . '/' . $name . '.php');
+
+        // render the partial
+        if (JFile::exists($__partial)) {
+
+            // import vars and get content
+            extract($args);
+            ob_start();
+            include($__partial);
+            $output = ob_get_contents();
+            ob_end_clean();
+            return $output;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $layout
+     * @return string
+     */
+    public function renderIndex($layout)
+    {
+        $layoutPath = $this->_rendererPath . '/' . $layout;
+
+        if (JFolder::exists($layoutPath)) {
+            $__partial = $layoutPath . '/index.php';
+            if (JFile::exists($__partial)) {
+                ob_start();
+                include($__partial);
+                $output = ob_get_contents();
+                ob_end_clean();
+
+                return $output;
+            }
+        }
+
+        return $this->app->error->raiseError(500, 'index template not found');
+    }
+
 }

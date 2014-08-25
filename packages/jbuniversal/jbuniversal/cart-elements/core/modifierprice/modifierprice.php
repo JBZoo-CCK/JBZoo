@@ -18,6 +18,23 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElementModifierPrice extends JBCartElement
 {
+    protected $_namespace = JBCartOrder::ELEMENT_TYPE_MODIFIERPRICE;
+
+    /**
+     * @param float $sum
+     * @param string $currency
+     * @param JBCartOrder $order
+     * @return float
+     */
+    abstract public function modify($sum, $currency, JBCartOrder $order);
+
+    /**
+     * @return int
+     */
+    public function getRate()
+    {
+        return 0;
+    }
 
 }
 

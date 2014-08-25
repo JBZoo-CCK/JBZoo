@@ -14,27 +14,28 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
+<div class="uk-grid">
+    <div id="sidebar" class="uk-width-1-6">
+        <?php echo $this->partial('navigation'); ?>
+    </div>
 
+    <div class="uk-width-4-6">
 
-<div id="sidebar" class="uk-width-1-6">
-    <?php echo $this->partial('navigation'); ?>
-</div>
+        <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_EXPORT_ZOOBACKUP'); ?></h2>
 
-<div class="uk-width-4-6">
+        <p><?php echo JText::_('JBZOO_ADMIN_PAGE_EXPORT_ZOOBACKUP_1'); ?></p>
 
-    <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_EXPORT_ZOOBACKUP'); ?></h2>
+        <p><em><?php echo JText::_('JBZOO_ADMIN_PAGE_EXPORT_ZOOBACKUP_2'); ?></em></p>
 
-    <p><?php echo JText::_('JBZOO_ADMIN_PAGE_EXPORT_ZOOBACKUP_1'); ?></p>
-    <p><em><?php echo JText::_('JBZOO_ADMIN_PAGE_EXPORT_ZOOBACKUP_2'); ?></em></p>
+        <?php echo $this->app->jbform->render('export_zoobackup', array(
+            'action' => $this->app->jbrouter->admin(array(
+                    'controller' => 'manager',
+                    'task'       => 'dobackup'
+                )),
+            'submit' => JText::_('JBZOO_FORM_DOWNLOAD')
+        ));
+        ?>
 
-    <?php echo $this->app->jbform->render('export_zoobackup', array(
-        'action' => $this->app->jbrouter->admin(array(
-            'controller' => 'manager',
-            'task'       => 'dobackup'
-        )),
-        'submit' => JText::_('JBZOO_FORM_DOWNLOAD')
-    ));
-    ?>
-
-    <?php echo $this->partial('footer'); ?>
+        <?php echo $this->partial('footer'); ?>
+    </div>
 </div>

@@ -227,6 +227,46 @@ class JBTablesHelper extends AppHelper
     }
 
     /**
+     * Check and create favorite table
+     * @param bool $force
+     */
+    public function checkOrder($force = false)
+    {
+        static $checked;
+
+        if (!isset($checked) || $force) {
+
+            $this->createTable(ZOO_TABLE_JBZOO_ORDER, array(
+                '`id` INT(11) NOT NULL AUTO_INCREMENT',
+                '`status` VARCHAR(100) NULL DEFAULT \'0\'',
+                '`created` DATETIME NULL DEFAULT NULL',
+                '`created_by` INT(11) NULL DEFAULT NULL',
+                '`modified` DATETIME NULL DEFAULT NULL',
+                '`total` FLOAT NULL DEFAULT NULL',
+                '`items` TEXT NULL',
+                '`fields` TEXT NULL',
+                '`shipping` TEXT NULL',
+                '`shippingfields` TEXT NULL',
+                '`modifiers` TEXT NULL',
+                '`payment` TEXT NULL',
+                '`currency` TEXT NULL',
+                '`params` TEXT NULL',
+                '`comment` TEXT NULL',
+            ), array(
+                'PRIMARY KEY (`id`)',
+                'INDEX `status` (`status`)',
+                'INDEX `created` (`created`)',
+                'INDEX `created_by` (`created_by`)',
+                'INDEX `modified` (`modified`)',
+                'INDEX `total` (`total`)',
+                'FULLTEXT INDEX `comment` (`comment`)',
+            ));
+        }
+
+        $checked = true;
+    }
+
+    /**
      * Drop & create indexes table
      */
     public function createIndexes()

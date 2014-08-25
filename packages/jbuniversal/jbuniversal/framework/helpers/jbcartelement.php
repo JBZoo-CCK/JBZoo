@@ -26,7 +26,8 @@ class JBCartElementHelper extends AppHelper
     protected $_coreElements = array(
         'JBCartElement'              => 'cart-elements:core/element/element.php',
         'JBCartElementCurrency'      => 'cart-elements:core/currency/currency.php',
-        'JBCartElementDelivery'      => 'cart-elements:core/delivery/delivery.php',
+        'JBCartElementShipping'      => 'cart-elements:core/shipping/shipping.php',
+        'JBCartElementShippingField' => 'cart-elements:core/shippingfield/shippingfield.php',
         'JBCartElementModifierItem'  => 'cart-elements:core/modifieritem/modifieritem.php',
         'JBCartElementModifierPrice' => 'cart-elements:core/modifierprice/modifierprice.php',
         'JBCartElementNotification'  => 'cart-elements:core/notification/notification.php',
@@ -193,6 +194,29 @@ class JBCartElementHelper extends AppHelper
 
         if ($config) {
             $element->setConfig($config);
+        }
+
+        return $element;
+    }
+
+    /**
+     * HACK
+     *
+     * @param $elementId
+     * @param $priceId
+     * @param array $data
+     * @return JBCartElement
+     */
+    public function getPriceParamElement($elementId, $priceId, $data = array())
+    {
+        $priceElements = JBModelConfig::model()->get('list', array(), 'cart.price.' . $priceId);
+        $priceElements = $this->app->data->create($priceElements);
+        $paramConfig   = $priceElements->get($elementId);
+
+        $element = $this->create($paramConfig['type'], $paramConfig['group'], $paramConfig);
+
+        if (!empty($data)) {
+            $element->bindData($data);
         }
 
         return $element;

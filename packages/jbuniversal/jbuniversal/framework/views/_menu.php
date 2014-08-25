@@ -19,10 +19,12 @@ $jbmenu = $this->app->jbmenu;
 // only if JBZoo inited
 if (defined('JBZOO_DISPATCHED')) {
 
-    // create new tab
-    $tab = $jbmenu->addTab('jbtools', 'jbindex', 'jbzoo');
+    // create jbzoo order list tab
+    $tab = $jbmenu->addTab('jborders', 'jborder', 'jbzoo-orders');
+    $jbmenu->addItem($tab, array('controller' => 'jborder'));
 
-    // add children items
+    // create jbzoo tools tab
+    $tab = $jbmenu->addTab('jbtools', 'jbindex', 'jbzoo');
     $jbmenu->addItem($tab, array('controller' => 'jbindex'));
     $jbmenu->addItem($tab, array('controller' => 'jbcart'));
     $jbmenu->addItem($tab, array('controller' => 'jbimport'));

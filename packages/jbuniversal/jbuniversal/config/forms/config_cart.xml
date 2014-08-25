@@ -17,17 +17,26 @@
                    description="JBZOO_CART_ENABLE_DESC"/>
 
             <!-- заменить на уровень доступа -->
-            <field name="user-group" type="jbbool" default="0" label="JBZOO_CART_AUTH_ONLY"
+            <field name="access" type="accesslevel" default="1" label="JBZOO_CART_AUTH_ONLY"
                    description="JBZOO_CART_AUTH_ONLY_DESC"/>
 
-            <field name="cart-image" type="text" default="" label="JBZOO_CART_IMAGE_ELEMENT"
-                   description="JBZOO_CART_IMAGE_ELEMENT_DESC" types="jbimage,image,imagepro" multiple="1"/>
+            <field name="spacer_shop_info" type="jbspacer" default="JBZOO_CART_CONFIG_SHOP_INFO"/>
 
-            <!-- заменить на уровень доступа -->
-            <field name="spacer_store_info" type="jbspacer" default="JBZOO_CART_CONFIG_STORE_INFO"/>
+            <field name="shop_name" type="text" default="" label="JBZOO_CART_CONFIG_SHOP_NAME"
+                   description="JBZOO_CART_CONFIG_SHOP_NAME_DESC"/>
 
-            <field name="store_name" type="text" default="" label="JBZOO_CART_CONFIG_STORE_NAME"
-                   description="JBZOO_CART_CONFIG_STORE_NAME_DESC"/>
+            <!-- default values -->
+            <field name="default_currency" type="jbcurrency" default="EUR" label="JBZOO_CART_CONFIG_CURRENCY"
+                   description="JBZOO_CART_CONFIG_CURRENCY_DESC"/>
+
+            <field name="default_status" type="jbstatus" default="new" label="JBZOO_CART_CONFIG_STATUS"
+                   description="JBZOO_CART_CONFIG_STATUS_DESC"/>
+
+            <field name="default_shipping" type="jbshipping" default="" label="JBZOO_CART_CONFIG_SHIPPING"
+                   description="JBZOO_CART_CONFIG_SHIPPING_DESC"/>
+
+            <field name="default_payment" type="jbpayment" default="" label="JBZOO_CART_CONFIG_PAYMENT"
+                   description="JBZOO_CART_CONFIG_PAYMENT_DESC"/>
 
         </fieldset>
     </fields>

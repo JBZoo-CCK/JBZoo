@@ -14,18 +14,19 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
+<div class="uk-grid">
+    <div id="sidebar" class="uk-width-1-6">
+        <?php echo $this->partial('navigation'); ?>
+    </div>
 
-<div id="sidebar" class="uk-width-1-6">
-    <?php echo $this->partial('navigation'); ?>
-</div>
+    <div class="uk-width-4-6">
 
-<div class="uk-width-4-6">
+        <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_EXPORT_STANDART'); ?></h2>
 
-    <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_EXPORT_STANDART'); ?></h2>
+        <p><?php echo JText::_('JBZOO_ADMIN_PAGE_EXPORT_STANDART'); ?></p>
 
-    <p><?php echo JText::_('JBZOO_ADMIN_PAGE_EXPORT_STANDART'); ?></p>
+        <?php echo $this->partial('icons', array('items' => $this->appList)); ?>
 
-    <?php echo $this->partial('icons', array('items' => $this->appList)); ?>
-
-    <?php echo $this->partial('footer'); ?>
+        <?php echo $this->partial('footer'); ?>
+    </div>
 </div>
