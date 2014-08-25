@@ -19,41 +19,42 @@ $urlAjax = $this->app->jbrouter->admin(array('task' => 'oneStep', 'import-type' 
 $urlPostAjax = $this->app->jbrouter->admin(array('task' => 'postImport', 'import-type' => 'items'));
 ?>
 
-
-<div id="sidebar" class="uk-width-1-6">
-    <?php echo $this->partial('navigation'); ?>
-</div>
-
-<div class="uk-width-4-6">
-
-    <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_IMPORT_ITEMS_PROGRESS'); ?></h2>
-
-    <p style="color:#a00;">
-        <strong><?php echo JText::_('JBZOO_IMPORT_STEPS_DESCRIPTION'); ?></strong>
-    </p>
-
-    <div class="jsProgressBar progress jbadminform"></div>
-
-    <div class="statistic">
-        <strong><?php echo JText::_('JBZOO_IMPORT_STEPS_STATISTIC'); ?>: </strong>
-        <ul>
-            <li><strong><?php echo JText::_('JBZOO_IMPORT_STEPS_TIME_PASSED'); ?>:</strong>
-                <span class="js-timepassed">00:00</span>
-            </li>
-            <li><strong><?php echo JText::_('JBZOO_IMPORT_STEPS_REMAINING'); ?>:</strong>
-                <span class="js-timeremaining">00:00</span>
-            </li>
-        </ul>
+<div class="uk-grid">
+    <div id="sidebar" class="uk-width-1-6">
+        <?php echo $this->partial('navigation'); ?>
     </div>
 
-    <div class="error-block jsErrorBlockWrapper" style="display: none;">
-        <hr/>
-        <h3><em><?php echo JText::_('JBZOO_PROGRESSBAR_ERROR_REPORTING'); ?></em></h3>
+    <div class="uk-width-4-6">
 
-        <div class="jsErrorBlock"></div>
+        <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_IMPORT_ITEMS_PROGRESS'); ?></h2>
+
+        <p style="color:#a00;">
+            <strong><?php echo JText::_('JBZOO_IMPORT_STEPS_DESCRIPTION'); ?></strong>
+        </p>
+
+        <div class="jsProgressBar progress jbadminform"></div>
+
+        <div class="statistic">
+            <strong><?php echo JText::_('JBZOO_IMPORT_STEPS_STATISTIC'); ?>: </strong>
+            <ul>
+                <li><strong><?php echo JText::_('JBZOO_IMPORT_STEPS_TIME_PASSED'); ?>:</strong> <span
+                        class="js-timepassed">00:00</span>
+                </li>
+                <li><strong><?php echo JText::_('JBZOO_IMPORT_STEPS_REMAINING'); ?>:</strong> <span
+                        class="js-timeremaining">00:00</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="error-block jsErrorBlockWrapper" style="display: none;">
+            <hr />
+            <h3><em><?php echo JText::_('JBZOO_PROGRESSBAR_ERROR_REPORTING'); ?></em></h3>
+
+            <div class="jsErrorBlock"></div>
+        </div>
+
+        <?php echo $this->partial('footer'); ?>
     </div>
-
-    <?php echo $this->partial('footer'); ?>
 </div>
 
 

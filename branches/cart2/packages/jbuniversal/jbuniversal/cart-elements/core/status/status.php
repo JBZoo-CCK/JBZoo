@@ -18,6 +18,20 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElementStatus extends JBCartElement
 {
+    protected $_namespace = JBCartOrder::ELEMENT_TYPE_STATUS;
+
+    /**
+     * @return string
+     */
+    public function getCode()
+    {
+        $code = $this->config->get('code', $this->identifier);
+        if (!$code) {
+            $code = $this->identifier;
+        }
+
+        return $code;
+    }
 
 }
 

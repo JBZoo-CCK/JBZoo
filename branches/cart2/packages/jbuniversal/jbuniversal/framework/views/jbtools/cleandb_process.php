@@ -17,35 +17,37 @@ $urlAjax = $this->app->jbrouter->admin(array('controller' => 'manager', 'format'
 
 ?>
 
-<div id="sidebar" class="uk-width-1-6">
-    <?php echo $this->partial('navigation'); ?>
-</div>
-
-<div class="uk-width-4-6">
-
-    <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_TOOLS_CLEANDB_PROCESS'); ?></h2>
-
-    <p style="color:#a00;">
-        <strong><?php echo JText::_('JBZOO_CLEANDB_NO_CLOSE'); ?></strong>
-    </p>
-
-    <div class="uk-progress uk-progress-striped uk-active">
-        <div class="uk-progress-bar jsProgressBar"
-             style="width:0"><?php echo JText::_('JBZOO_PROGRESSBAR_READY'); ?></div>
+<div class="uk-grid">
+    <div id="sidebar" class="uk-width-1-6">
+        <?php echo $this->partial('navigation'); ?>
     </div>
 
-    <p>
-        <em><?php echo JText::_('JBZOO_CLEANDB_LAST_ACTION'); ?>:</em> <span class="jsCurrentAction">-</span>
-    </p>
+    <div class="uk-width-4-6">
 
-    <div class="error-block jsErrorBlockWrapper" style="display: none;">
-        <hr/>
-        <h3><em><?php echo JText::_('JBZOO_PROGRESSBAR_ERROR_REPORTING'); ?></em></h3>
+        <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_TOOLS_CLEANDB_PROCESS'); ?></h2>
 
-        <div class="jsErrorBlock"></div>
+        <p style="color:#a00;">
+            <strong><?php echo JText::_('JBZOO_CLEANDB_NO_CLOSE'); ?></strong>
+        </p>
+
+        <div class="uk-progress uk-progress-striped uk-active">
+            <div class="uk-progress-bar jsProgressBar"
+                 style="width:0"><?php echo JText::_('JBZOO_PROGRESSBAR_READY'); ?></div>
+        </div>
+
+        <p>
+            <em><?php echo JText::_('JBZOO_CLEANDB_LAST_ACTION'); ?>:</em> <span class="jsCurrentAction">-</span>
+        </p>
+
+        <div class="error-block jsErrorBlockWrapper" style="display: none;">
+            <hr />
+            <h3><em><?php echo JText::_('JBZOO_PROGRESSBAR_ERROR_REPORTING'); ?></em></h3>
+
+            <div class="jsErrorBlock"></div>
+        </div>
+
+        <?php echo $this->partial('footer'); ?>
     </div>
-
-    <?php echo $this->partial('footer'); ?>
 </div>
 
 <script type="text/javascript">

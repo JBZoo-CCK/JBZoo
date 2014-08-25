@@ -29,10 +29,7 @@ class JBCartHelper extends AppHelper
      */
     public function getAllItems()
     {
-        $session = $this->_getSession();
-        $items   = $session->get('items', array());
-
-        return $items;
+        // JBCart::getInstance()
     }
 
     /**
@@ -43,22 +40,7 @@ class JBCartHelper extends AppHelper
      */
     public function addItem(Item $item, array $params = array(), $isAdvance = false)
     {
-        $items = $this->getAllItems();
-
-        if ($isAdvance) {
-            $hash = $params['hash'];
-
-            if (isset($items[$hash])) {
-                $items[$hash]['quantity'] = $params['quantity'];
-            } else {
-                $items[$hash] = $params;
-            }
-
-        } else {
-            $items[$item->id] = $params;
-        }
-
-        $this->_setSession('items', $items);
+        // JBCart::getInstance()
     }
 
     /**
@@ -70,31 +52,7 @@ class JBCartHelper extends AppHelper
      */
     public function removeItem(Item $item, $isAdvance = false, $hash = '')
     {
-        $items = $this->getAllItems();
-
-        $result = false;
-        if ($this->isExists($item, $isAdvance, $hash)) {
-            if ($isAdvance) {
-
-                if ($hash && isset($items[$hash])) {
-                    unset($items[$hash]);
-                } else {
-                    foreach ($items as $key => $itemRow) {
-                        if ($itemRow['itemId'] == $item->id) {
-                            unset($items[$key]);
-                        }
-                    }
-                }
-
-            } else {
-                unset($items[$item->id]);
-            }
-
-            $result = true;
-        }
-
-        $this->_setSession('items', $items);
-        return $result;
+        // JBCart::getInstance()
     }
 
     /**
@@ -106,20 +64,7 @@ class JBCartHelper extends AppHelper
      */
     public function isExists(Item $item, $isAdvance = false, $hash = '')
     {
-        $items = $this->getAllItems();
-
-        if ($hash) {
-            return ((isset($items[$hash])) && ($items[$hash]['itemId'] == $item->id));
-
-        } else {
-            foreach ($items as $key => $itemRow) {
-                if ($itemRow['itemId'] == $item->id) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        // JBCart::getInstance()
     }
 
     /**
@@ -131,18 +76,7 @@ class JBCartHelper extends AppHelper
      */
     public function changeQuantity($item, $value, $hash = '', $isAdvance = false)
     {
-        $value = (int)$value;
-        $items = $this->getAllItems();
-
-        if ($this->isExists($item, $isAdvance, $hash)) {
-            if ($isAdvance) {
-                $items[$hash]['quantity'] = $value;
-            } else {
-                $items[$item->id]['quantity'] = $value;
-            }
-        }
-
-        $this->_setSession('items', $items);
+        // JBCart::getInstance()
     }
 
     /**
@@ -150,7 +84,7 @@ class JBCartHelper extends AppHelper
      */
     public function removeItems()
     {
-        $this->_setSession('items', array());
+        // JBCart::getInstance()
     }
 
     /**
@@ -242,31 +176,6 @@ class JBCartHelper extends AppHelper
         return 0;
     }
 
-    /**
-     * Get session
-     * @return JSONData
-     */
-    protected function _getSession()
-    {
-        $session   = JFactory::getSession();
-        $jbcompare = $session->get($this->_namespaceHelper, array(), $this->_namespace);
-        $result    = $this->app->data->create($jbcompare);
 
-        return $result;
-    }
-
-    /**
-     * Set session
-     * @param string $key
-     * @param mixed $value
-     */
-    protected function _setSession($key, $value)
-    {
-        $session         = JFactory::getSession();
-        $jbcompare       = $session->get($this->_namespaceHelper, array(), $this->_namespace);
-        $jbcompare[$key] = $value;
-
-        $session->set($this->_namespaceHelper, $jbcompare, $this->_namespace);
-    }
 
 }

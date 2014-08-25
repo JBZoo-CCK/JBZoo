@@ -58,27 +58,29 @@ class JBSessionHelper extends AppHelper
      * Get value from session
      * @param string $key
      * @param string $group
+     * @param null $default
      * @return JSONData
      */
-    public function get($key, $group = 'default')
+    public function get($key, $group = 'default', $default = null)
     {
-        $data = $this->getGroup($group);
+        $data = $this->getGroup($group, $default);
 
         if (isset($data[$key])) {
             return $data[$key];
         }
 
-        return null;
+        return $default;
     }
 
     /**
      * Get group data from session
      * @param string $group
+     * @param mixed $default
      * @return JSONData
      */
-    public function getGroup($group = 'default')
+    public function getGroup($group = 'default', $default = array())
     {
-        $data = $this->_session->get($group, array(), $this->_namespace);
+        $data = $this->_session->get($group, $default, $this->_namespace);
 
         return $data;
     }

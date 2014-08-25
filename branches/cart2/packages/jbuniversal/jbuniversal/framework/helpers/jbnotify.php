@@ -26,7 +26,7 @@ class JBNotifyHelper extends AppHelper
      */
     public function warning($message)
     {
-        return $this->app->error->raiseWarning(0, $message);
+        $this->_callType($message, 'raiseWarning');
     }
 
     /**
@@ -36,7 +36,7 @@ class JBNotifyHelper extends AppHelper
      */
     public function notice($message)
     {
-        return $this->app->error->raiseNotice(0, $message);
+        $this->_callType($message, 'raiseNotice');
     }
 
     /**
@@ -46,7 +46,27 @@ class JBNotifyHelper extends AppHelper
      */
     public function error($message)
     {
-        return $this->app->error->raiseError(500, $message);
+        $this->_callType($message, 'raiseError');
+    }
+
+    /**
+     * @param $messages
+     * @param string $messageType
+     * @return mixed
+     */
+    protected function _callType($messages, $messageType = 'raiseNotice')
+    {
+        if (is_array($messages)) {
+            if (!empty($messages)) {
+                foreach ($messages as $message) {
+                    $this->_callType($message, $messageType);
+                }
+            }
+
+        } else {
+            $this->_call(array($this->app->error, $messageType), array(0, JText::_($messages)));
+        }
+
     }
 
 }

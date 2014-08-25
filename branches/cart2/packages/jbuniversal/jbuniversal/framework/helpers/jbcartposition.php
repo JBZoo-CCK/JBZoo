@@ -32,7 +32,7 @@ class JBCartPositionHelper extends AppHelper
      * @param array $forceElements
      * @return array
      */
-    public function loadPostions($group, $mustHave = array(), $forceElements = array())
+    public function loadPositions($group, $mustHave = array(), $forceElements = array())
     {
         $jbcartelement    = $this->app->jbcartelement;
         $positionsConfigs = $this->_getConfig($group);
@@ -104,7 +104,7 @@ class JBCartPositionHelper extends AppHelper
      * @param array $tmplPoitions
      * @return array
      */
-    public function loadPostionsTmpl($tmplGroup, $configGroup, $tmplPoitions = array())
+    public function loadPositionsTmpl($tmplGroup, $configGroup, $tmplPoitions = array())
     {
         $positions = array();
 
@@ -112,7 +112,7 @@ class JBCartPositionHelper extends AppHelper
 
             $mustHave  = array_keys($tmplPoitions['positions']);
             $elements  = $this->loadElements($configGroup);
-            $positions = $this->loadPostions($tmplGroup, $mustHave, $elements);
+            $positions = $this->loadPositions($tmplGroup, $mustHave, $elements);
         }
 
         return $positions;
@@ -140,7 +140,7 @@ class JBCartPositionHelper extends AppHelper
      */
     public function loadElements($group)
     {
-        $list = $this->loadPostions($group);
+        $list = $this->loadPositions($group);
 
         $elements = array();
         foreach ($list as $items) {
@@ -198,7 +198,7 @@ class JBCartPositionHelper extends AppHelper
      */
     public function loadForPrice(ElementJBPriceAdvance $element)
     {
-        $data = $this->loadPostions('priceparams.' . $element->identifier, array('list'));
+        $data = $this->loadPostions(JBCartOrder::ELEMENT_TYPE_PRICE . '.' . $element->identifier, array('list'));
 
         if (isset($data[$element->identifier])) {
             return $data[$element->identifier];

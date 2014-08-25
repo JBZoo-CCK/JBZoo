@@ -18,5 +18,12 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementValidatorMinsum extends JBCartElementValidator
 {
+    public function isValid()
+    {
+        $summa = $this->getOrder()->getTotalSum();
+        if ($summa < 10) {
+            throw new JBCartElementValidatorException('min');
+        }
 
+    }
 }

@@ -22,6 +22,11 @@ abstract class JBCartElementCurrency extends JBCartElement
     const BASE_CURRENCY = 'eur'; // don't touch!
 
     /**
+     * @var string
+     */
+    protected $_namespace = JBCartOrder::ELEMENT_TYPE_CURRENCY;
+
+    /**
      * @var array|null
      */
     protected $_curList = null;

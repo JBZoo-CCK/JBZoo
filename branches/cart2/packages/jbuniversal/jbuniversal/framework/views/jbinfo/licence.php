@@ -16,21 +16,22 @@ defined('_JEXEC') or die('Restricted access');
 $urlAction = $this->app->jbrouter->admin(array('controller' => 'jbinfo', 'task' => 'licenceSave'));
 
 ?>
+<div class="uk-grid">
+    <div id="sidebar" class="uk-width-1-6">
+        <?php echo $this->partial('navigation'); ?>
+    </div>
 
-<div id="sidebar" class="uk-width-1-6">
-    <?php echo $this->partial('navigation'); ?>
-</div>
+    <div class="uk-width-4-6">
+        <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_INFO_LICENCE'); ?></h2>
 
-<div class="uk-width-4-6">
-    <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_INFO_LICENCE'); ?></h2>
+        <?php echo $this->app->jbform->render('licence',
+            array('action' => $urlAction),
+            array(
+                'JBZOO_USERNAME' => defined('JBZOO_USERNAME') ? JBZOO_USERNAME : '',
+            )
+        );?>
 
-    <?php echo $this->app->jbform->render('licence',
-        array('action' => $urlAction),
-        array(
-            'JBZOO_USERNAME' => defined('JBZOO_USERNAME') ? JBZOO_USERNAME : '',
-        )
-    );?>
+        <?php echo $this->partial('footer'); ?>
 
-    <?php echo $this->partial('footer'); ?>
-
+    </div>
 </div>

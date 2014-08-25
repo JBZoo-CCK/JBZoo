@@ -19,4 +19,13 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementValidatorMaxsum extends JBCartElementValidator
 {
 
+
+    public function isValid()
+    {
+        $summa = $this->getOrder()->getTotalSum();
+        if ($summa > 1000) {
+            throw new JBCartElementValidatorException('max');
+        }
+
+    }
 }

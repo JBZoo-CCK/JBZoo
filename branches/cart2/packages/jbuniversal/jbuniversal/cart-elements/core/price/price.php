@@ -18,6 +18,8 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElementPrice extends JBCartElement
 {
+    protected $_namespace = JBCartOrder::ELEMENT_TYPE_PRICE;
+
     /**
      * @var JBModelConfig
      */
@@ -75,7 +77,6 @@ abstract class JBCartElementPrice extends JBCartElement
         $config = $this->config;
 
         $data = $this->app->data->create($config->get('data'));
-
         $params['identifier'] = $this->_jbprice->identifier;
         $params['index']      = $config->get('index', 0);
         $params['basic']      = (int)$data->get('basic', 0);
@@ -203,7 +204,7 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function getConfig()
     {
-        $priceparams = $this->_jbconfig->getGroup('cart.priceparams');
+        $priceparams = $this->_jbconfig->getGroup('cart.' . JBCartOrder::ELEMENT_TYPE_PRICE);
 
         $list = $priceparams->get('list');
 
@@ -369,6 +370,14 @@ abstract class JBCartElementPrice extends JBCartElement
         }
 
         return null;
+    }
+
+    /**
+     * @return string
+     */
+    public function renderOrderEdit()
+    {
+        return $this->data()->get('value');
     }
 
 }

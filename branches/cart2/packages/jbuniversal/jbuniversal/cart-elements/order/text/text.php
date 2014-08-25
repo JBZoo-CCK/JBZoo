@@ -18,5 +18,18 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementOrderText extends JBCartElementOrder
 {
+    /**
+     * @param $params
+     * @return mixed
+     */
+    protected function edit($params)
+    {
+        return $this->app->html->_(
+            'control.text',
+            $this->getControlName('value'),
+            $this->get('value', $this->config->get('default')),
+            'size="60" maxlength="255" id="order-' . $this->identifier . '"'
+        );
+    }
 
 }

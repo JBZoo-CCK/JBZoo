@@ -326,7 +326,6 @@ Class JBModel
         $insertedValues = implode(",\n", $preValues);
 
         $query = 'INSERT INTO ' . $table . ' ' . $valueTitles . ' VALUES ' . $insertedValues;
-        //jbdump::sql($query);die;
 
         return $this->_dbHelper->query($query);
     }
@@ -339,7 +338,13 @@ Class JBModel
      */
     protected function _insert($data, $table)
     {
-        return $this->_multiInsert(array($data), $table);
+        $result = $this->_multiInsert(array($data), $table);
+
+        if ($result) {
+            return $this->_db->insertid();
+        }
+
+        return 0;
     }
 
     /**

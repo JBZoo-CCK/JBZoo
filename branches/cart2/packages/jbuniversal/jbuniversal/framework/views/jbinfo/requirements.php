@@ -15,15 +15,16 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 
+<div class="uk-grid">
+    <div id="sidebar" class="uk-width-1-6">
+        <?php echo $this->partial('navigation'); ?>
+    </div>
 
-<div id="sidebar" class="uk-width-1-6">
-    <?php echo $this->partial('navigation'); ?>
-</div>
+    <div class="uk-width-4-6">
+        <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_INFO_REQUIREMENTS'); ?></h2>
 
-<div class="uk-width-4-6">
-    <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_INFO_REQUIREMENTS'); ?></h2>
+        <?php echo $this->requirements->displayResults(); ?>
 
-    <?php echo $this->requirements->displayResults(); ?>
-
-    <?php echo $this->partial('footer'); ?>
+        <?php echo $this->partial('footer'); ?>
+    </div>
 </div>

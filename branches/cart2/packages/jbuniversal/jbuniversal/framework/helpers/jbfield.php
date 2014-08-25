@@ -28,6 +28,30 @@ class JBFieldHelper extends AppHelper
      * @param SimpleXMLElement $parent
      * @return mixed
      */
+    public function elementCode($name, $value, $controlName, SimpleXMLElement $node, $parent)
+    {
+        if (empty($value) && $parent->element) {
+            $value = $parent->element->identifier;
+        }
+
+        $attrs = array(
+            'name'  => $this->_getName($controlName, $name),
+            'type'  => 'text',
+            'value' => $value,
+        );
+
+        return '<input ' . $this->app->jbhtml->buildAttrs($attrs) . ' />';
+    }
+
+    /**
+     * Render currency list
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
+     * @param SimpleXMLElement $node
+     * @param SimpleXMLElement $parent
+     * @return mixed
+     */
     public function currencyList($name, $value, $controlName, SimpleXMLElement $node, $parent)
     {
         $currencyList = $this->app->jbmoney->getCurrencyList();

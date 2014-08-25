@@ -131,7 +131,7 @@ class JBFormHelper extends AppHelper
 
     /**
      * Render one form row
-     * @param $field
+     * @param JFormField $field
      * @return string
      */
     protected function _renderFieldRow($field)
@@ -142,12 +142,14 @@ class JBFormHelper extends AppHelper
 
         if ($field->hidden) {
             $html[] = $field->input;
+
         } else {
             $html[] = '<div class="uk-form-row">';
-            $html[] = '<div class="' . $className . '-label uk-form-label"> ' . $field->label . ' </div>';
-            $html[] = '<div class="uk-form-controls">';
-            $html[] = $field->input;
+            $html[] = '<div class="' . $className . '-label uk-form-label">';
+            $html[] = $field->label;
+            $html[] = '<span class="description-label">' . JText::_($field->description) . '</span>';
             $html[] = '</div>';
+            $html[] = '<div class="uk-form-controls">' . $field->input . '</div>';
             $html[] = '</div>';
         }
 

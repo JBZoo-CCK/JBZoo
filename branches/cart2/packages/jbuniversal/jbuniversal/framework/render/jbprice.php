@@ -121,9 +121,9 @@ class JBPriceRenderer extends PositionRenderer
                     }
 
                     if ($element->edit()) {
-                        $params = array_merge($data, $args);
+                        $params          = array_merge($data, $args);
                         $element->config = $this->app->data->create($params);
-                        $elements[] = compact('element', 'params');
+                        $elements[]      = compact('element', 'params');
                     }
 
                 }

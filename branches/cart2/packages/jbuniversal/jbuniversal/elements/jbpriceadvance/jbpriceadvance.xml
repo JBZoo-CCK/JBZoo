@@ -10,7 +10,7 @@
     @coder       Denis Smetannikov <denis@jbzoo.com>
 -->
 <element type="jbpriceadvance" group="JBZoo" orderable="true">
-    <name>JBZoo Price - Advance</name>
+    <name>JBZoo Price Advance</name>
     <description>Price element for catalog</description>
     <author>JBZoo.com</author>
     <creationDate>2013 07</creationDate>

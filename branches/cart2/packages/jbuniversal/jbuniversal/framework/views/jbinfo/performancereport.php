@@ -15,28 +15,29 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 
+<div class="uk-grid">
+    <div id="sidebar" class="uk-width-1-6">
+        <?php echo $this->partial('navigation'); ?>
+    </div>
 
-<div id="sidebar" class="uk-width-1-6">
-    <?php echo $this->partial('navigation'); ?>
-</div>
+    <div class="uk-width-4-6">
 
-<div class="uk-width-4-6">
+        <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_INFO_PERFORMANCE_REPORT'); ?></h2>
 
-    <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_INFO_PERFORMANCE_REPORT'); ?></h2>
+        <p><?php echo JText::_('JBZOO_PAGE_INFO_PERFORMANCE_REPORT_DESC_1'); ?></p>
 
-    <p><?php echo JText::_('JBZOO_PAGE_INFO_PERFORMANCE_REPORT_DESC_1'); ?></p>
+        <p><?php echo JText::_('JBZOO_PAGE_INFO_PERFORMANCE_REPORT_DESC_2'); ?></p>
 
-    <p><?php echo JText::_('JBZOO_PAGE_INFO_PERFORMANCE_REPORT_DESC_2'); ?></p>
+        <p><?php echo JText::_('JBZOO_PAGE_INFO_PERFORMANCE_REPORT_DESC_3'); ?></p>
 
-    <p><?php echo JText::_('JBZOO_PAGE_INFO_PERFORMANCE_REPORT_DESC_3'); ?></p>
+        <p>&nbsp;</p>
 
-    <p>&nbsp;</p>
+        <?php
+        echo $this->app->jbform->render('performance_report', array(
+            'action' => $this->app->jbrouter->admin(),
+        ));
+        ?>
 
-    <?php
-    echo $this->app->jbform->render('performance_report', array(
-        'action' => $this->app->jbrouter->admin(),
-    ));
-    ?>
-
-    <?php echo $this->partial('footer'); ?>
+        <?php echo $this->partial('footer'); ?>
+    </div>
 </div>

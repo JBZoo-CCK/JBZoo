@@ -96,6 +96,19 @@ class JBMoneyHelper extends AppHelper
                 }
             }
 
+            if (empty(self::$curList)) {
+                $defaultCur = $this->getDefaultCur();
+
+                self::$curList = array(
+                    $defaultCur => array(
+                        'value'  => 1,
+                        'code'   => $defaultCur,
+                        'name'   => JText::_('JBZOO_CART_CURRENCY_DEFAULT'),
+                        'format' => $this->_defaultFormat,
+                    )
+                );
+            }
+
             $this->app->jbcache->set($cacheKey, self::$curList, 'currency', true);
         }
 
@@ -190,7 +203,7 @@ class JBMoneyHelper extends AppHelper
         $code = $this->clearCurrency($code);
 
         if (empty($code)) {
-            return $this->_numberFormat($value);
+            $code = $this->getDefaultCur();
         }
 
         if ($code == self::PERCENT) {
@@ -340,4 +353,15 @@ class JBMoneyHelper extends AppHelper
 
         return $result;
     }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        $this->init();
+
+        return $this->app->data->create(self::$curList);
+    }
+
 }

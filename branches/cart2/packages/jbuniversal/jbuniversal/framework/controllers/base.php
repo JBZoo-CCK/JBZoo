@@ -130,7 +130,6 @@ class JBUniversalController extends AppController
 
             echo $view->partial('menu');
             echo '<div class="jbzoo box-bottom joomla-' . $jVersion . '">';
-            echo '<div class="uk-grid">';
         }
 
         // render view
@@ -141,7 +140,7 @@ class JBUniversalController extends AppController
 
         // warpper hack
         if (!$isJoomlaTmpl) {
-            echo '</div></div>';
+            echo '</div>';
         }
     }
 
