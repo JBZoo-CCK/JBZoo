@@ -46,8 +46,6 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     const PARAMS_TMPL_SELECT = 1;
     const PARAMS_TMPL_RADIO  = 2;
 
-    const CONFIG_GROUP  = 'cart.price';
-    const RENDER_GROUP  = 'cart.jbpricetmpl';
     const BASIC_GROUP   = 'basic';
     const VARIANT_GROUP = 'variations';
 
@@ -1473,7 +1471,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     protected function _getElementConfig($identifier)
     {
-        $groupConfig = $this->_config->getGroup(self::CONFIG_GROUP);
+        $groupConfig = $this->_config->getGroup('cart.' . JBCart::CONFIG_PRICE);
         $config      = $groupConfig->get($this->identifier . '.list');
 
         if (isset($config[$identifier])) {

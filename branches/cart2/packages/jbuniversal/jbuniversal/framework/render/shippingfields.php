@@ -151,7 +151,7 @@ class ShippingFieldsRenderer extends PositionRenderer
      */
     protected function _getConfigPosition($position)
     {
-        return $this->_jbconfig->get($position, array(), 'cart.shippingfield');
+        return $this->_jbconfig->get($position, array(), 'cart.' . JBCart::CONFIG_SHIPPINGFIELDS);
     }
 
     /**
@@ -197,6 +197,6 @@ class ShippingFieldsRenderer extends PositionRenderer
      */
     public function getLayoutParams($layout = 'default')
     {
-        return $this->_jbconfig->get('list', array(), 'cart.shippingfield');
+        return $this->_jbconfig->get(JBCart::DEFAULT_POSITION, array(), 'cart.' . JBCart::CONFIG_SHIPPINGFIELDS);
     }
 }

@@ -211,8 +211,8 @@ class JBTablesHelper extends AppHelper
 
             $this->createTable(ZOO_TABLE_JBZOO_CONFIG, array(
                 '`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT',
-                '`group` VARCHAR(50) NULL DEFAULT NULL',
-                '`key` VARCHAR(50) NULL DEFAULT NULL',
+                '`group` VARCHAR(100) NULL DEFAULT NULL',
+                '`key` VARCHAR(100) NULL DEFAULT NULL',
                 '`value` TEXT NULL',
                 '`type` VARCHAR(10) NULL DEFAULT \'string\''
             ), array(

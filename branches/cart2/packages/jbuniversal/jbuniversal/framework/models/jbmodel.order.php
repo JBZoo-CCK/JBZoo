@@ -69,7 +69,7 @@ class JBModelOrder extends JBModel
             'shippingfields' => $order->getShippingFields()->__toString(),
             'payment'        => $order->getPayment()->getOrderData(),
             'modifiers'      => $order->getModifiersData()->__toString(),
-            'currency'       => $order->getCurrency()->__toString(),
+            'currency'       => $order->getCurrencyList()->__toString(),
             'params'         => $order->getParams()->__toString(),
         );
 

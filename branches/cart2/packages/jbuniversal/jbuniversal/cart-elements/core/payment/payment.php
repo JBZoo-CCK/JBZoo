@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElementPayment extends JBCartElement
 {
-    protected $_namespace = JBCartOrder::ELEMENT_TYPE_PAYMENT;
+    protected $_namespace = JBCart::ELEMENT_TYPE_PAYMENT;
 
     /**
      * @param App $app
@@ -53,7 +53,7 @@ abstract class JBCartElementPayment extends JBCartElement
      */
     public function isDefault()
     {
-        $shipping = JBModelConfig::model()->get('cart.config.default_payment');
+        $shipping = JBModelConfig::model()->get('default_payment', null, 'cart.config');
 
         return $this->identifier == $shipping;
     }

@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElementStatus extends JBCartElement
 {
-    protected $_namespace = JBCartOrder::ELEMENT_TYPE_STATUS;
+    protected $_namespace = JBCart::ELEMENT_TYPE_STATUS;
 
     /**
      * @return string

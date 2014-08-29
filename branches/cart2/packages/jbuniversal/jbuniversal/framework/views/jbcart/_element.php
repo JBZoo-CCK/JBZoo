@@ -16,11 +16,14 @@ defined('_JEXEC') or die('Restricted access');
 // get vars
 $elementGroup = isset($elementGroup) ? $elementGroup : JBCartElement::DEFAULT_GROUP;
 $elementParams = isset($elementParams) ? $elementParams : null;
+$positionKey = isset($positionKey) ? $positionKey : JBCart::DEFAULT_POSITION;
 
 // get elements meta data
 $form = $element->getConfigForm($elementGroup);
 $name = JText::_($element->config->get('name', 'JBZOO_ADMIN_ELEMENT_NEW'));
-$var = 'elements[' . $this->app->jbstring->getId($element->identifier . '--') . ']'; // uniqid vs radio input "checked" bug
+
+// uniqid vs radio input "checked" bug
+$varName = 'tmp[' . $positionKey . '][' . $this->app->jbstring->getId($element->identifier . '--') . ']';
 
 ?>
 
@@ -28,7 +31,7 @@ $var = 'elements[' . $this->app->jbstring->getId($element->identifier . '--') . 
 
     <div class="element-icon edit-element jsEdit" title="<?php echo JText::_('JBZOO_ADMIN_ELEMENT_EDIT'); ?>"></div>
 
- 
+
     <div class="element-icon delete-element jsDelete"
          title="<?php echo JText::_('JBZOO_ADMIN_ELEMENT_DELETE'); ?>"></div>
 
@@ -47,15 +50,15 @@ $var = 'elements[' . $this->app->jbstring->getId($element->identifier . '--') . 
         }
 
         // render form HTML
-        echo $form->render($var, $elementGroup);
+        echo $form->render($varName, $elementGroup);
 
         ?>
-        <input type="hidden" name="<?php echo $var; ?>[type]" value="<?php echo $element->getElementType(); ?>"
-               class="jsElementType"/>
-        <input type="hidden" name="<?php echo $var; ?>[group]" value="<?php echo $element->getElementGroup(); ?>"
-               class="jsElementGroup"/>
-        <input type="hidden" name="<?php echo $var; ?>[identifier]" value="<?php echo $element->identifier; ?>"
-               class="jsElementId"/>
+        <input type="hidden" name="<?php echo $varName; ?>[type]" value="<?php echo $element->getElementType(); ?>"
+               class="jsElementType" />
+        <input type="hidden" name="<?php echo $varName; ?>[group]" value="<?php echo $element->getElementGroup(); ?>"
+               class="jsElementGroup" />
+        <input type="hidden" name="<?php echo $varName; ?>[identifier]" value="<?php echo $element->identifier; ?>"
+               class="jsElementId" />
 
     </div>
 

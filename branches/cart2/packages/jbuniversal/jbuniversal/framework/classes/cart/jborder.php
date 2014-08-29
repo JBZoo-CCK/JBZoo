@@ -19,20 +19,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartOrder
 {
-    const ELEMENT_TYPE_DEFAULT       = 'elements';
-    const ELEMENT_TYPE_CURRENCY      = 'currency';
-    const ELEMENT_TYPE_SHIPPING      = 'shipping';
-    const ELEMENT_TYPE_SHIPPINGFIELD = 'shippingfield';
-    const ELEMENT_TYPE_MODIFIERITEM  = 'modifieritem';
-    const ELEMENT_TYPE_MODIFIERPRICE = 'modifierprice';
-    const ELEMENT_TYPE_MODIFIERS     = 'modifiers';
-    const ELEMENT_TYPE_NOTIFICATION  = 'notification';
-    const ELEMENT_TYPE_ORDER         = 'order';
-    const ELEMENT_TYPE_PAYMENT       = 'payment';
-    const ELEMENT_TYPE_PRICE         = 'price';
-    const ELEMENT_TYPE_STATUS        = 'status';
-    const ELEMENT_TYPE_VALIDATOR     = 'validator';
-
     /**
      * @var int
      */
@@ -119,11 +105,11 @@ class JBCartOrder
         $this->_config = JBModelConfig::model()->getGroup('cart');
 
         $this->_elements = $this->app->data->create(array(
-            self::ELEMENT_TYPE_CURRENCY      => $this->app->jbmoney->getData(),
-            self::ELEMENT_TYPE_MODIFIERS     => $this->_loadModifiers(),
-            self::ELEMENT_TYPE_ORDER         => array(),
-            self::ELEMENT_TYPE_SHIPPINGFIELD => array(),
-            self::ELEMENT_TYPE_VALIDATOR     => array(),
+            JBCart::ELEMENT_TYPE_CURRENCY      => $this->app->jbmoney->getData(),
+            JBCart::ELEMENT_TYPE_MODIFIERS     => $this->_loadModifiers(),
+            JBCart::ELEMENT_TYPE_ORDER         => array(),
+            JBCart::ELEMENT_TYPE_SHIPPINGFIELD => array(),
+            JBCart::ELEMENT_TYPE_VALIDATOR     => array(),
         ));
     }
 
@@ -290,13 +276,13 @@ class JBCartOrder
      * @param string $type
      * @return JBCartElement
      */
-    public function getElement($identifier, $type = self::ELEMENT_TYPE_ORDER)
+    public function getElement($identifier, $type = JBCart::CONFIG_FIELDS)
     {
         if (isset($this->_elements[$type][$identifier])) {
             return $this->_elements[$type][$identifier];
         }
 
-        $fieldsConfig = $this->_config->get($type . '.list');
+        $fieldsConfig = $this->_config->get($type . '.' . JBCart::DEFAULT_POSITION);
 
         if (isset($fieldsConfig[$identifier])) {
 
@@ -317,7 +303,13 @@ class JBCartOrder
      */
     public function getPriceModifiers()
     {
-        $modifiers = $this->_elements[self::ELEMENT_TYPE_MODIFIERS][self::ELEMENT_TYPE_MODIFIERPRICE];
+        $elements  = $this->_elements[JBCart::ELEMENT_TYPE_MODIFIERS];
+        $modifiers = array();
+
+        if (isset($elements[JBCart::ELEMENT_TYPE_MODIFIERPRICE])) {
+            $modifiers = $elements[JBCart::ELEMENT_TYPE_MODIFIERPRICE];
+        }
+
         return $modifiers;
     }
 
@@ -327,7 +319,7 @@ class JBCartOrder
      */
     public function getFieldElement($identifier)
     {
-        return $this->getElement($identifier, self::ELEMENT_TYPE_ORDER);
+        return $this->getElement($identifier, JBCart::CONFIG_FIELDS);
     }
 
     /**
@@ -336,7 +328,7 @@ class JBCartOrder
      */
     public function getShippingElement($identifier)
     {
-        return $this->getElement($identifier, self::ELEMENT_TYPE_SHIPPING);
+        return $this->getElement($identifier, JBCart::CONFIG_SHIPPINGS);
     }
 
     /**
@@ -345,7 +337,7 @@ class JBCartOrder
      */
     public function getPaymentElement($identifier)
     {
-        return $this->getElement($identifier, self::ELEMENT_TYPE_PAYMENT);
+        return $this->getElement($identifier, JBCart::CONFIG_PAYMENTS);
     }
 
     /**
@@ -354,7 +346,7 @@ class JBCartOrder
      */
     public function getShippingFieldElement($identifier)
     {
-        return $this->getElement($identifier, self::ELEMENT_TYPE_SHIPPINGFIELD);
+        return $this->getElement($identifier, JBCart::CONFIG_SHIPPINGFIELDS);
     }
 
     /**
@@ -363,7 +355,7 @@ class JBCartOrder
      */
     public function getValidatorElement($identifier)
     {
-        return $this->getElement($identifier, self::ELEMENT_TYPE_VALIDATOR);
+        return $this->getElement($identifier, JBCart::CONFIG_VALIDATORS);
     }
 
     /**
@@ -374,22 +366,22 @@ class JBCartOrder
     public function bind($formData)
     {
         $errors = 0;
-        if (isset($formData[self::ELEMENT_TYPE_ORDER])) {
+        if (isset($formData[JBCart::ELEMENT_TYPE_ORDER])) {
             $params = $this->app->jbrenderer->create('OrderSubmission')->getLayoutParams();
-            $errors += $this->_bindElements($formData[self::ELEMENT_TYPE_ORDER], self::ELEMENT_TYPE_ORDER, $params);
+            $errors += $this->_bindElements($formData[JBCart::ELEMENT_TYPE_ORDER], JBCart::CONFIG_FIELDS, $params);
         }
 
-        if (isset($formData[self::ELEMENT_TYPE_SHIPPINGFIELD])) {
+        if (isset($formData[JBCart::ELEMENT_TYPE_SHIPPINGFIELD])) {
             $params = $this->app->jbrenderer->create('ShippingFields')->getLayoutParams();
-            $errors += $this->_bindElements($formData[self::ELEMENT_TYPE_SHIPPINGFIELD], self::ELEMENT_TYPE_SHIPPINGFIELD, $params);
+            $errors += $this->_bindElements($formData[JBCart::ELEMENT_TYPE_SHIPPINGFIELD], JBCart::CONFIG_SHIPPINGFIELDS, $params);
         }
 
-        if (isset($formData[self::ELEMENT_TYPE_SHIPPING])) {
-            $errors += $this->_bindShipping($formData[self::ELEMENT_TYPE_SHIPPING]);
+        if (isset($formData[JBCart::ELEMENT_TYPE_SHIPPING])) {
+            $errors += $this->_bindShipping($formData[JBCart::ELEMENT_TYPE_SHIPPING]);
         }
 
-        if (isset($formData[self::ELEMENT_TYPE_PAYMENT])) {
-            $errors += $this->_bindPayment($formData[self::ELEMENT_TYPE_PAYMENT]);
+        if (isset($formData[JBCart::ELEMENT_TYPE_PAYMENT])) {
+            $errors += $this->_bindPayment($formData[JBCart::ELEMENT_TYPE_PAYMENT]);
         }
 
         return $errors;
@@ -401,7 +393,7 @@ class JBCartOrder
      * @param array $elementsParams
      * @return int
      */
-    protected function _bindElements($data, $type = self::ELEMENT_TYPE_ORDER, $elementsParams = array())
+    protected function _bindElements($data, $type = JBCart::CONFIG_FIELDS, $elementsParams = array())
     {
         $errors = 0;
 
@@ -520,7 +512,7 @@ class JBCartOrder
 
         try {
 
-            if ($element = $this->getElement($elementId, self::ELEMENT_TYPE_SHIPPING)) {
+            if ($element = $this->getElement($elementId, JBCart::CONFIG_SHIPPINGS)) {
                 $elemData = $element->validateSubmission($value, array());
                 $element->bindData($elemData);
                 $this->_shipping = $element;
@@ -553,7 +545,7 @@ class JBCartOrder
 
         try {
 
-            if ($element = $this->getElement($elementId, self::ELEMENT_TYPE_PAYMENT)) {
+            if ($element = $this->getElement($elementId, JBCart::CONFIG_PAYMENTS)) {
                 $elemData = $element->validateSubmission($value, array());
                 $element->bindData($elemData);
                 $this->_payment = $element;
@@ -584,6 +576,41 @@ class JBCartOrder
             $items = JBCart::getInstance()->getItems();
         }
 
+        $items = array(
+            array(
+                "sku"         => "SKU98100",
+                "itemId"      => "90",
+                "quantity"    => 2,
+                "price"       => 10,
+                "currency"    => "EUR",
+                "priceDesc"   => "Red color",
+                "priceParams" => array(),
+                "name"        => "Acer Aspire Z1811 ",
+                'params'      => array(
+                    'weight' => 0,
+                    'height' => 0,
+                    'length' => 0,
+                    'width'  => 0,
+                ),
+            ),
+            array(
+                "sku"         => "SKU98100",
+                "itemId"      => "90",
+                "quantity"    => 2,
+                "price"       => 10,
+                "currency"    => "EUR",
+                "priceDesc"   => "Red color",
+                "priceParams" => array(),
+                "name"        => "Acer Aspire Z1811 ",
+                'params'      => array(
+                    'weight' => 0,
+                    'height' => 0,
+                    'length' => 0,
+                    'width'  => 0,
+                ),
+            ),
+        );
+
         $result = array();
         foreach ($items as $key => $item) {
             $itemData = $this->app->data->create($item);
@@ -591,6 +618,8 @@ class JBCartOrder
             $itemData->set('item', $item);
             $result[$key] = $itemData;
         }
+
+        $result = $this->app->data->create($result);
 
         return $result;
     }
@@ -602,7 +631,7 @@ class JBCartOrder
     public function getFields()
     {
         $result = array();
-        foreach ($this->_elements[self::ELEMENT_TYPE_ORDER] as $element) {
+        foreach ($this->_elements[JBCart::ELEMENT_TYPE_ORDER] as $element) {
             $result[$element->identifier] = $element->data();
         }
 
@@ -616,7 +645,7 @@ class JBCartOrder
     public function getShippingFields()
     {
         $result = array();
-        foreach ($this->_elements[self::ELEMENT_TYPE_SHIPPINGFIELD] as $element) {
+        foreach ($this->_elements[JBCart::ELEMENT_TYPE_SHIPPINGFIELD] as $element) {
             $result[$element->identifier] = $element->data();
         }
 
@@ -629,7 +658,7 @@ class JBCartOrder
      */
     public function getModifiers()
     {
-        return $this->_elements[self::ELEMENT_TYPE_MODIFIERS];
+        return $this->_elements[JBCart::ELEMENT_TYPE_MODIFIERS];
     }
 
     /**
@@ -638,7 +667,7 @@ class JBCartOrder
      */
     public function getModifiersData()
     {
-        $elementsGroups = $this->_elements[self::ELEMENT_TYPE_MODIFIERS];
+        $elementsGroups = $this->_elements[JBCart::ELEMENT_TYPE_MODIFIERS];
 
         $result = array();
         foreach ($elementsGroups as $elements) {
@@ -709,12 +738,12 @@ class JBCartOrder
         $data = $this->app->data->create($data);
 
         $config  = $data->get('config');
-        $element = $this->app->jbcartelement->create($config['type'], self::ELEMENT_TYPE_PAYMENT, $config);
+        $element = $this->app->jbcartelement->create($config['type'], JBCart::ELEMENT_TYPE_PAYMENT, $config);
         $element->bindData($data->get('data', array()));
         $element->setOrder($this);
         $element->identifier = $config['identifier'];
 
-        $this->_elements[self::ELEMENT_TYPE_PAYMENT][$element->identifier] = $this->_payment = $element;
+        $this->_elements[JBCart::ELEMENT_TYPE_PAYMENT][$element->identifier] = $this->_payment = $element;
     }
 
     /**
@@ -725,12 +754,12 @@ class JBCartOrder
         $data = $this->app->data->create($data);
 
         $config  = $data->get('config');
-        $element = $this->app->jbcartelement->create($config['type'], self::ELEMENT_TYPE_SHIPPING, $config);
+        $element = $this->app->jbcartelement->create($config['type'], JBCart::ELEMENT_TYPE_SHIPPING, $config);
         $element->bindData($data->get('data', array()));
         $element->setOrder($this);
         $element->identifier = $config['identifier'];
 
-        $this->_elements[self::ELEMENT_TYPE_SHIPPING][$element->identifier] = $this->_shipping = $element;
+        $this->_elements[JBCart::ELEMENT_TYPE_SHIPPING][$element->identifier] = $this->_shipping = $element;
     }
 
     /**
@@ -768,7 +797,7 @@ class JBCartOrder
      */
     public function setCurrencyData($dataFields)
     {
-        $this->_elements[self::ELEMENT_TYPE_CURRENCY] = $this->app->data->create($dataFields);
+        $this->_elements[JBCart::ELEMENT_TYPE_CURRENCY] = $this->app->data->create($dataFields);
     }
 
     /**
@@ -794,7 +823,7 @@ class JBCartOrder
             }
         }
 
-        $this->_elements[self::ELEMENT_TYPE_MODIFIERS] = $elements;
+        $this->_elements[JBCart::ELEMENT_TYPE_MODIFIERS] = $elements;
     }
 
 }

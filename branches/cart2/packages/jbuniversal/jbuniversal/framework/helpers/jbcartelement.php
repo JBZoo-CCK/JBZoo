@@ -169,7 +169,7 @@ class JBCartElementHelper extends AppHelper
     public function create($type, $group, $config = array())
     {
         // load element class
-        $elementClass  = 'JBCartElement' . $group . $type;
+        $elementClass = 'JBCartElement' . $group . $type;
 
         if (!class_exists($elementClass)) {
             $this->app->loader->register($elementClass, "cart-elements:$group/$type/$type.php");
@@ -209,7 +209,7 @@ class JBCartElementHelper extends AppHelper
      */
     public function getPriceParamElement($elementId, $priceId, $data = array())
     {
-        $priceElements = JBModelConfig::model()->get('list', array(), 'cart.price.' . $priceId);
+        $priceElements = JBModelConfig::model()->get(JBCart::DEFAULT_POSITION, array(), 'cart.' . JBCart::CONFIG_PRICE . '.' . $priceId);
         $priceElements = $this->app->data->create($priceElements);
         $paramConfig   = $priceElements->get($elementId);
 

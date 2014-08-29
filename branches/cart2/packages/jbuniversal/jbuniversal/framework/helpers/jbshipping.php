@@ -25,7 +25,7 @@ class JBShippingHelper extends AppHelper
      */
     public function getEnabled()
     {
-        $list = $this->app->jbcartposition->loadElements(JBCartOrder::ELEMENT_TYPE_SHIPPING);
+        $list = $this->app->jbcartposition->loadElements(JBCart::ELEMENT_TYPE_SHIPPING);
 
         return $list;
     }
@@ -35,7 +35,7 @@ class JBShippingHelper extends AppHelper
      */
     public function getFields()
     {
-        $list = $this->app->jbcartposition->loadElements(JBCartOrder::ELEMENT_TYPE_SHIPPINGFIELD);
+        $list = $this->app->jbcartposition->loadElements(JBCart::ELEMENT_TYPE_SHIPPINGFIELD);
 
         return $list;
     }

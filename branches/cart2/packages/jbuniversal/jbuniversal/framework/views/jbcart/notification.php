@@ -27,6 +27,7 @@ defined('_JEXEC') or die('Restricted access');
         <?php echo $this->partial('editpositions', array(
             'positions' => $this->positions,
             'groupList' => $this->groupList,
+            'groupKey'  => $this->groupKey,
         ));?>
 
         <?php echo $this->partial('footer'); ?>

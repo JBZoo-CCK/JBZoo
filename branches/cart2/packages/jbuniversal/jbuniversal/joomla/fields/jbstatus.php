@@ -35,7 +35,7 @@ class JFormFieldJBStatus extends JFormField
         // get app
         $app = App::getInstance('zoo');
 
-        $elements = $app->jbcartposition->loadElements(JBCartOrder::ELEMENT_TYPE_STATUS);
+        $elements = $app->jbcartposition->loadElements(JBCart::ELEMENT_TYPE_STATUS);
 
         // create select
         $options = array(

@@ -20,20 +20,32 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartStatusHelper extends AppHelper
 {
 
-    protected $_list = array();
+    protected $_list = null;
 
     /**
      * @return array
      */
     protected function init()
     {
-        $elements = $this->app->jbcartposition->loadElements(JBCartOrder::ELEMENT_TYPE_STATUS);
+        if (is_null($this->_list)) {
 
-        $this->_list = array();
-        foreach ($elements as $element) {
-            $this->_list[$element->getCode()] = $element;
+            $elements = $this->app->jbcartposition->loadElements(JBCart::ELEMENT_TYPE_STATUS);
+
+            $this->_list = array();
+            foreach ($elements as $element) {
+                $this->_list[$element->getCode()] = $element;
+            }
         }
 
+        return $this->_list;
+    }
+
+    /**
+     *
+     */
+    public function getList()
+    {
+        $this->init();
         return $this->_list;
     }
 

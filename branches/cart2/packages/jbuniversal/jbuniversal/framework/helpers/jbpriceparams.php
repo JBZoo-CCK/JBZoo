@@ -56,7 +56,7 @@ class JBPriceParamsHelper extends AppHelper
     {
         $position  = $this->app->jbcartposition;
         $model     = JBModelConfig::model();
-        $positions = $model->getGroup(ElementJBPriceAdvance::CONFIG_GROUP . '.' . $price)->get('list', array());
+        $positions = $model->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $price)->get(JBCart::DEFAULT_POSITION, array());
 
         if (isset($positions[$id])) {
             $element = $positions[$id];

@@ -24,7 +24,7 @@ abstract class JBCartElementCurrency extends JBCartElement
     /**
      * @var string
      */
-    protected $_namespace = JBCartOrder::ELEMENT_TYPE_CURRENCY;
+    protected $_namespace = JBCart::ELEMENT_TYPE_CURRENCY;
 
     /**
      * @var array|null

@@ -35,7 +35,7 @@ class JFormFieldJBShipping extends JFormField
         // get app
         $app = App::getInstance('zoo');
 
-        $elements = $app->jbcartposition->loadElements(JBCartOrder::ELEMENT_TYPE_SHIPPING);
+        $elements = $app->jbcartposition->loadElements(JBCart::ELEMENT_TYPE_SHIPPING);
 
         // create select
         $options = array(

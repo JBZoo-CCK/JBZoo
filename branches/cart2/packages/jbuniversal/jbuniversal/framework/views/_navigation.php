@@ -74,7 +74,7 @@ $allItems = array(
             'shippingfield' => array('shippingfield'),
         ),
         'events' => array(
-            'modifier'     => array('modifierEvents'),
+            'modifier'    => array('modifier'),
             'validator'    => array('validator'),
             'notification' => array('notification'),
             'statusEvents' => array('statusEvents'),
