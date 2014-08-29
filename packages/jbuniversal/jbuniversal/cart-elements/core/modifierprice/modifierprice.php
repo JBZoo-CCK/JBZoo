@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElementModifierPrice extends JBCartElement
 {
-    protected $_namespace = JBCartOrder::ELEMENT_TYPE_MODIFIERPRICE;
+    protected $_namespace = JBCart::ELEMENT_TYPE_MODIFIERPRICE;
 
     /**
      * @param float $sum

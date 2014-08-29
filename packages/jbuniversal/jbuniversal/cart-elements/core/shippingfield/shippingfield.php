@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElementShippingField extends JBCartElement
 {
-    protected $_namespace = JBCartOrder::ELEMENT_TYPE_SHIPPINGFIELD;
+    protected $_namespace = JBCart::ELEMENT_TYPE_SHIPPINGFIELD;
 
 }
 

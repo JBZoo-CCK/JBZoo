@@ -218,9 +218,9 @@ class JBPriceRenderer extends PositionRenderer
      */
     protected function _getConfig()
     {
-        $priceparams = $this->_jbconfig->getGroup(ElementJBPriceAdvance::CONFIG_GROUP . '.' . $this->_jbprice->identifier);
+        $priceparams = $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $this->_jbprice->identifier);
 
-        return $priceparams->get('list');
+        return $priceparams->get(JBCart::DEFAULT_POSITION);
     }
 
     /**
@@ -228,7 +228,7 @@ class JBPriceRenderer extends PositionRenderer
      */
     public function _getPositions()
     {
-        $layouts = $this->_jbconfig->getGroup(ElementJBPriceAdvance::RENDER_GROUP);
+        $layouts = $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_PRICE_TMPL);
 
         return $layouts;
     }

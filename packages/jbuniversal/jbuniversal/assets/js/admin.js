@@ -420,7 +420,7 @@ jQuery(function ($) {
         };
 
         $this.rebuildList = function () {
-            var regReplace = new RegExp(/(elements\[[a-z0-9_-]+\])|(positions\[[a-z0-9_-]+\]\[[0-9]+\])/);
+            var regReplace = new RegExp(/(tmp\[[a-z0-9_-]+\]\[[a-z0-9_-]+\])|(positions\[[a-z0-9_-]+\]\[[a-z0-9_-]+\])/);
 
             $editableLists.each(function () {
                 var $position = $(this),
@@ -496,7 +496,7 @@ jQuery(function ($) {
                                 var $newElem = $(this).data("config").clone();
 
                                 $newElem.find("input:radio").each(function () {
-                                    var newAttrs = $(this).attr("name").replace(/^elements\[[\w_-]+\]/, "elements[_temp]");
+                                    var newAttrs = $(this).attr("name").replace(/^elements\[[\w_-]+\]/, "elements[_tmp]");
 
                                     $(this).attr("name", newAttrs);
                                 });

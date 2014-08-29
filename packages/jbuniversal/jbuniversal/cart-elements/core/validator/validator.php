@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElementValidator extends JBCartElement
 {
-    protected $_namespace = JBCartOrder::ELEMENT_TYPE_VALIDATOR;
+    protected $_namespace = JBCart::ELEMENT_TYPE_VALIDATOR;
 
     /**
      * @return mixed

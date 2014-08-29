@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElementPrice extends JBCartElement
 {
-    protected $_namespace = JBCartOrder::ELEMENT_TYPE_PRICE;
+    protected $_namespace = JBCart::ELEMENT_TYPE_PRICE;
 
     /**
      * @var JBModelConfig
@@ -204,7 +204,7 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function getConfig()
     {
-        $priceparams = $this->_jbconfig->getGroup('cart.' . JBCartOrder::ELEMENT_TYPE_PRICE);
+        $priceparams = $this->_jbconfig->getGroup('cart.' . JBCart::ELEMENT_TYPE_PRICE);
 
         $list = $priceparams->get('list');
 

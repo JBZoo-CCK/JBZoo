@@ -74,7 +74,7 @@ abstract class JBCartElement
     /**
      * @var string
      */
-    protected $_namespace = JBCartOrder::ELEMENT_TYPE_DEFAULT;
+    protected $_namespace = JBCart::ELEMENT_TYPE_DEFAULT;
 
     /**
      * @var JSONData

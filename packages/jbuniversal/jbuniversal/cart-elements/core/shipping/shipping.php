@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElementShipping extends JBCartElement
 {
-    protected $_namespace = JBCartOrder::ELEMENT_TYPE_SHIPPING;
+    protected $_namespace = JBCart::ELEMENT_TYPE_SHIPPING;
 
     /**
      * @param float $sum
@@ -33,7 +33,7 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     public function isDefault()
     {
-        $shipping = JBModelConfig::model()->get('cart.config.default_shipping');
+        $shipping = JBModelConfig::model()->get('default_shipping', null, 'cart.config');
 
         return $this->identifier == $shipping;
     }

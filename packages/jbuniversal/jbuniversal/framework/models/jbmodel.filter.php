@@ -68,7 +68,7 @@ class JBModelFilter extends JBModel
             $select->limit($limit, $offset);
             $this->_addOrder($select, $order, $type);
 
-            jbdump::sql($select);
+            //jbdump::sql($select);
             //$this->_explain($select);
 
             // query

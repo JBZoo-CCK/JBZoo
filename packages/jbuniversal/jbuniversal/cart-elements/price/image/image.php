@@ -43,9 +43,9 @@ class JBCartElementPriceImage extends JBCartElementPrice
         $params = $this->app->data->create($params);
         $teaser = json_decode($params->get('teaser-image'));
 
-        if($layout = $this->getLayout()) {
+        if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
-                'params' => $params,
+                'params'  => $params,
                 'element' => $teaser->element
             ));
         }

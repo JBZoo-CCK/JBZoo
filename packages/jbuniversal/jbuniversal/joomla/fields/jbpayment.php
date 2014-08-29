@@ -35,7 +35,7 @@ class JFormFieldJBPayment extends JFormField
         // get app
         $app = App::getInstance('zoo');
 
-        $elements = $app->jbcartposition->loadElements(JBCartOrder::ELEMENT_TYPE_PAYMENT);
+        $elements = $app->jbcartposition->loadElements(JBCart::ELEMENT_TYPE_PAYMENT);
 
         // create select
         $options = array(

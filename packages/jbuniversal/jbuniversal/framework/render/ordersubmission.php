@@ -48,7 +48,6 @@ class OrderSubmissionRenderer extends PositionRenderer
     public function checkPosition($position)
     {
         foreach ($this->_getConfigPosition($position) as $index => $data) {
-
             if ($element = $this->_order->getFieldElement($data['identifier'])) {
 
                 $data['_layout']   = $this->_layout;
@@ -152,7 +151,7 @@ class OrderSubmissionRenderer extends PositionRenderer
      */
     protected function _getConfigPosition($position)
     {
-        return $this->_jbconfig->getGroup('cart.cartTmpl.' . $this->_layout)->get($position);
+        return $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_FIELDS_TMPL . '.' . $this->_layout)->get($position);
     }
 
     /**
@@ -198,7 +197,7 @@ class OrderSubmissionRenderer extends PositionRenderer
      */
     public function getLayoutParams($layout = 'default')
     {
-        $positions = $this->_jbconfig->getGroup('cart.cartTmpl.' . $layout);
+        $positions = $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_FIELDS_TMPL . '.' . $layout);
 
         $elementsConfig = array();
         foreach ($positions as $position) {
@@ -207,7 +206,7 @@ class OrderSubmissionRenderer extends PositionRenderer
             }
         }
 
-            return $elementsConfig;
+        return $elementsConfig;
     }
 
 }

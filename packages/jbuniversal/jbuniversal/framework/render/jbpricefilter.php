@@ -164,28 +164,10 @@ class JBPriceFilterRenderer extends PositionRenderer
      */
     public function _getConfigPosition($position)
     {
-        $config   = $this->_getPositions();
+        $config   = $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_PRICE_TMPL_FILTER);
         $position = $config->get($this->_jbprice->identifier . '.' . $this->_layout . '.' . $position);
 
         return isset($position) ? $position : array();
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function _getConfig()
-    {
-        $priceparams = $this->_jbconfig->getGroup('cart.priceparams');
-        return $priceparams->get('list');
-    }
-
-    /**
-     * @return JSONData
-     */
-    public function _getPositions()
-    {
-        $layouts = $this->_jbconfig->getGroup('cart.jbpricefiltertmpl');
-        return $layouts;
     }
 
     /**
@@ -355,7 +337,6 @@ class JBPriceFilterRenderer extends PositionRenderer
             $layouts = $xml->xpath('positions[@layout]');
 
             foreach ($layouts as $layout) {
-
                 $name = (string)$layout->attributes()->layout;
 
                 $layoutList[$name] = $name;

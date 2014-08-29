@@ -197,7 +197,7 @@ class ShippingRenderer extends PositionRenderer
      */
     public function getLayoutParams($layout = 'default')
     {
-        return $this->_jbconfig->get('list', array(), 'cart.shipping');
+        return $this->_jbconfig->get(JBCart::DEFAULT_POSITION, array(), 'cart.' . JBCart::CONFIG_SHIPPINGS);
     }
 }
 

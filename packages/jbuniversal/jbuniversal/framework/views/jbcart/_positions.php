@@ -23,24 +23,24 @@ $elementsParams = isset($elementsParams) ? $elementsParams : array();
 
     <?php if (!empty($positions)) : ?>
 
-        <?php foreach ($positions as $posKey => $position) : ?>
+        <?php foreach ($positions as $positionKey => $position) : ?>
 
             <div class="position">
                 <?php
 
-                $positionName = 'JBZOO_ADMIN_EVENT_POSITION_' . $this->task . '_' . str_replace('-', '_', $posKey);
+                $positionName = 'JBZOO_ADMIN_EVENT_POSITION_' . $this->task . '_' . str_replace('-', '_', $positionKey);
 
                 $language = JFactory::getLanguage();
                 if ($language->hasKey($positionName)) {
                     echo JText::_($positionName);
                 } else {
-                    echo $posKey;
+                    echo $positionKey;
                 }
 
                 ?>
             </div>
 
-            <ul class="element-list jsElementList" data-position="<?php echo $posKey; ?>">
+            <ul class="element-list jsElementList" data-position="<?php echo $positionKey; ?>">
 
                 <?php
                 foreach ($position as $elementId => $element) {
@@ -49,6 +49,7 @@ $elementsParams = isset($elementsParams) ? $elementsParams : array();
 
                     echo $this->partial('element', array(
                         'element'       => $element,
+                        'positionKey'   => $positionKey,
                         'elementGroup'  => $elementGroup,
                         'elementParams' => $elementParams,
                     ));

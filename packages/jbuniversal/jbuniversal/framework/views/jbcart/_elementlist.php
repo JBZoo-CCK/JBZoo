@@ -21,29 +21,31 @@ $fields = array(
 
 ?>
 
-<?php if ($this->get('layoutList')) : ?>
+<?php if ($this->get('elementList')) : ?>
     <form action="index.php" method="get">
 
         <?php foreach ($fields as $key => $value) {
             echo '<input type="hidden" name="' . $key . '" value="' . $value . '" />';
         } ?>
 
-        <input type="hidden" name="element" value="<?php echo $this->element; ?>" class="jsElement" />
+        <input type="hidden" name="layout" value="<?php echo $this->layout; ?>" class="jsLayout" />
 
-        <label for="layout-list-select"><?php echo JText::_('JBZOO_ADMIN_POSITIONS_LAYOUT_LIST'); ?></label>
-        <?php echo $this->app->jbhtml->select($this->get('layoutList'), 'layout', '', $this->layout, 'layout-list-select'); ?>
+        <label for="element-list-select"><?php echo JText::_('JBZOO_ADMIN_POSITIONS_ELEMENT_LIST'); ?></label>
+        <?php echo $this->app->jbhtml->select($this->get('elementList'), 'element', '', $this->element, 'element-list-select'); ?>
+
     </form>
 
     <script type="text/javascript">
         jQuery(function ($) {
 
-            var $select = $('#layout-list-select').change(function () {
+            var $select = $('#element-list-select').change(function () {
                 var $select = $(this);
-                $('.jsAssignElements .jsLayout').val($select.val());
+                $('.jsAssignElements .jsElement').val($select.val());
                 $select.closest('form').submit();
             });
 
-            $('.jsLayout').val($select.val());
+            $('.jsElement').val($select.val());
         });
     </script>
+
 <?php endif; ?>
