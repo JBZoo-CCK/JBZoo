@@ -54,7 +54,10 @@ class JBOrderJBuniversalController extends JBUniversalController
         $orderId = $this->app->request->get('cid.0', 'int');
 
         // get item
-        $this->order = JBModelOrder::model()->getById($orderId);
+        $this->order      = JBModelOrder::model()->getById($orderId);
+        $this->shipRender = $this->app->jbrenderer->create('Shipping');
+
+        $this->shipFieldsRender = $this->app->jbrenderer->create('ShippingFields');
         if (empty($this->order)) {
             $this->app->error->raiseError(500, JText::sprintf('Unable to access item with id %s', $orderId));
             return;

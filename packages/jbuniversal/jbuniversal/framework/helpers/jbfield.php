@@ -351,6 +351,35 @@ class JBFieldHelper extends AppHelper
     }
 
     /**
+     * @param $name
+     * @param $value
+     * @param $controlName
+     * @param SimpleXMLElement $node
+     *
+     * @return string
+     */
+    public function jbshippingfields($name, $value, $controlName, SimpleXMLElement $node)
+    {
+        $fields = $this->app->jbcartposition->loadPositions(
+            JBCart::CONFIG_SHIPPINGFIELDS,
+            array(JBCart::DEFAULT_POSITION)
+        );
+        $fields = $fields['list'];
+
+        $options[''] = 'Related shipping fields';
+
+        foreach ($fields as $element) {
+            $options[] = $this->app->html->_('select.option', $element->getElementType(), $element->getName());
+        }
+
+        $style = 'multiple="multiple" size="5"';
+
+        $select = $this->app->html->_('select.genericlist', $options, $this->_getName($controlName, $name) . '[]', $style, 'value', 'text', $value);
+
+        return $select;
+    }
+
+    /**
      * Render boolean list
      * @param string $name
      * @param string|array $value
@@ -516,7 +545,9 @@ class JBFieldHelper extends AppHelper
         $html  = array();
         $id    = $this->app->jbstring->getId('jbcolor-input-');
         $divId = $this->app->jbstring->getId('jbcolor-');
+
         $this->app->jbassets->initJBColorElement($divId);
+
         $attrs = array(
             'name'  => $this->_getName($controlName, $name),
             'class' => 'jbcolor-textarea ' . $this->_getAttr($node, 'class'),

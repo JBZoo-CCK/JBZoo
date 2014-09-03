@@ -1,6 +1,20 @@
 <?php
+/**
+ * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ *
+ * @package     jbzoo
+ * @version     2.x Pro
+ * @author      JBZoo App http://jbzoo.com
+ * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+ * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
+ */
+
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 
 $jbmoney = $this->app->jbmoney;
+$element = $order->getShipping();
 
 ?>
 <div class="uk-panel uk-panel-box">
@@ -8,10 +22,10 @@ $jbmoney = $this->app->jbmoney;
     <dl class="uk-description-list-horizontal">
 
         <dt>Способ доставки</dt>
-        <dd><p><?php echo $order->getShipping()->getName(); ?></p></dd>
+        <dd><p><?php echo $element->getName(); ?></p></dd>
 
         <dt>Цена доставки</dt>
-        <dd><p><?php echo $jbmoney->toFormat(5, 'eur'); ?></p></dd>
+        <dd><p><?php echo $jbmoney->toFormat($element->get('value', 0), $element->currency()); ?></p></dd>
 
         <dt>Статус</dt>
         <dd><select style="width: 180px;">
@@ -19,16 +33,19 @@ $jbmoney = $this->app->jbmoney;
             </select></dd>
 
         <h3>Дополнительно</h3>
-        <dt>Страна</dt>
-        <dd>Россия</dd>
 
-        <dt>Город</dt>
-        <dd>Москва</dd>
+        <?php echo $this->shipRender->render(
+            'shipping.order', array(
+                'order' => $order
+            )
+        );
 
-        <dt>Адрес</dt>
-        <dd>Кремль, палата №6</dd>
+        echo $this->shipFieldsRender->render(
+            'shippingfield.order', array(
+                'order' => $order
+            )
+        );
+        ?>
 
-        <dt>Получатель</dt>
-        <dd>На усмотрение курьера</dd>
     </dl>
 </div>

@@ -20,6 +20,24 @@ abstract class JBCartElementShippingField extends JBCartElement
 {
     protected $_namespace = JBCart::ELEMENT_TYPE_SHIPPINGFIELD;
 
+    /**
+     * Render shipping in order
+     *
+     * @param  array
+     * @return bool|string
+     */
+    public function edit($params = array())
+    {
+        if ($layout = $this->getLayout('edit.php')) {
+            return self::renderLayout($layout, array(
+                'params' => $params,
+                'value'   => $this->data()->get('value')
+            ));
+        }
+
+        return false;
+    }
+
 }
 
 /**

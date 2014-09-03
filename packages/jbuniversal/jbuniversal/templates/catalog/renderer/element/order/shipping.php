@@ -13,7 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 $params = $this->app->data->create($params);
 
 // create error
@@ -27,6 +26,7 @@ if ($isError) {
 $classes = array_filter(array(
     'form-field-row',
     'element',
+    'jsShippingElement',
     'element-' . $element->getElementType(),
     $params->get('first') ? ' first' : '',
     $params->get('last') ? ' last' : '',
@@ -37,23 +37,9 @@ $classes = array_filter(array(
 $element->loadAssets();
 
 ?>
-<div class="<?php echo implode(' ', $classes); ?>">
-    <?php
-
-    echo '<label class="field-label" for="shipping-' . $element->identifier . '"> '
-        . '<input type="radio" name="' . $element->getControlName('_shipping_id') . '" '
-        . 'id="shipping-' . $element->identifier . '" '
-        . 'value="' . $element->identifier . '" '
-        . ($element->isDefault() ? 'checked="checked" ' : '') . ' />'
-        . $element->getName()
-        . '</label>';
-
-    if ($description = $element->config->get('description')) {
-        echo '<p class="shipping-description">' . $description . '</p>';
-    }
-
-    echo '<div class="shipping-element"> ' . $element->renderSubmission($params) . $error . ' </div>';
-
-    ?>
+<div data-type="<?php echo $element->getElementType(); ?>"
+     data-settings='<?php echo $element->getWidgetParams(true); ?>'
+     class="<?php echo implode(' ', $classes); ?>">
+    <?php echo '<div class="shipping-element"> ' . $element->renderSubmission($params) . $error . ' </div>'; ?>
     <div class="clear"></div>
 </div>

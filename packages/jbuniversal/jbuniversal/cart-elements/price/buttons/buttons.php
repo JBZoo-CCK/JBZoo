@@ -28,6 +28,15 @@ class JBCartElementPriceButtons extends JBCartElementPrice
     }
 
     /**
+     * @param array $params
+     * @return bool
+     */
+    public function hasFilterValue($params = array())
+    {
+        return false;
+    }
+
+    /**
      * @param  array $params
      * @return mixed|null|string
      */

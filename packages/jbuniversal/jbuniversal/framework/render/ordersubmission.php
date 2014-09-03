@@ -151,7 +151,7 @@ class OrderSubmissionRenderer extends PositionRenderer
      */
     protected function _getConfigPosition($position)
     {
-        return $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_FIELDS_TMPL . '.' . $this->_layout)->get($position);
+        return $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_FIELDS_TMPL . '.' . $this->_layout)->get($position, array());
     }
 
     /**

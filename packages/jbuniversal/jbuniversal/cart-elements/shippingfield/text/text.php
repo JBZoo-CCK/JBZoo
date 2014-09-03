@@ -18,7 +18,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementShippingFieldText extends JBCartElementShippingField
 {
-
     /**
      * @param array $params
      * @return bool

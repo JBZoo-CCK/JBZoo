@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 
 if ($this->checkPosition('list')) : ?>
-
+    <h3>Дополнительные поля доставки</h3>
     <div class="shippingfileds-list">
         <?php echo $this->renderPosition('list', array('order.shippingfield')); ?>
     </div>

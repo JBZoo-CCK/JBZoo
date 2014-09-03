@@ -2162,5 +2162,155 @@ h3.jbzootabs-accordion-header.jbzootabs-accordion-active.jbzootabs-accordion-ico
     margin-left: 12px;
 }
 
+.jbzoo .shippingfileds-list.loading {
+    opacity: 0.5;
+    background: url('../img/autocomplete/loader.gif') no-repeat center;
+}
 
+.jbzoo .shipping-list .shipping-element .loading {
+    opacity: 0.5;
+    background: url('../img/autocomplete/loader.gif') no-repeat center;
+}
+
+.jbzoo .shipping-list .shipping-element .more-options {
+    padding: 0 0 0 50px;
+}
+
+.jbzoo .shipping-list .shipping-element .field-label {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+}
+
+.jbzoo .shipping-list .shipping-element .shipping-service {
+    position: absolute;
+    left: -9999px;
+}
+
+.jbzoo .shipping-list .shipping-element .shipping-service + label.field-label div.jbradio {
+    border: 2px solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-block;
+    height: 10px;
+    position: relative;
+    top: 3px;
+    width: 10px;
+}
+
+.jbzoo .shipping-list .shipping-element .shipping-service:checked + label.field-label div.jbradio:after {
+    background: #333;
+    border-radius: 6px;
+    content: "";
+    height: 6px;
+    left: 2px;
+    position: absolute;
+    top: 2px;
+    width: 6px;
+}
+
+.jbzoo .shipping-list .shipping-element span.value {
+    font-style: italic;
+    font-size: 12px;
+}
+
+.jbzoo .shipping-list .shipping-element span.name {
+    font-size: 15px;
+    font-weight: normal;
+    padding-left: 5px;
+    -webkit-transition: all ease-out 0.5s;
+    -moz-transition: all ease-out 0.5s;
+    -o-transition: all ease-out 0.5s;
+    transition: all ease-out 0.5s;
+}
+
+.jbzoo .shipping-list .element-emspost .shipping-element .name {
+    padding: 0 0 0 35px;
+    display: inline-block;
+    background-image: url('../img/shipping/shipping-services.png');
+    background-position: 0 -249px;
+    background-repeat: no-repeat;
+}
+
+.jbzoo .shipping-list .element-emspost .shipping-element .name:hover {
+    background-position: 0 -221px;
+}
+
+.jbzoo .shipping-list .element-emspost .shipping-element .shipping-service:checked + label.field-label .name {
+    background-image: url('../img/shipping/shipping-services.png');
+    background-position: 0 -221px;
+    background-repeat: no-repeat;
+}
+
+.jbzoo .shipping-list .element-newpost .shipping-element .name {
+    background-image: url('../img/shipping/shipping-services.png');
+    background-position: 0px -185px;
+    background-repeat: no-repeat;
+    padding: 0 0 0 35px;
+    display: inline-block;
+}
+
+.jbzoo .shipping-list .element-newpost .shipping-element .name:hover {
+    background-position: 0 -147px;
+}
+
+.jbzoo .shipping-list .element-newpost .shipping-element .shipping-service:checked + label.field-label .name {
+    background-image: url('../img/shipping/shipping-services.png');
+    background-position: 0 -147px;
+    background-repeat: no-repeat;
+}
+
+.jbzoo .shipping-list .element-russianpost .shipping-element .name {
+    padding: 0 0 0 35px;
+    display: inline-block;
+    background-image: url('../img/shipping/shipping-services.png');
+    background-position: 0 -28px;
+    background-repeat: no-repeat;
+}
+
+.jbzoo .shipping-list .element-russianpost .shipping-element .name:hover {
+    background-position: 0 3px;
+}
+
+.jbzoo .shipping-list .element-russianpost .shipping-element .shipping-service:checked + label.field-label .name {
+    background-image: url('../img/shipping/shipping-services.png');
+    background-position: 0 3px;
+    background-repeat: no-repeat;
+}
+
+.jbzoo .shipping-list .element-pickup .shipping-element .name {
+    padding: 0 0 0 35px;
+    display: inline-block;
+    background-image: url('../img/shipping/shipping-services.png');
+    background-position: 0 -107px;
+    background-repeat: no-repeat;
+}
+
+.jbzoo .shipping-list .element-pickup .shipping-element .name:hover {
+    background-position: 0 -65px;
+}
+
+.jbzoo .shipping-list .element-pickup .shipping-element .shipping-service:checked + label.field-label .name {
+    background-image: url('../img/shipping/shipping-services.png');
+    background-position: 0 -65px;
+    background-repeat: no-repeat;
+}
+
+.jbzoo .shipping-list .element-courier .shipping-element .name {
+    padding: 0 0 0 35px;
+    display: inline-block;
+    background-image: url('../img/shipping/shipping-services.png');
+    background-position: 0 -318px;
+    background-repeat: no-repeat;
+}
+
+.jbzoo .shipping-list .element-courier .shipping-element .name:hover {
+    background-position: 0 -281px;
+}
+
+.jbzoo .shipping-list .element-courier .shipping-element .shipping-service:checked + label.field-label .name {
+    background-image: url('../img/shipping/shipping-services.png');
+    background-position: 0 -281px;
+    background-repeat: no-repeat;
+}
 

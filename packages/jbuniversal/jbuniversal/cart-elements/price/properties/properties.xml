@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<element type="element" group="Core" hidden="false" core="true">
+    <name>Properties (Delivery) - Unique</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZoo Cart Element Core System</description>
+
+    <params group="render">
+
+        <param name="template"
+               type="list"
+               label="JBZOO_ELEMENT_TEMPLATE"
+               description="JBZOO_ELEMENT_TEMPLATE_DESC"
+               default="_auto_"
+                >
+            <option value="radio">JBZOO_ELEMENT_TEMPLATE_RADIO</option>
+            <option value="select">JBZOO_ELEMENT_TEMPLATE_SELECT</option>
+            <option value="chosen">JBZOO_ELEMENT_TEMPLATE_SELECT_CHOSEN</option>
+            <option value="buttons">JBZOO_ELEMENT_TEMPLATE_JQUERYUI</option>
+        </param>
+
+    </params>
+
+</element>

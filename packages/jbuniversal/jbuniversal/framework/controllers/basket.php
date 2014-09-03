@@ -81,6 +81,7 @@ class BasketJBUniversalController extends JBUniversalController
 
         $errors     = 0;
         $orderSaved = false;
+
         if ($this->_jbrequest->isPost()) {
 
             $formData = $this->_getRequest();
@@ -104,6 +105,8 @@ class BasketJBUniversalController extends JBUniversalController
                     $this->app->event->dispatcher->notify($this->app->event->create($this->order, 'basket:beforesave', array()));
                     JBModelOrder::model()->save($this->order);
                     $this->app->event->dispatcher->notify($this->app->event->create($this->order, 'basket:aftersave', array()));
+
+                    //dump(JBModelOrder::model()->getById($this->order->id));
 
                     // empty cart items
                     $this->_cart->removeItems();
@@ -144,6 +147,22 @@ class BasketJBUniversalController extends JBUniversalController
     {
         $this->app->jbcart->removeItems();
         $this->app->jbajax->send();
+    }
+
+    /**
+     * Method using to take data from element with ajax
+     */
+    public function callElement()
+    {
+        $element  = $this->app->request->getCmd('element', '');
+        $method   = $this->app->request->getCmd('method', '');
+        $args     = $this->app->request->getVar('args', array(), 'default', 'array');
+        $services = $this->app->data->create($this->app->jbshipping->getEnabled());
+
+        // get element and execute callback method
+        if ($element = $services->get($element)) {
+            $element->callback($method, $args);
+        }
     }
 
     /**
