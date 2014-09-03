@@ -7,7 +7,7 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 // no direct access
@@ -18,6 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementShippingCourier extends JBCartElementShipping
 {
+    const EDIT_DATE_FORMAT = '%Y-%m-%d %H:%M:%S';
 
     /**
      * @param float $sum
@@ -27,15 +28,9 @@ class JBCartElementShippingCourier extends JBCartElementShipping
      */
     public function modify($sum, $currency, JBCartOrder $order)
     {
-        return $sum + 500;
-    }
+        $shipping = $this->getRate();
 
-    /**
-     * @return string
-     */
-    public function getStatus()
-    {
-        return $this->data()->get('status', 'undefined');
+        return $sum + $shipping;
     }
 
     /**
@@ -53,12 +48,60 @@ class JBCartElementShippingCourier extends JBCartElementShipping
      */
     public function renderSubmission($params = array())
     {
-        return 'Наши курьеры рулят! ' . $this->identifier;
+        $shipping = $this->config->get('cost', 0);
+
+        if ($layout = $this->getLayout('submission.php')) {
+            return self::renderLayout($layout, array(
+                'params'   => $params,
+                'shipping' => $this->_jbmoney->toFormat($shipping)
+            ));
+        }
+
+        return false;
     }
 
+    /**
+     * Validates the submitted element
+     * @param $value
+     * @param $params
+     * @return array
+     */
+    public function validateSubmission($value, $params)
+    {
+        $value    = $this->app->data->create($value);
+        $shipping = $this->config->get('cost', 0);
+
+        return array(
+            'value'  => $shipping,
+            'fields' => array(
+                'delivery_date' => $this->app->validator->create('date')
+                        ->addOption('date_format', self::EDIT_DATE_FORMAT)
+                        ->clean($value->get('delivery_date'))
+            )
+        );
+    }
+
+    /**
+     * @return int|mixed
+     */
     public function getRate()
     {
-        return 500;
+        $shipping = $this->config->get('cost', 0);
+
+        return $shipping;
+    }
+
+    /**
+     * Load elements css/js assets
+     * @return $this
+     */
+    public function loadAssets()
+    {
+        parent::loadAssets();
+        $this->app->jbassets->jqueryui();
+        $this->app->document->addScript('libraries:jquery/plugins/timepicker/timepicker.js');
+
+        return $this;
     }
 
 

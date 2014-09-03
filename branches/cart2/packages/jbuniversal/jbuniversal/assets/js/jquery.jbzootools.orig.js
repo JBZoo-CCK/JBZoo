@@ -1065,7 +1065,7 @@ var JBZooHelper = function () {
         $this.on('errorsExists', function () {
 
             $this.showErrors();
-            if($this.data('valid') === false) {
+            if ($this.data('valid') === false) {
                 scrollToRow();
             }
         });
@@ -3196,6 +3196,570 @@ var JBZooHelper = function () {
 
         });
     };
+
+    $.fn.JBCartShipping = function () {
+
+        var byDefault = 'default';
+
+        return this.each(function () {
+
+            var $this = $(this),
+                plugins = [];
+
+            $('.jsInputShippingService', $this).on('change', function () {
+
+                var $element = $(this).parents('.jsShippingElement');
+
+                $this.hide();
+                $this.show($element);
+                $this.createPlugin($element);
+            });
+
+            $this.hide = function () {
+
+                $('.jsMoreOptions', $this).slideUp('fast', function () {
+                    $('input, select', $(this)).attr('disabled', 'disabled');
+                });
+
+                /*$('.jsMoreOptions', $this).animate({
+                 opacity: 0
+                 }, 1000, function () {
+
+                 });*/
+            }
+
+            $this.show = function ($element) {
+
+                /* $('.jsMoreOptions', $element).animate({
+                 opacity: 1
+                 }, 1000, function () {
+
+                 });*/
+                $('.jsMoreOptions', $element).slideDown('fast');
+                $('.jsMoreOptions input, .jsMoreOptions select', $element).removeAttr('disabled');
+            }
+
+            $this.toggleShipFields = function (shipFields) {
+
+                var shippingBlock = $this.nextAll('.shippingfileds-list');
+                shippingBlock.addClass('loading');
+
+                if (shipFields.indexOf(':') > 0) {
+
+                    var fields = shipFields.split(':'),
+                        classes = '.element-' + fields.join(', .element-');
+
+                    $(classes, shippingBlock).slideDown()
+                        .find('input, select')
+                        .removeAttr('disabled');
+
+                    $('> div:not(' + classes + ')', shippingBlock)
+                        .slideUp(function () {
+
+                            $(this)
+                                .find('input, select')
+                                .attr('disabled', 'disabled');
+                        });
+
+                } else {
+                    $('.element-' + shipFields, shippingBlock)
+                        .slideDown()
+                        .find('input, select')
+                        .removeAttr('disabled');
+
+                    $('> div', shippingBlock).not('.element-' + shipFields)
+                        .slideUp(function () {
+
+                            $(this)
+                                .find('input, select')
+                                .attr('disabled', 'disabled');
+                        });
+                }
+
+                setTimeout(function () {
+                    shippingBlock.removeClass('loading');
+                }, 500);
+            }
+
+            $this.createPlugin = function ($element) {
+
+                var name = $element.data('type'),
+                    plugin = null;
+                if (typeof name == 'undefined') {
+                    name = byDefault;
+                }
+
+                var settings = $element.data('settings'),
+                    shipFields = settings.shippingfields;
+
+                if (typeof shipFields != 'undefined') {
+                    $this.toggleShipFields(shipFields);
+                }
+
+                var plugName = $.trim('JBCartShipping' + name.toLowerCase());
+
+                if (typeof plugins[plugName] != 'undefined' && plugins[plugName].length !== 0) {
+                    return plugins[plugName];
+                }
+
+                if ($.isFunction($.fn[plugName])) {
+
+                    plugin = $element[plugName]({
+                        super: $this
+                    });
+
+                    plugins[plugName] = plugin;
+                } else {
+
+                    plugName = $.trim('JBCartShipping' + byDefault);
+                    $element[plugName]({
+                        super: $this
+                    });
+
+                    plugins[plugName] = plugin;
+                }
+            }
+
+            var $element =
+                $('.jsInputShippingService:checked', $this).parents('.jsShippingElement');
+
+            $this.hide();
+            $this.createPlugin($element);
+        });
+    }
+
+    $.fn.JBCartShippingdefault = function (options) {
+
+        var settings = $.extend({
+            'super': {}
+        }, options, $(this).data('settings'));
+
+        return $(this).each(function () {
+
+            var $this = $(this),
+                name = 'Shipping-DEFAULTPost' + $this;
+
+            if ($this.data(name)) {
+                return $this.data(name);
+            }
+
+            $this.getPrice = function () {
+                var $fields = $('.jsCalculate input:not(input:disabled), ' +
+                        '.jsCalculate select:not(select:disabled)', $this),
+                    result = {};
+
+                $fields.each(function () {
+
+                    var $field = $(this), value = $.trim($field.val()), id = $field.attr('id');
+                    if (value.length > 0) {
+                        id = id.replace('shipping', '');
+                        result[id] = value;
+                    }
+                });
+
+                JBZoo.ajax({
+                    'url': settings.getPriceUrl,
+                    'data': {
+                        "args": {
+                            'fields': JSON.stringify(result)
+                        }
+                    },
+                    'dataType': 'json',
+                    'success': function (price) {
+                        $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
+                    },
+                    'error': function (error) {
+                    }
+                });
+            }
+
+            $('.jsCalculate select, .jsCalculate input', $this).on('change', function () {
+
+                $this.getPrice($(this).val());
+            });
+
+            $this.data(name, $this);
+        });
+    }
+
+    $.fn.JBCartShippingemspost = function (options) {
+
+        var settings = $.extend({
+            'super': {},
+            'toDoors': 3,
+            'toWrn': 4
+        }, options, $(this).data('settings'));
+
+        return $(this).each(function () {
+
+            var $this = $(this),
+                name = 'Shipping-EMSPost' + $this;
+
+            if ($this.data(name)) {
+                return $this.data(name);
+            }
+
+            $('#shippingto', $this).on('change', function () {
+
+                var value = $(this).val();
+                $('#shippingcountryto', $this).attr('disabled', 'disabled');
+                if (value.length === 0) {
+                    $('#shippingcountryto', $this).removeAttr('disabled');
+                }
+
+                $this.getPrice($(this).val());
+            });
+
+            $('#shippingcountryto', $this).on('change', function () {
+
+                var value = $(this).val();
+                $('#shippingto', $this).attr('disabled', 'disabled');
+                if (value.length === 0) {
+                    $('#shippingto', $this).removeAttr('disabled');
+                }
+
+                $this.getPrice($(this).val());
+            });
+
+            $this.getPrice = function (to) {
+
+                if (typeof to == 'undefined' || to.length === 0) {
+                    to = $('#shippingto', $this).val();
+                }
+
+                var result = { to: to }
+
+                JBZoo.ajax({
+                    'url': settings.getPriceUrl,
+                    'data': {
+                        "args": {
+                            'to': JSON.stringify(result)
+                        }
+                    },
+                    'dataType': 'json',
+                    'success': function (price) {
+                        console.log(price);
+                        $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
+                    },
+                    'error': function (error) {
+                        console.log(error);
+                    }
+                });
+
+            }
+
+            $this.data(name, $this);
+        });
+    }
+
+    $.fn.JBCartShippingnewpost = function (options) {
+
+        var settings = $.extend({
+            'super': {},
+            'toDoors': 3,
+            'toWrn': 4
+        }, options, $(this).data('settings'));
+
+
+        return $(this).each(function () {
+
+            var $this = $(this),
+                name = 'Shipping-NEWPost' + $this;
+
+            if ($this.data(name)) {
+                return $this.data(name);
+            }
+
+            var globCities = {},
+                globWarehouses = {},
+                proccessing = false;
+
+            function getCitySelect() {
+                return $('.jsNewPostSenderCity #shippingrecipientcity', $this);
+            }
+
+            function getRegion() {
+                return $.trim($('#shippingregions option:selected', $this)
+                    .val()
+                    .toLowerCase());
+            }
+
+            function getCity() {
+                return $.trim($('.jsNewPostSenderCity #shippingrecipientcity option:selected', $this)
+                    .val()
+                    .toLowerCase());
+            }
+
+            function setCities(cities) {
+
+                var region = getRegion();
+
+                if (typeof cities == 'object' && Object.keys(cities).length > 0) {
+                    globCities[region] = cities;
+                }
+            }
+
+            function setWarehouses(warehouses) {
+
+                var city = getCity();
+
+                if (Object.keys(warehouses).length > 0) {
+                    globWarehouses[city] = warehouses;
+                }
+            }
+
+            function getCities(region) {
+
+                if (typeof region == 'undefined') {
+                    region = getRegion();
+                }
+
+                var city = {};
+                if (globCities.hasOwnProperty(region) === true) {
+                    return globCities[region];
+                }
+
+                return city;
+            }
+
+            function getWarhouses(city) {
+
+                if (typeof city == 'undefined') {
+                    city = getCity();
+                }
+
+                var warehouses = {};
+                if (globWarehouses.hasOwnProperty(city) === true) {
+                    return globWarehouses[city];
+                }
+
+                return warehouses;
+            }
+
+            function clearCities() {
+                $('#shippingrecipientcity option', $this).not(':first').remove();
+            }
+
+            function clearWarehouses() {
+                $('#shippingstreet option', $this).not(':first').remove();
+            }
+
+            $this.changePostType = function (type) {
+
+                if (!type) {
+                    type = parseInt($('#shippingdeliverytype_id option:selected', $this).val());
+                }
+
+                if (type === settings.toDoors) {
+                    $this.showBlockDoors();
+
+                } else if (type === settings.toWrn) {
+                    $this.showBlockWarehouse();
+
+                }
+            }
+
+            $this.showBlockDoors = function () {
+
+                $('.jsAreaWarehouse', $this).slideUp(function () {
+                    $('input, select', $(this)).attr('disabled', 'disabled');
+                });
+
+                $('.jsAreaDoors', $this)
+                    .slideDown()
+                    .find('input, select')
+                    .removeAttr('disabled');
+            }
+
+            $this.showBlockWarehouse = function () {
+
+                $('.jsAreaDoors', $this).slideUp(function () {
+                    $('input, select', $(this)).attr('disabled', 'disabled');
+                });
+
+                $('.jsAreaWarehouse', $this)
+                    .slideDown()
+                    .find('input, select')
+                    .removeAttr('disabled');
+            }
+
+            $this.setCities = function (region, callback) {
+
+                proccessing = true;
+                if (typeof region == 'undefined') {
+                    region = getRegion();
+                }
+
+                if (Object.keys(getCities(region)).length > 0 && callback) {
+                    callback();
+                    proccessing = false;
+                    return false;
+                }
+                var $select = getCitySelect(),
+                    $wrhSelect = $('.jsNewPostWareehouse #shippingstreet', $this);
+                $select.addClass('loading');
+                $wrhSelect.addClass('loading');
+
+                JBZoo.ajax({
+                    'url': settings.getCitiesUrl,
+                    'data': {
+                        "args": {
+                            'region': region
+                        }
+                    },
+                    'dataType': 'json',
+                    'success': function (cities) {
+                        setCities(cities.cities);
+                        if (callback) {
+                            callback();
+                        }
+
+                        $select.removeClass('loading');
+                        $wrhSelect.removeClass('loading');
+                        proccessing = false;
+
+                    },
+                    'error': function (error) {
+                        $select.removeClass('loading');
+                        $wrhSelect.removeClass('loading');
+                        proccessing = false;
+                    }
+                });
+            }
+
+            $this.addCities = function (region) {
+
+                if (typeof region == 'undefined') {
+                    region = getRegion();
+                }
+
+                var cities = getCities(region);
+                var $select = getCitySelect();
+
+                clearCities();
+                if (typeof cities != 'undefined') {
+                    $.each(cities, function (key, value) {
+                        $select.append($("<option/>", {
+                            value: key,
+                            text: value
+                        }));
+                    });
+                }
+            }
+
+            $this.setWarehouses = function (city, callback) {
+
+                if (!city) {
+                    city = getCity();
+                }
+
+                if (Object.keys(getWarhouses(city)).length > 0 && callback) {
+                    callback();
+                    proccessing = false;
+                    return false;
+                }
+
+                var $select = $('.jsNewPostWareehouse #shippingstreet', $this);
+                $select.addClass('loading');
+
+                JBZoo.ajax({
+                    'url': settings.getWarehousesUrl,
+                    'data': {
+                        "args": {
+                            'city': city
+                        }
+                    },
+                    'dataType': 'json',
+                    'success': function (warehouses) {
+                        setWarehouses(warehouses.warehouses);
+                        if (callback) {
+                            callback();
+                        }
+
+                        $select.removeClass('loading');
+                        proccessing = false;
+                    },
+                    'error': function (error) {
+                        $select.removeClass('loading');
+                        proccessing = false;
+                    }
+                });
+            }
+
+            $this.addWarehouses = function (city) {
+
+                if (!city) {
+                    city = getCity();
+                }
+
+                var warehouses = getWarhouses(city),
+                    $select = $('.jsNewPostWareehouse #shippingstreet', $this);
+
+                clearWarehouses();
+                $.each(warehouses, function (key, value) {
+                    $select.append($("<option/>", {
+                        value: key,
+                        text: value
+                    }));
+                });
+            }
+
+            $this.getPrice = function () {
+                var $fields = $('.jsCalculate input:not(input:disabled), ' +
+                        '.jsCalculate select:not(select:disabled)', $this),
+                    result = {};
+
+                $fields.each(function () {
+
+                    var $field = $(this), value = $.trim($field.val()), id = $field.attr('id');
+                    if (value.length > 0) {
+                        id = id.replace('shipping', '');
+                        result[id] = value;
+                    }
+                });
+
+                JBZoo.ajax({
+                    'url': settings.getPriceUrl,
+                    'data': {
+                        "args": {
+                            'fields': JSON.stringify(result)
+                        }
+                    },
+                    'dataType': 'json',
+                    'success': function (price) {
+                        $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
+                        console.log(price);
+                    },
+                    'error': function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+
+            $('#shippingdeliverytype_id', $this).on('change', function () {
+
+                $this.changePostType();
+            });
+
+            $('.jsCalculate select', $this).on('change', function () {
+                $this.getPrice();
+            });
+
+            $('#shippingregions', $this).on('change', function () {
+
+                clearWarehouses();
+                $this.setCities(getRegion(), $this['addCities']);
+            });
+
+            $('#shippingrecipientcity', $this).on('change', function () {
+
+                $this.setWarehouses(getCity(), $this['addWarehouses']);
+            });
+
+            $this.changePostType();
+            $this.data(name, $this);
+        });
+    }
 
 })(jQuery);
 
