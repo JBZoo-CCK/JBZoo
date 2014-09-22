@@ -34,18 +34,9 @@ $element = $order->getShipping();
 
         <h3>Дополнительно</h3>
 
-        <?php echo $this->shipRender->render(
-            'shipping.order', array(
-                'order' => $order
-            )
-        );
+        <?php echo $this->shipRender->renderAdminEdit(array('order' => $order)); ?>
 
-        echo $this->shipFieldsRender->render(
-            'shippingfield.order', array(
-                'order' => $order
-            )
-        );
-        ?>
+        <?php echo $this->shipFieldsRender->renderAdminEdit(array('order' => $order)); ?>
 
     </dl>
 </div>

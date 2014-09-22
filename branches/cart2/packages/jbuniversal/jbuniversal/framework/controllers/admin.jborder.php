@@ -20,6 +20,16 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBOrderJBuniversalController extends JBUniversalController
 {
+    /**
+     * @param array $app
+     * @param array $config
+     */
+    public function __construct($app, $config = array())
+    {
+        parent::__construct($app, $config);
+
+        $this->app->path->register($this->app->path->path('jbviews:jborder'), 'renderer');
+    }
 
     /**
      * JBZoo admin index page
@@ -27,9 +37,11 @@ class JBOrderJBuniversalController extends JBUniversalController
     public function index()
     {
         $this->filter = $this->app->data->create($this->_jbrequest->getArray('filter', array()));
+
         // limit
         $this->filter['limit']  = $this->app->system->application->getUserStateFromRequest('global.list.limit', 'limit', $this->app->system->config->get('list_limit'), 'int');
         $this->filter['offset'] = $this->app->system->application->getUserStateFromRequest('jborder.limitstart', 'limitstart', 0, 'int');
+
         // order
         $this->filter['filter_order']     = $this->_jbrequest->get('filter_order', 'id');
         $this->filter['filter_order_Dir'] = $this->_jbrequest->get('filter_order_Dir', 'desc');
@@ -54,10 +66,12 @@ class JBOrderJBuniversalController extends JBUniversalController
         $orderId = $this->app->request->get('cid.0', 'int');
 
         // get item
-        $this->order      = JBModelOrder::model()->getById($orderId);
-        $this->shipRender = $this->app->jbrenderer->create('Shipping');
+        $this->order = JBModelOrder::model()->getById($orderId);
 
+        $this->shipRender       = $this->app->jbrenderer->create('Shipping');
         $this->shipFieldsRender = $this->app->jbrenderer->create('ShippingFields');
+        $this->orderFieldRender = $this->app->jbrenderer->create('order');
+
         if (empty($this->order)) {
             $this->app->error->raiseError(500, JText::sprintf('Unable to access item with id %s', $orderId));
             return;

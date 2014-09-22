@@ -13,14 +13,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (!empty($value)) : ?>
+$params = $this->app->data->create($params);
 
-    <dt>
-        <?php echo $this->getName(); ?>
-    </dt>
+$element->loadAssets();
+echo $element->edit($params);
 
-    <dd>
-        <?php echo $value; ?>
-    </dd>
-
-<?php endif;

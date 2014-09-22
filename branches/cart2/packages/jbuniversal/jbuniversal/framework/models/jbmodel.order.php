@@ -57,20 +57,24 @@ class JBModelOrder extends JBModel
     {
         $this->app->jbtables->checkOrder();
 
+        $currencies = $order->getCurrencyList();
+        $params     = $order->getParams();
+        $params->set(JBCart::CONFIG_CURRENCIES, $currencies);
+
         $data = array(
             'id'             => $order->id,
             'status'         => $order->getStatus()->getCode(),
             'created'        => $order->created,
             'created_by'     => $order->created_by,
             'total'          => $order->getTotalSum(),
-            'items'          => $order->getItems()->__toString(),
-            'fields'         => $order->getFields()->__toString(),
-            'shipping'       => $order->getShipping()->getOrderData(),
-            'shippingfields' => $order->getShippingFields()->__toString(),
-            'payment'        => $order->getPayment()->getOrderData(),
-            'modifiers'      => $order->getModifiersData()->__toString(),
-            'currency'       => $order->getCurrencyList()->__toString(),
-            'params'         => $order->getParams()->__toString(),
+            'items'          => $order->getItems(false),
+            'fields'         => $order->getFields(),
+            'shipping'       => $order->getShipping()->data(),
+            'shippingfields' => $order->getShippingFields(),
+            'payment'        => $order->getPayment()->data(),
+            'modifiers'      => $order->getModifiersData(),
+            'params'         => $params,
+            'comment'        => '',
         );
 
         $order->id = $this->_insert($data, ZOO_TABLE_JBZOO_ORDER);

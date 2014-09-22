@@ -249,7 +249,6 @@ class JBTablesHelper extends AppHelper
                 '`shippingfields` TEXT NULL',
                 '`modifiers` TEXT NULL',
                 '`payment` TEXT NULL',
-                '`currency` TEXT NULL',
                 '`params` TEXT NULL',
                 '`comment` TEXT NULL',
             ), array(

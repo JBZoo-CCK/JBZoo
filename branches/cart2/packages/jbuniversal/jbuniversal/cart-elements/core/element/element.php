@@ -191,12 +191,20 @@ abstract class JBCartElement
         $group = $this->getElementGroup();
 
         // set default
-        if ($layout == null) {
+        if (empty($layout)) {
             $layout = "{$type}.php";
         }
 
-        // find layout
-        return $this->app->path->path("cart-elements:{$group}/{$type}/tmpl/{$layout}");
+        $layoutPath = $this->app->path->path("cart-elements:{$group}/{$type}/tmpl/{$layout}");
+        if (empty($layoutPath)) {
+            $layoutPath = $this->app->path->path("cart-elements:core/{$group}/tmpl/{$layout}");
+        }
+
+        if (empty($layoutPath)) {
+            $layoutPath = $this->app->path->path("cart-elements:core/element/tmpl/{$layout}");
+        }
+
+        return $layoutPath;
     }
 
     /**
@@ -574,7 +582,7 @@ abstract class JBCartElement
     public function getOrderData()
     {
         return $this->app->data->create(array(
-            'data'   => array(),
+            'data'   => $this->data(),
             'config' => $this->config->getArrayCopy(),
         ));
     }

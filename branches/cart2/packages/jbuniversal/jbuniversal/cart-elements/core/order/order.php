@@ -20,6 +20,26 @@ abstract class JBCartElementOrder extends JBCartElement
 {
     protected $_namespace = JBCart::ELEMENT_TYPE_ORDER;
 
+    /**
+     * Render shipping in order
+     *
+     * @param  array
+     * @return bool|string
+     */
+    public function edit($params = array())
+    {
+        $value = $this->get('value');
+
+        if ($layout = $this->getLayout('edit.php')) {
+            return self::renderLayout($layout, array(
+                'params' => $params,
+                'value'  => $value,
+            ));
+        }
+
+        return $value;
+    }
+
 }
 
 /**

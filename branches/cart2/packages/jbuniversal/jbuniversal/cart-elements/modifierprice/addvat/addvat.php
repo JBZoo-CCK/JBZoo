@@ -26,7 +26,8 @@ class JBCartElementModifierPriceAddVAT extends JBCartElementModifierPrice
      */
     public function modify($sum, $currency, JBCartOrder $order)
     {
-        return $this->app->jbmoney->calc($sum, $currency, 118, '%');
+        $rate = (float)$this->getRate() + 100;
+        return $this->app->jbmoney->calc($sum, $currency, $rate, '%');
     }
 
     /**
@@ -34,8 +35,8 @@ class JBCartElementModifierPriceAddVAT extends JBCartElementModifierPrice
      */
     public function getRate()
     {
-        return '18%';
+        $percent = $this->config->get('percent', 18);
+        return $percent . '%';
     }
-
 
 }
