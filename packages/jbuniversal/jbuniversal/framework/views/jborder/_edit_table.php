@@ -7,7 +7,7 @@ $payment = $order->getPayment();
 $shipping = $order->getShipping();
 $currency = $order->getCurrency();
 
-$modifiers = $order->getPriceModifiers();
+$modifiers = $order->getModifiers(JBCart::MODIFIER_ORDER);
 $modifiersCount = count($modifiers);
 
 ?>

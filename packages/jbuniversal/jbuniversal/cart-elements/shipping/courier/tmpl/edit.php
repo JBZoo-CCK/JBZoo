@@ -14,20 +14,15 @@
 defined('_JEXEC') or die('Restricted access');
 
 if (!empty($fields)) : ?>
-
-    <?php foreach ($fields as $field) : ?>
-        <dt>
-            Желаемое время доставки
-        </dt>
-
-        <dd>
-            <?php
-
-            $date = new JDate($field);
-            echo $date->calendar('D, d M Y H:i:s', false, true);
-            ?>
-        </dd>
-
-    <?php endforeach; ?>
-
+    <ul>
+        <?php foreach ($fields as $field) : ?>
+            <li>
+                <strong>Желаемое время доставки</strong>
+                <?php
+                $date = new JDate($field);
+                echo $date->calendar('D, d M Y H:i:s', false, true);
+                ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
 <?php endif;

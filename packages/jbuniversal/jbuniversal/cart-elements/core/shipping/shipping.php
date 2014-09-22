@@ -62,7 +62,10 @@ abstract class JBCartElementShipping extends JBCartElement
      * @param JBCartOrder $order
      * @return float
      */
-    abstract public function modify($sum, $currency, JBCartOrder $order);
+    public function modify($sum, $currency, JBCartOrder $order)
+    {
+        return $sum;
+    }
 
     /**
      * Render shipping in order

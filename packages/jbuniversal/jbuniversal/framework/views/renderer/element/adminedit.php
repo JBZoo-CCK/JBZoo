@@ -7,24 +7,14 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-/**
- * Class JBCartElementShippingFieldText
- */
-class JBCartElementShippingFieldText extends JBCartElementShippingField
-{
-    /**
-     * @param array $params
-     * @return bool
-     */
-    public function hasValue($params = array())
-    {
-        return true;
-    }
+$params = $this->app->data->create($params);
+$element->loadAssets();
 
-}
+echo '<dt>' . $element->getName() . '</dt>';
+echo '<dd><p>' . $element->edit($params) . '</p></dd>';

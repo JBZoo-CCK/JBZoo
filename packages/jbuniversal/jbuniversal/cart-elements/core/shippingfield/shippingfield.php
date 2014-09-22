@@ -22,20 +22,34 @@ abstract class JBCartElementShippingField extends JBCartElement
 
     /**
      * Render shipping in order
-     *
      * @param  array
      * @return bool|string
      */
     public function edit($params = array())
     {
+
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params,
-                'value'   => $this->data()->get('value')
+                'value'  => $this->get('value'),
             ));
         }
 
-        return false;
+        return null;
+    }
+
+    /**
+     * @param array $params
+     * @return mixed|string
+     */
+    public function renderSubmission($params = array())
+    {
+        return $this->app->html->_(
+            'control.text',
+            $this->getControlName('value'),
+            $this->get('value', $this->config->get('default')),
+            'size="60" maxlength="255" id="shipping-' . $this->identifier . '"'
+        );
     }
 
 }

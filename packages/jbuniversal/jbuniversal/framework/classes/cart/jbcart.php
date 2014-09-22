@@ -12,6 +12,9 @@ class JBCart
     const NOTIFY_ORDER_STATUS  = 'order_status';
     const NOTIFY_ORDER_PAYMENT = 'order_payment';
 
+    const MODIFIER_ORDER = 'modifier_order';
+    const MODIFIER_ITEM  = 'modifier_item';
+
     const CONFIG_NOTIFICATION      = 'notification';
     const CONFIG_MODIFIERS         = 'modifier';
     const CONFIG_VALIDATORS        = 'validator';
@@ -86,7 +89,7 @@ class JBCart
      */
     public function getItems()
     {
-        $items = $this->app->jbsession->get('items', $this->_sessionNamespace);
+        //$items = $this->app->jbsession->get('items', $this->_sessionNamespace);
 
         $items = array(
             array(
@@ -97,7 +100,13 @@ class JBCart
                 "currency"    => "EUR",
                 "priceDesc"   => "Red color",
                 "priceParams" => array(),
-                "name"        => "Acer Aspire Z1811 "
+                "name"        => "Acer Aspire Z1811 ",
+                'params'      => array(
+                    'weight' => 0,
+                    'height' => 0,
+                    'length' => 0,
+                    'width'  => 0,
+                ),
             ),
             array(
                 "sku"         => "SKU98100",
@@ -107,7 +116,13 @@ class JBCart
                 "currency"    => "EUR",
                 "priceDesc"   => "Red color",
                 "priceParams" => array(),
-                "name"        => "Acer Aspire Z1811 "
+                "name"        => "Acer Aspire Z1811 ",
+                'params'      => array(
+                    'weight' => 0,
+                    'height' => 0,
+                    'length' => 0,
+                    'width'  => 0,
+                ),
             ),
         );
 

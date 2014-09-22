@@ -111,10 +111,12 @@ class JBCartJBuniversalController extends JBUniversalController
      */
     public function modifier()
     {
-        $this->groupList = $this->_element->getGroups(array(JBCart::ELEMENT_TYPE_MODIFIERPRICE));
+        $this->groupList = $this->_element->getGroups(array(
+            JBCart::ELEMENT_TYPE_MODIFIERPRICE
+        ));
         $this->positions = $this->_position->loadPositions(JBCart::CONFIG_MODIFIERS, array(
-            JBCart::ELEMENT_TYPE_MODIFIERPRICE,
-            JBCart::ELEMENT_TYPE_MODIFIERITEM,
+            JBCart::MODIFIER_ORDER,
+            JBCart::MODIFIER_ITEM,
         ));
 
         $this->groupKey = JBCart::CONFIG_MODIFIERS;

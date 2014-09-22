@@ -199,5 +199,40 @@ class ShippingRenderer extends PositionRenderer
     {
         return $this->_jbconfig->get(JBCart::DEFAULT_POSITION, array(), 'cart.' . JBCart::CONFIG_SHIPPINGS);
     }
+
+    /**
+     * @param array $args
+     * @return string|void
+     */
+    public function renderAdminEdit($args = array())
+    {
+        return $this->render('edit.list', array(
+            'order' => $args['order'],
+        ));
+    }
+
+    /**
+     * @param $args
+     * @return string
+     */
+    public function renderAdminPosition($args = array())
+    {
+        // init vars
+        $layout = $this->_layout;
+        $style  = isset($args['style']) ? $args['style'] : 'adminedit';
+
+        $shipping = $this->_order->getShipping();
+
+        $output = parent::render('element.' . $style, array(
+            'element' => $shipping,
+            'params'  => $args,
+        ));
+
+        // restore layout
+        $this->_layout = $layout;
+
+        return $output;
+    }
+
 }
 

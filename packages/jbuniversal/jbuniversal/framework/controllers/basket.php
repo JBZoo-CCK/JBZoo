@@ -64,7 +64,7 @@ class BasketJBUniversalController extends JBUniversalController
      */
     function index()
     {
-        $this->formRenderer          = $this->app->jbrenderer->create('OrderSubmission');
+        $this->formRenderer          = $this->app->jbrenderer->create('Order');
         $this->shippingRenderer      = $this->app->jbrenderer->create('Shipping');
         $this->paymentRenderer       = $this->app->jbrenderer->create('Payment');
         $this->shippingFieldRenderer = $this->app->jbrenderer->create('ShippingFields');

@@ -20,17 +20,6 @@ class JBCartElementShippingPickup extends JBCartElementShipping
 {
 
     /**
-     * @param float $sum
-     * @param string $currency
-     * @param JBCartOrder $order
-     * @return float
-     */
-    public function modify($sum, $currency, JBCartOrder $order)
-    {
-        return $sum;
-    }
-
-    /**
      * @param array $params
      * @return bool
      */
@@ -46,7 +35,7 @@ class JBCartElementShippingPickup extends JBCartElementShipping
     public function renderSubmission($params = array())
     {
         $shipping = $this->config->get('cost', 0);
-        $adresses = $this->getAdrreses();
+        $adresses = $this->getAddress();
 
         if ($layout = $this->getLayout('submission.php')) {
             return self::renderLayout($layout, array(
@@ -60,17 +49,9 @@ class JBCartElementShippingPickup extends JBCartElementShipping
     }
 
     /**
-     * @return int
-     */
-    public function getRate()
-    {
-        return 500;
-    }
-
-    /**
      * @return mixed|string
      */
-    public function getAdrreses()
+    public function getAddress()
     {
         $adresses = $this->config->get('adresses', array());
 
@@ -79,6 +60,5 @@ class JBCartElementShippingPickup extends JBCartElementShipping
 
         return $adresses;
     }
-
 
 }

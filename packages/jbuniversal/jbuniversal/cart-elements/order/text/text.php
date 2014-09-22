@@ -18,11 +18,13 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementOrderText extends JBCartElementOrder
 {
+
     /**
-     * @param $params
-     * @return mixed
+     * Renders the element in submission
+     * @param array $params
+     * @return string
      */
-    protected function edit($params)
+    public function renderSubmission($params = array())
     {
         return $this->app->html->_(
             'control.text',
@@ -30,6 +32,15 @@ class JBCartElementOrderText extends JBCartElementOrder
             $this->get('value', $this->config->get('default')),
             'size="60" maxlength="255" id="order-' . $this->identifier . '"'
         );
+    }
+
+    /**
+     * @param $params
+     * @return mixed
+     */
+    public function edit($params = array())
+    {
+        return $this->get('value');
     }
 
 }

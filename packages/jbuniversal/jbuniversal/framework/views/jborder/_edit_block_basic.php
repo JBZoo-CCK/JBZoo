@@ -35,9 +35,7 @@ if ($juser = $order->getAuthor()) {
 
         <dt>Заметки</dt>
         <dd>
-            <textarea cols="100" rows="5" style="resize: vertical;" placeholder="Только для администратора"><?php
-                echo $order->comment;
-                ?></textarea>
+            <textarea cols="100" rows="5" style="resize: vertical;" placeholder="Только для администратора"><?php echo $order->comment; ?></textarea>
         </dd>
     </dl>
 </div>

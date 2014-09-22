@@ -199,4 +199,64 @@ class ShippingFieldsRenderer extends PositionRenderer
     {
         return $this->_jbconfig->get(JBCart::DEFAULT_POSITION, array(), 'cart.' . JBCart::CONFIG_SHIPPINGFIELDS);
     }
+
+    /**
+     * @param array $args
+     * @return string|void
+     */
+    public function renderAdminEdit($args = array())
+    {
+        return $this->render('edit.list', array(
+            'order' => $args['order'],
+        ));
+    }
+
+    /**
+     * @param $args
+     * @return string
+     */
+    public function renderAdminPosition($args = array())
+    {
+        // init vars
+        $elements = array();
+        $output   = array();
+        $style    = isset($args['style']) ? $args['style'] : 'adminedit';
+        $layout   = $this->_layout;
+
+        // render elements
+        $shippingFields = $this->_order->getShippingFields();
+        foreach ($shippingFields as $identifier => $data) {
+            if ($element = $this->_order->getShippingFieldElement($identifier)) {
+
+                $element->bindData($data);
+
+                $params = array_merge(array(
+                    '_layout' => $this->_layout,
+                    '_index'  => $identifier,
+                ), $args);
+
+                $elements[] = compact('element', 'params');
+            }
+        }
+
+        foreach ($elements as $i => $data) {
+
+            $output[$i] = parent::render('element.' . $style, array(
+                'element' => $data['element'],
+                'params'  => array_merge(
+                    array(
+                        'first' => ($i == 0),
+                        'last'  => ($i == count($elements) - 1)
+                    ),
+                    $data['params']
+                ),
+            ));
+        }
+
+        // restore layout
+        $this->_layout = $layout;
+
+        return implode("\n", $output);
+    }
+
 }

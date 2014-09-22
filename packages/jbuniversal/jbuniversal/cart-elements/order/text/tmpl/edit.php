@@ -13,14 +13,4 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (!empty($value)) : ?>
-
-    <dt>
-        <?php echo JText::_('JBZOO_SHIPPINGFIELDS_ADRESS'); ?>
-    </dt>
-
-    <dd>
-        <?php echo $value; ?>
-    </dd>
-
-<?php endif;
+echo $value;

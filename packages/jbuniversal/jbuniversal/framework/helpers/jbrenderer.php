@@ -30,8 +30,13 @@ class JBRendererHelper extends AppHelper
         $renderer     = $this->app->renderer->create($rendererType);
 
         $renderer->addPath(array(
-            $this->app->path->path('jbtmpl:catalog')
+            $this->app->path->path('jbtmpl:' . $this->app->zoo->getApplication()->getTemplate()->name),
+            $this->app->path->path('jbtmpl:system'),
         ));
+
+        if (!$this->app->jbenv->isSite()) {
+            $renderer->addPath($this->app->path->path('jbviews:'));
+        }
 
         if ($paths) {
             $renderer->addPath($paths);

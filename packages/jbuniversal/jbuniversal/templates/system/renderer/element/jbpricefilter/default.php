@@ -13,8 +13,18 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if ($this->checkPosition('list')) : ?>
+$elId = $this->app->jbstring->getId('');
+$name = $element->config->get('type');
+$lang = JText::_($name);
+$class = 'simple-param';
 
-    <?php echo $this->renderPosition('list', array('style' => 'order.order_shipping')); ?>
+if ($element->isCore()) {
+    $name  = strtoupper($params['type']);
+    $lang  = JText::_('JBZOO_JBPRICE_VARIATION_' . $name);
+    $class = 'core-param';
+}
 
-<?php endif;
+?>
+<div>
+    <?php echo $elementHTML; ?>
+</div>
