@@ -394,7 +394,11 @@ class EmailRenderer extends PositionRenderer
             return false;
         }
 
-        return $this->app->path->path("jbtmpl:catalog/renderer/email/{$this->_layout}/{$layout}{$this->_extension}");
+        $name    = $this->app->zoo->getApplication()->name;
+        $catalog = $this->app->path->path("jbtmpl:" . $name . "/renderer/email/{$this->_layout}/{$layout}.php");
+        $system  = $this->app->path->path("jbtmpl:system/renderer/email/{$this->_layout}/{$layout}.php");
+        
+        return !empty($catalog) ? $catalog : $system;
     }
 
 }
