@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<element type="element"
+         group="Core"
+         hidden="false">
+    <name>Order items</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZoo Cart Element Core System</description>
+    <params>
+        <param name="title"
+               type="text"
+               default=""
+               label="JBZOO_EMAIL_ITEMS_TITLE"
+               description="JBZOO_EMAIL_ITEMS_TITLE_DESC" />
+
+        <param name="subtotal"
+               type="jbbool"
+               default="1"
+               label="JBZOO_EMAIL_ITEMS_SUBTOTAL"
+               description="JBZOO_EMAIL_ITEMS_SUBTOTAL_DESC" />
+
+        <param name="subtotal_items"
+               type="jbbool"
+               default="1"
+               label="JBZOO_EMAIL_ITEMS_SUBTOTAL_ITEMS"
+               description="JBZOO_EMAIL_ITEMS_SUBTOTAL_ITEMS_DESC" />
+
+        <param name="subtotal_services"
+               type="jbbool"
+               default="1"
+               label="JBZOO_EMAIL_ITEMS_SUBTOTAL_SERVICES"
+               description="JBZOO_EMAIL_ITEMS_SUBTOTAL_SERVICES_DESC" />
+
+        <param name="subtotal_modifiers"
+               type="jbbool"
+               default="1"
+               label="JBZOO_EMAIL_ITEMS_SUBTOTAL_MODIFIERS"
+               description="JBZOO_EMAIL_ITEMS_SUBTOTAL_MODIFIERS_DESC" />
+
+    </params>
+</element>

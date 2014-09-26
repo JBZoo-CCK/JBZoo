@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<element type="element" group="Core" hidden="false">
+    <name>User</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZoo Cart Element Core System</description>
+    <params>
+        <param name="showlabel"
+               type="jbbool"
+               default="1"
+               label="JBZOO_ELEMENT_LABEL"
+               description="JBZOO_ELEMENT_LABEL_DESC" />
+
+        <param name="format"
+               type="list"
+               default="short"
+               label="JBZOO_EMAIL_USER_FORMAT"
+               description="JBZOO_EMAIL_USER_FORMAT_DESC">
+
+            <option value="id">ID</option>
+            <option value="name">NAME </option>
+            <option value="username">USERNAME</option>
+
+            <option value="full">USERNAME - NAME</option>
+            <option value="full_id">USERNAME - NAME (ID)</option>
+            <option value="full_group">USERNAME - NAME (GROUP)</option>
+        </param>
+    </params>
+</element>
