@@ -72,13 +72,13 @@ $redirectUrl = $this->app->jbrouter->admin(array('element' => $this->element, 'l
 
     <div class="clear clr"></div>
 
-    <input type="hidden" name="option" value="com_zoo" />
-    <input type="hidden" name="controller" value="jbcart" />
-    <input type="hidden" name="task" value="<?php echo $task; ?>" />
-    <input type="hidden" name="layout" value="<?= $this->layout; ?>" class="jsLayout" />
-    <input type="hidden" name="element" value="<?= $this->element; ?>" class="jsElement" />
-    <input type="hidden" name="group" value="<?php echo $groupKey; ?>" />
-    <input type="hidden" name="redirect" value="<?php echo $redirectUrl; ?>" />
+    <input type="hidden" name="option" value="com_zoo"/>
+    <input type="hidden" name="controller" value="jbcart"/>
+    <input type="hidden" name="task" value="<?php echo $task; ?>"/>
+    <input type="hidden" name="layout" value="<?= $this->layout; ?>" class="jsLayout"/>
+    <input type="hidden" name="element" value="<?= $this->element; ?>" class="jsElement"/>
+    <input type="hidden" name="group" value="<?php echo $groupKey; ?>"/>
+    <input type="hidden" name="redirect" value="<?php echo $redirectUrl; ?>"/>
     <?php echo $this->app->html->_('form.token'); ?>
 
 </form>
@@ -87,9 +87,9 @@ $redirectUrl = $this->app->jbrouter->admin(array('element' => $this->element, 'l
     jQuery(function ($) {
 
         $('.jsAssignElements').JBZooEditPositions({
-            'urlAddElement'    : '<?php echo $this->app->jbrouter->admin(array('task' => 'addElement'));?>',
+            'urlAddElement': '<?php echo $this->app->jbrouter->admin(array('task' => 'addElement'));?>',
             'textEmptyPosition': '<?php echo JText::_('JBZOO_ADMIN_POSITIONS_EMPTY_POSITION');?>',
-            'textRemove'       : '<?php echo JText::_('JBZOO_ADMIN_POSITIONS_REMOVE');?>'
+            'textRemove': '<?php echo JText::_('JBZOO_ADMIN_POSITIONS_REMOVE');?>'
         });
 
     });

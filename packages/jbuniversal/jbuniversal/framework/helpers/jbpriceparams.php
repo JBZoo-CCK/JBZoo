@@ -88,7 +88,7 @@ class JBPriceParamsHelper extends AppHelper
                     $positions[$id]     = $element;
                     $result['list']     = $positions;
 
-                    $position->savePrice('priceparams', $result, null, $price);
+                    $position->savePrice(JBCart::CONFIG_PRICE, $result, null, $price);
                 }
 
             } else {
@@ -104,7 +104,7 @@ class JBPriceParamsHelper extends AppHelper
                     $positions[$id]     = $element;
                     $result['list']     = $positions;
 
-                    $position->savePrice('priceparams', $result, null, $price);
+                    $position->savePrice(JBCart::CONFIG_PRICE, $result, null, $price);
                 }
             }
         }

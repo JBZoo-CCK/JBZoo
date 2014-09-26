@@ -29,8 +29,9 @@ $modified = $this->app->html->_('date', $order->modified, JText::_('DATE_FORMAT_
 
         <div class="uk-grid">
             <div class="uk-width-8-10">
-                <h1>Заказ №<?php echo $order->getName(); ?>
-                    <span style="font-size: 0.6em"> от <?php echo $created; ?></span></h1>
+                <h1>
+                    <?php echo JText::sprintf('JBZOO_ORDER_TITLE', $order->getName(), '<span style="font-size: 0.6em;">' . $created . '</span>'); ?>
+                </h1>
             </div>
         </div>
 
@@ -71,9 +72,9 @@ $modified = $this->app->html->_('date', $order->modified, JText::_('DATE_FORMAT_
 
         </div>
 
-        <input type="hidden" name="option" value="<?php echo $this->app->jbrequest->get('option'); ?>" />
-        <input type="hidden" name="controller" value="<?php echo $this->app->jbrequest->getCtrl(); ?>" />
-        <input type="hidden" name="task" value="edit" />
+        <input type="hidden" name="option" value="<?php echo $this->app->jbrequest->get('option'); ?>"/>
+        <input type="hidden" name="controller" value="<?php echo $this->app->jbrequest->getCtrl(); ?>"/>
+        <input type="hidden" name="task" value="edit"/>
         <?php echo $this->app->html->_('form.token'); ?>
     </form>
 

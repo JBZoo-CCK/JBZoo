@@ -118,9 +118,9 @@ $this->app->jbassets->initJBPrice();
     jQuery(function ($) {
         $('.jbzoo .jsJBZooBasket').JBZooBasket({
             'clearConfirm': "<?php echo JText::_('JBZOO_CART_CLEAR_CONFIRM');?>",
-            'quantityUrl' : "<?php echo $this->app->jbrouter->basketQuantity($view->appId);?>",
-            'deleteUrl'   : "<?php echo $this->app->jbrouter->basketDelete($view->appId);?>",
-            'clearUrl'    : "<?php echo $this->app->jbrouter->basketClear($view->appId);?>"
+            'quantityUrl': "<?php echo $this->app->jbrouter->basketQuantity($view->appId);?>",
+            'deleteUrl': "<?php echo $this->app->jbrouter->basketDelete($view->appId);?>",
+            'clearUrl': "<?php echo $this->app->jbrouter->basketClear($view->appId);?>"
         });
     });
 </script>

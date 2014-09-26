@@ -121,7 +121,9 @@ class JBMoneyHelper extends AppHelper
 
     /**
      * Clear price string
+     *
      * @param $value
+     *
      * @return float
      */
     public function clearValue($value)
@@ -140,9 +142,11 @@ class JBMoneyHelper extends AppHelper
 
     /**
      * Convert currency
+     *
      * @param $from    string
      * @param $to      string
      * @param $value   float
+     *
      * @return mixed
      */
     public function convert($from, $to, $value)
@@ -165,7 +169,9 @@ class JBMoneyHelper extends AppHelper
 
     /**
      * Currency list
+     *
      * @param bool $isShort
+     *
      * @return array
      */
     public function getCurrencyList($isShort = false)
@@ -192,8 +198,10 @@ class JBMoneyHelper extends AppHelper
 
     /**
      * convert number to money formated string
+     *
      * @param $value
      * @param $code
+     *
      * @return null|string
      */
     public function toFormat($value, $code = null)
@@ -222,8 +230,10 @@ class JBMoneyHelper extends AppHelper
 
     /**
      * Check currency
-     * @param $currency
+     *
+     * @param        $currency
      * @param string $default
+     *
      * @return string
      */
     public function clearCurrency($currency, $default = null)
@@ -254,7 +264,9 @@ class JBMoneyHelper extends AppHelper
 
     /**
      * Check if exists currency
+     *
      * @param  $currency
+     *
      * @return bool|string
      */
     public function checkCurrency($currency)
@@ -269,8 +281,10 @@ class JBMoneyHelper extends AppHelper
 
     /**
      * Convert value to money format from config
+     *
      * @param string $value
-     * @param array $format
+     * @param array  $format
+     *
      * @return string
      */
     protected function _numberFormat($value, $format = array())
@@ -288,17 +302,19 @@ class JBMoneyHelper extends AppHelper
 
     /**
      * Calculate total value
-     * @param float $value
+     *
+     * @param float  $value
      * @param string $baseCurrency
-     * @param float $addValue
+     * @param float  $addValue
      * @param string $currency
+     *
      * @return float
      */
     public function calc($value, $baseCurrency, $addValue, $currency)
     {
         $value        = $this->clearValue($value);
+
         $baseCurrency = $this->clearCurrency($baseCurrency);
-        $addValue     = $this->clearValue($addValue);
         $currency     = $this->clearCurrency($currency, $baseCurrency);
 
         $sign = '';
@@ -306,6 +322,7 @@ class JBMoneyHelper extends AppHelper
             $sign = $addValue[0];
         }
 
+        $addValue = $this->clearValue($addValue);
         if ($currency == self::PERCENT) {
             $addValue = (float)($sign . abs($value * $addValue / 100));
         } else {
@@ -327,10 +344,12 @@ class JBMoneyHelper extends AppHelper
 
     /**
      * Calculate with discount value
+     *
      * @param $value
      * @param $baseCurrency
      * @param $addValue
      * @param $currency
+     *
      * @return float
      */
     public function calcDiscount($value, $baseCurrency, $addValue, $currency)

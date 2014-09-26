@@ -18,9 +18,9 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementShippingPickup extends JBCartElementShipping
 {
-
     /**
-     * @param array $params
+     * @param  array $params
+     *
      * @return bool
      */
     public function hasValue($params = array())
@@ -30,18 +30,19 @@ class JBCartElementShippingPickup extends JBCartElementShipping
 
     /**
      * @param array $params
+     *
      * @return mixed|string
      */
     public function renderSubmission($params = array())
     {
-        $shipping = $this->config->get('cost', 0);
-        $adresses = $this->getAddress();
+        $shipping  = $this->config->get('cost', 0);
+        $addresses = $this->getAddress();
 
         if ($layout = $this->getLayout('submission.php')) {
             return self::renderLayout($layout, array(
-                'params'   => $params,
-                'shipping' => $shipping,
-                'adresses' => $adresses
+                'params'    => $params,
+                'shipping'  => $shipping,
+                'addresses' => $addresses
             ));
         }
 
@@ -49,16 +50,32 @@ class JBCartElementShippingPickup extends JBCartElementShipping
     }
 
     /**
+     * Validates the submitted element
+     *
+     * @param $value
+     * @param $params
+     *
+     * @return array
+     */
+    public function validateSubmission($value, $params)
+    {
+        return array(
+            'value' => $this->config->get('cost', 0)
+        );
+    }
+
+    /**
      * @return mixed|string
      */
     public function getAddress()
     {
-        $adresses = $this->config->get('adresses', array());
+        $addresses = $this->config->get('addresses', null);
+        if (!empty($addresses)) {
+            $address   = explode("\n", $addresses);
+            $addresses = implode('<br/>', $address);
+        }
 
-        $adress   = explode("\n", $adresses);
-        $adresses = implode('</br>', $adress);
-
-        return $adresses;
+        return $addresses;
     }
 
 }

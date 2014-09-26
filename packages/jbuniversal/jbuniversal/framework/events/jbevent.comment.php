@@ -21,6 +21,7 @@ class JBEventComment extends JBEvent
 {
     /**
      * On comment init
+     *
      * @param AppEvent $event
      */
     public static function init($event)
@@ -29,6 +30,7 @@ class JBEventComment extends JBEvent
 
     /**
      * On after comment saved
+     *
      * @param AppEvent $event
      */
     public static function saved($event)
@@ -37,6 +39,7 @@ class JBEventComment extends JBEvent
 
     /**
      * On after comment deleted
+     *
      * @param AppEvent $event
      */
     public static function deleted($event)
@@ -45,6 +48,7 @@ class JBEventComment extends JBEvent
 
     /**
      * On after comment state changed
+     *
      * @param AppEvent $event
      */
     public static function stateChanged($event)

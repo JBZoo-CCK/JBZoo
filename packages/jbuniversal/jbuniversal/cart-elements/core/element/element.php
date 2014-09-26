@@ -18,7 +18,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElement
 {
-
     const DEFAULT_GROUP = '_default';
 
     /**

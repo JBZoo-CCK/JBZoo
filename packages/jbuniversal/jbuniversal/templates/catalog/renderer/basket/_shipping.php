@@ -9,7 +9,6 @@ if (!empty($view->shipping)) {
     );
 }
 
-
 if (!empty($view->shippingFields)) {
 
     echo $view->shippingFieldRenderer->render(

@@ -45,9 +45,3 @@ $cityAttrs = array(
         <?php echo $jbhtml->select($this->getWarehouses(), $this->getControlName('street')); ?>
     </div>
 </div>
-
-<script>
-    jQuery(document).ready(function ($) {
-        $('.jbzoo .shipping-list').JBCartShipping();
-    })
-</script>

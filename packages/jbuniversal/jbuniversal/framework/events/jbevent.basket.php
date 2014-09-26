@@ -28,6 +28,7 @@ class JBEventBasket extends JBEvent
     {
         $app    = self::app();
         $params = $event->getParameters();
+        $app->jbeventmanager->fireListeners();
 
         $appParams = $params['appParams'];
         $item      = $params['item'];

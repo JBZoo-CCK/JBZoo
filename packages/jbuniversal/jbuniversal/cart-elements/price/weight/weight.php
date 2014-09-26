@@ -19,19 +19,24 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceWeight extends JBCartElementPrice
 {
     /**
-     * @return mixed|void
+     * Render element in jbprice admin
+     * @return bool|mixed|string
      */
     public function edit()
     {
-        $value  = $this->app->data->create($this->getValue($this->identifier));
-        $html   = array();
-        $html[] = $this->app->jbhtml->text($this->getControlName(), $value->get('value'));
+        $value = $this->app->data->create($this->getValue($this->identifier));
+        if ($layout = $this->getLayout('edit.php')) {
+            return self::renderLayout($layout, array(
+                'value' => $value
+            ));
+        }
 
-        return implode($html);
+        return false;
     }
 
     /**
      * @param array $params
+     *
      * @return array|mixed|null|string|void
      */
     public function render($params = array())
@@ -52,8 +57,9 @@ class JBCartElementPriceWeight extends JBCartElementPrice
 
     /**
      * @param null $identifier
-     * @param $name
-     * @param int $index
+     * @param      $name
+     * @param int  $index
+     *
      * @return string
      */
     public function getParamName($identifier = null, $name, $index = 0)
@@ -67,7 +73,8 @@ class JBCartElementPriceWeight extends JBCartElementPrice
 
     /**
      * @param null $identifier
-     * @param $name
+     * @param      $name
+     *
      * @return string
      */
     public function getBasicName($identifier = null, $name)

@@ -40,6 +40,7 @@ class JBCart
     const ELEMENT_TYPE_MODIFIERS     = 'modifier';
     const ELEMENT_TYPE_NOTIFICATION  = 'notification';
     const ELEMENT_TYPE_ORDER         = 'order';
+    const ELEMENT_TYPE_EMAIL         = 'email';
     const ELEMENT_TYPE_PAYMENT       = 'payment';
     const ELEMENT_TYPE_PRICE         = 'price';
     const ELEMENT_TYPE_STATUS        = 'status';
@@ -51,6 +52,11 @@ class JBCart
     protected $_sessionNamespace = 'jbcart';
 
     /**
+     * @var string
+     */
+    protected $_namespace = 'jbzoo';
+
+    /**
      * @var App
      */
     public $app = null;
@@ -59,6 +65,11 @@ class JBCart
      * @var JSONData
      */
     protected $_config = null;
+
+    /**
+     * @var JBMoneyHelper
+     */
+    protected $_jbmoney;
 
     /**
      * @return JBCart
@@ -77,60 +88,22 @@ class JBCart
     /**
      * Constructor
      */
-    function __construct()
+    private function __construct()
     {
         $this->app = App::getInstance('zoo');
 
-        $this->_config = JBModelConfig::model()->getGroup('cart');
+        $this->_config  = JBModelConfig::model()->getGroup('cart.config');
+        $this->_jbmoney = $this->app->jbmoney;
     }
 
     /**
      * @return array
-     */
+
     public function getItems()
-    {
-        //$items = $this->app->jbsession->get('items', $this->_sessionNamespace);
-
-        $items = array(
-            array(
-                "sku"         => "SKU98100",
-                "itemId"      => "90",
-                "quantity"    => 2,
-                "price"       => 10,
-                "currency"    => "EUR",
-                "priceDesc"   => "Red color",
-                "priceParams" => array(),
-                "name"        => "Acer Aspire Z1811 ",
-                'params'      => array(
-                    'weight' => 0,
-                    'height' => 0,
-                    'length' => 0,
-                    'width'  => 0,
-                ),
-            ),
-            array(
-                "sku"         => "SKU98100",
-                "itemId"      => "90",
-                "quantity"    => 2,
-                "price"       => 10,
-                "currency"    => "EUR",
-                "priceDesc"   => "Red color",
-                "priceParams" => array(),
-                "name"        => "Acer Aspire Z1811 ",
-                'params'      => array(
-                    'weight' => 0,
-                    'height' => 0,
-                    'length' => 0,
-                    'width'  => 0,
-                ),
-            ),
-        );
-
-        $items = $this->app->data->create($items);
-
-        return $items;
-    }
-
+     * $items = $this->app->jbsession->get('items', $this->_sessionNamespace);
+     *
+     * /*$items = array(
+     * );*/
     /**
      * @return JBCartOrder
      */
@@ -152,14 +125,6 @@ class JBCart
     /**
      *
      */
-    public function removeItems()
-    {
-        $this->app->jbsession->set('items', array(), $this->_sessionNamespace);
-    }
-
-    /**
-     *
-     */
     public function getDefaultStatus()
     {
         $statusCode = $this->_config->get('config.default_status');
@@ -168,6 +133,277 @@ class JBCart
         }
 
         return null;
+    }
+
+    /**
+     * Get all items from session
+     * @return mixed
+     */
+    public function getItems()
+    {
+        $session = $this->_getSession();
+        $items   = $session->get('items', array());
+
+        /*$items = array(
+            array(
+                "sku"         => "SKU98100",
+                "itemId"      => "90",
+                "quantity"    => 2,
+                "price"       => 10,
+                "currency"    => "EUR",
+                "priceDesc"   => "Red color",
+                "priceParams" => array(),
+                "name"        => "Acer Aspire Z1811 "
+            ),
+            array(
+                "sku"         => "SKU98100",
+                "itemId"      => "90",
+                "quantity"    => 2,
+                "price"       => 10,
+                "currency"    => "EUR",
+                "priceDesc"   => "Red color",
+                "priceParams" => array(),
+                "name"        => "Acer Aspire Z1811 "
+            ),
+        );*/
+
+        return $items;
+    }
+
+    /**
+     * @param array $item
+     * @param array $params
+     */
+    public function addItem($item = array(), $params = array())
+    {
+        //$this->removeItems();die;
+        $items = $this->getItems();
+
+        $key = $params['key'];
+
+        if (isset($items[$key])) {
+            $items[$key]['quantity'] += $item['quantity'];
+        }
+
+        if (!isset($items[$key])) {
+            $items[$key] = $item;
+        }
+
+        $this->_setSession('items', $items);
+    }
+
+    /**
+     * Remove all variations if key is null.
+     * $key = {item_id}-{variant_index}.
+     * Priority on $key.
+     *
+     * @param  int    $id
+     * @param  string $key
+     *
+     * @return bool
+     */
+    public function remove($id, $key = null)
+    {
+        $items = $this->getItems();
+
+        if (!empty($items)) {
+
+            if (!empty($key)) {
+                return $this->removeVariant($key);
+            }
+
+            return $this->removeItem($id);
+        }
+
+        return false;
+    }
+
+    /**
+     * Remove item from cart by id.
+     * Item_id-variant or item_id for basic.
+     *
+     * @param  int $id - Item_id
+     *
+     * @return bool
+     */
+    public function removeItem($id)
+    {
+        $items = $this->getItems();
+
+        if (!empty($items)) {
+            foreach ($items as $key => $item) {
+                if ($item['item_id'] === $id) {
+                    unset($items[$key]);
+                }
+            }
+
+            $this->_setSession('items', $items);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Remove item's variant from cart by $key.
+     * Item_id-variant or item_id for basic.
+     *
+     * @param $key - Item_id + index of variant.
+     *
+     * @return bool
+     */
+    public function removeVariant($key)
+    {
+        $items = $this->getItems();
+
+        if (isset($items[$key])) {
+
+            unset($items[$key]);
+            $this->_setSession('items', $items);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Remove all items in cart
+     */
+    public function removeItems()
+    {
+        $this->app->jbsession->set('items', array(), $this->_sessionNamespace);
+    }
+
+    /**
+     * Change item quantity from basket
+     *
+     * @param $key
+     * @param $value
+     */
+    public function changeQuantity($key, $value)
+    {
+        $items = $this->getItems();
+
+        if (!empty($items[$key])) {
+
+            $item  = $items[$key];
+            $value = (int)$value;
+            $value = $value >= 1 ? $value : 1;
+
+            $item['quantity'] = $value;
+
+            $items[$key] = $item;
+
+            $this->_setSession('items', $items);
+        }
+    }
+
+    /**
+     * Recount all basket
+     *
+     * @return array
+     */
+    public function recount()
+    {
+        $itemsPrice = array();
+
+        $count = 0;
+        $total = 0;
+        $items = $this->getItems();
+
+        $currency = $this->_config->get('default_currency', 'EUR');
+
+        foreach ($items as $hash => $item) {
+
+            $item['price'] = $this->_jbmoney->convert($item['currency'], $currency, $item['price']);
+
+            $itemsPrice[$hash] = $item['price'] * $item['quantity'];
+
+            $count += $item['quantity'];
+            $total += $itemsPrice[$hash];
+
+            $itemsPrice[$hash] = $this->_jbmoney->toFormat($itemsPrice[$hash], $currency);
+        }
+
+        $result =
+            array(
+                'items' => $itemsPrice,
+                'count' => $count,
+                'total' => $this->_jbmoney->toFormat($total, $currency),
+            );
+
+
+        return $result;
+    }
+
+    /**
+     * Check if item in cart.
+     *
+     * @param  string $id - item_id.
+     *
+     * @return bool
+     */
+    public function inCart($id)
+    {
+        $items = $this->getItems();
+
+        if (!empty($items)) {
+            foreach ($items as $item) {
+                if ($item['item_id'] === $id) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if item or item variation in cart by $key.
+     *
+     * @param  string $key - {Item_id}-{variant} or {item_id} for basic.
+     *
+     * @return bool
+     */
+    public function inCartVariant($key)
+    {
+        $items = $this->getItems();
+
+        if (isset($items[$key])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get session
+     * @return JSONData
+     */
+    protected function _getSession()
+    {
+        $session = JFactory::getSession();
+        $result  = $session->get($this->_sessionNamespace, array(), $this->_namespace);
+        $result  = $this->app->data->create($result);
+
+        return $result;
+    }
+
+    /**
+     * Set session
+     *
+     * @param string $key
+     * @param mixed  $value
+     */
+    protected function _setSession($key, $value)
+    {
+        $session      = JFactory::getSession();
+        $result       = $session->get($this->_sessionNamespace, array(), $this->_namespace);
+        $result[$key] = $value;
+
+        $session->set($this->_sessionNamespace, $result, $this->_namespace);
     }
 
 }

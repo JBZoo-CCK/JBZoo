@@ -19,16 +19,14 @@ $fields = array(
     'task'       => $this->app->jbrequest->get('task'),
 );
 
-?>
-
-<?php if ($this->get('layoutList')) : ?>
+if ($this->get('layoutList')) : ?>
     <form action="index.php" method="get">
 
         <?php foreach ($fields as $key => $value) {
             echo '<input type="hidden" name="' . $key . '" value="' . $value . '" />';
         } ?>
 
-        <input type="hidden" name="element" value="<?php echo $this->element; ?>" class="jsElement" />
+        <input type="hidden" name="element" value="<?php echo $this->element; ?>" class="jsElement"/>
 
         <label for="layout-list-select"><?php echo JText::_('JBZOO_ADMIN_POSITIONS_LAYOUT_LIST'); ?></label>
         <?php echo $this->app->jbhtml->select($this->get('layoutList'), 'layout', '', $this->layout, 'layout-list-select'); ?>
@@ -46,4 +44,4 @@ $fields = array(
             $('.jsLayout').val($select.val());
         });
     </script>
-<?php endif; ?>
+<?php endif;

@@ -40,6 +40,7 @@ class JBCartElementPriceColor extends JBCartElementPrice
 
     /**
      * @param array $params
+     *
      * @return array|mixed|null|string
      */
     public function render($params = array())
@@ -78,6 +79,7 @@ class JBCartElementPriceColor extends JBCartElementPrice
 
     /**
      * @param array $selected
+     *
      * @return mixed
      */
     public function getColors($selected = array())
@@ -110,8 +112,9 @@ class JBCartElementPriceColor extends JBCartElementPrice
 
     /**
      * @param null $identifier
-     * @param $name
-     * @param int $index
+     * @param      $name
+     * @param int  $index
+     *
      * @return string
      */
     public function getParamName($identifier = null, $name, $index = 0)
@@ -125,7 +128,8 @@ class JBCartElementPriceColor extends JBCartElementPrice
 
     /**
      * @param null $identifier
-     * @param $name
+     * @param      $name
+     *
      * @return string
      */
     public function getBasicName($identifier = null, $name)
@@ -135,6 +139,18 @@ class JBCartElementPriceColor extends JBCartElementPrice
         }
 
         return "elements[{$identifier}][basic][params][{$this->identifier}]";
+    }
+
+    /**
+     * Name for render
+     *
+     * @param  string $name
+     *
+     * @return string
+     */
+    public function getRenderName($name = null)
+    {
+        return "params[{$this->identifier}]";
     }
 
 }

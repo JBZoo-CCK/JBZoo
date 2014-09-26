@@ -14,8 +14,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 $uniqClass = 'jsJBPriceAdvance-' . $this->identifier . '-' . $this->getItem()->id;
-$iniqId = uniqid('jbprice-adv-');
-
 $unique = $this->app->jbstring->getId('jbprice-adv-');
 
 ?>

@@ -26,37 +26,9 @@ $isEnabled = true;
         >
 
         <label for="<?php echo $unique; ?>">
-            <table cellpadding="0" cellspacing="0" border="0" class="no-border">
-                <tbody>
-                <tr>
-                    <td rowspan="2" style="width: 104px;">
-                        <?php echo JText::_('JBZOO_JBPRICE_COUNT_VALUE'); ?>:
-                    </td>
-                    <td rowspan="2">
-                        <div class="item-count-wrapper">
-                            <div class="item-count">
-                                <dl class="item-count-digits">
-                                    <dd></dd>
-                                    <dd></dd>
-                                    <dd></dd>
-                                    <dd></dd>
-                                    <dd></dd>
-                                </dl>
-                                <input type="text" class="jsCount count" value="1" maxlength="6" id="<?php echo $unique; ?>"/>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <a href="#plus" class="jsAddQuantity btn-mini plus" title="+"> </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <a href="#minus" class="jsRemoveQuantity btn-mini minus" title="-"> </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <input type="text" name="<?php echo $this->getRenderName(); ?>"
+                   class="jsCount count" value="1" maxlength="6" id="<?php echo $unique; ?>"/>
+
         </label>
     </div>
 
@@ -65,5 +37,4 @@ $isEnabled = true;
         <?php echo JText::_('JBZOO_JBPRICE_COUNT_DEFAULT_VALUE'); ?>: <span class="jsCountValue">1</span>
     </div>
     <input type="hidden" class="jsCount" value="1"/>
-<?php endif; ?>
-
+<?php endif;

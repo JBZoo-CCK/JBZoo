@@ -28,7 +28,8 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 
     /**
      * Class constructor
-     * @param App $app
+     *
+     * @param App    $app
      * @param string $type
      * @param string $group
      */
@@ -40,9 +41,10 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
     }
 
     /**
-     * @param  float $sum
-     * @param  string $currency
+     * @param  float       $sum
+     * @param  string      $currency
      * @param  JBCartOrder $order
+     *
      * @return float
      */
     public function modify($sum, $currency, JBCartOrder $order)
@@ -54,6 +56,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 
     /**
      * @param array $params
+     *
      * @return bool
      */
     public function hasValue($params = array())
@@ -63,6 +66,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 
     /**
      * @param  array $params
+     *
      * @return mixed|string
      */
     public function renderSubmission($params = array())
@@ -78,8 +82,10 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 
     /**
      * Validates the submitted element
+     *
      * @param  $value
      * @param  $params
+     *
      * @return array
      */
     public function validateSubmission($value, $params)
@@ -96,7 +102,8 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
             'value'  => $price,
             'fields' => array(
                 'recipient' => $this->app->validator->create('string')->clean($to)
-            )
+            ),
+            'params' => $params
         );
     }
 
@@ -121,12 +128,14 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      */
     public function getRate()
     {
-        return $this->data()->get('value', 0);
+        return $this->get('value', 0);
     }
 
     /**
      * Get array of parameters to push it into(data-params)
+     *
      * @param  boolean $encode - Encode array or no
+     *
      * @return string|array
      */
     public function getWidgetParams($encode = true)
@@ -148,13 +157,15 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
         $price  = $this->_getPrice($params);
 
         $this->app->jbajax->send(array(
-            'price' => $price
+            'price' => $this->_jbmoney->toFormat($price)
         ));
     }
 
     /**
      * Decoding the result of API call
+     *
      * @param $responseBody
+     *
      * @return array
      */
     public function processingData($responseBody)
@@ -164,7 +175,9 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 
     /**
      * Change name/value to value/name
+     *
      * @param $city
+     *
      * @return mixed
      */
     public function convertCity($city)
@@ -196,7 +209,9 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 
     /**
      * Make request and get price form service
+     *
      * @param  array $params
+     *
      * @return int
      */
     protected function _getPrice($params = array())
@@ -211,7 +226,6 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
         if ($result['stat'] === 'ok') {
             $price += $result['price'];
             $price = $this->_jbmoney->convert(self::EMSPOST_CURRENCY, $this->currency(), $price);
-            $price = $this->_jbmoney->toFormat($price);
         }
 
         return $price;
@@ -219,6 +233,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 
     /**
      * @param  string $type - cities, regions, countries, russia
+     *
      * @return string
      */
     protected function _getLocations($type = 'countries')

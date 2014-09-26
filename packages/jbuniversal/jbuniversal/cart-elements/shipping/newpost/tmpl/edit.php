@@ -15,15 +15,40 @@ defined('_JEXEC') or die('Restricted access');
 
 if (!empty($fields)) : ?>
 
+    <dt>
+        <?php echo JText::_('JBZOO_ORDER_SHIPPING_NAME'); ?>
+    </dt>
+    <dd>
+        <p><?php echo $this->getName(); ?></p>
+    </dd>
+
+    <dt>
+        <?php echo JText::_('JBZOO_ORDER_SHIPPING_PRICE'); ?>
+    </dt>
+    <dd>
+        <p><?php echo $this->_jbmoney->toFormat($this->get('value', 0), $this->currency()); ?></p>
+    </dd>
+
     <?php foreach ($fields as $key => $field) : ?>
         <dt>
             <?php echo JText::_('JBZOO_ORDER_SHIPPING_NEWPOST_' . strtoupper($key)); ?>
         </dt>
 
         <dd>
-            <?php echo $field; ?>
+            <p><?php echo $field; ?></p>
         </dd>
 
     <?php endforeach; ?>
+
+    <dt>
+        <?php echo JText::_('JBZOO_ORDER_SHIPPING_STATUS'); ?>
+    </dt>
+    <dd>
+        <p>
+            <select name="shipping_status" style="width: 180px;">
+                <option>В процессе</option>
+            </select>
+        </p>
+    </dd>
 
 <?php endif;

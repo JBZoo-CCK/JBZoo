@@ -53,9 +53,9 @@ class BasketJBUniversalController extends JBUniversalController
     {
         parent::__construct($app, $config);
 
-        $this->app->jbdoc->noindex();
+        //$this->app->jbdoc->noindex();
         $this->_jbmoney = $this->app->jbmoney;
-        $this->_config  = JBModelConfig::model()->getGroup('cart');
+        $this->_config  = JBModelConfig::model()->getGroup('cart.config');
         $this->_cart    = JBcart::getInstance();
     }
 
@@ -78,6 +78,8 @@ class BasketJBUniversalController extends JBUniversalController
 
         $this->Itemid = $this->_jbrequest->get('Itemid');
         $this->order  = $this->_cart->newOrder();
+        $this->items  = $this->_cart->getItems();
+        $this->config = $this->_config;
 
         $errors     = 0;
         $orderSaved = false;
@@ -102,9 +104,7 @@ class BasketJBUniversalController extends JBUniversalController
                 } else {
 
                     // saving order
-                    $this->app->event->dispatcher->notify($this->app->event->create($this->order, 'basket:beforesave', array()));
                     JBModelOrder::model()->save($this->order);
-                    $this->app->event->dispatcher->notify($this->app->event->create($this->order, 'basket:aftersave', array()));
 
                     //dump(JBModelOrder::model()->getById($this->order->id));
 
@@ -147,6 +147,50 @@ class BasketJBUniversalController extends JBUniversalController
     {
         $this->app->jbcart->removeItems();
         $this->app->jbajax->send();
+    }
+
+    /**
+     * Delete one item from basket
+     */
+    public function delete()
+    {
+        $itemId = $this->_jbrequest->get('itemid');
+        $key    = $this->_jbrequest->get('key');
+        $cart   = JBCart::getInstance();
+
+        $cart->remove($itemId, $key);
+        $recount = $cart->recount();
+
+        $this->app->jbajax->send($recount);
+    }
+
+    /**
+     * Change quantity
+     */
+    public function quantity()
+    {
+        // get request
+        $value = (int)$this->_jbrequest->get('value');
+        $key   = trim($this->_jbrequest->get('key'));
+
+        $cart = JBCart::getInstance();
+
+        $cart->changeQuantity($key, $value);
+        $recount = $cart->recount();
+
+        $this->app->jbajax->send($recount);
+    }
+
+    /**
+     * Reload module action
+     */
+    public function reloadModule()
+    {
+        $moduleId = $this->_jbrequest->get('moduleId');
+        $html     = $this->app->jbjoomla->renderModuleById($moduleId);
+
+        header('Content-Type: text/html; charset=utf-8'); // fix apache default charset
+        jexit($html);
     }
 
     /**

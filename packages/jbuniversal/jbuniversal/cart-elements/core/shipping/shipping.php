@@ -34,7 +34,7 @@ abstract class JBCartElementShipping extends JBCartElement
     protected $_jbmoney;
 
     /**
-     * Main cart options
+     * Default cart options
      * @var JSONData
      */
     protected $_cartConfig;
@@ -44,7 +44,8 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Class constructor
-     * @param App $app
+     *
+     * @param App    $app
      * @param string $type
      * @param string $group
      */
@@ -57,9 +58,10 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * @param float $sum
-     * @param string $currency
+     * @param float       $sum
+     * @param string      $currency
      * @param JBCartOrder $order
+     *
      * @return float
      */
     public function modify($sum, $currency, JBCartOrder $order)
@@ -71,6 +73,7 @@ abstract class JBCartElementShipping extends JBCartElement
      * Render shipping in order
      *
      * @param  array
+     *
      * @return bool|string
      */
     public function edit($params = array())
@@ -78,8 +81,8 @@ abstract class JBCartElementShipping extends JBCartElement
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params,
-                'data'   => $this->data(),
-                'fields' => $this->data()->get('fields', array())
+                'value'  => $this->get('value'),
+                'fields' => $this->get('fields', array())
             ));
         }
 
@@ -117,8 +120,9 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * @param $name
+     * @param      $name
      * @param bool $array
+     *
      * @return string|void
      */
     public function getControlName($name, $array = false)
@@ -136,6 +140,7 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * @param  array $params
+     *
      * @return string
      */
     public function mergeParams($params = array())
@@ -160,7 +165,9 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Make path to service api from params
+     *
      * @param  array $params
+     *
      * @return string
      */
     public function getServicePath($params = array())
@@ -179,11 +186,16 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
+     * Try to get currency from order or cart config
+     *
      * @return mixed
      */
     public function currency()
     {
-        $currency = $this->_cartConfig->get('currency_default', 'EUR');
+        $currency = $this->_cartConfig->get('default_currency', 'EUR');
+        if (isset($this->_order->id)) {
+            $currency = $this->_order->getCurrency();
+        }
 
         return $currency;
     }
@@ -205,7 +217,9 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Get array of parameters to push it into(data-params) element div
+     *
      * @param  boolean $encode - Encode array or no
+     *
      * @return string|array
      */
     public function getWidgetParams($encode = true)
@@ -219,8 +233,10 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Cleans data
-     * @param  string $data
+     *
+     * @param  string         $data
      * @param  string|boolean $charlist
+     *
      * @return string mixed
      */
     public function clean($data, $charlist = false)
@@ -238,7 +254,9 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Decoding the result of API call
+     *
      * @param $responseBody
+     *
      * @return mixed
      */
     public function processingData($responseBody)
@@ -249,9 +267,10 @@ abstract class JBCartElementShipping extends JBCartElement
     /**
      * Make request to service and get results
      *
-     * @param  string $url - Shipping service url.
+     * @param  string $url    - Shipping service url.
      * @param  string $method - POST, GET.
-     * @param  array $data - Data for POST $method
+     * @param  array  $data   - Data for POST $method
+     *
      * @return bool|array
      */
     protected function _callService($url, $method = self::HTTP_GET, $data = array())
@@ -332,6 +351,7 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * @param  JBCartOrder $order
+     *
      * @return array
      */
     protected function _getParamsFromOrder(JBCartOrder $order)
@@ -347,8 +367,9 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * @param  string $str
+     * @param  string      $str
      * @param  bool|string $charlist
+     *
      * @return mixed|string
      */
     private function _clean($str, $charlist = false)

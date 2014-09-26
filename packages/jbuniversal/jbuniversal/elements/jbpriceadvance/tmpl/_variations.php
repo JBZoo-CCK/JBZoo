@@ -88,9 +88,6 @@ foreach ($variations as $rowKey => $row) : ?>
         </div>
     </div>
     <?php
-
-    $renderer = $this->app->jbrenderer->create('jbprice');
-
     echo $renderer->render('_edit',
         array(
             'index'      => $rowKey,

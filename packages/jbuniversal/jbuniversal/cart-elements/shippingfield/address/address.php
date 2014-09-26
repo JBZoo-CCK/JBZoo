@@ -20,15 +20,6 @@ class JBCartElementShippingFieldAddress extends JBCartElementShippingField
 {
     /**
      * @param array $params
-     * @return bool
-     */
-    public function hasValue($params = array())
-    {
-        return true;
-    }
-
-    /**
-     * @param array $params
      * @return mixed|string
      */
     public function renderSubmission($params = array())
