@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<element type="element"
+         group="Core"
+         hidden="false">
+    <name>Attach - Files</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZoo Cart Element Core System</description>
+    <params>
+        <param name="file"
+               type="jbfinder"
+               default=""
+               label="JBZOO_EMAIL_ATTACH_FILE"
+               description="JBZOO_EMAIL_ATTACH_FILE_DESC" />
+
+        <param name="nameformat"
+               type="list"
+               default=""
+               label="JBZOO_EMAIL_ATTACH_NAMEFORMAT"
+               description="JBZOO_EMAIL_ATTACH_NAMEFORMAT_DESC">
+            <option value="0">Filename</option>
+            <option value="1">Element name - Filename</option>
+            <option value="2">Element name - Filename (Description)</option>
+        </param>
+    </params>
+</element>

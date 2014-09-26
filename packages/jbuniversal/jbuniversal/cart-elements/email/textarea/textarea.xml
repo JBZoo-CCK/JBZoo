@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<element type="element"
+         group="Core"
+         hidden="false">
+    <name>Textarea</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZoo Cart Element Core System</description>
+    <params>
+        <param name="showlabel"
+               type="jbbool"
+               default="1"
+               label="JBZOO_ELEMENT_LABEL"
+               description="JBZOO_ELEMENT_LABEL_DESC" />
+
+        <param name="text"
+               type="jbtextarea"
+               default=""
+               label="JBZOO_EMAIL_TEXTAREA_TEXT"
+               description="JBZOO_EMAIL_TEXTAREA_TEXT_DESC"
+               editor="true" />
+    </params>
+</element>
