@@ -54,6 +54,13 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     const SIMPLE_PARAM_LENGTH = 36;
 
+    const DEFAULT_CURRENCY = 'EUR';
+
+    /**
+     * @var
+     */
+    public $elementsConfig = array();
+
     /**
      * @var JBMoneyHelper
      */
@@ -85,11 +92,6 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     protected $_elements = array();
 
     /**
-     * @var
-     */
-    public $elementsConfig = array();
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -111,6 +113,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     /**
      * @param array $params
+     *
      * @return bool
      */
     public function hasValue($params = array())
@@ -152,6 +155,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     /**
      * @param array $submission
+     *
      * @return null|string
      */
     public function edit($submission = array())
@@ -162,7 +166,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
         if ($layout = $this->getLayout('edit.php')) {
             $variationsTpl = $this->getLayout('_variations.php');
-            $variations    = $this->_getVariations();
+            $variations    = $this->getVariations();
 
             if (empty($variations) && (int)$this->config->get('mode', 0)) {
                 $basic      = $this->getBasicData();
@@ -171,17 +175,16 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                 $basic['description'] = '';
             }
 
-            $params = array(
+            $renderer = $this->app->jbrenderer->create('jbprice');
+            $params   = array(
                 'config'       => $this->config,
                 'currencyList' => $this->getCurrencyList(),
                 'variations'   => $variations,
                 'submission'   => $submission,
-                'basicData'    => $this->getBasicData()
+                'basicData'    => $this->getBasicData(),
+                'renderer'     => $renderer
             );
-
-            $renderer = $this->app->jbrenderer->create('jbprice');
-
-            $basic = $renderer->render('_edit',
+            $basic    = $renderer->render('_edit',
                 array(
                     'price' => $this,
                     'style' => self::BASIC_GROUP,
@@ -189,10 +192,9 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                 )
             );
 
+            $variationsHTML = self::renderLayout($variationsTpl, $params);
 
-            $variationsHTML           = self::renderLayout($variationsTpl, $params);
             $params['variationsTmpl'] = $variationsHTML;
-
 
             $params['basic'] = $basic;
 
@@ -202,6 +204,14 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         return null;
     }
 
+    /**
+     * Get all options for element.
+     * Used in element like select, color, radio etc.
+     *
+     * @param $identifier
+     *
+     * @return array
+     */
     public function getAllParamData($identifier)
     {
         $result = array();
@@ -257,8 +267,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     /**
      * Get control name
-     * @param $name
+     *
+     * @param      $name
      * @param bool $array
+     *
      * @return string
      */
     public function getControlName($name, $array = false)
@@ -268,6 +280,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     /**
      * @param $name
+     *
      * @return string
      */
     public function getControlParamName($name)
@@ -277,8 +290,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     /**
      * Get name for prices variants
-     * @param $name
+     *
+     * @param     $name
      * @param int $index
+     *
      * @return string
      */
     public function getRowControlName($name, $index = 0)
@@ -287,9 +302,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
-     * @param $name
+     * @param     $name
      * @param int $key
      * @param int $index
+     *
      * @return string
      */
     public function getParamName($name, $key = 0, $index = 0)
@@ -299,7 +315,9 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     /**
      * Render submission
+     *
      * @param array $params
+     *
      * @return null|string
      */
     public function renderSubmission($params = array())
@@ -308,51 +326,11 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
-     * Render New partial
-     * @param $params
-     * @return null|string
-     */
-    public function _renderNew($params)
-    {
-        $params = $this->app->data->create($params);
-
-        if ((int)$params->get('new_show', 1) && $layout = $this->getLayout('_new.php')) {
-
-            $basic = $this->getBasicData();
-
-            return JString::trim(self::renderLayout($layout, array(
-                'isNew' => $basic['new'],
-            )));
-        }
-
-        return null;
-    }
-
-    /**
-     * Render Hit partial
-     * @param $params
-     * @return null|string
-     */
-    public function _renderHit($params)
-    {
-        $params = $this->app->data->create($params);
-
-        if ((int)$params->get('hit_show', 1) && $layout = $this->getLayout('_hit.php')) {
-
-            $basic = $this->getBasicData();
-
-            return JString::trim(self::renderLayout($layout, array(
-                'isHit' => $basic['hit'],
-            )));
-        }
-
-        return null;
-    }
-
-    /**
      * Validate submission
+     *
      * @param $value
      * @param $params
+     *
      * @return mixed
      * @throws AppValidatorException
      */
@@ -369,49 +347,27 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         return $value;
     }
 
-    public function getArray()
-    {
-        $a = array(
-            '8b36e9e0-8efa-458f-9571-cc2c4276b53a' => array(
-                '0' => 'белый1'
-            ),
-            '913adc8a-3d91-4dcc-8a0f-9c21e4a3eaf8' => array(
-                'value' => 'фчф1'
-            ),
-            '8a329e3a-a7bc-47d4-8215-0cd72b5087e3' => array(
-                'value' => 'option12'
-            ),
-            '97377ede-c0a5-4bec-a3eb-8fdb231a137a' => array(
-                'value' => 'option2'
-            )
-        );
-
-        return $a;
-    }
-
     /**
      * Render for front-end
+     *
      * @param array $params
+     *
      * @return string|void
      */
     public function render($params = array())
     {
-        $params     = $this->app->data->create($params);
-        $item       = $this->getItem();
         $basicData  = $this->getBasicData();
         $mainPrices = $this->getPricesByVariant($basicData);
-        $prices     = $this->getDefaultVariantPrices();
 
-        $array  = $this->getArray();
-        $values = $this->getVariantByValues($array);
+        $cart   = JBCart::getInstance();
+        $params = $this->app->data->create($params);
+        $item   = $this->getItem();
+        $prices = $this->getDefaultVariantPrices();
+
 
         $this->_layout = $params->get('template', 'default');
 
-        $renderer = $this->app->renderer->create('jbprice')->addPath(
-            $this->app->path->path('component.site:'),
-            $this->app->path->path('jbtmpl:catalog')
-        );
-
+        $renderer = $this->app->jbrenderer->create('jbprice');
         $elements = $renderer->render($this->_layout, array('price' => $this));
 
         if ($layout = $this->getLayout('render.php')) {
@@ -419,7 +375,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                 'elements'          => $elements,
                 'prices'            => $mainPrices,
                 'default_variant'   => $prices,
-                'isInCart'          => (int)$this->app->jbcart->isExists($item),
+                'isInCart'          => (int)$cart->inCart($item->id),
                 'basketUrl'         => $this->_getBasketUrl(),
                 'addToCartUrl'      => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxAddToCart'),
                 'removeFromCartUrl' => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxRemoveFromCart'),
@@ -452,11 +408,14 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      */
     public function getDefaultVariant()
     {
-        $basicData = $this->getBasicData();
-        if (!empty($basicData['default_variant'])) {
-            $dataVariant = $this->_getVariations($basicData['default_variant']);
+        $data = $this->getBasicData();
+        $data = $this->app->data->create($data);
 
-            return $dataVariant;
+        $default = $data->get('default_variant');
+        if (!empty($default) || $default === 0) {
+
+            $variant = $this->getVariations($default);
+            return $variant;
         }
 
         return false;
@@ -478,158 +437,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
-     * Render default (complex) layout
-     * @param $params
-     * @return string
-     */
-    protected function _renderTmplDefault($params)
-    {
-        $layout = $this->getLayout('tmpl_default.php');
-        $prices = $this->_getTmplPrices($params);
-        $item   = $this->getItem();
-
-        $mainPrices = $this->_getPrices($params, $this->_getHash());
-
-        $relatedImgParams = $this->_getRelatedImageParams($params);
-
-        return self::renderLayout($layout, array(
-            'skuTmpl'           => $this->_renderSku($params),
-            'balanceTmpl'       => $this->_renderBalance($params),
-            'countTmpl'         => $this->_renderCount($params),
-            'pricesTmpl'        => $this->_renderPrices($params, $prices),
-            'buttonsTmpl'       => $this->_renderButtons($params),
-            'relatedImage'      => $relatedImgParams->get('unique'),
-            'popup'             => $relatedImgParams->get('popup', 0),
-            'prices'            => $mainPrices,
-            'isInCart'          => (int)$this->app->jbcart->isExists($item),
-            'basketUrl'         => $this->_getBasketUrl(),
-            'addToCartUrl'      => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxAddToCart'),
-            'removeFromCartUrl' => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxRemoveFromCart'),
-            'changeVariantUrl'  => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxChangeVariant', array(
-                    'elem_layout'   => $params->get('_layout'),
-                    'elem_position' => $params->get('_position'),
-                    'elem_index'    => $params->get('_index'),
-                )),
-            'modalUrl'          => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxModalWindow', array(
-                    'elem_layout'   => $params->get('_layout'),
-                    'elem_position' => $params->get('_position'),
-                    'elem_index'    => $params->get('_index'),
-                )),
-            'interfaceParams'   => array(
-                'currencyDefault' => $params->get('currency_default', 'EUR'),
-                'startValue'      => (int)$params->get('count_default', 1),
-                'multipleValue'   => (int)$params->get('count_multiple', 1),
-                'advFieldText'    => (int)$this->config->get('adv_field_text', 0),
-                'advAllExistShow' => (int)$this->config->get('adv_all_exists_show', 1),
-            ),
-        ));
-    }
-
-    /**
-     * Render "only SKU" template
-     * @param $params
-     * @return string
-     */
-    protected function _renderTmplOnlySku($params)
-    {
-        $layout = $this->getLayout('tmpl_only_sku.php');
-        return self::renderLayout($layout, array(
-            'basic' => $this->getBasicData(),
-        ));
-    }
-
-    /**
-     * Render "only buttons" template
-     * @param $params
-     * @return string
-     */
-    protected function _renderTmplOnlyButtons($params)
-    {
-        $layout = $this->getLayout('tmpl_only_buttons.php');
-        $item   = $this->getItem();
-        $params = $this->_overloadParamsByPrefix($params, 'only_');
-
-        if ($params->get('button_mode', 'normal') == 'modal') {
-            $this->app->jbassets->fancybox();
-        }
-
-        return self::renderLayout($layout, array(
-            'buttonsTmpl'       => $this->_renderButtons($params),
-            'isInCart'          => (int)$this->app->jbcart->isExists($item),
-            'basketUrl'         => $this->_getBasketUrl(),
-            'addToCartUrl'      => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxAddToCart'),
-            'removeFromCartUrl' => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxRemoveFromCart'),
-            'modalUrl'          => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxModalWindow', array(
-                    'elem_layout'   => $params->get('_layout'),
-                    'elem_position' => $params->get('_position'),
-                    'elem_index'    => $params->get('_index'),
-                )),
-        ));
-    }
-
-    /**
-     * Redner "only SKU" template
-     * @param $params
-     * @return string
-     */
-    protected function _renderTmplOnlyBalance($params)
-    {
-        $layout = $this->getLayout('tmpl_only_balance.php');
-
-        return self::renderLayout($layout, array(
-            'basic'  => $this->getBasicData(),
-            'params' => $params,
-        ));
-    }
-
-    /**
-     * Render "only SKU" template
-     * @param $params
-     * @return string
-     */
-    protected function _renderTmplOnlySale($params)
-    {
-        $layout = $this->getLayout('tmpl_only_sale.php');
-
-        $params->set('sale_show', $params->get('only_sale_mode', self::SALE_VIEW_ICON_VALUE));
-        return self::renderLayout($layout, array(
-            'saleTmpl' => $this->_renderSale($params),
-        ));
-    }
-
-    /**
-     * Render "only SKU" template
-     * @param $params
-     * @return string
-     */
-    protected function _renderTmplOnlyNew($params)
-    {
-        $layout = $this->getLayout('tmpl_only_new.php');
-
-        $params->set('new_show', 1);
-        return self::renderLayout($layout, array(
-            'newTmpl' => $this->_renderNew($params),
-        ));
-    }
-
-    /**
-     * Render "only Hit" template
-     * @param $params
-     * @return string
-     */
-    protected function _renderTmplOnlyHit($params)
-    {
-        $layout = $this->getLayout('tmpl_only_hit.php');
-
-        $params->set('hit_show', 1);
-        return self::renderLayout($layout, array(
-            'hitTmpl' => $this->_renderHit($params),
-        ));
-    }
-
-    /**
      * Render "Modal window" template
+     *
      * @param $params
+     *
      * @return string
      */
     protected function _renderTmplModal($params)
@@ -667,189 +478,12 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
-     * Render "only price" template
-     * @param $params
-     * @return string
-     */
-    protected function _renderTmplOnlyPrice($params)
-    {
-        $layout          = $this->getLayout('tmpl_only_price.php');
-        $prices          = $this->_getTmplPrices($params);
-        $currencyDefault = $params->get('currency_default', 'EUR');
-
-        $mainHash = $this->_getHash();
-        $prices   = array($mainHash => $prices[$mainHash]);
-        $basic    = $this->getBasicData();
-
-        return self::renderLayout($layout, array(
-            'params'   => $params,
-            'basic'    => $basic,
-            'base'     => array(
-                'price' => $prices[$mainHash]['prices'][$currencyDefault]['price'],
-                'total' => $prices[$mainHash]['prices'][$currencyDefault]['total'],
-                'save'  => $prices[$mainHash]['prices'][$currencyDefault]['save'],
-            ),
-            'discount' => array(
-                'value'  => (float)$basic['discount'],
-                'format' => $this->_jbmoney->toFormat($basic['discount'], $basic['discount_currency']),
-            )
-        ));
-    }
-
-    /**
-     * Render balance partial
-     * @param array $params
-     * @return null|string
-     */
-    protected function _renderBalance($params)
-    {
-        $params = $this->app->data->create($params);
-
-        if ((int)$params->get('balance_show', 1) && $layout = $this->getLayout('_balance.php')) {
-            return self::renderLayout($layout, array(
-                'basic'      => $this->getBasicData(),
-                'variations' => $this->_getVariations(),
-                'config'     => $this->config,
-                'params'     => $params,
-            ));
-        }
-
-        return null;
-    }
-
-    /**
-     * Render count partial
-     * @param array $params
-     * @return null|string
-     */
-    protected function _renderCount($params)
-    {
-        $params = $this->app->data->create($params);
-
-        if ($layout = $this->getLayout('_count.php')) {
-            return self::renderLayout($layout, array(
-                'isEnabled' => (int)$params->get('count_show', 1),
-            ));
-        }
-
-        return null;
-    }
-
-    /**
-     * Render buttons partial
-     * @param array $params
-     * @return null|string
-     */
-    protected function _renderButtons($params)
-    {
-        $params = $this->app->data->create($params);
-
-        if ($layout = $this->getLayout('_buttons.php')) {
-            $item = $this->getItem();
-
-            return self::renderLayout($layout, array(
-                'mode' => $params->get('button_mode', 'normal'),
-            ));
-        }
-
-        return null;
-    }
-
-    /**
-     * Get prices for template
-     * @param $params
-     * @return array
-     */
-    protected function _getTmplPrices($params)
-    {
-        static $prices;
-
-        if (!isset($result)) {
-            $params = $this->app->data->create($params);
-
-            $indexData    = $this->getIndexData();
-            $currencyList = $this->getCurrencyList();
-
-            $prices = array();
-            foreach ($indexData as $key => $data) {
-                $hash = $data['hash'];
-
-                $prices[$hash] = array(
-                    'balance'     => $data['balance'],
-                    'description' => $data['description'],
-                    'image'       => isset($data['image']) ? $data['image'] : '',
-                    'prices'      => array()
-                );
-
-                foreach ($currencyList as $currency) {
-
-                    $priceNoFormat = $this->_jbmoney->convert($data['currency'], $currency, $data['price']);
-                    $price         = $this->_jbmoney->toFormat($priceNoFormat, $currency);
-
-                    $totalNoFormat = $this->_jbmoney->convert($data['currency'], $currency, $data['total']);
-                    $total         = $this->_jbmoney->toFormat($totalNoFormat, $currency);
-
-                    $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
-                    $save         = $this->_jbmoney->toFormat($saveNoFormat, $currency);
-
-                    $prices[$hash]['prices'][$currency] = array(
-                        'totalNoFormat' => $totalNoFormat,
-                        'priceNoFormat' => $priceNoFormat,
-                        'saveNoFormat'  => $saveNoFormat,
-                        'total'         => $total,
-                        'price'         => $price,
-                        'save'          => $save,
-                    );
-                }
-            }
-        }
-
-        return $this->_prepareData($prices, $params);
-    }
-
-    /**
-     * Render prices partial
-     * @param array $params
-     * @param array $prices
-     * @return null|string
-     */
-    protected function _renderPrices($params, $prices)
-    {
-        $params          = $this->app->data->create($params);
-        $basic           = $this->getBasicData();
-        $currencyDefault = $params->get('currency_default', 'EUR');
-        $currencyList    = $this->getCurrencyList($params);
-
-        if ($layout = $this->getLayout('_prices.php')) {
-            return self::renderLayout($layout, array(
-                'saleTmpl'     => $this->_renderSale($params),
-                'newTmpl'      => $this->_renderNew($params),
-                'hitTmpl'      => $this->_renderHit($params),
-                'config'       => $this->config,
-                'params'       => $params,
-                'currencyList' => $currencyList,
-                //'selects'      => $this->_renderParamsControl($params),
-                'prices'       => $prices,
-                'base'         => array(
-                    'price' => $prices[$this->_getHash()]['prices'][$currencyDefault]['price'],
-                    'total' => $prices[$this->_getHash()]['prices'][$currencyDefault]['total'],
-                    'save'  => $prices[$this->_getHash()]['prices'][$currencyDefault]['save'],
-                ),
-                'discount'     => array(
-                    'value'  => (float)$basic['discount'],
-                    'format' => $this->_jbmoney->toFormat($basic['discount'], $basic['discount_currency']),
-                )
-            ));
-        }
-
-        return null;
-    }
-
-    /**
      * Overload params by prefix in key
      * TODO Remove this hack
+     *
      * @param JSONData|array $params
-     * @param string $prefix
+     * @param string         $prefix
+     *
      * @return JSONData|array
      */
     protected function _overloadParamsByPrefix($params, $prefix)
@@ -870,9 +504,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
-     * @param $prices
+     * @param       $prices
      * @param array $data
-     * @param $params
+     * @param       $params
+     *
      * @return mixed
      */
     protected function _prepareData($prices, $params, $data = array())
@@ -915,6 +550,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     /**
      * @param array $params
+     *
      * @return mixed
      */
     protected function _getRelatedImageParams($params = array())
@@ -942,7 +578,9 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     /**
      * Get currency list
+     *
      * @param array $params
+     *
      * @return array
      */
     public function getCurrencyList($params = array())
@@ -976,154 +614,15 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
-     * Render params controls
-     * @param $params
-     * @return array
-     */
-    protected function _renderParamsControl($params)
-    {
-        $jbhtml = $this->app->jbhtml;
-
-        $paramsTmpl   = (int)$params->get('params_tmpl', 0);
-        $advFieldText = (int)$this->config->get('adv_field_text', 0);
-        $advShowEmpty = (int)$this->config->get('adv_show_empty', 1);
-
-        $html = array();
-
-        for ($i = 1; $i <= 3; $i++) {
-
-            if ($paramsList = $this->_getParamOptions($i)) {
-
-                $default   = $this->config->get('adv_field_param_' . $i . '_default', '');
-                $default   = $this->app->string->sluggify($default);
-                $paramName = JString::trim($paramsList[''], '-');
-                reset($paramsList);
-
-                if (!$advShowEmpty) {
-                    unset($paramsList['']);
-
-                    if (empty($default)) {
-                        $default = key($paramsList);
-                    }
-                }
-
-                // validate default var
-                if (!isset($paramsList[$default])) {
-                    $default = key($paramsList);
-                }
-
-                if (self::PARAMS_TMPL_SELECT == $paramsTmpl) {
-                    $html[$i] = $jbhtml->select($paramsList, uniqid('jbprice-'), 'class="jsParam" data-index="p' . $i . '-"', $default);
-                    $html[$i] = '<div class="jbprice-param-select jbprice-param-list jbprice-param-list-' . $i . '">' . $html[$i] . '</div>';
-
-                } else if (self::PARAMS_TMPL_RADIO == $paramsTmpl) {
-
-                    $html[$i] = $jbhtml->radio($paramsList, uniqid('jbprice-'), '', $default);
-                    $html[$i] = '<fieldset class="jbprice-param-radio jbprice-param-list jbprice-param-' . $i . '" data-index="p' . $i . '-">'
-                        . '<legend>' . $paramName . '</legend>'
-                        . $html[$i]
-                        . '</fieldset>';
-                }
-
-            } else {
-                $html[$i] = $jbhtml->hidden('', '', 'class="jsParam" data-index="p' . $i . '-"');
-            }
-        }
-
-        $paramsList = $this->_getParamOptionsDesc();
-
-        if ($advFieldText == self::TEXT_FIELD_AS_PARAM && !empty($paramsList)) {
-
-            if (self::PARAMS_TMPL_SELECT == $paramsTmpl) {
-                $html[4] = $jbhtml->select($paramsList, uniqid('jbprice-'), 'class="jsParamDesc" data-index="d-"');
-                $html[4] = '<div class="jbprice-param-select jbprice-param-list jbprice-param-list-desc">' . $html[4] . '</div>';
-
-            } else if (self::PARAMS_TMPL_RADIO == $paramsTmpl) {
-                $paramName = JString::trim($paramsList[''], '-');
-                if (!$advShowEmpty) {
-                    unset($paramsList['']);
-                }
-
-                reset($paramsList);
-                $value = key($paramsList);
-
-                $html[4] = $jbhtml->radio($paramsList, uniqid('jbprice-'), '', $value);
-                $html[4] = '<fieldset class="jbprice-param-radio jbprice-param-list jbprice-param-list-desc" data-index="d-">'
-                    . '<legend>' . $paramName . '</legend>'
-                    . $html[4]
-                    . '</fieldset>';
-            }
-
-        } else if ($advFieldText == self::TEXT_FIELD_AS_PARAM && empty($paramsList)) {
-            $html[4] = $jbhtml->hidden('', '', 'class="jsParamDesc" data-index="d-"');
-        }
-
-        return implode("\n ", $html);
-    }
-
-    /**
-     * @param $params
-     * @param  array $values
-     * @return array|mixed
-     */
-    protected function _getPrices($params, $values = array())
-    {
-        $indexData    = $this->getIndexData();
-        $currencyList = $this->getCurrencyList();
-
-        $prices = array();
-
-        $i = 0;
-        if (!empty($indexData)) {
-            foreach ($indexData as $data) {
-
-                $prices[$i] = array(
-                    'balance'     => $data['balance'],
-                    'sku'         => isset($data['sku']) ? $data['sku'] : '',
-                    'description' => $data['description'],
-                    'image'       => isset($data['image']) ? $data['image'] : '',
-                );
-
-                foreach ($currencyList as $currency) {
-
-                    $priceNoFormat = $this->_jbmoney->convert($data['currency'], $currency, $data['price']);
-                    $price         = $this->_jbmoney->toFormat($priceNoFormat, $currency);
-
-                    $totalNoFormat = $this->_jbmoney->convert($data['currency'], $currency, $data['total']);
-                    $total         = $this->_jbmoney->toFormat($totalNoFormat, $currency);
-
-                    $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
-                    $save         = $this->_jbmoney->toFormat($saveNoFormat, $currency);
-
-                    $prices[$i][$currency] = array(
-                        'totalNoFormat' => $totalNoFormat,
-                        'priceNoFormat' => $priceNoFormat,
-                        'saveNoFormat'  => $saveNoFormat,
-                        'total'         => $total,
-                        'price'         => $price,
-                        'save'          => $save,
-                    );
-                }
-
-                $i++;
-            }
-
-        }
-        if (!empty($prices)) {
-            //$prices = $this->_prepareData($prices, $params);
-        }
-
-        return $prices;
-    }
-
-    /**
      * Get variant from $this->data() by values
      * MODE: DEFAULT
      *
-     * @param  array $values
+     * @param  array $values values from front end
+     * @param  bool  $no     return number of variant
+     *
      * @return array
      */
-    public function getVariantByValues($values = array())
+    public function getVariantByValues($values = array(), $no = false)
     {
         $data = $this->_getValues();
 
@@ -1131,7 +630,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             return $values;
         }
 
-        $variations = $this->_getVariations();
+        $variations = $this->getVariations();
 
         foreach ($data as $i => $value) {
             foreach ($values as $identifier => $fields) {
@@ -1145,7 +644,13 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                 }
 
                 if ($idError === false) {
-                    $diff = array_diff_assoc($fields, $value[$identifier]);
+                    if (isset($fields['value']) && empty($fields['value'])) {
+                        unset($fields);
+                    }
+
+                    if (!empty($fields)) {
+                        $diff = array_diff_assoc($fields, $value[$identifier]);
+                    }
 
                     if (!empty($diff)) {
                         $valError = true;
@@ -1158,9 +663,13 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             }
         }
 
-
         //$this->getPricesByVariant($variations[key($variations)])
-        return !empty($variations) ? $variations[key($variations)] : array();
+        $variant = !empty($variations) ? $variations[key($variations)] : array();
+        if (!empty($variant) && $no === true) {
+            $variant['no'] = key($variations);
+        }
+
+        return $variant;
     }
 
     /**
@@ -1168,6 +677,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      * MODE: OVERLAY
      *
      * @param  array $values
+     *
      * @return array
      */
     public function getVariantByValuesOverlay($values = array())
@@ -1188,7 +698,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                     $diff = array_diff_assoc($fields, $values[$identifier]);
 
                     if (empty($diff)) {
-                        $result[$i] = $this->_getVariations($i);
+                        $result[$i] = $this->getVariations($i);
                     }
                 }
             }
@@ -1216,6 +726,12 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         return !empty($basicData) ? $basicData : array();
     }
 
+    /**
+     * @param array $data
+     * @param array $values
+     *
+     * @return bool
+     */
     public function next($data = array(), &$values = array())
     {
         if (!is_array($data)) {
@@ -1260,6 +776,11 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         return false;
     }
 
+    /**
+     * @param array $variant
+     *
+     * @return array|bool
+     */
     public function getPricesByVariant($variant = array())
     {
         if (empty($variant)) {
@@ -1270,20 +791,9 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         $variant       = $this->app->data->create($variant);
         $variantParams = $this->app->data->create($variant->get('params'));
 
-        $discount     = $variantParams->get('_discount');
-        $discountVal  = $discount['value'];
-        $discountCurr = $discount['currency'];
+        $default = $this->_getDefaultCurrency();
 
-        $currencyDefault = $this->_getDefaultCurrency();
-
-        $basic = $this->getBasicData();
-        $basic = $this->app->data->create($basic);
-
-        $value      = $this->_jbmoney->calc($basic->get('_value'), $basic->get('_currency'), $variant->get('_value'), $variant->get('_currency'));
-        $basicPrice = $this->_jbmoney->convert($basic->get('_currency'), $currencyDefault, $value);
-        $basicTotal = $this->_jbmoney->calcDiscount($value, $basic->get('_currency'), $discountVal, $discountCurr);
-        $basicTotal = $this->_jbmoney->convert($basic->get('_currency'), $currencyDefault, $basicTotal);
-
+        $calc   = $this->calcVariant($variant);
         $result = array(
             'sku'         => $variantParams->get('_sku'),
             'balance'     => $variantParams->get('_balance', -1),
@@ -1293,10 +803,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
         foreach ($currencyList as $currency) {
 
-            $priceNoFormat = $this->_jbmoney->convert($currencyDefault, $currency, $basicPrice);
+            $priceNoFormat = $this->_jbmoney->convert($default, $currency, $calc['price']);
             $price         = $this->_jbmoney->toFormat($priceNoFormat, $currency);
 
-            $totalNoFormat = $this->_jbmoney->convert($currencyDefault, $currency, $basicTotal);
+            $totalNoFormat = $this->_jbmoney->convert($default, $currency, $calc['total']);
             $total         = $this->_jbmoney->toFormat($totalNoFormat, $currency);
 
             $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
@@ -1315,58 +825,131 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         return $result;
     }
 
-    public function getBasicPrices()
+    /**
+     * @param array  $variant
+     * @param string $currency
+     *
+     * @return array|float|mixed
+     */
+    public function calcVariant($variant = array(), $currency = self::DEFAULT_CURRENCY)
     {
-        $basic       = $this->getBasicData();
-        $basic       = $this->app->data->create($basic);
-        $basicParams = $this->app->data->create($basic->get('params'));
-
-        $currencyList    = $this->getCurrencyList();
-        $currencyDefault = $this->_getDefaultCurrency();
-        $basicCurrency   = $basic->get('_currency', $currencyDefault);
-
-        $discount = $basicParams->get('_discount');
-
-        $discountCurrency = isset($discount['currency']) ? $discount['currency'] : $currencyDefault;
-        $discountValue    = isset($discount['value']) ? $discount['value'] : 0;
-
-        $value = $basic->get('_value');
-
-        $prices = array(
-            'sku'         => $basicParams->get('_sku', $this->_item->id),
-            'image'       => $basicParams->get('_image', ''),
-            'description' => $basicParams->get('_description', ''),
-            'balance'     => $basicParams->get('_balance', -1),
-        );
-
-        $basicPrice = $this->_jbmoney->convert($basicCurrency, $currencyDefault, $value);
-        $basePrice  = $this->_jbmoney->calcDiscount($value, $basicCurrency, $discountValue, $discountCurrency);
-        $basicTotal = $this->_jbmoney->convert($basicCurrency, $currencyDefault, $basePrice);
-
-        foreach ($currencyList as $currency) {
-
-            $priceNoFormat = $this->_jbmoney->convert($currencyDefault, $currency, $basicPrice);
-            $price         = $this->_jbmoney->toFormat($priceNoFormat, $currency);
-
-            $totalNoFormat = $this->_jbmoney->convert($currencyDefault, $currency, $basicTotal);
-            $total         = $this->_jbmoney->toFormat($totalNoFormat, $currency);
-
-            $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
-            $save         = $this->_jbmoney->toFormat($saveNoFormat, $currency);
-
-            $prices[$currency] = array(
-                'totalNoFormat' => $totalNoFormat,
-                'priceNoFormat' => $priceNoFormat,
-                'saveNoFormat'  => $saveNoFormat,
-                'total'         => $total,
-                'price'         => $price,
-                'save'          => $save
-            );
+        if (empty($variant)) {
+            return $variant;
         }
 
-        return $prices;
+        $default = $this->_getDefaultCurrency();
+        $basic   = $this->getBasicReadableData();
+        $weight  = $basic->get('_weight', 1);
+
+        $basicCurrency = $basic->get('_currency');
+        $basicValue    = $basic->get('_value');
+
+        $bDiscount = $basic->get('_discount');
+        $variant   = $this->app->data->create($variant);
+        $params    = $this->app->data->create($variant->get('params'));
+        $discount  = $params->get('_discount');
+
+        $variantValue    = $variant->get('_value');
+        $variantCurrency = $variant->get('_currency');
+        $discountVal     = $discount['value'];
+        $discountCur     = $discount['currency'];
+
+        $properties = $params->get('properties');
+        $properties = $this->app->data->create($properties);
+
+        $price = $this->_jbmoney->calc($basicValue, $basicCurrency, $variantValue, $variantCurrency);
+        $price = $this->_jbmoney->convert($basicCurrency, $default, $price);
+        if (true) {
+            //$value = $this->_jbmoney->calcDiscount($value, $basicCurrency, $bDiscount['value'], $bDiscount['currency']);
+        }
+        $total = $this->_jbmoney->calcDiscount($price, $variantCurrency, $discountVal, $discountCur);
+        $total = $this->_jbmoney->convert($variantCurrency, $currency, $total);
+
+        $result = array(
+            'total'       => $total,
+            'price'       => $price,
+            'item_id'     => $this->getItem()->id,
+            'sku'         => $basic->get('_sku'),
+            'name'        => $this->getItem()->name,
+            'currency'    => $variantCurrency,
+            'image'       => '',
+            'params'      =>
+                array(
+                    'width'  => $properties->get('width', 1),
+                    'height' => $properties->get('height', 1),
+                    'length' => $properties->get('length', 1),
+                    'weight' => $weight['value']
+                ),
+            'priceParams' => array()
+        );
+
+        return $result;
     }
 
+    /**
+     * Get total price for basic data
+     *
+     * @param string $currency
+     *
+     * @return mixed
+     */
+    public function basicCalc($currency = self::DEFAULT_CURRENCY)
+    {
+        $basic  = $this->getBasicReadableData();
+        $weight = $basic->get('_weight', 1);
+
+        $discount    = $basic->get('_discount');
+        $discountVal = $discount['value'];
+        $discountCur = $discount['currency'];
+
+        $price     = $this->_jbmoney->convert($basic->get('_currency'), $currency, $basic->get('_value'));
+        $basePrice = $this->_jbmoney->calcDiscount($basic->get('_value'), $basic->get('_currency'), $discountVal, $discountCur);
+        $total     = $this->_jbmoney->convert($basic->get('_currency'), $currency, $basePrice);
+
+        $properties = $basic->get('properties');
+        $properties = $this->app->data->create($properties);
+
+        $result = array(
+            'total'       => $total,
+            'price'       => $price,
+            'item_id'     => $this->getItem()->id,
+            'sku'         => $basic->get('_sku'),
+            'name'        => $this->getItem()->name,
+            'currency'    => $basic->get('_currency', 'EUR'),
+            'image'       => '',
+            'params'      =>
+                array(
+                    'width'  => $properties->get('width', 1),
+                    'height' => $properties->get('height', 1),
+                    'length' => $properties->get('length', 1),
+                    'weight' => $weight['value']
+                ),
+            'priceParams' => array()
+        );
+
+        return $result;
+    }
+
+    /**
+     * Get convenient format basic data
+     *
+     * @return mixed
+     */
+    public function getBasicReadableData()
+    {
+        $basic  = $this->getBasicData();
+        $params = $basic['params'];
+        unset($basic['params']);
+        unset($basic['default_variant']);
+
+        $result = array_merge($basic, $params);
+
+        return $this->app->data->create($result);
+    }
+
+    /**
+     * @return array
+     */
     protected function _getValues()
     {
         $data = $this->data();
@@ -1375,9 +958,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
-     * @param $name
-     * @param $value
+     * @param        $name
+     * @param        $value
      * @param  array $attrs
+     *
      * @return mixed
      */
     protected function _renderRow($name, $value, $attrs = array())
@@ -1397,31 +981,8 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
-     * @param int $basic
-     * @param $selected
-     * @return string
-     */
-    protected function _renderFields($basic = 0, $selected = array())
-    {
-        $basic  = (int)$basic;
-        $result = array();
-
-        if ($basic) {
-            $basicData = $this->getBasicData();
-
-            $basicData['basic'] = $basic;
-            return $this->_variations($basicData);
-        }
-        $selected['basic'] = $basic;
-
-        $result[] = $this->_variations($selected);
-
-
-        return implode($result);
-    }
-
-    /**
      * @param  array $data
+     *
      * @return JBCartElement|null
      */
     public function loadElement($data = array())
@@ -1469,6 +1030,11 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         return $element;
     }
 
+    /**
+     * @param $identifier
+     *
+     * @return null
+     */
     protected function _getElementConfig($identifier)
     {
         $groupConfig = $this->_config->getGroup('cart.' . JBCart::CONFIG_PRICE);
@@ -1482,138 +1048,26 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         return null;
     }
 
-    protected function _getFields($selected, $function = 'edit')
-    {
-        $fields = $this->_position->loadForPrice($this);
-        $result = array();
-
-        foreach ($fields as $field) {
-            if (is_object($field)) {
-                $field->setJBPrice($this);
-                $this->_bindElements($field, $selected);
-
-                $result[] = $field->$function();
-            }
-        }
-
-        return implode("\n", $result);
-    }
-
-    protected function _variations($data = array())
-    {
-        $result = array();
-
-        $basic  = (int)$data['basic'];
-        $fields = $this->app->jbcartposition->loadForPrice($this);
-
-        foreach ($fields as $field) {
-
-            if (is_object($field)) {
-
-                if ($basic && $field->getMetaData('core') != 'true') {
-                    continue;
-                }
-
-                $this->_bindElements($field, array_merge(
-                    array(
-                        'config'             => $this->config,
-                        'related_identifier' => $this->identifier,
-                        'basicData'          => $this->getBasicData(),
-                    )), $data);
-
-                $this->_bindElements($field, $data);
-                $field->setJBPrice($this);
-                $result[] = $field->edit();
-            }
-        }
-
-        return implode($result);
-    }
-
-    /**
-     * Render variations for edit()
-     * @param  array $selected
-     * @param  int $variant - variant index
-     * @param  boolean $core
-     * @return null|string
-     */
-    protected function _renderEditFields($selected = array(), $variant, $core = false)
-    {
-        $result = array();
-
-        $fields = $this->app->jbcartposition->loadForPrice($this);
-
-        if (!empty($fields)) {
-            $i = 0;
-            foreach ($fields as $field) {
-
-                if ($core && $field->getMetaData('core') != 'true') {
-                    continue;
-                }
-
-                $select = null;
-
-                if (!empty($selected[$i]['value']) &&
-                    $selected[$i]['key'] == $field->identifier
-                ) {
-                    $select = $selected[$i]['value'];
-                }
-
-                $this->bindConfigElements($field, $i, $variant, $select);
-                $result[] = $field->edit();
-
-                $i++;
-            }
-
-            return implode($result);
-        }
-
-        return null;
-    }
-
-    protected function _bindElements($element, $data = array())
-    {
-        if (is_object($data)) {
-            $data = (array)$data;
-        }
-
-        foreach ($data as $key => $value) {
-            $element->config->set($key, $value);
-        }
-
-        return $this;
-    }
-
-    protected function bindConfigElements($element, $key = 0, $variant = 0, $selected = array(), $basic = false, $basicData = array())
-    {
-        $element->config->set('related_identifier', $this->identifier);
-        $element->config->set('key', $key);
-        $element->config->set('variant', $variant);
-        $element->config->set('selected', $selected);
-        $element->config->set('config', $this->config);
-        $element->config->set('basic', (int)$basic);
-        $element->config->set('basicData', $basicData);
-    }
-
     /**
      * Get variation list
+     *
      * @param  int $variant
+     *
      * @return array
      */
-    public function _getVariations($variant = null)
+    public function getVariations($variant = null)
     {
         $result = array();
 
         if (!(int)$this->config->get('mode', 0)) {
             return $result;
         }
-
-        $data        = $this->data();
-        $defaultData = $this->_getDefaultData();
+        $data    = $this->data();
+        $default = $this->_getDefaultData();
 
         if (isset($variant)) {
             if (isset($data['variations'][$variant])) {
-                return array_merge($defaultData, $data['variations'][$variant]);
+                return array_merge($default, $data['variations'][$variant]);
             }
 
             return $result;
@@ -1622,7 +1076,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         if (isset($data['variations'])) {
 
             foreach ($data['variations'] as $variant) {
-                $result[] = array_merge($defaultData, $variant);
+                $result[] = array_merge($default, $variant);
             }
 
         }
@@ -1642,130 +1096,18 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
-     * Get param option list
-     * @param int $index
-     * @param bool $edit
-     * @return array
-     */
-    protected function _getParamOptions($index, $edit = false)
-    {
-        $result     = array();
-        $variations = $this->_getVariations();
-        if ($elementId = $this->config->get('adv_field_param_' . $index)) {
-
-            $file = $this->app->path->path('jbtypes:' . $this->getItem()->type . '.config');
-            if ($file && $json = $this->app->jbfile->read($file)) {
-                $data = json_decode($json, true);
-            }
-
-            if (isset($data['elements'][$elementId]['option'])) {
-                $result[''] = '- ' . JText::_($data['elements'][$elementId]['name']) . ' -';
-                foreach ($data['elements'][$elementId]['option'] as $option) {
-                    if ((int)$this->config->get('adv_all_exists_show', 1) || $edit) {
-                        $result[$option['value']] = $option['name'];
-                    } else {
-                        foreach ($variations as $variation) {
-                            if (in_array($option['value'], $variation, true)) {
-                                $result[$option['value']] = $option['name'];
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        $result = count($result) > 1 ? $result : array();
-        return $result;
-    }
-
-    /**
-     * Get option list from all descriptions
-     * @return array
-     */
-    protected function _getParamOptionsDesc()
-    {
-        $variants = $this->_getVariations();
-
-        $result = array();
-
-        if (!empty($variants)) {
-            foreach ($variants as $variant) {
-                $key = $this->app->string->sluggify($variant['description']);
-                if ($key && $variant['description']) {
-                    $result[$key] = $variant['description'];
-                }
-            }
-        }
-
-        if (!empty($result)) {
-            $basic  = $this->getBasicData();
-            $result = $this->app->jbarray->unshiftAssoc($result, '', $basic['description']);
-        }
-
-        return $result;
-    }
-
-    /**
-     * Render SKU partial
-     * @param $params
-     * @return null|string
-     */
-    protected function _renderSKU($params)
-    {
-        $params = $this->app->data->create($params);
-
-        if ((int)$params->get('sku_show', 1) && $layout = $this->getLayout('_sku.php')) {
-            return self::renderLayout($layout, array(
-                'basic'      => $this->getBasicData(),
-                'variations' => $this->_getVariations(),
-            ));
-        }
-
-        return null;
-    }
-
-    /**
-     * Render Sale partial
-     * @param $params
-     * @return string
-     */
-    protected function _renderSale($params)
-    {
-        $params = $this->app->data->create($params);
-
-        if ((int)$params->get('sale_show', 1) && $layout = $this->getLayout('_sale.php')) {
-
-            $currencyDefault = $params->get('currency_default', 'EUR');
-            $prices          = $this->_getTmplPrices($params);
-            $basic           = $this->getBasicData();
-
-            return JString::trim(self::renderLayout($layout, array(
-                'mode'     => (int)$params->get('sale_show', self::SALE_VIEW_ICON_VALUE),
-                'discount' => array(
-                    'value'  => (float)$basic['discount'],
-                    'format' => $this->_jbmoney->toFormat($basic['discount'], $basic['discount_currency']),
-                ),
-                'base'     => array(
-                    'price' => $prices[$this->_getHash()]['prices'][$currencyDefault]['price'],
-                    'total' => $prices[$this->_getHash()]['prices'][$currencyDefault]['total'],
-                    'save'  => $prices[$this->_getHash()]['prices'][$currencyDefault]['save'],
-                ),
-            )));
-        }
-
-        return null;
-    }
-
-    /**
      * @return string
      */
     protected function _getDefaultCurrency()
     {
-        return 'eur';
+        $config = $this->_config->getGroup('cart.config');
+
+        return $config->get('default_currency');
     }
 
     /**
      * Bind and validate data
+     *
      * @param array $data
      */
     public function bindData($data = array())
@@ -1829,221 +1171,13 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         }
 
         parent::bindData($result);
-
-        /*$data = $this->_mergeDefaultData($data);
-
-        $mainBalance = (int)trim($data['basic']['_balance']);
-        $mainHash    = $this->_getHash();
-        $balanceMode = (int)$this->config->get('balance_mode', 0);
-
-        if (!(int)$this->config->get('balance_mode', 0)) {
-            $mainBalance = ($data['basic']['_balance'] > 0 || $data['basic']['_balance'] == -1) ? -1 : 0;
-        }
-
-        $data['basic']['sku'] = JString::trim($data['basic']['_sku']);
-
-        $data['basic'] = array(
-            'value'    => $this->_jbmoney->clearValue($data['basic']['value']),
-            'currency' => $this->_jbmoney->clearCurrency($data['basic']['_currency'], $this->_getDefaultCurrency()),
-            'params'   => array(
-                'sku'               => !empty($data['basic']['_sku']) ? $data['basic']['_sku'] : $mainHash,
-                'balance'           => $mainBalance,
-                'discount'          => $this->_jbmoney->clearValue($data['basic']['_discount']),
-                'discount_currency' => $this->_jbmoney->clearCurrency($data['basic']['_discount_currency'], $this->_getDefaultCurrency()),
-                'description'       => JString::trim($data['basic']['_description']),
-                'image'             => isset($data['basic']['_image']) ? $data['basic']['_image'] : ''
-            ),
-        );
-
-        if (isset($data['variations'])) {
-            foreach ($data['variations'] as $key => $variant) {
-
-                if ($balanceMode) {
-                    $variant['balance'] = (int)JString::trim($variant['_balance']);
-                } else {
-                    $variant['balance'] = $mainBalance;
-                }
-
-                $variant['sku'] = JString::trim($variant['_sku']);
-
-                $variant['params']['variant'] = $key;
-
-                $data['variations'][$key] = array(
-                    'value'    => $this->_jbmoney->clearValue($variant['_value']),
-                    'currency' => $this->_jbmoney->clearCurrency($variant['_currency']),
-                    'params'   => array(
-                        'sku'         => !empty($variant['_sku']) ? $variant['_sku'] : $mainHash,
-                        'balance'     => $variant['_balance'],
-                        'description' => isset($variant['_description']) ? JString::trim($variant['_description']) : '',
-                        'image'       => isset($variant['_image']) ? JString::trim($variant['_image']) : '',
-                    ),
-
-                    'params'   => $variant['params']
-                );
-            }
-
-            $variations = $uniqHashes = array();
-
-            foreach ($data['variations'] as $key => $variant) {
-
-                $variant['hash'] = $this->_getHash($variant);
-
-                if ($variant['hash'] !== $mainHash && !in_array($variant['hash'], $uniqHashes, true)) {
-                    $uniqHashes[] = $variant['hash'];
-
-                    $variations[$variant['hash']] = $variant;
-
-                } else {
-                    unset($data['variations'][$key]);
-                }
-
-            }
-
-            $data['variations'] = $variations;
-        }
-
-        //die;
-        parent::bindData($data);*/
-    }
-
-    /**
-     * Get index SKU-data for element
-     * @param bool $force
-     * @return array
-     */
-    public function getIndexData($force = false)
-    {
-        $itemId = $this->_getItemId();
-        //$this->app->jbdebug->mark('JBPrice::indexData::start-' . $itemId);
-
-        $isCacheEnabled = (int)$this->config->get('cache', 0) && !$force;
-
-        $result = array();
-        if ($isCacheEnabled) {
-            $cache     = $this->app->jbcache;
-            $cacheHash = array(
-                'itemId'  => $itemId,
-                'elemid'  => $this->identifier,
-                'data'    => (array)$this->data(),
-                'config'  => (array)$this->config,
-                'curmode' => $this->app->jbmoney->getMode(),
-            );
-            $cacheKey  = 'price_data';
-            $result    = $cache->get($cacheHash, $cacheKey, true);
-        }
-
-        if (empty($result)) {
-
-            $basic = $this->getBasicData();
-
-            if (!empty($basic['params'])) {
-
-                $basicParams = $this->app->data->create($basic['params']);
-
-                $discount      = $basicParams->get('_discount');
-                $basicParamSku = $basicParams->get('_sku');
-
-                $discountVal  = isset($discount['value']) ? $discount['value'] : 0;
-                $discountCurr = isset($discount['currency']) ? $discount['currency'] : $this->_getDefaultCurrency();
-
-                $variations      = $this->_getVariations();
-                $currencyDefault = $this->_getDefaultCurrency();
-
-                $price     = $this->_jbmoney->convert($basic['_currency'], $currencyDefault, $basic['_value']);
-                $basePrice = $this->_jbmoney->calcDiscount($basic['_value'], $basic['_currency'], $discountVal, $discountCurr);
-                $total     = $this->_jbmoney->convert($basic['_currency'], $currencyDefault, $basePrice);
-
-                $mainHash = $this->_getHash();
-                $mainSku  = !empty($basicParamSku) ? $basicParamSku : $mainHash;
-
-                $result[] = array(
-                    'is_sale'     => (int)($discountVal < 0),
-                    'item_id'     => $itemId,
-                    'element_id'  => $this->identifier,
-                    'sku'         => $mainSku,
-                    'type'        => self::TYPE_PRIMARY,
-                    'price'       => $price,
-                    'total'       => $total,
-                    'currency'    => $currencyDefault,
-                    'balance'     => $basicParams->get('_balance', -1),
-                    'image'       => $basicParams->get('_image'),
-                    'description' => $basicParams->get('_description')
-                );
-            }
-
-            if (!empty($variations)) {
-                foreach ($variations as $variant) {
-
-                    $variant       = $this->app->data->create($variant);
-                    $variantParams = $this->app->data->create($variant->get('params'));
-                    $variantSku    = $variantParams->get('_sku', $basicParamSku);
-
-                    $discount     = $variantParams->get('_discount');
-                    $discountVal  = $discount['value'];
-                    $discountCurr = $discount['currency'];
-
-                    $basic = $this->app->data->create($basic);
-
-                    $value = $this->_jbmoney->calc($basic->get('_value'), $basic->get('_currency'), $variant->get('_value'), $variant->get('_currency'));
-                    $price = $this->_jbmoney->convert($basic->get('_currency'), $currencyDefault, $value);
-                    $total = $this->_jbmoney->calcDiscount($value, $basic->get('_currency'), $discountVal, $discountCurr);
-                    $total = $this->_jbmoney->convert($basic->get('_currency'), $currencyDefault, $total);
-
-                    $result[] = array(
-                        'item_id'     => $itemId,
-                        'is_sale'     => (int)($discount['value'] < 0),
-                        'element_id'  => $this->identifier,
-                        'sku'         => !empty($variantSku) ? $variantSku : $mainSku,
-                        'type'        => self::TYPE_SECONDARY,
-                        'price'       => $price,
-                        'total'       => $total,
-                        'currency'    => $currencyDefault,
-                        'balance'     => $variantParams->get('_balance', -1),
-                        'image'       => $variantParams->get('_image', ''),
-                        'description' => $variantParams->get('_description', '')
-                    );
-                }
-            }
-
-            if ($isCacheEnabled) {
-                $cache->set($cacheHash, $result, $cacheKey, true);
-            }
-        }
-
-        //$this->app->jbdebug->mark('JBPrice::indexData::finish-' . $itemId);
-
-        return $result;
-    }
-
-    public function getIndexDataParameters()
-    {
-        $variations = $this->_getVariations();
-        $elements   = array();
-
-        if (!empty($variations)) {
-            foreach ($variations as $variant) {
-                foreach ($variant['params'] as $identifier => $value) {
-                    if (strpos($identifier, '_') !== 0) {
-
-                        $value = is_array($value) ? $value[key($value)] : $value;
-                        if (!empty($value)) {
-                            $elements[] = array(
-                                'element_id' => $identifier,
-                                'value'      => $value,
-                                'item_id'    => $this->_item->id
-                            );
-                        }
-                    }
-                }
-            }
-        }
-
-        return $elements;
     }
 
     /**
      * Get hash for variant
+     *
      * @param array $variant
+     *
      * @return string
      */
     protected function _getHash(array $variant = array())
@@ -2105,73 +1239,6 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
-     * Get balance text for templates
-     * @param int $balance
-     * @param int $viewMode
-     * @param int $type
-     * @return string
-     */
-    protected function _getBalanceText($balance, $viewMode = 0, $type = self::TYPE_PRIMARY)
-    {
-        $viewMode = (int)$viewMode;
-
-        if ($viewMode == self::BALANCE_VIEW_NO) {
-            return '';
-        }
-
-        $balanceMode = (int)$this->config->get('balance_mode', 0);
-        $textNo      = '<span class="not-available">' . JText::_('JBZOO_JBPRICE_NOT_AVAILABLE') . '</span>';
-        $textYes     = '<span class="available">' . JText::_('JBZOO_JBPRICE_AVAILABLE') . '</span>';
-
-        if ($type == self::TYPE_PRIMARY) {
-
-            $basicData = $this->getBasicData();
-
-            if ($viewMode == self::BALANCE_VIEW_SIMPLE) {
-                return $basicData['balance'] == 0 ? $textNo : $textYes;
-
-            } else if ($viewMode == self::BALANCE_VIEW_FULL) {
-
-                if ($balanceMode && $basicData['balance'] > 0) {
-                    return '<span class="available">' . JText::_('JBZOO_JBPRICE_BALANCE_TEXT') . ': ' . $basicData['balance'] . '</span>';
-
-                } else if (!$balanceMode && $basicData['balance'] > 0) {
-                    return $textYes;
-
-                } else if ($basicData['balance'] == -1) {
-                    return $textYes;
-
-                } else if ($basicData['balance'] == 0) {
-                    return $textNo;
-                }
-            }
-
-        } else if ($type == self::TYPE_SECONDARY) {
-
-            if ($viewMode == self::BALANCE_VIEW_SIMPLE) {
-                return $balance == 0 ? $textNo : $textYes;
-
-            } else if ($viewMode == self::BALANCE_VIEW_FULL) {
-
-                if ($balanceMode && $balance > 0) {
-                    return '<span class="available">' . JText::_('JBZOO_JBPRICE_BALANCE_TEXT') . ': ' . $balance . '</span>';
-
-                } else if (!$balanceMode && ($balance > 0 || $balance == -1)) {
-                    return $textYes;
-
-                } else if ($balance == -1) {
-                    return $textYes;
-
-                } else if ($balance == 0) {
-                    return $textNo;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Ajax add to cart (multi)
      * Experimental
      */
@@ -2194,12 +1261,32 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     /**
      * Ajax add to cart method
+     *
+     * @param int   $quantity
+     * @param array $values
+     * @param bool  $sendAjax
      */
-    public function ajaxAddToCart($quantity = 1, $params = array(), $sendAjax = true)
+    public function ajaxAddToCart($quantity = 1, $values = array(), $sendAjax = true)
     {
-        $jbajax = $this->app->jbajax;
+        $jbAjax  = $this->app->jbajax;
+        $cart    = JBCart::getInstance();
+        $variant = $this->getVariantByValues($values, true);
+        $params  = array(
+            'key' => $this->getKey($variant)
+        );
 
-        $hash = $this->_getHash(array(
+        if (empty($variant)) {
+            $item = $this->basicCalc();
+        } else {
+            $item = $this->calcVariant($variant);
+        }
+
+        $item['priceParams'] = $this->getValueName($values);
+        $item['quantity']    = $quantity;
+        $cart->addItem($item, $params);
+
+        $this->app->jbajax->send(array());
+        /*$hash    = $this->_getHash(array(
             'param1'      => isset($params['1']) ? $params['1'] : '',
             'param2'      => isset($params['2']) ? $params['2'] : '',
             'param3'      => isset($params['3']) ? $params['3'] : '',
@@ -2237,23 +1324,25 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             $sendAjax && $jbajax->send(array('message' => JText::_('JBZOO_JBPRICE_ITEM_NO_QUANTITY')), false);
         }
 
-        $sendAjax && $jbajax->send(array('added' => 0, 'message' => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE')));
+        $sendAjax && $jbajax->send(array('added' => 0, 'message' => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE')));*/
     }
 
     /**
-     * Ajax remove from cart method
+     * Remove from cart method
      */
     public function ajaxRemoveFromCart()
     {
-        $result = $this->app->jbcart->removeItem($this->getItem(), true);
+        $cart = JBCart::getInstance();
+
+        $result = $cart->remove($this->getItem()->id);
         $this->app->jbajax->send(array('removed' => $result));
     }
 
     /**
      * @param string $layout
      * @param string $position
-     * @param array $values
-     * @param int $index
+     * @param array  $values
+     * @param int    $index
      */
     public function ajaxChangeVariant($layout = 'full', $position = '', $index = 1, $values = array())
     {
@@ -2284,9 +1373,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     /**
      * Ajax method for modal window
+     *
      * @param string $layout
      * @param string $position
-     * @param int $index
+     * @param int    $index
      */
     public function ajaxModalWindow($layout = 'full', $position = '', $index = 1)
     {
@@ -2307,9 +1397,31 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
+     * Get key
+     *
+     * @param int   $no - index of variant
+     * @param array $variant
+     *
+     * @return string
+     */
+    public function getKey($variant = array(), $no = null)
+    {
+        $key = $this->getItem()->id;
+        $no  = null;
+
+        if (!empty($variant)) {
+            $no = (isset($variant['no']) || isset($variant['no']) && $variant['no'] === 0 ? '-' . $variant['no'] : '');
+        }
+
+        return $key . $no;
+    }
+
+    /**
      * Check is good in stock
+     *
      * @param $hash
      * @param $quantity
+     *
      * @return bool
      */
     public function isInStock($hash, $quantity)
@@ -2347,10 +1459,39 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
+     * @param  array $identifiers
+     *
+     * @return array
+     */
+    public function getValueName($identifiers = array())
+    {
+        $string = $this->app->jbstring;
+        $result = array();
+        if (!empty($identifiers)) {
+            foreach ($identifiers as $id => $value) {
+                if ($element = $this->loadElement($id)) {
+
+                    if (isset($value['value']) && empty($value['value'])) {
+                        continue;
+                    }
+
+                    $name = ucfirst($string->clean($element->getName()));
+
+                    $result[$name] = implode($value);
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Get render params
+     *
      * @param $layout
      * @param $position
      * @param $index
+     *
      * @return null|array
      */
     protected function _getRenderParams($layout, $position, $index)
@@ -2391,46 +1532,6 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
-     * Get total price by hash
-     * @param $hash
-     * @return string
-     */
-    protected function _getPriceByHash($hash)
-    {
-        $data = $this->getIndexData();
-
-        if (isset($data[$hash])) {
-            return $data[$hash];
-        }
-
-        return $data[$this->_getHash()];
-    }
-
-    /**
-     * Get formated params
-     * @param $params
-     * @return array
-     */
-    protected function _getFormatedParams($params)
-    {
-        $result = array();
-        foreach ($params as $key => $value) {
-            if ($value) {
-                $options = $this->_getParamOptions((int)$key);
-                reset($options);
-                $name = current($options);
-
-                preg_match('#-(.*?)-#u', $name, $matches); // TODO Remove this hack
-                if (isset($matches[1]) && $name = JString::trim($matches[1])) {
-                    $result[$name] = isset($options[$value]) ? $options[$value] : '';
-                }
-            }
-        }
-
-        return $result;
-    }
-
-    /**
      * Get default value for SKU
      * @return string
      */
@@ -2465,7 +1566,9 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     /**
      * Merge default data
+     *
      * @param $data
+     *
      * @return array
      */
     protected function _mergeDefaultData($data)
@@ -2487,8 +1590,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     /**
      * Reduce the balance value by hash
+     *
      * @param $hash
      * @param $quantity
+     *
      * @return bool
      */
     public function balanceReduce($hash, $quantity)

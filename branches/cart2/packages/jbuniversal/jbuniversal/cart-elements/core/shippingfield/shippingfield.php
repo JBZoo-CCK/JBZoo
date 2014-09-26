@@ -27,7 +27,6 @@ abstract class JBCartElementShippingField extends JBCartElement
      */
     public function edit($params = array())
     {
-
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params,

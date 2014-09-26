@@ -1,4 +1,17 @@
 <?php
+/**
+ * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ *
+ * @package     jbzoo
+ * @version     2.x Pro
+ * @author      JBZoo App http://jbzoo.com
+ * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+ * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
+ */
+
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 
 $items = $order->getItems();
 $jbmoney = $this->app->jbmoney;
@@ -12,17 +25,17 @@ $modifiersCount = count($modifiers);
 
 ?>
 
-<h2>Список товаров</h2>
+<h2><?php echo JText::_('JBZOO_ORDER_ITEMS_LIST'); ?></h2>
 
 <table class="uk-table uk-table-striped uk-table-condensed">
     <thead>
     <tr>
         <th style="width:30px">#</th>
-        <th style="width:90px">Картинка</th>
-        <th>Наименование</th>
-        <th style="width:150px;text-align: right;">Цена за штуку</th>
-        <th style="width:120px;text-align: center;">Количество</th>
-        <th style="width:150px;text-align: center;">Стоимость</th>
+        <th style="width:90px"><?php echo JText::_('JBZOO_ORDER_ITEM_IMAGE'); ?></th>
+        <th><?php echo JText::_('JBZOO_ORDER_ITEM_NAME'); ?></th>
+        <th style="width:150px;text-align: right;"><?php echo JText::_('JBZOO_ORDER_PRICE_PER_PIECE'); ?></th>
+        <th style="width:120px;text-align: center;"><?php echo JText::_('JBZOO_ORDER_ITEM_QUANTITY'); ?></th>
+        <th style="width:150px;text-align: center;"><?php echo JText::_('JBZOO_ORDER_ITEM_COST'); ?></th>
     </tr>
     </thead>
 
@@ -56,7 +69,7 @@ $modifiersCount = count($modifiers);
             </td>
             <td>
                 <div>
-                    <strong><?php echo $item ? '<a href="' . $itemLink . '" target="_blank">' . $row->get('name') . '</a>' : $row->get('name'); ?></strong><br />
+                    <strong><?php echo $item ? '<a href="' . $itemLink . '" target="_blank">' . $row->get('name') . '</a>' : $row->get('name'); ?></strong><br/>
 
                     <?php echo 'Артикул: ' . $row->get('sku') . '; Id: ' . $row->get('item_id') . '<br>'; ?>
 

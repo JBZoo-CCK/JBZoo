@@ -18,10 +18,7 @@ if (!empty($fields)) : ?>
         <?php foreach ($fields as $field) : ?>
             <li>
                 <strong>Желаемое время доставки</strong>
-                <?php
-                $date = new JDate($field);
-                echo $date->calendar('D, d M Y H:i:s', false, true);
-                ?>
+                <?php echo $field; ?>
             </li>
         <?php endforeach; ?>
     </ul>

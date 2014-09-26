@@ -9,8 +9,10 @@
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
     <params>
-        <param name="adresses" type="textarea" label="JBZOO_ELEMENT_PICKUP_ADRESSES"
+        <param name="addresses" type="textarea" label="JBZOO_ELEMENT_PICKUP_ADRESSES"
                description="JBZOO_ELEMENT_PICKUP_ADRESSES_DESC"/>
+        <param name="cost" type="text" default="0" label="JBZOO_SHIPPING_PICKUP_COST"
+               description="JBZOO_SHIPPING_PICKUP_COST_DESC"/>
     </params>
 
 </element>

@@ -32,6 +32,7 @@ class JBZooBasketHelper
 
     /**
      * Init Zoo
+     *
      * @param JRegistry $params
      */
     public function __construct(JRegistry $params)
@@ -64,7 +65,9 @@ class JBZooBasketHelper
 
         $summ = 0;
         foreach ($basketItems as $basketItem) {
+
             $priceValue = $basketItem['quantity'] * $basketItem['price'];
+
             $summ += $this->app->jbmoney->convert($basketItem['currency'], $currency, $priceValue);
         }
 
@@ -86,7 +89,9 @@ class JBZooBasketHelper
      */
     public function getBasketItems()
     {
-        $basketItems = $this->app->jbcart->getAllItems();
+        $cart = JBCart::getInstance();
+
+        $basketItems = $cart->getItems();
 
         return $basketItems;
     }

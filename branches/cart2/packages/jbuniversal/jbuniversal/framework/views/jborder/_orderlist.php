@@ -53,7 +53,7 @@ $orderDir = $this->filter->get('filter_order_Dir', 'desc');
             </td>
             <td><?php echo $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset()); ?></td>
             <td><?php echo $this->app->html->_('date', $order->modified, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset()); ?></td>
-                <td><?php echo $order->getStatus()->getName(); ?></td>
+                <td><?php echo $order->getName(); ?></td>
             <td>
                 <?php echo $order->getPayment()->getName(); ?><br>
                 <i><?php echo $order->getPayment()->getStatus(); ?></i>

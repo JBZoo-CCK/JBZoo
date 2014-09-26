@@ -601,40 +601,86 @@ var JBZooHelper = function () {
      */
     $.fn.JBZooBasket = function (options) {
 
-        var options = $.extend({}, {}, options);
+        var options = $.extend({}, {}, options),
+            shipping = $('.jbzoo .shipping-list').JBCartShipping();
 
         return $(this).each(function () {
 
             var $obj = $(this);
 
+            function reCountEffect(elem, value) {
+
+                $(elem)
+                    .animate({
+                        opacity: 0.1
+                    },
+                    {
+                        duration: 300,
+                        start: function () {
+                            $(this).addClass('jsSizeMedium');
+                        },
+                        always: function (promise, jumped) {
+                            $(this).effect('shake',
+                                {
+                                    'direction': 'up',
+                                    'distance': 1,
+                                    'times': 1
+                                }, 100);
+                        },
+                        complete: function () {
+                            $(this)
+                                .css('opacity', 1)
+                                .removeClass('jsSizeMedium');
+
+                            elem.text(value);
+                        }
+                    }
+                );
+            }
+
+            function addLoading() {
+                $obj.addClass('loading', 100);
+
+                $('input, select, textarea', $obj).attr('disabled', 'disabled');
+            }
+
+            function removeLoading() {
+                $obj.removeClass('loading', 100);
+                $('input, select, textarea', $obj).removeAttr('disabled');
+            }
+
             // recount basket
             var recount = function (data) {
 
-                for (var itemId in data.items) {
-                    var subTotal = data.items[itemId];
-                    $('.row-' + itemId + ' .jsSubtotal', $obj).text(subTotal);
+                shipping.recount();
+                for (var key in data.items) {
+                    var subTotal = data.items[key],
+                        elem = $('.row-' + key + ' .jsSubtotal .jsValue', $obj);
+
+                    reCountEffect(elem, subTotal);
                 }
 
-                $('.jsTotalCount', $obj).text(data.count);
-                $('.jsTotalPrice', $obj).text(data.total);
+                var count = $('.jsTotalCount .jsValue', $obj),
+                    total = $('.jsTotalPrice .jsValue', $obj);
+                reCountEffect(count, data.count);
+                reCountEffect(total, data.total);
+
             };
 
-            // remove one item
-            $('.jsDelete', $obj).click(function () {
-
-                var $button = $(this),
-                    itemid = $button.closest('tr').data('itemid'),
-                    hash = $button.closest('tr').data('hash');
+            function deleteItem($button) {
+                addLoading();
+                var itemid = $button.closest('tr').data('itemid'),
+                    key = $button.closest('tr').data('key');
 
                 JBZoo.ajax({
                     'url': options.deleteUrl,
                     'data': {
                         'itemid': itemid,
-                        'hash': hash
+                        'key': key
                     },
                     'success': function (data) {
                         var $row = $button.closest('tr');
-                        $row.find('td').slideUp(300, function () {
+                        $row.slideUp(300, function () {
                             $row.remove();
                             if ($obj.find('tbody tr').length == 0) {
                                 window.location.reload();
@@ -642,47 +688,50 @@ var JBZooHelper = function () {
                         });
                         recount(data);
                         $.fn.JBZooPriceReloadBasket();
+                        removeLoading();
+                    },
+                    'error': function (error) {
+                        removeLoading();
                     }
                 });
+            }
 
-                return false;
+            // remove one item
+            $('.jsDelete', $obj).click(function () {
+                deleteItem($(this));
             });
 
             // remove all
             $('.jsDeleteAll', $obj).click(function () {
 
-                var $button = $(this);
-
                 if (confirm(options.clearConfirm)) {
-
                     JBZoo.ajax({
                         'url': options.clearUrl,
                         'success': function () {
                             window.location.reload();
                         }
                     });
-
                 }
-
             });
 
+            $('.jsQuantity', $obj).quantity();
             // quantity
             var $quantity = $('.jsQuantity', $obj),
                 lastQuantityVal = $quantity.val(),
                 changeCallback = function ($input) {
 
                     var value = parseInt($input.val(), 10),
-                        itemid = parseInt($input.closest('tr').data('itemid'), 10),
-                        hash = $input.closest('tr').data('hash');
+                        tr = $input.parents('.jsQuantityTable').closest('tr'),
+                        itemid = parseInt(tr.data('itemid'), 10),
+                        key = tr.data('key');
 
-                    if ($input.val().length && value >= 0) {
+                    if ($input.val().length && value > 0) {
                         lastQuantityVal = value;
                         JBZoo.ajax({
                             'url': options.quantityUrl,
                             'data': {
                                 'value': value,
-                                'itemId': itemid,
-                                'hash': hash
+                                'key': key
                             },
                             'success': function (data) {
                                 recount(data);
@@ -694,7 +743,11 @@ var JBZooHelper = function () {
                                 }
                             }
                         });
+
                     }
+                    /*else if (value === 0) {
+                     deleteItem($input);
+                     }*/
                 },
                 changeTimer = 0,
                 timeoutCallback = function () {
@@ -716,15 +769,228 @@ var JBZooHelper = function () {
                     clearTimeout(changeTimer);
                     changeTimer = setTimeout(function () {
                         changeCallback($input);
-                    }, 200);
+                    }, 100);
                 })
                 .change(function () {
                     var $input = $(this);
                     clearTimeout(changeTimer);
                     changeTimer = setTimeout(function () {
                         changeCallback($input);
-                    }, 200);
+                    }, 100);
                 });
+        });
+    };
+
+    $.fn.quantity = function (settings) {
+
+        var options = $.extend({}, {
+            'default': 1,
+            'step': 1,
+            'min': 1,
+            'max': 9999999
+        }, settings);
+
+        return $(this).each(function () {
+
+            var $this = $(this),
+                processing = false;
+
+            if ($this.hasClass('quantity-init')) {
+                return $this;
+            }
+            $this.addClass('quantity-init');
+
+            function refreshDigits(value) {
+
+                var max = parseFloat(value) + (3 * options.step);
+                for (var i = 0; i < 5; i++) {
+                    max = max - options.step;
+
+                    digits.eq(i).html(validate(max));
+                }
+            }
+
+            function placeDigits() {
+
+                box.css({
+                    top: 0,
+                    marginTop: -digits.height() * 2 + 'px'
+                });
+            }
+
+            function validate(value) {
+
+                if (value < options.min) {
+                    value = null;
+                }
+
+                if (value > options.max) {
+                    value = null;
+                }
+
+                return value;
+            }
+
+            function scrollError(e, value) {
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                if (processing) return;
+
+                processing = true;
+                var top = parseInt(box.css('top')),
+                    i = value > 0 ? 1 : -1;
+
+                box
+                    .stop()
+                    .animate({
+                        top: (top + (digits.height() / 2 * i)) + 'px'
+                    }, {
+                        duration: 200,
+                        complete: function () {
+                            box
+                                .stop()
+                                .animate({
+                                    top: top + 'px'
+                                }, {
+                                    duration: 200,
+                                    complete: function () {
+                                        processing = false;
+                                    }
+                                });
+                        }
+                    });
+            }
+
+            function scroll(e, value) {
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                value = parseFloat(value);
+
+                var old = parseFloat($this.val()),
+                    val = old + value,
+                    i = value > 0 ? 1 : -1;
+
+                if (!validate(val)) {
+                    scrollError(e, value);
+                    return;
+                }
+
+                if (processing) return;
+
+                processing = true;
+                $this.blur();
+                $this.refresh();
+
+                $this.trigger('change').val(val);
+                box
+                    .stop()
+                    .animate({
+                        top: i * digits.height() + 'px'
+                    }, {
+                        duration: 500,
+                        complete: function () {
+                            processing = false;
+                        }
+                    });
+            }
+
+            $this.drawBody = function () {
+
+                var parent = $this.parent();
+
+                $('' +
+                    '<table cellpadding="0" cellspacing="0" border="0" class="jsQuantityTable quantity-table no-border">' +
+                    '<tr><td rowspan="2">' +
+                    '<div class="item-count-wrapper">' +
+                    '<div class="item-count">' +
+                    '<dl class="item-count-digits">' +
+                    '<dd></dd>' +
+                    '<dd></dd>' +
+                    '<dd></dd>' +
+                    '<dd></dd>' +
+                    '<dd></dd>' +
+                    '</dl>' +
+                    '</div>' +
+                    '</div>' +
+                    '</td>' +
+                    '<td>' +
+                    '<a href="#plus" class="jsAddQuantity plus btn-mini" title="Plus"></a>' +
+                    '</td></tr>' +
+                    '<tr><td>' +
+                    '<a href="#minus" class="jsRemoveQuantity minus btn-mini" title="Minus"></a>' +
+                    '</td></tr>' +
+                    '</table>').prependTo(parent);
+
+                $this.appendTo($('.jsQuantityTable .item-count', parent));
+            };
+
+            $this.bindEvents = function () {
+
+                $('.jsAddQuantity', table).on('click', function (e) {
+
+                    $this.add(e);
+                    return false;
+                });
+
+                $('.jsRemoveQuantity', table).on('click', function (e) {
+
+                    $this.remove(e);
+                    return false;
+                });
+
+                $this.on('change', function () {
+
+                    var value = parseFloat($.trim($this.val()));
+
+                    value = (isNaN(value) || value < options.min) ? options.min : value;
+                    value = (isNaN(value) || value > options.max) ? options.max : value;
+
+                    $this.val(value);
+                    $this.refresh();
+                });
+
+                $this
+                    .on('focus',function () {
+                        $this.css('opacity', '1');
+                        box.hide();
+                    }).on('keyup',function () {
+                        $this.refresh();
+                    }).on('blur', function () {
+                        $this.css('opacity', '0');
+                        box.show();
+                    });
+            };
+
+            $this.refresh = function () {
+
+                refreshDigits($this.val());
+                placeDigits();
+            };
+
+            $this.add = function (e) {
+
+                scroll(e, options.step);
+            };
+
+            $this.remove = function (e) {
+
+                scroll(e, -options.step);
+            };
+
+            $this.drawBody();
+
+            var table = $this.parents('.jsQuantityTable'),
+                digits = $('.item-count-digits dd', table),
+                box = $('.item-count-digits', table),
+                plus = $('.jsAddQuantity', table),
+                minus = $('.jsRemoveQuantity', table);
+
+            $this.bindEvents();
+            $this.refresh();
         });
     };
 
@@ -1991,8 +2257,8 @@ var JBZooHelper = function () {
     };
 
     /**
-     * JBZoo JBPrice Toggler (depricated!)
-     * @depricated
+     * JBZoo JBPrice Toggler (deprecated!)
+     * @deprecated
      * @param elementId
      * @param itemId
      * @constructor
@@ -2004,8 +2270,8 @@ var JBZooHelper = function () {
     };
 
     /**
-     * JBZoo JBPrice Cart reloader (depricated!)
-     * @depricated
+     * JBZoo JBPrice Cart reloader (deprecated!)
+     * @deprecated
      * @constructor
      */
     $.fn.JBZooPriceReloadBasket = function () {
@@ -2307,7 +2573,7 @@ var JBZooHelper = function () {
 
             function toggle(prices, newCurrency) {
                 var hash = getCurrentHash();
-
+                newCurrency = newCurrency.toLowerCase();
                 var values = '',
                     description = '';
 
@@ -2330,7 +2596,7 @@ var JBZooHelper = function () {
                     }
 
                 }
-                console.log(prices[hash]);
+
                 if (typeof values != 'undefined') {
 
                     $('.not-paid-box', $obj).show();
@@ -2417,7 +2683,7 @@ var JBZooHelper = function () {
                     'data': {
                         "args": {
                             'quantity': count,
-                            'params': getParamValues()
+                            'values': getValues()
                         }
                     },
                     'success': function (data) {
@@ -2437,6 +2703,11 @@ var JBZooHelper = function () {
             function removeFromCart() {
                 JBZoo.ajax({
                     'url': options.removeFromCartUrl,
+                    'data': {
+                        'args': {
+                            'values': getValues()
+                        }
+                    },
                     'success': function (data) {
                         $obj.removeClass('in-cart').addClass('not-in-cart');
                         $.fn.JBZooPriceReloadBasket();
@@ -2596,8 +2867,6 @@ var JBZooHelper = function () {
                 return result;
             }
 
-            //init quantity plugin
-            $.fn.JBZooPriceAdvanceQuantity($obj);
 
             /*// count
              $('.jsAddQuantity', $obj).click(function () {
@@ -2624,6 +2893,7 @@ var JBZooHelper = function () {
              $(this).val(value);
              });*/
 
+            $('.jsCount', $obj).quantity();
             // currency list
             $(".jsPriceCurrency", $obj).bind('click', function () {
                 var $cur = $(this),
@@ -2652,10 +2922,14 @@ var JBZooHelper = function () {
             });
 
             $(".jsAddToCart", $obj).click(function () {
+
+                var button = $(this);
+                button.addClass('loading').attr('disabled', 'disabled');
                 addToCart(function (data) {
                     if (data) {
                         $.fn.JBZooPriceToggle(options.identifier, options.itemId);
                     }
+                    button.removeClass('loading').removeAttr('disabled', 'disabled');
                 });
                 return false;
             });
@@ -2796,267 +3070,6 @@ var JBZooHelper = function () {
             init = true;
         });
     }
-
-    $.fn.JBZooPriceAdvanceQuantity = function ($obj) {
-
-        var $quantity = $('.jbprice-quantity', $obj),
-            multiple = $quantity.data('multiple'),
-            $default = $quantity.data('default');
-
-        var digits = $('.item-count-digits dd', $quantity),
-            digits_box = $('.item-count-digits', $quantity),
-            jsCount = $('input.jsCount', $quantity),
-            processing = false,
-            min_val = 1;
-
-        function scroll(e, i) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            jsCount.blur();
-
-            if (processing) return;
-            var val = parseInt(jsCount.val());
-
-            i = i > 0 ? 1 : -1;
-            var newVal = val + i;
-
-            if (!checkVal(newVal)) return;
-
-            processing = true;
-
-            setDigitVals(val);
-            placeDigits();
-
-            digits_box
-                .stop()
-                .animate({
-                    top: i * digits.height() + 'px'
-                    //marginTop:0
-                }, {
-                    duration: 500,
-                    //easing : '',
-                    complete: function () {
-                        processing = false;
-                        jsCount.val(newVal);
-                    }
-                });
-        }
-
-        function setDigitVals(value) {
-            var max = value + 2;
-
-            for (var i = 0; i < 5; i++) {
-                var num = max - i;
-
-                digits.eq(i).html(checkVal(num) ? num : '');
-            }
-        }
-
-        function refresh() {
-            setDigitVals(parseInt(jsCount.val(), 10));
-            placeDigits();
-        }
-
-        function checkVal(i) {
-            return i >= min_val;
-        }
-
-        function placeDigits() {
-
-            digits_box.css({
-                top: 0,
-                'marginTop': -digits.height() * 2 + 'px'
-            });
-        }
-
-        // count
-        $('.jsAddQuantity', $quantity).click(function (e) {
-
-            scroll(e, 1);
-            return false;
-        });
-
-        $('.jsRemoveQuantity', $quantity).click(function (e) {
-
-            scroll(e, -1);
-            return false;
-        });
-
-        $('.jsCount', $quantity).bind('change', function () {
-
-            var value = parseInt($.trim($(this).val()));
-            value = (isNaN(value) || value < 1) ? $default : value;
-            $(this).val(value);
-        });
-
-        setDigitVals($default);
-        placeDigits();
-
-        jsCount
-            .focus(function () {
-                jsCount.css('opacity', '1');
-                digits_box.hide();
-            }).keyup(function () {
-                refresh();
-            }).blur(function () {
-                jsCount.css('opacity', '0');
-                digits_box.show();
-            });
-
-        $('.jsCount', $quantity).val($default);
-        $('.jsCountValue', $quantity).text($default);
-
-        if ($default <= 1) {
-            $('.count-value-wrapper', $quantity).hide();
-        }
-
-        /*var CountBox = function (box, onChange) {
-         var
-         self = this,
-         box = $(box),
-         inp = box.find('input.jsCount'),
-         digits_box = box.find('.item-count-digits'),
-         digits = box.find('.item-count-digits dd'),
-
-         minus = box.find('.jsAddQuantity'),
-         plus = box.find('.jsRemoveQuantity'),
-
-         processing = false,
-         min_val = 1,
-         max_val = 99,
-         duration = 500
-         ;
-         this.getValue = function () {
-         return parse();
-         };
-         this.setValue = function (num) {
-         val(num);
-
-         applyInpVal();
-         };
-
-         if (box.length) init();
-
-         function init() {
-         inp
-         .focus(function () {
-         inp.css('opacity', '1');
-         digits_box.hide();
-         })
-         .keyup(function () {
-         applyInpVal();
-         })
-         .blur(function () {
-         applyInpVal();
-
-         inp.css('opacity', '0');
-         digits_box.show();
-         })
-         ;
-
-         applyInpVal(true);
-
-
-         minus.click(function (e) {
-         scroll(e, -1);
-         });
-         plus.click(function (e) {
-         scroll(e, 1);
-         });
-
-         box.data('CountBox', self);
-         }
-
-         function scroll(e, iVal) {
-         e.preventDefault();
-         e.stopPropagation();
-
-         inp.blur();
-
-         if (processing) return;
-
-         iVal = iVal > 0 ? 1 : -1;
-         var newVal = parse() + iVal;
-
-         if (!checkVal(newVal)) return;
-
-         processing = true;
-
-         placeDigits();
-         applyInpVal();
-
-         digits_box
-         .stop()
-         .animate({
-         top: iVal * digits.height() + 'px'
-         //				marginTop:0
-         }, {
-         duration: duration,
-         //easing : '',
-         complete: function () {
-         val(newVal);
-         processing = false;
-         }
-         })
-         ;
-         }
-
-
-         function applyInpVal(first) {
-         var iVal = setInpVal();
-         setDigitVals(iVal);
-         placeDigits();
-
-         if (!first && onChange) onChange();
-         }
-
-         function setInpVal() {
-         var res = parse();
-         val(res);
-         return res;
-         }
-
-         function setDigitVals(iVal) {
-         var max = iVal + 2;
-
-         for (var i = 0; i < 5; i++) {
-         var num = max - i;
-         digits.eq(i).html(checkVal(num) ? num : '');
-         }
-         }
-
-         function placeDigits() {
-         digits_box.css({
-         top: 0,
-         'marginTop': -digits.height() * 2 + 'px'
-         });
-         }
-
-         function checkVal(iVal) {
-         return iVal >= min_val && iVal <= max_val;
-         }
-
-         function parse() {
-         var res = val()
-         .replace(',', '.')
-         .replace(/[^\d\.]/gi, '')
-         ;
-
-         return parseInt(res) || 0;
-         }
-
-         function val() {
-         if (arguments.length) {
-         //inp.val(arguments[0]);
-         }
-         return inp.val() + '';
-         }
-         }
-
-         //CountBox($quantity);*/
-    }
-
 
     /**
      * @param options
@@ -3199,151 +3212,182 @@ var JBZooHelper = function () {
 
     $.fn.JBCartShipping = function () {
 
-        var byDefault = 'default';
+        var byDefault = 'default',
+            plugins = [],
+            clone = [],
+            $this = $(this),
+            create = false,
+            request = false;
 
-        return this.each(function () {
+        $this.recount = function () {
 
-            var $this = $(this),
-                plugins = [];
+            clone = $this.createPlugins();
 
-            $('.jsInputShippingService', $this).on('change', function () {
+            for (var name in plugins) {
+                plugins[name].getPrice('childRequest');
+                plugins[name].addClass('loading');
+            }
+        };
 
-                var $element = $(this).parents('.jsShippingElement');
+        $this.childRequest = function (result) {
+            request = result;
+        };
 
-                $this.hide();
-                $this.show($element);
-                $this.createPlugin($element);
+        $this.createPlugins = function () {
+
+            //if (create === false) {
+            $('.jsShippingElement', $this).each(function () {
+                $this.createPlugin($(this));
+                create = true;
+            });
+            //}
+
+            return plugins;
+        };
+
+        var toggleShipFields = function (shipFields) {
+
+            var shippingBlock = $this.nextAll('.shippingfileds-list');
+            shippingBlock.addClass('loading');
+
+            if (shipFields.indexOf(':') > 0) {
+
+                var fields = shipFields.split(':'),
+                    classes = '.element-' + fields.join(', .element-');
+
+                $(classes, shippingBlock).slideDown()
+                    .find('input, select')
+                    .removeAttr('disabled');
+
+                $('> div:not(' + classes + ')', shippingBlock)
+                    .slideUp(function () {
+
+                        $(this)
+                            .find('input, select')
+                            .attr('disabled', 'disabled');
+                    });
+
+            } else {
+                $('.element-' + shipFields, shippingBlock)
+                    .slideDown()
+                    .find('input, select, textarea')
+                    .removeAttr('disabled');
+
+                $('> div', shippingBlock).not('.element-' + shipFields)
+                    .slideUp(function () {
+
+                        $(this)
+                            .find('input, select, textarea')
+                            .attr('disabled', 'disabled');
+                    });
+            }
+
+            setTimeout(function () {
+                shippingBlock.removeClass('loading');
+            }, 500);
+        };
+
+        $('.jsInputShippingService', $this).on('change', function () {
+
+            var $element = $(this).parents('.jsShippingElement');
+
+            $this.toggleShipFields($element);
+            $this.createPlugin($element);
+            $this.hide();
+            $this.show($element);
+        });
+
+        $this.hide = function () {
+
+            $('.jsMoreOptions', $this).slideUp('fast', function () {
+                $('input, select', $(this)).attr('disabled', 'disabled');
             });
 
-            $this.hide = function () {
+            /*$('.jsMoreOptions', $this).animate({
+             opacity: 0
+             }, 1000, function () {
 
-                $('.jsMoreOptions', $this).slideUp('fast', function () {
-                    $('input, select', $(this)).attr('disabled', 'disabled');
+             });*/
+        };
+
+        $this.show = function ($element) {
+
+            /* $('.jsMoreOptions', $element).animate({
+             opacity: 1
+             }, 1000, function () {
+
+             });*/
+            $('.jsMoreOptions', $element).slideDown('fast');
+            $('.jsMoreOptions input, .jsMoreOptions select', $element).removeAttr('disabled');
+        };
+
+        $this.toggleShipFields = function ($element) {
+
+            var settings = $element.data('settings'),
+                shipFields = settings.shippingfields;
+
+            if (typeof shipFields != 'undefined') {
+                toggleShipFields(shipFields);
+            }
+
+        };
+
+        $this.createPlugin = function ($element) {
+
+            var name = $element.data('type'),
+                plugin = null;
+            if (typeof name == 'undefined') {
+                name = byDefault;
+            }
+
+            var plugName = $.trim('JBCartShipping' + name.toLowerCase());
+
+            if (typeof plugins[plugName] != 'undefined' && plugins[plugName].length !== 0) {
+                return plugins[plugName];
+            }
+
+            if ($.isFunction($.fn[plugName])) {
+
+                plugin = $element[plugName]({
+                    super: $this
                 });
 
-                /*$('.jsMoreOptions', $this).animate({
-                 opacity: 0
-                 }, 1000, function () {
+                plugins[plugName] = plugin;
+            } else {
 
-                 });*/
+                plugName = $.trim('JBCartShipping' + byDefault);
+                plugin = $element[plugName]({
+                    super: $this
+                });
+
+                plugins[plugName] = plugin;
             }
 
-            $this.show = function ($element) {
+            return plugin;
+        };
 
-                /* $('.jsMoreOptions', $element).animate({
-                 opacity: 1
-                 }, 1000, function () {
+        var $element =
+            $('.jsInputShippingService:checked', $this).parents('.jsShippingElement');
 
-                 });*/
-                $('.jsMoreOptions', $element).slideDown('fast');
-                $('.jsMoreOptions input, .jsMoreOptions select', $element).removeAttr('disabled');
-            }
+        $this.toggleShipFields($element);
+        $this.hide();
+        $this.createPlugin($element);
 
-            $this.toggleShipFields = function (shipFields) {
-
-                var shippingBlock = $this.nextAll('.shippingfileds-list');
-                shippingBlock.addClass('loading');
-
-                if (shipFields.indexOf(':') > 0) {
-
-                    var fields = shipFields.split(':'),
-                        classes = '.element-' + fields.join(', .element-');
-
-                    $(classes, shippingBlock).slideDown()
-                        .find('input, select')
-                        .removeAttr('disabled');
-
-                    $('> div:not(' + classes + ')', shippingBlock)
-                        .slideUp(function () {
-
-                            $(this)
-                                .find('input, select')
-                                .attr('disabled', 'disabled');
-                        });
-
-                } else {
-                    $('.element-' + shipFields, shippingBlock)
-                        .slideDown()
-                        .find('input, select')
-                        .removeAttr('disabled');
-
-                    $('> div', shippingBlock).not('.element-' + shipFields)
-                        .slideUp(function () {
-
-                            $(this)
-                                .find('input, select')
-                                .attr('disabled', 'disabled');
-                        });
-                }
-
-                setTimeout(function () {
-                    shippingBlock.removeClass('loading');
-                }, 500);
-            }
-
-            $this.createPlugin = function ($element) {
-
-                var name = $element.data('type'),
-                    plugin = null;
-                if (typeof name == 'undefined') {
-                    name = byDefault;
-                }
-
-                var settings = $element.data('settings'),
-                    shipFields = settings.shippingfields;
-
-                if (typeof shipFields != 'undefined') {
-                    $this.toggleShipFields(shipFields);
-                }
-
-                var plugName = $.trim('JBCartShipping' + name.toLowerCase());
-
-                if (typeof plugins[plugName] != 'undefined' && plugins[plugName].length !== 0) {
-                    return plugins[plugName];
-                }
-
-                if ($.isFunction($.fn[plugName])) {
-
-                    plugin = $element[plugName]({
-                        super: $this
-                    });
-
-                    plugins[plugName] = plugin;
-                } else {
-
-                    plugName = $.trim('JBCartShipping' + byDefault);
-                    $element[plugName]({
-                        super: $this
-                    });
-
-                    plugins[plugName] = plugin;
-                }
-            }
-
-            var $element =
-                $('.jsInputShippingService:checked', $this).parents('.jsShippingElement');
-
-            $this.hide();
-            $this.createPlugin($element);
-        });
-    }
+        return $this;
+    };
 
     $.fn.JBCartShippingdefault = function (options) {
 
         var settings = $.extend({
-            'super': {}
-        }, options, $(this).data('settings'));
+                'super': {}
+            }, options, $(this).data('settings')),
+            global = $(this);
 
-        return $(this).each(function () {
+        $(this).each(function () {
 
-            var $this = $(this),
-                name = 'Shipping-DEFAULTPost' + $this;
+            var $this = $(this);
 
-            if ($this.data(name)) {
-                return $this.data(name);
-            }
-
-            $this.getPrice = function () {
+            global.getPrice = function (callback) {
                 var $fields = $('.jsCalculate input:not(input:disabled), ' +
                         '.jsCalculate select:not(select:disabled)', $this),
                     result = {};
@@ -3367,64 +3411,54 @@ var JBZooHelper = function () {
                     'dataType': 'json',
                     'success': function (price) {
                         $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
+
+                        global.removeClass('loading');
+                        if (typeof callback != 'undefined') {
+                            settings.super[callback](true);
+                        }
                     },
                     'error': function (error) {
+                        global.removeClass('loading');
+                        if (typeof callback != 'undefined') {
+                            settings.super[callback](true);
+                        }
                     }
                 });
+            };
+
+            if ($this.hasClass('shipping-init')) {
+                return global;
             }
 
             $('.jsCalculate select, .jsCalculate input', $this).on('change', function () {
 
-                $this.getPrice($(this).val());
+                global.getPrice($(this).val());
             });
 
-            $this.data(name, $this);
+            $this.addClass('shipping-init');
         });
-    }
+
+        return global;
+    };
 
     $.fn.JBCartShippingemspost = function (options) {
 
         var settings = $.extend({
-            'super': {},
-            'toDoors': 3,
-            'toWrn': 4
-        }, options, $(this).data('settings'));
+                'super': {},
+                'toDoors': 3,
+                'toWrn': 4
+            }, options, $(this).data('settings')),
+            global = $(this);
 
-        return $(this).each(function () {
+        $(this).each(function () {
 
             var $this = $(this),
                 name = 'Shipping-EMSPost' + $this;
 
-            if ($this.data(name)) {
-                return $this.data(name);
-            }
-
-            $('#shippingto', $this).on('change', function () {
-
-                var value = $(this).val();
-                $('#shippingcountryto', $this).attr('disabled', 'disabled');
-                if (value.length === 0) {
-                    $('#shippingcountryto', $this).removeAttr('disabled');
-                }
-
-                $this.getPrice($(this).val());
-            });
-
-            $('#shippingcountryto', $this).on('change', function () {
-
-                var value = $(this).val();
-                $('#shippingto', $this).attr('disabled', 'disabled');
-                if (value.length === 0) {
-                    $('#shippingto', $this).removeAttr('disabled');
-                }
-
-                $this.getPrice($(this).val());
-            });
-
-            $this.getPrice = function (to) {
+            global.getPrice = function (callback) {
 
                 if (typeof to == 'undefined' || to.length === 0) {
-                    to = $('#shippingto', $this).val();
+                    to = $('select option:selected', $this).val();
                 }
 
                 var result = { to: to }
@@ -3438,36 +3472,107 @@ var JBZooHelper = function () {
                     },
                     'dataType': 'json',
                     'success': function (price) {
-                        console.log(price);
                         $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
+                        global.removeClass('loading');
+                        if (typeof callback != 'undefined') {
+                            settings.super[callback](true);
+                        }
                     },
                     'error': function (error) {
-                        console.log(error);
+                        global.removeClass('loading');
+                        if (typeof callback != 'undefined') {
+                            settings.super[callback](true);
+                        }
                     }
                 });
+            };
 
+            if ($this.hasClass('shipping-init')) {
+                return global;
             }
 
-            $this.data(name, $this);
+            $('#shippingto', $this).on('change', function () {
+
+                var value = $(this).val();
+                $('#shippingcountryto', $this).attr('disabled', 'disabled');
+                if (value.length === 0) {
+                    $('#shippingcountryto', $this).removeAttr('disabled');
+                }
+
+                global.getPrice();
+            });
+
+            $('#shippingcountryto', $this).on('change', function () {
+
+                var value = $(this).val();
+                $('#shippingto', $this).attr('disabled', 'disabled');
+                if (value.length === 0) {
+                    $('#shippingto', $this).removeAttr('disabled');
+                }
+
+                global.getPrice();
+            });
+
+            $this.addClass('shipping-init');
         });
-    }
+
+        return global;
+    };
 
     $.fn.JBCartShippingnewpost = function (options) {
 
         var settings = $.extend({
-            'super': {},
-            'toDoors': 3,
-            'toWrn': 4
-        }, options, $(this).data('settings'));
+                'super': {},
+                'toDoors': 3,
+                'toWrn': 4
+            }, options, $(this).data('settings')),
+            global = $(this);
 
-
-        return $(this).each(function () {
+        $(this).each(function () {
 
             var $this = $(this),
                 name = 'Shipping-NEWPost' + $this;
 
-            if ($this.data(name)) {
-                return $this.data(name);
+            global.getPrice = function (callback) {
+                var $fields = $('.jsCalculate input:not(input:disabled), ' +
+                        '.jsCalculate select:not(select:disabled)', $this),
+                    result = {};
+
+                $fields.each(function () {
+
+                    var $field = $(this), value = $.trim($field.val()), id = $field.attr('id');
+                    if (value.length > 0) {
+                        id = id.replace('shipping', '');
+                        result[id] = value;
+                    }
+                });
+
+                JBZoo.ajax({
+                    'url': settings.getPriceUrl,
+                    'data': {
+                        "args": {
+                            'fields': JSON.stringify(result)
+                        }
+                    },
+                    'dataType': 'json',
+                    'success': function (price) {
+                        $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
+                        global.removeClass('loading');
+                        if (typeof callback != 'undefined') {
+                            settings.super[callback](true);
+                        }
+                    },
+                    'error': function (error) {
+                        global.removeClass('loading');
+                        if (typeof callback != 'undefined') {
+                            settings.super[callback](true);
+                        }
+                    }
+                });
+            };
+
+            if ($this.hasClass('shipping-init')) {
+                return global;
             }
 
             var globCities = {},
@@ -3557,7 +3662,7 @@ var JBZooHelper = function () {
                     $this.showBlockWarehouse();
 
                 }
-            }
+            };
 
             $this.showBlockDoors = function () {
 
@@ -3569,7 +3674,7 @@ var JBZooHelper = function () {
                     .slideDown()
                     .find('input, select')
                     .removeAttr('disabled');
-            }
+            };
 
             $this.showBlockWarehouse = function () {
 
@@ -3581,7 +3686,23 @@ var JBZooHelper = function () {
                     .slideDown()
                     .find('input, select')
                     .removeAttr('disabled');
-            }
+            };
+
+            $this.addLoading = function () {
+                var $select = getCitySelect(),
+                    $wrhSelect = $('.jsNewPostWareehouse #shippingstreet', $this);
+
+                $select.addClass('loading');
+                $wrhSelect.addClass('loading');
+            };
+
+            $this.removeLoading = function () {
+                var $select = getCitySelect(),
+                    $wrhSelect = $('.jsNewPostWareehouse #shippingstreet', $this);
+
+                $select.removeClass('loading');
+                $wrhSelect.removeClass('loading');
+            };
 
             $this.setCities = function (region, callback) {
 
@@ -3595,10 +3716,7 @@ var JBZooHelper = function () {
                     proccessing = false;
                     return false;
                 }
-                var $select = getCitySelect(),
-                    $wrhSelect = $('.jsNewPostWareehouse #shippingstreet', $this);
-                $select.addClass('loading');
-                $wrhSelect.addClass('loading');
+                $this.addLoading();
 
                 JBZoo.ajax({
                     'url': settings.getCitiesUrl,
@@ -3614,18 +3732,16 @@ var JBZooHelper = function () {
                             callback();
                         }
 
-                        $select.removeClass('loading');
-                        $wrhSelect.removeClass('loading');
+                        $this.removeLoading();
                         proccessing = false;
 
                     },
                     'error': function (error) {
-                        $select.removeClass('loading');
-                        $wrhSelect.removeClass('loading');
+                        $this.removeLoading();
                         proccessing = false;
                     }
                 });
-            }
+            };
 
             $this.addCities = function (region) {
 
@@ -3645,7 +3761,7 @@ var JBZooHelper = function () {
                         }));
                     });
                 }
-            }
+            };
 
             $this.setWarehouses = function (city, callback) {
 
@@ -3684,7 +3800,7 @@ var JBZooHelper = function () {
                         proccessing = false;
                     }
                 });
-            }
+            };
 
             $this.addWarehouses = function (city) {
 
@@ -3702,39 +3818,7 @@ var JBZooHelper = function () {
                         text: value
                     }));
                 });
-            }
-
-            $this.getPrice = function () {
-                var $fields = $('.jsCalculate input:not(input:disabled), ' +
-                        '.jsCalculate select:not(select:disabled)', $this),
-                    result = {};
-
-                $fields.each(function () {
-
-                    var $field = $(this), value = $.trim($field.val()), id = $field.attr('id');
-                    if (value.length > 0) {
-                        id = id.replace('shipping', '');
-                        result[id] = value;
-                    }
-                });
-
-                JBZoo.ajax({
-                    'url': settings.getPriceUrl,
-                    'data': {
-                        "args": {
-                            'fields': JSON.stringify(result)
-                        }
-                    },
-                    'dataType': 'json',
-                    'success': function (price) {
-                        $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
-                        console.log(price);
-                    },
-                    'error': function (error) {
-                        console.log(error);
-                    }
-                });
-            }
+            };
 
             $('#shippingdeliverytype_id', $this).on('change', function () {
 
@@ -3742,7 +3826,7 @@ var JBZooHelper = function () {
             });
 
             $('.jsCalculate select', $this).on('change', function () {
-                $this.getPrice();
+                global.getPrice();
             });
 
             $('#shippingregions', $this).on('change', function () {
@@ -3757,7 +3841,48 @@ var JBZooHelper = function () {
             });
 
             $this.changePostType();
-            $this.data(name, $this);
+            $this.addClass('shipping-init');
+        });
+
+        return global;
+    };
+
+    $.fn.JBZooEmailPreview = function (options) {
+        var options = $.extend({}, {
+            'url': ''
+        }, options);
+
+        return $(this).each(function () {
+
+            var $this = $(this),
+                init = false;
+
+            if (init) {
+                return $this;
+            }
+            init = true;
+
+            $('.jsEmailTmplPreview', $this).on('click', function () {
+
+                $('#jsOrderList', $this).toggle();
+
+                return false;
+            });
+
+
+            $('#jsOrderList .order-id', $this).on('click', function () {
+
+                var $a = $(this),
+                    url = options.url + '&id=' + $a.data('id');
+                SqueezeBox.initialize({});
+                SqueezeBox.open(url, {
+                    handler: 'iframe',
+                    size: {x: 1050, y: 700}
+                });
+
+                return false;
+            })
+
         });
     }
 

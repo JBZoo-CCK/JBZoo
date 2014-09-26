@@ -21,9 +21,10 @@ class JBCartElementShippingCourier extends JBCartElementShipping
     const EDIT_DATE_FORMAT = '%Y-%m-%d %H:%M:%S';
 
     /**
-     * @param float $sum
-     * @param string $currency
+     * @param float       $sum
+     * @param string      $currency
      * @param JBCartOrder $order
+     *
      * @return float
      */
     public function modify($sum, $currency, JBCartOrder $order)
@@ -35,6 +36,7 @@ class JBCartElementShippingCourier extends JBCartElementShipping
 
     /**
      * @param array $params
+     *
      * @return bool
      */
     public function hasValue($params = array())
@@ -44,6 +46,7 @@ class JBCartElementShippingCourier extends JBCartElementShipping
 
     /**
      * @param array $params
+     *
      * @return mixed|string
      */
     public function renderSubmission($params = array())
@@ -62,21 +65,25 @@ class JBCartElementShippingCourier extends JBCartElementShipping
 
     /**
      * Validates the submitted element
+     *
      * @param $value
      * @param $params
+     *
      * @return array
      */
     public function validateSubmission($value, $params)
     {
-        $value    = $this->app->data->create($value);
         $shipping = $this->config->get('cost', 0);
 
+        $delivery = $this->app->validator->create('date')
+            ->addOption('date_format', self::EDIT_DATE_FORMAT)
+            ->clean($value->get('delivery_date'));
+
+        $date = new JDate($delivery);
         return array(
             'value'  => $shipping,
             'fields' => array(
-                'delivery_date' => $this->app->validator->create('date')
-                        ->addOption('date_format', self::EDIT_DATE_FORMAT)
-                        ->clean($value->get('delivery_date'))
+                'delivery_date' => $date->calendar('D, d M Y H:i', false, true)
             )
         );
     }

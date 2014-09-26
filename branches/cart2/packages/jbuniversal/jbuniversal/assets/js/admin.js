@@ -21,8 +21,8 @@ jQuery(function ($) {
     $.fn.JBColorElement = function (options) {
 
         var options = $.extend({}, {
-            message : ' already in the list settings',
-            theme   : 'bootstrap',
+            message: ' already in the list settings',
+            theme: 'bootstrap',
             position: 'bottom'
         }, options);
 
@@ -38,7 +38,7 @@ jQuery(function ($) {
                 }
 
                 $minicolors.minicolors({
-                    theme   : options.theme,
+                    theme: options.theme,
                     position: options.position
                 });
 
@@ -53,8 +53,8 @@ jQuery(function ($) {
                     }
 
                     new MooRainbow(item, {
-                        id        : item.id,
-                        imgPath   : '../media/system/images/mooRainbow/',
+                        id: item.id,
+                        imgPath: '../media/system/images/mooRainbow/',
                         startColor: [255, 0, 0],
                         onComplete: function (color) {
                             this.element.value = color.hex;
@@ -317,7 +317,7 @@ jQuery(function ($) {
             if (typeof jQuery.fn.chosen !== 'undefined') {
                 jQuery('.jbjkeyvalue-row:last select').chosen({
                     disable_search_threshold: 10,
-                    allow_single_deselect   : true
+                    allow_single_deselect: true
                 });
             }
 
@@ -348,7 +348,7 @@ jQuery(function ($) {
 
                     jQuery('select', $obj).chosen({
                         disable_search_threshold: 10,
-                        allow_single_deselect   : true
+                        allow_single_deselect: true
                     });
                 }
 
@@ -396,8 +396,8 @@ jQuery(function ($) {
 
         var $this = $(this),
             defaultOptions = {
-                'urlAddElement'    : "index.php?option=com_zoo",
-                'textNoElements'   : "No elements",
+                'urlAddElement': "index.php?option=com_zoo",
+                'textNoElements': "No elements",
                 'textElementRemove': "Are you sure you want to delete the element?"
             },
             options = $.extend({}, defaultOptions, options),
@@ -476,10 +476,10 @@ jQuery(function ($) {
 
                 connectWith: ".jsElementList",
                 placeholder: "jsElement",
-                handle     : ".jsSort",
-                cursorAt   : {top: 16},
-                tolerance  : "pointer",
-                scroll     : false,
+                handle: ".jsSort",
+                cursorAt: {top: 16},
+                tolerance: "pointer",
+                scroll: false,
 
                 change: function () {
                     $this.emptyList();
@@ -567,14 +567,14 @@ jQuery(function ($) {
             $elementList.removeClass('empty-list');
 
             JBZoo.ajax({
-                'url'     : options.urlAddElement,
-                'data'    : {
-                    elementType : type,
+                'url': options.urlAddElement,
+                'data': {
+                    elementType: type,
                     elementGroup: group,
-                    count       : 0
+                    count: 0
                 },
                 'dataType': 'html',
-                'success' : function (data) {
+                'success': function (data) {
                     var $newElement = $(data),
                         elemHeight = $newElement.height();
 
@@ -596,7 +596,7 @@ jQuery(function ($) {
 
                     new Tips($newElement.find(".hasTip[title]").get(), {
                         maxTitleChars: 1000,
-                        fixed        : false
+                        fixed: false
                     });
 
                     $this.trigger("element.added", $place);
@@ -740,10 +740,10 @@ jQuery(function ($) {
 
             function getValue($input) {
                 $.ajax({
-                    url     : options.url,
+                    url: options.url,
                     dataType: 'json',
-                    data    : 'name=' + $input.val(),
-                    success : function (value) {
+                    data: 'name=' + $input.val(),
+                    success: function (value) {
                         $input.next().val(value);
                     }
                 });

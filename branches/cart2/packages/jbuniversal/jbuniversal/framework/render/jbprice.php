@@ -39,7 +39,7 @@ class JBPriceRenderer extends PositionRenderer
     protected $_jbprice;
 
     /**
-     * @param App $app
+     * @param App  $app
      * @param null $path
      */
     public function __construct($app, $path = null)
@@ -53,6 +53,7 @@ class JBPriceRenderer extends PositionRenderer
 
     /**
      * @param string $position
+     *
      * @return bool|void
      */
     public function checkPosition($position)
@@ -75,7 +76,8 @@ class JBPriceRenderer extends PositionRenderer
 
     /**
      * @param string $layout
-     * @param array $args
+     * @param array  $args
+     *
      * @return string
      */
     public function render($layout, $args = array())
@@ -83,18 +85,17 @@ class JBPriceRenderer extends PositionRenderer
         $this->_jbprice = $args['price'];
         unset($args['price']);
 
-        $result = null;
-        $this->addPath(array(
-                $this->app->path->path('jbtmpl:catalog/'),
-                'jbprice.' . $layout
-            )
-        );
-
+        $result = '';
         $result .= parent::render('jbprice.' . $layout, $args);
 
         return $result;
     }
 
+    /**
+     * @param array $args
+     *
+     * @return string
+     */
     public function renderEditPositions($args = array())
     {
         // init vars
@@ -135,11 +136,6 @@ class JBPriceRenderer extends PositionRenderer
             foreach ($elements as $i => $data) {
                 $params = array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1)), $data['params']);
 
-                $this->addPath(array(
-                    $this->app->path->path('jbtmpl:catalog/'),
-                    'element' . $style
-                ));
-
                 $output[$i] = parent::render('element.jbprice.' . $style, array('element' => $data['element'], 'params' => $params));
             }
         }
@@ -149,7 +145,8 @@ class JBPriceRenderer extends PositionRenderer
 
     /**
      * @param string $position
-     * @param array $args
+     * @param array  $args
+     *
      * @return string|void
      */
     public function renderPosition($position = null, $args = array())
@@ -159,7 +156,7 @@ class JBPriceRenderer extends PositionRenderer
         $output   = array();
 
         // get style
-        $style = isset($args['style']) ? $args['style'] : 'default';
+        $style = isset($args['style']) ? 'jbprice.' . $args['style'] : 'jbprice.default';
 
         // store layout
         $layout = $this->_layout;
@@ -168,7 +165,7 @@ class JBPriceRenderer extends PositionRenderer
 
             if ($element = $this->_jbprice->loadElement($data)) {
 
-                if (!$element->canAccess()) {
+                if (!$element->canAccess() && !$element->hasValue($data)) {
                     continue;
                 }
 
@@ -188,11 +185,6 @@ class JBPriceRenderer extends PositionRenderer
         foreach ($elements as $i => $data) {
             $params = array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1)), $data['params']);
 
-            $this->addPath(array(
-                $this->app->path->path('jbtmpl:catalog/'),
-                'element.' . $style
-            ));
-
             $output[$i] = parent::render('element.' . $style, array('element' => $data['element'], 'params' => $params));
         }
 
@@ -203,6 +195,7 @@ class JBPriceRenderer extends PositionRenderer
 
     /**
      * @param $position
+     *
      * @return mixed
      */
     public function _getConfigPosition($position)
@@ -235,6 +228,7 @@ class JBPriceRenderer extends PositionRenderer
 
     /**
      * @param string $dir
+     *
      * @return array
      */
     public function getLayouts($dir)

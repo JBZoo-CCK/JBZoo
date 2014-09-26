@@ -35,7 +35,7 @@ $attrs = array(
 
     <div class="jbradio"></div>
 
-    <span class="name" title="<?php echo $adresses; ?>">
+    <span class="name" title="<?php echo $addresses; ?>">
         <?php echo $this->getName(); ?>
     </span>
 

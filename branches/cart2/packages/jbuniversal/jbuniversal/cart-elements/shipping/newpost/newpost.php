@@ -36,7 +36,8 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * Class constructor
-     * @param App $app
+     *
+     * @param App    $app
      * @param string $type
      * @param string $group
      */
@@ -50,16 +51,17 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     }
 
     /**
-     * @param float $sum
-     * @param string $currency
+     * @param float       $sum
+     * @param string      $currency
      * @param JBCartOrder $order
+     *
      * @return float
      */
     public function modify($sum, $currency, JBCartOrder $order)
     {
-        $data = $this->data();
+        $shipping = $this->getRate();
 
-        return $sum + $data->get('value', 0);
+        return $sum + $shipping;
     }
 
     /**
@@ -67,11 +69,12 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      */
     public function getRate()
     {
-        return 500;
+        return $this->get('value', 0);
     }
 
     /**
      * @param array $params
+     *
      * @return bool
      */
     public function hasValue($params = array())
@@ -80,7 +83,28 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     }
 
     /**
+     * Render shipping in order
+     *
+     * @param  array
+     *
+     * @return bool|string
+     */
+    public function edit($params = array())
+    {
+        if ($layout = $this->getLayout('edit.php')) {
+            return self::renderLayout($layout, array(
+                'params' => $params,
+                'value'  => $this->get('value'),
+                'fields' => $this->get('fields', array())
+            ));
+        }
+
+        return false;
+    }
+
+    /**
      * @param array $params
+     *
      * @return mixed|string
      */
     public function renderSubmission($params = array())
@@ -96,8 +120,10 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * Validates the submitted element
+     *
      * @param $value
      * @param $params
+     *
      * @return array
      */
     public function validateSubmission($value, $params)
@@ -116,6 +142,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
                 'type'      => $type,
                 'recipient' => $this->app->validator->create('string')->clean($value->get('recipientcity'))
             ),
+            'params' => $params
         );
     }
 
@@ -141,6 +168,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * @param  null|string $region
+     *
      * @return array
      */
     public function getCities($region = null)
@@ -170,6 +198,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * @param  null $city
+     *
      * @return array|bool
      */
     public function getWarehouses($city = null)
@@ -212,6 +241,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * @param  $data
+     *
      * @return array|bool
      */
     public function callService($data)
@@ -223,7 +253,9 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * Decoding the result of API call
+     *
      * @param $responseBody
+     *
      * @return array
      */
     public function processingData($responseBody)
@@ -234,10 +266,11 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     /**
      * Make request to service and get results
      *
-     * @param  string $url - Shipping service url.
+     * @param  string $url    - Shipping service url.
      * @param  string $method - POST, GET.
-     * @param  array $data - Data for POST $method
-     * @param  array $headers
+     * @param  array  $data   - Data for POST $method
+     * @param  array  $headers
+     *
      * @return bool|array
      */
     protected function _callService($url, $method = self::HTTP_GET, $data = array(), array $headers = array())
@@ -278,7 +311,9 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * Get array of parameters to push it into(data-params) element div
+     *
      * @param  boolean $encode - Encode array or no
+     *
      * @return string|array
      */
     public function getWidgetParams($encode = true)
@@ -339,7 +374,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
         $price  = $this->_getPrice($params);
 
         $this->app->jbajax->send(array(
-            'price' => $price
+            'price' => $this->_jbmoney->toFormat($price)
         ));
     }
 
@@ -373,6 +408,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * @param  $city
+     *
      * @return SimpleXMLElement|string
      */
     protected function _getWarehousesFromPost($city)
@@ -393,6 +429,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * @param array $params
+     *
      * @return mixed
      */
     protected function _getPrice($params = array())
@@ -433,7 +470,6 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
         if (!empty($xml)) {
             $price = $this->_jbmoney->convert(self::NEWPOST_CURRENCY, $this->currency(), (float)$xml->cost);
-            $price = $this->_jbmoney->toFormat($price);
         }
 
         return $price;
@@ -441,6 +477,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * @param  JBCartOrder $order
+     *
      * @return array
      */
     protected function _getParamsFromOrder(JBCartOrder $order)

@@ -30,7 +30,9 @@ class JBModelOrder extends JBModel
 
     /**
      * Get order by itemid
+     *
      * @param $orderId
+     *
      * @return JBCartOrder
      */
     public function getById($orderId)
@@ -41,9 +43,9 @@ class JBModelOrder extends JBModel
             ->where('id = ?', (int)$orderId)
             ->limit(1);
 
-        $data = $this->fetchRow($select);
+        $data = $this->fetchRow($select, true);
+        $order = JBcart::getInstance()->newOrder();
 
-        $order = JBcart::getInstance()->newOrder($data);
         $order->setData($data);
 
         return $order;
@@ -51,11 +53,13 @@ class JBModelOrder extends JBModel
 
     /**
      * @param JBCartOrder $order
+     *
      * @return mixed
      */
     public function save(JBCartOrder $order)
     {
         $this->app->jbtables->checkOrder();
+        $this->app->jbeventmanager->fireListeners();
 
         $currencies = $order->getCurrencyList();
         $params     = $order->getParams();
@@ -63,7 +67,7 @@ class JBModelOrder extends JBModel
 
         $data = array(
             'id'             => $order->id,
-            'status'         => $order->getStatus()->getCode(),
+            'status'         => 'undefined',//$order->getStatus()->getCode()
             'created'        => $order->created,
             'created_by'     => $order->created_by,
             'total'          => $order->getTotalSum(),
@@ -77,13 +81,25 @@ class JBModelOrder extends JBModel
             'comment'        => '',
         );
 
+        $id = $order->id;
+
+        $this->app->event->dispatcher->notify($this->app->event->create($order, 'basket:beforesave', array()));
         $order->id = $this->_insert($data, ZOO_TABLE_JBZOO_ORDER);
+
+        if (!$id && $order->id) {
+            $this->app->event->dispatcher->notify($this->app->event->create($order, 'basket:create', array()));
+        }
+
+        if ($order->id) {
+            $this->app->event->dispatcher->notify($this->app->event->create($order, 'basket:aftersave', array()));
+        }
 
         return $order->id;
     }
 
     /**
      * @param array $filter
+     *
      * @return array
      */
     public function getList($filter = array())
@@ -140,6 +156,7 @@ class JBModelOrder extends JBModel
 
     /**
      * @param array $filter
+     *
      * @return int
      */
     public function getCount($filter = array())
@@ -158,6 +175,7 @@ class JBModelOrder extends JBModel
 
     /**
      * @param array $filter
+     *
      * @return JBDatabaseQuery
      */
     protected function _getSelectByCond($filter = array())

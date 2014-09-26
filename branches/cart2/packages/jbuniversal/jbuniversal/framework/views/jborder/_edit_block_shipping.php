@@ -13,30 +13,20 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$jbmoney = $this->app->jbmoney;
-$element = $order->getShipping();
-
 ?>
 <div class="uk-panel uk-panel-box">
-    <h3 class="uk-panel-title">Сервис доставки</h3>
+
+    <h3 class="uk-panel-title">
+        <?php echo JText::_('JBZOO_ORDER_SHIPPING_TITLE'); ?>
+    </h3>
     <dl class="uk-description-list-horizontal">
-
-        <dt>Способ доставки</dt>
-        <dd><p><?php echo $element->getName(); ?></p></dd>
-
-        <dt>Цена доставки</dt>
-        <dd><p><?php echo $jbmoney->toFormat($element->get('value', 0), $element->currency()); ?></p></dd>
-
-        <dt>Статус</dt>
-        <dd><select style="width: 180px;">
-                <option>В процессе</option>
-            </select></dd>
-
-        <h3>Дополнительно</h3>
-
         <?php echo $this->shipRender->renderAdminEdit(array('order' => $order)); ?>
 
-        <?php echo $this->shipFieldsRender->renderAdminEdit(array('order' => $order)); ?>
+        <h3>
+            <?php echo JText::_('JBZOO_ORDER_SHIPPINGFIELD_TITLE'); ?>
+        </h3>
+
+<?php echo $this->shipFieldsRender->renderAdminEdit(array('order' => $order)); ?>
 
     </dl>
 </div>

@@ -55,10 +55,9 @@ class JBUniversalController extends AppController
     public $joomla;
 
     /**
-     * Init controler vars
      * @param array $app
      * @param array $config
-     * throws AppException
+     * @throws AppException
      */
     public function __construct($app, $config = array())
     {

@@ -44,5 +44,5 @@ $zipAttrs = array(
     <?php echo $jbhtml->select($typePost, $this->getControlName('typepost')); ?>
 </div>
 <div class="russianpost-postOfficeId">
-    <?php echo $jbhtml->text($this->getControlName('postOfficeId'), null, $zipAttrs); ?>
+    <?php echo $jbhtml->text($this->getControlName('postofficeid'), null, $zipAttrs); ?>
 </div>

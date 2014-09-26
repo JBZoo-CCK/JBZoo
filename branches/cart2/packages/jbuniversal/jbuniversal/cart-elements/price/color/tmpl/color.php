@@ -22,7 +22,7 @@ $attributes = array(
 ?>
 
 <div class="jbprice-param-radio jbprice-param-colors jbpriceParams"  data-type="<?php //echo $type; ?>radio">
-    <?php echo $this->app->jbhtml->colors('radio', $colorItems, $this->getControlName('color'), $this->getBasic($this->identifier), $attributes); ?>
+    <?php echo $this->app->jbhtml->colors('radio', $colorItems, $this->getRenderName('color'), $this->getBasic($this->identifier), $attributes); ?>
 </div>
 
 

@@ -14,67 +14,76 @@
 
     <tbody>
     <?php
-    if (0) {
+
+    if (!empty($view->items)) {
     $i = 0;
     $summa = 0;
     $count = 0;
 
-    $currencyConvert = $view->appParams->get('global.jbzoo_cart_config.currency');
-    $imageElementId = $view->appParams->get('global.jbzoo_cart_config.element-image');
+    $currency = $view->config->get('default_currency', 'EUR');
 
-    foreach ($view->basketItems as $hash => $basketItem) {
+    foreach ($view->items as $id => $data) {
+        if (empty($data)) {
+            continue;
+        }
+        $variant = null;
 
-        $item = $basketItem['item'];
+        if (strpos($id, '-')) {
+            list($itemId, $variant) = explode('-', $id);
+        }
 
-        $basketItem['price'] = $this->app->jbmoney->convert($basketItem['currency'], $currencyConvert, $basketItem['price']);
+        $item   = $this->app->table->item->get($data['item_id']);
+        $option = !empty($variant) || $variant == '0' ? '#' . ($variant + 1) : JText::_('JBZOO_CART_ITEM_VARIANT_BASIC');
+        $option = JText::sprintf('JBZOO_CART_ITEM_VARIANT_NO', $option);
 
-        $count += $basketItem['quantity'];
+        $price = $this->app->jbmoney->convert($data['currency'], $currency, $data['price']);
 
-        $subtotal = $basketItem['quantity'] * $basketItem['price'];
+        $count += $data['quantity'];
+        $subtotal = $data['quantity'] * $price;
         $summa += $subtotal;
 
-        $image = $this->app->jbitem->renderImageFromItem($item, $imageElementId, true);
+        $image = ''; //$this->app->jbitem->renderImageFromItem($item, $imageElementId, true);
 
-        echo '<tr class="row-' . $hash . '" data-itemId="' . $item->id . '" data-hash="' . $hash . '">';
+        echo '<tr class="row-' . $id . '" data-itemId="' . $data['item_id'] . '" data-key="' . $id . '">';
         echo '<td>' . ++$i . '</td>';
-        echo '<td>' . $basketItem['sku'] . '</td>';
+        echo '<td>' . $data['sku'] . '</td>';
         echo '<td>' . $image . '</td>';
 
         echo '<td>';
-        echo '<a href="' . $this->app->route->item($item) . '" title="' . $item->name . '">' . $item->name . '</a>';
-
-        if (isset($basketItem['priceParams']) && !empty($basketItem['priceParams'])) {
-            foreach ($basketItem['priceParams'] as $key => $value) {
+        echo '<a href="' . $this->app->route->item($item) . '" title="' . $data['name'] . '">' . $data['name'] . '</a><br/><i>(' . $option . ')</i>';
+        unset($item);
+        if (isset($data['priceParams']) && !empty($data['priceParams'])) {
+            foreach ($data['priceParams'] as $key => $value) {
                 if (!empty($value)) {
                     echo '<div><strong>' . $key . ':</strong> ' . $value . '</div>';
                 }
             }
         }
 
-        if (!empty($basketItem['priceDesc'])) {
-            echo '<br/><span class="price-description">' . $basketItem['priceDesc'] . '</span>';
-        }
-
         echo '</td>';
 
-        if ($basketItem['price']) {
-            echo '<td class="jsPricevalue" price="' . $basketItem['price'] . '">'
-                . $this->app->jbmoney->toFormat($basketItem['price'], $currencyConvert)
-                . ' </td>';
+        if ($data['price']) {
+            echo '<td class="jsPricevalue" price="' . $price . '">'
+                . $this->app->jbmoney->toFormat($price, $currency)
+                . '</td>';
         } else {
             echo '<td> - </td>';
         }
 
-        echo '<td><input type="text" class="jsQuantity input-quantity" value="' . $basketItem['quantity'] . '" /></td>';
+        echo '<td><input type="text" class="jsQuantity input-quantity" value="' . $data['quantity'] . '" /></td>';
 
-        if ($basketItem['price']) {
-            echo '<td class="jsSubtotal">' . $this->app->jbmoney->toFormat($subtotal, $currencyConvert) . '</td>';
+        if ($price) {
+            echo '<td class="jsSubtotal basket-table-subtotal">
+            <span class="basket-table-value jsValue">
+            ' . $this->app->jbmoney->toFormat($subtotal, $currency) . '
+            </span></td>';
         } else {
             echo '<td> - </td>';
         }
 
-        echo '<td><input type="button" class="jbbutton jsDelete" itemid="' . $item->id . '" value="' . JText::_('JBZOO_CART_DELETE') . '" /></td>';
+        echo '<td><input type="button" class="jbbutton jsDelete" itemid="' . $id . '" value="' . JText::_('JBZOO_CART_DELETE') . '" /></td>';
         echo "</tr>\n";
+
     }
     ?>
     </tbody>
@@ -86,11 +95,15 @@
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td><strong><?php echo JText::_('JBZOO_CART_TOTAL'); ?>:</strong></td>
-        <td class="jsTotalCount"><?php echo $count; ?></td>
-        <td class="jsTotalPrice"><?php echo $this->app->jbmoney->toFormat($summa, $currencyConvert); ?></td>
+        <td class="jsTotalCount">
+            <span class="jsValue"><?php echo $count; ?></span>
+        </td>
+        <td class="jsTotalPrice">
+            <span class="jsValue"><?php echo $this->app->jbmoney->toFormat($summa, $currency); ?></span>
+        </td>
         <td>
             <input type="button" class="jbbutton jsDeleteAll"
-                   value="<?php echo JText::_('JBZOO_CART_REMOVE_ALL'); ?>" />
+                   value="<?php echo JText::_('JBZOO_CART_REMOVE_ALL'); ?>"/>
         </td>
     </tr>
     </tfoot>
@@ -101,9 +114,9 @@
     jQuery(function ($) {
         $('.jbzoo .jsJBZooBasket').JBZooBasket({
             'clearConfirm': "<?php echo JText::_('JBZOO_CART_CLEAR_CONFIRM');?>",
-            'quantityUrl' : "<?php echo $this->app->jbrouter->basketQuantity();?>",
-            'deleteUrl'   : "<?php echo $this->app->jbrouter->basketDelete();?>",
-            'clearUrl'    : "<?php echo $this->app->jbrouter->basketClear();?>"
+            'quantityUrl': "<?php echo $this->app->jbrouter->basketQuantity();?>",
+            'deleteUrl': "<?php echo $this->app->jbrouter->basketDelete();?>",
+            'clearUrl': "<?php echo $this->app->jbrouter->basketClear();?>"
         });
     });
 </script>

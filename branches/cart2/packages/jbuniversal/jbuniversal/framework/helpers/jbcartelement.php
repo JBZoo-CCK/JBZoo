@@ -26,6 +26,7 @@ class JBCartElementHelper extends AppHelper
     protected $_coreElements = array(
         'JBCartElement'              => 'cart-elements:core/element/element.php',
         'JBCartElementCurrency'      => 'cart-elements:core/currency/currency.php',
+        'JBCartElementEmail'         => 'cart-elements:core/email/email.php',
         'JBCartElementShipping'      => 'cart-elements:core/shipping/shipping.php',
         'JBCartElementShippingField' => 'cart-elements:core/shippingfield/shippingfield.php',
         'JBCartElementModifierItem'  => 'cart-elements:core/modifieritem/modifieritem.php',

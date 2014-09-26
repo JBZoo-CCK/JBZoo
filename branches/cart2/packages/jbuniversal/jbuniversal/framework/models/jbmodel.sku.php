@@ -64,8 +64,8 @@ class JBModelSku extends JBModel
             if (!empty($priceElements)) {
 
                 foreach ($priceElements as $element) {
-                    $this->_indexPrice($element->getIndexData(true));
-                    $this->_indexPrice($element->getIndexDataParameters(), ZOO_TABLE_JBZOO_SKU_PARAMS);
+                    //$this->_indexPrice($element->getIndexData(true));
+                    //$this->_indexPrice($element->getIndexDataParameters(), ZOO_TABLE_JBZOO_SKU_PARAMS);
                 }
 
                 return true;

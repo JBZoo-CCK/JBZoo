@@ -20,7 +20,7 @@ if (!empty($elementHTML)) {
     $label = '';
     if (isset($params['showlabel']) && $params['showlabel']) {
         $label .= '<h3>';
-        $label .= ($params['altlabel']) ? $params['altlabel'] : $element->getConfig()->get('name');
+        $label .= ($params['altlabel']) ? $params['altlabel'] : $this->getConfig()->get('name');
         $label .= '</h3>';
     }
 

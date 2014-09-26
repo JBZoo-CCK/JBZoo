@@ -181,6 +181,36 @@ class JBRouterHelper extends AppHelper
     }
 
     /**
+     * TODO Delete this method
+     * Element ajax call (for admin)
+     * @param string $identifier
+     * @param string $controller
+     * @param string $layout
+     * @param string $method
+     * @param array $params
+     * @return string
+     */
+    public function elementAdminOrder($identifier = null, $method = 'ajax', $layout = null, $controller = 'jbcart', array $params = array())
+    {
+        $linkParams = array(
+            'option'     => 'com_zoo',
+            'layout'     => $layout,
+            'controller' => $controller,
+            'task'       => 'callelement',
+            'format'     => 'raw',
+            'element'    => $identifier,
+            'elm_id'     => $identifier,
+            'method'     => $method,
+        );
+
+        if (!empty($params)) {
+            $linkParams['args'] = $params;
+        }
+
+        return $this->_url($linkParams, true);
+    }
+
+    /**
      * Compare link
      * @param int $menuItemid
      * @param string $layout

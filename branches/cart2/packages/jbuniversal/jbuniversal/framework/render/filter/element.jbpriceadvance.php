@@ -58,7 +58,7 @@ class JBFilterElementJBPriceAdvance extends JBFilterElement
     public function html()
     {
         $values   = $this->_prepareValues();
-        $renderer = $this->app->renderer->create('jbpricefilter');
+        $renderer = $this->app->jbrenderer->create('jbpricefilter');
         $html     = array();
 
         echo $renderer->render('default', array(
