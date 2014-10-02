@@ -239,6 +239,8 @@ class JBTablesHelper extends AppHelper
             $this->createTable(ZOO_TABLE_JBZOO_ORDER, array(
                 '`id` INT(11) NOT NULL AUTO_INCREMENT',
                 '`status` VARCHAR(100) NULL DEFAULT \'0\'',
+                '`status_payment` VARCHAR(100) NULL DEFAULT \'0\'',
+                '`status_shipping` VARCHAR(100) NULL DEFAULT \'0\'',
                 '`created` DATETIME NULL DEFAULT NULL',
                 '`created_by` INT(11) NULL DEFAULT NULL',
                 '`modified` DATETIME NULL DEFAULT NULL',
@@ -254,6 +256,8 @@ class JBTablesHelper extends AppHelper
             ), array(
                 'PRIMARY KEY (`id`)',
                 'INDEX `status` (`status`)',
+                'INDEX `status_payment` (`status_payment`)',
+                'INDEX `status_shipping` (`status_shipping`)',
                 'INDEX `created` (`created`)',
                 'INDEX `created_by` (`created_by`)',
                 'INDEX `modified` (`modified`)',

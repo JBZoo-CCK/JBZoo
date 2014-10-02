@@ -19,49 +19,77 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartStatusHelper extends AppHelper
 {
-
-    protected $_list = null;
+    /**
+     * @var JSONData
+     */
+    protected $_lists = null;
 
     /**
      * @return array
      */
     protected function init()
     {
-        if (is_null($this->_list)) {
+        if (is_null($this->_lists)) {
 
-            $elements = $this->app->jbcartposition->loadElements(JBCart::ELEMENT_TYPE_STATUS);
+            $elements = $this->app->jbcartposition->loadPositions(JBCart::ELEMENT_TYPE_STATUS);
 
-            $this->_list = array();
-            foreach ($elements as $element) {
-                $this->_list[$element->getCode()] = $element;
+            $this->_lists = array();
+            foreach ($elements as $groupName => $list) {
+
+                $this->_lists[$groupName] = array();
+
+                foreach ($list as $element) {
+                    $this->_lists[$groupName][$element->getCode()] = $element;
+                }
             }
+
+            $this->_lists = $this->app->data->create($this->_lists);
+
+            return $this->_lists;
+        }
+    }
+
+    /**
+     * @param string $group
+     * @param bool $asKeyValue
+     * @param bool $addUndefined
+     * @return array
+     */
+    public function getList($group = JBCart::STATUS_ORDER, $asKeyValue = false, $addUndefined = true)
+    {
+        $this->init();
+
+        $list = $this->_lists->get($group, array());
+
+        if (!$asKeyValue) {
+            return $list;
         }
 
-        return $this->_list;
-    }
+        $result = array();
 
-    /**
-     *
-     */
-    public function getList()
-    {
-        $this->init();
-        return $this->_list;
+        if ($addUndefined) {
+            $und                     = $this->getUndefined();
+            $result[$und->getCode()] = $und->getName();
+        }
+
+        foreach ($list as $element) {
+            $result[$element->getCode()] = $element->getName();
+        }
+
+        return $result;
     }
 
     /**
      * @param $code
-     */
-    /**
-     * @param $code
+     * @param string $group
      * @return null
      */
-    public function getByCode($code)
+    public function getByCode($code, $group = JBCart::STATUS_ORDER)
     {
-        $this->init();
+        $list = $this->getList($group);
 
-        if (isset($this->_list[$code])) {
-            return clone($this->_list[$code]);
+        if (isset($list[$code])) {
+            return clone($list[$code]);
         }
 
         return null;
@@ -69,10 +97,12 @@ class JBCartStatusHelper extends AppHelper
 
     /**
      * Get exists status list
+     * @param string $group
+     * @return array
      */
-    public function getExistsList()
+    public function getExistsList($group = JBCart::STATUS_ORDER)
     {
-        $rows = JBModelOrder::model()->getStatusList();
+        $rows = JBModelOrder::model()->getStatusList($group);
 
         $result = array();
 
@@ -89,5 +119,15 @@ class JBCartStatusHelper extends AppHelper
         return $result;
     }
 
-}
+    /**
+     * Create undefined status element (as default)
+     * @return JBCartElementStatusCustom
+     */
+    public function getUndefined()
+    {
+        $configs = array('code' => 'undefined', 'name' => JText::_('JBZOO_STATUS_UNDEFINED'));
+        $status  = $this->app->jbcartelement->create('custom', JBCart::ELEMENT_TYPE_STATUS, $configs);
+        return $status;
+    }
 
+}

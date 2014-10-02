@@ -66,7 +66,17 @@ class JBOrderJBuniversalController extends JBUniversalController
         $orderId = $this->app->request->get('cid.0', 'int');
 
         // get item
-        $this->order = JBModelOrder::model()->getById($orderId);
+        $orderModel  = JBModelOrder::model();
+        $this->order = $orderModel->getById($orderId);
+
+        if ($this->app->jbrequest->isPost()) {
+            $newData = $this->app->jbrequest->getArray('order');
+            $this->order->updateData($newData);
+            $orderModel->save($this->order);
+
+            $editUrl = $this->app->jbrouter->admin(array('cid' => array($this->order->id)));
+            $this->setRedirect($editUrl, JText::_('JBZOO_ADMIN_MESSAGE_SAVED'));
+        }
 
         $this->shipRender       = $this->app->jbrenderer->create('Shipping');
         $this->shipFieldsRender = $this->app->jbrenderer->create('ShippingFields');

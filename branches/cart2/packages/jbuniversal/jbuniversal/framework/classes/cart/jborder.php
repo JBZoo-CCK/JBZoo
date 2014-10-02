@@ -162,7 +162,13 @@ class JBCartOrder
      */
     public function getStatus()
     {
-        return $this->_status;
+        if (!empty($this->_status)) {
+            return $this->_status;
+        }
+
+        $status = JBCart::getInstance()->getDefaultStatus();
+
+        return $status;
     }
 
     /**
@@ -256,21 +262,71 @@ class JBCartOrder
 
     /**
      * Set the Order published state
-     *
      * @param string $statusCode The new Order state code
-     *
+     * @param string $type Status type
      * @return $this
      */
-    public function setStatus($statusCode)
+    public function setStatus($statusCode, $type = JBCart::STATUS_ORDER)
     {
         $statusCode = JString::trim($statusCode);
-        $newStatus  = $this->app->jbcartstatus->getByCode($statusCode);
+        $newStatus  = $this->app->jbcartstatus->getByCode($statusCode, $type);
 
         if (!$statusCode || !$newStatus) {
             return $this;
         }
 
-        if (!$this->_status || $this->_status->getCode() != $newStatus->getCode()) {
+        $newCode = $newStatus->getCode();
+        if ($type == JBCart::STATUS_ORDER) {
+
+            if (!$this->_status) {
+                $this->_status = $newStatus;
+                return $this;
+
+            } else if ($this->_status->getCode() != $newCode) {
+
+                $oldStatus     = $this->_status;
+                $this->_status = $newStatus;
+                $this->app->event->dispatcher->notify($this->app->event->create($this, 'basket:orderStatus', array(
+                    'oldStatus' => $oldStatus->getCode(),
+                    'newStatus' => $newCode,
+                )));
+            }
+
+        } else if ($type == JBCart::STATUS_PAYMENT) {
+
+            if ($payment = $this->getPayment()) {
+                $payment->setStatus($newCode);
+            }
+
+        } else if ($type == JBCart::STATUS_SHIPPING) {
+
+            if ($shipping = $this->getShipping()) {
+                $shipping->setStatus($newCode);
+            }
+
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set the Order published state
+     * @param string $statusCode The new Order state code
+     * @return $this
+     */
+    public function setPaymentStatus($statusCode)
+    {
+        $statusCode = JString::trim($statusCode);
+        $newStatus  = $this->app->jbcartstatus->getByCode($statusCode, JBCart::STATUS_PAYMENT);
+        $payment    = $this->getPayment();
+
+        if (!$payment || !$statusCode || !$newStatus) {
+            return $this;
+        }
+
+        if ($payment->getStatus() != $newStatus->getCode()) {
+
+            $payment->setStatus($statusCode);
 
             // set state
             $oldState      = $this->_status;
@@ -430,7 +486,7 @@ class JBCartOrder
     /**
      * @param        $data
      * @param string $type
-     * @param array  $elementsParams
+     * @param array $elementsParams
      *
      * @return int
      */
@@ -534,11 +590,37 @@ class JBCartOrder
     }
 
     /**
+     * @return null|string
+     */
+    public function getPaymentStatus()
+    {
+        $payment = $this->getPayment();
+        if ($payment) {
+            return $payment->getStatus();
+        }
+
+        return null;
+    }
+
+    /**
      * @return JBCartElementShipping
      */
     public function getShipping()
     {
         return $this->_shipping;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getShippingStatus()
+    {
+        $shipping = $this->getShipping();
+        if ($shipping) {
+            return $shipping->getStatus();
+        }
+
+        return null;
     }
 
     /**
@@ -630,6 +712,7 @@ class JBCartOrder
         if (!$this->id) {
             $items = JBCart::getInstance()->getItems();
         }
+
         $result = array();
         foreach ($items as $key => $item) {
             $itemData = $this->app->data->create($item);
@@ -728,13 +811,15 @@ class JBCartOrder
         $this->comment    = $data->get('comment');
         $this->params     = $this->app->data->create($data->get('params'));
 
+        $this->setStatus($data->get('status'));
         $this->setItemsData($data->get('items'));
-        $this->setPaymentData($data->get('payment'));
-        $this->setShippingData($data->get('shipping'));
+        $this->setPaymentData($data->get('payment'), $data->get('status_payment'));
+        $this->setShippingData($data->get('shipping'), $data->get('status_shipping'));
         $this->setShippingFieldsData($data->get('shippingfields'));
         $this->setFieldsData($data->get('fields'));
         $this->setModifiersData($data->get('modifiers'));
         $this->setCurrencyData($data->get('currency'));
+
     }
 
     /**
@@ -747,10 +832,10 @@ class JBCartOrder
 
     /**
      * @param $data
-     *
+     * @param $status
      * @return null
      */
-    public function setPaymentData($data)
+    public function setPaymentData($data, $status = 'undefined')
     {
         $data = $this->app->data->create($data);
 
@@ -764,6 +849,7 @@ class JBCartOrder
         $element = $this->app->jbcartelement->create($config['type'], JBCart::ELEMENT_TYPE_PAYMENT, $config);
         $element->bindData($data);
         $element->setOrder($this);
+        $element->setStatus($status);
         $element->identifier = $config['identifier'];
 
         $this->_elements[JBCart::ELEMENT_TYPE_PAYMENT][$element->identifier] = $this->_payment = $element;
@@ -771,10 +857,10 @@ class JBCartOrder
 
     /**
      * @param $data
-     *
+     * @param $status
      * @return null
      */
-    public function setShippingData($data)
+    public function setShippingData($data, $status = 'undefined')
     {
         $data = $this->app->data->create($data);
 
@@ -788,6 +874,7 @@ class JBCartOrder
         $element = $this->app->jbcartelement->create($config['type'], JBCart::ELEMENT_TYPE_SHIPPING, $config);
         $element->bindData($data);
         $element->setOrder($this);
+        $element->setStatus($status);
         $element->identifier = $config['identifier'];
 
         $this->_elements[JBCart::ELEMENT_TYPE_SHIPPING][$element->identifier] = $this->_shipping = $element;
@@ -852,6 +939,29 @@ class JBCartOrder
         }
 
         $this->_elements[JBCart::ELEMENT_TYPE_MODIFIERS] = $elements;
+    }
+
+    /**
+     * @param $data
+     */
+    public function updateData($data)
+    {
+        $data = $this->app->data->create($data);
+
+        if ($paymentData = $data->get('payment')) {
+            if (isset($paymentData['status'])) {
+                $this->setStatus($paymentData['status'], JBCart::STATUS_PAYMENT);
+            }
+        }
+
+        if ($shippingData = $data->get('shipping')) {
+            if (isset($shippingData['status'])) {
+                $this->setStatus($shippingData['status'], JBCart::STATUS_SHIPPING);
+            }
+        }
+
+        $this->comment = $data->get('comment');
+        $this->setStatus($data->get('status'), JBCart::STATUS_ORDER);
     }
 
 }

@@ -37,7 +37,8 @@ abstract class JBCartElementPayment extends JBCartElement
      */
     public function getStatus()
     {
-        return $this->data()->get('status', 'undefined');
+        $default = JBCart::getInstance()->getDefaultStatus(JBCart::STATUS_PAYMENT);
+        return $this->get('status', $default->getCode());
     }
 
     /**
@@ -110,6 +111,31 @@ abstract class JBCartElementPayment extends JBCartElement
     public function getControlName($name, $array = false)
     {
         return $this->_namespace . '[' . $name . ']';
+    }
+
+    /**
+     * Change payment status and fire event
+     * @param $newStatus
+     */
+    public function setStatus($newStatus)
+    {
+        $oldStatus = $this->getStatus();
+        if ($oldStatus && $oldStatus != $newStatus) {
+            $this->app->event->dispatcher->notify($this->app->event->create($this->getOrder(), 'basket:paymentStatus', compact('oldStatus', 'newStatus')));
+        }
+
+        $this->set('status', $newStatus);
+    }
+
+    /**
+     * @return JSONData|void
+     */
+    public function getOrderData()
+    {
+        $data = parent::getOrderData();
+        $data->set('status', $this->getStatus());
+
+        return $data;
     }
 
 }

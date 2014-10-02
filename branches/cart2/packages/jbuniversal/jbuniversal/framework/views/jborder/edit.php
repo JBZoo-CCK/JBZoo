@@ -22,10 +22,12 @@ $shipping = $order->getShipping();
 $created = $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
 $modified = $this->app->html->_('date', $order->modified, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
 
+$this->app->jbtoolbar->save();
+
+$editUrl = $this->app->jbrouter->admin(array('cid' => array($order->id)));
 ?>
 
-    <form action="<?php echo $this->app->jbrouter->admin(); ?>" method="get" name="adminForm" id="adminForm"
-          accept-charset="utf-8">
+    <form action="<?php echo $editUrl; ?>" method="post" name="adminForm" id="adminForm" accept-charset="utf-8">
 
         <div class="uk-grid">
             <div class="uk-width-8-10">
@@ -72,9 +74,10 @@ $modified = $this->app->html->_('date', $order->modified, JText::_('DATE_FORMAT_
 
         </div>
 
-        <input type="hidden" name="option" value="<?php echo $this->app->jbrequest->get('option'); ?>"/>
-        <input type="hidden" name="controller" value="<?php echo $this->app->jbrequest->getCtrl(); ?>"/>
-        <input type="hidden" name="task" value="edit"/>
+        <input type="hidden" name="option" value="<?php echo $this->app->jbrequest->get('option'); ?>" />
+        <input type="hidden" name="cid[0]" value="<?php echo $order->id; ?>" />
+        <input type="hidden" name="controller" value="<?php echo $this->app->jbrequest->getCtrl(); ?>" />
+        <input type="hidden" name="task" value="edit" />
         <?php echo $this->app->html->_('form.token'); ?>
     </form>
 

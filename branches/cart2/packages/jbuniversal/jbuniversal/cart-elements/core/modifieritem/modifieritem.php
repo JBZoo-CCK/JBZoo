@@ -19,6 +19,16 @@ defined('_JEXEC') or die('Restricted access');
 abstract class JBCartElementModifierItem extends JBCartElement
 {
     protected $_namespace = JBCart::ELEMENT_TYPE_MODIFIERITEM;
+
+    /**
+     * @param $order
+     * @param $params
+     */
+    public function notify($order, $params)
+    {
+        // noop
+    }
+
 }
 
 /**

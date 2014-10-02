@@ -313,11 +313,7 @@ Class JBModel
         $preValues = array();
         foreach ($data as $values) {
             foreach ($values as $key => $value) {
-                if (!is_null($value)) {
-                    $values[$key] = $this->_quote($value);
-                } else {
-                    $values[$key] = 'NULL';
-                }
+                $values[$key] = is_null($value) ? 'NULL' : $this->_quote($value);
             }
 
             $preValues[] = "(" . implode(", ", $values) . ")\n";
@@ -345,6 +341,37 @@ Class JBModel
         }
 
         return 0;
+    }
+
+    /**
+     * @param $data
+     * @param $table
+     * @param null $keyId
+     * @param string $keyField
+     * @return bool|mixed
+     */
+    protected function _update($data, $table, $keyId = null, $keyField = 'id')
+    {
+        if (empty($data)) {
+            return false;
+        }
+
+        $keyId = ($keyId) ? $keyId : $data['id'];
+
+        if (isset($data[$keyField])) {
+            unset($data[$keyField]);
+        }
+
+        $sql = $this->_getSelect()
+            ->update($table)
+            ->where($keyField . ' = ?', $keyId);
+
+        foreach ($data as $key => $value) {
+            $value = is_null($value) ? 'NULL' : $this->_quote($value);
+            $sql->set('`' . $key . '` = ' . $value);
+        }
+
+        return $this->_dbHelper->query((string)$sql);
     }
 
     /**

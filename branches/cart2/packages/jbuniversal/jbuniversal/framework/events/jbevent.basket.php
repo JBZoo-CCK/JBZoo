@@ -26,67 +26,8 @@ class JBEventBasket extends JBEvent
      */
     public static function saved($event)
     {
-        $app    = self::app();
-        $params = $event->getParameters();
+        $app = self::app();
         $app->jbeventmanager->fireListeners();
-
-        $appParams = $params['appParams'];
-        $item      = $params['item'];
-        $subject   = JText::_('JBZOO_CART_NEW_ORDER_CREATE');
-
-        if ((int)$appParams->get('notificaction-create', 1)) {
-
-            // to admin
-            $adminEmail = $appParams->get('global.jbzoo_cart_config.admin-email');
-            if ($adminEmail) {
-                $adminLayout = $appParams->get('global.jbzoo_cart_config.email-admin-layout');
-                $app->jbemail->sendByItem($adminEmail, $subject, $item, $adminLayout);
-            }
-
-            // to user email from profile
-            $userEmail = JFactory::getUser()->email;
-            if ($userEmail) {
-                $userLayout = $appParams->get('global.jbzoo_cart_config.email-user-layout');
-                $app->jbemail->sendByItem($userEmail, $subject, $item, $userLayout);
-            }
-
-            // to email from order field
-            $emailElement = $appParams->get('global.jbzoo_cart_config.element-useremail');
-            if ($element = $item->getElement($emailElement)) {
-                $data = $element->data();
-                if (isset($data[0]['value']) && !empty($data[0]['value'])) {
-                    $userLayout = $appParams->get('global.jbzoo_cart_config.email-user-layout');
-                    $app->jbemail->sendByItem($data[0]['value'], $subject, $item, $userLayout);
-                }
-            }
-
-        }
-
-
-        if ((int)$appParams->get('global.jbzoo_cart_config.is_advance')) {
-
-            // reduce the balance in the item
-            $basketElements = $item->getElementsByType('jbbasketitems');
-            if (!empty($basketElements)) {
-                reset($basketElements);
-                $jbbasket = current($basketElements);
-                $items    = $jbbasket->getOrderItems();
-
-                foreach ($items as $item) {
-                    $good = $app->table->item->get($item['itemId']);
-                    if (!$good) {
-                        continue;
-                    }
-
-                    $jbPrices = $good->getElementsByType('jbpriceadvance');
-                    foreach ($jbPrices as $jbPrice) {
-                        if (isset($item['hash'])) {
-                            $jbPrice->balanceReduce($item['hash'], $item['quantity']);
-                        }
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -96,5 +37,76 @@ class JBEventBasket extends JBEvent
     public static function beforeSave($event)
     {
     }
+
+    /**
+     * On order status changed
+     * @param AppEvent $event
+     */
+    public static function orderStatus($event)
+    {
+        $app    = self::app();
+        $order  = $event->getSubject();
+        $params = $event->getParameters();
+
+        $cartConf = JBModelConfig::model()->getGroup('cart.' . JBCart::CONFIG_STATUS_EVENTS);
+        $elements = $cartConf->get(JBCart::STATUS_ORDER . '__' . $params['newStatus'], array());
+
+        foreach ($elements as $config) {
+            $element = $app->jbcartelement->create($config['type'], $config['group'], $config);
+            $element->setOrder($order);
+
+            if (method_exists($element, 'notify')) {
+                $element->notify($order, $params);
+            }
+        }
+    }
+
+    /**
+     * On payment status changed
+     * @param AppEvent $event
+     */
+    public static function paymentStatus($event)
+    {
+        $app    = self::app();
+        $order  = $event->getSubject();
+        $params = $event->getParameters();
+
+        $cartConf = JBModelConfig::model()->getGroup('cart.' . JBCart::CONFIG_STATUS_EVENTS);
+        $elements = $cartConf->get(JBCart::STATUS_PAYMENT . '__' . $params['newStatus'], array());
+
+        foreach ($elements as $config) {
+            $element = $app->jbcartelement->create($config['type'], $config['group'], $config);
+            $element->setOrder($order);
+
+            if (method_exists($element, 'notify')) {
+                $element->notify($order, $params);
+            }
+        }
+
+    }
+
+    /**
+     * On shipping status changed
+     * @param AppEvent $event
+     */
+    public static function shippingStatus($event)
+    {
+        $app    = self::app();
+        $order  = $event->getSubject();
+        $params = $event->getParameters();
+
+        $cartConf = JBModelConfig::model()->getGroup('cart.' . JBCart::CONFIG_STATUS_EVENTS);
+        $elements = $cartConf->get(JBCart::STATUS_SHIPPING . '__' . $params['newStatus'], array());
+
+        foreach ($elements as $config) {
+            $element = $app->jbcartelement->create($config['type'], $config['group'], $config);
+            $element->setOrder($order);
+
+            if (method_exists($element, 'notify')) {
+                $element->notify($order, $params);
+            }
+        }
+    }
+
 
 }

@@ -183,7 +183,22 @@ class JBCartJBuniversalController extends JBUniversalController
             JBCart::ELEMENT_TYPE_MODIFIERITEM
         ));
 
-        $statusList      = $this->app->jbcartstatus->getList();
+        $jbstatus = $this->app->jbcartstatus;
+
+        $statusGroups = array(
+            JBCart::STATUS_ORDER    => $jbstatus->getList(JBCart::STATUS_ORDER),
+            JBCart::STATUS_PAYMENT  => $jbstatus->getList(JBCart::STATUS_PAYMENT),
+            JBCart::STATUS_SHIPPING => $jbstatus->getList(JBCart::STATUS_SHIPPING),
+        );
+
+        $statusList = array();
+        foreach ($statusGroups as $type => $statuses) {
+            foreach ($statuses as $status) {
+                $positionKey              = $type . '__' . $status->getCode();
+                $statusList[$positionKey] = $positionKey;
+            }
+        }
+
         $this->positions = $this->_position->loadPositions(JBCart::CONFIG_STATUS_EVENTS, array_keys($statusList));
 
         $this->groupKey = JBCart::CONFIG_STATUS_EVENTS;
@@ -208,7 +223,11 @@ class JBCartJBuniversalController extends JBUniversalController
     public function status()
     {
         $this->groupList = $this->_element->getGroups(array(JBCart::ELEMENT_TYPE_STATUS));
-        $this->positions = $this->_position->loadPositions(JBCart::CONFIG_STATUSES, array(JBCart::DEFAULT_POSITION));
+        $this->positions = $this->_position->loadPositions(JBCart::CONFIG_STATUSES, array(
+            JBCart::STATUS_ORDER,
+            JBCart::STATUS_PAYMENT,
+            JBCart::STATUS_SHIPPING,
+        ));
 
         $this->groupKey = JBCart::CONFIG_STATUSES;
         $this->renderView();

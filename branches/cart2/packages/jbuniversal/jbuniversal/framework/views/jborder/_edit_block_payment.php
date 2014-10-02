@@ -4,6 +4,9 @@ $jbmoney = $this->app->jbmoney;
 
 $payment = $order->getPayment();
 
+$statusList = $this->app->jbcartstatus->getList(JBCart::STATUS_PAYMENT, true);
+$curStatus = $payment->getStatus();
+
 if (!empty($payment)) :?>
     <div class="uk-panel uk-panel-box">
         <h3 class="uk-panel-title">Система оплаты</h3>
@@ -19,9 +22,7 @@ if (!empty($payment)) :?>
             <dd><p><?php echo $order->getTotalSum(true); ?></p></dd>
 
             <dt>Статус</dt>
-            <dd><select style="width: 180px;">
-                    <option><?php echo $payment->getStatus(); ?></option>
-                </select></dd>
+            <dd><?php echo $this->app->jbhtml->select($statusList, 'order[payment][status]', '', $curStatus); ?></dd>
 
             <h3>Дополнительно</h3>
             <dt>Тип платильщика</dt>
