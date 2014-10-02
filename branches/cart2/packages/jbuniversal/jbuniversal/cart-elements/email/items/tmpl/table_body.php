@@ -12,13 +12,20 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+
+$i = 0
 ?>
 
 <tbody>
-<?php foreach ($items as $i => $item) :
+<?php foreach ($items as $key => $item) :
 
-    $src = 'cid:' . $this->clean($item['name']) . '-' . $this->clean(basename($item['image']));
-    $src = JString::str_ireplace(' ', '', $src);
+    $image = null;
+    if (!empty($item['image'])) {
+        $src   = 'cid:' . $this->clean($key) . '-' . $this->clean(basename($item['image']));
+        $src   = JString::str_ireplace(' ', '', $src);
+        $image = '<img width="50" src="' . $src . '" title="' . $item['name'] . '"/>';
+    }
+    $i++;
 
     $rowattr = 'style="border-bottom: 1px solid #dddddd;"';
     if ($i % 2 == 1) {
@@ -32,7 +39,7 @@ defined('_JEXEC') or die('Restricted access');
             <?php echo $i + 1; ?>
         </td>
         <td>
-            <img width="50" src="<?php echo $src; ?>" title="<?php echo $item['name']; ?>"/>
+            <?php echo $image; ?>
         </td>
         <td>
             <?php echo $item['name']; ?>

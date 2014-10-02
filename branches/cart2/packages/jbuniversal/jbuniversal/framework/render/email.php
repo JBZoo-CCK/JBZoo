@@ -239,7 +239,8 @@ class EmailRenderer extends PositionRenderer
 
                 $element->setSubject($this->_subject);
                 $element->setConfig($config);
-                if (!$element->canAccess() && !$element->hasValue() && !$element->getOrder()) {
+
+                if (!$element->hasValue() && !$element->getOrder()) {
                     return false;
                 }
 
@@ -389,14 +390,13 @@ class EmailRenderer extends PositionRenderer
      */
     protected function _getLayout($layout = null)
     {
-        // set default
         if ($layout == null) {
             return false;
         }
 
         $name    = $this->app->zoo->getApplication()->name;
         $catalog = $this->app->path->path("jbtmpl:" . $name . "/renderer/email/{$this->_layout}/{$layout}.php");
-        $system  = $this->app->path->path("jbtmpl:system/renderer/email/{$this->_layout}/{$layout}.php");
+        $system  = $this->app->path->path("jbapp:templates-system/renderer/email/{$this->_layout}/{$layout}.php");
         
         return !empty($catalog) ? $catalog : $system;
     }

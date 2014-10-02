@@ -43,7 +43,7 @@ class JBModelOrder extends JBModel
             ->where('id = ?', (int)$orderId)
             ->limit(1);
 
-        $data = $this->fetchRow($select, true);
+        $data  = $this->fetchRow($select, true);
         $order = JBcart::getInstance()->newOrder();
 
         $order->setData($data);
@@ -67,7 +67,7 @@ class JBModelOrder extends JBModel
 
         $data = array(
             'id'             => $order->id,
-            'status'         => 'undefined',//$order->getStatus()->getCode()
+            'status'         => 'undefined', //$order->getStatus()->getCode()
             'created'        => $order->created,
             'created_by'     => $order->created_by,
             'total'          => $order->getTotalSum(),
@@ -81,10 +81,15 @@ class JBModelOrder extends JBModel
             'comment'        => '',
         );
 
+
         $id = $order->id;
 
         $this->app->event->dispatcher->notify($this->app->event->create($order, 'basket:beforesave', array()));
+
         $order->id = $this->_insert($data, ZOO_TABLE_JBZOO_ORDER);
+
+        //TODO hardcoded
+        $order->setItemsData((string)$data['items']);
 
         if (!$id && $order->id) {
             $this->app->event->dispatcher->notify($this->app->event->create($order, 'basket:create', array()));
