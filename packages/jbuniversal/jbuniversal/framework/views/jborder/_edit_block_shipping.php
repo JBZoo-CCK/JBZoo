@@ -13,6 +13,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$statusList = $this->app->jbcartstatus->getList(JBCart::STATUS_SHIPPING, true);
+$element = $order->getShipping();
+$curStatus = $element->getStatus();
+
 ?>
 <div class="uk-panel uk-panel-box">
 
@@ -26,7 +30,10 @@ defined('_JEXEC') or die('Restricted access');
             <?php echo JText::_('JBZOO_ORDER_SHIPPINGFIELD_TITLE'); ?>
         </h3>
 
-<?php echo $this->shipFieldsRender->renderAdminEdit(array('order' => $order)); ?>
+        <dt>Статус</dt>
+        <dd><?php echo $this->app->jbhtml->select($statusList, 'order[shipping][status]', '', $curStatus); ?></dd>
+
+        <?php echo $this->shipFieldsRender->renderAdminEdit(array('order' => $order)); ?>
 
     </dl>
 </div>

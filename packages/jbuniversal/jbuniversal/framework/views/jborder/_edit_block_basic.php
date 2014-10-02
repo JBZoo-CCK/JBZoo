@@ -6,6 +6,10 @@ if ($juser = $order->getAuthor()) {
     $user = '<a href="' . $href . '">' . $juser->name . '</a>';
 }
 
+
+$statusList = $this->app->jbcartstatus->getList(JBCart::STATUS_ORDER, true);
+$curStatus = $order->getStatus()->getCode();
+
 ?>
 <div class="uk-panel uk-panel-box">
     <h3 class="uk-panel-title"><?php echo JText::_('JBZOO_ORDER_MAIN_TITLE'); ?></h3>
@@ -13,13 +17,7 @@ if ($juser = $order->getAuthor()) {
     <dl class="uk-description-list-horizontal">
 
         <dt><?php echo JText::_('JBZOO_ORDER_STATUS'); ?></dt>
-        <dd>
-            <p>
-                <select style="width: 180px;">
-                    <option value="">Ожидает доставки</option>
-                </select></p>
-
-        </dd>
+        <dd><p><?php echo $this->app->jbhtml->select($statusList, 'order[status]', '', $curStatus); ?></p></dd>
 
         <dt><?php echo JText::_('JBZOO_ORDER_NO'); ?></dt>
         <dd><p class="uk-badge uk-badge-notification"><?php echo $order->getName(); ?></p></dd>
@@ -35,7 +33,7 @@ if ($juser = $order->getAuthor()) {
 
         <dt><?php echo JText::_('JBZOO_ORDER_NOTES'); ?></dt>
         <dd>
-            <textarea cols="100" rows="5" style="resize: vertical;"
+            <textarea cols="100" rows="5" style="resize: vertical;" name="order[comment]"
                       placeholder="<?php echo JText::_('JBZOO_ORDER_NOTES_DESC'); ?>"><?php
                 echo $order->comment;
                 ?></textarea>

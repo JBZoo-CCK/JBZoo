@@ -39,10 +39,11 @@ $orderDir = $this->filter->get('filter_order_Dir', 'desc');
             <td class="checkbox">
                 <input type="checkbox" name="cid[]" value="<?php echo $order->id; ?>">
             </td>
+
             <td>
                 <a href="<?php echo $orderOrder; ?>">№<?php echo $order->getName(); ?></a>
-                <?php echo JText::_('JBZOO_BY'); ?>
                 <?php
+                echo JText::_('JBZOO_BY');
                 if ($user = $order->getAuthor()) {
                     $href = $this->app->component->users->link(array('task' => 'user.edit', 'layout' => 'edit', 'view' => 'user', 'id' => $user->id));
                     echo '<i><a href="' . $href . '">' . $user->name . '</a></i>';
@@ -51,18 +52,33 @@ $orderDir = $this->filter->get('filter_order_Dir', 'desc');
                 }
                 ?>
             </td>
+
             <td><?php echo $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset()); ?></td>
+
             <td><?php echo $this->app->html->_('date', $order->modified, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset()); ?></td>
-                <td><?php echo $order->getName(); ?></td>
+
+            <td><?php echo $order->getStatus()->getName(); ?></td>
+
             <td>
-                <?php echo $order->getPayment()->getName(); ?><br>
-                <i><?php echo $order->getPayment()->getStatus(); ?></i>
+                <?php
+                $payment = $order->getPayment();
+                if ($payment) {
+                    echo $payment->getName() . '<br><i>' . $payment->getStatus() . '</i>';
+                }
+                ?>
             </td>
+
             <td>
-                <?php echo $order->getShipping()->getName(); ?><br>
-                <i><?php echo $order->getShipping()->getStatus(); ?></i>
+                <?php
+                $shipping = $order->getShipping();
+                if ($shipping) {
+                    echo $shipping->getName() . '<br><i>' . $shipping->getStatus() . '</i>';
+                }
+                ?>
             </td>
+
             <td><?php echo $order->getTotalSum(true); ?></td>
+
             <td><?php echo ($order->comment) ? $order->comment : ' - '; ?></td>
         </tr>
     <?php endforeach; ?>

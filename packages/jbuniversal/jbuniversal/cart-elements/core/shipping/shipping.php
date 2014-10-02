@@ -45,7 +45,7 @@ abstract class JBCartElementShipping extends JBCartElement
     /**
      * Class constructor
      *
-     * @param App    $app
+     * @param App $app
      * @param string $type
      * @param string $group
      */
@@ -58,8 +58,8 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * @param float       $sum
-     * @param string      $currency
+     * @param float $sum
+     * @param string $currency
      * @param JBCartOrder $order
      *
      * @return float
@@ -104,7 +104,8 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     public function getStatus()
     {
-        return $this->data()->get('status', 'undefined');
+        $default = JBCart::getInstance()->getDefaultStatus(JBCart::STATUS_SHIPPING);
+        return $this->get('status', $default->getCode());
     }
 
     /**
@@ -207,19 +208,18 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     public function getOrderData()
     {
-        return $this->app->data->create(array(
-            'name'   => $this->getName(),
-            'rate'   => $this->getRate(),
-            'config' => $this->config->getArrayCopy(),
-            'data'   => $this->data()
-        ));
+        $data = parent::getOrderData();
+
+        $data->set('status', $this->getStatus());
+        $data->set('name', $this->getName());
+        $data->set('rate', $this->getRate());
+
+        return $data;
     }
 
     /**
      * Get array of parameters to push it into(data-params) element div
-     *
      * @param  boolean $encode - Encode array or no
-     *
      * @return string|array
      */
     public function getWidgetParams($encode = true)
@@ -234,7 +234,7 @@ abstract class JBCartElementShipping extends JBCartElement
     /**
      * Cleans data
      *
-     * @param  string         $data
+     * @param  string $data
      * @param  string|boolean $charlist
      *
      * @return string mixed
@@ -267,9 +267,9 @@ abstract class JBCartElementShipping extends JBCartElement
     /**
      * Make request to service and get results
      *
-     * @param  string $url    - Shipping service url.
+     * @param  string $url - Shipping service url.
      * @param  string $method - POST, GET.
-     * @param  array  $data   - Data for POST $method
+     * @param  array $data - Data for POST $method
      *
      * @return bool|array
      */
@@ -367,7 +367,7 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * @param  string      $str
+     * @param  string $str
      * @param  bool|string $charlist
      *
      * @return mixed|string
@@ -378,6 +378,20 @@ abstract class JBCartElementShipping extends JBCartElement
         $str = JString::strtolower($str);
 
         return $str;
+    }
+
+    /**
+     * Change shipping status and fire event
+     * @param $newStatus
+     */
+    public function setStatus($newStatus)
+    {
+        $oldStatus = $this->getStatus();
+        if ($oldStatus && $oldStatus != $newStatus) {
+            $this->app->event->dispatcher->notify($this->app->event->create($this->getOrder(), 'basket:shippingStatus', compact('oldStatus', 'newStatus')));
+        }
+
+        $this->set('status', $newStatus);
     }
 
 }

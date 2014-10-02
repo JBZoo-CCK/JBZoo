@@ -106,8 +106,6 @@ class BasketJBUniversalController extends JBUniversalController
                     // saving order
                     JBModelOrder::model()->save($this->order);
 
-                    //dump(JBModelOrder::model()->getById($this->order->id));
-
                     // empty cart items
                     $this->_cart->removeItems();
 

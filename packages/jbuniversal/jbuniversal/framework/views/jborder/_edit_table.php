@@ -69,9 +69,15 @@ $modifiersCount = count($modifiers);
             </td>
             <td>
                 <div>
-                    <strong><?php echo $item ? '<a href="' . $itemLink . '" target="_blank">' . $row->get('name') . '</a>' : $row->get('name'); ?></strong><br/>
+                    <strong><?php echo $item ? '<a href="' . $itemLink . '" target="_blank">' . $row->get('name') . '</a>' : $row->get('name'); ?></strong><br />
 
-                    <?php echo 'Артикул: ' . $row->get('sku') . '; Id: ' . $row->get('item_id') . '<br>'; ?>
+                    <?php
+                    if ($row->get('sku')) {
+                        echo 'Артикул: ' . $row->get('sku') . '; ';
+                    }
+                    ?>
+
+                    <?php echo 'Id: ' . $row->get('item_id') . '<br>'; ?>
 
                     <?php
                     if ($desc = $row->get('price_desc')) {
@@ -93,7 +99,7 @@ $modifiersCount = count($modifiers);
                     }
 
                     if (empty($desc) && empty($params)) {
-                        echo '<p> - </p>';
+                        echo '<p> Базовая комплектация </p>';
                     }
 
                     ?>

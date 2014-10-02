@@ -29,8 +29,14 @@
             <field name="default_currency" type="jbcurrency" default="EUR" label="JBZOO_CART_CONFIG_CURRENCY"
                    description="JBZOO_CART_CONFIG_CURRENCY_DESC"/>
 
-            <field name="default_status" type="jbstatus" default="new" label="JBZOO_CART_CONFIG_STATUS"
-                   description="JBZOO_CART_CONFIG_STATUS_DESC"/>
+            <field name="default_order_status" type="jbstatus" default="new" label="JBZOO_CART_CONFIG_ORDER_STATUS"
+                   status_type="STATUS_ORDER" description="JBZOO_CART_CONFIG_ORDER_STATUS_DESC"/>
+
+            <field name="default_payment_status" type="jbstatus" default="new" label="JBZOO_CART_CONFIG_PAYMENT_STATUS"
+                   status_type="STATUS_PAYMENT" description="JBZOO_CART_CONFIG_PAYMENT_STATUS_DESC"/>
+
+            <field name="default_shipping_status" type="jbstatus" default="new" label="JBZOO_CART_CONFIG_SHIPPING_STATUS"
+                   status_type="STATUS_SHIPPING" description="JBZOO_CART_CONFIG_SHIPPING_STATUS_DESC"/>
 
             <field name="default_shipping" type="jbshipping" default="" label="JBZOO_CART_CONFIG_SHIPPING"
                    description="JBZOO_CART_CONFIG_SHIPPING_DESC"/>

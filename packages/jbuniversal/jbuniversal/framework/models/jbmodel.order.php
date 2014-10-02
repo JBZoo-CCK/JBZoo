@@ -29,6 +29,15 @@ class JBModelOrder extends JBModel
     }
 
     /**
+     * Constructor
+     */
+    protected function __construct()
+    {
+        parent::__construct();
+        $this->app->jbtables->checkOrder();
+    }
+
+    /**
      * Get order by itemid
      *
      * @param $orderId
@@ -66,33 +75,39 @@ class JBModelOrder extends JBModel
         $params->set(JBCart::CONFIG_CURRENCIES, $currencies);
 
         $data = array(
-            'id'             => $order->id,
-            'status'         => 'undefined', //$order->getStatus()->getCode()
-            'created'        => $order->created,
-            'created_by'     => $order->created_by,
-            'total'          => $order->getTotalSum(),
-            'items'          => $order->getItems(false),
-            'fields'         => $order->getFields(),
-            'shipping'       => $order->getShipping()->data(),
-            'shippingfields' => $order->getShippingFields(),
-            'payment'        => $order->getPayment()->data(),
-            'modifiers'      => $order->getModifiersData(),
-            'params'         => $params,
-            'comment'        => '',
+            'id'              => $order->id,
+            'status'          => $order->getStatus()->getCode(),
+            'status_payment'  => $order->getPaymentStatus(),
+            'status_shipping' => $order->getShippingStatus(),
+            'created'         => $order->created,
+            'created_by'      => $order->created_by,
+            'total'           => $order->getTotalSum(),
+            'items'           => $order->getItems(false),
+            'fields'          => $order->getFields(),
+            'shipping'        => $order->getShipping()->data(),
+            'shippingfields'  => $order->getShippingFields(),
+            'payment'         => $order->getPayment()->data(),
+            'modifiers'       => $order->getModifiersData(),
+            'params'          => $params,
+            'comment'         => $order->comment,
         );
-
-
-        $id = $order->id;
 
         $this->app->event->dispatcher->notify($this->app->event->create($order, 'basket:beforesave', array()));
 
-        $order->id = $this->_insert($data, ZOO_TABLE_JBZOO_ORDER);
+        if (!$data['id']) {
 
-        //TODO hardcoded
-        $order->setItemsData((string)$data['items']);
+            $order->id = $this->_insert($data, ZOO_TABLE_JBZOO_ORDER);
 
-        if (!$id && $order->id) {
-            $this->app->event->dispatcher->notify($this->app->event->create($order, 'basket:create', array()));
+            //TODO hardcoded
+            $order->setItemsData((string)$data['items']);
+            $this->app->event->dispatcher->notify($this->app->event->create($order, 'basket:saved', array()));
+
+        } else {
+
+            $data['modified'] = $this->app->jbdate->toMySql();
+            $this->_update($data, ZOO_TABLE_JBZOO_ORDER);
+            $this->app->event->dispatcher->notify($this->app->event->create($order, 'basket:updated', array()));
+
         }
 
         if ($order->id) {
@@ -125,14 +140,26 @@ class JBModelOrder extends JBModel
     }
 
     /**
-     *
+     * @param string $group
+     * @return array|JObject
      */
-    public function getStatusList()
+    public function getStatusList($group)
     {
+        $field = 'status';
+        if (JBCart::STATUS_ORDER == $group) {
+            $field = 'status';
+
+        } else if (JBCart::STATUS_ORDER == $group) {
+            $field = 'status_payment';
+
+        } else if (JBCart::STATUS_ORDER == $group) {
+            $field = 'status_shipping';
+        }
+
         $select = $this->_getSelect()
-            ->select('tOrder.status')
+            ->select('tOrder.' . $field)
             ->from(ZOO_TABLE_JBZOO_ORDER, 'tOrder')
-            ->group('tOrder.status');
+            ->group('tOrder.' . $field);
 
         $rows = $this->fetchAll($select);
 

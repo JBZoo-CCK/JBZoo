@@ -333,6 +333,9 @@ class JBZoo
         $event->register('JBEventBasket');
         $dispatcher->connect('basket:beforesave', array('JBEventBasket', 'beforeSave'));
         $dispatcher->connect('basket:saved', array('JBEventBasket', 'saved'));
+        $dispatcher->connect('basket:orderStatus', array('JBEventBasket', 'orderStatus'));
+        $dispatcher->connect('basket:paymentStatus', array('JBEventBasket', 'paymentStatus'));
+        $dispatcher->connect('basket:shippingStatus', array('JBEventBasket', 'shippingStatus'));
 
         $event->register('JBEventPayment');
         $dispatcher->connect('payment:callback', array('JBEventPayment', 'callback'));

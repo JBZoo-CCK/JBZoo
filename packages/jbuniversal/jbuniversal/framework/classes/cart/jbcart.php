@@ -15,12 +15,16 @@ class JBCart
     const MODIFIER_ORDER = 'modifier_order';
     const MODIFIER_ITEM  = 'modifier_item';
 
+    const STATUS_ORDER    = 'order';
+    const STATUS_PAYMENT  = 'payment';
+    const STATUS_SHIPPING = 'shipping';
+
     const CONFIG_NOTIFICATION      = 'notification';
     const CONFIG_MODIFIERS         = 'modifier';
     const CONFIG_VALIDATORS        = 'validator';
     const CONFIG_PAYMENTS          = 'payment';
     const CONFIG_SHIPPINGS         = 'shipping';
-    const CONFIG_STATUS_EVENTS     = 'status-events';
+    const CONFIG_STATUS_EVENTS     = 'status_events';
     const CONFIG_CURRENCIES        = 'currency';
     const CONFIG_STATUSES          = 'status';
     const CONFIG_EMAIL_TMPL        = 'email_tmpl';
@@ -115,24 +119,35 @@ class JBCart
         $order->created    = $this->app->jbdate->toMySql();
         $order->created_by = (int)JFactory::getUser()->id;
 
-        if ($status = $this->getDefaultStatus()) {
-            $order->setStatus($status->getCode());
-        }
-
         return $order;
     }
 
     /**
-     *
+     * Get default status from cart configurations
      */
-    public function getDefaultStatus()
+    public function getDefaultStatus($type = JBCart::STATUS_ORDER)
     {
-        $statusCode = $this->_config->get('config.default_status');
-        if ($statusCode) {
-            return $this->app->jbcartstatus->getByCode($statusCode);
+        $statusCode = null;
+        if ($type == JBCart::STATUS_ORDER) {
+            $statusCode = $this->_config->get('default_order_status');
+
+        } else if ($type == JBCart::STATUS_PAYMENT) {
+            $statusCode = $this->_config->get('default_payment_status');
+
+        } else if ($type == JBCart::STATUS_PAYMENT) {
+            $statusCode = $this->_config->get('default_shipping_status');
         }
 
-        return null;
+        if ($statusCode) {
+            $status = $this->app->jbcartstatus->getByCode($statusCode, $type);
+            if ($status) {
+                return $status;
+            }
+        }
+
+        $undefined = $this->app->jbcartstatus->getUndefined();
+
+        return $undefined;
     }
 
     /**
@@ -197,7 +212,7 @@ class JBCart
      * $key = {item_id}-{variant_index}.
      * Priority on $key.
      *
-     * @param  int    $id
+     * @param  int $id
      * @param  string $key
      *
      * @return bool
@@ -395,7 +410,7 @@ class JBCart
      * Set session
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      */
     protected function _setSession($key, $value)
     {
