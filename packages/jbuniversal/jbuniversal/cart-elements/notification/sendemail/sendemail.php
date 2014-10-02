@@ -37,9 +37,8 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
     {
         parent::__construct($app, $type, $group);
 
-        $this->_mailer = JMail::getInstance();
-
-        $this->registerCallback('preview');
+        $this->_mailer  = JMail::getInstance();
+        $this->renderer = $this->app->jbrenderer->create('email');
     }
 
     /**
@@ -48,27 +47,51 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
      */
     public function notify()
     {
-        $renderer = $this->app->jbrenderer->create('email');
-        $layout   = $this->config->get('layout_email', 'default');
-        $html     = '';
-
-        $html .= $renderer->render($layout, array(
-            'subject' => $this->getSubject()
-        ));
-
-        $attach = $renderer->getAttach();
-        $html   = $this->replace($html);
+        $html   = $this->getHTML();
+        $attach = $this->renderer->getAttach();
 
         $this
             ->setHead()
             ->setBody($html)
             ->isHtml(true)
-            ->_setRecipients()
             ->setSender()
             ->addAttachment($attach)
             ->addImageItems();
 
-        $this->_mailer->Send();
+        $this->send();
+        
+        return $html;
+    }
+
+    /**
+     * Send notification message to each recipient
+     */
+    public function send()
+    {
+        $this
+            /** Send message to administrators */
+            ->sendToAdmins()
+            /** Send message to order owner - user */
+            ->sendToUser()
+            /** Send message to advance email's - user */
+            ->sendToAdvance();
+    }
+
+    /**
+     * Get data from all elements
+     *
+     * @return string
+     */
+    public function getHTML()
+    {
+        $layout = $this->config->get('layout_email', 'default');
+        $html   = '';
+
+        $html .= $this->renderer->render($layout, array(
+            'subject' => $this->getSubject()
+        ));
+
+        $html = $this->replace($html);
 
         return $html;
     }
@@ -124,21 +147,26 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
     public function addImageItems()
     {
         $order = $this->getOrder();
-        if ($order->id && $items = $order->getItems()) {
 
-            foreach ($items as $item) {
+        if ($order->id && $items = $order->getItems(false)) {
 
-                if ($path = $item->get('image')) {
+            foreach ($items as $key => $params) {
+
+                if ($path = $params->get('image')) {
+
                     $path = JPATH_ROOT . DS . $path;
+
                     $file = $this->clean(basename($path));
-                    $name = $this->clean($item->get('name'));
-                    $cid  = $name . '-' . $file;
-                    $cid  = JString::str_ireplace(' ', '', $cid);
+                    $name = $this->clean($params->get('name'));
+
+                    $cid = $this->clean($key) . '-' . $file;
+                    $cid = JString::str_ireplace(' ', '', $cid);
 
                     $this->addImage($path, $cid, $name);
                 }
             }
         }
+
         return $this;
     }
 
@@ -202,42 +230,43 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
     }
 
     /**
+     * Send notification email to administrators
      *
-     */
-    public function preview()
-    {
-        die('dasdasdasd');
-        $html = $this->notify();
-
-        $this->app->jbajax->send(array(
-                'html' => $html
-            )
-        );
-    }
-
-    /**
-     * Bind recipients into JMail from element config
      * @return $this
      */
-    protected function _setRecipients()
+    public function sendToAdmins()
     {
-        $to     = $this->app->data->create($this->config->get('recipient'));
-        $config = JFactory::getConfig();
-        $name   = $config->get('sitename');
+        $to = $this->app->data->create($this->config->get('recipient'));
 
-        //send notification to administrator's
         if ($adminRecipients = $to->get('admin', array())) {
+
             foreach ($adminRecipients as $id) {
 
                 $users = JAccess::getUsersByGroup($id);
                 if (!empty($users)) {
-                    foreach ($users as $usrId) {
-                        $user = JFactory::getUser($usrId);
-                        $this->addRecipient($user->get('email'), $user->get('name', $name));
+
+                    foreach ($users as $userId) {
+
+                        $user = JFactory::getUser($userId);
+
+                        $this->addRecipient($user->get('email'), $user->get('name'));
+                        $this->_send();
                     }
                 }
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Send notification email to user
+     *
+     * @return $this
+     */
+    public function sendToUser()
+    {
+        $to = $this->app->data->create($this->config->get('recipient'));
 
         //send notification to user
         if ($userRecipients = $to->get('user', array())) {
@@ -245,30 +274,74 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
 
                 //send to email from user profile
                 if ($type == self::RECIPIENT_USER_PROFILE) {
+
                     $user = JFactory::getUser();
-                    $this->addRecipient($user->get('email'), $user->get('name', $name));
+                    $this->addRecipient($user->get('email'), $user->get('name'));
+
+                    $this->_send();
 
                     //send to email from order field email
                 } else if ($type == self::RECIPIENT_USER_ORDER) {
 
                 }
+
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Send notification email to advance email's
+     *
+     * @return $this
+     */
+    public function sendToAdvance()
+    {
+        $to = $this->app->data->create($this->config->get('recipient'));
 
         //advanced email's
         if ($advRecipients = $to->get('advanced', '')) {
 
             if (strpos($advRecipients, ',') === false) {
                 $this->addRecipient($advRecipients);
+                $this->_send();
 
             } else {
                 $advRecipients = explode(',', $advRecipients);
                 foreach ($advRecipients as $recipient) {
                     $recipient = JString::trim($recipient);
-                    $this->addRecipient($recipient, $name);
+                    $this->addRecipient($recipient);
+
+                    $this->_send();
                 }
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Send notification and clear recipient
+     *
+     * return $this
+     */
+    protected function _send()
+    {
+        $this->_mailer->Send();
+        $this->_clear();
+
+        return $this;
+    }
+
+    /**
+     * Clear all recipients
+     *
+     * @return $this
+     */
+    protected function _clear()
+    {
+        $this->_mailer->ClearAllRecipients();
 
         return $this;
     }
