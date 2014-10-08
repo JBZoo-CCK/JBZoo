@@ -971,16 +971,18 @@
 
 .jbzoo .item-count-wrapper {
     margin     : 0 auto;
-    padding    : 7px 0 7px 0;
+    padding    : 7px 0;
     background : #FFF;
     position   : relative;
     overflow   : hidden;
     border     : 1px solid #FFF;
     width      : 60px;
+    height     : 24px;
 }
 
 .jbzoo .item-count-wrapper .item-count {
     width       : 60px;
+    height      : 25px;
     margin      : 0 0 0 0;
     position    : relative;
     z-index     : 0;
@@ -997,30 +999,50 @@
 }
 
 .jbzoo .item-count-wrapper .item-count .item-count-digits dd {
-    height      : 1.6em;
-    margin      : 0;
+    height      : 25px;
+    margin      : 0 0 0 3px;
     padding     : 0;
-    line-height : 1.6em;
     text-align  : center;
+    line-height : 5em;
+    font        : 14px/24px Arial;
+    width       : 55px;
 }
 
 .jbzoo .item-count-wrapper .item-count .count,
 .jbzoo .item-count-wrapper .item-count .input-quantity {
-    width       : 60px;
-    height      : 1.6em;
-    margin      : 0;
-    padding     : 0;
-    position    : relative;
-    z-index     : 1;
-    display     : block;
-    border      : 0;
-    background  : none;
-    line-height : 1em;
-    outline     : none !important;
-    opacity     : 0;
-    filter      : alpha(opacity=0);
-    font        : 14px/1.6em Arial;
-    text-align  : center;
+    height        : 25px;
+    width         : 55px;
+    min-width     : 55px;
+    margin        : 0 0 0 2px;
+    padding       : 0;
+    z-index       : 1;
+    display       : block;
+    position      : absolute;
+    border-width  : 1px;
+    border-color  : transparent;
+    border-style  : solid;
+    border-radius : 3px;
+    background    : none;
+    line-height   : 5em;
+    outline       : none !important;
+    opacity       : 0;
+    filter        : alpha(opacity=0);
+    font          : 14px/24px Arial;
+    text-align    : center;
+}
+
+.jbzoo .item-count-wrapper .item-count input.input-quantity:focus {
+    border-color       : #CCC;
+    outline            : 0;
+    color              : black;
+    background-color   : rgb(250, 255, 189);
+    -webkit-box-shadow : inset 0 1px 1px rgba(0, 0, 0, 0.04);
+    -moz-box-shadow    : inset 0 1px 1px rgba(0, 0, 0, 0.04);
+    box-shadow         : inset 0 1px 1px rgba(0, 0, 0, 0.04);
+    -webkit-transition : border linear .2s, box-shadow linear .2s;
+    -moz-transition    : border linear .2s, box-shadow linear .2s;
+    -o-transition      : border linear .2s, box-shadow linear .2s;
+    transition         : border linear .2s, box-shadow linear .2s;
 }
 
 .jbzoo .btn-mini {
@@ -1048,20 +1070,6 @@
 .jbzoo .jbprice-count input:hover,
 .jbzoo .jbprice-count .btn-mini:hover {
     border-color : #333;
-}
-
-.jbzoo .quantity-table input {
-    float         : left;
-    width         : 60px !important;
-    min-width     : 60px !important;
-    max-width     : 60px !important;
-    /*height: 34px !important;*/
-    margin        : 0;
-    border        : 1px solid #CCC;
-    border-radius : 3px;
-    padding       : 0 6px;
-    font-size     : 16px;
-    line-height   : 34px;
 }
 
 .jbzoo table.no-border,
@@ -2325,7 +2333,7 @@ h3.jbzootabs-accordion-header.jbzootabs-accordion-active.jbzootabs-accordion-ico
 }
 
 .jbzoo .jbbasket-table .basket-table-subtotal {
-    width : 100%;
+    /*width : 100%;*/
 }
 
 .jbzoo .jbbasket-table .jsSizeMedium {
@@ -2365,3 +2373,34 @@ h3.jbzootabs-accordion-header.jbzootabs-accordion-active.jbzootabs-accordion-ico
     position : relative;
     opacity  : 0.5;
 }
+
+.jbzoo .jbzoo-basket-payment {
+    width : 50%;
+    float : left;
+}
+
+.jbzoo .jbzoo-left {
+    float : left;
+}
+
+.jbzoo .jbzoo-right {
+    float : right;
+}
+
+.jbzoo .jbzoo-clear {
+    clear   : both;
+    display : table;
+}
+
+.jbzoo .shippingfileds-list {
+    padding : 0 0 0 20px;
+}
+
+.jbzoo .jbzoo-basket-fields .jbzoo-right,
+.jbzoo .shippingfileds-list .jbzoo-right {
+    width : 48%;
+}
+.jbzoo .shippingfileds-list {
+    clear: both;
+}
+
