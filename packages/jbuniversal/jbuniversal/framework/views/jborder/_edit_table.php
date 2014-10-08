@@ -57,53 +57,33 @@ $modifiersCount = count($modifiers);
             <td><?php echo $key + 1; ?></td>
             <td>
                 <?php
-                if ($item) {
-                    $ibImage = $item->getElement('c523efc1-093b-4d10-9abd-e55a5c31a0c8');
-                    if ($ibImage) {
-                        echo $ibImage->render(array('width' => 80));
-                    }
+                if ($row['image']) {
+                    echo '<img src="' . JUri::root() . $row['image'] . '" />';
                 } else {
                     echo '-';
                 }
                 ?>
             </td>
             <td>
-                <div>
-                    <strong><?php echo $item ? '<a href="' . $itemLink . '" target="_blank">' . $row->get('name') . '</a>' : $row->get('name'); ?></strong><br />
+                <?php echo $item ? '<a href="' . $itemLink . '" target="_blank">' . $row->get('name') . '</a>' : $row->get('name'); ?>
 
-                    <?php
-                    if ($row->get('sku')) {
-                        echo 'Артикул: ' . $row->get('sku') . '; ';
-                    }
-                    ?>
+                <?php foreach ($row['priceParams'] as $label => $param) : ?>
+                    <div>
 
-                    <?php echo 'Id: ' . $row->get('item_id') . '<br>'; ?>
+                        <strong>
+                            <?php echo $label; ?>
+                            :
+                        </strong>
 
-                    <?php
-                    if ($desc = $row->get('price_desc')) {
-                        echo '<br><i>' . $desc . '</i>';
-                    }
-                    ?>
+                        <?php echo $param; ?>
+                        <br/>
 
-                    <?php
-                    $params = $row->get('price_params');
-                    if (!empty($params)) {
-                        echo '<p>';
-                        foreach ($params as $key => $value) {
-                            if ($paramElem = $this->app->jbcartelement->getPriceParamElement($key, $row->get('price_element'), $value)) {
-                                echo '<strong>' . $paramElem->getName() . '</strong>: ';
-                                echo $paramElem->renderOrderEdit() . '<br/>';
-                            }
-                        }
-                        echo '</p>';
-                    }
+                    </div>
+                <?php endforeach;
 
-                    if (empty($desc) && empty($params)) {
-                        echo '<p> Базовая комплектация </p>';
-                    }
-
-                    ?>
-                </div>
+                if ($desc = $row->get('price_desc')) {
+                    echo '<br><i>' . $desc . '</i>';
+                } ?>
             </td>
             <td style="text-align: right;"><?php echo $jbmoney->toFormat($priceItem, $currency); ?></td>
             <td style="text-align: center;"><?php echo $quantity; ?></td>

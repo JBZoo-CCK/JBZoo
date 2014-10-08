@@ -32,7 +32,7 @@ class JBMoneyHelper extends AppHelper
     /**
      * @var boolean
      */
-    protected $_isBuilded = false;
+    protected $_isBuilded = FALSE;
 
     /**
      * @var array
@@ -75,7 +75,7 @@ class JBMoneyHelper extends AppHelper
             'date'   => date('d-m-Y'),
         ));
 
-        self::$curList = $this->app->jbcache->get($cacheKey, 'currency', true);
+        self::$curList = $this->app->jbcache->get($cacheKey, 'currency', TRUE);
         if (empty(self::$curList)) {
 
             $elements = $this->app->jbcartposition->loadElements('currency');
@@ -109,10 +109,10 @@ class JBMoneyHelper extends AppHelper
                 );
             }
 
-            $this->app->jbcache->set($cacheKey, self::$curList, 'currency', true);
+            $this->app->jbcache->set($cacheKey, self::$curList, 'currency', TRUE);
         }
 
-        $this->_isBuilded = true;
+        $this->_isBuilded = TRUE;
 
         $this->app->jbdebug->mark('jbmoney::init::finish');
 
@@ -134,6 +134,7 @@ class JBMoneyHelper extends AppHelper
 
         if (preg_match('#^([\+\-]{0,1})([0-9\.\,]*)$#ius', $value, $matches)) {
             $value = str_replace(',', '.', $matches[2]);
+
             return (float)($matches[1] . (float)$value);
         }
 
@@ -164,7 +165,7 @@ class JBMoneyHelper extends AppHelper
             return $result;
         }
 
-        return null;
+        return NULL;
     }
 
     /**
@@ -174,7 +175,7 @@ class JBMoneyHelper extends AppHelper
      *
      * @return array
      */
-    public function getCurrencyList($isShort = false)
+    public function getCurrencyList($isShort = FALSE)
     {
         $this->init();
 
@@ -204,7 +205,7 @@ class JBMoneyHelper extends AppHelper
      *
      * @return null|string
      */
-    public function toFormat($value, $code = null)
+    public function toFormat($value, $code = NULL)
     {
         $this->init();
 
@@ -224,7 +225,7 @@ class JBMoneyHelper extends AppHelper
             return $this->_numberFormat($value, self::$curList[$code]['format']);
         }
 
-        return null;
+        return NULL;
     }
 
 
@@ -236,7 +237,7 @@ class JBMoneyHelper extends AppHelper
      *
      * @return string
      */
-    public function clearCurrency($currency, $default = null)
+    public function clearCurrency($currency, $default = NULL)
     {
         $this->init();
 
@@ -250,7 +251,7 @@ class JBMoneyHelper extends AppHelper
             return $currency;
         }
 
-        return null;
+        return NULL;
     }
 
     /**
@@ -276,7 +277,12 @@ class JBMoneyHelper extends AppHelper
             return $currency;
         }
 
-        return false;
+        return FALSE;
+    }
+
+    public function format($value)
+    {
+        return $this->_numberFormat($value);
     }
 
     /**
@@ -293,7 +299,8 @@ class JBMoneyHelper extends AppHelper
         $value  = $this->clearValue($value);
         $value  = !empty($value) ? $value : 0;
 
-        $valueStr = number_format(abs($value), $format['num_decimals'], $format['decimal_sep'], $format['thousands_sep']);
+        $valueStr =
+            number_format(abs($value), $format['num_decimals'], $format['decimal_sep'], $format['thousands_sep']);
 
         $moneyFormat = ($value >= 0) ? $format['format_positive'] : $format['format_negative'];
 
@@ -312,7 +319,8 @@ class JBMoneyHelper extends AppHelper
      */
     public function calc($value, $baseCurrency, $addValue, $currency)
     {
-        $value        = $this->clearValue($value);
+        $value    = $this->clearValue($value);
+        $addValue = $this->clearValue($addValue);
 
         $baseCurrency = $this->clearCurrency($baseCurrency);
         $currency     = $this->clearCurrency($currency, $baseCurrency);
@@ -322,7 +330,6 @@ class JBMoneyHelper extends AppHelper
             $sign = $addValue[0];
         }
 
-        $addValue = $this->clearValue($addValue);
         if ($currency == self::PERCENT) {
             $addValue = (float)($sign . abs($value * $addValue / 100));
         } else {

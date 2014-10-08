@@ -16,44 +16,65 @@
     <?php
 
     if (!empty($view->items)) {
+
     $i = 0;
-    $summa = 0;
+    $sum = 0;
     $count = 0;
 
-    $currency = $view->config->get('default_currency', 'EUR');
+    $default = $view->config->get('default_currency', 'EUR');
+    $jbHTML = $this->app->jbhtml;
+    $jbMoney = $this->app->jbmoney;
 
     foreach ($view->items as $id => $data) {
-        if (empty($data)) {
-            continue;
+
+        extract($data, EXTR_PREFIX_ALL, '_');
+
+        $item = $this->app->table->item->get($__item_id);
+
+        $image = null;
+        $price = $jbMoney->convert($__currency, $default, $__price);
+        $href  = $this->app->route->item($item);
+
+        $count += $__quantity;
+        $subtotal = $__quantity * $price;
+        $sum += $subtotal;
+
+        if (!empty($__image)) {
+
+            $url = $this->app->jbimage->resize($__image, 75, 75);
+
+            $linkAttr = array(
+                'class' => 'jbimage-link',
+                'title' => $item->name,
+                'href'  => $href
+            );
+
+            $imgAttr = array(
+                'class'  => 'jbimage',
+                'src'    => $url->url,
+                'alt'    => $item->name,
+                'title'  => $item->name,
+                'width'  => 75,
+                'height' => 75
+            );
+
+            $image =
+                '<a ' . $jbHTML->buildAttrs($linkAttr) . '>
+                    <img  ' . $jbHTML->buildAttrs($imgAttr) . ' />
+                </a>';
         }
-        $variant = null;
 
-        if (strpos($id, '-')) {
-            list($itemId, $variant) = explode('-', $id);
-        }
+        echo '<tr class="row-' . $id . '" data-itemId="' . $__item_id . '" data-key="' . $id . '">';
 
-        $item   = $this->app->table->item->get($data['item_id']);
-        $option = !empty($variant) || $variant == '0' ? '#' . ($variant + 1) : JText::_('JBZOO_CART_ITEM_VARIANT_BASIC');
-        $option = JText::sprintf('JBZOO_CART_ITEM_VARIANT_NO', $option);
-
-        $price = $this->app->jbmoney->convert($data['currency'], $currency, $data['price']);
-
-        $count += $data['quantity'];
-        $subtotal = $data['quantity'] * $price;
-        $summa += $subtotal;
-
-        $image = ''; //$this->app->jbitem->renderImageFromItem($item, $imageElementId, true);
-
-        echo '<tr class="row-' . $id . '" data-itemId="' . $data['item_id'] . '" data-key="' . $id . '">';
         echo '<td>' . ++$i . '</td>';
-        echo '<td>' . $data['sku'] . '</td>';
+        echo '<td><span>' . $__sku . '</span></td>';
         echo '<td>' . $image . '</td>';
 
         echo '<td>';
-        echo '<a href="' . $this->app->route->item($item) . '" title="' . $data['name'] . '">' . $data['name'] . '</a><br/><i>(' . $option . ')</i>';
+        echo '<a href="' . $href . '" title="' . $__name . '">' . $__name . '</a>';
         unset($item);
-        if (isset($data['priceParams']) && !empty($data['priceParams'])) {
-            foreach ($data['priceParams'] as $key => $value) {
+        if (isset($__priceParams) && !empty($__priceParams)) {
+            foreach ($__priceParams as $key => $value) {
                 if (!empty($value)) {
                     echo '<div><strong>' . $key . ':</strong> ' . $value . '</div>';
                 }
@@ -62,26 +83,33 @@
 
         echo '</td>';
 
-        if ($data['price']) {
+        if ($__price) {
             echo '<td class="jsPricevalue" price="' . $price . '">'
-                . $this->app->jbmoney->toFormat($price, $currency)
-                . '</td>';
+                 . $jbMoney->toFormat($price, $default)
+                 . '</td>';
         } else {
             echo '<td> - </td>';
         }
 
-        echo '<td><input type="text" class="jsQuantity input-quantity" value="' . $data['quantity'] . '" /></td>';
+        echo '<td><input type="text" class="jsQuantity input-quantity" value="' . $__quantity . '" /></td>';
 
         if ($price) {
             echo '<td class="jsSubtotal basket-table-subtotal">
-            <span class="basket-table-value jsValue">
-            ' . $this->app->jbmoney->toFormat($subtotal, $currency) . '
+            <span
+             data-total="' . $jbMoney->format($price) . '"
+             data-noformat="' . $subtotal . '"
+             class="basket-table-value jsValue">
+            ' . $jbMoney->format($subtotal) . '
+            </span>
+            <span class="jsCurrency">
+            ' . strtoupper($default) . '
             </span></td>';
         } else {
             echo '<td> - </td>';
         }
 
-        echo '<td><input type="button" class="jbbutton jsDelete" itemid="' . $id . '" value="' . JText::_('JBZOO_CART_DELETE') . '" /></td>';
+        echo '<td><input type="button" class="jbbutton jsDelete" itemid="' . $id . '" value="'
+             . JText::_('JBZOO_CART_DELETE') . '" /></td>';
         echo "</tr>\n";
 
     }
@@ -99,7 +127,12 @@
             <span class="jsValue"><?php echo $count; ?></span>
         </td>
         <td class="jsTotalPrice">
-            <span class="jsValue"><?php echo $this->app->jbmoney->toFormat($summa, $currency); ?></span>
+            <span class="jsValue">
+                <?php echo $jbMoney->format($sum); ?>
+            </span>
+            <span class="jsCurrency">
+                <?php echo strtoupper($default); ?>
+            </span>
         </td>
         <td>
             <input type="button" class="jbbutton jsDeleteAll"
@@ -114,9 +147,9 @@
     jQuery(function ($) {
         $('.jbzoo .jsJBZooBasket').JBZooBasket({
             'clearConfirm': "<?php echo JText::_('JBZOO_CART_CLEAR_CONFIRM');?>",
-            'quantityUrl': "<?php echo $this->app->jbrouter->basketQuantity();?>",
-            'deleteUrl': "<?php echo $this->app->jbrouter->basketDelete();?>",
-            'clearUrl': "<?php echo $this->app->jbrouter->basketClear();?>"
+            'quantityUrl' : "<?php echo $this->app->jbrouter->basketQuantity();?>",
+            'deleteUrl'   : "<?php echo $this->app->jbrouter->basketDelete();?>",
+            'clearUrl'    : "<?php echo $this->app->jbrouter->basketClear();?>"
         });
     });
 </script>

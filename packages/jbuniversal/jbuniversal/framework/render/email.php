@@ -157,8 +157,7 @@ class EmailRenderer extends PositionRenderer
             if ($element = $this->_cartelement->create($config['type'], $config['group'], $config)) {
 
                 $element->setSubject($this->_subject);
-                //$element->setConfig($config);
-                if ($element->canAccess() && $element->hasValue()) {
+                if ($element->hasValue()) {
                     return true;
                 }
             }

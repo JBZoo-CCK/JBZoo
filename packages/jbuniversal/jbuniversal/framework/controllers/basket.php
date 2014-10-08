@@ -23,27 +23,27 @@ class BasketJBUniversalController extends JBUniversalController
     /**
      * @var JBModelConfig
      */
-    protected $_config = null;
+    protected $_config = NULL;
 
     /**
      * @var JBCartHelper
      */
-    protected $_jbcart = null;
+    protected $_jbcart = NULL;
 
     /**
      * @var JBMoneyHelper
      */
-    protected $_jbmoney = null;
+    protected $_jbmoney = NULL;
 
     /**
      * @var JBCartOrder
      */
-    public $order = null;
+    public $order = NULL;
 
     /**
      * @var JBCart
      */
-    protected $_cart = null;
+    public $cart = NULL;
 
     /**
      * @param array $app
@@ -56,7 +56,7 @@ class BasketJBUniversalController extends JBUniversalController
         //$this->app->jbdoc->noindex();
         $this->_jbmoney = $this->app->jbmoney;
         $this->_config  = JBModelConfig::model()->getGroup('cart.config');
-        $this->_cart    = JBcart::getInstance();
+        $this->cart     = JBcart::getInstance();
     }
 
     /**
@@ -77,12 +77,12 @@ class BasketJBUniversalController extends JBUniversalController
         $this->payment        = $this->app->jbpayment->getEnabled();
 
         $this->Itemid = $this->_jbrequest->get('Itemid');
-        $this->order  = $this->_cart->newOrder();
-        $this->items  = $this->_cart->getItems();
+        $this->order  = $this->cart->newOrder();
+        $this->items  = $this->cart->getItems();
         $this->config = $this->_config;
 
         $errors     = 0;
-        $orderSaved = false;
+        $orderSaved = FALSE;
 
         if ($this->_jbrequest->isPost()) {
 
@@ -107,7 +107,7 @@ class BasketJBUniversalController extends JBUniversalController
                     JBModelOrder::model()->save($this->order);
 
                     // empty cart items
-                    $this->_cart->removeItems();
+                    $this->cart->removeItems();
 
                     // go to payment page
                     $payment = $this->order->getPayment();
@@ -115,7 +115,7 @@ class BasketJBUniversalController extends JBUniversalController
                         $this->setRedirect($paymentUrl, JText::_('JBZOO_CART_PAYMENT_REDIRECT'));
                     }
 
-                    $orderSaved = true;
+                    $orderSaved = TRUE;
                     $this->app->jbnotify->notice(JText::_('JBZOO_CART_ORDER_SUCCESS_CREATED'));
                 }
 
@@ -143,7 +143,8 @@ class BasketJBUniversalController extends JBUniversalController
      */
     public function clear()
     {
-        $this->app->jbcart->removeItems();
+        $cart = JBcart::getInstance();
+        $cart->removeItems();
         $this->app->jbajax->send();
     }
 
