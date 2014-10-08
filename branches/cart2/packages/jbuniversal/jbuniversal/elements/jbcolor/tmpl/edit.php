@@ -15,5 +15,5 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 <div id="<?php echo $containerId; ?>" class="jbzoo-color jbzoo">
-    <?php echo $this->app->jbhtml->colors($type, $colorItems, $this->getControlName('option'), $checked); ?>
+    <?php echo $this->app->jbhtml->colors($type, $colorItems, $this->getControlName('option', true), $checked); ?>
 </div>
