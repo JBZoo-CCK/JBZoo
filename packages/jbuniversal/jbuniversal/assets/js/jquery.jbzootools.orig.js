@@ -62,6 +62,7 @@ var JBZooHelper = function () {
             }
 
             var k = decimals - number[1].toString().length;
+
             for (var i = 0; i < k; i++) {
                 number[1] += '0';
             }
@@ -117,12 +118,12 @@ var JBZooHelper = function () {
         $this.logger('w', 'ajax::request', options);
 
         var options = $.extend({}, {
-            'url': 'index.php?format=raw&tmpl=component',
-            'data': {},
+            'url'     : 'index.php?format=raw&tmpl=component',
+            'data'    : {},
             'dataType': 'json',
-            'success': false,
-            'error': false,
-            'onFatal': function (responce) {
+            'success' : false,
+            'error'   : false,
+            'onFatal' : function (responce) {
                 if ($this.DEBUG) {
                     $this.logger('e', 'ajax::request - ' + options.url, options.data);
 
@@ -157,17 +158,17 @@ var JBZooHelper = function () {
         // set default request data
         options.data = $.extend({}, {
             'nocache': Math.random(),
-            'option': 'com_zoo',
-            'tmpl': 'component',
-            'format': 'raw'
+            'option' : 'com_zoo',
+            'tmpl'   : 'component',
+            'format' : 'raw'
         }, options.data);
 
         $.ajax({
-            'url': options.url,
-            'data': options.data,
+            'url'     : options.url,
+            'data'    : options.data,
             'dataType': options.dataType,
-            'type': 'POST',
-            'success': function (data) {
+            'type'    : 'POST',
+            'success' : function (data) {
 
                 if (typeof data == 'string') {
                     data = $.trim(data);
@@ -187,9 +188,9 @@ var JBZooHelper = function () {
                 }
 
             },
-            'error': options.onFatal,
-            'cache': false,
-            'headers': {
+            'error'   : options.onFatal,
+            'cache'   : false,
+            'headers' : {
                 "cache-control": "no-cache"
             }
         });
@@ -363,6 +364,190 @@ var JBZooHelper = function () {
 
 };
 
+var reCount = {
+
+    options : {
+        decimals : 2,
+        point    : '.',
+        separator: " ",
+        currency : 'EUR',
+        duration : 1000
+    },
+    process : false,
+    element : null,
+    elements: [],
+    hash    : null,
+
+    add: function (element, value, options) {
+
+        var object = this;
+
+        object.setOptions(options);
+
+        object.element = element;
+
+        var settings = object.options;
+
+        var old = object.getValue(element);
+        object.process = true;
+
+
+        jQuery({ value: old.value })
+            .animate({ value: value.noformat }, {
+                easing: 'swing',
+                step  : function () {
+
+                    var val = parseInt(this.value, 10);
+                    if (settings.decimals > 0) {
+                        val = object.toFormat(parseFloat(this.value));
+                    }
+
+                    jQuery(element).text(val);
+                },
+
+                complete: function () {
+                    jQuery(element).text(value.total);
+                    object.process = false;
+                },
+                duration: settings.duration
+            });
+
+        /*jQuery({value: old.value})
+         .animate({
+         value: parseFloat(value.noformat)
+         },
+         {
+         step: function (now, fx) {
+
+         //console.log(now);
+         //console.log(durationDone);
+
+         //console.log(rest);
+
+         var val = parseInt(this.value, 10);
+         if (settings.decimals > 0) {
+         val = object.toFormat(parseFloat(this.value));
+         }
+
+         object.setValue(val);
+         },
+
+         complete: function () {
+
+         object.setValue(value.total);
+         object.process = false;
+         },
+         duration: settings.duration
+         }
+         );*/
+
+        return this;
+    },
+
+    getValue: function (element) {
+
+        var value = 0;
+        if (typeof element.attr('type') == 'undefined') {
+            value = element.text();
+
+            value = this.clean(value);
+
+        }
+
+        return value;
+    },
+
+    setValue: function (value) {
+
+        //this.element.innerHTML = value;
+        //value = parseFloat(value);
+        if (typeof this.element.attr('type') == 'undefined') {
+            this.element.text(value);
+        }
+
+        //this.element.val(value);
+
+        return this;
+    },
+
+    clean: function (value) {
+
+        var val = value.replace(/[\s]/g, "");
+
+        val = parseInt(val, 10);
+
+        var result = {
+            value: val,
+            total: this.toFormat(val)
+        };
+
+        return  result;
+    },
+
+    toFormat: function (number, decimals, point, separator) {
+
+        if (isNaN(number)) {
+            return(null);
+        }
+
+        point = point ? point : this.options.point;
+        separator = separator ? separator : this.options.separator;
+        decimals = decimals ? decimals : this.options.decimals;
+
+        number = new String(number);
+        number = number.split('.');
+
+        if (separator) {
+
+            var tmpNumber = new Array();
+
+            for (var i = number[0].length, j = 0; i > 0; i -= 3) {
+                var pos = i > 0 ? i - 3 : i;
+                tmpNumber[j++] = number[0].substring(i, pos);
+            }
+
+            number[0] = tmpNumber.reverse().join(separator);
+        }
+
+        if (decimals) {
+
+            number[1] = number[1] ? number[1] : '';
+            number[1] = Math.round(parseFloat(number[1].substr(0, decimals) + '.' + number[1].substr(decimals, number[1].length), 10));
+
+            if (isNaN(number[1])) {
+                number[1] = '';
+            }
+
+            var k = decimals - number[1].toString().length;
+
+            for (var i = 0; i < k; i++) {
+                number[1] += '0';
+            }
+        }
+
+        return(number.join(point));
+    },
+
+    setOptions: function (options) {
+
+        for (var key in options) {
+            if (this.options.hasOwnProperty(key)) {
+                if (options[key].length > 0) {
+                    this.options[key] = options[key];
+                }
+            }
+        }
+
+        return this;
+    },
+
+    trash: function () {
+        this.element = null;
+        this.options = {};
+    }
+
+};
+
 /**
  * JBZoo UI jQuery plugins
  */
@@ -374,7 +559,7 @@ var JBZooHelper = function () {
     $(document).on('click', '.jbzoo .jsEmptyCart', function () {
 
         JBZoo.ajax({
-            'url': $(this).attr('href'),
+            'url'    : $(this).attr('href'),
             'success': function () {
                 $.fn.JBZooPriceReloadBasket();
             }
@@ -419,7 +604,7 @@ var JBZooHelper = function () {
 
         var options = $.extend({}, {
             'onTabShow': false,
-            'indexTab': 0
+            'indexTab' : 0
         }, options);
 
         return $(this).each(function () {
@@ -514,10 +699,10 @@ var JBZooHelper = function () {
     $.fn.JBZooAccordion = function (options) {
 
         var options = $.extend({}, {
-            'onTabShow': false,
-            'headerWidget': 'h3',
+            'onTabShow'    : false,
+            'headerWidget' : 'h3',
             'contentWidget': 'div',
-            'activeTab': 0
+            'activeTab'    : 0
         }, options);
 
         return $(this).each(function () {
@@ -593,6 +778,153 @@ var JBZooHelper = function () {
         });
     };
 
+    $.fn.reCount = function (value, settings) {
+
+        var options = $.extend({}, {
+                decimals : 2,
+                point    : '.',
+                separator: " ",
+                currency : 'EUR',
+                duration : 500
+            }, settings),
+            object = $(this);
+
+        $(this).each(function () {
+
+            var $this = $(this);
+
+            object.add = function (value) {
+
+                var old = object.getValue();
+
+                add(old, value, options.duration, true);
+
+            };
+
+            function add(old, value, duration, repeat) {
+
+                $({value: old}).animate({
+                        value: parseFloat(object.clean(value))
+                    },
+
+                    {
+                        step: function (now, fx) {
+
+                            var val = parseInt(this.value, 10);
+                            if (options.decimals > 0) {
+                                val = object.toFormat(parseFloat(this.value));
+                            }
+
+                            setValue(val);
+
+                            var percentageDone = (fx.now - fx.start) / (fx.end - fx.start),
+                                done = parseFloat(percentageDone).toFixed(2);
+
+                            if (done > 0.95 && repeat === true) {
+
+                                $(fx.elem).stop();
+
+                                duration += duration * 4;
+
+                                add(this.value, value, duration);
+                            }
+                        },
+
+                        complete: function () {
+
+                            setValue(value);
+                            object.process = false;
+                        },
+                        duration: duration
+                    }
+                )
+            }
+
+            object.getValue = function () {
+
+                var value = 0;
+                if (typeof $this.attr('type') == 'undefined') {
+
+                    value = $this.text();
+                    value = this.clean(value);
+
+                }
+
+                return value;
+            };
+
+            object.clean = function (value) {
+
+                value = value + "";
+                var val = value.toString().replace(/[\s]/g, "");
+                val = parseInt(val, 10);
+
+                return val;
+            };
+
+            object.toFormat = function (number, decimals, point, separator) {
+
+                if (isNaN(number)) {
+                    return(null);
+                }
+
+                point = point ? point : options.point;
+                separator = separator ? separator : options.separator;
+                decimals = decimals ? decimals : options.decimals;
+
+                number = new String(number);
+                number = number.split('.');
+
+                if (separator) {
+
+                    var tmpNumber = new Array();
+
+                    for (var i = number[0].length, j = 0; i > 0; i -= 3) {
+                        var pos = i > 0 ? i - 3 : i;
+                        tmpNumber[j++] = number[0].substring(i, pos);
+                    }
+
+                    number[0] = tmpNumber.reverse().join(separator);
+                }
+
+                if (decimals) {
+
+                    number[1] = number[1] ? number[1] : '';
+                    number[1] = Math.round(parseFloat(number[1].substr(0, decimals) + '.' + number[1].substr(decimals, number[1].length), 10));
+
+                    if (isNaN(number[1])) {
+                        number[1] = '';
+                    }
+
+                    var k = decimals - number[1].toString().length;
+
+                    for (var i = 0; i < k; i++) {
+                        number[1] += '0';
+                    }
+                }
+
+                return(number.join(point));
+            };
+
+            function setValue(value) {
+
+                //this.element.innerHTML = value;
+                //value = parseFloat(value);
+                if (typeof $this.attr('type') == 'undefined') {
+                    $this.text(value);
+                }
+
+                //this.element.val(value);
+
+                return $this;
+            }
+
+            object.add(value);
+        });
+
+        return object;
+    };
+
     /**
      * JBZoo Basket widget
      * @param options
@@ -612,27 +944,18 @@ var JBZooHelper = function () {
 
                 $(elem)
                     .animate({
-                        opacity: 0.1
+                        opacity: 0.3
                     },
                     {
-                        duration: 300,
-                        start: function () {
+                        duration: 1000,
+                        start   : function () {
                             $(this).addClass('jsSizeMedium');
                         },
-                        always: function (promise, jumped) {
-                            $(this).effect('shake',
-                                {
-                                    'direction': 'up',
-                                    'distance': 1,
-                                    'times': 1
-                                }, 100);
-                        },
+
                         complete: function () {
                             $(this)
                                 .css('opacity', 1)
                                 .removeClass('jsSizeMedium');
-
-                            elem.text(value);
                         }
                     }
                 );
@@ -652,19 +975,27 @@ var JBZooHelper = function () {
             // recount basket
             var recount = function (data) {
 
-                shipping.recount();
                 for (var key in data.items) {
+
                     var subTotal = data.items[key],
+                        row = $('.row-' + key),
                         elem = $('.row-' + key + ' .jsSubtotal .jsValue', $obj);
 
-                    reCountEffect(elem, subTotal);
+                    (elem).reCount(subTotal.total, {
+                        decimals: 2
+                    });
                 }
 
                 var count = $('.jsTotalCount .jsValue', $obj),
                     total = $('.jsTotalPrice .jsValue', $obj);
-                reCountEffect(count, data.count);
-                reCountEffect(total, data.total);
 
+                $(count).reCount(data.count, {
+                    decimals: 0
+                });
+                $(total).reCount(data.total);
+
+
+                shipping.recount();
             };
 
             function deleteItem($button) {
@@ -673,12 +1004,13 @@ var JBZooHelper = function () {
                     key = $button.closest('tr').data('key');
 
                 JBZoo.ajax({
-                    'url': options.deleteUrl,
-                    'data': {
+                    'url'    : options.deleteUrl,
+                    'data'   : {
                         'itemid': itemid,
-                        'key': key
+                        'key'   : key
                     },
                     'success': function (data) {
+
                         var $row = $button.closest('tr');
                         $row.slideUp(300, function () {
                             $row.remove();
@@ -690,7 +1022,7 @@ var JBZooHelper = function () {
                         $.fn.JBZooPriceReloadBasket();
                         removeLoading();
                     },
-                    'error': function (error) {
+                    'error'  : function (error) {
                         removeLoading();
                     }
                 });
@@ -706,7 +1038,7 @@ var JBZooHelper = function () {
 
                 if (confirm(options.clearConfirm)) {
                     JBZoo.ajax({
-                        'url': options.clearUrl,
+                        'url'    : options.clearUrl,
                         'success': function () {
                             window.location.reload();
                         }
@@ -714,10 +1046,11 @@ var JBZooHelper = function () {
                 }
             });
 
-            $('.jsQuantity', $obj).quantity();
+            $('.jsQuantity', $obj).JBZooQuantity();
             // quantity
             var $quantity = $('.jsQuantity', $obj),
                 lastQuantityVal = $quantity.val(),
+
                 changeCallback = function ($input) {
 
                     var value = parseInt($input.val(), 10),
@@ -728,16 +1061,16 @@ var JBZooHelper = function () {
                     if ($input.val().length && value > 0) {
                         lastQuantityVal = value;
                         JBZoo.ajax({
-                            'url': options.quantityUrl,
-                            'data': {
+                            'url'    : options.quantityUrl,
+                            'data'   : {
                                 'value': value,
-                                'key': key
+                                'key'  : key
                             },
                             'success': function (data) {
                                 recount(data);
                                 $.fn.JBZooPriceReloadBasket();
                             },
-                            'error': function (data) {
+                            'error'  : function (data) {
                                 if (data.message) {
                                     alert(data.message);
                                 }
@@ -745,9 +1078,6 @@ var JBZooHelper = function () {
                         });
 
                     }
-                    /*else if (value === 0) {
-                     deleteItem($input);
-                     }*/
                 },
                 changeTimer = 0,
                 timeoutCallback = function () {
@@ -781,16 +1111,17 @@ var JBZooHelper = function () {
         });
     };
 
-    $.fn.quantity = function (settings) {
+    $.fn.JBZooQuantity = function (settings) {
 
         var options = $.extend({}, {
             'default': 1,
-            'step': 1,
-            'min': 1,
-            'max': 9999999
+            'step'   : 1,
+            'min'    : 1,
+            'max'    : 9999999,
+            'scroll' : true
         }, settings);
 
-        return $(this).each(function () {
+        return this.each(function () {
 
             var $this = $(this),
                 processing = false;
@@ -798,11 +1129,12 @@ var JBZooHelper = function () {
             if ($this.hasClass('quantity-init')) {
                 return $this;
             }
+
             $this.addClass('quantity-init');
 
             function refreshDigits(value) {
 
-                var max = parseFloat(value) + (3 * options.step);
+                var max = parseInt(value) + (3 * options.step);
                 for (var i = 0; i < 5; i++) {
                     max = max - options.step;
 
@@ -813,7 +1145,7 @@ var JBZooHelper = function () {
             function placeDigits() {
 
                 box.css({
-                    top: 0,
+                    top      : 0,
                     marginTop: -digits.height() * 2 + 'px'
                 });
             }
@@ -868,9 +1200,9 @@ var JBZooHelper = function () {
                 e.preventDefault();
                 e.stopPropagation();
 
-                value = parseFloat(value);
+                value = parseInt(value);
 
-                var old = parseFloat($this.val()),
+                var old = parseInt($this.val(), 10),
                     val = old + value,
                     i = value > 0 ? 1 : -1;
 
@@ -925,7 +1257,8 @@ var JBZooHelper = function () {
                     '</td></tr>' +
                     '</table>').prependTo(parent);
 
-                $this.appendTo($('.jsQuantityTable .item-count', parent));
+                $this.addClass('input-quantity')
+                    .appendTo($('.jsQuantityTable .item-count', parent));
             };
 
             $this.bindEvents = function () {
@@ -944,7 +1277,7 @@ var JBZooHelper = function () {
 
                 $this.on('change', function () {
 
-                    var value = parseFloat($.trim($this.val()));
+                    var value = parseInt($.trim($this.val()));
 
                     value = (isNaN(value) || value < options.min) ? options.min : value;
                     value = (isNaN(value) || value > options.max) ? options.max : value;
@@ -952,6 +1285,11 @@ var JBZooHelper = function () {
                     $this.val(value);
                     $this.refresh();
                 });
+
+                if (options.scroll === true) {
+
+                    $this.bindScrollEvent();
+                }
 
                 $this
                     .on('focus',function () {
@@ -963,6 +1301,62 @@ var JBZooHelper = function () {
                         $this.css('opacity', '0');
                         box.show();
                     });
+            };
+
+            $this.bindScrollEvent = function () {
+
+                var oldVal = $this.val();
+                var newVal = $this.val();
+                $(item).on('mouseenter', function () {
+
+                    oldVal = $this.val();
+                    $this.focus();
+                });
+
+                $(item).on('mouseleave', function () {
+
+                    newVal = $this.val();
+                    $this.blur();
+
+                    if (newVal != oldVal) {
+                        $this.trigger('change');
+                    }
+
+                });
+
+                $this.on('mousewheel', function (e) {
+
+                    e.preventDefault(e);
+                    if ($this.is(':focus')) {
+
+                        var value = parseInt($this.val(), 10);
+
+                        if (e.originalEvent.wheelDelta > 0) {
+
+                            value += options.step;
+                            if (value > options.max) {
+                                value = options.max;
+                            }
+
+                        } else {
+
+                            value -= options.step;
+                            if (value < options.min) {
+                                value = options.min;
+                            }
+
+                        }
+
+                        $this.fadeOut(10, function () {
+
+                            $this.fadeIn(10, function () {
+
+                                $this.val(validate(value));
+                                $this.refresh();
+                            });
+                        });
+                    }
+                });
             };
 
             $this.refresh = function () {
@@ -984,13 +1378,15 @@ var JBZooHelper = function () {
             $this.drawBody();
 
             var table = $this.parents('.jsQuantityTable'),
+                item = $('.item-count', table),
                 digits = $('.item-count-digits dd', table),
                 box = $('.item-count-digits', table),
                 plus = $('.jsAddQuantity', table),
                 minus = $('.jsRemoveQuantity', table);
 
-            $this.bindEvents();
+
             $this.refresh();
+            $this.bindEvents();
         });
     };
 
@@ -1020,7 +1416,7 @@ var JBZooHelper = function () {
                 var $toggle = $(this);
 
                 JBZoo.ajax({
-                    'url': $toggle.attr("href"),
+                    'url'    : $toggle.attr("href"),
                     'success': function (data) {
                         if (data.status) {
                             $compare.removeClass('unactive').addClass('active');
@@ -1067,7 +1463,7 @@ var JBZooHelper = function () {
                 var $toggle = $(this);
 
                 JBZoo.ajax({
-                    'url': $toggle.attr("href"),
+                    'url'    : $toggle.attr("href"),
                     'success': function (data) {
 
                         if (data.status) {
@@ -1089,7 +1485,7 @@ var JBZooHelper = function () {
                 var $toggle = $(this);
 
                 JBZoo.ajax({
-                    'url': $toggle.attr("href"),
+                    'url'    : $toggle.attr("href"),
                     'success': function (data) {
                         if (data.result) {
                             $favorite.slideUp(function () {
@@ -1108,58 +1504,13 @@ var JBZooHelper = function () {
         });
     };
 
-    $.fn.JBZooPriceAdvanceDefaultValidator = function ($this) {
+    $.fn.JBZooPriceAdvanceDefaultValidator = function () {
 
-        if ($this.hasClass('init')) {
-            return $this;
-        }
-        $this.addClass('init');
-
-        $this.super = $.fn.JBZooPriceAdvanceValidator(null, $this);
+        var $this = $(this);
 
         function addEmptyMessage($row) {
             $row.attr('title', 'These variation is empty');
             $row.tooltip();
-        }
-
-        $this.showErrors = function () {
-
-            $this.super.clearStyles();
-            var data = validateModeDefault();
-
-            if (Object.keys(data).length > 0) {
-
-                for (var j in data) {
-                    var $row = $('.jbpriceadv-variation-row', $this).eq(data[j].variant);
-                    $this.super.setValid(false);
-
-                    if (data[j].exists === false) {
-                        $this.super.setValid(true);
-
-                    } else if (data[j].empty == true) {
-
-                        $this.super.setValid(false);
-                        var $attention = $('.variation-label .jsAttention', $row);
-
-                        $attention.addClass('error');
-                        $this.super.addTooltipEmptyMessage($attention);
-                    }
-
-                    for (var p in data[j].repeat) {
-
-                        var $jbpriceParams = $('.jbprice-params', $row),
-                            $paramByIndex = $jbpriceParams.children().eq(data[j].repeat[p].elem_index),
-                            $attention = $('.jsJBpriceAttention', $paramByIndex);
-
-                        $attention.addClass('error');
-                        $this.super.addTooltipMessage($attention);
-                    }
-                }
-
-            } else {
-                $this.super.setValid(true);
-            }
-
         }
 
         function scrollToRow($row) {
@@ -1217,12 +1568,12 @@ var JBZooHelper = function () {
 
                     var $param = $(this);
 
-                    value = $this.super.setStatus($param);
+                    value = $this.setStatus($param);
 
                     if (value.length > 0) {
                         param[p] = {
-                            'value': value,
-                            'index': $param.index(),
+                            'value' : value,
+                            'index' : $param.index(),
                             'exists': true
                         };
                     }
@@ -1261,7 +1612,7 @@ var JBZooHelper = function () {
                                 ) {
 
                                 repeatable[dataIndex] = {
-                                    'variant': key,
+                                    'variant'   : key,
                                     'elem_index': dataIndex,
                                     'elem_value': dataValue
                                 };
@@ -1273,21 +1624,21 @@ var JBZooHelper = function () {
                 if (data.exists === false) {
                     result[n] = {
                         'variant': n,
-                        'exists': data.exists
+                        'exists' : data.exists
                     }
 
                 } else if (data.empty === true) {
                     result[n] = {
                         'variant': n,
-                        'empty': data.empty
+                        'empty'  : data.empty
                     };
 
                 } else if (Object.keys(data).length > 0 &&
                     Object.keys(repeatable).length == Object.keys(data).length) {
                     result[n] = {
                         'variant': n,
-                        'length': Object.keys(data).length,
-                        'repeat': repeatable
+                        'length' : Object.keys(data).length,
+                        'repeat' : repeatable
                     };
 
                 }
@@ -1299,12 +1650,52 @@ var JBZooHelper = function () {
         function bindChangeEventModeDefault($param) {
 
             $('input, select', $param).on('change', function () {
-                $this.super.insertOptions();
+                $this.insertOptions();
                 $this.showErrors();
             });
         }
 
-        this.refreshAllModeDefault = function () {
+        $this.showErrors = function () {
+
+            $this.clearStyles();
+            var data = validateModeDefault();
+
+            if (Object.keys(data).length > 0) {
+
+                for (var j in data) {
+                    var $row = $('.jbpriceadv-variation-row', $this).eq(data[j].variant);
+                    $this.setValid(false);
+
+                    if (data[j].exists === false) {
+                        $this.setValid(true);
+
+                    } else if (data[j].empty == true) {
+
+                        $this.setValid(false);
+                        var $attention = $('.variation-label .jsAttention', $row);
+
+                        $attention.addClass('error');
+                        $this.addTooltipEmptyMessage($attention);
+                    }
+
+                    for (var p in data[j].repeat) {
+
+                        var $jbpriceParams = $('.jbprice-params', $row),
+                            $paramByIndex = $jbpriceParams.children().eq(data[j].repeat[p].elem_index),
+                            $attention = $('.jsJBpriceAttention', $paramByIndex);
+
+                        $attention.addClass('error');
+                        $this.addTooltipMessage($attention);
+                    }
+                }
+
+            } else {
+                $this.setValid(true);
+            }
+
+        };
+
+        $this.refreshAllModeDefault = function () {
 
             $('.jbpriceadv-variation-row', $this).each(function () {
 
@@ -1316,10 +1707,11 @@ var JBZooHelper = function () {
                     bindChangeEventModeDefault($param);
                 });
             });
-        }
+        };
 
+        $.extend($this, this);
         $this.refreshAllModeDefault();
-        $this.super.insertOptions();
+        $this.insertOptions();
         $this.showErrors();
 
         $this.on('newvariation', function () {
@@ -1336,48 +1728,13 @@ var JBZooHelper = function () {
             }
         });
 
-    }
-
-    $.fn.JBZooPriceAdvanceOverlayValidator = function ($this) {
-
-        if ($this.hasClass('init')) {
-            return this;
-        }
         $this.addClass('init');
+        return $this;
+    };
 
-        $this.super = $.fn.JBZooPriceAdvanceValidator(null, $this);
+    $.fn.JBZooPriceAdvanceOverlayValidator = function () {
 
-        $this.showErrors = function () {
-
-            var data = validateModeOverlay();
-
-            if (Object.keys(data).length > 0) {
-
-                for (var j in data) {
-
-                    var $row = $('.jbpriceadv-variation-row', $this).eq(data[j].variant);
-
-                    if (data[j].empty == true) {
-
-                        $this.super.setValid(false);
-                        var $attention = $('.variation-label .jsAttention', $row);
-                        $attention.addClass('error');
-                        $this.super.addTooltipEmptyMessage($attention);
-                    }
-
-                    var $param = $('.jbprice-params', $row).children().eq(data[j].index),
-                        $attentionOverlay = $('.jsJBpriceAttention', $param);
-
-                    $attentionOverlay.addClass('error');
-                    $this.super.addTooltipMessage($attentionOverlay);
-                }
-                $this.super.setValid(false);
-
-            } else {
-                $this.super.setValid(true);
-            }
-
-        }
+        var $this = $(this);
 
         function scrollToRow($row) {
 
@@ -1391,7 +1748,6 @@ var JBZooHelper = function () {
 
                 return true;
             }
-
 
             var data = validateModeOverlay();
 
@@ -1431,7 +1787,7 @@ var JBZooHelper = function () {
                     $active = $('.simple-param.active', $row);
 
                 if ($active.length > 0) {
-                    value = $this.super.setStatus($active);
+                    value = $this.setStatus($active);
 
                     if (value.length > 0) {
                         objects[i] = {
@@ -1444,7 +1800,6 @@ var JBZooHelper = function () {
                             'empty': true
                         };
                     }
-
                 }
             });
 
@@ -1463,9 +1818,9 @@ var JBZooHelper = function () {
                         repeatable.push(key);
                         result[i] = {
                             'variant': n,
-                            'repeat': repeatable,
-                            'index': objects[key].index,
-                            'empty': objects[key].empty
+                            'repeat' : repeatable,
+                            'index'  : objects[key].index,
+                            'empty'  : objects[key].empty
                         };
                     }
                 }
@@ -1473,7 +1828,7 @@ var JBZooHelper = function () {
                     i++;
                     result[i] = {
                         'variant': n,
-                        'empty': data.empty
+                        'empty'  : data.empty
                     };
                 }
             }
@@ -1488,75 +1843,110 @@ var JBZooHelper = function () {
                     $parent = $field.parents('.simple-param'),
                     $row = $field.parents('.jbpriceadv-variation-row');
 
-                $this.super.clearStyles();
-                $this.super.disableParams($row);
-                $this.super.setStatus($parent);
+                $this.clearStyles();
+                $this.disableParams($row);
+                $this.setStatus($parent);
 
                 if ($('.simple-param.active', $row).length == 0) {
-                    $this.super.activateParams($row);
+                    $this.activateParams($row);
                 }
 
-                $this.super.insertOptions();
+                $this.insertOptions();
                 $this.showErrors();
             });
         }
 
         function refreshSimpleParam($param) {
 
-            $this.super.setStatus($param);
+            $this.setStatus($param);
             bindChangeSimpleParamEvent($param);
         }
 
+        $this.showErrors = function () {
+
+            var data = validateModeOverlay();
+
+            if (Object.keys(data).length > 0) {
+
+                for (var j in data) {
+
+                    var $row = $('.jbpriceadv-variation-row', $this).eq(data[j].variant);
+
+                    if (data[j].empty == true) {
+
+                        $this.setValid(false);
+                        var $attention = $('.variation-label .jsAttention', $row);
+                        $attention.addClass('error');
+                        $this.addTooltipEmptyMessage($attention);
+                    }
+
+                    var $param = $('.jbprice-params', $row).children().eq(data[j].index),
+                        $attentionOverlay = $('.jsJBpriceAttention', $param);
+
+                    $attentionOverlay.addClass('error');
+                    $this.addTooltipMessage($attentionOverlay);
+                }
+                $this.setValid(false);
+
+            } else {
+                $this.setValid(true);
+            }
+
+        };
+
         $this.refreshAllModeOverlay = function () {
 
-            $this.super.insertOptions();
+            $this.insertOptions();
             $('.jbpriceadv-variation-row', $this).each(function () {
 
                 var $row = $(this);
-                $this.super.disableParams($row);
+                $this.disableParams($row);
+
                 $('.simple-param', $row).each(function () {
 
                     var $param = $(this);
-
                     refreshSimpleParam($param);
                 });
 
                 if ($('.simple-param.active', $row).length == 0) {
-                    $this.super.activateParams($row);
+                    $this.activateParams($row);
                 }
             });
-        }
+        };
 
+        $.extend($this, this);
         $this.refreshAllModeOverlay();
+        $this.insertOptions();
         $this.showErrors();
 
         $this.on('newvariation', function () {
 
             $this.refreshAllModeOverlay();
             $this.showErrors();
+            $this.insertOptions();
         });
 
         $this.on('errorsExists', function () {
 
             $this.showErrors();
-
         });
 
-        return this;
-    }
+        $this.addClass('init');
+        return $this;
+    };
 
-    $.fn.JBZooPriceAdvanceValidator = function (options, $this) {
+    $.fn.JBZooPriceAdvanceValidator = function (options) {
 
-        var validator = this;
+        var validator = $(this);
 
-        this.setValid = function (valid) {
+        validator.setValid = function (valid) {
             var valid = {
                 'valid': valid
             };
-            $this.data(valid);
-        }
+            validator.data(valid);
+        };
 
-        this.setStatus = function ($param) {
+        validator.setStatus = function ($param) {
 
             var $field = $('select, input', $param),
                 type = $field.attr('type'),
@@ -1576,15 +1966,15 @@ var JBZooHelper = function () {
 
             if (value.length > 0) {
 
-                this.activateParam($param);
+                validator.activateParam($param);
                 return value;
             }
 
             return '';
-        }
+        };
 
-        this.clearStyles = function () {
-            $('.jbpriceadv-variation-row', $this).each(function () {
+        validator.clearStyles = function () {
+            $('.jbpriceadv-variation-row', validator).each(function () {
 
                 var $row = $(this);
                 $('.variation-label .jsAttention', $row).removeClass('error');
@@ -1597,9 +1987,9 @@ var JBZooHelper = function () {
                     $('.jsJBpriceAttention', $param).tooltip('destroy');
                 });
             });
-        }
+        };
 
-        this.activateParam = function ($param) {
+        validator.activateParam = function ($param) {
 
             $param.removeClass('disabled');
             $param.addClass('active');
@@ -1607,9 +1997,9 @@ var JBZooHelper = function () {
             $('.jsJBpriceAttention', $param).tooltip('destroy');
 
             $('input, select', $param).removeAttr('disabled');
-        }
+        };
 
-        this.disableParam = function ($param) {
+        validator.disableParam = function ($param) {
 
             $param.removeClass('active');
             $param.addClass('disabled');
@@ -1618,23 +2008,23 @@ var JBZooHelper = function () {
             validator.addTooltipMessage($('.jsJBpriceAttention', $param));
 
             $('input, select', $param).attr('disabled', 'true');
-        }
+        };
 
-        this.activateParams = function ($row) {
+        validator.activateParams = function ($row) {
 
             $('.simple-param', $row).each(function () {
                 validator.activateParam($(this));
             });
-        }
+        };
 
-        this.disableParams = function ($row) {
+        validator.disableParams = function ($row) {
 
             $('.simple-param', $row).each(function () {
                 validator.disableParam($(this));
             });
-        }
+        };
 
-        this.addTooltipMessage = function ($attention) {
+        validator.addTooltipMessage = function ($attention) {
 
             if ($attention.hasClass('error')) {
                 $attention.attr('title', 'These values ​​are already in another variation');
@@ -1644,18 +2034,26 @@ var JBZooHelper = function () {
                 $attention.attr('title', 'In this mode you can choose only one variant');
                 $attention.tooltip();
             }
-        }
+        };
 
-        $this.addTooltipEmptyMessage = function ($attention) {
+        validator.addTooltipEmptyMessage = function ($attention) {
             $attention.attr('title', 'In this variant parameters are empty');
             $attention.tooltip();
-        }
+        };
 
-        this.insertOptions = function () {
+        validator.insertOptions = function () {
 
-            $('.jbpriceadv-variation-row', $this).each(function () {
+            $('.jbpriceadv-variation-row', validator).each(function () {
+
                 var $row = $(this),
                     $options = $('.variation-label .options .overflow', $row);
+
+                var description = $('.core-param .description', $row),
+                    label = $('.variation-label', $row);
+
+                if (typeof description.val() != 'undefined' && description.val().length > 0) {
+                    $('.description', label).html(description.val());
+                }
 
                 $('.variation-label .options .overflow', $row).html('');
 
@@ -1673,7 +2071,7 @@ var JBZooHelper = function () {
                         if ($.trim(radio.val()).length > 0) {
                             data[i] = {
                                 'value': $.trim(radio.val()),
-                                'key': $.trim(label.text())
+                                'key'  : $.trim(label.text())
                             }
                         }
 
@@ -1682,7 +2080,7 @@ var JBZooHelper = function () {
                         if ($.trim($field.val()).length > 0) {
                             data[i] = {
                                 'value': $.trim($field.val()),
-                                'key': $.trim(label.text())
+                                'key'  : $.trim(label.text())
                             }
                         }
 
@@ -1691,7 +2089,7 @@ var JBZooHelper = function () {
                         if (typeof $field.val() != 'undefined' && $.trim($field.val()).length > 0) {
                             data[i] = {
                                 'value': $.trim($field.val()),
-                                'key': $.trim(label.text())
+                                'key'  : $.trim(label.text())
                             }
                         }
                     }
@@ -1704,29 +2102,27 @@ var JBZooHelper = function () {
                     }
 
                     $('.option .key', $options).tooltip();
-
                 });
 
             });
 
+        };
+
+        options = $.extend({}, {
+            'price_mode': 1
+        }, options);
+
+        if (options.price_mode === 2) {
+
+            return validator.JBZooPriceAdvanceOverlayValidator();
+
+        } else if (options.price_mode === 1) {
+
+            return validator.JBZooPriceAdvanceDefaultValidator();
         }
 
-        if (typeof $this != 'undefined') {
-            return $this.each(function () {
-
-                options = $.extend({}, {
-                    'price_mode': 1
-                }, options);
-
-                if (options.price_mode === 2) {
-                    return $.fn.JBZooPriceAdvanceOverlayValidator($this);
-
-                } else if (options.price_mode === 1) {
-                    return $.fn.JBZooPriceAdvanceDefaultValidator($this);
-                }
-            });
-        }
-    }
+        return validator;
+    };
 
     /**
      * JBZoo JBPrice advance (for admin panel)
@@ -1741,16 +2137,20 @@ var JBZooHelper = function () {
                 $variations = $('.variations', $obj);
 
             options = $.extend({}, {
-                'text_variation_show': 'Show variations',
-                'text_variation_hide': 'Hide variations',
+                'text_variation_show' : 'Show variations',
+                'text_variation_hide' : 'Hide variations',
                 'adv_field_param_edit': 0,
-                'all_params': {},
-                'base_currency': $('.basic-currency', $obj).val(),
-                'base_sku': $('.basic-sku', $obj).val()
+                'all_params'          : {},
+                'base_currency'       : $('.basic-currency', $obj).val(),
+                'base_sku'            : $('.basic-sku', $obj).val()
             }, options);
 
             // init
             (function () {
+
+                bindToggleVariationEvent();
+                addSortable();
+
                 rebuildList();
                 $('.jbpriceadv-variation-row', $obj).addClass('fieldset-hidden');
                 if (!options.adv_field_param_edit) {
@@ -1758,16 +2158,17 @@ var JBZooHelper = function () {
                         $('.element-' + obj).hide();
                     });
                 }
-
             }());
-            var validator = $.fn.JBZooPriceAdvanceValidator({
+
+            var validator = $obj.JBZooPriceAdvanceValidator({
                 'price_mode': options.price_mode
-            }, $obj);
+            });
 
             function rebuildList() {
+
                 $('.jbpriceadv-variation-row .jbremove', $obj).show();
 
-                $('.jbpriceadv-variation-row', $obj).each(function (n, row) {
+                $('.jbpriceadv-variation-row', $obj).each(function () {
 
                     var $row = $(this);
 
@@ -1777,7 +2178,7 @@ var JBZooHelper = function () {
 
                         $this.attr('name', $this.attr('name').replace(/\[variations\]\[\d\]/i, '[variations-' + random + '][' + n + ']'));
                     });
-                })
+                });
 
                 $('.jbpriceadv-variation-row', $obj).each(function (n, row) {
 
@@ -1797,12 +2198,6 @@ var JBZooHelper = function () {
                         $('.row-balance', $row).val('-1');
                     }
 
-                    var $description = $('.core-param .description', $row);
-
-                    if (typeof $description.val() != 'undefined' && $description.val().length > 0) {
-                        $('.description', $variantLabel).html($description.val());
-                    }
-
                     $('input[type=text], input[type=checkbox], select, textarea', $row).each(function () {
                         var $control = $(this);
                         $control.attr('name', $control.attr('name').replace(/\[variations\]\[\d\]/i, '[variations][' + n + ']'));
@@ -1818,34 +2213,38 @@ var JBZooHelper = function () {
                         }
                     });
 
-                    bindToggleVariationEvent($row);
                 });
-
-                addMove($obj);
             }
 
-            function bindToggleVariationEvent($row) {
+            function bindToggleVariationEvent() {
 
-                var $toggle = $('.jsToggleVariation', $row);
+                $('.jbpriceadv-variation-row', $obj).each(function () {
 
-                if ($toggle.hasClass('init')) {
-                    return $toggle;
-                }
-                $toggle.addClass('init');
+                    var $row = $(this);
 
-                $toggle.on('click', function () {
-                    $('.jbpriceadv-variation-row', $obj)
-                        .removeClass('visible')
-                        .addClass('fieldset-hidden');
-                    var $fieldset = $toggle.parents('.jbpriceadv-variation-row');
+                    var $toggle = $('.jsToggleVariation', $row);
 
-                    if (!$fieldset.hasClass('visible')) {
-                        $fieldset.removeClass('fieldset-hidden');
-                        $fieldset.addClass('visible');
-                    } else {
-                        $fieldset.removeClass('visible');
-                        $fieldset.addClass('fieldset-hidden');
+                    if (!$toggle.hasClass('init')) {
+
+                        $toggle.on('click', function () {
+
+                            $('.jbpriceadv-variation-row', $obj)
+                                .removeClass('visible')
+                                .addClass('fieldset-hidden');
+
+                            if (!$row.hasClass('visible')) {
+                                $row
+                                    .removeClass('fieldset-hidden')
+                                    .addClass('visible');
+                            } else {
+                                $row
+                                    .removeClass('visible')
+                                    .addClass('fieldset-hidden');
+                            }
+                        });
                     }
+
+                    $toggle.addClass('init');
                 });
             }
 
@@ -1862,25 +2261,25 @@ var JBZooHelper = function () {
                 return false;
             });
 
-            function addMove($obj) {
+            function addSortable() {
 
-                $('.jbpriceadv-variation-row', $obj).delegate(".jsJBmove", "mousedown", function () {
-                    $(".jbpriceadv-variation-row", $obj).removeClass('visible');
-                    $(".jbpriceadv-variation-row", $obj).addClass("fieldset-hidden");
+                $('.jbpriceadv-variation-row', $obj).delegate(".jsJBMove", "mousedown", function () {
+
+                    $('.jbpriceadv-variation-row', $obj)
+                        .removeClass('visible')
+                        .addClass("fieldset-hidden");
                 });
 
-                $('.jsJBmove', $obj).sortable({
+                $('.jsJBMove', $obj).sortable({
                     forcePlaceholderSize: true,
-                    'items': $('.jbpriceadv-variation-row', $obj),
-                    'placeholder': "ui-state-highlight",
-                    'stop': function (ev, ui) {
+                    'items'             : $('.jbpriceadv-variation-row', $obj),
+                    'placeholder'       : "ui-state-highlight",
+                    'stop'              : function (ev, ui) {
                         rebuildList();
                         validator.showErrors();
                     }
                 }).disableSelection();
-
             }
-
 
             $('.variations-list').on('stop-move', function () {
                 rebuildList();
@@ -1889,22 +2288,34 @@ var JBZooHelper = function () {
             $('.jsNewPrice', $obj).click(function () {
 
                 var $newRow = $('.jbpriceadv-variation-row:first', $obj).clone().hide();
-                $('input, select', $newRow).removeAttr('id');
-                $('input, select', $newRow).removeAttr('checked');
+
+                $('input, select, textarea, select option:selected', $newRow)
+                    .removeAttr('id')
+                    .removeAttr('checked')
+                    .removeAttr('selected')
+                    .unbind();
+
+                $('input[type="text"], textarea', $newRow).val('');
+
+                $('.jsToggleVariation', $newRow)
+                    .removeClass('init')
+                    .unbind();
+
+                var jbColor = $('.jbzoo-colors', $newRow);
+                if (jbColor.length > 0) {
+
+                    jbColor.removeClass('jbcolor-initialized');
+                    $('.jbcolor-input', jbColor).unbind();
+
+                    jbColor.JBColorHelper({
+                        "multiple": false
+                    });
+                }
+
+                $('.variation-label .description, .variation-label .options .overflow', $newRow).html('');
+
                 $('label', $newRow).removeAttr('for');
-                $('input, select', $newRow).unbind();
 
-                var colors = $('.jbzoo-colors', $newRow);
-
-                colors.JBColorHelper({
-                    method: 'destroy'
-                });
-
-                colors.JBColorHelper({
-                    multiple: false
-                });
-
-                $('.jsToggleVariation', $newRow).removeClass('init').unbind();
                 $('.variant-param', $newRow).each(function (i) {
 
                     var $param = $(this),
@@ -1925,9 +2336,11 @@ var JBZooHelper = function () {
                 $('.variations-list', $obj).append($newRow);
 
                 rebuildList();
+                bindToggleVariationEvent();
+                addSortable();
+                $obj.trigger('newvariation');
 
                 $newRow.slideDown();
-                $obj.trigger('newvariation');
 
                 return false;
             });
@@ -1973,8 +2386,8 @@ var JBZooHelper = function () {
 
                 SqueezeBox.fromElement(this, {
                     handler: "iframe",
-                    url: "index.php?option=com_media&view=images&tmpl=component&e_name=" + id,
-                    size: {x: 850, y: 500}
+                    url    : "index.php?option=com_media&view=images&tmpl=component&e_name=" + id,
+                    size   : {x: 850, y: 500}
                 });
             });
             var func = 'insertJBPriceImage' + id;
@@ -2020,8 +2433,8 @@ var JBZooHelper = function () {
          */
         var $this = $(this),
             _options = {
-                'uniqid': '',
-                'items': null,
+                'uniqid'  : '',
+                'items'   : null,
                 'text_all': 'All'
             },
             _selects = {},
@@ -2189,20 +2602,20 @@ var JBZooHelper = function () {
                 }
 
                 $.fancybox({
-                    'type': 'iframe',
-                    'href': href,
-                    'width': 360,
+                    'type'      : 'iframe',
+                    'href'      : href,
+                    'width'     : 360,
                     'autoHeight': true,
                     'autoResize': true,
-                    'fitToView': true,
-                    'iframe': {
+                    'fitToView' : true,
+                    'iframe'    : {
                         'scrolling': 'no',
-                        'preload': true
+                        'preload'  : true
                     },
-                    'helpers': {
+                    'helpers'   : {
                         'overlay': {
                             'locked': false,
-                            'css': {
+                            'css'   : {
                                 'background': 'rgba(119, 119, 119, 0.4)'
                             }
                         }
@@ -2223,10 +2636,10 @@ var JBZooHelper = function () {
                 }
 
                 JBZoo.ajax({
-                    'url': $link.data('href'),
-                    'data': {
+                    'url'    : $link.data('href'),
+                    'data'   : {
                         "args": {
-                            'quantity': $('.jsQuantity').val(),
+                            'quantity'  : $('.jsQuantity').val(),
                             'indexPrice': indexPrice
                         }
                     },
@@ -2244,7 +2657,7 @@ var JBZooHelper = function () {
                 var $link = $(this);
 
                 JBZoo.ajax({
-                    'url': $link.data("href"),
+                    'url'    : $link.data("href"),
                     'success': function (data) {
                         $obj.removeClass('in-cart').addClass('not-in-cart');
                         $.fn.JBZooPriceReloadBasket();
@@ -2281,14 +2694,14 @@ var JBZooHelper = function () {
             var $obj = $(obj);
 
             JBZoo.ajax({
-                'data': {
+                'data'    : {
                     'controller': 'basket',
-                    'task': 'reloadModule',
-                    'app_id': $obj.attr('appId'),
-                    'moduleId': $obj.attr('moduleId')
+                    'task'      : 'reloadModule',
+                    'app_id'    : $obj.attr('appId'),
+                    'moduleId'  : $obj.attr('moduleId')
                 },
                 'dataType': 'html',
-                'success': function (data) {
+                'success' : function (data) {
                     $obj.closest('.jbzoo').replaceWith(data);
                 }
             })
@@ -2323,20 +2736,20 @@ var JBZooHelper = function () {
         }
 
         var options = $.extend({}, {
-            'text_complete': "Complete!",
-            'text_stop_confirm': "Are you sure?",
+            'text_complete'     : "Complete!",
+            'text_stop_confirm' : "Are you sure?",
             'text_start_confirm': "Are you sure?",
-            'text_start': "Start",
-            'text_stop': "Stop",
-            'text_ready': "Ready",
-            'text_wait': "Wait please ...",
-            'autoStart': false,
-            'url': '',
-            'onStart': new Function(),
-            'onStop': new Function(),
-            'onRequest': new Function(),
-            'onTimer': new Function(),
-            'onFinal': function (callback) {
+            'text_start'        : "Start",
+            'text_stop'         : "Stop",
+            'text_ready'        : "Ready",
+            'text_wait'         : "Wait please ...",
+            'autoStart'         : false,
+            'url'               : '',
+            'onStart'           : new Function(),
+            'onStop'            : new Function(),
+            'onRequest'         : new Function(),
+            'onTimer'           : new Function(),
+            'onFinal'           : function (callback) {
                 callback()
             }
         }, options);
@@ -2367,7 +2780,7 @@ var JBZooHelper = function () {
             secondsPassed = 0;
             timerId = setInterval(function () {
                 options.onTimer({
-                    'passed': timeFormat(++secondsPassed),
+                    'passed'   : timeFormat(++secondsPassed),
                     'remaining': timeFormat(parseInt((secondsPassed * 100 / currentProgress) - secondsPassed, 10))
                 });
             }, 1000);
@@ -2415,8 +2828,8 @@ var JBZooHelper = function () {
             }
 
             JBZoo.ajax({
-                'url': options.url,
-                'data': {
+                'url'    : options.url,
+                'data'   : {
                     'page': page
                 },
                 'success': function (data, status) {
@@ -2477,27 +2890,27 @@ var JBZooHelper = function () {
     $.fn.JBZooPriceAdvance = function (options) {
 
         var options = $.extend({}, {
-            'mainHash': '',
-            'itemId': 0,
-            'identifier': '',
-            'relatedImage': '',
-            'mainImage': '',
-            'popup': 0,
-            'prices': {},
-            'default_variant': {},
-            'addToCartUrl': '',
+            'mainHash'         : '',
+            'itemId'           : 0,
+            'identifier'       : '',
+            'relatedImage'     : '',
+            'mainImage'        : '',
+            'popup'            : 0,
+            'prices'           : {},
+            'default_variant'  : {},
+            'addToCartUrl'     : '',
             'removeFromCartUrl': '',
-            'changeVariantUrl': '',
-            'basketUrl': '',
-            'modalUrl': '',
-            'isInCart': 0
+            'changeVariantUrl' : '',
+            'basketUrl'        : '',
+            'modalUrl'         : '',
+            'isInCart'         : 0
         }, options);
 
         options.params = $.extend({}, {
-            'startValue': 1,
-            'multipleValue': 1,
+            'startValue'     : 1,
+            'multipleValue'  : 1,
             'currencyDefault': 'EUR',
-            'advFieldText': 0,
+            'advFieldText'   : 0,
             'advAllExistShow': 0
         }, options.params);
 
@@ -2513,11 +2926,21 @@ var JBZooHelper = function () {
 
             var AjaxProcess = false,
                 currency = options.params.currencyDefault,
-                prices = {};
+                prices = {},
+                $image = $('.jsImageRelated', $obj),
+                baseImage = $obj.parents('.jbzoo').find('.' + $image.data('element'));
 
+
+            if (!options.prices.image) {
+                options.prices.image = baseImage.attr('src');
+            }
             prices[options.mainHash] = options.prices;
 
-            options.relatedImage = $('.jsImageRelated', $obj).data('element');
+            options.relatedImage = $image.data('element');
+
+            if ($('.jsCurrencyList', $obj).length !== 0) {
+                currency = $('.jsCurrencyList', $obj).data('default');
+            }
 
             function getPrices(newCurrency) {
 
@@ -2531,8 +2954,8 @@ var JBZooHelper = function () {
 
                 } else {
                     JBZoo.ajax({
-                        'url': options.changeVariantUrl,
-                        'data': {
+                        'url'    : options.changeVariantUrl,
+                        'data'   : {
                             'args': {
                                 'values': values
                             }
@@ -2540,6 +2963,7 @@ var JBZooHelper = function () {
                         'success': function (data) {
 
                             AjaxProcess = false;
+
                             if (typeof data != 'undefined') {
                                 prices[hash] = data;
                             } else {
@@ -2547,7 +2971,7 @@ var JBZooHelper = function () {
                             }
                             toggle(prices, newCurrency);
                         },
-                        'error': function (data) {
+                        'error'  : function (data) {
                             AjaxProcess = false;
 
                             if (data.result == false) {
@@ -2572,6 +2996,7 @@ var JBZooHelper = function () {
             }
 
             function toggle(prices, newCurrency) {
+
                 var hash = getCurrentHash();
                 newCurrency = newCurrency.toLowerCase();
                 var values = '',
@@ -2615,22 +3040,25 @@ var JBZooHelper = function () {
 
 
                     if (typeof prices[hash] != 'undefined') {
-                        if (prices[hash].file) {
-                            var $relatedImg = $('.' + options.relatedImage);
 
-                            $relatedImg.attr('src', prices[hash].file);
+                        if (prices[hash].image) {
+                            var item = $obj.parents('.jbzoo-item');
+                            var $relatedImg = $('.' + options.relatedImage, item);
 
-                            if (options.popup == 1) {
-                                $relatedImg.parent().attr('href', prices[hash].file_popup);
+                            if (prices[hash].image != $relatedImg.attr('src')) {
+
+                                $relatedImg.fadeOut('10', function () {
+                                    $(this).attr('src', prices[hash].image).fadeIn();
+                                });
+                            }
+
+                            if (prices[hash].pop_up) {
+                                $relatedImg.attr('href', prices[hash].pop_up).fadeIn('600');
                             }
                         }
                     }
                 }
 
-            }
-
-            function isTextParam() {
-                return options.params.advFieldText == 2; // replace number to const
             }
 
             function bindDataIndex() {
@@ -2639,32 +3067,6 @@ var JBZooHelper = function () {
                     var $param = $(this);
                     $param.attr('data-index', n);
                 })
-            }
-
-            /**
-             * Get param value
-             * @returns Object
-             */
-            function getParamValues() {
-
-                var values = getCurrentValues();
-
-                if (isTextParam()) {
-                    var values = {
-                        '1': values['p1-'],
-                        '2': values['p2-'],
-                        '3': values['p3-'],
-                        'desc': values['d-']
-                    };
-                } else {
-                    var values = {
-                        '1': values['p1-'],
-                        '2': values['p2-'],
-                        '3': values['p3-']
-                    };
-                }
-
-                return values;
             }
 
             /**
@@ -2679,11 +3081,11 @@ var JBZooHelper = function () {
                 }
 
                 JBZoo.ajax({
-                    'url': options.addToCartUrl,
-                    'data': {
+                    'url'    : options.addToCartUrl,
+                    'data'   : {
                         "args": {
                             'quantity': count,
-                            'values': getValues()
+                            'values'  : getValues()
                         }
                     },
                     'success': function (data) {
@@ -2692,7 +3094,8 @@ var JBZooHelper = function () {
                             callback(data);
                         }
                     },
-                    'error': function (data) {
+                    'error'  : function (data) {
+                        $(".jsAddToCart", $obj).removeClass('loading').removeAttr('disabled');
                         if (data.message) {
                             alert(data.message);
                         }
@@ -2702,8 +3105,8 @@ var JBZooHelper = function () {
 
             function removeFromCart() {
                 JBZoo.ajax({
-                    'url': options.removeFromCartUrl,
-                    'data': {
+                    'url'    : options.removeFromCartUrl,
+                    'data'   : {
                         'args': {
                             'values': getValues()
                         }
@@ -2808,7 +3211,7 @@ var JBZooHelper = function () {
                                 value['value'] = radio.val();
                                 data[radio.data('identifier')] = value;
                             } else {
-                                value[i] = radio.val();
+                                value['value'] = radio.val();
                                 data[radio.data('identifier')] = value;
                                 i++;
                             }
@@ -2867,33 +3270,13 @@ var JBZooHelper = function () {
                 return result;
             }
 
+            var quantity = $('.jbprice-quantity', $obj);
 
-            /*// count
-             $('.jsAddQuantity', $obj).click(function () {
-             var quantity = parseInt($('.jsCount', $obj).val(), 10);
-             quantity += parseInt(options.params.multipleValue, 10);
-             $('.jsCount', $obj).val(quantity);
-             return false;
-             });
-
-             $('.jsRemoveQuantity', $obj).click(function () {
-             var quantity = parseInt($('.jsCount', $obj).val(), 10);
-             quantity -= parseInt(options.params.multipleValue, 10);
-             if (quantity <= 0) {
-             quantity = options.params.startValue;
-             }
-
-             $('.jsCount', $obj).val(quantity);
-             return false;
-             });
-
-             $('.jsCount', $obj).bind('change', function () {
-             var value = parseInt($.trim($(this).val()));
-             value = (isNaN(value) || value < 1) ? options.params.startValue : value;
-             $(this).val(value);
-             });*/
-
-            $('.jsCount', $obj).quantity();
+            $('.jsCount', $obj).JBZooQuantity({
+                "multiple": quantity.data('multiple'),
+                "step"    : quantity.data('multiple'),
+                "scroll"  : true
+            });
             // currency list
             $(".jsPriceCurrency", $obj).bind('click', function () {
                 var $cur = $(this),
@@ -2952,14 +3335,14 @@ var JBZooHelper = function () {
                 }
 
                 $.fancybox({
-                    'type': 'iframe',
-                    'href': href,
-                    'width': 400,
-                    'fitToView': true,
+                    'type'      : 'iframe',
+                    'href'      : href,
+                    'width'     : 400,
+                    'fitToView' : true,
                     'autoHeight': true,
                     'autoResize': true,
 
-                    'iframe': {
+                    'iframe' : {
                         'scrolling': 'no',
 
                         'preload': true
@@ -3021,19 +3404,15 @@ var JBZooHelper = function () {
             (function () {
                 $obj.addClass(options.isInCart ? 'in-cart' : 'not-in-cart');
                 bindDataIndex();
-                $(".jbcurrency-" + options.params.currencyDefault, $obj).addClass('active');
+                $(".jbcurrency-" + currency, $obj).addClass('active');
 
                 if (options.default_variant.length > 0) {
                     prices[getCurrentHash()] = options.default_variant;
                 }
 
-                togglePrices(options.params.currencyDefault);
+                togglePrices(currency);
 
             }());
-            /*
-             *                 togglePrices(options.params.currencyDefault);
-             * */
-
         });
     };
 
@@ -3069,7 +3448,7 @@ var JBZooHelper = function () {
 
             init = true;
         });
-    }
+    };
 
     /**
      * @param options
@@ -3078,7 +3457,7 @@ var JBZooHelper = function () {
 
         var options = $.extend({}, {
             'message': 'Do you really want to delete the history?',
-            'app_id': ''
+            'app_id' : ''
         }, options);
         var $this = $(this);
 
@@ -3093,13 +3472,13 @@ var JBZooHelper = function () {
 
             if (ok) {
                 JBZoo.ajax({
-                    'data': {
+                    'data'    : {
                         'controller': 'viewed',
-                        'task': 'clear',
-                        'app_id': options.app_id
+                        'task'      : 'clear',
+                        'app_id'    : options.app_id
                     },
                     'dataType': 'html',
-                    'success': function () {
+                    'success' : function () {
                         $this.slideUp('slow');
                     }
                 });
@@ -3107,7 +3486,7 @@ var JBZooHelper = function () {
 
             return false;
         });
-    }
+    };
 
     /**
      * Height fix plugin
@@ -3124,7 +3503,7 @@ var JBZooHelper = function () {
                 }
             }).css({height: maxHeight});
         }, 300);
-    }
+    };
 
     /**
      * jQuery helper plugin for color element
@@ -3134,29 +3513,12 @@ var JBZooHelper = function () {
 
         var options = $.extend({}, {
             'multiple': true,
-            'method': ''
+            'method'  : ''
         }, options);
 
         return $(this).each(function () {
 
             var $this = $(this);
-
-            var methods = {
-                destroy: function () {
-                    return this.each(function () {
-
-                        var $this = $(this);
-
-                        $this.removeClass('jbcolor-initialized');
-                        console.log($this.attr('class'));
-                        $('.jbcolor-input', $this).unbind();
-                    })
-                }
-            }
-
-            if (options.method && methods[options.method]) {
-                return methods[ options.method ].apply($this);
-            }
 
             $this.find('input[type=' + options.type + ']:checked').next().addClass('checked');
 
@@ -3214,23 +3576,15 @@ var JBZooHelper = function () {
 
         var byDefault = 'default',
             plugins = [],
-            clone = [],
             $this = $(this),
-            create = false,
-            request = false;
+            create = false;
 
         $this.recount = function () {
 
-            clone = $this.createPlugins();
-
             for (var name in plugins) {
-                plugins[name].getPrice('childRequest');
+                plugins[name].getPrice();
                 plugins[name].addClass('loading');
             }
-        };
-
-        $this.childRequest = function (result) {
-            request = result;
         };
 
         $this.createPlugins = function () {
@@ -3247,11 +3601,12 @@ var JBZooHelper = function () {
 
         var toggleShipFields = function (shipFields) {
 
-            var shippingBlock = $this.nextAll('.shippingfileds-list');
+            var shippingBlock = $this.parents('.jbzoo').find('.shippingfileds-list');
             shippingBlock.addClass('loading');
 
             if (shipFields.indexOf(':') > 0) {
 
+                shippingBlock.show();
                 var fields = shipFields.split(':'),
                     classes = '.element-' + fields.join(', .element-');
 
@@ -3259,7 +3614,7 @@ var JBZooHelper = function () {
                     .find('input, select')
                     .removeAttr('disabled');
 
-                $('> div:not(' + classes + ')', shippingBlock)
+                $('div.element:not(' + classes + ')', shippingBlock)
                     .slideUp(function () {
 
                         $(this)
@@ -3267,19 +3622,25 @@ var JBZooHelper = function () {
                             .attr('disabled', 'disabled');
                     });
 
-            } else {
+            } else if (shipFields.length > 0) {
+
+                shippingBlock.show();
                 $('.element-' + shipFields, shippingBlock)
                     .slideDown()
                     .find('input, select, textarea')
                     .removeAttr('disabled');
 
-                $('> div', shippingBlock).not('.element-' + shipFields)
+                $('div.element', shippingBlock).not('.element-' + shipFields)
                     .slideUp(function () {
 
                         $(this)
                             .find('input, select, textarea')
                             .attr('disabled', 'disabled');
                     });
+
+            } else {
+
+                shippingBlock.hide();
             }
 
             setTimeout(function () {
@@ -3292,7 +3653,6 @@ var JBZooHelper = function () {
             var $element = $(this).parents('.jsShippingElement');
 
             $this.toggleShipFields($element);
-            $this.createPlugin($element);
             $this.hide();
             $this.show($element);
         });
@@ -3300,7 +3660,7 @@ var JBZooHelper = function () {
         $this.hide = function () {
 
             $('.jsMoreOptions', $this).slideUp('fast', function () {
-                $('input, select', $(this)).attr('disabled', 'disabled');
+                //$('input, select', $(this)).attr('disabled', 'disabled');
             });
 
             /*$('.jsMoreOptions', $this).animate({
@@ -3317,6 +3677,7 @@ var JBZooHelper = function () {
              }, 1000, function () {
 
              });*/
+
             $('.jsMoreOptions', $element).slideDown('fast');
             $('.jsMoreOptions input, .jsMoreOptions select', $element).removeAttr('disabled');
         };
@@ -3369,9 +3730,10 @@ var JBZooHelper = function () {
         var $element =
             $('.jsInputShippingService:checked', $this).parents('.jsShippingElement');
 
+        $this.createPlugins();
         $this.toggleShipFields($element);
         $this.hide();
-        $this.createPlugin($element);
+        $this.show($element);
 
         return $this;
     };
@@ -3387,7 +3749,8 @@ var JBZooHelper = function () {
 
             var $this = $(this);
 
-            global.getPrice = function (callback) {
+            global.getPrice = function () {
+
                 var $fields = $('.jsCalculate input:not(input:disabled), ' +
                         '.jsCalculate select:not(select:disabled)', $this),
                     result = {};
@@ -3402,26 +3765,20 @@ var JBZooHelper = function () {
                 });
 
                 JBZoo.ajax({
-                    'url': settings.getPriceUrl,
-                    'data': {
+                    'url'     : settings.getPriceUrl,
+                    'data'    : {
                         "args": {
                             'fields': JSON.stringify(result)
                         }
                     },
                     'dataType': 'json',
-                    'success': function (price) {
-                        $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
+                    'success' : function (price) {
 
+                        $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
                         global.removeClass('loading');
-                        if (typeof callback != 'undefined') {
-                            settings.super[callback](true);
-                        }
                     },
-                    'error': function (error) {
+                    'error'   : function (error) {
                         global.removeClass('loading');
-                        if (typeof callback != 'undefined') {
-                            settings.super[callback](true);
-                        }
                     }
                 });
             };
@@ -3444,45 +3801,38 @@ var JBZooHelper = function () {
     $.fn.JBCartShippingemspost = function (options) {
 
         var settings = $.extend({
-                'super': {},
+                'super'  : {},
                 'toDoors': 3,
-                'toWrn': 4
+                'toWrn'  : 4
             }, options, $(this).data('settings')),
             global = $(this);
 
         $(this).each(function () {
 
-            var $this = $(this),
-                name = 'Shipping-EMSPost' + $this;
+            var $this = $(this);
 
-            global.getPrice = function (callback) {
+            global.getPrice = function (to) {
 
                 if (typeof to == 'undefined' || to.length === 0) {
                     to = $('select option:selected', $this).val();
                 }
 
-                var result = { to: to }
+                var result = { to: to };
 
                 JBZoo.ajax({
-                    'url': settings.getPriceUrl,
-                    'data': {
+                    'url'     : settings.getPriceUrl,
+                    'data'    : {
                         "args": {
                             'to': JSON.stringify(result)
                         }
                     },
                     'dataType': 'json',
-                    'success': function (price) {
+                    'success' : function (price) {
                         $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
                         global.removeClass('loading');
-                        if (typeof callback != 'undefined') {
-                            settings.super[callback](true);
-                        }
                     },
-                    'error': function (error) {
+                    'error'   : function (error) {
                         global.removeClass('loading');
-                        if (typeof callback != 'undefined') {
-                            settings.super[callback](true);
-                        }
                     }
                 });
             };
@@ -3499,7 +3849,7 @@ var JBZooHelper = function () {
                     $('#shippingcountryto', $this).removeAttr('disabled');
                 }
 
-                global.getPrice();
+                global.getPrice(value);
             });
 
             $('#shippingcountryto', $this).on('change', function () {
@@ -3510,7 +3860,7 @@ var JBZooHelper = function () {
                     $('#shippingto', $this).removeAttr('disabled');
                 }
 
-                global.getPrice();
+                global.getPrice(value);
             });
 
             $this.addClass('shipping-init');
@@ -3522,18 +3872,17 @@ var JBZooHelper = function () {
     $.fn.JBCartShippingnewpost = function (options) {
 
         var settings = $.extend({
-                'super': {},
+                'super'  : {},
                 'toDoors': 3,
-                'toWrn': 4
+                'toWrn'  : 4
             }, options, $(this).data('settings')),
             global = $(this);
 
         $(this).each(function () {
 
-            var $this = $(this),
-                name = 'Shipping-NEWPost' + $this;
+            var $this = $(this);
 
-            global.getPrice = function (callback) {
+            global.getPrice = function () {
                 var $fields = $('.jsCalculate input:not(input:disabled), ' +
                         '.jsCalculate select:not(select:disabled)', $this),
                     result = {};
@@ -3548,25 +3897,19 @@ var JBZooHelper = function () {
                 });
 
                 JBZoo.ajax({
-                    'url': settings.getPriceUrl,
-                    'data': {
+                    'url'     : settings.getPriceUrl,
+                    'data'    : {
                         "args": {
                             'fields': JSON.stringify(result)
                         }
                     },
                     'dataType': 'json',
-                    'success': function (price) {
+                    'success' : function (price) {
                         $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
                         global.removeClass('loading');
-                        if (typeof callback != 'undefined') {
-                            settings.super[callback](true);
-                        }
                     },
-                    'error': function (error) {
+                    'error'   : function (error) {
                         global.removeClass('loading');
-                        if (typeof callback != 'undefined') {
-                            settings.super[callback](true);
-                        }
                     }
                 });
             };
@@ -3719,14 +4062,14 @@ var JBZooHelper = function () {
                 $this.addLoading();
 
                 JBZoo.ajax({
-                    'url': settings.getCitiesUrl,
-                    'data': {
+                    'url'     : settings.getCitiesUrl,
+                    'data'    : {
                         "args": {
                             'region': region
                         }
                     },
                     'dataType': 'json',
-                    'success': function (cities) {
+                    'success' : function (cities) {
                         setCities(cities.cities);
                         if (callback) {
                             callback();
@@ -3736,7 +4079,7 @@ var JBZooHelper = function () {
                         proccessing = false;
 
                     },
-                    'error': function (error) {
+                    'error'   : function (error) {
                         $this.removeLoading();
                         proccessing = false;
                     }
@@ -3757,7 +4100,7 @@ var JBZooHelper = function () {
                     $.each(cities, function (key, value) {
                         $select.append($("<option/>", {
                             value: key,
-                            text: value
+                            text : value
                         }));
                     });
                 }
@@ -3779,14 +4122,14 @@ var JBZooHelper = function () {
                 $select.addClass('loading');
 
                 JBZoo.ajax({
-                    'url': settings.getWarehousesUrl,
-                    'data': {
+                    'url'     : settings.getWarehousesUrl,
+                    'data'    : {
                         "args": {
                             'city': city
                         }
                     },
                     'dataType': 'json',
-                    'success': function (warehouses) {
+                    'success' : function (warehouses) {
                         setWarehouses(warehouses.warehouses);
                         if (callback) {
                             callback();
@@ -3795,7 +4138,7 @@ var JBZooHelper = function () {
                         $select.removeClass('loading');
                         proccessing = false;
                     },
-                    'error': function (error) {
+                    'error'   : function (error) {
                         $select.removeClass('loading');
                         proccessing = false;
                     }
@@ -3815,7 +4158,7 @@ var JBZooHelper = function () {
                 $.each(warehouses, function (key, value) {
                     $select.append($("<option/>", {
                         value: key,
-                        text: value
+                        text : value
                     }));
                 });
             };
@@ -3877,7 +4220,7 @@ var JBZooHelper = function () {
                 SqueezeBox.initialize({});
                 SqueezeBox.open(url, {
                     handler: 'iframe',
-                    size: {x: 1050, y: 700}
+                    size   : {x: 1050, y: 700}
                 });
 
                 return false;
