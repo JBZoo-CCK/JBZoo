@@ -79,7 +79,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      */
     public function hasValue($params = array())
     {
-        return true;
+        return TRUE;
     }
 
     /**
@@ -99,7 +99,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
             ));
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
@@ -115,7 +115,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
             ));
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
@@ -132,8 +132,10 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
         $params = $this->mergeParams($params);
         $price  = $this->_getPrice($params);
 
-        $type = (int)$value->get('deliverytype_id') == self::NEWPOST_DELIVERY_TO_DOORS ?
-            JText::_('JBZOO_ORDER_SHIPPING_NEWPOST_TO_DOORS') :
+        $type = (int)$value->get('deliverytype_id') == self::NEWPOST_DELIVERY_TO_DOORS
+            ?
+            JText::_('JBZOO_ORDER_SHIPPING_NEWPOST_TO_DOORS')
+            :
             JText::_('JBZOO_ORDER_SHIPPING_NEWPOST_TO_WARE');
 
         return array(
@@ -171,7 +173,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      *
      * @return array
      */
-    public function getCities($region = null)
+    public function getCities($region = NULL)
     {
         $data = $this->_getCitiesRegionsFromPost();
 
@@ -181,8 +183,8 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
         if (!empty($data)) {
             foreach ($data->result->cities->city as $city) {
 
-                if (isset($region) &&
-                    $this->clean($city->areaNameUkr) == $region
+                if (isset($region)
+                    && $this->clean($city->areaNameUkr) == $region
                 ) {
                     $cities[$region][trim($city->nameUkr)] = JString::trim($city->nameUkr);
 
@@ -201,7 +203,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      *
      * @return array|bool
      */
-    public function getWarehouses($city = null)
+    public function getWarehouses($city = NULL)
     {
         if (empty($city)) {
             return $this->_getDefaultValue();
@@ -222,13 +224,14 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      */
     public function getDefaultParams()
     {
+        $prop   = $this->getBasketProperties();
         $params = array(
             'sendercity'      => $this->_getDefaultCity(),
             'recipientcity'   => '',
-            'mass'            => 1,
-            'height'          => 1,
-            'width'           => 1,
-            'depth'           => 1,
+            'mass'            => $this->getBasketWeight(),
+            'height'          => $prop['height'],
+            'width'           => $prop['width'],
+            'depth'           => $prop['length'],
             'publicprice'     => 0,
             'deliverytype_id' => '',
             'date'            => date('Y-m-d H:i:s'),
@@ -278,7 +281,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
         $group = $this->getElementGroup() . '_' . $this->getElementType();
 
         //using cache to avoid a ban from API
-        if (!$responseData = simplexml_load_string($this->app->jbcache->get($data, $group, true))) {
+        if (!$responseData = simplexml_load_string($this->app->jbcache->get($data, $group, TRUE))) {
 
             $jhttp = JHttpFactory::getHttp();
 
@@ -293,16 +296,16 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
                 if ($response->code == 200) {
                     $responseData = $this->processingData($response->body);
                 } else {
-                    $responseData = false;
+                    $responseData = FALSE;
                 }
 
             } catch (Exception $e) {
-                $responseData = false;
+                $responseData = FALSE;
             }
 
 
             if ($responseData) {
-                $this->app->jbcache->set($data, $responseData->asXML(), $group, true);
+                $this->app->jbcache->set($data, $responseData->asXML(), $group, TRUE);
             }
         }
 
@@ -316,7 +319,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      *
      * @return string|array
      */
-    public function getWidgetParams($encode = true)
+    public function getWidgetParams($encode = TRUE)
     {
         $params = array(
             'getCitiesUrl'     => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetCities'),
@@ -354,7 +357,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
             $this->app->jbajax->send(array(
                     'warehouses' => $warehouses
                 ),
-                false
+                FALSE
             );
         }
 
@@ -369,12 +372,13 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      */
     public function ajaxGetPrice($fields = array())
     {
-        $params = json_decode($fields, true);
+        $params = json_decode($fields, TRUE);
         $params = $this->mergeParams($params);
         $price  = $this->_getPrice($params);
 
         $this->app->jbajax->send(array(
-            'price' => $this->_jbmoney->toFormat($price)
+            'price'  => $this->_jbmoney->toFormat($price),
+            'weight' => $this->getBasketWeight()
         ));
     }
 
