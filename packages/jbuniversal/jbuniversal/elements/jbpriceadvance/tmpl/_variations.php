@@ -13,18 +13,20 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$jbhtml = $this->app->jbhtml;
-$elId = $this->app->jbstring->getId();
-$defaultVariant = isset($basicData['default_variant']) ? $basicData['default_variant'] : null;
+$html = $this->app->jbhtml;
+$id = $this->app->jbstring->getId();
 
-foreach ($variations as $rowKey => $row) : ?>
+foreach ($variations as $rowKey => $row) :
+
+    $params = isset($row['params']) ? $row['params'] : array();
+    ?>
     <fieldset class="jbpriceadv-variation-row">
 
-    <span class="jbedit jsJBedit jsToggleVariation"></span>
-    <span class="jbremove jsJBremove"></span>
+    <span class="jbedit jsToggleVariation"></span>
+    <span class="jbremove jsJBRemove"></span>
 
     <div class="variation-label visible">
-        <a href="javascript:void(0);" class="jsJBmove jbmove">
+        <a href="javascript:void(0);" class="jsJBMove jbmove">
             <?php echo JText::_('JBZOO_JBPRICE_VARIATION_ROW'); ?>
             #<span class="list-num"><?php echo $rowKey + 1; ?></span>
             <span class="attention jsAttention"></span>
@@ -37,9 +39,9 @@ foreach ($variations as $rowKey => $row) : ?>
         </div>
         <div class="default_variant">
             <?php $data = array($rowKey => JText::_('JBZOO_JBPRICE_DEFAULT_VARIANT')); ?>
-            <?php echo $jbhtml->radio($data, $this->getControlName('default_variant'), array(
+            <?php echo $html->radio($data, $this->getControlName('default_variant'), array(
                 'id' => $this->app->jbstring->getId('default-variant')
-            ), $defaultVariant, $this->app->jbstring->getId('default-variant')); ?>
+            ), $variant, $this->app->jbstring->getId('default-variant')); ?>
         </div>
         <div class="description"></div>
     </div>
@@ -55,20 +57,25 @@ foreach ($variations as $rowKey => $row) : ?>
         <div class="field">
             <?php
 
-            echo $this->app->html->_('control.text', $this->getRowControlName('_value'), $row['_value'], array(
-                'size'        => '10',
-                'maxlength'   => '255',
-                'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_VALUE'),
-                'id'          => $elId . '-basic-value',
-                'class'       => 'basic-value',
-            ));
+            $rowValue = isset($row['_value']['value']) ? $row['_value']['value'] : NULL;
+            $rowCurrency = isset($row['_currency']['value']) ? $row['_currency']['value'] : NULL;
+            echo $this->app->html->_('control.text', $this->getRowControlName('_value', 'value'),
+                $rowValue, array(
+                    'size'        => '10',
+                    'maxlength'   => '255',
+                    'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_VALUE'),
+                    'id'          => $id . '-basic-value',
+                    'class'       => 'basic-value',
+                ));
 
             if (count($currencyList) == 1) {
                 reset($currencyList);
                 $currency = current($currencyList);
-                echo $currency, $jbhtml->hidden($this->getRowControlName('_currency'), $currency, 'class="basic-currency"');
+                echo $currency, $html->hidden($this->getRowControlName('_currency', 'value'), $currency,
+                    'class="basic-currency"');
             } else {
-                echo $jbhtml->select($currencyList, $this->getRowControlName('_currency'), 'class="basic-currency" style="width: auto;"', $row['_currency']);
+                echo $html->select($currencyList, $this->getRowControlName('_currency', 'value'),
+                    'class="basic-currency" style="width: auto;"', $rowCurrency);
             }
             ?>
         </div>
@@ -82,22 +89,22 @@ foreach ($variations as $rowKey => $row) : ?>
 
         <div class="field">
             <?php
+
+            $sku = isset($params['_sku']['value']) ? $params['_sku']['value'] : NULL;
             //Render sku input
-            echo $this->_renderRow('_sku', $row['params']['_sku']);
+            echo $this->_renderRow('_sku', 'value', $sku);
             ?>
         </div>
     </div>
     <?php
+
     echo $renderer->render('_edit',
         array(
-            'index'      => $rowKey,
-            'price'      => $this,
-            'style'      => 'variations',
-            'data'       => $row,
-            'price_mode' => $this->config->get('price_mode', 1)
+            '_variant' => $rowKey,
+            'price'    => $this,
+            'style'    => ElementJBPriceAdvance::VARIANT_GROUP
         )
     );
-
 
     echo '</div></fieldset>';
 endforeach;

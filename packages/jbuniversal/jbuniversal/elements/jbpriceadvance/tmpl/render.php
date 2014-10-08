@@ -13,12 +13,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$uniqClass = 'jsJBPriceAdvance-' . $this->identifier . '-' . $this->getItem()->id;
+$class = 'jsJBPriceAdvance-' . $this->identifier . '-' . $this->getItem()->id;
 $unique = $this->app->jbstring->getId('jbprice-adv-');
 
 ?>
-
-<div class="jsJBPriceAdvance jbprice-advance <?php echo $uniqClass; ?>" id="<?php echo $unique; ?>">
+<div class="jsJBPriceAdvance jbprice-advance <?php echo $class; ?>" id="<?php echo $unique; ?>">
     <?php echo $elements; ?>
 </div>
 
@@ -26,21 +25,21 @@ $unique = $this->app->jbstring->getId('jbprice-adv-');
     (function ($) {
 
         $('#<?php echo $unique;?>').JBZooPriceAdvance({
-            'params': <?php echo json_encode($interfaceParams);?>,
-            'prices': <?php echo json_encode($prices);?>,
+            'params'         : <?php echo json_encode($interfaceParams);?>,
+            'prices'         : <?php echo json_encode($prices);?>,
             'default_variant': <?php echo json_encode($default_variant); ?>,
 
-            'mainHash': "<?php echo $this->_getHash();?>",
-            'itemId': <?php echo $this->getItem()->id;?>,
+            'mainHash'  : "<?php echo $this->_getHash();?>",
+            'itemId'    : <?php echo $this->getItem()->id;?>,
             'identifier': "<?php echo $this->identifier;?>",
 
             'isInCart': <?php echo $isInCart;?>,
 
-            'addToCartUrl': "<?php echo $addToCartUrl; ?>",
+            'addToCartUrl'     : "<?php echo $addToCartUrl; ?>",
             'removeFromCartUrl': "<?php echo $removeFromCartUrl; ?>",
-            'changeVariantUrl': "<?php echo $changeVariantUrl; ?>",
-            'modalUrl': "<?php echo $modalUrl; ?>",
-            'basketUrl': "<?php echo $basketUrl; ?>"
+            'changeVariantUrl' : "<?php echo $changeVariantUrl; ?>",
+            'modalUrl'         : "<?php echo $modalUrl; ?>",
+            'basketUrl'        : "<?php echo $basketUrl; ?>"
         });
 
     })(jQuery);

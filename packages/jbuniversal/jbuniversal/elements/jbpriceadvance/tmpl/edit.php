@@ -13,25 +13,20 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$jbhtml = $this->app->jbhtml;
+$id = uniqid('jsJBPriceAdvance-');
+
+$html = $this->app->jbhtml;
 $item = $this->getItem();
-$elId = $this->identifier;
-$uniqid = uniqid('jsJBPriceAdvance-');
-
-$basicData = $this->app->data->create($basicData);
-$basicParams = $this->app->data->create($basicData->get('params'));
-$defaultVariant = isset($basicData['default_variant']) ? $basicData['default_variant'] : null;
-
 ?>
 
-<div class="jbzoo-price-advance jbzoo" id="<?php echo $uniqid; ?>" data-valid="false">
+<div class="jbzoo-price-advance jbzoo" id="<?php echo $id; ?>" data-valid="false">
 
     <div class="jbpriceadv-row basic-variant-wrap">
         <div class="default_variant">
             <?php $data = array("" => JText::_('JBZOO_JBPRICE_DEFAULT_VARIANT')); ?>
-            <?php echo $jbhtml->radio($data, $this->getControlName('default_variant'), array(
+            <?php echo $html->radio($data, $this->getControlName('default_variant'), array(
                 'id' => $this->app->jbstring->getId('default-variant')
-            ), $defaultVariant, $this->app->jbstring->getId('default-variant')); ?>
+            ), $variant, $this->app->jbstring->getId('default-variant')); ?>
         </div>
     </div>
 
@@ -43,7 +38,7 @@ $defaultVariant = isset($basicData['default_variant']) ? $basicData['default_var
             <?php echo JText::_('JBZOO_JBPRICE_BASIC_VALUE'); ?>
         </label>
 
-        <?php echo $jbhtml->text($this->getControlName('_value'), $basicData->get('_value'), $jbhtml->buildAttrs(
+        <?php echo $html->text($this->getControlName('_value', 'value'), $basicData->get('_value')['value'], $html->buildAttrs(
             array(
                 'type'        => 'text',
                 'size'        => '10',
@@ -58,9 +53,10 @@ $defaultVariant = isset($basicData['default_variant']) ? $basicData['default_var
         if (count($currencyList) == 1) {
             reset($currencyList);
             $currency = current($currencyList);
-            echo $currency, $jbhtml->hidden($this->getControlName('_currency'), $currency, 'class="basic-currency"');
+            echo $currency, $html->hidden($this->getControlName('_currency', 'value'), $currency, 'class="basic-currency"');
         } else {
-            echo $jbhtml->select($currencyList, $this->getControlName('_currency'), 'class="basic-currency" style="width: auto;"', $basicData->get('_currency'));
+            echo $html->select($currencyList, $this->getControlName('_currency', 'value'),
+                'class="basic-currency" style="width: auto;"', $basicData->get('_currency')['value']);
         }
         ?>
     </div>
@@ -71,8 +67,8 @@ $defaultVariant = isset($basicData['default_variant']) ? $basicData['default_var
             >
             <?php echo JText::_('JBZOO_JBPRICE_BASIC_SKU'); ?>
         </label>
-        <?php echo $jbhtml->text($this->getControlParamName('_sku'), $basicParams->get('_sku'),
-            $jbhtml->buildAttrs(
+        <?php echo $html->text($this->getControlParamName('_sku', 'value'), $basicData->get('_sku')['value'],
+            $html->buildAttrs(
                 array(
                     'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_SKU'),
                     'style'       => 'width:100px;',
@@ -83,18 +79,18 @@ $defaultVariant = isset($basicData['default_variant']) ? $basicData['default_var
         );?>
     </div>
 
-    <?php echo $basic; ?>
+    <?php echo $basicHTML;
 
-    <?php if (empty($submission) && (int)$config->get('mode', 0) && count($variations) >= 1 ||
-        !empty($submission) && (int)$submission->get('mode', 0)
+    if (empty($submission) && (int)$config->get('mode', 0) && count($variations) >= 1
+        || !empty($submission) && (int)$submission->get('mode', 0)
     ) : ?>
         <a href="#show-variations"
            class="jbajaxlink jsShowVariations"><?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?></a>
 
         <div class="variations" style="display: none;">
             <div class="variations-list">
-                <?php if ($variationsTmpl) {
-                    echo $variationsTmpl;
+                <?php if ($variantsHTML) {
+                    echo $variantsHTML;
                 }
                 ?>
             </div>
@@ -110,10 +106,10 @@ $defaultVariant = isset($basicData['default_variant']) ? $basicData['default_var
 <script type="text/javascript">
 
     jQuery(function ($) {
-        $('#<?php echo $uniqid;?>').JBZooPriceAdvanceAdmin({
-            'text_variation_show': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?>",
-            'text_variation_hide': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_HIDE'); ?>",
-            'price_mode': <?php echo $this->config->get('price_mode', 1); ?>,
+        $('#<?php echo $id;?>').JBZooPriceAdvanceAdmin({
+            'text_variation_show' : "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?>",
+            'text_variation_hide' : "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_HIDE'); ?>",
+            'price_mode'          : <?php echo $this->config->get('price_mode', 1); ?>,
             'adv_field_param_edit': <?php echo (int)$config->get('adv_field_param_edit', 0); ?>
         });
     });
@@ -123,13 +119,13 @@ $defaultVariant = isset($basicData['default_variant']) ? $basicData['default_var
         if (pressbutton == 'cancel') {
             submitform(pressbutton);
         } else {
-            var valid = jQuery('#<?php echo $uniqid;?>').data('valid');
+            var valid = jQuery('#<?php echo $id;?>').data('valid');
 
             if (valid) {
                 submitform(pressbutton);
             }
 
-            jQuery('#<?php echo $uniqid;?>').trigger('errorsExists');
+            jQuery('#<?php echo $id;?>').trigger('errorsExists');
         }
     }
 
