@@ -61,7 +61,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      */
     public function hasValue($params = array())
     {
-        return true;
+        return TRUE;
     }
 
     /**
@@ -77,7 +77,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
             ));
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
@@ -115,9 +115,9 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
         $params = array(
             'method' => 'ems.calculate',
             'from'   => $this->_getDefaultCity(),
-            'to'     => $this->_getDefaultCity(),
+            'to'     => '',
             'type'   => 'att',
-            'weight' => 1,
+            'weight' => $this->getBasketWeight(),
         );
 
         return $params;
@@ -138,7 +138,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      *
      * @return string|array
      */
-    public function getWidgetParams($encode = true)
+    public function getWidgetParams($encode = TRUE)
     {
         $params = array(
             'getPriceUrl'    => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetPrice'),
@@ -153,7 +153,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      */
     public function ajaxGetPrice($to)
     {
-        $params = json_decode($to, true);
+        $params = json_decode($to, TRUE);
         $price  = $this->_getPrice($params);
 
         $this->app->jbajax->send(array(
@@ -170,7 +170,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      */
     public function processingData($responseBody)
     {
-        return json_decode($responseBody, true);
+        return json_decode($responseBody, TRUE);
     }
 
     /**
@@ -219,8 +219,8 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
         $price  = 0;
         $params = $this->mergeParams($params);
         $url    = $this->getServicePath($params);
-        $result = $this->_callService($url);
 
+        $result = $this->_callService($url);
         $result = $result['rsp'];
 
         if ($result['stat'] === 'ok') {

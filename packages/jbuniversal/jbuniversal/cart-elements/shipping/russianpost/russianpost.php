@@ -75,7 +75,7 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
             'viewpostName'    => '',
             'countrycodename' => '',
             'typepostname'    => '',
-            'weight'          => 1,
+            'weight'          => $this->getBasketWeight(),
             'value1'          => 0,
             'postofficeid'    => 0
         );
