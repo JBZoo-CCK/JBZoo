@@ -20,11 +20,12 @@ class JBCartElementPriceBool extends JBCartElementPrice
 {
     /**
      * @param  array $param
+     *
      * @return bool
      */
     public function hasFilterValue($param = array())
     {
-        return false;
+        return FALSE;
     }
 
     /**
@@ -40,11 +41,12 @@ class JBCartElementPriceBool extends JBCartElementPrice
             ));
         }
 
-        return null;
+        return NULL;
     }
 
     /**
      * @param array $params
+     *
      * @return array|mixed|null|string
      */
     public function render($params = array())
@@ -57,35 +59,7 @@ class JBCartElementPriceBool extends JBCartElementPrice
             ));
         }
 
-        return null;
+        return NULL;
     }
 
-    /**
-     * @param null $identifier
-     * @param $name
-     * @param int $index
-     * @return string
-     */
-    public function getParamName($identifier = null, $name, $index = 0)
-    {
-        if (empty($identifier)) {
-            $identifier = $this->identifier;
-        }
-
-        return "elements[{$identifier}][variations][{$index}][params][{$this->identifier}][{$name}][value]";
-    }
-
-    /**
-     * @param null $identifier
-     * @param $name
-     * @return string
-     */
-    public function getBasicName($identifier = null, $name)
-    {
-        if (empty($identifier)) {
-            $identifier = $this->identifier;
-        }
-
-        return "elements[{$identifier}][basic][params][{$this->identifier}][{$name}][value]";
-    }
 }

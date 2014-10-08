@@ -13,16 +13,15 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$containerId = $this->app->jbstring->getId('color-');
-$value = $this->app->data->create($this->getValue($this->identifier));
 $attributes = array(
     'data-identifier' => $this->identifier
 );
 
 ?>
 
-<div class="jbprice-param-radio jbprice-param-colors jbpriceParams"  data-type="<?php //echo $type; ?>radio">
-    <?php echo $this->app->jbhtml->colors('radio', $colorItems, $this->getRenderName('color'), $this->getBasic($this->identifier), $attributes); ?>
+<div class="jbprice-param-radio jbprice-param-colors jbpriceParams" data-type="<?php //echo $type; ?>radio">
+    <?php echo $this->app->jbhtml->colors('radio', $colorItems, $this->getRenderName('value'),
+        $this->getValue('value'), $attributes); ?>
 </div>
 
 

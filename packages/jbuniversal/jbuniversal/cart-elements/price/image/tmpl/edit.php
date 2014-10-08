@@ -13,14 +13,14 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$jbhtml = $this->app->jbhtml;
-$value  = $this->getValue('_image');
+$html = $this->app->jbhtml;
+$value  = $this->getValue('value');
 $unique = $this->app->jbstring->getId('image-');
 ?>
 
 <div class="jbprice-img-row-file" id="<?php echo $unique; ?>">
     <?php
-    echo $jbhtml->text($this->getControlName('_image'), $value, 'class="jsJBPriceImage row-file" placeholder="Image"');
+    echo $html->text($this->getControlName('value'), $value, 'class="jsJBPriceImage row-file" placeholder="Image"');
     ?>
 </div>
 

@@ -20,11 +20,12 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
 {
     /**
      * @param  array $param
+     *
      * @return bool|void
      */
     public function hasFilterValue($param = array())
     {
-        return false;
+        return FALSE;
     }
 
     /**
@@ -41,60 +42,31 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
             ));
         }
 
-        return null;
+        return NULL;
     }
 
     /**
      * @param  array $params
+     *
      * @return array|mixed|null|string
      */
     public function render($params = array())
     {
-        $params   = $this->app->data->create($params);
-        $discount = $this->getBasic('_discount');
+        $params = $this->app->data->create($params);
 
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'params'   => $params,
                 'base'     => $this->getPrices(),
                 'discount' => array(
-                    'value'  => $discount['value'],
-                    'format' => $this->app->jbmoney->toFormat($discount['value'], $discount['currency'])
+                    'value'  => $this->getValue('value'),
+                    'format' => $this->app->jbmoney->toFormat($this->getValue('value'), $this->getValue('currency'))
                 ),
                 'mode'     => $params->get('sale_show', ElementJBPriceAdvance::SALE_VIEW_ICON_VALUE)
             ));
         }
 
-        return null;
-    }
-
-    /**
-     * @param null $identifier
-     * @param $name
-     * @return string
-     */
-    public function getBasicName($identifier = null, $name)
-    {
-        if (empty($identifier)) {
-            $identifier = $this->identifier;
-        }
-
-        return "elements[{$identifier}][basic][params][{$this->identifier}][{$name}]";
-    }
-
-    /**
-     * @param null $identifier
-     * @param $name
-     * @param  int $index
-     * @return string
-     */
-    public function getParamName($identifier = null, $name, $index = 0)
-    {
-        if (empty($identifier)) {
-            $identifier = $this->identifier;
-        }
-
-        return "elements[{$identifier}][variations][{$index}][params][{$this->identifier}][{$name}]";
+        return NULL;
     }
 
 }

@@ -18,7 +18,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementPriceDate extends JBCartElementPrice
 {
-
     const EDIT_DATE_FORMAT = '%Y-%m-%d %H:%M:%S';
 
     /**
@@ -26,34 +25,31 @@ class JBCartElementPriceDate extends JBCartElementPrice
      */
     public function edit()
     {
-        $params = $this->getParams();
-
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderLayout($layout, array(
-                'params' => $params,
-                'format' => self::EDIT_DATE_FORMAT
-            ));
+            return self::renderLayout($layout, array());
         }
 
-        return null;
+        return NULL;
     }
 
     /**
      * @param array $params
+     *
      * @return array|mixed|null|string|void
      */
     public function render($params = array())
     {
         $params   = $this->app->data->create($params);
         $template = $params->get('template', 'radio');
+        $data     = $this->getAllOptions();
 
         if ($layout = $this->getLayout($template . '.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params,
-                'data'   => $this->getAllData()
+                'data'   => $data
             ));
         }
 
-        return null;
+        return NULL;
     }
 }

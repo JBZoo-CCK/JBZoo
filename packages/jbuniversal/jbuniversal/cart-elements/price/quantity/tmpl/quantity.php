@@ -16,18 +16,17 @@ defined('_JEXEC') or die('Restricted access');
 $unique = $this->app->jbstring->getId('quantity-');
 $count = (int)$params->get('count_multiple', 1);
 $start = (int)$params->get('count_default', 1);
-$isEnabled = true;
-?>
+$isEnabled = TRUE;
 
-<?php if ($isEnabled) : ?>
+if ($isEnabled) : ?>
     <div class="jbprice-quantity jbprice-count"
          data-multiple="<?php echo $count; ?>"
          data-default="<?php echo $start; ?>"
         >
 
         <label for="<?php echo $unique; ?>">
-            <input type="text" name="<?php echo $this->getRenderName(); ?>"
-                   class="jsCount count" value="1" maxlength="6" id="<?php echo $unique; ?>"/>
+            <input type="text" name="<?php echo $this->getRenderName('value'); ?>"
+                   class="jsCount input-quantity count" value="1" maxlength="6" id="<?php echo $unique; ?>"/>
 
         </label>
     </div>

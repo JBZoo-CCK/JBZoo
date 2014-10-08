@@ -20,6 +20,6 @@ $unique = $this->app->jbstring->getId('-sku');
 <div class="jbprice-sku">
     <span class="field-name"><?php echo JText::_('JBZOO_JBPRICE_SKU'); ?>:</span>
 
-    <span class="sku"><?php echo $this->getBasic('_sku'); ?></span>
+    <span class="sku"><?php echo $this->getValue('value'); ?></span>
 
 </div>
