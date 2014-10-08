@@ -14,7 +14,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-echo $this->app->html->_('select.booleanlist', $this->getControlName(), null, $this->getValue($this->identifier));
+echo $this->app->html->_('select.booleanlist', $this->getControlName('value'), null, $this->getValue());
 
 
 

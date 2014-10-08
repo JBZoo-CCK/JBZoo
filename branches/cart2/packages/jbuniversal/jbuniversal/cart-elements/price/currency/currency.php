@@ -18,43 +18,46 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementPriceCurrency extends JBCartElementPrice
 {
-
     /**
      * @return mixed|null
      */
     public function edit()
     {
-        return null;
+        return NULL;
     }
 
     /**
      * @param array $params
+     *
      * @return bool
      */
     public function hasFilterValue($params = array())
     {
-        return false;
+        return FALSE;
     }
 
     /**
      * @param array $params
+     *
      * @return array|mixed|null|string
      */
     public function render($params = array())
     {
-        $currencyList = $this->_jbprice->getCurrencyList();
-
         $params   = $this->app->data->create($params);
         $template = $params->get('template', 'currency');
 
+        $list    = $params->get('currency_list', array());
+        $default = $params->get('currency_default', 'EUR');
+
         if ($layout = $this->getLayout($template . '.php')) {
             return self::renderLayout($layout, array(
-                'params'       => $params,
-                'currencyList' => $currencyList,
+                'params'  => $params,
+                'list'    => $list,
+                'default' => $default
             ));
         }
 
-        return null;
+        return NULL;
     }
 
 }

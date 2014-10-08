@@ -31,26 +31,39 @@ class JBCartElementPriceImage extends JBCartElementPrice
             ));
         }
 
-        return null;
+        return NULL;
     }
 
     /**
      * @param array $params
+     *
      * @return array|mixed|null|string
      */
     public function render($params = array())
     {
         $params = $this->app->data->create($params);
-        $teaser = json_decode($params->get('teaser-image'));
+        $unique = $this->unique($params);
 
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'params'  => $params,
-                'element' => $teaser->element
+                'element' => $unique
             ));
         }
 
-        return null;
+        return NULL;
+    }
+
+    /**
+     * @param $params
+     *
+     * @return string
+     */
+    public function unique($params)
+    {
+        $image = json_decode($params->get('image'));
+
+        return $params->get('_price_layout') . '_' . $this->getJBPrice()->getItem()->id . '_' . $image->element;
     }
 
 }

@@ -18,11 +18,11 @@ $attributes = array(
     'data-identifier' => $this->identifier
 );
 
-if (count($options) > 1) :
-    ?>
+if (count($data)) : ?>
 
-    <div class="jbprice-param-select jbprice-param-list jbpriceParams"  data-type="select">
-        <?php echo $this->app->jbhtml->select($options, $this->getControlName(), $attributes, $this->getBasic($this->identifier)); ?>
+    <div class="jbprice-param-select jbprice-param-list jbpriceParams" data-type="select">
+        <?php echo $this->app->jbhtml->select($data, $this->getRenderName('value'), $attributes,
+            $this->getValue('value')); ?>
     </div>
 
 <?php endif;

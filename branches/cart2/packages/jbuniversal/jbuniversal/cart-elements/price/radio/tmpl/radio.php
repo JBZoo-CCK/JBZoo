@@ -17,8 +17,11 @@ $attributes = array(
     'data-identifier' => $this->identifier
 );
 
-?>
+if (count($data)) : ?>
 
-<div class="jbprice-param-radio jbprice-param-list jbpriceParams"  data-type="radio">
-    <?php echo $this->app->jbhtml->radio($options, $this->getControlName(), $attributes, $this->getBasic($this->identifier)); ?>
-</div>
+    <div class="jbprice-param-radio jbprice-param-list jbpriceParams" data-type="radio">
+        <?php echo $this->app->jbhtml->radio($data, $this->getRenderName('value'), $attributes,
+            $this->getValue('value')); ?>
+    </div>
+
+<?php endif;

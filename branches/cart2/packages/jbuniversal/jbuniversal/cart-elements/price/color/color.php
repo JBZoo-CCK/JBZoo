@@ -23,13 +23,11 @@ class JBCartElementPriceColor extends JBCartElementPrice
      */
     public function edit()
     {
-        $params     = $this->getParams();
         $type       = $this->getInputType();
         $colorItems = $this->getColors();
 
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderLayout($layout, array(
-                'params'     => $params,
                 'type'       => $type,
                 'colorItems' => $colorItems,
             ));
@@ -111,46 +109,12 @@ class JBCartElementPriceColor extends JBCartElementPrice
     }
 
     /**
-     * @param null $identifier
-     * @param      $name
-     * @param int  $index
-     *
-     * @return string
+     * Load config assets
+     * @return self
      */
-    public function getParamName($identifier = null, $name, $index = 0)
+    public function loadConfigAssets()
     {
-        if (empty($identifier)) {
-            $identifier = $this->identifier;
-        }
-
-        return "elements[{$identifier}][variations][{$index}][params][{$this->identifier}]";
+        JHtml::_('behavior.colorpicker');
+        return parent::loadConfigAssets();
     }
-
-    /**
-     * @param null $identifier
-     * @param      $name
-     *
-     * @return string
-     */
-    public function getBasicName($identifier = null, $name)
-    {
-        if (empty($identifier)) {
-            $identifier = $this->identifier;
-        }
-
-        return "elements[{$identifier}][basic][params][{$this->identifier}]";
-    }
-
-    /**
-     * Name for render
-     *
-     * @param  string $name
-     *
-     * @return string
-     */
-    public function getRenderName($name = null)
-    {
-        return "params[{$this->identifier}]";
-    }
-
 }

@@ -19,15 +19,28 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceQuantity extends JBCartElementPrice
 {
     /**
+     * Check if element has value
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        return TRUE;
+    }
+
+    /**
      * @return mixed|null|string
      */
     public function edit()
     {
-        return null;
+        return NULL;
     }
 
     /**
      * @param array $params
+     *
      * @return array|mixed|null|string
      */
     public function render($params = array())
@@ -39,6 +52,6 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
             ));
         }
 
-        return null;
+        return NULL;
     }
 }

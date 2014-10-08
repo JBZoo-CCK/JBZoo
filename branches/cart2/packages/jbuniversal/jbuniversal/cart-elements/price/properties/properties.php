@@ -19,20 +19,28 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceProperties extends JBCartElementPrice
 {
     /**
+     * Check if element has value
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        return FALSE;
+    }
+
+    /**
      * Render element in jbprice admin
      * @return bool|mixed|string
      */
     public function edit()
     {
-        $value = $this->getValue($this->identifier);
-
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderLayout($layout, array(
-                'value' => $this->app->data->create($value)
-            ));
+            return self::renderLayout($layout);
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
@@ -53,37 +61,7 @@ class JBCartElementPriceProperties extends JBCartElementPrice
             ));
         }
 
-        return null;
+        return NULL;
     }
 
-    /**
-     * @param null $identifier
-     * @param      $name
-     * @param int  $index
-     *
-     * @return string
-     */
-    public function getParamName($identifier = null, $name, $index = 0)
-    {
-        if (empty($identifier)) {
-            $identifier = $this->identifier;
-        }
-
-        return "elements[{$identifier}][variations][{$index}][params][{$this->identifier}][{$name}]";
-    }
-
-    /**
-     * @param null $identifier
-     * @param      $name
-     *
-     * @return string
-     */
-    public function getBasicName($identifier = null, $name)
-    {
-        if (empty($identifier)) {
-            $identifier = $this->identifier;
-        }
-
-        return "elements[{$identifier}][basic][params][{$this->identifier}][{$name}]";
-    }
 }

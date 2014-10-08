@@ -25,78 +25,42 @@ class JBCartElementPriceValue extends JBCartElementPrice
     {
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderLayout($layout, array(
-                'currencyList' => $this->app->jbmoney->getCurrencyList(true)
+                'currencyList' => $this->app->jbmoney->getCurrencyList(TRUE)
             ));
         }
 
-        return null;
+        return NULL;
     }
 
     /**
      * @param array $params
+     *
      * @return array|mixed|null|string
      */
     public function render($params = array())
     {
         $params   = $this->app->data->create($params);
         $prices   = $this->getPrices();
-        $discount = $this->getBasic('_discount');
+        $discount = $this->getParamData('_discount');
+
+        $currencyParams  = $this->getRenderParams('_currency');
+        $defaultCurrency = $currencyParams->get('default_currency');
+
+        $value    = !empty($discount) ? (float)$discount['value'] : 0;
+        $currency = !empty($discount) ? $discount['currency'] : $defaultCurrency;
 
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'params'   => $params,
                 'base'     => $prices,
                 'discount' => array(
-                    'value'  => (float)$discount['value'],
-                    'format' => $this->app->jbmoney->toFormat($discount['value'], $discount['currency']),
+                    'value'  => $value,
+                    'format' => $this->app->jbmoney->toFormat($value, $currency),
                 )
             ));
         }
 
-        return null;
-    }
-
-    /**
-     * @param null $identifier
-     * @param $name
-     * @return string
-     */
-    public function getBasicName($identifier = null, $name)
-    {
-
-        if (empty($identifier)) {
-            $identifier = $this->identifier;
-        }
-
-        return "elements[{$identifier}][basic][{$name}]";
-    }
-
-    /**
-     * @param null $identifier
-     * @param $name
-     * @param  int $index
-     * @return string
-     */
-    public function getParamName($identifier = null, $name, $index = 0)
-    {
-
-        if (empty($identifier)) {
-            $identifier = $this->identifier;
-        }
-
-        return "elements[{$identifier}][variations][{$index}][{$name}]";
-    }
-
-    /**
-     * @param string $key
-     * @param null $default
-     * @return mixed|null
-     */
-    public function getValue($key, $default = null)
-    {
-        $data = $this->app->data->create($this->config->get('data'));
-
-        return $data->get($key);
+        return NULL;
     }
 
 }

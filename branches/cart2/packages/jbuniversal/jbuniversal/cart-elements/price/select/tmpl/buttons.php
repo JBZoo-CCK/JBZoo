@@ -18,8 +18,11 @@ $attributes = array(
     'data-identifier' => $this->identifier
 );
 
-?>
+if (count($data)) : ?>
 
-<div class="jbprice-param-radio jbprice-param-list jbpriceParams"  data-type="radio">
-    <?php echo $this->app->jbhtml->buttonsJqueryUI($data, $this->getControlName(), $attributes, $this->getBasic($this->identifier), $unique); ?>
-</div>
+    <div class="jbprice-param-radio jbprice-param-list jbpriceParams" data-type="radio">
+        <?php echo $this->app->jbhtml->buttonsJqueryUI($data, $this->getControlName('value'), $attributes,
+            $this->getBasic($this->identifier), $unique); ?>
+    </div>
+
+<?php endif;

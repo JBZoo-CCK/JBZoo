@@ -23,15 +23,16 @@ class JBCartElementPriceText extends JBCartElementPrice
      */
     public function edit()
     {
-        $value  = $this->app->data->create($this->getValue($this->identifier));
-        $html   = array();
-        $html[] = $this->app->jbhtml->text($this->getControlName(), $value->get('value'));
+        if ($layout = $this->getLayout('edit.php')) {
+            return self::renderLayout($layout);
+        }
 
-        return implode($html);
+        return NULL;
     }
 
     /**
      * @param array $params
+     *
      * @return array|mixed|null|string|void
      */
     public function render($params = array())
@@ -47,35 +48,7 @@ class JBCartElementPriceText extends JBCartElementPrice
             ));
         }
 
-        return null;
+        return NULL;
     }
 
-    /**
-     * @param null $identifier
-     * @param $name
-     * @param int $index
-     * @return string
-     */
-    public function getParamName($identifier = null, $name, $index = 0)
-    {
-        if (empty($identifier)) {
-            $identifier = $this->identifier;
-        }
-
-        return "elements[{$identifier}][variations][{$index}][params][{$this->identifier}][{$name}]";
-    }
-
-    /**
-     * @param null $identifier
-     * @param $name
-     * @return string
-     */
-    public function getBasicName($identifier = null, $name)
-    {
-        if (empty($identifier)) {
-            $identifier = $this->identifier;
-        }
-
-        return "elements[{$identifier}][basic][params][{$this->identifier}][{$name}]";
-    }
 }

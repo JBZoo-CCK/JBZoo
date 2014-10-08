@@ -22,13 +22,19 @@ class JBCartElementPriceBalance extends JBCartElementPrice
     const AVAILABLE     = -1;
     const UNDER_ORDER   = -2;
 
+    /**
+     * @param array $params
+     *
+     * @return bool
+     */
     public function hasFilterValue($params = array())
     {
-        return false;
+        return FALSE;
     }
 
     /**
      * @param  array $params
+     *
      * @return mixed|null|string
      */
     public function edit($params = array())
@@ -36,17 +42,17 @@ class JBCartElementPriceBalance extends JBCartElementPrice
         $params = $this->getParams();
 
         if ($layout = $this->getLayout('edit.php')) {
-
             return self::renderLayout($layout, array(
                 'params' => $params
             ));
         }
 
-        return null;
+        return NULL;
     }
 
     /**
      * @param array $params
+     *
      * @return array|mixed|null|string
      */
     public function render($params = array())
@@ -62,21 +68,7 @@ class JBCartElementPriceBalance extends JBCartElementPrice
             ));
         }
 
-        return null;
+        return NULL;
     }
 
-    /**
-     * @param null $identifier
-     * @param $name
-     * @param int $index
-     * @return string
-     */
-    public function getParamName($identifier = null, $name, $index = 0)
-    {
-        if (empty($identifier)) {
-            $identifier = $this->identifier;
-        }
-
-        return "elements[{$identifier}][variations][{$index}][params][{$name}][value]";
-    }
 }

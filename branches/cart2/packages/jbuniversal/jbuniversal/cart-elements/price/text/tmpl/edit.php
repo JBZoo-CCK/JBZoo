@@ -12,3 +12,5 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+
+echo $this->app->jbhtml->text($this->getControlName('value'), $this->getValue('value'));

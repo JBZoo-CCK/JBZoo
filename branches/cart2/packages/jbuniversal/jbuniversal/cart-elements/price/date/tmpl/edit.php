@@ -13,20 +13,21 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$variant = (int)$params->get('basic', 0) ? '' : '-variant';
-$unique  = $this->app->jbstring->getId('calendar-');
+$string = $this->app->jbstring;
+$unique = $string->getId('calendar-');
 
-if ($value = $this->getValue('_date', '')) {
+if ($value = $this->getValue('value', '')) {
     try {
 
-        $value = $this->app->html->_('date', $value, $this->app->date->format($format), $this->app->date->getOffset());
+        $value = $this->app->html->_('date', $value, $this->app->date->format(JBCartElementPriceDate::EDIT_DATE_FORMAT),
+            $this->app->date->getOffset());
 
     } catch (Exception $e) {
     }
 }
-echo $this->app->html->_('zoo.calendar', $value, $this->getControlName('_date'), $unique, array(
-    'class' => $this->app->jbstring->getId('calendar-element-')
-), true);
+echo $this->app->html->_('zoo.calendar', $value, $this->getControlName('value'), $unique, array(
+    'class' => $string->getId('calendar-element-')
+), TRUE);
 
 
 

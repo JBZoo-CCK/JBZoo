@@ -13,9 +13,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$jbhtml = $this->app->jbhtml;
-
 ?>
 
-<span class="jsImageRelated" data-element="<?php echo $element; ?>"></span>
+<input type="hidden"
+       class="jsImageRelated"
+       data-element="<?php echo $element; ?>"/>
 

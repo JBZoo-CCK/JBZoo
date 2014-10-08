@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<element type="element" group="Core" hidden="false" core="true">
+<element type="element"
+         group="Core"
+         hidden="false"
+         core="true">
     <name>Image - Unique</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
@@ -10,10 +13,23 @@
     <description>JBZoo Cart Element Core System</description>
 
     <params group="render">
-        <param name="teaser-image" type="elementlistbytype" types="jbimage" layout="teaser"
-               label="Choose element teaser image"/>
+        <param name="image"
+               type="elementlistbytype"
+               types="jbimage"
+               label="Choose element teaser image" />
 
-        <param name="full-image" type="elementlistbytype" types="jbimage" layout="full" label="Choose element full image"/>
+        <param name="width"
+               type="text"
+               default="400"
+               label="JBZOO_RESIZE_WIDTH"
+               description="JBZOO_RESIZE_WIDTH_DESC" />
+
+        <param name="height"
+               type="text"
+               default="300"
+               label="JBZOO_RESIZE_HEIGHT"
+               description="JBZOO_RESIZE_WIDTH_DESC" />
+        
     </params>
 
 </element>

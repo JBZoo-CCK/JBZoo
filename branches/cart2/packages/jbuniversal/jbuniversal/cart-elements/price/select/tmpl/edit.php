@@ -15,8 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 if (count($options)) {
 
-    $jbhtml = $this->app->jbhtml;
+    $html = $this->app->jbhtml;
 
-    echo $jbhtml->select($options, $this->getControlName(), null, $this->getValue($this->identifier));
-
+    echo $html->select($options, $this->getControlName('value'), null, $this->getValue('value'));
 }

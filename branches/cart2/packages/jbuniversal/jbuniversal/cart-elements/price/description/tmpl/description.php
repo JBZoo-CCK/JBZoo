@@ -15,5 +15,5 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 <div class="jbprice-description jsDescription">
-    <?php echo $this->getBasic('_description'); ?>
+    <?php echo $this->getValue('value'); ?>
 </div>

@@ -13,9 +13,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$jbhtml = $this->app->jbhtml;
-$value  = $this->getValue('_description');
-$attrs  = $jbhtml->buildAttrs(array(
+$html  = $this->app->jbhtml;
+$attrs = $html->buildAttrs(array(
     'size'        => '60',
     'rows'        => '5',
     'style'       => 'resize: none;',
@@ -24,6 +23,6 @@ $attrs  = $jbhtml->buildAttrs(array(
     'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_DESCRIPTION')
 ));
 
-echo '<textarea name="' . $this->getControlName('_description') . '"
+echo '<textarea name="' . $this->getControlName('value') . '"
                 ' . $attrs . '
-                >' . $value . '</textarea>';
+                >' . $this->getValue('value') . '</textarea>';

@@ -13,10 +13,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (count($currencyList) > 1) : ?>
-    <div class="jbprice-currency-list not-paid-box">
-        <?php foreach ($currencyList as $currency) : ?>
-            <span class="jbprice-currency jsPriceCurrency jbcurrency jbcurrency-<?php echo strtolower($currency); ?>"
+if (count($list) > 1) : ?>
+    <div class="jbprice-currency-list not-paid-box jsCurrencyList" data-default="<?php echo $default; ?>">
+        <?php foreach ($list as $currency) : ?>
+            <span class="jbprice-currency jsPriceCurrency jbcurrency jbcurrency-<?php echo strtolower($currency); ?>
+            <?php echo $currency == $default ? ' active' : '' ?>"
                   data-currency="<?php echo $currency; ?>"
                   title="<?php echo JText::_('JBZOO_JBCURRENCY_' . $currency); ?>"><?php echo $currency; ?></span>
         <?php endforeach; ?>
