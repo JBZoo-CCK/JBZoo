@@ -67,7 +67,8 @@ jQuery(function ($) {
         }
 
         function onAdded() {
-            $('#element-list').on('element.added', function (event, element) {
+
+            $('#element-list, .jsElementList').on('element.added', function (event, element) {
                 initMinicolors(element);
             });
         }
@@ -180,7 +181,7 @@ jQuery(function ($) {
                     $(this).show();
                 }
             });
-        }
+        };
 
         update($mode.val());
 
@@ -193,7 +194,7 @@ jQuery(function ($) {
         $mode.on('change', function () {
             update($(this).val());
         });
-    }
+    };
 
     $.fn.JBZooAdminMenu = function (options) {
 
