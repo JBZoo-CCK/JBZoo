@@ -36,7 +36,7 @@ class JBEventManagerHelper extends AppHelper
      * @var array
      */
     protected $_events = array(
-        'basket:create'     => self::NOTIFY_ORDER_CREATE,
+        'basket:saved'      => self::NOTIFY_ORDER_CREATE,
         'basket:beforesave' => self::NOTIFY_ORDER_BEFORESAVE,
         'order:edit'        => self::NOTIFY_ORDER_EDIT,
         'order:status'      => self::NOTIFY_ORDER_STATUS,

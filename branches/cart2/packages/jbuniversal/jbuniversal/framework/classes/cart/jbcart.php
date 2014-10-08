@@ -63,12 +63,12 @@ class JBCart
     /**
      * @var App
      */
-    public $app = null;
+    public $app = NULL;
 
     /**
      * @var JSONData
      */
-    protected $_config = null;
+    protected $_config = NULL;
 
     /**
      * @var JBMoneyHelper
@@ -90,6 +90,8 @@ class JBCart
     }
 
     /**
+     * Class constructor
+     *
      * Constructor
      */
     private function __construct()
@@ -101,14 +103,8 @@ class JBCart
     }
 
     /**
-     * @return array
-
-    public function getItems()
-     * $items = $this->app->jbsession->get('items', $this->_sessionNamespace);
+     * Get new order object
      *
-     * /*$items = array(
-     * );*/
-    /**
      * @return JBCartOrder
      */
     public function newOrder()
@@ -127,7 +123,7 @@ class JBCart
      */
     public function getDefaultStatus($type = JBCart::STATUS_ORDER)
     {
-        $statusCode = null;
+        $statusCode = NULL;
         if ($type == JBCart::STATUS_ORDER) {
             $statusCode = $this->_config->get('default_order_status');
 
@@ -159,29 +155,6 @@ class JBCart
         $session = $this->_getSession();
         $items   = $session->get('items', array());
 
-        /*$items = array(
-            array(
-                "sku"         => "SKU98100",
-                "itemId"      => "90",
-                "quantity"    => 2,
-                "price"       => 10,
-                "currency"    => "EUR",
-                "priceDesc"   => "Red color",
-                "priceParams" => array(),
-                "name"        => "Acer Aspire Z1811 "
-            ),
-            array(
-                "sku"         => "SKU98100",
-                "itemId"      => "90",
-                "quantity"    => 2,
-                "price"       => 10,
-                "currency"    => "EUR",
-                "priceDesc"   => "Red color",
-                "priceParams" => array(),
-                "name"        => "Acer Aspire Z1811 "
-            ),
-        );*/
-
         return $items;
     }
 
@@ -208,16 +181,39 @@ class JBCart
     }
 
     /**
+     * Get the weight of all items in basket.
+     *
+     * @return int
+     */
+    public function getWeight()
+    {
+        $items  = $this->getItems();
+        $weight = 0;
+
+        foreach ($items as $item) {
+            if (!empty($item['params'])) {
+
+                $params = $item['params'];
+                $temp   = $item['quantity'] * $params['weight'];
+
+                $weight += $temp;
+            }
+        }
+
+        return $weight;
+    }
+
+    /**
      * Remove all variations if key is null.
      * $key = {item_id}-{variant_index}.
      * Priority on $key.
      *
-     * @param  int $id
+     * @param  int    $id
      * @param  string $key
      *
      * @return bool
      */
-    public function remove($id, $key = null)
+    public function remove($id, $key = NULL)
     {
         $items = $this->getItems();
 
@@ -230,7 +226,7 @@ class JBCart
             return $this->removeItem($id);
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
@@ -254,10 +250,10 @@ class JBCart
 
             $this->_setSession('items', $items);
 
-            return true;
+            return TRUE;
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
@@ -277,10 +273,10 @@ class JBCart
             unset($items[$key]);
             $this->_setSession('items', $items);
 
-            return true;
+            return TRUE;
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
@@ -330,23 +326,26 @@ class JBCart
 
         $currency = $this->_config->get('default_currency', 'EUR');
 
-        foreach ($items as $hash => $item) {
+        foreach ($items as $key => $item) {
+
+            $itemsPrice[$key] = array();
 
             $item['price'] = $this->_jbmoney->convert($item['currency'], $currency, $item['price']);
 
-            $itemsPrice[$hash] = $item['price'] * $item['quantity'];
+            $itemsPrice[$key]['total'] = $item['price'] * $item['quantity'];
 
             $count += $item['quantity'];
-            $total += $itemsPrice[$hash];
+            $total += $itemsPrice[$key]['total'];
 
-            $itemsPrice[$hash] = $this->_jbmoney->toFormat($itemsPrice[$hash], $currency);
+            $itemsPrice[$key]['total'] = $this->_jbmoney->format($itemsPrice[$key]['total']);
         }
 
         $result =
             array(
-                'items' => $itemsPrice,
-                'count' => $count,
-                'total' => $this->_jbmoney->toFormat($total, $currency),
+                'items'    => $itemsPrice,
+                'count'    => $count,
+                'total'    => $this->_jbmoney->format($total),
+                'currency' => $currency
             );
 
 
@@ -365,14 +364,14 @@ class JBCart
         $items = $this->getItems();
 
         if (!empty($items)) {
-            foreach ($items as $item) {
-                if ($item['item_id'] === $id) {
-                    return true;
+            foreach ($items as $key => $item) {
+                if ($key === $id) {
+                    return TRUE;
                 }
             }
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
@@ -387,10 +386,10 @@ class JBCart
         $items = $this->getItems();
 
         if (isset($items[$key])) {
-            return true;
+            return TRUE;
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
@@ -410,7 +409,7 @@ class JBCart
      * Set session
      *
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      */
     protected function _setSession($key, $value)
     {

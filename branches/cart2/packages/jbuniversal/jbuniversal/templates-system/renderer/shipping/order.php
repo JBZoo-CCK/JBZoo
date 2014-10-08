@@ -13,16 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if ($this->checkPosition('fields')) : ?>
-
-    <div class="jbzoo-right">
-
-        <h2>Форма заказа</h2>
-
-        <?php echo $this->renderPosition('fields', array(
-            'style' => 'order.block'
-        )); ?>
-
-    </div>
-
-<?php endif;
+if ($this->checkPosition('list')) :
+    echo $this->renderPosition('list', array('style' => 'order.order_shipping'));
+endif;

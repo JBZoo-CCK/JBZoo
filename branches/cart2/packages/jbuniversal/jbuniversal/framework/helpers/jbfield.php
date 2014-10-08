@@ -116,10 +116,20 @@ class JBFieldHelper extends AppHelper
             . '/renderer'
             . '/' . $layoutName
         );
+        $system = $this->app->path->path("jbapp:templates-system/renderer/{$layoutName}");
 
         $options = array('__auto__' => JText::_('JBZOO_LAYOUT_AUTOSELECT'));
+
         if (JFolder::exists($path)) {
             $files = JFolder::files($path, '^([-_A-Za-z0-9\.]*)\.php$', false, false, array('.svn', 'CVS'));
+            foreach ($files as $tmpl) {
+                $tmpl           = basename($tmpl, '.php');
+                $options[$tmpl] = $tmpl;
+            }
+        }
+
+        if (JFolder::exists($system)) {
+            $files = JFolder::files($system, '^([-_A-Za-z0-9\.]*)\.php$', false, false, array('.svn', 'CVS'));
             foreach ($files as $tmpl) {
                 $tmpl           = basename($tmpl, '.php');
                 $options[$tmpl] = $tmpl;
@@ -370,7 +380,7 @@ class JBFieldHelper extends AppHelper
         $attributes['class'] = $this->_getAttr($node, 'class', 'inputbox');
 
         if (!empty($value)) {
-            $attributes['disabled'] = 'disabled';
+            $attributes['readonly'] = 'readonly';
         }
 
         return $this->app->html->genericList($options, $this->_getName($controlName, $name), $attributes, 'value', 'text', $value);

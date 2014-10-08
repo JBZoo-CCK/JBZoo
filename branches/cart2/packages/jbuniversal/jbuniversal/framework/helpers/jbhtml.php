@@ -21,13 +21,15 @@ class JBHTMLHelper extends AppHelper
 {
     /**
      * Render option list
+     *
      * @param        $data
      * @param        $name
-     * @param null $attribs
-     * @param null $selected
-     * @param bool $idtag
-     * @param bool $translate
-     * @param bool $isLabelWrap
+     * @param null   $attribs
+     * @param null   $selected
+     * @param bool   $idtag
+     * @param bool   $translate
+     * @param bool   $isLabelWrap
+     *
      * @return string
      */
     public function radio(
@@ -51,13 +53,15 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render checkbox list
+     *
      * @param        $data
      * @param        $name
-     * @param null $attribs
-     * @param null $selected
-     * @param bool $idtag
-     * @param bool $translate
-     * @param bool $isLabelWrap
+     * @param null   $attribs
+     * @param null   $selected
+     * @param bool   $idtag
+     * @param bool   $translate
+     * @param bool   $isLabelWrap
+     *
      * @return string
      */
     public function checkbox(
@@ -85,12 +89,14 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render select list
+     *
      * @param      $data
      * @param      $name
      * @param null $attribs
      * @param null $selected
      * @param bool $idtag
      * @param bool $translate
+     *
      * @return string
      */
     public function select(
@@ -123,10 +129,12 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render text field
+     *
      * @param      $name
      * @param null $value
      * @param null $attribs
      * @param null $idtag
+     *
      * @return string
      */
     public function text($name, $value = null, $attribs = null, $idtag = null)
@@ -147,11 +155,13 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render color field
+     *
      * @param string $inputType
-     * @param array $data
+     * @param array  $data
      * @param string $name
-     * @param null $selected
-     * @param array $attrs
+     * @param null   $selected
+     * @param array  $attrs
+     *
      * @return string
      */
     public function colors($inputType = 'checkbox', $data, $name, $selected = null, $attrs = array())
@@ -174,7 +184,7 @@ class JBHTMLHelper extends AppHelper
 
             $attribs = array_merge(array(
                 'type'  => $inputType,
-                'name'  => $name . '[]',
+                'name'  => $name,
                 'id'    => $id,
                 'title' => $key,
                 'value' => $key,
@@ -208,6 +218,7 @@ class JBHTMLHelper extends AppHelper
                     }
                 }
             } else {
+
                 if ((string)$key == (string)$selected) {
                     $attribs['checked'] = 'checked';
                     $attribs['class'] .= ' checked';
@@ -234,10 +245,12 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render hidden field
+     *
      * @param      $name
      * @param null $value
      * @param null $attribs
      * @param null $idtag
+     *
      * @return string
      */
     public function hidden($name, $value = null, $attribs = null, $idtag = null)
@@ -254,11 +267,13 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render calendar element
+     *
      * @param       $name
-     * @param null $value
-     * @param null $attribs
-     * @param null $idtag
+     * @param null  $value
+     * @param null  $attribs
+     * @param null  $idtag
      * @param array $params
+     *
      * @return string
      */
     public function calendar($name, $value = null, $attribs = null, $idtag = null, $params = array())
@@ -279,10 +294,12 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render jQueryUI slider
-     * @param array $params
+     *
+     * @param array  $params
      * @param string $value
      * @param string $name
      * @param string $idtag
+     *
      * @return string
      */
     public function slider($params, $value = '', $name = '', $idtag = '')
@@ -320,12 +337,14 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render option list
+     *
      * @param        $data
      * @param        $name
-     * @param null $attribs
-     * @param null $selected
-     * @param bool $idtag
-     * @param bool $translate
+     * @param null   $attribs
+     * @param null   $selected
+     * @param bool   $idtag
+     * @param bool   $translate
+     *
      * @return string
      */
     public function buttonsJqueryUI(
@@ -354,13 +373,15 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render chosen
-     * @param      $data
-     * @param      $name
-     * @param null $attribs
-     * @param null $selected
-     * @param bool $idtag
-     * @param bool $translate
+     *
+     * @param       $data
+     * @param       $name
+     * @param null  $attribs
+     * @param null  $selected
+     * @param bool  $idtag
+     * @param bool  $translate
      * @param array $params
+     *
      * @return string
      */
     public function selectChosen(
@@ -387,11 +408,13 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Select cascade
-     * @param array $selectInfo
+     *
+     * @param array  $selectInfo
      * @param string $name
-     * @param array $selected
-     * @param array $attribs
-     * @param bool $idtag
+     * @param array  $selected
+     * @param array  $attribs
+     * @param bool   $idtag
+     *
      * @return string
      */
     public function selectCascade(
@@ -464,14 +487,16 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Generates an HTML checkbox/radio list.
-     * @param   string $inputType Type of html input element
-     * @param   array $data An array of objects
-     * @param   string $name The value of the HTML name attribute
-     * @param   array $attribs Additional HTML attributes for the <select> tag
-     * @param   string $selected The name of the object variable for the option text
-     * @param   boolean $idtag Value of the field id or null by default
-     * @param   boolean $translate True if options will be translated
+     *
+     * @param   string  $inputType   Type of html input element
+     * @param   array   $data        An array of objects
+     * @param   string  $name        The value of the HTML name attribute
+     * @param   array   $attribs     Additional HTML attributes for the <select> tag
+     * @param   string  $selected    The name of the object variable for the option text
+     * @param   boolean $idtag       Value of the field id or null by default
+     * @param   boolean $translate   True if options will be translated
      * @param   boolean $isLabelWrap True if options wrappeed label tag
+     *
      * @return  string HTML for the select list
      */
     private function _list($inputType, $data, $name, $attribs = array(), $selected = null, $idtag = false,
@@ -480,9 +505,6 @@ class JBHTMLHelper extends AppHelper
     {
         reset($data);
 
-        if ($inputType == 'checkbox') {
-            $name = $name . '[]';
-        }
         if (!is_array($attribs)) {
             $attribs = array();
         }
@@ -556,7 +578,9 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Build attrs
+     *
      * @param $attrs
+     *
      * @return null|string
      */
     public function buildAttrs($attrs)
@@ -567,7 +591,9 @@ class JBHTMLHelper extends AppHelper
     /**
      * Build attrs
      * TODO: Remove method, replace to public
+     *
      * @param $attrs
+     *
      * @return null|string
      */
     protected function _buildAttrs($attrs)
@@ -594,7 +620,9 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Clear attribute value
+     *
      * @param string $value
+     *
      * @return string
      */
     public function cleanAttrValue($value)

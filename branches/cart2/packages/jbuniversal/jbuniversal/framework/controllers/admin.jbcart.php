@@ -23,12 +23,12 @@ class JBCartJBuniversalController extends JBUniversalController
     /**
      * @var JBCartElementHelper
      */
-    protected $_element = null;
+    protected $_element = NULL;
 
     /**
      * @var JBCartPositionHelper
      */
-    protected $_position = null;
+    protected $_position = NULL;
 
     protected $_extensions;
 
@@ -97,7 +97,8 @@ class JBCartJBuniversalController extends JBUniversalController
             JBCart::ELEMENT_TYPE_MODIFIERITEM
         ));
 
-        $this->positions = $this->_position->loadPositions(JBCart::CONFIG_NOTIFICATION, $this->app->jbeventmanager->getEventsName());
+        $this->positions =
+            $this->_position->loadPositions(JBCart::CONFIG_NOTIFICATION, $this->app->jbeventmanager->getEventsName());
         $this->groupKey  = JBCart::CONFIG_NOTIFICATION;
         $this->renderView();
     }
@@ -163,8 +164,9 @@ class JBCartJBuniversalController extends JBUniversalController
         $this->groupList  = $this->_element->getGroups(array(JBCart::ELEMENT_TYPE_PRICE));
         $this->layoutList = $this->app->jbpriceparams->getJBPriceElements();
 
-        $element         = $this->_jbrequest->get('element', key($this->layoutList));
-        $this->positions = $this->_position->loadPositions(JBCart::CONFIG_PRICE . '.' . $element, array(JBCart::DEFAULT_POSITION));
+        $layout          = $this->_jbrequest->get('layout', key($this->layoutList));
+        $this->positions =
+            $this->_position->loadPositions(JBCart::CONFIG_PRICE . '.' . $layout, array(JBCart::DEFAULT_POSITION));
 
         $this->groupKey = JBCart::CONFIG_PRICE;
         $this->saveTask = 'saveElementPositions';
@@ -258,7 +260,8 @@ class JBCartJBuniversalController extends JBUniversalController
 
         $this->positionList = $renderer->getPositions(JBCart::ELEMENT_TYPE_EMAIL . '.' . $this->layout);
         $this->groupList    = $this->_element->getGroups(array(JBCart::ELEMENT_TYPE_EMAIL));
-        $this->positions    = $this->_position->loadPositionsTmpl(JBCart::CONFIG_EMAIL_TMPL . '.' . $this->layout, JBCart::CONFIG_EMAIL_TMPL, $this->positionList);
+        $this->positions    = $this->_position->loadPositionsTmpl(JBCart::CONFIG_EMAIL_TMPL . '.' . $this->layout,
+            JBCart::CONFIG_EMAIL_TMPL, $this->positionList);
         $this->ordersList   = $this->_getOrdersList();
 
         $this->groupKey = JBCart::CONFIG_EMAIL_TMPL;
@@ -280,7 +283,9 @@ class JBCartJBuniversalController extends JBUniversalController
         $this->positionList   = $renderer->getPositions('order.' . $this->layout);
         $this->dragElements   = $this->_position->loadElements(JBCart::CONFIG_FIELDS);
         $this->elementsParams = $this->_position->loadParams(JBCart::CONFIG_FIELDS_TMPL . '.' . $this->layout);
-        $this->positions      = $this->_position->loadPositionsTmpl(JBCart::CONFIG_FIELDS_TMPL . '.' . $this->layout, JBCart::CONFIG_FIELDS, $this->positionList);
+        $this->positions      =
+            $this->_position->loadPositionsTmpl(JBCart::CONFIG_FIELDS_TMPL . '.' . $this->layout, JBCart::CONFIG_FIELDS,
+                $this->positionList);
 
         $this->groupKey = JBCart::CONFIG_FIELDS_TMPL;
 
@@ -307,7 +312,8 @@ class JBCartJBuniversalController extends JBUniversalController
 
         $confName             = JBCart::CONFIG_PRICE_TMPL_FILTER . '.' . $this->element . '.' . $this->layout;
         $this->elementsParams = $this->_position->loadParams($confName);
-        $this->positions      = $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE, $this->positionList);
+        $this->positions      =
+            $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE, $this->positionList);
 
         $this->saveTask = 'saveElementPositions';
         $this->groupKey = JBCart::CONFIG_PRICE_TMPL_FILTER;
@@ -329,12 +335,13 @@ class JBCartJBuniversalController extends JBUniversalController
 
         $this->positionList = $renderer->getPositions('jbprice.' . $this->layout);
 
-        $this->dragElements   = $this->_position->loadElements(JBCart::ELEMENT_TYPE_PRICE);
+        $this->dragElements   = $this->_position->loadElements(JBCart::ELEMENT_TYPE_PRICE . '.' . $this->element);
         $this->systemElements = $this->_element->getSystemTmpl(JBCart::CONFIG_PRICE);
 
         $confName             = JBCart::CONFIG_PRICE_TMPL . '.' . $this->element . '.' . $this->layout;
         $this->elementsParams = $this->_position->loadParams($confName);
-        $this->positions      = $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE, $this->positionList);
+        $this->positions      =
+            $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE, $this->positionList);
 
         $this->saveTask = 'saveElementPositions';
         $this->groupKey = JBCart::CONFIG_PRICE_TMPL;
@@ -347,7 +354,8 @@ class JBCartJBuniversalController extends JBUniversalController
     public function shippingField()
     {
         $this->groupList = $this->_element->getGroups(array(JBCart::ELEMENT_TYPE_SHIPPINGFIELD));
-        $this->positions = $this->_position->loadPositions(JBCart::CONFIG_SHIPPINGFIELDS, array(JBCart::DEFAULT_POSITION));
+        $this->positions =
+            $this->_position->loadPositions(JBCart::CONFIG_SHIPPINGFIELDS, array(JBCart::DEFAULT_POSITION));
         $this->groupKey  = JBCart::CONFIG_SHIPPINGFIELDS;
 
         $this->renderView();
@@ -422,32 +430,12 @@ class JBCartJBuniversalController extends JBUniversalController
     }
 
     /**
-     * TODO Delete this method
-     * Method using to take data from element with ajax
+     * @return null
      */
-    public function callElement()
-    {
-        $element = $this->app->request->getCmd('element', '');
-        $method  = $this->app->request->getCmd('method', '');
-        $layout  = $this->app->request->getCmd('layout', '');
-        $args    = $this->app->request->getVar('args', array(), 'default', 'array');
-
-        $positions = $this->_position->loadPositions(JBCart::ELEMENT_TYPE_NOTIFICATION);
-        $positions = $this->app->data->create($positions);
-
-        $key      = $positions->searchRecursive($element);
-        $position = $this->app->data->create($positions->get($key));
-
-        // get element and execute callback method
-        if ($element = $this->getEmailElement()) {
-            $element->callback($method, $args);
-        }
-    }
-
     public function getEmailElement()
     {
         $elements = $this->_position->loadElements(JBCart::ELEMENT_TYPE_NOTIFICATION);
-        $element  = null;
+        $element  = NULL;
         if (!empty($elements['_sendemail'])) {
             $element = $elements['_sendemail'];
         }
@@ -456,7 +444,7 @@ class JBCartJBuniversalController extends JBUniversalController
     }
 
     /**
-     *
+     * Preview order's email
      */
     public function getPreview()
     {
@@ -468,7 +456,7 @@ class JBCartJBuniversalController extends JBUniversalController
         $element = $this->getEmailElement();
         $element->setSubject($order);
 
-        $html = $element->notify();
+        $html = $element->getHTML();
 
         echo $html;
     }
@@ -484,7 +472,7 @@ class JBCartJBuniversalController extends JBUniversalController
         foreach ($this->app->path->dirs('root:' . $path) as $dir) {
             $files[] = array('name' => basename($dir), 'path' => $path . $dir, 'type' => 'folder');
         }
-        foreach ($this->app->path->files('root:' . $path, false, '/^.*(' . $this->_extensions . ')$/i') as $file) {
+        foreach ($this->app->path->files('root:' . $path, FALSE, '/^.*(' . $this->_extensions . ')$/i') as $file) {
             $files[] = array('name' => basename($file), 'path' => $path . $file, 'type' => 'file');
         }
 

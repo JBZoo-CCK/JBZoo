@@ -13,13 +13,16 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 if ($this->checkPosition('list')) : ?>
 
-    <div class="shipping-list">
+    <div class="jbzoo-left">
+
+        <h2>Доставка</h2>
+
         <?php echo $this->renderPosition('list', array('order.shipping')); ?>
+
     </div>
 
-<?php endif; ?>
+<?php endif;
 
 

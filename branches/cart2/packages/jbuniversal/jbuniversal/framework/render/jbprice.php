@@ -19,6 +19,10 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBPriceRenderer extends PositionRenderer
 {
+    protected $basic = NULL;
+
+    protected $variant = NULL;
+
     /**
      * @var JBCartElementHelper
      */
@@ -39,10 +43,15 @@ class JBPriceRenderer extends PositionRenderer
     protected $_jbprice;
 
     /**
+     * @var string
+     */
+    protected $_priceLayout;
+
+    /**
      * @param App  $app
      * @param null $path
      */
-    public function __construct($app, $path = null)
+    public function __construct($app, $path = NULL)
     {
         parent::__construct($app, $path);
 
@@ -58,20 +67,21 @@ class JBPriceRenderer extends PositionRenderer
      */
     public function checkPosition($position)
     {
-        foreach ($this->_getConfigPosition($position) as $key => $data) {
-            if ($element = $this->_jbprice->loadElement($data)) {
+        foreach ($this->getConfigPosition($position) as $key => $data) {
+
+            if ($element = $this->_jbprice->getParam($key, $this->variant)) {
 
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
                 $data['_index']    = $key;
 
                 if ($element->canAccess() && $element->hasValue($this->app->data->create($data))) {
-                    return true;
+                    return TRUE;
                 }
             }
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
@@ -82,7 +92,11 @@ class JBPriceRenderer extends PositionRenderer
      */
     public function render($layout, $args = array())
     {
-        $this->_jbprice = $args['price'];
+        $this->variant      = isset($args['_variant']) ? $args['_variant'] : NULL;
+        $this->_jbprice     = isset($args['price']) ? $args['price'] : NULL;
+        $this->_priceLayout = isset($args['_layout']) ? $args['_layout'] : NULL;
+
+        unset($args['_variant']);
         unset($args['price']);
 
         $result = '';
@@ -107,24 +121,31 @@ class JBPriceRenderer extends PositionRenderer
         $config = $this->_getConfig();
 
         if (!empty($config)) {
-            foreach ($config as $data) {
+            foreach ($config as $key => $data) {
 
-                if ($element = $this->_jbprice->loadElement($data['identifier'])) {
+                if ($element = $this->_jbprice->getParam($key, $this->variant)) {
 
-                    if ($style == ElementJBPriceAdvance::BASIC_GROUP && $element->getMetaData('core') != 'true') {
+                    if (is_null($this->variant) && $element->getMetaData('core') != 'true') {
                         continue;
                     }
 
-                    if ($this->_jbprice->config->get('price_mode', 0) == ElementJBPriceAdvance::PRICE_MODE_OVERLAY &&
-                        $element->getMetaData('core') == 'true' && $element->identifier != '_description'
+                    if ($this->_jbprice->config->get('mode', 0) == ElementJBPriceAdvance::PRICE_MODE_OVERLAY
+                        && $element->identifier != ElementJBPriceAdvance::PARAM_DESCRIPTION_IDENTIFIER
+                        && $element->getMetaData('core') == 'true'
+
                     ) {
                         continue;
                     }
 
                     if ($element->edit()) {
-                        $params          = array_merge($data, $args);
-                        $element->config = $this->app->data->create($params);
-                        $elements[]      = compact('element', 'params');
+
+                        $data['_price_layout'] = $this->_priceLayout;
+
+                        $data['_layout']   = $this->_layout;
+                        $data['_index']    = $key;
+                        $params = array_merge($data, $args);
+
+                        $elements[] = compact('element', 'params');
                     }
 
                 }
@@ -134,9 +155,11 @@ class JBPriceRenderer extends PositionRenderer
         if (!empty($elements)) {
 
             foreach ($elements as $i => $data) {
-                $params = array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1)), $data['params']);
+                $params =
+                    array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1)), $data['params']);
 
-                $output[$i] = parent::render('element.jbprice.' . $style, array('element' => $data['element'], 'params' => $params));
+                $output[$i] = parent::render('element.jbprice.' . $style,
+                    array('element' => $data['element'], 'params' => $params));
             }
         }
 
@@ -149,7 +172,7 @@ class JBPriceRenderer extends PositionRenderer
      *
      * @return string|void
      */
-    public function renderPosition($position = null, $args = array())
+    public function renderPosition($position = NULL, $args = array())
     {
         // init vars
         $elements = array();
@@ -161,13 +184,15 @@ class JBPriceRenderer extends PositionRenderer
         // store layout
         $layout = $this->_layout;
 
-        foreach ($this->_getConfigPosition($position) as $key => $data) {
+        foreach ($this->getConfigPosition($position) as $key => $data) {
 
-            if ($element = $this->_jbprice->loadElement($data)) {
+            if ($element = $this->_jbprice->getParam($key, $this->variant)) {
 
-                if (!$element->canAccess() && !$element->hasValue($data)) {
+                if (!$element->canAccess()) {
                     continue;
                 }
+
+                $data['_price_layout'] = $this->_priceLayout;
 
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
@@ -185,7 +210,8 @@ class JBPriceRenderer extends PositionRenderer
         foreach ($elements as $i => $data) {
             $params = array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1)), $data['params']);
 
-            $output[$i] = parent::render('element.' . $style, array('element' => $data['element'], 'params' => $params));
+            $output[$i] =
+                parent::render('element.' . $style, array('element' => $data['element'], 'params' => $params));
         }
 
         $this->_layout = $layout;
@@ -198,12 +224,12 @@ class JBPriceRenderer extends PositionRenderer
      *
      * @return mixed
      */
-    public function _getConfigPosition($position)
+    public function getConfigPosition($position)
     {
         $config   = $this->_getPositions();
         $position = $config->get($this->_jbprice->identifier . '.' . $this->_layout . '.' . $position);
 
-        return isset($position) ? $position : array();
+        return !empty($position) ? $position : array();
     }
 
     /**
@@ -211,9 +237,9 @@ class JBPriceRenderer extends PositionRenderer
      */
     protected function _getConfig()
     {
-        $priceparams = $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $this->_jbprice->identifier);
+        $params = $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $this->_jbprice->identifier);
 
-        return $priceparams->get(JBCart::DEFAULT_POSITION);
+        return $params->get(JBCart::DEFAULT_POSITION);
     }
 
     /**
