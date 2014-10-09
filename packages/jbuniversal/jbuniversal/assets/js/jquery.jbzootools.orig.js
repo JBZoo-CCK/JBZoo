@@ -1113,16 +1113,18 @@ var reCount = {
 
     $.fn.JBZooQuantity = function (settings) {
 
-        var options = $.extend({}, {
-            'default': 1,
-            'step'   : 1,
-            'min'    : 1,
-            'max'    : 9999999,
-            'scroll' : true
-        }, settings);
-
         return this.each(function () {
 
+            var options = $.extend({}, {
+                'default' : 1,
+                'step'    : 1,
+                'min'     : 1,
+                'max'     : 9999999,
+                'decimals': 0,
+                'scroll'  : true
+            }, settings);
+
+            options.decimals = parseInt(options.decimals, 10);
             var $this = $(this),
                 processing = false;
 
@@ -1134,11 +1136,12 @@ var reCount = {
 
             function refreshDigits(value) {
 
-                var max = parseInt(value) + (3 * options.step);
+                var max = validate(value) + parseFloat(3 * options.step);
+
                 for (var i = 0; i < 5; i++) {
                     max = max - options.step;
 
-                    digits.eq(i).html(validate(max));
+                    digits.eq(i).html(convert(max));
                 }
             }
 
@@ -1150,17 +1153,40 @@ var reCount = {
                 });
             }
 
-            function validate(value) {
+            function isValid(value) {
 
                 if (value < options.min) {
-                    value = null;
+                    return false;
                 }
 
                 if (value > options.max) {
-                    value = null;
+                    return false;
                 }
 
-                return value;
+                return !isNaN(value);
+            }
+
+            function validate(value) {
+
+                if (value < options.min) {
+                    value = options.min;
+                }
+
+                if (value > options.max) {
+                    value = options.max;
+                }
+
+                if (isNaN(value)) {
+                    value = options.min;
+                }
+
+                return parseFloat(value);
+            }
+
+            function convert(value) {
+
+                value = validate(value);
+                return value.toFixed(options.decimals);
             }
 
             function scrollError(e, value) {
@@ -1200,13 +1226,12 @@ var reCount = {
                 e.preventDefault();
                 e.stopPropagation();
 
-                value = parseInt(value);
-
-                var old = parseInt($this.val(), 10),
+                var old = validate($this.val()),
                     val = old + value,
                     i = value > 0 ? 1 : -1;
 
-                if (!validate(val)) {
+
+                if (!isValid(val)) {
                     scrollError(e, value);
                     return;
                 }
@@ -1217,7 +1242,7 @@ var reCount = {
                 $this.blur();
                 $this.refresh();
 
-                $this.trigger('change').val(val);
+                $this.trigger('change').val(convert(val));
                 box
                     .stop()
                     .animate({
@@ -1277,12 +1302,7 @@ var reCount = {
 
                 $this.on('change', function () {
 
-                    var value = parseInt($.trim($this.val()));
-
-                    value = (isNaN(value) || value < options.min) ? options.min : value;
-                    value = (isNaN(value) || value > options.max) ? options.max : value;
-
-                    $this.val(value);
+                    $this.val(convert($this.val()));
                     $this.refresh();
                 });
 
@@ -1329,7 +1349,7 @@ var reCount = {
                     e.preventDefault(e);
                     if ($this.is(':focus')) {
 
-                        var value = parseInt($this.val(), 10);
+                        var value = validate($this.val());
 
                         if (e.originalEvent.wheelDelta > 0) {
 
@@ -1351,7 +1371,7 @@ var reCount = {
 
                             $this.fadeIn(10, function () {
 
-                                $this.val(validate(value));
+                                $this.val(convert(value));
                                 $this.refresh();
                             });
                         });
@@ -1366,7 +1386,6 @@ var reCount = {
             };
 
             $this.add = function (e) {
-
                 scroll(e, options.step);
             };
 
@@ -1384,7 +1403,7 @@ var reCount = {
                 plus = $('.jsAddQuantity', table),
                 minus = $('.jsRemoveQuantity', table);
 
-
+            $this.val(convert($this.val()));
             $this.refresh();
             $this.bindEvents();
         });
@@ -3273,8 +3292,10 @@ var reCount = {
             var quantity = $('.jbprice-quantity', $obj);
 
             $('.jsCount', $obj).JBZooQuantity({
-                "multiple": quantity.data('multiple'),
-                "step"    : quantity.data('multiple'),
+                "step"    : parseFloat(quantity.data('step')),
+                "default" : parseFloat(quantity.data('default')),
+                "decimals": parseFloat(quantity.data('decimals')),
+                "min"     : parseFloat(quantity.data('min')),
                 "scroll"  : true
             });
             // currency list
