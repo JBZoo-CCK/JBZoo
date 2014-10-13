@@ -545,7 +545,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             $params = $this->getCoreParamConfig(self::PARAM_IMAGE_IDENTIFIER);
         }
 
-        if(!$params) {
+        if (!$params) {
             $params = $this->app->data->create($params);
         }
 
@@ -1509,10 +1509,11 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             $item = $this->calcVariant($variant);
         }
 
-        if ($this->inStock($variant, $quantity)) {
+        $key = $this->getKey($variant);
+        if ($this->inStock($key, $quantity)) {
 
             $params = array(
-                'key' => $this->getKey($variant)
+                'key' => $key
             );
 
             $item['priceParams'] = $this->getParamsNames($values);
@@ -1664,38 +1665,45 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     /**
      * Is in stock item
      *
-     * @param $variant
+     * @param $key
      * @param $quantity
      *
      * @return bool
      */
-    public function inStock($variant, $quantity)
+    public function inStock($key, $quantity)
     {
-        if (is_array($variant)) {
-            $variant = $this->getReadableData($variant);
-            $value   = $variant->find('_balance.value');
+        $cart  = JBCart::getInstance();
+        $items = $cart->getItems(FALSE);
+        $keys  = explode('_', $key);
+
+        $no = NULL;
+        if (count($keys) === 3) {
+            list(, $no,) = $keys;
         }
 
-        if (!empty($variant)) {
+        if (!$data = $this->getVariations($no)) {
+            $data = $this->getBasicData();
+        }
 
-            if (!isset($value)) {
+        $data  = $this->getReadableData($data);
+        $value = $data->find('_balance.value');
 
+        $quantity += (float)$items->find($key . '.quantity');
+
+        if (!empty($data)) {
+
+            if (isset($value) && $value == 0) {
+                return FALSE;
+
+            } else if ($value == -1 || $value >= $quantity) {
                 return TRUE;
 
-            } elseif ($value == -1) {
-
-                return TRUE;
-
-            } elseif ($value >= $quantity) {
-
+            } else if (!isset($value)) {
                 return TRUE;
 
             } else {
-
                 return FALSE;
-
             }
-
         }
 
         return FALSE;

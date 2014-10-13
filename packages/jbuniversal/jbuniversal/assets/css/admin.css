@@ -563,8 +563,9 @@ a.jbajaxlink:hover {
 
 .jbmove {
     cursor    : move;
-    min-width : 85px;
+    min-width : 75px;
     display   : inline-block;
+    overflow  : hidden;
 }
 
 .jbedit {
@@ -687,6 +688,8 @@ a.jbajaxlink:hover {
 
 .creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variant-param .attention.error {
     background : url('../img/icon/attention_red.png') no-repeat;
+    width: 20px;
+    height: 20px;
 }
 
 .creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variant-param .attention {
@@ -698,15 +701,13 @@ a.jbajaxlink:hover {
 }
 
 .creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .attention {
-    top      : 0;
-    position : absolute;
-    width    : 20px;
-    height   : 20px;
-    left     : 85px;
+    display : inline-block;
 }
 
 .creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .attention.error {
     background : url('../img/icon/attention_red.png') no-repeat;
+    width   : 20px;
+    height  : 20px;
 }
 
 .creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variant-param .field {
@@ -726,17 +727,23 @@ a.jbajaxlink:hover {
 }
 
 .creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .options {
-    font-size     : 11px;
-    font-style    : italic;
-    color         : #B7B2B2;
-    text-overflow : ellipsis;
-    white-space   : nowrap;
-    position      : absolute;
-    font-weight   : bold;
-    cursor        : help;
-    width         : 250px;
-    top           : 2px;
-    left          : 120px;
+    font-size: 11px;
+    font-style: italic;
+    color: #B7B2B2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: bold;
+    cursor: help;
+    width: 250px;
+    display: inline-block;
+}
+
+.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .options .variant-price {
+    display: inline-block;
+    overflow: hidden;
+    font-size: 12px;
+    margin-right: 8px;
+    color: #900;
 }
 
 .creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .description {

@@ -34,6 +34,7 @@
         <param name="layout_email"
                type="jblayout"
                default=""
+               auto="false"
                label="JBZOO_NOTIFICATION_SENDEMAIL_LAYOUY_LIST"
                description="JBZOO_NOTIFICATION_SENDEMAIL_LAYOUY_LIST_DESC" />
 

@@ -28,8 +28,8 @@ $width = array(
 
 <div class="jbprice-properties">
     <?php
-    echo $jbHTML->text($this->getControlName('height'), $value->get('height'), $jbHTML->buildAttrs($height));
-    echo $jbHTML->text($this->getControlName('length'), $value->get('length'), $jbHTML->buildAttrs($length));
-    echo $jbHTML->text($this->getControlName('width'), $value->get('width'), $jbHTML->buildAttrs($width));
+    echo $jbHTML->text($this->getControlName('height'), $this->getValue('height'), $jbHTML->buildAttrs($height));
+    echo $jbHTML->text($this->getControlName('length'), $this->getValue('length'), $jbHTML->buildAttrs($length));
+    echo $jbHTML->text($this->getControlName('width'), $this->getValue('width'), $jbHTML->buildAttrs($width));
     ?>
 </div>

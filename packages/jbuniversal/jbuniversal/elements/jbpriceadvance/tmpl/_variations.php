@@ -29,13 +29,13 @@ foreach ($variations as $rowKey => $row) :
         <a href="javascript:void(0);" class="jsJBMove jbmove">
             <?php echo JText::_('JBZOO_JBPRICE_VARIATION_ROW'); ?>
             #<span class="list-num"><?php echo $rowKey + 1; ?></span>
-            <span class="attention jsAttention"></span>
         </a>
 
         <div class="options">
-            <div class="overflow">
+            <span class="attention jsAttention"></span>
+            <span class="variant-price jsVariantPrice"></span>
 
-            </div>
+            <div class="overflow"></div>
         </div>
         <div class="default_variant">
             <?php $data = array($rowKey => JText::_('JBZOO_JBPRICE_DEFAULT_VARIANT')); ?>
@@ -47,12 +47,12 @@ foreach ($variations as $rowKey => $row) :
     </div>
 
     <div class="jbprice-params">
-    <div class="variant-value-wrap variant-param">
+    <div class="variant-value-wrap core-param variant-param">
         <strong class="hasTip row-field label"
                 title="<?php echo JText::_('JBZOO_JBPRICE_VARIATION_VALUE_DESC'); ?>">
             <?php echo JText::_('JBZOO_JBPRICE_VARIATION_VALUE'); ?>
         </strong>
-        <span class="attention jsJBpriceAttention"></span>
+        <span class="attention jsJBPriceAttention"></span>
 
         <div class="field">
             <?php
@@ -64,28 +64,29 @@ foreach ($variations as $rowKey => $row) :
                     'size'        => '10',
                     'maxlength'   => '255',
                     'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_VALUE'),
-                    'id'          => $id . '-basic-value',
-                    'class'       => 'basic-value',
+                    'id'          => $id . '-variant-value',
+                    'class'       => 'variant-value',
                 ));
 
             if (count($currencyList) == 1) {
                 reset($currencyList);
                 $currency = current($currencyList);
                 echo $currency, $html->hidden($this->getRowControlName('_currency', 'value'), $currency,
-                    'class="basic-currency"');
+                    'class="variant-currency"');
             } else {
                 echo $html->select($currencyList, $this->getRowControlName('_currency', 'value'),
-                    'class="basic-currency" style="width: auto;"', $rowCurrency);
+                    'class="variant-currency" style="width: auto;"', $rowCurrency);
             }
             ?>
         </div>
     </div>
-    <div class="variant-sku-wrap variant-param">
+
+    <div class="variant-sku-wrap core-param variant-param">
         <strong class="hasTip row-field label"
                 title="<?php echo JText::_('JBZOO_JBPRICE_VARIATION_SKU_DESC'); ?>">
             <?php echo JText::_('JBZOO_JBPRICE_VARIATION_SKU'); ?>
         </strong>
-        <span class="attention jsJBpriceAttention"></span>
+        <span class="attention jsJBPriceAttention"></span>
 
         <div class="field">
             <?php

@@ -13,16 +13,21 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if ($this->checkPosition('list')) : ?>
+if (!empty($view->shippingFields)) : ?>
 
-    <div class="jbzoo-left shipping-default">
+    <!--
+        You can not delete the class!
+        This base class is used in conjunction with js.
+        If you want to change the layout, be sure to use this class.
+    -->
+    <div class="shippingfileds-list">
 
-        <h2>Доставка</h2>
-
-        <?php echo $this->renderPosition('list', array('order.shipping')); ?>
+        <?php echo $view->shippingFieldRenderer->render(
+            'shippingfield.default', array(
+                'order' => $view->order
+            )
+        ); ?>
 
     </div>
 
 <?php endif;
-
-

@@ -161,7 +161,6 @@ abstract class JBCartElementPrice extends JBCartElement
         $data    = array();
 
         if (!empty($allData)) {
-            $data[''] = 'Chose your variant';
 
             foreach ($allData as $name) {
                 if (empty($name['value'])) {
@@ -172,6 +171,12 @@ abstract class JBCartElementPrice extends JBCartElement
                 $name  = isset($options[$value]) ? $options[$value] : $value;
 
                 $data[$value] = $name;
+            }
+
+            if (!empty($data)) {
+                $data = array_merge(array(
+                    '' => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - '
+                ), $data);
             }
         }
 
@@ -235,25 +240,15 @@ abstract class JBCartElementPrice extends JBCartElement
         $jbMoney = $this->app->jbmoney;
 
         $currencyDefault = $jbPrice->config->get('currency_default', 'EUR');
-        $basicCurrency   = $jbPrice->getParam('_currency')->data()['value'];
+        $basicCurrency   = $this->getParamData('_currency');
 
-        $data = array(
-            'currency' => $currencyDefault,
-            'value'    => 0
-        );
-        if ($discount = $jbPrice->getParam('_discount')) {
-            $data = $discount->data();
-        }
-
-        $discountCurrency = $data['currency'];
-        $discountValue    = $data['value'];
-
-        $value = $jbPrice->getParam('_value')->data()['value'];
+        $data  = $this->getParamData('_discount');
+        $value = $this->getParamData('_value')->get('value', 0);
 
         $priceNoFormat = $jbMoney->convert($basicCurrency, $currencyDefault, $value);
         $price         = $jbMoney->toFormat($priceNoFormat, $basicCurrency);
 
-        $totalNoFormat = $jbMoney->calcDiscount($value, $basicCurrency, $discountValue, $discountCurrency);
+        $totalNoFormat = $jbMoney->calcDiscount($value, $basicCurrency, $data->get('value', 0), $data->get('currency'));
         $total         = $jbMoney->toFormat($totalNoFormat, $basicCurrency);
 
         $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
@@ -291,8 +286,9 @@ abstract class JBCartElementPrice extends JBCartElement
     public function getParamData($identifier)
     {
         $param = $this->getPriceParam($identifier);
+        $param = !empty($param) ? $param->data() : $this->app->data->create($param);
 
-        return !empty($param) ? $param->data() : $param;
+        return $param;
     }
 
     /**
@@ -322,30 +318,6 @@ abstract class JBCartElementPrice extends JBCartElement
     public function getBasicData()
     {
         return $this->getJBPrice()->getBasicReadableData();
-    }
-
-    /**
-     * @return null
-     */
-    protected function renderFieldByType()
-    {
-        $values = $this->_renderOptions();
-        $option = array();
-
-        if (!empty($values)) {
-            $type = $this->getElementType();
-            $attr = $this->_jbhtml->buildAttrs(array(
-                'class' => 'jsParam'
-            ));
-
-            foreach ($values as $options) {
-                $option[] = $this->app->html->_('select.option', $options['value'], $options['name']);
-            }
-
-            return $this->_jbhtml->$type($option, $this->getControlName('value'), $attr, $attr);
-        }
-
-        return NULL;
     }
 
     /**
@@ -429,7 +401,7 @@ abstract class JBCartElementPrice extends JBCartElement
         if (!empty($options)) {
             $options = explode("\n", $options);
 
-            $result[''] = JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT');
+            $result[''] = ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - ';
 
             foreach ($options as $value) {
 
