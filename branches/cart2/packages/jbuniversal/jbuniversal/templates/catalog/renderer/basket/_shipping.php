@@ -15,14 +15,18 @@ defined('_JEXEC') or die('Restricted access');
 
 if (!empty($view->shipping))  : ?>
 
+    <!--
+        You can not delete the class!
+        This base class is used in conjunction with js.
+        If you want to change the layout, be sure to use this class.
+    -->
     <div class="shipping-list">
-
         <?php echo $view->shippingRenderer->render(
             'shipping.default', array(
                 'order' => $view->order
             )
         );?>
-
     </div>
+
 <?php endif;
 

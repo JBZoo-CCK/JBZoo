@@ -14,24 +14,11 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 
-    <div class="jbzoo-basket-fields">
+<div class="jbzoo-basket-fields">
 
-        <?php echo $view->formRenderer->render('basketform.default', array(
-            'order' => $view->order,
-        )); ?>
+    <?php echo $view->formRenderer->render('basketform.default', array(
+        'order' => $view->order,
+    )); ?>
 
-    </div>
+</div>
 
-<?php if (!empty($view->shippingFields)) : ?>
-
-    <div class="shippingfileds-list">
-
-        <?php echo $view->shippingFieldRenderer->render(
-            'shippingfield.default', array(
-                'order' => $view->order
-            )
-        ); ?>
-
-    </div>
-
-<?php endif;

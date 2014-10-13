@@ -20,14 +20,16 @@ $this->app->jbassets->initJBPrice();
 $actionUrl = $this->app->jbrouter->cartOrderCreate($view->application->id, null);
 ?>
 
-<form action="<?php echo $actionUrl; ?>" method="post" name="jbcartForm" accept-charset="utf-8"
+<form action="<?php echo $actionUrl; ?>" method="post" name="jbcartForm" class="jbzoo-app-basket" accept-charset="utf-8"
       enctype="multipart/form-data">
 
     <?php echo $this->partial('basket', 'table');
 
+    echo $this->partial('basket', 'form');
+
     echo $this->partial('basket', 'shipping');
 
-    echo $this->partial('basket', 'form');
+    echo $this->partial('basket', 'shippingfield');
 
     echo $this->partial('basket', 'payment'); ?>
 

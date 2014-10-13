@@ -15,13 +15,14 @@ defined('_JEXEC') or die('Restricted access');
 
 if ($this->checkPosition('list')) : ?>
 
-    <div class="jbzoo-right">
+    <div class="jbzoo-right shippingfield-default">
 
-        <h2>Дополнительные поля доставки</h2>
+        <h2>Адрес доставки</h2>
 
         <?php echo $this->renderPosition('list', array('order.shippingfield')); ?>
-        
+
     </div>
+
 <?php endif;
 
 

@@ -974,7 +974,6 @@ var reCount = {
 
             // recount basket
             var recount = function (data) {
-
                 for (var key in data.items) {
 
                     var subTotal = data.items[key],
@@ -993,7 +992,6 @@ var reCount = {
                     decimals: 0
                 });
                 $(total).reCount(data.total);
-
 
                 shipping.recount();
             };
@@ -1018,6 +1016,7 @@ var reCount = {
                                 window.location.reload();
                             }
                         });
+
                         recount(data);
                         $.fn.JBZooPriceReloadBasket();
                         removeLoading();
@@ -1034,7 +1033,7 @@ var reCount = {
             });
 
             // remove all
-            $('.jsDeleteAll', $obj).click(function () {
+            $('.jsDeleteAll', $obj.parents('.jbzoo')).click(function () {
 
                 if (confirm(options.clearConfirm)) {
                     JBZoo.ajax({
@@ -1067,6 +1066,7 @@ var reCount = {
                                 'key'  : key
                             },
                             'success': function (data) {
+
                                 recount(data);
                                 $.fn.JBZooPriceReloadBasket();
                             },
@@ -1115,16 +1115,37 @@ var reCount = {
 
         return this.each(function () {
 
-            var options = $.extend({}, {
+            var basic = {
                 'default' : 1,
                 'step'    : 1,
                 'min'     : 1,
                 'max'     : 9999999,
                 'decimals': 0,
                 'scroll'  : true
-            }, settings);
+            }, options = setOptions(settings);
 
-            options.decimals = parseInt(options.decimals, 10);
+            function setOptions(settings) {
+
+                if (typeof settings != 'undefined') {
+
+                    if (typeof settings.decimals != 'undefined') {
+                        settings.decimals = parseInt(settings.decimals, 10);
+                    }
+
+                    if (typeof settings.min == 'undefined' && typeof settings.default != 'undefined') {
+                        settings.min = settings.default;
+                    }
+
+                    if (typeof settings.step == 'undefined' || settings.step <= 0) {
+                        settings.step = basic.step;
+                    }
+
+                    return $.extend({}, basic, settings);
+                }
+
+                return basic;
+            }
+
             var $this = $(this),
                 processing = false;
 
@@ -1186,6 +1207,7 @@ var reCount = {
             function convert(value) {
 
                 value = validate(value);
+
                 return value.toFixed(options.decimals);
             }
 
@@ -1229,7 +1251,6 @@ var reCount = {
                 var old = validate($this.val()),
                     val = old + value,
                     i = value > 0 ? 1 : -1;
-
 
                 if (!isValid(val)) {
                     scrollError(e, value);
@@ -1379,6 +1400,19 @@ var reCount = {
                 });
             };
 
+            $this.setDefault = function () {
+
+                if ($this.val().length === 0) {
+
+                    $this.val(convert(options.default));
+
+                } else if ($this.val().length > 0) {
+
+                    $this.val(convert($this.val()));
+
+                }
+            };
+
             $this.refresh = function () {
 
                 refreshDigits($this.val());
@@ -1386,6 +1420,7 @@ var reCount = {
             };
 
             $this.add = function (e) {
+
                 scroll(e, options.step);
             };
 
@@ -1403,7 +1438,7 @@ var reCount = {
                 plus = $('.jsAddQuantity', table),
                 minus = $('.jsRemoveQuantity', table);
 
-            $this.val(convert($this.val()));
+            $this.setDefault();
             $this.refresh();
             $this.bindEvents();
         });
@@ -1701,7 +1736,7 @@ var reCount = {
 
                         var $jbpriceParams = $('.jbprice-params', $row),
                             $paramByIndex = $jbpriceParams.children().eq(data[j].repeat[p].elem_index),
-                            $attention = $('.jsJBpriceAttention', $paramByIndex);
+                            $attention = $('.jsJBPriceAttention', $paramByIndex);
 
                         $attention.addClass('error');
                         $this.addTooltipMessage($attention);
@@ -1900,7 +1935,7 @@ var reCount = {
                     }
 
                     var $param = $('.jbprice-params', $row).children().eq(data[j].index),
-                        $attentionOverlay = $('.jsJBpriceAttention', $param);
+                        $attentionOverlay = $('.jsJBPriceAttention', $param);
 
                     $attentionOverlay.addClass('error');
                     $this.addTooltipMessage($attentionOverlay);
@@ -2001,9 +2036,9 @@ var reCount = {
                 $('.simple-param', $row).each(function () {
 
                     var $param = $(this);
-                    $('.jsJBpriceAttention', $param).removeClass('error');
-                    $('.jsJBpriceAttention', $param).removeClass('disabled');
-                    $('.jsJBpriceAttention', $param).tooltip('destroy');
+                    $('.jsJBPriceAttention', $param).removeClass('error');
+                    $('.jsJBPriceAttention', $param).removeClass('disabled');
+                    $('.jsJBPriceAttention', $param).tooltip('destroy');
                 });
             });
         };
@@ -2012,10 +2047,12 @@ var reCount = {
 
             $param.removeClass('disabled');
             $param.addClass('active');
-            $('.jsJBpriceAttention', $param).removeClass('disabled');
-            $('.jsJBpriceAttention', $param).tooltip('destroy');
+            $('.jsJBPriceAttention', $param).removeClass('disabled');
+            $('.jsJBPriceAttention', $param).tooltip('destroy');
 
-            $('input, select', $param).removeAttr('disabled');
+            $('input, select', $param)
+                .removeAttr('disabled')
+                .removeAttr('readonly');
         };
 
         validator.disableParam = function ($param) {
@@ -2023,10 +2060,10 @@ var reCount = {
             $param.removeClass('active');
             $param.addClass('disabled');
 
-            $('.jsJBpriceAttention', $param).addClass('disabled');
-            validator.addTooltipMessage($('.jsJBpriceAttention', $param));
+            $('.jsJBPriceAttention', $param).addClass('disabled');
+            validator.addTooltipMessage($('.jsJBPriceAttention', $param));
 
-            $('input, select', $param).attr('disabled', 'true');
+            $('input, select', $param).attr({'disabled': 'true', 'readonly': 'true'});
         };
 
         validator.activateParams = function ($row) {
@@ -2050,13 +2087,13 @@ var reCount = {
                 $attention.tooltip();
                 $attention.effect('pulsate');
             } else if ($attention.hasClass('disabled')) {
-                $attention.attr('title', 'In this mode you can choose only one variant');
+                $attention.attr('title', 'In this mode you can choose only one parameter');
                 $attention.tooltip();
             }
         };
 
         validator.addTooltipEmptyMessage = function ($attention) {
-            $attention.attr('title', 'In this variant parameters are empty');
+            $attention.attr('title', 'No parameters selected');
             $attention.tooltip();
         };
 
@@ -2065,7 +2102,10 @@ var reCount = {
             $('.jbpriceadv-variation-row', validator).each(function () {
 
                 var $row = $(this),
-                    $options = $('.variation-label .options .overflow', $row);
+                    $options = $('.variation-label .options', $row),
+                    $overflow = $('.overflow', $options),
+                    $price = $('.jsVariantPrice', $options),
+                    core = [];
 
                 var description = $('.core-param .description', $row),
                     label = $('.variation-label', $row);
@@ -2074,13 +2114,76 @@ var reCount = {
                     $('.description', label).html(description.val());
                 }
 
-                $('.variation-label .options .overflow', $row).html('');
+                var value = $('.variant-value', $row).val(),
+                    currency = $('.variant-currency', $row).val();
+
+                $overflow.html('');
+
+                $price.html(value + " " + currency.toUpperCase());
+
+                var c = 0;
+                $('.core-param', $row).each(function () {
+
+                    var $param = $(this),
+                        $field = $('input, select', $param),
+                        type = $field.attr('type'),
+                        label = $('.label', $param),
+                        value = $.trim($field.val()),
+                        params = [];
+
+                    var key = $.trim(label.text());
+                    if ($field.length > 1 && value.length > 0) {
+
+                        var i = 0;
+                        $('input, select', $param).each(function () {
+
+                            var field = $(this),
+                                val = $.trim(field.val()),
+                                type = field.attr('type');
+
+                            if (type == 'radio' && field.is(':checked') && val.length > 0 ||
+                                type != 'radio' && val.length > 0
+                                ) {
+
+                                params['key'] = key;
+                                params[i] = val;
+                                i++;
+                            }
+
+                        });
+
+                        if (params.length > 0) {
+                            core.push(params);
+                            c++;
+                        }
+                    } else if (value.length > 0 && $field.length === 1) {
+
+                        core[c] = key + ': ' + value;
+                        c++;
+                    }
+                });
+
+                var price = core.shift();
+
+                for (var p = 0; p < core.length; p++) {
+
+                    if (typeof core[p] == 'object') {
+
+                        var key = core[p]['key'],
+                            test = core[p].join(" ");
+
+                        core[p] = key + ': ' + test;
+                    }
+                }
+
+                $price.attr('title', core.join("<br/>"));
+                $price.tooltip();
 
                 $('.simple-param', $row).each(function (i) {
 
                     var $param = $(this),
                         data = {},
-                        $field = $('input, select', $param),
+                        $field = $('input, select, textarea', $param),
                         type = $field.attr('type'),
                         label = $('.label', $param);
 
@@ -2115,7 +2218,7 @@ var reCount = {
 
                     if (typeof data[i] != 'undefined') {
 
-                        $options.append(
+                        $overflow.append(
                             '<div class="option">' +
                                 '<span title=\"' + data[i].key + '\" class="key">' + data[i].value + '</span></div>');
                     }
@@ -2959,6 +3062,7 @@ var reCount = {
 
             if ($('.jsCurrencyList', $obj).length !== 0) {
                 currency = $('.jsCurrencyList', $obj).data('default');
+
             }
 
             function getPrices(newCurrency) {
@@ -3018,10 +3122,8 @@ var reCount = {
 
                 var hash = getCurrentHash();
                 newCurrency = newCurrency.toLowerCase();
-                var values = '',
+                var values = prices[options.mainHash][newCurrency],
                     description = '';
-
-                values = prices[options.mainHash][newCurrency];
 
                 //TODO optimize code
                 if (typeof prices[hash] != 'undefined') {
@@ -3040,7 +3142,7 @@ var reCount = {
                     }
 
                 }
-
+                console.log(values);
                 if (typeof values != 'undefined') {
 
                     $('.not-paid-box', $obj).show();

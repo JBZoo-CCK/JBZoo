@@ -14,12 +14,12 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 
-<div class="jbzoo-basket-payment jbzoo-left">
-    <h2>Оплата</h2>
-    <?php if (!empty($view->payment)) {
+<div class="jbzoo-basket-payment">
 
+    <?php if (!empty($view->payment)) {
         echo $view->paymentRenderer->render('payment.default', array(
             'order' => $view->order
         ));
     } ?>
+
 </div>

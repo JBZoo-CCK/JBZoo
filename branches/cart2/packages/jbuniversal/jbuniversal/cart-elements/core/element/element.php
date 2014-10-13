@@ -82,7 +82,8 @@ abstract class JBCartElement
 
     /**
      * Constructor
-     * @param App $app
+     *
+     * @param App    $app
      * @param string $type
      * @param string $group
      */
@@ -107,6 +108,7 @@ abstract class JBCartElement
 
     /**
      * Set new config data
+     *
      * @param $config
      */
     public function setConfig($config)
@@ -134,7 +136,9 @@ abstract class JBCartElement
 
     /**
      * Set data through data array.
+     *
      * @param array $data
+     *
      * @return $this
      */
     public function bindData($data = array())
@@ -148,8 +152,10 @@ abstract class JBCartElement
 
     /**
      * Gets the elements data
-     * @param $key
+     *
+     * @param      $key
      * @param null $default
+     *
      * @return mixed
      */
     public function get($key, $default = null)
@@ -159,8 +165,10 @@ abstract class JBCartElement
 
     /**
      * Sets the elements data.
+     *
      * @param $key
      * @param $value
+     *
      * @return $this
      */
     public function set($key, $value)
@@ -180,7 +188,9 @@ abstract class JBCartElement
 
     /**
      * Get element layout path and use override if exists
+     *
      * @param null $layout
+     *
      * @return string
      */
     public function getLayout($layout = null)
@@ -235,6 +245,7 @@ abstract class JBCartElement
 
     /**
      * Set related item object
+     *
      * @param JBCartOrder $order
      */
     public function setOrder(JBCartOrder $order)
@@ -244,7 +255,9 @@ abstract class JBCartElement
 
     /**
      * Set related type object
+     *
      * @param array $params
+     *
      * @return bool
      */
     public function hasValue($params = array())
@@ -255,7 +268,9 @@ abstract class JBCartElement
 
     /**
      * Renders the element
+     *
      * @param array $params
+     *
      * @return mixed|string
      */
     public function render($params = array())
@@ -270,8 +285,10 @@ abstract class JBCartElement
 
     /**
      * Renders the element using template layout file
-     * @param $__layout layouts template file
-     * @param array $__args layouts template file args
+     *
+     * @param       $__layout layouts template file
+     * @param array $__args   layouts template file args
+     *
      * @return string
      */
     protected function renderLayout($__layout, $__args = array())
@@ -313,6 +330,7 @@ abstract class JBCartElement
 
     /**
      * Register a callback function
+     *
      * @param $method
      */
     public function registerCallback($method)
@@ -324,7 +342,8 @@ abstract class JBCartElement
 
     /**
      * Execute elements callback function
-     * @param $method
+     *
+     * @param       $method
      * @param array $args
      */
     public function callback($method, $args = array())
@@ -344,11 +363,11 @@ abstract class JBCartElement
 
     /**
      * Get parameter form object to render input form
-     * @return AppParameterForm
-     */
-    /**
+     *
      * @param string $groupData
-     * @return null
+     *
+     *
+     * @return AppParameterForm
      */
     public function getConfigForm($groupData = self::DEFAULT_GROUP)
     {
@@ -414,7 +433,9 @@ abstract class JBCartElement
 
     /**
      * Get elements xml meta data
+     *
      * @param null $key
+     *
      * @return bool
      */
     public function getMetaData($key = null)
@@ -469,8 +490,10 @@ abstract class JBCartElement
 
     /**
      * Gets the controle name for given name
-     * @param $name
+     *
+     * @param      $name
      * @param bool $array
+     *
      * @return string
      */
     public function getControlName($name, $array = false)
@@ -480,7 +503,9 @@ abstract class JBCartElement
 
     /**
      * Check if element is accessible with users access rights
+     *
      * @param null $user
+     *
      * @return mixed
      */
     public function canAccess($user = null)
@@ -541,7 +566,9 @@ abstract class JBCartElement
 
     /**
      * Renders the element in submission
+     *
      * @param array $params
+     *
      * @return string
      */
     public function renderSubmission($params = array())
@@ -551,8 +578,10 @@ abstract class JBCartElement
 
     /**
      * Validates the submitted element
+     *
      * @param $value
      * @param $params
+     *
      * @return array
      */
     public function validateSubmission($value, $params)

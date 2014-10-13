@@ -46,15 +46,15 @@ class JBCartElementPriceValue extends JBCartElementPrice
         $currencyParams  = $this->getRenderParams('_currency');
         $defaultCurrency = $currencyParams->get('default_currency');
 
-        $value    = !empty($discount) ? (float)$discount['value'] : 0;
-        $currency = !empty($discount) ? $discount['currency'] : $defaultCurrency;
+        $value    = $discount->get('value', 0);
+        $currency = $discount->get('currency', $defaultCurrency);
 
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'params'   => $params,
                 'base'     => $prices,
                 'discount' => array(
-                    'value'  => $value,
+                    'value'  => $discount->get('value', 0),
                     'format' => $this->app->jbmoney->toFormat($value, $currency),
                 )
             ));

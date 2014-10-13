@@ -198,13 +198,15 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 
     /**
      * City location of the store
+     *
      * @return string
      */
     protected function _getDefaultCity()
     {
-        //$city = $this->_cartConfig->get('city');
+        $city = parent::_getDefaultCity();
+        $city = $this->convertCity($city);
 
-        return JString::strtolower('city--belgorod');
+        return $city;
     }
 
     /**

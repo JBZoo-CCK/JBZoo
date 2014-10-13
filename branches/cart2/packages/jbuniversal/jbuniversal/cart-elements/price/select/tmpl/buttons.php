@@ -13,7 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$unique = $this->app->jbstring->getId();
+$unique = $this->app->jbstring->getId('radio-');
 $attributes = array(
     'data-identifier' => $this->identifier
 );
@@ -21,8 +21,8 @@ $attributes = array(
 if (count($data)) : ?>
 
     <div class="jbprice-param-radio jbprice-param-list jbpriceParams" data-type="radio">
-        <?php echo $this->app->jbhtml->buttonsJqueryUI($data, $this->getControlName('value'), $attributes,
-            $this->getBasic($this->identifier), $unique); ?>
+        <?php echo $this->app->jbhtml->buttonsJqueryUI($data, $this->getRenderName('value'), $attributes,
+            $this->getValue('value'), $unique); ?>
     </div>
 
 <?php endif;

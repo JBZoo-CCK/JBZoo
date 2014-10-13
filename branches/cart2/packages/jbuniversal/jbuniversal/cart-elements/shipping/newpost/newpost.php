@@ -228,10 +228,10 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
         $params = array(
             'sendercity'      => $this->_getDefaultCity(),
             'recipientcity'   => '',
-            'mass'            => $this->getBasketWeight(),
-            'height'          => $prop['height'],
-            'width'           => $prop['width'],
-            'depth'           => $prop['length'],
+            'mass'            => (float)$this->getBasketWeight(),
+            'height'          => (float)$prop['height'],
+            'width'           => (float)$prop['width'],
+            'depth'           => (float)$prop['length'],
             'publicprice'     => 0,
             'deliverytype_id' => '',
             'date'            => date('Y-m-d H:i:s'),
@@ -377,18 +377,8 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
         $price  = $this->_getPrice($params);
 
         $this->app->jbajax->send(array(
-            'price'  => $this->_jbmoney->toFormat($price),
-            'weight' => $this->getBasketWeight()
+            'price'  => $this->_jbmoney->toFormat($price)
         ));
-    }
-
-    /**
-     * City location of the store
-     * @return string
-     */
-    protected function _getDefaultCity()
-    {
-        return 'Киев';
     }
 
     /**

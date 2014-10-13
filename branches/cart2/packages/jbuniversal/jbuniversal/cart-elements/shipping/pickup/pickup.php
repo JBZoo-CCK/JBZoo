@@ -25,7 +25,7 @@ class JBCartElementShippingPickup extends JBCartElementShipping
      */
     public function hasValue($params = array())
     {
-        return true;
+        return TRUE;
     }
 
     /**
@@ -46,7 +46,7 @@ class JBCartElementShippingPickup extends JBCartElementShipping
             ));
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
@@ -69,7 +69,7 @@ class JBCartElementShippingPickup extends JBCartElementShipping
      */
     public function getAddress()
     {
-        $addresses = $this->config->get('addresses', null);
+        $addresses = $this->config->get('addresses', NULL);
         if (!empty($addresses)) {
             $address   = explode("\n", $addresses);
             $addresses = implode('<br/>', $address);

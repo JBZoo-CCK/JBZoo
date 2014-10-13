@@ -200,28 +200,17 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * Get the properties of all items in basket.
+     * Get the properties(width, height, length) of all items in basket.
      *
      * @return array
      */
     public function getBasketProperties()
     {
-        $prop  = array();
-        $items = $this->getBasketItems();
+        $cart = JBcart::getInstance();
 
-        foreach ($items as $item) {
-            if (!empty($item['params'])) {
+        $properties = $cart->getProperties();
 
-                $prop['height'] = $prop['width'] = $prop['length'] = 0;
-
-                $params = $this->app->data->create($item['params']);
-                $prop['height'] += $params->get('height', 1);
-                $prop['width'] += $params->get('width', 1);
-                $prop['length'] += $params->get('length', 1);
-            }
-        }
-
-        return $prop;
+        return $properties;
     }
 
     /**
@@ -389,9 +378,10 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     protected function _getDefaultCity()
     {
-        //$city = $this->_cartConfig->get('city');
+        $city = $this->_cartConfig->get('default_shipping_city');
+        $city = JString::trim($city);
 
-        return JString::strtolower('Москва');
+        return JString::strtolower($city);
     }
 
     /**
@@ -400,9 +390,10 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     protected function _getDefaultCountry()
     {
-        //$country = $this->_cartConfig->get('country');
+        $country = $this->_cartConfig->get('default_shipping_country');
+        $country = JString::trim($country);
 
-        return JString::strtolower('Украина');
+        return JString::strtolower($country);
     }
 
     /**

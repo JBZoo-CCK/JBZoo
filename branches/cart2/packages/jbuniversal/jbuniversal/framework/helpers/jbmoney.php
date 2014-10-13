@@ -280,9 +280,52 @@ class JBMoneyHelper extends AppHelper
         return FALSE;
     }
 
+    /**
+     * @param       $value
+     *
+     * @return mixed
+     */
     public function format($value)
     {
+        $this->init();
+
         return $this->_numberFormat($value);
+    }
+
+    /**
+     * @param null  $code
+     * @param array $format
+     *
+     * @return null|string
+     */
+    public function getSymbol($code = NULL, $format = array())
+    {
+        $this->init();
+
+        $code = $this->clearCurrency($code);
+
+        if (empty($code)) {
+            $code = $this->getDefaultCur();
+        }
+        $format = array_merge($this->_defaultFormat, (array)$format);
+
+        if (!$code) {
+            $code = $format['code'];
+        }
+
+        if ($code == self::PERCENT) {
+
+            return self::PERCENT;
+
+        } else if (isset(self::$curList[$code])) {
+
+            $format = self::$curList[$code]['format'];
+
+            return $format['symbol'];
+
+        }
+
+        return NULL;
     }
 
     /**

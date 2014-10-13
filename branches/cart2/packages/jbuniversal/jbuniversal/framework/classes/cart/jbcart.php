@@ -148,14 +148,17 @@ class JBCart
 
     /**
      * Get all items from session
+     *
+     * @param bool $assoc
+     *
      * @return mixed
      */
-    public function getItems()
+    public function getItems($assoc = TRUE)
     {
         $session = $this->_getSession();
         $items   = $session->get('items', array());
 
-        return $items;
+        return $assoc === TRUE ? $items : $this->app->data->create($items);
     }
 
     /**
@@ -193,14 +196,42 @@ class JBCart
         foreach ($items as $item) {
             if (!empty($item['params'])) {
 
-                $params = $item['params'];
-                $temp   = $item['quantity'] * $params['weight'];
+                $params = $this->app->data->create($item['params']);
+                $temp   = (float)$item['quantity'] * (float)$params['weight'];
 
                 $weight += $temp;
             }
         }
 
         return $weight;
+    }
+
+    /**
+     * Get
+     *
+     * @return mixed
+     */
+    public function getProperties()
+    {
+        $items = $this->getItems();
+
+        $properties['height'] = $properties['width'] = $properties['length'] = 0;
+        foreach ($items as $item) {
+            if (!empty($item['params'])) {
+
+                $params = $this->app->data->create($item['params']);
+
+                $height = (float)$params->get('height', 0);
+                $width  = (float)$params->get('width', 0);
+                $length = (float)$params->get('length', 0);
+
+                $properties['height'] += $item['quantity'] * $height;
+                $properties['width'] += $item['quantity'] * $width;
+                $properties['length'] += $item['quantity'] * $length;
+            }
+        }
+
+        return $properties;
     }
 
     /**
@@ -337,7 +368,8 @@ class JBCart
             $count += $item['quantity'];
             $total += $itemsPrice[$key]['total'];
 
-            $itemsPrice[$key]['total'] = $this->_jbmoney->format($itemsPrice[$key]['total']);
+            $itemsPrice[$key]['total']  = $this->_jbmoney->format($itemsPrice[$key]['total']);
+            $itemsPrice[$key]['symbol'] = $this->_jbmoney->getSymbol($item['currency']);
         }
 
         $result =
@@ -345,9 +377,9 @@ class JBCart
                 'items'    => $itemsPrice,
                 'count'    => $count,
                 'total'    => $this->_jbmoney->format($total),
+                'symbol'   => $this->_jbmoney->getSymbol($currency),
                 'currency' => $currency
             );
-
 
         return $result;
     }

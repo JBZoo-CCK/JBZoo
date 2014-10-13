@@ -23,12 +23,8 @@ class JBCartElementPriceImage extends JBCartElementPrice
      */
     public function edit()
     {
-        $params = $this->getParams();
-
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderLayout($layout, array(
-                'params' => $params
-            ));
+            return self::renderLayout($layout);
         }
 
         return NULL;
@@ -61,9 +57,14 @@ class JBCartElementPriceImage extends JBCartElementPrice
      */
     public function unique($params)
     {
-        $image = json_decode($params->get('image'));
+        $image  = json_decode($params->get('image'), TRUE);
+        $unique = $params->get('_price_layout') . '_' . $this->getJBPrice()->getItem()->id;
 
-        return $params->get('_price_layout') . '_' . $this->getJBPrice()->getItem()->id . '_' . $image->element;
+        if (empty($image)) {
+            return $unique;
+        }
+
+        return $unique . '_' . $image['element'];
     }
 
 }

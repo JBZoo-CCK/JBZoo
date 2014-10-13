@@ -15,14 +15,10 @@ defined('_JEXEC') or die('Restricted access');
 
 if ($this->checkPosition('fields')) : ?>
 
-    <div class="jbzoo-right">
+    <h2>Форма заказа</h2>
 
-        <h2>Форма заказа</h2>
-
-        <?php echo $this->renderPosition('fields', array(
-            'style' => 'order.block'
-        )); ?>
-
-    </div>
+    <?php echo $this->renderPosition('fields', array(
+        'style' => 'order.block'
+    )); ?>
 
 <?php endif;

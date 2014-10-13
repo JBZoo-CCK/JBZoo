@@ -28,7 +28,7 @@ echo $html->text($this->getControlName('value'), $value ? $value : 0, array(
     'class'       => 'discount' . $variant . '-input',
     'size'        => "60",
     'maxlength'   => "255",
-    'placeholder' => 'discount'
+    'placeholder' => 'скидка'
 ));
 
 echo $html->select($currencyList, $this->getControlName('currency'), array(

@@ -673,20 +673,100 @@
 }
 
 .jbzoo .jbcompare-table td,
-.jbzoo .jbcompare-table th,
-.jbzoo .jbbasket-table td,
-.jbzoo .jbbasket-table th {
+.jbzoo .jbcompare-table th {
     vertical-align : top;
     padding        : 0.75em;
     border         : none !important;
-    border-top     : solid 1px #CCC !important;
+    border-top     : solid 1px #E5E5E5 !important;
     background     : none;
     text-align     : left;
     color          : #333;
 }
 
 .jbzoo .jbbasket-table th {
-    border-top : none !important;
+    font-weight   : normal;
+    font-size     : 12px;
+    color         : #999;
+    text-align    : center;
+    padding       : 15px 10px 25px 10px;
+    border-bottom : 1px dashed #CCC;
+}
+
+.jbzoo .jbbasket-table tfoot td {
+    border-top    : 1px dashed #CCC;
+    border-bottom : 0;
+    padding       : 25px 10px 15px 10px;
+}
+
+.jbzoo .jbbasket-table tbody tr:last-child td {
+    border : 0;
+}
+
+.jbzoo .jbbasket-table tbody tr {
+    border-right : 1px solid #EEE;
+    border-left  : 1px solid #EEE;
+}
+
+.jbzoo .jbbasket-table tbody tr.null,
+.jbzoo .jbbasket-table tbody tr td.null {
+    border : 0;
+}
+
+.jbzoo .jbbasket-table td {
+    padding        : 10px;
+    font-size      : 12px;
+    color          : #999;
+    vertical-align : middle;
+}
+
+.jbzoo .jbbasket-table tr.null:hover,
+.jbzoo .jbbasket-table tr td.null:hover {
+    background : none;
+}
+
+.jbzoo .jbbasket-table tr:hover {
+    background : #F7FBFC;
+}
+
+.jbzoo .jbbasket-table td.null {
+    border  : 0;
+    padding : 20px 0;
+}
+
+.jbzoo .jbbasket-table td.jbbasket-item-name {
+    font-size  : 13px;
+    text-align : left;
+    padding    : 10px;
+}
+
+.jbzoo .jbbasket-table td.jbbasket-item-sku {
+    text-align : center;
+}
+
+.jbzoo .jbbasket-table td.jbbasket-item-name a {
+    color : #232323;
+}
+
+.jbzoo .jbbasket-table td.jbbasket-item-price {
+    padding    : 10px;
+    text-align : center;
+    font-size  : 16px;
+    color      : #505050;
+}
+
+.jbzoo .jbbasket-table td.jbbasket-item-quantity {
+    padding : 10px;
+}
+
+.jbzoo .jbbasket-table td.jbbasket-item-img img {
+    height : 70px;
+    float  : left;
+}
+
+.jbzoo .jbbasket-table .jbitems-total-count {
+    font-size   : 14px;
+    color       : #505050;
+    font-weight : bold;
 }
 
 .jbzoo .jbcompare-table tr,
@@ -694,16 +774,13 @@
     border : none;
 }
 
-.jbzoo .jbcompare-table th,
-.jbzoo .jbbasket-table th {
+.jbzoo .jbcompare-table th {
     font-weight : bold;
     color       : #333;
 }
 
 .jbzoo .jbcompare-table tbody tr:nth-child(odd) th,
-.jbzoo .jbcompare-table tbody tr:nth-child(odd) td,
-.jbzoo .jbbasket-table tbody tr:nth-child(odd) th,
-.jbzoo .jbbasket-table tbody tr:nth-child(odd) td {
+.jbzoo .jbcompare-table tbody tr:nth-child(odd) td {
     background : rgba(0, 0, 0, 0.03);
 }
 
@@ -2201,21 +2278,21 @@ h3.jbzootabs-accordion-header.jbzootabs-accordion-active.jbzootabs-accordion-ico
     border-radius : 8px;
     cursor        : pointer;
     display       : inline-block;
-    height        : 10px;
+    height        : 16px;
     position      : relative;
     top           : 3px;
-    width         : 10px;
+    width         : 16px;
 }
 
 .jbzoo .shipping-list .shipping-element .shipping-service:checked + label.field-label div.jbradio:after {
     background    : #333;
-    border-radius : 6px;
+    border-radius : 8px;
     content       : "";
-    height        : 6px;
+    height        : 8px;
     left          : 2px;
     position      : absolute;
     top           : 2px;
-    width         : 6px;
+    width         : 8px;
 }
 
 .jbzoo .shipping-list .shipping-element span.value {
@@ -2328,16 +2405,73 @@ h3.jbzootabs-accordion-header.jbzootabs-accordion-active.jbzootabs-accordion-ico
     background : url('../img/autocomplete/loader.gif') no-repeat center;
 }
 
-.jbzoo .jbbasket-table .basket-table-value {
-    display : inline-block;
+.jbzoo .jbbasket-table .item-count-wrapper,
+.jbzoo .jbbasket-table .item-count-wrapper .item-count,
+.jbzoo .jbbasket-table .item-count-wrapper .item-count .item-count-digits {
+    width : 45px;
 }
 
-.jbzoo .jbbasket-table .basket-table-subtotal {
-    /*width : 100%;*/
+.jbzoo .jbbasket-table .item-count-wrapper .item-count {
+    height : 28px;
+}
+
+.jbzoo .jbbasket-table .item-count-wrapper .item-count .input-quantity,
+.jbzoo .jbbasket-table .item-count-wrapper .item-count .item-count-digits dd {
+    font      : 14px/24px Arial;
+    width     : 40px;
+    min-width : 40px;
+}
+
+.jbzoo .jbbasket-table .item-count-wrapper .item-count .input-quantity {
+    height : 23px !important;
+}
+
+.jbzoo .jbbasket-table .jbbasket-table-value {
+    font-size : 16px;
+    color     : #505050;
+}
+
+.jbzoo .jbbasket-table .jbbasket-subtotal .currency-item {
+    font-size : 12px;
+    color     : #999;
+}
+
+.jbzoo .jbbasket-table .jbbasket-total-price .jbtotal-price {
+    font-weight : bold;
+    font-size   : 18px;
+    color       : #505050;
+}
+
+.jbzoo .jbbasket-table .jbtotal-price,
+.jbzoo .jbbasket-table .shipping-price {
+    font-size : 16px;
+    color     : #505050;
+}
+
+.jbzoo .jbbasket-table .jbtotal-price .jbcurrency {
+    font-size : 12px;
+    color     : #999;
+}
+
+.jbzoo .jbbasket-table .jbbasket-total-price .jbcurrency {
+    font-size : 12px;
+    color     : #999;
+}
+
+.jbzoo .jbbasket-table .jbasket-label {
+    font-size : 12px;
+    color     : #999;
+    display   : block;
 }
 
 .jbzoo .jbbasket-table .jsSizeMedium {
     font-size : 14px;
+}
+
+.jbzoo .jbbasket-table .jbbasket-item-param {
+    font-size   : 11px;
+    color       : #9EA7AF;
+    white-space : nowrap;
 }
 
 .jbzoo .jbbasket-table .quantity-table {
@@ -2374,11 +2508,6 @@ h3.jbzootabs-accordion-header.jbzootabs-accordion-active.jbzootabs-accordion-ico
     opacity  : 0.5;
 }
 
-.jbzoo .jbzoo-basket-payment {
-    width : 50%;
-    float : left;
-}
-
 .jbzoo .jbzoo-left {
     float : left;
 }
@@ -2392,15 +2521,237 @@ h3.jbzootabs-accordion-header.jbzootabs-accordion-active.jbzootabs-accordion-ico
     display : table;
 }
 
-.jbzoo .shippingfileds-list {
-    padding : 0 0 0 20px;
+form.jbzoo-app-basket {
+    position : relative;
 }
 
-.jbzoo .jbzoo-basket-fields .jbzoo-right,
-.jbzoo .shippingfileds-list .jbzoo-right {
+.jbzoo .jbzoo-app-basket .item-delete-all {
+    color              : #FFF;
+    cursor             : pointer;
+    background         : #08C;
+    text-decoration    : none;
+    border-radius      : 25px;
+    padding            : 4px;
+    /* float: right; */
+    line-height        : 16px;
+    text-align         : center;
+    margin             : 0 0 0 15px;
+    -webkit-transition : 0.5s;
+    -moz-transition    : 0.5s;
+    transition         : 0.5s;
+    top                : 10px;
+    right              : 10px;
+    position           : absolute;
+    display            : none;
+}
+
+.jbzoo .jbbasket-table .item-delete {
+    color              : #FFF;
+    cursor             : pointer;
+    background         : #08C;
+    text-decoration    : none;
+    border-radius      : 25px;
+    width              : 16px;
+    height             : 16px;
+    float              : right;
+    line-height        : 16px;
+    text-align         : center;
+    margin             : 0 0 0 15px;
+    -webkit-transition : 0.5s;
+    -moz-transition    : 0.5s;
+    transition         : 0.5s;
+    opacity            : 0;
+}
+
+.jbzoo .jbbasket-table tr:hover .item-delete {
+    opacity : 1;
+}
+
+.jbzoo .jbbasket-table .item-delete-all {
+    width         : 26px;
+    height        : 26px;
+    line-height   : 26px;
+    border-radius : 26px;
+    font-size     : 16px;
+}
+
+.jbzoo .jbbasket-table .item-delete:hover {
+    background : #005580;
+}
+
+.jbzoo .jbzoo-app-basket:hover .item-delete-all {
+    display : block;
+}
+
+.jbzoo .jbzoo-app-basket:hover .item-delete-all:hover {
+    background : #005580;
+}
+
+.jbzoo .jbzoo-app-basket .jbzoo-basket-fields *,
+.jbzoo .jbzoo-app-basket .shipping-list *,
+.jbzoo .jbzoo-app-basket .shippingfileds-list *,
+.jbzoo .jbzoo-app-basket .jbzoo-basket-payment * {
+    box-sizing         : border-box;
+    -webkit-box-sizing : border-box;
+    -moz-box-sizing    : border-box;
+}
+
+.jbzoo .shipping-default {
     width : 48%;
 }
-.jbzoo .shippingfileds-list {
-    clear: both;
+
+.jbzoo .shippingfield-default {
+    width       : 48%;
+    margin-left : 3%;
 }
 
+.jbzoo .shipping-default,
+.jbzoo .shippingfield-default,
+.jbzoo .jbzoo-basket-fields,
+.jbzoo .payment-list {
+    border                : 1px solid #EEE;
+    background            : #F7FBFC;
+    -webkit-border-radius : 6px;
+    -moz-border-radius    : 6px;
+    -ms-border-radius     : 6px;
+    -o-border-radius      : 6px;
+    border-radius         : 6px;
+    padding               : 0 20px 20px 20px;
+    zoom                  : 1;
+    color                 : #505050;
+}
+
+.jbzoo .jbzoo-basket-fields,
+.jbzoo .payment-list {
+    margin : 20px 0;
+}
+
+.jbzoo .payment-list {
+    width : 100%;
+}
+
+.jbzoo .jbbasket-table .jbbasket-item-image img {
+    max-width : 50px;
+}
+
+.jbzoo .jbzoo-app-basket .control-label,
+.jbzoo .jbzoo-app-basket .controls {
+    float : left;
+    width : 175px;
+}
+
+.jbzoo .jbzoo-app-basket .shippingfield-default .control-label {
+    width : 75px;
+}
+
+.jbzoo .jbzoo-app-basket input[type="text"] {
+    border                : 1px solid #B0B0B0;
+    -webkit-border-radius : 3px;
+    -moz-border-radius    : 3px;
+    border-radius         : 3px;
+    outline               : 0;
+    font-size             : 13px;
+    line-height           : 18px;
+    padding               : 15px 40px 15px 10px;
+    margin                : 0;
+    color                 : #505050;
+    resize                : none;
+}
+
+.jbzoo .jbzoo-app-basket input[type="text"]:hover {
+    -webkit-box-shadow : 0px 0px 0px 1px #B0B0B0;
+    -moz-box-shadow    : 0px 0px 0px 1px #B0B0B0;
+    box-shadow         : 0px 0px 0px 1px #B0B0B0;
+}
+
+.jbzoo .jbzoo-app-basket h2 {
+    margin      : 12px 0 20px 0;
+    font-size   : 20px;
+    font-weight : bold;
+    color       : #777;
+}
+
+.jbzoo .jbzoo-app-basket .jbzoo-payment {
+    width        : 219px;
+    float        : left;
+    display      : block;
+    border-right : 1px solid #CCC;
+}
+
+.jbzoo .jbzoo-app-basket .jbzoo-payment:first-child .jbzoo-payment-content {
+    padding : 0 10px 0 0;
+}
+
+.jbzoo .jbzoo-app-basket .jbzoo-payment:last-child .jbzoo-payment-content {
+    padding : 0 0 0 10px;
+}
+
+.jbzoo .jbzoo-app-basket .jbzoo-payment:last-child {
+    border : none;
+}
+
+.jbzoo .jbzoo-app-basket .jbzoo-payment .jbzoo-payment-content {
+    padding : 0 10px;
+}
+
+.jbzoo .jbzoo-app-basket .jbzoo-payment .jbzoo-payment-content .jbzoo-payment-desc {
+    font-size   : 11px;
+    font-style  : italic;
+    color       : #9EA7AF;
+    text-align  : justify;
+    display     : inline-block;
+    line-height : 11px;
+    margin      : 5px 0 0 0;
+}
+
+.jbzoo .jbzoo-app-basket .jbzoo-payment .jbzoo-payment-content .debug-mode {
+    font-size  : 12px;
+    color      : #F24949;
+    display    : block;
+    font-style : italic;
+    margin     : 15px 0 5px 0;
+}
+
+.jbzoo .jbzoo-app-basket .jbzoo-payment .payment-choose {
+    position : absolute;
+    left     : -9999px;
+}
+
+.jbzoo .jbzoo-app-basket .jbzoo-payment .payment-label {
+    -webkit-transition : all 300ms;
+    -moz-transition    : all 300ms;
+    transition         : all 300ms;
+}
+
+.jbzoo .jbzoo-app-basket .jbzoo-payment .payment-label {
+    height      : 38px;
+    line-height : 38px;
+}
+
+.jbzoo .jbzoo-app-basket .jbzoo-payment .payment-label {
+    width : 181px;
+}
+
+.jbzoo .jbzoo-app-basket .robokassa-payment .payment-label {
+    background : url('../img/payments/_robokassa.png') no-repeat center;
+}
+
+.jbzoo .jbzoo-app-basket .interkassa-payment .payment-label {
+    background : url('../img/payments/_interkassa.png') no-repeat center;
+}
+
+.jbzoo .jbzoo-app-basket .paypal-payment .payment-label {
+    background : url('../img/payments/_paypal.png') no-repeat center;
+}
+
+.jbzoo .jbzoo-app-basket .robokassa-payment .payment-choose:checked + label.payment-label {
+    background : url('../img/payments/robokassa.png') no-repeat center;
+}
+
+.jbzoo .jbzoo-app-basket .interkassa-payment .payment-choose:checked + label.payment-label {
+    background : url('../img/payments/interkassa.png') no-repeat center;
+}
+
+.jbzoo .jbzoo-app-basket .paypal-payment .payment-choose:checked + label.payment-label {
+    background : url('../img/payments/paypal.png') no-repeat center;
+}
