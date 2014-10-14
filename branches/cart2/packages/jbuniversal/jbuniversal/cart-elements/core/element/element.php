@@ -411,7 +411,7 @@ abstract class JBCartElement
             return null;
         }
 
-        // $params = array_reverse($params);
+        // $params = array_reverse($params); // TODO think about reload order
 
         // add config xml files
         foreach ($params as $xml) {
