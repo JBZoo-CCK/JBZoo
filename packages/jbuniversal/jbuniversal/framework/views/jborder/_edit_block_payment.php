@@ -24,7 +24,7 @@ if (!empty($payment)) :?>
             <dt>Статус</dt>
             <dd><?php echo $this->app->jbhtml->select($statusList, 'order[payment][status]', '', $curStatus); ?></dd>
 
-            <h3>Дополнительно</h3>
+            <h3 class="uk-panel-title">Дополнительно</h3>
             <dt>Тип платильщика</dt>
             <dd>Юр. лицо</dd>
 

@@ -26,7 +26,7 @@ $curStatus = $element->getStatus();
     <dl class="uk-description-list-horizontal">
         <?php echo $this->shipRender->renderAdminEdit(array('order' => $order)); ?>
 
-        <h3>
+        <h3 class="uk-panel-title">
             <?php echo JText::_('JBZOO_ORDER_SHIPPINGFIELD_TITLE'); ?>
         </h3>
 
