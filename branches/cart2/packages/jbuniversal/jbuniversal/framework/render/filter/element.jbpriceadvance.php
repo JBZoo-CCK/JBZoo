@@ -144,7 +144,13 @@ class JBFilterElementJBPriceAdvance extends JBFilterElement
             if ($params['auto']) {
                 $applicationId = (int)$this->_params->get('item_application_id', 0);
                 $itemType      = $this->_params->get('item_type', null);
-                $rangesData    = (array)JBModelValues::model()->getRangeByPrice($this->_identifier, $itemType, $applicationId);
+
+                $isCatDepend = (int)$this->_params->moduleParams->get('depend_category');
+                if ($isCatDepend) {
+                    $categoryId = $this->app->jbrequest->getSystem('category');
+                }
+
+                $rangesData    = (array)JBModelValues::model()->getRangeByPrice($this->_identifier, $itemType, $applicationId, $categoryId);
 
                 if ($valueType == 1) {
                     $ranges = array('min' => $rangesData['price_min'], 'max' => $rangesData['price_max']);

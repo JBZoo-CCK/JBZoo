@@ -286,9 +286,10 @@ class JBModelValues extends JBModel
      * @param $identifier
      * @param $itemType
      * @param $applicationId
+     * @param $categoryId
      * @return JObject
      */
-    public function getRangeByPrice($identifier, $itemType, $applicationId)
+    public function getRangeByPrice($identifier, $itemType, $applicationId, $categoryId= null)
     {
         $this->app->jbdebug->mark('model::filter::getRangeByPrice:start');
 
@@ -304,6 +305,11 @@ class JBModelValues extends JBModel
                     'MIN(tSku.total) AS total_min',
                 ))
                 ->where('tSku.element_id = ?', $identifier);
+
+            if ($categoryId) {
+                $select->leftJoin(ZOO_TABLE_CATEGORY_ITEM . ' AS tCategoryItem ON tCategoryItem.item_id = tItem.id');
+                $select->where('tCategoryItem.category_id = ?', $categoryId);
+            }
 
             $result = $this->fetchRow($select);
 
