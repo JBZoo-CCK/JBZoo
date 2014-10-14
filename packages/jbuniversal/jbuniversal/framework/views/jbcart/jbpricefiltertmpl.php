@@ -29,7 +29,7 @@ defined('_JEXEC') or die('Restricted access');
             'dragElements'   => $this->dragElements,
             'elementsParams' => $this->elementsParams,
             'systemElements' => $this->systemElements,
-            'elementGroup'   => 'filter',
+            'elementGroup'   => 'render',
         ));?>
 
         <?php echo $this->partial('footer'); ?>

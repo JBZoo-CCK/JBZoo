@@ -40,22 +40,29 @@ $classes = array_filter(array(
 ));
 
 $element->loadAssets();
+$html = $element->renderSubmission($params);
+if (empty($html)) {
+    $html = $element->getName();
+}
 
 $paymentId = 'payment-' . $element->identifier;
 ?>
 <div class="<?php echo implode(' ', $classes); ?>">
 
-    <label class="payment-label jbzoo-payment-content" for="<?php echo $paymentId; ?>">
-
-        <input type="radio" <?php echo($element->isDefault() ? 'checked="checked" ' : ''); ?>
-               name="<?php echo $element->getControlName('_payment_id'); ?>"
-               value="<?php echo $element->identifier; ?>"
-               id="<?php echo $paymentId; ?>"
-               class="payment-choose"
+    <input type="radio" <?php echo($element->isDefault() ? 'checked="checked" ' : ''); ?>
+           name="<?php echo $element->getControlName('_payment_id'); ?>"
+           value="<?php echo $element->identifier; ?>"
+           id="<?php echo $paymentId; ?>"
+           class="payment-choose ghost"
+        <?php echo $element->isDefault() ? 'checked="checked"' : '' ?>
         />
 
+    <label class="ghost-label payment-label jbzoo-payment-content" for="<?php echo $paymentId; ?>">
+
+        <div class="jbradio"></div>
+
         <div class="payment-element">
-            <?php echo $element->renderSubmission($params); ?>
+            <?php echo $html; ?>
         </div>
 
         <?php if ($description = $element->config->get('description')) : ?>
@@ -65,7 +72,5 @@ $paymentId = 'payment-' . $element->identifier;
         <?php echo $error; ?>
 
     </label>
-
-    <div class="clear clr"></div>
 
 </div>

@@ -13,12 +13,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
+$description = $element->config->get('description');
 $params = $this->app->data->create($params);
 
 // add tooltip
 $tooltip = '';
-if ($params->get('show_tooltip') && ($description = $element->config->get('description'))) {
+if ($params->get('show_tooltip') && ($description)) {
     $tooltip = ' class="hasTip" title="' . $description . '"';
 }
 
@@ -49,15 +49,16 @@ $label = $params->get('required') ? ($label . ' <span class="dot">*</span>') : $
 <div class="<?php echo implode(' ', $classes); ?>">
     <?php
     echo '<div class="control-label">'
-        . '<label class="field-label" for="order-' . $element->identifier . '">'
-        . $label
-        . '</label></div>';
+         . '<label class="field-label" for="order-' . $element->identifier . '">'
+         . $label
+         . '</label></div>';
 
     echo '<div class="controls"> '
-        . $element->renderSubmission($params)
-        . $error
-        . '</div>';
+         . $element->renderSubmission($params)
+         . $error
+         . '</div>';
 
-    ?>
+    echo '<div class="description">' . $description . '</div>'; ?>
+    
     <div class="clear"></div>
 </div>

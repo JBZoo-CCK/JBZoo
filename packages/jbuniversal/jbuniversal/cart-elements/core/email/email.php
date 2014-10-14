@@ -247,6 +247,7 @@ abstract class JBCartElementEmail extends JBCartElement
         }
 
         $result .= "\"";
+
         return JString::trim($result);
     }
 
@@ -300,7 +301,9 @@ abstract class JBCartElementEmail extends JBCartElement
      */
     protected function _getShippingData()
     {
-        return $this->_getShipping()->data();
+        $data = $this->_getShipping()->data();
+
+        return !empty($data) ? $data : $this->app->data->create($data);
     }
 
     /**
@@ -310,7 +313,9 @@ abstract class JBCartElementEmail extends JBCartElement
      */
     protected function _getPaymentData()
     {
-        return $this->_getPayment()->data();
+        $data = $this->_getPayment()->data();
+
+        return !empty($data) ? $data : $this->app->data->create($data);
     }
 
     /**

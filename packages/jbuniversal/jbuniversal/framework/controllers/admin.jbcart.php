@@ -308,12 +308,12 @@ class JBCartJBuniversalController extends JBUniversalController
         $this->positionList = $renderer->getPositions('jbpricefilter.' . $this->layout);
 
         $this->systemElements = $this->_element->getSystemTmpl(JBCart::CONFIG_PRICE);
-        $this->dragElements   = $this->_position->loadElements(JBCart::CONFIG_PRICE);
+        $this->dragElements   = $this->_position->loadElements(JBCart::ELEMENT_TYPE_PRICE  . '.' . $this->element);
 
         $confName             = JBCart::CONFIG_PRICE_TMPL_FILTER . '.' . $this->element . '.' . $this->layout;
         $this->elementsParams = $this->_position->loadParams($confName);
         $this->positions      =
-            $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE, $this->positionList);
+            $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE_TMPL_FILTER, $this->positionList);
 
         $this->saveTask = 'saveElementPositions';
         $this->groupKey = JBCart::CONFIG_PRICE_TMPL_FILTER;

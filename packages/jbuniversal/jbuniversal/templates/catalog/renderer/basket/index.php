@@ -18,28 +18,43 @@ $view = $this->getView();
 $this->app->jbassets->basket();
 $this->app->jbassets->initJBPrice();
 $actionUrl = $this->app->jbrouter->cartOrderCreate($view->application->id, null);
-?>
+//$this->app->jbassets->chosen();
 
-<form action="<?php echo $actionUrl; ?>" method="post" name="jbcartForm" class="jbzoo-app-basket" accept-charset="utf-8"
-      enctype="multipart/form-data">
+if (count($view->items)) : ?>
 
-    <?php echo $this->partial('basket', 'table');
+    <form action="<?php echo $actionUrl; ?>" method="post" name="jbcartForm" class="jbzoo-app-basket"
+          accept-charset="utf-8"
+          enctype="multipart/form-data">
 
-    echo $this->partial('basket', 'form');
+        <?php echo $this->partial('basket', 'table'); ?>
 
-    echo $this->partial('basket', 'shipping');
+        <div class="create-order">
 
-    echo $this->partial('basket', 'shippingfield');
+            <h3 class="title-name">Оформление заказа</h3>
 
-    echo $this->partial('basket', 'payment'); ?>
+            <?php echo $this->partial('basket', 'form');
 
-    <div class="jbzoo-clear">
-        <input type="submit"/>
+            echo $this->partial('basket', 'shipping');
 
-        <input type="hidden" name="option" value="com_zoo"/>
-        <input type="hidden" name="controller" value="basket"/>
-        <input type="hidden" name="task" value="index"/>
-        <input type="hidden" name="Itemid" value="<?php echo $view->Itemid; ?>"/>
-        <?php echo $this->app->html->_('form.token'); ?>
-    </div>
-</form>
+            echo $this->partial('basket', 'shippingfield');
+
+            echo $this->partial('basket', 'payment'); ?>
+
+            <div class="jbzoo-clear jbzoo-order-submit">
+                <input type="submit" value="Оформить заказ" class="jbbutton-base jbbutton-green jbbutton-big" />
+
+                <input type="hidden" name="option" value="com_zoo" />
+                <input type="hidden" name="controller" value="basket" />
+                <input type="hidden" name="task" value="index" />
+                <input type="hidden" name="Itemid" value="<?php echo $view->Itemid; ?>" />
+                <?php echo $this->app->html->_('form.token'); ?>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        /*jQuery(function ($) {
+         $('.jbzoo .jbzoo-app-basket select').chosen();
+         });*/
+    </script>
+<?php endif;

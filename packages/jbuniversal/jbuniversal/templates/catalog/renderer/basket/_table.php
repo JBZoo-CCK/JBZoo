@@ -43,6 +43,7 @@ defined('_JEXEC') or die('Restricted access');
         $sum   = 0;
         $count = 0;
 
+        $string  = $this->app->jbstring;
         $default = $view->config->get('default_currency', 'EUR');
         $jbHTML  = $this->app->jbhtml;
         $jbMoney = $this->app->jbmoney;
@@ -53,7 +54,7 @@ defined('_JEXEC') or die('Restricted access');
 
             $item = $this->app->table->item->get($__item_id);
 
-            $image = NULL;
+            $image = null;
             $price = $jbMoney->convert($__currency, $default, $__price);
             $href  = $this->app->route->item($item);
 
@@ -166,7 +167,11 @@ defined('_JEXEC') or die('Restricted access');
                 <?php echo $count; ?>
                 </span>
             </span>
-                товар на сумму:
+
+                <span data-word="товар" class="morphology jsMorphology">
+                    <?php echo $string->declension($count, 'товар', 'товара', 'товаров'); ?>
+                </span>
+                на сумму:
                 <div class="jsTotalPrice">
 
                 <span class="jsValue jbtotal-price">
@@ -215,6 +220,7 @@ defined('_JEXEC') or die('Restricted access');
 
 <script type="text/javascript">
     jQuery(function ($) {
+
         $('.jbzoo .jsJBZooBasket').JBZooBasket({
             'clearConfirm': "<?php echo JText::_('JBZOO_CART_CLEAR_CONFIRM');?>",
             'quantityUrl' : "<?php echo $this->app->jbrouter->basketQuantity();?>",

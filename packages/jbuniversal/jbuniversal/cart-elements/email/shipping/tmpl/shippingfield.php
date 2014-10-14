@@ -28,6 +28,9 @@ if (!empty($data)) : ?>
 
     <?php foreach ($data as $key => $field) : ?>
 
+        <?php if (empty($field)) :
+            continue;
+        endif; ?>
         <tr>
             <td align="left">
                 <strong>

@@ -110,7 +110,8 @@ class JBFieldHelper extends AppHelper
     {
         $layoutName = str_replace('layout_', '', $this->_getAttr($node, 'name', ''));
 
-        $path = JPath::clean(
+        $auto   = $this->_getAttr($node, 'auto', 'true');
+        $path   = JPath::clean(
             $this->app->path->path('jbtmpl:') . '/' .
             $this->app->jbenv->getTemplateName()
             . '/renderer'
@@ -118,10 +119,12 @@ class JBFieldHelper extends AppHelper
         );
         $system = $this->app->path->path("jbapp:templates-system/renderer/{$layoutName}");
 
-        $options = array('__auto__' => JText::_('JBZOO_LAYOUT_AUTOSELECT'));
+        if ($auto == 'true') {
+            $options = array('__auto__' => JText::_('JBZOO_LAYOUT_AUTOSELECT'));
+        }
 
         if (JFolder::exists($path)) {
-            $files = JFolder::files($path, '^([-_A-Za-z0-9\.]*)\.php$', false, false, array('.svn', 'CVS'));
+            $files = JFolder::files($path, '^([-_A-Za-z0-9\.]*)\.php$', FALSE, FALSE, array('.svn', 'CVS'));
             foreach ($files as $tmpl) {
                 $tmpl           = basename($tmpl, '.php');
                 $options[$tmpl] = $tmpl;
@@ -129,7 +132,7 @@ class JBFieldHelper extends AppHelper
         }
 
         if (JFolder::exists($system)) {
-            $files = JFolder::files($system, '^([-_A-Za-z0-9\.]*)\.php$', false, false, array('.svn', 'CVS'));
+            $files = JFolder::files($system, '^([-_A-Za-z0-9\.]*)\.php$', FALSE, FALSE, array('.svn', 'CVS'));
             foreach ($files as $tmpl) {
                 $tmpl           = basename($tmpl, '.php');
                 $options[$tmpl] = $tmpl;
@@ -383,7 +386,8 @@ class JBFieldHelper extends AppHelper
             $attributes['readonly'] = 'readonly';
         }
 
-        return $this->app->html->genericList($options, $this->_getName($controlName, $name), $attributes, 'value', 'text', $value);
+        return $this->app->html->genericList($options, $this->_getName($controlName, $name), $attributes, 'value',
+            'text', $value);
     }
 
     /**
@@ -438,7 +442,7 @@ class JBFieldHelper extends AppHelper
      *
      * @return string
      */
-    public function jbshippingfields($name, $value, $controlName, SimpleXMLElement $node)
+    public function shippingfields($name, $value, $controlName, SimpleXMLElement $node)
     {
         $fields = $this->app->jbcartposition->loadPositions(
             JBCart::CONFIG_SHIPPINGFIELDS,
@@ -447,12 +451,14 @@ class JBFieldHelper extends AppHelper
         $fields = $fields['list'];
 
         foreach ($fields as $element) {
-            $options[] = $this->app->html->_('select.option', $element->getElementType(), $element->getName());
+            $options[] = $this->app->html->_('select.option', $element->identifier, $element->getName());
         }
 
         $style = 'multiple="multiple" size="5"';
 
-        $select = $this->app->html->_('select.genericlist', $options, $this->_getName($controlName, $name) . '[]', $style, 'value', 'text', $value);
+        $select =
+            $this->app->html->_('select.genericlist', $options, $this->_getName($controlName, $name) . '[]', $style,
+                'value', 'text', $value);
 
         return $select;
     }
@@ -488,16 +494,24 @@ class JBFieldHelper extends AppHelper
             'order'   => JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_ORDER_EMAIL'),
         );
         $userAttrs   = array(
-            'multiple' => true
+            'multiple' => TRUE
         );
 
-        $html[] = $this->spacer($name, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_ADMIN_GROUPS'), $controlName, $node, $parent);
-        $html[] = JHtmlAccess::usergroup($adminName, $value->get('admin', array()), $jbhtml->buildAttrs($adminAttrs), false);
+        $html[] =
+            $this->spacer($name, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_ADMIN_GROUPS'), $controlName, $node,
+                $parent);
+        $html[] =
+            JHtmlAccess::usergroup($adminName, $value->get('admin', array()), $jbhtml->buildAttrs($adminAttrs), FALSE);
 
-        $html[] = $this->spacer($userName, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_USER'), $controlName, $node, $parent);
-        $html[] = $this->app->html->_('select.genericlist', $userOptions, $userName, $jbhtml->buildAttrs($userAttrs), 'value', 'text', $value->get('user', array()));
+        $html[] = $this->spacer($userName, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_USER'), $controlName, $node,
+            $parent);
+        $html[] =
+            $this->app->html->_('select.genericlist', $userOptions, $userName, $jbhtml->buildAttrs($userAttrs), 'value',
+                'text', $value->get('user', array()));
 
-        $html[] = $this->spacer($userName, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_ADVANCED_EMAIL'), $controlName, $node, $parent);
+        $html[] =
+            $this->spacer($userName, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_ADVANCED_EMAIL'), $controlName,
+                $node, $parent);
         $html[] = $jbhtml->text($advName, $value->get('advanced', ''));
 
         return implode("\n", $html);
@@ -664,8 +678,8 @@ class JBFieldHelper extends AppHelper
 
         $attrs = array(
             'name'        => $name,
-            'placeholder' => $this->_getAttr($node, 'placeholder', null),
-            'class'       => $this->_getAttr($node, 'class', null),
+            'placeholder' => $this->_getAttr($node, 'placeholder', NULL),
+            'class'       => $this->_getAttr($node, 'class', NULL),
             'rows'        => $rows,
             'cols'        => $cols,
         );
@@ -771,8 +785,8 @@ class JBFieldHelper extends AppHelper
             ));
 
         $link = '<a class="modal" href="' . $href . '" '
-            . 'rel="{handler: \'iframe\', size: {x: 600, y: 500}, onClose: function() {}}">'
-            . JText::_('JBZOO_SHOW_PAYMENTLINKS') . '</a>';
+                . 'rel="{handler: \'iframe\', size: {x: 600, y: 500}, onClose: function() {}}">'
+                . JText::_('JBZOO_SHOW_PAYMENTLINKS') . '</a>';
 
         return $link;
     }
@@ -802,7 +816,7 @@ class JBFieldHelper extends AppHelper
         foreach ($files as $file) {
 
             $json = $this->app->jbfile->read($this->app->path->path('jbtypes:' . $file));
-            $data = @json_decode($json, true);
+            $data = @json_decode($json, TRUE);
 
             if (!$data) {
                 continue;
@@ -845,7 +859,7 @@ class JBFieldHelper extends AppHelper
 
         $file = $this->app->path->path('jbtypes:' . $type . '.config');
         if ($file && $json = $this->app->jbfile->read($file)) {
-            $data = json_decode($json, true);
+            $data = json_decode($json, TRUE);
         }
 
         $optionList = array('' => '- no select -');
@@ -921,7 +935,7 @@ class JBFieldHelper extends AppHelper
         foreach ($files as $file) {
 
             $json = $this->app->jbfile->read($this->app->path->path('jbtypes:' . $file));
-            $data = @json_decode($json, true);
+            $data = @json_decode($json, TRUE);
 
             if (!$data) {
                 continue;
@@ -951,6 +965,7 @@ class JBFieldHelper extends AppHelper
         }
 
         $optionList = array_unique($optionList);
+
         return $this->_renderList($optionList, $value, $this->_getName($controlName, $name), $node);
     }
 
@@ -1019,14 +1034,15 @@ class JBFieldHelper extends AppHelper
 
                     for ($i = 0; $i < count($value['option']); $i++) {
 
-                        if (empty($value['option'][$i]['name']) ||
-                            (empty($value['option'][$i]['value']))
+                        if (empty($value['option'][$i]['name'])
+                            || (empty($value['option'][$i]['value']))
                         ) {
                             continue;
                         }
                         $html[] = '<div class="jbprice-field-option">';
                         $html[] = '<input type="text"
-                                          name="' . $controlName . '[' . $name . '][params][' . $key . '][option][' . $i . '][name]"
+                                          name="' . $controlName . '[' . $name . '][params][' . $key . '][option][' . $i
+                                  . '][name]"
                                           value="' . $value['option'][$i]['name'] . '"
                                           class="jsJBPriceOptionAddValue" />';
 
@@ -1047,7 +1063,8 @@ class JBFieldHelper extends AppHelper
             }
         }
         $html[] = '<a href="javascript:void(0)" class="jbprice-addParam">
-                    <span class="jsJBPriceAddParam">' . JText::_('JBZOO_JBPRICE_ADVANCEFIELDS_PARAMETER_ADD') . '</span></a>';
+                    <span class="jsJBPriceAddParam">'
+                  . JText::_('JBZOO_JBPRICE_ADVANCEFIELDS_PARAMETER_ADD') . '</span></a>';
 
         $html[] = '</div>';
 
@@ -1060,7 +1077,7 @@ class JBFieldHelper extends AppHelper
                     'format'     => 'raw',
                     'task'       => 'getalias',
                     'force_safe' => 1
-                ), false) . '"
+                ), FALSE) . '"
                    });
                    });';
         $html[] = '</script>';
@@ -1105,7 +1122,7 @@ class JBFieldHelper extends AppHelper
             return '<div class="field-jbspacer"><b> -= ' . JText::_($value) . ' =- </b></div>';
         }
 
-        return null;
+        return NULL;
     }
 
     /**
@@ -1125,7 +1142,7 @@ class JBFieldHelper extends AppHelper
             return '<span style="font-size:1.1em">' . JText::_($value) . '</span>';
         }
 
-        return null;
+        return NULL;
     }
 
     /**
@@ -1154,7 +1171,7 @@ class JBFieldHelper extends AppHelper
 
         foreach ($files as $file) {
             $fileContent = $this->app->jbfile->read($typesPath . '/' . $file);
-            $typeData    = json_decode($fileContent, true);
+            $typeData    = json_decode($fileContent, TRUE);
 
             $elements = array();
             foreach ($typeData['elements'] as $elementId => $element) {
@@ -1180,7 +1197,7 @@ class JBFieldHelper extends AppHelper
         return JHtml::_('select.groupedlist', $options, $name, array(
             'list.attr'   => $this->app->jbhtml->buildAttrs($attrs),
             'list.select' => $value,
-            'group.items' => null,
+            'group.items' => NULL,
         ));
     }
 
@@ -1316,10 +1333,11 @@ class JBFieldHelper extends AppHelper
         }
 
         $output = '<div class="jsItemOrder jbzoo-itemorder">'
-            . '<div class="jbzoo-itemorder-row">' . implode("</div><div class=\"jbzoo-itemorder-row\">\n ", $html) . '</div>'
-            . '<br>'
-            . '<a href="#jbitemorder-add" class="jsItemOrderAdd">' . JText::_('JBZOO_SORT_ADD') . '</a>'
-            . '</div>';
+                  . '<div class="jbzoo-itemorder-row">' . implode("</div><div class=\"jbzoo-itemorder-row\">\n ", $html)
+                  . '</div>'
+                  . '<br>'
+                  . '<a href="#jbitemorder-add" class="jsItemOrderAdd">' . JText::_('JBZOO_SORT_ADD') . '</a>'
+                  . '</div>';
 
         return $output;
     }
@@ -1340,33 +1358,36 @@ class JBFieldHelper extends AppHelper
 
         $orderValue = $values->get('key_0');
         if (empty($orderValue) || preg_match('#_jbzoo(.*)none#i', $orderValue)) {
-            return null;
+            return NULL;
         }
 
         $ctrl = array();
         $i    = 0;
 
-        $ctrl[] = '<span class="jbzoo-itemorder-label">' . JText::_('JBZOO_SORT_FIELD') . ': </span>' . JHtml::_('select.groupedlist', $options, $customName . '[]', array(
+        $ctrl[] = '<span class="jbzoo-itemorder-label">' . JText::_('JBZOO_SORT_FIELD')
+                  . ': </span>' . JHtml::_('select.groupedlist', $options, $customName . '[]', array(
                 'list.attr'   => $this->app->jbhtml->buildAttrs(array()),
                 'list.select' => $values->get('key_' . $i++),
-                'group.items' => null,
+                'group.items' => NULL,
             ));
 
-        $ctrl[] = '<span class="jbzoo-itemorder-label">' . JText::_('JBZOO_SORT_AS') . ': </span>' . $this->app->jbhtml->select(array(
+        $ctrl[] = '<span class="jbzoo-itemorder-label">' . JText::_('JBZOO_SORT_AS')
+                  . ': </span>' . $this->app->jbhtml->select(array(
                 '_jbzoo_' . $index . '_mode_s' => JText::_('JBZOO_SORT_AS_STRINGS'),
                 '_jbzoo_' . $index . '_mode_n' => JText::_('JBZOO_SORT_AS_NUMBERS'),
                 '_jbzoo_' . $index . '_mode_d' => JText::_('JBZOO_SORT_AS_DATES'),
             ), $customName . '[]', '', $values->get('key_' . $i++));
 
-        $ctrl[] = '<span class="jbzoo-itemorder-label">' . JText::_('JBZOO_SORT_ORDER') . ': </span>' . $this->app->jbhtml->select(array(
+        $ctrl[] = '<span class="jbzoo-itemorder-label">' . JText::_('JBZOO_SORT_ORDER')
+                  . ': </span>' . $this->app->jbhtml->select(array(
                 '_jbzoo_' . $index . '_order_asc'    => JText::_('JBZOO_SORT_ORDER_ASC'),
                 '_jbzoo_' . $index . '_order_desc'   => JText::_('JBZOO_SORT_ORDER_DESC'),
                 '_jbzoo_' . $index . '_order_random' => JText::_('JBZOO_SORT_ORDER_RANDOM'),
             ), $customName . '[]', '', $values->get('key_' . $i++));
 
         return '<div class="jbzoo-itemorder-row-field">'
-        . implode("</div><div class=\"jbzoo-itemorder-row-field\">\n ", $ctrl)
-        . '</div>';
+               . implode("</div><div class=\"jbzoo-itemorder-row-field\">\n ", $ctrl)
+               . '</div>';
     }
 
     /**
@@ -1412,19 +1433,19 @@ class JBFieldHelper extends AppHelper
         // add custom fields
         foreach ($files as $file) {
             $fileContent = $this->app->jbfile->read($typesPath . '/' . $file);
-            $typeData    = json_decode($fileContent, true);
+            $typeData    = json_decode($fileContent, TRUE);
 
             $elements = array();
             foreach ($typeData['elements'] as $elementId => $element) {
 
-                if (strpos($elementId, '_') === 0 || in_array($element['type'], $excludeType, true)) {
+                if (strpos($elementId, '_') === 0 || in_array($element['type'], $excludeType, TRUE)) {
                     continue;
                 }
 
                 if ($element['type'] == 'jbpriceadvance') {
                     $elements = array_merge($elements, $this->_getSortJBPriceOptionList($element, $elementId, $prefix));
                 } else {
-                    $elements[] = $this->_createOption($prefix . $elementId, $element['name'], false);
+                    $elements[] = $this->_createOption($prefix . $elementId, $element['name'], FALSE);
                 }
 
             }
@@ -1448,9 +1469,9 @@ class JBFieldHelper extends AppHelper
 
         $keyPrefix = $prefix . $elementId;
 
-        $list[] = $this->_createOption($keyPrefix . '__sku', $element['name'] . ' - Sku', false);
-        $list[] = $this->_createOption($keyPrefix . '__price', $element['name'] . ' - Basic', false);
-        $list[] = $this->_createOption($keyPrefix . '__total', $element['name'] . ' - Total', false);
+        $list[] = $this->_createOption($keyPrefix . '__sku', $element['name'] . ' - Sku', FALSE);
+        $list[] = $this->_createOption($keyPrefix . '__price', $element['name'] . ' - Basic', FALSE);
+        $list[] = $this->_createOption($keyPrefix . '__total', $element['name'] . ' - Total', FALSE);
 
         return $list;
     }
@@ -1470,17 +1491,17 @@ class JBFieldHelper extends AppHelper
         if ($request->is('option', 'com_zoo')) {
 
             if ($request->isCtrl('configuration')) {
-                return false;
+                return FALSE;
             }
 
-            if (($request->isCtrl('category') && ($request->is('task', 'edit') || $request->is('task', 'add'))) ||
-                ($request->isCtrl('frontpage'))
+            if (($request->isCtrl('category') && ($request->is('task', 'edit') || $request->is('task', 'add')))
+                || ($request->isCtrl('frontpage'))
             ) {
-                return true;
+                return TRUE;
             }
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
@@ -1510,9 +1531,9 @@ class JBFieldHelper extends AppHelper
             }
 
             $html[] = '<input ' . $this->app->jbhtml->buildAttrs($attributes) . ' /> '
-                . '<label ' . $this->app->jbhtml->buildAttrs(array('for' => $id)) . '>'
-                . JText::_($option)
-                . '</label>';
+                      . '<label ' . $this->app->jbhtml->buildAttrs(array('for' => $id)) . '>'
+                      . JText::_($option)
+                      . '</label>';
         }
 
         return implode(" \n", $html);
@@ -1535,7 +1556,7 @@ class JBFieldHelper extends AppHelper
         $this->app->document->addScript('fields:global.js');
 
         $id     = 'listglobal-' . $this->app->jbstring->getId();
-        $global = $parent->getValue((string)$name) === null;
+        $global = $parent->getValue((string)$name) === NULL;
 
         $html   = array();
         $html[] = '<div class="global list">';
@@ -1584,7 +1605,7 @@ class JBFieldHelper extends AppHelper
      *
      * @return bool|string
      */
-    protected function _getAttr(SimpleXMLElement $node, $attrName, $default = null)
+    protected function _getAttr(SimpleXMLElement $node, $attrName, $default = NULL)
     {
         $result = $node->attributes()->{$attrName};
 
@@ -1617,9 +1638,10 @@ class JBFieldHelper extends AppHelper
      *
      * @return mixed
      */
-    protected function _createOption($key, $value, $translate = true)
+    protected function _createOption($key, $value, $translate = TRUE)
     {
         $name = $translate ? JText::_($value) : $value;
+
         return JHtml::_('select.option', $key, $name, 'value', 'text');
     }
 
