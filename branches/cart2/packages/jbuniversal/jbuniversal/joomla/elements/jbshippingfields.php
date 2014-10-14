@@ -14,4 +14,4 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-echo App::getInstance('zoo')->jbfield->jbshippingfields($name, $value, $control_name, $node, $parent);
+echo App::getInstance('zoo')->jbfield->shippingfields($name, $value, $control_name, $node, $parent);

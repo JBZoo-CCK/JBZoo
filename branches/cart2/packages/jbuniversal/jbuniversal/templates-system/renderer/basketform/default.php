@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 if ($this->checkPosition('fields')) : ?>
 
-    <h2>Форма заказа</h2>
+    <h2>Контактная информация</h2>
 
     <?php echo $this->renderPosition('fields', array(
         'style' => 'order.block'

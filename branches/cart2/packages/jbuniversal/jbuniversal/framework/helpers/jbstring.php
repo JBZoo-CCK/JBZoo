@@ -25,8 +25,10 @@ class JBStringHelper extends AppHelper
 
     /**
      * Get sub string (by words)
+     *
      * @param $text
      * @param $searchword
+     *
      * @return mixed|string
      */
     public function smartSubstr($text, $searchword)
@@ -68,22 +70,46 @@ class JBStringHelper extends AppHelper
 
     /**
      * Get truncated string (by words)
+     *
      * @param $string
      * @param $maxlen
+     *
      * @return string
      */
     public function cutByWords($string, $maxlen = 255)
     {
 
-        $len    = (JString::strlen($string) > $maxlen) ? JString::strrpos(JString::substr($string, 0, $maxlen), ' ') : $maxlen;
+        $len    = (JString::strlen($string) > $maxlen) ? JString::strrpos(JString::substr($string, 0, $maxlen), ' ')
+            : $maxlen;
         $cutStr = JString::substr($string, 0, $len);
 
         return (JString::strlen($string) > $maxlen) ? $cutStr . '...' : $cutStr;
     }
 
     /**
+     * @param int    $n      число
+     * @param string $only   Единственная форма: 1 секунда
+     * @param string $dual   Двойственная форма: 2 секунды
+     * @param string $plural Множественная форма: 5 секунд
+     *
+     * @return string Правильная форма
+     */
+    function declension($n, $only, $dual, $plural)
+    {
+        $n  = abs($n) % 100;
+        $n1 = $n % 10;
+        if ($n > 10 && $n < 20) return $plural;
+        if ($n1 > 1 && $n1 < 5) return $dual;
+        if ($n1 == 1) return $only;
+
+        return $plural;
+    }
+
+    /**
      * Parse text by lines
+     *
      * @param string $text
+     *
      * @return array
      */
     public function parseLines($text)
@@ -109,19 +135,24 @@ class JBStringHelper extends AppHelper
 
     /**
      * Get unique string
+     *
      * @param  string $prefix
+     *
      * @return string
      */
     public function getId($prefix = 'unique-')
     {
         $unique = $prefix . mt_rand(1, 999999);
+
         return $unique;
     }
 
     /**
      * Clean value
+     *
      * @param  string $value
      * @param  string $encoding
+     *
      * @return string
      */
     public function clean($value, $encoding = self::ENCODING)

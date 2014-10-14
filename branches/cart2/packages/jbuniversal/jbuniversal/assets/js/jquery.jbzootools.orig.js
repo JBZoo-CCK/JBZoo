@@ -785,7 +785,7 @@ var reCount = {
                 point    : '.',
                 separator: " ",
                 currency : 'EUR',
-                duration : 500
+                duration : 250
             }, settings),
             object = $(this);
 
@@ -824,7 +824,7 @@ var reCount = {
 
                                 $(fx.elem).stop();
 
-                                duration += duration * 4;
+                                duration += duration * 2;
 
                                 add(this.value, value, duration);
                             }
@@ -972,6 +972,15 @@ var reCount = {
                 $('input, select, textarea', $obj).removeAttr('disabled');
             }
 
+            function morphology(num, prfxs) {
+                prfxs = prfxs || ['', 'а', 'ов'];
+                num = '' + num;
+                if (num.match(/^(.*)(11|12|13|14|15|16|17|18|19)$/))return prfxs[2];
+                if (num.match(/^(.*)1$/))return prfxs[0];
+                if (num.match(/^(.*)(2|3|4)$/))return prfxs[1];
+                if (num.match(/^(.*)$/))return prfxs[2]
+            }
+
             // recount basket
             var recount = function (data) {
                 for (var key in data.items) {
@@ -986,8 +995,11 @@ var reCount = {
                 }
 
                 var count = $('.jsTotalCount .jsValue', $obj),
-                    total = $('.jsTotalPrice .jsValue', $obj);
+                    total = $('.jsTotalPrice .jsValue', $obj),
+                    morph = $('.jsMorphology', $obj),
+                    word = morph.data('word');
 
+                morph.html(word + morphology(data.count));
                 $(count).reCount(data.count, {
                     decimals: 0
                 });
@@ -1281,7 +1293,7 @@ var reCount = {
                 var parent = $this.parent();
 
                 $('' +
-                    '<table cellpadding="0" cellspacing="0" border="0" class="jsQuantityTable quantity-table no-border">' +
+                    '<table cellpadding="0" cellspacing="0" border="0" class="jsQuantityTable quantity-table">' +
                     '<tr><td rowspan="2">' +
                     '<div class="item-count-wrapper">' +
                     '<div class="item-count">' +
@@ -3142,7 +3154,7 @@ var reCount = {
                     }
 
                 }
-                console.log(values);
+
                 if (typeof values != 'undefined') {
 
                     $('.not-paid-box', $obj).show();
@@ -3695,6 +3707,49 @@ var reCount = {
         });
     };
 
+    $.fn.JBInputHelper = function (settings) {
+
+        var options = $.extend({}, {
+            'base'    : '.ghost',
+            'label'   : '.upgrd-label',
+            'classes' : {
+                'hover' : 'hover',
+                'active': 'active',
+                'focus' : 'focus'
+            },
+            'multiple': false,
+            'parent'  : '.shipping-default'
+        }, settings);
+
+        return $(this).each(function () {
+
+            var $this = $(this),
+                $label = $this.prev(options.label);
+
+            if ($this.hasClass('init')) {
+                return $this;
+            }
+
+            $this.addClass('init');
+            $this.on('click', function () {
+
+                $(options.label).remove(options.classes);
+                $label.addClass('checked');
+            });
+
+            $label.on('mouseenter', function () {
+
+                $label.addClass('hover');
+            });
+
+            $label.on('mouseleave', function () {
+
+                $label.removeClass('hover');
+            });
+
+        });
+    };
+
     $.fn.JBCartShipping = function () {
 
         var byDefault = 'default',
@@ -3727,18 +3782,18 @@ var reCount = {
             var shippingBlock = $this.parents('.jbzoo').find('.shippingfileds-list');
             shippingBlock.addClass('loading');
 
+            shippingBlock.show();
             if (shipFields.indexOf(':') > 0) {
 
-                shippingBlock.show();
                 var fields = shipFields.split(':'),
                     classes = '.element-' + fields.join(', .element-');
 
-                $(classes, shippingBlock).slideDown()
-                    .find('input, select')
+                $(classes, shippingBlock).fadeIn()
+                    .find('input, select, textarea')
                     .removeAttr('disabled');
 
                 $('div.element:not(' + classes + ')', shippingBlock)
-                    .slideUp(function () {
+                    .fadeOut(function () {
 
                         $(this)
                             .find('input, select')
@@ -3747,14 +3802,13 @@ var reCount = {
 
             } else if (shipFields.length > 0) {
 
-                shippingBlock.show();
                 $('.element-' + shipFields, shippingBlock)
-                    .slideDown()
+                    .fadeIn()
                     .find('input, select, textarea')
                     .removeAttr('disabled');
 
                 $('div.element', shippingBlock).not('.element-' + shipFields)
-                    .slideUp(function () {
+                    .fadeOut(function () {
 
                         $(this)
                             .find('input, select, textarea')
@@ -3774,6 +3828,9 @@ var reCount = {
         $('.jsInputShippingService', $this).on('change', function () {
 
             var $element = $(this).parents('.jsShippingElement');
+
+            $element.addClass('active');
+            $element.siblings('.element').removeClass('active');
 
             $this.toggleShipFields($element);
             $this.hide();
@@ -3852,6 +3909,9 @@ var reCount = {
 
         var $element =
             $('.jsInputShippingService:checked', $this).parents('.jsShippingElement');
+
+        $element.addClass('active');
+        $element.siblings('.element').removeClass('active');
 
         $this.createPlugins();
         $this.toggleShipFields($element);

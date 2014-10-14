@@ -21,7 +21,7 @@ $labelAttrs = array(
 $attrs = array(
     'type'    => 'radio',
     'name'    => $this->getControlName('_shipping_id'),
-    'class'   => 'jsInputShippingService shipping-service',
+    'class'   => 'jsInputShippingService shipping-service ghost',
     'id'      => 'shipping-' . $this->identifier,
     'value'   => $this->identifier,
     'checked' => $this->isDefault() ? 'checked="checked"' : ''
@@ -35,14 +35,16 @@ $attrs = array(
 
     <div class="jbradio"></div>
 
-    <span class="name" title="<?php echo $addresses; ?>">
-        <?php echo $this->getName(); ?>
-    </span>
+    <div class="shipping-info">
+            <span class="name" title="<?php echo $addresses; ?>">
+                <?php echo $this->getName(); ?>
+            </span>
 
-    <span class="value">
-        (<?php echo $shipping ? $this->app->jbmoney->toFormat($shipping, $this->currency()) : JText::_('JBZOO_ELEMENT_SHIPPING_PICKUP_FREE'); ?>)
-    </span>
-
+            <span class="value">
+                (<?php echo $shipping ? $this->app->jbmoney->toFormat($shipping, $this->currency())
+                    : JText::_('JBZOO_ELEMENT_SHIPPING_PICKUP_FREE'); ?>)
+            </span>
+    </div>
 </label>
 
 <?php if ($description = $this->config->get('description')) : ?>

@@ -107,7 +107,7 @@ class BasketJBUniversalController extends JBUniversalController
                     $orderSaved = true;
 
                     // empty cart items
-                    $this->_cart->removeItems();
+                    $this->cart->removeItems();
 
                     // go to payment page
                     $payment = $this->order->getPayment();

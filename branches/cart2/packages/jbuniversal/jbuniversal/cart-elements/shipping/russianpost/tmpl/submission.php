@@ -21,27 +21,31 @@ $labelAttrs = array(
 $attrs = array(
     'type'    => 'radio',
     'name'    => $this->getControlName('_shipping_id'),
-    'class'   => 'jsInputShippingService shipping-service',
+    'class'   => 'jsInputShippingService shipping-service ghost',
     'id'      => 'shipping-' . $this->identifier,
     'value'   => $this->identifier,
     'checked' => $this->isDefault() ? 'checked="checked"' : ''
 );
 
 ?>
+
     <input <?php echo $this->app->jbhtml->buildAttrs($attrs); ?> />
 
     <label <?php echo $this->app->jbhtml->buildAttrs($labelAttrs); ?>>
 
         <div class="jbradio"></div>
 
-    <span class="name">
-        <?php echo $this->getName(); ?>
-    </span>
+        <div class="shipping-info">
 
-    <span class="value">
-        (<?php echo JText::_('JBZOO_ELEMENT_SHIPPING_CHOOSE_PARAMS'); ?>)
-    </span>
+            <span class="name">
+                <?php echo $this->getName(); ?>
+            </span>
 
+            <span class="value">
+                (<?php echo JText::_('JBZOO_ELEMENT_SHIPPING_CHOOSE_PARAMS'); ?>)
+            </span>
+
+        </div>
     </label>
 
     <div class="more-options jsMoreOptions jsCalculate">

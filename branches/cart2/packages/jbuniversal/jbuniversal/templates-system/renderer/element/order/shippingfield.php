@@ -31,6 +31,7 @@ if ($isError) {
 
 // create class attribute
 $classes = array_filter(array(
+    'element-' . $element->identifier,
     'control-group',
     'element',
     'element-' . $element->getElementType(),
