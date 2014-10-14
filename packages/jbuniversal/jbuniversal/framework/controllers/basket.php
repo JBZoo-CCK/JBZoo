@@ -23,27 +23,27 @@ class BasketJBUniversalController extends JBUniversalController
     /**
      * @var JBModelConfig
      */
-    protected $_config = NULL;
+    protected $_config = null;
 
     /**
      * @var JBCartHelper
      */
-    protected $_jbcart = NULL;
+    protected $_jbcart = null;
 
     /**
      * @var JBMoneyHelper
      */
-    protected $_jbmoney = NULL;
+    protected $_jbmoney = null;
 
     /**
      * @var JBCartOrder
      */
-    public $order = NULL;
+    public $order = null;
 
     /**
      * @var JBCart
      */
-    public $cart = NULL;
+    public $cart = null;
 
     /**
      * @param array $app
@@ -82,7 +82,7 @@ class BasketJBUniversalController extends JBUniversalController
         $this->config = $this->_config;
 
         $errors     = 0;
-        $orderSaved = FALSE;
+        $orderSaved = false;
 
         if ($this->_jbrequest->isPost()) {
 
@@ -102,21 +102,26 @@ class BasketJBUniversalController extends JBUniversalController
                     $this->app->jbnotify->warning($errorMessages);
 
                 } else {
-
                     // saving order
                     JBModelOrder::model()->save($this->order);
+                    $orderSaved = true;
 
                     // empty cart items
-                    $this->cart->removeItems();
+                    $this->_cart->removeItems();
 
                     // go to payment page
                     $payment = $this->order->getPayment();
                     if ($payment && $paymentUrl = $payment->getRedirectUrl()) {
-                        $this->setRedirect($paymentUrl, JText::_('JBZOO_CART_PAYMENT_REDIRECT'));
-                    }
 
-                    $orderSaved = TRUE;
-                    $this->app->jbnotify->notice(JText::_('JBZOO_CART_ORDER_SUCCESS_CREATED'));
+                        $message = $payment->getSuccessMessage();
+                        if (empty($message)) {
+                            $message = 'JBZOO_CART_PAYMENT_REDIRECT';
+                        }
+
+                        $this->setRedirect($paymentUrl, JText::_($message));
+                    } else {
+                        $this->app->jbnotify->notice(JText::_('JBZOO_CART_ORDER_SUCCESS_CREATED'));
+                    }
                 }
 
             } catch (JBCartOrderException $e) {

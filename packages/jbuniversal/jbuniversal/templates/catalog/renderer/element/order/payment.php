@@ -27,6 +27,8 @@ if ($isError) {
 $classes = array_filter(array(
     'form-field-row',
     'element',
+    'robokassa-payment',
+    'jbzoo-payment',
     'element-' . $element->getElementType(),
     $params->get('first') ? ' first' : '',
     $params->get('last') ? ' last' : '',
@@ -34,27 +36,38 @@ $classes = array_filter(array(
     $isError ? ' error' : '',
 ));
 
+
 $element->loadAssets();
 
 ?>
 <div class="<?php echo implode(' ', $classes); ?>">
-    <?php
+    <div class="jbzoo-payment-content">
 
-    echo '<label class="field-label" for="payment-' . $element->identifier . '"> '
-        . '<input type="radio" name="' . $element->getControlName('_payment_id') . '" '
-        . 'id="payment-' . $element->identifier . '" '
-        . 'value="' . $element->identifier . '" '
-        . ($element->isDefault() ? 'checked="checked" ' : '') . ' />';
+        <?php echo '<input type="radio" '
+            . 'name="' . $element->getControlName('_payment_id') . '" '
+            . 'id="payment-' . $element->identifier . '" '
+            . 'value="' . $element->identifier . '" '
+            . 'class="payment-choose" '
+            . ($element->isDefault() ? 'checked="checked" ' : '') . ' />';?>
 
-    echo $element->getName();
-    echo '</label>';
+        <label class="payment-label" for="<?php echo $element->identifier; ?>"> </label>
 
-    if ($description = $element->config->get('description')) {
-        echo '<p class="payment-description">' . $description . '</p>';
-    }
+        <?php if ($description = $element->config->get('description')) {
+            echo '<span class="jbzoo-payment-desc">' . $description . '</p>';
+        }
+        ?>
 
-    echo '<div class="payment-element"> ' . $element->renderSubmission($params) . $error . ' </div>';
+        <?php if ($element->isDebug()) : ?>
+            <p class="debug-mode"><?php echo JText::_('JBZOO_PAYMENT_DEBUG_MESSAGE'); ?></p>
+        <?php endif; ?>
+
+    </div>
+    <?
+
+    // echo '<label class="field-label" for="payment-' . $element->identifier . '"> '
+    // echo $element->getName();
+    // echo '</label>';
+    // echo '<div class="payment-element"> ' . $element->renderSubmission($params) . $error . ' </div>';
 
     ?>
-    <div class="clear"></div>
 </div>

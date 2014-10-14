@@ -18,15 +18,20 @@ $params = $this->app->data->create($params);
 
 // create error
 $error = '';
+if ($element->isDebug()) {
+    $error .= '<p class="payment-debug">' . JText::_('JBZOO_PAYMENT_DEBUG_MESSAGE') . '</p>';
+}
+
 $isError = isset($element->error) && !empty($element->error);
 if ($isError) {
-    $error = '<p class="error-message">' . (string)$element->error . '</p>';
+    $error .= '<p class="payment-error">' . (string)$element->error . '</p>';
 }
 
 // create class attribute
 $classes = array_filter(array(
-    'form-field-row',
-    'element',
+    'element-payment',
+    'robokassa-payment',
+    'jbzoo-payment',
     'element-' . $element->getElementType(),
     $params->get('first') ? ' first' : '',
     $params->get('last') ? ' last' : '',
@@ -36,25 +41,31 @@ $classes = array_filter(array(
 
 $element->loadAssets();
 
+$paymentId = 'payment-' . $element->identifier;
 ?>
 <div class="<?php echo implode(' ', $classes); ?>">
-    <?php
 
-    echo '<label class="field-label" for="payment-' . $element->identifier . '"> '
-        . '<input type="radio" name="' . $element->getControlName('_payment_id') . '" '
-        . 'id="payment-' . $element->identifier . '" '
-        . 'value="' . $element->identifier . '" '
-        . ($element->isDefault() ? 'checked="checked" ' : '') . ' />';
+    <label class="payment-label jbzoo-payment-content" for="<?php echo $paymentId; ?>">
 
-    echo $element->getName();
-    echo '</label>';
+        <input type="radio" <?php echo($element->isDefault() ? 'checked="checked" ' : ''); ?>
+               name="<?php echo $element->getControlName('_payment_id'); ?>"
+               value="<?php echo $element->identifier; ?>"
+               id="<?php echo $paymentId; ?>"
+               class="payment-choose"
+        />
 
-    if ($description = $element->config->get('description')) {
-        echo '<p class="payment-description">' . $description . '</p>';
-    }
+        <div class="payment-element">
+            <?php echo $element->renderSubmission($params); ?>
+        </div>
 
-    echo '<div class="payment-element"> ' . $element->renderSubmission($params) . $error . ' </div>';
+        <?php if ($description = $element->config->get('description')) : ?>
+            <p class="jbzoo-payment-desc"><?php echo JText::_($description); ?> </p>
+        <? endif; ?>
 
-    ?>
-    <div class="clear"></div>
+        <?php echo $error; ?>
+
+    </label>
+
+    <div class="clear clr"></div>
+
 </div>

@@ -63,12 +63,12 @@ class JBCart
     /**
      * @var App
      */
-    public $app = NULL;
+    public $app = null;
 
     /**
      * @var JSONData
      */
-    protected $_config = NULL;
+    protected $_config = null;
 
     /**
      * @var JBMoneyHelper
@@ -119,11 +119,20 @@ class JBCart
     }
 
     /**
+     * Get payment success status
+     * @return string
+     */
+    public function getPaymentSuccess()
+    {
+        return $this->_config->get('default_payment_status_success', 'success');
+    }
+
+    /**
      * Get default status from cart configurations
      */
     public function getDefaultStatus($type = JBCart::STATUS_ORDER)
     {
-        $statusCode = NULL;
+        $statusCode = null;
         if ($type == JBCart::STATUS_ORDER) {
             $statusCode = $this->_config->get('default_order_status');
 
@@ -239,12 +248,12 @@ class JBCart
      * $key = {item_id}-{variant_index}.
      * Priority on $key.
      *
-     * @param  int    $id
+     * @param  int $id
      * @param  string $key
      *
      * @return bool
      */
-    public function remove($id, $key = NULL)
+    public function remove($id, $key = null)
     {
         $items = $this->getItems();
 
@@ -257,7 +266,7 @@ class JBCart
             return $this->removeItem($id);
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -281,10 +290,10 @@ class JBCart
 
             $this->_setSession('items', $items);
 
-            return TRUE;
+            return true;
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -304,10 +313,10 @@ class JBCart
             unset($items[$key]);
             $this->_setSession('items', $items);
 
-            return TRUE;
+            return true;
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -398,12 +407,12 @@ class JBCart
         if (!empty($items)) {
             foreach ($items as $key => $item) {
                 if ($key === $id) {
-                    return TRUE;
+                    return true;
                 }
             }
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -418,10 +427,10 @@ class JBCart
         $items = $this->getItems();
 
         if (isset($items[$key])) {
-            return TRUE;
+            return true;
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -441,7 +450,7 @@ class JBCart
      * Set session
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      */
     protected function _setSession($key, $value)
     {

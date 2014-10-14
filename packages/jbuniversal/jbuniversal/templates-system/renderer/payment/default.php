@@ -13,75 +13,15 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+?>
 
-if ($this->checkPosition('dasdas')) : ?>
+<?php if ($this->checkPosition('list')) : ?>
+
+    <div class="clear clr"></div>
 
     <div class="payment-list jbzoo-clear">
-
-        <h2>Оплата</h2>
-
+        <h2>Способ оплаты</h2>
         <?php echo $this->renderPosition('list', array('order.payment')); ?>
-
     </div>
 
 <?php endif; ?>
-
-<div class="clear clr"></div>
-<div class="payment-list jbzoo-clear">
-
-    <h2>Оплата</h2>
-
-    <div class="robokassa-payment jbzoo-payment">
-
-        <div class="jbzoo-payment-content">
-
-            <input type="radio" id="robokassa" name="payment" value="robokassa" class="payment-choose"
-                   checked="checked" />
-
-            <label class="payment-label" for="robokassa"> </label>
-
-            <span class="jbzoo-payment-desc">
-                Нажав на кнопку «Написать реферат», вы лично создаете уникальный текст, причем именно от вашего нажатия на кнопку зависит
-            </span>
-
-            <p class="debug-mode">
-                *Режим отладки
-            </p>
-        </div>
-
-    </div>
-
-    <div class="interkassa-payment jbzoo-payment">
-
-        <div class="jbzoo-payment-content">
-
-            <input type="radio" id="interkassa" name="payment" value="interkassa" class="payment-choose" />
-
-            <label class="payment-label" for="interkassa"> </label>
-
-            <span class="jbzoo-payment-desc">
-                Нажав на кнопку «Написать реферат», вы лично создаете уникальный текст, причем именно от вашего нажатия на кнопку зависит
-            </span>
-
-        </div>
-
-    </div>
-
-    <div class="paypal-payment jbzoo-payment">
-        <div class="jbzoo-payment-content">
-            <input type="radio" id="paypal" name="payment" value="paypal" class="payment-choose" />
-
-            <label class="payment-label" for="paypal"> </label>
-
-            <span class="jbzoo-payment-desc">
-                Нажав на кнопку «Написать реферат», вы лично создаете уникальный текст, причем именно от вашего нажатия на кнопку зависит
-            </span>
-
-            <p class="debug-mode">
-                *Режим отладки
-            </p>
-
-        </div>
-    </div>
-
-</div>
