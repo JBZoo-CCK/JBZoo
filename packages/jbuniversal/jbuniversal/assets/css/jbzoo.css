@@ -2704,7 +2704,7 @@ form.jbzoo-app-basket {
     margin      : 5px 0 0 0;
 }
 
-.jbzoo .jbzoo-app-basket .jbzoo-payment .jbzoo-payment-content .debug-mode {
+.jbzoo .jbzoo-app-basket .jbzoo-payment .jbzoo-payment-content .payment-debug {
     font-size  : 12px;
     color      : #F24949;
     display    : block;
@@ -2713,8 +2713,10 @@ form.jbzoo-app-basket {
 }
 
 .jbzoo .jbzoo-app-basket .jbzoo-payment .payment-choose {
+    /*
     position : absolute;
     left     : -9999px;
+    */
 }
 
 .jbzoo .jbzoo-app-basket .jbzoo-payment .payment-label {
@@ -2723,35 +2725,8 @@ form.jbzoo-app-basket {
     transition         : all 300ms;
 }
 
-.jbzoo .jbzoo-app-basket .jbzoo-payment .payment-label {
-    height      : 38px;
-    line-height : 38px;
-}
-
-.jbzoo .jbzoo-app-basket .jbzoo-payment .payment-label {
-    width : 181px;
-}
-
-.jbzoo .jbzoo-app-basket .robokassa-payment .payment-label {
-    background : url('../img/payments/_robokassa.png') no-repeat center;
-}
-
-.jbzoo .jbzoo-app-basket .interkassa-payment .payment-label {
-    background : url('../img/payments/_interkassa.png') no-repeat center;
-}
-
-.jbzoo .jbzoo-app-basket .paypal-payment .payment-label {
-    background : url('../img/payments/_paypal.png') no-repeat center;
-}
-
-.jbzoo .jbzoo-app-basket .robokassa-payment .payment-choose:checked + label.payment-label {
-    background : url('../img/payments/robokassa.png') no-repeat center;
-}
-
-.jbzoo .jbzoo-app-basket .interkassa-payment .payment-choose:checked + label.payment-label {
-    background : url('../img/payments/interkassa.png') no-repeat center;
-}
-
-.jbzoo .jbzoo-app-basket .paypal-payment .payment-choose:checked + label.payment-label {
-    background : url('../img/payments/paypal.png') no-repeat center;
+.jbzoo .payment-list .element-payment {
+    float:left;
+    width: 250px;
+    margin-right: 12px;
 }
