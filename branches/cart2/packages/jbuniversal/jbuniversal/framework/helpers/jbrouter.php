@@ -526,17 +526,15 @@ class JBRouterHelper extends AppHelper
 
     /**
      * Payment
-     * @param $appId
      * @param $type
      * @return string
      */
-    public function payment($appId, $type)
+    public function payment($type)
     {
         $params = array(
             'option'     => 'com_zoo',
             'controller' => 'payment',
             'task'       => 'payment' . $type,
-            'app_id'     => (int)$appId
         );
 
         return JURI::root() . 'index.php?' . $this->query($params);

@@ -16,11 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $view = $this->getView();
 
-if (isset($view->manual) && $view->manual->text) {
-    $message = JString::str_ireplace('$1', $view->order->id, $view->manual->text);
-} else {
-    $message = JString::str_ireplace('$1', $view->order->id, JText::_('JBZOO_PAYMENT_SUCCESS_MESSAGE'));
-}
+$message = JString::str_ireplace('$1', $view->order->id, JText::_('JBZOO_PAYMENT_SUCCESS_MESSAGE'));
 
 ?>
 <div><?php echo $message; ?></div>

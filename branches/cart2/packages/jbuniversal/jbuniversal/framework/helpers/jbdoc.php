@@ -46,4 +46,12 @@ class JBDocHelper extends AppHelper
         $this->app->jbrequest->set('tmpl', 'component');
     }
 
+    /**
+     * Disable Joomla template
+     */
+    public function rawOutput()
+    {
+        $this->app->jbrequest->set('tmpl', 'raw');
+    }
+
 }
