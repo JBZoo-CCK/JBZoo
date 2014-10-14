@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<element type="element" group="Core" hidden="false">
+    <name>PayPal</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZoo Cart Element Core System</description>
+
+    <params>
+        <param name="description" type="textarea" default="JBZOO_PAYMENT_PAYPAL_DEFAULT_DESCRIPTION"
+               label="JBZOO_ELEMENT_DESCRIPTION" description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
+
+        <param name="email" type="text" default="" label="JBZOO_PAYMENT_PAYPAL_EMAIL"
+               description="JBZOO_PAYMENT_PAYPAL_EMAIL_DESC"/>
+    </params>
+</element>

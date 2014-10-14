@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<element type="element" group="Core" hidden="false">
+    <name>Interkassa</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZoo Cart Element Core System</description>
+
+    <params>
+        <param name="description" type="textarea" default="JBZOO_PAYMENT_INTERKASSA_DEFAULT_DESCRIPTION"
+               label="JBZOO_ELEMENT_DESCRIPTION" description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
+
+        <param name="shopid" type="text" default="" label="JBZOO_INTERKASSA_SHOPID"
+               description="JBZOO_INTERKASSA_SHOPID_DESC"/>
+
+        <param name="key" type="text" default="" label="JBZOO_INTERKASSA_KEY"
+               description="JBZOO_INTERKASSA_KEY_DESC"/>
+
+        <param name="test_key" type="text" default="" label="JBZOO_INTERKASSA_TEST_KEY"
+               description="JBZOO_INTERKASSA_KEY_TEST_DESC"/>
+
+        <param name="hash_method" type="radio" default="md5" label="JBZOO_INTERKASSA_HASH_METHOD"
+               description="JBZOO_INTERKASSA_HASH_METHOD_DESC">
+            <option value="md5">MD5</option>
+            <option value="sha256">SHA256</option>
+        </param>
+
+    </params>
+</element>
