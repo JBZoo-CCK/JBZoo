@@ -39,7 +39,7 @@ class JBPriceFilterRenderer extends PositionRenderer
     protected $_jbprice;
 
     /**
-     * @param App $app
+     * @param App  $app
      * @param null $path
      */
     public function __construct($app, $path = null)
@@ -53,12 +53,14 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * @param string $position
+     *
      * @return bool|void
      */
     public function checkPosition($position)
     {
         foreach ($this->_getConfigPosition($position) as $key => $data) {
-            if ($element = $this->_jbprice->loadElement($data)) {
+
+            if ($element = $this->_jbprice->getParam($key)) {
 
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
@@ -75,7 +77,8 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * @param string $layout
-     * @param array $args
+     * @param array  $args
+     *
      * @return string
      */
     public function render($layout, $args = array())
@@ -83,16 +86,7 @@ class JBPriceFilterRenderer extends PositionRenderer
         $this->_jbprice = $args['price'];
         unset($args['price']);
 
-        $path = JPATH_SITE . '/media/zoo/applications/jbuniversal/framework/render/pricefilter';
-        require_once $path . '/element.php';
-
         $result = null;
-        $this->addPath(array(
-                $this->app->path->path('jbtmpl:catalog/'),
-                'jbpricefilter.' . $layout
-            )
-        );
-
         $result .= parent::render('jbpricefilter.' . $layout, $args);
 
         return $result;
@@ -100,7 +94,8 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * @param string $position
-     * @param array $args
+     * @param array  $args
+     *
      * @return string|void
      */
     public function renderPosition($position = null, $args = array())
@@ -113,16 +108,20 @@ class JBPriceFilterRenderer extends PositionRenderer
 
         foreach ($this->_getConfigPosition($position) as $key => $data) {
 
-            $element = $this->_jbprice->loadElement($data);
-            if ($element && $element->canAccess()) {
+            if ($element = $this->_jbprice->getParam($key)) {
 
                 $i++;
+
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
                 $data['_index']    = $key;
 
                 // set params
                 $params = array_merge($data, $args);
+
+                if (!$element->canAccess() && !$element->hasFilterValue($this->app->data->create($params))) {
+                    continue;
+                }
 
                 $attrs = array(
                     'id'    => 'filterEl_' . $element->identifier,
@@ -145,7 +144,7 @@ class JBPriceFilterRenderer extends PositionRenderer
                             'params'      => $params,
                             'attrs'       => $attrs,
                             'value'       => $value,
-                            'config'      => $element->getConfig(),
+                            'config'      => $element->config,
                             'elementHTML' => $elementHTML
                         )
                     );
@@ -160,6 +159,7 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * @param $position
+     *
      * @return mixed
      */
     public function _getConfigPosition($position)
@@ -172,10 +172,12 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * Element render
+     *
      * @param string $element
-     * @param bool $value
-     * @param array $params
-     * @param array $attrs
+     * @param bool   $value
+     * @param array  $params
+     * @param array  $attrs
+     *
      * @return mixed
      * @throws Exception
      */
@@ -191,6 +193,7 @@ class JBPriceFilterRenderer extends PositionRenderer
         $className     = 'JBPriceFilterElement';
         $classFilename = 'element';
 
+        $this->app->loader->register($className, 'renderer:/pricefilter/' . $classFilename . '.php');
         foreach ($renderPaths as $renderPath) {
 
             $className .= $renderPath;
@@ -214,8 +217,10 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * Mapper elementType to render method
-     * @param array $params
+     *
+     * @param array  $params
      * @param string $elementType
+     *
      * @return string
      */
     private function _getRender(array $params, $elementType)
@@ -234,6 +239,10 @@ class JBPriceFilterRenderer extends PositionRenderer
 
                 case 'checkbox':
                     $renderMethod = 'checkbox';
+                    break;
+
+                case 'color':
+                    $renderMethod = 'jbcolor';
                     break;
 
                 case 'select':
@@ -293,7 +302,9 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * Get element request
+     *
      * @param $identifier
+     *
      * @return null|array|string
      */
     private function _getRequest($identifier)
@@ -305,8 +316,8 @@ class JBPriceFilterRenderer extends PositionRenderer
 
             if (isset($elements[$this->_jbprice->identifier]['params'][$identifier])) {
                 return $elements[$this->_jbprice->identifier]['params'][$identifier];
-            } else if (isset($elements[$this->_jbprice->identifier]['params']) &&
-                !isset($elements[$this->_jbprice->identifier]['params'][$identifier])
+            } else if (isset($elements[$this->_jbprice->identifier]['params'])
+                       && !isset($elements[$this->_jbprice->identifier]['params'][$identifier])
             ) {
                 return null;
             }
@@ -322,6 +333,7 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * @param string $dir
+     *
      * @return array
      */
     public function getLayouts($dir)

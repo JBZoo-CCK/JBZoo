@@ -70,8 +70,8 @@ class JBPriceFilterElement
     protected $_jbhtml = null;
 
     /**
-     * @param $element
-     * @param $value
+     * @param       $element
+     * @param       $value
      * @param array $params
      * @param array $attrs
      */
@@ -92,14 +92,16 @@ class JBPriceFilterElement
         $this->_isCountShow = (int)$this->_params->get('jbzoo_filter_count', 1);
 
         $this->_attrs  = $this->_getAttrs($attrs);
-        $this->_config = $element->getConfig();
+        $this->_config = $element->config;
 
         $this->_jbhtml = $this->app->jbhtml;
     }
 
     /**
      * Get element value
+     *
      * @param $value
+     *
      * @return mixed
      */
     protected function _getElementValue($value)
@@ -118,7 +120,9 @@ class JBPriceFilterElement
 
     /**
      * Check is variable empty
+     *
      * @param $value
+     *
      * @return bool
      */
     protected function _isValueEmpty($value)
@@ -128,7 +132,9 @@ class JBPriceFilterElement
 
     /**
      * Get available values
+     *
      * @param null $type
+     *
      * @return array
      */
     protected function _getValues($type = null)
@@ -207,7 +213,9 @@ class JBPriceFilterElement
 
     /**
      * Get html attributs
+     *
      * @param $attrs
+     *
      * @return array
      */
     protected function _getAttrs(array $attrs)
@@ -225,7 +233,8 @@ class JBPriceFilterElement
 
     /**
      * @param array $values
-     * @param bool $showAll
+     * @param bool  $showAll
+     *
      * @return array
      */
     protected function _createOptionsList($values, $showAll = true)
@@ -251,8 +260,10 @@ class JBPriceFilterElement
 
     /**
      * Get element ID attribute
+     *
      * @param string $postFix
-     * @param bool $addUniq
+     * @param bool   $addUniq
+     *
      * @return string
      */
     protected function _getId($postFix = null, $addUniq = false)
@@ -280,7 +291,9 @@ class JBPriceFilterElement
 
     /**
      * Get element name
+     *
      * @param string $postFix
+     *
      * @return string
      */
     protected function _getName($postFix = null)
@@ -343,7 +356,9 @@ class JBPriceFilterElement
 
     /**
      * Init placeholder
+     *
      * @param $attrs
+     *
      * @return mixed
      */
     protected function _addPlaceholder($attrs)
