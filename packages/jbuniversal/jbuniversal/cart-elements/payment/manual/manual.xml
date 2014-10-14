@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <element type="element" group="Core" hidden="false">
-    <name>Manual / Сourier</name>
+    <name>Manual</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>
@@ -10,15 +10,14 @@
     <description>JBZoo Cart Element Core System</description>
 
     <params>
-        <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME" description="JBZOO_ELEMENT_NAME_DESC"/>
+        <param name="description" type="textarea" default="JBZOO_PAYMENT_MANUAL_DEFAULT_DESCRIPTION"
+               label="JBZOO_ELEMENT_DESCRIPTION" description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
 
-        <param name="description" type="text" default="" label="JBZOO_ELEMENT_DESCRIPTION"
-               description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
+        <param name="redirect_url" type="text" default="" label="JBZOO_PAYMENT_MANUAL_REDIRECT_URL"
+               description="JBZOO_PAYMENT_MANUAL_REDIRECT_URL_DESC"/>
 
-        <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
-               description="JBZOO_ELEMENT_ACCESS_DESC"/>
+        <param name="redirect_message" type="text" default="JBZOO_PAYMENT_MANUAL_DEFAULT_REDIRECT_MESSAGE"
+               label="JBZOO_PAYMENT_MANUAL_REDIRECT_MESSAGE" description="JBZOO_PAYMENT_MANUAL_REDIRECT_MESSAGE_DESC"/>
 
     </params>
-
-
 </element>
