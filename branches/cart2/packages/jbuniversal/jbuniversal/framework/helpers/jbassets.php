@@ -105,22 +105,11 @@ class JBAssetsHelper extends AppHelper
      */
     public function uikit($addJS = false)
     {
-        if (defined('JDEBUG') && JDEBUG) {
-
-            if ($addJS) {
-                $this->_include(array('jbassets:js/uikit.orig.js'), 'js');
-            }
-
-            $this->_include(array('jbassets:css/uikit.orig.css'), 'css');
-
-        } else {
-
-            if ($addJS) {
-                $this->_include(array('jbassets:js/uikit.min.js'), 'js');
-            }
-
-            $this->_include(array('jbassets:css/uikit.min.css'), 'css');
+        if ($addJS) {
+            $this->_include(array('jbassets:js/uikit.min.js'), 'js');
         }
+
+        $this->_include(array('jbassets:css/uikit.min.css'), 'css');
     }
 
     /**
