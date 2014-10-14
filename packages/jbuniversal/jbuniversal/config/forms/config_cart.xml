@@ -18,117 +18,78 @@
             <field name="enable" type="jbbool" default="0" label="JBZOO_CART_ENABLE"
                    description="JBZOO_CART_ENABLE_DESC"/>
 
-            <!-- заменить на уровень доступа -->
-            <field name="access"
-                   type="accesslevel"
-                   default="1"
-                   label="JBZOO_CART_AUTH_ONLY"
+            <!-- replace to ACL -->
+            <field name="access" type="accesslevel" default="1" label="JBZOO_CART_AUTH_ONLY"
                    description="JBZOO_CART_AUTH_ONLY_DESC"/>
 
-            <field name="spacer_shop_general"
-                   type="jbspacer"
-                   default="JBZOO_CART_CONFIG_SHOP_GENERAL"/>
+            <!--  general configs -->
+            <field name="spacer_shop_general" type="jbspacer" default="JBZOO_CART_CONFIG_SHOP_GENERAL"/>
 
-            <field name="default_order_status"
-                   type="jbstatus"
-                   default="new"
-                   label="JBZOO_CART_CONFIG_ORDER_STATUS"
-                   status_type="STATUS_ORDER"
-                   description="JBZOO_CART_CONFIG_ORDER_STATUS_DESC"/>
+            <field name="default_order_status" type="jbstatus" default="new" label="JBZOO_CART_CONFIG_ORDER_STATUS"
+                   status_type="STATUS_ORDER" description="JBZOO_CART_CONFIG_ORDER_STATUS_DESC"/>
 
-            <field name="default_currency"
-                   type="jbcurrency"
-                   default="EUR"
-                   label="JBZOO_CART_CONFIG_CURRENCY"
+            <field name="default_currency" type="jbcurrency" default="EUR" label="JBZOO_CART_CONFIG_CURRENCY"
                    description="JBZOO_CART_CONFIG_CURRENCY_DESC"/>
 
-            <field name="spacer_shop_about"
-                   type="jbspacer"
-                   default="JBZOO_CART_CONFIG_SHOP_ABOUT"/>
+            <!--  shop info configs -->
+            <field name="spacer_shop_about" type="jbspacer" default="JBZOO_CART_CONFIG_SHOP_ABOUT"/>
 
-            <field name="shop_name"
-                   type="text"
-                   default=""
-                   label="JBZOO_CART_CONFIG_SHOP_NAME"
+            <field name="shop_name" type="text" default="" label="JBZOO_CART_CONFIG_SHOP_NAME"
                    description="JBZOO_CART_CONFIG_SHOP_NAME_DESC"/>
 
-            <field name="shop_details"
-                   type="jbtextarea"
-                   default=""
-                   label="JBZOO_CART_CONFIG_SHOP_ABOUT_DETAILS"
+            <field name="shop_details" type="jbtextarea" default="" label="JBZOO_CART_CONFIG_SHOP_ABOUT_DETAILS"
                    description="JBZOO_CART_CONFIG_SHOP_ABOUT_DETAILS_DESC"/>
 
-            <field name="spacer_shop_shipping"
-                   type="jbspacer"
-                   default="JBZOO_CART_CONFIG_SHOP_SHIPPING"/>
+            <!--  shipping configs -->
+            <field name="spacer_shop_shipping" type="jbspacer" default="JBZOO_CART_CONFIG_SHOP_SHIPPING"/>
 
-            <field name="default_shipping"
-                   type="jbshipping"
-                   default=""
-                   label="JBZOO_CART_CONFIG_SHIPPING"
+            <field name="default_shipping" type="jbshipping" default="" label="JBZOO_CART_CONFIG_SHIPPING"
                    description="JBZOO_CART_CONFIG_SHIPPING_DESC"/>
 
-            <field name="default_shipping_status"
-                   type="jbstatus"
-                   default="new"
+            <field name="default_shipping_status" type="jbstatus" default="new"
                    label="JBZOO_CART_CONFIG_SHIPPING_STATUS"
-                   status_type="STATUS_SHIPPING"
-                   description="JBZOO_CART_CONFIG_SHIPPING_STATUS_DESC"/>
+                   status_type="STATUS_SHIPPING" description="JBZOO_CART_CONFIG_SHIPPING_STATUS_DESC"/>
 
-            <field name="default_shipping_country"
-                   type="text"
-                   default=""
-                   label="JBZOO_CART_CONFIG_SHIPPING_COUNTRY"
+            <field name="default_shipping_country" type="text" default="" label="JBZOO_CART_CONFIG_SHIPPING_COUNTRY"
                    description="JBZOO_CART_CONFIG_SHIPPING_COUNTRY_DESC"/>
 
-            <field name="default_shipping_city"
-                   type="text"
-                   default=""
-                   label="JBZOO_CART_CONFIG_SHIPPING_CITY"
+            <field name="default_shipping_city" type="text" default="" label="JBZOO_CART_CONFIG_SHIPPING_CITY"
                    description="JBZOO_CART_CONFIG_SHIPPING_CITY_DESC"/>
 
-            <field name="default_shipping_address"
-                   type="text"
-                   default=""
-                   label="JBZOO_CART_CONFIG_SHIPPING_ADDRESS"
+            <field name="default_shipping_address" type="text" default="" label="JBZOO_CART_CONFIG_SHIPPING_ADDRESS"
                    description="JBZOO_CART_CONFIG_SHIPPING_ADDRESS_DESC"/>
 
-            <field name="default_shipping_zip"
-                   type="text"
-                   default=""
-                   label="JBZOO_CART_CONFIG_SHIPPING_ZIP"
-                   description="JBZOO_CART_CONFIG_SHIPPING_ZIP_DESC"/>
+            <field name="default_shipping_zip" type="text" default=""
+                   label="JBZOO_CART_CONFIG_SHIPPING_ZIP" description="JBZOO_CART_CONFIG_SHIPPING_ZIP_DESC"/>
 
-            <field name="spacer_shop_payment"
-                   type="jbspacer"
-                   default="JBZOO_CART_CONFIG_SHOP_PAYMENT"/>
+            <!--  paymant configs -->
+            <field name="spacer_shop_payment" type="jbspacer" default="JBZOO_CART_CONFIG_SHOP_PAYMENT"/>
 
-            <field name="default_payment"
-                   type="jbpayment"
-                   default=""
-                   label="JBZOO_CART_CONFIG_PAYMENT"
+            <field name="default_payment" type="jbpayment" default="" label="JBZOO_CART_CONFIG_PAYMENT"
                    description="JBZOO_CART_CONFIG_PAYMENT_DESC"/>
 
-            <field name="default_payment_status"
-                   type="jbstatus"
-                   default="new"
-                   label="JBZOO_CART_CONFIG_PAYMENT_STATUS"
-                   status_type="STATUS_PAYMENT"
-                   description="JBZOO_CART_CONFIG_PAYMENT_STATUS_DESC"/>
+            <field name="default_payment_status" type="jbstatus" default="new" label="JBZOO_CART_CONFIG_PAYMENT_STATUS"
+                   status_type="STATUS_PAYMENT" description="JBZOO_CART_CONFIG_PAYMENT_STATUS_DESC"/>
 
-            <field name="default_payment_status_success"
-                   type="jbstatus"
-                   default="success"
+            <field name="default_payment_status_success" type="jbstatus" default="success"
                    label="JBZOO_CART_CONFIG_PAYMENT_STATUS_SUCCESS"
-                   status_type="STATUS_PAYMENT"
-                   description="JBZOO_CART_CONFIG_PAYMENT_STATUS_SUCCESS_DESC"/>
+                   status_type="STATUS_PAYMENT" description="JBZOO_CART_CONFIG_PAYMENT_STATUS_SUCCESS_DESC"/>
 
-            <field name="default_payment_status_error"
-                   type="jbstatus"
-                   default="error"
-                   label="JBZOO_CART_CONFIG_PAYMENT_STATUS_ERROR"
-                   status_type="STATUS_PAYMENT"
+            <field name="default_payment_status_error" type="jbstatus" default="error"
+                   label="JBZOO_CART_CONFIG_PAYMENT_STATUS_ERROR" status_type="STATUS_PAYMENT"
                    description="JBZOO_CART_CONFIG_PAYMENT_STATUS_ERROR_DESC"/>
+
+            <field name="jbpaymentlink_success" type="jbpaymenturl" urltype="success"
+                   label="JBZOO_CART_CONFIG_PAYMENT_JBPAYMENTLINK_SUCCESS"
+                   description="JBZOO_CART_CONFIG_PAYMENT_JBPAYMENTLINK_SUCCESS_DESC"/>
+
+            <field name="jbpaymentlink_status" type="jbpaymenturl" urltype="status"
+                   label="JBZOO_CART_CONFIG_PAYMENT_JBPAYMENTLINK_STATUS"
+                   description="JBZOO_CART_CONFIG_PAYMENT_JBPAYMENTLINK_STATUS_DESC"/>
+
+            <field name="jbpaymentlink_fail" type="jbpaymenturl" urltype="fail"
+                   label="JBZOO_CART_CONFIG_PAYMENT_JBPAYMENTLINK_FAIL"
+                   description="JBZOO_CART_CONFIG_PAYMENT_JBPAYMENTLINK_FAIL_DESC"/>
 
         </fieldset>
     </fields>
