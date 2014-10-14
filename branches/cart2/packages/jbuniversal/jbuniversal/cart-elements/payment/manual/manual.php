@@ -20,31 +20,23 @@ class JBCartElementPaymentManual extends JBCartElementPayment
 {
 
     /**
-     * @param float $sum
-     * @param string $currency
-     * @param JBCartOrder $order
-     * @return float
+     * @return null|string
      */
-    public function modify($sum, $currency, JBCartOrder $order)
+    public function getRedirectUrl()
     {
-        return $sum;
+        if ($url = JString::trim($this->config->get('redirect_url'))) {
+            return $url;
+        }
+
+        return null;
     }
 
     /**
-     * @param array $params
-     * @return bool
+     * @return int
      */
-    public function hasValue($params = array())
+    public function getRequestOrderId()
     {
-        return true;
+        return $this->app->jbrequest->get('order_id');
     }
 
-    /**
-     * @param array $params
-     * @return mixed|string
-     */
-    public function renderSubmission($params = array())
-    {
-        return 'Наши платежки рулят! ' . $this->identifier;
-    }
 }

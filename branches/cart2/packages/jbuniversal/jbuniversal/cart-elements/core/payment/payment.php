@@ -18,6 +18,24 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElementPayment extends JBCartElement
 {
+    /**
+     * @var JBRouterHelper
+     */
+    protected $_jbrouter;
+
+    /**
+     * @var JBMoneyHelper
+     */
+    protected $_jbmoney;
+
+    /**
+     * @var JBRequestHelper
+     */
+    protected $_jbrequest;
+
+    /**
+     * @var string
+     */
     protected $_namespace = JBCart::ELEMENT_TYPE_PAYMENT;
 
     /**
@@ -29,7 +47,20 @@ abstract class JBCartElementPayment extends JBCartElement
     {
         parent::__construct($app, $type, $group);
 
+        $this->_jbrouter  = $this->app->jbrouter;
+        $this->_jbmoney   = $this->app->jbmoney;
+        $this->_jbrequest = $this->app->jbrequest;
+
         $this->registerCallback('paymentCallback');
+    }
+
+    /**
+     * @param array $params
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        return true;
     }
 
     /**
@@ -38,7 +69,13 @@ abstract class JBCartElementPayment extends JBCartElement
     public function getStatus()
     {
         $default = JBCart::getInstance()->getDefaultStatus(JBCart::STATUS_PAYMENT);
-        return $this->get('status', $default->getCode());
+
+        $curStatus = $this->get('status');
+        if (empty($curStatus)) {
+            $curStatus = $default->getCode();
+        }
+
+        return $curStatus;
     }
 
     /**
@@ -67,22 +104,31 @@ abstract class JBCartElementPayment extends JBCartElement
         return null;
     }
 
+
+    public function getSuccessMessage()
+    {
+        return 'JBZOO_CART_PAYMENT_REDIRECT';
+    }
+
     /**
      * @param float $sum
      * @param string $currency
      * @param JBCartOrder $order
      * @return float
      */
-    abstract public function modify($sum, $currency, JBCartOrder $order);
+    public function modify($sum, $currency, JBCartOrder $order)
+    {
+        return $sum;
+    }
 
     /**
      * Plugin even triggered when the payment plugin notifies for the transaction
      * @param array $params The data received
      * @return null|void
      */
-    public function paymentCallback($params = array())
+    public function isValid($params = array())
     {
-
+        return false;
     }
 
     /**
@@ -136,6 +182,113 @@ abstract class JBCartElementPayment extends JBCartElement
         $data->set('status', $this->getStatus());
 
         return $data;
+    }
+
+    /**
+     * Check is debug mode enabled
+     * @return int
+     */
+    public function isDebug()
+    {
+        return (int)$this->config->get('debug', 0);
+    }
+
+    /**
+     * @param array $params
+     * @return string
+     */
+    public function renderSubmission($params = array())
+    {
+        if ($layout = $this->getLayout('submission.php')) {
+            return self::renderLayout($layout, array(
+                'params' => $params,
+            ));
+        }
+
+        return false;
+    }
+
+    /**
+     * Set success payment status to order
+     */
+    public function setSuccess()
+    {
+        $order   = $this->getOrder();
+        $payment = $order->getPayment();
+        $cart    = JBCart::getInstance();
+
+        if ($payment) {
+            $successStatus = $cart->getPaymentSuccess();
+            $payment->setStatus($successStatus);
+            JBModelOrder::model()->save($order);
+        }
+    }
+
+    /**
+     * Render response for merchant
+     */
+    public function renderResponse()
+    {
+        jexit('OK' . $this->getOrderId());
+    }
+
+    /**
+     * @return float
+     */
+    public function getOrderSumm()
+    {
+        $order  = $this->getOrder();
+        $defCur = $this->_jbmoney->getDefaultCur();
+        $summ   = $this->_jbmoney->convert($defCur, $defCur, $order->getTotalSum(false));
+
+        return $summ;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOrderId()
+    {
+        $order = $this->getOrder();
+        if (!empty($order)) {
+            return $this->getOrder()->id;
+        }
+
+        return 0;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrency()
+    {
+        return $this->_jbmoney->getDefaultCur();
+    }
+
+    /**
+     * Detect order id from merchant's robot request
+     * @return int
+     */
+    public function getRequestOrderId()
+    {
+        return -1;
+    }
+
+    /**
+     * Detect order id from merchant's robot request
+     * @return int
+     */
+    public function getRequestOrderSum()
+    {
+        return -1;
+    }
+
+    /**
+     * @return string
+     */
+    public function getORderDescription()
+    {
+        return 'Order #' . $this->getOrderId() . ' from ' . JUri::getInstance()->getHost();
     }
 
 }

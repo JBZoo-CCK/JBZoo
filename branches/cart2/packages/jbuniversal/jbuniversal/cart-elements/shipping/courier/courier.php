@@ -21,8 +21,8 @@ class JBCartElementShippingCourier extends JBCartElementShipping
     const EDIT_DATE_FORMAT = '%Y-%m-%d %H:%M:%S';
 
     /**
-     * @param float       $sum
-     * @param string      $currency
+     * @param float $sum
+     * @param string $currency
      * @param JBCartOrder $order
      *
      * @return float
