@@ -61,29 +61,29 @@ $allItems = array(
     ),
     'jbcart'   => array(
         'basic'  => array(
-            'index' => array('index'),
+            'index' => array('index', 'params' => array('icon' => 'line-chart')),
         ),
         'config' => array(
-            'config'        => array('config'),
-            'currency'      => array('currency'),
-            'status'        => array('status'),
-            'fields'        => array('fields'),
-            'price'         => array('price'),
-            'payment'       => array('payment'),
-            'shipping'      => array('shipping'),
-            'shippingfield' => array('shippingfield'),
+            'config'        => array('config', 'params' => array('icon' => 'cog')),
+            'currency'      => array('currency', 'params' => array('icon' => 'eur')),
+            'status'        => array('status', 'params' => array('icon' => 'bookmark')),
+            'fields'        => array('fields', 'params' => array('icon' => 'check-square-o')),
+            'price'         => array('price', 'params' => array('icon' => 'money')),
+            'payment'       => array('payment', 'params' => array('icon' => 'credit-card')),
+            'shipping'      => array('shipping', 'params' => array('icon' => 'truck')),
+            'shippingfield' => array('shippingfield', 'params' => array('icon' => 'check-square-o')),
         ),
         'events' => array(
-            'modifier'    => array('modifier'),
-            'validator'    => array('validator'),
-            'notification' => array('notification'),
-            'statusEvents' => array('statusEvents'),
+            'modifier'     => array('modifier', 'params' => array('icon' => 'cubes')),
+            'validator'    => array('validator', 'params' => array('icon' => 'cube')),
+            'notification' => array('notification', 'params' => array('icon' => 'envelope-o')),
+            'statusEvents' => array('statusEvents', 'params' => array('icon' => 'code-fork')),
         ),
         'tmpl'   => array(
-            'emailTmpl'         => array('emailTmpl'),
-            'jbpriceTmpl'       => array('jbpriceTmpl'),
-            'jbpriceFilterTmpl' => array('jbpriceFilterTmpl'),
-            'cartTmpl'          => array('cartTmpl'),
+            'cartTmpl'          => array('cartTmpl', 'params' => array('icon' => 'columns')),
+            'jbpriceTmpl'       => array('jbpriceTmpl', 'params' => array('icon' => 'money')),
+            'jbpriceFilterTmpl' => array('jbpriceFilterTmpl', 'params' => array('icon' => 'filter')),
+            'emailTmpl'         => array('emailTmpl', 'params' => array('icon' => 'envelope-o')),
         )
     ),
     'jbexport' => array(
@@ -119,18 +119,27 @@ if (isset($allItems[$curMenu])) {
 
             foreach ($items as $itemName => $urlParams) {
 
-                $url = $jbrouter->admin(array('controller' => $curMenu, 'task' => $urlParams[0]));
-
-                if (strtolower($curUrl) == strtolower($url)) {
-                    $html[] = '<li class="uk-active">';
-                } else {
-                    $html[] = '<li>';
+                $params = array();
+                if (isset($urlParams['params'])) {
+                    $params = $urlParams['params'];
+                    unset($urlParams['params']);
                 }
 
+                $url      = $jbrouter->admin(array('controller' => $curMenu, 'task' => $urlParams[0]));
                 $labelKey = strtoupper('JBZOO_NAV_' . $curMenu . '_' . $headItem . '_' . $itemName);
                 $name     = JText::_($labelKey);
 
-                $html[] = '<a href="' . $url . '">' . $name . '</a>';
+                $classes = array($headItem, $itemName);
+                if (strtolower($curUrl) == strtolower($url)) {
+                    $classes[] = 'uk-active';
+                }
+
+                $html[] = '<li class="' . implode(' ', $classes) . '">';
+                $html[] = '<a href="' . $url . '">';
+                if (isset($params['icon'])) {
+                    $html[] = '<span class="menu-icon"><i class="uk-icon-' . $params['icon'] . '"></i></span> ';
+                }
+                $html[] = $name . '</a>';
                 $html[] = '</li>';
             }
 
