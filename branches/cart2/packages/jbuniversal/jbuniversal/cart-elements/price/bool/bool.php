@@ -33,12 +33,8 @@ class JBCartElementPriceBool extends JBCartElementPrice
      */
     public function edit()
     {
-        $params = $this->getParams();
-
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderLayout($layout, array(
-                'params' => $params
-            ));
+            return self::renderLayout($layout);
         }
 
         return NULL;

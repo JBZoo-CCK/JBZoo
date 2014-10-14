@@ -14,18 +14,16 @@
 defined('_JEXEC') or die('Restricted access');
 
 $unique = $this->app->jbstring->getId('bool-');
-$value = $this->getBasic($this->identifier);
 
-$arr = array(
+$array = array(
     '1' => JText::_('JBZOO_YES'),
     '0' => JText::_('JBZOO_NO')
 );
-if (!empty($arr[$value['value']])) {
-    $value = $value['value'];
-}
 
+$value = (int)$this->getValue('value', 0);
 ?>
 
 <div class="jbprice-bool" id="<?php echo $unique; ?>">
-    <span class="bool"><?php echo $value; ?></span>
+    <span class="bool"><?php echo $array[$value]; ?></span>
 </div>
+

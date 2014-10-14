@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<element type="element" group="Core" hidden="false">
+<element type="element" group="Core" hidden="false" core="true">
     <name>Bool </name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>

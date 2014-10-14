@@ -46,8 +46,6 @@ class JBHTMLHelper extends AppHelper
             return null;
         }
 
-        //$attribs = $this->_buildAttrs($attribs);
-
         return $this->_list('radio', $data, $name, $attribs, $selected, $idtag, $translate, $isLabelWrap);
     }
 
@@ -519,7 +517,7 @@ class JBHTMLHelper extends AppHelper
             } else {
                 $value = $keyObj;
                 $text  = $translate ? JText::_($obj) : $obj;
-                $id    = null;
+                $id    = isset($obj['id']) ? $obj['id'] : null;
             }
 
             $valueSlug = $this->app->string->sluggify($value);
