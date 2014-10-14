@@ -13,11 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
-!defined('JBZOO_APP_GROUP') && define('JBZOO_APP_GROUP', 'jbuniversal');
-!defined('DIRECTORY_SEPERATOR') && define('DIRECTORY_SEPERATOR', '/');
-!defined('DS') && define('DS', DIRECTORY_SEPARATOR);
-
 /**
  * Class JBZoo
  */

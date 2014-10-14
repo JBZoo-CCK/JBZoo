@@ -17,12 +17,28 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 jimport('joomla.filesystem.file');
 
+!defined('JBZOO_APP_GROUP') && define('JBZOO_APP_GROUP', 'jbuniversal');
+!defined('DIRECTORY_SEPERATOR') && define('DIRECTORY_SEPERATOR', '/');
+!defined('DS') && define('DS', DIRECTORY_SEPARATOR);
+
+/**
+ * Class plgSystemJBZoo
+ */
 class plgSystemJBZoo extends JPlugin
 {
     /**
      * @var JBZooSystemPlugin
      */
     protected $_jbzooSystemPlg = null;
+
+    /**
+     * Joomla Event onAfterInitialise
+     */
+    public function onAfterInitialise()
+    {
+        $this->_initFramework();
+        $this->_jbzooSystemPlg->onAfterInitialise();
+    }
 
     /**
      * Init Zoo && JBZoo Framework
@@ -49,11 +65,13 @@ class plgSystemJBZoo extends JPlugin
         }
 
         $zoo = App::getInstance('zoo');
+        $zoo->event->dispatcher->connect('zoo:initApp', array('plgSystemJBZoo', 'initApp')); // hack for replace inited application
+
         if ($id = $zoo->request->getInt('changeapp')) {
             $zoo->system->application->setUserState('com_zooapplication', $id);
         }
 
-        $jbzooBootstrap = JPATH_ROOT . '/media/zoo/applications/jbuniversal/framework/jbzoo.php';
+        $jbzooBootstrap = JPATH_ROOT . '/media/zoo/applications/' . JBZOO_APP_GROUP . '/framework/jbzoo.php';
         if (JFile::exists($jbzooBootstrap)) {
             require_once($jbzooBootstrap);
             JBZoo::init();
@@ -63,12 +81,30 @@ class plgSystemJBZoo extends JPlugin
     }
 
     /**
-     * Joomla Event onAfterInitialise
+     * InitApp event handler - hack for custom JBZoo controllers
+     * @param AppEvent $event
      */
-    public function onAfterInitialise()
+    public static function initApp($event)
     {
-        $this->_initFramework();
-        $this->_jbzooSystemPlg->onAfterInitialise();
+        $zoo    = App::getInstance('zoo');
+        $params = $event->getParameters();
+        $curApp = $params['application'];
+
+        $currentCtrl = strtolower($zoo->request->getCmd('controller'));
+        $jbzooCtrls  = array('autocomplete', 'basket', 'compare', 'favorite', 'payment', 'search', 'viewed');
+
+        if ($curApp->getGroup() != JBZOO_APP_GROUP && in_array($currentCtrl, $jbzooCtrls)) {
+
+            $jbzooApp = $zoo->table->application->first(array(
+                'conditions' => array('application_group="' . JBZOO_APP_GROUP . '"')
+            ));
+
+            if ($jbzooApp) {
+                $params['application'] = $jbzooApp;
+                $event->setReturnValue($params);
+            }
+        }
+
     }
 
     /**
