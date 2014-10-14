@@ -144,9 +144,12 @@ class JBFormHelper extends AppHelper
             $html[] = $field->input;
 
         } else {
+
+            $label = preg_replace("#title=\".*?\"#ius", '', $field->label);
+
             $html[] = '<div class="uk-form-row">';
             $html[] = '<div class="' . $className . '-label uk-form-label">';
-            $html[] = $field->label;
+            $html[] = $label;
             $html[] = '<span class="description-label">' . JText::_($field->description) . '</span>';
             $html[] = '</div>';
             $html[] = '<div class="uk-form-controls">' . $field->input . '</div>';
