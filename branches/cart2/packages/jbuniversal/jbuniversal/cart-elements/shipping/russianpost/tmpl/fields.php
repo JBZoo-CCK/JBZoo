@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 $jbhtml = $this->app->jbhtml;
 
 $viewPost = array(
-    ''   => '-None-',
+    ''   => '-&nbsp;' . JText::_('JBZOO_DELIVERY_RUSSIANPOST_TYPE') . '&nbsp;-',
     '23' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_PARCEL'),
     '18' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_CARD'),
     '13' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_LETTER'),
@@ -25,7 +25,7 @@ $viewPost = array(
     '16' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_RICH_LETTER')
 );
 $typePost = array(
-    ''  => '-None-',
+    ''  => '-&nbsp;' . JText::_('JBZOO_DELIVERY_RUSSIANPOST_VIEW') . '&nbsp;-',
     '1' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_GROUND'),
     '2' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_AIR'),
     '3' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_COMBINE'),
@@ -33,7 +33,7 @@ $typePost = array(
 );
 $zipAttrs = array(
     'placeholder' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_ZIP'),
-    'id' => 'shippingpostOfficeId'
+    'id'          => 'shippingpostOfficeId'
 );
 ?>
 

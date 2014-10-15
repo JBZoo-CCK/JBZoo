@@ -18,18 +18,18 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementShippingEmsPost extends JBCartElementShipping
 {
+    const EMSPOST_CURRENCY = 'RUB';
+
     /**
      * Url to make request
      * @var string
      */
     protected $_url = 'http://emspost.ru/api/rest?';
 
-    const EMSPOST_CURRENCY = 'RUB';
-
     /**
      * Class constructor
      *
-     * @param App    $app
+     * @param App $app
      * @param string $type
      * @param string $group
      */
@@ -41,8 +41,8 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
     }
 
     /**
-     * @param  float       $sum
-     * @param  string      $currency
+     * @param  float $sum
+     * @param  string $currency
      * @param  JBCartOrder $order
      *
      * @return float
@@ -61,7 +61,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      */
     public function hasValue($params = array())
     {
-        return TRUE;
+        return true;
     }
 
     /**
@@ -77,7 +77,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
             ));
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -138,7 +138,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      *
      * @return string|array
      */
-    public function getWidgetParams($encode = TRUE)
+    public function getWidgetParams($encode = true)
     {
         $params = array(
             'getPriceUrl'    => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetPrice'),
@@ -153,7 +153,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      */
     public function ajaxGetPrice($to)
     {
-        $params = json_decode($to, TRUE);
+        $params = json_decode($to, true);
         $price  = $this->_getPrice($params);
 
         $this->app->jbajax->send(array(
@@ -170,7 +170,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      */
     public function processingData($responseBody)
     {
-        return json_decode($responseBody, TRUE);
+        return json_decode($responseBody, true);
     }
 
     /**
@@ -240,16 +240,18 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      */
     protected function _getLocations($type = 'countries')
     {
-        $result    = $this->_getDefaultValue();
+        $result    = $this->_getDefaultValue('JBZOO_' . $type);
         $request   = $this->_url . 'method=ems.get.locations&type=' . $type . '&plain=true';
         $locations = $this->_callService($request);
         $locations = $locations['rsp'];
 
         if ($locations['stat'] === 'ok') {
             foreach ($locations['locations'] as $location) {
-                $key = $this->clean($location['value']);
 
-                $result[$key] = $location['name'];
+                $key  = $this->clean($location['value']);
+                $name = JString::ucfirst($this->clean($location['name']));
+
+                $result[$key] = $name;
             }
         }
 

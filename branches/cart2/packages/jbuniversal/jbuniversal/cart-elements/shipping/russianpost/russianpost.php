@@ -28,7 +28,7 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
     /**
      * Class constructor
      *
-     * @param App    $app
+     * @param App $app
      * @param string $type
      * @param string $group
      */
@@ -40,8 +40,8 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
     }
 
     /**
-     * @param float       $sum
-     * @param string      $currency
+     * @param float $sum
+     * @param string $currency
      * @param JBCartOrder $order
      *
      * @return float
@@ -142,7 +142,7 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
     public function getViewPostName($id)
     {
         $types = array(
-            ''   => '-None-',
+            ''   => '-&nbsp;' . JText::_('JBZOO_DELIVERY_RUSSIANPOST_VIEW') . '&nbsp;-',
             '23' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_PARCEL'),
             '18' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_CARD'),
             '13' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_LETTER'),
@@ -164,7 +164,7 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
     public function getTypePostName($id)
     {
         $typePost = array(
-            ''  => '-None-',
+            ''   => '-&nbsp;' . JText::_('JBZOO_DELIVERY_RUSSIANPOST_TYPE') . '&nbsp;-',
             '1' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_GROUND'),
             '2' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_AIR'),
             '3' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_COMBINE'),
