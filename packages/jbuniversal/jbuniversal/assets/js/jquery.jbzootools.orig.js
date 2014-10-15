@@ -975,10 +975,21 @@ var reCount = {
             function morphology(num, prfxs) {
                 prfxs = prfxs || ['', 'а', 'ов'];
                 num = '' + num;
-                if (num.match(/^(.*)(11|12|13|14|15|16|17|18|19)$/))return prfxs[2];
-                if (num.match(/^(.*)1$/))return prfxs[0];
-                if (num.match(/^(.*)(2|3|4)$/))return prfxs[1];
-                if (num.match(/^(.*)$/))return prfxs[2]
+
+                if (num.match(/^(.*)(11|12|13|14|15|16|17|18|19)$/)) {
+                    return prfxs[2];
+                }
+                if (num.match(/^(.*)1$/)) {
+                    return prfxs[0];
+                }
+                if (num.match(/^(.*)(2|3|4)$/)) {
+                    return prfxs[1];
+                }
+                if (num.match(/^(.*)$/)) {
+                    return prfxs[2]
+                }
+
+                return prfxs[0];
             }
 
             // recount basket
@@ -3769,6 +3780,8 @@ var reCount = {
 
             //if (create === false) {
             $('.jsShippingElement', $this).each(function () {
+
+                $('select', $(this)).chosen();
                 $this.createPlugin($(this));
                 create = true;
             });
@@ -4178,7 +4191,7 @@ var reCount = {
             $this.changePostType = function (type) {
 
                 if (!type) {
-                    type = parseInt($('#shippingdeliverytype_id option:selected', $this).val());
+                    type = parseInt($('#shippingdeliverytype_id option:selected', $this).val(), 10);
                 }
 
                 if (type === settings.toDoors) {
@@ -4254,6 +4267,7 @@ var reCount = {
                     'dataType': 'json',
                     'success' : function (cities) {
                         setCities(cities.cities);
+
                         if (callback) {
                             callback();
                         }
@@ -4287,6 +4301,8 @@ var reCount = {
                         }));
                     });
                 }
+
+                $select.trigger('liszt:updated');
             };
 
             $this.setWarehouses = function (city, callback) {
@@ -4314,6 +4330,7 @@ var reCount = {
                     'dataType': 'json',
                     'success' : function (warehouses) {
                         setWarehouses(warehouses.warehouses);
+
                         if (callback) {
                             callback();
                         }
@@ -4344,6 +4361,8 @@ var reCount = {
                         text : value
                     }));
                 });
+
+                $select.trigger('liszt:updated');
             };
 
             $('#shippingdeliverytype_id', $this).on('change', function () {
@@ -4352,6 +4371,7 @@ var reCount = {
             });
 
             $('.jsCalculate select', $this).on('change', function () {
+
                 global.getPrice();
             });
 

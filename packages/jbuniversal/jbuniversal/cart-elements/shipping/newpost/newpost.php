@@ -51,6 +51,25 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     }
 
     /**
+     * Check if exists api_key.
+     * Without api_key all requests will be unsuccessful.
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        $key = $this->config->get('api_key');
+
+        if (!empty($key)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @param float       $sum
      * @param string      $currency
      * @param JBCartOrder $order
@@ -73,16 +92,6 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     }
 
     /**
-     * @param array $params
-     *
-     * @return bool
-     */
-    public function hasValue($params = array())
-    {
-        return TRUE;
-    }
-
-    /**
      * Render shipping in order
      *
      * @param  array
@@ -99,7 +108,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
             ));
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -115,7 +124,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
             ));
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -173,7 +182,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      *
      * @return array
      */
-    public function getCities($region = NULL)
+    public function getCities($region = null)
     {
         $data = $this->_getCitiesRegionsFromPost();
 
@@ -203,7 +212,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      *
      * @return array|bool
      */
-    public function getWarehouses($city = NULL)
+    public function getWarehouses($city = null)
     {
         if (empty($city)) {
             return $this->_getDefaultValue();
@@ -281,7 +290,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
         $group = $this->getElementGroup() . '_' . $this->getElementType();
 
         //using cache to avoid a ban from API
-        if (!$responseData = simplexml_load_string($this->app->jbcache->get($data, $group, TRUE))) {
+        if (!$responseData = simplexml_load_string($this->app->jbcache->get($data, $group, true))) {
 
             $jhttp = JHttpFactory::getHttp();
 
@@ -296,16 +305,16 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
                 if ($response->code == 200) {
                     $responseData = $this->processingData($response->body);
                 } else {
-                    $responseData = FALSE;
+                    $responseData = false;
                 }
 
             } catch (Exception $e) {
-                $responseData = FALSE;
+                $responseData = false;
             }
 
 
             if ($responseData) {
-                $this->app->jbcache->set($data, $responseData->asXML(), $group, TRUE);
+                $this->app->jbcache->set($data, $responseData->asXML(), $group, true);
             }
         }
 
@@ -319,7 +328,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      *
      * @return string|array
      */
-    public function getWidgetParams($encode = TRUE)
+    public function getWidgetParams($encode = true)
     {
         $params = array(
             'getCitiesUrl'     => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetCities'),
@@ -357,7 +366,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
             $this->app->jbajax->send(array(
                     'warehouses' => $warehouses
                 ),
-                FALSE
+                false
             );
         }
 
@@ -372,12 +381,12 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      */
     public function ajaxGetPrice($fields = array())
     {
-        $params = json_decode($fields, TRUE);
+        $params = json_decode($fields, true);
         $params = $this->mergeParams($params);
         $price  = $this->_getPrice($params);
 
         $this->app->jbajax->send(array(
-            'price'  => $this->_jbmoney->toFormat($price)
+            'price' => $this->_jbmoney->toFormat($price)
         ));
     }
 

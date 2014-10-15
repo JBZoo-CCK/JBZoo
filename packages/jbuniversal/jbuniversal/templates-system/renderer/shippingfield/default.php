@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 if ($this->checkPosition('list')) : ?>
 
-    <div class="jbzoo-right shippingfield-default">
+    <div class="jbzoo-left shippingfield-default">
 
         <h2>Адрес доставки</h2>
 

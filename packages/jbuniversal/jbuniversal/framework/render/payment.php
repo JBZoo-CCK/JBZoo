@@ -31,7 +31,7 @@ class PaymentRenderer extends PositionRenderer
     protected $_jbconfig = null;
 
     /**
-     * @param App $app
+     * @param App  $app
      * @param null $path
      */
     public function __construct($app, $path = null)
@@ -43,6 +43,7 @@ class PaymentRenderer extends PositionRenderer
 
     /**
      * @param string $position
+     *
      * @return bool
      */
     public function checkPosition($position)
@@ -65,7 +66,8 @@ class PaymentRenderer extends PositionRenderer
 
     /**
      * @param string $position
-     * @param array $args
+     * @param array  $args
+     *
      * @return string|void
      */
     public function renderPosition($position, $args = array())
@@ -98,12 +100,15 @@ class PaymentRenderer extends PositionRenderer
 
         foreach ($elements as $i => $data) {
 
+            $c = $i;
+            $c++;
             $output[$i] = parent::render('element.' . $style, array(
                 'element' => $data['element'],
                 'params'  => array_merge(
                     array(
-                        'first' => ($i == 0),
-                        'last'  => ($i == count($elements) - 1)
+                        'first'     => ($i == 0),
+                        'last'      => ($i == count($elements) - 1) || ($c % 4 == 0),
+                        'no-border' => ($c % 3 == 0)
                     ),
                     $data['params']
                 ),
@@ -118,6 +123,7 @@ class PaymentRenderer extends PositionRenderer
 
     /**
      * @param string $dir
+     *
      * @return array
      */
     public function getLayouts($dir)
@@ -147,6 +153,7 @@ class PaymentRenderer extends PositionRenderer
 
     /**
      * @param $position
+     *
      * @return mixed
      */
     protected function _getConfigPosition($position)
@@ -156,7 +163,8 @@ class PaymentRenderer extends PositionRenderer
 
     /**
      * @param string $layout
-     * @param array $args
+     * @param array  $args
+     *
      * @return string|void
      */
     public function render($layout, $args = array())
@@ -170,10 +178,11 @@ class PaymentRenderer extends PositionRenderer
 
         // trigger beforedisplay event
         if ($this->_order) {
-            $this->app->event->dispatcher->notify($this->app->event->create($this->_order, 'payment:beforedisplay', array(
-                'render' => &$render,
-                'html'   => &$result
-            )));
+            $this->app->event->dispatcher->notify($this->app->event->create($this->_order, 'payment:beforedisplay',
+                array(
+                    'render' => &$render,
+                    'html'   => &$result
+                )));
         }
 
         // render layout
@@ -182,9 +191,10 @@ class PaymentRenderer extends PositionRenderer
 
             // trigger afterdisplay event
             if ($this->_order) {
-                $this->app->event->dispatcher->notify($this->app->event->create($this->_order, 'payment:afterdisplay', array(
-                    'html' => &$result
-                )));
+                $this->app->event->dispatcher->notify($this->app->event->create($this->_order, 'payment:afterdisplay',
+                    array(
+                        'html' => &$result
+                    )));
             }
         }
 
@@ -193,6 +203,7 @@ class PaymentRenderer extends PositionRenderer
 
     /**
      * @param string $layout
+     *
      * @return JSONData
      */
     public function getLayoutParams($layout = 'default')

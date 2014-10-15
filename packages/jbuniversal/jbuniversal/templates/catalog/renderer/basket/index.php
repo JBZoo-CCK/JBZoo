@@ -18,7 +18,7 @@ $view = $this->getView();
 $this->app->jbassets->basket();
 $this->app->jbassets->initJBPrice();
 $actionUrl = $this->app->jbrouter->cartOrderCreate($view->application->id, null);
-//$this->app->jbassets->chosen();
+$this->app->jbassets->chosen();
 
 if (count($view->items)) : ?>
 
@@ -52,9 +52,4 @@ if (count($view->items)) : ?>
         </div>
     </form>
 
-    <script>
-        /*jQuery(function ($) {
-         $('.jbzoo .jbzoo-app-basket select').chosen();
-         });*/
-    </script>
 <?php endif;
