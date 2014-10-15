@@ -18,6 +18,9 @@ $this->app->jbdebug->mark('template::basket::start');
 $this->app->jblayout->setView($this);
 $this->app->document->setTitle(JText::_('JBZOO_CART_ITEMS'));
 $this->app->jbwrapper->start();
+
+?><h1 class="title"><?php echo JText::_('JBZOO_CART_ITEMS'); ?></h1><?php
+
 echo $this->app->jblayout->renderIndex('basket');
 
 $this->app->jbwrapper->end();
