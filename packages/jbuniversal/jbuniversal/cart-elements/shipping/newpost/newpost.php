@@ -165,7 +165,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
         $data   = $this->_getCitiesRegionsFromPost();
         $states = $this->_getDefaultValue();
 
-        if (!empty($data)) {
+        if (!empty($data) && isset($data->result->cities->city)) {
             foreach ($data->result->cities->city as $city) {
                 if (!isset($states[$this->clean($city->areaNameUkr)])) {
                     $states[$this->clean($city->areaNameUkr)] = array();
@@ -189,7 +189,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
         $cities = $this->_getDefaultValue();
         $region = $this->clean($region);
 
-        if (!empty($data)) {
+        if (!empty($data) && isset($data->result->cities->city)) {
             foreach ($data->result->cities->city as $city) {
 
                 if (isset($region)

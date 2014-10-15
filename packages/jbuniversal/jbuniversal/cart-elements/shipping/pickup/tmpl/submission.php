@@ -36,23 +36,22 @@ $attrs = array(
     <div class="jbradio"></div>
 
     <div class="shipping-info">
-            <span class="name" title="<?php echo $addresses; ?>">
-                <?php echo $this->getName(); ?>
-            </span>
-
-            <span class="value">
-                (<?php echo $shipping ? $this->app->jbmoney->toFormat($shipping, $this->currency())
-                    : JText::_('JBZOO_ELEMENT_SHIPPING_PICKUP_FREE'); ?>)
-            </span>
+        <span class="name"><?php echo $this->getName(); ?></span>
+        <span class="value">
+            (<?php echo $shipping ? $this->app->jbmoney->toFormat($shipping, $this->currency())
+                : JText::_('JBZOO_ELEMENT_SHIPPING_PICKUP_FREE'); ?>)
+        </span>
     </div>
 </label>
 
-<?php if ($description = $this->config->get('description')) : ?>
-    <p class="shipping-description"> <?php echo $description; ?> </p>
+<?php if ($addresses) : ?>
+    <div class="more-options jsMoreOptions">
+        <strong><?php echo JText::_('JBZOO_ELEMENT_SHIPPING_PICKUP_ADDRESS'); ?>:</strong><br />
+        <?php echo $addresses; ?>
+    </div>
 <?php endif; ?>
 
-<script>
-    jQuery(function ($) {
-        $('.shipping-list .name').tooltip();
-    });
-</script>
+<?php if ($description = $this->config->get('description')) : ?>
+    <p class="shipping-description"> <?php echo $description; ?> </p>
+<?php endif;
+
