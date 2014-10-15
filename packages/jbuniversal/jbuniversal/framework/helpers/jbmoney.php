@@ -32,7 +32,7 @@ class JBMoneyHelper extends AppHelper
     /**
      * @var boolean
      */
-    protected $_isBuilded = FALSE;
+    protected $_isBuilded = false;
 
     /**
      * @var array
@@ -75,7 +75,7 @@ class JBMoneyHelper extends AppHelper
             'date'   => date('d-m-Y'),
         ));
 
-        self::$curList = $this->app->jbcache->get($cacheKey, 'currency', TRUE);
+        self::$curList = $this->app->jbcache->get($cacheKey, 'currency', true);
         if (empty(self::$curList)) {
 
             $elements = $this->app->jbcartposition->loadElements('currency');
@@ -109,10 +109,10 @@ class JBMoneyHelper extends AppHelper
                 );
             }
 
-            $this->app->jbcache->set($cacheKey, self::$curList, 'currency', TRUE);
+            $this->app->jbcache->set($cacheKey, self::$curList, 'currency', true);
         }
 
-        $this->_isBuilded = TRUE;
+        $this->_isBuilded = true;
 
         $this->app->jbdebug->mark('jbmoney::init::finish');
 
@@ -165,7 +165,7 @@ class JBMoneyHelper extends AppHelper
             return $result;
         }
 
-        return NULL;
+        return null;
     }
 
     /**
@@ -175,7 +175,7 @@ class JBMoneyHelper extends AppHelper
      *
      * @return array
      */
-    public function getCurrencyList($isShort = FALSE)
+    public function getCurrencyList($isShort = false)
     {
         $this->init();
 
@@ -205,7 +205,7 @@ class JBMoneyHelper extends AppHelper
      *
      * @return null|string
      */
-    public function toFormat($value, $code = NULL)
+    public function toFormat($value, $code = null)
     {
         $this->init();
 
@@ -225,7 +225,7 @@ class JBMoneyHelper extends AppHelper
             return $this->_numberFormat($value, self::$curList[$code]['format']);
         }
 
-        return NULL;
+        return null;
     }
 
 
@@ -237,7 +237,7 @@ class JBMoneyHelper extends AppHelper
      *
      * @return string
      */
-    public function clearCurrency($currency, $default = NULL)
+    public function clearCurrency($currency, $default = null)
     {
         $this->init();
 
@@ -251,7 +251,7 @@ class JBMoneyHelper extends AppHelper
             return $currency;
         }
 
-        return NULL;
+        return null;
     }
 
     /**
@@ -277,7 +277,7 @@ class JBMoneyHelper extends AppHelper
             return $currency;
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -293,12 +293,12 @@ class JBMoneyHelper extends AppHelper
     }
 
     /**
-     * @param null  $code
+     * @param null $code
      * @param array $format
      *
      * @return null|string
      */
-    public function getSymbol($code = NULL, $format = array())
+    public function getSymbol($code = null, $format = array())
     {
         $this->init();
 
@@ -325,14 +325,14 @@ class JBMoneyHelper extends AppHelper
 
         }
 
-        return NULL;
+        return null;
     }
 
     /**
      * Convert value to money format from config
      *
      * @param string $value
-     * @param array  $format
+     * @param array $format
      *
      * @return string
      */
@@ -342,20 +342,35 @@ class JBMoneyHelper extends AppHelper
         $value  = $this->clearValue($value);
         $value  = !empty($value) ? $value : 0;
 
-        $valueStr =
-            number_format(abs($value), $format['num_decimals'], $format['decimal_sep'], $format['thousands_sep']);
+        $valueStr = number_format(abs($value),
+            $format['num_decimals'],
+            $format['decimal_sep'],
+            $format['thousands_sep']
+        );
 
         $moneyFormat = ($value >= 0) ? $format['format_positive'] : $format['format_negative'];
 
-        return str_replace(array('%s', '%v'), array($format['symbol'], $valueStr), $moneyFormat);
+        if (0) { // experimental
+            $result = JString::str_ireplace(array('%s', '%v'), array(
+                '<span class="jbcurrency-symbol">' . $format['symbol'] . '</span>',
+                '<span class="jbcurrency-value">' . $valueStr . '</span>'
+            ), $moneyFormat);
+
+            $result = '<span class="jbmoney-value" data-format=\'' . json_encode($format) . '\'>' . $result . '</span>';
+
+            return $result;
+        } else {
+
+            return JString::str_ireplace(array('%s', '%v'), array($format['symbol'], $valueStr), $moneyFormat);
+        }
     }
 
     /**
      * Calculate total value
      *
-     * @param float  $value
+     * @param float $value
      * @param string $baseCurrency
-     * @param float  $addValue
+     * @param float $addValue
      * @param string $currency
      *
      * @return float
