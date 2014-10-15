@@ -1468,4 +1468,5 @@ table.list.order-list thead th {
     color: #333;
     min-width: 250px;
     max-width: 600px;
+    cursor: text;
 }
