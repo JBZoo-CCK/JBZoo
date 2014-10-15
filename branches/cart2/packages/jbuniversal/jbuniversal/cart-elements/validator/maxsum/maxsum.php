@@ -23,8 +23,13 @@ class JBCartElementValidatorMaxsum extends JBCartElementValidator
     public function isValid()
     {
         $summa = $this->getOrder()->getTotalSum();
-        if ($summa > 1000) {
-            throw new JBCartElementValidatorException('max');
+        $value = $this->_jbmoney->clearValue($this->config->get('value'));
+
+        if ($value > 0 && $summa > $value) {
+
+            $value = $this->_jbmoney->toFormat($value, 'EUR');
+            $message = JText::sprintf('JBZOO_ELEMENT_MAXSUM_ERROR', $value);
+            throw new JBCartElementValidatorException($message);
         }
 
     }

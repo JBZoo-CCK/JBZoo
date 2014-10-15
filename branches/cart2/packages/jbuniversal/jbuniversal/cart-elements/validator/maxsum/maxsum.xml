@@ -10,14 +10,8 @@
     <description>JBZoo Cart Element Core System</description>
 
     <params>
-        <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME" description="JBZOO_ELEMENT_NAME_DESC"/>
-
-        <param name="description" type="text" default="" label="JBZOO_ELEMENT_DESCRIPTION"
-               description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
-
-        <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
-               description="JBZOO_ELEMENT_ACCESS_DESC"/>
-
+        <param name="value" type="text" default="" label="JBZOO_ELEMENT_MAXSUM_VALUE"
+               description="JBZOO_ELEMENT_MAXSUM_VALUE_DESC"/>
     </params>
 
 

@@ -18,11 +18,20 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementValidatorMinsum extends JBCartElementValidator
 {
+    /**
+     * @return mixed|void
+     * @throws JBCartElementValidatorException
+     */
     public function isValid()
     {
         $summa = $this->getOrder()->getTotalSum();
-        if ($summa < 10) {
-            throw new JBCartElementValidatorException('min');
+        $value = $this->_jbmoney->clearValue($this->config->get('value'));
+
+        if ($value > 0 && $summa < $value) {
+
+            $value   = $this->_jbmoney->toFormat($value, 'EUR');
+            $message = JText::sprintf('JBZOO_ELEMENT_MAXSUM_ERROR', $value);
+            throw new JBCartElementValidatorException($message);
         }
 
     }
