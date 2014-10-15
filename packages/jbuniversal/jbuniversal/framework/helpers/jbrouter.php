@@ -326,20 +326,16 @@ class JBRouterHelper extends AppHelper
     /**
      * Get url to basket
      * @param int $menuItemid
-     * @param null $appId
      * @return string
      */
-    public function basket($menuItemid, $appId = null)
+    public function basket($menuItemid)
     {
-        $appId = ($appId) ? $appId : (int)$this->_jbrequest->get('app_id');
-
         $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'index',
-            'app_id'     => (int)$appId,
             'Itemid'     => (int)$menuItemid,
-            'nocache'    => mt_rand(),
+            //'nocache'    => mt_rand(),
         );
 
         return $this->_url($linkParams, true);
