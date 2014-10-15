@@ -15,7 +15,6 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 
-<h2>Корзина покупок</h2>
 <table class="jbbasket-table jsJBZooBasket">
     <thead>
     <tr>
@@ -216,7 +215,7 @@ defined('_JEXEC') or die('Restricted access');
     <?php } ?>
 </table>
 
-<a class="jsDeleteAll item-delete-all">Clear</a>
+<a class="jsDeleteAll item-delete-all"><?php echo JText::_('JBZOO_CART_EMPTY'); ?></a>
 
 <script type="text/javascript">
     jQuery(function ($) {
