@@ -81,6 +81,11 @@ abstract class JBCartElement
     protected $_data = array();
 
     /**
+     * @var JBMoneyHelper
+     */
+    protected $_jbmoney = array();
+
+    /**
      * Constructor
      *
      * @param App    $app
@@ -104,6 +109,9 @@ abstract class JBCartElement
         // load langs
         $joomlLang = JFactory::getLanguage();
         $joomlLang->load('elem_' . $this->getElementType(), $this->getPath(), null, true);
+
+        // init helpers
+        $this->_jbmoney = $this->app->jbmoney;
     }
 
     /**
