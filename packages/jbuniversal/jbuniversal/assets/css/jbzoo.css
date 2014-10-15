@@ -2558,8 +2558,8 @@ form.jbzoo-app-basket {
     cursor: pointer;
     background: #F5F5F5;
     text-decoration: none;
-    border-radius: 25px;
-    padding: 4px;
+    border-radius: 16px;
+    padding: 4px 8px;
     /* float: right; */
     line-height: 16px;
     text-align: center;
@@ -2567,7 +2567,7 @@ form.jbzoo-app-basket {
     -webkit-transition: 0.5s;
     -moz-transition: 0.5s;
     transition: 0.5s;
-    top: 10px;
+    top: -20px;
     right: 10px;
     position: absolute;
 }
