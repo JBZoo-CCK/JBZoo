@@ -58,12 +58,6 @@
         <param name="show_empty_balance" type="jbbool" default="1" label="JBZOO_JBPRICE_SHOW_EMPTY_BALANCE"
                description="JBZOO_JBPRICE_SHOW_EMPTY_BALANCE_DESC"/>
 
-        <param name="currency_default" type="jbcurrency" default="EUR" label="JBZOO_JBPRICE_CURRENCY_DEFAULT_TEMPLATE"
-               description="JBZOO_JBPRICE_CURRENCY_DEFAULT_TEMPLATE_DESC" multiple="0"/>
-
-        <param name="currency_list" type="jbcurrency" default="" label="JBZOO_CURRENCY_TEMPLATE"
-               description="JBZOO_CURRENCY_TEMPLATE_DESC" multiple="1"/>
-
         <!--  modal params ######################################################################################### -->
         <param name="@modal_label" type="jbspacer" default="JBZOO_JBPRICE_TEMPLATE_POPUP_PARAMS_SPACER"/>
 
