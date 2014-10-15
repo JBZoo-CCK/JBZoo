@@ -39,12 +39,6 @@
 
         <param name="basket_menuitem" type="jbmenuitems" default="" label="JBZOO_JBPRICE_BASKET_MENUITEM"
                description="JBZOO_JBPRICE_BASKET_MENUITEM_DESC"/>
-
-        <param name="basket_appid" type="jbapplications" default="" cart_only="1" label="JBZOO_JBPRICE_BASKET_APPID"
-               description="JBZOO_JBPRICE_BASKET_APPID_DESC"/>
-
-        <param name="basket_nopaid" type="jbbool" default="0" label="JBZOO_JBPRICE_BASKET_NOPAID"
-               description="JBZOO_JBPRICE_BASKET_NOPAID_DESC"/>
     </params>
 
     <params group="render">
