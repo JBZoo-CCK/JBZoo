@@ -40,12 +40,12 @@ abstract class JBCartElementShipping extends JBCartElement
     protected $_cartConfig;
 
     const HTTP_POST = 'post';
-    const HTTP_GET  = 'get';
+    const HTTP_GET = 'get';
 
     /**
      * Class constructor
      *
-     * @param App    $app
+     * @param App $app
      * @param string $type
      * @param string $group
      */
@@ -58,8 +58,8 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * @param float       $sum
-     * @param string      $currency
+     * @param float $sum
+     * @param string $currency
      * @param JBCartOrder $order
      *
      * @return float
@@ -86,7 +86,7 @@ abstract class JBCartElementShipping extends JBCartElement
             ));
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -94,7 +94,7 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     public function isDefault()
     {
-        $shipping = JBModelConfig::model()->get('default_shipping', NULL, 'cart.config');
+        $shipping = JBModelConfig::model()->get('default_shipping', null, 'cart.config');
 
         return $this->identifier == $shipping;
     }
@@ -118,7 +118,7 @@ abstract class JBCartElementShipping extends JBCartElement
             return self::renderLayout($layout);
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -127,7 +127,7 @@ abstract class JBCartElementShipping extends JBCartElement
      *
      * @return string|void
      */
-    public function getControlName($name, $array = FALSE)
+    public function getControlName($name, $array = false)
     {
         return $this->_namespace . '[' . $name . ']';
     }
@@ -286,7 +286,7 @@ abstract class JBCartElementShipping extends JBCartElement
      *
      * @return string|array
      */
-    public function getWidgetParams($encode = TRUE)
+    public function getWidgetParams($encode = true)
     {
         $params = array(
             'shippingfields' => implode(':', $this->config->get('shippingfields', array()))
@@ -298,12 +298,12 @@ abstract class JBCartElementShipping extends JBCartElement
     /**
      * Cleans data
      *
-     * @param  string         $data
+     * @param  string $data
      * @param  string|boolean $charlist
      *
      * @return string mixed
      */
-    public function clean($data, $charlist = FALSE)
+    public function clean($data, $charlist = false)
     {
         if (!is_array($data)) {
             return $this->_clean($data, $charlist);
@@ -331,9 +331,9 @@ abstract class JBCartElementShipping extends JBCartElement
     /**
      * Make request to service and get results
      *
-     * @param  string $url    - Shipping service url.
+     * @param  string $url - Shipping service url.
      * @param  string $method - POST, GET.
-     * @param  array  $data   - Data for POST $method
+     * @param  array $data - Data for POST $method
      *
      * @return bool|array
      */
@@ -342,7 +342,7 @@ abstract class JBCartElementShipping extends JBCartElement
         $group = $this->getElementGroup() . '_' . $this->getElementType();
 
         //using cache to avoid a ban from API
-        if (!($responseData = $this->app->jbcache->get($url, $group, TRUE))) {
+        if (!($responseData = $this->app->jbcache->get($url, $group, true))) {
 
             $jhttp = JHttpFactory::getHttp();
 
@@ -357,15 +357,15 @@ abstract class JBCartElementShipping extends JBCartElement
                 if ($response->code == 200) {
                     $responseData = $this->processingData($response->body);
                 } else {
-                    $responseData = FALSE;
+                    $responseData = false;
                 }
 
             } catch (Exception $e) {
-                $responseData = FALSE;
+                $responseData = false;
             }
 
             if ($responseData) {
-                $this->app->jbcache->set($url, $responseData, $group, TRUE);
+                $this->app->jbcache->set($url, $responseData, $group, true);
             }
         }
 
@@ -400,9 +400,9 @@ abstract class JBCartElementShipping extends JBCartElement
      * Get default value for select
      * @return array
      */
-    protected function _getDefaultValue()
+    protected function _getDefaultValue($type = 'JBZOO_NONE')
     {
-        return array('' => '-None-');
+        return array('' => '-&nbsp;' . JText::_($type) . '&nbsp;-');
     }
 
     /**
@@ -433,12 +433,12 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * @param  string      $str
+     * @param  string $str
      * @param  bool|string $charlist
      *
      * @return mixed|string
      */
-    private function _clean($str, $charlist = FALSE)
+    private function _clean($str, $charlist = false)
     {
         $str = JString::trim($str, $charlist);
         $str = JString::strtolower($str);
