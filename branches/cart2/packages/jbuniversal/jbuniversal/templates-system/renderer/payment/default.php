@@ -13,15 +13,16 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-?>
-
-<?php if ($this->checkPosition('list')) : ?>
+if ($this->checkPosition('list')) : ?>
 
     <div class="clear clr"></div>
 
     <div class="payment-list jbzoo-clear">
-        <h2>Способ оплаты</h2>
-        <?php echo $this->renderPosition('list', array('order.payment')); ?>
+        <div class="payment-list-middle">
+            <h2>Способ оплаты</h2>
+            <?php echo $this->renderPosition('list', array('order.payment')); ?>
+            <div class="clear clr"></div>
+        </div>
     </div>
 
-<?php endif; ?>
+<?php endif;

@@ -2262,6 +2262,10 @@ h3.jbzootabs-accordion-header.jbzootabs-accordion-active.jbzootabs-accordion-ico
     padding: 0 0 0 30px;
 }
 
+.jbzoo .shipping-default .shipping-element input[type="text"] {
+    width: 200px;
+}
+
 .jbzoo .shipping-default .element.active .shipping-element .shipping-info {
     padding: 0 0 0 50px;
 }
@@ -2546,6 +2550,7 @@ h3.jbzootabs-accordion-header.jbzootabs-accordion-active.jbzootabs-accordion-ico
 
 form.jbzoo-app-basket {
     position: relative;
+    min-width: 700px;
 }
 
 .jbzoo .jbzoo-app-basket .item-delete-all {
@@ -2595,7 +2600,7 @@ form.jbzoo-app-basket {
 }
 
 .jbzoo .shipping-default {
-    width: 298px;
+    margin-right: -2px;
     border-right: 1px dashed #DDD;
 }
 
@@ -2617,21 +2622,13 @@ form.jbzoo-app-basket {
     margin: 1px 0;
 }
 
-.jbzoo .shippingfield-default {
-    margin-left: 20px;
-    width: 298px;
-}
-
 .jbzoo .shippingfield-default .element {
     background: #F7FBFC;
     border: 1px solid #EEE;
     padding: 10px;
 }
 
-.jbzoo .shipping-default,
-.jbzoo .shippingfield-default,
-.jbzoo .jbzoo-basket-fields,
-.jbzoo .payment-list {
+.jbzoo .jbzoo-basket-fields {
     /*border: 1px solid #EEE;
     background: #F7FBFC;
     */
@@ -2644,6 +2641,17 @@ form.jbzoo-app-basket {
     padding: 0 20px 20px 20px;
     zoom: 1;
     color: #505050;
+}
+
+.jbzoo .payment-list {
+    width: 100%;
+}
+
+.jbzoo .shipping-default,
+.jbzoo .shippingfield-default {
+    padding: 0 2% 2% 2%;
+    width: 46%;
+    min-width: 298px;
 }
 
 .jbzoo .jbzoo-basket-fields {
@@ -2682,6 +2690,14 @@ form.jbzoo-app-basket {
     max-width: 50px;
 }
 
+.jbzoo .jbzoo-app-basket .control-label {
+    width: 25%;
+}
+
+.jbzoo .jbzoo-app-basket .controls {
+    width: 45%;
+}
+
 .jbzoo .jbzoo-app-basket .control-label,
 .jbzoo .jbzoo-app-basket .controls {
     float: left;
@@ -2707,12 +2723,13 @@ form.jbzoo-app-basket {
     outline: 0;
     font-size: 13px;
     line-height: 18px;
-    padding: 4px 10px 4px 10px;
+    padding: 4px 0px 4px 0px;
     margin: 0;
     color: #505050;
     resize: none;
     min-width: 50px;
-    width: auto;
+    width: 100%;
+    text-indent: 10px;
 }
 
 .jbzoo .jbzoo-app-basket input[type="text"]:hover {
@@ -2738,29 +2755,35 @@ form.jbzoo-app-basket {
     min-height: 125px;
 }
 
-.jbzoo .jbzoo-app-basket .jbzoo-payment .jbradio {
+.jbzoo .jbzoo-app-basket .payment-list .jbzoo-payment .jbradio {
     top: 6px;
 }
 
-.jbzoo .jbzoo-app-basket .jbzoo-payment:first-child {
+.jbzoo .jbzoo-app-basket .payment-list .jbzoo-payment.first {
     padding: 0 10px 0 0;
 }
 
-.jbzoo .jbzoo-app-basket .jbzoo-payment:last-child,
-.jbzoo .jbzoo-app-basket .jbzoo-payment:nth-child(4n) {
+.jbzoo .jbzoo-app-basket .payment-list .jbzoo-payment.no-border,
+.jbzoo .jbzoo-app-basket .payment-list .jbzoo-payment.last {
     padding: 0 0 0 10px;
 }
 
-.jbzoo .jbzoo-app-basket .jbzoo-payment:last-child,
-.jbzoo .jbzoo-app-basket .jbzoo-payment:nth-child(4n) {
+.jbzoo .jbzoo-app-basket .payment-list .jbzoo-payment.no-border,
+.jbzoo .jbzoo-app-basket .payment-list .jbzoo-payment.last {
     border: none;
 }
 
-.jbzoo .jbzoo-app-basket .jbzoo-payment .jbzoo-payment-content {
-
+.jbzoo .jbzoo-app-basket .payment-list .jbzoo-payment.last {
+    clear: left;
 }
 
-.jbzoo .jbzoo-app-basket .jbzoo-payment .payment-element img {
+.jbzoo .jbzoo-app-basket .payment-list .payment-list-middle {
+    width: 700px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.jbzoo .jbzoo-app-basket .payment-list .jbzoo-payment .payment-element img {
     max-height: 38px;
     width: 142px;
 }
