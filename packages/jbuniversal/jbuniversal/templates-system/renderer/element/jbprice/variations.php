@@ -13,23 +13,22 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$elId = $this->app->jbstring->getId('');
-$name = $element->config->get('type');
-$lang = JText::_($name);
+$name = $params['name'];
 $class = 'simple-param';
-
 if ($element->isCore()) {
-    $name  = strtoupper($params['type']);
-    $lang  = JText::_('JBZOO_JBPRICE_VARIATION_' . $name);
     $class = 'core-param';
 }
 
+$name = JText::_($name);
+
 ?>
-<div class="variant-<?php echo strtolower($name); ?>-wrap <?php echo $class; ?> variant-param">
+<div class="variant-<?php echo strtolower($element->getElementType()); ?>-wrap <?php echo $class; ?> variant-param">
+
     <strong class="hasTip row-field label"
-            title="<?php echo $lang; ?>">
-        <?php echo ucfirst($lang); ?>
+            title="<?php echo $name; ?>">
+        <?php echo ucfirst($name); ?>
     </strong>
+
     <span class="attention jsJBPriceAttention"></span>
 
     <div class="field">

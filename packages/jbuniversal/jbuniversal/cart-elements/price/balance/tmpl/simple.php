@@ -16,9 +16,9 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 <div class="jbprice-balance">
     <span class="balance">
-        <?php if ($this->getBasic('_balance') == 0) : ?>
+        <?php if ($this->getValue('value') == 0) : ?>
             <?php echo $textNo; ?>
-        <?php elseif ($this->getBasic('_balance') == -2) : ?>
+        <?php elseif ($this->getValue('value') == -2) : ?>
             <?php echo $textOrder; ?>
         <?php
         else : ?>

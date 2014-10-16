@@ -38,7 +38,7 @@ $item = $this->getItem();
             <?php echo JText::_('JBZOO_JBPRICE_BASIC_VALUE'); ?>
         </label>
 
-        <?php echo $html->text($this->getControlName('_value', 'value'), $basicData->get('_value')['value'],
+        <?php echo $html->text($this->getControlName('_value', 'value'), $basicData->find('_value.value', 0),
             $html->buildAttrs(
                 array(
                     'type'        => 'text',
@@ -58,7 +58,7 @@ $item = $this->getItem();
                 'class="basic-currency"');
         } else {
             echo $html->select($currencyList, $this->getControlName('_currency', 'value'),
-                'class="basic-currency" style="width: auto;"', $basicData->get('_currency')['value']);
+                'class="basic-currency" style="width: auto;"', $basicData->find('_currency.value', 0));
         }
         ?>
     </div>
@@ -69,7 +69,7 @@ $item = $this->getItem();
             >
             <?php echo JText::_('JBZOO_JBPRICE_BASIC_SKU'); ?>
         </label>
-        <?php echo $html->text($this->getControlParamName('_sku', 'value'), $basicData->get('_sku')['value'],
+        <?php echo $html->text($this->getControlParamName('_sku', 'value'), $basicData->find('_sku.value', $this->getItem()->id),
             $html->buildAttrs(
                 array(
                     'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_SKU'),
