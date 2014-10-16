@@ -152,14 +152,16 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
         if ($image && $layout = $this->getLayout('jbimage-' . $template . '.php')) {
 
             $unique = $params->get('_layout') . '_' . $this->_item->id . '_' . $this->identifier;
+
             return $this->renderLayout($layout, array(
                     'imageAttrs' => $this->_buildAttrs(array(
-                            'class'  => 'jbimage ' . $unique,
-                            'alt'    => $alt,
-                            'title'  => $title,
-                            'src'    => $image->url,
-                            'width'  => $image->width,
-                            'height' => $image->height,
+                            'class'         => 'jbimage ' . $unique,
+                            'alt'           => $alt,
+                            'title'         => $title,
+                            'src'           => $image->url,
+                            'width'         => $image->width,
+                            'height'        => $image->height,
+                            'data-template' => $template
                         )),
                     'linkAttrs'  => $this->_buildAttrs(array(
                             'class'  => 'jbimage-link ' . $appendClass . ' ' . $unique,
@@ -170,7 +172,7 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
                             'id'     => uniqid('jbimage-link-'),
                         )),
                     'link'       => $url,
-                    'image'      => $image,
+                    'image'      => $image
                 )
             );
         }
@@ -273,12 +275,16 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
                 $options[] = $this->app->html->_('select.option', $image, '- ' . JText::_('No Change') . ' -');
             }
 
-            $img_ext = str_replace(',', '|', trim(JComponentHelper::getParams('com_media')->get('image_extensions'), ','));
-            foreach ($this->app->path->files('root:' . $this->_getUploadImagePath(), false, '/\.(' . $img_ext . ')$/i') as $file) {
+            $img_ext =
+                str_replace(',', '|', trim(JComponentHelper::getParams('com_media')->get('image_extensions'), ','));
+            foreach ($this->app->path->files('root:' . $this->_getUploadImagePath(), false,
+                '/\.(' . $img_ext . ')$/i') as $file) {
                 $options[] = $this->app->html->_('select.option', $this->_getUploadImagePath() . '/' . $file, $file);
             }
 
-            $lists['image_select'] = $this->app->html->_('select.genericlist', $options, $this->getControlName('image'), 'class="image"', 'value', 'text', $image);
+            $lists['image_select'] =
+                $this->app->html->_('select.genericlist', $options, $this->getControlName('image'), 'class="image"',
+                    'value', 'text', $image);
 
         } else {
             if (!empty($image)) {
@@ -338,10 +344,12 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
 
                 // validator hack for element error message after submission controller redirect
                 if (
-                    (empty($userfile) || empty($userfile['tmp_name'])) &&
-                    ($value->get('filename') || $value->get('image'))
+                    (empty($userfile) || empty($userfile['tmp_name']))
+                    && ($value->get('filename') || $value->get('image'))
                 ) {
-                    if ($message = $this->app->jbsession->get($this->identifier . '||' . $this->key(), 'jbimage_validate')) {
+                    if (
+                    $message = $this->app->jbsession->get($this->identifier . '||' . $this->key(), 'jbimage_validate')
+                    ) {
                         throw new AppValidatorException($message);
                     }
                 }
@@ -359,7 +367,8 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
 
             } catch (AppValidatorException $e) {
 
-                $this->app->jbsession->set($this->identifier . '||' . $this->key(), $e->getMessage(), 'jbimage_validate');
+                $this->app->jbsession->set($this->identifier . '||' . $this->key(), $e->getMessage(),
+                    'jbimage_validate');
 
                 if ($e->getCode() != UPLOAD_ERR_NO_FILE) {
                     throw $e;
@@ -378,10 +387,14 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
         $result = array('file' => $this->_moveUploadedFiles($file));
 
         if ($trusted_mode) {
-            $result['title']  = $this->app->validator->create('string', array('required' => false))->clean($value->get('title'));
-            $result['link']   = $this->app->validator->create('url', array('required' => false), array('required' => 'Please enter an URL.'))->clean($value->get('link'));
-            $result['target'] = $this->app->validator->create('', array('required' => false))->clean($value->get('target'));
-            $result['rel']    = $this->app->validator->create('string', array('required' => false))->clean($value->get('rel'));
+            $result['title']  =
+                $this->app->validator->create('string', array('required' => false))->clean($value->get('title'));
+            $result['link']   = $this->app->validator->create('url', array('required' => false),
+                array('required' => 'Please enter an URL.'))->clean($value->get('link'));
+            $result['target'] =
+                $this->app->validator->create('', array('required' => false))->clean($value->get('target'));
+            $result['rel']    =
+                $this->app->validator->create('string', array('required' => false))->clean($value->get('rel'));
         }
 
         $this->next();

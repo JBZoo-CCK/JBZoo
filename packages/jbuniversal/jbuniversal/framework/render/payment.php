@@ -106,9 +106,8 @@ class PaymentRenderer extends PositionRenderer
                 'element' => $data['element'],
                 'params'  => array_merge(
                     array(
-                        'first'     => ($i == 0),
-                        'last'      => ($i == count($elements) - 1) || ($c % 4 == 0),
-                        'no-border' => ($c % 3 == 0)
+                        'first' => ($i == 0),
+                        'last'  => ($i == count($elements) - 1)
                     ),
                     $data['params']
                 ),

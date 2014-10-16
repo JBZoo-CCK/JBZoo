@@ -49,7 +49,8 @@ class JBCartElementPriceBool extends JBCartElementPrice
     {
         $params = $this->app->data->create($params);
 
-        if ($layout = $this->getLayout($params->get('template', 'bool') . '.php')) {
+        //$params->get('template', 'bool') . '.php')
+        if ($layout = $this->getLayout('select.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params
             ));

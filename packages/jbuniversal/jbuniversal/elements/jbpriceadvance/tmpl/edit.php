@@ -38,22 +38,24 @@ $item = $this->getItem();
             <?php echo JText::_('JBZOO_JBPRICE_BASIC_VALUE'); ?>
         </label>
 
-        <?php echo $html->text($this->getControlName('_value', 'value'), $basicData->get('_value')['value'], $html->buildAttrs(
-            array(
-                'type'        => 'text',
-                'size'        => '10',
-                'maxlength'   => '255',
-                'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_VALUE'),
-                'style'       => 'width:100px;',
-                'id'          => 'basic-value',
-                'class'       => 'basic-value'
-            )
-        ));
+        <?php echo $html->text($this->getControlName('_value', 'value'), $basicData->get('_value')['value'],
+            $html->buildAttrs(
+                array(
+                    'type'        => 'text',
+                    'size'        => '10',
+                    'maxlength'   => '255',
+                    'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_VALUE'),
+                    'style'       => 'width:100px;',
+                    'id'          => 'basic-value',
+                    'class'       => 'basic-value'
+                )
+            ));
 
         if (count($currencyList) == 1) {
             reset($currencyList);
             $currency = current($currencyList);
-            echo $currency, $html->hidden($this->getControlName('_currency', 'value'), $currency, 'class="basic-currency"');
+            echo $currency, $html->hidden($this->getControlName('_currency', 'value'), $currency,
+                'class="basic-currency"');
         } else {
             echo $html->select($currencyList, $this->getControlName('_currency', 'value'),
                 'class="basic-currency" style="width: auto;"', $basicData->get('_currency')['value']);
@@ -112,20 +114,32 @@ $item = $this->getItem();
             'price_mode'          : <?php echo $this->config->get('price_mode', 1); ?>,
             'adv_field_param_edit': <?php echo (int)$config->get('adv_field_param_edit', 0); ?>
         });
+
     });
 
     function submitbutton(pressbutton) {
 
+        var prices = jQuery('.jbzoo-price-advance');
+
         if (pressbutton == 'cancel') {
             submitform(pressbutton);
         } else {
-            var valid = jQuery('#<?php echo $id;?>').data('valid');
+
+            var valid = true;
+            jQuery(prices).each(function () {
+
+                var price = jQuery(this);
+
+                price.trigger('errorsExists');
+                if (price.data('valid') === false) {
+                    valid = false;
+                }
+
+            });
 
             if (valid) {
                 submitform(pressbutton);
             }
-
-            jQuery('#<?php echo $id;?>').trigger('errorsExists');
         }
     }
 

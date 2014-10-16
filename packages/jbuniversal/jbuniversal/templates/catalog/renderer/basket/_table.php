@@ -95,7 +95,7 @@ defined('_JEXEC') or die('Restricted access');
             echo '<div class="jbbasket-item-param">
                     <span class="jbbasket-item-sku">' . JText::_('JBZOO_CART_ITEM_SKU') . ':
                     </span>
-                    ' . $__sku . ';
+                    ' . $__sku . '
                     </div>';
             unset($item);
 
@@ -104,7 +104,7 @@ defined('_JEXEC') or die('Restricted access');
                     if (!empty($value)) {
                         echo '<div class="jbbasket-item-param">
                     <span class="jbbasket-param-key">' . $key . ':</span>
-                    ' . $value . ';
+                    ' . $value . '
                     </div>';
                     }
                 }
@@ -133,7 +133,7 @@ defined('_JEXEC') or die('Restricted access');
             <span class="jsCurrency currency-item">
             ' . $jbMoney->getSymbol($default) . '
             </span>
-            <a class="item-delete jsDelete" itemid="' . $id . '">x</a>
+            <a class="item-delete jbbutton-orange jbbutton-base jsDelete" itemid="' . $id . '">x</a>
             </td>';
 
             } else {
@@ -152,7 +152,9 @@ defined('_JEXEC') or die('Restricted access');
             <td class="null jsNull"></td>
             <td class="null jsNull"></td>
             <td class="null jsNull"></td>
-            <td class="null jsNull"></td>
+            <td class="null jsNull">
+                <a class="jsDeleteAll item-delete-all jbbutton-orange jbbutton-base"><?php echo JText::_('JBZOO_CART_EMPTY'); ?></a>
+            </td>
         </tr>
 
         <tr>
@@ -214,8 +216,6 @@ defined('_JEXEC') or die('Restricted access');
         </tfoot>
     <?php } ?>
 </table>
-
-<a class="jsDeleteAll item-delete-all"><?php echo JText::_('JBZOO_CART_EMPTY'); ?></a>
 
 <script type="text/javascript">
     jQuery(function ($) {

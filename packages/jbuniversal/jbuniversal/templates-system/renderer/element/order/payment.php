@@ -35,7 +35,6 @@ $classes = array_filter(array(
     'element-' . $element->getElementType(),
     $params->get('first') ? ' first' : '',
     $params->get('last') ? ' last' : '',
-    $params->get('no-border') ? ' no-border' : '',
     $params->get('required') ? ' required-field' : '',
     $isError ? ' error' : '',
 ));

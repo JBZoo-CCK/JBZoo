@@ -174,7 +174,7 @@ class BasketJBUniversalController extends JBUniversalController
     public function quantity()
     {
         // get request
-        $value = (int)$this->_jbrequest->get('value');
+        $value = (float)$this->_jbrequest->get('value');
         $key   = trim($this->_jbrequest->get('key'));
 
         $cart = JBCart::getInstance();

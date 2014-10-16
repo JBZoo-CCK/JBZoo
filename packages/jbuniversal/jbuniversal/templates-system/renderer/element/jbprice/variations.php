@@ -30,7 +30,7 @@ if ($element->isCore()) {
             title="<?php echo $lang; ?>">
         <?php echo ucfirst($lang); ?>
     </strong>
-    <span class="attention jsJBpriceAttention"></span>
+    <span class="attention jsJBPriceAttention"></span>
 
     <div class="field">
         <?php echo $element->edit($params); ?>

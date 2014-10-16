@@ -57,14 +57,14 @@ class JBCartElementPriceImage extends JBCartElementPrice
      */
     public function unique($params)
     {
-        $image  = json_decode($params->get('image'), TRUE);
+        $image  = $params->get('image');
         $unique = $params->get('_price_layout') . '_' . $this->getJBPrice()->getItem()->id;
 
         if (empty($image)) {
             return $unique;
         }
 
-        return $unique . '_' . $image['element'];
+        return $unique . '_' . $image;
     }
 
 }
