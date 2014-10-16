@@ -34,7 +34,6 @@
         <param name="cache" type="jbbool" default="0" label="JBZOO_JBPRICE_ELEMENT_CACHE"
                description="JBZOO_JBPRICE_ELEMENT_CACHE_DESC"/>
 
-        <!-- basket relation ####################################################################################### -->
         <param name="@basket_label" type="jbspacer" default="JBZOO_JBPRICE_BASKET_RELATION"/>
 
         <param name="basket_menuitem" type="jbmenuitems" default="" label="JBZOO_JBPRICE_BASKET_MENUITEM"
@@ -43,14 +42,10 @@
 
     <params group="render">
 
-        <!-- custom params ######################################################################################### -->
         <param name="@custom_label" type="jbspacer" default="JBZOO_JBPRICE_TEMPLATE_CUSTOM_PARAMS_SPACER"/>
 
-        <param name="template" type="list" default="default" label="JBZOO_JBPRICE_TEMPLATE"
-               description="JBZOO_JBPRICE_TEMPLATE_DESC">
-            <option value="default">JBZOO_JBPRICE_TEMPLATE_DEFAULT</option>
-            <option value="advance">JBZOO_JBPRICE_TEMPLATE_ADVANCE</option>
-        </param>
+        <param name="template" type="jbpricetemplates" default="default" label="JBZOO_JBPRICE_TEMPLATE"
+               description="JBZOO_JBPRICE_TEMPLATE_DESC"/>
 
         <param name="show_empty_price" type="jbbool" default="1" label="JBZOO_JBPRICE_SHOW_EMPTY_PRICE"
                description="JBZOO_JBPRICE_SHOW_EMPTY_PRICE_DESC"/>
@@ -58,15 +53,10 @@
         <param name="show_empty_balance" type="jbbool" default="1" label="JBZOO_JBPRICE_SHOW_EMPTY_BALANCE"
                description="JBZOO_JBPRICE_SHOW_EMPTY_BALANCE_DESC"/>
 
-        <!--  modal params ######################################################################################### -->
         <param name="@modal_label" type="jbspacer" default="JBZOO_JBPRICE_TEMPLATE_POPUP_PARAMS_SPACER"/>
 
-        <param name="modal_params_tmpl" type="list" default="0" label="JBZOO_JBPRICE_TEMPLATE"
-               description="JBZOO_JBPRICE_TEMPLATE_DESC">
-            <option value="default">JBZOO_JBPRICE_TEMPLATE_DEFAULT</option>
-            <option value="advance">JBZOO_JBPRICE_TEMPLATE_ADVANCE</option>
-        </param>
-
+        <param name="modal_params_tmpl" type="jbpricetemplates" default="0" label="JBZOO_JBPRICE_TEMPLATE"
+               description="JBZOO_JBPRICE_TEMPLATE_DESC"/>
     </params>
 
     <params group="submission">
