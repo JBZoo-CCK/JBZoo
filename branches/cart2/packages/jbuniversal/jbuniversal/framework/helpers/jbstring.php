@@ -115,21 +115,22 @@ class JBStringHelper extends AppHelper
     public function parseLines($text)
     {
         $text  = JString::trim($text);
+        $text  = htmlspecialchars_decode($text);
+        $text  = strip_tags($text);
+        $text  = addslashes($text);
         $lines = explode("\n", $text);
 
         $result = array();
         if (!empty($lines)) {
 
             foreach ($lines as $line) {
-
-                $line = JString::trim($line);
-                if (!empty($line)) {
-                    $result[] = $line;
-                }
-
+                $result[] = JString::trim($line);
             }
         }
 
+        $result = array_filter($result);
+        $result = array_unique($result);
+        
         return $result;
     }
 
