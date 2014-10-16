@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $unique = $this->app->jbstring->getId('balance-custom-');
 $html = $this->app->jbhtml;
-$variant = (int)$params->get('basic', 0) ? '' : '-variant';
+$variant = (int)$this->config->get('_variant') ? '' : '-variant';
 
 $text = array(
     '1' => ''

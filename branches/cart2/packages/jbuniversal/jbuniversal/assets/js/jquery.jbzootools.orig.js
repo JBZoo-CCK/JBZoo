@@ -3562,12 +3562,17 @@ var reCount = {
             });
 
             $('.jsAddToCartGoto', $obj).click(function () {
+
+                var button = $(this);
+                button.addClass('loading').attr('disabled', 'disabled');
+
                 addToCart(function (data) {
                     if (data) {
                         if (options.basketUrl) {
                             parent.location.href = options.basketUrl;
                         }
                     }
+                    button.removeClass('loading').removeAttr('disabled', 'disabled');
                 });
 
                 return false;

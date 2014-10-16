@@ -13,8 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$jbhtml = $this->app->jbhtml;
-$balance = $this->getBasic('_balance');
+$balance = $this->getValue('value');
 
 ?>
 <div class="jbprice-balance">

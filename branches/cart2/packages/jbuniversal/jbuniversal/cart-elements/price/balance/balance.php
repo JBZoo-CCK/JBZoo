@@ -29,7 +29,7 @@ class JBCartElementPriceBalance extends JBCartElementPrice
      */
     public function hasFilterValue($params = array())
     {
-        return FALSE;
+        return false;
     }
 
     /**
@@ -39,15 +39,13 @@ class JBCartElementPriceBalance extends JBCartElementPrice
      */
     public function edit($params = array())
     {
-        $params = $this->getParams();
-
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params
             ));
         }
 
-        return NULL;
+        return null;
     }
 
     /**
@@ -68,7 +66,7 @@ class JBCartElementPriceBalance extends JBCartElementPrice
             ));
         }
 
-        return NULL;
+        return null;
     }
 
 }
