@@ -92,11 +92,15 @@ defined('_JEXEC') or die('Restricted access');
 
             echo '<td class="jbbasket-item-name">';
             echo '<a href="' . $href . '" title="' . $__name . '">' . $__name . '</a>';
-            echo '<div class="jbbasket-item-param">
+
+            if ($__sku) {
+                echo '<div class="jbbasket-item-param">
                     <span class="jbbasket-item-sku">' . JText::_('JBZOO_CART_ITEM_SKU') . ':
                     </span>
                     ' . $__sku . '
                     </div>';
+            }
+
             unset($item);
 
             if (isset($__priceParams) && !empty($__priceParams)) {
