@@ -340,7 +340,7 @@ class JBCart
         if (!empty($items[$key])) {
 
             $item  = $items[$key];
-            $value = (int)$value;
+            $value = (float)$value;
             $value = $value >= 1 ? $value : 1;
 
             $item['quantity'] = $value;

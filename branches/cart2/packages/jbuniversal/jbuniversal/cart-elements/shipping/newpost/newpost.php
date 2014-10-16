@@ -163,7 +163,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     public function getRegions()
     {
         $data   = $this->_getCitiesRegionsFromPost();
-        $states = $this->_getDefaultValue();
+        $states = array('' => '-Регион-');
 
         if (!empty($data) && isset($data->result->cities->city)) {
             foreach ($data->result->cities->city as $city) {
@@ -186,7 +186,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     {
         $data = $this->_getCitiesRegionsFromPost();
 
-        $cities = $this->_getDefaultValue();
+        $cities = array('' => '-Город-');
         $region = $this->clean($region);
 
         if (!empty($data) && isset($data->result->cities->city)) {
@@ -215,7 +215,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     public function getWarehouses($city = null)
     {
         if (empty($city)) {
-            return $this->_getDefaultValue();
+            return array('' => '-Склад-');
         }
 
         $wrn  = array();

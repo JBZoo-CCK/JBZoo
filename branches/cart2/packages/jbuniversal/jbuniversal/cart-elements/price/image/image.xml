@@ -14,22 +14,28 @@
 
     <params group="render">
         <param name="image"
-               type="elementlistbytype"
+               type="jbelementlist"
                types="jbimage"
-               label="Choose element teaser image" />
+               label="Choose image element"/>
 
         <param name="width"
                type="text"
                default="400"
                label="JBZOO_RESIZE_WIDTH"
-               description="JBZOO_RESIZE_WIDTH_DESC" />
+               description="JBZOO_RESIZE_WIDTH_DESC"/>
 
         <param name="height"
                type="text"
                default="300"
                label="JBZOO_RESIZE_HEIGHT"
-               description="JBZOO_RESIZE_WIDTH_DESC" />
-        
+               description="JBZOO_RESIZE_WIDTH_DESC"/>
+
+        <param name="width_popup" type="text" default="1280" label="JBZOO_RESIZE_POPUP_WIDTH"
+               description="JBZOO_RESIZE_WIDTH_POPUP_DESC"/>
+
+        <param name="height_popup" type="text" default="800" label="JBZOO_RESIZE_POPUP_HEIGHT"
+               description="JBZOO_RESIZE_WIDTH_POPUP_DESC"/>
+
     </params>
 
 </element>
