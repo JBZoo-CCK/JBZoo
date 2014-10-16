@@ -93,7 +93,9 @@ class plgSystemJBZoo extends JPlugin
         $currentCtrl = strtolower($zoo->request->getCmd('controller'));
         $jbzooCtrls  = array('autocomplete', 'basket', 'compare', 'favorite', 'payment', 'search', 'viewed');
 
-        if ($curApp->getGroup() != JBZOO_APP_GROUP && in_array($currentCtrl, $jbzooCtrls)) {
+        if (empty($curApp) ||
+            ($curApp->getGroup() != JBZOO_APP_GROUP && in_array($currentCtrl, $jbzooCtrls))
+        ) {
 
             $jbzooApp = $zoo->table->application->first(array(
                 'conditions' => array('application_group="' . JBZOO_APP_GROUP . '"')
