@@ -22,9 +22,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render currency list
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -48,9 +48,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render currency list
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -66,9 +66,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render application list
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -98,9 +98,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render layout list
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -124,7 +124,7 @@ class JBFieldHelper extends AppHelper
         }
 
         if (JFolder::exists($path)) {
-            $files = JFolder::files($path, '^([-_A-Za-z0-9\.]*)\.php$', FALSE, FALSE, array('.svn', 'CVS'));
+            $files = JFolder::files($path, '^([-_A-Za-z0-9\.]*)\.php$', false, false, array('.svn', 'CVS'));
             foreach ($files as $tmpl) {
                 $tmpl           = basename($tmpl, '.php');
                 $options[$tmpl] = $tmpl;
@@ -132,7 +132,7 @@ class JBFieldHelper extends AppHelper
         }
 
         if (JFolder::exists($system)) {
-            $files = JFolder::files($system, '^([-_A-Za-z0-9\.]*)\.php$', FALSE, FALSE, array('.svn', 'CVS'));
+            $files = JFolder::files($system, '^([-_A-Za-z0-9\.]*)\.php$', false, false, array('.svn', 'CVS'));
             foreach ($files as $tmpl) {
                 $tmpl           = basename($tmpl, '.php');
                 $options[$tmpl] = $tmpl;
@@ -145,9 +145,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render submission layout list
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -181,9 +181,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render email layout list
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -218,9 +218,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render submission list
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -243,9 +243,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render layout list
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -259,9 +259,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render typelist list
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -284,9 +284,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render hidden timestamp
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -306,9 +306,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render hidden timestamp
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -345,9 +345,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render hidden timestamp
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -494,14 +494,14 @@ class JBFieldHelper extends AppHelper
             'order'   => JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_ORDER_EMAIL'),
         );
         $userAttrs   = array(
-            'multiple' => TRUE
+            'multiple' => true
         );
 
         $html[] =
             $this->spacer($name, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_ADMIN_GROUPS'), $controlName, $node,
                 $parent);
         $html[] =
-            JHtmlAccess::usergroup($adminName, $value->get('admin', array()), $jbhtml->buildAttrs($adminAttrs), FALSE);
+            JHtmlAccess::usergroup($adminName, $value->get('admin', array()), $jbhtml->buildAttrs($adminAttrs), false);
 
         $html[] = $this->spacer($userName, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_USER'), $controlName, $node,
             $parent);
@@ -520,9 +520,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render boolean list
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -541,9 +541,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render boolean list
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -558,9 +558,9 @@ class JBFieldHelper extends AppHelper
      * Render boolean list
      * TODO Move queries to models
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -598,7 +598,7 @@ class JBFieldHelper extends AppHelper
 
         $groupedList = array();
         foreach ($list as $k => $v) {
-            $groupedList[$v->menutype][] = & $list[$k];
+            $groupedList[$v->menutype][] = &$list[$k];
         }
 
         // Assemble menu items to the array
@@ -613,7 +613,7 @@ class JBFieldHelper extends AppHelper
                 $n = count($groupedList[$type->menutype]);
                 for ($i = 0; $i < $n; $i++) {
 
-                    $item = & $groupedList[$type->menutype][$i];
+                    $item = &$groupedList[$type->menutype][$i];
 
                     $options[$item->id] = $item->treename;
                 }
@@ -628,9 +628,9 @@ class JBFieldHelper extends AppHelper
      * TODO Move queries to models
      * Render boolean list
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -658,9 +658,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render textarea
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -678,8 +678,8 @@ class JBFieldHelper extends AppHelper
 
         $attrs = array(
             'name'        => $name,
-            'placeholder' => $this->_getAttr($node, 'placeholder', NULL),
-            'class'       => $this->_getAttr($node, 'class', NULL),
+            'placeholder' => $this->_getAttr($node, 'placeholder', null),
+            'class'       => $this->_getAttr($node, 'class', null),
             'rows'        => $rows,
             'cols'        => $cols,
         );
@@ -715,9 +715,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render colors fields
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -766,9 +766,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render links for payment system
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -785,8 +785,8 @@ class JBFieldHelper extends AppHelper
             ));
 
         $link = '<a class="modal" href="' . $href . '" '
-                . 'rel="{handler: \'iframe\', size: {x: 600, y: 500}, onClose: function() {}}">'
-                . JText::_('JBZOO_SHOW_PAYMENTLINKS') . '</a>';
+            . 'rel="{handler: \'iframe\', size: {x: 600, y: 500}, onClose: function() {}}">'
+            . JText::_('JBZOO_SHOW_PAYMENTLINKS') . '</a>';
 
         return $link;
     }
@@ -794,9 +794,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render element list
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -816,7 +816,7 @@ class JBFieldHelper extends AppHelper
         foreach ($files as $file) {
 
             $json = $this->app->jbfile->read($this->app->path->path('jbtypes:' . $file));
-            $data = @json_decode($json, TRUE);
+            $data = @json_decode($json, true);
 
             if (!$data) {
                 continue;
@@ -840,9 +840,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render element list
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -859,7 +859,7 @@ class JBFieldHelper extends AppHelper
 
         $file = $this->app->path->path('jbtypes:' . $type . '.config');
         if ($file && $json = $this->app->jbfile->read($file)) {
-            $data = json_decode($json, TRUE);
+            $data = json_decode($json, true);
         }
 
         $optionList = array('' => '- no select -');
@@ -886,9 +886,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render element list
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -935,7 +935,7 @@ class JBFieldHelper extends AppHelper
         foreach ($files as $file) {
 
             $json = $this->app->jbfile->read($this->app->path->path('jbtypes:' . $file));
-            $data = @json_decode($json, TRUE);
+            $data = @json_decode($json, true);
 
             if (!$data) {
                 continue;
@@ -990,26 +990,16 @@ class JBFieldHelper extends AppHelper
         $html[] = '<div class="hidden">';
 
         $html[] = '<div class="jbprice-fields-parameter clearfix">';
-        $html[] = '<input type="text"
-                          name="' . $controlName . '[' . $name . '][params][0][name]"
-                          class="jsJBPriceParamAddValue" disabled>';
-
-        $html[] = '<input type="hidden" name="' . $controlName . '[' . $name . '][params][0][value]"
-                                        value="" disabled>';
+        $html[] = '<input type="text" name="' . $controlName . '[' . $name . '][params][0][name]" class="jsJBPriceParamAddValue" disabled>';
+        $html[] = '<input type="hidden" name="' . $controlName . '[' . $name . '][params][0][value]" value="" disabled>';
         $html[] = '<a class="jsJBPriceDeleteParam jbprice-adv-delete-param" href=""></a>';
         $html[] = '<div class="jbprice-fields-options"></div>';
         $html[] = '<a href="javascript:void(0)" class="jbprice-addOption jsJBPriceAddOption clearfix"></a>';
         $html[] = '</div>';
 
         $html[] = '<div class="jbprice-field-option">';
-        $html[] = '<input type="text"
-                          name="' . $controlName . '[' . $name . '][params][0][option][0][name]"
-                          class="jsJBPriceOptionAddValue" disabled/>';
-
-        $html[] = '<input type="hidden"
-                          name="' . $controlName . '[' . $name . '][params][0][option][0][value]"
-                          value=""disabled/>';
-
+        $html[] = '<input type="text" name="' . $controlName . '[' . $name . '][params][0][option][0][name]" class="jsJBPriceOptionAddValue" disabled/>';
+        $html[] = '<input type="hidden" name="' . $controlName . '[' . $name . '][params][0][option][0][value]" value=""disabled/>';
         $html[] = '<a class="jsJBPriceDeleteOption jbprice-adv-delete-option" href=""></a>';
         $html[] = '</div></div>';
 
@@ -1018,14 +1008,8 @@ class JBFieldHelper extends AppHelper
             foreach ($values['params'] as $key => $value) {
 
                 $html[] = '<div class="jbprice-fields-parameter clearfix">';
-                $html[] = '<input type="text"
-                              name="' . $controlName . '[' . $name . '][params][' . $key . '][name]"
-                              value="' . $value['name'] . '"
-                              class="jsJBPriceParamAddValue" />';
-
-                $html[] = '<input type="hidden"
-                              name="' . $controlName . '[' . $name . '][params][' . $key . '][value]"
-                              value="' . $value['value'] . '" />';
+                $html[] = '<input type="text" name="' . $controlName . '[' . $name . '][params][' . $key . '][name]" value="' . $value['name'] . '" class="jsJBPriceParamAddValue" />';
+                $html[] = '<input type="hidden" name="' . $controlName . '[' . $name . '][params][' . $key . '][value]" value="' . $value['value'] . '" />';
 
                 $html[] = '<a class="jsJBPriceDeleteParam jbprice-adv-delete-param" href=""></a>';
                 $html[] = '<div class="jbprice-fields-options">';
@@ -1034,22 +1018,13 @@ class JBFieldHelper extends AppHelper
 
                     for ($i = 0; $i < count($value['option']); $i++) {
 
-                        if (empty($value['option'][$i]['name'])
-                            || (empty($value['option'][$i]['value']))
-                        ) {
+                        if (empty($value['option'][$i]['name']) || (empty($value['option'][$i]['value']))) {
                             continue;
                         }
+
                         $html[] = '<div class="jbprice-field-option">';
-                        $html[] = '<input type="text"
-                                          name="' . $controlName . '[' . $name . '][params][' . $key . '][option][' . $i
-                                  . '][name]"
-                                          value="' . $value['option'][$i]['name'] . '"
-                                          class="jsJBPriceOptionAddValue" />';
-
-                        $html[] = '<input type="hidden"
-                                      name="' . $controlName . '[' . $name . '][params][' . $key . '][option][' . $i . '][value]"
-                                      value="' . $value['option'][$i]['value'] . '" />';
-
+                        $html[] = '<input type="text" name="' . $controlName . '[' . $name . '][params][' . $key . '][option][' . $i . '][name]" value="' . $value['option'][$i]['name'] . '" class="jsJBPriceOptionAddValue" />';
+                        $html[] = '<input type="hidden" name="' . $controlName . '[' . $name . '][params][' . $key . '][option][' . $i . '][value]" value="' . $value['option'][$i]['value'] . '" />';
                         $html[] = '<a class="jsJBPriceDeleteOption jbprice-adv-delete-option" href=""></a>';
                         $html[] = '</div>';
 
@@ -1062,35 +1037,49 @@ class JBFieldHelper extends AppHelper
                 $html[] = '</div>';
             }
         }
-        $html[] = '<a href="javascript:void(0)" class="jbprice-addParam">
-                    <span class="jsJBPriceAddParam">'
-                  . JText::_('JBZOO_JBPRICE_ADVANCEFIELDS_PARAMETER_ADD') . '</span></a>';
+        $html[] = '<a href="javascript:void(0)" class="jbprice-addParam"> <span class="jsJBPriceAddParam">'
+            . JText::_('JBZOO_JBPRICE_ADVANCEFIELDS_PARAMETER_ADD')
+            . '</span></a>';
 
         $html[] = '</div>';
 
+        $url = $this->app->link(array(
+            'controller' => 'manager',
+            'format'     => 'raw',
+            'task'       => 'getalias',
+            'force_safe' => 1
+        ), false);
+
         $html[] = '<script type="text/javascript">';
         $html[] = 'jQuery(document).ready(function ($) {';
-        $html[] = '$("#' . $unique . '").JBZooPriceAdvanceFields({
-                    "url": "' . $this->app->link(
-                array(
-                    'controller' => 'manager',
-                    'format'     => 'raw',
-                    'task'       => 'getalias',
-                    'force_safe' => 1
-                ), FALSE) . '"
-                   });
-                   });';
+        $html[] = '$("#' . $unique . '").JBZooPriceAdvanceFields({"url": "' . $url . '"}); });';
         $html[] = '</script>';
 
         return implode($html);
     }
 
     /**
+     * @param $name
+     * @param $value
+     * @param $controlName
+     * @param SimpleXMLElement $node
+     * @param $parent
+     * @return mixed
+     */
+    public function jbpriceTemplates($name, $value, $controlName, SimpleXMLElement $node, $parent)
+    {
+        $renderer   = $this->app->jbrenderer->create('jbprice');
+        $optionList = $renderer->getLayouts('jbprice');
+
+        return $this->_renderList($optionList, $value, $this->_getName($controlName, $name), $node);
+    }
+
+    /**
      * Render element id
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1108,9 +1097,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render element id
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1122,15 +1111,15 @@ class JBFieldHelper extends AppHelper
             return '<div class="field-jbspacer"><b> -= ' . JText::_($value) . ' =- </b></div>';
         }
 
-        return NULL;
+        return null;
     }
 
     /**
      * Render custom description
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1142,15 +1131,15 @@ class JBFieldHelper extends AppHelper
             return '<span style="font-size:1.1em">' . JText::_($value) . '</span>';
         }
 
-        return NULL;
+        return null;
     }
 
     /**
      * Render related fields
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1171,7 +1160,7 @@ class JBFieldHelper extends AppHelper
 
         foreach ($files as $file) {
             $fileContent = $this->app->jbfile->read($typesPath . '/' . $file);
-            $typeData    = json_decode($fileContent, TRUE);
+            $typeData    = json_decode($fileContent, true);
 
             $elements = array();
             foreach ($typeData['elements'] as $elementId => $element) {
@@ -1197,16 +1186,16 @@ class JBFieldHelper extends AppHelper
         return JHtml::_('select.groupedlist', $options, $name, array(
             'list.attr'   => $this->app->jbhtml->buildAttrs($attrs),
             'list.select' => $value,
-            'group.items' => NULL,
+            'group.items' => null,
         ));
     }
 
     /**
      * Render hidden timestamp
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1226,9 +1215,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render key-value pair
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1286,9 +1275,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render itemOrder global
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1302,9 +1291,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render itemOrder
      *
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1333,11 +1322,11 @@ class JBFieldHelper extends AppHelper
         }
 
         $output = '<div class="jsItemOrder jbzoo-itemorder">'
-                  . '<div class="jbzoo-itemorder-row">' . implode("</div><div class=\"jbzoo-itemorder-row\">\n ", $html)
-                  . '</div>'
-                  . '<br>'
-                  . '<a href="#jbitemorder-add" class="jsItemOrderAdd">' . JText::_('JBZOO_SORT_ADD') . '</a>'
-                  . '</div>';
+            . '<div class="jbzoo-itemorder-row">' . implode("</div><div class=\"jbzoo-itemorder-row\">\n ", $html)
+            . '</div>'
+            . '<br>'
+            . '<a href="#jbitemorder-add" class="jsItemOrderAdd">' . JText::_('JBZOO_SORT_ADD') . '</a>'
+            . '</div>';
 
         return $output;
     }
@@ -1358,42 +1347,42 @@ class JBFieldHelper extends AppHelper
 
         $orderValue = $values->get('key_0');
         if (empty($orderValue) || preg_match('#_jbzoo(.*)none#i', $orderValue)) {
-            return NULL;
+            return null;
         }
 
         $ctrl = array();
         $i    = 0;
 
         $ctrl[] = '<span class="jbzoo-itemorder-label">' . JText::_('JBZOO_SORT_FIELD')
-                  . ': </span>' . JHtml::_('select.groupedlist', $options, $customName . '[]', array(
+            . ': </span>' . JHtml::_('select.groupedlist', $options, $customName . '[]', array(
                 'list.attr'   => $this->app->jbhtml->buildAttrs(array()),
                 'list.select' => $values->get('key_' . $i++),
-                'group.items' => NULL,
+                'group.items' => null,
             ));
 
         $ctrl[] = '<span class="jbzoo-itemorder-label">' . JText::_('JBZOO_SORT_AS')
-                  . ': </span>' . $this->app->jbhtml->select(array(
+            . ': </span>' . $this->app->jbhtml->select(array(
                 '_jbzoo_' . $index . '_mode_s' => JText::_('JBZOO_SORT_AS_STRINGS'),
                 '_jbzoo_' . $index . '_mode_n' => JText::_('JBZOO_SORT_AS_NUMBERS'),
                 '_jbzoo_' . $index . '_mode_d' => JText::_('JBZOO_SORT_AS_DATES'),
             ), $customName . '[]', '', $values->get('key_' . $i++));
 
         $ctrl[] = '<span class="jbzoo-itemorder-label">' . JText::_('JBZOO_SORT_ORDER')
-                  . ': </span>' . $this->app->jbhtml->select(array(
+            . ': </span>' . $this->app->jbhtml->select(array(
                 '_jbzoo_' . $index . '_order_asc'    => JText::_('JBZOO_SORT_ORDER_ASC'),
                 '_jbzoo_' . $index . '_order_desc'   => JText::_('JBZOO_SORT_ORDER_DESC'),
                 '_jbzoo_' . $index . '_order_random' => JText::_('JBZOO_SORT_ORDER_RANDOM'),
             ), $customName . '[]', '', $values->get('key_' . $i++));
 
         return '<div class="jbzoo-itemorder-row-field">'
-               . implode("</div><div class=\"jbzoo-itemorder-row-field\">\n ", $ctrl)
-               . '</div>';
+        . implode("</div><div class=\"jbzoo-itemorder-row-field\">\n ", $ctrl)
+        . '</div>';
     }
 
     /**
      * Get pre-prepared options list for itemorder list
      *
-     * @param int    $index
+     * @param int $index
      * @param string $prefix
      *
      * @return array
@@ -1433,19 +1422,19 @@ class JBFieldHelper extends AppHelper
         // add custom fields
         foreach ($files as $file) {
             $fileContent = $this->app->jbfile->read($typesPath . '/' . $file);
-            $typeData    = json_decode($fileContent, TRUE);
+            $typeData    = json_decode($fileContent, true);
 
             $elements = array();
             foreach ($typeData['elements'] as $elementId => $element) {
 
-                if (strpos($elementId, '_') === 0 || in_array($element['type'], $excludeType, TRUE)) {
+                if (strpos($elementId, '_') === 0 || in_array($element['type'], $excludeType, true)) {
                     continue;
                 }
 
                 if ($element['type'] == 'jbpriceadvance') {
                     $elements = array_merge($elements, $this->_getSortJBPriceOptionList($element, $elementId, $prefix));
                 } else {
-                    $elements[] = $this->_createOption($prefix . $elementId, $element['name'], FALSE);
+                    $elements[] = $this->_createOption($prefix . $elementId, $element['name'], false);
                 }
 
             }
@@ -1457,7 +1446,7 @@ class JBFieldHelper extends AppHelper
     }
 
     /**
-     * @param array  $element
+     * @param array $element
      * @param string $elementId
      * @param string $prefix
      *
@@ -1469,9 +1458,9 @@ class JBFieldHelper extends AppHelper
 
         $keyPrefix = $prefix . $elementId;
 
-        $list[] = $this->_createOption($keyPrefix . '__sku', $element['name'] . ' - Sku', FALSE);
-        $list[] = $this->_createOption($keyPrefix . '__price', $element['name'] . ' - Basic', FALSE);
-        $list[] = $this->_createOption($keyPrefix . '__total', $element['name'] . ' - Total', FALSE);
+        $list[] = $this->_createOption($keyPrefix . '__sku', $element['name'] . ' - Sku', false);
+        $list[] = $this->_createOption($keyPrefix . '__price', $element['name'] . ' - Basic', false);
+        $list[] = $this->_createOption($keyPrefix . '__total', $element['name'] . ' - Total', false);
 
         return $list;
     }
@@ -1491,25 +1480,25 @@ class JBFieldHelper extends AppHelper
         if ($request->is('option', 'com_zoo')) {
 
             if ($request->isCtrl('configuration')) {
-                return FALSE;
+                return false;
             }
 
             if (($request->isCtrl('category') && ($request->is('task', 'edit') || $request->is('task', 'add')))
                 || ($request->isCtrl('frontpage'))
             ) {
-                return TRUE;
+                return true;
             }
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
      * Render radio params
      *
-     * @param array            $optionsList
-     * @param string           $value
-     * @param string           $controlName
+     * @param array $optionsList
+     * @param string $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      *
      * @return mixed
@@ -1531,9 +1520,9 @@ class JBFieldHelper extends AppHelper
             }
 
             $html[] = '<input ' . $this->app->jbhtml->buildAttrs($attributes) . ' /> '
-                      . '<label ' . $this->app->jbhtml->buildAttrs(array('for' => $id)) . '>'
-                      . JText::_($option)
-                      . '</label>';
+                . '<label ' . $this->app->jbhtml->buildAttrs(array('for' => $id)) . '>'
+                . JText::_($option)
+                . '</label>';
         }
 
         return implode(" \n", $html);
@@ -1542,10 +1531,10 @@ class JBFieldHelper extends AppHelper
     /**
      * Render layout list
      *
-     * @param string           $method
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
+     * @param string $method
+     * @param string $name
+     * @param string|array $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1556,7 +1545,7 @@ class JBFieldHelper extends AppHelper
         $this->app->document->addScript('fields:global.js');
 
         $id     = 'listglobal-' . $this->app->jbstring->getId();
-        $global = $parent->getValue((string)$name) === NULL;
+        $global = $parent->getValue((string)$name) === null;
 
         $html   = array();
         $html[] = '<div class="global list">';
@@ -1575,9 +1564,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render list params
      *
-     * @param array            $optionsList
-     * @param string           $value
-     * @param string           $controlName
+     * @param array $optionsList
+     * @param string $value
+     * @param string $controlName
      * @param SimpleXMLElement $node
      *
      * @return mixed
@@ -1600,12 +1589,12 @@ class JBFieldHelper extends AppHelper
 
     /**
      * @param SimpleXMLElement $node
-     * @param string           $attrName
-     * @param mixed            $default
+     * @param string $attrName
+     * @param mixed $default
      *
      * @return bool|string
      */
-    protected function _getAttr(SimpleXMLElement $node, $attrName, $default = NULL)
+    protected function _getAttr(SimpleXMLElement $node, $attrName, $default = null)
     {
         $result = $node->attributes()->{$attrName};
 
@@ -1634,11 +1623,11 @@ class JBFieldHelper extends AppHelper
      *
      * @param string $key
      * @param string $value
-     * @param bool   $translate
+     * @param bool $translate
      *
      * @return mixed
      */
-    protected function _createOption($key, $value, $translate = TRUE)
+    protected function _createOption($key, $value, $translate = true)
     {
         $name = $translate ? JText::_($value) : $value;
 
