@@ -28,18 +28,15 @@ abstract class JBCartElementOrder extends JBCartElement
      */
     public function edit($params = array())
     {
-        $value = $this->get('value');
-
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params,
-                'value'  => $value,
+                'value'  => $this->get('value'),
             ));
         }
 
-        return $value;
     }
-
+    
 }
 
 /**
