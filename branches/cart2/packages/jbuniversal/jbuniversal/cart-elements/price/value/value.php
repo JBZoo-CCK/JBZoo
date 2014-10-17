@@ -41,7 +41,7 @@ class JBCartElementPriceValue extends JBCartElementPrice
     {
         $params   = $this->app->data->create($params);
         $prices   = $this->getPrices();
-        $discount = $this->getParamData('_discount');
+        $discount = $this->getElementData('_discount');
 
         $currencyParams  = $this->getRenderParams('_currency');
         $defaultCurrency = $currencyParams->get('default_currency');

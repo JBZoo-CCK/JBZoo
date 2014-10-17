@@ -435,7 +435,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     {
         $default = $this->defaultVariantKey();
 
-        if (!empty($default) || JString::strlen($default) >= 1) {
+        if (JString::strlen($default) >= 1) {
 
             $variant = $this->getVariations($default);
 
@@ -828,16 +828,16 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      */
     public function getBasicPrices()
     {
-        $basic = $this->getBasicReadableData();
         $calc  = $this->calcBasic();
         $image = $this->getImage($calc['image']);
 
         $result = array(
-            'sku'         => $basic->find('_sku.value'),
-            'balance'     => $basic->find('_balance.value', -1),
+            'sku'         => $this->renderElementHTML('_sku'),
+            'balance'     => $this->renderElementHTML('_balance'),
             'image'       => !empty($image) ? $image->url : $image,
             'pop_up'      => isset($image->pop_up) ? $image->pop_up : null,
-            'description' => $basic->find('_description.value')
+            'description' => $this->renderElementHTML('_description'),
+            'value'       => $this->renderElementHTML('_value')
         );
 
         $result = array_merge($result, $this->getPrices($calc));
@@ -901,13 +901,15 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
         $calc  = $this->calcVariant($variant);
         $image = $this->getImage($calc['image']);
+        $no    = $calc->get('no');
 
         $result = array(
-            'sku'         => $calc['sku'],
-            'balance'     => $variant->find('_balance.value', -1),
+            'sku'         => $this->renderElementHTML('_sku', $no),
+            'balance'     => $this->renderElementHTML('_balance', $no),
             'image'       => !empty($image) ? $image->url : $image,
             'pop_up'      => isset($image->pop_up) ? $image->pop_up : null,
-            'description' => $variant->find('_description.value')
+            'description' => $this->renderElementHTML('_description', $no),
+            'value'       => $this->renderElementHTML('_value', $no)
         );
 
         $result = array_merge($result, $this->getPrices($calc));
@@ -975,7 +977,27 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             'no'          => $variant->get('no')
         );
 
-        return $result;
+        return $this->app->data->create($result);
+    }
+
+    /**
+     * Render JBPriceAdvance elements html
+     *
+     * @param string   $identifier - element identifier
+     * @param null|int $variant    - number of variant
+     *
+     * @return mixed|null|string
+     */
+    public function renderElementHTML($identifier, $variant = null)
+    {
+        $params = $this->getCoreParamConfig($identifier);
+        $html   = null;
+        if ($params) {
+            $element = $this->getParam($identifier, $variant);
+            $html    = $element->render($params);
+        }
+
+        return $html;
     }
 
     /**
@@ -1135,6 +1157,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
         $data = $basic->get($param->identifier, array());
         if (JString::strlen($variant) >= 1) {
+
             $variant = $this->getVariations($variant);
             $variant = $this->getReadableData($variant);
 
@@ -1340,7 +1363,9 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
         if (isset($data['variations'])) {
 
-            foreach ($data['variations'] as $variant) {
+            foreach ($data['variations'] as $key => $variant) {
+                $variant['no'] = $key;
+
                 $result[] = array_merge($default, $variant);
             }
 
@@ -1908,7 +1933,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      * Get default value for SKU
      * @return string
      */
-    protected function _getDefaultSku()
+    public function getDefaultSku()
     {
         $basic = $this->getBasicReadableData();
 

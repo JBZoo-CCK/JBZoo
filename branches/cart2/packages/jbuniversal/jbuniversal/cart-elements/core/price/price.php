@@ -194,12 +194,13 @@ abstract class JBCartElementPrice extends JBCartElement
     {
         $jbPrice = $this->getJBPrice();
         $jbMoney = $this->app->jbmoney;
+        $variant = $this->config->get('_variant');
 
         $currencyDefault = $jbPrice->config->get('currency_default', 'EUR');
-        $basicCurrency   = $this->getParamData('_currency');
+        $basicCurrency   = $this->getElementData('_currency', $variant);
 
-        $data  = $this->getParamData('_discount');
-        $value = $this->getParamData('_value')->get('value', 0);
+        $data  = $this->getElementData('_discount', $variant);
+        $value = $this->getElementData('_value', $variant)->get('value', 0);
 
         $priceNoFormat = $jbMoney->convert($basicCurrency, $currencyDefault, $value);
         $price         = $jbMoney->toFormat($priceNoFormat, $basicCurrency);
@@ -223,25 +224,27 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
-     * @param $identifier
+     * @param string   $identifier
+     * @param null|int $variant
      *
      * @return bool|JBCartElement|null
      */
-    public function getPriceParam($identifier)
+    public function getElement($identifier, $variant = null)
     {
-        $param = $this->getJBPrice()->getParam($identifier);
+        $param = $this->getJBPrice()->getParam($identifier, $variant);
 
         return $param;
     }
 
     /**
-     * @param $identifier
+     * @param string   $identifier
+     * @param null|int $variant
      *
      * @return array|bool|JBCartElement|null
      */
-    public function getParamData($identifier)
+    public function getElementData($identifier, $variant = null)
     {
-        $param = $this->getPriceParam($identifier);
+        $param = $this->getElement($identifier, $variant);
         $param = !empty($param) ? $param->data() : $this->app->data->create($param);
 
         return $param;

@@ -14,7 +14,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
-<div class="jbprice-balance">
+<div class="jbprice-balance jsJBPriceBalance">
     <span class="balance">
 
         <?php if ($this->getValue('value') == 0) :
