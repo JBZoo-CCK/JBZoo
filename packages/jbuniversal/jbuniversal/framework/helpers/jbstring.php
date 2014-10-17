@@ -124,7 +124,10 @@ class JBStringHelper extends AppHelper
         if (!empty($lines)) {
 
             foreach ($lines as $line) {
-                $result[] = JString::trim($line);
+
+                $line = JString::trim($line);
+                    $result[] = $line;
+
             }
         }
 
