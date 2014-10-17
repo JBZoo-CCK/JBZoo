@@ -1071,8 +1071,9 @@ var reCount = {
             });
 
             $('.jsQuantity', $obj).JBZooQuantity({
-                'decimals': 1,
-                'step'    : 1.5
+                'default' : 1,
+                'step'    : 1,
+                'decimals': 1
             });
             // quantity
             var $quantity = $('.jsQuantity', $obj),
