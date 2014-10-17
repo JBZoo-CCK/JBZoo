@@ -190,7 +190,7 @@ class JBMoneyHelper extends AppHelper
             if ($isShort) {
                 $result[$code] = $code;
             } else {
-                $result[$code] = $code . ' - ' . $currency['name'];
+                $result[$code] = $currency['name'] . ' (' . $code . ')';
             }
         }
 
