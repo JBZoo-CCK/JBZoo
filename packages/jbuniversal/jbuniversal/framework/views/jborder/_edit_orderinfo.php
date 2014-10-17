@@ -1,13 +1,15 @@
 <?php
 
+// add check admin position
+
+$html   = $this->orderFieldRender->renderAdminEdit(array('order' => $order));
+$isShow = JString::trim(strip_tags($html));
 
 ?>
 
-<div class="uk-panel">
-    <h2>Информация о заказе от покупателя</h2>
-
-    <dl class="uk-description-list-horizontal">
-        <?php echo $this->orderFieldRender->renderAdminEdit(array('order' => $order)); ?>
-    </dl>
-
-</div>
+<?php if ($isShow) : ?>
+    <div class="uk-panel">
+        <h2>Информация от пользователя</h2>
+        <dl class="uk-description-list-horizontal"><?php echo $html; ?></dl>
+    </div>
+<?php endif; ?>

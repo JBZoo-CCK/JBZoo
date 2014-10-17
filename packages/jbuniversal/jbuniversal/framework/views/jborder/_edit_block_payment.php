@@ -16,7 +16,7 @@ if (!empty($payment)) :?>
             <dd><p><?php echo $payment->getName(); ?></p></dd>
 
             <dt>Комиссия</dt>
-            <dd><p><?php echo $jbmoney->toFormat($payment->getRate(), '%'); ?></p></dd>
+            <dd><p><?php echo $jbmoney->toFormat($payment->getRate(), 'EUR'); ?></p></dd>
 
             <dt>Итого к оплате</dt>
             <dd><p><?php echo $order->getTotalSum(true); ?></p></dd>
@@ -24,18 +24,6 @@ if (!empty($payment)) :?>
             <dt>Статус</dt>
             <dd><?php echo $this->app->jbhtml->select($statusList, 'order[payment][status]', '', $curStatus); ?></dd>
 
-            <h3 class="uk-panel-title">Дополнительно</h3>
-            <dt>Тип платильщика</dt>
-            <dd>Юр. лицо</dd>
-
-            <dt>ОГРН</dt>
-            <dd>12345678</dd>
-
-            <dt>БИК</dt>
-            <dd>123456</dd>
-
-            <dt>Расчетный счет</dt>
-            <dd>1234567890</dd>
         </dl>
     </div>
 <?php endif;

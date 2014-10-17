@@ -13,9 +13,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$jbmoney = $this->app->jbmoney;
+
 $statusList = $this->app->jbcartstatus->getList(JBCart::STATUS_SHIPPING, true);
-$element = $order->getShipping();
-$curStatus = $element->getStatus();
+$element    = $order->getShipping();
+$curStatus  = $element->getStatus();
 
 ?>
 <div class="uk-panel uk-panel-box">
@@ -23,17 +25,21 @@ $curStatus = $element->getStatus();
     <h3 class="uk-panel-title">
         <?php echo JText::_('JBZOO_ORDER_SHIPPING_TITLE'); ?>
     </h3>
-    <dl class="uk-description-list-horizontal">
-        <?php echo $this->shipRender->renderAdminEdit(array('order' => $order)); ?>
 
-        <h3 class="uk-panel-title">
-            <?php echo JText::_('JBZOO_ORDER_SHIPPINGFIELD_TITLE'); ?>
-        </h3>
+    <?php echo $this->shipRender->renderAdminEdit(array('order' => $order)); ?>
+
+    <dl class="uk-description-list-horizontal">
+        <dt>Цена доставки</dt>
+        <dd>
+            <p><?php echo $jbmoney->toFormat($element->getRate(), 'EUR'); ?></p>
+        </dd>
 
         <dt>Статус</dt>
-        <dd><?php echo $this->app->jbhtml->select($statusList, 'order[shipping][status]', '', $curStatus); ?></dd>
-
-        <?php echo $this->shipFieldsRender->renderAdminEdit(array('order' => $order)); ?>
-
+        <dd>
+            <p><?php echo $this->app->jbhtml->select($statusList, 'order[shipping][status]', '', $curStatus); ?></p>
+        </dd>
     </dl>
+
+    <?php echo $this->shipFieldsRender->renderAdminEdit(array('order' => $order)); ?>
+
 </div>

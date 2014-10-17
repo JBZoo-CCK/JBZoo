@@ -1,7 +1,7 @@
 <?php
 
 
-$order = $this->filter->get('filter_order', 'id');
+$order    = $this->filter->get('filter_order', 'id');
 $orderDir = $this->filter->get('filter_order_Dir', 'desc');
 ?>
 <table class="list stripe order-list">
@@ -14,7 +14,7 @@ $orderDir = $this->filter->get('filter_order_Dir', 'desc');
         <th style="min-width: 120px;"><?php echo $this->app->html->_('grid.sort', 'JBZOO_ADMIN_NAME', 'id', $orderDir, $order); ?></th>
         <th style="width: 120px;"><?php echo $this->app->html->_('grid.sort', 'JBZOO_ADMIN_CREATED', 'created', $orderDir, $order); ?></th>
         <th style="width: 120px;"><?php echo $this->app->html->_('grid.sort', 'JBZOO_ADMIN_MODIFIED', 'modified', $orderDir, $order); ?></th>
-        <th style="width: 120px;"><?php echo $this->app->html->_('grid.sort', 'JBZOO_ADMIN_STATUS', 'status', $orderDir, $order); ?></th>
+        <th style="width: 180px;"><?php echo $this->app->html->_('grid.sort', 'JBZOO_ADMIN_STATUS', 'status', $orderDir, $order); ?></th>
         <th style="width: 150px;"><?php echo JText::_('JBZOO_ADMIN_PAYMENT'); ?></th>
         <th style="width: 150px;"><?php echo JText::_('JBZOO_ADMIN_SHIPPING'); ?></th>
         <th style="width: 120px;"><?php echo $this->app->html->_('grid.sort', 'JBZOO_ADMIN_TOTAL', 'total', $orderDir, $order); ?></th>
@@ -55,7 +55,13 @@ $orderDir = $this->filter->get('filter_order_Dir', 'desc');
 
             <td><?php echo $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset()); ?></td>
 
-            <td><?php echo $this->app->html->_('date', $order->modified, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset()); ?></td>
+            <td><?php
+                if ($order->modified) {
+                    echo $this->app->html->_('date', $order->modified, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
+                } else {
+                    echo '-';
+                }
+                ?></td>
 
             <td><?php echo $order->getStatus()->getName(); ?></td>
 
