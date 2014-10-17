@@ -14,6 +14,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $mode = (int)$params->get('only_price_mode', 1);
+
 ?>
 
 <div class="jbPriceElementValue">
