@@ -34,13 +34,4 @@ class JBCartElementOrderText extends JBCartElementOrder
         );
     }
 
-    /**
-     * @param $params
-     * @return mixed
-     */
-    public function edit($params = array())
-    {
-        return $this->get('value');
-    }
-
 }
