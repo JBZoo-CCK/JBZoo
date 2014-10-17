@@ -2983,3 +2983,10 @@ form.jbzoo-app-basket {
     color: #f24949;
     font-style: italic;
 }
+
+.jbzoo .shippingfield-textarea {
+    width: 100%;
+    min-height: 100px;
+    max-height: 500px;
+    padding: 6px;
+}
