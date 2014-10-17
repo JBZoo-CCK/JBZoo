@@ -98,6 +98,8 @@ class JBAssetsHelper extends AppHelper
         } else {
             $this->_include(array('jbassets:js/jquery.jbzootools.min.js'), 'js');
         }
+
+        $this->_include(array('jbassets:js/jquery.jbzooprice.js'), 'js');
     }
 
     /**
@@ -568,7 +570,7 @@ class JBAssetsHelper extends AppHelper
         if ($queryElement) {
             $this->_include(array('media:jui/js/jquery.minicolors.min.js'), 'js');
             $this->_include(array('media:jui/css/jquery.minicolors.css'), 'css');
-            $this->addScript('jQuery(document).ready(function($){
+            $this->addScript('jQuery(function($){
                 $("' . $queryElement . '").JBColorElement({message: "' . $text . '"});
             });');
         }
