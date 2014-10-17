@@ -117,7 +117,7 @@ class JBStringHelper extends AppHelper
         $text  = JString::trim($text);
         $text  = htmlspecialchars_decode($text);
         $text  = strip_tags($text);
-        $text  = addslashes($text);
+        //$text  = addslashes($text);
         $lines = explode("\n", $text);
 
         $result = array();
