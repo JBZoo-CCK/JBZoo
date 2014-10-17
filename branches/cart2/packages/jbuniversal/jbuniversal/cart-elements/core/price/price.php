@@ -355,9 +355,12 @@ abstract class JBCartElementPrice extends JBCartElement
 
         if (!empty($options)) {
 
+            $options = $this->app->jbstring->parseLines($options);
+
             return array_merge(array(
                 '' => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - '
-            ), $this->app->jbstring->parseLines($options));
+            ), array_combine($options, $options));
+
         }
 
         return null;

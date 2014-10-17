@@ -19,9 +19,9 @@ $attributes = array(
     'data-identifier' => $this->identifier
 );
 $data = array(
-    ''  => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - ',
-    '0' => JText::_('JBZOO_NO'),
-    '1' => JText::_('JBZOO_YES')
+    ''                    => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - ',
+    JText::_('JBZOO_NO')  => JText::_('JBZOO_NO'),
+    JText::_('JBZOO_YES') => JText::_('JBZOO_YES')
 );
 
 if (count($data)) : ?>
