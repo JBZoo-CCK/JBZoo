@@ -193,32 +193,28 @@ abstract class JBCartElementPrice extends JBCartElement
     public function getPrices()
     {
         $jbPrice = $this->getJBPrice();
-        $jbMoney = $this->app->jbmoney;
         $variant = $this->config->get('_variant');
 
-        $currencyDefault = $jbPrice->config->get('currency_default', 'EUR');
-        $basicCurrency   = $this->getElementData('_currency', $variant);
+        $currency = $this->getElementData('_currency', $variant);
+        $currency = $currency->get('value');
 
-        $data  = $this->getElementData('_discount', $variant);
-        $value = $this->getElementData('_value', $variant)->get('value', 0);
+        if (JString::strlen($variant) >= 1) {
 
-        $priceNoFormat = $jbMoney->convert($basicCurrency, $currencyDefault, $value);
-        $price         = $jbMoney->toFormat($priceNoFormat, $basicCurrency);
+            $variant = $jbPrice->getVariations($variant);
+            $prices  = $jbPrice->calcVariant($variant, $currency);
 
-        $totalNoFormat = $jbMoney->calcDiscount($value, $basicCurrency, $data->get('value', 0), $data->get('currency'));
-        $total         = $jbMoney->toFormat($totalNoFormat, $basicCurrency);
+            //$prices = array_merge($data, $jbPrice->getPrices($data));
+        } else {
 
-        $saveNoFormat = abs($totalNoFormat - $priceNoFormat);
-        $save         = $jbMoney->toFormat($saveNoFormat, $basicCurrency);
+            $prices = $jbPrice->calcBasic($currency);
+            //$prices = array_merge($data, $jbPrice->getPrices($data));
+        }
 
-        $prices = array(
-            'totalNoFormat' => $totalNoFormat,
-            'priceNoFormat' => $priceNoFormat,
-            'saveNoFormat'  => $saveNoFormat,
-            'total'         => $total,
-            'price'         => $price,
-            'save'          => $save
-        );
+        $saveNoFormat    = abs($prices['total'] - $prices['price']);
+
+        $prices['total'] = $this->_jbmoney->toFormat($prices['total'], $currency);
+        $prices['price'] = $this->_jbmoney->toFormat($prices['price'], $currency);
+        $prices['save']  = $this->_jbmoney->toFormat($saveNoFormat, $currency);
 
         return $prices;
     }
