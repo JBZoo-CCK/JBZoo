@@ -198,7 +198,28 @@ abstract class JBCartElementPrice extends JBCartElement
         $currency = $this->getElementData('_currency', $variant);
         $currency = $currency->get('value');
 
-        if (JString::strlen($variant) >= 1) {
+        if (strpos($variant, '-') !== false) {
+
+            $variants = explode('-', $variant);
+
+            $basicData = $jbPrice->getBasicData();
+            $basic     = $jbPrice->getReadableData($basicData);
+            $value     = $basic->find('_value.value', 0);
+
+            foreach ($variants as $v) {
+                $v = $jbPrice->getVariations($v);
+                $v = $jbPrice->getReadableData($v);
+
+                $variantValue    = $v->find('_value.value', 0);
+                $variantCurrency = $v->find('_currency.value');
+
+                $value = $this->_jbmoney->calcDiscount($value, $currency, $variantValue, $variantCurrency);
+            }
+
+            $prices['total'] = $value;
+            $prices['price'] = $value;
+
+        } else if (JString::strlen($variant) >= 1) {
 
             $variant = $jbPrice->getVariations($variant);
             $prices  = $jbPrice->calcVariant($variant, $currency);
@@ -210,7 +231,7 @@ abstract class JBCartElementPrice extends JBCartElement
             //$prices = array_merge($data, $jbPrice->getPrices($data));
         }
 
-        $saveNoFormat    = abs($prices['total'] - $prices['price']);
+        $saveNoFormat = abs($prices['total'] - $prices['price']);
 
         $prices['total'] = $this->_jbmoney->toFormat($prices['total'], $currency);
         $prices['price'] = $this->_jbmoney->toFormat($prices['price'], $currency);
