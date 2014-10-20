@@ -22,7 +22,7 @@ $fields = array(
 ?>
 
 <?php if ($this->get('elementList')) : ?>
-    <form action="index.php" method="get">
+    <form action="index.php" method="get" class="select-list-form">
 
         <?php foreach ($fields as $key => $value) {
             echo '<input type="hidden" name="' . $key . '" value="' . $value . '" />';

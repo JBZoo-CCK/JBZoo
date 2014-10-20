@@ -572,10 +572,10 @@ a.jbajaxlink:hover {
 }
 
 .jbmove {
-    cursor    : move;
-    min-width : 75px;
-    display   : inline-block;
-    overflow  : hidden;
+    cursor: move;
+    min-width: 75px;
+    display: inline-block;
+    overflow: hidden;
 }
 
 .jbedit {
@@ -720,8 +720,8 @@ a.jbajaxlink:hover {
 
 .creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .attention.error {
     background: url('../img/icon/attention_red.png') no-repeat;
-    width   : 20px;
-    height  : 20px;
+    width: 20px;
+    height: 20px;
 }
 
 .creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variant-param .field {
@@ -1473,4 +1473,9 @@ table.list.order-list thead th {
 
 .jbzoo .uk-nav-side .uk-nav-header {
     color: #a00;
+}
+
+.jbzoo .select-list-form {
+    margin-right: 20px;
+    float: left;
 }
