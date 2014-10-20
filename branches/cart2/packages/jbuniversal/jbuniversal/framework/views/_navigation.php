@@ -18,7 +18,7 @@ $jbrouter = $this->app->jbrouter;
 $ctrl = $this->app->jbrequest->getCtrl();
 $task = $this->app->jbrequest->get('task', 'index');
 
-$curUrl = $jbrouter->admin(array('controller' => $ctrl, 'task' => $task));
+$curUrl  = $jbrouter->admin(array('controller' => $ctrl, 'task' => $task));
 $curMenu = $ctrl;
 
 $allItems = array(
@@ -60,30 +60,38 @@ $allItems = array(
         )
     ),
     'jbcart'   => array(
-        'basic'  => array(
+        'basic'    => array(
             'index' => array('index', 'params' => array('icon' => 'line-chart')),
         ),
-        'config' => array(
-            'config'        => array('config', 'params' => array('icon' => 'cog')),
-            'currency'      => array('currency', 'params' => array('icon' => 'eur')),
-            'status'        => array('status', 'params' => array('icon' => 'bookmark')),
-            'fields'        => array('fields', 'params' => array('icon' => 'check-square-o')),
-            'price'         => array('price', 'params' => array('icon' => 'money')),
-            'payment'       => array('payment', 'params' => array('icon' => 'credit-card')),
+        'config'   => array(
+            'config'   => array('config', 'params' => array('icon' => 'cog')),
+            'status'   => array('status', 'params' => array('icon' => 'bookmark')),
+            'currency' => array('currency', 'params' => array('icon' => 'eur')),
+        ),
+        'price'    => array(
+            'price'             => array('price', 'params' => array('icon' => 'money')),
+            'jbpriceTmpl'       => array('jbpriceTmpl', 'params' => array('icon' => 'columns')),
+            'jbpriceFilterTmpl' => array('jbpriceFilterTmpl', 'params' => array('icon' => 'filter')),
+        ),
+        'order'    => array(
+            'fields'   => array('fields', 'params' => array('icon' => 'check-square-o')),
+            'cartTmpl' => array('cartTmpl', 'params' => array('icon' => 'columns')),
+        ),
+        'shipping' => array(
             'shipping'      => array('shipping', 'params' => array('icon' => 'truck')),
             'shippingfield' => array('shippingfield', 'params' => array('icon' => 'check-square-o')),
         ),
-        'events' => array(
+        'payment'  => array(
+            'payment' => array('payment', 'params' => array('icon' => 'credit-card')),
+        ),
+        'events'   => array(
             'modifier'     => array('modifier', 'params' => array('icon' => 'cubes')),
             'validator'    => array('validator', 'params' => array('icon' => 'cube')),
             'notification' => array('notification', 'params' => array('icon' => 'envelope-o')),
             'statusEvents' => array('statusEvents', 'params' => array('icon' => 'code-fork')),
         ),
-        'tmpl'   => array(
-            'cartTmpl'          => array('cartTmpl', 'params' => array('icon' => 'columns')),
-            'jbpriceTmpl'       => array('jbpriceTmpl', 'params' => array('icon' => 'money')),
-            'jbpriceFilterTmpl' => array('jbpriceFilterTmpl', 'params' => array('icon' => 'filter')),
-            'emailTmpl'         => array('emailTmpl', 'params' => array('icon' => 'envelope-o')),
+        'others'   => array(
+            'emailTmpl' => array('emailTmpl', 'params' => array('icon' => 'envelope-o')),
         )
     ),
     'jbexport' => array(
