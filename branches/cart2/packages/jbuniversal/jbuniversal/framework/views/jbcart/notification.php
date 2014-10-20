@@ -24,6 +24,8 @@ defined('_JEXEC') or die('Restricted access');
 
         <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_CART_' . $this->task); ?></h2>
 
+        <?php echo $this->partial('cartdesc'); ?>
+
         <?php echo $this->partial('editpositions', array(
             'positions' => $this->positions,
             'groupList' => $this->groupList,
@@ -31,5 +33,9 @@ defined('_JEXEC') or die('Restricted access');
         ));?>
 
         <?php echo $this->partial('footer'); ?>
+    </div>
+
+    <div id="right-sidebar" class="uk-width-1-6">
+        <?php echo $this->partial('right'); ?>
     </div>
 </div>

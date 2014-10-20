@@ -24,8 +24,14 @@ defined('_JEXEC') or die('Restricted access');
 
         <h2>Базовые настройки</h2>
 
+        <?php echo $this->partial('cartdesc'); ?>
+
         <?php echo $this->app->jbform->render('config_cart', array(), $this->configData); ?>
 
         <?php echo $this->partial('footer'); ?>
     </div>
+
+    <div id="right-sidebar" class="uk-width-1-6">
+        <?php echo $this->partial('right'); ?>
+    </div>    
 </div>

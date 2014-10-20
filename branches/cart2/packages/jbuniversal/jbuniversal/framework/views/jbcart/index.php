@@ -24,6 +24,7 @@ defined('_JEXEC') or die('Restricted access');
 
         <h2>Электронная коммерция</h2>
 
+        <strong>Скоро тут будет...</strong><br />
         график последних продаж<br>
         краткая статистика<br>
         - деньги (всего / месяц )<br>
@@ -31,5 +32,9 @@ defined('_JEXEC') or die('Restricted access');
         10 последних продаж
 
         <?php echo $this->partial('footer'); ?>
+    </div>
+
+    <div id="right-sidebar" class="uk-width-1-6">
+        <?php echo $this->partial('right'); ?>
     </div>
 </div>

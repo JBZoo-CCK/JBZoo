@@ -28,6 +28,8 @@ $url = $this->app->jbrouter->admin(array(
 
         <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_CART_' . $this->task); ?></h2>
 
+        <?php echo $this->partial('cartdesc'); ?>
+
         <div class="jsEmailPreview email-preview">
             <a href="" class="jsEmailTmplPreview">Preview</a>
             <ul id="jsOrderList" class="uk-nav uk-nav-side order-list">
@@ -47,6 +49,10 @@ $url = $this->app->jbrouter->admin(array(
         ));?>
 
         <?php echo $this->partial('footer'); ?>
+    </div>
+
+    <div id="right-sidebar" class="uk-width-1-6">
+        <?php echo $this->partial('right'); ?>
     </div>
 </div>
 <script type="text/javascript">
