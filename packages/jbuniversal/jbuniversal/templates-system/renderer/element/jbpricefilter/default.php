@@ -24,7 +24,9 @@ if ($element->isCore()) {
     $class = 'core-param';
 }
 
+$label = ($params['altlabel']) ? $params['altlabel'] : $element->config->get('name');
+
 ?>
 <div>
-    <?php echo $elementHTML; ?>
+    <?php echo $label, $elementHTML; ?>
 </div>
