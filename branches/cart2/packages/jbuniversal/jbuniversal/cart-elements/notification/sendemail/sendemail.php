@@ -24,12 +24,12 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
     protected $_mailer;
 
     const RECIPIENT_USER_PROFILE = 'user';
-    const RECIPIENT_USER_ORDER   = 'order';
+    const RECIPIENT_USER_ORDER = 'order';
 
     /**
      * Class constructor
      *
-     * @param App    $app
+     * @param App $app
      * @param string $type
      * @param string $group
      */
@@ -59,7 +59,7 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
             ->addImageItems();
 
         $this->send();
-        
+
         return $html;
     }
 
@@ -174,7 +174,7 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
      * Add image width CID to attach. Use for Order Items.
      *
      * @param string $path Path to image
-     * @param string $cid  Unique
+     * @param string $cid Unique
      * @param string $name Name of image
      *
      * @return $this
@@ -218,7 +218,7 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
      * Add recipients to the email
      *
      * @param  string|array $recipient - email address
-     * @param  string|array $name      - name of recipient
+     * @param  string|array $name - name of recipient
      *
      * @return $this
      */
