@@ -1479,3 +1479,7 @@ table.list.order-list thead th {
     margin-right: 20px;
     float: left;
 }
+
+.jbzoo .uk-grid .uk-width-4-6 {
+    width: 63%;
+}
