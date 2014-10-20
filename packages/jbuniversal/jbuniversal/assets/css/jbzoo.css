@@ -2674,19 +2674,15 @@ form.jbzoo-app-basket {
     max-width: 50px;
 }
 
-.jbzoo .jbzoo-app-basket .jbzoo-basket-fields .control-label {
-    width: 25%;
-}
-
 .jbzoo .jbzoo-app-basket .jbzoo-basket-fields .control-label,
 .jbzoo .jbzoo-app-basket .jbzoo-basket-fields .controls {
     float: left;
-    min-width: 175px;
+    min-width: 150px;
 }
 
 .jbzoo .jbzoo-basket-fields .controls {
     margin-right: 5%;
-    max-width: 25%;
+    max-width: 30%;
 }
 
 .jbzoo .jbzoo-app-basket .control-label label {
@@ -2872,6 +2868,7 @@ form.jbzoo-app-basket {
     background: -o-linear-gradient(top, #A7D27B 0%, #6AB635 100%);
     background: -ms-linear-gradient(top, #A7D27B 0%, #6AB635 100%);
     background: linear-gradient(to bottom, #A7D27B 0%, #6AB635 100%);
+    margin-right: 16px;
 }
 
 .jbzoo .jbbutton-green:hover {
@@ -2990,3 +2987,19 @@ form.jbzoo-app-basket {
     max-height: 500px;
     padding: 6px;
 }
+
+
+.jbzoo .price-calc {
+    width: 100%;
+}
+
+.jbzoo .price-calc .clac-label {
+    width: 25%;
+    font-weight: bold;
+    vertical-align: top;
+}
+
+.jbzoo .price-calc td {
+    padding-bottom: 24px;
+}
+
