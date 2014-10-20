@@ -16,8 +16,9 @@ defined('_JEXEC') or die('Restricted access');
 $unique = $this->app->jbstring->getId('bool-');
 
 $array = array(
-    '1' => JText::_('JBZOO_YES'),
-    '0' => JText::_('JBZOO_NO')
+    ''                    => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - ',
+    JText::_('JBZOO_NO')  => JText::_('JBZOO_NO'),
+    JText::_('JBZOO_YES') => JText::_('JBZOO_YES')
 );
 
 $value = (int)$this->getValue('value', 0);

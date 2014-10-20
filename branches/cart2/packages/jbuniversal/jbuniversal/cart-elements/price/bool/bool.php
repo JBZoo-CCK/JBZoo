@@ -25,7 +25,7 @@ class JBCartElementPriceBool extends JBCartElementPrice
      */
     public function hasFilterValue($param = array())
     {
-        return FALSE;
+        return false;
     }
 
     /**
@@ -37,7 +37,7 @@ class JBCartElementPriceBool extends JBCartElementPrice
             return self::renderLayout($layout);
         }
 
-        return NULL;
+        return null;
     }
 
     /**
@@ -49,14 +49,13 @@ class JBCartElementPriceBool extends JBCartElementPrice
     {
         $params = $this->app->data->create($params);
 
-        //$params->get('template', 'bool') . '.php')
-        if ($layout = $this->getLayout('select.php')) {
+        if ($layout = $this->getLayout('radio.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params
             ));
         }
 
-        return NULL;
+        return null;
     }
 
 }

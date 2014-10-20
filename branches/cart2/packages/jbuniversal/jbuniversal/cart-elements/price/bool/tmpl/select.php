@@ -14,10 +14,12 @@
 defined('_JEXEC') or die('Restricted access');
 
 $unique = $this->app->jbstring->getId('select-chosen-');
+
 $attributes = array(
     'class'           => 'jsParam',
     'data-identifier' => $this->identifier
 );
+
 $data = array(
     ''                    => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - ',
     JText::_('JBZOO_NO')  => JText::_('JBZOO_NO'),
@@ -27,7 +29,7 @@ $data = array(
 if (count($data)) : ?>
 
     <div class="jbprice-param-select jbprice-param-list jbpriceParams" data-type="select">
-        <?php echo $this->app->jbhtml->selectChosen($data, $this->getRenderName('value'), $attributes,
+        <?php echo $this->app->jbhtml->select($data, $this->getRenderName('value'), $attributes,
             $this->getValue('value'), $unique); ?>
     </div>
 
