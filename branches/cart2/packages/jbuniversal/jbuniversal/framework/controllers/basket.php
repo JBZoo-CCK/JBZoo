@@ -84,6 +84,8 @@ class BasketJBUniversalController extends JBUniversalController
         $errors     = 0;
         $orderSaved = false;
 
+        $isPaymentBtn = $this->app->jbrequest->get('create-pay');
+
         if ($this->_jbrequest->isPost()) {
 
             $formData = $this->_getRequest();
@@ -111,7 +113,7 @@ class BasketJBUniversalController extends JBUniversalController
 
                     // go to payment page
                     $payment = $this->order->getPayment();
-                    if ($payment && $paymentUrl = $payment->getRedirectUrl()) {
+                    if ($isPaymentBtn && $payment && $paymentUrl = $payment->getRedirectUrl()) {
 
                         $message = $payment->getSuccessMessage();
                         if (empty($message)) {

@@ -46,7 +46,11 @@ $this->app->jbassets->chosen();
             <?php echo $this->partial('basket', 'payment'); ?>
 
             <div class="jbzoo-clear jbzoo-order-submit">
-                <input type="submit" value="Оформить заказ" class="jbbutton-base jbbutton-green jbbutton-big" />
+                <input type="submit" name="create" value="Создать заказ"
+                       class="jbbutton-base jbbutton-green jbbutton-big" />
+
+                <input type="submit" name="create-pay" value="Заказать и оплатить"
+                       class="jbbutton-base jbbutton-green jbbutton-big" />
             </div>
 
             <input type="hidden" name="option" value="com_zoo" />
