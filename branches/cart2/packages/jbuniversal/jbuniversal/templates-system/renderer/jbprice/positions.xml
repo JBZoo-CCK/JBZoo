@@ -14,11 +14,12 @@
         <position name="fields">Fields</position>
     </positions>
 
-    <positions layout="advance">
-        <position name="billing">Billing information</position>
-        <position name="shipping">Shipping information</position>
-        <position name="payment">Payment information</position>
-        <position name="other">Other information</position>
+    <positions layout="calc">
+        <position name="fields">Fields</position>
+    </positions>
+
+    <positions layout="short">
+        <position name="fields">Fields</position>
     </positions>
 
 </renderer>
