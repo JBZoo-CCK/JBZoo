@@ -14,9 +14,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBCartElementNotificationSMSServices
+ * Class JBCartElementNotificationSmsuslugiru
  */
-class JBCartElementNotificationSMSServices extends JBCartElementNotification
+class JBCartElementNotificationSmsuslugiru extends JBCartElementNotification
 {
     /**
      * Uri to make request
@@ -77,8 +77,8 @@ class JBCartElementNotificationSMSServices extends JBCartElementNotification
      * Send sms
      *
      * @param string $action
-     * @param array  $params
-     * @param array  $phones
+     * @param array $params
+     * @param array $phones
      *
      * @return array|bool
      */
@@ -87,13 +87,12 @@ class JBCartElementNotificationSMSServices extends JBCartElementNotification
         $someXML = '';
 
         if (!empty($phones)) {
-
             foreach ($phones as $phone) {
-
                 $someXML .= '<to number="' . $phone . '">';
                 $someXML .= '</to>';
             }
         }
+
         $xml = $this->makeXML($params, $someXML);
         $xml = $this->replace($xml);
 
@@ -112,13 +111,11 @@ class JBCartElementNotificationSMSServices extends JBCartElementNotification
      */
     public function makeXML($params, $someXML = "")
     {
-        $xml = "<?xml version='1.0' encoding='UTF-8'?>
-        <data>";
+        $xml = "<?xml version='1.0' encoding='UTF-8'?><data>";
         foreach ($params as $key => $value) {
             $xml .= "<$key>$value</$key>";
         }
-        $xml .= "$someXML
-		</data>";
+        $xml .= "$someXML</data>";
 
         return $xml;
     }
@@ -146,7 +143,6 @@ class JBCartElementNotificationSMSServices extends JBCartElementNotification
         $admPhone = $this->config->get('phones', array());
 
         if (!empty($admPhone)) {
-
             $admPhones = explode("\n", $admPhone);
             foreach ($admPhones as $phone) {
                 $phones[] = $phone;
@@ -154,12 +150,11 @@ class JBCartElementNotificationSMSServices extends JBCartElementNotification
         }
 
         $params = array(
-            'params' =>
-                $this->app->data->create(array(
-                    'login'    => $this->config->get('login'),
-                    'password' => $this->config->get('password'),
-                    'text'     => $this->config->get('message')
-                )),
+            'params' => $this->app->data->create(array(
+                'login'    => $this->config->get('login'),
+                'password' => $this->config->get('password'),
+                'text'     => $this->config->get('message')
+            )),
             'phones' => $this->app->data->create($phones)
         );
 
