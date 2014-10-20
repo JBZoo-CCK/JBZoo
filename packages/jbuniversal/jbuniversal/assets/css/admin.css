@@ -1470,3 +1470,7 @@ table.list.order-list thead th {
     max-width: 600px;
     cursor: text;
 }
+
+.jbzoo .uk-nav-side .uk-nav-header {
+    color: #a00;
+}
