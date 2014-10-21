@@ -38,7 +38,7 @@ $editUrl = $this->app->jbrouter->admin(array('cid' => array($order->id)));
         </div>
 
         <div class="uk-grid">
-            <div class="uk-width-7-10">
+            <div class="uk-width-7-10 order-table">
 
                 <?php echo $this->partial('edit_table', array(
                     'order' => $order,
@@ -49,7 +49,7 @@ $editUrl = $this->app->jbrouter->admin(array('cid' => array($order->id)));
                 ));?>
             </div>
 
-            <div class="uk-width-3-10">
+            <div class="uk-width-3-10 order-system">
 
                 <?php
 
