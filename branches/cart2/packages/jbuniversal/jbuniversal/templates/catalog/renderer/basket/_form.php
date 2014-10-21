@@ -12,13 +12,17 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+
+
 ?>
 
-<div class="jbzoo-basket-fields">
 
-    <?php echo $view->formRenderer->render('basketform.default', array(
-        'order' => $view->order,
-    )); ?>
+<?php if ($view->formRenderer->checkPosition('fields')) : // TODO replace checking to correct way ?>
+    <div class="jbzoo-basket-fields">
 
-</div>
+        <?php echo $view->formRenderer->render('basketform.default', array(
+            'order' => $view->order,
+        )); ?>
 
+    </div>
+<?php endif; ?>
