@@ -737,8 +737,10 @@ class JBCartOrder
     public function getFields()
     {
         $result = array();
-        foreach ($this->_elements[JBCart::CONFIG_FIELDS] as $element) {
-            $result[$element->identifier] = $element->data();
+        if (isset($this->_elements[JBCart::CONFIG_FIELDS])) {
+            foreach ($this->_elements[JBCart::CONFIG_FIELDS] as $element) {
+                $result[$element->identifier] = $element->data();
+            }
         }
 
         return $this->app->data->create($result);
