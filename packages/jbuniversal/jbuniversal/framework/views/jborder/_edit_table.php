@@ -13,14 +13,14 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$items = $order->getItems();
+$items   = $order->getItems();
 $jbmoney = $this->app->jbmoney;
 
-$payment = $order->getPayment();
+$payment  = $order->getPayment();
 $shipping = $order->getShipping();
 $currency = $order->getCurrency();
 
-$modifiers = $order->getModifiers(JBCart::MODIFIER_ORDER);
+$modifiers      = $order->getModifiers(JBCart::MODIFIER_ORDER);
 $modifiersCount = count($modifiers);
 
 ?>
@@ -76,7 +76,7 @@ $modifiersCount = count($modifiers);
                         </strong>
 
                         <?php echo $param; ?>
-                        <br/>
+                        <br />
 
                     </div>
                 <?php endforeach;
@@ -91,13 +91,15 @@ $modifiersCount = count($modifiers);
         </tr>
     <?php endforeach; ?>
     </tbody>
-
     <tfoot>
-    <tr>
-        <td colspan="2" style="border-bottom: none;"></td>
-        <td colspan="3"><p>Промежуточный итог</p></td>
-        <td style="text-align: right;font-size: 18px;"><em><?php echo $order->getTotalForItems(true); ?></em></td>
-    </tr>
+
+    <?php if ($shipping || $payment || $modifiers) : ?>
+        <tr>
+            <td colspan="2" style="border-bottom: none;"></td>
+            <td colspan="3"><p>Промежуточный итог</p></td>
+            <td style="text-align: right;font-size: 18px;"><em><?php echo $order->getTotalForItems(true); ?></em></td>
+        </tr>
+    <?php endif; ?>
 
     <?php if ($payment) : ?>
         <tr>
