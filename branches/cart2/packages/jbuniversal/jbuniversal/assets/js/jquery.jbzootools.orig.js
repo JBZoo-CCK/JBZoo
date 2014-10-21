@@ -3372,8 +3372,11 @@ var reCount = {
 
         $this.toggleShipFields = function ($element) {
 
-            var settings = $element.data('settings'),
-                shipFields = settings.shippingfields;
+            var settings = $element.data('settings');
+
+            if (settings) {
+                var shipFields = settings.shippingfields;
+            }
 
             if (typeof shipFields != 'undefined') {
                 toggleShipFields(shipFields);
