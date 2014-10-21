@@ -808,6 +808,9 @@ jQuery(function ($) {
             $('#menu').JBZooAdminMenu(JBAdminItems);
         }
 
+        $('.jbzoo .uk-grid').closest('html').addClass('jbzoo-print');
+
+
         if ($("#nav [data-jbzooversion].active").length) {
             $('<span class="version" />')
                 .text("JBZoo " + $("#nav [data-jbzooversion].active").data("jbzooversion"))

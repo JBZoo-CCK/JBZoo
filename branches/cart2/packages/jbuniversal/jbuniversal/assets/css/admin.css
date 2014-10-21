@@ -1483,3 +1483,134 @@ table.list.order-list thead th {
 .jbzoo .uk-grid .uk-width-4-6 {
     width: 63%;
 }
+
+@media print {
+
+    /* custom styles for print version */
+    @page {
+        margin: 0.5cm;
+    }
+
+    .jbzoo-print * {
+        text-shadow: none !important;
+        color: #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .jbzoo-print a, a:visited {
+        text-decoration: underline;
+    }
+
+    .jbzoo-print a[href]:after {
+        content: "" !important;
+    }
+
+    .jbzoo-print abbr[title]:after {
+        content: "" !important;
+    }
+
+    .jbzoo-print .ir a:after,
+    .jbzoo-print a[href^="javascript:"]:after,
+    .jbzoo-print a[href^="#"]:after {
+        content: "";
+    }
+
+    .jbzoo-print pre,
+    .jbzoo-print blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    .jbzoo-print thead {
+        display: table-header-group;
+    }
+
+    .jbzoo-print tr,
+    .jbzoo-print img {
+        page-break-inside: avoid;
+    }
+
+    .jbzoo-print img {
+        max-width: 100% !important;
+    }
+
+    .jbzoo-print p,
+    .jbzoo-print h2,
+    .jbzoo-print h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    .jbzoo-print h2,
+    .jbzoo-print h3 {
+        page-break-after: avoid;
+    }
+
+    /* Joomla v3 */
+    .jbzoo-print nav.navbar,
+    .jbzoo-print header.header,
+    .jbzoo-print #nav,
+    .jbzoo-print .jbfooter,
+    .jbzoo-print footer.footer,
+    .jbzoo-print .subhead-collapse {
+        display: none !important;
+    }
+
+    .jbzoo-print .jbzoo.box-bottom {
+        padding: 0.5cm;
+        border: none;
+    }
+
+    .jbzoo-print textarea,
+    .jbzoo-print select {
+        border: none;
+        padding: 0;
+    }
+
+    .jbzoo-print body {
+        padding-top: 0;
+    }
+
+    .jbzoo-print .order-system,
+    .jbzoo-print .order-table {
+        width: 100% !important;
+        padding: 0 1cm;
+    }
+
+    .jbzoo-print .order-system .uk-panel-box {
+        padding: 0;
+    }
+
+    .jbzoo-print .order-table dt,
+    .jbzoo-print .order-system dt {
+        width: 30%;
+        float: left;
+        clear: both;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .jbzoo-print .order-table dt,
+    .jbzoo-print .order-system dt {
+        margin-left: 60px;
+    }
+
+    .jbzoo-print .uk-panel-title,
+    .jbzoo-print h2 {
+        font-weight: bold;
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 18px;
+        line-height: 24px;
+        text-transform: none;
+        color: #444;
+        border: none;
+        padding-bottom: 0;
+    }
+
+    .jbzoo-print .uk-panel-box {
+        margin-top: 6px;
+    }
+}
