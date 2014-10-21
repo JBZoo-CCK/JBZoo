@@ -84,13 +84,21 @@ class JBModelOrder extends JBModel
             'total'           => $order->getTotalSum(),
             'items'           => $order->getItems(false),
             'fields'          => $order->getFields(),
-            'shipping'        => $order->getShipping()->data(),
+
             'shippingfields'  => $order->getShippingFields(),
-            'payment'         => $order->getPayment()->data(),
+
             'modifiers'       => $order->getModifiersData(),
             'params'          => $params,
             'comment'         => $order->comment,
         );
+
+        if ($shipping = $order->getShipping()) {
+            $data['shipping'] = $shipping->data();
+        }
+
+        if ($payment = $order->getShipping()) {
+            $data['payment'] = $payment->data();
+        }
 
         $this->app->event->dispatcher->notify($this->app->event->create($order, 'basket:beforesave', array()));
 
