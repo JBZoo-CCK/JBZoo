@@ -13,13 +13,13 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$order = $this->order;
+$order   = $this->order;
 $jbmoney = $this->app->jbmoney;
 
-$payment = $order->getPayment();
+$payment  = $order->getPayment();
 $shipping = $order->getShipping();
 
-$created = $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
+$created  = $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
 $modified = $this->app->html->_('date', $order->modified, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
 
 $this->app->jbtoolbar->save();
@@ -59,10 +59,12 @@ $editUrl = $this->app->jbrouter->admin(array('cid' => array($order->id)));
                     'modified' => $modified,
                 ));
 
-                echo $this->partial('edit_block_payment', array(
-                    'order'   => $order,
-                    'payment' => $payment,
-                ));
+                if ($payment) {
+                    echo $this->partial('edit_block_payment', array(
+                        'order'   => $order,
+                        'payment' => $payment,
+                    ));
+                }
 
                 echo $this->partial('edit_block_shipping', array(
                     'order'    => $order,

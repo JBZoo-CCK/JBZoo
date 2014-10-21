@@ -17,7 +17,9 @@ $jbmoney = $this->app->jbmoney;
 
 $statusList = $this->app->jbcartstatus->getList(JBCart::STATUS_SHIPPING, true);
 $element    = $order->getShipping();
-$curStatus  = $element->getStatus();
+if ($element) {
+    $curStatus = $element->getStatus();
+}
 
 ?>
 <div class="uk-panel uk-panel-box">
@@ -28,17 +30,19 @@ $curStatus  = $element->getStatus();
 
     <?php echo $this->shipRender->renderAdminEdit(array('order' => $order)); ?>
 
-    <dl class="uk-description-list-horizontal">
-        <dt>Цена доставки</dt>
-        <dd>
-            <p><?php echo $jbmoney->toFormat($element->getRate(), 'EUR'); ?></p>
-        </dd>
+    <?php if ($element) : ?>
+        <dl class="uk-description-list-horizontal">
+            <dt>Цена доставки</dt>
+            <dd>
+                <p><?php echo $jbmoney->toFormat($element->getRate(), 'EUR'); ?></p>
+            </dd>
 
-        <dt>Статус</dt>
-        <dd>
-            <p><?php echo $this->app->jbhtml->select($statusList, 'order[shipping][status]', '', $curStatus); ?></p>
-        </dd>
-    </dl>
+            <dt>Статус</dt>
+            <dd>
+                <p><?php echo $this->app->jbhtml->select($statusList, 'order[shipping][status]', '', $curStatus); ?></p>
+            </dd>
+        </dl>
+    <?php endif; ?>
 
     <?php echo $this->shipFieldsRender->renderAdminEdit(array('order' => $order)); ?>
 

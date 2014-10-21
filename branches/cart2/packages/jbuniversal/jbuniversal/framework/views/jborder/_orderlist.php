@@ -70,6 +70,8 @@ $orderDir = $this->filter->get('filter_order_Dir', 'desc');
                 $payment = $order->getPayment();
                 if ($payment) {
                     echo $payment->getName() . '<br><i>' . $payment->getStatus() . '</i>';
+                } else {
+                    echo '-';
                 }
                 ?>
             </td>
@@ -79,6 +81,8 @@ $orderDir = $this->filter->get('filter_order_Dir', 'desc');
                 $shipping = $order->getShipping();
                 if ($shipping) {
                     echo $shipping->getName() . '<br><i>' . $shipping->getStatus() . '</i>';
+                } else {
+                    echo '-';
                 }
                 ?>
             </td>

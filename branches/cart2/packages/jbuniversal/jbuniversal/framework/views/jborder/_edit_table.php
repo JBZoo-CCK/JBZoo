@@ -30,7 +30,7 @@ $modifiersCount = count($modifiers);
 <table class="uk-table uk-table-striped uk-table-condensed">
     <thead>
     <tr>
-        <th style="width:30px">#</th>
+        <th style="width:30px"><?php echo JText::_('JBZOO_ORDER_ITEM_SKU'); ?></th>
         <th style="width:90px"><?php echo JText::_('JBZOO_ORDER_ITEM_IMAGE'); ?></th>
         <th><?php echo JText::_('JBZOO_ORDER_ITEM_NAME'); ?></th>
         <th style="width:150px;text-align: right;"><?php echo JText::_('JBZOO_ORDER_PRICE_PER_PIECE'); ?></th>
