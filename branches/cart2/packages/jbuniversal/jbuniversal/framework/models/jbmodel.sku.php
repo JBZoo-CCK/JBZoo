@@ -107,12 +107,6 @@ class JBModelSku extends JBModel
             ->where('item_id = ?', $item->id);
 
         $this->sqlQuery($select);
-
-        $select->clear()
-            ->delete(ZOO_TABLE_JBZOO_SKU_PARAMS)
-            ->where('item_id = ?', $item->id);
-
-        $this->sqlQuery($select);
     }
 
     /**
