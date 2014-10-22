@@ -78,7 +78,6 @@ class JBModelElementJBPriceAdvance extends JBModelElement
         $value = $this->_prepareValue($value, $exact);
 
         $isUse = false;
-        $ids   = array();
         $where = array();
         $i     = 0;
 
@@ -87,12 +86,6 @@ class JBModelElementJBPriceAdvance extends JBModelElement
             ->from(ZOO_TABLE_JBZOO_SKU . ' AS tSku');
 
         foreach ($value as $val) {
-
-            if (isset($val['params'])) {
-                if ($ids = $this->getItemdIdsByParams($val['params'])) {
-                    $ids = array_unique($ids);
-                }
-            }
 
             // by SKU value
             if (!empty($val['sku'])) {
@@ -147,11 +140,8 @@ class JBModelElementJBPriceAdvance extends JBModelElement
             $innerSelect->where(implode(' AND ', $where));
 
             $idList  = $this->_groupBy($this->fetchAll($innerSelect), 'id');
-            $itemIds = array_merge($idList, $ids);
-            $itemIds = array_unique($itemIds);
-
-            if (!empty($itemIds)) {
-                return array('tItem.id IN (' . implode(',', $itemIds) . ')');
+            if (!empty($idList)) {
+                return array('tItem.id IN (' . implode(',', $idList) . ')');
             }
         }
 
@@ -316,54 +306,6 @@ class JBModelElementJBPriceAdvance extends JBModelElement
         }
 
         return $value;
-    }
-
-    protected function getItemdIdsByParams($data = array())
-    {
-        $valueEmpty = true;
-
-        $select = $this->_getItemSelect()
-            ->leftJoin(ZOO_TABLE_JBZOO_SKU_PARAMS . ' AS tParams ON tParams.item_id = tItem.id')
-            ->clear('select')
-            ->select('tParams.item_id');
-
-        $i = 0;
-        foreach ($data as $key => $value) {
-            if (empty($value)) {
-                continue;
-            }
-
-            $logic = 'OR';
-            if ($i === 0) {
-                $logic = 'AND';
-            }
-
-            if (is_array($value) && count($value) > 0) {
-                foreach ($value as $val) {
-
-                    $logic = 'OR';
-                    if ($i === 0) {
-                        $logic = 'AND';
-                    }
-                    $i++;
-                    $select
-                        ->where('(tParams.element_id = "' . $key . '"', $key, $logic)
-                        ->where('tParams.value = "' . $val . '")', $val, 'AND');
-                }
-            } else {
-                $select
-                    ->where('(tParams.element_id = "' . $key . '"', $key, $logic)
-                    ->where('tParams.value = "' . $value . '")', $value, 'AND');
-            }
-
-            $valueEmpty = false;
-            $i++;
-        }
-
-        $select->group('tParams.item_id');
-        $result = $this->fetchList($select);
-
-        return $valueEmpty ? array() : array_filter($result);
     }
 
 }
