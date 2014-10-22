@@ -47,7 +47,7 @@ class JBEventItem extends JBEvent
         }
 
         // update index data
-        $app->jbtables->checkPriceElements(true);
+        $app->jbtables->checkSku(true);
 
         $indexTableName = $app->jbtables->getIndexTable($itemType);
         if ($app->jbtables->isTableExists($indexTableName, true)) {
