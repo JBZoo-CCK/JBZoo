@@ -28,10 +28,11 @@ class JBModelValues extends JBModel
     }
 
     /**
-     * @param $elementId
-     * @param $itemType
-     * @param $applicationId
+     * @param       $elementId
+     * @param       $itemType
+     * @param       $applicationId
      * @param array $filter
+     *
      * @return array|JObject|null
      */
     public function getPropsValues($elementId, $itemType, $applicationId, array $filter = array())
@@ -66,7 +67,8 @@ class JBModelValues extends JBModel
                         $select->where('tItem.name = ?', $filterValue);
 
                     } else if ($filterIdentifier == '_itemcategory') {
-                        $select->leftJoin(ZOO_TABLE_CATEGORY_ITEM . ' AS tCategoryItem ON tCategoryItem.item_id = tItem.id');
+                        $select->leftJoin(ZOO_TABLE_CATEGORY_ITEM
+                                          . ' AS tCategoryItem ON tCategoryItem.item_id = tItem.id');
                         $select->where('tCategoryItem.category_id = ?', $filterValue);
 
                     } else {
@@ -95,14 +97,23 @@ class JBModelValues extends JBModel
         return $result;
     }
 
-    public function getParamsValues($elementId, $itemType, $applicationId)
+    /**
+     * @param $elementId
+     * @param $paramID
+     * @param $itemType
+     * @param $applicationId
+     *
+     * @return array|JObject
+     */
+    public function getParamsValues($elementId, $paramID, $itemType, $applicationId)
     {
         $select = $this->_getItemSelect($itemType, $applicationId)
-            ->innerJoin(ZOO_TABLE_JBZOO_SKU_PARAMS . ' AS tParams ON tParams.item_id = tItem.id')
+            ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tParams ON tParams.item_id = tItem.id')
             ->clear('select')
-            ->select('tParams.value as value, tParams.value as text, COUNT(DISTINCT tParams.item_id) as count')
+            ->select('tParams.' . $paramID . ' as value, tParams.' . $paramID . ' as text, COUNT(DISTINCT tParams.item_id) as count')
             ->where('tParams.element_id = "' . $elementId . '"')
-            ->group('tParams.value');
+            ->where('tParams.' . $paramID . ' IS NOT NULL')
+            ->group('tParams.' . $paramID);
 
         $values = $this->fetchAll($select, true);
 
@@ -112,6 +123,7 @@ class JBModelValues extends JBModel
     /**
      * @param $data
      * @param $identifier
+     *
      * @return array
      */
     public function _sortValues($data, $identifier)
@@ -145,8 +157,10 @@ class JBModelValues extends JBModel
 
     /**
      * Sort by text field
+     *
      * @param $a
      * @param $b
+     *
      * @return int
      */
     static public function sortByText($a, $b)
@@ -163,7 +177,9 @@ class JBModelValues extends JBModel
 
     /**
      * Get authors values list
+     *
      * @param $applicationId int
+     *
      * @return array
      */
     public function getAuthorValues($applicationId)
@@ -192,7 +208,9 @@ class JBModelValues extends JBModel
 
     /**
      * Get name values
+     *
      * @param int $applicationId
+     *
      * @return array
      */
     public function getNameValues($applicationId)
@@ -218,8 +236,10 @@ class JBModelValues extends JBModel
 
     /**
      * Get name values
-     * @param int $applicationId
+     *
+     * @param int  $applicationId
      * @param null $itemType
+     *
      * @return array|JObject
      */
     public function getTagValues($applicationId, $itemType = null)
@@ -251,9 +271,11 @@ class JBModelValues extends JBModel
 
     /**
      * Get min/max range by field in catalog
+     *
      * @param string $identifier
      * @param string $itemType
-     * @param int $applicationId
+     * @param int    $applicationId
+     *
      * @return array|JObject
      */
     public function getRangeByField($identifier, $itemType, $applicationId)
@@ -283,13 +305,15 @@ class JBModelValues extends JBModel
 
     /**
      * Get range for price field
+     *
      * @param $identifier
      * @param $itemType
      * @param $applicationId
      * @param $categoryId
+     *
      * @return JObject
      */
-    public function getRangeByPrice($identifier, $itemType, $applicationId, $categoryId= null)
+    public function getRangeByPrice($identifier, $itemType, $applicationId, $categoryId = null)
     {
         $this->app->jbdebug->mark('model::filter::getRangeByPrice:start');
 

@@ -50,7 +50,9 @@ class JBModelSku extends JBModel
 
     /**
      * Update SKU by item
+     *
      * @param Item $item
+     *
      * @return bool
      */
     public function updateItemSku(Item $item)
@@ -64,8 +66,7 @@ class JBModelSku extends JBModel
             if (!empty($priceElements)) {
 
                 foreach ($priceElements as $element) {
-                    //$this->_indexPrice($element->getIndexData(true));
-                    //$this->_indexPrice($element->getIndexDataParameters(), ZOO_TABLE_JBZOO_SKU_PARAMS);
+                    $this->_indexPrice($element->getIndexData());
                 }
 
                 return true;
@@ -77,16 +78,17 @@ class JBModelSku extends JBModel
 
     /**
      * Save to index table
+     *
      * @param array $data
-     * @param string $table
+     *
      * @return bool
      */
-    public function _indexPrice(array $data, $table = ZOO_TABLE_JBZOO_SKU)
+    public function _indexPrice(array $data)
     {
         if (!empty($data)) {
 
             foreach ($data as $values) {
-                $this->_insert($values, $table);
+                $this->_insert($values, ZOO_TABLE_JBZOO_SKU);
             }
 
             return true;
@@ -115,7 +117,9 @@ class JBModelSku extends JBModel
 
     /**
      * Get item by sku
+     *
      * @param $sku
+     *
      * @return mixed|null
      */
     public function getItemIdBySku($sku)
@@ -133,6 +137,7 @@ class JBModelSku extends JBModel
             if ($row = $this->fetchRow($select)) {
                 $row = $this->_groupBy($row, 'item_id');
                 reset($row);
+
                 return current($row);
             }
         }

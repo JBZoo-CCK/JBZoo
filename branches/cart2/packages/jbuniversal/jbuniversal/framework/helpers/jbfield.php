@@ -1068,8 +1068,10 @@ class JBFieldHelper extends AppHelper
      */
     public function jbpriceTemplates($name, $value, $controlName, SimpleXMLElement $node, $parent)
     {
-        $renderer   = $this->app->jbrenderer->create('jbprice');
-        $optionList = $renderer->getLayouts('jbprice');
+        $class = $this->_getAttr($node, 'renderer', 'jbprice');
+
+        $renderer   = $this->app->jbrenderer->create($class);
+        $optionList = $renderer->getLayouts($class);
 
         return $this->_renderList($optionList, $value, $this->_getName($controlName, $name), $node);
     }

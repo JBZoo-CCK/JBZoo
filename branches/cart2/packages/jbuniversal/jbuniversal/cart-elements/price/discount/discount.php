@@ -19,16 +19,6 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceDiscount extends JBCartElementPrice
 {
     /**
-     * @param  array $param
-     *
-     * @return bool|void
-     */
-    public function hasFilterValue($param = array())
-    {
-        return false;
-    }
-
-    /**
      * @return mixed|string
      */
     public function edit()

@@ -24,8 +24,8 @@ class JBModelElementJBPriceAdvance extends JBModelElement
 
     /**
      * @param Element $element
-     * @param int $applicationId
-     * @param string $itemType
+     * @param int     $applicationId
+     * @param string  $itemType
      */
     function __construct(Element $element, $applicationId, $itemType)
     {
@@ -35,11 +35,13 @@ class JBModelElementJBPriceAdvance extends JBModelElement
 
     /**
      * Set OR element conditions
+     *
      * @param JBDatabaseQuery $select
-     * @param string $elementId
-     * @param string|array $value
-     * @param int $i
-     * @param bool $exact
+     * @param string          $elementId
+     * @param string|array    $value
+     * @param int             $i
+     * @param bool            $exact
+     *
      * @return JBDatabaseQuery
      */
     public function conditionAND(JBDatabaseQuery $select, $elementId, $value, $i = 0, $exact = false)
@@ -49,11 +51,13 @@ class JBModelElementJBPriceAdvance extends JBModelElement
 
     /**
      * Set AND element conditions
+     *
      * @param JBDatabaseQuery $select
-     * @param string $elementId
-     * @param string|array $value
-     * @param int $i
-     * @param bool $exact
+     * @param string          $elementId
+     * @param string|array    $value
+     * @param int             $i
+     * @param bool            $exact
+     *
      * @return JBDatabaseQuery
      */
     public function conditionOR(JBDatabaseQuery $select, $elementId, $value, $i = 0, $exact = false)
@@ -63,9 +67,10 @@ class JBModelElementJBPriceAdvance extends JBModelElement
 
     /**
      * @param JBDatabaseQuery $select
-     * @param $elementId
-     * @param $value
-     * @param bool $exact
+     * @param                 $elementId
+     * @param                 $value
+     * @param bool            $exact
+     *
      * @return array
      */
     protected function _getWhere(JBDatabaseQuery $select, $elementId, $value, $exact = false)
@@ -100,9 +105,15 @@ class JBModelElementJBPriceAdvance extends JBModelElement
             }
 
             // by balance
-            if (!empty($val['balance'])) {
+            if (!empty($val['balance']) && $val['balance'] == -1) {
+                $isUse     = true;
+                $balance[] = 'tSku.balance = ' . $val['balance'];
+                $balance[] = 'tSku.balance > 0';
+                $where[]   = '(' . implode(' OR ', $balance) . ')';
+
+            } else if (JString::strlen($val['balance']) > 0) {
                 $isUse   = true;
-                $where[] = 'tSku.balance <> 0';
+                $where[] = 'tSku.balance = ' . $val['balance'];
             }
 
             if (!empty($val['new'])) {
@@ -132,14 +143,16 @@ class JBModelElementJBPriceAdvance extends JBModelElement
             }
         }
 
-        $innerSelect->where(implode(' AND ', $where));
+        if (!empty($where)) {
+            $innerSelect->where(implode(' AND ', $where));
 
-        $idList  = $this->_groupBy($this->fetchAll($innerSelect), 'id');
-        $itemIds = array_merge($idList, $ids);
-        $itemIds = array_unique($itemIds);
+            $idList  = $this->_groupBy($this->fetchAll($innerSelect), 'id');
+            $itemIds = array_merge($idList, $ids);
+            $itemIds = array_unique($itemIds);
 
-        if (!empty($itemIds)) {
-            return array('tItem.id IN (' . implode(',', $itemIds) . ')');
+            if (!empty($itemIds)) {
+                return array('tItem.id IN (' . implode(',', $itemIds) . ')');
+            }
         }
 
         return array('tItem.id IN (0)');
@@ -147,6 +160,7 @@ class JBModelElementJBPriceAdvance extends JBModelElement
 
     /**
      * @param $value
+     *
      * @return array
      */
     protected function _conditionValue($value)
@@ -234,7 +248,8 @@ class JBModelElementJBPriceAdvance extends JBModelElement
 
     /**
      * @param array|string $value
-     * @param bool $exact
+     * @param bool         $exact
+     *
      * @return mixed|void
      */
     protected function _prepareValue($value, $exact = false)
@@ -257,11 +272,11 @@ class JBModelElementJBPriceAdvance extends JBModelElement
                 'price_type' => 0,
             );
 
-            if (isset($value['range']) ||
-                isset($value['val']) ||
-                isset($value['val_min']) ||
-                isset($value['currency']) ||
-                isset($value['val_max'])
+            if (isset($value['range'])
+                || isset($value['val'])
+                || isset($value['val_min'])
+                || isset($value['currency'])
+                || isset($value['val_max'])
             ) {
                 $value = $this->_setMinMax($value);
 
@@ -282,7 +297,9 @@ class JBModelElementJBPriceAdvance extends JBModelElement
 
     /**
      * Get min/max value
+     *
      * @param array $value
+     *
      * @return array $result
      */
     protected function _setMinMax($value)

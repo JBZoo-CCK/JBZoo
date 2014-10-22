@@ -23,4 +23,12 @@
                 />
 
     </params>
+
+    <params group="filter">
+        <param name="showlabel" type="jbbool" default="0" label="JBZOO_ELEMENT_LABEL"
+               description="JBZOO_ELEMENT_LABEL_DESC"/>
+
+        <param name="altlabel" type="text" default="" label="JBZOO_ELEMENT_LABEL_ALTERNATIVE"
+               description="JBZOO_ELEMENT_LABEL_ALTERNATIVE_DESC"/>
+    </params>
 </element>

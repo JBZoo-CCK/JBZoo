@@ -21,4 +21,38 @@
         </param>
     </params>
 
+    <params group="filter">
+
+        <param name="@spacer_value" type="jbspacer" default="JBZOO_FILTER_JBPRICE_VALUE"/>
+
+        <param name="jbzoo_filter_render" type="hidden" value="value"/>
+
+        <param name="jbzoo_filter_template" type="list" label="JBZOO_FILTER_JBPRICE_TEMPLATE_VALUE"
+               description="JBZOO_FILTER_JBPRICE_TEMPLATE_VALUE_DESC" default="3">
+            <option value="0">JBZOO_FILTER_JBPRICE_TEMPLATE_NONE</option>
+            <option value="simple">JBZOO_FILTER_JBPRICE_TEMPLATE_SIMPLE</option>
+            <option value="range">JBZOO_ELEMENT_TEMPLATE_TEXT_RANGE</option>
+            <option value="slider">JBZOO_ELEMENT_TEMPLATE_SLIDER</option>
+        </param>
+
+        <param name="jbzoo_filter_currency_default" type="jbcurrency" default="EUR"
+               label="JBZOO_FILTER_JBPRICE_CURRENCY_DEFAULT"
+               description="JBZOO_FILTER_JBPRICE_CURRENCY_DEFAULT_DESC" multiple="0"/>
+
+        <param name="@spacer_slider" type="jbspacer" default="JBZOO_SLIDER_ONLY"/>
+
+        <param name="jbzoo_filter_slider_auto" type="jbbool" default="0" label="JBZOO_FILTER_SLIDER_AUTO"
+               description="JBZOO_FILTER_SLIDER_AUTO_DESC"/>
+
+        <param name="jbzoo_filter_slider_min" type="text" default="0" label="JBZOO_FILTER_SLIDER_MIN"
+               description="JBZOO_FILTER_SLIDER_MIN_DESC"/>
+
+        <param name="jbzoo_filter_slider_max" type="text" default="10000" label="JBZOO_FILTER_SLIDER_MAX"
+               description="JBZOO_FILTER_SLIDER_MAX_DESC"/>
+
+        <param name="jbzoo_filter_slider_step" type="text" default="100" label="JBZOO_FILTER_SLIDER_STEP"
+               description="JBZOO_FILTER_SLIDER_STEP_DESC"/>
+
+    </params>
+
 </element>

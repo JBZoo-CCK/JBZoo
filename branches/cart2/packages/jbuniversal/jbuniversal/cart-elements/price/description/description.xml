@@ -11,7 +11,26 @@
 
     <params group="filter">
 
-    </params>
+        <param name="jbzoo_filter_render"
+               type="list"
+               label="JBZOO_ELEMENT_TEMPLATE"
+               description="JBZOO_ELEMENT_TEMPLATE_DESC"
+               default="text"
+                >
+            <option value="description-text">JBZOO_ELEMENT_TEMPLATE_TEXT</option>
+        </param>
 
+        <!-- jquery.ui autocomplete -->
+        <param name="@spacer"
+               type="jbspacer"
+               default="JBZOO_AUTOCOMPLETE_TEXT_ONLY"/>
+
+        <param name="jbzoo_filter_autocomplete"
+               type="jbbool"
+               default="1"
+               label="JBZOO_FILTER_AUTOCOMPLETE"
+               description="JBZOO_FILTER_AUTOCOMPLETE_DESC"/>
+
+    </params>
 
 </element>

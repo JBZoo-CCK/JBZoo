@@ -39,6 +39,16 @@ class JBPriceFilterRenderer extends PositionRenderer
     protected $_jbprice;
 
     /**
+     * Joomla module params
+     *
+     * @var null
+     */
+    protected $_moduleParams = null;
+
+    protected $_template = null;
+    protected $_application = null;
+
+    /**
      * @param App  $app
      * @param null $path
      */
@@ -83,7 +93,10 @@ class JBPriceFilterRenderer extends PositionRenderer
      */
     public function render($layout, $args = array())
     {
-        $this->_jbprice = $args['price'];
+        $this->_jbprice     = $args['price'];
+        $this->_template    = $args['template'];
+        $this->_application = $args['app_id'];
+
         unset($args['price']);
 
         $result = null;
@@ -117,7 +130,11 @@ class JBPriceFilterRenderer extends PositionRenderer
                 $data['_index']    = $key;
 
                 // set params
-                $params = array_merge($data, $args);
+                $params = array_merge(
+                    array('item_template'       => $this->_template,
+                          'item_application_id' => $this->_application,
+                          'moduleParams'        => $this->_moduleParams
+                    ), $data, $args);
 
                 if (!$element->canAccess() && !$element->hasFilterValue($this->app->data->create($params))) {
                     continue;
@@ -312,23 +329,41 @@ class JBPriceFilterRenderer extends PositionRenderer
         $value = $this->app->jbrequest->get($identifier);
 
         if (!$value) {
+
+            $id = $this->_jbprice->identifier;
+
             $elements = $this->app->jbrequest->get('e');
 
-            if (isset($elements[$this->_jbprice->identifier]['params'][$identifier])) {
-                return $elements[$this->_jbprice->identifier]['params'][$identifier];
-            } else if (isset($elements[$this->_jbprice->identifier]['params'])
-                       && !isset($elements[$this->_jbprice->identifier]['params'][$identifier])
-            ) {
-                return null;
+            $elements = $this->app->data->create($elements);
+
+            $param = $this->_jbprice->getParam($identifier);
+
+            if ($param->isCore() && $elements->has($id)) {
+
+                return $elements->get($id, array());
+
+            } else {
+
+                return $elements->find($id . '.params.' . $identifier);
             }
 
-            if (is_array($elements)) {
-
-                return (isset($elements[$identifier]) ? $elements[$identifier] : null);
-            }
         }
 
         return $value;
+    }
+
+    /**
+     * Set Joomla module params
+     *
+     * @param $params
+     *
+     * @return $this
+     */
+    public function setModuleParams($params)
+    {
+        $this->_moduleParams = $params;
+
+        return $this;
     }
 
     /**

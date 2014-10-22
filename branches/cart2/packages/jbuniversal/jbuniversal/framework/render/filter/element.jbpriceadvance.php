@@ -21,7 +21,9 @@ class JBFilterElementJBPriceAdvance extends JBFilterElement
 {
     /**
      * Get main attrs
+     *
      * @param array $attrs
+     *
      * @return array
      */
     protected function _getAttrs(array $attrs)
@@ -57,78 +59,89 @@ class JBFilterElementJBPriceAdvance extends JBFilterElement
      */
     public function html()
     {
-        $values   = $this->_prepareValues();
+        //$values   = $this->_prepareValues();
+        $template = $this->_params->get('jbprice_filter_template', 'default');
         $renderer = $this->app->jbrenderer->create('jbpricefilter');
-        $html     = array();
+        $renderer->setModuleParams($this->_params->moduleParams);
 
-        echo $renderer->render('default', array(
-            'price' => $this->app->jbfilter->getElement($this->_identifier)
+        $html = $renderer->render($template, array(
+            'price'    => $this->app->jbfilter->getElement($this->_identifier),
+            'template' => $template,
+            'app_id'   => $this->_params->get('item_application_id')
         ));
 
-        if ($valueTmpl = (int)$this->_params->get('jbzoo_filter_value', 1)) {
-            $html[] = $this->_renderValueControl($values, $valueTmpl);
-        }
+        return $html;
+        /* if ($valueTmpl = (int)$this->_params->get('jbzoo_filter_value', 1)) {
+             $html[] = $this->_renderValueControl($values, $valueTmpl);
+         }
 
-        if ((int)$this->_params->get('jbzoo_filter_sku', 1)) {
-            $html[] = '<label for="' . $this->_getId('val') . '">' . JText::_('JBZOO_FILTER_JBPRICE_SKU') . '</label>' .
-                $this->_jbhtml->text($this->_getName('sku'), $values['sku'], $this->_attrs, $this->_getId('sku'));
-        }
+         if ((int)$this->_params->get('jbzoo_filter_sku', 1)) {
+             $html[] = '<label for="' . $this->_getId('val') . '">' . JText::_('JBZOO_FILTER_JBPRICE_SKU') . '</label>' .
+                       $this->_jbhtml->text($this->_getName('sku'), $values['sku'], $this->_attrs, $this->_getId('sku'));
+         }
 
-        if ((int)$this->_params->get('jbzoo_filter_balance', 1)) {
-            $options = array('1' => JText::_('JBZOO_FILTER_JBPRICE_BALANCE_CHECKBOX'));
-            $html[]  = $this->_jbhtml->checkbox($options, $this->_getName('balance'), '', $values['balance'], $this->_getId('balance'));
-        }
+         if ((int)$this->_params->get('jbzoo_filter_balance', 1)) {
+             $options = array('1' => JText::_('JBZOO_FILTER_JBPRICE_BALANCE_CHECKBOX'));
+             $html[]  = $this->_jbhtml->checkbox($options, $this->_getName('balance'), '', $values['balance'],
+                 $this->_getId('balance'));
+         }
 
-        if ((int)$this->_params->get('jbzoo_filter_sale', 1)) {
-            $options = array('1' => JText::_('JBZOO_FILTER_JBPRICE_SALE_CHECKBOX'));
-            $html[]  = $this->_jbhtml->checkbox($options, $this->_getName('sale'), '', $values['sale'], $this->_getId('sale'));
-        }
+         if ((int)$this->_params->get('jbzoo_filter_sale', 1)) {
+             $options = array('1' => JText::_('JBZOO_FILTER_JBPRICE_SALE_CHECKBOX'));
+             $html[]  =
+                 $this->_jbhtml->checkbox($options, $this->_getName('sale'), '', $values['sale'], $this->_getId('sale'));
+         }
 
-        if ((int)$this->_params->get('jbzoo_filter_new', 1)) {
-            $options = array('1' => JText::_('JBZOO_FILTER_JBPRICE_NEW_CHECKBOX'));
-            $html[]  = $this->_jbhtml->checkbox($options, $this->_getName('new'), '', $values['new'], $this->_getId('new'));
-        }
+         if ((int)$this->_params->get('jbzoo_filter_new', 1)) {
+             $options = array('1' => JText::_('JBZOO_FILTER_JBPRICE_NEW_CHECKBOX'));
+             $html[]  =
+                 $this->_jbhtml->checkbox($options, $this->_getName('new'), '', $values['new'], $this->_getId('new'));
+         }
 
-        if ((int)$this->_params->get('jbzoo_filter_hit', 1)) {
-            $options = array('1' => JText::_('JBZOO_FILTER_JBPRICE_HIT_CHECKBOX'));
-            $html[]  = $this->_jbhtml->checkbox($options, $this->_getName('hit'), '', $values['hit'], $this->_getId('hit'));
-        }
+         if ((int)$this->_params->get('jbzoo_filter_hit', 1)) {
+             $options = array('1' => JText::_('JBZOO_FILTER_JBPRICE_HIT_CHECKBOX'));
+             $html[]  =
+                 $this->_jbhtml->checkbox($options, $this->_getName('hit'), '', $values['hit'], $this->_getId('hit'));
+         }
 
-        if (!empty($html)) {
-            $result = '<div class="filter-element-row">' .
-                implode("<div class=\"clear clr\"></div></div>\n <div class=\"filter-element-row\">", $html) .
-                '<div class="clear clr"></div></div>';
+         if (!empty($html)) {
+             $result = '<div class="filter-element-row">' .
+                       implode("<div class=\"clear clr\"></div></div>\n <div class=\"filter-element-row\">", $html) .
+                       '<div class="clear clr"></div></div>';
 
-            return $result;
-        }
-
-        return null;
+             return $result;
+         }*/
     }
 
     /**
      * Render value controls
+     *
      * @param array $values
-     * @param int $valueTmpl
+     * @param int   $valueTmpl
+     *
      * @return string
      */
     protected function _renderValueControl($values, $valueTmpl)
     {
         $html = '';
 
-        $valueType = (int)$this->_params->get('jbzoo_filter_value_type', 0);
-        $priceType = (int)$this->_params->get('jbzoo_filter_price_type', 0);
+        $valueType  = (int)$this->_params->get('jbzoo_filter_value_type', 0);
+        $priceType  = (int)$this->_params->get('jbzoo_filter_price_type', 0);
+        $categoryId = null;
 
         if ($valueTmpl == 1) {
             $html = '<label for="' . $this->_getId('val') . '">' . JText::_('JBZOO_FILTER_JBPRICE_VALUE') . '</label>' .
-                $this->_jbhtml->text($this->_getName('val'), $values['val'], 'class="val"', $this->_getId('val'));
+                    $this->_jbhtml->text($this->_getName('val'), $values['val'], 'class="val"', $this->_getId('val'));
         }
 
         if ($valueTmpl == 2) {
             $htmlRange   = array();
             $htmlRange[] = '<label for="' . $this->_getId('val_min') . '">' . JText::_('JBZOO_FROM') . '</label>';
-            $htmlRange[] = $this->_jbhtml->text($this->_getName('val_min'), $values['val_min'], 'class="val_min"', $this->_getId('val_min'));;
+            $htmlRange[] = $this->_jbhtml->text($this->_getName('val_min'), $values['val_min'], 'class="val_min"',
+                $this->_getId('val_min'));;
             $htmlRange[] = '<label for="' . $this->_getId('val_max') . '">' . JText::_('JBZOO_TO') . '</label>';
-            $htmlRange[] = $this->_jbhtml->text($this->_getName('val_max'), $values['val_max'], 'class="val_max"', $this->_getId('val_max'));
+            $htmlRange[] = $this->_jbhtml->text($this->_getName('val_max'), $values['val_max'], 'class="val_max"',
+                $this->_getId('val_max'));
 
             $html = '<div class="jbprice-ranges">' . implode("\n ", $htmlRange) . '</div>';
         }
@@ -150,7 +163,8 @@ class JBFilterElementJBPriceAdvance extends JBFilterElement
                     $categoryId = $this->app->jbrequest->getSystem('category');
                 }
 
-                $rangesData    = (array)JBModelValues::model()->getRangeByPrice($this->_identifier, $itemType, $applicationId, $categoryId);
+                $rangesData = (array)JBModelValues::model()
+                    ->getRangeByPrice($this->_identifier, $itemType, $applicationId, $categoryId);
 
                 if ($valueType == 1) {
                     $ranges = array('min' => $rangesData['price_min'], 'max' => $rangesData['price_max']);
@@ -173,8 +187,9 @@ class JBFilterElementJBPriceAdvance extends JBFilterElement
             }
 
             $html = '<div class="jbslider">' .
-                $this->_jbhtml->slider($params, $values['range'], $this->_getName('range'), $this->_getId('range', true)) .
-                '</div>';
+                    $this->_jbhtml->slider($params, $values['range'], $this->_getName('range'),
+                        $this->_getId('range', true)) .
+                    '</div>';
         }
 
         if ($currency = $this->_params->get('jbzoo_filter_currency_default', 'EUR')) {

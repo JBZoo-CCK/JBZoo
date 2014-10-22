@@ -66,7 +66,7 @@ class JBZooBasketHelper
         $summ = 0;
         foreach ($basketItems as $basketItem) {
 
-            $priceValue = $basketItem['quantity'] * $basketItem['total'];
+            $priceValue = $basketItem['quantity'] * $basketItem['price'];
 
             $summ += $this->app->jbmoney->convert($basketItem['currency'], $currency, $priceValue);
         }
