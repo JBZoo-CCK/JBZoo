@@ -50,9 +50,8 @@ $varName = 'tmp[' . $positionKey . '][' . $this->app->jbstring->getId($element->
         }
 
         // render form HTML
-        echo $form->render($varName, $elementGroup);
-
-        ?>
+        echo $form->render($varName, $elementGroup); ?>
+        
         <input type="hidden" name="<?php echo $varName; ?>[type]" value="<?php echo $element->getElementType(); ?>"
                class="jsElementType" />
         <input type="hidden" name="<?php echo $varName; ?>[group]" value="<?php echo $element->getElementGroup(); ?>"
@@ -60,6 +59,12 @@ $varName = 'tmp[' . $positionKey . '][' . $this->app->jbstring->getId($element->
         <input type="hidden" name="<?php echo $varName; ?>[identifier]" value="<?php echo $element->identifier; ?>"
                class="jsElementId" />
 
+        <?php if ($element->getElementGroup() == JBCart::ELEMENT_TYPE_PRICE) : ?>
+
+            <input type="hidden" name="<?php echo $varName; ?>[system]"
+                   value="<?php echo (int)$element->isSystemTmpl(); ?>" class="jsElementCustomizable" />
+
+        <?php endif; ?>
     </div>
 
 </li>

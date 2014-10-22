@@ -26,4 +26,16 @@
                description="JBZOO_JBPRICE_CURRENCY_LIST_DESC" multiple="1"/>
 
     </params>
+
+    <params group="filter">
+        <param name="jbzoo_filter_render"
+               type="list"
+               label="JBZOO_ELEMENT_TEMPLATE"
+               description="JBZOO_ELEMENT_TEMPLATE_DESC"
+               default="currency"
+                >
+            <option value="currency">JBZOO_ELEMENT_TEMPLATE_CURRENCY</option>
+        </param>
+    </params>
+
 </element>

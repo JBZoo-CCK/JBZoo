@@ -13,20 +13,28 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$elId = $this->app->jbstring->getId('');
-$name = $element->config->get('type');
-$lang = JText::_($name);
-$class = 'simple-param';
 
-if ($element->isCore()) {
-    $name  = strtoupper($params['type']);
-    $lang  = JText::_('JBZOO_JBPRICE_VARIATION_' . $name);
-    $class = 'core-param';
+// create label
+$label = '';
+if (isset($params['showlabel']) && $params['showlabel']) {
+
+    // check label
+    $labelText = ($params['altlabel']) ? $params['altlabel'] : $element->config->get('name');
+
+    $label = '<div class="param-label"> '
+             . $labelText
+             . '</div>';
 }
 
-$label = ($params['altlabel']) ? $params['altlabel'] : $element->config->get('name');
+// create class attribute
+$classes = array_filter(array(
+    'filter-element-row',
+    'element-' . $params['type'],
+    'element-price-param ' . $element->isCore() ? 'core-param' : 'simple-param'
+)); ?>
 
-?>
-<div>
-    <?php echo $label, $elementHTML; ?>
+
+<div class="<?php echo implode(' ', $classes); ?>">
+    <?php echo $label . $elementHTML; ?>
+    <div class="clear clr"></div>
 </div>

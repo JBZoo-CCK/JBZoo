@@ -53,7 +53,7 @@ defined('_JEXEC') or die('Restricted access');
         $item = $this->app->table->item->get($__item_id);
 
         $image = null;
-        $price = $jbMoney->convert($__currency, $default, $__total);
+        $price = $jbMoney->convert($__currency, $default, $__price);
         $href  = $this->app->route->item($item);
 
         $count += $__quantity;

@@ -34,7 +34,9 @@ class AutocompleteJBUniversalController extends JBUniversalController
             $appId   = $this->_jbrequest->get('app_id');
             $element = $this->_jbrequest->get('name');
 
-            if ($element && preg_match('#^e\[(.*?)\]#i', $element, $elementName)) {
+            if ($element && preg_match('#^e\[(.*?)\]\[(.*?)\]#i', $element, $elementName)) {
+
+                $paramID     = isset($elementName[2]) ? str_replace('_', '', $elementName[2]) : null;
                 $elementName = $elementName[1];
 
                 $autocomleteDb = JBModelAutocomplete::model();
@@ -52,7 +54,7 @@ class AutocompleteJBUniversalController extends JBUniversalController
                     $rows = $autocomleteDb->author($query, $type, $appId);
 
                 } else if ($elementType == 'jbpriceadvance') {
-                    $rows = $autocomleteDb->sku($query, $elementName, $type, $appId);
+                    $rows = $autocomleteDb->sku($query, $elementName, $paramID, $type, $appId);
 
                 } else if ($elementType == 'textarea') {
                     $rows = $autocomleteDb->textarea($query, $elementName, $type, $appId);

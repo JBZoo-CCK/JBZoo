@@ -15,26 +15,24 @@ defined('_JEXEC') or die('Restricted access');
 
 
 /**
- * Class JBPriceFilterElementSelectChosen
+ * Class JBPriceFilterElementBalanceRadio
  */
-class JBPriceFilterElementSelectChosen extends JBPriceFilterElementSelect
+class JBPriceFilterElementBalanceRadio extends JBPriceFilterElementBalance
 {
     /**
      * Render HTML
      * @return string
      */
-    function html()
+    public function html()
     {
-        $values = $this->_getValues();
+        $options = $this->_getValues();
 
-        return $this->html->selectChosen(
-            $this->_createOptionsList($values),
-            $this->_getName(),
+        return $this->html->radio(
+            $this->_createOptionsList($options),
+            $this->_getName('balance'),
             $this->_attrs,
-            $this->_value[$this->_identifier],
-            $this->_getId(),
-            false,
-            array('placeholder' => $this->_getPlaceholder())
+            $this->_value,
+            $this->_getId('balance')
         );
     }
 

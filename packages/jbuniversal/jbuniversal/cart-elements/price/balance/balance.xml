@@ -20,7 +20,23 @@
             <option value="simple">JBZOO_BALANCE_SIMPLE</option>
             <option value="full">JBZOO_BALANCE_FULL</option>
         </param>
+
     </params>
 
+    <params group="filter">
+
+        <param name="jbzoo_filter_render"
+               type="list"
+               label="JBZOO_ELEMENT_TEMPLATE"
+               description="JBZOO_ELEMENT_TEMPLATE_DESC"
+               default="_auto_"
+                >
+            <option value="balance-jqueryui">JBZOO_ELEMENT_TEMPLATE_JQUERYUI</option>
+            <option value="balance-radio">JBZOO_ELEMENT_TEMPLATE_RADIO</option>
+            <option value="balance-select">JBZOO_ELEMENT_TEMPLATE_SELECT</option>
+            <option value="balance-chosen">JBZOO_ELEMENT_TEMPLATE_SELECT_CHOSEN</option>
+        </param>
+
+    </params>
 
 </element>

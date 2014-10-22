@@ -176,26 +176,28 @@ Class JBModelAutocomplete extends JBModel
      * Autocomplete query for item SKU
      * @param string $query
      * @param string $element
+     * @param string $paramID
      * @param null|string $type
      * @param null|int $applicationId
      * @param int $limit
      * @return JObject
      */
-    public function sku($query, $element, $type = null, $applicationId = null, $limit = 10)
+    public function sku($query, $element, $paramID, $type = null, $applicationId = null, $limit = 10)
     {
         if (empty($query)) {
             return array();
         }
 
         $select = $this->_getSelect()
-            ->select(array('tSku.sku AS value'))
+            ->select(array('tSku.'. $paramID . ' AS value'))
             ->from(ZOO_TABLE_JBZOO_SKU . ' AS tSku')
             ->innerJoin(ZOO_TABLE_ITEM . ' AS tItem ON tItem.id = tSku.item_id')
             ->where('tItem.application_id = ?', (int)$applicationId)
             ->where('tItem.type = ?', $type)
-            ->where($this->_buildLikeBySpaces($query, 'tSku.sku'))
-            ->group('tSku.sku')
-            ->order('tSku.sku ASC')
+            ->where('tSku.element_id = ?', $element)
+            ->where($this->_buildLikeBySpaces($query, 'tSku.' . $paramID))
+            ->group('tSku.' . $paramID)
+            ->order('tSku.'.$paramID. ' ASC')
             ->limit($limit);
 
         return $this->fetchAll($select);

@@ -67,7 +67,12 @@ class JBPriceFilterElement
     /**
      * @var JBHTMLHelper
      */
-    protected $_jbhtml = null;
+    public $html = null;
+
+    /**
+     * @var JBMoneyHelper
+     */
+    public $money = null;
 
     /**
      * @param       $element
@@ -94,7 +99,8 @@ class JBPriceFilterElement
         $this->_attrs  = $this->_getAttrs($attrs);
         $this->_config = $element->config;
 
-        $this->_jbhtml = $this->app->jbhtml;
+        $this->html  = $this->app->jbhtml;
+        $this->money = $this->app->jbmoney;
     }
 
     /**
@@ -167,8 +173,11 @@ class JBPriceFilterElement
      */
     protected function _getDbValues()
     {
+        $paramID = str_replace('_', '', $this->_identifier);
+
         return JBModelValues::model()->getParamsValues(
-            $this->_identifier,
+            $this->_jbprice->identifier,
+            $paramID,
             $this->_params->get('item_type', null),
             $this->_params->get('item_application_id', null)
         );
@@ -298,13 +307,18 @@ class JBPriceFilterElement
      */
     protected function _getName($postFix = null)
     {
-        $name = 'e[' . $this->_identifier . ']';
+        $name = 'e[' . $this->_jbprice->identifier . ']';
+
         if (!$this->_element->isCore()) {
             $name = 'e[' . $this->_jbprice->identifier . '][params][' . $this->_identifier . ']';
         }
 
         if ($postFix !== null) {
             $name .= '[' . $postFix . ']';
+        }
+
+        if ($postFix === null && $this->_element->isCore()) {
+            $name .= '[' . $this->_identifier . ']';
         }
 
         return $name;

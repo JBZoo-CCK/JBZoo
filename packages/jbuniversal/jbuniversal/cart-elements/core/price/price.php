@@ -196,7 +196,7 @@ abstract class JBCartElementPrice extends JBCartElement
         $variant = $this->config->get('_variant');
 
         $currency = $this->getElementData('_currency', $variant);
-        $currency = $currency->get('value');
+        $currency = $currency->get('value', 'EUR');
 
         if (strpos($variant, '-') !== false) {
 
@@ -211,7 +211,7 @@ abstract class JBCartElementPrice extends JBCartElement
                 $v = $jbPrice->getReadableData($v);
 
                 $variantValue    = $v->find('_value.value', 0);
-                $variantCurrency = $v->find('_currency.value');
+                $variantCurrency = $v->find('_currency.value', 'EUR');
 
                 $value = $this->_jbmoney->calcDiscount($value, $currency, $variantValue, $variantCurrency);
             }

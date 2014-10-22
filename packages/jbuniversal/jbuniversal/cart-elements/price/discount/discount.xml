@@ -18,5 +18,18 @@
         </param>
     </params>
 
+    <params group="filter">
+        <param name="jbzoo_filter_render"
+               type="list"
+               label="JBZOO_ELEMENT_TEMPLATE"
+               description="JBZOO_ELEMENT_TEMPLATE_DESC"
+               default="discount-jqueryui"
+                >
+            <option value="discount-jqueryui">JBZOO_ELEMENT_TEMPLATE_JQUERYUI</option>
+            <option value="discount-radio">JBZOO_ELEMENT_TEMPLATE_RADIO</option>
+            <option value="discount-select">JBZOO_ELEMENT_TEMPLATE_SELECT</option>
+            <option value="discount-chosen">JBZOO_ELEMENT_TEMPLATE_SELECT_CHOSEN</option>
+        </param>
+    </params>
 
 </element>

@@ -20,7 +20,7 @@ $attributes = array(
 
 if (count($data)) : ?>
 
-    <div class="jbprice-param-select jbprice-param-list ">
+    <div class="jbprice-param-select jbprice-param-list">
         <?php echo $this->app->jbhtml->select($data, $this->getRenderName('value'), $attributes,
             $this->getValue('value')); ?>
     </div>
