@@ -79,11 +79,11 @@ $mode = (int)$params->get('only_price_mode', 1);
     <?php endif; ?>
 
     <?php if ($mode == ElementJBPriceAdvance::PRICE_VIEW_PRICE) : ?>
-        <span class="price"><?php echo $base['price']; ?></span>
+        <span class="jsPrice price"><?php echo $base['price']; ?></span>
     <?php endif; ?>
 
     <?php if ($mode == ElementJBPriceAdvance::PRICE_VIEW_TOTAL) : ?>
-        <span class="price"><?php echo $base['total']; ?></span>
+        <span class="jsTotal price"><?php echo $base['total']; ?></span>
     <?php endif; ?>
 
     <?php if ($mode == ElementJBPriceAdvance::PRICE_VIEW_DISCOUNT && $discount['value']) : ?>
@@ -97,8 +97,6 @@ $mode = (int)$params->get('only_price_mode', 1);
     <?php endif; ?>
 
     <?php if ($mode == ElementJBPriceAdvance::PRICE_VIEW_SAVE && $base['save']) : ?>
-        <span class="discount"><?php echo $base['save']; ?></span>
+        <span class="jsSave discount"><?php echo $base['save']; ?></span>
     <?php endif; ?>
 </div>
-
-
