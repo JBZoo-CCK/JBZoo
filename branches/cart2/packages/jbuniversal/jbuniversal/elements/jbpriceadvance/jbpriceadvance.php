@@ -1331,6 +1331,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      */
     public function getCoreParamsConfig()
     {
+        if (!$this->_layout) {
+            return false;
+        }
+        
         if (!$this->core_params) {
 
             $config = JBCart::CONFIG_PRICE_TMPL . '.' . $this->identifier . '.' . $this->_layout;
