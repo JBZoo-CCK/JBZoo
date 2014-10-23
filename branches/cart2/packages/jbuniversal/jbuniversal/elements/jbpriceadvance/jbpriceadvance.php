@@ -390,9 +390,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                         'ajaxRemoveFromCart'),
                 'changeVariantUrl'  => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxChangeVariant',
                         array(
-                            'elem_layout'   => $params->get('_layout'),
-                            'elem_position' => $params->get('_position'),
-                            'elem_index'    => $params->get('_index'),
+                            'template' => $this->_layout
                         )),
                 'modalUrl'          => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxModalWindow',
                         array(
@@ -1710,36 +1708,32 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
-     * @param string $layout
-     * @param string $position
+     * @param string $template
      * @param array $values
-     * @param int $index
      */
-    public function ajaxChangeVariant($layout = 'full', $position = '', $index = 1, $values = array())
+    public function ajaxChangeVariant($template = 'default', $values = array())
     {
-        if ($params = $this->_getRenderParams($layout, $position, $index)) {
+        $this->_layout = $template;
 
-            $priceMode = (int)$this->config->get('price_mode', 1);
+        $priceMode = (int)$this->config->get('price_mode', 1);
+        $variant   = array();
 
-            $variant = array();
-            if ($priceMode == self::PRICE_MODE_OVERLAY) {
-                $variant = $this->getVariantByValuesOverlay($values);
-            } else if ($priceMode == self::PRICE_MODE_DEFAULT) {
-                $variant = $this->getVariantByValues($values);
-            }
+        if ($priceMode == self::PRICE_MODE_OVERLAY) {
+            $variant = $this->getVariantByValuesOverlay($values);
+        } else if ($priceMode == self::PRICE_MODE_DEFAULT) {
+            $variant = $this->getVariantByValues($values);
+        }
 
-            $prices = $this->getPricesByVariant($variant);
+        $prices = $this->getPricesByVariant($variant);
 
-            if (!empty($prices)) {
-                $this->app->jbajax->send(
-                    $prices
-                );
-            }
-
-            $this->app->jbajax->send(array(), false);
+        if (!empty($prices)) {
+            $this->app->jbajax->send(
+                $prices
+            );
         }
 
         $this->app->jbajax->send(array(), false);
+
     }
 
     /**
@@ -1802,13 +1796,14 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         $items = $cart->getItems(false);
         $keys  = explode('_', $key);
 
-        $no = null;
+        $no = false;
         if (count($keys) === 3) {
             list(, $no,) = $keys;
         }
 
-        if (!$data = $this->getVariations($no)) {
-            $data = $this->getBasicData();
+        $data = (array)$this->getBasicData();
+        if (JString::strlen($no) > 0) {
+            $data = $this->getVariations($no);
         }
 
         $data  = $this->getReadableData($data);
