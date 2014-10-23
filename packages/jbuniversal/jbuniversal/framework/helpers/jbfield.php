@@ -473,7 +473,7 @@ class JBFieldHelper extends AppHelper
         $style = 'size="5"';
         $name  = $this->_getName($controlName, $name);
         $name  = $multiple ? $name . '[]' : $name;
-        
+
         $style .= $multiple ? ' multiple="multiple"' : null;
 
         $select =
@@ -505,15 +505,26 @@ class JBFieldHelper extends AppHelper
         $userName  = $name . '[user][]';
         $advName   = $name . '[advanced]';
 
-        $adminAttrs  = array(
+        $adminAttrs = array(
             'multiple' => 'true',
             'style'    => 'height: 150px;'
         );
-        $userOptions = array(
+
+        $fields = $this->app->jbcartposition->loadPositions(JBCart::CONFIG_FIELDS, array(JBCart::DEFAULT_POSITION));
+        $fields = $fields['list'];
+        $forms  = array();
+
+        if (!empty($fields)) {
+            foreach ($fields as $key => $field) {
+                $forms[$key] = $field->getName();
+            }
+        }
+
+        $userOptions = array_merge(array(
             'profile' => JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_USER_EMAIL'),
-            'order'   => JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_ORDER_EMAIL'),
-        );
-        $userAttrs   = array(
+        ), $forms);
+
+        $userAttrs = array(
             'multiple' => true
         );
 

@@ -23,8 +23,7 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
      */
     protected $_mailer;
 
-    const RECIPIENT_USER_PROFILE = 'user';
-    const RECIPIENT_USER_ORDER = 'order';
+    const RECIPIENT_USER_PROFILE = 'profile';
 
     /**
      * Class constructor
@@ -281,7 +280,17 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
                     $this->_send();
 
                     //send to email from order field email
-                } else if ($type == self::RECIPIENT_USER_ORDER) {
+                } else {
+                    $order   = $this->getOrder();
+                    $element = $order->getFieldElement($type);
+
+                    if ($element) {
+                        
+                        $email = $element->data()->get('value');
+
+                        $this->addRecipient($email);
+                        $this->_send();
+                    }
 
                 }
 
