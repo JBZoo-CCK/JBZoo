@@ -452,7 +452,7 @@
             (function () {
                 $obj.addClass(options.isInCart ? 'in-cart' : 'not-in-cart');
 
-                $(".jbcurrency-" + currency, $obj).addClass('active');
+                $(".jbcurrency-" + currency, $obj).addClass('active').trigger('click');
 
                 changeImage();
             }());
