@@ -84,7 +84,7 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
      */
     public function getHTML()
     {
-        $layout = $this->config->get('layout_email', 'default');
+        $layout = $this->config->get('layout_email', 'order');
         $html   = '';
 
         $html .= $this->renderer->render($layout, array(

@@ -13,15 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$attributes = array(
-    'data-identifier' => $this->identifier
-);
-
-if (count($data)) : ?>
-
-    <div class="jbprice-param-radio jbprice-param-list jbpriceParams" data-type="radio">
-        <?php echo $this->app->jbhtml->radio($data, $this->getRenderName('value'), $attributes,
-            $this->getValue('value')); ?>
-
-    </div>
-<?php endif;
+if (count($data)) :
+    echo $this->app->jbhtml->radio($data, $this->getRenderName('value'), null, $this->getValue('value'));
+endif;
