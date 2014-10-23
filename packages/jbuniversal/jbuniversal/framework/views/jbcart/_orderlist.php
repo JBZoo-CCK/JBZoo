@@ -17,15 +17,16 @@ if ($this->get('ordersList')) :
 
     $url = $this->app->jbrouter->admin(array(
             'task'   => 'getPreview',
-            'format' => 'raw'
+            'format' => 'raw',
+            'layout' => $this->request->get('layout', 'string')
         )
     ); ?>
 
     <div class="email-preview" data-uk-dropdown="">
 
-            <a href="" class="jsEmailTmplPreview" title="Preview">
-                <i class="uk-icon-photo uk-icon-medium"></i>
-            </a>
+        <a href="" class="jsEmailTmplPreview" title="Preview">
+            <i class="uk-icon-photo uk-icon-medium"></i>
+        </a>
 
         <div class="uk-dropdown uk-dropdown-small">
             <ul id="jsOrderList" class="uk-nav uk-nav-dropdown order-list">
