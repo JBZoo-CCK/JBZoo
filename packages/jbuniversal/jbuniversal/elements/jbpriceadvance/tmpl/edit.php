@@ -17,9 +17,10 @@ $id = uniqid('jsJBPriceAdvance-');
 
 $html = $this->app->jbhtml;
 $item = $this->getItem();
+$mode = $this->config->get('mode', 0);
 ?>
 
-<div class="jbzoo-price-advance jbzoo" id="<?php echo $id; ?>" data-valid="false">
+<div class="jbzoo-price-advance jbzoo" id="<?php echo $id; ?>" data-mode="<?php echo $mode; ?>" data-valid="false">
 
     <div class="jbpriceadv-row basic-variant-wrap">
         <div class="default_variant">
@@ -69,7 +70,8 @@ $item = $this->getItem();
             >
             <?php echo JText::_('JBZOO_JBPRICE_BASIC_SKU'); ?>
         </label>
-        <?php echo $html->text($this->getControlParamName('_sku', 'value'), $basicData->find('_sku.value', $this->getItem()->id),
+        <?php echo $html->text($this->getControlParamName('_sku', 'value'),
+            $basicData->find('_sku.value', $this->getItem()->id),
             $html->buildAttrs(
                 array(
                     'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_SKU'),
@@ -111,7 +113,7 @@ $item = $this->getItem();
         $('#<?php echo $id;?>').JBZooPriceAdvanceAdmin({
             'text_variation_show' : "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?>",
             'text_variation_hide' : "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_HIDE'); ?>",
-            'price_mode'          : <?php echo $this->config->get('price_mode', 1); ?>,
+            'price_mode'          : <?php echo $this->config->get('price_mode', 0); ?>,
             'adv_field_param_edit': <?php echo (int)$config->get('adv_field_param_edit', 0); ?>
         });
 
@@ -130,9 +132,12 @@ $item = $this->getItem();
 
                 var price = jQuery(this);
 
-                price.trigger('errorsExists');
-                if (price.data('valid') === false) {
-                    valid = false;
+                if (price.data('mode') > 0) {
+
+                    price.trigger('errorsExists');
+                    if (price.data('valid') === false) {
+                        valid = false;
+                    }
                 }
 
             });

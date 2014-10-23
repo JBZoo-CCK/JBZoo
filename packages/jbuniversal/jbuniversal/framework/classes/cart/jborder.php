@@ -262,8 +262,10 @@ class JBCartOrder
 
     /**
      * Set the Order published state
+     *
      * @param string $statusCode The new Order state code
      * @param string $type Status type
+     *
      * @return $this
      */
     public function setStatus($statusCode, $type = JBCart::STATUS_ORDER)
@@ -280,6 +282,7 @@ class JBCartOrder
 
             if (!$this->_status) {
                 $this->_status = $newStatus;
+
                 return $this;
 
             } else if ($this->_status->getCode() != $newCode) {
@@ -311,7 +314,9 @@ class JBCartOrder
 
     /**
      * Set the Order published state
+     *
      * @param string $statusCode The new Order state code
+     *
      * @return $this
      */
     public function setPaymentStatus($statusCode)
@@ -333,7 +338,8 @@ class JBCartOrder
             $this->_status = $newStatus;
 
             // fire event
-            $this->app->event->dispatcher->notify($this->app->event->create($this, 'Order:stateChanged', compact('oldState')));
+            $this->app->event->dispatcher->notify($this->app->event->create($this, 'Order:stateChanged',
+                compact('oldState')));
         }
 
         return $this;
@@ -468,7 +474,8 @@ class JBCartOrder
 
         if (isset($formData[JBCart::ELEMENT_TYPE_SHIPPINGFIELD])) {
             $params = $this->app->jbrenderer->create('ShippingFields')->getLayoutParams();
-            $errors += $this->_bindElements($formData[JBCart::ELEMENT_TYPE_SHIPPINGFIELD], JBCart::CONFIG_SHIPPINGFIELDS, $params);
+            $errors += $this->_bindElements($formData[JBCart::ELEMENT_TYPE_SHIPPINGFIELD],
+                JBCart::CONFIG_SHIPPINGFIELDS, $params);
         }
 
         if (isset($formData[JBCart::ELEMENT_TYPE_SHIPPING])) {
@@ -753,8 +760,11 @@ class JBCartOrder
     public function getShippingFields()
     {
         $result = array();
-        foreach ($this->_elements[JBCart::ELEMENT_TYPE_SHIPPINGFIELD] as $element) {
-            $result[$element->identifier] = $element->data();
+
+        if (isset($this->_elements[JBCart::ELEMENT_TYPE_SHIPPINGFIELD])) {
+            foreach ($this->_elements[JBCart::ELEMENT_TYPE_SHIPPINGFIELD] as $element) {
+                $result[$element->identifier] = $element->data();
+            }
         }
 
         return $this->app->data->create($result);
@@ -766,12 +776,15 @@ class JBCartOrder
      */
     public function getModifiersData()
     {
-        $elementsGroups = $this->_elements[JBCart::ELEMENT_TYPE_MODIFIERS];
-
         $result = array();
-        foreach ($elementsGroups as $groupName => $elements) {
-            foreach ($elements as $element) {
-                $result[$groupName][$element->identifier] = $element->data();
+
+        if (isset($this->_elements[JBCart::ELEMENT_TYPE_MODIFIERS])) {
+
+            $elementsGroups = $this->_elements[JBCart::ELEMENT_TYPE_MODIFIERS];
+            foreach ($elementsGroups as $groupName => $elements) {
+                foreach ($elements as $element) {
+                    $result[$groupName][$element->identifier] = $element->data();
+                }
             }
         }
 
@@ -835,6 +848,7 @@ class JBCartOrder
     /**
      * @param $data
      * @param $status
+     *
      * @return null
      */
     public function setPaymentData($data, $status = 'undefined')
@@ -860,6 +874,7 @@ class JBCartOrder
     /**
      * @param $data
      * @param $status
+     *
      * @return null
      */
     public function setShippingData($data, $status = 'undefined')
