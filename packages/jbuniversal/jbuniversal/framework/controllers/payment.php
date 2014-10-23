@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Class paymentJBUniversalController
  */
-class paymentJBUniversalController extends JBUniversalController
+class PaymentJBUniversalController extends JBUniversalController
 {
     /**
      * @var JBCartOrder
@@ -152,8 +152,12 @@ class paymentJBUniversalController extends JBUniversalController
      */
     protected function _error($message)
     {
-        //jbdump::log($message);
-        throw new AppException($message);
+        if (class_exists('jbdump')) {
+            jbdump::log($message);
+            die('' . $message);
+        } else {
+            throw new AppException($message);
+        }
     }
 
 }
