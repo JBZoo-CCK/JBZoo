@@ -353,7 +353,7 @@ class JBCartOrder
      */
     public function getElement($identifier, $type = JBCart::CONFIG_FIELDS)
     {
-        if (isset($this->_elements[$type][$identifier])) {
+        if (isset($this->_elements[$type]) && isset($this->_elements[$type][$identifier])) {
             return $this->_elements[$type][$identifier];
         }
 
