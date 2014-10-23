@@ -1140,7 +1140,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     public function setItem($item)
     {
         parent::setItem($item);
-        $this->getParams();
+        $this->getParamsConfig();
     }
 
     /**
@@ -1332,9 +1332,9 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     public function getCoreParamsConfig()
     {
         if (!$this->_layout) {
-            return false;
+            return array();
         }
-        
+
         if (!$this->core_params) {
 
             $config = JBCart::CONFIG_PRICE_TMPL . '.' . $this->identifier . '.' . $this->_layout;
