@@ -439,8 +439,6 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
             $variant = $this->getVariations($default);
 
-            $variant['no'] = $default;
-
             return $variant;
         }
 
@@ -1383,8 +1381,14 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         $default = $this->_getDefaultData();
 
         if (isset($variant)) {
-            if (isset($data['variations'][$variant])) {
-                return array_merge($default, $data['variations'][$variant]);
+
+            if ($data->find('variations.' . $variant)) {
+
+                $data = $data->find('variations.' . $variant);
+
+                $data['no'] = $variant;
+
+                return $data;
             }
 
             return $result;
