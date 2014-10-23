@@ -342,6 +342,7 @@
                 $(".jbprice-" + currency, $obj).addClass('active');
                 $(".jsPriceCurrency", $obj).removeClass('active');
                 $cur.addClass("active");
+
                 togglePrices(currency);
             });
 
@@ -452,7 +453,7 @@
             (function () {
                 $obj.addClass(options.isInCart ? 'in-cart' : 'not-in-cart');
 
-                $(".jbcurrency-" + currency, $obj).addClass('active').trigger('click');
+                $(".jbcurrency-" + currency, $obj).addClass('active');
 
                 changeImage();
             }());
