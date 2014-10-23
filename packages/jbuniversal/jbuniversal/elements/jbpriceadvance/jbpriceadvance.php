@@ -269,7 +269,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      *
      * @param string $id
      * @param string $name
-     * @param bool   $array
+     * @param bool $array
      *
      * @return string
      */
@@ -294,7 +294,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      *
      * @param string $id
      * @param string $name
-     * @param int    $index
+     * @param int $index
      *
      * @return string
      */
@@ -306,8 +306,8 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     /**
      * @param string $id
      * @param string $name
-     * @param int    $key
-     * @param int    $index
+     * @param int $key
+     * @param int $index
      *
      * @return string
      */
@@ -506,7 +506,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      * TODO Remove this hack
      *
      * @param JSONData|array $params
-     * @param string         $prefix
+     * @param string $prefix
      *
      * @return JSONData|array
      */
@@ -919,7 +919,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
-     * @param array  $variant
+     * @param array $variant
      * @param string $currency
      *
      * @return array|float|mixed
@@ -930,9 +930,14 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             return $variant;
         }
 
-        $default = $this->_getDefaultCurrency();
+        $default = $currency;
 
-        $basic   = $this->getBasicReadableData();
+        $basic = $this->getBasicReadableData();
+
+        /*$variant = array_filter(array_map('array_filter', (array)$variant));
+        $variant = array_merge((array)$basic, (array)$variant);
+        $variant = $this->app->data->create($variant);*/
+
         $variant = $this->getReadableData($variant);
 
         $basicCurrency = $basic->find('_currency.value', $default);
@@ -954,7 +959,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         }
 
         $total = $this->_jbmoney->calcDiscount($price, $variantCurrency, $discountVal, $discountCur);
-        $total = $this->_jbmoney->convert($variantCurrency, $currency, $total);
+        $total = $this->_jbmoney->convert($variantCurrency, $default, $total);
 
         $sku = $variant->find('_sku.value');
         $sku = JString::strlen($sku) === 0 ? $basic->find('_sku.value') : $sku;
@@ -965,7 +970,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             'item_id'     => $this->getItem()->id,
             'sku'         => $sku,
             'name'        => $this->getItem()->name,
-            'currency'    => $variantCurrency,
+            'currency'    => $currency,
             'image'       => $variant->find('_image.value'),
             'params'      =>
                 array(
@@ -984,21 +989,27 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     /**
      * Render JBPriceAdvance elements html
      *
-     * @param string   $identifier - element identifier
-     * @param null|int $variant    - number of variant
+     * @param string $identifier - element identifier
+     * @param null|int $variant - number of variant
      *
      * @return mixed|null|string
      */
     public function renderElementHTML($identifier, $variant = null)
     {
         $params = $this->getCoreParamConfig($identifier);
-        $html   = null;
+
+        $html = null;
         if ($params) {
             $element = $this->getParam($identifier, $variant);
             $html    = $element->render($params);
         }
 
         return $html;
+    }
+
+    public function mergeVariant($variant, $basic = array())
+    {
+        $basic = $this->getBasicReadableData();
     }
 
     /**
@@ -1129,7 +1140,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     public function setItem($item)
     {
         parent::setItem($item);
-        $this->getParamsConfig();
+        $this->getParams();
     }
 
     /**
@@ -1175,8 +1186,8 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
-     * @param  string   $identifier elementID
-     * @param  null|int $variant    variant key
+     * @param  string $identifier elementID
+     * @param  null|int $variant variant key
      *
      * @return bool|JBCartElement|null
      */
@@ -1588,9 +1599,9 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     /**
      * Ajax add to cart method
      *
-     * @param int   $quantity
+     * @param int $quantity
      * @param array $values
-     * @param bool  $sendAjax
+     * @param bool $sendAjax
      */
     public function ajaxAddToCart($quantity = 1, $values = array(), $sendAjax = true)
     {
@@ -1691,8 +1702,8 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     /**
      * @param string $layout
      * @param string $position
-     * @param array  $values
-     * @param int    $index
+     * @param array $values
+     * @param int $index
      */
     public function ajaxChangeVariant($layout = 'full', $position = '', $index = 1, $values = array())
     {
@@ -1726,7 +1737,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      *
      * @param string $layout
      * @param string $position
-     * @param int    $index
+     * @param int $index
      */
     public function ajaxModalWindow($layout = 'full', $position = '', $index = 1)
     {
