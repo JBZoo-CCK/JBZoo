@@ -39,12 +39,13 @@ abstract class JBCartElementNotification extends JBCartElement
      * @var array
      */
     protected $_secondaryMacros = array(
-        '{date}'       => '',
-        '{order_id}'   => '',
-        '{sitename}'   => '',
-        '{user_id} '   => '',
-        '{username}'   => '',
-        '{created_by}' => ''
+        '{date}'         => '',
+        '{order_id}'     => '',
+        '{order_status}' => '',
+        '{sitename}'     => '',
+        '{user_id} '     => '',
+        '{username}'     => '',
+        '{created_by}'   => ''
     );
 
     /**
@@ -73,7 +74,7 @@ abstract class JBCartElementNotification extends JBCartElement
     /**
      * Class constructor
      *
-     * @param App    $app
+     * @param App $app
      * @param string $type
      * @param string $group
      */
@@ -171,9 +172,9 @@ abstract class JBCartElementNotification extends JBCartElement
     /**
      * Make request to service and get results
      *
-     * @param  string $url    - Shipping service url.
+     * @param  string $url - Shipping service url.
      * @param  string $method - POST, GET.
-     * @param  array  $data   - Data for POST $method
+     * @param  array $data - Data for POST $method
      *
      * @return bool|array
      */
@@ -258,18 +259,20 @@ abstract class JBCartElementNotification extends JBCartElement
 
         $sitename   = JFactory::getConfig()->get('sitename');
         $order_id   = $order ? $order->id : '';
+        $status     = $order ? $order->getStatus()->getCode() : '';
         $created_by = $order ? JFactory::getUser($order->created_by)->username : $guest;
 
         $username = $user->get('username');
         $username = $username === null && $created_by === null ? $guest : $created_by;
 
         $this->_secondaryMacros = array_merge($this->_secondaryMacros, array(
-            '{date}'       => date('Y-m-d H:m'),
-            '{order_id}'   => $order_id,
-            '{sitename}'   => $sitename,
-            '{user_id} '   => $user->get('id', $guest),
-            '{username}'   => $username,
-            '{created_by}' => $created_by
+            '{date}'         => date('Y-m-d H:m'),
+            '{order_id}'     => $order_id,
+            '{order_status}' => $status,
+            '{sitename}'     => $sitename,
+            '{user_id} '     => $user->get('id', $guest),
+            '{username}'     => $username,
+            '{created_by}'   => $created_by
         ));
 
         $this->_macros = array_merge($this->_secondaryMacros, $this->_secondaryMacros);
@@ -281,7 +284,7 @@ abstract class JBCartElementNotification extends JBCartElement
     /**
      * Cleans data
      *
-     * @param  string         $data
+     * @param  string $data
      * @param  string|boolean $charlist
      *
      * @return string mixed
@@ -311,7 +314,7 @@ abstract class JBCartElementNotification extends JBCartElement
     }
 
     /**
-     * @param  string      $str
+     * @param  string $str
      * @param  bool|string $charlist
      *
      * @return mixed|string
