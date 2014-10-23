@@ -934,7 +934,9 @@ var reCount = {
     $.fn.JBZooBasket = function (options) {
 
         var options = $.extend({}, {}, options),
-            shipping = $('.jbzoo .shipping-list').JBCartShipping();
+            shipping = $('.jbzoo .shipping-list').JBCartShipping({
+                'no_value_message': 'Free'
+            });
 
         return $(this).each(function () {
 
@@ -1006,20 +1008,21 @@ var reCount = {
                     });
                 }
 
+                shipping.recount();
+
                 var count = $('.jsTotalCount .jsValue', $obj),
                     total = $('.jsTotalPrice .jsValue', $obj),
                     morph = $('.jsMorphology', $obj),
                     word = morph.data('word');
 
                 morph.html(word + morphology(data.count));
+
                 $(count).reCount(data.count, {
                     'decimals': 1,
                     'duration': 100
 
                 });
                 $(total).reCount(data.total);
-
-                shipping.recount();
             };
 
             function deleteItem($button) {
@@ -1032,6 +1035,7 @@ var reCount = {
                     'data'   : {
                         'itemid': itemid,
                         'key'   : key
+                        //'shipping': JSON.stringify(shipping.getParams())
                     },
                     'success': function (data) {
                         var $row = $button.closest('tr');
@@ -1089,7 +1093,7 @@ var reCount = {
                     if ($input.val().length && value > 0) {
                         lastQuantityVal = value;
                         JBZoo.ajax({
-                            'url'    : options.quantityUrl,
+                            'url'    : options.quantityUrl + '&' + shipping.getParams(),
                             'data'   : {
                                 'value': value,
                                 'key'  : key
@@ -1588,238 +1592,225 @@ var reCount = {
 
     $.fn.JBZooPriceAdvanceDefaultValidator = function (parent) {
 
-        var global = parent;
+        var $this = parent;
+        $this.super = parent;
 
-        $(this).each(function () {
+        $this.refreshAllModeDefault = function () {
 
-            var $this = $(this);
-            $this.super = global;
+            $('.jbpriceadv-variation-row', $this).each(function () {
 
-            function addEmptyMessage($row) {
-                $row.attr('title', 'These variation is empty');
-                $row.tooltip();
-            }
+                var $row = $(this);
+                $('.simple-param', $row).each(function () {
 
-            function scrollToRow($row) {
+                    var $param = $(this);
 
-                if (typeof $row != 'undefined' && $row.length > 0) {
-                    $row.removeClass('fieldset-hidden');
-                    $row.addClass('visible');
+                    bindChangeEventModeDefault($param);
+                });
+            });
+        };
 
-                    $('html, body').stop(true).animate({
-                        scrollTo: $row.offset().top
-                    }, 500);
+        $this.showErrors = function () {
 
-                    return true;
-                }
+            $this.clearStyles();
+            var data = validateModeDefault();
 
-                var data = validateModeDefault();
+            if (Object.keys(data).length > 0) {
 
-                for (var i in data) {
+                var $attention = null;
+                for (var j in data) {
+                    var $row = $('.jbpriceadv-variation-row', $this).eq(data[j].variant);
+                    $this.setValid(false);
 
-                    var variant = data[i].variant;
-                    break;
-                }
+                    if (data[j].exists === false) {
 
-                if (Object.keys(data).length > 0) {
+                        $this.super.setValid(false);
 
-                    if ($('.variations', $this).is(':hidden')) {
-                        $('.jsShowVariations', $this).trigger('click');
+                    } else if (data[j].empty == true) {
+
+                        $this.setValid(false);
+                        $attention = $('.variation-label .jsAttention', $row);
+                        $attention.addClass('error');
+                        $this.addTooltipEmptyMessage($attention);
                     }
 
-                    var $first = $('.jbpriceadv-variation-row', $this).eq(variant);
+                    for (var p in data[j].repeat) {
 
-                    $first.removeClass('fieldset-hidden');
-                    $first.addClass('visible');
+                        var $jbpriceParams = $('.jbprice-params', $row),
+                            $paramByIndex = $jbpriceParams.children().eq(data[j].repeat[p].elem_index);
+                        $attention = $('.jsJBPriceAttention', $paramByIndex);
 
-                    $('html, body').stop(true).animate({
-                        scrollTo: $first.offset().top
-                    }, 500);
+                        $attention.addClass('error');
+                        $this.addTooltipMessage($attention);
+                    }
+
                 }
+            } else {
+                $this.setValid(true);
+            }
+        };
 
-                return false;
+        function addEmptyMessage($row) {
+            $row.attr('title', 'These variation is empty');
+            $row.tooltip();
+        }
+
+        function scrollToRow($row) {
+
+            if (typeof $row != 'undefined' && $row.length > 0) {
+                $row.removeClass('fieldset-hidden');
+                $row.addClass('visible');
+
+                $('html, body').stop(true).animate({
+                    scrollTop: $row.offset().top
+                }, 500);
+
+                return true;
             }
 
-            function validateModeDefault() {
+            var data = validateModeDefault();
 
-                var objects = {},
-                    result = {},
-                    value = '';
+            if (Object.keys(data).length > 0) {
 
-                $('.jbpriceadv-variation-row', $this).each(function (i) {
+                var first = data[Object.keys(data)[0]];
 
-                    var $row = $(this),
-                        param = {};
+                if ($('.variations', $this).is(':hidden')) {
+                    $('.jsShowVariations', $this).trigger('click');
+                }
 
-                    var exists = $('.simple-param', $row).each(function (p) {
+                var $first = $('.jbpriceadv-variation-row', $this).eq(first['variant']);
 
-                        var $param = $(this);
+                $first.removeClass('fieldset-hidden');
+                $first.addClass('visible');
 
-                        value = $this.super.setStatus($param);
+                $('html, body').stop(true).animate({
+                    scrollTop: $first.offset().top
+                }, 500);
+            }
 
-                        if (value.length > 0) {
-                            param[p] = {
-                                'value' : value,
-                                'index' : $param.index(),
-                                'exists': true
-                            };
-                        }
+            return false;
+        }
 
-                    });
+        function validateModeDefault() {
 
-                    if (Object.keys(param).length > 0) {
-                        objects[i] = param;
+            var objects = {},
+                result = {},
+                value = '';
 
-                    } else if (exists.length === 0) {
-                        objects[i] = {
-                            'exists': false
-                        }
+            $('.jbpriceadv-variation-row', $this).each(function (i) {
 
-                    } else if ($('.jbpriceadv-variation-row', $this).length > 1) {
-                        objects[i] = {
-                            'empty': true
+                var $row = $(this),
+                    param = {};
+
+                var exists = $('.simple-param', $row).each(function (p) {
+
+                    var $param = $(this);
+
+                    value = $this.setStatus($param);
+
+                    if (value.length > 0) {
+                        param[p] = {
+                            'value' : value,
+                            'index' : $param.index(),
+                            'exists': true
                         };
                     }
+
                 });
 
-                for (var n in objects) {
-                    var data = objects[n],
-                        repeatable = {};
-                    for (var key in objects) {
-                        for (var j in objects[key]) {
-                            if (typeof data[j] == 'object' && typeof objects[key][j] == 'object') {
-                                var dataIndex = $.trim(data[j].index),
-                                    dataValue = $.trim(data[j].value);
+                if (Object.keys(param).length > 0) {
+                    objects[i] = param;
 
-                                if ($.trim(objects[key][j].index) == dataIndex &&
-                                    $.trim(objects[key][j].value) == dataValue &&
-                                    $.trim(Object.keys(objects[key]).length) ==
-                                        $.trim(Object.keys(data).length) &&
-                                    n != key
-                                    ) {
+                } /*else if (exists.length === 0) {
+                 objects[i] = {
+                 'exists': false
+                 }
 
-                                    repeatable[dataIndex] = {
-                                        'variant'   : key,
-                                        'elem_index': dataIndex,
-                                        'elem_value': dataValue
-                                    };
+                 }*/ else if ($('.jbpriceadv-variation-row', $this).length > 1 && exists.length !== 0) {
+                    objects[i] = {
+                        'empty': true
+                    };
+                }
+            });
 
-                                }
+            for (var n in objects) {
+                var data = objects[n],
+                    repeatable = {};
+                for (var key in objects) {
+                    for (var j in objects[key]) {
+                        if (typeof data[j] == 'object' && typeof objects[key][j] == 'object') {
+                            var dataIndex = $.trim(data[j].index),
+                                dataValue = $.trim(data[j].value);
+
+                            if ($.trim(objects[key][j].index) == dataIndex &&
+                                $.trim(objects[key][j].value) == dataValue &&
+                                $.trim(Object.keys(objects[key]).length) ==
+                                    $.trim(Object.keys(data).length) &&
+                                n != key
+                                ) {
+
+                                repeatable[dataIndex] = {
+                                    'variant'   : key,
+                                    'elem_index': dataIndex,
+                                    'elem_value': dataValue
+                                };
+
                             }
                         }
                     }
-                    if (data.exists === false) {
-                        result[n] = {
-                            'variant': n,
-                            'exists' : data.exists
-                        }
-
-                    } else if (data.empty === true) {
-                        result[n] = {
-                            'variant': n,
-                            'empty'  : data.empty
-                        };
-
-                    } else if (Object.keys(data).length > 0 &&
-                        Object.keys(repeatable).length == Object.keys(data).length) {
-                        result[n] = {
-                            'variant': n,
-                            'length' : Object.keys(data).length,
-                            'repeat' : repeatable
-                        };
-
-                    }
                 }
+                if (data.exists === false) {
+                    result[n] = {
+                        'variant': n,
+                        'exists' : data.exists
+                    }
 
-                return result;
+                } else if (data.empty === true) {
+                    result[n] = {
+                        'variant': n,
+                        'empty'  : data.empty
+                    };
+
+                } else if (Object.keys(data).length > 0 &&
+                    Object.keys(repeatable).length == Object.keys(data).length) {
+                    result[n] = {
+                        'variant': n,
+                        'length' : Object.keys(data).length,
+                        'repeat' : repeatable
+                    };
+
+                }
             }
 
-            function bindChangeEventModeDefault($param) {
+            return result;
+        }
 
-                $('input, select', $param).on('change', function () {
+        function bindChangeEventModeDefault($param) {
 
-                    $this.super.clearStyles();
-                    $this.super.insertOptions();
-                    global.showErrors();
+            $('input, select', $param).on('change', function () {
 
-                });
-            }
+                $this.clearStyles();
+                $this.insertOptions();
+                $this.showErrors();
+            });
+        }
 
-            global.showErrors = function () {
+        $this.refreshAllModeDefault();
+        $this.insertOptions();
 
-                $this.super.clearStyles();
-                var data = validateModeDefault();
-
-                if (Object.keys(data).length > 0) {
-
-                    var $attention = null;
-                    for (var j in data) {
-                        var $row = $('.jbpriceadv-variation-row', $this).eq(data[j].variant);
-                        $this.super.setValid(false);
-
-                        if (data[j].exists === false) {
-
-                            $this.super.setValid(false);
-
-                        } else if (data[j].empty == true) {
-
-                            $this.super.setValid(false);
-                            $attention = $('.variation-label .jsAttention', $row);
-                            $attention.addClass('error');
-                            $this.super.addTooltipEmptyMessage($attention);
-                        }
-
-                        for (var p in data[j].repeat) {
-
-                            var $jbpriceParams = $('.jbprice-params', $row),
-                                $paramByIndex = $jbpriceParams.children().eq(data[j].repeat[p].elem_index);
-                            $attention = $('.jsJBPriceAttention', $paramByIndex);
-
-                            $attention.addClass('error');
-                            $this.super.addTooltipMessage($attention);
-                        }
-
-                    }
-                } else {
-                    $this.super.setValid(true);
-                }
-            };
-
-            $this.refreshAllModeDefault = function () {
-
-                $('.jbpriceadv-variation-row', $this).each(function () {
-
-                    var $row = $(this);
-                    $('.simple-param', $row).each(function () {
-
-                        var $param = $(this);
-
-                        bindChangeEventModeDefault($param);
-                    });
-                });
-            };
+        $this.on('newvariation', function () {
 
             $this.refreshAllModeDefault();
-            $this.super.insertOptions();
-            global.showErrors();
-
-            $this.on('newvariation', function () {
-
-                $this.refreshAllModeDefault();
-            });
-
-            $this.on('errorsExists', function () {
-
-                global.showErrors();
-                if ($this.data('valid') === false) {
-                    scrollToRow();
-                }
-            });
-
-            $this.addClass('init');
-
-            return $this;
         });
+
+        $this.on('errorsExists', function () {
+
+            $this.showErrors();
+            if ($this.data('valid') == false) {
+                scrollToRow();
+            }
+        });
+
+        return $this;
     };
 
     $.fn.JBZooPriceAdvanceOverlayValidator = function (parent) {
@@ -1831,7 +1822,7 @@ var reCount = {
             var $this = $(this);
 
             if ($this.hasClass('init')) {
-                return $this;
+                //return $this;
             }
             $this.super = global;
 
@@ -1842,7 +1833,7 @@ var reCount = {
                     $row.addClass('visible');
 
                     $('html, body').stop(true).animate({
-                        scrollTo: $row.offset().top
+                        scrollTop: $row.offset().top
                     }, 500);
 
                     return true;
@@ -1853,7 +1844,6 @@ var reCount = {
                 for (var i in data) {
 
                     var variant = data[i].variant;
-                    break;
                 }
 
                 if (Object.keys(data).length > 0) {
@@ -2280,7 +2270,6 @@ var reCount = {
                 'price_mode': 1
             }, options);
 
-
             if (options.price_mode === 2) {
 
                 return validator.JBZooPriceAdvanceOverlayValidator(validator);
@@ -2306,7 +2295,11 @@ var reCount = {
             var $obj = $(obj),
                 $variations = $('.variations', $obj);
 
+            if ($variations.length === 0) {
+                return false;
+            }
             options = $.extend({}, {
+                'price_mode'          : 0,
                 'text_variation_show' : 'Show variations',
                 'text_variation_hide' : 'Hide variations',
                 'adv_field_param_edit': 0,
@@ -2319,7 +2312,7 @@ var reCount = {
             var validator = $obj.JBZooPriceAdvanceValidator({
                 'price_mode': options.price_mode
             });
-            console.log(validator);
+
             bindToggleVariationEvent();
             addSortable();
 
@@ -2395,19 +2388,8 @@ var reCount = {
 
                         $toggle.on('click', function () {
 
-                            $('.jbpriceadv-variation-row', $obj)
-                                .removeClass('visible')
-                                .addClass('fieldset-hidden');
-
-                            if (!$row.hasClass('visible')) {
-                                $row
-                                    .removeClass('fieldset-hidden')
-                                    .addClass('visible');
-                            } else {
-                                $row
-                                    .removeClass('visible')
-                                    .addClass('fieldset-hidden');
-                            }
+                            $row.toggleClass('visible fieldset-hidden');
+                            $row.removeClass('visible').siblings().addClass('fieldset-hidden');
                         });
                     }
 
@@ -3256,19 +3238,51 @@ var reCount = {
         });
     };
 
-    $.fn.JBCartShipping = function () {
+    $.fn.JBCartShipping = function (settings) {
+
+        var options = $.extend({}, {
+            'no_value_message': 'Free'
+        }, settings);
 
         var byDefault = 'default',
             plugins = [],
             $this = $(this),
             create = false;
 
+        $this.getParams = function () {
+
+            var params = {};
+            for (var name in plugins) {
+
+                var plg = plugins[name];
+
+                var identifier = $('.jsInputShippingService', plg).val(),
+                    options = $('.jsMoreOptions', plg);
+
+                params[identifier] = [];
+                $('input, select', options).each(function () {
+
+                    var field = $(this);
+
+                    if (typeof field.attr('name') != 'undefined' && field.val().length > 0) {
+
+                        params[identifier].push(field.serialize());
+
+                    }
+                });
+
+            }
+
+            return $.param({'shipping': params});
+        };
+
         $this.recount = function () {
 
             for (var name in plugins) {
                 plugins[name].getPrice();
-                plugins[name].addClass('loading');
             }
+
+            //return $this.getPrice();
         };
 
         $this.createPlugins = function () {
@@ -3276,13 +3290,36 @@ var reCount = {
             //if (create === false) {
             $('.jsShippingElement', $this).each(function () {
 
-                $('select', $(this)).chosen();
-                $this.createPlugin($(this));
-                create = true;
+                if ($(this).length > 0) {
+                    $('select', $(this)).chosen();
+                    $this.createPlugin($(this));
+                    create = true;
+                }
             });
             //}
 
             return plugins;
+        };
+
+        $this.getPrice = function () {
+
+            for (var name in plugins) {
+
+                var plg = plugins[name];
+
+                if ($('.jsInputShippingService:checked', plg).length > 0) {
+
+                }
+            }
+        };
+
+        $this.setPrice = function (price) {
+
+            if (price == 0 || price == 'undefined') {
+                price = options.no_value_message;
+            }
+
+            //$('.jsShippingPrice', $this.parents('.jbzoo')).html(price);
         };
 
         var toggleShipFields = function (shipFields) {
@@ -3336,6 +3373,9 @@ var reCount = {
         $('.jsInputShippingService', $this).on('change', function () {
 
             var $element = $(this).parents('.jsShippingElement');
+            var plg = $this.createPlugin($element);
+
+            $this.setPrice(plg.price);
 
             $element.addClass('active');
             $element.siblings('.element').removeClass('active');
@@ -3343,6 +3383,7 @@ var reCount = {
             $this.toggleShipFields($element);
             $this.hide();
             $this.show($element);
+
         });
 
         $this.hide = function () {
@@ -3425,7 +3466,9 @@ var reCount = {
         $element.siblings('.element').removeClass('active');
 
         $this.createPlugins();
-        $this.toggleShipFields($element);
+        if ($element.length > 0) {
+            $this.toggleShipFields($element);
+        }
         $this.hide();
         $this.show($element);
 
@@ -3443,6 +3486,7 @@ var reCount = {
 
             var $this = $(this);
 
+            global.price = 0;
             global.getPrice = function () {
 
                 var $fields = $('.jsCalculate input:not(input:disabled), ' +
@@ -3458,23 +3502,28 @@ var reCount = {
                     }
                 });
 
-                JBZoo.ajax({
-                    'url'     : settings.getPriceUrl,
-                    'data'    : {
-                        "args": {
-                            'fields': JSON.stringify(result)
-                        }
-                    },
-                    'dataType': 'json',
-                    'success' : function (price) {
+                if (Object.keys(result).length > 0) {
+                    global.addClass('loading');
+                    JBZoo.ajax({
+                        'url'     : settings.getPriceUrl,
+                        'data'    : {
+                            "args": {
+                                'fields': JSON.stringify(result)
+                            }
+                        },
+                        'dataType': 'json',
+                        'success' : function (price) {
 
-                        $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
-                        global.removeClass('loading');
-                    },
-                    'error'   : function (error) {
-                        global.removeClass('loading');
-                    }
-                });
+                            global.price = price.price;
+                            $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
+                            global.removeClass('loading');
+                        },
+                        'error'   : function (error) {
+                            global.removeClass('loading');
+                        }
+                    });
+                }
+
             };
 
             if ($this.hasClass('shipping-init')) {
@@ -3505,6 +3554,7 @@ var reCount = {
 
             var $this = $(this);
 
+            global.price = 0;
             global.getPrice = function (to) {
 
                 if (typeof to == 'undefined' || to.length === 0) {
@@ -3512,7 +3562,7 @@ var reCount = {
                 }
 
                 var result = { to: to };
-
+                global.addClass('loading');
                 JBZoo.ajax({
                     'url'     : settings.getPriceUrl,
                     'data'    : {
@@ -3522,6 +3572,8 @@ var reCount = {
                     },
                     'dataType': 'json',
                     'success' : function (price) {
+
+                        global.price = price.price;
                         $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
                         global.removeClass('loading');
                     },
@@ -3584,6 +3636,7 @@ var reCount = {
 
             var $this = $(this);
 
+            global.price = 0;
             global.getPrice = function () {
                 var $fields = $('.jsCalculate input:not(input:disabled), ' +
                         '.jsCalculate select:not(select:disabled)', $this),
@@ -3597,7 +3650,7 @@ var reCount = {
                         result[id] = value;
                     }
                 });
-
+                global.addClass('loading');
                 JBZoo.ajax({
                     'url'     : settings.getPriceUrl,
                     'data'    : {
@@ -3607,6 +3660,8 @@ var reCount = {
                     },
                     'dataType': 'json',
                     'success' : function (price) {
+
+                        global.price = price.price;
                         $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
                         global.removeClass('loading');
                     },
