@@ -61,15 +61,17 @@ class JBUniversalController extends AppController
      */
     public function __construct($app, $config = array())
     {
+
         parent::__construct($app, $config);
 
         $this->_jbrequest = $this->app->jbrequest;
 
         $task = $this->_jbrequest->getWord('task');
+
         $ctrl = $this->_jbrequest->getCtrl();
 
         if (!method_exists($this, $task)) {
-            throw new AppException('Action method not found!  admin.' . $ctrl . ' :: ' . $task . '()');
+            throw new AppException('Action method not found!  ' . $ctrl . ' :: ' . $task . '()');
         }
 
         // internal vars

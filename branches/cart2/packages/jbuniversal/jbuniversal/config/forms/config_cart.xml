@@ -83,7 +83,7 @@
                    label="JBZOO_CART_CONFIG_PAYMENT_JBPAYMENTLINK_SUCCESS"
                    description="JBZOO_CART_CONFIG_PAYMENT_JBPAYMENTLINK_SUCCESS_DESC"/>
 
-            <field name="jbpaymentlink_status" type="jbpaymenturl" urltype="status"
+            <field name="jbpaymentlink_status" type="jbpaymenturl" urltype="callback"
                    label="JBZOO_CART_CONFIG_PAYMENT_JBPAYMENTLINK_STATUS"
                    description="JBZOO_CART_CONFIG_PAYMENT_JBPAYMENTLINK_STATUS_DESC"/>
 
