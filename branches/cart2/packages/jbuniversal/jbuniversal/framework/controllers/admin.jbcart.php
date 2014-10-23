@@ -243,7 +243,7 @@ class JBCartJBUniversalController extends JBUniversalController
         $this->groupList = $this->_element->getGroups(array(JBCart::ELEMENT_TYPE_ORDER));
         $this->positions = $this->_position->loadPositions(JBCart::CONFIG_FIELDS, array(JBCart::DEFAULT_POSITION));
 
-        $this->groupKey  = JBCart::CONFIG_FIELDS;
+        $this->groupKey = JBCart::CONFIG_FIELDS;
 
         $this->renderView();
     }
@@ -434,10 +434,9 @@ class JBCartJBUniversalController extends JBUniversalController
      * @return mixed
      * @throws Exception
      */
-    public function createEmailElement()
+    public function loadEmailElement()
     {
         $elements = $this->_position->loadElements(JBCart::ELEMENT_TYPE_NOTIFICATION);
-        $element  = null;
 
         if (empty($elements['_sendemail'])) {
 
@@ -457,8 +456,11 @@ class JBCartJBUniversalController extends JBUniversalController
         $model = JBModelOrder::model();
         $order = $model->getById($id);
 
-        $element = $this->createEmailElement();
+        $element = $this->loadEmailElement();
+        $layout  = $this->request->get('layout', 'string');
+
         $element->setSubject($order);
+        $element->config->set('layout_email', $layout);
 
         $html = $element->getHTML();
 
