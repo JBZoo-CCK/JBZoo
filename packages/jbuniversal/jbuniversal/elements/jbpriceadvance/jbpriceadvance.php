@@ -902,7 +902,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
         $calc  = $this->calcVariant($variant);
         $image = $this->getImage($calc['image']);
-        $no    = $calc['no'];
+        $no    = (int)$calc['no'];
 
         $result = array(
             'sku'         => $this->renderElementHTML('_sku', $no),

@@ -171,7 +171,7 @@
                 }
             }
 
-            function changeImage() {
+            function changeImage(animation) {
 
                 var hash = getCurrentHash();
 
@@ -183,9 +183,14 @@
 
                         if (prices[hash].image != $relatedImg.attr('src')) {
 
-                            $relatedImg.fadeOut('100', function () {
-                                $(this).attr('src', prices[hash].image).fadeIn();
-                            });
+                            if (JBZoo.empty(animation)) {
+                                $relatedImg.fadeOut('100', function () {
+                                    $(this).attr('src', prices[hash].image).fadeIn();
+                                });
+                            } else {
+
+                                $relatedImg.attr('src', prices[hash].image);
+                            }
                         }
 
                         if (prices[hash].pop_up) {
@@ -455,7 +460,7 @@
 
                 $(".jbcurrency-" + currency, $obj).addClass('active');
 
-                changeImage();
+                changeImage(true);
             }());
         });
     };
