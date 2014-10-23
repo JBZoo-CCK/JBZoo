@@ -14,7 +14,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $mode = (int)$params->get('only_price_mode', 1);
-eva::p($mode);
+var_dump($mode);
 ?>
 
 <div class="jbPriceElementValue">
