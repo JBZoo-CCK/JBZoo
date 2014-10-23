@@ -28,8 +28,10 @@
                description="JBZOO_ELEMENT_ACCESS_DESC"/>
 
         <param name="shippingfields"
-               type="jbshippingfields"
-               default=""
+               type="jbcartfields"
+               group="CONFIG_SHIPPINGFIELDS"
+               position="DEFAULT_POSITION"
+               multiple="true"
                label="JBZOO_SHIPPING_SHIPPINGFIELDS_LABEL"
                desc="JBZOO_SHIPPING_SHIPPINGFIELDS_DESC"/>
     </params>

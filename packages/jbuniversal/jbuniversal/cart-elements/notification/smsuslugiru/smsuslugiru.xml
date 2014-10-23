@@ -16,37 +16,37 @@
                type="text"
                default=""
                label="JBZOO_ELEMENT_NAME"
-               description="JBZOO_ELEMENT_NAME_DESC" />
+               description="JBZOO_ELEMENT_NAME_DESC"/>
 
         <param name="description"
                type="text"
                default=""
                label="JBZOO_ELEMENT_DESCRIPTION"
-               description="JBZOO_ELEMENT_DESCRIPTION_DESC" />
+               description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
 
         <param name="access"
                type="zooaccesslevel"
                default=""
                label="JBZOO_ELEMENT_ACCESS"
-               description="JBZOO_ELEMENT_ACCESS_DESC" />
+               description="JBZOO_ELEMENT_ACCESS_DESC"/>
 
         <param name="login"
                type="text"
                default=""
                label="JBZOO_NOTIFICATION_SMSSERVICE_LOGIN"
-               description="JBZOO_NOTIFICATION_SMSSERVICE_LOGIN_DESC" />
+               description="JBZOO_NOTIFICATION_SMSSERVICE_LOGIN_DESC"/>
 
         <param name="password"
                type="jbpassword"
                default=""
                label="JBZOO_NOTIFICATION_SMSSERVICE_PASSWORD"
-               description="JBZOO_NOTIFICATION_SMSSERVICE_PASSWORD_DESC" />
+               description="JBZOO_NOTIFICATION_SMSSERVICE_PASSWORD_DESC"/>
 
         <param name="https"
                type="jbbool"
                default="1"
                label="JBZOO_NOTIFICATION_SMSSERVICE_USEHTTP"
-               description="JBZOO_NOTIFICATION_SMSSERVICE_USEHTTP_DESC" />
+               description="JBZOO_NOTIFICATION_SMSSERVICE_USEHTTP_DESC"/>
 
         <param name="message"
                type="jbtextarea"
@@ -54,27 +54,29 @@
                cols="55"
                default=""
                label="JBZOO_NOTIFICATION_SMSSERVICE_MESSAGE"
-               description="JBZOO_NOTIFICATION_SMSSERVICE_MESSAGE_DESC" />
+               description="JBZOO_NOTIFICATION_SMSSERVICE_MESSAGE_DESC"/>
 
         <param name="phones"
                type="textarea"
                default=""
                label="Телефоны администраторов"
-               description="Вводите номера телефонов с новой строки" />
+               description="Вводите номера телефонов с новой строки"/>
 
         <param name="userphone"
-               type="jbelementlist"
-               default=""
+               type="jbcartfields"
+               group="CONFIG_FIELDS"
+               position="DEFAULT_POSITION"
                label="Телефон пользователя"
                description=""
-               types="text" />
+               types="text"/>
 
         <param name="element-username"
-               type="jbelementlist"
-               default=""
+               type="jbcartfields"
+               group="CONFIG_FIELDS"
+               position="DEFAULT_POSITION"
                label="Имя пользователя"
                description=""
-               types="text" />
+               types="text"/>
     </params>
 
 </element>

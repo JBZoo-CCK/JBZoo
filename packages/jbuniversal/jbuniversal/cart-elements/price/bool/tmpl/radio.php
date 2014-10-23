@@ -19,11 +19,7 @@ $data = array(
     JText::_('JBZOO_YES') => JText::_('JBZOO_YES')
 );
 
-?>
-
-<div class="controls">
-    <?php echo $this->app->jbhtml->radio($data, $this->getControlName('value'), null, $this->getValue('value')); ?>
-</div>
+echo $this->app->jbhtml->radio($data, $this->getRenderName('value'), null, $this->getValue('value'));
 
 
 
