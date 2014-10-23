@@ -139,7 +139,7 @@ class JBCartElementNotificationSmsuslugiru extends JBCartElementNotification
      */
     protected function _getParams()
     {
-        $phones   = $this->config->get('userphone', array());
+        $phones   = (array)$this->config->get('userphone', array());
         $admPhone = $this->config->get('phones', array());
 
         if (!empty($admPhone)) {
