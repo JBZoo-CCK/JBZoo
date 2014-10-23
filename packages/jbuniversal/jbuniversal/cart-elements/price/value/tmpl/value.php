@@ -21,7 +21,11 @@ $mode = (int)$params->get('only_price_mode', 1);
 
     <?php if ($mode == ElementJBPriceAdvance::PRICE_VIEW_FULL) : ?>
         <div class="jbprice-price">
-            <?php if ($discount['value'] >= 0) : ?>
+            <?php if ($discount['value'] == 0) : ?>
+                <span class="jsTotal total"><?php echo $base['total']; ?></span>
+            <?php endif; ?>
+
+            <?php if ($discount['value'] > 0) : ?>
 
                 <table cellpadding="0" cellspacing="0" border="0" class="no-border">
                     <tr>
@@ -40,7 +44,9 @@ $mode = (int)$params->get('only_price_mode', 1);
                     </tr>
                 </table>
 
-            <?php elseif ($discount['value'] < 0) : ?>
+            <?php endif; ?>
+
+            <?php if ($discount['value'] < 0) : ?>
 
                 <table cellpadding="0" cellspacing="0" border="0" class="no-border">
                     <tr>
@@ -62,27 +68,27 @@ $mode = (int)$params->get('only_price_mode', 1);
             <?php endif; ?>
 
         </div>
-    <?php endif;
+    <?php endif; ?>
 
-    if ($mode == ElementJBPriceAdvance::PRICE_VIEW_PRICE) : ?>
+    <?php if ($mode == ElementJBPriceAdvance::PRICE_VIEW_PRICE) : ?>
         <span class="price"><?php echo $base['price']; ?></span>
-    <?php endif;
+    <?php endif; ?>
 
-    if ($mode == ElementJBPriceAdvance::PRICE_VIEW_TOTAL) : ?>
+    <?php if ($mode == ElementJBPriceAdvance::PRICE_VIEW_TOTAL) : ?>
         <span class="price"><?php echo $base['total']; ?></span>
-    <?php endif;
+    <?php endif; ?>
 
-    if ($mode == ElementJBPriceAdvance::PRICE_VIEW_DISCOUNT && $discount['value']) : ?>
+    <?php if ($mode == ElementJBPriceAdvance::PRICE_VIEW_DISCOUNT && $discount['value']) : ?>
 
         <?php if ($discount['value'] > 0) : ?>
             <span class="price">+<?php echo $discount['format']; ?></span>
         <?php else : ?>
             <span class="price">+<?php echo $discount['format']; ?></span>
-        <?php endif;
+        <?php endif; ?>
 
-    endif;
+    <?php endif; ?>
 
-    if ($mode == ElementJBPriceAdvance::PRICE_VIEW_SAVE && $base['save']) : ?>
+    <?php if ($mode == ElementJBPriceAdvance::PRICE_VIEW_SAVE && $base['save']) : ?>
         <span class="discount"><?php echo $base['save']; ?></span>
     <?php endif; ?>
 </div>
