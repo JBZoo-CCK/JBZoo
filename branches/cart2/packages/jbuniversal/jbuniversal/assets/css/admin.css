@@ -836,6 +836,10 @@ a.jbajaxlink:hover {
     background: #FFF;
 }
 
+.creation-form .jbzoo-price-advance .jbpriceadv-variation-row select {
+    width: 35%;
+}
+
 .creation-form .jbzoo-price-advance .jbpriceadv-variation-row input[type="text"] {
     width: 60%;
     text-indent: 10px;
@@ -1303,12 +1307,14 @@ ul.parameter-form li .field .jbprice-advance-fields .jbprice-fields-parameter .j
     background: #F0F0F0;
 }
 
-.jbzoo-assign-elements ul.parameter-form li .field input[type='text'] {
+.jbzoo-assign-elements ul.parameter-form li .field input[type='text'],
+.jbzoo-assign-elements ul.parameter-form li .field input[type='password'] {
     padding: 3px;
     width: 150px;
 }
 
 .jbzoo-assign-elements ul.parameter-form li .field input[type='text'],
+.jbzoo-assign-elements ul.parameter-form li .field input[type='password'],
 .jbzoo-assign-elements ul.parameter-form li .field select {
     font-size: 12px;
 }
@@ -1446,12 +1452,7 @@ table.list.order-list thead th {
 
 .jbzoo .email-preview {
     position: relative;
-}
-
-.jbzoo .email-preview .order-list {
-    max-width: 155px;
-    display: none;
-    position: absolute;
+    display: inline-block;
 }
 
 .jbzoo .paymenturl-area {
