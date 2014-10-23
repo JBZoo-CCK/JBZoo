@@ -16,13 +16,6 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 
-
-<?php if ($view->formRenderer->checkPosition('fields')) : // TODO replace checking to correct way ?>
-    <div class="jbzoo-basket-fields">
-
-        <?php echo $view->formRenderer->render('basketform.default', array(
-            'order' => $view->order,
-        )); ?>
-
-    </div>
-<?php endif; ?>
+<?php echo $view->formRenderer->render('basketform.default', array(
+    'order' => $view->order,
+)); ?>

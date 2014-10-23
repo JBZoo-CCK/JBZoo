@@ -32,7 +32,8 @@ $this->app->jbassets->chosen();
     $isFormEmpty = empty($view->shipping)
         && empty($view->payment)
         && empty($view->shippingFields)
-        && !$view->formRenderer->checkPosition('fields');
+        //&& !$view->formRenderer->checkPosition('fields')
+    ;
     ?>
 
 
