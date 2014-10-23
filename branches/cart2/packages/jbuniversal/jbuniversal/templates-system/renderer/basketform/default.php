@@ -14,11 +14,11 @@
 defined('_JEXEC') or die('Restricted access');
 
 if ($this->checkPosition('fields')) : ?>
+    <div class="jbzoo-basket-fields">
+        <h2>Контактная информация</h2>
 
-    <h2>Контактная информация</h2>
-
-    <?php echo $this->renderPosition('fields', array(
-        'style' => 'order.block'
-    )); ?>
-
+        <?php echo $this->renderPosition('fields', array(
+            'style' => 'order.block'
+        )); ?>
+    </div>
 <?php endif;
