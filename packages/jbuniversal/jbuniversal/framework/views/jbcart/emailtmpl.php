@@ -13,11 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$url = $this->app->jbrouter->admin(array(
-        'task'   => 'getPreview',
-        'format' => 'raw'
-    )
-);
 ?>
 <div class="uk-grid">
     <div id="sidebar" class="uk-width-1-6">
@@ -28,22 +23,9 @@ $url = $this->app->jbrouter->admin(array(
 
         <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_CART_' . $this->task); ?></h2>
 
-        <?php echo $this->partial('cartdesc'); ?>
+        <?php echo $this->partial('cartdesc');
 
-        <div class="jsEmailPreview email-preview">
-            <a href="" class="jsEmailTmplPreview">Preview</a>
-            <ul id="jsOrderList" class="uk-nav uk-nav-side order-list">
-                <?php foreach ($this->ordersList as $id => $name) : ?>
-                    <li>
-                        <a class="order-id" href="" data-id="<?php echo $id; ?>">
-                            <?php echo $name; ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-
-        <?php echo $this->partial('editpositions', array(
+        echo $this->partial('editpositions', array(
             'positions' => $this->positions,
             'groupList' => $this->groupList,
         ));?>
@@ -55,10 +37,3 @@ $url = $this->app->jbrouter->admin(array(
         <?php echo $this->partial('right'); ?>
     </div>
 </div>
-<script type="text/javascript">
-    jQuery(function ($) {
-        $('.jsEmailPreview').JBZooEmailPreview({
-            url: "<?php echo $url; ?>"
-        });
-    });
-</script>

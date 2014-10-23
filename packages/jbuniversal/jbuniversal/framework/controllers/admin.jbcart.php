@@ -15,20 +15,20 @@ defined('_JEXEC') or die('Restricted access');
 
 
 /**
- * Class JBToolsJBuniversalController
+ * Class JBCartJBUniversalController
  * JBZoo tools controller for back-end
  */
-class JBCartJBuniversalController extends JBUniversalController
+class JBCartJBUniversalController extends JBUniversalController
 {
     /**
      * @var JBCartElementHelper
      */
-    protected $_element = NULL;
+    protected $_element = null;
 
     /**
      * @var JBCartPositionHelper
      */
-    protected $_position = NULL;
+    protected $_position = null;
 
     protected $_extensions;
 
@@ -242,6 +242,7 @@ class JBCartJBuniversalController extends JBUniversalController
     {
         $this->groupList = $this->_element->getGroups(array(JBCart::ELEMENT_TYPE_ORDER));
         $this->positions = $this->_position->loadPositions(JBCart::CONFIG_FIELDS, array(JBCart::DEFAULT_POSITION));
+
         $this->groupKey  = JBCart::CONFIG_FIELDS;
 
         $this->renderView();
@@ -308,7 +309,7 @@ class JBCartJBuniversalController extends JBUniversalController
         $this->positionList = $renderer->getPositions('jbpricefilter.' . $this->layout);
 
         $this->systemElements = $this->_element->getSystemTmpl(JBCart::CONFIG_PRICE);
-        $this->dragElements   = $this->_position->loadElements(JBCart::ELEMENT_TYPE_PRICE  . '.' . $this->element);
+        $this->dragElements   = $this->_position->loadElements(JBCart::ELEMENT_TYPE_PRICE . '.' . $this->element);
 
         $confName             = JBCart::CONFIG_PRICE_TMPL_FILTER . '.' . $this->element . '.' . $this->layout;
         $this->elementsParams = $this->_position->loadParams($confName);
@@ -430,17 +431,20 @@ class JBCartJBuniversalController extends JBUniversalController
     }
 
     /**
-     * @return null
+     * @return mixed
+     * @throws Exception
      */
-    public function getEmailElement()
+    public function createEmailElement()
     {
         $elements = $this->_position->loadElements(JBCart::ELEMENT_TYPE_NOTIFICATION);
-        $element  = NULL;
-        if (!empty($elements['_sendemail'])) {
-            $element = $elements['_sendemail'];
+        $element  = null;
+
+        if (empty($elements['_sendemail'])) {
+
+            die('You need to create Sendemail element in Notification group');
         }
 
-        return $element;
+        return $elements['_sendemail'];
     }
 
     /**
@@ -453,7 +457,7 @@ class JBCartJBuniversalController extends JBUniversalController
         $model = JBModelOrder::model();
         $order = $model->getById($id);
 
-        $element = $this->getEmailElement();
+        $element = $this->createEmailElement();
         $element->setSubject($order);
 
         $html = $element->getHTML();
@@ -472,7 +476,7 @@ class JBCartJBuniversalController extends JBUniversalController
         foreach ($this->app->path->dirs('root:' . $path) as $dir) {
             $files[] = array('name' => basename($dir), 'path' => $path . $dir, 'type' => 'folder');
         }
-        foreach ($this->app->path->files('root:' . $path, FALSE, '/^.*(' . $this->_extensions . ')$/i') as $file) {
+        foreach ($this->app->path->files('root:' . $path, false, '/^.*(' . $this->_extensions . ')$/i') as $file) {
             $files[] = array('name' => basename($file), 'path' => $path . $file, 'type' => 'file');
         }
 

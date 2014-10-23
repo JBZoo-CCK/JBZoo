@@ -76,6 +76,7 @@ class EmailRenderer extends PositionRenderer
         // set subject
         $this->_subject = isset($args['subject']) ? $args['subject'] : null;
         $this->_layout  = $layout;
+        unset($args['subject']);
 
         $result = '';
 
@@ -106,12 +107,9 @@ class EmailRenderer extends PositionRenderer
 
                 //set subject
                 $element->setSubject($this->_subject);
+
                 //set config
                 $element->setConfig($config);
-                if (!$element->hasValue()) {
-                    return false;
-                }
-
                 $args['_layout']   = $this->_layout;
                 $args['_position'] = $position;
                 $args['_index']    = $index;
@@ -119,8 +117,11 @@ class EmailRenderer extends PositionRenderer
                 // set params
                 $params = array_merge((array)$config, $args);
 
-                $elements[] = compact('element', 'params');
+                if (!$element->hasValue($params)) {
+                    continue;
+                }
 
+                $elements[] = compact('element', 'params');
             }
         }
 
@@ -136,6 +137,7 @@ class EmailRenderer extends PositionRenderer
                     $data['params']
                 ),
             ));
+
         }
 
         // restore layout
@@ -154,6 +156,7 @@ class EmailRenderer extends PositionRenderer
     public function checkPosition($position)
     {
         foreach ($this->_getConfigPosition($position) as $config) {
+
             if ($element = $this->_cartelement->create($config['type'], $config['group'], $config)) {
 
                 $element->setSubject($this->_subject);

@@ -14,10 +14,24 @@
 defined('_JEXEC') or die('Restricted access');
 
 // create label
+$html  = $this->app->jbhtml;
 $label = '';
 if (isset($params['showlabel']) && $params['showlabel']) {
     $label = ($params['altlabel']) ? $params['altlabel'] : $element->config->get('name');
 }
 
+$classes = array(
+    'jbprice-param-' . $element->getElementType(),
+    'jbprice-' . ($element->isCore() ? 'core' : 'simple') . '-param',
+    'jbprice-param'
+);
+
+$attrs = array(
+    'data-identifier' => $element->identifier
+);
+
 // render element
-echo $label . ' ' . $element->render($params) . ' ';
+echo '<div class="' . implode(' ', $classes) . '"
+      ' . $html->buildAttrs($attrs) . '>' .
+     $label . ' ' . $element->render($params) .
+     '</div>';
