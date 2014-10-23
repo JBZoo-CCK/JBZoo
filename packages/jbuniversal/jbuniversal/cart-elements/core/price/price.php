@@ -222,7 +222,7 @@ abstract class JBCartElementPrice extends JBCartElement
         } else if (JString::strlen($variant) >= 1) {
 
             $variant = $jbPrice->getVariations($variant);
-            $prices  = $jbPrice->calcVariant($variant, $currency);
+            $prices  = $jbPrice->calcVariant($variant);
 
             //$prices = array_merge($data, $jbPrice->getPrices($data));
         } else {

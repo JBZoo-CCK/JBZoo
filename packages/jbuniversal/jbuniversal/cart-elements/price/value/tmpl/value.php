@@ -22,12 +22,20 @@ $mode = (int)$params->get('only_price_mode', 1);
     <?php if ($mode == ElementJBPriceAdvance::PRICE_VIEW_FULL) : ?>
         <div class="jbprice-price">
             <?php if ($discount['value'] == 0) : ?>
-                <span class="jsTotal total"><?php echo $base['total']; ?></span>
+
+                <table cellpadding="0" cellspacing="0" border="0" class="no-border">
+                    <tr>
+                        <td><?php echo JText::_('JBZOO_JBPRICE_PRICE_TOTAL'); ?>:</td>
+                        <td><span class="jsTotal total"><?php echo $base['total']; ?></span></td>
+                    </tr>
+                </table>
+
             <?php endif; ?>
 
             <?php if ($discount['value'] > 0) : ?>
 
                 <table cellpadding="0" cellspacing="0" border="0" class="no-border">
+
                     <tr>
                         <td><?php echo JText::_('JBZOO_JBPRICE_PRICE_PRICE'); ?>:</td>
                         <td><span class="jsPrice price discount-more"><?php echo $base['price']; ?></span></td>
