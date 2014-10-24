@@ -148,9 +148,22 @@ abstract class JBCartElementPrice extends JBCartElement
         $options = $this->_renderOptions();
         $data    = array();
 
+        $isOverlay = $this->_jbprice->isOverlay();
+        $jbprice   = $this->_jbprice;
+
+        if ($isOverlay) {
+            $basicTotal = 0;
+            $basic      = $jbprice->getBasicPrices();
+            if (isset($basic['eur']['totalNoFormat'])) {
+                $basicTotal = $basic['eur']['totalNoFormat'];
+            }
+        }
+
         if (!empty($allData)) {
 
             foreach ($allData as $name) {
+
+
                 if (empty($name['value'])) {
                     continue;
                 }
@@ -158,7 +171,25 @@ abstract class JBCartElementPrice extends JBCartElement
                 $value = $name['value'];
                 $name  = isset($options[$value]) ? $options[$value] : $value;
 
-                $data[$value] = $name;
+                if ($isOverlay) {
+                    // Тушенка из котиков...
+                    $calc = $jbprice->calcVariant($jbprice->getVariantByValuesOverlay(array(
+                        $this->identifier => array(
+                            'value' => $value
+                        ),
+                    )));
+
+                    $diff = $calc['total'] - $basicTotal;
+                    $cost = $this->_jbmoney->toFormat($diff, 'eur');
+                    if ($diff > 0) {
+                        $cost = '+' . $cost;
+                    }
+
+                    $data[$value] = $name . ' <em>' . $cost . '</em>';
+                } else {
+                    $data[$value] = $name;
+                }
+
             }
 
             if (!empty($data)) {
