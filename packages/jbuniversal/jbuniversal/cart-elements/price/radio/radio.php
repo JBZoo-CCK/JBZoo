@@ -19,6 +19,24 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceRadio extends JBCartElementPrice
 {
     /**
+     * Check if element has value
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        $value = $this->getAllOptions();
+
+        if (!empty($value)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @return mixed|null|string
      */
     public function edit()
@@ -29,7 +47,7 @@ class JBCartElementPriceRadio extends JBCartElementPrice
             ));
         }
 
-        return NULL;
+        return null;
     }
 
     /**
@@ -50,7 +68,7 @@ class JBCartElementPriceRadio extends JBCartElementPrice
             ));
         }
 
-        return NULL;
+        return null;
     }
 
 }

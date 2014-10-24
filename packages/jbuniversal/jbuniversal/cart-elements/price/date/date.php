@@ -21,6 +21,24 @@ class JBCartElementPriceDate extends JBCartElementPrice
     const EDIT_DATE_FORMAT = '%Y-%m-%d %H:%M:%S';
 
     /**
+     * Check if element has value
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        $value = $this->getAllOptions();
+
+        if (!empty($value)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @return mixed|null|string
      */
     public function edit()
