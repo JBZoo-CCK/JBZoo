@@ -38,7 +38,7 @@ if (!empty($data)) : ?>
                 </strong>
             </td>
 
-            <td align="center">
+            <td align="left">
                 <?php echo $field->get('value'); ?>
             </td>
 
