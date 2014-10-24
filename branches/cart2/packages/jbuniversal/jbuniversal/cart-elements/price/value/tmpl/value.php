@@ -83,7 +83,7 @@ $mode = (int)$params->get('only_price_mode', 1);
     <?php endif; ?>
 
     <?php if ($mode == ElementJBPriceAdvance::PRICE_VIEW_TOTAL) : ?>
-        <span class="jsTotal price"><?php echo $base['total']; ?></span>
+        <span class="jbprice-price"><span class="jsTotal total"><?php echo $base['total']; ?></span></span>
     <?php endif; ?>
 
     <?php if ($mode == ElementJBPriceAdvance::PRICE_VIEW_DISCOUNT && $discount['value']) : ?>
