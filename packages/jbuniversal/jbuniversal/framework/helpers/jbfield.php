@@ -37,9 +37,10 @@ class JBFieldHelper extends AppHelper
         }
 
         $attrs = array(
-            'name'  => $this->_getName($controlName, $name),
-            'type'  => 'text',
-            'value' => $value,
+            'name'         => $this->_getName($controlName, $name),
+            'type'         => 'text',
+            'value'        => $value,
+            'autocomplete' => 'off',
         );
 
         return '<input ' . $this->app->jbhtml->buildAttrs($attrs) . ' />';
@@ -629,7 +630,7 @@ class JBFieldHelper extends AppHelper
 
         $groupedList = array();
         foreach ($list as $k => $v) {
-            $groupedList[$v->menutype][] = & $list[$k];
+            $groupedList[$v->menutype][] = &$list[$k];
         }
 
         // Assemble menu items to the array
@@ -644,7 +645,7 @@ class JBFieldHelper extends AppHelper
                 $n = count($groupedList[$type->menutype]);
                 for ($i = 0; $i < $n; $i++) {
 
-                    $item = & $groupedList[$type->menutype][$i];
+                    $item = &$groupedList[$type->menutype][$i];
 
                     $options[$item->id] = $item->treename;
                 }
@@ -816,8 +817,8 @@ class JBFieldHelper extends AppHelper
             ));
 
         $link = '<a class="modal" href="' . $href . '" '
-                . 'rel="{handler: \'iframe\', size: {x: 600, y: 500}, onClose: function() {}}">'
-                . JText::_('JBZOO_SHOW_PAYMENTLINKS') . '</a>';
+            . 'rel="{handler: \'iframe\', size: {x: 600, y: 500}, onClose: function() {}}">'
+            . JText::_('JBZOO_SHOW_PAYMENTLINKS') . '</a>';
 
         return $link;
     }
@@ -1022,7 +1023,7 @@ class JBFieldHelper extends AppHelper
 
         $html[] = '<div class="jbprice-fields-parameter clearfix">';
         $html[] = '<input type="text" name="' . $controlName . '['
-                  . $name . '][params][0][name]" class="jsJBPriceParamAddValue" disabled>';
+            . $name . '][params][0][name]" class="jsJBPriceParamAddValue" disabled>';
         $html[] =
             '<input type="hidden" name="' . $controlName . '[' . $name . '][params][0][value]" value="" disabled>';
         $html[] = '<a class="jsJBPriceDeleteParam jbprice-adv-delete-param" href=""></a>';
@@ -1032,9 +1033,9 @@ class JBFieldHelper extends AppHelper
 
         $html[] = '<div class="jbprice-field-option">';
         $html[] = '<input type="text" name="' . $controlName . '['
-                  . $name . '][params][0][option][0][name]" class="jsJBPriceOptionAddValue" disabled/>';
+            . $name . '][params][0][option][0][name]" class="jsJBPriceOptionAddValue" disabled/>';
         $html[] = '<input type="hidden" name="' . $controlName . '['
-                  . $name . '][params][0][option][0][value]" value=""disabled/>';
+            . $name . '][params][0][option][0][value]" value=""disabled/>';
         $html[] = '<a class="jsJBPriceDeleteOption jbprice-adv-delete-option" href=""></a>';
         $html[] = '</div></div>';
 
@@ -1047,7 +1048,7 @@ class JBFieldHelper extends AppHelper
                     '<input type="text" name="' . $controlName . '[' . $name . '][params][' . $key . '][name]" value="'
                     . $value['name'] . '" class="jsJBPriceParamAddValue" />';
                 $html[] = '<input type="hidden" name="' . $controlName . '[' . $name . '][params][' . $key
-                          . '][value]" value="' . $value['value'] . '" />';
+                    . '][value]" value="' . $value['value'] . '" />';
 
                 $html[] = '<a class="jsJBPriceDeleteParam jbprice-adv-delete-param" href=""></a>';
                 $html[] = '<div class="jbprice-fields-options">';
@@ -1062,10 +1063,10 @@ class JBFieldHelper extends AppHelper
 
                         $html[] = '<div class="jbprice-field-option">';
                         $html[] = '<input type="text" name="' . $controlName . '[' . $name . '][params][' . $key
-                                  . '][option][' . $i . '][name]" value="'
-                                  . $value['option'][$i]['name'] . '" class="jsJBPriceOptionAddValue" />';
+                            . '][option][' . $i . '][name]" value="'
+                            . $value['option'][$i]['name'] . '" class="jsJBPriceOptionAddValue" />';
                         $html[] = '<input type="hidden" name="' . $controlName . '[' . $name . '][params][' . $key
-                                  . '][option][' . $i . '][value]" value="' . $value['option'][$i]['value'] . '" />';
+                            . '][option][' . $i . '][value]" value="' . $value['option'][$i]['value'] . '" />';
                         $html[] = '<a class="jsJBPriceDeleteOption jbprice-adv-delete-option" href=""></a>';
                         $html[] = '</div>';
 
@@ -1079,8 +1080,8 @@ class JBFieldHelper extends AppHelper
             }
         }
         $html[] = '<a href="javascript:void(0)" class="jbprice-addParam"> <span class="jsJBPriceAddParam">'
-                  . JText::_('JBZOO_JBPRICE_ADVANCEFIELDS_PARAMETER_ADD')
-                  . '</span></a>';
+            . JText::_('JBZOO_JBPRICE_ADVANCEFIELDS_PARAMETER_ADD')
+            . '</span></a>';
 
         $html[] = '</div>';
 
@@ -1248,9 +1249,10 @@ class JBFieldHelper extends AppHelper
     public function password($name, $value, $controlName, SimpleXMLElement $node, $parent)
     {
         $attrs = array(
-            'name'  => $this->_getName($controlName, $name),
-            'type'  => 'password',
-            'value' => $value,
+            'name'         => $this->_getName($controlName, $name),
+            'type'         => 'password',
+            'value'        => $value,
+            'autocomplete' => 'off',
         );
 
         return '<input ' . $this->app->jbhtml->buildAttrs($attrs) . ' />';
@@ -1366,11 +1368,11 @@ class JBFieldHelper extends AppHelper
         }
 
         $output = '<div class="jsItemOrder jbzoo-itemorder">'
-                  . '<div class="jbzoo-itemorder-row">' . implode("</div><div class=\"jbzoo-itemorder-row\">\n ", $html)
-                  . '</div>'
-                  . '<br>'
-                  . '<a href="#jbitemorder-add" class="jsItemOrderAdd">' . JText::_('JBZOO_SORT_ADD') . '</a>'
-                  . '</div>';
+            . '<div class="jbzoo-itemorder-row">' . implode("</div><div class=\"jbzoo-itemorder-row\">\n ", $html)
+            . '</div>'
+            . '<br>'
+            . '<a href="#jbitemorder-add" class="jsItemOrderAdd">' . JText::_('JBZOO_SORT_ADD') . '</a>'
+            . '</div>';
 
         return $output;
     }
@@ -1398,29 +1400,29 @@ class JBFieldHelper extends AppHelper
         $i    = 0;
 
         $ctrl[] = '<span class="jbzoo-itemorder-label">' . JText::_('JBZOO_SORT_FIELD')
-                  . ': </span>' . JHtml::_('select.groupedlist', $options, $customName . '[]', array(
+            . ': </span>' . JHtml::_('select.groupedlist', $options, $customName . '[]', array(
                 'list.attr'   => $this->app->jbhtml->buildAttrs(array()),
                 'list.select' => $values->get('key_' . $i++),
                 'group.items' => null,
             ));
 
         $ctrl[] = '<span class="jbzoo-itemorder-label">' . JText::_('JBZOO_SORT_AS')
-                  . ': </span>' . $this->app->jbhtml->select(array(
+            . ': </span>' . $this->app->jbhtml->select(array(
                 '_jbzoo_' . $index . '_mode_s' => JText::_('JBZOO_SORT_AS_STRINGS'),
                 '_jbzoo_' . $index . '_mode_n' => JText::_('JBZOO_SORT_AS_NUMBERS'),
                 '_jbzoo_' . $index . '_mode_d' => JText::_('JBZOO_SORT_AS_DATES'),
             ), $customName . '[]', '', $values->get('key_' . $i++));
 
         $ctrl[] = '<span class="jbzoo-itemorder-label">' . JText::_('JBZOO_SORT_ORDER')
-                  . ': </span>' . $this->app->jbhtml->select(array(
+            . ': </span>' . $this->app->jbhtml->select(array(
                 '_jbzoo_' . $index . '_order_asc'    => JText::_('JBZOO_SORT_ORDER_ASC'),
                 '_jbzoo_' . $index . '_order_desc'   => JText::_('JBZOO_SORT_ORDER_DESC'),
                 '_jbzoo_' . $index . '_order_random' => JText::_('JBZOO_SORT_ORDER_RANDOM'),
             ), $customName . '[]', '', $values->get('key_' . $i++));
 
         return '<div class="jbzoo-itemorder-row-field">'
-               . implode("</div><div class=\"jbzoo-itemorder-row-field\">\n ", $ctrl)
-               . '</div>';
+        . implode("</div><div class=\"jbzoo-itemorder-row-field\">\n ", $ctrl)
+        . '</div>';
     }
 
     /**
@@ -1564,9 +1566,9 @@ class JBFieldHelper extends AppHelper
             }
 
             $html[] = '<input ' . $this->app->jbhtml->buildAttrs($attributes) . ' /> '
-                      . '<label ' . $this->app->jbhtml->buildAttrs(array('for' => $id)) . '>'
-                      . JText::_($option)
-                      . '</label>';
+                . '<label ' . $this->app->jbhtml->buildAttrs(array('for' => $id)) . '>'
+                . JText::_($option)
+                . '</label>';
         }
 
         return implode(" \n", $html);
