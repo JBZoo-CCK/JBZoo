@@ -40,12 +40,12 @@ abstract class JBCartElementShipping extends JBCartElement
     protected $_cartConfig;
 
     const HTTP_POST = 'post';
-    const HTTP_GET = 'get';
+    const HTTP_GET  = 'get';
 
     /**
      * Class constructor
      *
-     * @param App $app
+     * @param App    $app
      * @param string $type
      * @param string $group
      */
@@ -58,8 +58,8 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * @param float $sum
-     * @param string $currency
+     * @param float       $sum
+     * @param string      $currency
      * @param JBCartOrder $order
      *
      * @return float
@@ -298,7 +298,7 @@ abstract class JBCartElementShipping extends JBCartElement
     /**
      * Cleans data
      *
-     * @param  string $data
+     * @param  string         $data
      * @param  string|boolean $charlist
      *
      * @return string mixed
@@ -331,9 +331,9 @@ abstract class JBCartElementShipping extends JBCartElement
     /**
      * Make request to service and get results
      *
-     * @param  string $url - Shipping service url.
+     * @param  string $url    - Shipping service url.
      * @param  string $method - POST, GET.
-     * @param  array $data - Data for POST $method
+     * @param  array  $data   - Data for POST $method
      *
      * @return bool|array
      */
@@ -437,7 +437,7 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * @param  string $str
+     * @param  string      $str
      * @param  bool|string $charlist
      *
      * @return mixed|string
@@ -457,14 +457,22 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     public function setStatus($newStatus)
     {
-        $oldStatus = $this->getStatus();
+        $oldStatus = (string)$this->getStatus();
+        $newStatus = (string)$newStatus;
 
-        if ((string)$oldStatus && (string)$oldStatus != (string)$newStatus) {
+        $isChanged = $oldStatus // is not first set on order creating
+            && $oldStatus != JBCartStatusHelper::UNDEFINED // old is not empty
+            && $oldStatus != $newStatus; // is really changed
+
+        if ($isChanged) {
 
             $this->app->event->dispatcher->notify($this->app->event->create(
                 $this->getOrder(),
                 'basket:shippingStatus',
-                compact('oldStatus', 'newStatus')
+                array(
+                    'oldStatus' => $oldStatus,
+                    'newStatus' => $newStatus,
+                )
             ));
 
         }

@@ -39,7 +39,7 @@ abstract class JBCartElementPayment extends JBCartElement
     protected $_namespace = JBCart::ELEMENT_TYPE_PAYMENT;
 
     /**
-     * @param App $app
+     * @param App    $app
      * @param string $type
      * @param string $group
      */
@@ -56,6 +56,7 @@ abstract class JBCartElementPayment extends JBCartElement
 
     /**
      * @param array $params
+     *
      * @return bool
      */
     public function hasValue($params = array())
@@ -111,9 +112,10 @@ abstract class JBCartElementPayment extends JBCartElement
     }
 
     /**
-     * @param float $sum
-     * @param string $currency
+     * @param float       $sum
+     * @param string      $currency
      * @param JBCartOrder $order
+     *
      * @return float
      */
     public function modify($sum, $currency, JBCartOrder $order)
@@ -123,7 +125,9 @@ abstract class JBCartElementPayment extends JBCartElement
 
     /**
      * Plugin even triggered when the payment plugin notifies for the transaction
+     *
      * @param array $params The data received
+     *
      * @return null|void
      */
     public function isValid($params = array())
@@ -133,6 +137,7 @@ abstract class JBCartElementPayment extends JBCartElement
 
     /**
      * @param array $data
+     *
      * @return string
      */
     public function fail($data = array())
@@ -142,6 +147,7 @@ abstract class JBCartElementPayment extends JBCartElement
 
     /**
      * @param array $data
+     *
      * @return string
      */
     public function success($data = array())
@@ -150,8 +156,9 @@ abstract class JBCartElementPayment extends JBCartElement
     }
 
     /**
-     * @param $name
+     * @param      $name
      * @param bool $array
+     *
      * @return string|void
      */
     public function getControlName($name, $array = false)
@@ -161,18 +168,27 @@ abstract class JBCartElementPayment extends JBCartElement
 
     /**
      * Change payment status and fire event
+     *
      * @param $newStatus
      */
     public function setStatus($newStatus)
     {
-        $oldStatus = $this->getStatus();
+        $oldStatus = (string)$this->getStatus();
+        $newStatus = (string)$newStatus;
 
-        if ((string)$oldStatus && (string)$oldStatus != (string)$newStatus) {
+        $isChanged = $oldStatus // is not first set on order creating
+            && $oldStatus != JBCartStatusHelper::UNDEFINED // old is not empty
+            && $oldStatus != $newStatus; // is really changed
+
+        if ($isChanged) {
 
             $this->app->event->dispatcher->notify($this->app->event->create(
                 $this->getOrder(),
                 'basket:paymentStatus',
-                compact('oldStatus', 'newStatus')
+                array(
+                    'oldStatus' => $oldStatus,
+                    'newStatus' => $newStatus,
+                )
             ));
 
         }
@@ -202,6 +218,7 @@ abstract class JBCartElementPayment extends JBCartElement
 
     /**
      * @param array $params
+     *
      * @return string
      */
     public function renderSubmission($params = array())
