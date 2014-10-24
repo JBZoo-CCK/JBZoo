@@ -288,11 +288,13 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
                     $element = $order->getFieldElement($type);
 
                     if ($element) {
-                        
-                        $email = $element->data()->get('value');
 
-                        $this->addRecipient($email);
-                        $this->_send();
+                        $email = JString::trim($element->data()->get('value'));
+
+                        if (!empty($email)) {
+                            $this->addRecipient($email);
+                            $this->_send();
+                        }
                     }
 
                 }
