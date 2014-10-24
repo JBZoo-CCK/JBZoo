@@ -21,8 +21,8 @@ defined('_JEXEC') or die('Restricted access');
         <th></th>
         <th><?php echo JText::_('JBZOO_CART_ITEM_NAME'); ?></th>
         <th><?php echo JText::_('JBZOO_CART_ITEM_PRICE'); ?></th>
-        <th><?php echo JText::_('JBZOO_CART_ITEM_QUANTITY'); ?></th>
-        <th><?php echo JText::_('JBZOO_CART_ITEM_SUBTOTAL'); ?></th>
+        <th style="width:150px;"><?php echo JText::_('JBZOO_CART_ITEM_QUANTITY'); ?></th>
+        <th style="width:180px;"><?php echo JText::_('JBZOO_CART_ITEM_SUBTOTAL'); ?></th>
     </tr>
     </thead>
 
@@ -131,7 +131,7 @@ defined('_JEXEC') or die('Restricted access');
     <tr>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-        <td>
+        <td style="width:240px;">
             В корзине
             <span class="jsTotalCount jbitems-total-count"><span class="jsValue"><?php echo $count; ?></span></span>
             <span data-word="товар"

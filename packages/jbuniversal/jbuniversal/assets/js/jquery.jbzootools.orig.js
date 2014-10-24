@@ -402,7 +402,7 @@ var reCount = {
                         val = object.toFormat(parseFloat(this.value));
                     }
 
-                    jQuery(element).text(val);
+                    jQuery(element).text(' ' + val+ ' ');
                 },
 
                 complete: function () {
@@ -911,7 +911,7 @@ var reCount = {
                 //this.element.innerHTML = value;
                 //value = parseFloat(value);
                 if (typeof $this.attr('type') == 'undefined') {
-                    $this.text(value);
+                    $this.html(' ' + value + ' ');
                 }
 
                 //this.element.val(value);
