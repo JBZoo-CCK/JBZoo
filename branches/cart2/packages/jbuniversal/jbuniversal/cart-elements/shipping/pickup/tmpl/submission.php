@@ -29,20 +29,19 @@ $attrs = array(
 
 ?>
 
-<input <?php echo $this->app->jbhtml->buildAttrs($attrs); ?> />
+    <input <?php echo $this->app->jbhtml->buildAttrs($attrs); ?> />
 
-<label <?php echo $this->app->jbhtml->buildAttrs($labelAttrs); ?>>
+    <label <?php echo $this->app->jbhtml->buildAttrs($labelAttrs); ?>>
 
-    <div class="jbradio"></div>
+        <div class="jbradio"></div>
 
-    <div class="shipping-info">
-        <span class="name"><?php echo $this->getName(); ?></span>
+        <div class="shipping-info">
+            <span class="name"><?php echo $this->getName(); ?></span>
         <span class="value">
-            (<?php echo $shipping ? $this->app->jbmoney->toFormat($shipping, $this->currency())
-                : JText::_('JBZOO_ELEMENT_SHIPPING_PICKUP_FREE'); ?>)
-        </span>
-    </div>
-</label>
+(<span class="jsValue shipping-price"><?php echo JText::_('JBZOO_ELEMENT_SHIPPING_PICKUP_FREE'); ?>
+</span><span class="jsCurrency shipping-currency"></span>)</span>
+        </div>
+    </label>
 
 <?php if ($addresses) : ?>
     <div class="more-options jsMoreOptions">

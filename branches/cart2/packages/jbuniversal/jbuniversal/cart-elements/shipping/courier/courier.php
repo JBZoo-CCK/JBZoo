@@ -45,6 +45,23 @@ class JBCartElementShippingCourier extends JBCartElementShipping
     }
 
     /**
+     * Get price form element config
+     *
+     * @param  array $params
+     *
+     * @return integer
+     */
+    public function getPrice($params = array())
+    {
+        $cost = (float)$this->config->get('cost', 0);
+
+        return $this->app->data->create(array(
+            'price'  => $this->_jbmoney->format($cost),
+            'symbol' => $this->_symbol
+        ));
+    }
+
+    /**
      * @param array $params
      *
      * @return mixed|string
@@ -80,6 +97,7 @@ class JBCartElementShippingCourier extends JBCartElementShipping
             ->clean($value->get('delivery_date'));
 
         $date = new JDate($delivery);
+
         return array(
             'value'  => $shipping,
             'fields' => array(
@@ -111,5 +129,22 @@ class JBCartElementShippingCourier extends JBCartElementShipping
         return $this;
     }
 
+    /**
+     * Get array of parameters to push it into(data-params) element div
+     *
+     * @param  boolean $encode - Encode array or no
+     *
+     * @return string|array
+     */
+    public function getWidgetParams($encode = true)
+    {
+        $params = array(
+            'shippingfields' => implode(':', $this->config->get('shippingfields', array())),
+            'getPriceUrl'    => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetPrice'),
+            'default_price'  => $this->_jbmoney->format($this->config->get('cost', '-')),
+            'symbol'         => $this->_symbol
+        );
 
+        return $encode ? json_encode($params) : $params;
+    }
 }

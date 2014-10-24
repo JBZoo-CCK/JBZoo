@@ -35,7 +35,7 @@ class JBCartElementShippingPickup extends JBCartElementShipping
      */
     public function renderSubmission($params = array())
     {
-        $shipping  = $this->config->get('cost', 0);
+        $shipping  = $this->getPrice();
         $addresses = $this->getAddress();
 
         if ($layout = $this->getLayout('submission.php')) {
@@ -50,6 +50,34 @@ class JBCartElementShippingPickup extends JBCartElementShipping
     }
 
     /**
+     *
+     */
+    public function ajaxGetPrice($fields = '')
+    {
+        $price = $this->getPrice();
+
+        $this->app->jbajax->send(array(
+            'price'  => $price,
+            'symbol' => ''
+        ));
+    }
+
+    /**
+     * Get price form element config
+     *
+     * @param  array $params
+     *
+     * @return integer
+     */
+    public function getPrice($params = array())
+    {
+        return $this->app->data->create(array(
+            'price'  => JText::_('JBZOO_CART_SHIPPING_VALUE_DEFAULT'),
+            'symbol' => ' '
+        ));
+    }
+
+    /**
      * Validates the submitted element
      *
      * @param $value
@@ -60,7 +88,7 @@ class JBCartElementShippingPickup extends JBCartElementShipping
     public function validateSubmission($value, $params)
     {
         return array(
-            'value' => $this->config->get('cost', 0)
+            'value' => $this->getPrice()->get('price')
         );
     }
 
@@ -76,6 +104,25 @@ class JBCartElementShippingPickup extends JBCartElementShipping
         }
 
         return $addresses;
+    }
+
+    /**
+     * Get array of parameters to push it into(data-params) element div
+     *
+     * @param  boolean $encode - Encode array or no
+     *
+     * @return string|array
+     */
+    public function getWidgetParams($encode = true)
+    {
+        $params = array(
+            'shippingfields' => implode(':', $this->config->get('shippingfields', array())),
+            'getPriceUrl'    => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetPrice'),
+            'default_price'  => $this->getPrice()->get('price'),
+            'symbol'         => $this->getPrice()->get('symbol')
+        );
+
+        return $encode ? json_encode($params) : $params;
     }
 
 }

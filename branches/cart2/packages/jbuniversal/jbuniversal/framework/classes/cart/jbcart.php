@@ -356,6 +356,57 @@ class JBCart
     }
 
     /**
+     * Is in stock item
+     *
+     * @param $key
+     * @param $quantity
+     *
+     * @return bool
+     */
+    public function inStock($key, $quantity)
+    {
+        $item_id    = null;
+        $no         = null;
+        $element_id = null;
+
+        list($item_id, $no, $element_id) = explode('_', $key);
+        $item = $this->app->table->item->get($item_id);
+
+        if (!$element_id) {
+
+            $element = $item->getElement($no);
+            $data    = (array)$element->getBasicData();
+
+        } else {
+
+            $element = $item->getElement($element_id);
+            $data    = $element->getVariations($no);
+        }
+
+        $data  = $element->getReadableData($data);
+        $value = $data->find('_balance.value');
+
+        if (!empty($data)) {
+
+            if (isset($value) && $value == 0) {
+                return false;
+
+            } else if ($value == -1 || $value >= $quantity) {
+                return true;
+
+            } else if (!isset($value)) {
+                return true;
+
+            } else {
+                return false;
+            }
+        }
+
+        return false;
+
+    }
+
+    /**
      * Recount all basket
      *
      * @return array

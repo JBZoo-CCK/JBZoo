@@ -41,9 +41,9 @@ $attrs = array(
             </span>
 
             <span class="value">
-                (<?php echo JText::_('JBZOO_ELEMENT_SHIPPING_CHOOSE_PARAMS'); ?>)
+(<span class="jsValue shipping-price"><?php echo JText::_('JBZOO_ELEMENT_SHIPPING_CHOOSE_PARAMS'); ?>
+</span><span class="jsCurrency shipping-currency"></span>)
             </span>
-
         </div>
     </label>
 
