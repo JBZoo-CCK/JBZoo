@@ -44,7 +44,7 @@ defined('_JEXEC') or die('Restricted access');
             </strong>
         </td>
 
-        <td align="center">
+        <td align="left">
             <?php echo $shipping->getName(); ?>
         </td>
     </tr>
@@ -56,7 +56,7 @@ defined('_JEXEC') or die('Restricted access');
             </strong>
         </td>
 
-        <td align="center">
+        <td align="left">
             <?php echo $this->_jbmoney->toFormat($data->get('value', 0)); ?>
         </td>
     </tr>
@@ -71,7 +71,7 @@ defined('_JEXEC') or die('Restricted access');
                     </strong>
                 </td>
 
-                <td align="center">
+                <td align="left">
                     <?php echo $field; ?>
                 </td>
             </tr>
