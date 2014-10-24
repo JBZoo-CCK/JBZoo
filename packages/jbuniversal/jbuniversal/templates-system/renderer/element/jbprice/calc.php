@@ -30,12 +30,12 @@ $classes = array(
 <tr class="<?php echo implode(' ', $classes); ?>" data-identifier="<?php echo $element->identifier; ?>">
 
     <td class="clac-label">
-        <label>
+        <strong>
             <?php echo $label; ?>
             <?php if ($desc) : ?>
-                <span class="jbtooltip" title="<?php echo $desc; ?>"> </span>
+                <span class="jbtooltip" title="1<?php echo $desc; ?>"> </span>
             <?php endif; ?>
-        </label>
+        </strong>
     </td>
 
     <td class="clac-field">
