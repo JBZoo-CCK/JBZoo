@@ -796,34 +796,6 @@ class JBFieldHelper extends AppHelper
     }
 
     /**
-     * Render links for payment system
-     *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
-     * @param SimpleXMLElement $node
-     * @param SimpleXMLElement $parent
-     *
-     * @return mixed
-     */
-    public function paymentLinks($name, $value, $controlName, SimpleXMLElement $node, $parent)
-    {
-        $href = JUri::root() . 'administrator/index.php?' . $this->app->jbrouter->query(array(
-                'option'     => 'com_zoo',
-                'tmpl'       => 'component',
-                'controller' => 'jbcart',
-                'task'       => 'paymentlinks',
-                'app_id'     => $this->app->zoo->getApplication()->id,
-            ));
-
-        $link = '<a class="modal" href="' . $href . '" '
-            . 'rel="{handler: \'iframe\', size: {x: 600, y: 500}, onClose: function() {}}">'
-            . JText::_('JBZOO_SHOW_PAYMENTLINKS') . '</a>';
-
-        return $link;
-    }
-
-    /**
      * Render element list
      *
      * @param string $name

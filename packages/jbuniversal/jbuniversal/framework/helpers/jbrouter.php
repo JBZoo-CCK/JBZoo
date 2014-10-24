@@ -334,11 +334,10 @@ class JBRouterHelper extends AppHelper
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'index',
-            'Itemid'     => (int)$menuItemid,
-            //'nocache'    => mt_rand(),
+            'Itemid'     => $menuItemid,
         );
 
-        return $this->_url($linkParams, true);
+        return JURI::root() . 'index.php?' . $this->query($linkParams);
     }
 
     /**
@@ -530,7 +529,7 @@ class JBRouterHelper extends AppHelper
         $params = array(
             'option'     => 'com_zoo',
             'controller' => 'payment',
-            'task'       => 'payment' . $type,
+            'task'       => 'payment' . ucfirst($type),
         );
 
         return JURI::root() . 'index.php?' . $this->query($params);

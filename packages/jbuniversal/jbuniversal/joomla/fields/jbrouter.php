@@ -20,20 +20,30 @@ jimport('joomla.form.formfield');
 require_once(JPATH_ADMINISTRATOR . '/components/com_zoo/config.php');
 
 /**
- * Class JFormFieldJBPaymentUrl
+ * Class JFormFieldJBRouter
  */
-class JFormFieldJBPaymentUrl extends JFormField
+class JFormFieldJBRouter extends JFormField
 {
 
-    protected $type = 'jbpaymenturl';
+    protected $type = 'jburl';
 
     public function getInput()
     {
         // get app
         $app = App::getInstance('zoo');
 
-        $urlType = $this->element->attributes()->urltype;
-        $url     = $app->jbrouter->payment($urlType);
+        $router = $app->jbrouter;
+
+        $method = (string)$this->element->attributes()->method;
+        $arg1   = (string)$this->element->attributes()->arg1;
+        $arg2   = (string)$this->element->attributes()->arg2;
+        $arg3   = (string)$this->element->attributes()->arg3;
+        $arg4   = (string)$this->element->attributes()->arg4;
+
+        $url = null;
+        if (method_exists($router, $method)) {
+            $url = $router->$method($arg1, $arg2, $arg3, $arg4);
+        }
 
         return '<textarea readonly="readonly" class="paymenturl-area">' . $url . '</textarea>';
     }
