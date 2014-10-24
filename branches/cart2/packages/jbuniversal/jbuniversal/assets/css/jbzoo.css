@@ -2726,7 +2726,8 @@ form.jbzoo-app-basket {
 }
 
 .jbzoo .jbzoo-app-basket .jbzoo-payment {
-    width: 198px;
+    width: 31%;
+    min-width: 200px;
     float: left;
     display: block;
     border-right: 1px solid #CCC;
