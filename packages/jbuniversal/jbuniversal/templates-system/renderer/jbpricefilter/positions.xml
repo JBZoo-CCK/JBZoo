@@ -14,4 +14,8 @@
         <position name="fields">Fields</position>
     </positions>
 
+    <positions layout="mega">
+        <position name="fields">Fields</position>
+    </positions>
+
 </renderer>
