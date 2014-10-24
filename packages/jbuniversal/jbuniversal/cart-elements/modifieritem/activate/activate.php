@@ -26,8 +26,9 @@ class JBCartElementModifierItemActivate extends JBCartElementModifierItem
     {
         if (class_exists('jbdump')) {
             jbdump::trace();
-            jbdump::log($order->id);
-            dump($order->id);
+            jbdump::log($params, $order->id);
+            dump($params, 0, 'params');
+            dump($order->id, 1, 'id');
         }
 
         // noop

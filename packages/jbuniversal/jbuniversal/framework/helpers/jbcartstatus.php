@@ -19,6 +19,9 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartStatusHelper extends AppHelper
 {
+
+    const UNDEFINED = 'undefined';
+
     /**
      * @var JSONData
      */
@@ -51,8 +54,9 @@ class JBCartStatusHelper extends AppHelper
 
     /**
      * @param string $group
-     * @param bool $asKeyValue
-     * @param bool $addUndefined
+     * @param bool   $asKeyValue
+     * @param bool   $addUndefined
+     *
      * @return array
      */
     public function getList($group = JBCart::STATUS_ORDER, $asKeyValue = false, $addUndefined = true)
@@ -80,8 +84,9 @@ class JBCartStatusHelper extends AppHelper
     }
 
     /**
-     * @param $code
+     * @param        $code
      * @param string $group
+     *
      * @return null
      */
     public function getByCode($code, $group = JBCart::STATUS_ORDER)
@@ -97,7 +102,9 @@ class JBCartStatusHelper extends AppHelper
 
     /**
      * Get exists status list
+     *
      * @param string $group
+     *
      * @return array
      */
     public function getExistsList($group = JBCart::STATUS_ORDER)
@@ -125,8 +132,13 @@ class JBCartStatusHelper extends AppHelper
      */
     public function getUndefined()
     {
-        $configs = array('code' => 'undefined', 'name' => JText::_('JBZOO_STATUS_UNDEFINED'));
-        $status  = $this->app->jbcartelement->create('custom', JBCart::ELEMENT_TYPE_STATUS, $configs);
+        $configs = array(
+            'code' => self::UNDEFINED,
+            'name' => JText::_('JBZOO_STATUS_UNDEFINED')
+        );
+
+        $status = $this->app->jbcartelement->create('custom', JBCart::ELEMENT_TYPE_STATUS, $configs);
+
         return $status;
     }
 
