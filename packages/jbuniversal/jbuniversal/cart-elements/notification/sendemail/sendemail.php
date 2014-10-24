@@ -90,6 +90,8 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
             'subject' => $this->getSubject()
         ));
 
+        //TODO В события смены статуса пеймента не вызывается setMacrosValues в setSubject
+        $this->setMacrosValues();
         $html = $this->replace($html);
 
         return $html;
@@ -236,10 +238,10 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
     public function sendToAdmins()
     {
         $to = $this->app->data->create($this->config->get('recipient'));
+        $to = $to->get('admin');
 
-        if ($adminRecipients = $to->get('admin', array())) {
-
-            foreach ($adminRecipients as $id) {
+        if (!empty($to)) {
+            foreach ($to as $id) {
 
                 $users = JAccess::getUsersByGroup($id);
                 if (!empty($users)) {
@@ -266,10 +268,11 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
     public function sendToUser()
     {
         $to = $this->app->data->create($this->config->get('recipient'));
+        $to = $to->get('user');
 
         //send notification to user
-        if ($userRecipients = $to->get('user', array())) {
-            foreach ($userRecipients as $type) {
+        if (!empty($to)) {
+            foreach ($to as $type) {
 
                 //send to email from user profile
                 if ($type == self::RECIPIENT_USER_PROFILE) {
@@ -308,16 +311,17 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
     public function sendToAdvance()
     {
         $to = $this->app->data->create($this->config->get('recipient'));
+        $to = $to->get('advanced');
 
         //advanced email's
-        if ($advRecipients = $to->get('advanced', '')) {
+        if (!empty($to)) {
 
-            if (strpos($advRecipients, ',') === false) {
-                $this->addRecipient($advRecipients);
+            if (strpos($to, ',') === false) {
+                $this->addRecipient($to);
                 $this->_send();
 
             } else {
-                $advRecipients = explode(',', $advRecipients);
+                $advRecipients = explode(',', $to);
                 foreach ($advRecipients as $recipient) {
                     $recipient = JString::trim($recipient);
                     $this->addRecipient($recipient);
