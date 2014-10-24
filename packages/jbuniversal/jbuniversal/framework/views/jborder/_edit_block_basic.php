@@ -11,7 +11,7 @@ $statusList = $this->app->jbcartstatus->getList(JBCart::STATUS_ORDER, true);
 $curStatus = $order->getStatus()->getCode();
 
 ?>
-<div class="uk-panel uk-panel-box">
+<div class="uk-panel uk-panel-box basic-info">
     <h3 class="uk-panel-title"><?php echo JText::_('JBZOO_ORDER_MAIN_TITLE'); ?></h3>
 
     <dl class="uk-description-list-horizontal">

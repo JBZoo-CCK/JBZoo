@@ -1614,4 +1614,31 @@ table.list.order-list thead th {
     .jbzoo-print .uk-panel-box {
         margin-top: 6px;
     }
+
+    .uk-panel-box.basic-info {
+        page-break-before: always;
+    }
+
+    textarea {
+        border-radius: 0 !important;
+        border: none !important;
+        resize: none !important;
+        padding: 0 !important;
+    }
+
+    textarea::-webkit-input-placeholder {
+        color: transparent !important;
+    }
+
+    textarea:-moz-placeholder {
+        color: transparent !important;
+    }
+
+    textarea::-moz-placeholder {
+        color: transparent !important;
+    }
+
+    textarea:-ms-input-placeholder {
+        color: transparent !important;
+    }
 }
