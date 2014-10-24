@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementShippingCourier extends JBCartElementShipping
 {
-    const EDIT_DATE_FORMAT = '%Y-%m-%d %H:%M:%S';
+    const EDIT_DATE_FORMAT = '%Y-%m-%d %H:%M';
 
     /**
      * @param float $sum
