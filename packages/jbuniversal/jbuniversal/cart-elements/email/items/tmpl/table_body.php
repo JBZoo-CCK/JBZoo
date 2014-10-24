@@ -44,7 +44,7 @@ $i = 0
         <td>
             <?php echo $item['name']; ?>
         </td>
-        <td>
+        <td align="right">
             <?php echo $this->_jbmoney->toFormat($item['price'], $currency); ?>
         </td>
         <td align="center">
