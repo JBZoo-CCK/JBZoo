@@ -27,7 +27,7 @@ if ($params->get('showlabel')) {
 }
 
 // render HTML for current element
-$render = '<td align="center">' . $element->render($params) . '</td>';
+$render = '<td align="left">' . $element->render($params) . '</td>';
 
 // render result
 echo
