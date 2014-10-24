@@ -65,6 +65,7 @@ $allItems = array(
         ),
         'config'   => array(
             'config'   => array('config', 'params' => array('icon' => 'cog')),
+            'urls'     => array('urls', 'params' => array('icon' => 'link')),
             'status'   => array('status', 'params' => array('icon' => 'bookmark')),
             'currency' => array('currency', 'params' => array('icon' => 'eur')),
         ),

@@ -62,7 +62,7 @@
             <field name="default_shipping_zip" type="text" default=""
                    label="JBZOO_CART_CONFIG_SHIPPING_ZIP" description="JBZOO_CART_CONFIG_SHIPPING_ZIP_DESC"/>
 
-            <!--  paymant configs -->
+            <!--  payment configs -->
             <field name="spacer_shop_payment" type="jbspacer" default="JBZOO_CART_CONFIG_SHOP_PAYMENT"/>
 
             <field name="default_payment" type="jbpayment" default="" label="JBZOO_CART_CONFIG_PAYMENT"
@@ -78,19 +78,6 @@
             <field name="default_payment_status_error" type="jbstatus" default="error"
                    label="JBZOO_CART_CONFIG_PAYMENT_STATUS_ERROR" status_type="STATUS_PAYMENT"
                    description="JBZOO_CART_CONFIG_PAYMENT_STATUS_ERROR_DESC"/>
-
-            <field name="jbpaymentlink_success" type="jbpaymenturl" urltype="success"
-                   label="JBZOO_CART_CONFIG_PAYMENT_JBPAYMENTLINK_SUCCESS"
-                   description="JBZOO_CART_CONFIG_PAYMENT_JBPAYMENTLINK_SUCCESS_DESC"/>
-
-            <field name="jbpaymentlink_status" type="jbpaymenturl" urltype="callback"
-                   label="JBZOO_CART_CONFIG_PAYMENT_JBPAYMENTLINK_STATUS"
-                   description="JBZOO_CART_CONFIG_PAYMENT_JBPAYMENTLINK_STATUS_DESC"/>
-
-            <field name="jbpaymentlink_fail" type="jbpaymenturl" urltype="fail"
-                   label="JBZOO_CART_CONFIG_PAYMENT_JBPAYMENTLINK_FAIL"
-                   description="JBZOO_CART_CONFIG_PAYMENT_JBPAYMENTLINK_FAIL_DESC"/>
-
         </fieldset>
     </fields>
 </form>

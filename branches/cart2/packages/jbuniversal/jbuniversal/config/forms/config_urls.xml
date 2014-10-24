@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<form>
+    <fields>
+        <fieldset name="others"
+                  label=""
+                  addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
+            <field name="basket" type="jbrouter" method="basket" arg1="MENU_ITEMID"
+                   label="JBZOO_CART_URL_CART" description="JBZOO_CART_URL_CART_DESC"/>
+
+            <!--  payment configs -->
+            <field name="payment" type="jbspacer" default="JBZOO_CART_URLS_PAYMENT_URL"/>
+
+            <field name="payment_success" type="jbrouter" method="payment" arg1="success"
+                   label="JBZOO_CART_URL_PAYMENT_JBPAYMENTLINK_SUCCESS"
+                   description="JBZOO_CART_URL_PAYMENT_JBPAYMENTLINK_SUCCESS_DESC"/>
+
+            <field name="payment_status" type="jbrouter" method="payment" arg1="callback"
+                   label="JBZOO_CART_URL_PAYMENT_JBPAYMENTLINK_STATUS"
+                   description="JBZOO_CART_URL_PAYMENT_JBPAYMENTLINK_STATUS_DESC"/>
+
+            <field name="payment_fail" type="jbrouter" method="payment" arg1="fail"
+                   label="JBZOO_CART_URL_PAYMENT_JBPAYMENTLINK_FAIL"
+                   description="JBZOO_CART_URL_PAYMENT_JBPAYMENTLINK_FAIL_DESC"/>
+
+        </fieldset>
+    </fields>
+</form>

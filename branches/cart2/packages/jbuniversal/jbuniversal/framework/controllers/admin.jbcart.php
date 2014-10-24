@@ -73,6 +73,14 @@ class JBCartJBUniversalController extends JBUniversalController
     }
 
     /**
+     * Cart config action
+     */
+    public function urls()
+    {
+        $this->renderView();
+    }
+
+    /**
      * Show payment links
      */
     public function paymentLinks()
