@@ -166,6 +166,7 @@
                     }
 
                     $('.jsSave', $obj).html(values.save);
+                    $('.jsPrice', $obj).html(values.price);
                     $('.jsTotal', $obj).html(values.total);
                     changeImage();
                 }
