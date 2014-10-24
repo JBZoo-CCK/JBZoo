@@ -19,14 +19,15 @@ $label = '';
 if (isset($params['showlabel']) && $params['showlabel']) {
     if (isset($params['jbzoo_filter_render']) && $params['jbzoo_filter_render'] != 'jqueryui') {
         $label .= '<label for="' . $attrs['id'] . '" class="label">';
-        $label .= ($params['altlabel']) ? $params['altlabel'] : $this->getConfig()->get('name');
+        $label .= ($params['altlabel']) ? $params['altlabel'] : $element->getConfig()->get('name');
         $label .= '</label>';
     } else {
         $label .= '<div class="label">';
-        $label .= ($params['altlabel']) ? $params['altlabel'] : $this->getConfig()->get('name');
+        $label .= ($params['altlabel']) ? $params['altlabel'] : $element->getConfig()->get('name');
         $label .= '</div>';
     }
 }
+
 
 // create class attribute
 $classes = array_filter(array(
