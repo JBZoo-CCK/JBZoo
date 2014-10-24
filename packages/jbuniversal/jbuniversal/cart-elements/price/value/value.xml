@@ -25,7 +25,7 @@
 
         <param name="@spacer_value" type="jbspacer" default="JBZOO_FILTER_JBPRICE_VALUE"/>
 
-        <param name="jbzoo_filter_render" type="hidden" value="value"/>
+        <param name="jbzoo_filter_render" type="hidden" value="value" default="value"/>
 
         <param name="jbzoo_filter_template" type="list" label="JBZOO_FILTER_JBPRICE_TEMPLATE_VALUE"
                description="JBZOO_FILTER_JBPRICE_TEMPLATE_VALUE_DESC" default="3">
