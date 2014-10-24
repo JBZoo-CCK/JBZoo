@@ -259,7 +259,7 @@ abstract class JBCartElementNotification extends JBCartElement
 
         $sitename   = JFactory::getConfig()->get('sitename');
         $order_id   = $order ? $order->id : '';
-        $status     = $order ? $order->getStatus()->getCode() : '';
+        $status     = $order ? $order->getStatus()->getName() : '';
         $created_by = $order ? JFactory::getUser($order->created_by)->username : $guest;
 
         $username = $user->get('username');

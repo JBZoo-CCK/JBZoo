@@ -20,6 +20,10 @@
         <position name="advertise">Advertise</position>
     </positions>
 
+    <positions layout="order-status">
+        <position name="body">Body</position>
+    </positions>
+
     <positions layout="default">
         <position name="header">Order Header</position>
         <position name="body">Order body</position>
