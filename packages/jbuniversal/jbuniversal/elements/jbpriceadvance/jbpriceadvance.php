@@ -859,9 +859,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         $discountCur = $basic->find('_discount.currency');
 
         $price     = $this->_jbmoney->convert($basic->find('_currency.value'), $currency, $basic->find('_value.value'));
-        $basePrice =
-            $this->_jbmoney->calcDiscount($basic->find('_value.value'), $basic->find('_currency.value'),
-                $discountVal, $discountCur);
+        $basePrice = $this->_jbmoney->calcDiscount($basic->find('_value.value'), $basic->find('_currency.value'), $discountVal, $discountCur);
         $total     = $this->_jbmoney->convert($basic->find('_currency.value'), $currency, $basePrice);
 
         $result = array(
@@ -970,13 +968,12 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             'name'        => $this->getItem()->name,
             'currency'    => $currency,
             'image'       => $variant->find('_image.value'),
-            'params'      =>
-                array(
-                    'width'  => (float)$variant->find('_properties.width', 0),
-                    'height' => (float)$variant->find('_properties.height', 0),
-                    'length' => (float)$variant->find('_properties.length', 0),
-                    'weight' => (float)$variant->find('_weight.value', 0)
-                ),
+            'params'      => array(
+                'width'  => (float)$variant->find('_properties.width', 0),
+                'height' => (float)$variant->find('_properties.height', 0),
+                'length' => (float)$variant->find('_properties.length', 0),
+                'weight' => (float)$variant->find('_weight.value', 0)
+            ),
             'priceParams' => array(),
             'no'          => $variant->get('no')
         );
@@ -1109,18 +1106,15 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      */
     protected function _renderRow($id, $name, $value, $attrs = array())
     {
-        $attribes = array_merge(
-            array(
-                'placeholder' => JText::_('JBZOO_JBPRICE_VARIATION' . JString::strtoupper($name)),
-                'title'       => JText::_('JBZOO_JBPRICE_VARIATION' . JString::strtoupper($name)),
-                'class'       => 'row-' . $name . ' hasTip basic-sku',
-                'id'          => $this->app->jbstring->getId() . '-' . $name
-            ), $attrs
-        );
+        $attribes = array_merge(array(
+            'placeholder' => JText::_('JBZOO_JBPRICE_VARIATION' . JString::strtoupper($name)),
+            'title'       => JText::_('JBZOO_JBPRICE_VARIATION' . JString::strtoupper($name)),
+            'class'       => 'row-' . $name . ' hasTip basic-sku',
+            'id'          => $this->app->jbstring->getId() . '-' . $name
+        ), $attrs);
 
 
-        return $this->app->html->_('control.text', $this->getParamName($id, $name), $value,
-            $this->app->jbhtml->buildAttrs($attribes));
+        return $this->app->html->_('control.text', $this->getParamName($id, $name), $value, $this->app->jbhtml->buildAttrs($attribes));
     }
 
     /**
@@ -1308,11 +1302,9 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     public function getParamsConfig($core = true)
     {
         if (!$this->params) {
-            $this->params =
-                $this
-                    ->_config
-                    ->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $this->identifier)
-                    ->get('list', array());
+            $this->params = $this->_config
+                ->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $this->identifier)
+                ->get('list', array());
         }
 
         if ($core === true) {
