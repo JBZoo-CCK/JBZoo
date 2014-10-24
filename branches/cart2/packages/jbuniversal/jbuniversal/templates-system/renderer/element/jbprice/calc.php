@@ -18,9 +18,16 @@ $desc  = $element->getDescription();
 
 $this->app->jbassets->initTooltip();
 
+$classes = array(
+    'element-' . $element->getType(),
+    'jbprice-param-' . $element->getElementType(),
+    'jbprice-' . ($element->isCore() ? 'core' : 'simple') . '-param',
+    'jbprice-param',
+);
+
 ?>
 
-<tr class="element-<?php echo $element->getType(); ?>">
+<tr class="<?php echo implode(' ', $classes); ?>" data-identifier="<?php echo $element->identifier; ?>">
 
     <td class="clac-label">
         <label>
