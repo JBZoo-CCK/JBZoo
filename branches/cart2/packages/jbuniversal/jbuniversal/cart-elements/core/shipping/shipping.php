@@ -347,14 +347,18 @@ abstract class JBCartElementShipping extends JBCartElement
             $jhttp = JHttpFactory::getHttp();
 
             try {
+
+                $timeout  = 10; // default timeout for slow services
+                $response = null;
+
                 if ($method == self::HTTP_GET) {
-                    $response = $jhttp->get($url);
+                    $response = $jhttp->get($url, null, $timeout);
 
                 } else if ($method == self::HTTP_POST) {
-                    $response = $jhttp->post($url, $data);
+                    $response = $jhttp->post($url, $data, null, $timeout);
                 }
 
-                if ($response->code == 200) {
+                if ($response && $response->code == 200) {
                     $responseData = $this->processingData($response->body);
                 } else {
                     $responseData = false;
