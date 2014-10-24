@@ -1624,6 +1624,7 @@ table.list.order-list thead th {
         border: none !important;
         resize: none !important;
         padding: 0 !important;
+        display: none !important; /* for demo. TODO Remove me! */
     }
 
     textarea::-webkit-input-placeholder {
