@@ -13,10 +13,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-?>
-
-<?php if ($this->checkPosition('fields')) : ?>
-    <?php echo $this->renderPosition('fields', array('style' => 'default')); ?>
-<?php endif;
+if ($this->checkPosition('fields')) :
+    echo $this->renderPosition('fields', array('style' => 'default'));
+endif;
 
 

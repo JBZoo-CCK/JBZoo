@@ -13,9 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
-?>
-
-<?php echo $this->renderPosition('fields', array('style' => 'filter.block')); ?>
+ echo $this->renderPosition('fields', array('style' => 'filter.block')); ?>
 <div class="clear clr"></div>
 
