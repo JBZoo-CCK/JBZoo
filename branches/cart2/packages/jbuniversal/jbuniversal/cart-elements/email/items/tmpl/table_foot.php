@@ -30,8 +30,7 @@ if ($subtotal) :
                 $this->getStyles(array(
                     'padding' => '8px 0 8px 8px'
                 ));?>
-                >
-            </td>
+                ></td>
 
             <td <?php
             echo $this->getAttrs(array(
@@ -87,39 +86,15 @@ echo $this->partial('subtotal_modifiers', array(
 
 <!-- Total order price -->
 <tr>
-    <td <?php
-    echo $this->getAttrs(array(
-            'colspan' => 2,
-            'border'  => 0)
-    ); ?>
-        >
+    <td <?php echo $this->getAttrs(array('colspan' => 2, 'border' => 0)); ?>></td>
+
+    <td <?php echo $this->getAttrs(array('colspan' => 2, 'border' => 0)); ?>>
+        <strong>Итого к оплате</strong>
     </td>
 
-    <td <?php
-    echo $this->getAttrs(array(
-            'colspan' => 2,
-            'border'  => 0)
-    );?>
-        >
-        <strong>
-            Итого к оплате
-        </strong>
-    </td>
-
-    <td <?php
-    echo $this->getAttrs(array(
-                'colspan' => 2,
-                'border'  => 0,
-                'align'   => 'right'
-            )
-        ) .
-        $this->getStyles(array(
-            'padding' => '8px 0 8px 8px'
-        ));?>
-        >
-        <strong>
-            <?php echo $this->fontColor($order->getTotalSum(true), '#a00', 5); ?>
-        </strong>
+    <td <?php echo $this->getAttrs(array('colspan' => 2, 'border' => 0, 'align' => 'right')) . ' ' .
+        $this->getStyles(array('padding' => '8px 0 8px 8px'));?>>
+        <strong><?php echo $this->fontColor($order->getTotalSum(true), '#a00', 5); ?></strong>
     </td>
 </tr>
 
