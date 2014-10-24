@@ -19,6 +19,19 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceColor extends JBCartElementPrice
 {
     /**
+     * Check if element has value
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        //TODO make checking method like $this->getAllOptions()
+        return true;
+    }
+
+    /**
      * @return mixed|null|string
      */
     public function edit()
