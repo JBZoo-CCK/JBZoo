@@ -165,8 +165,8 @@
                         $('.jbPriceElementValue', $obj).replaceWith(prices[hash].value);
                     }
 
-                    $('.jsSave', $obj).text(values.save);
-                    $('.jsTotal', $obj).text(values.total);
+                    $('.jsSave', $obj).html(values.save);
+                    $('.jsTotal', $obj).html(values.total);
                     changeImage();
                 }
             }
