@@ -24,7 +24,12 @@ class JBCartElementModifierItemActivate extends JBCartElementModifierItem
      */
     public function notify($order, $params)
     {
-        jbdump::trace();
-        dump($order->id);
+        if (class_exists('jbdump')) {
+            jbdump::trace();
+            jbdump::log($order->id);
+            dump($order->id);
+        }
+
+        // noop
     }
 }
