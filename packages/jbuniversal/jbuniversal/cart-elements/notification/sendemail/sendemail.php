@@ -149,7 +149,7 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
     {
         $order = $this->getOrder();
 
-        if ($order->id && $items = $order->getItems(false)) {
+        if ($order->id && $items = $order->getItems(false) && (int)$this->config->get('images', 0)) {
 
             foreach ($items as $key => $params) {
 
