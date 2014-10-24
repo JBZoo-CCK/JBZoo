@@ -25,6 +25,9 @@
                label="JBZOO_NOTIFICATION_SENDEMAIL_LAYOUY_LIST"
                description="JBZOO_NOTIFICATION_SENDEMAIL_LAYOUY_LIST_DESC"/>
 
+        <param name="images" type="jbbool" default="0" label="JBZOO_NOTIFICATION_SENDEMAIL_ITEM_IMAGES"
+               description="JBZOO_NOTIFICATION_SENDEMAIL_ITEM_IMAGES_DESC"/>
+
         <param name="recipient" type="jbsendemailrecipients" multiple="1" default="admin"
                label="JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT" description="JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_DESC">
         </param>
