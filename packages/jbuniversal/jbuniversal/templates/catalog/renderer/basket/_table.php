@@ -152,7 +152,7 @@ defined('_JEXEC') or die('Restricted access');
         </td>
 
         <td class="jsTotalPrice jbbasket-total-price">
-            <span class="jbasket-label">Итого:</span>
+            <span class="jbasket-label">Итого к оплате:</span>
             <span class="jsValue jbtotal-price"><?php echo $jbMoney->format($sum); ?></span>
             <span class="jsCurrency jbcurrency"><?php echo $jbMoney->getSymbol($default); ?></span>
         </td>
