@@ -62,7 +62,9 @@ class JBFilterElementJBPriceAdvance extends JBFilterElement
         //$values   = $this->_prepareValues();
         $template = $this->_params->get('jbprice_filter_template', 'default');
         $renderer = $this->app->jbrenderer->create('jbpricefilter');
+        $jbPrice  = $this->app->jbfilter->getElement($this->_identifier);
         $renderer->setModuleParams($this->_params->moduleParams);
+        $jbPrice->setLayout('_filter_layout', $template);
 
         $html = $renderer->render($template, array(
             'price'    => $this->app->jbfilter->getElement($this->_identifier),
@@ -117,7 +119,7 @@ class JBFilterElementJBPriceAdvance extends JBFilterElement
      * Render value controls
      *
      * @param array $values
-     * @param int   $valueTmpl
+     * @param int $valueTmpl
      *
      * @return string
      */
