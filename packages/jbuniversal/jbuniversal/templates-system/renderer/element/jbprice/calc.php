@@ -14,13 +14,15 @@
 defined('_JEXEC') or die('Restricted access');
 
 $label = ($params['altlabel']) ? $params['altlabel'] : $element->config->get('name');
+$desc  = $element->getDescription();
 
 ?>
 
 <tr class="element-<?php echo $element->getType(); ?>">
 
     <td class="clac-label">
-        <label class="hasTip" title="asd"><?php echo $label; ?></label>
+        <label class="hasTip" title="<?php echo $desc; ?>"><?php echo $label; ?></label>
+        <em><?php echo $desc; ?></em>
     </td>
 
     <td class="clac-field">

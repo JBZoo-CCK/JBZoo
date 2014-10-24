@@ -599,8 +599,8 @@ abstract class JBCartElement
 
         return array(
             'value' => $this->app->validator
-                    ->create('textfilter', array('required' => (int)$params->get('required')))
-                    ->clean($value->get('value'))
+                ->create('textfilter', array('required' => (int)$params->get('required')))
+                ->clean($value->get('value'))
         );
     }
 
@@ -621,6 +621,16 @@ abstract class JBCartElement
             'data'   => $this->data(),
             'config' => $this->config->getArrayCopy(),
         ));
+    }
+
+    /**
+     * @param null $default
+     *
+     * @return mixed
+     */
+    public function getDescription($default = null)
+    {
+        return $this->config->get('description', $default);
     }
 
 }
