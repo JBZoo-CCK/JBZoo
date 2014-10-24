@@ -20,7 +20,7 @@ class JBCartValue
 
     /**
      * @param mixed $data
-     * @param null $currecny
+     * @param null  $currecny
      */
     public function __construct($data, $currecny = null)
     {

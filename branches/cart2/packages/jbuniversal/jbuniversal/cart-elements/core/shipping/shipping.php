@@ -458,9 +458,15 @@ abstract class JBCartElementShipping extends JBCartElement
     public function setStatus($newStatus)
     {
         $oldStatus = $this->getStatus();
-        if ($oldStatus && $oldStatus != $newStatus) {
-            $this->app->event->dispatcher->notify($this->app->event->create($this->getOrder(), 'basket:shippingStatus',
-                compact('oldStatus', 'newStatus')));
+
+        if ((string)$oldStatus && (string)$oldStatus != (string)$newStatus) {
+
+            $this->app->event->dispatcher->notify($this->app->event->create(
+                $this->getOrder(),
+                'basket:shippingStatus',
+                compact('oldStatus', 'newStatus')
+            ));
+
         }
 
         $this->set('status', $newStatus);

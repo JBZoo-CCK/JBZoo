@@ -33,6 +33,14 @@ abstract class JBCartElementStatus extends JBCartElement
         return $code;
     }
 
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getCode();
+    }
+
 }
 
 /**

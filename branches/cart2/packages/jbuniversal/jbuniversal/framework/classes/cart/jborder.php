@@ -264,7 +264,7 @@ class JBCartOrder
      * Set the Order published state
      *
      * @param string $statusCode The new Order state code
-     * @param string $type Status type
+     * @param string $type       Status type
      *
      * @return $this
      */
@@ -285,13 +285,13 @@ class JBCartOrder
 
                 return $this;
 
-            } else if ($this->_status->getCode() != $newCode) {
+            } else if ((string)$this->_status != (string)$newCode) {
 
                 $oldStatus     = $this->_status;
                 $this->_status = $newStatus;
                 $this->app->event->dispatcher->notify($this->app->event->create($this, 'basket:orderStatus', array(
-                    'oldStatus' => $oldStatus->getCode(),
-                    'newStatus' => $newCode,
+                    'oldStatus' => (string)$oldStatus,
+                    'newStatus' => (string)$newCode,
                 )));
             }
 
@@ -307,39 +307,6 @@ class JBCartOrder
                 $shipping->setStatus($newCode);
             }
 
-        }
-
-        return $this;
-    }
-
-    /**
-     * Set the Order published state
-     *
-     * @param string $statusCode The new Order state code
-     *
-     * @return $this
-     */
-    public function setPaymentStatus($statusCode)
-    {
-        $statusCode = JString::trim($statusCode);
-        $newStatus  = $this->app->jbcartstatus->getByCode($statusCode, JBCart::STATUS_PAYMENT);
-        $payment    = $this->getPayment();
-
-        if (!$payment || !$statusCode || !$newStatus) {
-            return $this;
-        }
-
-        if ($payment->getStatus() != $newStatus->getCode()) {
-
-            $payment->setStatus($statusCode);
-
-            // set state
-            $oldState      = $this->_status;
-            $this->_status = $newStatus;
-
-            // fire event
-            $this->app->event->dispatcher->notify($this->app->event->create($this, 'Order:stateChanged',
-                compact('oldState')));
         }
 
         return $this;
@@ -493,7 +460,7 @@ class JBCartOrder
     /**
      * @param        $data
      * @param string $type
-     * @param array $elementsParams
+     * @param array  $elementsParams
      *
      * @return int
      */

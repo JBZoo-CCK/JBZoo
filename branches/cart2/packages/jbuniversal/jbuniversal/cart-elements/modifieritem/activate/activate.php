@@ -18,5 +18,13 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementModifierItemActivate extends JBCartElementModifierItem
 {
-
+    /**
+     * @param $order
+     * @param $params
+     */
+    public function notify($order, $params)
+    {
+        jbdump::trace();
+        dump($order->id);
+    }
 }
