@@ -49,7 +49,7 @@ class JBPriceFilterRenderer extends PositionRenderer
     protected $_application = null;
 
     /**
-     * @param App  $app
+     * @param App $app
      * @param null $path
      */
     public function __construct($app, $path = null)
@@ -87,7 +87,7 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * @param string $layout
-     * @param array  $args
+     * @param array $args
      *
      * @return string
      */
@@ -107,7 +107,7 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * @param string $position
-     * @param array  $args
+     * @param array $args
      *
      * @return string|void
      */
@@ -139,7 +139,7 @@ class JBPriceFilterRenderer extends PositionRenderer
                 if (!$element->canAccess() && !$element->hasFilterValue($this->app->data->create($params))) {
                     continue;
                 }
-                jbdump::dump($element);
+
                 $attrs = array(
                     'id'    => 'filterEl_' . $element->identifier,
                     'class' => array(
@@ -191,9 +191,9 @@ class JBPriceFilterRenderer extends PositionRenderer
      * Element render
      *
      * @param string $element
-     * @param bool   $value
-     * @param array  $params
-     * @param array  $attrs
+     * @param bool $value
+     * @param array $params
+     * @param array $attrs
      *
      * @return mixed
      * @throws Exception
@@ -235,7 +235,7 @@ class JBPriceFilterRenderer extends PositionRenderer
     /**
      * Mapper elementType to render method
      *
-     * @param array  $params
+     * @param array $params
      * @param string $elementType
      *
      * @return string
