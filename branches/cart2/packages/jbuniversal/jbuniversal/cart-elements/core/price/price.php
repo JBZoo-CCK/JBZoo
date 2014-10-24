@@ -258,7 +258,7 @@ abstract class JBCartElementPrice extends JBCartElement
             //$prices = array_merge($data, $jbPrice->getPrices($data));
         } else {
 
-            $prices = $jbPrice->calcBasic($currency);
+            $prices = $jbPrice->calcBasic();
             //$prices = array_merge($data, $jbPrice->getPrices($data));
         }
 
