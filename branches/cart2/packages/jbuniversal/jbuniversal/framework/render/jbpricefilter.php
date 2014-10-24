@@ -139,7 +139,7 @@ class JBPriceFilterRenderer extends PositionRenderer
                 if (!$element->canAccess() && !$element->hasFilterValue($this->app->data->create($params))) {
                     continue;
                 }
-
+                jbdump::dump($element);
                 $attrs = array(
                     'id'    => 'filterEl_' . $element->identifier,
                     'class' => array(
