@@ -240,6 +240,7 @@ abstract class JBCartElementPayment extends JBCartElement
         $order  = $this->getOrder();
         $defCur = $this->_jbmoney->getDefaultCur();
         $summ   = $this->_jbmoney->convert($defCur, $defCur, $order->getTotalSum(false));
+        $summ   = round($summ, 2);
 
         return $summ;
     }
