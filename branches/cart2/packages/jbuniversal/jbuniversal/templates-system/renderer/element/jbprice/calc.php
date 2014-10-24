@@ -33,7 +33,7 @@ $classes = array(
         <strong>
             <?php echo $label; ?>
             <?php if ($desc) : ?>
-                <span class="jbtooltip" title="1<?php echo $desc; ?>"> </span>
+                <span class="jbtooltip" title="<?php echo $desc; ?>"> </span>
             <?php endif; ?>
         </strong>
     </td>
