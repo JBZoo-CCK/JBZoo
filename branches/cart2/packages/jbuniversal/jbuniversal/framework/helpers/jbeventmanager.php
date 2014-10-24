@@ -105,7 +105,7 @@ class JBEventManagerHelper extends AppHelper
                 if (array_key_exists($key, $positions)) {
 
                     $subject = $event->getSubject();
-
+                    if (!$subject->id) return;
                     foreach ($positions[$key] as $element) {
                         $element->setSubject($subject);
                         $element->notify();
