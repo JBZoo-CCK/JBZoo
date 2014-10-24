@@ -71,7 +71,6 @@ class JBPriceFilterRenderer extends PositionRenderer
         foreach ($this->_getConfigPosition($position) as $key => $data) {
 
             if ($element = $this->_jbprice->getParam($key)) {
-                print_r($data);
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
                 $data['_index']    = $key;
@@ -98,7 +97,7 @@ class JBPriceFilterRenderer extends PositionRenderer
         $this->_application = $args['app_id'];
 
         unset($args['price']);
-
+        var_dump($layout);
         $result = null;
         $result .= parent::render('jbpricefilter.' . $layout, $args);
 
