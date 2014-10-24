@@ -3255,24 +3255,30 @@ var reCount = {
                 var plg = plugins[name];
 
                 var identifier = $('.jsInputShippingService', plg).val(),
-                    options = $('.jsCalculate', plg);
-
-                params[identifier] = {};
+                    options = $('.jsCalculate', plg),
+                    values = {};
                 $('input, select', options).each(function () {
 
                     var field = $(this);
 
                     if (typeof field.attr('name') != 'undefined') {
 
-                        var nameOf = field.attr('name');
+                        var nameOf = field.attr('name'),
+                            value = $.trim(field.val());
 
-                        nameOf = nameOf.replace(/shipping(?:[\[])(\w+)(?:[\]])/, "$1");
+                        if (value.length > 0) {
+                            nameOf = nameOf.replace(/shipping(?:[\[])(\w+)(?:[\]])/, "$1");
 
-                        params[identifier][nameOf] = field.val();
+                            values[nameOf] = field.val();
+                        }
                     }
                 });
 
+                if (Object.keys(values).length > 0) {
+                    params[identifier] = values;
+                }
             }
+            console.log(params);
             return $.param({'shipping': params});
         };
 
@@ -3388,7 +3394,7 @@ var reCount = {
         };
 
         $('.jsInputShippingService', $this).on('change', function () {
-
+            console.log($this.getParams());
             var $element = $(this).parents('.jsShippingElement');
             var plg = plugins[$element.data('type')];
 
@@ -3521,27 +3527,29 @@ var reCount = {
                     }
                 });
 
-                global.addClass('loading');
-                JBZoo.ajax({
-                    'url'     : settings.getPriceUrl,
-                    'data'    : {
-                        "args": {
-                            'fields': JSON.stringify(result)
-                        }
-                    },
-                    'dataType': 'json',
-                    'success' : function (price) {
+                if (Object.keys(result).length > 0) {
+                    global.addClass('loading');
+                    JBZoo.ajax({
+                        'url'     : settings.getPriceUrl,
+                        'data'    : {
+                            "args": {
+                                'fields': JSON.stringify(result)
+                            }
+                        },
+                        'dataType': 'json',
+                        'success' : function (price) {
 
-                        settings.super.setPrice(price);
-                        global.price = price.price;
-                        $('.shipping-element .field-label .value .jsValue', $this).html(price.price);
-                        $('.shipping-element .field-label .value .jsCurrency', $this).html(price.symbol);
-                        global.removeClass('loading');
-                    },
-                    'error'   : function (error) {
-                        global.removeClass('loading');
-                    }
-                });
+                            settings.super.setPrice(price);
+                            global.price = price.price;
+                            $('.shipping-element .field-label .value .jsValue', $this).html(price.price);
+                            $('.shipping-element .field-label .value .jsCurrency', $this).html(price.symbol);
+                            global.removeClass('loading');
+                        },
+                        'error'   : function (error) {
+                            global.removeClass('loading');
+                        }
+                    });
+                }
 
             };
 
