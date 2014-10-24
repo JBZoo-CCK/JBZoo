@@ -111,10 +111,10 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
     {
         $params = $value->getArrayCopy();
         $params = $this->mergeParams($params);
-        $price  = $this->_getPrice($params);
+        $price  = $this->getPrice($params);
 
         return array(
-            'value'  => $price,
+            'value'  => $price->get('price'),
             'fields' => array(
                 'viewpost' => $this->getViewPostName($params['viewpost']),
                 'typepost' => $this->getTypePostName($params['typepost']),
@@ -164,7 +164,7 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
     public function getTypePostName($id)
     {
         $typePost = array(
-            ''   => '-&nbsp;' . JText::_('JBZOO_DELIVERY_RUSSIANPOST_TYPE') . '&nbsp;-',
+            ''  => '-&nbsp;' . JText::_('JBZOO_DELIVERY_RUSSIANPOST_TYPE') . '&nbsp;-',
             '1' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_GROUND'),
             '2' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_AIR'),
             '3' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_COMBINE'),
@@ -185,7 +185,9 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
     {
         $params = array(
             'getPriceUrl'    => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetPrice'),
-            'shippingfields' => implode(':', $this->config->get('shippingfields', array()))
+            'shippingfields' => implode(':', $this->config->get('shippingfields', array())),
+            'default_price'  => $this->default_price,
+            'symbol'         => $this->_symbol
         );
 
         return $encode ? json_encode($params) : $params;
@@ -247,22 +249,25 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
     /**
      * @param string $fields
      */
-    public function ajaxGetPrice($fields)
+    public function ajaxGetPrice($fields = '')
     {
         $params = json_decode($fields, true);
-        $price  = $this->_getPrice($params);
+        $price  = $this->getPrice($params);
 
         $this->app->jbajax->send(array(
-            'price' => $this->_jbmoney->toFormat($price)
+            'price'  => $price->get('price'),
+            'symbol' => $price->get('symbol')
         ));
     }
 
     /**
+     * Make request and get price form service
+     *
      * @param  array $params
      *
-     * @return mixed
+     * @return int
      */
-    protected function _getPrice($params = array())
+    public function getPrice($params = array())
     {
         $params = $this->mergeParams($params);
         $url    = $this->getServicePath($params);
@@ -274,7 +279,10 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
         list($span, $error) = $matches;
         $price = $this->_jbmoney->convert(self::RUSSIANPOST_CURRENCY, $this->currency(), $value);
 
-        return !empty($error) ? $error : $price;
+        return $this->app->data->create(array(
+            'price'  => $this->_jbmoney->format($price),
+            'symbol' => $this->_symbol
+        ));
     }
 
 }

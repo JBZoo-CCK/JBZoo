@@ -92,14 +92,14 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
     {
         $params = $value->getArrayCopy();
         $params = $this->mergeParams($params);
-        $price  = $this->_getPrice($params);
+        $price  = $this->getPrice($params);
 
         if ($country = $this->app->country->isoToName(strtoupper($params['to']))) {
             $to = $country;
         }
 
         return array(
-            'value'  => $price,
+            'value'  => $price->get('price'),
             'fields' => array(
                 'recipient' => $this->app->validator->create('string')->clean($to)
             ),
@@ -116,7 +116,6 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
             'method' => 'ems.calculate',
             'from'   => $this->_getDefaultCity(),
             'to'     => '',
-            'type'   => 'att',
             'weight' => $this->getBasketWeight(),
         );
 
@@ -142,22 +141,25 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
     {
         $params = array(
             'getPriceUrl'    => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetPrice'),
-            'shippingfields' => implode(':', $this->config->get('shippingfields', array()))
+            'shippingfields' => implode(':', $this->config->get('shippingfields', array())),
+            'default_price'  => $this->default_price,
+            'symbol'         => $this->_symbol
         );
 
         return $encode ? json_encode($params) : $params;
     }
 
     /**
-     * @param $to - Russian city
+     * @param $fields - Russian city
      */
-    public function ajaxGetPrice($to)
+    public function ajaxGetPrice($fields = '')
     {
-        $params = json_decode($to, true);
-        $price  = $this->_getPrice($params);
+        $params = json_decode($fields, true);
+        $price  = $this->getPrice($params);
 
         $this->app->jbajax->send(array(
-            'price' => $this->_jbmoney->toFormat($price)
+            'price'  => $price->get('price'),
+            'symbol' => $price->get('symbol')
         ));
     }
 
@@ -203,7 +205,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      */
     protected function _getDefaultCity()
     {
-        $city = parent::_getDefaultCity();
+        $city = JString::ucfirst(parent::_getDefaultCity());
         $city = $this->convertCity($city);
 
         return $city;
@@ -214,23 +216,34 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      *
      * @param  array $params
      *
-     * @return int
+     * @return integer
      */
-    protected function _getPrice($params = array())
+    public function getPrice($params = array())
     {
-        $price  = 0;
+        $price  = $this->default_price;
         $params = $this->mergeParams($params);
         $url    = $this->getServicePath($params);
 
         $result = $this->_callService($url);
+
         $result = $result['rsp'];
 
-        if ($result['stat'] === 'ok') {
-            $price += $result['price'];
+        if ($result['stat'] == 'ok') {
+            $price = $result['price'];
             $price = $this->_jbmoney->convert(self::EMSPOST_CURRENCY, $this->currency(), $price);
+
+        } else if ($result['stat'] == 'fail') {
+
+            return $this->app->data->create(array(
+                'price'  => $result['err']['msg'],
+                'symbol' => ' '
+            ));
         }
 
-        return $price;
+        return $this->app->data->create(array(
+            'price'  => $this->_jbmoney->format($price),
+            'symbol' => $this->_symbol
+        ));
     }
 
     /**

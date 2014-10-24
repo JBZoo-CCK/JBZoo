@@ -402,7 +402,7 @@ var reCount = {
                         val = object.toFormat(parseFloat(this.value));
                     }
 
-                    jQuery(element).text(' ' + val+ ' ');
+                    jQuery(element).text(' ' + val + ' ');
                 },
 
                 complete: function () {
@@ -997,9 +997,9 @@ var reCount = {
 
             // recount basket
             var recount = function (data) {
-                for (var key in data.items) {
+                for (var key in data['prices'].items) {
 
-                    var subTotal = data.items[key],
+                    var subTotal = data['prices'].items[key],
                         row = $('.row-' + key),
                         elem = $('.row-' + key + ' .jsSubtotal .jsValue', $obj);
 
@@ -1008,8 +1008,6 @@ var reCount = {
                     });
                 }
 
-                shipping.recount();
-
                 var count = $('.jsTotalCount .jsValue', $obj),
                     total = $('.jsTotalPrice .jsValue', $obj),
                     morph = $('.jsMorphology', $obj),
@@ -1017,12 +1015,13 @@ var reCount = {
 
                 morph.html(word + morphology(data.count));
 
-                $(count).reCount(data.count, {
+                $(count).reCount(data['prices'].count, {
                     'decimals': 1,
                     'duration': 100
-
                 });
-                $(total).reCount(data.total);
+
+                $(total).reCount(data['prices'].total);
+                shipping.setPrices(data['shipping']);
             };
 
             function deleteItem($button) {
@@ -1033,9 +1032,9 @@ var reCount = {
                 JBZoo.ajax({
                     'url'    : options.deleteUrl,
                     'data'   : {
-                        'itemid': itemid,
-                        'key'   : key
-                        //'shipping': JSON.stringify(shipping.getParams())
+                        'itemid'  : itemid,
+                        'key'     : key,
+                        'shipping': shipping.getParams()
                     },
                     'success': function (data) {
                         var $row = $button.closest('tr');
@@ -1099,7 +1098,6 @@ var reCount = {
                                 'key'  : key
                             },
                             'success': function (data) {
-
                                 recount(data);
                                 $.fn.JBZooPriceReloadBasket();
                             },
@@ -3257,22 +3255,24 @@ var reCount = {
                 var plg = plugins[name];
 
                 var identifier = $('.jsInputShippingService', plg).val(),
-                    options = $('.jsMoreOptions', plg);
+                    options = $('.jsCalculate', plg);
 
-                params[identifier] = [];
+                params[identifier] = {};
                 $('input, select', options).each(function () {
 
                     var field = $(this);
 
-                    if (typeof field.attr('name') != 'undefined' && field.val().length > 0) {
+                    if (typeof field.attr('name') != 'undefined') {
 
-                        params[identifier].push(field.serialize());
+                        var nameOf = field.attr('name');
 
+                        nameOf = nameOf.replace(/shipping(?:[\[])(\w+)(?:[\]])/, "$1");
+
+                        params[identifier][nameOf] = field.val();
                     }
                 });
 
             }
-
             return $.param({'shipping': params});
         };
 
@@ -3282,21 +3282,21 @@ var reCount = {
                 plugins[name].getPrice();
             }
 
-            //return $this.getPrice();
+            return $this.getPrice();
         };
 
         $this.createPlugins = function () {
 
-            //if (create === false) {
-            $('.jsShippingElement', $this).each(function () {
+            if (create === false) {
+                $('.jsShippingElement', $this).each(function () {
 
-                if ($(this).length > 0) {
-                    $('select', $(this)).chosen();
-                    $this.createPlugin($(this));
-                    create = true;
-                }
-            });
-            //}
+                    if ($(this).length > 0) {
+                        $('select', $(this)).chosen();
+                        $this.createPlugin($(this));
+                        create = true;
+                    }
+                });
+            }
 
             return plugins;
         };
@@ -3313,13 +3313,30 @@ var reCount = {
             }
         };
 
+        $this.setPrices = function (plgs) {
+
+            for (var id in plgs) {
+                var input = $('.jsInputShippingService[value="' + id + '"]', $('.jbzoo .shipping-list')),
+                    type = input.parents('.jsShippingElement').data('type'),
+                    label = input.next();
+
+                if (input.is(':checked')) {
+                    $this.setPrice(plgs[id]);
+                }
+                plugins[type].price = plgs[id].price;
+                $('.shipping-info .value .jsValue', label).html(plgs[id].price);
+                $('.shipping-info .value .jsCurrency', label).html(plgs[id].symbol);
+            }
+        };
+
         $this.setPrice = function (price) {
 
-            if (price == 0 || price == 'undefined') {
+            if (price == 'undefined') {
                 price = options.no_value_message;
             }
 
-            //$('.jsShippingPrice', $this.parents('.jbzoo')).html(price);
+            $('.jsShippingPrice .jsValue', $this.parents('.jbzoo')).html(price.price);
+            $('.jsShippingPrice .jsCurrency', $this.parents('.jbzoo')).html(price.symbol);
         };
 
         var toggleShipFields = function (shipFields) {
@@ -3373,9 +3390,9 @@ var reCount = {
         $('.jsInputShippingService', $this).on('change', function () {
 
             var $element = $(this).parents('.jsShippingElement');
-            var plg = $this.createPlugin($element);
+            var plg = plugins[$element.data('type')];
 
-            $this.setPrice(plg.price);
+            $this.setPrice({'price': plg.price, 'symbol': plg.symbol});
 
             $element.addClass('active');
             $element.siblings('.element').removeClass('active');
@@ -3435,8 +3452,8 @@ var reCount = {
 
             var plugName = $.trim('JBCartShipping' + name.toLowerCase());
 
-            if (typeof plugins[plugName] != 'undefined' && plugins[plugName].length !== 0) {
-                return plugins[plugName];
+            if (typeof plugins[$element.data('type')] != 'undefined' && plugins[$element.data('type')].length !== 0) {
+                return plugins[$element.data('type')];
             }
 
             if ($.isFunction($.fn[plugName])) {
@@ -3445,7 +3462,7 @@ var reCount = {
                     super: $this
                 });
 
-                plugins[plugName] = plugin;
+                plugins[$element.data('type')] = plugin;
             } else {
 
                 plugName = $.trim('JBCartShipping' + byDefault);
@@ -3453,7 +3470,7 @@ var reCount = {
                     super: $this
                 });
 
-                plugins[plugName] = plugin;
+                plugins[$element.data('type')] = plugin;
             }
 
             return plugin;
@@ -3486,7 +3503,9 @@ var reCount = {
 
             var $this = $(this);
 
-            global.price = 0;
+            global.price = settings.default_price;
+            global.symbol = settings.symbol;
+
             global.getPrice = function () {
 
                 var $fields = $('.jsCalculate input:not(input:disabled), ' +
@@ -3502,27 +3521,27 @@ var reCount = {
                     }
                 });
 
-                if (Object.keys(result).length > 0) {
-                    global.addClass('loading');
-                    JBZoo.ajax({
-                        'url'     : settings.getPriceUrl,
-                        'data'    : {
-                            "args": {
-                                'fields': JSON.stringify(result)
-                            }
-                        },
-                        'dataType': 'json',
-                        'success' : function (price) {
-
-                            global.price = price.price;
-                            $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
-                            global.removeClass('loading');
-                        },
-                        'error'   : function (error) {
-                            global.removeClass('loading');
+                global.addClass('loading');
+                JBZoo.ajax({
+                    'url'     : settings.getPriceUrl,
+                    'data'    : {
+                        "args": {
+                            'fields': JSON.stringify(result)
                         }
-                    });
-                }
+                    },
+                    'dataType': 'json',
+                    'success' : function (price) {
+
+                        settings.super.setPrice(price);
+                        global.price = price.price;
+                        $('.shipping-element .field-label .value .jsValue', $this).html(price.price);
+                        $('.shipping-element .field-label .value .jsCurrency', $this).html(price.symbol);
+                        global.removeClass('loading');
+                    },
+                    'error'   : function (error) {
+                        global.removeClass('loading');
+                    }
+                });
 
             };
 
@@ -3554,7 +3573,8 @@ var reCount = {
 
             var $this = $(this);
 
-            global.price = 0;
+            global.price = settings.default_price;
+            global.symbol = settings.symbol;
             global.getPrice = function (to) {
 
                 if (typeof to == 'undefined' || to.length === 0) {
@@ -3573,8 +3593,10 @@ var reCount = {
                     'dataType': 'json',
                     'success' : function (price) {
 
+                        settings.super.setPrice(price);
                         global.price = price.price;
-                        $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
+                        $('.shipping-element .field-label .value .jsValue', $this).html(price.price);
+                        $('.shipping-element .field-label .value .jsCurrency', $this).html(price.symbol);
                         global.removeClass('loading');
                     },
                     'error'   : function (error) {
@@ -3636,7 +3658,9 @@ var reCount = {
 
             var $this = $(this);
 
-            global.price = 0;
+            global.price = settings.default_price;
+            global.symbol = settings.symbol;
+
             global.getPrice = function () {
                 var $fields = $('.jsCalculate input:not(input:disabled), ' +
                         '.jsCalculate select:not(select:disabled)', $this),
@@ -3661,8 +3685,10 @@ var reCount = {
                     'dataType': 'json',
                     'success' : function (price) {
 
+                        settings.super.setPrice(price);
                         global.price = price.price;
-                        $('.shipping-element .field-label .value', $this).html('(' + price.price + ')');
+                        $('.shipping-element .field-label .value .jsValue', $this).html(price.price);
+                        $('.shipping-element .field-label .value .jsCurrency', $this).html(price.symbol);
                         global.removeClass('loading');
                     },
                     'error'   : function (error) {

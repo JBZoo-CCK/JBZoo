@@ -179,12 +179,19 @@ class BasketJBUniversalController extends JBUniversalController
         $value = (float)$this->_jbrequest->get('value');
         $key   = trim($this->_jbrequest->get('key'));
 
+        $shipping = $this->_getShippingPrices();
+
         $cart = JBCart::getInstance();
 
-        $cart->changeQuantity($key, $value);
-        $recount = $cart->recount();
+        if ($cart->inStock($key, $value)) {
 
-        $this->app->jbajax->send($recount);
+            $cart->changeQuantity($key, $value);
+            $recount = $cart->recount();
+
+            $this->app->jbajax->send(array('prices' => $recount, 'shipping' => $shipping));
+        }
+
+        $this->app->jbajax->send(array('message' => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE')), false);
     }
 
     /**
@@ -213,6 +220,31 @@ class BasketJBUniversalController extends JBUniversalController
         if ($element = $services->get($element)) {
             $element->callback($method, $args);
         }
+    }
+
+    /**
+     *
+     */
+    protected function _getShippingPrices()
+    {
+        $request  = $this->_jbrequest->get('shipping');
+        $elements = $this->app->jbshipping->getEnabled();
+        $result   = array();
+
+        if (!empty($request)) {
+            foreach ($request as $identifier => $data) {
+
+                if (isset($elements[$identifier])) {
+
+                    $service = $elements[$identifier];
+                    $data    = $service->mergeParams($data);
+
+                    $result[$identifier] = $service->getPrice($data);
+                }
+            }
+        }
+
+        return $result;
     }
 
     /**

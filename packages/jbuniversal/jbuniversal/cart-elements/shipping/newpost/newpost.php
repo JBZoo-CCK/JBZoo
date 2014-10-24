@@ -29,6 +29,12 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      */
     protected $_url = 'http://orders.novaposhta.ua/xml.php?';
 
+    /**
+     * Shipping service default currency.
+     * Convert to/from before/after call service.
+     *
+     * @var string
+     */
     const NEWPOST_CURRENCY = 'UAH';
 
     const NEWPOST_DELIVERY_TO_DOORS = 3;
@@ -37,7 +43,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     /**
      * Class constructor
      *
-     * @param App    $app
+     * @param App $app
      * @param string $type
      * @param string $group
      */
@@ -70,8 +76,8 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     }
 
     /**
-     * @param float       $sum
-     * @param string      $currency
+     * @param float $sum
+     * @param string $currency
      * @param JBCartOrder $order
      *
      * @return float
@@ -139,7 +145,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     {
         $params = $value->getArrayCopy();
         $params = $this->mergeParams($params);
-        $price  = $this->_getPrice($params);
+        $price  = $this->getPrice($params);
 
         $type = (int)$value->get('deliverytype_id') == self::NEWPOST_DELIVERY_TO_DOORS
             ?
@@ -148,7 +154,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
             JText::_('JBZOO_ORDER_SHIPPING_NEWPOST_TO_WARE');
 
         return array(
-            'value'  => $price,
+            'value'  => $price->get('price'),
             'fields' => array(
                 'type'      => $type,
                 'recipient' => $this->app->validator->create('string')->clean($value->get('recipientcity'))
@@ -278,10 +284,10 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     /**
      * Make request to service and get results
      *
-     * @param  string $url    - Shipping service url.
+     * @param  string $url - Shipping service url.
      * @param  string $method - POST, GET.
-     * @param  array  $data   - Data for POST $method
-     * @param  array  $headers
+     * @param  array $data - Data for POST $method
+     * @param  array $headers
      *
      * @return bool|array
      */
@@ -334,7 +340,9 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
             'getCitiesUrl'     => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetCities'),
             'getWarehousesUrl' => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetWarehouses'),
             'getPriceUrl'      => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetPrice'),
-            'shippingfields'   => implode(':', $this->config->get('shippingfields', array()))
+            'shippingfields'   => implode(':', $this->config->get('shippingfields', array())),
+            'default_price'    => $this->default_price,
+            'symbol'           => $this->_symbol
         );
 
         return $encode ? json_encode($params) : $params;
@@ -377,16 +385,17 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     }
 
     /**
-     * @param array $fields
+     * @param string $fields
      */
-    public function ajaxGetPrice($fields = array())
+    public function ajaxGetPrice($fields = '')
     {
         $params = json_decode($fields, true);
         $params = $this->mergeParams($params);
-        $price  = $this->_getPrice($params);
+        $price  = $this->getPrice($params);
 
         $this->app->jbajax->send(array(
-            'price' => $this->_jbmoney->toFormat($price)
+            'price'  => $price->get('price'),
+            'symbol' => $price->get('symbol')
         ));
     }
 
@@ -431,26 +440,30 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     }
 
     /**
-     * @param array $params
+     * Make request and get price form service
      *
-     * @return mixed
+     * @param  array $params
+     *
+     * @return int
      */
-    protected function _getPrice($params = array())
+    public function getPrice($params = array())
     {
-        $api_key       = $this->config->get('api_key');
-        $publicPrice   = $params['publicprice'];
-        $recipientCity = $params['recipientcity'];
-        $senderCity    = $params['sendercity'];
-        $deliveryId    = $params['deliverytype_id'];
-        $mass          = $params['mass'];
-        $date          = $params['date'];
-        $depth         = $params['depth'];
-        $width         = $params['width'];
-        $height        = $params['height'];
-        $floorCount    = $params['floor_count'];
+        $api_key = $this->config->get('api_key');
+        $params  = $this->app->data->create($params);
 
-        $publicPrice = $this->_jbmoney->convert($this->currency(), self::NEWPOST_CURRENCY, $publicPrice);
-        $price       = 0;
+        $publicPrice   = (float)$params->get('publicprice');
+        $recipientCity = $params->get('recipientcity');
+        $senderCity    = $params->get('sendercity');
+        $deliveryId    = $params->get('deliverytype_id');
+        $mass          = $params->get('mass');
+        $date          = $params->get('date');
+        $depth         = $params->get('depth');
+        $width         = $params->get('width');
+        $height        = $params->get('height');
+        $floorCount    = $params->get('floor_count');
+
+        $publicPrice = $this->convert($publicPrice, $this->currency(), self::NEWPOST_CURRENCY);
+        $price       = $this->default_price;
 
         $xml = '<?xml version="1.0" encoding="utf-8"?>
         <file>
@@ -471,11 +484,14 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
         $xml = $this->callService($xml);
 
-        if (!empty($xml)) {
-            $price = $this->_jbmoney->convert(self::NEWPOST_CURRENCY, $this->currency(), (float)$xml->cost);
+        if ($xml && !$xml->error) {
+            $price = $this->convert((float)$xml->cost, self::NEWPOST_CURRENCY, $this->currency());
         }
 
-        return $price;
+        return $this->app->data->create(array(
+            'price'  => $this->_jbmoney->format($price),
+            'symbol' => $this->_symbol
+        ));
     }
 
     /**

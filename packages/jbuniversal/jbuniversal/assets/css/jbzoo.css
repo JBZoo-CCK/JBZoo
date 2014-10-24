@@ -2474,6 +2474,11 @@ h3.jbzootabs-accordion-header.jbzootabs-accordion-active.jbzootabs-accordion-ico
     color: #505050;
 }
 
+.jbzoo .jbbasket-table .shipping-price .shipping-currency {
+    font-size: 12px;
+    color: #999;
+}
+
 .jbzoo .jbbasket-table .jbtotal-price .jbcurrency {
     font-size: 12px;
     color: #999;
