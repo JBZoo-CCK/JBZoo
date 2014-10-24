@@ -149,21 +149,25 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
     {
         $order = $this->getOrder();
 
-        if ($order->id && $items = $order->getItems(false) && (int)$this->config->get('images', 0)) {
+        if ($order->id && (int)$this->config->get('images', 0)) {
 
-            foreach ($items as $key => $params) {
+            $items = $items = $order->getItems(false);
 
-                if ($path = $params->get('image')) {
+            if (!empty($items)) {
+                foreach ($items as $key => $params) {
 
-                    $path = JPATH_ROOT . DS . $path;
+                    if ($path = $params->get('image')) {
 
-                    $file = $this->clean(basename($path));
-                    $name = $this->clean($params->get('name'));
+                        $path = JPATH_ROOT . DS . $path;
 
-                    $cid = $this->clean($key) . '-' . $file;
-                    $cid = JString::str_ireplace(' ', '', $cid);
+                        $file = $this->clean(basename($path));
+                        $name = $this->clean($params->get('name'));
 
-                    $this->addImage($path, $cid, $name);
+                        $cid = $this->clean($key) . '-' . $file;
+                        $cid = JString::str_ireplace(' ', '', $cid);
+
+                        $this->addImage($path, $cid, $name);
+                    }
                 }
             }
         }
