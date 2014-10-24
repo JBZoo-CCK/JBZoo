@@ -56,9 +56,14 @@ class JBCartElementPriceBool extends JBCartElementPrice
     public function render($params = array())
     {
         $params = $this->app->data->create($params);
+        $data   = array(
+            JText::_('JBZOO_NO')  => JText::_('JBZOO_NO'),
+            JText::_('JBZOO_YES') => JText::_('JBZOO_YES')
+        );
 
         if ($layout = $this->getLayout('radio.php')) {
             return self::renderLayout($layout, array(
+                'data'   => $this->getAllOptions($data),
                 'params' => $params
             ));
         }
