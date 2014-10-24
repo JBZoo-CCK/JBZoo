@@ -3278,7 +3278,7 @@ var reCount = {
                     params[identifier] = values;
                 }
             }
-            console.log(params);
+
             return $.param({'shipping': params});
         };
 
@@ -3394,7 +3394,7 @@ var reCount = {
         };
 
         $('.jsInputShippingService', $this).on('change', function () {
-            console.log($this.getParams());
+
             var $element = $(this).parents('.jsShippingElement');
             var plg = plugins[$element.data('type')];
 

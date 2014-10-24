@@ -966,7 +966,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             'item_id'     => $this->getItem()->id,
             'sku'         => $sku,
             'name'        => $this->getItem()->name,
-            'currency'    => $currency,
+            'currency'    => $default,
             'image'       => $variant->find('_image.value'),
             'params'      => array(
                 'width'  => (float)$variant->find('_properties.width', 0),
