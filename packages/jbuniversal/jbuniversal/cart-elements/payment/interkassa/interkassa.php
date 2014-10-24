@@ -33,7 +33,7 @@ class JBCartElementPaymentInterkassa extends JBCartElementPayment
             'ik_pm_no' => $this->getOrderId(),
             'ik_am'    => $this->getOrderSumm(),
             'ik_cur'   => $this->getCurrency(),
-            'ik_ia_u'  => 'http://test.jbzoo.com/_request.php', // $this->_jbrouter->payment('callback'),
+            'ik_ia_u'  => $this->_jbrouter->payment('callback'),
             'ik_ia_m'  => 'post',
             'ik_suc_u' => $this->_jbrouter->payment('success'),
             'ik_suc_m' => 'post',
