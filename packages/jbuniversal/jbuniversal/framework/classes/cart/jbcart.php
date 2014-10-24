@@ -129,6 +129,10 @@ class JBCart
 
     /**
      * Get default status from cart configurations
+     *
+     * @param string $type
+     *
+     * @return JBCartElementStatus
      */
     public function getDefaultStatus($type = JBCart::STATUS_ORDER)
     {
@@ -162,12 +166,12 @@ class JBCart
      *
      * @return mixed
      */
-    public function getItems($assoc = TRUE)
+    public function getItems($assoc = true)
     {
         $session = $this->_getSession();
         $items   = $session->get('items', array());
 
-        return $assoc === TRUE ? $items : $this->app->data->create($items);
+        return $assoc === true ? $items : $this->app->data->create($items);
     }
 
     /**
@@ -248,7 +252,7 @@ class JBCart
      * $key = {item_id}-{variant_index}.
      * Priority on $key.
      *
-     * @param  int $id
+     * @param  int    $id
      * @param  string $key
      *
      * @return bool
@@ -381,14 +385,13 @@ class JBCart
             $itemsPrice[$key]['symbol'] = $this->_jbmoney->getSymbol($item['currency']);
         }
 
-        $result =
-            array(
-                'items'    => $itemsPrice,
-                'count'    => $count,
-                'total'    => $this->_jbmoney->format($total),
-                'symbol'   => $this->_jbmoney->getSymbol($currency),
-                'currency' => $currency
-            );
+        $result = array(
+            'items'    => $itemsPrice,
+            'count'    => $count,
+            'total'    => $this->_jbmoney->format($total),
+            'symbol'   => $this->_jbmoney->getSymbol($currency),
+            'currency' => $currency
+        );
 
         return $result;
     }
@@ -450,7 +453,7 @@ class JBCart
      * Set session
      *
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      */
     protected function _setSession($key, $value)
     {
