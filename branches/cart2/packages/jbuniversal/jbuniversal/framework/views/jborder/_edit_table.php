@@ -58,7 +58,7 @@ $modifiersCount = count($modifiers);
             <td>
                 <?php
                 if ($row['image']) {
-                    echo '<img src="' . JUri::root() . $row['image'] . '" />';
+                    echo '<img src="' . JUri::root() . $row['image'] . '" style="width:90px;"; />';
                 } else {
                     echo '-';
                 }
