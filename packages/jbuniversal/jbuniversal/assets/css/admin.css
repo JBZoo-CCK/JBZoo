@@ -502,6 +502,10 @@ a.jbajaxlink:hover {
     display: inline-block;
 }
 
+.jbzoo-price-advance .balance .balance-custom label{
+    display: inline-block;
+}
+
 .creation-form .jbzoo-price-advance .basic-discount-wrap select,
 .creation-form .jbzoo-price-advance .basic-discount-wrap input {
     width: 13%;
