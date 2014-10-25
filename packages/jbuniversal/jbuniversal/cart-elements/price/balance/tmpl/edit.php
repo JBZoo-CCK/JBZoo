@@ -40,7 +40,6 @@ $inputAttr = $html->buildAttrs(array(
     'size'        => '60',
     'maxlength'   => '255',
     'placeholder' => JText::_('JBZOO_JBPRICE_VARIATION_BALANCE'),
-    'style'       => 'width:100px;'
 ));
 
 $selected = NULL;
