@@ -492,11 +492,13 @@ a.jbajaxlink:hover {
 }
 
 .jbzoo-price-advance .basic-balance-wrap .balance .balance-custom > input,
+.jbzoo-price-advance .basic-balance-wrap .balance .balance > input,
 .jbzoo-price-advance .balance-variant .balance-custom > input {
     width: 100px;
 }
 
-.jbzoo-price-advance .balance-variant {
+.jbzoo-price-advance .balance-variant,
+.jbzoo-price-advance .balance {
     display: inline-block;
 }
 
