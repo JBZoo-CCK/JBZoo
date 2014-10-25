@@ -1385,6 +1385,7 @@ ul.parameter-form li .field .jbprice-advance-fields .jbprice-fields-parameter .j
     margin: 5px 0;
 }
 
+.jbzoo-price-advance .variant-balance-wrap .balance label,
 .jbzoo-price-advance .variant-balance-wrap .balance-variant label {
     margin: 5px 0;
 }
