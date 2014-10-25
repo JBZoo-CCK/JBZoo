@@ -486,6 +486,7 @@ a.jbajaxlink:hover {
 }
 
 .jbzoo-price-advance .basic-balance-wrap .balance .balance-custom label,
+.jbzoo-price-advance .basic-balance-wrap .balance label,
 .jbzoo-price-advance .balance-variant .balance-custom label {
     display: inline-block;
 }
