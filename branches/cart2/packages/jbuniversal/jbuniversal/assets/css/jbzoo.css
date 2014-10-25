@@ -2116,7 +2116,7 @@ h3.jbzootabs-accordion-header.jbzootabs-accordion-active.jbzootabs-accordion-ico
     -webkit-transition: 1s;
     -moz-transition: 1s;
     transition: 1s;
-    opacity: 0.2;
+    opacity: 0.35;
 }
 
 .jbzoo .jbcolor-label.default,
