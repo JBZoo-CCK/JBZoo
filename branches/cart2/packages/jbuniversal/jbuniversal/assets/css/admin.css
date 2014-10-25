@@ -1389,6 +1389,7 @@ ul.parameter-form li .field .jbprice-advance-fields .jbprice-fields-parameter .j
     margin: 5px 0;
 }
 
+.jbzoo-price-advance .variant-balance-wrap .balance .balance-input, 
 .jbzoo-price-advance .variant-balance-wrap .balance-custom .balance-input {
     width: 100px;
     text-align: left;
