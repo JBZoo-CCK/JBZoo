@@ -21,9 +21,7 @@ if (isset($params['showlabel']) && $params['showlabel']) {
     // check label
     $labelText = ($params['altlabel']) ? $params['altlabel'] : $element->config->get('name');
 
-    $label = '<div class="param-label"> '
-             . $labelText
-             . '</div>';
+    $label = '<div class="label param-label"> ' . $labelText . '</div>';
 }
 
 // create class attribute
