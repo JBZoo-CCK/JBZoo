@@ -52,7 +52,7 @@ if ($value > 0) {
 
 ?>
 
-<div class="balance<?php echo $variant; ?>" id="<?php echo $unique; ?>">
+<div class="balance balance<?php echo $variant; ?>" id="<?php echo $unique; ?>">
 
     <?php echo $html->radio($list, $this->getControlName('value'), $attr, $value, $selected); ?>
 
