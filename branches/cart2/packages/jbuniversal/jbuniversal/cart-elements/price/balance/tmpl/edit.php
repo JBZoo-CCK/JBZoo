@@ -39,7 +39,8 @@ $inputAttr = $html->buildAttrs(array(
     'class'       => 'balance' . $variant . '-input jsBalanceInput',
     'size'        => '60',
     'maxlength'   => '255',
-    'placeholder' => JText::_('JBZOO_JBPRICE_VARIATION_BALANCE')
+    'placeholder' => JText::_('JBZOO_JBPRICE_VARIATION_BALANCE'),
+    'style'       => 'width:100px;'
 ));
 
 $selected = NULL;
