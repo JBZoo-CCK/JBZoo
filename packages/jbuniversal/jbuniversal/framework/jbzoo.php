@@ -1,695 +1,411 @@
-<?php
-/**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
- */
-
-// no direct access
-defined('_JEXEC') or die('Restricted access');
-
-/**
- * Class JBZoo
- */
-class JBZoo
-{
-    /**
-     * @var Application
-     */
-    public $app = null;
-
-    /**
-     * App group name
-     * @var string
-     */
-    private $_group = JBZOO_APP_GROUP;
-
-    /**
-     * Init JBZoo application
-     * @static
-     * @return JBZoo
-     */
-    public static function init()
-    {
-        static $jbzoo;
-
-        if (!isset($jbzoo)) {
-            $jbzoo = new self();
-        }
-
-        return $jbzoo;
-    }
-
-    /**
-     * Initialization JBZoo App
-     */
-    private function __construct()
-    {
-        $this->app = App::getInstance('zoo');
-
-        $this->_initPaths();
-        $this->_initConfig();
-        $this->_initModels();
-        $this->_initLanguages();
-        $this->_initFilterElements();
-        $this->_initEvents();
-        $this->_initAssets();
-        $this->_checkTmpDirectory();
-        $this->_checkCacheDirectory();
-        $this->_initClasses();
-    }
-
-    /**
-     * Add directory path
-     */
-    private function _initPaths()
-    {
-        $this->_addPath('applications:' . $this->_getGroup(), 'jbapp');
-        $this->_addPath('jbapp:framework', 'jbzoo');
-        $this->_addPath('jbapp:assets', 'jbassets');
-        $this->_addPath('jbassets:zoo', 'assets');
-        $this->_addPath('jbapp:config', 'jbconfig');
-        $this->_addPath('jbzoo:elements', 'jbelements');
-        $this->_addPath('jbapp:cart-elements', 'cart-elements');
-        $this->_addPath('jbapp:types', 'jbtypes');
-        $this->_addPath('jbzoo:helpers', 'helpers');
-        $this->_addPath('jbzoo:helpers-std', 'helpers');
-        $this->_addPath('jbzoo:tables', 'tables');
-        $this->_addPath('jbzoo:classes-std', 'classes');
-        $this->_addPath('jbzoo:render', 'renderer');
-        $this->_addPath('jbzoo:views', 'jbviews');
-        $this->_addPath('jbapp:config', 'jbxml');
-        $this->_addPath('jbviews:', 'partials');
-        $this->_addPath('jbapp:joomla/elements', 'fields');
-        $this->_addPath('jbapp:templates', 'jbtmpl');
-
-        $this->_addPath('modules:mod_jbzoo_search', 'mod_jbzoo_search');
-        $this->_addPath('modules:mod_jbzoo_props', 'mod_jbzoo_props');
-        $this->_addPath('modules:mod_jbzoo_basket', 'mod_jbzoo_basket');
-        $this->_addPath('modules:mod_jbzoo_category', 'mod_jbzoo_category');
-        $this->_addPath('modules:mod_jbzoo_item', 'mod_jbzoo_item');
-
-        $this->_addPath('plugins:/system/jbzoo', 'plugin_jbzoo');
-
-        if ($this->app->jbenv->isSite()) {
-            $this->_addPath('jbzoo:controllers', 'controllers');
-        }
-
-        require $this->app->path->path('jbzoo:controllers/base.php');
-
-        JLoader::register('AppView', $this->app->path->path('classes:view.php'), true);
-    }
-
-    /**
-     * Include models classes
-     */
-    private function _initModels()
-    {
-        // defines
-        define('ZOO_TABLE_JBZOO_SKU', '#__zoo_jbzoo_sku');
-        define('ZOO_TABLE_JBZOO_FAVORITE', '#__zoo_jbzoo_favorite');
-        define('ZOO_TABLE_JBZOO_CONFIG', '#__zoo_jbzoo_config');
-        define('ZOO_TABLE_JBZOO_ORDER', '#__zoo_jbzoo_orders');
-
-        // query builder
-        $path = JPATH_SITE . '/media/zoo/applications/jbuniversal/framework/classes';
-        require $path . '/database/JBDatabaseQuery.php';
-        require $path . '/database/JBDatabaseQueryElement.php';
-
-        // cart
-        require $path . '/cart/jbcartform.php';
-        require $path . '/cart/jborder.php';
-        require $path . '/cart/jbcart.php';
-
-        // models
-        $path = JPATH_SITE . '/media/zoo/applications/jbuniversal/framework/models';
-        require $path . '/jbmodel.php';
-        require $path . '/jbmodel.config.php';
-        require $path . '/jbmodel.element.php';
-        require $path . '/jbmodel.autocomplete.php';
-        require $path . '/jbmodel.element.country.php';
-        require $path . '/jbmodel.element.itemdate.php';
-        require $path . '/jbmodel.element.itemauthor.php';
-        require $path . '/jbmodel.element.itemcategory.php';
-        require $path . '/jbmodel.element.itemcreated.php';
-        require $path . '/jbmodel.element.itemfrontpage.php';
-        require $path . '/jbmodel.element.itemmodified.php';
-        require $path . '/jbmodel.element.itemname.php';
-        require $path . '/jbmodel.element.itempublish_down.php';
-        require $path . '/jbmodel.element.itempublish_up.php';
-        require $path . '/jbmodel.element.itemtag.php';
-        require $path . '/jbmodel.element.jbimage.php';
-        require $path . '/jbmodel.element.jbselectcascade.php';
-        require $path . '/jbmodel.element.range.php';
-        require $path . '/jbmodel.element.rating.php';
-        require $path . '/jbmodel.element.jbpriceadvance.php';
-        require $path . '/jbmodel.element.jbcomments.php';
-        require $path . '/jbmodel.element.textarea.php';
-        require $path . '/jbmodel.element.date.php';
-        require $path . '/jbmodel.favorite.php';
-        require $path . '/jbmodel.filter.php';
-        require $path . '/jbmodel.item.php';
-        require $path . '/jbmodel.app.php';
-        require $path . '/jbmodel.category.php';
-        require $path . '/jbmodel.order.php';
-        require $path . '/jbmodel.related.php';
-        require $path . '/jbmodel.searchindex.php';
-        require $path . '/jbmodel.values.php';
-        require $path . '/jbmodel.sku.php';
-    }
-
-    /**
-     * Load lang files
-     */
-    private function _initLanguages()
-    {
-        $lang = JFactory::getLanguage();
-        $lang->load('com_zoo');
-        $lang->load('com_jbzoo', $this->app->path->path('jbapp:'), null, true);
-        $lang->load('com_zoo', JPATH_ADMINISTRATOR);
-    }
-
-    /**
-     * Load others libraries
-     */
-    private function _initFilterElements()
-    {
-        jimport('joomla.html.parameter.element');
-
-        $path = JPATH_SITE . '/media/zoo/applications/jbuniversal/framework/render/filter';
-        require $path . '/element.php';
-        require $path . '/element.author.php';
-        require $path . '/element.author.checkbox.php';
-        require $path . '/element.author.radio.php';
-        require $path . '/element.author.select.php';
-        require $path . '/element.author.select.chosen.php';
-        require $path . '/element.author.text.php';
-        require $path . '/element.category.php';
-        require $path . '/element.category.chosen.php';
-        require $path . '/element.checkbox.php';
-        require $path . '/element.country.php';
-        require $path . '/element.country.checkbox.php';
-        require $path . '/element.country.radio.php';
-        require $path . '/element.country.select.php';
-        require $path . '/element.country.select.chosen.php';
-        require $path . '/element.date.php';
-        require $path . '/element.date.range.php';
-        require $path . '/element.frontpage.php';
-        require $path . '/element.frontpage.jqueryui.php';
-        require $path . '/element.hidden.php';
-        require $path . '/element.imageexists.php';
-        require $path . '/element.imageexists.jqueryui.php';
-        require $path . '/element.jbselectcascade.php';
-        require $path . '/element.jqueryui.php';
-        require $path . '/element.name.php';
-        require $path . '/element.name.checkbox.php';
-        require $path . '/element.name.radio.php';
-        require $path . '/element.name.select.php';
-        require $path . '/element.name.select.chosen.php';
-        require $path . '/element.radio.php';
-        require $path . '/element.rating.php';
-        require $path . '/element.rating.ranges.php';
-        require $path . '/element.rating.slider.php';
-        require $path . '/element.select.php';
-        require $path . '/element.select.chosen.php';
-        require $path . '/element.slider.php';
-        require $path . '/element.tag.php';
-        require $path . '/element.tag.checkbox.php';
-        require $path . '/element.tag.radio.php';
-        require $path . '/element.tag.select.php';
-        require $path . '/element.tag.select.chosen.php';
-        require $path . '/element.text.php';
-        require $path . '/element.text.range.php';
-    }
-
-    /**
-     * Register and connect events
-     */
-    private function _initEvents()
-    {
-        $path = JPATH_SITE . '/media/zoo/applications/jbuniversal/framework/events';
-        require $path . '/jsystem.php';
-        require $path . '/jbevent.php';
-        require $path . '/jbevent.application.php';
-        require $path . '/jbevent.basket.php';
-        require $path . '/jbevent.category.php';
-        require $path . '/jbevent.comment.php';
-        require $path . '/jbevent.element.php';
-        require $path . '/jbevent.item.php';
-        require $path . '/jbevent.jbzoo.php';
-        require $path . '/jbevent.layout.php';
-        require $path . '/jbevent.submission.php';
-        require $path . '/jbevent.tag.php';
-        require $path . '/jbevent.type.php';
-        require $path . '/jbevent.payment.php';
-
-        $event      = $this->app->event;
-        $dispatcher = $event->dispatcher;
-
-        $event->register('JBEventApplication');
-        $dispatcher->connect('application:init', array('JBEventApplication', 'init'));
-        $dispatcher->connect('application:saved', array('JBEventApplication', 'saved'));
-        $dispatcher->connect('application:deleted', array('JBEventApplication', 'deleted'));
-        $dispatcher->connect('application:addmenuitems', array('JBEventApplication', 'addmenuitems'));
-        $dispatcher->connect('application:installed', array('JBEventApplication', 'installed'));
-        $dispatcher->connect('application:configparams', array('JBEventApplication', 'configparams'));
-        $dispatcher->connect('application:sefbuildroute', array('JBEventApplication', 'sefbuildroute'));
-        $dispatcher->connect('application:sefparseroute', array('JBEventApplication', 'sefparseroute'));
-        $dispatcher->connect('application:sh404sef', array('JBEventApplication', 'sh404sef'));
-
-        $event->register('JBEventCategory');
-        $dispatcher->connect('category:init', array('JBEventCategory', 'init'));
-        $dispatcher->connect('category:saved', array('JBEventCategory', 'saved'));
-        $dispatcher->connect('category:deleted', array('JBEventCategory', 'deleted'));
-        $dispatcher->connect('category:stateChanged', array('JBEventCategory', 'stateChanged'));
-
-        $event->register('JBEventItem');
-        $dispatcher->connect('item:init', array('JBEventItem', 'init'));
-        $dispatcher->connect('item:saved', array('JBEventItem', 'saved'));
-        $dispatcher->connect('item:deleted', array('JBEventItem', 'deleted'));
-        $dispatcher->connect('item:stateChanged', array('JBEventItem', 'stateChanged'));
-        $dispatcher->connect('item:beforedisplay', array('JBEventItem', 'beforeDisplay'));
-        $dispatcher->connect('item:afterdisplay', array('JBEventItem', 'afterDisplay'));
-        $dispatcher->connect('item:orderquery', array('JBEventItem', 'orderQuery'));
-        $dispatcher->connect('item:beforeSaveCategoryRelations', array('JBEventItem', 'beforeSaveCategoryRelations'));
-        $dispatcher->connect('item:beforeRenderLayout', array('JBEventItem', 'beforeRenderLayout'));
-        $dispatcher->connect('item:afterRenderLayout', array('JBEventItem', 'afterRenderLayout'));
-
-        $event->register('JBEventComment');
-        $dispatcher->connect('comment:init', array('JBEventComment', 'init'));
-        $dispatcher->connect('comment:saved', array('JBEventComment', 'saved'));
-        $dispatcher->connect('comment:deleted', array('JBEventComment', 'deleted'));
-        $dispatcher->connect('comment:stateChanged', array('JBEventComment', 'stateChanged'));
-
-        $event->register('JBEventSubmission');
-        $dispatcher->connect('submission:init', array('JBEventSubmission', 'init'));
-        $dispatcher->connect('submission:saved', array('JBEventSubmission', 'saved'));
-        $dispatcher->connect('submission:deleted', array('JBEventSubmission', 'deleted'));
-        $dispatcher->connect('submission:beforesave', array('JBEventSubmission', 'beforeSave'));
-
-        $event->register('JBEventElement');
-        $dispatcher->connect('element:download', array('JBEventElement', 'download'));
-        $dispatcher->connect('element:configform', array('JBEventElement', 'configForm'));
-        $dispatcher->connect('element:configparams', array('JBEventElement', 'configParams'));
-        $dispatcher->connect('element:configxml', array('JBEventElement', 'configXML'));
-        $dispatcher->connect('element:afterdisplay', array('JBEventElement', 'afterDisplay'));
-        $dispatcher->connect('element:beforedisplay', array('JBEventElement', 'beforeDisplay'));
-        $dispatcher->connect('element:aftersubmissiondisplay', array('JBEventElement', 'afterSubmissionDisplay'));
-        $dispatcher->connect('element:beforesubmissiondisplay', array('JBEventElement', 'beforeSubmissionDisplay'));
-        $dispatcher->connect('element:beforeedit', array('JBEventElement', 'beforeEdit'));
-        $dispatcher->connect('element:afteredit', array('JBEventElement', 'afterEdit'));
-
-        $event->register('JBEventLayout');
-        $dispatcher->connect('layout:init', array('JBEventLayout', 'init'));
-
-        $event->register('JBEventTag');
-        $dispatcher->connect('tag:saved', array('JBEventTag', 'saved'));
-        $dispatcher->connect('tag:deleted', array('JBEventTag', 'deleted'));
-
-        $event->register('JBEventType');
-        $dispatcher->connect('type:beforesave', array('JBEventType', 'beforesave'));
-        $dispatcher->connect('type:aftersave', array('JBEventType', 'aftersave'));
-        $dispatcher->connect('type:copied', array('JBEventType', 'copied'));
-        $dispatcher->connect('type:deleted', array('JBEventType', 'deleted'));
-        $dispatcher->connect('type:editdisplay', array('JBEventType', 'editDisplay'));
-        $dispatcher->connect('type:coreconfig', array('JBEventType', 'coreconfig'));
-        $dispatcher->connect('type:assignelements', array('JBEventType', 'assignelements'));
-
-        $event->register('JBEventJBZoo');
-        $dispatcher->connect('jbzoo:beforeInit', array('JBEventJBZoo', 'beforeInit'));
-        $dispatcher->notify($event->create($this, 'jbzoo:beforeInit'));
-
-        $event->register('JBEventBasket');
-        $dispatcher->connect('basket:beforesave', array('JBEventBasket', 'beforeSave'));
-        $dispatcher->connect('basket:saved', array('JBEventBasket', 'saved'));
-        $dispatcher->connect('basket:orderStatus', array('JBEventBasket', 'orderStatus'));
-        $dispatcher->connect('basket:paymentStatus', array('JBEventBasket', 'paymentStatus'));
-        $dispatcher->connect('basket:shippingStatus', array('JBEventBasket', 'shippingStatus'));
-
-        $event->register('JBEventPayment');
-        $dispatcher->connect('payment:callback', array('JBEventPayment', 'callback'));
-    }
-
-    /**
-     * Init assets for admin path
-     */
-    private function _initAssets()
-    {
-        if (!$this->app->jbenv->isSite()) {
-            $this->app->jbassets->admin();
-            $this->_initAdminMenu();
-        }
-    }
-
-    /**
-     * Get hash
-     * @param $string
-     * @return string
-     */
-    static public function getHash($string)
-    {
-        $k  = base64_decode('amJ' . '6b28' . 'tc2Fs' . 'dC0' . 'xN' . 'Tk3N' . 'TN8');
-        $k2 = base64_decode('a' . 'mJ6' . 'b28' . 'tc2Fs' . 'dC0' . '0NT' . 'Y4NT' . 'J8');
-
-        return sha1($k . md5($k2 . sha1(serialize($string))));
-    }
-
-    /**
-     * Init Admin menu
-     */
-    private function _initAdminMenu()
-    {
-        $config = JBModelConfig::model()->getGroup('config.custom', $this->app->jbconfig->getList());
-        if (!$config->get('adminmenu_show', 1)) {
-            return false;
-        }
-
-        $curApp = $this->app->system->application->getUserState('com_zooapplication', 0);
-
-        $appList      = JBModelApp::model()->getSimpleList();
-        $findJBZooApp = false;
-        $dispatched   = false;
-        foreach ($appList as $app) {
-            if ($app->application_group == JBZOO_APP_GROUP) {
-                $findJBZooApp = true;
-                if ($curApp == $app->id) {
-                    $dispatched = true;
-                }
-            }
-        }
-
-        if (!$findJBZooApp) {
-            return false;
-        }
-
-        $router = $this->app->jbrouter;
-
-        $menuItems = array();
-
-        if (!empty($appList)) {
-            foreach ($appList as $app) {
-
-                $menuItems['app-' . $app->alias] = array(
-                    'name'     => $app->name,
-                    'url'      => $router->admin(array('changeapp' => $app->id, 'controller' => 'item')),
-                    'children' => array(
-                        'add-item'   => array(
-                            'name' => JText::_('JBZOO_ADMINMENU_ADD_ITEM'),
-                            'url'  => $router->admin(array('changeapp' => $app->id, 'controller' => 'item', 'task' => 'add'))
-                        ),
-                        'sep-1'      => 'divider',
-                        'items'      => array(
-                            'name' => JText::_('JBZOO_ADMINMENU_ITEMS'),
-                            'url'  => $router->admin(array('changeapp' => $app->id, 'controller' => 'item', 'task' => ''))
-                        ),
-                        'categories' => array(
-                            'name' => JText::_('JBZOO_ADMINMENU_CATEGORIES'),
-                            'url'  => $router->admin(array('changeapp' => $app->id, 'controller' => 'category', 'task' => ''))
-                        ),
-                        'frontpage'  => array(
-                            'name' => JText::_('JBZOO_ADMINMENU_FRONTPAGE'),
-                            'url'  => $router->admin(array('changeapp' => $app->id, 'controller' => 'frontpage', 'task' => ''))
-                        ),
-                        'comments'   => array(
-                            'name' => JText::_('JBZOO_ADMINMENU_COMMENTS'),
-                            'url'  => $router->admin(array('changeapp' => $app->id, 'controller' => 'comment', 'task' => ''))
-                        ),
-                        'sep-1'      => 'divider',
-                        'config'     => array(
-                            'name' => JText::_('JBZOO_ADMINMENU_CONFIG'),
-                            'url'  => $router->admin(array('changeapp' => $app->id, 'controller' => 'configuration', 'task' => ''))
-                        ),
-                    )
-                );
-            }
-        }
-
-        $menuItems['sep-1'] = 'divider';
-
-        $menuItems['item-config'] = array(
-            'name' => JText::_('JBZOO_ADMINMENU_MAINCONFIG'),
-            'url'  => $this->app->jbrouter->admin(array('task' => 'types', 'group' => 'jbuniversal', 'controller' => 'manager')),
-        );
-
-        $types = $this->app->jbtype->getSimpleList();
-        if (!empty($types)) {
-            $children = array();
-            foreach ($types as $alias => $type) {
-                $children['type-' . $alias] = array(
-                    'name' => $type,
-                    'url'  => $router->admin(array(
-                            'controller' => 'manager',
-                            'group'      => 'jbuniversal',
-                            'task'       => 'editelements',
-                            'cid'        => array('0' => $alias)
-                        ))
-                );
-            }
-
-            $menuItems['item-config']['children'] = $children;
-        }
-
-        if ($dispatched) {
-            $menuItems['sep-2'] = 'divider';
-
-            $menuItems['jbzoo-admin'] = array(
-                'name'     => JText::_('JBZOO_ADMINMENU_JBZOOPAGE'),
-                'url'      => $router->admin(array('controller' => 'jbindex', 'task' => 'index')),
-                'children' => array(
-                    'performance'  => array(
-                        'name' => JText::_('JBZOO_ADMINMENU_TOOLS'),
-                        'url'  => $router->admin(array('controller' => 'jbtools', 'task' => 'index')),
-                    ),
-                    'systemreport' => array(
-                        'name' => JText::_('JBZOO_ADMINMENU_CONFIGS'),
-                        'url'  => $router->admin(array('controller' => 'jbconfig', 'task' => 'index')),
-                    ),
-                ),
-            );
-
-            $menuItems['jbzoo-import'] = array(
-                'name'     => JText::_('JBZOO_ADMINMENU_IMPORT'),
-                'url'      => $router->admin(array('controller' => 'jbimport', 'task' => 'index')),
-                'children' => array(
-                    'items'      => array(
-                        'name' => JText::_('JBZOO_ADMINMENU_IMPORT_ITEMS'),
-                        'url'  => $router->admin(array('controller' => 'jbimport', 'task' => 'items')),
-                    ),
-                    'categories' => array(
-                        'name' => JText::_('JBZOO_ADMINMENU_IMPORT_CATEGORIES'),
-                        'url'  => $router->admin(array('controller' => 'jbimport', 'task' => 'categories')),
-                    ),
-                    'stdandart'  => array(
-                        'name' => JText::_('JBZOO_ADMINMENU_IMPORT_STANDART'),
-                        'url'  => $router->admin(array('controller' => 'jbimport', 'task' => 'standart')),
-                    ),
-                ),
-            );
-
-            $menuItems['jbzoo-export'] = array(
-                'name'     => JText::_('JBZOO_ADMINMENU_EXPORT'),
-                'url'      => $router->admin(array('controller' => 'jbexport', 'task' => 'index')),
-                'children' => array(
-                    'items'      => array(
-                        'name' => JText::_('JBZOO_ADMINMENU_EXPORT_ITEMS'),
-                        'url'  => $router->admin(array('controller' => 'jbexport', 'task' => 'items')),
-                    ),
-                    'categories' => array(
-                        'name' => JText::_('JBZOO_ADMINMENU_EXPORT_CATEGORIES'),
-                        'url'  => $router->admin(array('controller' => 'jbexport', 'task' => 'categories')),
-                    ),
-                    'types'      => array(
-                        'name' => JText::_('JBZOO_ADMINMENU_EXPORT_TYPES'),
-                        'url'  => $router->admin(array('controller' => 'jbexport', 'task' => 'types')),
-                    ),
-                    'yandexyml'  => array(
-                        'name' => JText::_('JBZOO_ADMINMENU_EXPORT_YANDEXYML'),
-                        'url'  => $router->admin(array('controller' => 'jbexport', 'task' => 'yandexyml')),
-                    ),
-                    'stdandart'  => array(
-                        'name' => JText::_('JBZOO_ADMINMENU_EXPORT_STANDART'),
-                        'url'  => $router->admin(array('controller' => 'jbexport', 'task' => 'standart')),
-                    ),
-                    'zoobackup'  => array(
-                        'name' => JText::_('JBZOO_ADMINMENU_EXPORT_ZOOBACKUP'),
-                        'url'  => $router->admin(array('controller' => 'jbexport', 'task' => 'zoobackup')),
-                    ),
-                ),
-            );
-
-            $menuItems['sep-3'] = 'divider';
-
-            $menuItems['jbzoo-info'] = array(
-                'name'     => JText::_('JBZOO_ADMINMENU_INFO'),
-                'url'      => $router->admin(array('controller' => 'jbinfo', 'task' => 'index')),
-                'children' => array(
-                    'performance'  => array(
-                        'name' => JText::_('JBZOO_ADMINMENU_PERFORMANCE'),
-                        'url'  => $router->admin(array('controller' => 'jbinfo', 'task' => 'performance')),
-                    ),
-                    'systemreport' => array(
-                        'name' => JText::_('JBZOO_ADMINMENU_SYSTEMREPORT'),
-                        'url'  => $router->admin(array('controller' => 'jbinfo', 'task' => 'systemreport')),
-                    ),
-                    'licence'      => array(
-                        'name' => JText::_('JBZOO_ADMINMENU_LICENCE'),
-                        'url'  => $router->admin(array('controller' => 'jblicence', 'task' => 'index')),
-                    ),
-                    'server'       => array(
-                        'name'   => JText::_('JBZOO_ADMINMENU_SERVER'),
-                        'url'    => 'http://server.jbzoo.com/',
-                        'target' => '_blank',
-                    ),
-                )
-            );
-        }
-
-        $menuItems['jbzoo-support'] = array(
-            'name'   => JText::_('JBZOO_ADMINMENU_SUPPORT'),
-            'url'    => 'http://forum.jbzoo.com/',
-            'target' => '_blank',
-        );
-
-        $this->app->jbassets->addVar('JBAdminItems', array(
-            'name'  => JText::_('JBZOO_ADMINMENU_CAPTION'),
-            'items' => $menuItems,
-        ));
-    }
-
-    /**
-     * Init config file
-     */
-    private function _initConfig()
-    {
-        $fn = base64_decode('b' . 'Glj' . 'ZW5j' . 'ZS4' . '=');
-        $fp = base64_decode('amJh' . 'cHA6' . 'Y29u' . 'Zmln');
-        $f  = $this->app->path->path($fp) . '/' . $fn . self::getDomain(true) . '.' . base64_decode('cGhw');
-        if (JFile::exists($f)) {
-            require($f);
-        }
-    }
-
-    /**
-     * Init third-parry classes
-     */
-    private function _initClasses()
-    {
-        $this->app->loader->register('AppValidator', 'classes:validator.php');
-    }
-
-    /**
-     * Get group name
-     * @return string
-     */
-    private function _getGroup()
-    {
-        return $this->_group;
-    }
-
-    /**
-     * Register new path in system
-     * @param string $path
-     * @param string $pathName
-     * @return mixed
-     */
-    private function _addPath($path, $pathName)
-    {
-        if ($fullPath = $this->app->path->path($path)) {
-            return $this->app->path->register($fullPath, $pathName);
-        }
-
-        return null;
-    }
-
-    /**
-     * Check temporary directory
-     */
-    private function _checkTmpDirectory()
-    {
-        $tmpDisr = JPATH_ROOT . DS . 'tmp';
-        $filters = array('jbzoo', 'jbuniversal');
-
-        foreach ($filters as $filter) {
-
-            // files
-            $fileList = JFolder::files($tmpDisr, $filter);
-            if (!empty($fileList)) {
-                foreach ($fileList as $file) {
-                    if ($file && is_string($file)) {
-                        @chmod($tmpDisr . '/' . $file, 0777);
-                        JFile::delete($tmpDisr . '/' . $file);
-                    }
-                }
-            }
-
-            return;
-
-            // folders
-            $folderList = JFolder::folders($tmpDisr, $filter);
-            if (!empty($folderList)) {
-                foreach ($folderList as $folder) {
-                    if ($folder && is_string($folder)) {
-                        @chmod($tmpDisr . '/' . $folder, 0777);
-                        if (is_writable($tmpDisr . '/' . $folder)) {
-                            JFolder::delete($tmpDisr . '/' . $folder);
-                        }
-                    }
-                }
-            }
-        }
-
-    }
-
-    /**
-     * Check cache directory
-     */
-    private function _checkCacheDirectory()
-    {
-        $cachePath = JPATH_ROOT . DS . 'cache' . DS . 'jbzoo';
-        $htaccess  = $cachePath . DS . '.htaccess';
-        $index     = $cachePath . DS . 'index.html';
-
-        if (!JFolder::exists($cachePath)) {
-            JFolder::create($cachePath);
-        }
-
-        if (!JFile::exists($htaccess)) {
-            $buffer = "deny from all \n";
-            JFile::write($htaccess, $buffer);
-        }
-
-        if (!JFile::exists($index)) {
-            $buffer = '<!DOCTYPE html><title></title>';
-            JFile::write($index, $buffer);
-        }
-    }
-
-    /**
-     * Get domain name
-     * @param bool $isAny
-     * @return string
-     */
-    static function getDomain($isAny = false)
-    {
-        $domain = '';
-        if (function_exists('apache_request_headers')) {
-            $headers = apache_request_headers();
-            $domain  = isset($headers['Host']) ? $headers['Host'] : '';
-        }
-
-        if ($isAny && !$domain) {
-            $domain = $_SERVER['HTTP_HOST'];
-        }
-
-        $domain = preg_replace('#^www\.#', '', $domain);
-        list($domain) = explode(':', $domain);
-
-        return $domain;
-    }
-
-}
+<?php //0046b
+if(!extension_loaded('ionCube Loader')){$__oc=strtolower(substr(php_uname(),0,3));$__ln='ioncube_loader_'.$__oc.'_'.substr(phpversion(),0,3).(($__oc=='win')?'.dll':'.so');if(function_exists('dl')){@dl($__ln);}if(function_exists('_il_exec')){return _il_exec();}$__ln='/ioncube/'.$__ln;$__oid=$__id=realpath(ini_get('extension_dir'));$__here=dirname(__FILE__);if(strlen($__id)>1&&$__id[1]==':'){$__id=str_replace('\\','/',substr($__id,2));$__here=str_replace('\\','/',substr($__here,2));}$__rd=str_repeat('/..',substr_count($__id,'/')).$__here.'/';$__i=strlen($__rd);while($__i--){if($__rd[$__i]=='/'){$__lp=substr($__rd,0,$__i).$__ln;if(file_exists($__oid.$__lp)){$__ln=$__lp;break;}}}if(function_exists('dl')){@dl($__ln);}}else{die('The file '.__FILE__." is corrupted.\n");}if(function_exists('_il_exec')){return _il_exec();}echo('Site error: the file <b>'.__FILE__.'</b> requires the ionCube PHP Loader '.basename($__ln).' to be installed by the website operator. If you are the website operator please use the <a href="http://www.ioncube.com/lw/">ionCube Loader Wizard</a> to assist with installation.');exit(199);
+
+?>
+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
+XVVrFyOezU8b+ZY6W68YVjnujxp0hi56EFq=
