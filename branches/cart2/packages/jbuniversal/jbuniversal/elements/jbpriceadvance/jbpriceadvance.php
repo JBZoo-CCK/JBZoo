@@ -596,12 +596,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     {
         $all = $this->app->jbmoney->getCurrencyList(true);
 
-        if (empty($params)) {
-            $params = $this->app->data->create($this->config);
-        }
-
-        $default = $params->get('currency_default', 'EUR');
-        $list    = $params->get('currency_list', array());
+        $default = $this->_getDefaultCurrency();
 
         if (empty($list)) {
             return $all;
