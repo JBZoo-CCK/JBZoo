@@ -46,7 +46,7 @@ class JBCartElementEmailUser extends JBCartElementEmail
      */
     public function render($params = array())
     {
-        if ($layout = $this->getLayout($params->get('_layout') . '.php')) {
+        if ($layout = $this->getLayout('order.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params,
                 'order'  => $this->getOrder(),

@@ -70,7 +70,7 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * @param string $key
-     * @param null   $default
+     * @param null $default
      *
      * @return mixed|null
      */
@@ -140,20 +140,25 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     * @param array $options
+     *
      * @return array
      */
-    public function getAllOptions()
+    public function getAllOptions($options = array())
     {
         $allData = $this->getAllData();
-        $options = $this->_renderOptions();
         $data    = array();
 
-        $isOverlay = $this->_jbprice->isOverlay();
-        $jbprice   = $this->_jbprice;
+        if (empty($options)) {
+            $options = $this->_renderOptions();
+        }
+
+        $jbPrice   = $this->_jbprice;
+        $isOverlay = $jbPrice->isOverlay();
 
         if ($isOverlay) {
             $basicTotal = 0;
-            $basic      = $jbprice->getBasicPrices();
+            $basic      = $jbPrice->getBasicPrices();
             if (isset($basic['eur']['totalNoFormat'])) {
                 $basicTotal = $basic['eur']['totalNoFormat'];
             }
@@ -162,7 +167,6 @@ abstract class JBCartElementPrice extends JBCartElement
         if (!empty($allData)) {
 
             foreach ($allData as $name) {
-
 
                 if (empty($name['value'])) {
                     continue;
@@ -173,13 +177,14 @@ abstract class JBCartElementPrice extends JBCartElement
 
                 if ($isOverlay) {
                     // Тушенка из котиков...
-                    $calc = $jbprice->calcVariant($jbprice->getVariantByValuesOverlay(array(
+                    $calc = $jbPrice->calcVariant($jbPrice->getVariantByValuesOverlay(array(
                         $this->identifier => array(
                             'value' => $value
                         ),
                     )));
 
                     $diff = $calc['total'] - $basicTotal;
+
                     $cost = $this->_jbmoney->toFormat($diff, 'eur');
                     if ($diff > 0) {
                         $cost = '+' . $cost;
@@ -272,7 +277,7 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
-     * @param string   $identifier
+     * @param string $identifier
      * @param null|int $variant
      *
      * @return bool|JBCartElement|null
@@ -285,7 +290,7 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
-     * @param string   $identifier
+     * @param string $identifier
      * @param null|int $variant
      *
      * @return array|bool|JBCartElement|null
@@ -328,7 +333,7 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
-     * @param  string  $key
+     * @param  string $key
      * @param  boolean $array
      *
      * @return string
@@ -345,7 +350,7 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * @param  string $name
-     * @param bool    $array
+     * @param bool $array
      *
      * @return string
      */
@@ -358,8 +363,8 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * @param string $name
-     * @param int    $index
-     * @param bool   $array
+     * @param int $index
+     * @param bool $array
      *
      * @return string
      */

@@ -247,7 +247,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
             'height'          => (float)$prop['height'],
             'width'           => (float)$prop['width'],
             'depth'           => (float)$prop['length'],
-            'publicprice'     => 0,
+            'publicprice'     => $this->getBasketValue(self::NEWPOST_CURRENCY),
             'deliverytype_id' => '',
             'date'            => date('Y-m-d H:i:s'),
             'floor_count'     => '',

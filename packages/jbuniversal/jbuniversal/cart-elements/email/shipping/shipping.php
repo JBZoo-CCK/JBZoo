@@ -55,7 +55,7 @@ class JBCartElementEmailShipping extends JBCartElementEmail
             $options = $this->getFieldsParams();
         }
 
-        if ($layout = $this->getLayout($params->get('_layout') . '.php')) {
+        if ($layout = $this->getLayout('order.php')) {
             return self::renderLayout($layout, array(
                 'params'      => $params,
                 'order'       => $this->getOrder(),

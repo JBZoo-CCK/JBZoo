@@ -946,7 +946,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         $variant = array_merge((array)$basic, (array)$variant);
         $variant = $this->app->data->create($variant);*/
 
-        $variant = $this->getReadableData($variant);
+        $variant = $this->getReadableData((array)$variant);
 
         $basicCurrency = $basic->find('_currency.value', $default);
         $basicValue    = $basic->find('_value.value', 0);

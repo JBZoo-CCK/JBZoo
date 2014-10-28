@@ -252,10 +252,13 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
 
                     foreach ($users as $userId) {
 
-                        $user = JFactory::getUser($userId);
+                        $user  = JFactory::getUser($userId);
+                        $email = JString::trim($user->get('email'));
 
-                        $this->addRecipient($user->get('email'), $user->get('name'));
-                        $this->_send();
+                        if (!empty($email)) {
+                            $this->addRecipient($user->get('email'), $user->get('name'));
+                            $this->_send();
+                        }
                     }
                 }
             }
@@ -281,10 +284,14 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
                 //send to email from user profile
                 if ($type == self::RECIPIENT_USER_PROFILE) {
 
-                    $user = JFactory::getUser();
-                    $this->addRecipient($user->get('email'), $user->get('name'));
+                    $user  = JFactory::getUser();
+                    $email = JString::trim($user->get('email'));
 
-                    $this->_send();
+                    if (!empty($email)) {
+                        $this->addRecipient($user->get('email'), $user->get('name'));
+
+                        $this->_send();
+                    }
 
                     //send to email from order field email
                 } else {
@@ -329,10 +336,14 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
             } else {
                 $advRecipients = explode(',', $to);
                 foreach ($advRecipients as $recipient) {
-                    $recipient = JString::trim($recipient);
-                    $this->addRecipient($recipient);
 
-                    $this->_send();
+                    $recipient = JString::trim($recipient);
+
+                    if (!empty($recipient)) {
+                        $this->addRecipient($recipient);
+
+                        $this->_send();
+                    }
                 }
             }
         }

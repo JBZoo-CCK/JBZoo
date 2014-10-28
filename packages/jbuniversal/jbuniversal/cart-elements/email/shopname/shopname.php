@@ -28,6 +28,7 @@ class JBCartElementEmailShopName extends JBCartElementEmail
     public function hasValue($params = array())
     {
         $shopname = JString::trim($this->_cartConfig->get('shop_name'));
+
         if (!empty($shopname)) {
             return true;
         }
@@ -43,7 +44,7 @@ class JBCartElementEmailShopName extends JBCartElementEmail
      */
     public function render($params = array())
     {
-        if ($layout = $this->getLayout($params->get('_layout') . '.php')) {
+        if ($layout = $this->getLayout('order.php')) {
             return self::renderLayout($layout, array(
                 'shopname' => $this->_cartConfig->get('shop_name')
             ));
