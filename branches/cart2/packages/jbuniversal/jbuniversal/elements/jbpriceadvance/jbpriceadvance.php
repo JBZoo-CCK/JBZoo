@@ -409,7 +409,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                             'elem_index'    => $params->get('_index'),
                         )),
                 'interfaceParams'   => array(
-                    'currencyDefault' => $this->config->get('currency_default', 'EUR'),
+                    'currencyDefault' => $this->_getDefaultCurrency(),
                     'startValue'      => (float)$params->get('count_default', 1),
                     'multipleValue'   => (float)$params->get('count_multiple', 1),
                     'advFieldText'    => (int)$this->config->get('adv_field_text', 0),
@@ -500,7 +500,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                     'elem_index'    => $params->get('_index'),
                 )),
             'interfaceParams'   => array(
-                'currencyDefault' => $params->get('currency_default', 'EUR'),
+                'currencyDefault' => $this->_getDefaultCurrency(),
                 'startValue'      => (float)$params->get('count_default', 1),
                 'multipleValue'   => (float)$params->get('count_multiple', 1),
                 'advFieldText'    => (int)$this->config->get('adv_field_text', 0),
