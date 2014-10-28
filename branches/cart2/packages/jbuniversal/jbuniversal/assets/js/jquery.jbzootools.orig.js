@@ -1076,7 +1076,7 @@ var reCount = {
             $('.jsQuantity', $obj).JBZooQuantity({
                 'default' : 1,
                 'step'    : 1,
-                'decimals': 1
+                'decimals': 0
             });
             // quantity
             var $quantity = $('.jsQuantity', $obj),
@@ -1927,19 +1927,19 @@ var reCount = {
 
                 $('input, select', $param).on('change', function () {
                     var $field = $(this),
-                        $parent = $field.parents('.simple-param'),
+                        $param = $field.parents('.simple-param'),
                         $row = $field.parents('.jbpriceadv-variation-row');
 
+                    $this.super.clearStyles();
                     $this.super.disableParams($row);
-                    $this.super.setStatus($parent);
+                    $this.super.setStatus($param);
 
                     if ($('.simple-param.active', $row).length == 0) {
                         $this.super.activateParams($row);
                     }
 
-                    $this.super.clearStyles();
                     $this.super.insertOptions();
-                    global.showErrors();
+                    $this.super.showErrors();
                 });
             }
 
@@ -2047,9 +2047,6 @@ var reCount = {
                     field = $('input[type="radio"]:checked', $param);
                     value = $.trim(field.val());
 
-                } else if (type == 'text') {
-                    value = $.trim($field.val());
-
                 } else {
                     value = $.trim($field.val());
                 }
@@ -2067,14 +2064,19 @@ var reCount = {
                 $('.jbpriceadv-variation-row', validator).each(function () {
 
                     var $row = $(this);
-                    $('.variation-label .jsAttention', $row).removeClass('error');
-                    $('.variation-label .jsAttention', $row).tooltip('destroy');
+                    $('.variation-label .jsAttention', $row)
+                        .removeClass('error')
+                        .tooltip()
+                        .tooltip('destroy');
+
                     $('.simple-param', $row).each(function () {
 
                         var $param = $(this);
-                        $('.jsJBPriceAttention', $param).removeClass('error');
-                        $('.jsJBPriceAttention', $param).removeClass('disabled');
-                        $('.jsJBPriceAttention', $param).tooltip('destroy');
+                        $('.jsJBPriceAttention', $param)
+                            .removeClass('error')
+                            .removeClass('disabled')
+                            .tooltip()
+                            .tooltip('destroy');
                     });
                 });
             };
@@ -2083,8 +2085,11 @@ var reCount = {
 
                 $param.removeClass('disabled');
                 $param.addClass('active');
-                $('.jsJBPriceAttention', $param).removeClass('disabled');
-                $('.jsJBPriceAttention', $param).tooltip('destroy');
+
+                $('.jsJBPriceAttention', $param)
+                    .removeClass('disabled')
+                    .tooltip()
+                    .tooltip('destroy');
 
                 $('input, select', $param)
                     .removeAttr('disabled')
@@ -2453,11 +2458,26 @@ var reCount = {
                 if (jbColor.length > 0) {
 
                     jbColor.removeClass('jbcolor-initialized');
-                    $('.jbcolor-input', jbColor).unbind();
+
+                    $('.jbcolor-label', jbColor).removeClass('checked');
+                    $('.jbcolor-input', jbColor)
+                        .unbind()
+                        .removeClass('checked');
 
                     jbColor.JBColorHelper({
                         "multiple": false
                     });
+                }
+
+                var jbImage = $('.jbprice-img-row-file', $newRow);
+
+                if (jbImage.length > 0) {
+
+                    $('span, button', jbImage).remove();
+                    jbImage
+                        .removeClass('JBPriceImage-init')
+                        .attr('id', Math.random().toString(36).replace('.', ''))
+                        .initJBPriceAdvImage();
                 }
 
                 $('.variation-label .description, ' +
@@ -3250,32 +3270,38 @@ var reCount = {
         $this.getParams = function () {
 
             var params = {};
+
             for (var name in plugins) {
 
                 var plg = plugins[name];
 
-                var identifier = $('.jsInputShippingService', plg).val(),
-                    options = $('.jsCalculate', plg),
-                    values = {};
-                $('input, select', options).each(function () {
+                if (Object.keys(plg).length > 0) {
 
-                    var field = $(this);
+                    var input = $('.jsInputShippingService', plg),
+                        identifier = input.val(),
+                        options = $('.jsCalculate', plg),
+                        values = {};
 
-                    if (typeof field.attr('name') != 'undefined') {
+                    $('input, select', options).each(function () {
 
-                        var nameOf = field.attr('name'),
-                            value = $.trim(field.val());
+                        var field = $(this);
 
-                        if (value.length > 0) {
-                            nameOf = nameOf.replace(/shipping(?:[\[])(\w+)(?:[\]])/, "$1");
+                        if (typeof field.attr('name') != 'undefined') {
 
-                            values[nameOf] = field.val();
+                            var nameOf = field.attr('name'),
+                                value = $.trim(field.val());
+
+                            if (value.length > 0) {
+                                nameOf = nameOf.replace(/shipping(?:[\[])(\w+)(?:[\]])/, "$1");
+
+                                values[nameOf] = field.val();
+                            }
                         }
-                    }
-                });
+                    });
 
-                if (Object.keys(values).length > 0) {
-                    params[identifier] = values;
+                    if (Object.keys(values).length > 0) {
+                        params[identifier] = values;
+                    }
                 }
             }
 
@@ -3321,17 +3347,19 @@ var reCount = {
 
         $this.setPrices = function (plgs) {
 
-            for (var id in plgs) {
-                var input = $('.jsInputShippingService[value="' + id + '"]', $('.jbzoo .shipping-list')),
-                    type = input.parents('.jsShippingElement').data('type'),
-                    label = input.next();
+            if (Object.keys(plgs).length > 0) {
+                for (var id in plgs) {
+                    var input = $('.jsInputShippingService[value="' + id + '"]', $('.jbzoo .shipping-list')),
+                        type = input.parents('.jsShippingElement').data('type'),
+                        label = input.next();
 
-                if (input.is(':checked')) {
-                    $this.setPrice(plgs[id]);
+                    if (input.is(':checked')) {
+                        $this.setPrice(plgs[id]);
+                    }
+                    plugins[type].price = plgs[id].price;
+                    $('.shipping-info .value .jsValue', label).html(plgs[id].price);
+                    $('.shipping-info .value .jsCurrency', label).html(plgs[id].symbol);
                 }
-                plugins[type].price = plgs[id].price;
-                $('.shipping-info .value .jsValue', label).html(plgs[id].price);
-                $('.shipping-info .value .jsCurrency', label).html(plgs[id].symbol);
             }
         };
 

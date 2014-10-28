@@ -695,6 +695,8 @@
 .jbzoo .jbbasket-table tfoot td {
     border-top: 1px dashed #CCC;
     border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
     padding: 25px 10px 15px 10px;
 }
 
@@ -717,6 +719,7 @@
     font-size: 12px;
     color: #999;
     vertical-align: middle;
+    border: 0;
 }
 
 .jbzoo .jbbasket-table tr.null:hover,
@@ -2558,7 +2561,7 @@ form.jbzoo-app-basket {
     min-width: 700px;
 }
 
-.jbzoo .jbzoo-app-basket .item-delete-all {
+#yoo-zoo.jbzoo .jbzoo-app-basket .item-delete-all {
     -webkit-transition: all 0.5s;
     -moz-transition: all 0.5s;
     transition: all 0.5s;
@@ -2568,8 +2571,8 @@ form.jbzoo-app-basket {
     font-size: 12px;
 }
 
-.jbzoo .jbzoo-app-basket:hover .item-delete-all:hover,
-.jbzoo .jbbasket-table tr:hover .item-delete:hover {
+#yoo-zoo.jbzoo .jbzoo-app-basket:hover .item-delete-all:hover,
+#yoo-zoo.jbzoo .jbbasket-table tr:hover .item-delete:hover {
     background: #FDA83B;
     background: -moz-linear-gradient(top, #FCC135 0%, #FE9437 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FCC135), color-stop(100%, #FE9437));
@@ -2579,7 +2582,7 @@ form.jbzoo-app-basket {
     background: linear-gradient(to bottom, #FCC135 0%, #FE9437 100%);
 }
 
-.jbzoo .jbbasket-table .item-delete {
+#yoo-zoo.jbzoo .jbbasket-table .item-delete {
     -webkit-transition: all 0.5s;
     -moz-transition: all 0.5s;
     transition: all 0.5s;
@@ -2588,7 +2591,9 @@ form.jbzoo-app-basket {
     float: right;
     border-radius: 20px;
     width: 20px;
-    height: 20px
+    height: 20px;
+    line-height: 20px;
+    font-size: 12px;
 }
 
 .jbzoo .shipping-default {
@@ -2845,10 +2850,11 @@ form.jbzoo-app-basket {
 
 /** Green button **/
 
-.jbzoo .jbbutton-base {
+.jbzoo .jbbutton-base,
+#yoo-zoo.jbzoo .jbbutton-base {
     display: inline-block;
     vertical-align: baseline;
-    margin: 0px;
+    margin: 0;
     outline: none;
     cursor: pointer;
     padding: 5px 20px;
@@ -2863,7 +2869,8 @@ form.jbzoo-app-basket {
     box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
 }
 
-.jbzoo .jbbutton-green {
+.jbzoo .jbbutton-green,
+#yoo-zoo.jbzoo .jbbutton-green {
     color: #FFF;
     border: solid 1px #6AB635;
     background: #6FB83A;
@@ -2876,7 +2883,8 @@ form.jbzoo-app-basket {
     margin-right: 16px;
 }
 
-.jbzoo .jbbutton-green:hover {
+.jbzoo .jbbutton-green:hover,
+#yoo-zoo.jbzoo .jbbutton-green:hover {
     background: #7BC251;
     background: -moz-linear-gradient(top, #ADE16B 0%, #65BA50 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ADE16B), color-stop(100%, #65BA50));
@@ -2886,12 +2894,14 @@ form.jbzoo-app-basket {
     background: linear-gradient(to bottom, #ADE16B 0%, #65BA50 100%);
 }
 
-.jbzoo .jbbutton-medium {
+.jbzoo .jbbutton-medium,
+#yoo-zoo.jbzoo .jbbutton-medium {
     line-height: 25px;
     font-size: 15px;
 }
 
-.jbzoo .jbbutton-big {
+.jbzoo .jbbutton-big,
+#yoo-zoo.jbzoo .jbbutton-big {
     line-height: 50px;
     font-size: 18px;
 }
@@ -2900,7 +2910,8 @@ form.jbzoo-app-basket {
 
 /** Grey button **/
 
-.jbzoo .jbbutton-grey {
+.jbzoo .jbbutton-grey,
+#yoo-zoo.jbzoo .jbbutton-grey {
     color: #777;
     text-shadow: none;
     border: solid 1px #DCDCDC;
@@ -2913,7 +2924,8 @@ form.jbzoo-app-basket {
     background: linear-gradient(to bottom, #FDFDFD 0%, #DCDCDC 100%);
 }
 
-.jbzoo .jbbutton-grey:hover {
+.jbzoo .jbbutton-grey:hover,
+#yoo-zoo.jbzoo .jbbutton-grey:hover {
     background: #F9F9F9;
     background: -moz-linear-gradient(top, #FCFCFC 0%, #E8E8E8 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FCFCFC), color-stop(100%, #E8E8E8));
@@ -2927,7 +2939,8 @@ form.jbzoo-app-basket {
 
 /** Orange button **/
 
-.jbzoo .jbbutton-orange {
+.jbzoo .jbbutton-orange,
+#yoo-zoo.jbzoo .jbbutton-orange {
     color: #FFF;
     font-weight: bold;
     border: solid 1px #F97A2E;
@@ -2940,7 +2953,8 @@ form.jbzoo-app-basket {
     background: linear-gradient(to bottom, #FDAA63 0%, #F97A2E 100%);
 }
 
-.jbzoo .jbbutton-orange:hover {
+.jbzoo .jbbutton-orange:hover,
+#yoo-zoo.jbzoo .jbbutton-orange:hover {
     background: #FDA83B;
     background: -moz-linear-gradient(top, #FCC135 0%, #FE9437 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FCC135), color-stop(100%, #FE9437));
@@ -2992,7 +3006,6 @@ form.jbzoo-app-basket {
     max-height: 500px;
     padding: 6px;
 }
-
 
 .jbzoo .price-calc {
     width: 100%;

@@ -45,7 +45,7 @@ class JBCartElementEmailSiteName extends JBCartElementEmail
     public function render($params = array())
     {
         $config = JFactory::getConfig();
-        if ($layout = $this->getLayout($params->get('_layout') . '.php')) {
+        if ($layout = $this->getLayout('order.php')) {
             return self::renderLayout($layout, array(
                     'sitename' => $config->get('sitename')
                 )

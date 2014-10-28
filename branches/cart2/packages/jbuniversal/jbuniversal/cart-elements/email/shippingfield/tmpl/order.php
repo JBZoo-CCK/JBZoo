@@ -20,11 +20,11 @@ if (!empty($data)) : ?>
             'cellspacing' => 0,
             'cellpadding' => 10
         )) .
-        $this->getStyles(array(
-            'border'        => '1px solid #dddddd',
-            'border-radius' => '4px',
-            'margin-top'    => '35px'
-        ));?>
+                      $this->getStyles(array(
+                          'border'        => '1px solid #dddddd',
+                          'border-radius' => '4px',
+                          'margin-top'    => '35px'
+                      ));?>
         >
         <tr>
             <td <?php echo $this->getAttrs(array(
@@ -37,19 +37,21 @@ if (!empty($data)) : ?>
             </td>
         </tr>
 
-        <?php foreach ($data as $key => $field) : ?>
-            <tr>
-                <td align="left">
-                    <strong>
-                        <?php echo JText::_('JBZOO_ORDER_SHIPPINGFIELDS_' . strtoupper($key)); ?>
-                    </strong>
-                </td>
+        <?php foreach ($data as $key => $field) :
+            if (!empty($field)) : ?>
+                <tr>
+                    <td align="left">
+                        <strong>
+                            <?php echo JText::_('JBZOO_ORDER_SHIPPINGFIELDS_' . strtoupper($key)); ?>
+                        </strong>
+                    </td>
 
-                <td align="left">
-                    <?php echo $field->get('value'); ?>
-                </td>
+                    <td align="left">
+                        <?php echo $field->get('value'); ?>
+                    </td>
 
-            </tr>
-        <?php endforeach; ?>
+                </tr>
+            <?php endif;
+        endforeach; ?>
     </table>
 <?php endif;

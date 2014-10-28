@@ -274,6 +274,29 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
+     * Get price for all items in basket
+     *
+     * @param string $currency
+     *
+     * @return int|mixed
+     */
+    public function getBasketValue($currency = 'EUR')
+    {
+        $cart   = JBcart::getInstance();
+        $items  = $cart->getItems();
+        $result = 0;
+
+        foreach ($items as $item) {
+
+            $value = $item['quantity'] * $item['price'];
+
+            $result += $this->_jbmoney->convert($item['currency'], $currency, $value);
+        }
+
+        return (float)$result;
+    }
+
+    /**
      * Get all items in basket
      *
      * @return mixed
