@@ -500,7 +500,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                     'elem_index'    => $params->get('_index'),
                 )),
             'interfaceParams'   => array(
-                'currencyDefault' => $this->_getDefaultCurrency(),
+                'currencyDefault' => $params->get('currency_default', 'EUR'),
                 'startValue'      => (float)$params->get('count_default', 1),
                 'multipleValue'   => (float)$params->get('count_multiple', 1),
                 'advFieldText'    => (int)$this->config->get('adv_field_text', 0),
@@ -598,23 +598,11 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
         $default = $this->_getDefaultCurrency();
 
-        if (empty($list)) {
-            return $all;
+        if (empty($all)) {
+            return $default;
         }
 
-        if (!in_array($default, $list)) {
-            $list[] = $default;
-        }
-        $list = array_unique($list);
-
-        $result = array();
-        foreach ($list as $currency) {
-            if (isset($all[$currency])) {
-                $result[$currency] = $all[$currency];
-            }
-        }
-
-        return $result;
+        return $all;
     }
 
     /**
@@ -694,17 +682,20 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         }
 
         $basicData = $this->getBasicData();
-        $basic     = $this->getReadableData($basicData);
+        $basic     = $this->getReadableData((array)$basicData);
         $result    = array();
 
         foreach ($data as $i => $value) {
             foreach ($value as $identifier => $fields) {
 
                 if (isset($values[$identifier])) {
+
                     $diff = array_diff_assoc($fields, $values[$identifier]);
 
                     if (empty($diff)) {
+
                         $result[$i] = $this->getVariations($i);
+
                     }
                 }
             }
@@ -717,7 +708,8 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             $basicData['no'] = '';
 
             foreach ($result as $key => $variant) {
-                $variant = $this->getReadableData($variant);
+
+                $variant = $this->getReadableData((array)$variant);
 
                 $variantValue    = $variant->find('_value.value', 0);
                 $variantCurrency = $variant->find('_currency.value');
@@ -1405,8 +1397,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         if (!(int)$this->config->get('mode', 0)) {
             return $result;
         }
-        $data    = $this->data();
-        $default = $this->_getDefaultData();
+        $data = $this->data();
 
         if (isset($variant)) {
 
@@ -1427,7 +1418,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             foreach ($data['variations'] as $key => $variant) {
                 $variant['no'] = $key;
 
-                $result[] = array_merge($default, $variant);
+                $result[$key] = $variant;
             }
 
         }
@@ -1759,6 +1750,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
         if ($priceMode == self::PRICE_MODE_OVERLAY) {
             $variant = $this->getVariantByValuesOverlay($values);
+
         } else if ($priceMode == self::PRICE_MODE_DEFAULT) {
             $variant = $this->getVariantByValues($values);
         }
