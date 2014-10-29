@@ -2361,7 +2361,7 @@ var reCount = {
                         $('.row-balance', $row).val('-1');
                     }
 
-                    $('input[type=text], input[type=checkbox], select, textarea', $row).each(function () {
+                    $('input[type=text], input[type=hidden], input[type=checkbox], select, textarea', $row).each(function () {
                         var $control = $(this);
                         $control.attr('name', $control.attr('name').replace(/\[variations\]\[\d\]/i, '[variations][' + n + ']'));
 
@@ -4077,4 +4077,3 @@ var reCount = {
     };
 
 }());
-
