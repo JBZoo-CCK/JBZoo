@@ -145,8 +145,8 @@ a54846803de3cc786eec3d69f9ac2d38 jbapp/assets/img/tablesorter/desc.gif
 8ca096fda23d564fe62bc65ef5f498e0 jbapp/assets/js/index.html
 f7e0e14131b52d9cf0d8322e8aa9cea7 jbapp/assets/js/jbzoo.js.example
 989658663bab3a31de3ebb5f620ffaef jbapp/assets/js/jquery.jbzooprice.js
-b586acf53fc981385b18e7696667e6ae jbapp/assets/js/jquery.jbzootools.min.js
-0a112cb633f188f680fa6c91f332b6fb jbapp/assets/js/jquery.jbzootools.orig.js
+77dbc55280a85e75ed9ff3b60ce62e1a jbapp/assets/js/jquery.jbzootools.min.js
+93f1be7c82c1ffa88159d45c3c133c59 jbapp/assets/js/jquery.jbzootools.orig.js
 a59cec0e78be9419214641f1488c1c9a jbapp/assets/js/jquery.libraries.min.js
 f5f8043752364f0b4431e9d7eda9d2c1 jbapp/assets/js/uikit.min.js
 8ca096fda23d564fe62bc65ef5f498e0 jbapp/assets/zoo/index.html
@@ -671,7 +671,7 @@ e4610dee17c35d4f300d9a85b073ee8a jbapp/elements/jbimage/jbimage.xml
 eef410dafb2a402a440cba6a426abd0d jbapp/elements/jbimage/tmpl/jbimage-popup.php
 8c3c98b41e6dd986434e8b60036430c2 jbapp/elements/jbimage/tmpl/submission.php
 8ca096fda23d564fe62bc65ef5f498e0 jbapp/elements/jbpriceadvance/index.html
-1a39beaaf6c1b02f576d67124650c1e7 jbapp/elements/jbpriceadvance/jbpriceadvance.php
+9127777dcc5a592d3624541254a57ddd jbapp/elements/jbpriceadvance/jbpriceadvance.php
 8a548bc47a5d73db4b75153b7798a420 jbapp/elements/jbpriceadvance/jbpriceadvance.xml
 be4280647160822c706004eb4c960a13 jbapp/elements/jbpriceadvance/tmpl/_variations.php
 082a76be9cfa2e5f5d7996e87bd6c6e8 jbapp/elements/jbpriceadvance/tmpl/edit.php
@@ -1427,7 +1427,7 @@ e2e54b804e28237f07cc6f9d84c3216e mod_jbzoo_category/tmpl/default.php
 900cd01556f4ec3be6250d6eecc4dc66 mod_jbzoo_item/helper.php
 8ca096fda23d564fe62bc65ef5f498e0 mod_jbzoo_item/index.html
 02ddba5f54894e4856ab6cafb2c09adf mod_jbzoo_item/mod_jbzoo_item.php
-14186a1bd5db92e50600b88bcabf1f4c mod_jbzoo_item/mod_jbzoo_item.xml
+1af4c69522276e9c73e834bf2df7375e mod_jbzoo_item/mod_jbzoo_item.xml
 8ca096fda23d564fe62bc65ef5f498e0 mod_jbzoo_item/renderer/index.html
 16ac23f334d25f30f7e62b8aa7e66680 mod_jbzoo_item/tmpl/default.php
 8ca096fda23d564fe62bc65ef5f498e0 mod_jbzoo_item/tmpl/index.html
