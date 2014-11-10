@@ -22,6 +22,17 @@
         <param name="symbol" type="text" default="" label="JBZOO_ELEMENT_CURRENCY_SYMBOL"
                description="JBZOO_ELEMENT_CURRENCY_SYMBOL_DESC"/>
 
+        <param name="round_type" type="list" default="none" label="JBZOO_ELEMENT_CURRENCY_ROUND_TYPE"
+               description="JBZOO_ELEMENT_CURRENCY_ROUND_TYPE_DESC">
+            <option value="none">JBZOO_ELEMENT_CURRENCY_ROUND_TYPE_NONE</option>
+            <option value="ceil">JBZOO_ELEMENT_CURRENCY_ROUND_TYPE_CEIL</option>
+            <option value="classic">JBZOO_ELEMENT_CURRENCY_ROUND_TYPE_CLASSIC</option>
+            <option value="floor">JBZOO_ELEMENT_CURRENCY_ROUND_TYPE_FLOOR</option>
+        </param>
+
+        <param name="round_value" type="text" default="2" label="JBZOO_ELEMENT_CURRENCY_ROUND_VALUE"
+               description="JBZOO_ELEMENT_CURRENCY_ROUND_VALUE_DESC"/>
+
         <param name="format_positive" type="text" default="%v %s" label="JBZOO_ELEMENT_CURRENCY_FORMAT_POSITIVE"
                description="JBZOO_ELEMENT_CURRENCY_FORMAT_POSITIVE_DESC"/>
 
