@@ -47,7 +47,6 @@ class JBCartElementPaymentRobokassa extends JBCartElementPayment
     }
 
     /**
-     * @param array $params
      * @return null|void
      * @throws AppException
      */
