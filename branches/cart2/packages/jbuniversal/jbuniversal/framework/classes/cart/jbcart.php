@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname(__FILE__) . '/jbvalue.php';
+
 /**
  * Class JBCart
  */
@@ -91,7 +93,6 @@ class JBCart
 
     /**
      * Class constructor
-     *
      * Constructor
      */
     private function __construct()
@@ -103,8 +104,22 @@ class JBCart
     }
 
     /**
+     * Create price value object
+     * @param      $value
+     * @param null $currency
+     * @return JBCartValue
+     */
+    static public function val($value = 0, $currency = null, $rates = array())
+    {
+        if ($value instanceof JBCartValue) {
+            return $value;
+        }
+
+        return new JBCartValue($value, $currency, $rates);
+    }
+
+    /**
      * Get new order object
-     *
      * @return JBCartOrder
      */
     public function newOrder()
@@ -129,9 +144,7 @@ class JBCart
 
     /**
      * Get default status from cart configurations
-     *
      * @param string $type
-     *
      * @return JBCartElementStatus
      */
     public function getDefaultStatus($type = JBCart::STATUS_ORDER)
@@ -161,9 +174,7 @@ class JBCart
 
     /**
      * Get all items from session
-     *
      * @param bool $assoc
-     *
      * @return mixed
      */
     public function getItems($assoc = true)
@@ -198,7 +209,6 @@ class JBCart
 
     /**
      * Get the weight of all items in basket.
-     *
      * @return int
      */
     public function getWeight()
@@ -221,7 +231,6 @@ class JBCart
 
     /**
      * Get
-     *
      * @return mixed
      */
     public function getProperties()
@@ -251,10 +260,8 @@ class JBCart
      * Remove all variations if key is null.
      * $key = {item_id}-{variant_index}.
      * Priority on $key.
-     *
      * @param  int    $id
      * @param  string $key
-     *
      * @return bool
      */
     public function remove($id, $key = null)
@@ -276,9 +283,7 @@ class JBCart
     /**
      * Remove item from cart by id.
      * Item_id-variant or item_id for basic.
-     *
      * @param  int $id - Item_id
-     *
      * @return bool
      */
     public function removeItem($id)
@@ -303,9 +308,7 @@ class JBCart
     /**
      * Remove item's variant from cart by $key.
      * Item_id-variant or item_id for basic.
-     *
      * @param $key - Item_id + index of variant.
-     *
      * @return bool
      */
     public function removeVariant($key)
@@ -333,7 +336,6 @@ class JBCart
 
     /**
      * Change item quantity from basket
-     *
      * @param $key
      * @param $value
      */
@@ -357,10 +359,8 @@ class JBCart
 
     /**
      * Is in stock item
-     *
      * @param $key
      * @param $quantity
-     *
      * @return bool
      */
     public function inStock($key, $quantity)
@@ -408,7 +408,6 @@ class JBCart
 
     /**
      * Recount all basket
-     *
      * @return array
      */
     public function recount()
@@ -449,9 +448,7 @@ class JBCart
 
     /**
      * Check if item in cart.
-     *
      * @param  string $id - item_id.
-     *
      * @return bool
      */
     public function inCart($id)
@@ -471,9 +468,7 @@ class JBCart
 
     /**
      * Check if item or item variation in cart by $key.
-     *
      * @param  string $key - {Item_id}-{variant} or {item_id} for basic.
-     *
      * @return bool
      */
     public function inCartVariant($key)
@@ -502,7 +497,6 @@ class JBCart
 
     /**
      * Set session
-     *
      * @param string $key
      * @param mixed  $value
      */
