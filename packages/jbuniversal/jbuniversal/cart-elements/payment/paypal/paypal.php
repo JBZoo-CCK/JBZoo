@@ -72,9 +72,9 @@ class JBCartElementPaymentPayPal extends JBCartElementPayment
 
         if (JString::strtoupper(JString::trim($response->body)) == 'VERIFIED') {
             return true;
-        } else {
-            throw new AppException('No valid checked status');
         }
+
+        return false;
     }
 
     /**
