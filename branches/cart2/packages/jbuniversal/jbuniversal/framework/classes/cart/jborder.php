@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -181,7 +180,6 @@ class JBCartOrder
 
     /**
      * @param bool $toFormat
-     *
      * @return float|int
      */
     public function getTotalSum($toFormat = false)
@@ -204,7 +202,6 @@ class JBCartOrder
 
     /**
      * @param $toFormat
-     *
      * @return int
      */
     public function getTotalForItems($toFormat = false)
@@ -235,7 +232,6 @@ class JBCartOrder
 
     /**
      * @param $toFormat
-     *
      * @return float|int
      */
     public function getTotalForSevices($toFormat = false)
@@ -262,10 +258,8 @@ class JBCartOrder
 
     /**
      * Set the Order published state
-     *
      * @param string $statusCode The new Order state code
      * @param string $type       Status type
-     *
      * @return $this
      */
     public function setStatus($statusCode, $type = JBCart::STATUS_ORDER)
@@ -315,7 +309,6 @@ class JBCartOrder
     /**
      * @param        $identifier
      * @param string $type
-     *
      * @return JBCartElement
      */
     public function getElement($identifier, $type = JBCart::CONFIG_FIELDS)
@@ -346,7 +339,6 @@ class JBCartOrder
 
     /**
      * @param string $type
-     *
      * @return array
      */
     public function getModifiers($type = JBCart::MODIFIER_ORDER)
@@ -359,7 +351,6 @@ class JBCartOrder
 
     /**
      * @param $identifier
-     *
      * @return JBCartElementOrder
      */
     public function getFieldElement($identifier)
@@ -369,13 +360,11 @@ class JBCartOrder
 
     /**
      * @param $identifier
-     *
      * @return JBCartElementOrder
      */
     /**
      * @param $identifier
      * @param $groupName
-     *
      * @return JBCartElementModifierPrice
      */
     public function getModifierElement($identifier, $groupName)
@@ -385,7 +374,6 @@ class JBCartOrder
 
     /**
      * @param $identifier
-     *
      * @return JBCartElementShipping
      */
     public function getShippingElement($identifier)
@@ -395,7 +383,6 @@ class JBCartOrder
 
     /**
      * @param $identifier
-     *
      * @return JBCartElementPayment
      */
     public function getPaymentElement($identifier)
@@ -405,7 +392,6 @@ class JBCartOrder
 
     /**
      * @param $identifier
-     *
      * @return JBCartElementShippingField
      */
     public function getShippingFieldElement($identifier)
@@ -415,7 +401,6 @@ class JBCartOrder
 
     /**
      * @param $identifier
-     *
      * @return JBCartElementValidator
      */
     public function getValidatorElement($identifier)
@@ -425,9 +410,7 @@ class JBCartOrder
 
     /**
      * Bind data and validate order
-     *
      * @param $formData
-     *
      * @return int
      */
     public function bind($formData)
@@ -461,7 +444,6 @@ class JBCartOrder
      * @param        $data
      * @param string $type
      * @param array  $elementsParams
-     *
      * @return int
      */
     protected function _bindElements($data, $type = JBCart::CONFIG_FIELDS, $elementsParams = array())
@@ -599,7 +581,6 @@ class JBCartOrder
 
     /**
      * @param $data
-     *
      * @return int
      */
     protected function _bindShipping($data)
@@ -637,7 +618,6 @@ class JBCartOrder
 
     /**
      * @param $data
-     *
      * @return int
      */
     protected function _bindPayment($data)
@@ -674,9 +654,7 @@ class JBCartOrder
 
     /**
      * Get order item list
-     *
      * @param bool $loadItem
-     *
      * @return JSONData
      */
     public function getItems($loadItem = true)
@@ -815,7 +793,6 @@ class JBCartOrder
     /**
      * @param $data
      * @param $status
-     *
      * @return null
      */
     public function setPaymentData($data, $status = 'undefined')
@@ -841,7 +818,6 @@ class JBCartOrder
     /**
      * @param $data
      * @param $status
-     *
      * @return null
      */
     public function setShippingData($data, $status = 'undefined')
@@ -946,6 +922,17 @@ class JBCartOrder
 
         $this->comment = $data->get('comment');
         $this->setStatus($data->get('status'), JBCart::STATUS_ORDER);
+    }
+
+    /**
+     * @param string $data
+     * @param string $currency
+     * @return JBCartValue
+     */
+    public function val($data, $currency = null)
+    {
+        $rates = $this->getCurrencyList();
+        return JBcart::val($data, $currency, $rates);
     }
 
 }

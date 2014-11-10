@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -37,7 +36,7 @@ abstract class JBCartElementCurrency extends JBCartElement
     protected $_jbmoney = null;
 
     /**
-     * @param App $app
+     * @param App    $app
      * @param string $type
      * @param string $group
      */
@@ -176,7 +175,9 @@ abstract class JBCartElementCurrency extends JBCartElement
     {
         return array(
             'symbol'          => $this->config->get('symbol', ''),
-            'num_decimals'    => $this->config->get('num_decimals', 2),
+            'round_type'      => $this->config->get('round_type', 'none'),
+            'round_value'     => (int)$this->config->get('round_value', 6),
+            'num_decimals'    => (int)$this->config->get('num_decimals', 2),
             'decimal_sep'     => $this->config->get('decimal_sep', '.'),
             'thousands_sep'   => $this->config->get('thousands_sep', ' '),
             'format_positive' => $this->config->get('format_positive', '%v %s'),
