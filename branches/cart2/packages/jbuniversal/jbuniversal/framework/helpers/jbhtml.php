@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -21,7 +20,6 @@ class JBHTMLHelper extends AppHelper
 {
     /**
      * Render option list
-     *
      * @param        $data
      * @param        $name
      * @param null   $attribs
@@ -29,7 +27,6 @@ class JBHTMLHelper extends AppHelper
      * @param bool   $idtag
      * @param bool   $translate
      * @param bool   $isLabelWrap
-     *
      * @return string
      */
     public function radio(
@@ -51,7 +48,6 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render checkbox list
-     *
      * @param        $data
      * @param        $name
      * @param null   $attribs
@@ -59,7 +55,6 @@ class JBHTMLHelper extends AppHelper
      * @param bool   $idtag
      * @param bool   $translate
      * @param bool   $isLabelWrap
-     *
      * @return string
      */
     public function checkbox(
@@ -87,14 +82,12 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render select list
-     *
      * @param      $data
      * @param      $name
      * @param null $attribs
      * @param null $selected
      * @param bool $idtag
      * @param bool $translate
-     *
      * @return string
      */
     public function select(
@@ -127,12 +120,10 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render text field
-     *
      * @param      $name
      * @param null $value
      * @param null $attribs
      * @param null $idtag
-     *
      * @return string
      */
     public function text($name, $value = null, $attribs = null, $idtag = null)
@@ -153,13 +144,11 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render color field
-     *
      * @param string $inputType
      * @param array  $data
      * @param string $name
      * @param null   $selected
      * @param array  $attrs
-     *
      * @return string
      */
     public function colors($inputType = 'checkbox', $data, $name, $selected = null, $attrs = array())
@@ -243,12 +232,10 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render hidden field
-     *
      * @param      $name
      * @param null $value
      * @param null $attribs
      * @param null $idtag
-     *
      * @return string
      */
     public function hidden($name, $value = null, $attribs = null, $idtag = null)
@@ -265,13 +252,11 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render calendar element
-     *
      * @param       $name
      * @param null  $value
      * @param null  $attribs
      * @param null  $idtag
      * @param array $params
-     *
      * @return string
      */
     public function calendar($name, $value = null, $attribs = null, $idtag = null, $params = array())
@@ -292,12 +277,10 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render jQueryUI slider
-     *
      * @param array  $params
      * @param string $value
      * @param string $name
      * @param string $idtag
-     *
      * @return string
      */
     public function slider($params, $value = '', $name = '', $idtag = '')
@@ -335,14 +318,12 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render option list
-     *
      * @param        $data
      * @param        $name
      * @param null   $attribs
      * @param null   $selected
      * @param bool   $idtag
      * @param bool   $translate
-     *
      * @return string
      */
     public function buttonsJqueryUI(
@@ -371,7 +352,6 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render chosen
-     *
      * @param       $data
      * @param       $name
      * @param null  $attribs
@@ -379,7 +359,6 @@ class JBHTMLHelper extends AppHelper
      * @param bool  $idtag
      * @param bool  $translate
      * @param array $params
-     *
      * @return string
      */
     public function selectChosen(
@@ -406,13 +385,11 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Select cascade
-     *
      * @param array  $selectInfo
      * @param string $name
      * @param array  $selected
      * @param array  $attribs
      * @param bool   $idtag
-     *
      * @return string
      */
     public function selectCascade(
@@ -485,7 +462,6 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Generates an HTML checkbox/radio list.
-     *
      * @param   string  $inputType   Type of html input element
      * @param   array   $data        An array of objects
      * @param   string  $name        The value of the HTML name attribute
@@ -494,7 +470,6 @@ class JBHTMLHelper extends AppHelper
      * @param   boolean $idtag       Value of the field id or null by default
      * @param   boolean $translate   True if options will be translated
      * @param   boolean $isLabelWrap True if options wrappeed label tag
-     *
      * @return  string HTML for the select list
      */
     private function _list($inputType, $data, $name, $attribs = array(), $selected = null, $idtag = false,
@@ -576,25 +551,23 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Build attrs
-     *
-     * @param $attrs
-     *
+     * @param array   $attrs
+     * @param boolean $clean
      * @return null|string
      */
-    public function buildAttrs($attrs)
+    public function buildAttrs($attrs, $clean = true)
     {
-        return $this->_buildAttrs($attrs);
+        return $this->_buildAttrs($attrs, $clean);
     }
 
     /**
      * Build attrs
      * TODO: Remove method, replace to public
-     *
      * @param $attrs
-     *
+     * @param $clean
      * @return null|string
      */
-    protected function _buildAttrs($attrs)
+    protected function _buildAttrs($attrs, $clean = true)
     {
         $result = ' ';
 
@@ -605,9 +578,13 @@ class JBHTMLHelper extends AppHelper
             foreach ($attrs as $key => $param) {
 
                 $param = (array)$param;
-                $value = $this->cleanAttrValue(implode(' ', $param));
-
-                if (!empty($value) || $value == '0' || $key == 'value') {
+                if ($clean) {
+                    $value = $this->cleanAttrValue(implode(' ', $param));
+                    if (!empty($value) || $value == '0' || $key == 'value') {
+                        $result .= ' ' . $key . '="' . $value . '"';
+                    }
+                } else {
+                    $value = implode(' ', $param);
                     $result .= ' ' . $key . '="' . $value . '"';
                 }
             }
@@ -618,9 +595,7 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Clear attribute value
-     *
      * @param string $value
-     *
      * @return string
      */
     public function cleanAttrValue($value)
