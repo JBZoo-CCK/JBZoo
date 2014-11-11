@@ -38,11 +38,13 @@ class JBMoneyHelper extends AppHelper
      */
     protected $_defaultFormat = array(
         'symbol'          => '',
-        'num_decimals'    => 2,
+        'round_type'      => 'none',
+        'round_value'     => '2',
+        'num_decimals'    => '2',
         'decimal_sep'     => '.',
         'thousands_sep'   => ' ',
-        'format_negative' => '-%v %s',
         'format_positive' => '%v %s',
+        'format_negative' => '-%v %s',
     );
 
     /**
