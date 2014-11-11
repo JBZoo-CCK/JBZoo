@@ -58,7 +58,8 @@ class JBCartValue
      */
     protected $_defaultFormat = array(
         'symbol'          => '',
-        'round'           => '2',
+        'round_type'      => 'none',
+        'round_value'     => '2',
         'num_decimals'    => '2',
         'decimal_sep'     => '.',
         'thousands_sep'   => ' ',
