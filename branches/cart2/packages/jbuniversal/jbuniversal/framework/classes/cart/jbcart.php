@@ -105,17 +105,22 @@ class JBCart
 
     /**
      * Create price value object
-     * @param      $value
-     * @param null $currency
+     * @param mixed $value
+     * @param null  $option
      * @return JBCartValue
      */
-    static public function val($value = 0, $currency = null, $rates = array())
+    static public function val($value = 0, $option = null)
     {
         if ($value instanceof JBCartValue) {
             return $value;
         }
 
-        return new JBCartValue($value, $currency, $rates);
+        if (is_string($option)) {
+            $value  = array($value, $option);
+            $option = array();
+        }
+
+        return new JBCartValue($value, $option);
     }
 
     /**
