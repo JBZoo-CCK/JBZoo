@@ -1,4 +1,17 @@
 <?php
+/**
+ * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ * @package     jbzoo
+ * @version     2.x Pro
+ * @author      JBZoo App http://jbzoo.com
+ * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+ * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @coder       Denis Smetannikov <denis@jbzoo.com>
+ */
+
+// no direct access
+defined('_JEXEC') or die('Restricted access');
+
 
 /**
  * Class JBCartValue
@@ -18,10 +31,31 @@ class JBCartValue
     const ROUND_TYPE_FLOOR   = 'floor';
     const ROUND_TYPE_CLASSIC = 'classic';
 
+    const ACT_PLUS     = 'plus';
+    const ACT_MINUS    = 'minus';
+    const ACT_ABS      = 'abs';
+    const ACT_MODIFY   = 'modifier';
+    const ACT_MULTIPLY = 'multiply';
+    const ACT_INVERT   = 'invert';
+    const ACT_POSITIVE = 'positive';
+    const ACT_NEGATIVE = 'negative';
+    const ACT_EMPTY    = 'empty';
+    const ACT_CONVERT  = 'convert';
+
+    /**
+     * @type int
+     */
+    static protected $_counter = 0;
+
     /**
      * @type App
      */
     public $app = null;
+
+    /**
+     * @var int
+     */
+    protected $_id = 0;
 
     /**
      * @var float
@@ -79,11 +113,10 @@ class JBCartValue
 
     /**
      * @param mixed    $data
-     * @param string   $currency
      * @param JSONData $rates
      * @param string   $baseCur
      */
-    public function __construct($data = 0, $currency = '', $rates = null, $baseCur = null)
+    public function __construct($data = 0, $rates = null, $baseCur = null)
     {
         $this->app      = App::getInstance('zoo');
         $this->_jbmoney = $this->app->jbmoney;
@@ -93,8 +126,19 @@ class JBCartValue
         $this->_rates   = (array)($rates ? $rates : $this->_jbmoney->getData());
         $this->_baseCur = $baseCur ? $baseCur : $this->_jbmoney->getDefaultCur();
 
-        list($this->_value, $this->_currency) = $this->_parse($data, $currency);
-        $this->_log('Just created; Value = "' . $this->dump() . '"');
+        list($this->_value, $this->_currency) = $this->_parse($data);
+
+        self::$_counter++;
+        $this->_id = self::$_counter;
+        $this->_log('ValueId=' . $this->_id . ' has just created; Value = "' . $this->dump() . '"');
+    }
+
+    /**
+     * @return int
+     */
+    public function id()
+    {
+        return $this->_id;
     }
 
     /**
@@ -140,23 +184,6 @@ class JBCartValue
     public function isNegative()
     {
         return $this->_value < 0;
-    }
-
-    /**
-     * @param $newCurrency
-     * @return $this
-     * @throws JBCartValueException
-     */
-    public function convert($newCurrency)
-    {
-        $newCurrency = $this->_checkCur($newCurrency);
-
-        if ($newCurrency !== $this->_currency) {
-            $this->_value    = $this->_convert($newCurrency);
-            $this->_currency = $newCurrency;
-        }
-
-        return $this;
     }
 
     /**
@@ -289,6 +316,186 @@ class JBCartValue
         return $codes;
     }
 
+    /**
+     * @param array $newFormat
+     * @param null  $currency
+     * @return $this
+     */
+    public function setFormat(array $newFormat, $currency = null)
+    {
+        $newFormat = (array)$newFormat;
+        $currency  = empty($currency) ? $this->_currency : $this->_checkCur($currency);
+
+        $this->_rates[$currency]['format'] = array_merge($this->_rates[$currency]['format'], $newFormat);
+
+        $this->_log('New formating for "' . $currency . '": ' . $this->_logVar($newFormat) . '');
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $value
+     * @param bool  $getClone
+     * @return JBCartValue
+     * @throws JBCartValueException
+     */
+    public function add($value, $getClone = false)
+    {
+        return $this->_modifer($value, self::ACT_PLUS, $getClone);
+    }
+
+    /**
+     * @param mixed $value
+     * @param bool  $getClone
+     * @return JBCartValue
+     * @throws JBCartValueException
+     */
+    public function minus($value, $getClone = false)
+    {
+        return $this->_modifer($value, self::ACT_MINUS, $getClone);
+    }
+
+    /**
+     * @param string $newCurrency
+     * @param bool   $getClone
+     * @return $this
+     * @throws JBCartValueException
+     */
+    public function convert($newCurrency, $getClone = false)
+    {
+        return $this->_modifer($newCurrency, self::ACT_CONVERT, $getClone);
+    }
+
+    /**
+     * @param bool $getClone
+     * @return JBCartValue
+     * @throws JBCartValueException
+     */
+    public function invert($getClone = false)
+    {
+        return $this->_modifer(null, self::ACT_INVERT, $getClone);
+    }
+
+    /**
+     * @param bool $getClone
+     * @return JBCartValue
+     * @throws JBCartValueException
+     */
+    public function positive($getClone = false)
+    {
+        return $this->_modifer(null, self::ACT_POSITIVE, $getClone);
+    }
+
+    /**
+     * @param bool $getClone
+     * @return JBCartValue
+     * @throws JBCartValueException
+     */
+    public function negative($getClone = false)
+    {
+        return $this->_modifer(null, self::ACT_NEGATIVE, $getClone);
+    }
+
+    /**
+     * @param bool $getClone
+     * @return JBCartValue
+     * @throws JBCartValueException
+     */
+    public function abs($getClone = false)
+    {
+        return $this->_modifer(null, self::ACT_ABS, $getClone);
+    }
+
+    /**
+     * @param bool $getClone
+     * @return JBCartValue
+     * @throws JBCartValueException
+     */
+    public function clean($getClone = false)
+    {
+        return $this->_modifer(null, self::ACT_EMPTY, $getClone);
+    }
+
+    /**
+     * @param mixed $value
+     * @param bool  $getClone
+     * @return JBCartValue
+     * @throws JBCartValueException
+     */
+    public function addModify($value, $getClone = false)
+    {
+        return $this->_modifer($value, self::ACT_MODIFY, $getClone);
+    }
+
+    /**
+     * @param float $number
+     * @param bool  $getClone
+     * @return JBCartValue
+     */
+    public function multiply($number, $getClone = false)
+    {
+        return $this->_modifer($number, self::ACT_EMPTY, $getClone);
+    }
+
+    /**
+     * @param string $data
+     * @param string $currency
+     * @return $this
+     */
+    public function set($data, $currency = null)
+    {
+        list($this->_value, $this->_currency) = $this->_parse($data, $currency);
+        $this->_log('Set new value = "' . $this->dump() . '"');
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function logs()
+    {
+        return $this->_logs;
+    }
+
+    /**
+     * @param bool $isDebug
+     * @return $this
+     */
+    public function debug($isDebug = true)
+    {
+        $this->_isDebug = (int)$isDebug;
+        return $this;
+    }
+
+    /**
+     * @param string $currency
+     * @return float
+     */
+    protected function _round($currency = '')
+    {
+        $currency   = $this->_checkCur(($currency ? $currency : $this->_currency));
+        $roundType  = $this->_rates[$currency]['format']['round_type'];
+        $roundValue = $this->_rates[$currency]['format']['round_value'];
+
+        $value = $this->_value;
+        if (self::ROUND_TYPE_CEIL == $roundType) {
+            $base  = pow(10, $roundValue);
+            $value = ceil($value * $base) / $base;
+
+        } elseif (self::ROUND_TYPE_CLASSIC == $roundType) {
+            $value = round($value, $roundValue);
+
+        } elseif (self::ROUND_TYPE_FLOOR == $roundType) {
+            $base  = pow(10, $roundValue);
+            $value = floor($value * $base) / $base;
+
+        } else {
+            $value = round($value, self::ROUND_DEFAULT);
+        }
+
+        return $value;
+    }
 
     /**
      * Convert value to money format from config
@@ -388,212 +595,129 @@ class JBCartValue
         return $result;
     }
 
-
     /**
-     * @param array $newFormat
-     * @param null  $currency
-     * @return $this
-     */
-    public function setFormat(array $newFormat, $currency = null)
-    {
-        $newFormat = (array)$newFormat;
-        $currency  = empty($currency) ? $this->_currency : $this->_checkCur($currency);
-
-        $this->_rates[$currency]['format'] = array_merge($this->_rates[$currency]['format'], $newFormat);
-
-        $this->_log('New formating for "' . $currency . '": ' . $this->_logArray($newFormat) . '');
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function __toString()
-    {
-        return $this->text();
-    }
-
-    /**
-     * Serialize
-     * @return array
-     */
-    public function __sleep()
-    {
-        $result     = array();
-        $reflect    = new ReflectionClass($this);
-        $properties = $reflect->getProperties();
-
-        foreach ($properties as $property) {
-
-            $pName = $property->name;
-            if (in_array($pName, array('app')) || strpos($pName, '_jb') === 0) {
-                continue;
-            }
-
-            array_push($result, $property->name);
-        }
-
-        $this->_log('Serialized');
-
-        return $result;
-    }
-
-    /**
-     * Wake up after serialize
-     */
-    public function __wakeup()
-    {
-        $this->_log('Wakeup --->');
-        $this->__construct($this->dump(), null, $this->_rates);
-        $this->_log('Wakeup <---');
-    }
-
-    /**
-     * @param JBCartValue $value
-     * @param string      $currency
-     * @param bool        $isMinus
+     * @param mixed  $value
+     * @param string $action
+     * @param bool   $getClone
      * @return $this
      * @throws JBCartValueException
      */
-    public function add($value, $currency = null, $isMinus = false)
+    protected function _modifer($value, $action, $getClone = false)
     {
-        if ($value instanceof JBCartValue) {
+        $newValue = null;
+        if (self::ACT_PLUS == $action || self::ACT_MINUS == $action) {
 
-            if ($isMinus) {
-                $value->multiply(-1);
-            }
+            if ($value instanceof JBCartValue) {
 
-            if ($this->_currency == self::PERCENT) {
+                $logMess = ucfirst($action) . ' "' . $value->dump() . '"';
 
-                if ($value->cur() == self::PERCENT) {
-                    $addValue = $value->val();
-                } else {
-                    throw new JBCartValueException('Impossible add "' . $value->text() . '" to "' . $this->text() . '"');
+                if (self::ACT_MINUS == $action) {
+                    $value->multiply(-1);
                 }
 
-            } else {
-
-                if ($value->cur() != self::PERCENT) {
-                    $addValue = $value->val($this->_currency);
+                if ($this->_currency == self::PERCENT) {
+                    if ($value->cur() == self::PERCENT) {
+                        $addValue = $value->val();
+                    } else {
+                        throw new JBCartValueException('Impossible add "' . $value->text() . '" to "' . $this->text() . '"');
+                    }
                 } else {
-                    $addValue = $this->_value * $value->val() / 100;
+                    if ($value->cur() != self::PERCENT) {
+                        $addValue = $value->val($this->_currency);
+                    } else {
+                        $addValue = $this->_value * $value->val() / 100;
+                    }
                 }
+
+                $newValue = $this->_value + $addValue;
+                unset($value);
+
+            } else {
+                $parsedValue = JBCart::val($value); // we work only with objects!
+                return $this->_modifer($parsedValue, $action, $getClone);
             }
 
-            $this->_value += $addValue;
+        } else if (self::ACT_CONVERT == $action) {
 
-            if ($isMinus) {
-                $this->_log('Minus "' . $value->multiply(-1)->dump() . '"; New value = "' . $this->dump() . '"');
+            $newCurrency = $this->_checkCur($value);
+
+            $obj = $getClone ? clone($this) : $this;
+
+            if ($newCurrency !== $obj->_currency) {
+                $obj->_value    = $obj->_convert($newCurrency);
+                $obj->_currency = $newCurrency;
+            }
+
+            return $obj;
+
+        } else if (self::ACT_MULTIPLY == $action) {
+            $value    = (float)$value;
+            $newValue = $value * $this->_value;
+            $logMess  = 'Multiply with "' . $value . '"';
+
+        } else if (self::ACT_INVERT == $action) {
+
+            $logMess = 'Invert sign';
+            if ($this->_value > 0) {
+                $newValue = -1 * $this->_value;
+            } else if ($this->_value < 0) {
+                $newValue = abs($this->_value);
             } else {
-                $this->_log('Plus "' . $value->dump() . '"; New value = "' . $this->dump() . '"');
+                $newValue = $this->_value;
+            }
+
+        } else if (self::ACT_POSITIVE == $action) {
+            $newValue = abs($this->_value);
+            $logMess  = 'Set positive';
+
+        } else if (self::ACT_NEGATIVE == $action) {
+            $newValue = -1 * abs($this->_value);
+            $logMess  = 'Set negative';
+
+        } else if (self::ACT_ABS == $action) {
+            $newValue = abs($this->_value);
+            $logMess  = 'Set absolute value';
+
+        } else if (self::ACT_EMPTY == $action) {
+            $newValue = 0.0;
+            $logMess  = 'Set empty';
+
+        } else if (self::ACT_MODIFY == $action) {
+
+            if (method_exists($value, 'modyfy')) {
+
+                $logMess = 'Modyfied by elementId "' . $value->identifier . '"';
+                if ($getClone) {
+                    $clone = clone($this);
+                    $value->modyfy($clone);
+
+                    return $clone;
+                }
+
+                $value->modyfy($this);
+
+            } else {
+                throw new JBCartValueException('Value doesn\'t have modyfy action!');
             }
 
         } else {
-            $value = JBCart::val($value, $currency);
-            return $this->add($value, $currency, $isMinus);
+            throw new JBCartValueException('Undefined action: "' . $action . '"');
         }
 
-        return $this;
-    }
-
-    /**
-     * @param JBCartValue $value
-     * @param string      $currency
-     * @return JBCartValue
-     * @throws JBCartValueException
-     */
-    public function minus($value, $currency = null)
-    {
-        return $this->add($value, $currency, true);
-    }
-
-    /**
-     * @param string $data
-     * @param string $currency
-     * @return $this
-     */
-    public function set($data, $currency = null)
-    {
-        list($this->_value, $this->_currency) = $this->_parse($data, $currency);
-        $this->_log('Set new value = "' . $this->dump() . '"');
-
-        return $this;
-    }
-
-    /**
-     * @param JBCartElement $element
-     * @return $this
-     */
-    public function addModify(JBCartElement $element)
-    {
-        if (method_exists($element, 'modyfy')) {
-            $element->modyfy($this);
-            $this->_log('Modyfied by elementId "' . $element->identifier . '"; New value = "' . $this->dump() . '"');
+        if (is_null($newValue)) {
+            throw new JBCartValueException('Undefined new value for action=' . $action);
         }
 
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function abs()
-    {
-        $this->_value = abs($this->_value);
-        $this->_log('Set ABS; New value = "' . $this->dump() . '"');
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function negative()
-    {
-        $this->_value = -1 * abs($this->_value);
-        $this->_log('Set negative; New value = "' . $this->dump() . '"');
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function positive()
-    {
-        $this->_value = abs($this->_value);
-        $this->_log('Set positive; New value = "' . $this->dump() . '"');
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function invertSign()
-    {
-        if ($this->_value > 0) {
-            $this->_value = -1 * $this->_value;
-        } else if ($this->_value < 0) {
-            $this->_value = abs($this->_value);
+        // create new object or return self
+        if ($getClone) {
+            $clone         = clone($this);
+            $clone->_value = $newValue;
+            $clone->_log($logMess . '; New value = "' . $clone->dump() . '"');
+            return $clone;
         }
 
-        $this->_log('Invert sign; New value = "' . $this->dump() . '"');
-
-        return $this;
-    }
-
-    /**
-     * @param int|float $number
-     * @return $this
-     */
-    public function multiply($number)
-    {
-        $this->_value = $number * $this->_value;
-
-        $this->_log('Multiply with "' . $number . '"; New value = "' . $this->dump() . '"');
-
+        $this->_value = $newValue;
+        $this->_log($logMess . '; New value = "' . $this->dump() . '"');
         return $this;
     }
 
@@ -604,16 +728,22 @@ class JBCartValue
      */
     protected function _parse($data, $forceCur = null)
     {
-        $this->_log('Parse data = "' . $data . '" with forceCur = "' . $forceCur . '"');
+        $this->_log('Parse data = "' . $this->_logVar($data) . '" with forceCur = "' . $forceCur . '"');
 
         $value    = null;
         $currency = null;
 
-        $codes = $this->getCodeList();
-        $reg   = '#(.*)(' . implode('|', $codes) . ')$#i';
-        if (preg_match($reg, $data, $matches)) {
-            $value    = $matches[1];
-            $currency = $matches[2];
+        if (is_array($data)) {
+            $value    = isset($data[0]) ? $data[0] : null;
+            $currency = isset($data[1]) ? $data[1] : null;
+            return $this->_parse($value, $currency);
+
+        } else {
+            $reg = '#(.*)(' . implode('|', $this->getCodeList()) . ')$#i';
+            if (preg_match($reg, $data, $matches)) {
+                $value    = $matches[1];
+                $currency = $matches[2];
+            }
         }
 
         if (is_null($value)) {
@@ -678,7 +808,7 @@ class JBCartValue
      * @param array $data
      * @return string
      */
-    protected function _logArray(array $data)
+    protected function _logVar($data)
     {
         if ($this->_isDebug) {
             $removeData = array('Array', "\n", "\r", '     ');
@@ -686,52 +816,68 @@ class JBCartValue
         }
     }
 
+
     /**
+     * @return null|string
+     */
+    public function __toString()
+    {
+        return $this->text();
+    }
+
+    /**
+     * Serialize
      * @return array
      */
-    public function logs()
+    public function __sleep()
     {
-        return $this->_logs;
-    }
+        $result   = array();
+        $reflect  = new ReflectionClass($this);
+        $propList = $reflect->getProperties();
 
-    /**
-     * @param bool $isDebug
-     * @return $this
-     */
-    public function debug($isDebug = true)
-    {
-        $this->_isDebug = (int)$isDebug;
-        return $this;
-    }
+        foreach ($propList as $prop) {
 
-    /**
-     * @param string $currency
-     * @return float
-     */
-    protected function _round($currency = '')
-    {
-        $currency   = $this->_checkCur(($currency ? $currency : $this->_currency));
-        $roundType  = $this->_rates[$currency]['format']['round_type'];
-        $roundValue = $this->_rates[$currency]['format']['round_value'];
+            $pName = $prop->name;
 
-        $value = $this->_value;
-        if (self::ROUND_TYPE_CEIL == $roundType) {
-            $base  = pow(10, $roundValue);
-            $value = ceil($value * $base) / $base;
+            if (in_array($pName, array('app'))
+                || strpos($pName, '_jb') === 0
+                || $prop->isStatic() == true
+            ) {
+                continue;
+            }
 
-        } elseif (self::ROUND_TYPE_CLASSIC == $roundType) {
-            $value = round($value, $roundValue);
-
-        } elseif (self::ROUND_TYPE_FLOOR == $roundType) {
-            $base  = pow(10, $roundValue);
-            $value = floor($value * $base) / $base;
-
-        } else {
-            $value = round($value, self::ROUND_DEFAULT);
+            $result[] = $prop->name;
         }
 
-        return $value;
+        $this->_log('Serialized');
+
+        return $result;
     }
+
+    /**
+     * Wake up after serialize
+     */
+    public function __wakeup()
+    {
+        $this->_log('Wakeup start --->');
+        $this->__construct($this->dump(), null, $this->_rates);
+        $this->_log('Wakeup <--- finish');
+    }
+
+    /**
+     * Clone object
+     */
+    public function __clone()
+    {
+        self::$_counter++;
+
+        $oldId     = $this->_id;
+        $this->_id = self::$_counter;
+
+        $this->_logs = array();
+        $this->_log('Has cloned from id=' . $oldId . ' and created new with id=' . $this->_id . '; dump=' . $this->dump());
+    }
+
 }
 
 
