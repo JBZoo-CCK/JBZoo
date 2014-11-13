@@ -234,11 +234,14 @@ class JBCartValue
     }
 
     /**
+     * @param bool $showId
      * @return string
      */
-    public function dump()
+    public function dump($showId = false)
     {
-        return $this->_value . ' ' . $this->_currency . ';id=' . $this->_id;;
+        $id = $showId ? ';id=' . $this->_id : '';
+
+        return $this->_value . ' ' . $this->_currency . $id;
     }
 
     /**
@@ -559,7 +562,7 @@ class JBCartValue
      * @return float
      * @throws JBCartValueException
      */
-    protected function _convert($currency)
+    protected function _convert($currency, $addTolog = false)
     {
         $from = $this->_checkCur($this->_currency);
         $to   = $this->_checkCur($currency);
@@ -589,7 +592,9 @@ class JBCartValue
             $normValue = $this->_value / $this->_rates[$from]['value'];
             $result    = round($normValue * $this->_rates[$to]['value'], self::ROUND_DEFAULT);
 
-            $this->_log('Converted ' . $logFormat . '; New value = "' . $result . ' ' . $to . '"');
+            if ($addTolog) {
+                $this->_log('Converted ' . $logFormat . '; New value = "' . $result . ' ' . $to . '"');
+            }
         }
 
         return $result;
@@ -611,10 +616,6 @@ class JBCartValue
 
                 $logMess = ucfirst($action) . ' "' . $value->dump() . '"';
 
-                if (self::ACT_MINUS == $action) {
-                    $value->multiply(-1);
-                }
-
                 if ($this->_currency == self::PERCENT) {
                     if ($value->cur() == self::PERCENT) {
                         $addValue = $value->val();
@@ -629,6 +630,9 @@ class JBCartValue
                     }
                 }
 
+                if (self::ACT_MINUS == $action) {
+                    $addValue *= -1;
+                }
 
                 $newValue = $this->_value + $addValue;
 
@@ -644,7 +648,7 @@ class JBCartValue
             $obj = $getClone ? clone($this) : $this;
 
             if ($newCurrency !== $obj->_currency) {
-                $obj->_value    = $obj->_convert($newCurrency);
+                $obj->_value    = $obj->_convert($newCurrency, true);
                 $obj->_currency = $newCurrency;
             }
 
