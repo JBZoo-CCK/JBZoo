@@ -39,7 +39,7 @@ class JBCartValue
     const ACT_INVERT   = 'invert';
     const ACT_POSITIVE = 'positive';
     const ACT_NEGATIVE = 'negative';
-    const ACT_EMPTY    = 'empty';
+    const ACT_CLEAN    = 'clean';
     const ACT_CONVERT  = 'convert';
 
     /**
@@ -238,7 +238,7 @@ class JBCartValue
      */
     public function dump()
     {
-        return $this->_value . ' ' . $this->_currency;
+        return $this->_value . ' ' . $this->_currency . ';id=' . $this->_id;;
     }
 
     /**
@@ -413,7 +413,7 @@ class JBCartValue
      */
     public function clean($getClone = false)
     {
-        return $this->_modifer(null, self::ACT_EMPTY, $getClone);
+        return $this->_modifer(null, self::ACT_CLEAN, $getClone);
     }
 
     /**
@@ -434,7 +434,7 @@ class JBCartValue
      */
     public function multiply($number, $getClone = false)
     {
-        return $this->_modifer($number, self::ACT_EMPTY, $getClone);
+        return $this->_modifer($number, self::ACT_MULTIPLY, $getClone);
     }
 
     /**
@@ -629,8 +629,8 @@ class JBCartValue
                     }
                 }
 
+
                 $newValue = $this->_value + $addValue;
-                unset($value);
 
             } else {
                 $parsedValue = JBCart::val($value); // we work only with objects!
@@ -678,7 +678,7 @@ class JBCartValue
             $newValue = abs($this->_value);
             $logMess  = 'Set absolute value';
 
-        } else if (self::ACT_EMPTY == $action) {
+        } else if (self::ACT_CLEAN == $action) {
             $newValue = 0.0;
             $logMess  = 'Set empty';
 
