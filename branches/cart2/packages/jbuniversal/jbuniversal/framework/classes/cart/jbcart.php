@@ -437,14 +437,12 @@ class JBCart
             $total += $itemsPrice[$key]['total'];
 
             $itemsPrice[$key]['total']  = $this->_jbmoney->format($itemsPrice[$key]['total']);
-            $itemsPrice[$key]['symbol'] = $this->_jbmoney->getSymbol($item['currency']);
         }
 
         $result = array(
             'items'    => $itemsPrice,
             'count'    => $count,
             'total'    => $this->_jbmoney->format($total),
-            'symbol'   => $this->_jbmoney->getSymbol($currency),
             'currency' => $currency
         );
 

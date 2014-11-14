@@ -110,7 +110,6 @@ defined('_JEXEC') or die('Restricted access');
             if ($price) {
                 echo '<td class="jsSubtotal jbbasket-subtotal">'
                      . '<span class="jbbasket-table-value jsValue">' . $jbMoney->format($subtotal) . '</span>'
-                     . '<span class="jsCurrency currency-item">' . $jbMoney->getSymbol($default) . '</span>'
                      . '<a class="item-delete jbbutton-orange jbbutton-base jsDelete" itemid="' . $id . '">x</a>'
                      . '</td>';
             } else {
@@ -145,7 +144,6 @@ defined('_JEXEC') or die('Restricted access');
                 на сумму:
                 <div class="jsTotalPrice">
                     <span class="jsValue jbtotal-price"><?php echo $jbMoney->format($sum); ?></span>
-                    <span class="jsCurrency jbcurrency"><?php echo $jbMoney->getSymbol(strtoupper($default)); ?></span>
                 </div>
             </td>
 
@@ -167,7 +165,6 @@ defined('_JEXEC') or die('Restricted access');
             <td class="jsTotalPrice jbbasket-total-price">
                 <span class="jbasket-label">Итого к оплате:</span>
                 <span class="jsValue jbtotal-price"><?php echo $jbMoney->format($sum); ?></span>
-                <span class="jsCurrency jbcurrency"><?php echo $jbMoney->getSymbol($default); ?></span>
             </td>
 
         </tr>

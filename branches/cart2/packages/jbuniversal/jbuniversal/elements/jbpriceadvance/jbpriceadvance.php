@@ -213,23 +213,19 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                 'renderer'     => $renderer
             );
 
-            $basic = $renderer->render('_edit',
-                array(
-                    'price' => $this,
-                    'style' => self::BASIC_GROUP
-                )
-            );
+            $basic = $renderer->render('_edit', array(
+                'price' => $this,
+                'style' => self::BASIC_GROUP
+            ));
 
             if ($variantTPL = $this->getLayout('_variations.php')) {
                 $variationsHTML = self::renderLayout($variantTPL, $params);
             }
 
-            return self::renderLayout($layout, array_merge($params,
-                array(
-                    'variantsHTML' => $variationsHTML,
-                    'basicHTML'    => $basic
-                )
-            ));
+            return self::renderLayout($layout, array_merge($params, array(
+                'variantsHTML' => $variationsHTML,
+                'basicHTML'    => $basic
+            )));
         }
 
         return null;
@@ -279,7 +275,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      *
      * @param string $id
      * @param string $name
-     * @param bool $array
+     * @param bool   $array
      *
      * @return string
      */
@@ -304,7 +300,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      *
      * @param string $id
      * @param string $name
-     * @param int $index
+     * @param int    $index
      *
      * @return string
      */
@@ -316,8 +312,8 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     /**
      * @param string $id
      * @param string $name
-     * @param int $key
-     * @param int $index
+     * @param int    $key
+     * @param int    $index
      *
      * @return string
      */
@@ -397,17 +393,17 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
                 'basketUrl'         => $this->_getBasketUrl(),
                 'addToCartUrl'      => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxAddToCart'),
                 'removeFromCartUrl' => $this->app->jbrouter->element($this->identifier, $item->id,
-                        'ajaxRemoveFromCart'),
+                    'ajaxRemoveFromCart'),
                 'changeVariantUrl'  => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxChangeVariant',
-                        array(
-                            'template' => $this->_layout
-                        )),
+                    array(
+                        'template' => $this->_layout
+                    )),
                 'modalUrl'          => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxModalWindow',
-                        array(
-                            'elem_layout'   => $params->get('_layout'),
-                            'elem_position' => $params->get('_position'),
-                            'elem_index'    => $params->get('_index'),
-                        )),
+                    array(
+                        'elem_layout'   => $params->get('_layout'),
+                        'elem_position' => $params->get('_position'),
+                        'elem_index'    => $params->get('_index'),
+                    )),
                 'interfaceParams'   => array(
                     'currencyDefault' => $this->_getDefaultCurrency(),
                     'startValue'      => (float)$params->get('count_default', 1),
@@ -495,10 +491,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             'addToCartUrl'      => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxAddToCart'),
             'removeFromCartUrl' => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxRemoveFromCart'),
             'modalUrl'          => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxModalWindow', array(
-                    'elem_layout'   => $params->get('_layout'),
-                    'elem_position' => $params->get('_position'),
-                    'elem_index'    => $params->get('_index'),
-                )),
+                'elem_layout'   => $params->get('_layout'),
+                'elem_position' => $params->get('_position'),
+                'elem_index'    => $params->get('_index'),
+            )),
             'interfaceParams'   => array(
                 'currencyDefault' => $params->get('currency_default', 'EUR'),
                 'startValue'      => (float)$params->get('count_default', 1),
@@ -514,7 +510,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      * TODO Remove this hack
      *
      * @param JSONData|array $params
-     * @param string $prefix
+     * @param string         $prefix
      *
      * @return JSONData|array
      */
@@ -795,6 +791,10 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
         foreach ($currencies as $currency) {
 
+            if ($currency == '%') {
+                continue;
+            }
+
             $priceNoFormat = $this->_jbmoney->convert($default, $currency, $data['price']);
             $price         = $this->_jbmoney->toFormat($priceNoFormat, $currency);
 
@@ -856,9 +856,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
         $discountCur = $basic->find('_discount.currency');
 
         $price     = $this->_jbmoney->convert($basic->find('_currency.value'), $currency, $basic->find('_value.value'));
-        $basePrice =
-            $this->_jbmoney->calcDiscount($basic->find('_value.value'), $basic->find('_currency.value'), $discountVal,
-                $discountCur);
+        $basePrice = $this->_jbmoney->calcDiscount($basic->find('_value.value'), $basic->find('_currency.value'), $discountVal, $discountCur);
         $total     = $this->_jbmoney->convert($basic->find('_currency.value'), $currency, $basePrice);
 
         $result = array(
@@ -869,13 +867,12 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
             'name'        => $this->getItem()->name,
             'currency'    => $basic->find('_currency.value', 'EUR'),
             'image'       => $basic->find('_image.value'),
-            'params'      =>
-                array(
-                    'width'  => (float)$basic->find('_properties.width', 0),
-                    'height' => (float)$basic->find('_properties.height', 0),
-                    'length' => (float)$basic->find('_properties.length', 0),
-                    'weight' => (float)$basic->find('_weight.value', 0)
-                ),
+            'params'      => array(
+                'width'  => (float)$basic->find('_properties.width', 0),
+                'height' => (float)$basic->find('_properties.height', 0),
+                'length' => (float)$basic->find('_properties.length', 0),
+                'weight' => (float)$basic->find('_weight.value', 0)
+            ),
             'priceParams' => array()
         );
 
@@ -914,7 +911,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
-     * @param array $variant
+     * @param array  $variant
      * @param string $currency
      *
      * @return array|float|mixed
@@ -983,8 +980,8 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     /**
      * Render JBPriceAdvance elements html
      *
-     * @param string $identifier - element identifier
-     * @param null|int $variant - number of variant
+     * @param string   $identifier - element identifier
+     * @param null|int $variant    - number of variant
      *
      * @return mixed|null|string
      */
@@ -1178,8 +1175,8 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     }
 
     /**
-     * @param  string $identifier elementID
-     * @param  null|int $variant variant key
+     * @param  string   $identifier elementID
+     * @param  null|int $variant    variant key
      *
      * @return bool|JBCartElement|null
      */
@@ -1637,9 +1634,9 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     /**
      * Ajax add to cart method
      *
-     * @param int $quantity
+     * @param int   $quantity
      * @param array $values
-     * @param bool $sendAjax
+     * @param bool  $sendAjax
      */
     public function ajaxAddToCart($quantity = 1, $values = array(), $sendAjax = true)
     {
@@ -1739,7 +1736,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
 
     /**
      * @param string $template
-     * @param array $values
+     * @param array  $values
      */
     public function ajaxChangeVariant($template = 'default', $values = array())
     {
@@ -1772,7 +1769,7 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
      *
      * @param string $layout
      * @param string $position
-     * @param int $index
+     * @param int    $index
      */
     public function ajaxModalWindow($layout = 'full', $position = '', $index = 1)
     {
