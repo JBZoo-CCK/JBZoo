@@ -32,7 +32,6 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     /**
      * Shipping service default currency.
      * Convert to/from before/after call service.
-     *
      * @var string
      */
     const NEWPOST_CURRENCY = 'UAH';
@@ -42,8 +41,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * Class constructor
-     *
-     * @param App $app
+     * @param App    $app
      * @param string $type
      * @param string $group
      */
@@ -59,9 +57,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     /**
      * Check if exists api_key.
      * Without api_key all requests will be unsuccessful.
-     *
      * @param array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
@@ -76,10 +72,9 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     }
 
     /**
-     * @param float $sum
-     * @param string $currency
+     * @param float       $sum
+     * @param string      $currency
      * @param JBCartOrder $order
-     *
      * @return float
      */
     public function modify($sum, $currency, JBCartOrder $order)
@@ -99,9 +94,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * Render shipping in order
-     *
      * @param  array
-     *
      * @return bool|string
      */
     public function edit($params = array())
@@ -119,7 +112,6 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * @param array $params
-     *
      * @return mixed|string
      */
     public function renderSubmission($params = array())
@@ -135,10 +127,8 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * Validates the submitted element
-     *
      * @param $value
      * @param $params
-     *
      * @return array
      */
     public function validateSubmission($value, $params)
@@ -185,7 +175,6 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * @param  null|string $region
-     *
      * @return array
      */
     public function getCities($region = null)
@@ -215,7 +204,6 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * @param  null $city
-     *
      * @return array|bool
      */
     public function getWarehouses($city = null)
@@ -259,7 +247,6 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * @param  $data
-     *
      * @return array|bool
      */
     public function callService($data)
@@ -271,9 +258,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * Decoding the result of API call
-     *
      * @param $responseBody
-     *
      * @return array
      */
     public function processingData($responseBody)
@@ -283,55 +268,28 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * Make request to service and get results
-     *
-     * @param  string $url - Shipping service url.
+     * @param  string $url    - Shipping service url.
      * @param  string $method - POST, GET.
-     * @param  array $data - Data for POST $method
-     * @param  array $headers
-     *
+     * @param  array  $data   - Data for POST $method
+     * @param  array  $headers
      * @return bool|array
      */
-    protected function _callService($url, $method = self::HTTP_GET, $data = array(), array $headers = array())
+    protected function _callService($url, $method = 'get', $data = array(), array $headers = array())
     {
-        $group = $this->getElementGroup() . '_' . $this->getElementType();
+        $response = $this->app->jbhttp->request($url, $data, array(
+            'method'  => $method,
+            'cache'   => 1,
+            'headers' => $headers,
+        ));
 
-        //using cache to avoid a ban from API
-        if (!$responseData = simplexml_load_string($this->app->jbcache->get($data, $group, true))) {
-
-            $jhttp = JHttpFactory::getHttp();
-
-            try {
-                if ($method == self::HTTP_GET) {
-                    $response = $jhttp->get($url);
-
-                } else if ($method == self::HTTP_POST) {
-                    $response = $jhttp->post($url, $data);
-                }
-
-                if ($response->code == 200) {
-                    $responseData = $this->processingData($response->body);
-                } else {
-                    $responseData = false;
-                }
-
-            } catch (Exception $e) {
-                $responseData = false;
-            }
-
-
-            if ($responseData) {
-                $this->app->jbcache->set($data, $responseData->asXML(), $group, true);
-            }
-        }
+        $responseData = $this->processingData($response);
 
         return $responseData;
     }
 
     /**
      * Get array of parameters to push it into(data-params) element div
-     *
      * @param  boolean $encode - Encode array or no
-     *
      * @return string|array
      */
     public function getWidgetParams($encode = true)
@@ -420,7 +378,6 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * @param  $city
-     *
      * @return SimpleXMLElement|string
      */
     protected function _getWarehousesFromPost($city)
@@ -441,9 +398,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * Make request and get price form service
-     *
      * @param  array $params
-     *
      * @return int
      */
     public function getPrice($params = array())
@@ -496,7 +451,6 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
     /**
      * @param  JBCartOrder $order
-     *
      * @return array
      */
     protected function _getParamsFromOrder(JBCartOrder $order)

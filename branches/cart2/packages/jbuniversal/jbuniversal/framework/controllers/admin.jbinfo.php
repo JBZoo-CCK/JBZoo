@@ -159,8 +159,7 @@ class JBInfoJBUniversalController extends JBUniversalController
                 'method' => 'add-hosting',
             );
 
-            $jhttp = JHttpFactory::getHttp();
-            $jhttp->get('http://stats.jbzoo.com/api?' . $this->app->jbrouter->query($sendData));
+            $this->app->jbhttp->request('http://stats.jbzoo.com/api', $sendData);
 
             $this->setRedirect($this->app->jbrouter->admin(array('task' => 'performance')), JText::_('JBZOO_PERFORMANCE_REPORT_THANK_YOU'));
         }

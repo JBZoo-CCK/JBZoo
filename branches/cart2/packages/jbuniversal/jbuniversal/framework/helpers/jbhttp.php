@@ -32,7 +32,7 @@ class JBHttpHelper extends AppHelper
         'method'    => self::METHOD_GET,
         'headers'   => array(),
         'cache'     => 0,
-        'cache_ttl' => 60, // in minutes
+        'cache_ttl' => 60, // in minutes!
         'cache_id'  => '',
     );
 
@@ -71,7 +71,7 @@ class JBHttpHelper extends AppHelper
         $cacheId = $cacheGroup = $cacheParams = null;
         $isCache = (int)$options->get('cache');
         if ($isCache) {
-            $cacheId     = array($url, (array)$data, $options->get('cache_id'));
+            $cacheId     = array($url, (array)$data, $options->get('cache_id'), (array)$options->get('headers'));
             $cacheParams = array('ttl' => (int)$options->get('cache_ttl'));
             if ($responseBody = $this->_jbcache->get($cacheId, self::CACHE_GROUP, true, $cacheParams)) {
                 return $responseBody;

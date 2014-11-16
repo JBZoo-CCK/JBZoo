@@ -76,19 +76,7 @@ abstract class JBCartElementCurrency extends JBCartElement
      */
     protected function _loadUrl($url)
     {
-        $httpClient = JHttpFactory::getHttp();
-
-        try {
-            $responce = $httpClient->get($url);
-        } catch (JBCartElementCurrencyException  $e) {
-            return null;
-        }
-
-        if ($responce && $responce->code == 200) {
-            return $responce->body;
-        }
-
-        return null;
+        return $this->app->jbhttp->request($url);
     }
 
     /**

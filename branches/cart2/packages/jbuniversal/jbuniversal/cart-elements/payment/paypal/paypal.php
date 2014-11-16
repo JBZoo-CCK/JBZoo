@@ -68,9 +68,9 @@ class JBCartElementPaymentPayPal extends JBCartElementPayment
 
         // check via PayPal service
         $checkParam = array_merge(array('cmd' => '_notify-validate'), $_POST);
-        $response   = JHttpFactory::getHttp()->post($merchantUrl, $checkParam);
+        $response   = $this->app->jbhttp->request($merchantUrl, $checkParam, array('method' => 'post'));
 
-        if (JString::strtoupper(JString::trim($response->body)) == 'VERIFIED') {
+        if ($this->app->jbvars->upper($response) == 'VERIFIED') {
             return true;
         }
 
