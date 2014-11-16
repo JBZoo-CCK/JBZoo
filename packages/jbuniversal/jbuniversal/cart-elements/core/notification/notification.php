@@ -68,13 +68,9 @@ abstract class JBCartElementNotification extends JBCartElement
      */
     protected $_namespace = JBCart::ELEMENT_TYPE_NOTIFICATION;
 
-    const HTTP_GET  = 'get';
-    const HTTP_POST = 'post';
-
     /**
      * Class constructor
-     *
-     * @param App $app
+     * @param App    $app
      * @param string $type
      * @param string $group
      */
@@ -94,7 +90,6 @@ abstract class JBCartElementNotification extends JBCartElement
 
     /**
      * @param $subject
-     *
      * @return $this
      */
     public function setSubject($subject)
@@ -118,7 +113,6 @@ abstract class JBCartElementNotification extends JBCartElement
 
     /**
      * @param  string $html
-     *
      * @return string
      */
     public function replace($html)
@@ -133,7 +127,6 @@ abstract class JBCartElementNotification extends JBCartElement
 
     /**
      * Replace macros with values in config
-     *
      * @return $this
      */
     public function replaceConfig()
@@ -159,9 +152,7 @@ abstract class JBCartElementNotification extends JBCartElement
 
     /**
      * Decoding the result of API call
-     *
      * @param $responseBody
-     *
      * @return mixed
      */
     public function processingData($responseBody)
@@ -171,51 +162,25 @@ abstract class JBCartElementNotification extends JBCartElement
 
     /**
      * Make request to service and get results
-     *
-     * @param  string $url - Shipping service url.
+     * @param  string $url    - Shipping service url.
      * @param  string $method - POST, GET.
-     * @param  array $data - Data for POST $method
-     *
+     * @param  array  $data   - Data for POST $method
      * @return bool|array
      */
-    protected function _callService($url, $method = self::HTTP_GET, $data = array())
+    protected function _callService($url, $method = 'get', $data = array())
     {
-        $group = $this->getElementGroup() . '_' . $this->getElementType();
+        $response = $this->app->jbhttp->request($url, $data, array(
+            'method' => $method,
+            'cache'  => 0,
+        ));
 
-        //using cache to avoid a ban from API
-        if (!($responseData = $this->app->jbcache->get($url, $group, true))) {
-
-            $jhttp = JHttpFactory::getHttp();
-
-            try {
-                if ($method == self::HTTP_GET) {
-                    $response = $jhttp->get($url);
-
-                } else if ($method == self::HTTP_POST) {
-                    $response = $jhttp->post($url, $data);
-                }
-
-                if ($response->code == 200) {
-                    $responseData = $this->processingData($response->body);
-                } else {
-                    $responseData = false;
-                }
-
-            } catch (Exception $e) {
-                $responseData = false;
-            }
-
-            if ($responseData) {
-                $this->app->jbcache->set($url, $responseData, $group, true);
-            }
-        }
+        $responseData = $this->processingData($response);
 
         return $responseData;
     }
 
     /**
      * Set values macros
-     *
      * @return $this
      */
     public function setMacrosValues()
@@ -283,10 +248,8 @@ abstract class JBCartElementNotification extends JBCartElement
 
     /**
      * Cleans data
-     *
-     * @param  string $data
+     * @param  string         $data
      * @param  string|boolean $charlist
-     *
      * @return string mixed
      */
     public function clean($data, $charlist = false)
@@ -314,9 +277,8 @@ abstract class JBCartElementNotification extends JBCartElement
     }
 
     /**
-     * @param  string $str
+     * @param  string      $str
      * @param  bool|string $charlist
-     *
      * @return mixed|string
      */
     private function _clean($str, $charlist = false)

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -20,7 +19,6 @@ abstract class JBCartElementShipping extends JBCartElement
 {
     /**
      * Default price
-     *
      * @var float|mixed
      */
     public $default_price = 0.00;
@@ -48,7 +46,6 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Currency symbol
-     *
      * @var string
      */
     protected $_symbol = null;
@@ -58,8 +55,7 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Class constructor
-     *
-     * @param App $app
+     * @param App    $app
      * @param string $type
      * @param string $group
      */
@@ -70,7 +66,7 @@ abstract class JBCartElementShipping extends JBCartElement
         $this->_cartConfig = $this->_getCartConfig();
 
         $this->_jbmoney = $this->app->jbmoney;
-        $this->_symbol  = $this->_jbmoney->getSymbol($this->currency());
+        //$this->_symbol  = $this->_jbmoney->getSymbol($this->currency());
 
         $this->default_price = $this->_jbmoney->format(0);
 
@@ -79,9 +75,7 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Get price form element config
-     *
      * @param  array $params
-     *
      * @return integer
      */
     abstract function getPrice($params = array());
@@ -89,11 +83,9 @@ abstract class JBCartElementShipping extends JBCartElement
     /**
      * Convert price to shipping service currency
      * before/after send call service.
-     *
      * @param $price
      * @param $from
      * @param $to
-     *
      * @return integer
      */
     public function convert($price, $from, $to)
@@ -109,7 +101,6 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * @param $price
-     *
      * @return float
      */
     public function clear($price)
@@ -118,10 +109,9 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * @param float $sum
-     * @param string $currency
+     * @param float       $sum
+     * @param string      $currency
      * @param JBCartOrder $order
-     *
      * @return float
      */
     public function modify($sum, $currency, JBCartOrder $order)
@@ -131,9 +121,7 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Render shipping in order
-     *
      * @param  array
-     *
      * @return bool|string
      */
     public function edit($params = array())
@@ -184,7 +172,6 @@ abstract class JBCartElementShipping extends JBCartElement
     /**
      * @param      $name
      * @param bool $array
-     *
      * @return string|void
      */
     public function getControlName($name, $array = false)
@@ -202,7 +189,6 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * @param  array $params
-     *
      * @return string
      */
     public function mergeParams($params = array())
@@ -227,7 +213,6 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Default params to Call Service.
-     *
      * @return array
      */
     public function getDefaultParams()
@@ -247,7 +232,6 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Get the weight of all items in basket.
-     *
      * @return int
      */
     public function getBasketWeight()
@@ -261,7 +245,6 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Get the properties(width, height, length) of all items in basket.
-     *
      * @return array
      */
     public function getBasketProperties()
@@ -275,9 +258,7 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Get price for all items in basket
-     *
      * @param string $currency
-     *
      * @return int|mixed
      */
     public function getBasketValue($currency = 'EUR')
@@ -298,7 +279,6 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Get all items in basket
-     *
      * @return mixed
      */
     public function getBasketItems()
@@ -311,9 +291,7 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Make path to service api from params
-     *
      * @param  array $params
-     *
      * @return string
      */
     public function getServicePath($params = array())
@@ -333,7 +311,6 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Try to get currency from order or cart config
-     *
      * @return mixed
      */
     public function currency()
@@ -364,9 +341,7 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Get array of parameters to push it into(data-params) element div
-     *
      * @param  boolean $encode - Encode array or no
-     *
      * @return string|array
      */
     public function getWidgetParams($encode = true)
@@ -394,10 +369,8 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Cleans data
-     *
-     * @param  string $data
+     * @param  string         $data
      * @param  string|boolean $charlist
-     *
      * @return string mixed
      */
     public function clean($data, $charlist = false)
@@ -415,9 +388,7 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Decoding the result of API call
-     *
      * @param $responseBody
-     *
      * @return mixed
      */
     public function processingData($responseBody)
@@ -427,48 +398,21 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Make request to service and get results
-     *
-     * @param  string $url - Shipping service url.
+     * @param  string $url    - Shipping service url.
      * @param  string $method - POST, GET.
-     * @param  array $data - Data for POST $method
-     *
+     * @param  array  $data   - Data for POST $method
      * @return bool|array
      */
-    protected function _callService($url, $method = self::HTTP_GET, $data = array())
+    protected function _callService($url, $method = 'get', $data = array())
     {
-        $group = $this->getElementGroup() . '_' . $this->getElementType();
+        $response = $this->app->jbhttp->request($url, $data, array(
+            'method'    => $method,
+            'cache'     => 1,
+            'cache_ttl' => 60,
+            'cache_id'  => $this->getElementGroup() . '_' . $this->getElementType(),
+        ));
 
-        //using cache to avoid a ban from API
-        if (!($responseData = $this->app->jbcache->get($url, $group, true))) {
-
-            $jhttp = JHttpFactory::getHttp();
-
-            try {
-
-                $timeout  = 10; // default timeout for slow services
-                $response = null;
-
-                if ($method == self::HTTP_GET) {
-                    $response = $jhttp->get($url, null, $timeout);
-
-                } else if ($method == self::HTTP_POST) {
-                    $response = $jhttp->post($url, $data, null, $timeout);
-                }
-
-                if ($response && $response->code == 200) {
-                    $responseData = $this->processingData($response->body);
-                } else {
-                    $responseData = false;
-                }
-
-            } catch (Exception $e) {
-                $responseData = false;
-            }
-
-            if ($responseData) {
-                $this->app->jbcache->set($url, $responseData, $group, true);
-            }
-        }
+        $responseData = $this->processingData($response);
 
         return $responseData;
     }
@@ -499,9 +443,7 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Get default value for select
-     *
      * @param string $type - Can be language constant or just a string.
-     *
      * @return array
      */
     protected function _getDefaultValue($type = 'JBZOO_NONE')
@@ -521,7 +463,6 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * @param  JBCartOrder $order
-     *
      * @return array
      */
     protected function _getParamsFromOrder(JBCartOrder $order)
@@ -537,9 +478,8 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * @param  string $str
+     * @param  string      $str
      * @param  bool|string $charlist
-     *
      * @return mixed|string
      */
     private function _clean($str, $charlist = false)
@@ -552,7 +492,6 @@ abstract class JBCartElementShipping extends JBCartElement
 
     /**
      * Change shipping status and fire event
-     *
      * @param $newStatus
      */
     public function setStatus($newStatus)
@@ -561,8 +500,8 @@ abstract class JBCartElementShipping extends JBCartElement
         $newStatus = (string)$newStatus;
 
         $isChanged = $oldStatus // is not first set on order creating
-                     && $oldStatus != JBCartStatusHelper::UNDEFINED // old is not empty
-                     && $oldStatus != $newStatus; // is really changed
+            && $oldStatus != JBCartStatusHelper::UNDEFINED // old is not empty
+            && $oldStatus != $newStatus; // is really changed
 
         if ($isChanged) {
 

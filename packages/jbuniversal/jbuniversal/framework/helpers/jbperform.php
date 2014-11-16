@@ -707,12 +707,10 @@ class JBPerformHelper extends AppHelper
         }
 
         $requestUrl = $uri->toString() . 'media/zoo/applications/jbuniversal/tools/test-session.php';
-        $jhttp      = JHttpFactory::getHttp();
 
         $values = array();
         for ($j = 0; $j < 10; $j++) {
-            $response = $jhttp->get($requestUrl . '?nocache=' . mt_rand());
-            $values[] = (float)$response->body;
+            $values[] = (float)$this->app->jbhttp->request($requestUrl . '?nocache=' . mt_rand());
         }
 
         return array_sum($values) / doubleval(count($values));
