@@ -233,6 +233,31 @@ abstract class JBCartElementPayment extends JBCartElement
     }
 
     /**
+     * @return null
+     */
+    public function renderPaymentForm()
+    {
+        return null;
+    }
+
+    /**
+     * @param array $request
+     * @return bool
+     */
+    public function validatePaymentForm($request = array())
+    {
+        return true;
+    }
+
+    /**
+     * @return null
+     */
+    public function actionPaymentForm()
+    {
+        return null;
+    }
+
+    /**
      * Set success payment status to order
      */
     public function setSuccess()

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<element type="element" group="Core" hidden="false">
+    <name>Qiwi</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZoo Cart Element Core System</description>
+
+    <params>
+        <param name="description" type="textarea"
+               label="JBZOO_ELEMENT_DESCRIPTION"
+               default="JBZOO_PAYMENT_QIWI_DEFAULT_DESCRIPTION"
+               description="JBZOO_ELEMENT_DESCRIPTION_DESC" />
+
+        <param name="shop_id" type="text" default=""
+               label="JBZOO_PAYMENT_QIWI_SHOP_ID_LABEL"
+               description="JBZOO_PAYMENT_QIWI_SHOP_ID_DESC" />
+
+        <param name="rest_id" type="text" default=""
+               label="JBZOO_PAYMENT_QIWI_REST_ID_LABEL"
+               description="JBZOO_PAYMENT_QIWI_REST_ID_DESC" />
+
+        <param name="psw" type="text" default=""
+               label="JBZOO_PAYMENT_QIWI_REST_PASSWORD_LABEL"
+               description="JBZOO_PAYMENT_QIWI_REST_PASSWORD_DESC" />
+
+        <param name="sign_psw" type="text" default=""
+                label="JBZOO_PAYMENT_QIWI_REST_SIGN_PSW_LABEL"
+                description="JBZOO_PAYMENT_QIWI_REST_SIGN_PSW_DESC" />
+
+        <param name="lifetime" type="text" default="10"
+               label="JBZOO_PAYMENT_QIWI_LIFE_TIME_LABEL"
+               description="JBZOO_PAYMENT_QIWI_LIFE_TIME_DESC" />
+    </params>
+
+</element>
