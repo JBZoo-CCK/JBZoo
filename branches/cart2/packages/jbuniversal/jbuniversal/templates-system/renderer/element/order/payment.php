@@ -67,7 +67,7 @@ $paymentId = 'payment-' . $element->identifier;
 
         <?php if ($description = $element->config->get('description')) : ?>
             <p class="jbzoo-payment-desc"><?php echo JText::_($description); ?> </p>
-        <? endif; ?>
+        <?php endif; ?>
 
         <?php echo $error; ?>
 

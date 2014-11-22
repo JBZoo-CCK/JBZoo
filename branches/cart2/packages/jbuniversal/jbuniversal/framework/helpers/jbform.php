@@ -29,10 +29,22 @@ class JBFormHelper extends AppHelper
      */
     public function render($formName, $options = array(), $data = array())
     {
-        if (!($xmlPath = $this->app->path->path('jbconfig:forms/' . $formName . '.xml'))) {
-            throw new AppException('Form ' . $formName . ' not found!');
-            return null;
+        $formPath = null;
+        $xmlPaths = $this->_getXmlFormPaths();
+
+        foreach ($xmlPaths as $path) {
+            $xmlForm = $path . $formName . '.xml';
+
+            if (file_exists($xmlForm)) {
+                $formPath = $xmlForm;
+                break;
+            }
         }
+
+         if (!($xmlPath = $formPath)) {
+             throw new AppException('Form ' . $formName . ' not found!');
+             return null;
+         }
 
         $form = $this->_createJoomlaForm($formName, $xmlPath, $options);
         $form->bind($data);
@@ -70,22 +82,20 @@ class JBFormHelper extends AppHelper
         JHtml::_('behavior.formvalidation');
         $this->app->jbtoolbar->save();
 
-        $options = array_merge(array(
-            'action'         => $this->app->jbrouter->admin(),
-            'method'         => 'post',
-            'class'          => 'uk-form uk-form-horizontal jbadminform form-validate',
-            'accept-charset' => "UTF-8",
-            'enctype'        => 'multipart/form-data',
-            'name'           => 'jbzooForm',
-            'id'             => 'jbzooForm',
-        ), $options);
+        $options = array_merge($this->_getDefaultFormOptions(), $options);
 
         $submitLabel = isset($options['submit']) ? $options['submit'] : JText::_('JBZOO_FORM_SAVE');
+        unset($options['submit']);
 
-        $html = '<form ' . $this->app->jbhtml->buildAttrs($options) . ' >'
-            . implode(" \n", $html)
-            . '</form>'
-            . '<div class="clr"></div>';
+        $html = '<form ' . $this->app->jbhtml->buildAttrs($options) . ' >' . implode(" \n", $html);
+
+        if ($submitLabel) {
+            $html .= '<div class="jbzoo-submit">'
+                . '<input type="submit" class="jbzoo-button" name="send" value="' . $submitLabel .'" />'
+                . '</div>';
+        }
+
+        $html .= '</form>' . '<div class="clr"></div>';
 
         return $html;
     }
@@ -157,6 +167,64 @@ class JBFormHelper extends AppHelper
         }
 
         return implode(" \n", $html);
+    }
+
+    /**
+     * @return array
+     */
+    protected function _getDefaultFormOptions()
+    {
+        $_options = array(
+            'action'         => $this->app->jbrouter->admin(),
+            'method'         => 'post',
+            'class'          => 'uk-form uk-form-horizontal jbadminform form-validate',
+            'accept-charset' => "UTF-8",
+            'enctype'        => 'multipart/form-data',
+            'name'           => 'jbzooForm',
+            'id'             => 'jbzooForm'
+        );
+
+        $isSite = $this->app->jbenv->isSite();
+
+        if ($isSite) {
+            $_options = array(
+                'method'         => 'post',
+                'class'          => 'jbform form-validate',
+                'accept-charset' => "UTF-8",
+                'enctype'        => 'multipart/form-data',
+                'name'           => 'jbzooForm',
+                'id'             => 'jbzooForm',
+            );
+        }
+
+        return $_options;
+    }
+
+    /**
+     * @return array
+     */
+    protected function _getXmlFormPaths()
+    {
+        $paths = array();
+        $path  = $this->app->path->path('cart-elements:' . 'payment/');
+
+        if ($path) {
+            jimport('joomla.filesystem.folders');
+            $folders = JFolder::folders($path);
+
+            foreach ($folders as $folder) {
+                $formDir = $path . $folder . '/forms/';
+
+                if (JFolder::exists($formDir)) {
+                    $paths[] = $formDir;
+                    continue;
+                }
+            }
+        }
+
+        $paths[] = $this->app->path->path('jbconfig:forms/');
+
+        return $paths;
     }
 
 }
