@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -37,10 +36,10 @@ class JBRouterHelper extends AppHelper
 
     /**
      * Filter link
-     * @param string $elemId
-     * @param string $value
+     * @param string    $elemId
+     * @param string    $value
      * @param JRegistry $moduleParams
-     * @param int $mode
+     * @param int       $mode
      * @return string
      */
     public function filter($elemId, $value, $moduleParams, $mode = 0)
@@ -101,9 +100,9 @@ class JBRouterHelper extends AppHelper
     /**
      * Element ajax call
      * @param string $identifier
-     * @param int $itemId
+     * @param int    $itemId
      * @param string $method
-     * @param array $params
+     * @param array  $params
      * @return string
      */
     public function element($identifier = null, $itemId = null, $method = 'ajax', array $params = array())
@@ -130,7 +129,7 @@ class JBRouterHelper extends AppHelper
      * Element ajax call
      * @param string $identifier
      * @param string $method
-     * @param array $params
+     * @param array  $params
      * @return string
      */
     public function elementOrder($identifier = null, $method = 'ajax', array $params = array())
@@ -155,9 +154,9 @@ class JBRouterHelper extends AppHelper
     /**
      * Element ajax call (for admin)
      * @param string $identifier
-     * @param int $itemId
+     * @param int    $itemId
      * @param string $method
-     * @param array $params
+     * @param array  $params
      * @return string
      */
     public function elementAdmin($identifier = null, $itemId = null, $method = 'ajax', array $params = array())
@@ -187,7 +186,7 @@ class JBRouterHelper extends AppHelper
      * @param string $controller
      * @param string $layout
      * @param string $method
-     * @param array $params
+     * @param array  $params
      * @return string
      */
     public function elementAdminOrder($identifier = null, $method = 'ajax', $layout = null, $controller = 'jbcart', array $params = array())
@@ -212,10 +211,10 @@ class JBRouterHelper extends AppHelper
 
     /**
      * Compare link
-     * @param int $menuItemid
+     * @param int    $menuItemid
      * @param string $layout
      * @param string $itemType
-     * @param int $appId
+     * @param int    $appId
      * @return string
      */
     public function compare($menuItemid, $layout = 'v', $itemType = null, $appId = null)
@@ -342,18 +341,30 @@ class JBRouterHelper extends AppHelper
 
     /**
      * Basket empty url
-     * @param null $appId
      * @return string
      */
-    public function basketEmpty($appId = null)
+    public function basketEmpty()
     {
-        $appId = ($appId) ? $appId : (int)$this->_jbrequest->get('app_id');
-
         $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'clear',
-            'app_id'     => (int)$appId,
+        );
+
+        return $this->_url($linkParams, true);
+    }
+
+    /**
+     * Basket reload module url
+     * @return string
+     */
+    public function basketReloadModule($moduleId)
+    {
+        $linkParams = array(
+            'option'     => 'com_zoo',
+            'controller' => 'basket',
+            'task'       => 'reloadModule',
+            'moduleId'   => $moduleId,
         );
 
         return $this->_url($linkParams, true);
@@ -361,7 +372,7 @@ class JBRouterHelper extends AppHelper
 
     /**
      * Get url to success order
-     * @param int $menuItemid
+     * @param int  $menuItemid
      * @param null $appId
      * @return string
      */
@@ -576,8 +587,8 @@ class JBRouterHelper extends AppHelper
 
     /**
      * Get url by params
-     * @param array $params
-     * @param bool $zooRoute
+     * @param array  $params
+     * @param bool   $zooRoute
      * @param string $base
      * @return string
      */
@@ -621,7 +632,7 @@ class JBRouterHelper extends AppHelper
 
     /**
      * Add params to custom URL
-     * @param $url
+     * @param       $url
      * @param array $params
      * @return string
      */
