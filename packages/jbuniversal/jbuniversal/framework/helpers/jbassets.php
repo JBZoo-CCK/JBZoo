@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -20,36 +19,15 @@ defined('_JEXEC') or die('Restricted access');
 class JBAssetsHelper extends AppHelper
 {
     /**
-     * @var JDocumentHTML
-     */
-    protected $_document = null;
-
-    /**
-     * @var int
-     */
-    protected $_isCaching = null;
-
-    /**
-     * Constructor
-     * @param $app
-     */
-    public function __construct($app)
-    {
-        parent::__construct($app);
-        $this->_document  = JFactory::getDocument();
-        $this->_isCaching = $this->app->jbcache->isEnabled();
-    }
-
-    /**
      * Set application styles files
      * @param string $alias
      */
     public function setAppCss($alias = null)
     {
-        $this->_include(array(
+        $this->css(array(
             'jbassets:css/jbzoo.css',
             'jbassets:css/jbzoo.' . $alias . '.css'
-        ), 'css');
+        ));
     }
 
     /**
@@ -57,12 +35,26 @@ class JBAssetsHelper extends AppHelper
      */
     public function admin()
     {
-        if (!$this->app->jbenv->isSite()) {
-            $this->jQuery();
-            $this->tools();
-            $this->_include(array('jbassets:css/admin.css',), 'css');
-            $this->_include(array('jbassets:js/admin.js'), 'js');
+        if ($this->app->jbenv->isSite()) {
+            return;
         }
+
+        $this->jQuery();
+        $this->tools();
+        $this->css(array(
+            'jbassets:css/jbzoo.css',
+            'jbassets:css/admin.css'
+        ));
+        $this->js(array(
+            'jbassets:js/admin/colors.js',
+            'jbassets:js/admin/delimiter.js',
+            'jbassets:js/admin/editpositions.js',
+            'jbassets:js/admin/itemorder.js',
+            'jbassets:js/admin/keyvalue.js',
+            'jbassets:js/admin/jkeyvalue.js',
+            'jbassets:js/admin/menu.js',
+            'jbassets:js/back-end.js',
+        ));
     }
 
     /**
@@ -72,9 +64,7 @@ class JBAssetsHelper extends AppHelper
     public function setAppJS($alias = null)
     {
         $this->tools();
-        $this->_include(array(
-            'jbassets:js/jbzoo.' . $alias . '.js'
-        ), 'js');
+        $this->js('jbassets:js/jbzoo.' . $alias . '.js');
     }
 
     /**
@@ -82,24 +72,24 @@ class JBAssetsHelper extends AppHelper
      */
     public function tools()
     {
-        $this->jQuery();
+        static $isAdded;
 
-        static $debugOn;
+        if (!isset($isAdded)) {
+            $isAdded = true;
 
-        if (defined('JDEBUG') && JDEBUG) {
-            $this->_include(array('jbassets:js/jquery.jbzootools.orig.js'), 'js');
+            $this->addScript(implode("\n", array(
+                'JBZoo.DEBUG = 1;',
+                'jQuery.migrateMute = false;',
+            )));
 
-            if (!isset($debugOn)) {
-                $this->addScript('JBZoo.DEBUG = 1;');
-                $this->addScript('jQuery.migrateMute = true;');
-                $debugOn = true;
-            }
-
-        } else {
-            $this->_include(array('jbassets:js/jquery.jbzootools.min.js'), 'js');
+            $this->jQuery();
+            $this->js(array(
+                'jbassets:js/helper.js',
+                'jbassets:js/jbzoo.js',
+                //'jbassets:js/test.js',
+                'jbassets:js/front-end.js',
+            ));
         }
-
-        $this->_include(array('jbassets:js/jquery.jbzooprice.js'), 'js');
     }
 
     /**
@@ -108,68 +98,46 @@ class JBAssetsHelper extends AppHelper
     public function uikit($addJS = false)
     {
         if ($addJS) {
-            $this->_include(array('jbassets:js/uikit.min.js'), 'js');
+            $this->js('jbassets:js/libs/uikit.min.js');
         }
 
-        $this->_include(array('jbassets:css/uikit.min.css'), 'css');
+        $this->css('jbassets:css/uikit.min.css');
+    }
+
+    /**
+     * @param string $id
+     * @param array  $params
+     */
+    public function currencyToggle($id, $params = array())
+    {
+        $this->js(array(
+            'jbassets:js/widget/money.js',
+            'jbassets:js/widget/currencytoggle.js'
+        ));
+
+        $this->addScript('jQuery(function($){
+            $("#' . $id . '").JBZooCurrencyToggle(' . json_encode((object)$params) . ');
+        });');
+
     }
 
     /**
      * Init filter assets
-     * @param $alias
      */
-    public function filter($alias = 'default')
+    public function filter()
     {
         $this->tools();
-        $this->_include(array(
-            'jbassets:js/jbzoo.filter.js',
-            'jbassets:js/jbzoo.filter.' . $alias . '.js'
-        ), 'js');
-
-        $this->_include(array(
-            'jbassets:css/jbzoo.css',
-            'jbassets:css/jbzoo.filter.css',
-            'jbassets:css/jbzoo.filter.' . $alias . '.css'
-        ), 'css');
+        $this->css('jbassets:css/jbzoo.filter.css');
     }
 
     /**
      * Init filter assets
-     * @param $alias
      */
-    public function filterProps($alias = 'default')
+    public function filterProps()
     {
         $this->tools();
-        $this->_include(array(
-            'jbassets:js/jbzoo.filter.js',
-            'jbassets:js/jbzoo.filter.' . $alias . '.js'
-        ), 'js');
 
-        $this->_include(array(
-            'jbassets:css/jbzoo.css',
-            'jbassets:css/jbzoo.filter.css',
-            'jbassets:css/jbzoo.filter.' . $alias . '.css'
-        ), 'css');
-    }
-
-    /**
-     * Include
-     * @param $type
-     */
-    public function itemStyle($type)
-    {
-        static $isAdded;
-
-        if (!isset($isAdded[$type]) && $type) {
-            $this->_include(array('jbassets:js/jbzoo.' . $type . '.js'), 'js');
-            $this->_include(array('jbassets:css/jbzoo.' . $type . '.css'), 'css');
-
-            if (!isset($isAdded)) {
-                $isAdded = array();
-            }
-
-            $isAdded[$type] = true;
-        }
+        $this->css('jbassets:css/jbzoo.filter.css');
     }
 
     /**
@@ -178,8 +146,8 @@ class JBAssetsHelper extends AppHelper
     public function jQueryUI()
     {
         $this->jQuery();
-        $this->_include(array('libraries:jquery/jquery-ui.custom.css',), 'css');
-        $this->_include(array('libraries:jquery/jquery-ui.custom.min.js'), 'js');
+        $this->css('libraries:jquery/jquery-ui.custom.css');
+        $this->js('libraries:jquery/jquery-ui.custom.min.js');
     }
 
     /**
@@ -188,8 +156,13 @@ class JBAssetsHelper extends AppHelper
     public function fancybox()
     {
         $this->jQuery();
-        $this->_include(array('jbassets:css/libraries.css'), 'css');
-        $this->_include(array('jbassets:js/jquery.libraries.min.js',), 'js');
+        $this->css('jbassets:css/libraries.css');
+        $this->js(array(
+            'jbassets:js/libs/fancybox/core.js',
+            'jbassets:js/libs/fancybox/buttons.js',
+            'jbassets:js/libs/fancybox/media.js',
+            'jbassets:js/libs/fancybox/thumbnail.js',
+        ));
     }
 
     /**
@@ -198,8 +171,8 @@ class JBAssetsHelper extends AppHelper
     public function tablesorter()
     {
         $this->jQuery();
-        $this->_include(array('jbassets:css/libraries.css'), 'css');
-        $this->_include(array('jbassets:js/jquery.libraries.min.js',), 'js');
+        $this->css('jbassets:css/libraries.css');
+        $this->js('jbassets:js/libs/tablesorter.js');
     }
 
     /**
@@ -208,8 +181,8 @@ class JBAssetsHelper extends AppHelper
     public function chosen()
     {
         $this->jQuery();
-        $this->_include(array('jbassets:css/libraries.css'), 'css');
-        $this->_include(array('jbassets:js/jquery.libraries.min.js',), 'js');
+        $this->css('jbassets:css/libraries.css');
+        $this->js('jbassets:js/libs/chosen.js');
     }
 
     /**
@@ -218,8 +191,8 @@ class JBAssetsHelper extends AppHelper
     public function datepicker()
     {
         $this->jQueryUI();
-        $this->_include(array('libraries:jquery/plugins/timepicker/timepicker.css',), 'css');
-        $this->_include(array('libraries:jquery/plugins/timepicker/timepicker.js'), 'js');
+        $this->css('libraries:jquery/plugins/timepicker/timepicker.css');
+        $this->js('libraries:jquery/plugins/timepicker/timepicker.js');
     }
 
     /**
@@ -228,8 +201,8 @@ class JBAssetsHelper extends AppHelper
     public function nivoslider()
     {
         $this->jQuery();
-        $this->_include(array('jbassets:css/libraries.css'), 'css');
-        $this->_include(array('jbassets:js/jquery.libraries.min.js',), 'js');
+        $this->css('jbassets:css/libraries.css');
+        $this->js('jbassets:js/libs/nivoslider.js');
     }
 
     /**
@@ -258,6 +231,15 @@ class JBAssetsHelper extends AppHelper
     public function basket()
     {
         $this->tools();
+        $this->quantity();
+        $this->js(array(
+            'jbassets:js/cart/cart.js',
+            'jbassets:js/cart/shipping.js',
+            'jbassets:js/cart/shippingdefault.js',
+            'jbassets:js/cart/module.js',
+            'jbassets:js/price/jbprice.js',
+            'jbassets:js/widget/recount.js',
+        ));
     }
 
     /**
@@ -266,6 +248,7 @@ class JBAssetsHelper extends AppHelper
     public function jQueryCompare()
     {
         $this->tools();
+        $this->js('jbassets:js/widget/compare.js');
     }
 
     /**
@@ -275,6 +258,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->jQueryUI();
         $this->tools();
+        $this->js('jbassets:js/widget/progressbar.js');
     }
 
     /**
@@ -283,7 +267,7 @@ class JBAssetsHelper extends AppHelper
     public function tabs()
     {
         $this->tools();
-        $this->_include(array('jbassets:css/jbzoo.css'), 'css');
+        $this->js('jbassets:js/widget/tabs.js');
     }
 
     /**
@@ -292,7 +276,7 @@ class JBAssetsHelper extends AppHelper
     public function accordion()
     {
         $this->tools();
-        $this->_include(array('jbassets:css/jbzoo.css'), 'css');
+        $this->js('jbassets:js/widget/accordion.js');
     }
 
     /**
@@ -317,14 +301,37 @@ class JBAssetsHelper extends AppHelper
     public function jQueryFavorite()
     {
         $this->tools();
+        $this->js('jbassets:js/widget/favorite.js');
     }
 
     /**
      * Init JBprice Advance plugin
      */
-    public function initJBpriceAdvance()
+    public function initJBPriceAdvance()
     {
         $this->tools();
+        $this->colors();
+        $this->quantity();
+        $this->js('jbassets:js/price/jbpriceadvance.js');
+        $this->js('jbassets:js/price/toggle.js');
+    }
+
+    /**
+     * Load widget JBColors
+     */
+    public function colors()
+    {
+        $this->tools();
+        $this->js('jbassets:js/widget/colors.js');
+    }
+
+    /**
+     * Load quantity widget
+     */
+    public function quantity()
+    {
+        $this->tools();
+        $this->js('jbassets:js/widget/quantity.js');
     }
 
     /**
@@ -347,7 +354,7 @@ class JBAssetsHelper extends AppHelper
      */
     public function payment()
     {
-
+        // $this->js('jbassets:js/widget/payment.js');
     }
 
     /**
@@ -383,6 +390,7 @@ class JBAssetsHelper extends AppHelper
         static $isAdded;
 
         $this->jQuery();
+        $this->js('jbassets:js/widget/heightfix.js');
 
         if (!isset($isAdded)) {
 
@@ -430,7 +438,7 @@ class JBAssetsHelper extends AppHelper
      */
     public function initSelectCascade()
     {
-        $this->tools();
+        $this->js('jbassets:js/widget/select-cascade.js');
     }
 
     /**
@@ -442,6 +450,7 @@ class JBAssetsHelper extends AppHelper
     {
         static $isAdded;
         $this->jQuery();
+        $this->initSelectCascade();
 
         if (!isset($isAdded)) {
             $isAdded = array();
@@ -539,15 +548,15 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Init color widget
-     * @param string $queryElement
+     * @param string  $queryElement
      * @param boolean $type
      */
     public function initJBColorHelper($queryElement, $type = true)
     {
         $this->jQuery();
 
-        // included in the back-end. Do not delete.
-        $this->_include(array('jbassets:css/jbzoo.css'), 'css');
+        // force include for back-end. Do not delete!
+        $this->css('jbassets:css/jbzoo.css');
 
         $this->tools();
 
@@ -568,8 +577,8 @@ class JBAssetsHelper extends AppHelper
         $this->jQuery();
 
         if ($queryElement) {
-            $this->_include(array('media:jui/js/jquery.minicolors.min.js'), 'js');
-            $this->_include(array('media:jui/css/jquery.minicolors.css'), 'css');
+            $this->js('media:jui/js/jquery.minicolors.min.js');
+            $this->css('media:jui/css/jquery.minicolors.css');
             $this->addScript('jQuery(function($){
                 $("' . $queryElement . '").JBColorElement({message: "' . $text . '"});
             });');
@@ -616,7 +625,7 @@ class JBAssetsHelper extends AppHelper
     public function addScript($script)
     {
         if (!$this->app->jbrequest->isAjax()) {
-            $this->_document->addScriptDeclaration("\n" . $script);
+            JFactory::getDocument()->addScriptDeclaration("\n" . $script);
         }
 
     }
@@ -628,10 +637,8 @@ class JBAssetsHelper extends AppHelper
     public function _getRoot()
     {
         static $root;
-
         if (!isset($root)) {
-            $jUri = JURI::getInstance();
-            $root = $jUri->getScheme() . '://' . $jUri->getHost() . '/';
+            //$root = JUri::root();
             $root = '/';
         }
 
@@ -640,86 +647,79 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include JS in document
-     * @param $files
+     * @param array  $files
+     * @param string $group
      * @return bool
      */
-    public function js($files)
+
+    public function js($files, $group = 'default')
     {
-        return $this->_include((array)$files, 'js');
+        return $this->_include((array)$files, 'js', $group);
     }
 
     /**
      * Include CSS in document
-     * @param $files
+     * @param array  $files
+     * @param string $group
      * @return bool
      */
-    public function css($files)
+    public function css($files, $group = 'default')
     {
-        return $this->_include((array)$files, 'css');
+        return $this->_include((array)$files, 'css', $group);
     }
 
     /**
      * Include files to document
      * @param array $files
-     * @param $type
+     * @param       $type
      * @return bool
      */
     protected function _include(array $files, $type)
     {
-        if ($this->app->jbrequest->is('format', 'feed')) {
-            return;
+        if (
+            empty($files)
+            || $this->app->jbrequest->isAjax()
+            || $this->app->jbrequest->is('format', 'feed')
+        ) {
+            return false;
         }
 
-        static $includedFiles;
+        foreach ($files as $file) {
 
-        if (!isset($includedFiles)) {
-            $includedFiles = array();
-        }
+            $isExternal = strpos($file, 'http') !== false;
 
-        if (count($files) && !$this->app->jbrequest->isAjax()) {
-            foreach ($files as $file) {
-
-                $isExternal = strpos($file, 'http') !== false;
-
-                $filePath = $file;
-                if (!$isExternal) {
-                    $fullPath = $this->app->path->path($file);
-                    $filePath = $this->app->path->url($file);
-                }
-
-                if ($filePath) {
-
-                    if (!$isExternal) {
-                        $filePath = $filePath . '?ver=' . date("Ymd", filemtime($fullPath));
-                        $filePath = $this->_getRoot() . $this->app->path->relative($filePath);
-                    }
-
-                    if ($type == 'css') {
-                        $this->_document->addStylesheet($filePath);
-
-                    } elseif ($type == 'js') {
-                        $this->_document->addScript($filePath);
-                    }
-
-                }
+            $filePath = $file;
+            if (!$isExternal) {
+                $fullPath = $this->app->path->path($file);
+                $filePath = $this->app->path->url($file);
             }
 
-            return true;
+            if ($filePath) {
+                if (!$isExternal) {
+                    $filePath = $filePath . '?' . substr(filemtime($fullPath), -2);
+                    $filePath = $this->_getRoot() . $this->app->path->relative($filePath);
+                }
+
+                if ($type == 'css') {
+                    JFactory::getDocument()->addStylesheet($filePath);
+                } elseif ($type == 'js') {
+                    JFactory::getDocument()->addScript($filePath);
+                }
+            }
         }
 
-        return false;
+        return true;
     }
 
     /**
      * Init modal window
      * @param string $class
-     * @param array $opt
+     * @param array  $opt
      */
     public function behaviorModal($class = 'modal', $opt = array())
     {
         JHTML::_('behavior.modal', 'a.' . $class, $opt);
     }
-
 
     /**
      * Add attr link target
@@ -731,9 +731,8 @@ class JBAssetsHelper extends AppHelper
         if (!isset($isAdded)) {
             $isAdded = true;
             $this->addScript('jQuery(function($){
-                    $(".jbzoo a").attr("target", "_top");
-                });
-            ');
+                $(".jbzoo a").attr("target", "_top");
+            });');
         }
     }
 }
