@@ -177,7 +177,7 @@ defined('_JEXEC') or die('Restricted access');
 <script type="text/javascript">
     jQuery(function ($) {
 
-        $('.jbzoo .jsJBZooBasket').JBZooBasket({
+        $('.jbzoo .jsJBZooBasket').JBZooCart({
             'clearConfirm': "<?php echo JText::_('JBZOO_CART_CLEAR_CONFIRM');?>",
             'quantityUrl' : "<?php echo $this->app->jbrouter->basketQuantity();?>",
             'deleteUrl'   : "<?php echo $this->app->jbrouter->basketDelete();?>",
