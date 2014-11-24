@@ -18,7 +18,8 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartValue
 {
-    const PERCENT = '%';
+    const PERCENT      = '%';
+    const DEFAULT_CODE = 'default_cur';
 
     const STYLE_NONE  = 'none';
     const STYLE_PLAIN = 'plain';
@@ -163,6 +164,17 @@ class JBCartValue
     }
 
     /**
+     * @param string $currency
+     * @return bool
+     */
+    public function isCur($currency)
+    {
+        $currency = $this->_checkCur($currency);
+
+        return $currency == $this->_currency;
+    }
+
+    /**
      * @return bool
      */
     public function isEmpty()
@@ -217,20 +229,47 @@ class JBCartValue
 
     /**
      * @param null $currecny
+     * @param bool $showPlus
      * @return null|string
      */
-    public function html($currecny = null)
+    public function html($currecny = null, $showPlus = false)
     {
-        return $this->_format($currecny, self::STYLE_HTML);
+        return $this->_format($currecny, self::STYLE_HTML, $showPlus);
+    }
+
+    /**
+     * @param null $currency
+     * @param bool $showPlus
+     * @return null|string
+     */
+    public function htmlAdv($currency, $showPlus = false)
+    {
+        $currency = $this->_checkCur($currency);
+
+        if ($this->_currency == self::PERCENT
+            || $currency == self::PERCENT
+            || ($this->isCur($currency) && $currency != self::PERCENT)
+        ) {
+            $html = $this->_format($this->_currency, self::STYLE_HTML, $showPlus);
+
+        } else {
+            $html  = $this->_format($this->_currency, self::STYLE_HTML, $showPlus);
+            $title = $this->_format($currency, self::STYLE_TEXT, $showPlus);
+            $html  = '<span class="hasTip" title="' . $title . '">' . $html . '</span>';
+        }
+
+
+        return $html;
     }
 
     /**
      * @param null $currecny
-     * @return null|string
+     * @param bool $showPlus
+     * @return float|int|null|string
      */
-    public function text($currecny = null)
+    public function text($currecny = null, $showPlus = false)
     {
-        return $this->_format($currecny, self::STYLE_TEXT);
+        return strip_tags($this->_format($currecny, self::STYLE_TEXT, $showPlus));
     }
 
     /**
@@ -245,10 +284,27 @@ class JBCartValue
     }
 
     /**
+     * @return JBCartValue
+     */
+    public function getClone()
+    {
+        return clone($this);
+    }
+
+    /**
+     * Set empty
+     */
+    public function setEmpty()
+    {
+        $this->_log('Set empty!');
+        $this->_value = 0;
+        return $this;
+    }
+
+    /**
      * @param JBCartValue|string $value
      * @param string             $mode
      * @param integer            $round
-     * @throws JBCartValueException
      */
     public function compare($value, $mode = '==', $round = self::ROUND_DEFAULT)
     {
@@ -261,10 +317,13 @@ class JBCartValue
         $val1  = round((float)$this->_value, $round);
         $val2  = round((float)$value->val($this->_currency), $round);
 
-        $this->_log("Compare \"{$this->dump()}\" {$mode} \"{$value->dump()}\" // $val1$mode$val2, r=$round, ");
+        $this->_log("Compared \"{$this->dump()}\" {$mode} \"{$value->dump()}\" // $val1$mode$val2, r=$round, ");
 
         if ($mode == '==') {
             return $val1 === $val2;
+
+        } else if ($mode == '!=' || $mode == '!==') {
+            return $val1 !== $val2;
 
         } else if ($mode == '<') {
             return $val1 < $val2;
@@ -279,7 +338,7 @@ class JBCartValue
             return $val1 >= $val2;
         }
 
-        throw new JBCartValueException('Undefined compare mode: ' . $mode);
+        $this->_error('Undefined compare mode: ' . $mode);
     }
 
     /**
@@ -340,7 +399,6 @@ class JBCartValue
      * @param mixed $value
      * @param bool  $getClone
      * @return JBCartValue
-     * @throws JBCartValueException
      */
     public function add($value, $getClone = false)
     {
@@ -351,7 +409,6 @@ class JBCartValue
      * @param mixed $value
      * @param bool  $getClone
      * @return JBCartValue
-     * @throws JBCartValueException
      */
     public function minus($value, $getClone = false)
     {
@@ -362,7 +419,6 @@ class JBCartValue
      * @param string $newCurrency
      * @param bool   $getClone
      * @return $this
-     * @throws JBCartValueException
      */
     public function convert($newCurrency, $getClone = false)
     {
@@ -372,7 +428,6 @@ class JBCartValue
     /**
      * @param bool $getClone
      * @return JBCartValue
-     * @throws JBCartValueException
      */
     public function invert($getClone = false)
     {
@@ -382,7 +437,6 @@ class JBCartValue
     /**
      * @param bool $getClone
      * @return JBCartValue
-     * @throws JBCartValueException
      */
     public function positive($getClone = false)
     {
@@ -392,7 +446,6 @@ class JBCartValue
     /**
      * @param bool $getClone
      * @return JBCartValue
-     * @throws JBCartValueException
      */
     public function negative($getClone = false)
     {
@@ -402,7 +455,6 @@ class JBCartValue
     /**
      * @param bool $getClone
      * @return JBCartValue
-     * @throws JBCartValueException
      */
     public function abs($getClone = false)
     {
@@ -412,7 +464,6 @@ class JBCartValue
     /**
      * @param bool $getClone
      * @return JBCartValue
-     * @throws JBCartValueException
      */
     public function clean($getClone = false)
     {
@@ -423,7 +474,6 @@ class JBCartValue
      * @param mixed $value
      * @param bool  $getClone
      * @return JBCartValue
-     * @throws JBCartValueException
      */
     public function addModify($value, $getClone = false)
     {
@@ -473,15 +523,21 @@ class JBCartValue
 
     /**
      * @param string $currency
-     * @return float
+     * @param null   $value
+     * @return float|null
      */
-    protected function _round($currency = '')
+    protected function _round($currency = '', $value = null)
     {
-        $currency   = $this->_checkCur(($currency ? $currency : $this->_currency));
-        $roundType  = $this->_rates[$currency]['format']['round_type'];
-        $roundValue = $this->_rates[$currency]['format']['round_value'];
+        $currency = $this->_checkCur(($currency ? $currency : $this->_currency));
 
-        $value = $this->_value;
+        $format     = $this->_rates[$currency]['format'];
+        $roundType  = isset($format['round_type']) ? $format['round_type'] : 'none';
+        $roundValue = (int)((isset($format['round_value'])) ? $format['round_value'] : 2);
+
+        if (is_null($value)) {
+            $value = $this->_value;
+        }
+
         if (self::ROUND_TYPE_CEIL == $roundType) {
             $base  = pow(10, $roundValue);
             $value = ceil($value * $base) / $base;
@@ -502,11 +558,12 @@ class JBCartValue
 
     /**
      * Convert value to money format from config
-     * @param string $currecny
+     * @param null   $currecny
      * @param string $style
-     * @return null|string
+     * @param bool   $showPlus
+     * @return float|int|null|string
      */
-    protected function _format($currecny = null, $style = self::STYLE_PLAIN)
+    protected function _format($currecny = null, $style = self::STYLE_PLAIN, $showPlus = false)
     {
         if (empty($currecny)) {
             $currecny = $this->_currency;
@@ -519,9 +576,14 @@ class JBCartValue
         $value = $this->val($currecny);
         $value = !empty($value) ? $value : 0;
 
-        $roundedValue = $this->_round($currecny);
+        $roundedValue = $this->_round($currecny, $value);
+        $isPositive   = ($value >= 0);
         $valueStr     = number_format(abs($roundedValue), $format['num_decimals'], $format['decimal_sep'], $format['thousands_sep']);
-        $moneyFormat  = ($value >= 0) ? $format['format_positive'] : $format['format_negative'];
+        $moneyFormat  = ($isPositive) ? $format['format_positive'] : $format['format_negative'];
+
+        if ($isPositive && $showPlus) {
+            $valueStr = '+' . $valueStr;
+        }
 
         // output with styles
         $result = null;
@@ -536,17 +598,14 @@ class JBCartValue
 
         } elseif (self::STYLE_HTML == $style) {
             $result = JString::str_ireplace(array('%s', '%v'), array(
-                '<span class="jbcurrency-symbol">' . $format['symbol'] . "</span>\n",
-                '<span class="jbcurrency-value">' . $valueStr . "</span>\n"
+                '<span class="jbcurrency-symbol">' . $format['symbol'] . "</span>",
+                '<span class="jbcurrency-value">' . $valueStr . "</span>"
             ), $moneyFormat);
 
             $attrs = $this->app->jbhtml->buildAttrs(array(
-                'class'              => 'jsMoney jbcartvalue',
-                'data-round_type'    => $format['round_type'],
-                'data-round_value'   => $format['round_value'],
-                'data-num_decimals'  => $format['num_decimals'],
-                'data-decimal_sep'   => $format['decimal_sep'],
-                'data-thousands_sep' => $format['thousands_sep'],
+                'class'         => 'jsMoney jbcartvalue',
+                'data-value'    => $this->_value,
+                'data-currency' => $this->_currency,
             ), false);
 
             $result = '<span ' . $attrs . ">\n" . $result . '</span>';
@@ -559,8 +618,8 @@ class JBCartValue
 
     /**
      * @param string $currency
+     * @param bool   $addTolog
      * @return float
-     * @throws JBCartValueException
      */
     protected function _convert($currency, $addTolog = false)
     {
@@ -572,19 +631,19 @@ class JBCartValue
         if (($from == self::PERCENT && $to != self::PERCENT) ||
             ($from != self::PERCENT && $to == self::PERCENT)
         ) {
-            throw new JBCartValueException('JBCartValue convertor - Percent can\'t be converted (' . $logFormat . ')');
+            $this->_error('JBCartValue convertor - Percent can\'t be converted (' . $logFormat . ')');
         }
 
         if (empty($to)) {
-            throw new JBCartValueException('JBCartValue convertor - undefined currency');
+            $this->_error('JBCartValue convertor - undefined currency');
         }
 
         if (!isset($this->_rates[$to])) {
-            throw new JBCartValueException('JBCartValue convertor - undefined currency: ' . $logFormat);
+            $this->_error('JBCartValue convertor - undefined currency: ' . $logFormat);
         }
 
         if (!isset($this->_rates[$from])) {
-            throw new JBCartValueException('JBCartValue convertor - undefined currency: ' . $logFormat);
+            $this->_error('JBCartValue convertor - undefined currency: ' . $logFormat);
         }
 
         $result = $this->_value;
@@ -605,7 +664,6 @@ class JBCartValue
      * @param string $action
      * @param bool   $getClone
      * @return $this
-     * @throws JBCartValueException
      */
     protected function _modifer($value, $action, $getClone = false)
     {
@@ -620,7 +678,7 @@ class JBCartValue
                     if ($value->cur() == self::PERCENT) {
                         $addValue = $value->val();
                     } else {
-                        throw new JBCartValueException('Impossible add "' . $value->text() . '" to "' . $this->text() . '"');
+                        $this->_error('Impossible add "' . $value->text() . '" to "' . $this->text() . '"');
                     }
                 } else {
                     if ($value->cur() != self::PERCENT) {
@@ -688,28 +746,30 @@ class JBCartValue
 
         } else if (self::ACT_MODIFY == $action) {
 
-            if (method_exists($value, 'modyfy')) {
+            if (method_exists($value, 'modify')) {
 
-                $logMess = 'Modyfied by elementId "' . $value->identifier . '"';
+                $this->_log('Modyfied by elementId "' . $value->identifier . '"; '
+                    . $value->getElementGroup() . '/' . $value->getElementType());
+
                 if ($getClone) {
                     $clone = clone($this);
-                    $value->modyfy($clone);
+                    $value->modify($clone);
 
                     return $clone;
                 }
 
-                $value->modyfy($this);
+                return $value->modify($this);
 
             } else {
-                throw new JBCartValueException('Value doesn\'t have modyfy action!');
+                $this->_error('Value doesn\'t have modyfy action!');
             }
 
         } else {
-            throw new JBCartValueException('Undefined action: "' . $action . '"');
+            $this->_error('Undefined action: "' . $action . '"');
         }
 
         if (is_null($newValue)) {
-            throw new JBCartValueException('Undefined new value for action=' . $action);
+            $this->_error('Undefined new value for action=' . $action);
         }
 
         // create new object or return self
@@ -779,14 +839,17 @@ class JBCartValue
     /**
      * @param $currency
      * @return mixed|string
-     * @throws JBCartValueException
      */
     protected function _checkCur($currency)
     {
         $currency = $this->_jbvars->lower($currency, true);
 
-        if (self::PERCENT == $currency) {
-            return self::PERCENT;
+        if (self::PERCENT === $currency) {
+            return $currency;
+        }
+
+        if (JBCartValue::DEFAULT_CODE === $currency) {
+            return $this->_baseCur;
         }
 
         if (array_key_exists($currency, $this->_rates)) {
@@ -794,7 +857,7 @@ class JBCartValue
         }
 
         if ($currency) {
-            throw new JBCartValueException('Undefined currency: ' . $currency);
+            $this->_error('Undefined currency: ' . $currency);
         }
     }
 
@@ -820,13 +883,22 @@ class JBCartValue
         }
     }
 
+    /**
+     * @param string $message
+     * @throws JBCartValueException
+     */
+    protected function _error($message)
+    {
+        $this->_log($message);
+        throw new JBCartValueException(__CLASS__ . ': ' . $message);
+    }
 
     /**
      * @return null|string
      */
     public function __toString()
     {
-        return $this->text();
+        return $this->html();
     }
 
     /**
@@ -863,9 +935,9 @@ class JBCartValue
      */
     public function __wakeup()
     {
-        $this->_log('Wakeup start --->');
+        $this->_log('Wakeup start--->');
         $this->__construct($this->dump(), null, $this->_rates);
-        $this->_log('Wakeup <--- finish');
+        $this->_log('Wakeup < --- finish');
     }
 
     /**
@@ -879,8 +951,9 @@ class JBCartValue
         $this->_id = self::$_counter;
 
         $this->_logs = array();
-        $this->_log('Has cloned from id=' . $oldId . ' and created new with id=' . $this->_id . '; dump=' . $this->dump());
+        $this->_log('Has cloned from id = ' . $oldId . ' and created new with id = ' . $this->_id . '; dump = ' . $this->dump());
     }
+
 
 }
 
