@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -20,14 +19,12 @@ defined('_JEXEC') or die('Restricted access');
 
         <?php
 
-        echo $this->partial('filter', array(
+        echo $this->partial('index_filter', array(
             'filter' => $this->filter,
         ));
 
-
         if ($this->pagination->total > 0) {
-
-            echo $this->partial('orderlist', array(
+            echo $this->partial('index_orderlist', array(
                 'orderList' => $this->orderList,
                 'filter'    => $this->filter,
             ));

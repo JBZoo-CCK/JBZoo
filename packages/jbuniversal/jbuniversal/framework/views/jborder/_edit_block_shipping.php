@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -24,17 +23,15 @@ if ($element) {
 ?>
 <div class="uk-panel uk-panel-box">
 
-    <h3 class="uk-panel-title">
-        <?php echo JText::_('JBZOO_ORDER_SHIPPING_TITLE'); ?>
-    </h3>
+    <h3 class="uk-panel-title"><?php echo JText::_('JBZOO_ORDER_SHIPPING_TITLE'); ?></h3>
 
     <?php echo $this->shipRender->renderAdminEdit(array('order' => $order)); ?>
 
     <?php if ($element) : ?>
         <dl class="uk-description-list-horizontal">
-            <dt>Цена доставки</dt>
+            <dt><?php echo JText::_('JBZOO_ORDER_SHIPPING_BLOCK_PRICE'); ?></dt>
             <dd>
-                <p><?php echo $jbmoney->toFormat($element->getRate(), 'EUR'); ?></p>
+                <p><?php echo $element->getRate()->html(); ?></p>
             </dd>
 
             <dt>Статус</dt>
