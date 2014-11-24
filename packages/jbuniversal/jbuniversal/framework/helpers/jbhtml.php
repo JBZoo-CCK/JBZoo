@@ -231,6 +231,116 @@ class JBHTMLHelper extends AppHelper
     }
 
     /**
+     * @param array  $curList
+     * @param string $defaultCur
+     * @return array|null|string
+     */
+    public function currencyToggle($curList, $defaultCur = 'eur', $options = array())
+    {
+        $curList    = (array)$curList;
+        $defaultCur = $this->app->jbvars->lower($defaultCur);
+        $moneyVal   = JBCart::val(1, $defaultCur, $curList); // for calculating
+        $uniqId     = $this->app->jbstring->getId();
+
+
+        if (isset($curList['%'])) {
+            unset($curList['%']);
+        }
+
+        $options = $this->app->data->create(array_merge(array(
+            'selector'    => '.jbzoo',
+            'showDefault' => true,
+            'rates'       => $curList,
+        ), $options));
+
+
+        if ((int)$options->get('showDefault')) {
+            $curList = $this->app->jbarray->unshiftAssoc($curList, JBCartValue::DEFAULT_CODE, array(
+                'code'   => JBCartValue::DEFAULT_CODE,
+                'format' => array(),
+            ));
+        }
+
+        $i     = 0;
+        $count = count($curList);
+        $html  = array();
+        foreach ($curList as $code => $currency) {
+            $i++;
+            $id    = $this->app->jbstring->getId('unique-');
+            $title = JText::_('JBZOO_JBCURRENCY_' . $code);
+            if ($code != JBCartValue::DEFAULT_CODE && !$moneyVal->isCur($code)) {
+                $title .= '; ' . $moneyVal->text() . ' = ' . $moneyVal->text($code);
+            }
+
+            $inputAttrs = array(
+                'type'          => 'radio',
+                'name'          => 'currency[' . $uniqId . '][]',
+                'id'            => $id,
+                'data-currency' => $code,
+                'class'         => array(
+                    'jbcurrency-input',
+                    'jbcurrency-' . $code,
+                ),
+            );
+
+            if ($code == $defaultCur) {
+                $inputAttrs['checked'] = 'checked';
+            }
+
+            $labelAttrs = array(
+                'for'   => $id,
+                'title' => $title,
+                'class' => array(
+                    'jbcurrency-label',
+                    'jbcurrency-' . $code,
+                    'hasTip',
+                ),
+            );
+
+            if ($i == $count) {
+                $inputAttrs['class'][] = 'isLast';
+                $labelAttrs['class'][] = 'isLast';
+            }
+
+            if ($i == 1) {
+                $inputAttrs['class'][] = 'isFirst';
+                $labelAttrs['class'][] = 'isFirst';
+            }
+
+            $flag = $defaultCur == JBCartValue::DEFAULT_CODE ? '<span class="jbflag">&curren;</span>' : '<span class="jbflag"></span>';
+
+            $html[] = '<input ' . $this->buildAttrs($inputAttrs) . ' />';
+            $html[] = '<label  ' . $this->buildAttrs($labelAttrs) . '>' . $flag . '</label>';
+        }
+
+        if (!empty($html)) {
+
+            $id = $this->app->jbstring->getId('currency-toggle-');
+
+            $this->app->jbassets->currencyToggle($id, $options->getArrayCopy());
+
+            $widgetAttrs = array(
+                'data-default' => $moneyVal->cur(),
+                'id'           => $id,
+                'class'        => array(
+                    'jsCurrencyToggle',
+                    'currency-toggle'
+                ),
+
+            );
+
+            $html = '<div ' . $this->buildAttrs($widgetAttrs) . '>'
+                . implode("\n ", $html)
+                . '<div class="clear clr"></div>'
+                . '</div>';
+
+            return $html;
+        }
+
+        return null;
+    }
+
+    /**
      * Render hidden field
      * @param      $name
      * @param null $value
@@ -578,13 +688,14 @@ class JBHTMLHelper extends AppHelper
             foreach ($attrs as $key => $param) {
 
                 $param = (array)$param;
+                $value = implode(' ', $param);
                 if ($clean) {
-                    $value = $this->cleanAttrValue(implode(' ', $param));
+                    $value = $this->cleanAttrValue($value, true);
                     if (!empty($value) || $value == '0' || $key == 'value') {
                         $result .= ' ' . $key . '="' . $value . '"';
                     }
                 } else {
-                    $value = implode(' ', $param);
+                    $value = $this->cleanAttrValue($value, false);
                     $result .= ' ' . $key . '="' . $value . '"';
                 }
             }
@@ -596,12 +707,15 @@ class JBHTMLHelper extends AppHelper
     /**
      * Clear attribute value
      * @param string $value
+     * @param bool   $isTrim
      * @return string
      */
-    public function cleanAttrValue($value)
+    public function cleanAttrValue($value, $isTrim = true)
     {
         $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-        $value = JString::trim($value);
+        if ($isTrim) {
+            $value = JString::trim($value);
+        }
 
         return $value;
     }

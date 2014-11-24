@@ -36,8 +36,6 @@
 .jbzoo-rborder .rborder {
     border: 1px solid #CCC;
     border-radius: 8px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
     background: #FBFBFB;
 }
 
@@ -354,8 +352,6 @@
     padding: 0.5em;
     border: 1px solid #CCC;
     border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
     margin-bottom: 1em;
     background: #FBFBFB;
 }
@@ -396,7 +392,6 @@
 .jbzoo .jbzoo-button.green {
     border: 1px solid #5A8200;
     border-bottom-color: #325000;
-    -webkit-border-radius: 3px;
     background: #8CBE32;
     background: -moz-linear-gradient(50% 0%, #AFF532, #9BD732 1px, #6E912D);
     background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(#AFF532), to(#6E912D), color-stop(5%, #9BD732));
@@ -425,8 +420,6 @@
     margin-right: 1em;
     border: 1px solid #CCC;
     border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
 }
 
 .jbzoo .element-jbgallery a:hover {
@@ -517,7 +510,6 @@
     display: none;
     border: 1px solid #5A8200;
     border-bottom-color: #325000;
-    -webkit-border-radius: 3px;
     background: #8CBE32;
     background: -moz-linear-gradient(50% 0%, #AFF532, #9BD732 1px, #6E912D);
     background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(#AFF532), to(#6E912D), color-stop(5%, #9BD732));
@@ -562,7 +554,6 @@
     display: inline-block;
     border: 1px solid #C8C8C8;
     border-bottom-color: #AAA;
-    -webkit-border-radius: 3px;
     background: #EBEBEB;
     background: -moz-linear-gradient(50% 0%, white, #EBEBEB 70%);
     background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(white), to(#EBEBEB), color-stop(70%, #EBEBEB));
@@ -595,7 +586,6 @@
     display: inline-block;
     border: 1px solid #C8C8C8;
     border-bottom-color: #AAA;
-    -webkit-border-radius: 3px;
     background: #FDD116;
     background: -moz-linear-gradient(50% 0%, white, #FDD116 70%);
     background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(white), to(#FDD116), color-stop(70%, #FDD116));
@@ -816,7 +806,6 @@
     display: inline-block;
     border: 1px solid #5A8200;
     border-bottom-color: #325000;
-    -webkit-border-radius: 3px;
     background: #8CBE32;
     background: -moz-linear-gradient(50% 0%, #AFF532, #9BD732 1px, #6E912D);
     background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(#AFF532), to(#6E912D), color-stop(5%, #9BD732));
@@ -1232,24 +1221,6 @@
     font-weight: bold;
 }
 
-.jbzoo .jbprice-currency-list .jbcurrency {
-    display: block;
-    width: 22px;
-    height: 16px;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    background-color: transparent;
-    float: left;
-    padding: 1px;
-    border-radius: 3px;
-    border: 1px solid #CCC;
-    margin: 4px;
-    cursor: pointer;
-    font-size: 10px;
-    line-height: 18px;
-    text-align: center;
-}
-
 .jbzoo .not-in-cart .remove-button {
     display: none;
 }
@@ -1291,12 +1262,6 @@
     height: 1em;
 }
 
-.jbzoo .jbprice-currency-list .jbcurrency.active,
-.jbzoo .jbprice-currency-list .jbcurrency:hover {
-    box-shadow: 0 0 10px #52A8EC;
-    background-color: #52A8EC;
-}
-
 .jbzoo .filter-element-row {
     margin-bottom: 8px;
 }
@@ -1330,269 +1295,141 @@
     margin-right: 6px;
 }
 
-.jbzoo .jbcurrency-eur {
-    background-image: url(../img/currency/eur.png);
+/**** currecny widget *************************************************************************************************/
+/*
+.jbzoo .currency-toggle1 .jbcurrency {
+    display: block;
+    width: 32px;
+    height: 22px;
+    float: left;
+    padding: 1px;
+    border-radius: 3px;
+    margin: 4px;
+    cursor: pointer;
+    line-height: 18px;
+    text-align: center;
     color: transparent;
     font-size: 0 !important;
 }
 
-.jbzoo .jbcurrency-usd {
-    background-image: url(../img/currency/usd.png);
-    color: transparent;
-    font-size: 0 !important;
+.jbzoo .currency-toggle .jbcurrency-rub {
+    background: url('../img/flags/rub.png') no-repeat 50% 50%;
+}
+*/
+
+.jbzoo .currency-toggle {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    font-size: 0;
+    white-space: nowrap;
 }
 
-.jbzoo .jbcurrency-rub {
-    background-image: url(../img/currency/rub.png);
-    color: transparent;
-    font-size: 0 !important;
+.jbzoo .jbcurrency-input {
+    position: absolute;
+    left: -9999px;
 }
 
-.jbzoo .jbcurrency-uah {
-    background-image: url(../img/currency/uah.png);
-    color: transparent;
-    font-size: 0 !important;
+.jbzoo .currency-toggle .jbcurrency-label {
+    border-radius: 0
 }
 
-.jbzoo .jbcurrency-byr {
-    background-image: url(../img/currency/byr.png);
-    color: transparent;
-    font-size: 0 !important;
+.jbzoo .currency-toggle .jbcurrency-label.isFirst {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
 }
 
-.jbzoo .jbcurrency-aud {
-    background-image: url(../img/currency/aud.png);
-    color: transparent;
-    font-size: 0 !important;
+.jbzoo .currency-toggle .jbcurrency-label.isLast {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
-.jbzoo .jbcurrency-azn {
-    background-image: url(../img/currency/azn.png);
-    color: transparent;
-    font-size: 0 !important;
+.jbzoo .currency-toggle .jbcurrency-label:nth-child(n+2) {
+    margin-left: -1px
 }
 
-.jbzoo .jbcurrency-gbp {
-    background-image: url(../img/currency/gbp.png);
-    color: transparent;
-    font-size: 0 !important;
+.jbzoo .currency-toggle .jbcurrency-label {
+    transition: 0.5s;
+    opacity: 0.8;
+    float: left;
+    display: inline-block;
+    padding: 3px 6px;
+    margin-bottom: 0;
+    font-size: 0px;
+    color: #333333;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+    background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+    background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+    background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+    background-repeat: repeat-x;
+    border: 1px solid #cccccc;
+    border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    border-bottom-color: #b3b3b3;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.jbzoo .jbcurrency-amd {
-    background-image: url(../img/currency/amd.png);
-    color: transparent;
-    font-size: 0 !important;
+.jbzoo .jbcurrency-label:hover {
+    -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+    opacity: 1;
 }
 
-.jbzoo .jbcurrency-bgn {
-    background-image: url(../img/currency/bgn.png);
-    color: transparent;
-    font-size: 0 !important;
+.jbzoo .jbcurrency-input:checked + .jbcurrency-label {
+    opacity: 1;
+    -webkit-box-shadow: inset 0 3px 5px #4D90FE;
+    box-shadow: inset 0 3px 5px #4D90FE;
+    background-color: #e6e6e6;
+    text-decoration: none;
+    background-position: 0 -15px;
+    -webkit-transition: background-position 0.1s linear;
+    -moz-transition: background-position 0.1s linear;
+    -o-transition: background-position 0.1s linear;
+    transition: background-position 0.1s linear;
 }
 
-.jbzoo .jbcurrency-brl {
-    background-image: url(../img/currency/brl.png);
-    color: transparent;
-    font-size: 0 !important;
+.jbzoo .jbcurrency-label .jbflag {
+    width: 32px;
+    height: 24px;
+    display: inline-block;
 }
 
-.jbzoo .jbcurrency-huf {
-    background-image: url(../img/currency/huf.png);
-    color: transparent;
-    font-size: 0 !important;
+.jbzoo .jbcurrency-usd .jbflag {
+    background: url('../img/flags/usd.png') no-repeat 50% 50%;
 }
 
-.jbzoo .jbcurrency-dkk {
-    background-image: url(../img/currency/dkk.png);
-    color: transparent;
-    font-size: 0 !important;
+.jbzoo .jbcurrency-eur .jbflag {
+    background: url('../img/flags/eur.png') no-repeat 50% 50%;
 }
 
-.jbzoo .jbcurrency-inr {
-    background-image: url(../img/currency/inr.png);
-    color: transparent;
-    font-size: 0 !important;
+.jbzoo .jbcurrency-uah .jbflag {
+    background: url('../img/flags/uah.png') no-repeat 50% 50%;
 }
 
-.jbzoo .jbcurrency-kzt {
-    background-image: url(../img/currency/kzt.png);
-    color: transparent;
-    font-size: 0 !important;
+.jbzoo .jbcurrency-byr .jbflag {
+    background: url('../img/flags/byr.png') no-repeat 50% 50%;
 }
 
-.jbzoo .jbcurrency-cad {
-    background-image: url(../img/currency/cad.png);
-    color: transparent;
-    font-size: 0 !important;
+.jbzoo .jbcurrency-rub .jbflag {
+    background: url('../img/flags/rub.png') no-repeat 50% 50%;
 }
 
-.jbzoo .jbcurrency-kgs {
-    background-image: url(../img/currency/kgs.png);
-    color: transparent;
-    font-size: 0 !important;
+.jbzoo .jbcurrency-default_cur .jbflag {
+    line-height: 28px;
+    font-size: 28px;
+    color: #333;
+    text-align: center;
 }
 
-.jbzoo .jbcurrency-cny {
-    background-image: url(../img/currency/cny.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-lvl {
-    background-image: url(../img/currency/lvl.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-ltl {
-    background-image: url(../img/currency/ltl.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-mdl {
-    background-image: url(../img/currency/mdl.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-nok {
-    background-image: url(../img/currency/nok.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-pln {
-    background-image: url(../img/currency/pln.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-ron {
-    background-image: url(../img/currency/ron.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-sgd {
-    background-image: url(../img/currency/sgd.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-tjs {
-    background-image: url(../img/currency/tjs.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-try {
-    background-image: url(../img/currency/try.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-tmt {
-    background-image: url(../img/currency/tmt.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-uzs {
-    background-image: url(../img/currency/uzs.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-czk {
-    background-image: url(../img/currency/czk.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-sek {
-    background-image: url(../img/currency/sek.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-chf {
-    background-image: url(../img/currency/chf.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-zar {
-    background-image: url(../img/currency/zar.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-krw {
-    background-image: url(../img/currency/krw.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-jpy {
-    background-image: url(../img/currency/jpy.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-hrk {
-    background-image: url(../img/currency/hrk.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-hkd {
-    background-image: url(../img/currency/hkd.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-idr {
-    background-image: url(../img/currency/idr.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-ils {
-    background-image: url(../img/currency/ils.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-mxn {
-    background-image: url(../img/currency/mxn.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-myr {
-    background-image: url(../img/currency/myr.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-nzd {
-    background-image: url(../img/currency/nzd.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-php {
-    background-image: url(../img/currency/php.png);
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .jbcurrency-thb {
-    background-image: url(../img/currency/thb.png);
-    color: #777;
-    font-size: 0 !important;
-}
+/**** /currecny widget ************************************************************************************************/
 
 /********************** JBZoo Tabs & accordion *****************/
 /* style for jb_mod_category tab plugin */
@@ -2064,7 +1901,6 @@ h3.jbzootabs-accordion-header.jbzootabs-accordion-active.jbzootabs-accordion-ico
     display: inline-block;
     border: 1px solid #C8C8C8;
     border-bottom-color: #AAA;
-    -webkit-border-radius: 3px;
     background: #EBEBEB;
     background: -moz-linear-gradient(50% 0%, white, #EBEBEB 70%);
     background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(white), to(#EBEBEB), color-stop(70%, #EBEBEB));
@@ -2114,10 +1950,6 @@ h3.jbzootabs-accordion-header.jbzootabs-accordion-active.jbzootabs-accordion-ico
     margin: 4px;
     border: 1px solid #777;
     border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-transition: 1s;
-    -moz-transition: 1s;
     transition: 1s;
     opacity: 0.4;
 }
@@ -2626,14 +2458,6 @@ form.jbzoo-app-basket {
 }
 
 .jbzoo .jbzoo-basket-fields {
-    /*border: 1px solid #EEE;
-    background: #F7FBFC;
-    */
-
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    -ms-border-radius: 6px;
-    -o-border-radius: 6px;
     border-radius: 6px;
     padding: 0 20px 20px 20px;
     zoom: 1;
@@ -2706,8 +2530,6 @@ form.jbzoo-app-basket {
 
 .jbzoo .jbzoo-app-basket input[type="text"] {
     border: 1px solid #B0B0B0;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
     border-radius: 3px;
     outline: 0;
     font-size: 13px;
@@ -2861,8 +2683,6 @@ form.jbzoo-app-basket {
     text-align: center;
     text-decoration: none;
     text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
     border-radius: 3px;
     -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
     -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
@@ -2977,8 +2797,6 @@ form.jbzoo-app-basket {
     line-height: 20px;
     font-size: 12px;
     border: 1px solid #DDD;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
     border-radius: 5px;
     padding: 0 0 20px 0;
 }
@@ -3020,7 +2838,6 @@ form.jbzoo-app-basket {
 .jbzoo .price-calc td {
     padding-bottom: 24px;
 }
-
 
 .jbprice-price table {
     width: 250px;
