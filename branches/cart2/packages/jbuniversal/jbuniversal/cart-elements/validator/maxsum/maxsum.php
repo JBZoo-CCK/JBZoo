@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -18,17 +17,17 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementValidatorMaxsum extends JBCartElementValidator
 {
-
-
+    /**
+     * @return mixed|void
+     * @throws JBCartElementValidatorException
+     */
     public function isValid()
     {
-        $summa = $this->getOrder()->getTotalSum();
-        $value = $this->_jbmoney->clearValue($this->config->get('value'));
+        $summa = $this->_order->getTotalSum();
+        $value = $this->_order->val($this->config->get('value'));
 
-        if ($value > 0 && $summa > $value) {
-
-            $value = $this->_jbmoney->toFormat($value, 'EUR');
-            $message = JText::sprintf('JBZOO_ELEMENT_MAXSUM_ERROR', $value);
+        if ($value->isPositive() && $value->compare($summa, '<')) {
+            $message = JText::sprintf('JBZOO_ELEMENT_MAXSUM_ERROR', $value->text());
             throw new JBCartElementValidatorException($message);
         }
 

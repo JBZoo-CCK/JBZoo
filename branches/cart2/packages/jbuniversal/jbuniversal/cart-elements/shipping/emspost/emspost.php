@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -28,8 +27,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 
     /**
      * Class constructor
-     *
-     * @param App $app
+     * @param App    $app
      * @param string $type
      * @param string $group
      */
@@ -41,22 +39,18 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
     }
 
     /**
-     * @param  float $sum
-     * @param  string $currency
-     * @param  JBCartOrder $order
-     *
-     * @return float
+     * @param JBCartValue $summa
+     * @return JBCartValue
      */
-    public function modify($sum, $currency, JBCartOrder $order)
+    public function modify(JBCartValue $summa)
     {
         $rate = $this->getRate();
 
-        return $sum + $rate;
+        return $summa->add($rate);
     }
 
     /**
      * @param array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
@@ -66,7 +60,6 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 
     /**
      * @param  array $params
-     *
      * @return mixed|string
      */
     public function renderSubmission($params = array())
@@ -82,10 +75,8 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 
     /**
      * Validates the submitted element
-     *
      * @param  $value
      * @param  $params
-     *
      * @return array
      */
     public function validateSubmission($value, $params)
@@ -123,18 +114,16 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
     }
 
     /**
-     * @return int
+     * @return JBCartValue
      */
     public function getRate()
     {
-        return $this->get('value', 0);
+        return $this->_order->val($this->get('value', 0));
     }
 
     /**
      * Get array of parameters to push it into(data-params)
-     *
      * @param  boolean $encode - Encode array or no
-     *
      * @return string|array
      */
     public function getWidgetParams($encode = true)
@@ -165,9 +154,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 
     /**
      * Decoding the result of API call
-     *
      * @param $responseBody
-     *
      * @return array
      */
     public function processingData($responseBody)
@@ -177,9 +164,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 
     /**
      * Change name/value to value/name
-     *
      * @param $city
-     *
      * @return mixed
      */
     public function convertCity($city)
@@ -200,7 +185,6 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 
     /**
      * City location of the store
-     *
      * @return string
      */
     protected function _getDefaultCity()
@@ -213,9 +197,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 
     /**
      * Make request and get price form service
-     *
      * @param  array $params
-     *
      * @return integer
      */
     public function getPrice($params = array())
@@ -248,7 +230,6 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 
     /**
      * @param  string $type - cities, regions, countries, russia
-     *
      * @return string
      */
     protected function _getLocations($type = 'countries')
@@ -269,6 +250,14 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
         }
 
         return $result;
+    }
+
+    /**
+     * @return $this
+     */
+    public function loadAssets()
+    {
+        $this->app->jbassets->js('cart-elements:shipping/emspost/assets/emspost.js');
     }
 
 }

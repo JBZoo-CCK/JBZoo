@@ -132,6 +132,7 @@ class JBCartOrder
             $this->params[$groupName] = array();
 
             foreach ($elements as $element) {
+                $element->setOrder($this);
                 $orderdata = $element->getOrderData();
 
                 $result[$groupName][$element->identifier]       = $element;
@@ -179,81 +180,63 @@ class JBCartOrder
     }
 
     /**
-     * @param bool $toFormat
-     * @return float|int
+     * @return JBCartValue
      */
-    public function getTotalSum($toFormat = false)
+    public function getTotalSum()
     {
-        $baseCur = $this->getCurrency();
-        $sum     = $this->getTotalForSevices();
+        $summa = $this->getTotalForSevices();
 
         // get modifiers
         $modifiers = $this->getModifiers(JBCart::MODIFIER_ORDER);
         foreach ($modifiers as $modifier) {
-            $sum = $modifier->modify($sum, $baseCur, $this);
+            $summa->addModify($modifier);
         }
 
-        if ((int)$toFormat) {
-            $sum = $this->app->jbmoney->toFormat($sum, $baseCur);
-        }
-
-        return $sum;
+        return $summa;
     }
 
     /**
-     * @param $toFormat
-     * @return int
+     * @return JBCartValue
      */
-    public function getTotalForItems($toFormat = false)
+    public function getTotalForItems()
     {
-        $items   = $this->getItems();
-        $jbmoney = $this->app->jbmoney;
-        $sum     = 0;
-        $baseCur = $this->getCurrency();
+        $items = $this->getItems();
+        $summa = $this->val();
 
         $modifiers = $this->getModifiers(JBCart::MODIFIER_ITEM);
 
         // get Items prices
         foreach ($items as $item) {
-            $price = $item['price'] * $item['quantity'];
-            $sum += $jbmoney->calc($sum, $baseCur, $price, $item['currency']);
+            $itemPrice = $this->val($item['price'])->multiply($item['quantity']);
+
+            $summa->add($itemPrice);
 
             foreach ($modifiers as $modifier) {
-                $sum = $modifier->modify($sum, $baseCur, $this);
+                $summa->addModify($modifier);
             }
         }
 
-        if ((int)$toFormat) {
-            $sum = $this->app->jbmoney->toFormat($sum, $baseCur);
-        }
-
-        return $sum;
+        return $summa;
     }
 
     /**
-     * @param $toFormat
-     * @return float|int
+     * @return JBCartValue
      */
-    public function getTotalForSevices($toFormat = false)
+    public function getTotalForSevices()
     {
-        $sum     = $this->getTotalForItems(false);
-        $baseCur = $this->getCurrency();
+        $summa = $this->getTotalForItems();
 
         // check payment rate
         if ($payment = $this->getPayment()) {
-            $sum = $payment->modify($sum, $baseCur, $this);
+            $summa->addModify($payment);
         }
 
         // check shipping rate
         if ($shipping = $this->getShipping()) {
-            $sum = $shipping->modify($sum, $baseCur, $this);
+            $summa->addModify($shipping);
         }
 
-        if ((int)$toFormat) {
-            $sum = $this->app->jbmoney->toFormat($sum, $baseCur);
-        }
-
-        return $sum;
+        return $summa;
     }
 
     /**
@@ -424,8 +407,7 @@ class JBCartOrder
 
         if (isset($formData[JBCart::ELEMENT_TYPE_SHIPPINGFIELD])) {
             $params = $this->app->jbrenderer->create('ShippingFields')->getLayoutParams();
-            $errors += $this->_bindElements($formData[JBCart::ELEMENT_TYPE_SHIPPINGFIELD],
-                JBCart::CONFIG_SHIPPINGFIELDS, $params);
+            $errors += $this->_bindElements($formData[JBCart::ELEMENT_TYPE_SHIPPINGFIELD], JBCart::CONFIG_SHIPPINGFIELDS, $params);
         }
 
         if (isset($formData[JBCart::ELEMENT_TYPE_SHIPPING])) {
@@ -530,7 +512,7 @@ class JBCartOrder
             $errorMessages[] = 'JBZOO_CART_VALIDATOR_EMPTY';
         }
 
-        if ($this->getTotalSum() <= 0) {
+        if ($this->getTotalSum()->compare('0', '<=')) {
             $errorMessages[] = 'JBZOO_CART_VALIDATOR_ZERO_SUM';
         }
 
@@ -929,9 +911,9 @@ class JBCartOrder
      * @param string $currency
      * @return JBCartValue
      */
-    public function val($data, $currency = null)
+    public function val($data = '0', $currency = null)
     {
-        $rates = $this->getCurrencyList();
+        $rates = (array)$this->getCurrencyList();
         return JBcart::val($data, $currency, $rates);
     }
 

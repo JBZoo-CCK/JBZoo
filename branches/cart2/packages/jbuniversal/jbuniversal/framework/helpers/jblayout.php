@@ -331,7 +331,6 @@ class JBLayoutHelper extends AppHelper
         }
 
         if ($renderer) {
-            $this->app->jbassets->itemStyle($item->type);
             $htmlItem = $renderer->render($itemLayout, compact('item'));
         }
 

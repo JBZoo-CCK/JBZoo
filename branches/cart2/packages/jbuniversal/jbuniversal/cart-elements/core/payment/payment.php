@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -56,7 +55,6 @@ abstract class JBCartElementPayment extends JBCartElement
 
     /**
      * @param array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
@@ -65,7 +63,7 @@ abstract class JBCartElementPayment extends JBCartElement
     }
 
     /**
-     * @return string
+     * @return JBCartElementStatus
      */
     public function getStatus()
     {
@@ -73,18 +71,36 @@ abstract class JBCartElementPayment extends JBCartElement
 
         $curStatus = $this->get('status');
         if (empty($curStatus)) {
-            $curStatus = $default->getCode();
+            $curStatus = $default;
+        }
+
+        if (!is_object($curStatus)) {
+
+            $jbstatus = $this->app->jbcartstatus;
+
+            $status = $jbstatus->getByCode($curStatus, JBCart::STATUS_PAYMENT);
+            if (!empty($status)) {
+                return $status;
+            }
+
+            // if not found in current configs
+            // TODO get status info from order params
+            $unfound = $jbstatus->getUndefined();
+            $unfound->config->set('code', $curStatus);
+            $unfound->config->set('name', $curStatus);
+
+            return $unfound;
         }
 
         return $curStatus;
     }
 
     /**
-     * @return string
+     * @return JBCartValue
      */
     public function getRate()
     {
-        return 0;
+        return $this->_order->val(0);
     }
 
     /**
@@ -112,22 +128,17 @@ abstract class JBCartElementPayment extends JBCartElement
     }
 
     /**
-     * @param float       $sum
-     * @param string      $currency
-     * @param JBCartOrder $order
-     *
-     * @return float
+     * @param JBCartValue $summa
+     * @return JBCartValue
      */
-    public function modify($sum, $currency, JBCartOrder $order)
+    public function modify(JBCartValue $summa)
     {
-        return $sum;
+        return $summa;
     }
 
     /**
      * Plugin even triggered when the payment plugin notifies for the transaction
-     *
      * @param array $params The data received
-     *
      * @return null|void
      */
     public function isValid($params = array())
@@ -137,7 +148,6 @@ abstract class JBCartElementPayment extends JBCartElement
 
     /**
      * @param array $data
-     *
      * @return string
      */
     public function fail($data = array())
@@ -147,7 +157,6 @@ abstract class JBCartElementPayment extends JBCartElement
 
     /**
      * @param array $data
-     *
      * @return string
      */
     public function success($data = array())
@@ -158,7 +167,6 @@ abstract class JBCartElementPayment extends JBCartElement
     /**
      * @param      $name
      * @param bool $array
-     *
      * @return string|void
      */
     public function getControlName($name, $array = false)
@@ -168,7 +176,6 @@ abstract class JBCartElementPayment extends JBCartElement
 
     /**
      * Change payment status and fire event
-     *
      * @param $newStatus
      */
     public function setStatus($newStatus)
@@ -218,7 +225,6 @@ abstract class JBCartElementPayment extends JBCartElement
 
     /**
      * @param array $params
-     *
      * @return string
      */
     public function renderSubmission($params = array())
@@ -286,12 +292,8 @@ abstract class JBCartElementPayment extends JBCartElement
      */
     public function getOrderSumm()
     {
-        $order  = $this->getOrder();
-        $defCur = $this->_jbmoney->getDefaultCur();
-        $summ   = $this->_jbmoney->convert($defCur, $defCur, $order->getTotalSum(false));
-        $summ   = round($summ, 2);
-
-        return $summ;
+        $order = $this->getOrder();
+        return $order->getTotalSum(false);
     }
 
     /**
