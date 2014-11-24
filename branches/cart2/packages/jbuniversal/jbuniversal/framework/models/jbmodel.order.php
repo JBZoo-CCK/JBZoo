@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -39,9 +38,7 @@ class JBModelOrder extends JBModel
 
     /**
      * Get order by itemid
-     *
      * @param $orderId
-     *
      * @return JBCartOrder
      */
     public function getById($orderId)
@@ -62,7 +59,6 @@ class JBModelOrder extends JBModel
 
     /**
      * @param JBCartOrder $order
-     *
      * @return mixed
      */
     public function save(JBCartOrder $order)
@@ -84,9 +80,7 @@ class JBModelOrder extends JBModel
             'total'           => $order->getTotalSum(),
             'items'           => $order->getItems(false),
             'fields'          => $order->getFields(),
-
             'shippingfields'  => $order->getShippingFields(),
-
             'modifiers'       => $order->getModifiersData(),
             'params'          => $params,
             'comment'         => $order->comment,
@@ -127,7 +121,6 @@ class JBModelOrder extends JBModel
 
     /**
      * @param array $filter
-     *
      * @return array
      */
     public function getList($filter = array())
@@ -196,7 +189,6 @@ class JBModelOrder extends JBModel
 
     /**
      * @param array $filter
-     *
      * @return int
      */
     public function getCount($filter = array())
@@ -215,7 +207,6 @@ class JBModelOrder extends JBModel
 
     /**
      * @param array $filter
-     *
      * @return JBDatabaseQuery
      */
     protected function _getSelectByCond($filter = array())
