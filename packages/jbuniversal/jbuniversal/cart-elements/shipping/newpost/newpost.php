@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -72,24 +71,22 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     }
 
     /**
-     * @param float       $sum
-     * @param string      $currency
-     * @param JBCartOrder $order
-     * @return float
+     * @param JBCartValue $summa
+     * @return JBCartValue
      */
-    public function modify($sum, $currency, JBCartOrder $order)
+    public function modify(JBCartValue $summa)
     {
         $shipping = $this->getRate();
 
-        return $sum + $shipping;
+        return $summa->add($shipping);
     }
 
     /**
-     * @return int
+     * @return JBCartValue
      */
     public function getRate()
     {
-        return $this->get('value', 0);
+        return $this->_order->val($this->get('value', 0));
     }
 
     /**
@@ -251,7 +248,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      */
     public function callService($data)
     {
-        $responseData = $this->_callService($this->_url, JBCartElementShipping::HTTP_POST, $data, $this->headers);
+        $responseData = $this->_callService($this->_url, 'post', $data, $this->headers);
 
         return $responseData;
     }
@@ -363,13 +360,13 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      */
     protected function _getCitiesRegionsFromPost()
     {
-        $api_key = $this->config->get('api_key');
-
-        $xml = '<?xml version="1.0" encoding="utf-8"?>
-        <file>
-        <auth>' . $api_key . '</auth>
-        <city/>
-        </file>';
+        $xml = implode("\n", array(
+            '<?xml version="1.0" encoding="utf-8"?>',
+            '<file>',
+            '<auth>' . JString::trim($this->config->get('api_key')) . '</auth>',
+            '<city/>',
+            '</file>'
+        ));
 
         $xml = $this->callService($xml);
 
@@ -472,6 +469,14 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
         }
 
         return $params;
+    }
+
+    /**
+     * @return $this
+     */
+    public function loadAssets()
+    {
+        $this->app->jbassets->js('cart-elements:shipping/newpost/assets/newpost.js');
     }
 
 }

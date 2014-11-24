@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -21,22 +20,18 @@ class JBCartElementShippingCourier extends JBCartElementShipping
     const EDIT_DATE_FORMAT = '%Y-%m-%d %H:%M';
 
     /**
-     * @param float $sum
-     * @param string $currency
-     * @param JBCartOrder $order
-     *
-     * @return float
+     * @param JBCartValue $summa
+     * @return JBCartValue
      */
-    public function modify($sum, $currency, JBCartOrder $order)
+    public function modify(JBCartValue $summa)
     {
         $shipping = $this->getRate();
 
-        return $sum + $shipping;
+        return $summa->add($shipping);
     }
 
     /**
      * @param array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
@@ -46,9 +41,7 @@ class JBCartElementShippingCourier extends JBCartElementShipping
 
     /**
      * Get price form element config
-     *
      * @param  array $params
-     *
      * @return integer
      */
     public function getPrice($params = array())
@@ -63,7 +56,6 @@ class JBCartElementShippingCourier extends JBCartElementShipping
 
     /**
      * @param array $params
-     *
      * @return mixed|string
      */
     public function renderSubmission($params = array())
@@ -82,10 +74,8 @@ class JBCartElementShippingCourier extends JBCartElementShipping
 
     /**
      * Validates the submitted element
-     *
      * @param $value
      * @param $params
-     *
      * @return array
      */
     public function validateSubmission($value, $params)
@@ -111,7 +101,7 @@ class JBCartElementShippingCourier extends JBCartElementShipping
      */
     public function getRate()
     {
-        $shipping = $this->config->get('cost', 0);
+        $shipping = $this->_order->val($this->config->get('cost', 0));
 
         return $shipping;
     }
@@ -131,9 +121,7 @@ class JBCartElementShippingCourier extends JBCartElementShipping
 
     /**
      * Get array of parameters to push it into(data-params) element div
-     *
      * @param  boolean $encode - Encode array or no
-     *
      * @return string|array
      */
     public function getWidgetParams($encode = true)

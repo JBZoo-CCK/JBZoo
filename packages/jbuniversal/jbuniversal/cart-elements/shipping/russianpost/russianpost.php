@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -27,8 +26,7 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
 
     /**
      * Class constructor
-     *
-     * @param App $app
+     * @param App    $app
      * @param string $type
      * @param string $group
      */
@@ -40,22 +38,18 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
     }
 
     /**
-     * @param float $sum
-     * @param string $currency
-     * @param JBCartOrder $order
-     *
-     * @return float
+     * @param JBCartValue $summa
+     * @return JBCartValue
      */
-    public function modify($sum, $currency, JBCartOrder $order)
+    public function modify(JBCartValue $summa)
     {
         $shipping = $this->getRate();
 
-        return $sum + $shipping;
+        return $summa->add($shipping);
     }
 
     /**
      * @param array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
@@ -85,7 +79,6 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
 
     /**
      * @param array $params
-     *
      * @return mixed|string
      */
     public function renderSubmission($params = array())
@@ -101,10 +94,8 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
 
     /**
      * Validates the submitted element
-     *
      * @param  $value
      * @param  $params
-     *
      * @return array
      */
     public function validateSubmission($value, $params)
@@ -129,14 +120,12 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
      */
     public function getRate()
     {
-        return $this->get('value', 0);
+        return $this->_order->val($this->get('value', 0));
     }
 
     /**
      * Get name of view post by id
-     *
      * @param  $id
-     *
      * @return string
      */
     public function getViewPostName($id)
@@ -156,9 +145,7 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
 
     /**
      * Get name of type post by id
-     *
      * @param  $id
-     *
      * @return string
      */
     public function getTypePostName($id)
@@ -176,9 +163,7 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
 
     /**
      * Get array of parameters to push it into(data-params) element div
-     *
      * @param  boolean $encode - Encode array or no
-     *
      * @return string|array
      */
     public function getWidgetParams($encode = true)
@@ -222,9 +207,7 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
 
     /**
      * Get country code by country
-     *
      * @param  string $country
-     *
      * @return mixed
      */
     public function countryCode($country)
@@ -262,9 +245,7 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
 
     /**
      * Make request and get price form service
-     *
      * @param  array $params
-     *
      * @return int
      */
     public function getPrice($params = array())

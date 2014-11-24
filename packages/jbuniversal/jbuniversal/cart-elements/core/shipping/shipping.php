@@ -109,14 +109,12 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * @param float       $sum
-     * @param string      $currency
-     * @param JBCartOrder $order
-     * @return float
+     * @param JBCartValue $summa
+     * @return JBCartValue
      */
-    public function modify($sum, $currency, JBCartOrder $order)
+    public function modify(JBCartValue $summa)
     {
-        return $sum;
+        return $summa;
     }
 
     /**
@@ -148,13 +146,33 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * @return string
+     * @return JBCartElementStatus
      */
     public function getStatus()
     {
         $default = JBCart::getInstance()->getDefaultStatus(JBCart::STATUS_SHIPPING);
 
-        return $this->get('status', $default->getCode());
+        $curStatus = $this->get('status');
+        if (empty($curStatus)) {
+            $curStatus = $default;
+        }
+
+        if (!is_object($curStatus)) {
+            $status = $this->app->jbcartstatus->getByCode($curStatus, JBCart::STATUS_SHIPPING);
+            if (!empty($status)) {
+                return $status;
+            }
+
+            // if not found in current configs
+            // TODO get status info from order params
+            $unfound = $this->app->jbcartstatus->getUndefined();
+            $unfound->config->set('code', $curStatus);
+            $unfound->config->set('name', $curStatus);
+
+            return $unfound;
+        }
+
+        return $curStatus;
     }
 
     /**
@@ -180,11 +198,11 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * @return int
+     * @return JBCartValue
      */
     public function getRate()
     {
-        return 0;
+        return $this->_order->val(0);
     }
 
     /**

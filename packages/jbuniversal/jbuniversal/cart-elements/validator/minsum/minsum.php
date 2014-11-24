@@ -24,13 +24,11 @@ class JBCartElementValidatorMinsum extends JBCartElementValidator
      */
     public function isValid()
     {
-        $summa = $this->getOrder()->getTotalSum();
-        $value = $this->_jbmoney->clearValue($this->config->get('value'));
+        $summa = $this->_order->getTotalSum();
+        $value = $this->_order->val($this->config->get('value'));
 
-        if ($value > 0 && $summa < $value) {
-
-            $value   = $this->_jbmoney->toFormat($value, 'EUR');
-            $message = JText::sprintf('JBZOO_ELEMENT_MAXSUM_ERROR', $value);
+        if ($value->isPositive() && $value->compare($summa, '>')) {
+            $message = JText::sprintf('JBZOO_ELEMENT_MINSUM_ERROR', $value->text());
             throw new JBCartElementValidatorException($message);
         }
 

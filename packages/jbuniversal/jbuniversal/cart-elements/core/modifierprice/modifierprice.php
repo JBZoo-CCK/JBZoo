@@ -21,19 +21,17 @@ abstract class JBCartElementModifierPrice extends JBCartElement
     protected $_namespace = JBCart::ELEMENT_TYPE_MODIFIERPRICE;
 
     /**
-     * @param float $sum
-     * @param string $currency
-     * @param JBCartOrder $order
-     * @return float
+     * @param JBCartValue $summa
+     * @return JBCartValue
      */
-    abstract public function modify($sum, $currency, JBCartOrder $order);
+    abstract public function modify(JBCartValue $summa);
 
     /**
-     * @return int
+     * @return JBCartValue
      */
     public function getRate()
     {
-        return 0;
+        return $this->_order->val(0);
     }
 
 }

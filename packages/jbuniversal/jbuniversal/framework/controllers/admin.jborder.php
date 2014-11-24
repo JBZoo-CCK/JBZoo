@@ -82,7 +82,7 @@ class JBOrderJBuniversalController extends JBUniversalController
         $this->shipFieldsRender = $this->app->jbrenderer->create('ShippingFields');
         $this->orderFieldRender = $this->app->jbrenderer->create('order');
 
-        if (empty($this->order)) {
+        if ($this->order->id == 0) {
             $this->app->error->raiseError(500, JText::sprintf('Unable to access item with id %s', $orderId));
             return;
         }
