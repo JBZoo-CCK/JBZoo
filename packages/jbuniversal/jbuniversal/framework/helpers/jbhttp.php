@@ -86,7 +86,7 @@ class JBHttpHelper extends AppHelper
             $method  = $this->app->jbvars->lower($options->get('method'));
             $headers = (array)$options->get('headers');
             $timeout = (int)$options->get('timeout');
-            $data    = (array)$data;
+            $data    = is_object($data) ? (array)$data : $data;
 
             // request
             if (self::METHOD_GET == $method) {
