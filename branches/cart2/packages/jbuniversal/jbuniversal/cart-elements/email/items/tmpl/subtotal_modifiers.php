@@ -14,11 +14,11 @@
 defined('_JEXEC') or die('Restricted access');
 
 if ($subtotal && $on) :
-    if (!empty($modifiers)) :
+    if (!empty($orderModifiers)) :
 
-        $count = count($modifiers);
+        $count = count($orderModifiers);
         $i     = 0;
-        foreach ($modifiers as $modifier) :
+        foreach ($orderModifiers as $modifier) :
             $i++;
 
             $name = $modifier->getName();
