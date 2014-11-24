@@ -131,7 +131,9 @@ $formId = 'jbzoo-filter-' . $itemLayout . '-' . $module->id;
                                     $('input[type=radio]:eq(0)', $obj).trigger('click');
                                 }
 
-                                $input.trigger('change');
+                                setTimeout(function(){
+                                    $('#<?php echo $formId;?>').submit();
+                                }, 50);
                             });
 
                             return false;
