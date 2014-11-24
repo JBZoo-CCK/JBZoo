@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,158 +12,204 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$items   = $order->getItems();
-$jbmoney = $this->app->jbmoney;
+$items = $order->getItems();
 
 $payment  = $order->getPayment();
 $shipping = $order->getShipping();
-$currency = $order->getCurrency();
 
-$modifiers      = $order->getModifiers(JBCart::MODIFIER_ORDER);
-$modifiersCount = count($modifiers);
+$orderModifiers = $order->getModifiers(JBCart::MODIFIER_ORDER);
+$itemModifiers  = $order->getModifiers(JBCart::MODIFIER_ITEM);
+
+$summa    = $order->val();
+$baseCur  = $summa->cur();
+$emptyRow = '<tr class="empty-row"><td colspan="50"></td></tr>';
 
 ?>
+    <h2><?php echo JText::_('JBZOO_ORDER_ITEMS_LIST'); ?></h2>
 
-<h2><?php echo JText::_('JBZOO_ORDER_ITEMS_LIST'); ?></h2>
-
-<table class="uk-table uk-table-striped uk-table-condensed">
-    <thead>
-    <tr>
-        <th style="width:30px"><?php echo JText::_('JBZOO_ORDER_ITEM_SKU'); ?></th>
-        <th style="width:90px"><?php echo JText::_('JBZOO_ORDER_ITEM_IMAGE'); ?></th>
-        <th><?php echo JText::_('JBZOO_ORDER_ITEM_NAME'); ?></th>
-        <th style="width:150px;text-align: right;"><?php echo JText::_('JBZOO_ORDER_PRICE_PER_PIECE'); ?></th>
-        <th style="width:120px;text-align: center;"><?php echo JText::_('JBZOO_ORDER_ITEM_QUANTITY'); ?></th>
-        <th style="width:150px;text-align: center;"><?php echo JText::_('JBZOO_ORDER_ITEM_COST'); ?></th>
-    </tr>
-    </thead>
-
-    <tbody>
-    <?php foreach ($items as $key => $row) :
-        $item = $row->get('item');
-
-        $quantity  = $row->get('quantity');
-        $price     = $row->get('price');
-        $priceItem = $jbmoney->convert($row->get('currency'), $currency, $price);
-        $total     = $priceItem * $quantity;
-
-        if ($item) {
-            $itemLink = $this->app->jbrouter->adminItem($item);
-        }
-
-        ?>
+    <table class="uk-table uk-table-condensed jborder-details-table">
+        <thead>
         <tr>
-            <td><?php echo $key + 1; ?></td>
-            <td>
-                <?php
-                if ($row['image']) {
-                    echo '<img src="' . JUri::root() . $row['image'] . '" style="width:90px;"; />';
-                } else {
-                    echo '-';
-                }
-                ?>
-            </td>
-            <td>
-                <?php echo $item ? '<a href="' . $itemLink . '" target="_blank">' . $row->get('name') . '</a>' : $row->get('name'); ?>
-
-                <?php foreach ($row['priceParams'] as $label => $param) : ?>
-                    <div>
-
-                        <strong>
-                            <?php echo $label; ?>
-                            :
-                        </strong>
-
-                        <?php echo $param; ?>
-                        <br />
-
-                    </div>
-                <?php endforeach;
-
-                if ($desc = $row->get('price_desc')) {
-                    echo '<br><i>' . $desc . '</i>';
-                } ?>
-            </td>
-            <td style="text-align: right;"><?php echo $jbmoney->toFormat($priceItem, $currency); ?></td>
-            <td style="text-align: center;"><?php echo $quantity; ?></td>
-            <td style="text-align: right;"><strong><?php echo $jbmoney->toFormat($total, $currency); ?></strong></td>
+            <th class="col-image"><?php echo JText::_('JBZOO_ORDER_ITEM_IMAGE'); ?></th>
+            <th class="col-name"><?php echo JText::_('JBZOO_ORDER_ITEM_NAME'); ?></th>
+            <th class="col-item"><?php echo JText::_('JBZOO_ORDER_PRICE_PER_ITEM'); ?></th>
+            <th class="col-quantity"><?php echo JText::_('JBZOO_ORDER_ITEM_QUANTITY'); ?></th>
+            <th class="col-total"><?php echo JText::_('JBZOO_ORDER_ITEM_TOTAL'); ?></th>
         </tr>
-    <?php endforeach; ?>
-    </tbody>
-    <tfoot>
+        </thead>
 
-    <?php if ($shipping || $payment || $modifiers) : ?>
-        <tr>
-            <td colspan="2" style="border-bottom: none;"></td>
-            <td colspan="3"><p>Промежуточный итог</p></td>
-            <td style="text-align: right;font-size: 18px;"><em><?php echo $order->getTotalForItems(true); ?></em></td>
-        </tr>
-    <?php endif; ?>
+        <tbody>
+        <?php
+        foreach ($items as $key => $row) :
 
-    <?php if ($payment) : ?>
-        <tr>
-            <td colspan="2" style="border-bottom: none;"></td>
-            <th><p>Комиссия платежной системы</p></th>
-            <td colspan="2"><?php echo $payment->getName(); ?></td>
-            <td style="text-align: right;">
-                <strong><?php echo $jbmoney->toFormat($payment->getRate(), $currency); ?></strong></td>
-        </tr>
-    <?php endif; ?>
+            $item      = $row->get('item');
+            $priceItem = $order->val($row->get('price'));
+            $quantity  = $row->get('quantity', 1);
+            $totalItem = $priceItem->multiply($quantity, true);
+            $discount  = $order->val($row->get('discount'));
+            $margin    = $order->val($row->get('margin'));
 
-    <?php if ($shipping) : ?>
-        <tr>
-            <td colspan="2" style="border-bottom: none;"></td>
-            <th><p>Цена доставки</p></th>
-            <td colspan="2"><?php echo $shipping->getName(); ?></td>
-            <td style="text-align: right;">
-                <strong><?php echo $jbmoney->toFormat($shipping->getRate(), $currency); ?></strong></td>
-        </tr>
-    <?php endif; ?>
-
-    <?php if ($shipping || $payment) : ?>
-        <tr>
-            <td colspan="2" style="border-bottom: none;"></td>
-            <td colspan="3"><p>Промежуточный итог</p></td>
-            <td style="text-align: right; font-size: 18px;"><em><?php echo $order->getTotalForSevices(true); ?></em>
-            </td>
-        </tr>
-    <?php endif; ?>
-
-    <?php if (!empty($modifiers)) {
-        $i = 0;
-        foreach ($modifiers as $modifier) {
-            $i++;
-
-            $name = $modifier->getName();
-            $rate = $modifier->getRate();
-
+            $rowspan = count($itemModifiers) + 2;
             ?>
-            <?php if ($i == 1) { ?>
+            <tr class="item-row">
+                <td rowspan="<?php echo $rowspan; ?>">
+                    <?php
+                    if ($row['image']) {
+                        $imagePath = $this->app->jbimage->resize($row['image'], 90);
+                        echo '<img src="' . $imagePath->url . '" class="item-image" />';
+                    } else {
+                        echo '-';
+                    }
+                    ?>
+                </td>
+                <td>
+                    <p><?php echo JText::_('JBZOO_ORDER_ITEM_id'); ?>: <?php echo $row->get('item_id'); ?></p>
+                    <?php if ($row->get('sku')) : ?>
+                        <p><?php echo JText::_('JBZOO_ORDER_ITEM_SKU'); ?>: <?php echo $row->get('sku'); ?></p>
+                    <?php endif; ?>
 
-                <tr>
-                    <td rowspan="<?php echo $modifiersCount; ?>" colspan="2" style="border-bottom: none;"></td>
-                    <td rowspan="<?php echo $modifiersCount; ?>">
-                        <strong>Прочее</strong> <br><i>(Элементы модификаторов цены)</i></td>
-                    <td colspan="2"><?php echo $name; ?></td>
-                    <td style="text-align: right;"><?php echo $rate; ?></td>
-                </tr>
-            <?php } else { ?>
-                <tr>
-                    <td colspan="2"><?php echo $name; ?></td>
-                    <td style="text-align: right;"><?php echo $rate; ?></td>
-                </tr>
+                    <p>
+                        <?php if ($item) {
+                            $itemLink = $this->app->jbrouter->adminItem($item);
+                            echo '<a href="' . $itemLink . '" target="_blank">' . $row->get('name') . '</a>';
+                        } else {
+                            echo $row->get('name');
+                        } ?>
+                    </p>
+
+                    <?php if (!empty($row['priceParams'])) : ?>
+                        <ul>
+                            <?php foreach ($row['priceParams'] as $label => $param) : ?>
+                                <li><strong><?php echo $label; ?>:</strong> <?php echo $param; ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+
+                    <?php if ($desc = $row->get('price_desc')) {
+                        echo '<p><i>' . $desc . '</i></p>';
+                    } ?>
+                </td>
+                <td class="item-price4one">
+                    <?php
+                    echo '<p>' . $priceItem->html() . '</p>';
+
+                    if (!$margin->isEmpty()) {
+                        echo '<p>Наценка:' . $margin->htmlAdv($baseCur, true) . '</p>';
+                    }
+                    if (!$discount->isEmpty()) {
+                        echo '<p>Скидка:' . $discount->htmlAdv($baseCur, true) . '</p>';
+                    }
+                    ?>
+                </td>
+                <td class="item-quantity"><?php echo $quantity; ?></td>
+                <td class="item-total align-right subtotal-money"><?php echo $totalItem->html(); ?></td>
+            </tr>
+
             <?php
+            if (!empty($itemModifiers)) {
+                $i = 0;
+                ?>
+                <tr class="item-modifiers">
+                    <td></td>
+                    <td colspan="3"><strong>Модификаторы:</strong></td>
+                </tr>
+                <?
+                foreach ($itemModifiers as $modifier) {
+                    $i++;
+                    $totalItem->addModify($modifier);
+                    ?>
+                    <tr class="item-modifiers">
+                        <td></td>
+                        <td><?php echo $modifier->getName(); ?></td>
+                        <td class="align-right"><?php echo $modifier->getRate()->htmlAdv($baseCur, true); ?></td>
+                        <td class="align-right"><?php echo $totalItem->html(); ?></td>
+                    </tr>
+                <?php
+                }
+            }
+
+            $summa->add($totalItem);
+            ?>
+        <?php endforeach; ?>
+        </tbody>
+        <tfoot>
+
+        <?php if ($shipping || $payment || $orderModifiers) : ?>
+            <tr>
+                <td class="noborder-btm"></td>
+                <td colspan="3"><p><?php echo JText::_('JBZOO_ORDER_SUBTOTAL'); ?></p></td>
+                <td class="align-right subtotal-money"><?php echo $summa->html(); ?></td>
+            </tr>
+            <?php echo $emptyRow; ?>
+        <?php endif; ?>
+
+        <?php if ($payment) :
+            $summa->addModify($payment);
+            ?>
+            <tr>
+                <td class="noborder-btm"></td>
+                <th><p><?php echo JText::_('JBZOO_ORDER_PAYMENT_FEE'); ?></p></th>
+                <td><?php echo $payment->getName(); ?></td>
+                <td class="align-right"><?php echo $payment->getRate()->htmlAdv($baseCur, true); ?></td>
+                <td class="align-right"><?php echo $summa->html(); ?></td>
+            </tr>
+        <?php endif; ?>
+
+        <?php if ($shipping) :
+            $summa->addModify($shipping);
+            ?>
+            <tr>
+                <td class="noborder-btm"></td>
+                <th><p><?php echo JText::_('JBZOO_ORDER_SHIPPING_FEE'); ?></p></th>
+                <td><?php echo $shipping->getName(); ?></td>
+                <td class="align-right"><?php echo $shipping->getRate()->htmlAdv($baseCur, true); ?></td>
+                <td class="align-right"><?php echo $summa->html(); ?></td>
+            </tr>
+        <?php endif; ?>
+
+        <?php if ($shipping || $payment) : ?>
+            <tr>
+                <td style="border-bottom: none;"></td>
+                <td colspan="3"><p><?php echo JText::_('JBZOO_ORDER_SUBTOTAL'); ?></p></td>
+                <td class="align-right subtotal-money"><?php echo $summa->html(); ?></td>
+            </tr>
+            <?php echo $emptyRow; ?>
+        <?php endif; ?>
+
+        <?php if (!empty($orderModifiers)) {
+            $i = 0;
+            foreach ($orderModifiers as $modifier) {
+                $i++;
+                $summa->addModify($modifier);
+                ?>
+                <?php if ($i == 1) { ?>
+                    <tr>
+                        <td rowspan="<?php echo count($orderModifiers); ?>" class="noborder-btm"></td>
+                        <td rowspan="<?php echo count($orderModifiers); ?>">
+                            <strong><?php echo JText::_('JBZOO_ORDER_MODIFIERS_OTHER'); ?></strong><br>
+                            <i>(<?php echo JText::_('JBZOO_ORDER_MODIFIERS_OTHER_ELEMENTS'); ?>)</i>
+                        </td>
+                        <td><?php echo $modifier->getName(); ?></td>
+                        <td class="align-right"><?php echo $modifier->getRate()->htmlAdv($baseCur, true); ?></td>
+                        <td class="align-right"><?php echo $summa->html(); ?></td>
+                    </tr>
+                <?php } else { ?>
+                    <tr>
+                        <td><?php echo $modifier->getName(); ?></td>
+                        <td class="align-right"><?php echo $modifier->getRate()->htmlAdv($baseCur, true); ?></td>
+                        <td class="align-right"><?php echo $summa->html(); ?></td>
+                    </tr>
+                <?php
+                }
             }
         }
-    }
-    ?>
+        ?>
 
-    <tr>
-        <td colspan="3" style="border-bottom: none;"></td>
-        <td colspan="2" style="border-bottom: none;padding-top:24px;"><strong>Итого к оплате</strong></td>
-        <td style="font-size: 24px;color:#a00;text-align:right;border-bottom: none;padding-top:24px;">
-            <strong><?php echo $order->getTotalSum(true); ?></strong>
-        </td>
-    </tr>
-    </tfoot>
-</table>
+        <tr>
+            <td colspan="2" class="noborder-btm"></td>
+            <td class="total-name" colspan="2"><?php echo JText::_('JBZOO_ORDER_TOTALPRICE'); ?></td>
+            <td class="total-value"><?php echo $summa->html(); ?></td>
+        </tr>
+        </tfoot>
+    </table>
+<?

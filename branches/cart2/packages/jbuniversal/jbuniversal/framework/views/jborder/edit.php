@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -21,6 +20,9 @@ $shipping = $order->getShipping();
 
 $created  = $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
 $modified = $this->app->html->_('date', $order->modified, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
+
+// init JS
+$this->app->html->_('behavior.tooltip');
 
 $this->app->jbtoolbar->save();
 
@@ -52,11 +54,14 @@ $editUrl = $this->app->jbrouter->admin(array('cid' => array($order->id)));
             <div class="uk-width-3-10 order-system">
 
                 <?php
-
                 echo $this->partial('edit_block_basic', array(
                     'order'    => $order,
                     'created'  => $created,
                     'modified' => $modified,
+                ));
+
+                echo $this->partial('edit_block_currency', array(
+                    'order' => $order,
                 ));
 
                 if ($payment) {
