@@ -56,7 +56,7 @@
                 <field name="cache" type="hidden" default="0"/>
                 <field name="owncache" type="hidden" default="0"/>
                 <field name="cache_time" type="hidden" default="0"/>
-                <field name="cachemode" type="hidden" default="itemid"/>
+                <field name="cachemode" type="hidden" default="safeuri"/>
             </fieldset>
 
             <fieldset name="base" label="JBZOO_MODITEM_BASE">
