@@ -64,7 +64,7 @@ class JBDebugHelper extends AppHelper
      */
     public function mark($name = '')
     {
-        if (self::$_jbdump !== null) {
+        if (self::$_jbdump !== null && method_exists(self::$_jbdump, 'mark')) {
             self::$_jbdump->mark($name);
         }
     }
@@ -75,7 +75,7 @@ class JBDebugHelper extends AppHelper
      */
     public function sql($select)
     {
-        if (self::$_jbdump !== null) {
+        if (self::$_jbdump !== null && method_exists(self::$_jbdump, 'sql')) {
             self::$_jbdump->sql((string)$select, 'jbdebug::sql');
         }
     }
