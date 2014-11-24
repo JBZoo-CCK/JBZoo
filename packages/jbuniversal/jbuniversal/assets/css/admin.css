@@ -502,7 +502,7 @@ a.jbajaxlink:hover {
     display: inline-block;
 }
 
-.jbzoo-price-advance .balance .balance-custom label{
+.jbzoo-price-advance .balance .balance-custom label {
     display: inline-block;
 }
 
@@ -1397,7 +1397,7 @@ ul.parameter-form li .field .jbprice-advance-fields .jbprice-fields-parameter .j
     margin: 5px 0;
 }
 
-.jbzoo-price-advance .variant-balance-wrap .balance .balance-input, 
+.jbzoo-price-advance .variant-balance-wrap .balance .balance-input,
 .jbzoo-price-advance .variant-balance-wrap .balance-custom .balance-input {
     width: 100px;
     text-align: left;
@@ -1492,6 +1492,106 @@ table.list.order-list thead th {
 
 .jbzoo .uk-grid .uk-width-4-6 {
     width: 63%;
+}
+
+.jbzoo .jborder-details-table {
+}
+
+.jbzoo .jborder-details-table .col-image {
+    width: 90px;
+}
+
+.jbzoo .jborder-details-table .col-item {
+    width: 180px;
+    text-align: right;
+}
+
+.jbzoo .jborder-details-table .col-quantity {
+    width: 120px;
+    text-align: right;
+}
+
+.jbzoo .jborder-details-table .col-total {
+    width: 160px;
+    text-align: right;
+}
+
+.jbzoo .jborder-details-table .item-image {
+    width: 90px;
+}
+
+.jbzoo .jborder-details-table .item-price4one {
+    text-align: right;
+}
+
+.jbzoo .jborder-details-table .item-quantity {
+    text-align: right;
+}
+
+.jbzoo .jborder-details-table .item-total {
+    text-align: right;
+}
+
+.jbzoo .jborder-details-table .total-name {
+    border-bottom: none;
+    padding-top: 24px;
+    font-weight: bold;
+}
+
+.jbzoo .jborder-details-table .total-value {
+    font-weight: bold;
+    font-size: 24px;
+    color: #a00;
+    text-align: right;
+    border-bottom: none;
+    padding-top: 24px;
+}
+
+.jbzoo .jborder-details-table .item-modifiers,
+.jbzoo .jborder-details-table .item-modifiers td {
+    background: #f7f7f7;
+    border-bottom: none;
+}
+
+.jbzoo .jborder-details-table .item-row {
+    background: #f7f7f7;
+    border-top: 2px solid #333;
+}
+
+.jbzoo .jborder-details-table .empty-row td {
+    border: none;
+    height: 2em;
+}
+
+.jbzoo .jborder-details-table .empty-row {
+    background: none;
+    border: none;
+}
+
+.jbzoo .jborder-details-table .align-right {
+    text-align: right;
+}
+
+.jbzoo .jborder-details-table .align-center {
+    text-align: center;
+}
+
+.jbzoo .jborder-details-table .noborder-btm {
+    border-bottom: none;
+}
+
+.jbzoo .jborder-details-table .noborder-top {
+    border-top: none;
+}
+
+.jbzoo .jborder-details-table .subtotal-money {
+    color: #C51919;
+    font-style: italic;
+    font-size: 18px;
+}
+
+.jbzoo .jborder-details-table td {
+    /*border: 1px solid #ccc !important;*/
 }
 
 @media print {
