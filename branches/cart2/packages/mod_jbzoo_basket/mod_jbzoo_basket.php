@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -23,6 +22,8 @@ $zoo->jbdebug->mark('mod_jbzoo_basket::start-' . $module->id);
 
 $zoo->jbassets->setAppCSS();
 $zoo->jbassets->setAppJS();
+
+$basketHelper = new JBZooBasketHelper($params, $module);
 
 // render module
 include(JModuleHelper::getLayoutPath('mod_jbzoo_basket', $params->get('layout', 'default')));

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -26,19 +25,25 @@ class JBZooBasketHelper
     protected $_params = null;
 
     /**
+     * @var Object
+     */
+    protected $_module = null;
+
+    /**
      * @var App
      */
-    protected $app = null;
+    public $app = null;
 
     /**
      * Init Zoo
-     *
      * @param JRegistry $params
+     * @param object    $module
      */
-    public function __construct(JRegistry $params)
+    public function __construct($params, $module)
     {
         $this->app     = App::getInstance('zoo');
         $this->_params = $params;
+        $this->_module = $module;
 
         JBZoo::init();
     }
@@ -55,6 +60,25 @@ class JBZooBasketHelper
     }
 
     /**
+     * @return mixed|string
+     */
+    public function getWidgetParams()
+    {
+        return json_encode(array(
+            'url_clean'  => $this->getBasketEmptyUrl(),
+            'url_reload' => $this->getBasketReloadUrl(),
+        ));
+    }
+
+    /**
+     * Reload module url
+     */
+    public function getBasketReloadUrl()
+    {
+        return $this->app->jbrouter->basketReloadModule($this->_module->id);
+    }
+
+    /**
      * Get total summ
      * @return int
      */
@@ -65,9 +89,7 @@ class JBZooBasketHelper
 
         $summ = 0;
         foreach ($basketItems as $basketItem) {
-
             $priceValue = $basketItem['quantity'] * $basketItem['price'];
-
             $summ += $this->app->jbmoney->convert($basketItem['currency'], $currency, $priceValue);
         }
 
@@ -89,11 +111,7 @@ class JBZooBasketHelper
      */
     public function getBasketItems()
     {
-        $cart = JBCart::getInstance();
-
-        $basketItems = $cart->getItems();
-
-        return $basketItems;
+        return JBCart::getInstance()->getItems();
     }
 
     /**
@@ -102,10 +120,9 @@ class JBZooBasketHelper
      */
     public function getBasketUrl()
     {
-        $appId      = $this->_params->get('app_id');
         $menuItemId = $this->_params->get('menuitem');
 
-        return $this->app->jbrouter->basket($menuItemId, $appId);
+        return $this->app->jbrouter->basket($menuItemId);
     }
 
     /**
@@ -114,18 +131,7 @@ class JBZooBasketHelper
      */
     public function getBasketEmptyUrl()
     {
-        $appId = $this->_params->get('app_id');
-
-        return $this->app->jbrouter->basketEmpty($appId);
-    }
-
-    /**
-     * Get application id
-     * @return mixed
-     */
-    public function getAppId()
-    {
-        return (int)$this->_params->get('app_id');
+        return $this->app->jbrouter->basketEmpty();
     }
 
     /**
