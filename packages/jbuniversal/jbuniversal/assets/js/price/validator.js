@@ -578,12 +578,9 @@
                         $('.description', label).html(description.val());
                     }
 
-                    var value = $('.variant-value', $row).val(),
-                        currency = $('.variant-currency', $row).val();
+                    var value = $('.variant-value', $row).val();
 
                     $overflow.html('');
-
-                    $price.html(value + " " + currency.toUpperCase());
 
                     var c = 0;
                     $('.core-param', $row).each(function () {

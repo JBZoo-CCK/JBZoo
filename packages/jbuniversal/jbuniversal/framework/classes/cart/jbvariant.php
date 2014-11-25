@@ -68,7 +68,7 @@ class JBCartVariant
         $this->_id   = $id;
         $this->value = JBCart::val();
 
-        $elements = $this->_jbprice->_getElements(array_keys($data));
+        $elements = $this->_jbprice->_getElements(array_keys((array)$data));
 
         if ($elements) {
             foreach ($elements as $id => $element) {
