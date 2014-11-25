@@ -6,179 +6,179 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 ;
 (function ($, window, document, undefined) {
 
-    $.fn.JBZooQuantity = function (settings) {
+    JBZoo.widget('JBZoo.Quantity', {
+            'default' : 1,
+            'step'    : 1,
+            'min'     : 1,
+            'max'     : 9999999,
+            'decimals': 0,
+            'scroll'  : true
+        },
+        {
+            'table' : {},
+            'digits': {},
+            'box'   : {},
+            'plus'  : {},
+            'minus' : {},
 
-        return this.each(function () {
+            init: function () {
+                this._paint();
 
-            var basic = {
-                'default' : 1,
-                'step'    : 1,
-                'min'     : 1,
-                'max'     : 9999999,
-                'decimals': 0,
-                'scroll'  : true
-            }, options = setOptions(settings);
+                this.table = this.el.parents('.jsQuantityTable');
+                this.item = $('.item-count', this.table);
+                this.box = $('.item-count-digits', this.table);
+                this.digits = $('.item-count-digits dd', this.table);
 
-            function setOptions(settings) {
+                this.plus = $('.jsAddQuantity', this.table);
+                this.minus = $('.jsRemoveQuantity', this.table);
 
-                if (typeof settings != 'undefined') {
+                this._setDefault();
+                this.refresh();
+                this._bindEvents();
+            },
 
-                    if (typeof settings.decimals != 'undefined') {
-                        settings.decimals = parseInt(settings.decimals, 10);
-                    }
+            add: function (e) {
+                this.scroll(e, this.options.step);
+            },
 
-                    if (typeof settings.min == 'undefined' && typeof settings.default != 'undefined') {
-                        settings.min = settings.default;
-                    }
+            remove: function (e) {
+                this.scroll(e, this.options.step);
+            },
 
-                    if (typeof settings.step == 'undefined' || settings.step <= 0) {
-                        settings.step = basic.step;
-                    }
+            refresh: function () {
+                this.refreshDigits(this.el.val());
+                this.placeDigits()
+            },
 
-                    return $.extend({}, basic, settings);
-                }
+            refreshDigits: function (value) {
 
-                return basic;
-            }
-
-            var $this = $(this),
-                processing = false;
-
-            if ($this.hasClass('quantity-init')) {
-                return $this;
-            }
-
-            $this.addClass('quantity-init');
-
-            function refreshDigits(value) {
-
-                var max = validate(value) + parseFloat(3 * options.step);
+                var max = this.validate(value) + parseFloat(3 * this.options.step);
 
                 for (var i = 0; i < 5; i++) {
-                    max = max - options.step;
+                    max = max - this.options.step;
 
-                    digits.eq(i).html(convert(max));
+                    this.digits.eq(i).html(this.convert(max));
                 }
-            }
+            },
 
-            function placeDigits() {
-
-                box.css({
+            placeDigits: function () {
+                this.box.css({
                     top      : 0,
-                    marginTop: -digits.height() * 2 + 'px'
+                    marginTop: -this.digits.height() * 2 + 'px'
                 });
-            }
+            },
 
-            function isValid(value) {
+            isValid: function (value) {
 
-                if (value < options.min) {
+                if (value < this.options.min) {
                     return false;
                 }
 
-                if (value > options.max) {
+                if (value > this.options.max) {
                     return false;
                 }
 
                 return !isNaN(value);
-            }
+            },
 
-            function validate(value) {
+            validate: function (value) {
 
-                if (value < options.min) {
-                    value = options.min;
+                if (value < this.options.min) {
+                    value = this.options.min;
                 }
 
-                if (value > options.max) {
-                    value = options.max;
+                if (value > this.options.max) {
+                    value = this.options.max;
                 }
 
                 if (isNaN(value)) {
-                    value = options.min;
+                    value = this.options.min;
                 }
 
                 return parseFloat(value);
-            }
+            },
 
-            function convert(value) {
+            convert: function (value) {
 
-                value = validate(value);
+                value = this.validate(value);
 
-                return value.toFixed(options.decimals);
-            }
+                return value.toFixed(this.options.decimals);
+            },
 
-            function scrollError(e, value) {
+            scrollError: function (e, value) {
 
                 e.preventDefault();
                 e.stopPropagation();
+                var $this = this;
+                if (this.processing) return;
 
-                if (processing) return;
-
-                processing = true;
-                var top = parseInt(box.css('top')),
+                this.processing = true;
+                var top = parseInt(thi.box.css('top')),
                     i = value > 0 ? 1 : -1;
 
-                box
+                this.box
                     .stop()
                     .animate({
-                        top: (top + (digits.height() / 2 * i)) + 'px'
+                        top: (top + ($this.digits.height() / 2 * i)) + 'px'
                     }, {
                         duration: 200,
                         complete: function () {
-                            box
+                            $this.box
                                 .stop()
                                 .animate({
                                     top: top + 'px'
                                 }, {
                                     duration: 200,
                                     complete: function () {
-                                        processing = false;
+                                        $this.processing = false;
                                     }
                                 });
                         }
                     });
-            }
+            },
 
-            function scroll(e, value) {
+            scroll: function (e, value) {
 
                 e.preventDefault();
                 e.stopPropagation();
-
-                var old = validate($this.val()),
+                var $this = this,
+                    old = this.validate(this.el.val()),
                     val = old + value,
                     i = value > 0 ? 1 : -1;
 
-                if (!isValid(val)) {
-                    scrollError(e, value);
+                if (!this.isValid(val)) {
+                    this.scrollError(e, value);
                     return;
                 }
 
-                if (processing) return;
+                if (this.processing) return;
 
-                processing = true;
-                $this.blur();
-                $this.refresh();
+                this.processing = true;
+                this.el.blur();
+                this.refresh();
 
-                $this.trigger('change').val(convert(val));
-                box
+                this.el.trigger('change', '.jsQuantity');
+                this.el.val(this.convert(val));
+                this.box
                     .stop()
                     .animate({
-                        top: i * digits.height() + 'px'
+                        top: i * $this.digits.height() + 'px'
                     }, {
                         duration: 500,
                         complete: function () {
-                            processing = false;
+                            $this.processing = false;
                         }
                     });
-            }
+            },
 
-            $this.drawBody = function () {
-
-                var parent = $this.parent();
+            _paint: function () {
+                var parent = this.el.parent();
 
                 $('' +
                 '<table cellpadding="0" cellspacing="0" border="0" class="jsQuantityTable quantity-table">' +
@@ -203,144 +203,108 @@
                 '</td></tr>' +
                 '</table>').prependTo(parent);
 
-                $this.addClass('input-quantity')
+                this.el.addClass('input-quantity')
                     .appendTo($('.jsQuantityTable .item-count', parent));
-            };
+            },
 
-            $this.bindEvents = function () {
+            _bindEvents: function () {
 
-                $('.jsAddQuantity', table).on('click', function (e) {
+                var $this = this;
+                $('.jsAddQuantity', this.table).on('click', function (e) {
 
                     $this.add(e);
                     return false;
                 });
 
-                $('.jsRemoveQuantity', table).on('click', function (e) {
+                $('.jsRemoveQuantity', this.table).on('click', function (e) {
 
                     $this.remove(e);
                     return false;
                 });
 
-                $this.on('change', function () {
-
-                    $this.val(convert($this.val()));
+                this.el.on('change', function () {
+                    $(this).val($this.convert($(this).val()));
                     $this.refresh();
                 });
 
-                if (options.scroll === true) {
-
-                    $this.bindScrollEvent();
+                if ($this.options.scroll === true) {
+                    $this._bindScrollEvent();
                 }
 
-                $this
+                this.el
                     .on('focus', function () {
-                        $this.css('opacity', '1');
-                        box.hide();
-                    }).on('keyup', function () {
+                        $this.el.css('opacity', '1');
+                        $this.box.hide();
+                    }).on('keyUp', function () {
                         $this.refresh();
                     }).on('blur', function () {
-                        $this.css('opacity', '0');
-                        box.show();
+                        $this.el.css('opacity', '0');
+                        $this.box.show();
                     });
-            };
+            },
 
-            $this.bindScrollEvent = function () {
+            _bindScrollEvent: function () {
 
-                var oldVal = $this.val();
-                var newVal = $this.val();
-                $(item).on('mouseenter', function () {
+                var $this = this,
+                    oldVal = this.el.val(),
+                    newVal = this.el.val();
+                this.item.on('mouseenter', function () {
 
-                    oldVal = $this.val();
-                    $this.focus();
+                    oldVal = $this.el.val();
+                    $this.el.focus();
                 });
 
-                $(item).on('mouseleave', function () {
+                this.item.on('mouseleave', function () {
 
-                    newVal = $this.val();
+                    newVal = $this.el.val();
 
                     if (newVal != oldVal) {
-                        $this.trigger('change');
+                        $this.el.trigger('change', '.jsQuantity');
                     }
 
                 });
 
-                $this.on('mousewheel', function (e) {
+                this.el.on('mousewheel', function (e) {
 
                     e.preventDefault(e);
-                    if ($this.is(':focus')) {
+                    if ($this.el.is(':focus')) {
 
-                        var value = validate($this.val());
+                        var value = $this.validate($this.el.val());
 
                         if (e.originalEvent.wheelDelta > 0) {
 
-                            value += options.step;
-                            if (value > options.max) {
-                                value = options.max;
+                            value += $this.options.step;
+                            if (value > $this.options.max) {
+                                value = $this.options.max;
                             }
-
                         } else {
 
-                            value -= options.step;
-                            if (value < options.min) {
-                                value = options.min;
+                            value -= $this.options.step;
+                            if (value < $this.options.min) {
+                                value = $this.options.min;
                             }
-
                         }
 
-                        $this.fadeOut(10, function () {
-
-                            $this.fadeIn(10, function () {
-
-                                $this.val(convert(value));
+                        $this.el.fadeOut(10, function () {
+                            $this.el.fadeIn(10, function () {
+                                $this.el.val($this.convert(value));
                                 $this.refresh();
                             });
                         });
                     }
                 });
-            };
+            },
 
-            $this.setDefault = function () {
+            _setDefault: function () {
+                if (this.el.val().length === 0) {
+                    this.el.val(this.convert(this.options.default));
 
-                if ($this.val().length === 0) {
-
-                    $this.val(convert(options.default));
-
-                } else if ($this.val().length > 0) {
-
-                    $this.val(convert($this.val()));
+                } else if (this.el.val().length > 0) {
+                    this.el.val(this.convert(this.el.val()));
 
                 }
-            };
-
-            $this.refresh = function () {
-
-                refreshDigits($this.val());
-                placeDigits();
-            };
-
-            $this.add = function (e) {
-
-                scroll(e, options.step);
-            };
-
-            $this.remove = function (e) {
-
-                scroll(e, -options.step);
-            };
-
-            $this.drawBody();
-
-            var table = $this.parents('.jsQuantityTable'),
-                item = $('.item-count', table),
-                digits = $('.item-count-digits dd', table),
-                box = $('.item-count-digits', table),
-                plus = $('.jsAddQuantity', table),
-                minus = $('.jsRemoveQuantity', table);
-
-            $this.setDefault();
-            $this.refresh();
-            $this.bindEvents();
-        });
-    };
+            }
+        }
+    );
 
 })(jQuery, window, document);

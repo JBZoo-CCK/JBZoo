@@ -15,164 +15,89 @@
      * JBZoo Cart widget
      */
     JBZoo.widget('JBZoo.Cart', {
-        quantityUrl : '',
-        deleteUrl   : '',
-        clearConfirm: '',
-        clearUrl    : ''
+        'confirm_message': '',
+        'url_quantity'   : '',
+        'url_delete'     : '',
+        'url_clean'      : '',
+        'params'         : {}
     }, {
-        shipping     : {},
-        changeTimer  : 0,
-        changeTimeout: 100,
+        'shipping': {},
+        'params'  : {},
 
-        init: function ($this) {
+        init: function () {
 
-            $this.shipping = $('.jbzoo .shipping-list').JBCartShipping({
-                'no_value_message': 'Free'
-            });
+            this.params = JSON.parse(this.options.params);
+            this.$('.jsQuantity').JBZooQuantity(this.params._quantity);
+            //$this.module = $('.jsJBZooCartModule').JBZooCartModule();
 
-            $this.module = $('.jsJBZooCartModule').JBZooCartModule();
-
-            $this.$('.jsQuantity').JBZooQuantity({
-                'default' : 1,
-                'step'    : 1,
-                'decimals': 0
-            });
         },
 
-        changeCallback: function ($input) {
-
-            var $this = this,
-                value = parseFloat($input.val()),
-                tr = $input.parents('.jsQuantityTable').closest('tr'),
-                itemid = parseInt(tr.data('itemid'), 10),
-                key = tr.data('key');
-
-            if ($input.val().length && value > 0) {
-
-                $this.ajax({
-                    'url' : $this.options.quantityUrl + '&' + $this.shipping.getParams(),
-                    'data': {
-                        'value': value,
-                        'key'  : key
-                    },
-
-                    'success': function (data) {
-                        $this.recount(data);
-                        $this.module.JBZooCartModule('reload');
-                    },
-
-                    'error': function (data) {
-                        if (data.message) {
-                            alert(data.message);
-                        }
+        change: function (value, row) {
+            this.ajax({
+                'url'    : this.options.url_quantity,
+                'data'   : {
+                    'value': value,
+                    'key'  : row.key
+                },
+                'success': function (data) {
+                    console.log(data);
+                    //$.fn.JBZooPriceReloadBasket();
+                },
+                'error'  : function (data) {
+                    if (data.message) {
+                        alert(data.message);
                     }
-                });
-            }
-        },
-
-        addLoading: function () {
-            this.el.addClass('loading', 100);
-            this.$('input, select, textarea').attr('disabled', 'disabled');
-        },
-
-        removeLoading: function () {
-            this.el.removeClass('loading', 100);
-            this.$('input, select, textarea').removeAttr('disabled');
-        },
-
-        morphology: function (num, prfxs) {
-            prfxs = prfxs || ['', 'а', 'ов'];
-            num = '' + num;
-
-            if (num.match(/^(.*)(11|12|13|14|15|16|17|18|19)$/)) {
-                return prfxs[2];
-            }
-            if (num.match(/^(.*)1$/)) {
-                return prfxs[0];
-            }
-            if (num.match(/^(.*)(2|3|4)$/)) {
-                return prfxs[1];
-            }
-            if (num.match(/^(.*)$/)) {
-                return prfxs[2]
-            }
-
-            return prfxs[0];
-        },
-
-        'recount': function (data) {
-
-            var $this = this;
-
-            if ($this.jbzoo.empty(data.items)) {
-
-                for (var key in data.items) {
-                    var subTotal = data.items[key],
-                        row = $this.$('.row-' + key),
-                        elem = $this.$('.row-' + key + ' .jsSubtotal .jsValue');
-
-                    (elem).reCount(subTotal.total, {
-                        decimals: 2
-                    });
                 }
-
-            }
-
-            var count = $this.$('.jsTotalCount .jsValue'),
-                total = $this.$('.jsTotalPrice .jsValue'),
-                morph = $this.$('.jsMorphology'),
-                word = morph.data('word');
-
-            morph.html(word + $this.morphology(data.count));
-
-            $(count).reCount(data.count, {
-                'decimals': 1,
-                'duration': 100
             });
+        },
 
-            $(total).reCount(data.total);
-            $this.shipping.setPrices(data);
+        'change .jsQuantity': function (e, $this) {
+
+            var jsQuantity = $(this),
+                row = $this.rowData(jsQuantity);
+
+            $this.change(jsQuantity.val(), row);
+        },
+
+        'keyUp .jsQuantity': function (e, $this) {
+
+            var jsQuantity = $(this),
+                row = $this.rowData(jsQuantity);
+
+            $this.change(jsQuantity.val(), row);
         },
 
         'click .jsDelete': function (e, $this) {
 
-            var $button = $(this),
-                itemid = $button.closest('tr').data('itemid'),
-                key = $button.closest('tr').data('key');
-
-            $this.addLoading();
-
+            var jsDelete = $(this),
+                row = $this.rowData(jsDelete);
             $this.ajax({
-                'url'    : $this.options.deleteUrl,
+                'url'    : $this.options.url_delete,
                 'data'   : {
-                    'itemid'  : itemid,
-                    'key'     : key,
-                    'shipping': $this.shipping.getParams()
+                    'item_id': row.item_id,
+                    'key'    : row.key
                 },
                 'success': function (data) {
-                    var $row = $button.closest('tr');
-                    $row.slideUp(300, function () {
-                        $row.remove();
-                        if ($this.$('tbody tr').length == 0) {
+                    row.tr.slideUp(300, function () {
+                        row.tr.remove();
+                        if (!JBZoo.empty($this.$('tbody tr'))) {
                             window.location.reload();
                         }
                     });
 
-                    $this.recount(data);
-                    $this.module.JBZooCartModule('reload');
-                    $this.removeLoading();
+                    //$.fn.JBZooPriceReloadBasket();
                 },
                 'error'  : function (error) {
-                    $this.removeLoading();
+                    alert(error);
                 }
             });
-
         },
 
         'click .jsDeleteAll': function (e, $this) {
-            if (confirm($this.options.clearConfirm)) {
-                $this.ajax({
-                    'url'    : $this.options.clearUrl,
+
+            if (confirm($this.options.confirm_message)) {
+                JBZoo.ajax({
+                    'url'    : $this.options.url_clean,
                     'success': function () {
                         window.location.reload();
                     }
@@ -180,20 +105,13 @@
             }
         },
 
-        'keyup .jsQuantity': function (e, $this) {
-            var $input = $(this);
-            clearTimeout($this.changeTimer);
-            $this.changeTimer = setTimeout(function () {
-                $this.changeCallback($input);
-            }, $this.changeTimeout);
-        },
-
-        'change .jsQuantity': function (e, $this) {
-            var $input = $(this);
-            clearTimeout($this.changeTimer);
-            $this.changeTimer = setTimeout(function () {
-                $this.changeCallback($input);
-            }, $this.changeTimeout);
+        rowData: function (field) {
+            var tr = field.closest('.jbbasket-item-row');
+            return {
+                'tr'     : $(tr),
+                'item_id': tr.data('item_id'),
+                'key'    : tr.data('key')
+            };
         }
 
     });

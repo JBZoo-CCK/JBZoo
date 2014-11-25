@@ -160,14 +160,14 @@ class BasketJBUniversalController extends JBUniversalController
      */
     public function delete()
     {
-        $itemId = $this->_jbrequest->get('itemid');
-        $key    = $this->_jbrequest->get('key');
-        $cart   = JBCart::getInstance();
+        $id   = $this->_jbrequest->get('item_id');
+        $key  = base64_decode($this->_jbrequest->get('key'));
+        $cart = JBCart::getInstance();
 
-        $cart->remove($itemId, $key);
-        $recount = $cart->recount();
+        $cart->remove($id, $key);
+        //$recount = $cart->recount();
 
-        $this->app->jbajax->send($recount);
+        $this->app->jbajax->send(array());
     }
 
     /**
@@ -176,7 +176,7 @@ class BasketJBUniversalController extends JBUniversalController
      */
     public function form()
     {
-        $orderId = $this->_jbrequest->get('orderId');
+        $orderId        = $this->_jbrequest->get('orderId');
         $this->template = $this->application->getTemplate();
 
         if (!$orderId) {
@@ -186,7 +186,7 @@ class BasketJBUniversalController extends JBUniversalController
         $order = JBModelOrder::model()->getById($orderId);
 
         if ($order->id) {
-            $payment = $order->getPayment();
+            $payment           = $order->getPayment();
             $this->paymentForm = $payment->renderPaymentForm();
 
             if ($this->_jbrequest->isPost()) {
@@ -212,11 +212,11 @@ class BasketJBUniversalController extends JBUniversalController
             throw new AppException('Invalid order id');
         }
 
-       $this
-           ->getView('payment_form')
-           ->addTemplatePath($this->template->getPath())
-           ->setLayout('payment_form')
-           ->display();
+        $this
+            ->getView('payment_form')
+            ->addTemplatePath($this->template->getPath())
+            ->setLayout('payment_form')
+            ->display();
     }
 
     /**
@@ -226,9 +226,10 @@ class BasketJBUniversalController extends JBUniversalController
     {
         // get request
         $value = (float)$this->_jbrequest->get('value');
-        $key   = trim($this->_jbrequest->get('key'));
+        $key   = base64_decode(trim($this->_jbrequest->get('key')));
 
-        $shipping = $this->_getShippingPrices();
+        //$shipping = $this->_getShippingPrices();
+        $shipping = array();
 
         $cart = JBCart::getInstance();
 

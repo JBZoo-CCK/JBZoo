@@ -105,9 +105,11 @@ class JBCart
 
     /**
      * Create price value object
+     *
      * @param int   $value
      * @param null  $currency
      * @param array $rates
+     *
      * @return array|int|JBCartValue
      */
     static public function val($value = 0, $currency = null, $rates = array())
@@ -149,7 +151,9 @@ class JBCart
 
     /**
      * Get default status from cart configurations
+     *
      * @param string $type
+     *
      * @return JBCartElementStatus
      */
     public function getDefaultStatus($type = JBCart::STATUS_ORDER)
@@ -179,37 +183,45 @@ class JBCart
 
     /**
      * Get all items from session
+     *
      * @param bool $assoc
+     *
      * @return mixed
      */
     public function getItems($assoc = true)
     {
         $session = $this->_getSession();
         $items   = $session->get('items', array());
+        $result  = array();
 
-        return $assoc === true ? $items : $this->app->data->create($items);
+        if (!empty($items)) {
+            foreach ($items as $key => $item) {
+                $result[$key] = $item;
+            }
+        }
+
+        return $assoc === true ? $result : $this->app->data->create($result);
     }
 
     /**
-     * @param array $item
-     * @param array $params
+     * @param $data
+     *
+     * @internal param array $list
      */
-    public function addItem($item = array(), $params = array())
+    public function addItem($data)
     {
-        //$this->removeItems();die;
-        $items = $this->getItems();
+        $items = $this->getItems(false);
 
-        $key = $params['key'];
-
-        if (isset($items[$key])) {
-            $items[$key]['quantity'] += $item['quantity'];
+        $key = $data->get('key');
+        if ($items->has($key)) {
+            $items[$key]['quantity'] += $data->get('quantity');
         }
 
         if (!isset($items[$key])) {
-            $items[$key] = $item;
+            $items[$key] = (array)$data;
         }
 
-        $this->_setSession('items', $items);
+        $this->_setSession('items', (array)$items);
     }
 
     /**
@@ -265,8 +277,10 @@ class JBCart
      * Remove all variations if key is null.
      * $key = {item_id}-{variant_index}.
      * Priority on $key.
+     *
      * @param  int    $id
      * @param  string $key
+     *
      * @return bool
      */
     public function remove($id, $key = null)
@@ -288,7 +302,9 @@ class JBCart
     /**
      * Remove item from cart by id.
      * Item_id-variant or item_id for basic.
+     *
      * @param  int $id - Item_id
+     *
      * @return bool
      */
     public function removeItem($id)
@@ -313,7 +329,9 @@ class JBCart
     /**
      * Remove item's variant from cart by $key.
      * Item_id-variant or item_id for basic.
+     *
      * @param $key - Item_id + index of variant.
+     *
      * @return bool
      */
     public function removeVariant($key)
@@ -341,6 +359,7 @@ class JBCart
 
     /**
      * Change item quantity from basket
+     *
      * @param $key
      * @param $value
      */
@@ -364,12 +383,15 @@ class JBCart
 
     /**
      * Is in stock item
-     * @param $key
+     *
      * @param $quantity
+     * @param $key
+     *
      * @return bool
      */
-    public function inStock($key, $quantity)
+    public function inStock($quantity, $key = null)
     {
+        return true;
         $item_id    = null;
         $no         = null;
         $element_id = null;
@@ -388,7 +410,7 @@ class JBCart
             $data    = $element->getVariations($no);
         }
 
-        $data  = $element->getReadableData($data);
+        $data  = $this->app->data->create($data);
         $value = $data->find('_balance.value');
 
         if (!empty($data)) {
@@ -420,29 +442,27 @@ class JBCart
         $itemsPrice = array();
 
         $count = 0;
-        $total = 0;
+        $total = JBCart::val();
         $items = $this->getItems();
 
         $currency = $this->_config->get('default_currency', 'EUR');
 
         foreach ($items as $key => $item) {
-
+            $key = base64_encode($key);
             $itemsPrice[$key] = array();
 
-            $item['price'] = $this->_jbmoney->convert($item['currency'], $currency, $item['price']);
-
-            $itemsPrice[$key]['total'] = $item['price'] * $item['quantity'];
+            $itemTotal = JBCart::val($item['total']);
 
             $count += $item['quantity'];
-            $total += $itemsPrice[$key]['total'];
+            $total->add($itemTotal);
 
-            $itemsPrice[$key]['total']  = $this->_jbmoney->format($itemsPrice[$key]['total']);
+            $itemsPrice[$key]['total'] = $itemTotal->html();
         }
 
         $result = array(
             'items'    => $itemsPrice,
             'count'    => $count,
-            'total'    => $this->_jbmoney->format($total),
+            'total'    => $total->html(),
             'currency' => $currency
         );
 
@@ -451,19 +471,16 @@ class JBCart
 
     /**
      * Check if item in cart.
+     *
      * @param  string $id - item_id.
+     *
      * @return bool
      */
     public function inCart($id)
     {
         $items = $this->getItems();
-
-        if (!empty($items)) {
-            foreach ($items as $key => $item) {
-                if ($key === $id) {
-                    return true;
-                }
-            }
+        if ((isset($items[$id])) && (!empty($items))) {
+            return true;
         }
 
         return false;
@@ -471,7 +488,9 @@ class JBCart
 
     /**
      * Check if item or item variation in cart by $key.
+     *
      * @param  string $key - {Item_id}-{variant} or {item_id} for basic.
+     *
      * @return bool
      */
     public function inCartVariant($key)
@@ -500,6 +519,7 @@ class JBCart
 
     /**
      * Set session
+     *
      * @param string $key
      * @param mixed  $value
      */

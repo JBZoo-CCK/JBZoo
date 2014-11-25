@@ -20,6 +20,7 @@ class JBAssetsHelper extends AppHelper
 {
     /**
      * Set application styles files
+     *
      * @param string $alias
      */
     public function setAppCss($alias = null)
@@ -59,6 +60,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Set application JavaScript files
+     *
      * @param string $alias
      */
     public function setAppJS($alias = null)
@@ -83,12 +85,25 @@ class JBAssetsHelper extends AppHelper
             )));
 
             $this->jQuery();
+            $this->chosen();
             $this->js(array(
                 'jbassets:js/helper.js',
                 'jbassets:js/jbzoo.js',
                 //'jbassets:js/test.js',
                 'jbassets:js/front-end.js',
+
             ));
+            $this->js('jbassets:js/widget/tabs.js');
+            $this->js('jbassets:js/widget/recount.js');
+            $this->quantity();
+            $this->js(array(
+                'jbassets:js/price/jbprice.js',
+                'jbassets:js/price/default.js',
+                'jbassets:js/price/image.js',
+                'jbassets:js/price/quantity.js',
+                'jbassets:js/price/buttons.js'
+            ));
+
         }
     }
 
@@ -233,10 +248,10 @@ class JBAssetsHelper extends AppHelper
         $this->tools();
         $this->quantity();
         $this->js(array(
+            'jbassets:js/cart/module.js',
             'jbassets:js/cart/cart.js',
             'jbassets:js/cart/shipping.js',
             'jbassets:js/cart/shippingdefault.js',
-            'jbassets:js/cart/module.js',
             'jbassets:js/price/jbprice.js',
             'jbassets:js/widget/recount.js',
         ));
@@ -309,11 +324,11 @@ class JBAssetsHelper extends AppHelper
      */
     public function initJBPriceAdvance()
     {
-        $this->tools();
+        // $this->js('jbassets:js/price/jbprice.js');
         $this->colors();
         $this->quantity();
-        $this->js('jbassets:js/price/jbpriceadvance.js');
         $this->js('jbassets:js/price/toggle.js');
+        $this->tools();
     }
 
     /**
@@ -425,6 +440,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Add global variable to javascript
+     *
      * @param $varName
      * @param $value
      */
@@ -443,6 +459,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Init script for JBCascadeSelect
+     *
      * @param string $uniqid
      * @param string $itemList
      */
@@ -542,23 +559,24 @@ class JBAssetsHelper extends AppHelper
 
         if (!isset($isAdded)) {
             $isAdded = true;
-            $this->addScript('jQuery(function($){ $(".jbzoo .jsPrice").JBZooPrice(); });');
+            //$this->addScript('jQuery(function($){ $(".jbzoo .jsPrice").JBZooPrice(); });');
         }
     }
 
     /**
      * Init color widget
+     *
      * @param string  $queryElement
      * @param boolean $type
      */
     public function initJBColorHelper($queryElement, $type = true)
     {
         $this->jQuery();
+        $this->tools();
+        $this->colors();
 
         // force include for back-end. Do not delete!
         $this->css('jbassets:css/jbzoo.css');
-
-        $this->tools();
 
         if ($queryElement) {
             $this->addScript('jQuery(function($){
@@ -569,6 +587,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Init color widget
+     *
      * @param string $queryElement
      * @param string $text
      */
@@ -620,6 +639,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Add script to document
+     *
      * @param string $script
      */
     public function addScript($script)
@@ -647,11 +667,12 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include JS in document
+     *
      * @param array  $files
      * @param string $group
+     *
      * @return bool
      */
-
     public function js($files, $group = 'default')
     {
         return $this->_include((array)$files, 'js', $group);
@@ -659,8 +680,10 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include CSS in document
+     *
      * @param array  $files
      * @param string $group
+     *
      * @return bool
      */
     public function css($files, $group = 'default')
@@ -670,8 +693,10 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include files to document
+     *
      * @param array $files
      * @param       $type
+     *
      * @return bool
      */
     protected function _include(array $files, $type)
@@ -713,6 +738,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Init modal window
+     *
      * @param string $class
      * @param array  $opt
      */
