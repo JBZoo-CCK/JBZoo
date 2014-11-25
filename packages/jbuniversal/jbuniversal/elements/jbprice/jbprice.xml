@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<element type="jbpriceadvance" group="JBZoo" hidden="true" orderable="true">
+    <name>JBPrice Core</name>
+    <description>Price element for catalog</description>
+    <author>JBZoo.com</author>
+    <creationDate>2013 07</creationDate>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>2.0</version>
+
+    <param name="only_selected" type="jbbool" default="1" label="JBZOO_JBPRICE_PLAIN_ONLYSELECTED"
+           description="JBZOO_JBPRICE_PLAIN_ONLYSELECTED_DESC"/>
+</element>
