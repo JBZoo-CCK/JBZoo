@@ -56,6 +56,10 @@ class JBAssetsHelper extends AppHelper
             'jbassets:js/admin/menu.js',
             'jbassets:js/back-end.js',
         ));
+        $this->js('jbassets:js/price/balance.js');
+        $this->js('jbassets:js/price/admin.js');
+        $this->js('jbassets:js/price/validator.js');
+        $this->js('jbassets:js/image.js');
     }
 
     /**

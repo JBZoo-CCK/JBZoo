@@ -146,8 +146,9 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         if ($layout = $this->getLayout('variations.php')) {
 
             $this->app->jbassets->admin();
+            $variations = $this->get('variations', array('1' => array()));
 
-            $this->_list = new JBCartVariantList($this->get('variations'), $this);
+            $this->_list = new JBCartVariantList($variations, $this);
             $renderer    = $this->app->jbrenderer->create('jbprice');
 
             return self::renderLayout($layout, array(
@@ -347,6 +348,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
         $diff   = array_diff_key((array)$this->_render_params, (array)$variant->getElements());
         $params = array();
+        //TODO ??
         $this->_getRenderParams();
         if (!empty($elements)) {
             foreach ($elements as $key => $element) {
