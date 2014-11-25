@@ -6,72 +6,63 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 ;
 (function ($, window, document, undefined) {
 
-    $.fn.initJBPriceAdvImage = function () {
-        var url = location.href.match(/^(.+)administrator\/index\.php.*/i)[1];
+    JBZoo.widget('JBZooPrice.Element_image',
+        {
+            'related' : '',
+            'image'   : '',
+            'default' : '',
+            'duration': 100
+        },
+        {
+            // default data
+            'image': '',
+            'link' : '',
 
-        var $form = $('form.item-edit');
+            init: function () {
+                var $jbzoo = this.el.closest('.jbzoo');
 
-        return $('.jbprice-img-row-file', $form).each(function (n) {
+                var related = JBZoo.empty(this.options.related) ? "" : '.' + this.options.related;
+                this.image = $('.jbimage' + related, $jbzoo);
+                this.link = $('.jbimage-link' + related, $jbzoo);
 
-            var $this = $(this);
+                this.options.default = {
+                    'image' : this.image.attr('src'),
+                    'pop_up': this.link.attr('href')
+                };
 
-            if ($this.hasClass('JBPriceImage-init')) {
-                return $this;
-            }
+                this.rePlace(this.options.image, null);
+            },
 
-            $this.addClass('JBPriceImage-init');
-            var $jsJBPriceImage = $('.jsJBPriceImage', $this),
-                id = "jsJBPriceImage-" + n,
-                $selectButton = $('<button type="button" class="jbprice-img-button" />').text("Select Image").insertAfter($jsJBPriceImage),
-                $cancelSelect = $('<span class="jbprice-img-cancel image-cancel"/>').insertAfter($jsJBPriceImage);
+            rePaint: function (data) {
+                this.rePlace(data, this.options.duration);
+            },
 
-            $jsJBPriceImage.attr("id", id);
-
-            $cancelSelect.click(function () {
-                $cancelSelect.prev().val("");
-            });
-
-            $selectButton.click(function (event) {
-                event.preventDefault();
-
-                SqueezeBox.fromElement(this, {
-                    handler: "iframe",
-                    url    : "index.php?option=com_media&view=images&tmpl=component&e_name=" + id,
-                    size   : {x: 850, y: 500}
-                });
-            });
-            var func = 'insertJBPriceImage' + id;
-            if ($.isFunction(window.jInsertEditorText)) {
-                window[func] = window.jInsertEditorText;
-            }
-
-            window.jInsertEditorText = function (c, a) {
-
-                if (a.match(/^jsJBPriceImage-/)) {
-
-                    var $element = $("#" + a),
-                        value = c.match(/src="([^\"]*)"/)[1];
-
-                    $element.parent()
-                        .find("img")
-                        .attr("src", url + value);
-
-                    $element.val(value);
-
-                } else {
-                    $.isFunction(window[func]) &&
-                    window[func](c, a);
+            rePlace: function (data, duration) {
+                if (JBZoo.empty(data)) {
+                    data = this.default;
                 }
 
-            };
+                if (!JBZoo.empty(data) && data.image != this.image.attr('src')) {
 
-        })
+                    if (!JBZoo.empty(duration)) {
+                        this.image.fadeOut(duration, function () {
+                            $(this).attr('src', data.image).fadeIn();
+                        });
 
-    };
+                        return this.link.attr('href', data.pop_up);
+                    }
+
+                    this.image.attr('src', data.image);
+                    this.link.attr('href', data.pop_up);
+                }
+            }
+        }
+    );
 
 })(jQuery, window, document);

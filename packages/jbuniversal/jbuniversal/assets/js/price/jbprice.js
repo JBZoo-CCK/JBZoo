@@ -6,116 +6,164 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 ;
 (function ($, window, document, undefined) {
 
-    /**
-     * JBZoo Price (depricated!)
-     * @depricated
-     * @param options
-     * @returns {*}
-     * @constructor
-     */
-    $.fn.JBZooPrice = function (options) {
+    JBZoo.widget('JBZoo.Price',
+        {
+            // options
+            'variantUrl': '',
+            'isInCart'  : false,
+            'itemId'    : 0,
+            'identifier': '',
+            'elements'  : {}
+        },
+        {
+            'elements'  : {},
+            'cache'     : {},
+            '_namespace': 'JBZooPriceElement',
 
-        var $this = $(this);
+            init: function ($this) {
+                this.elements = {};
+                this.cache = {};
 
-        return $this.each(function (n, obj) {
+                $.each($this.options.elements, function (key, params) {
 
-            var $obj = $(obj);
+                    var element = $('.jbprice-param' + key.replace('_', '-'), $this.el),
+                        plugName = $this._namespace + key,
+                        defaultName = $this._namespace + '_default';
 
-            $(".jsPriceCurrency", $obj).click(function () {
-                var $cur = $(this),
-                    currency = $cur.attr("currency");
+                    if (JBZoo.empty(params)) {
+                        params = {};
+                    }
 
-                $(".jsPriceValue", $obj).removeClass("active");
-                $(".price-currency-" + currency, $obj).addClass("active");
+                    if ($.isFunction(plugName)) {
+                        $this.elements[key] = element[plugName](params);
 
-                $(".jsPriceCurrency", $obj).removeClass("active");
-                $cur.addClass("active");
-            });
+                    } else if ($.fn[plugName]) {
+                        $this.elements[key] = element[plugName](params);
 
-            $(".jsAddToCart", $obj).click(function () {
-                var $link = $(this),
-                    href = $link.data('href'),
-                    params = 'format=raw&tmpl=component';
+                    } else {
+                        $this.elements[key] = element[defaultName](params);
 
-                // force added params (sef bug)
-                if (href.indexOf('?') == -1) {
-                    href += '?' + params;
-                } else {
-                    href += '&' + params;
+                    }
+                });
+            },
+
+            'change .jbprice-simple-param input, select, textarea': function (e, $this) {
+                $this.rePaint();
+            },
+
+            rePaint: function () {
+
+                var hash = this.getHash();
+
+                if (JBZoo.empty(this.cache[hash])) {
+                    return this.getVariant();
                 }
 
-                $.fancybox({
-                    'type'      : 'iframe',
-                    'href'      : href,
-                    'width'     : 360,
-                    'autoHeight': true,
-                    'autoResize': true,
-                    'fitToView' : true,
-                    'iframe'    : {
-                        'scrolling': 'no',
-                        'preload'  : true
+                return this._rePaint(this.cache[hash]);
+            },
+
+            getHash: function () {
+
+                var values = this.getValues();
+                return this._buildHash(values);
+            },
+
+            getVariant: function () {
+                var $this = this;
+
+                this.ajax({
+                    'url'    : $this.options.variantUrl,
+                    'data'   : {
+                        'args': {
+                            'values': $this.getValues()
+                        }
                     },
-                    'helpers'   : {
-                        'overlay': {
-                            'locked': false,
-                            'css'   : {
-                                'background': 'rgba(119, 119, 119, 0.4)'
+                    'success': function (data) {
+
+                        $this.cache[$this.getHash()] = data;
+                        $this._rePaint(data);
+                    },
+                    'error'  : function (error) {
+
+                    }
+                });
+            },
+
+            _rePaint: function (data) {
+
+                var $this = this;
+
+                $.each(data, function (key, data) {
+
+                    if (!JBZoo.empty($this.elements[key])) {
+
+                        var $object = $this.elements[key],
+                            element = $object.data($this._namespace + key);
+
+                        if (JBZoo.empty(element)) {
+                            element = $object.data($this._namespace + '_default');
+                        }
+
+                        if ((!JBZoo.empty(element)) && ($.isFunction(element["rePaint"]))) {
+                            element.rePaint(data);
+                        }
+                    }
+                });
+
+            },
+
+            _buildHash: function (values) {
+                var hash = [];
+
+                for (var key in values) {
+                    if (values.hasOwnProperty(key)) {
+                        var val = values[key];
+                    }
+                    hash.push(key + val.value);
+                }
+
+                return hash.join('_');
+            },
+
+            getValues: function () {
+
+                var values = {};
+
+                $('.jbprice-simple-param', this.el).each(function () {
+
+                    var $param = $(this);
+
+                    $('input, select, textarea', $param).each(function () {
+
+                        var $field = $(this),
+                            id = $param.data('identifier'),
+                            value = '';
+
+                        if ($field.attr('type') == 'radio') {
+                            if ($field.is(':checked')) {
+                                value = $.trim($field.val());
+                                if (!JBZoo.empty(value) || value.length > 0) {
+                                    values[id] = {'value': value};
+                                }
+                            }
+                        } else {
+                            value = $.trim($field.val());
+                            if (!JBZoo.empty(value) || value.length > 0) {
+                                values[id] = {'value': value};
                             }
                         }
-                    }
+                    });
                 });
 
-                return false;
-            });
-
-            // order in one click
-            $('.jsBayIt', $obj).click(function () {
-
-                var $link = $(this),
-                    indexPrice = 0;
-
-                if ($('.jbprice-row input:checked', $obj).length) {
-                    indexPrice = $('.jbprice-row input:checked', $obj).val();
-                }
-
-                JBZoo.ajax({
-                    'url'    : $link.data('href'),
-                    'data'   : {
-                        "args": {
-                            'quantity'  : $('.jsQuantity').val(),
-                            'indexPrice': indexPrice
-                        }
-                    },
-                    'success': function (data) {
-                        if (data.result) {
-                            window.location.href = data.basketUrl;
-                        }
-                    }
-                });
-
-                return false;
-            });
-
-            $(".jsRemoveFromCart", $obj).click(function () {
-                var $link = $(this);
-
-                JBZoo.ajax({
-                    'url'    : $link.data("href"),
-                    'success': function (data) {
-                        $obj.removeClass('in-cart').addClass('not-in-cart');
-                        $.fn.JBZooPriceReloadBasket();
-                        $('.jsJBZooCartModule').JBZooCartModule().JBZooCartModule('reload');
-                    }
-                });
-
-                return false;
-            });
-        });
-    };
+                return values;
+            }
+        }
+    );
 
 })(jQuery, window, document);
