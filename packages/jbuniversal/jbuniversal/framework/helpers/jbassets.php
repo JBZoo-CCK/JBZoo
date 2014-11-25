@@ -92,10 +92,9 @@ class JBAssetsHelper extends AppHelper
             $this->chosen();
             $this->js(array(
                 'jbassets:js/helper.js',
+                'jbassets:js/widget.js',
                 'jbassets:js/jbzoo.js',
-                //'jbassets:js/test.js',
                 'jbassets:js/front-end.js',
-
             ));
             $this->js('jbassets:js/widget/tabs.js');
             $this->js('jbassets:js/widget/recount.js');

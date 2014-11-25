@@ -19,11 +19,11 @@
         },
         {
             'change .jbcurrency-input': function (e, $this) {
-            
-                $money = $('.jsMoney', $($this.options.target)).JBZooMoney({
+
+                var $money = $('.jsMoney', $($this.options.target)).JBZooMoney({
                     'rates': $this.options.rates
-                });            
-            
+                });
+
                 $money.JBZooMoney('convert', $(this).data('currency'));
             }
         }
