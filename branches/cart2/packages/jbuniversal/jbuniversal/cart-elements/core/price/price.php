@@ -31,12 +31,16 @@ abstract class JBCartElementPrice extends JBCartElement
     protected $_jbhtml;
 
     /**
-     * @var ElementJBPriceAdvance
+     * @var ElementJBPricePlain || ElementJBPriceCalc
      */
     protected $_jbprice;
 
     /**
      * Constructor
+     *
+     * @param App    $app
+     * @param string $type
+     * @param string $group
      */
     public function __construct($app, $type, $group)
     {
@@ -48,9 +52,7 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * Check if element has value
-     *
      * @param array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
@@ -69,22 +71,9 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
-     * @param string $key
-     * @param null $default
-     *
-     * @return mixed|null
-     */
-    public function getValue($key, $default = null)
-    {
-        $data = $this->data();
-
-        return $data->get($key, $default);
-    }
-
-    /**
      * @return mixed
      */
-    abstract function edit();
+    abstract public function edit();
 
     /**
      * @param  array $params
@@ -93,7 +82,6 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function render($params = array())
     {
-        $params = $this->app->data->create($params);
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'params' => $params,
@@ -104,203 +92,16 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
-     * Load data from ElementJBPriceAdvance
-     *
-     * @param bool $bind - Bind data into element
-     *
-     * @return array
-     */
-    public function loadData($bind = true)
-    {
-        $data = array();
-        if ($this->_jbprice instanceof ElementJBPriceAdvance) {
-
-            $data = $this->_jbprice->getParamData($this);
-
-            if ($bind === true) {
-                $this->bindData($data);
-            }
-        }
-
-        return $data;
-    }
-
-    /**
-     * @param null $identifier
-     *
-     * @return array
-     */
-    public function getAllData($identifier = null)
-    {
-        if (empty($identifier)) {
-            $identifier = $this->identifier;
-        }
-
-        return $this->_jbprice->getAllParamData($identifier);
-    }
-
-    /**
-     * @param array $options
-     *
-     * @return array
-     */
-    public function getAllOptions($options = array())
-    {
-        $allData = $this->getAllData();
-        $data    = array();
-
-        if (empty($options)) {
-            $options = $this->_renderOptions();
-        }
-
-        $jbPrice   = $this->_jbprice;
-        $isOverlay = $jbPrice->isOverlay();
-
-        if ($isOverlay) {
-            $basicTotal = 0;
-            $basic      = $jbPrice->getBasicPrices();
-            if (isset($basic['eur']['totalNoFormat'])) {
-                $basicTotal = $basic['eur']['totalNoFormat'];
-            }
-        }
-
-        if (!empty($allData)) {
-
-            foreach ($allData as $name) {
-
-                if (empty($name['value'])) {
-                    continue;
-                }
-
-                $value = $name['value'];
-                $name  = isset($options[$value]) ? $options[$value] : $value;
-
-                if ($isOverlay) {
-                    // Тушенка из котиков...
-                    $calc = $jbPrice->calcVariant($jbPrice->getVariantByValuesOverlay(array(
-                        $this->identifier => array(
-                            'value' => $value
-                        ),
-                    )));
-
-                    $diff = $calc['total'] - $basicTotal;
-
-                    $cost = $this->_jbmoney->toFormat($diff, 'eur');
-                    if ($diff > 0) {
-                        $cost = '+' . $cost;
-                    }
-
-                    $data[$value] = $name . ' <em>' . $cost . '</em>';
-                } else {
-                    $data[$value] = $name;
-                }
-
-            }
-
-            if (!empty($data)) {
-                $data = array_merge(array(
-                    '' => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - '
-                ), $data);
-            }
-        }
-
-        return $data;
-    }
-
-    /**
-     * @param ElementJBPriceAdvance $object
-     */
-    public function setJBPrice(ElementJBPriceAdvance $object)
-    {
-        $this->_jbprice = $object;
-    }
-
-    /**
-     * @return ElementJBPriceAdvance
-     */
-    public function getJBPrice()
-    {
-        return $this->_jbprice;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPrices()
-    {
-        $jbPrice = $this->getJBPrice();
-        $variant = $this->config->get('_variant');
-
-        $currency = $this->getElementData('_currency', $variant);
-        $currency = $currency->get('value', 'EUR');
-
-        if (strpos($variant, '-') !== false) {
-
-            $variants = explode('-', $variant);
-
-            $basicData = $jbPrice->getBasicData();
-            $basic     = $jbPrice->getReadableData($basicData);
-            $value     = $basic->find('_value.value', 0);
-
-            foreach ($variants as $v) {
-                $v = $jbPrice->getVariations($v);
-                $v = $jbPrice->getReadableData($v);
-
-                $variantValue    = $v->find('_value.value', 0);
-                $variantCurrency = $v->find('_currency.value', 'EUR');
-
-                $value = $this->_jbmoney->calcDiscount($value, $currency, $variantValue, $variantCurrency);
-            }
-
-            $prices['total'] = $value;
-            $prices['price'] = $value;
-
-        } else if (JString::strlen($variant) >= 1) {
-
-            $variant = $jbPrice->getVariations($variant);
-            $prices  = $jbPrice->calcVariant($variant);
-
-            //$prices = array_merge($data, $jbPrice->getPrices($data));
-        } else {
-
-            $prices = $jbPrice->calcBasic();
-            //$prices = array_merge($data, $jbPrice->getPrices($data));
-        }
-
-        $saveNoFormat = abs($prices['total'] - $prices['price']);
-
-        $prices['total'] = $this->_jbmoney->toFormat($prices['total'], $currency);
-        $prices['price'] = $this->_jbmoney->toFormat($prices['price'], $currency);
-        $prices['save']  = $this->_jbmoney->toFormat($saveNoFormat, $currency);
-
-        return $prices;
-    }
-
-    /**
      * @param string $identifier
-     * @param null|int $variant
      *
      * @return bool|JBCartElement|null
      */
-    public function getElement($identifier, $variant = null)
+    public function getElement($identifier)
     {
-        $param = $this->getJBPrice()->getParam($identifier, $variant);
+        $variant = $this->getList()->byDefault();
+        $element = $variant->getElement($identifier);
 
-        return $param;
-    }
-
-    /**
-     * @param string $identifier
-     * @param null|int $variant
-     *
-     * @return array|bool|JBCartElement|null
-     */
-    public function getElementData($identifier, $variant = null)
-    {
-        $param = $this->getElement($identifier, $variant);
-        $param = !empty($param) ? $param->data() : $this->app->data->create($param);
-
-        return $param;
+        return $element;
     }
 
     /**
@@ -310,65 +111,143 @@ abstract class JBCartElementPrice extends JBCartElement
      *
      * @return array|mixed
      */
-    public function getRenderParams($identifier)
+    public function getRenderParams($identifier = null)
     {
-        $data   = array();
-        $params = $this->getJBPrice()->getCoreParamsConfig();
-
-        if (isset($params[$identifier])) {
-            $data = $params[$identifier];
+        if (is_null($identifier)) {
+            $identifier = $this->identifier;
         }
 
-        return $this->app->data->create($data);
+        return $this->getJBPrice()->getElementRenderParams($identifier);
     }
 
     /**
-     * Get basic variant data
+     * Get elements value
      *
+     * @param string $key
+     * @param null   $default
+     *
+     * @return mixed|null
+     */
+    public function getValue($key = 'value', $default = null)
+    {
+        $value = $this->get($key, $default);
+
+        if ((JString::strlen($value) === 0) && ($this->isCore()) && (!$this->isBasic())) {
+            $variant = $this->getList()->shift();
+            if ($element = $variant->getElement($this->identifier)) {
+                $value = $element->get($key, $default);
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param ElementJBPricePlain || ElementJBPriceCalc $object
+     */
+    public function setJBPrice($object)
+    {
+        $this->_jbprice = $object;
+    }
+
+    /**
+     * @return ElementJBPricePlain || ElementJBPriceCalc
+     */
+    public function getJBPrice()
+    {
+        return $this->_jbprice;
+    }
+
+    /**
+     * @return JBCartVariantList
+     */
+    public function getList()
+    {
+        return $this->getJBPrice()->getVariantList();
+    }
+
+    /**
+     * @return JBCartVariant
+     */
+    public function isBasic()
+    {
+        $variant = $this->getList()->get((int)$this->config->get('_variant'));
+
+        return $variant->isBasic();
+    }
+
+    /**
+     * Get params for widget
+     * @return array
+     */
+    public function interfaceParams()
+    {
+        return array();
+    }
+
+    /**
+     * Returns data when variant changes
+     * @return null
+     */
+    public function renderAjax()
+    {
+        return null;
+    }
+
+    /**
      * @return mixed
      */
-    public function getBasicData()
+    public function getOptions()
     {
-        return $this->getJBPrice()->getBasicReadableData();
+        $options = $this->_jbprice->elementOptions($this->identifier);
+
+        return array('' => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - ') + $options;
     }
 
     /**
-     * @param  string $key
+     * @return array|null
+     */
+    public function parseOptions()
+    {
+        $options = $this->config->get('options', array());
+
+        if (!empty($options)) {
+
+            $options = $this->app->jbstring->parseLines($options);
+            $options = array('' => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - ') + $options;
+
+            return $options;
+        }
+
+        return null;
+    }
+
+    /**
+     * Check if option isset in element
+     *
+     * @param $value
+     *
+     * @return bool
+     */
+    public function issetOption($value)
+    {
+        $options = $this->parseOptions();
+
+        if ((!empty($options)) && in_array($value, $options)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param          $name
+     * @param  integer $index
      * @param  boolean $array
      *
      * @return string
      */
-    public function getControlName($key, $array = false)
-    {
-        $name = $this->getParamName($key);
-        if (is_null($this->config->get('_variant'))) {
-            $name = $this->getBasicName($key);
-        }
-
-        return $name;
-    }
-
-    /**
-     * @param  string $name
-     * @param bool $array
-     *
-     * @return string
-     */
-    public function getBasicName($name, $array = false)
-    {
-        $priceId = $this->getJBPrice()->identifier;
-
-        return "elements[{$priceId}][basic][params][{$this->identifier}][{$name}]" . ($array ? "[]" : "");
-    }
-
-    /**
-     * @param string $name
-     * @param int $index
-     * @param bool $array
-     *
-     * @return string
-     */
-    public function getParamName($name, $index = null, $array = false)
+    public function getControlName($name, $index = null, $array = false)
     {
         $priceId = $this->getJBPrice()->identifier;
 
@@ -376,8 +255,7 @@ abstract class JBCartElementPrice extends JBCartElement
             $index = $this->config->get('_variant');
         }
 
-        return
-            "elements[{$priceId}][variations][{$index}][params][{$this->identifier}][{$name}]" . ($array ? "[]" : "");
+        return "elements[{$priceId}][variations][{$index}][{$this->identifier}][{$name}]" . ($array ? "[]" : "");
     }
 
     /**
@@ -393,41 +271,11 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
-     * @return mixed
-     */
-    protected function _getOptions()
-    {
-        $data = $this->config->get('options', array());
-
-        return $data;
-    }
-
-    /**
-     * @return array|null
-     */
-    protected function _renderOptions()
-    {
-        $options = $this->_getOptions();
-
-        if (!empty($options)) {
-
-            $options = $this->app->jbstring->parseLines($options);
-
-            return array_merge(array(
-                '' => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - '
-            ), array_combine($options, $options));
-
-        }
-
-        return null;
-    }
-
-    /**
      * @return string
      */
     public function renderOrderEdit()
     {
-        return $this->data()->get('value');
+        return $this->getValue();
     }
 
     /**
@@ -435,7 +283,8 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function __clone()
     {
-        $this->_data = clone($this->_data);
+        $this->_data  = clone($this->_data);
+        $this->config = clone($this->config);
     }
 
 }

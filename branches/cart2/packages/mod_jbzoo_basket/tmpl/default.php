@@ -38,7 +38,7 @@ if (!empty($items)) {
 
     if ((int)$params->get('summa_show', 1)) {
         echo '<p>' . JText::_('JBZOO_CART_TOTAL_PRICE') . ': <span class="price-total-value">'
-            . $zoo->jbmoney->toFormat($summa, $currency) . '</span></p>';
+            . $summa . '</span></p>';
     }
 
     if ((int)$params->get('cancel_show', 1)) {
@@ -66,10 +66,11 @@ echo '</div><!--/noindex-->';
 <?php
 if (!$zoo->jbrequest->isAjax()) :
     $zoo->jbassets->js('jbassets:js/cart/module.js');
+    $zoo->jbassets->js('jbassets:js/cart/cart.js');
     ?>
     <script type="text/javascript">
         jQuery(function ($) {
-            $("#jbzooCartModule-<?php echo $module->id;?>").JBZooCartModule(<?php echo $basketHelper->getWidgetParams();?>);
+            $('.jsJBZooCartModule').JBZooCartModule(<?php echo $basketHelper->getWidgetParams();?>);
         });
     </script>
 <?php endif; ?>

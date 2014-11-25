@@ -117,6 +117,7 @@ class JBStringHelper extends AppHelper
         $text  = JString::trim($text);
         $text  = htmlspecialchars_decode($text);
         $text  = strip_tags($text);
+
         //$text  = addslashes($text);
         $lines = explode("\n", $text);
 
@@ -126,14 +127,14 @@ class JBStringHelper extends AppHelper
             foreach ($lines as $line) {
 
                 $line = JString::trim($line);
-                    $result[] = $line;
+                    $result[$line] = $line;
 
             }
         }
 
-        $result = array_filter($result);
+        //$result = array_filter($result);
         $result = array_unique($result);
-        
+
         return $result;
     }
 

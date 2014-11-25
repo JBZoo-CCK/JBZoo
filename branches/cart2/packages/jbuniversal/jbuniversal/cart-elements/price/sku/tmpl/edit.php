@@ -22,6 +22,4 @@ $attr    = array(
     'placeholder' => 'Sku'
 );
 
-echo $jbHTML->text($this->getControlName('_sku'), $this->getValue('_sku', 0), $attr);
-
-
+echo $jbHTML->text($this->getControlName('value'), $this->getValue(), $attr);

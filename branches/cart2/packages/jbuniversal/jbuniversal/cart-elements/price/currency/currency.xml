@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<element type="currency" group="Core" hidden="true" core="true" system-tmpl="true">
+<element type="currency" group="Core" core="true" hidden="true" system-tmpl="true">
     <name>Currency - Core</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>

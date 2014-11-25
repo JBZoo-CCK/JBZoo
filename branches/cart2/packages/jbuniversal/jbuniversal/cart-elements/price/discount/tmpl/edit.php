@@ -13,26 +13,13 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$app  = $this->app;
-$html = $app->jbhtml;
-
-$currencyList = $app->jbmoney->getCurrencyList();
-$currencyList = $app->jbarray->unshiftAssoc($currencyList, '%', '%');
-
 $variant = $this->config->get('_variant') ? '' : '-variant';
 
-$value    = $this->getValue('value');
-$currency = $this->getValue('currency');
-
-echo $html->text($this->getControlName('value'), $value ? $value : 0, array(
+echo $this->app->jbhtml->text($this->getControlName('value'), $discount->val(), array(
     'class'       => 'discount' . $variant . '-input',
     'size'        => "60",
     'maxlength'   => "255",
     'placeholder' => 'скидка'
 ));
-
-echo $html->select($currencyList, $this->getControlName('currency'), array(
-    'class' => 'discount-currency' . $variant
-), $currency);
 
 

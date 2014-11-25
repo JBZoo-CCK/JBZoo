@@ -32,7 +32,7 @@ if ($isEnabled) : ?>
 
         <label for="<?php echo $unique; ?>">
             <input type="text" name="<?php echo $this->getRenderName('value'); ?>"
-                   value="<?php echo $start; ?>" class="jsCount input-quantity count"
+                   value="<?php echo $start; ?>" class="jsQuantity input-quantity count"
                    maxlength="6" id="<?php echo $unique; ?>"/>
 
         </label>

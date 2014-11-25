@@ -27,7 +27,7 @@ class JBCartElementPriceImage extends JBCartElementPrice
             return self::renderLayout($layout);
         }
 
-        return NULL;
+        return null;
     }
 
     /**
@@ -37,7 +37,6 @@ class JBCartElementPriceImage extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $params = $this->app->data->create($params);
         $unique = $this->unique($params);
 
         if ($layout = $this->getLayout()) {
@@ -47,7 +46,7 @@ class JBCartElementPriceImage extends JBCartElementPrice
             ));
         }
 
-        return NULL;
+        return null;
     }
 
     /**
@@ -58,7 +57,7 @@ class JBCartElementPriceImage extends JBCartElementPrice
     public function unique($params)
     {
         $image  = $params->get('image');
-        $unique = $params->get('_price_layout') . '_' . $this->getJBPrice()->getItem()->id;
+        $unique = $this->getJBPrice()->layout() . '_' . $this->getJBPrice()->getItem()->id;
 
         if (empty($image)) {
             return $unique;
@@ -67,4 +66,73 @@ class JBCartElementPriceImage extends JBCartElementPrice
         return $unique . '_' . $image;
     }
 
+    /**
+     * @param $image
+     * @param $params
+     *
+     * @return JSONData|string
+     */
+    public function getImage($image, $params = array())
+    {
+        if (empty($image)) {
+            return $image;
+        }
+
+        $jbImage = $this->app->jbimage;
+        if (is_array($image)) {
+            $image = $image['value'];
+        }
+
+        if (empty($params)) {
+            $params = $this->getRenderParams();
+        }
+
+        $width  = $params->get('width');
+        $height = $params->get('height');
+
+        $img = new stdClass();
+
+        $url = $jbImage->getUrl($image);
+        if ($width || $height) {
+            $url = $jbImage->resize($image, $width, $height)->url;
+        }
+
+        $width_pop  = $params->get('width_popup');
+        $height_pop = $params->get('height_popup');
+
+        $img->image = $url;
+        if ($width_pop || $height_pop) {
+            $url = $jbImage->resize($image, $width_pop, $height_pop)->url;
+        }
+        $img->pop_up = $url;
+
+        return !empty($img) ? $img : null;
+    }
+
+    /**
+     * Get params for widget
+     * @return array
+     */
+    public function interfaceParams()
+    {
+        $params = $this->getRenderParams();
+        $path   = $this->getValue();
+
+        return array(
+            'related' => $this->unique($params),
+            'image'   => $this->getImage($path, $params)
+        );
+    }
+
+    /**
+     * Returns data when variant changes
+     * @return null
+     */
+    public function renderAjax()
+    {
+        $path = $this->getValue();
+
+        return $this->getImage($path);
+    }
+    
 }

@@ -84,16 +84,17 @@ class JBZooBasketHelper
      */
     public function getSumm()
     {
-        $currency    = $this->_params->get('currency', 'EUR');
-        $basketItems = $this->getBasketItems();
+        $currency = $this->_params->get('currency', 'EUR');
+        $items    = $this->getBasketItems();
 
-        $summ = 0;
-        foreach ($basketItems as $basketItem) {
-            $priceValue = $basketItem['quantity'] * $basketItem['price'];
-            $summ += $this->app->jbmoney->convert($basketItem['currency'], $currency, $priceValue);
+        $total = JBCart::val();
+        foreach ($items as $item) {
+            $value = JBCart::val($item['total']);
+            $value->multiply($item['quantity']);
+            $total->add($value);
         }
 
-        return $summ;
+        return $total->html($currency);
     }
 
     /**

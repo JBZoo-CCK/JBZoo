@@ -27,7 +27,7 @@ class JBCartElementPriceText extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $value = $this->getAllOptions();
+        $value = $this->getOptions();
 
         if (!empty($value)) {
             return true;
@@ -45,7 +45,7 @@ class JBCartElementPriceText extends JBCartElementPrice
             return self::renderLayout($layout);
         }
 
-        return NULL;
+        return null;
     }
 
     /**
@@ -55,18 +55,16 @@ class JBCartElementPriceText extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $params   = $this->app->data->create($params);
         $template = $params->get('template', 'radio');
-        $data     = $this->getAllOptions();
 
         if ($layout = $this->getLayout($template . '.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params,
-                'data'   => $data
+                'data'   => $this->getOptions()
             ));
         }
 
-        return NULL;
+        return null;
     }
 
 }

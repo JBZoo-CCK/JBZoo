@@ -19,11 +19,17 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceCurrency extends JBCartElementPrice
 {
     /**
-     * @return mixed|null
+     * @return mixed|null|string
      */
     public function edit()
     {
-        return NULL;
+        if ($layout = $this->getLayout('edit.php')) {
+            return self::renderLayout($layout, array(
+                'currencyList' => $this->_jbmoney->getCurrencyList()
+            ));
+        }
+
+        return null;
     }
 
     /**
@@ -33,7 +39,6 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $params   = $this->app->data->create($params);
         $template = $params->get('template', 'currency');
 
         $list    = $params->get('currency_list', array());
@@ -47,7 +52,39 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
             ));
         }
 
-        return NULL;
+        return null;
+    }
+
+    /**
+     * Get JBPrice class
+     * @return string
+     */
+    public function parentSelector()
+    {
+        return '.jsJBPriceAdvance-' . $this->getJBPrice()->identifier . '-' . $this->getJBPrice()->getItem()->id;
+    }
+
+    /**
+     * Get params for widget
+     * @return array
+     */
+    public function interfaceParams()
+    {
+        $params = $this->getRenderParams();
+
+        return array(
+            'default' => $params->get('currency_default'),
+            'rates'   => (array)$this->_jbmoney->getData()
+        );
+    }
+
+    /**
+     * Returns data when variant changes
+     * @return null
+     */
+    public function renderAjax()
+    {
+        return array();
     }
 
 }
