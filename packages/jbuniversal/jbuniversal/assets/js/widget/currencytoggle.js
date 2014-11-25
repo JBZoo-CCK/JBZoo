@@ -18,17 +18,13 @@
             'rates' : {}
         },
         {
-            money: {}, // money element list
-
-            init: function ($this) {
-
-                $this.money = $('.jsMoney', $($this.options.target)).JBZooMoney({
-                    'rates': $this.options.rates
-                });
-            },
-
             'change .jbcurrency-input': function (e, $this) {
-                $this.money.JBZooMoney('convert', $(this).data('currency'));
+            
+                $money = $('.jsMoney', $($this.options.target)).JBZooMoney({
+                    'rates': $this.options.rates
+                });            
+            
+                $money.JBZooMoney('convert', $(this).data('currency'));
             }
         }
     );
