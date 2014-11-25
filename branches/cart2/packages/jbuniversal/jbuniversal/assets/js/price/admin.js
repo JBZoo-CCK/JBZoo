@@ -12,10 +12,10 @@
 (function ($, window, document, undefined) {
 
     /**
-     * JBZoo JBPrice advance (for admin panel)
-     * @param options
-     * @constructor
-     */
+    * JBZoo JBPrice advance (for admin panel)
+    * @param options
+    * @constructor
+    */
     $.fn.JBZooPriceAdvanceAdmin = function (options) {
 
         return $(this).each(function (n, obj) {
@@ -69,14 +69,14 @@
                 });
 
                 $('.jbpriceadv-variation-row', $obj).each(function (n, row) {
-
+                    n++;
                     var $row = $(this),
                         $variantLabel = $('.variation-label', $row);
-                    if (n == 0) {
+                    if (n == 1) {
                         $('.jbremove', $row).hide();
                     }
 
-                    $('.list-num', $row).text(n + 1);
+                    $('.list-num', $row).text(n);
 
                     if (!$('.row-sku', $row).val() && options.base_sku) {
                         $('.row-sku', $row).val(options.base_sku);
@@ -88,16 +88,21 @@
 
                     $('input[type=text], input[type=hidden], input[type=checkbox], select, textarea', $row).each(function () {
                         var $control = $(this);
-                        $control.attr('name', $control.attr('name').replace(/\[variations\]\[\d\]/i, '[variations][' + n + ']'));
+
+                        if (typeof $control.attr('name') != 'undefined') {
+                            $control.attr('name', $control.attr('name').replace(/\[variations\]\[\d\]/i, '[variations][' + n + ']'));
+                        }
 
                     });
 
                     $('input[type="radio"]', $row).each(function () {
                         var $this = $(this);
 
-                        $this.attr('name', $this.attr('name').replace(/\[variations\-\d*\]\[\d\]/i, '[variations][' + n + ']'));
-                        if ($this.is(':checked') == true) {
-                            $this.attr('checked', 'checked');
+                        if (typeof $this.attr('name') != 'undefined') {
+                            $this.attr('name', $this.attr('name').replace(/\[variations\-\d*\]\[\d\]/i, '[variations][' + n + ']'));
+                            if ($this.is(':checked') == true) {
+                                $this.attr('checked', 'checked');
+                            }
                         }
                     });
 
