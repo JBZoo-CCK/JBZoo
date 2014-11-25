@@ -12,8 +12,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
-?>
+$params = array(); ?>
 
 <table class="jbbasket-table jsJBZooBasket">
     <thead>
@@ -35,153 +34,177 @@ defined('_JEXEC') or die('Restricted access');
         <td class="null jsNull"></td>
     </tr>
 
-    <?php if (!empty($view->items)) {
+    <?php if (!empty($view->items)) :
 
-        $i     = 0;
-        $sum   = 0;
-        $count = 0;
+    $i     = 0;
+    $total = JBCart::val();
+    $count = 0;
+    $image = null;
 
-        $string  = $this->app->jbstring;
-        $default = $view->config->get('default_currency', 'EUR');
-        $jbHTML  = $this->app->jbhtml;
-        $jbMoney = $this->app->jbmoney;
+    $string  = $this->app->jbstring;
+    $jbHTML  = $this->app->jbhtml;
+    $jbMoney = $this->app->jbmoney;
+    $default = $view->config->get('default_currency', 'EUR');
 
-        foreach ($view->items as $id => $data) {
+    foreach ($view->items as $id => $data) {
 
-            extract($data, EXTR_PREFIX_ALL, '_');
+        $data = $this->app->data->create($data);
 
-            $item = $this->app->table->item->get($__item_id);
+        $encode   = base64_encode($id);
+        $quantity = $data['quantity'];
+        $price    = JBCart::val($data['total']);
 
-            $image = null;
-            $price = $jbMoney->convert($__currency, $default, $__price);
-            $href  = $this->app->route->item($item);
+        $item = $this->app->table->item->get($data['item_id']);
+        $href = $this->app->route->item($item);
 
-            $count += $__quantity;
-            $subtotal = $__quantity * $price;
-            $sum += $subtotal;
+        $count += $quantity;
+        $total->add($price->multiply($quantity, true));
 
-            if (!empty($__image)) {
+        if ($data->find('elements._image')) {
 
-                $url = $this->app->jbimage->resize($__image, 75, 75);
+            $url = $this->app->jbimage->resize($data->find('elements._image'), 75, 75);
 
-                $image = '<a ' . $jbHTML->buildAttrs(array(
-                        'class' => 'jbimage-link',
-                        'title' => $item->name,
-                        'href'  => $href
-                    )) . '><img  ' . $jbHTML->buildAttrs(array(
-                        'class'  => 'jbimage',
-                        'src'    => $url->url,
-                        'alt'    => $item->name,
-                        'title'  => $item->name,
-                        'width'  => 75,
-                        'height' => 75
-                    )) . ' /></a>';
-            }
+            $image = '<a ' . $jbHTML->buildAttrs(array(
+                    'class' => 'jbimage-link',
+                    'title' => $item->name,
+                    'href'  => $href
+                )) . '><img  ' . $jbHTML->buildAttrs(array(
+                    'class'  => 'jbimage',
+                    'src'    => $url->url,
+                    'alt'    => $item->name,
+                    'title'  => $item->name,
+                    'width'  => 75,
+                    'height' => 75
+                )) . ' /></a>';
+        }?>
 
-            echo '<tr class="row-' . $id . '" data-itemId="' . $__item_id . '" data-key="' . $id . '">';
-            echo '<td class="jbbasket-item-image">' . $image . '</td>';
+        <tr class="row-<?php echo $encode; ?> jbbasket-item-row"
+            data-item_id="<?php echo $data['item_id']; ?>"
+            data-key="<?php echo $encode; ?>">
 
-            echo '<td class="jbbasket-item-name">';
-            echo '<a href="' . $href . '" title="' . $__name . '">' . $__name . '</a>';
-            if ($__sku) {
-                echo '<div class="jbbasket-item-param"><span class="jbbasket-item-sku">'
-                     . JText::_('JBZOO_CART_ITEM_SKU') . ': </span>' . $__sku . '</div>';
-            }
-            if (isset($__priceParams) && !empty($__priceParams)) {
-                foreach ($__priceParams as $key => $value) {
-                    if (!empty($value)) {
-                        echo '<div class="jbbasket-item-param"><span class="jbbasket-param-key">' . $key . ': </span>'
-                             . $value . '</div>';
+            <td class="jbbasket-item-image">
+                <?php echo $image; ?>
+            </td>
+            <td class="jbbasket-item-name">
+                <a href="<?php echo $href; ?>" title="<?php echo $data['item_name']; ?>">
+                    <?php echo $data['item_name']; ?>
+                </a>
+
+                <?php if ($data->find('elements._sku')) : ?>
+
+                    <div class="jbbasket-item-param">
+                        <span class="jbbasket-item-sku">
+                            <?php echo JText::_('JBZOO_CART_ITEM_SKU'); ?>:
+                            <?php echo $data->find('elements._sku'); ?>
+                        </span>
+                    </div>
+
+                <?php endif;
+                if (!empty($data['values'])) {
+                    foreach ($data['values'] as $key => $value) {
+                        if (JString::strlen($value) !== 0) : ?>
+                            <div class="jbbasket-item-param">
+                                <span class="jbbasket-param-key">
+                                    <?php echo $key; ?>:
+                                </span>
+                                <?php echo $value; ?>
+                            </div>
+                        <?php endif;
                     }
-                }
-            }
-            echo '</td>';
+                } ?>
+            </td>
 
-            if ($__price) {
-                echo '<td class="jsValue jbbasket-item-price" price="' . $price . '">' . $jbMoney->format($price)
-                     . '</td>';
-            } else {
-                echo '<td> - </td>';
-            }
+            <td class="jsValue jbbasket-item-price">
+                <?php echo $price->html(); ?>
+            </td>
 
-            echo '<td class="jbbasket-item-quantity"><input type="text" class="jsQuantity input-quantity" value="'
-                 . $__quantity . '" /></td>';
+            <td class="jbbasket-item-quantity">
+                <input type="text" class="jsQuantity input-quantity" value="<?php echo $quantity; ?>"/>
+            </td>
 
-            if ($price) {
-                echo '<td class="jsSubtotal jbbasket-subtotal">'
-                     . '<span class="jbbasket-table-value jsValue">' . $jbMoney->format($subtotal) . '</span>'
-                     . '<a class="item-delete jbbutton-orange jbbutton-base jsDelete" itemid="' . $id . '">x</a>'
-                     . '</td>';
-            } else {
-                echo '<td> - </td>';
-            }
-
-            echo "</tr>\n";
-        }
-        ?>
-        <tfoot>
-
-        <tr class="null">
-            <td class="null jsNull"></td>
-            <td class="null jsNull"></td>
-            <td class="null jsNull"></td>
-            <td class="null jsNull"></td>
-            <td class="null jsNull">
-                <a class="jsDeleteAll item-delete-all jbbutton-orange jbbutton-base"><?php echo JText::_('JBZOO_CART_EMPTY'); ?></a>
+            <td class="jsSubtotal jbbasket-subtotal">
+            <span class="jbbasket-table-value jsValue">
+                <?php echo $price->multiply($quantity, true)->html(); ?>
+                <a class="item-delete jbbutton-orange jbbutton-base jsDelete"
+                   item_id="<?php echo $data['item_id']; ?>">x</a>
+            </span>
             </td>
         </tr>
 
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td style="width:240px;">
-                В корзине
-                <span class="jsTotalCount jbitems-total-count"><span class="jsValue"><?php echo $count; ?></span></span>
-            <span data-word="товар"
-                  class="morphology jsMorphology"><?php echo $string->declension($count, 'товар', 'товара',
-                    'товаров'); ?></span>
+        <?php if (!empty($data['params'])) {
+            foreach ($data['params'] as $key => $param) {
+                if (!empty($param)) {
+                    $params[$encode][$key] = $param;
+                }
+            }
+        }
+    } ?>
 
-                на сумму:
-                <div class="jsTotalPrice">
-                    <span class="jsValue jbtotal-price"><?php echo $jbMoney->format($sum); ?></span>
-                </div>
-            </td>
+    <tfoot>
+    <tr class="null">
+        <td class="null jsNull"></td>
+        <td class="null jsNull"></td>
+        <td class="null jsNull"></td>
+        <td class="null jsNull"></td>
+        <td class="null jsNull">
+            <a class="jsDeleteAll item-delete-all jbbutton-orange jbbutton-base"><?php echo JText::_('JBZOO_CART_EMPTY'); ?></a>
+        </td>
+    </tr>
 
-            <td>
-                <?php if ($view->shipping) : ?>
-                    <span class="jbasket-label">Доставка: </span>
-                    <span class="shipping-price jsShippingPrice">
+    <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td style="width:240px;">
+            В корзине
+            <span class="jsTotalCount jbitems-total-count">
+                <span class="jsValue"><?php echo $count; ?></span>
+            </span>
+            <span data-word="товар" class="morphology jsMorphology">
+                <?php echo $string->declension($count, 'товар', 'товара', 'товаров'); ?>
+            </span>
+
+            на сумму:
+            <div class="jsTotalPrice">
+                <span class="jsValue jbtotal-price">
+                    <?php echo $total->html(); ?>
+                </span>
+            </div>
+        </td>
+
+        <td>
+            <?php if ($view->shipping) : ?>
+                <span class="jbasket-label">Доставка: </span>
+                <span class="shipping-price jsShippingPrice">
                         <span class="jsValue shipping-total">
                             Бесплатно
                         </span>
                         <span class="jsCurrency shipping-currency">
 
                         </span>
-
                 </span>
-                <?php endif; ?>
-            </td>
+            <?php endif; ?>
+        </td>
 
-            <td class="jsTotalPrice jbbasket-total-price">
-                <span class="jbasket-label">Итого к оплате:</span>
-                <span class="jsValue jbtotal-price"><?php echo $jbMoney->format($sum); ?></span>
-            </td>
+        <td class="jsTotalPrice jbbasket-total-price">
+            <span class="jbasket-label">Итого к оплате:</span>
+            <span class="jsValue jbtotal-price"><?php echo $total->html(); ?></span>
+        </td>
 
-        </tr>
+    </tr>
 
-        </tfoot>
-    <?php } ?>
-
+    </tfoot>
+    <?php endif; ?>
 </table>
 
 <script type="text/javascript">
     jQuery(function ($) {
 
         $('.jbzoo .jsJBZooBasket').JBZooCart({
-            'clearConfirm': "<?php echo JText::_('JBZOO_CART_CLEAR_CONFIRM');?>",
-            'quantityUrl' : "<?php echo $this->app->jbrouter->basketQuantity();?>",
-            'deleteUrl'   : "<?php echo $this->app->jbrouter->basketDelete();?>",
-            'clearUrl'    : "<?php echo $this->app->jbrouter->basketClear();?>"
+            'confirm_message': "<?php echo JText::_('JBZOO_CART_CLEAR_CONFIRM');?>",
+            'url_quantity'   : "<?php echo $this->app->jbrouter->basketQuantity();?>",
+            'url_delete'     : "<?php echo $this->app->jbrouter->basketDelete();?>",
+            'url_clear'      : "<?php echo $this->app->jbrouter->basketClear();?>",
+            'params'         : '<?php echo json_encode((object)$params); ?>'
         });
     });
 </script>

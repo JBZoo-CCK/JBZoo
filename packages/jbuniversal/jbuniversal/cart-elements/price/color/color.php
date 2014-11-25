@@ -105,7 +105,6 @@ class JBCartElementPriceColor extends JBCartElementPrice
             $result[$key] = $value;
         }
 
-
         if (!empty($selected)) {
             foreach ($selected as $color) {
                 $key = $this->app->string->sluggify(JString::trim($color));
@@ -122,12 +121,42 @@ class JBCartElementPriceColor extends JBCartElementPrice
     }
 
     /**
+     * Get elements value
+     * @param string $key
+     * @param null   $default
+     *
+     * @return mixed|null
+     */
+    public function getValue($key = 'value', $default = null)
+    {
+        return $this->get($key, $default);
+    }
+
+    /**
+     * Check if option isset in element
+     *
+     * @param $value
+     *
+     * @return bool
+     */
+    public function issetOption($value)
+    {
+        $colors = $this->getColors();
+        if (array_key_exists($value, $colors)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Load config assets
      * @return self
      */
     public function loadConfigAssets()
     {
         JHtml::_('behavior.colorpicker');
+
         return parent::loadConfigAssets();
     }
 }

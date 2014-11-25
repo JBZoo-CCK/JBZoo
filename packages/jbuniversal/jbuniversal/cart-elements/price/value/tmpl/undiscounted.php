@@ -12,6 +12,14 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
-<div class="jbprice-description jsDescription">
-    <?php echo $this->getValue(); ?>
+
+<div class="jbPriceElementValue">
+    <div class="jbprice-price">
+        <table cellpadding="0" cellspacing="0" border="0" class="no-border">
+            <tr>
+                <td><?php echo JText::_('JBZOO_JBPRICE_PRICE_TOTAL'); ?>:</td>
+                <td><span class="jsTotal total"><?php echo $prices['total']->html(); ?></span></td>
+            </tr>
+        </table>
+    </div>
 </div>

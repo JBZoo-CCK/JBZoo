@@ -49,7 +49,7 @@ class JBCartElementPriceDescription extends JBCartElementPrice
             ));
         }
 
-        return NULL;
+        return null;
     }
 
     /**
@@ -66,6 +66,18 @@ class JBCartElementPriceDescription extends JBCartElementPrice
             ));
         }
 
-        return NULL;
+        return null;
     }
+
+    /**
+     * Returns data when variant changes
+     * @return null
+     */
+    public function renderAjax()
+    {
+        $params = $this->getRenderParams();
+
+        return $this->render($params);
+    }
+
 }

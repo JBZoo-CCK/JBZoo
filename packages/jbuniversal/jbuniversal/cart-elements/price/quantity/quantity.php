@@ -27,7 +27,7 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        return TRUE;
+        return true;
     }
 
     /**
@@ -35,7 +35,7 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
      */
     public function edit()
     {
-        return NULL;
+        return null;
     }
 
     /**
@@ -52,6 +52,42 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
             ));
         }
 
-        return NULL;
+        return null;
     }
+
+    /**
+     * Get params for widget
+     * @return array
+     */
+    public function interfaceParams()
+    {
+        $params = $this->getRenderParams();
+
+        return array(
+            'min'      => (float)$params->get('min', 1),
+            'max'      => (float)$params->get('max', 9),
+            'step'     => (float)$params->get('step', 1),
+            'default'  => (float)$params->get('default', 1),
+            'decimals' => (float)$params->get('decimals', 0)
+        );
+    }
+
+    /**
+     * Returns data when variant changes
+     * @return null
+     */
+    public function renderAjax()
+    {
+        return array();
+    }
+
+    /**
+     * Load elements css/js assets
+     * @return $this
+     */
+    public function loadAssets()
+    {
+        return parent::loadAssets();
+    }
+
 }

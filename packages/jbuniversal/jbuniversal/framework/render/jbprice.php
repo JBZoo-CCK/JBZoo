@@ -19,14 +19,21 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBPriceRenderer extends PositionRenderer
 {
-    protected $basic = NULL;
 
-    protected $variant = NULL;
+    /**
+     * @var int
+     */
+    protected $variant = 0;
+    /**
+     * @var JBCartVariant
+     */
+    protected $_variant = null;
 
     /**
      * @var JBCartElementHelper
      */
     protected $_jbcartelement;
+
     /**
      * @var JBCartPositionHelper
      */
@@ -38,7 +45,7 @@ class JBPriceRenderer extends PositionRenderer
     protected $_jbconfig;
 
     /**
-     * @var ElementJBPriceAdvance
+     * @var ElementJBPricePlain || ElementJBPriceCalc
      */
     protected $_jbprice;
 
@@ -51,7 +58,7 @@ class JBPriceRenderer extends PositionRenderer
      * @param App  $app
      * @param null $path
      */
-    public function __construct($app, $path = NULL)
+    public function __construct($app, $path = null)
     {
         parent::__construct($app, $path);
 
@@ -69,19 +76,21 @@ class JBPriceRenderer extends PositionRenderer
     {
         foreach ($this->getConfigPosition($position) as $key => $data) {
 
-            if ($element = $this->_jbprice->getParam($key, $this->variant)) {
+            if (($element = $this->_variant->getElement($key)) ||
+                ($element = $this->_jbprice->getElement($key, $this->variant))
+            ) {
 
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
                 $data['_index']    = $key;
 
                 if ($element->canAccess() && $element->hasValue($this->app->data->create($data))) {
-                    return TRUE;
+                    return true;
                 }
             }
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -92,9 +101,11 @@ class JBPriceRenderer extends PositionRenderer
      */
     public function render($layout, $args = array())
     {
-        $this->variant      = isset($args['_variant']) ? $args['_variant'] : NULL;
-        $this->_jbprice     = isset($args['price']) ? $args['price'] : NULL;
-        $this->_priceLayout = isset($args['_layout']) ? $args['_layout'] : NULL;
+        $this->variant  = isset($args['variant']) ? $args['variant'] : null;
+        $this->_variant = isset($args['_variant']) ? $args['_variant'] : null;
+
+        $this->_jbprice     = isset($args['price']) ? $args['price'] : null;
+        $this->_priceLayout = isset($args['_layout']) ? $args['_layout'] : null;
 
         unset($args['_variant']);
         unset($args['price']);
@@ -117,23 +128,17 @@ class JBPriceRenderer extends PositionRenderer
         $output   = array();
 
         // get style
-        $style  = isset($args['style']) ? $args['style'] : 'default';
+        $style  = $this->_variant->isBasic() ? 'basic' : 'variations';
         $config = $this->_getConfig();
 
         if (!empty($config)) {
             foreach ($config as $key => $data) {
 
-                if ($element = $this->_jbprice->getParam($key, $this->variant)) {
+                if (($element = $this->_variant->getElement($key)) ||
+                    ($element = $this->_jbprice->getElement($key, $this->variant))
+                ) {
 
-                    if (is_null($this->variant) && $element->getMetaData('core') != 'true') {
-                        continue;
-                    }
-
-                    if ($this->_jbprice->config->get('mode', 0) == ElementJBPriceAdvance::PRICE_MODE_OVERLAY
-                        && $element->identifier != ElementJBPriceAdvance::PARAM_DESCRIPTION_IDENTIFIER
-                        && $element->getMetaData('core') == 'true'
-
-                    ) {
+                    if ($this->_variant->isBasic() && $element->getMetaData('core') != 'true') {
                         continue;
                     }
 
@@ -141,8 +146,9 @@ class JBPriceRenderer extends PositionRenderer
 
                         $data['_price_layout'] = $this->_priceLayout;
 
-                        $data['_layout']   = $this->_layout;
-                        $data['_index']    = $key;
+                        $data['_layout'] = $this->_layout;
+                        $data['_index']  = $key;
+
                         $params = array_merge($data, $args);
 
                         $elements[] = compact('element', 'params');
@@ -155,8 +161,7 @@ class JBPriceRenderer extends PositionRenderer
         if (!empty($elements)) {
 
             foreach ($elements as $i => $data) {
-                $params =
-                    array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1)), $data['params']);
+                $params = array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1)), $data['params']);
 
                 $output[$i] = parent::render('element.jbprice.' . $style,
                     array('element' => $data['element'], 'params' => $params));
@@ -172,7 +177,7 @@ class JBPriceRenderer extends PositionRenderer
      *
      * @return string|void
      */
-    public function renderPosition($position = NULL, $args = array())
+    public function renderPosition($position = null, $args = array())
     {
         // init vars
         $elements = array();
@@ -183,10 +188,11 @@ class JBPriceRenderer extends PositionRenderer
 
         // store layout
         $layout = $this->_layout;
-
         foreach ($this->getConfigPosition($position) as $key => $data) {
 
-            if ($element = $this->_jbprice->getParam($key, $this->variant)) {
+            if (($element = $this->_variant->getElement($key)) ||
+                ($element = $this->_jbprice->getElement($key, $this->variant))
+            ) {
 
                 if (!$element->canAccess()) {
                     continue;
@@ -210,8 +216,11 @@ class JBPriceRenderer extends PositionRenderer
         foreach ($elements as $i => $data) {
             $params = array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1)), $data['params']);
 
-            $output[$i] =
-                parent::render('element.' . $style, array('element' => $data['element'], 'params' => $params));
+            //$data['element']->loadAssets();
+            $output[$i] = parent::render('element.' . $style, array(
+                'element' => $data['element'],
+                'params'  => $this->app->data->create($params)
+            ));
         }
 
         $this->_layout = $layout;

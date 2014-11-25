@@ -27,8 +27,7 @@ class JBCartElementPriceSku extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $value = JString::trim($this->getValue('value'));
-
+        $value = JString::trim($this->getValue());
         if (JString::strlen($value) > 0) {
             return true;
         }
@@ -41,10 +40,23 @@ class JBCartElementPriceSku extends JBCartElementPrice
      */
     public function edit()
     {
-        $params = $this->getParams();
-
         if ($layout = $this->getLayout('edit.php')) {
+            return self::renderLayout($layout);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return array|mixed|null|string
+     */
+    public function render($params = array())
+    {
+        if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
+                'value'  => $this->getValue(),
                 'params' => $params
             ));
         }
@@ -53,19 +65,14 @@ class JBCartElementPriceSku extends JBCartElementPrice
     }
 
     /**
-     * @param array $params
-     * @return array|mixed|null|string
+     * Returns data when variant changes
+     * @return null
      */
-    public function render($params = array())
+    public function renderAjax()
     {
-        $params = $this->app->data->create($params);
+        $params = $this->getRenderParams();
 
-        if ($layout = $this->getLayout()) {
-            return self::renderLayout($layout, array(
-                'params' => $params
-            ));
-        }
-
-        return null;
+        return $this->render($params);
     }
+
 }

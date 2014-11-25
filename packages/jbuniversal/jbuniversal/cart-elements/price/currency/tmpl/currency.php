@@ -13,14 +13,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (count($list) > 1) : ?>
-    <div class="jbprice-currency-list not-paid-box jsCurrencyList" data-default="<?php echo $default; ?>">
-        <?php foreach ($list as $currency) : ?>
-            <span class="jbprice-currency jsPriceCurrency jbcurrency jbcurrency-<?php echo strtolower($currency); ?>
-            <?php echo $currency == $default ? ' active' : '' ?>"
-                  data-currency="<?php echo $currency; ?>"
-                  title="<?php echo JText::_('JBZOO_JBCURRENCY_' . $currency); ?>"><?php echo $currency; ?></span>
-        <?php endforeach; ?>
-        <div class="clear clr"></div>
-    </div>
-<?php endif;
+if (count($list) > 1) :
+    echo $this->app->jbhtml->currencyToggle($this->_jbmoney->getData(), $default, array(
+        'target'      => $this->parentSelector(),
+        'showDefault' => false
+    ));
+endif;

@@ -18,14 +18,38 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementPriceDiscount extends JBCartElementPrice
 {
+    const SALE_VIEW_NO          = 0;
+    const SALE_VIEW_TEXT        = 1;
+    const SALE_VIEW_TEXT_SIMPLE = 2;
+    const SALE_VIEW_ICON_SIMPLE = 3;
+    const SALE_VIEW_ICON_VALUE  = 4;
+
+    /**
+     * Check if element has value
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        $value = $this->getValue();
+        if ($value->isPositive()) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * @return mixed|string
      */
     public function edit()
     {
         if ($layout = $this->getLayout('edit.php')) {
-
-            return self::renderLayout($layout);
+            return self::renderLayout($layout, array(
+                'discount' => $this->getValue()
+            ));
         }
 
         return null;
@@ -38,21 +62,45 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $params = $this->app->data->create($params);
+        $value = $this->getElement('_value');
 
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'params'   => $params,
-                'base'     => $this->getPrices(),
-                'discount' => array(
-                    'value'  => $this->getValue('value'),
-                    'format' => $this->app->jbmoney->toFormat($this->getValue('value'), $this->getValue('currency'))
-                ),
-                'mode'     => $params->get('sale_show', ElementJBPriceAdvance::SALE_VIEW_ICON_VALUE)
+                'base'     => $value->getPrices(),
+                'discount' => $this->getValue(),
+                'mode'     => $params->get('sale_show', self::SALE_VIEW_ICON_VALUE)
             ));
         }
 
         return null;
+    }
+
+    /**
+     * Get elements value
+     *
+     * @param string $key
+     * @param null   $default
+     *
+     * @internal param string $key
+     * @return mixed|null
+     */
+    public function getValue($key = 'value', $default = null)
+    {
+        $value = (float)parent::getValue($key, $default);
+
+        return JBCart::val($value);
+    }
+
+    /**
+     * Returns data when variant changes
+     * @return null
+     */
+    public function renderAjax()
+    {
+        $params = $this->getRenderParams();
+
+        return $this->render($params);
     }
 
 }

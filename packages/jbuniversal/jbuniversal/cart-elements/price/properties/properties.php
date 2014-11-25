@@ -52,7 +52,7 @@ class JBCartElementPriceProperties extends JBCartElementPrice
     {
         $params   = $this->app->data->create($params);
         $template = $params->get('template', 'radio');
-        $data     = $this->getAllOptions();
+        $data     = $this->getOptions();
 
         if ($layout = $this->getLayout($template . '.php')) {
             return self::renderLayout($layout, array(

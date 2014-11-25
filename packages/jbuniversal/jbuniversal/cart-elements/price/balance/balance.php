@@ -59,4 +59,44 @@ class JBCartElementPriceBalance extends JBCartElementPrice
         return null;
     }
 
+    /**
+     * Check if item in stock
+     *
+     * @param $quantity
+     *
+     * @return bool
+     */
+    public function inStock($quantity)
+    {
+        if (!(int)$this->config->get('balance_mode', 1)) {
+            return true;
+        }
+
+        $quantity = (float)$quantity;
+        $inStock  = $this->getValue();
+
+        if ($inStock == -1) {
+            return true;
+
+        } elseif (($inStock == self::NOT_AVAILABLE) || ($inStock == self::UNDER_ORDER)) {
+            return false;
+
+        } elseif ($inStock >= $quantity) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns data when variant changes
+     * @return null
+     */
+    public function renderAjax()
+    {
+        $params = $this->getRenderParams();
+
+        return $this->render($params);
+    }
+
 }

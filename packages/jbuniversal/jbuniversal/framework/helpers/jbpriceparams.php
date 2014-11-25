@@ -34,11 +34,20 @@ class JBPriceParamsHelper extends AppHelper
 
         foreach ($application->getTypes() as $type) {
 
-            $typeElements = $type->getElementsByType('jbpriceadvance');
-            if (!empty($typeElements)) {
+            $plains = $type->getElementsByType('jbpriceplain');
+            $calcs  = $type->getElementsByType('jbpricecalc');
 
-                foreach ($typeElements as $key => $element) {
-                    $elements[$key] = ucfirst($type->identifier) . ' - ' . ucfirst($element->config->get('name'));
+            if (!empty($plains)) {
+
+                foreach ($plains as $key => $plain) {
+                    $elements[$key] = ucfirst($type->identifier) . ' - ' . ucfirst($plain->config->get('name'));
+                }
+            }
+
+            if(!empty($calcs)) {
+
+                foreach ($calcs as $key => $calc) {
+                    $elements[$key] = ucfirst($type->identifier) . ' - ' . ucfirst($calc->config->get('name'));
                 }
             }
         }

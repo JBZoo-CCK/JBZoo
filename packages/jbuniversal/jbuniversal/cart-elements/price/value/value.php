@@ -18,6 +18,14 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementPriceValue extends JBCartElementPrice
 {
+    const IDENTIFIER = '_value';
+
+    const PRICE_VIEW_FULL     = 1;
+    const PRICE_VIEW_PRICE    = 2;
+    const PRICE_VIEW_TOTAL    = 3;
+    const PRICE_VIEW_DISCOUNT = 4;
+    const PRICE_VIEW_SAVE     = 5;
+
     /**
      * @return mixed|null|string
      */
@@ -25,11 +33,11 @@ class JBCartElementPriceValue extends JBCartElementPrice
     {
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderLayout($layout, array(
-                'currencyList' => $this->app->jbmoney->getCurrencyList(TRUE)
+                'value' => $this->getValue()
             ));
         }
 
-        return NULL;
+        return null;
     }
 
     /**
@@ -39,28 +47,130 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $params   = $this->app->data->create($params);
-        $prices   = $this->getPrices();
-        $discount = $this->getElementData('_discount', $this->config->get('_variant'));
+        $prices = $this->getPrices();
+        $layout = $this->getLayout('undiscounted.php');
 
-        $currencyParams  = $this->getRenderParams('_currency');
-        $defaultCurrency = $currencyParams->get('default_currency', 'EUR');
+        if ($discount = $this->getElement('_discount')) {
+            $discount = $discount->getValue();
+            $layout   = $this->getLayout();
+        }
 
-        $value    = $discount->get('value', 0);
-        $currency = $discount->get('currency', $defaultCurrency);
-
-        if ($layout = $this->getLayout()) {
+        if ($layout) {
             return self::renderLayout($layout, array(
-                'params'   => $params,
-                'base'     => $prices,
-                'discount' => array(
-                    'value'  => $discount->get('value', 0),
-                    'format' => $this->app->jbmoney->toFormat($value, $currency),
-                )
+                'mode'     => (int)$params->get('only_price_mode', 1),
+                'prices'   => $prices,
+                'discount' => $discount
             ));
         }
 
-        return NULL;
+        return null;
+    }
+
+    /**
+     * Get prices for render currency
+     * @return array
+     */
+    public function getPrices()
+    {
+        $list = $this->_jbprice->getVariantList();
+
+        if ($this->_jbprice->isOverlay()) {
+
+            $total = $list->getTotal();
+            $price = $list->getPrice();
+
+            $prices = array(
+                'total' => $total,
+                'price' => $price,
+                'save'  => $total->minus($price, true)->abs()
+            );
+
+            return $prices;
+
+        } else {
+
+            $prices = array(
+                'total' => $list->getTotal(),
+                'price' => $list->getPrice(),
+                'save'  => $list->getTotal()
+                                ->minus($list->getPrice(), true)
+                                ->abs()
+            );
+        }
+
+        return $prices;
+    }
+
+    /**
+     * Get prices for currencies from currency list
+     *
+     * @return array
+     */
+    public function getCurrencyPrices()
+    {
+        $prices = array();
+        $params = $this->getRenderParams('_currency');
+        $list   = $params->get('currency_list');
+
+        $price = $this->getPrices();
+
+        if (!empty($list)) {
+            foreach ($list as $currency) {
+
+                $prices[$currency] = array(
+                    'total' => $price['total']->html($currency),
+                    'price' => $price['price']->html($currency),
+                    'save'  => $price['total']->minus($price['price'], true)
+                                              ->abs()
+                                              ->html($currency)
+                );
+            }
+        }
+
+        return $prices;
+    }
+
+    /**
+     * Check if variant price will modified basic price
+     *
+     * @return bool
+     */
+    public function isModifier()
+    {
+        if (!$this->isBasic()) {
+            $value = $this->get('value', 0);
+            if ($value[0] === '-' || $value[0] === '+') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get elements value
+     *
+     * @param string $key
+     * @param null   $default
+     *
+     * @return mixed|JBCartValue|null
+     */
+    public function getValue($key = 'value', $default = null)
+    {
+        $value = parent::getValue($key, $default);
+
+        return JBCart::val($value);
+    }
+
+    /**
+     * Returns data when variant changes
+     * @return null
+     */
+    public function renderAjax()
+    {
+        $params = $this->getRenderParams();
+
+        return $this->render($params);
     }
 
 }

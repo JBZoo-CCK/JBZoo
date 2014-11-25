@@ -20,6 +20,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
 {
     /**
      * @param array $params
+     *
      * @return bool
      */
     public function hasFilterValue($params = array())
@@ -29,6 +30,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
 
     /**
      * @param  array $params
+     *
      * @return mixed|null|string
      */
     public function edit($params = array())
@@ -38,6 +40,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
 
     /**
      * @param array $params
+     *
      * @return array|mixed|null|string
      */
     public function render($params = array())
@@ -52,5 +55,39 @@ class JBCartElementPriceButtons extends JBCartElementPrice
         }
 
         return null;
+    }
+
+    /**
+     * Get params for widget
+     * @return array
+     */
+    public function interfaceParams()
+    {
+        $params  = $this->getRenderParams();
+        $jbPrice = $this->_jbprice;
+        $item    = $jbPrice->getItem();
+
+        return array(
+            'add'    => $this->app->jbrouter->element($jbPrice->identifier, $item->id, 'ajaxAddToCart',
+                array(
+                    'template' => $jbPrice->getTemplate()
+                )),
+            'remove' => $this->app->jbrouter->element($jbPrice->identifier, $item->id, 'ajaxRemoveFromCart'),
+            'modal'  => $this->app->jbrouter->element($jbPrice->identifier, $item->id, 'ajaxModalWindow',
+                array(
+                    'elem_layout'   => $params->get('_layout'),
+                    'elem_position' => $params->get('_position'),
+                    'elem_index'    => $params->get('_index'),
+                )),
+        );
+    }
+
+    /**
+     * Returns data when variant changes
+     * @return null
+     */
+    public function renderAjax()
+    {
+        return array();
     }
 }

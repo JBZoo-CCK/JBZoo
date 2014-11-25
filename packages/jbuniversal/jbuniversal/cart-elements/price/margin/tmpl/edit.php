@@ -11,7 +11,10 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
-<div class="jbprice-description jsDescription">
-    <?php echo $this->getValue(); ?>
-</div>
+defined('_JEXEC') or die('Restricted access');
+
+$html    = $this->app->jbhtml;
+$variant = $this->config->get('_variant') ? '' : '-variant';
+
+echo $html->text($this->getControlName('value'), $margin->dump());
+

@@ -13,36 +13,28 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 $view = $this->getView();
 $this->app->jbassets->basket();
-$this->app->jbassets->initJBPrice();
 $actionUrl = $this->app->jbrouter->cartOrderCreate($view->application->id, null);
 $this->app->jbassets->chosen();
 
-?>
-
-<?php if (count($view->items) == 0) : ?>
-
-    <?php echo JText::_('JBZOO_CART_ITEMS_NOT_FOUND'); ?>
-
-<?php else: ?>
-
-    <?php
+if (count($view->items) == 0) :
+    echo JText::_('JBZOO_CART_ITEMS_NOT_FOUND');
+else:
     $isFormEmpty = empty($view->shipping)
         && empty($view->payment)
-        && empty($view->shippingFields)
-        //&& !$view->formRenderer->checkPosition('fields')
-    ;
+        && empty($view->shippingFields);
+    //&& !$view->formRenderer->checkPosition('fields');
     ?>
 
 
     <form action="<?php echo $actionUrl; ?>" method="post" name="jbcartForm" class="jbzoo-app-basket"
           accept-charset="utf-8" enctype="multipart/form-data">
 
-        <?php echo $this->partial('basket', 'table'); ?>
+        <?php echo $this->partial('basket', 'table');
 
-        <?php if (!$isFormEmpty) { ?>
+        if (!$isFormEmpty) {
+            ?>
 
             <div class="create-order">
                 <h3 class="title-name"><?php echo JText::_('JBZOO_CART_CREATE_ORDER_TITLE'); ?></h3>
@@ -60,10 +52,10 @@ $this->app->jbassets->chosen();
 
         } ?>
 
-        <input type="hidden" name="option" value="com_zoo" />
-        <input type="hidden" name="controller" value="basket" />
-        <input type="hidden" name="task" value="index" />
-        <input type="hidden" name="Itemid" value="<?php echo $view->Itemid; ?>" />
+        <input type="hidden" name="option" value="com_zoo"/>
+        <input type="hidden" name="controller" value="basket"/>
+        <input type="hidden" name="task" value="index"/>
+        <input type="hidden" name="Itemid" value="<?php echo $view->Itemid; ?>"/>
         <?php echo $this->app->html->_('form.token'); ?>
     </form>
 

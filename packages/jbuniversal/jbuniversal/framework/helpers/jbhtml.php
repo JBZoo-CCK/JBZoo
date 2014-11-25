@@ -233,6 +233,8 @@ class JBHTMLHelper extends AppHelper
     /**
      * @param array  $curList
      * @param string $defaultCur
+     * @param array  $options
+     *
      * @return array|null|string
      */
     public function currencyToggle($curList, $defaultCur = 'eur', $options = array())
@@ -248,7 +250,7 @@ class JBHTMLHelper extends AppHelper
         }
 
         $options = $this->app->data->create(array_merge(array(
-            'selector'    => '.jbzoo',
+            'target'    => '.jbzoo',
             'showDefault' => true,
             'rates'       => $curList,
         ), $options));
@@ -317,7 +319,7 @@ class JBHTMLHelper extends AppHelper
 
             $id = $this->app->jbstring->getId('currency-toggle-');
 
-            $this->app->jbassets->currencyToggle($id, $options->getArrayCopy());
+            $this->app->jbassets->currencyToggle($id, (array)$options);
 
             $widgetAttrs = array(
                 'data-default' => $moneyVal->cur(),

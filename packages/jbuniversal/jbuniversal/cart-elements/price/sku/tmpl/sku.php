@@ -14,15 +14,16 @@
 defined('_JEXEC') or die('Restricted access');
 
 $unique = $this->app->jbstring->getId('sku-');
-$sku = $this->getValue('value') ? $this->getValue('value') : $this->getJBPrice()->getDefaultSku();
+$sku    = (!empty($value) ? $value : $this->getJBPrice()->getItem()->id);
 
 if ($sku) : ?>
 
     <div class="jbprice-sku">
-        <span class="field-name"><?php echo JText::_('JBZOO_JBPRICE_SKU'); ?>:</span>
+        <span class="field-name">
+            <?php echo JText::_('JBZOO_JBPRICE_SKU'); ?>:
+        </span>
 
         <span class="sku"><?php echo $sku; ?></span>
-
     </div>
 
 <?php endif;

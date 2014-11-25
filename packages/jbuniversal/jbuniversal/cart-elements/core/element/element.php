@@ -121,7 +121,11 @@ abstract class JBCartElement
      */
     public function setConfig($config)
     {
-        $this->config = $this->app->data->create($config);
+        if (is_array($config)) {
+            $config = $this->app->data->create($config);
+        }
+        
+        $this->config = $config;
     }
 
     /**
@@ -182,6 +186,7 @@ abstract class JBCartElement
     public function set($key, $value)
     {
         $this->_data->set($key, $value);
+
         return $this;
     }
 
@@ -271,6 +276,7 @@ abstract class JBCartElement
     public function hasValue($params = array())
     {
         $value = $this->get('value', $this->config->get('default'));
+
         return !empty($value);
     }
 
@@ -295,7 +301,7 @@ abstract class JBCartElement
      * Renders the element using template layout file
      *
      * @param       $__layout layouts template file
-     * @param array $__args   layouts template file args
+     * @param array $__args layouts template file args
      *
      * @return string
      */

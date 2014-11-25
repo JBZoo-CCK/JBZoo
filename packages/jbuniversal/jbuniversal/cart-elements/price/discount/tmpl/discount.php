@@ -13,17 +13,15 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if ($discount['value'] < 0): ?>
-    <?php if ($mode == ElementJBPriceAdvance::SALE_VIEW_ICON_SIMPLE) : ?>
-        <span class="sale-icon-simple"> </span>
-    <?php endif; ?>
+if ($mode == JBCartElementPriceDiscount::SALE_VIEW_ICON_SIMPLE) : ?>
+    <span class="sale-icon-simple"> </span>
+<?php endif;
 
-    <?php if ($mode == ElementJBPriceAdvance::SALE_VIEW_ICON_VALUE) : ?>
-        <span class="sale-icon-empty"><?php echo $discount['format']; ?></span>
-    <?php endif; ?>
+if ($mode == JBCartElementPriceDiscount::SALE_VIEW_ICON_VALUE) : ?>
+    <span class="sale-icon-empty"><?php echo $discount->html(); ?></span>
+<?php endif;
 
-    <?php if ($mode == ElementJBPriceAdvance::SALE_VIEW_TEXT_SIMPLE) : ?>
-        <span class="jsSave save discount-less"><?php echo $base['save']; ?></span>
-        (<span class="discount"><?php echo $discount['format']; ?></span>)
-    <?php endif; ?>
+if ($mode == JBCartElementPriceDiscount::SALE_VIEW_TEXT_SIMPLE) : ?>
+    <span class="jsSave save discount-less"><?php echo $base['save']->html(); ?></span>
+    (<span class="discount"><?php echo $discount->html(); ?></span>)
 <?php endif;
