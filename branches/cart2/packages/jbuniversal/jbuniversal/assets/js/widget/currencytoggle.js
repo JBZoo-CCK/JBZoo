@@ -15,16 +15,25 @@
     JBZoo.widget('JBZoo.CurrencyToggle',
         {
             'target': '.jbzoo',
-            'rates' : {}
+            'rates': {}
         },
         {
-            'change .jbcurrency-input': function (e, $this) {
+            /**
+             * @returns JBZooMoney
+             * @private
+             */
+            _getMoney: function () {
+                var $this = this;
 
-                var $money = $('.jsMoney', $($this.options.target)).JBZooMoney({
+                return $('.jsMoney', $($this.options.target)).JBZooMoney({
                     'rates': $this.options.rates
                 });
+            },
 
-                $money.JBZooMoney('convert', $(this).data('currency'));
+            'change .jbcurrency-input': function (e, $this) {
+                var currency = $(this).data('currency');
+
+                $this._getMoney().JBZooMoney('convert', [currency]);
             }
         }
     );
