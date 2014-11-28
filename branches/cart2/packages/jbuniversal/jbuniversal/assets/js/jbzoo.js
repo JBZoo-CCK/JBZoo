@@ -101,6 +101,7 @@
                     }
 
                 },
+
                 'error'   : function () {
                     $this.isAjax = false;
                     options.onFatal(arguments);
@@ -140,6 +141,30 @@
          */
         error: function (message) {
             return JBZoo.error('Plugin "' + this._name + '": ' + message);
+        },
+
+        /**
+         * Simple system message like alert
+         * @param message
+         */
+        alert: function (message) {
+            return alert(message);
+        },
+
+        /**
+         * Confirm dialogbox
+         * @param message
+         * @param yesCallback
+         * @param noCallback
+         */
+        confirm: function (message, yesCallback, noCallback) {
+            if (confirm(message)) {
+                yesCallback();
+                return true;
+            } else {
+                noCallback();
+                return false;
+            }
         },
 
         /**
