@@ -15,7 +15,7 @@
     JBZoo.widget('JBZoo.CurrencyToggle',
         {
             'target': '.jbzoo',
-            'rates': {}
+            'rates' : {}
         },
         {
             /**
