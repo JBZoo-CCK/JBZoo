@@ -20,10 +20,6 @@ class JBHttpHelper extends AppHelper
 {
     const METHOD_GET  = 'get';
     const METHOD_POST = 'post';
-    const METHOD_PUT  = 'put';
-
-    const CACHE_GROUP = 'http';
-
     /**
      * @type array
      */
@@ -31,10 +27,16 @@ class JBHttpHelper extends AppHelper
         'timeout'   => 10,
         'method'    => self::METHOD_GET,
         'headers'   => array(),
+        'response'  => 'body', // full, headers, body
         'cache'     => 0,
         'cache_ttl' => 60, // in minutes!
         'cache_id'  => '',
+
     );
+
+    const METHOD_PUT = 'put';
+
+    const CACHE_GROUP = 'http';
 
     /**
      * @type JBCacheHelper
@@ -53,8 +55,8 @@ class JBHttpHelper extends AppHelper
 
     /**
      * @param string $url
-     * @param array  $data
-     * @param array  $options
+     * @param array $data
+     * @param array $options
      * @return null|string
      * @throws AppException
      */
@@ -71,15 +73,15 @@ class JBHttpHelper extends AppHelper
         $cacheId = $cacheGroup = $cacheParams = null;
         $isCache = (int)$options->get('cache');
         if ($isCache) {
-            $cacheId     = array($url, (array)$data, $options->get('cache_id'), (array)$options->get('headers'));
+            $cacheId     = array($url, (array)$data, $options->get('cache_id'), (array)$options->get('headers'), $options->get('response'));
             $cacheParams = array('ttl' => (int)$options->get('cache_ttl'));
             if ($responseBody = $this->_jbcache->get($cacheId, self::CACHE_GROUP, true, $cacheParams)) {
                 return $responseBody;
             }
         }
 
-        $httpClient   = JHttpFactory::getHttp();
-        $responseBody = null;
+        $httpClient = JHttpFactory::getHttp();
+        $result     = null;
 
         try {
             // prepare data
@@ -103,12 +105,23 @@ class JBHttpHelper extends AppHelper
                 throw new AppException('JBHttpHelper, undefined request method');
             }
 
-            // check and parse error
-            if ($response->code == 200) {
-                $responseBody = $response->body;
+            if ($options->get('response') == 'body') {
 
-            } else if ($response->code == 404) {
-                //throw new AppException('JBHttpHelper, requested to page 404: "' . $url . '")');
+                if ($response->code == 200) {
+                    $result = $response->body;
+                }
+
+            } else if ($options->get('response') == 'headers') {
+                $result = $response->headers;
+
+            } else if ($options->get('response') == 'code') {
+                $result = $response->code;
+
+            } else if ($options->get('response') == 'full') {
+                $result = $response;
+
+            } else {
+                $result = $response->body;
             }
 
         } catch (RuntimeException $e) {
@@ -116,10 +129,10 @@ class JBHttpHelper extends AppHelper
         }
 
         if ($isCache) {
-            $this->_jbcache->set($cacheId, $responseBody, self::CACHE_GROUP, true, $cacheParams);
+            $this->_jbcache->set($cacheId, $result, self::CACHE_GROUP, true, $cacheParams);
         }
 
-        return $responseBody;
+        return $result;
     }
 
 }
