@@ -11,6 +11,10 @@
 ;
 (function ($, window, document, undefined) {
 
+    var instanceId = 0,
+        widgetId = 0,
+        widgets = {};
+
     $.extend(JBZoo.constructor.prototype, {
 
         /**
@@ -19,11 +23,11 @@
          * @param Parent
          */
         classExtend: function (Child, Parent) {
-            var Func = function () {
+            var JBZooObject = function () {
             };
 
-            Func.prototype = Parent.prototype;
-            Child.prototype = new Func;
+            $.extend(JBZooObject.prototype, Child.prototype, Parent.prototype);
+            Child.prototype = new JBZooObject;
             Child.prototype.constructor = Child;
             Child.parent = Parent.prototype
         },
@@ -37,7 +41,9 @@
         widget: function (widgetName, defaults, methods) {
 
             var $jbzoo = this,
-                eventList = {};
+                eventList = {},
+                widgetPath = widgetName.split('.'),
+                widgetName = widgetName.replace(/\./g, '');
 
             $.each(methods, function (key, method) {
 
@@ -59,152 +65,224 @@
                 }
             });
 
-            /**
-             * System constructor
-             * @param element
-             * @param options
-             * @constructor
-             */
-            function Plugin(element, options) {
-                this._name = widgetName.replace('.', '');
-                this.el = $(element);
-                this.options = $.extend({}, defaults, options);
-                this.init(this);
-                this.initEvents(this._eventList, this);
+            if (widgets[widgetName]) {
+                $jbzoo.error('Widget \"' + widgetName + '\" already has defined!');
             }
 
+            widgets[widgetName] = function (element, options) {
+                // system
+                instanceId++;
+                this._id = instanceId;
+                this._name = widgetName;
+
+                // for widget
+                this.el = $(element);
+                this.options = $.extend(true, {}, this._defaults, options);
+
+                // init
+                this.init(this);
+                this._initEvents(this._eventList, this);
+            };
+
             // widget extending
-            if (widgetName.indexOf('.') > 0) {
-                var widgetPath = widgetName.split('.'),
-                    fullName = '';
+            var extendedDefaultList = {},
+                extendedEventList = {},
+                lastParent = '';
+
+            if ($jbzoo.countProps(widgetPath) > 1) {
+                var parentName = '';
 
                 $.each(widgetPath, function (n, name) {
-                    fullName += name;
+                    parentName += $.trim(name);
 
-                    if ($.fn[fullName]) {
-                        var Parent = $.fn[fullName]('getPrototype');
-                        JBZoo.classExtend(Plugin, Parent);
-                        eventList = $.extend({}, Parent.prototype._eventList, eventList);
+                    if (widgets[parentName] && widgetName != parentName) {
+                        lastParent = parentName;
+
+                        $jbzoo.classExtend(widgets[widgetName], widgets[parentName]);
+
+                        extendedEventList = $.extend(true, extendedEventList, widgets[parentName].prototype._eventList);
+                        extendedDefaultList = $.extend({}, extendedDefaultList, widgets[parentName].prototype._defaults);
 
                     } else if (n + 1 != widgetPath.length) {
-                        $jbzoo.error('Widget "' + fullName + '" is undefined!');
-
-                    } else {
-                        widgetName = fullName;
+                        $.error('Widget "' + parentName + '" is undefined!');
                     }
                 });
             }
 
             // merge
-            $.extend(Plugin.prototype, {
+            widgetId++;
+            $.extend(widgets[widgetName].prototype,
+                {
+                    /**
+                     * jQuery for widget's element
+                     */
+                    el: false,
 
-                /**
-                 * jQuery for widget's element
-                 */
-                'el': false,
+                    /**
+                     * Ready use options
+                     */
+                    options: {},
 
-                /**
-                 * Ready use options
-                 */
-                'options': {},
+                    /**
+                     * Debug history
+                     */
+                    _logs: [],
 
-                /**
-                 * Debug history
-                 */
-                '_logs': [],
+                    /**
+                     * Only for class extending
+                     */
+                    _eventList: eventList,
 
-                /**
-                 * Only for class extending
-                 */
-                '_eventList': eventList,
+                    /**
+                     * Add message to log history
+                     * @param message
+                     */
+                    _log: function (message) {
+                        this._logs.push(message);
+                        return this._logs;
+                    },
 
-                /**
-                 * Add message to log history
-                 * @param message
-                 */
-                '_log': function (message) {
-                    this._logs.push(message);
-                },
+                    /**
+                     * Custom constructor
+                     * @param $this
+                     * @private
+                     */
+                    init: $.noop,
 
-                /**
-                 * Real widget constructor
-                 * @param $this
-                 * @private
-                 */
-                'init': $.noop,
+                    /**
+                     * Custom destructor
+                     */
+                    _destroy: $.noop,
 
-                /**
-                 * Auto init events
-                 * @param eventList
-                 * @param $this
-                 */
-                'initEvents': function (eventList, $this) {
-                    if (!$jbzoo.empty(eventList)) {
-                        $.each(eventList, function (n, eventData) {
-                            $this.on(eventData.trigger, eventData.target, eventData.action);
-                        });
-                    }
-                },
+                    /**
+                     * System destructor
+                     */
+                    destroy: function () {
+                        this._destroy.apply(this, arguments);
+                        this.off('');
+                        this.el.removeData(this._name);
+                    },
 
-                /**
-                 * For easy selecting with widget context
-                 * @param selector
-                 * @returns jQuery
-                 */
-                '$': function (selector) {
-                    return $(selector, this.el);
-                },
+                    /**
+                     * Auto init events
+                     * @param eventList
+                     * @param $this
+                     */
+                    _initEvents: function (eventList, $this) {
+                        if (!$jbzoo.empty(eventList)) {
+                            $.each(eventList, function (n, eventData) {
+                                $this.on(eventData.trigger, eventData.target, eventData.action);
+                            });
+                        }
+                    },
 
-                /**
-                 * Add actions for DOM with delegate
-                 * @param eventName
-                 * @param selector
-                 * @param callback
-                 */
-                'on': function (eventName, selector, callback) {
-                    var $this = this;
+                    /**
+                     * For easy selecting with widget context
+                     * @param selector
+                     * @returns jQuery
+                     */
+                    $: function (selector) {
+                        return $(selector, this.el);
+                    },
 
-                    if (selector == '{element}') {
-                        return $(this.el).on(eventName, function (event) {
-                            return callback.apply(this, [event, $this]);
-                        });
-                    } else {
-                        return $(this.el)
-                            .on(eventName, selector, function (event) {
+                    /**
+                     * Add actions for DOM with delegate
+                     * @param eventName
+                     * @param selector
+                     * @param callback
+                     */
+                    on: function (eventName, selector, callback) {
+                        var $this = this,
+                            eventName = eventName + '.' + $this._name;
+
+                        if (selector == '{element}') {
+                            return $(this.el).on(eventName, function (event) {
                                 return callback.apply(this, [event, $this]);
-                            })
-                            .find(selector);
+                            });
+
+                        } else {
+                            return $(this.el)
+                                .on(eventName, selector, function (event) {
+                                    return callback.apply(this, [event, $this]);
+                                })
+                                .find(selector);
+                        }
+                    },
+
+                    /**
+                     * Disable DOM events
+                     * @param eventName
+                     * @param selector
+                     * @returns {*}
+                     */
+                    off: function (eventName, selector) {
+
+                        var $this = this,
+                            eventName = eventName + '.' + $this._name;
+
+                        if (!selector || selector == '{element}') {
+                            return $(this.el).off(eventName);
+
+                        } else {
+                            return $(this.el).off(eventName, selector);
+                        }
+                    },
+
+                    /**
+                     * @param handler
+                     * @param delay
+                     * @returns {number}
+                     * @private
+                     */
+                    _delay: function (handler, delay) {
+
+                        var $this = this;
+
+                        function handlerProxy() {
+                            return (typeof handler === "string" ? $this[handler] : handler )
+                                .apply($this, arguments);
+                        }
+
+                        return setTimeout(handlerProxy, delay || 0);
+                    },
+
+                    /**
+                     * -->Experimental<-- feature!!!
+                     * @param method
+                     * @param args
+                     * @returns {*}
+                     */
+                    _parent: function (method, args) {
+                        if (widgets[this._parentName]) {
+                            return widgets[this._parentName].prototype[method].apply(this, args);
+                        }
                     }
+
                 },
-
-                /**
-                 * -->Experimental<-- feature!!!
-                 * @param method
-                 * @param args
-                 * @returns {*}
-                 */
-                '_parent': function (method, args) {
-                    if (Plugin.constructor.parent) {
-                        return Plugin.constructor.parent[method].apply(this, args);
-                    }
+                widgets[widgetName].prototype,
+                methods,
+                {
+                    _widgetId  : widgetId,
+                    _parentName: lastParent,
+                    _defaults  : $.extend(true, {}, extendedDefaultList, defaults),
+                    _eventList : $.extend({}, extendedEventList, eventList)
                 }
-
-            }, methods);
+            );
 
             // plugin initialize (HANDS OFF!!!)
             $.fn[widgetName] = function (options) {
                 var args = arguments,
                     method = (args[0] && typeof args[0] == 'string') ? args[0] : null;
 
-                if (method == 'getPrototype') {
-                    return Plugin;
+                if (method && method.indexOf('_') === 0) {
+                    $jbzoo.error('Method \"jQuery.' + widgetName + '.' + method + '\" is protected!');
                 }
 
                 this.each(function () {
                     var element = this,
                         $element = $(this);
 
-                    if (Plugin.prototype[method] && $element.data(widgetName) && method != "init") {
+                    if (widgets[widgetName].prototype[method] && $element.data(widgetName) && method != "init") {
 
                         $element.data(widgetName)[method].apply(
                             $element.data(widgetName),
@@ -212,7 +290,7 @@
                         );
 
                     } else if ((!method || $.isPlainObject(method)) && (!$.data(element, widgetName))) {
-                        $element.data(widgetName, new Plugin(element, options));
+                        $element.data(widgetName, new widgets[widgetName](element, options));
 
                     } else if (method) {
                         $jbzoo.error("Method \"" + method + "\" does not exist on jQuery." + widgetName);
