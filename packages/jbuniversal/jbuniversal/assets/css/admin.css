@@ -460,111 +460,111 @@ a.jbajaxlink:hover {
     margin-right: 12px !important;
 }
 
-.jbzoo-price-advance {
+.jbzoo-price {
     width: 600px;
 }
 
-.jbzoo-price-advance .row-field {
+.jbzoo-price .row-field {
     display: block !important;
     float: left !important;
     width: 160px !important;
 }
 
-.jbzoo-price-advance .jbpriceadv-row-radio label.radio-lbl,
-.jbzoo-price-advance .jbpriceadv-row-radio label.radiobtn {
+.jbzoo-price .jbpriceadv-row-radio label.radio-lbl,
+.jbzoo-price .jbpriceadv-row-radio label.radiobtn {
     float: left;
     font-size: 12px;
     margin-right: 10px;
 }
 
-.jbzoo-price-advance .basic-balance-wrap .balance {
+.jbzoo-price .basic-balance-wrap .balance {
     display: inline-block;
 }
 
-.jbzoo-price-advance .basic-balance-wrap .balance > label {
+.jbzoo-price .basic-balance-wrap .balance > label {
     margin: 5px 0;
 }
 
-.jbzoo-price-advance .basic-balance-wrap .balance .balance-custom label,
-.jbzoo-price-advance .basic-balance-wrap .balance label,
-.jbzoo-price-advance .balance-variant .balance-custom label {
+.jbzoo-price .basic-balance-wrap .balance .balance-custom label,
+.jbzoo-price .basic-balance-wrap .balance label,
+.jbzoo-price .balance-variant .balance-custom label {
     display: inline-block;
 }
 
-.jbzoo-price-advance .basic-balance-wrap .balance .balance-custom > input,
-.jbzoo-price-advance .basic-balance-wrap .balance .balance > input,
-.jbzoo-price-advance .balance-variant .balance-custom > input {
+.jbzoo-price .basic-balance-wrap .balance .balance-custom > input,
+.jbzoo-price .basic-balance-wrap .balance .balance > input,
+.jbzoo-price .balance-variant .balance-custom > input {
     width: 100px;
 }
 
-.jbzoo-price-advance .balance-variant,
-.jbzoo-price-advance .balance {
+.jbzoo-price .balance-variant,
+.jbzoo-price .balance {
     display: inline-block;
 }
 
-.jbzoo-price-advance .balance .balance-custom label {
+.jbzoo-price .balance .balance-custom label {
     display: inline-block;
 }
 
-.creation-form .jbzoo-price-advance .basic-discount-wrap select,
-.creation-form .jbzoo-price-advance .basic-discount-wrap input {
+.creation-form .jbzoo-price .basic-discount-wrap select,
+.creation-form .jbzoo-price .basic-discount-wrap input {
     width: 13%;
     display: inline-block;
     text-align: left;
 }
 
-.jbzoo-price-advance .jbprice-img-row-file {
+.jbzoo-price .jbprice-img-row-file {
     position: relative;
     margin-top: 10px;
 }
 
-.jbzoo-price-advance .variations .jbpriceadv-variation-row .row-file {
+.jbzoo-price .variations .jbprice-variation-row .row-file {
     width: 69%;
     text-align: left;
 }
 
-.jbzoo-price-advance .variations .jbpriceadv-variation-row .simple-param.error {
+.jbzoo-price .variations .jbprice-variation-row .simple-param.error {
     border: 1px solid red;
 }
 
-.creation-form .jbzoo-price-advance .basic-balance-wrap input,
-.creation-form .jbzoo-price-advance .basic-sku-wrap input {
+.creation-form .jbzoo-price .basic-balance-wrap input,
+.creation-form .jbzoo-price .basic-sku-wrap input {
     /*width: 13%;*/
     text-align: left;
 }
 
-.creation-form .jbzoo-price-advance .basic-sku-wrap input,
-.creation-form .jbzoo-price-advance .variant-sku-wrap input {
+.creation-form .jbzoo-price .basic-sku-wrap input,
+.creation-form .jbzoo-price .variant-sku-wrap input {
     width: 230px;
 }
 
-.creation-form .jbzoo-price-advance .basic-description-wrap input {
+.creation-form .jbzoo-price .basic-description-wrap input {
     width: 230px;
     text-align: left;
 }
 
-.jbzoo-price-advance .jbpriceadv-row {
+.jbzoo-price .jbprice-row {
     margin-bottom: 12px;
 }
 
-.jbzoo-price-advance .jbpriceadv-row-radio label.radiobtn {
+.jbzoo-price .jbpriceadv-row-radio label.radiobtn {
     display: inline-block !important;
     float: none !important;
 }
 
-.jbzoo-price-advance .variations .jbpriceadv-variation-row.fieldset-hidden:hover {
+.jbzoo-price .variations .jbprice-variation-row.fieldset-hidden:hover {
     background: #FFD;
 }
 
-.jbzoo-price-advance input[type=text] {
+.jbzoo-price input[type=text] {
     text-align: left;
 }
 
-.jbzoo-price-advance .variations {
+.jbzoo-price .variations {
     margin-top: 6px;
 }
 
-.jbzoo-price-advance {
+.jbzoo-price {
     padding-bottom: 6px;
 }
 
@@ -595,63 +595,63 @@ a.jbajaxlink:hover {
     cursor: pointer;
 }
 
-.jbzoo-price-advance .variations .jbremove {
+.jbzoo-price .variations .jbremove {
     float: right;
 }
 
-.creation-form .jbzoo-price-advance .variations .jbpriceadv-variation-row .default_variant label {
+.creation-form .jbzoo-price .variations .jbprice-variation-row .default_variant label {
     padding: 0;
     margin: 0;
     width: auto;
 }
 
-.jbzoo-price-advance .row-param {
+.jbzoo-price .row-param {
     margin-top: 8px;
     width: 125px;
     float: left;
 }
 
-.jbzoo-price-advance .row-param2 {
+.jbzoo-price .row-param2 {
     margin-right: 12px;
     margin-left: 12px;
 }
 
-.submission .jbzoo-price-advance .variations .jbpriceadv-variation-row {
+.submission .jbzoo-price .variations .jbprice-variation-row {
     width: 500px;
 }
 
-.creation-form .jbzoo-price-advance .basic-value-wrap input {
+.creation-form .jbzoo-price .basic-value-wrap input {
     width: 100px !important;
 }
 
-.creation-form .jbzoo-price-advance .basic-value-wrap select,
-.creation-form .jbzoo-price-advance .variant-value-wrap select {
+.creation-form .jbzoo-price .basic-value-wrap select,
+.creation-form .jbzoo-price .variant-value-wrap select {
     width: auto;
 }
 
-.creation-form .jbzoo-price-advance .basic-variant-wrap {
+.creation-form .jbzoo-price .basic-variant-wrap {
     position: absolute;
     right: 30px;
 }
 
-.creation-form .jbzoo-price-advance .basic-image-wrap input {
+.creation-form .jbzoo-price .basic-image-wrap input {
     width: 200px;
 }
 
-.creation-form .jbzoo-price-advance .jbprice-fieldset-moving {
+.creation-form .jbzoo-price .jbprice-fieldset-moving {
     border: 1px dotted #808080;
 
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row.fieldset-hidden > div {
+.creation-form .jbzoo-price .jbprice-variation-row.fieldset-hidden > div {
     display: none;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row.fieldset-hidden > .visible {
+.creation-form .jbzoo-price .jbprice-variation-row.fieldset-hidden > .visible {
     display: block;
 }
 
-.jbzoo-price-advance .variations fieldset {
+.jbzoo-price .variations fieldset {
     background: #F6F6F6;
     position: relative;
     margin: 5px 0;
@@ -660,21 +660,21 @@ a.jbajaxlink:hover {
     box-sizing: border-box;
 }
 
-.creation-form .jbzoo-price-advance {
+.creation-form .jbzoo-price {
     position: relative;
 }
 
-.jbzoo-price-advance .variations .jbpriceadv-variation-row {
+.jbzoo-price .variations .jbprice-variation-row {
     width: 600px;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variant-param {
+.creation-form .jbzoo-price .jbprice-variation-row .variant-param {
     box-sizing: border-box;
     border-bottom: 1px solid #E9E9E9;
     position: relative;
 }
 
-.creation-form .jbzoo-price-advance .variations .variations-list .jbpriceadv-variation-row .variation-label {
+.creation-form .jbzoo-price .variations .variations-list .jbprice-variation-row .variation-label {
     margin: 0 5px;
     font-weight: bold;
     padding: 2px 0;
@@ -684,7 +684,7 @@ a.jbajaxlink:hover {
     box-sizing: border-box;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variant-param .label {
+.creation-form .jbzoo-price .jbprice-variation-row .variant-param .label {
     padding: 6px 25px 0 13px;
     font-size: 12px;
     background: none;
@@ -699,17 +699,17 @@ a.jbajaxlink:hover {
     position: relative;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variant-param .attention.disabled {
+.creation-form .jbzoo-price .jbprice-variation-row .variant-param .attention.lock {
     background: url('../img/icon/attention_grey.png') no-repeat;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variant-param .attention.error {
+.creation-form .jbzoo-price .jbprice-variation-row .variant-param .attention.error {
     background: url('../img/icon/attention_red.png') no-repeat;
     width: 20px;
     height: 20px;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variant-param .attention {
+.creation-form .jbzoo-price .jbprice-variation-row .variant-param .attention {
     top: 5px;
     position: absolute;
     width: 20px;
@@ -717,28 +717,26 @@ a.jbajaxlink:hover {
     left: 120px;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .attention {
-    top: 0;
-    position: absolute;
+.creation-form .jbzoo-price .jbprice-variation-row .variation-label .attention {
+    display: inline-block;
     width: 20px;
     height: 20px;
-    left: 85px;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .attention.error {
+.creation-form .jbzoo-price .jbprice-variation-row .variation-label .attention.error {
     background: url('../img/icon/attention_red.png') no-repeat;
     width: 20px;
     height: 20px;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variant-param .field {
+.creation-form .jbzoo-price .jbprice-variation-row .variant-param .field {
     overflow: hidden;
     background: #FFF;
     padding: 10px 10px 10px 20px;
     border-left: 1px solid #E9E9E9;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .default_variant {
+.creation-form .jbzoo-price .jbprice-variation-row .variation-label .default_variant {
     position: absolute;
     right: 70px;
     top: 10px;
@@ -747,7 +745,7 @@ a.jbajaxlink:hover {
     white-space: nowrap;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .options {
+.creation-form .jbzoo-price .jbprice-variation-row .variation-label .options {
     font-size: 11px;
     font-style: italic;
     color: #B7B2B2;
@@ -755,21 +753,22 @@ a.jbajaxlink:hover {
     white-space: nowrap;
     position: absolute;
     font-weight: bold;
-    cursor: help;
+
     width: 250px;
     top: 2px;
     left: 120px;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .options .variant-price {
+.creation-form .jbzoo-price .jbprice-variation-row .variation-label .options .variant-price {
     display: inline-block;
     overflow: hidden;
     font-size: 12px;
     margin-right: 8px;
     color: #900;
+    cursor: help;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .description {
+.creation-form .jbzoo-price .jbprice-variation-row .variation-label .description {
     font-size: 13px;
     font-style: italic;
     color: #B7B2B2;
@@ -780,11 +779,11 @@ a.jbajaxlink:hover {
     width: 360px;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .jbmove.empty {
+.creation-form .jbzoo-price .jbprice-variation-row .variation-label .jbmove.empty {
     color: red;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .options .overflow {
+.creation-form .jbzoo-price .jbprice-variation-row .variation-label .options .overflow {
     font-size: 11px;
     font-style: italic;
     color: #B7B2B2;
@@ -793,32 +792,36 @@ a.jbajaxlink:hover {
     overflow: hidden;
     display: inline-block;
     font-weight: bold;
-    cursor: help;
     width: 210px;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .options .option {
-    display: inline;
+.creation-form .jbzoo-price .jbprice-variation-row .variation-label .options .option {
+    display: inline-block;
     margin-right: 10px;
     white-space: nowrap;
+    cursor: help;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .variation-label .options .option .key:hover {
+.creation-form .jbzoo-price .jbprice-variation-row .variation-label .options .option .key {
+    display: block;
+}
+
+.creation-form .jbzoo-price .jbprice-variation-row .variation-label .options .option .key:hover {
     text-decoration: underline;
 }
 
-.jbzoo-price-advance .variations .variations-list .jbpriceadv-variation-row .variant-select-wrap .field select {
+.jbzoo-price .variations .variations-list .jbprice-variation-row .variant-select-wrap .field select {
     width: 60%;
 }
 
-.jbzoo-price-advance .variations .variations-list .jbpriceadv-variation-row .discount-currency-variant,
-.jbzoo-price-advance .variations .variations-list .jbpriceadv-variation-row .discount-variant-input {
+.jbzoo-price .variations .variations-list .jbprice-variation-row .discount-currency-variant,
+.jbzoo-price .variations .variations-list .jbprice-variation-row .discount-variant-input {
     width: 40%;
     display: inline-block;
     text-align: left;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .jbprice-params {
+.creation-form .jbzoo-price .jbprice-variation-row .jbprice-params {
     display: table;
     width: 100%;
     -moz-box-sizing: border-box;
@@ -836,30 +839,30 @@ a.jbajaxlink:hover {
     background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(#FFF), to(#F5F5F5), color-stop(70%, #F5F5F5));
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row input,
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row select,
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row textarea {
+.creation-form .jbzoo-price .jbprice-variation-row input,
+.creation-form .jbzoo-price .jbprice-variation-row select,
+.creation-form .jbzoo-price .jbprice-variation-row textarea {
     width: auto;
     background: #FFF;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row select {
+.creation-form .jbzoo-price .jbprice-variation-row select {
     width: 35%;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row input[type="text"] {
+.creation-form .jbzoo-price .jbprice-variation-row input[type="text"] {
     width: 60%;
     text-indent: 10px;
     text-align: left;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row input[type="text"],
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row select {
+.creation-form .jbzoo-price .jbprice-variation-row input[type="text"],
+.creation-form .jbzoo-price .jbprice-variation-row select {
     height: 35px !important;
     box-sizing: border-box;
 }
 
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row textarea {
+.creation-form .jbzoo-price .jbprice-variation-row textarea {
     width: 320px;
     height: 150px;
     text-indent: 10px;
@@ -1339,82 +1342,82 @@ ul.parameter-form li .field .jbprice-advance-fields .jbprice-fields-parameter .j
     width: 300px;
 }
 
-.jbzoo-price-advance .variations .jbpriceadv-variation-row .row-sku {
+.jbzoo-price .variations .jbprice-variation-row .row-sku {
     width: 80px;
     min-width: 80px;
     margin-right: 16px;
     text-align: left;
 }
 
-.jbzoo-price-advance .variations .jbpriceadv-variation-row .row-value {
+.jbzoo-price .variations .jbprice-variation-row .row-value {
     width: 80px;
 }
 
-.jbzoo-price-advance .variations .jbpriceadv-variation-row .row-currency {
+.jbzoo-price .variations .jbprice-variation-row .row-currency {
     width: 69px;
     min-width: 69px;
     margin-right: 16px;
     height: 27px;
 }
 
-.jbzoo-price-advance .variations .jbpriceadv-variation-row .row-balance {
+.jbzoo-price .variations .jbprice-variation-row .row-balance {
     width: 80px;
     min-width: 80px;
 }
 
-.jbzoo-price-advance .variations .jbpriceadv-variation-row .row-description {
+.jbzoo-price .variations .jbprice-variation-row .row-description {
     width: 383px;
     text-align: left;
     margin-top: 12px;
 }
 
-.jbzoo-price-advance .variations .jbpriceadv-variation-row .row-file {
+.jbzoo-price .variations .jbprice-variation-row .row-file {
     width: 295px;
     text-align: left;
 }
 
-.jbzoo-price-advance .variations .jbpriceadv-variation-row .jbprice-img-button,
-.jbzoo-price-advance .variations .jbpriceadv-variation-row .jbprice-img-cancel {
+.jbzoo-price .variations .jbprice-variation-row .jbprice-img-button,
+.jbzoo-price .variations .jbprice-variation-row .jbprice-img-cancel {
     position: absolute;
     top: 50%;
 }
 
-.jbzoo-price-advance .jbprice-img-row-file {
+.jbzoo-price .jbprice-img-row-file {
     position: relative;
     margin-top: 10px;
 }
 
-.jbzoo-price-advance .variations .variations-list {
+.jbzoo-price .variations .variations-list {
     width: 600px;
 }
 
-.jbzoo-price-advance .variations .variations-list .jbpriceadv-variation-row > div {
+.jbzoo-price .variations .variations-list .jbprice-variation-row > div {
     margin: 5px 0;
 }
 
-.jbzoo-price-advance .variant-balance-wrap .balance label,
-.jbzoo-price-advance .variant-balance-wrap .balance-variant label {
+.jbzoo-price .variant-balance-wrap .balance label,
+.jbzoo-price .variant-balance-wrap .balance-variant label {
     margin: 5px 0;
 }
 
-.jbzoo-price-advance .variant-balance-wrap .balance .balance-input,
-.jbzoo-price-advance .variant-balance-wrap .balance-custom .balance-input {
+.jbzoo-price .variant-balance-wrap .balance .balance-input,
+.jbzoo-price .variant-balance-wrap .balance-custom .balance-input {
     width: 100px;
     text-align: left;
 }
 
-.creation-form .jbzoo-price-advance .jbprice-img-row-file input {
+.creation-form .jbzoo-price .jbprice-img-row-file input {
     text-align: left;
 }
 
-.jbzoo-price-advance .variations .jbpriceadv-variation-row .jbprice-img-cancel {
+.jbzoo-price .variations .jbprice-variation-row .jbprice-img-cancel {
     margin-top: -5px;
     width: 10px;
     height: 10px;
     right: 125px;
 }
 
-.jbzoo-price-advance .variations .jbpriceadv-variation-row .jbprice-img-button {
+.jbzoo-price .variations .jbprice-variation-row .jbprice-img-button {
     right: 10px;
     width: 100px;
     height: 25px;
@@ -1453,8 +1456,8 @@ table.list.order-list thead th {
     visibility: visible;
 }
 
-.creation-form .jbzoo-price-advance .jbprice-properties input,
-.creation-form .jbzoo-price-advance .jbpriceadv-variation-row .jbprice-properties input {
+.creation-form .jbzoo-price .jbprice-properties input,
+.creation-form .jbzoo-price .jbprice-variation-row .jbprice-properties input {
     display: inline-block;
     width: 20%;
 }

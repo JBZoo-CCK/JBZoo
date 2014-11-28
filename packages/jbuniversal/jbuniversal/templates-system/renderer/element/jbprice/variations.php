@@ -13,26 +13,22 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$name = $params['name'];
-$class = 'simple-param';
-if ($element->isCore()) {
-    $class = 'core-param';
-}
-
-$name = JText::_($name);
-
-?>
-<div class="variant-<?php echo strtolower($element->getElementType()); ?>-wrap <?php echo $class; ?> variant-param">
+$wrap  = 'variant-' . strtolower($element->getElementType()) . '-wrap';
+$attr  = array(
+    'class' => 'variant-param ' . ($element->isCore() ? 'core-param ' : 'simple-param ') . $wrap
+);
+$name  = JText::_($params['name']);?>
+<div <?php echo $this->app->jbhtml->buildAttrs($attr); ?>>
 
     <strong class="hasTip row-field label"
             title="<?php echo $name; ?>">
         <?php echo ucfirst($name); ?>
     </strong>
 
-    <span class="attention jsJBPriceAttention"></span>
+    <span class="attention jsMessage"></span>
 
     <div class="field">
-        <?php echo $element->edit($params); ?>
+        <?php echo $element->edit(); ?>
     </div>
 
 </div>

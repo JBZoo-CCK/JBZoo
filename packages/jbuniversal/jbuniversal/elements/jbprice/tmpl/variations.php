@@ -16,14 +16,13 @@ defined('_JEXEC') or die('Restricted access');
 $html = $this->app->jbhtml;
 $mode = $this->config->get('mode', 0);
 
-$string = $this->app->jbstring;
-$unique = $string->getId('jsJBPriceAdvance-');
-
+$string     = $this->app->jbstring;
+$unique     = $string->getId('jsJBPriceAdvance-');
 $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
 
-<div class="jbzoo-price-advance jbzoo" id="<?php echo $unique; ?>" data-mode="<?php echo $mode; ?>" data-valid="false">
+<div class="jbzoo-price jbzoo" id="<?php echo $unique; ?>" data-mode="<?php echo $mode; ?>" data-valid="false">
 
-    <div class="jbpriceadv-row basic-variant-wrap">
+    <div class="jbprice-row basic-variant-wrap">
 
         <div class="default_variant">
             <?php
@@ -62,24 +61,21 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
 
                     $variant = $variations[$i];?>
 
-                    <fieldset class="jbpriceadv-variation-row">
+                    <fieldset class="jbprice-variation-row fieldset-hidden">
 
                         <span class="jbedit jsToggleVariation"></span>
                         <span class="jbremove jsJBRemove"></span>
 
-                        <div class="variation-label visible">
+                        <div class="variation-label jsVariantLabel visible">
 
                             <a href="javascript:void(0);" class="jsJBMove jbmove">
-
                                 <?php echo JText::_('JBZOO_JBPRICE_VARIATION_ROW'); ?>
-                                #<span class="list-num">
-                            <?php echo $i; ?>
-                        </span>
+                                #<span class="list-num"><?php echo $i; ?></span>
 
                             </a>
 
                             <div class="options">
-                                <span class="attention jsAttention"></span>
+                                <span class="attention jsMessage"></span>
                                 <span class="variant-price jsVariantPrice"></span>
 
                                 <div class="overflow"></div>
@@ -123,35 +119,32 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
 <script type="text/javascript">
 
     jQuery(function ($) {
-        $('#<?php echo $unique;?>').JBZooPriceAdvanceAdmin({
-            'text_variation_show': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?>",
-            'text_variation_hide': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_HIDE'); ?>",
-            'price_mode'         : <?php echo $price_mode; ?>
+        $('#<?php echo $unique;?>').JBZooPriceEdit({
+            'text_show': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?>",
+            'text_hide': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_HIDE'); ?>",
+            'isOverlay': "<?php echo $this->isOverlay(); ?>"
         });
 
     });
 
     function submitbutton(pressbutton) {
 
-        var prices = jQuery('.jbzoo-price-advance');
+        var jbprices = jQuery('.jbzoo-price');
 
         if (pressbutton == 'cancel') {
             submitform(pressbutton);
         } else {
 
             var valid = true;
-            jQuery(prices).each(function () {
+            jbprices.each(function (i, jbprice) {
 
-                var price = jQuery(this);
+                var validator = jQuery(jbprice).data('JBZooPriceEdit');
 
-                if (price.data('mode') > 0) {
+                if (validator.isValid() === false) {
+                    valid = false;
 
-                    price.trigger('errorsExists');
-                    if (price.data('valid') === false) {
-                        valid = false;
-                    }
+                    return true;
                 }
-
             });
 
             if (valid) {
