@@ -22,7 +22,7 @@
             var Func = function () {
             };
 
-            $.extend(Func.prototype, Child.prototype, Parent.prototype);
+            Func.prototype = Parent.prototype;
             Child.prototype = new Func;
             Child.prototype.constructor = Child;
             Child.parent = Parent.prototype
@@ -96,7 +96,7 @@
             }
 
             // merge
-            Plugin.prototype = $.extend({
+            $.extend(Plugin.prototype, {
 
                 /**
                  * jQuery for widget's element
@@ -189,7 +189,7 @@
                     }
                 }
 
-            }, Plugin.prototype, methods);
+            }, methods);
 
             // plugin initialize (HANDS OFF!!!)
             $.fn[widgetName] = function (options) {

@@ -62,7 +62,7 @@ class JBCartVariantList
 
         //create basic variant if he isn't set in $list
         if (!isset($list[$jbPrice::BASIC_VARIANT])) {
-            $list[$jbPrice::BASIC_VARIANT] = $jbPrice->get('variations.' . $jbPrice::BASIC_VARIANT);
+            $list[$jbPrice::BASIC_VARIANT] = $jbPrice->get('variations.' . $jbPrice::BASIC_VARIANT, array());
         }
 
         //create variant instance

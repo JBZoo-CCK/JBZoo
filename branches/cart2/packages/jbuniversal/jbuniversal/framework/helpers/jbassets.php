@@ -56,10 +56,8 @@ class JBAssetsHelper extends AppHelper
             'jbassets:js/admin/menu.js',
             'jbassets:js/back-end.js',
         ));
-        $this->js('jbassets:js/price/balance.js');
-        $this->js('jbassets:js/price/admin.js');
-        $this->js('jbassets:js/price/validator.js');
-        $this->js('jbassets:js/image.js');
+        $this->media();
+        $this->price();
     }
 
     /**
@@ -99,14 +97,36 @@ class JBAssetsHelper extends AppHelper
             $this->js('jbassets:js/widget/tabs.js');
             $this->js('jbassets:js/widget/recount.js');
             $this->quantity();
-            $this->js(array(
-                'jbassets:js/price/jbprice.js',
-                'jbassets:js/price/default.js',
-                'jbassets:js/price/image.js',
-                'jbassets:js/price/quantity.js',
-                'jbassets:js/price/buttons.js'
-            ));
+            $this->price();
+        }
+    }
 
+    /**
+     * Load
+     */
+    public function price()
+    {
+        static $isAdded;
+
+        if (!isset($isAdded)) {
+            $isAdded = true;
+            if ($this->app->jbenv->isSite()) {
+                $this->js(array(
+                    'jbassets:js/price/jbprice.js',
+                    'jbassets:js/price/default.js',
+                    'jbassets:js/price/image.js',
+                    'jbassets:js/price/quantity.js',
+                    'jbassets:js/price/buttons.js'
+                ));
+            } else {
+                $this->js(array(
+                    'jbassets:js/admin/price/balance.js',
+                    'jbassets:js/admin/price/edit.js',
+                    'jbassets:js/admin/price/validator.js',
+                    'jbassets:js/admin/price/plain.js',
+                    'jbassets:js/admin/price/calc.js'
+                ));
+            }
         }
     }
 
@@ -350,6 +370,15 @@ class JBAssetsHelper extends AppHelper
     {
         $this->tools();
         $this->js('jbassets:js/widget/quantity.js');
+    }
+
+    /**
+     * Load media widget
+     */
+    public function media()
+    {
+        $this->tools();
+        $this->js('jbassets:js/widget/image.js');
     }
 
     /**

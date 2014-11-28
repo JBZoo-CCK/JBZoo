@@ -12,7 +12,7 @@
 (function ($, window, document, undefined) {
 
     /**
-     * JBZoo Carl Module
+     * JBZoo Cart Module
      */
     JBZoo.widget('JBZoo.CartModule', {
         'url_clean' : '',

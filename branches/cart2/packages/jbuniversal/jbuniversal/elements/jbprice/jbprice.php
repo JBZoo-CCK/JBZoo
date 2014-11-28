@@ -121,7 +121,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $this->_config   = JBModelConfig::model();
 
         $this->_element = $this->app->jbcartelement;
-
     }
 
     /**
@@ -373,6 +372,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
+     * //TODO Hard function
      * Get all options for element.
      * Used in element like select, color, radio etc.
      *
@@ -540,6 +540,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function getElement($identifier, $variant = self::BASIC_VARIANT)
     {
+
         // has element already been loaded?
         if (!$element = isset($this->_params[$identifier]) ? $this->_params[$identifier] : null) {
 
