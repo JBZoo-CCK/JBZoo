@@ -143,6 +143,32 @@ class JBHTMLHelper extends AppHelper
     }
 
     /**
+     * Quantity widget
+     * @param int    $default
+     * @param array  $options
+     * @param string $id
+     * @return string
+     */
+    public function quantity($default = 1, $options = array(), $id = null)
+    {
+        if (!$id) {
+            $id = $this->app->jbstring->getId('quantity');
+        }
+
+        $options['default'] = (float)$default;
+
+        $html = array(
+            '<div class="jsQuantity" id="' . $id . '">',
+            '<input type="text" class="input-quantity" value="' . (float)$default . '">',
+            '</div>'
+        );
+
+        $this->app->jbassets->initQuantity($id, $options);
+
+        return implode("\n", $html);
+    }
+
+    /**
      * Render color field
      * @param string $inputType
      * @param array  $data
@@ -234,7 +260,6 @@ class JBHTMLHelper extends AppHelper
      * @param array  $curList
      * @param string $defaultCur
      * @param array  $options
-     *
      * @return array|null|string
      */
     public function currencyToggle($curList, $defaultCur = 'eur', $options = array())
@@ -250,7 +275,7 @@ class JBHTMLHelper extends AppHelper
         }
 
         $options = $this->app->data->create(array_merge(array(
-            'target'    => '.jbzoo',
+            'target'      => '.jbzoo',
             'showDefault' => true,
             'rates'       => $curList,
         ), $options));
@@ -561,7 +586,6 @@ class JBHTMLHelper extends AppHelper
             $html[] = '</select></div>';
         }
 
-        $this->app->jbassets->initSelectCascade();
         $this->app->jbassets->initJBCascadeSelect($uniqId, $selectInfo['items']);
 
         $attribs['class'][] = 'jbcascadeselect';

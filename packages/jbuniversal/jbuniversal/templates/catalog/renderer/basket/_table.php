@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -50,6 +49,8 @@ $params = array(); ?>
 
         $data = $this->app->data->create($data);
 
+        //dump($data);
+
         $encode   = base64_encode($id);
         $quantity = $data['quantity'];
         $price    = JBCart::val($data['total']);
@@ -78,8 +79,7 @@ $params = array(); ?>
                 )) . ' /></a>';
         }?>
 
-        <tr class="row-<?php echo $encode; ?> jbbasket-item-row"
-            data-item_id="<?php echo $data['item_id']; ?>"
+        <tr class="row-<?php echo $encode; ?> jbbasket-item-row" data-item_id="<?php echo $data['item_id']; ?>"
             data-key="<?php echo $encode; ?>">
 
             <td class="jbbasket-item-image">
@@ -119,7 +119,13 @@ $params = array(); ?>
             </td>
 
             <td class="jbbasket-item-quantity">
-                <input type="text" class="jsQuantity input-quantity" value="<?php echo $quantity; ?>"/>
+                <?php
+                $params = array();
+                if (isset($data->params['_quantity'])) {
+                    $params = $data->params['_quantity'];
+                }
+                echo $this->app->jbhtml->quantity($quantity, $params);
+                ?>
             </td>
 
             <td class="jsSubtotal jbbasket-subtotal">
@@ -204,7 +210,7 @@ $params = array(); ?>
             'url_quantity'   : "<?php echo $this->app->jbrouter->basketQuantity();?>",
             'url_delete'     : "<?php echo $this->app->jbrouter->basketDelete();?>",
             'url_clear'      : "<?php echo $this->app->jbrouter->basketClear();?>",
-            'params'         : '<?php echo json_encode((object)$params); ?>'
+            'params'         : <?php echo json_encode((object)$params); ?>
         });
     });
 </script>
