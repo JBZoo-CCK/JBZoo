@@ -116,7 +116,6 @@ class JBAssetsHelper extends AppHelper
                     'jbassets:js/price/jbprice.js',
                     'jbassets:js/price/default.js',
                     'jbassets:js/price/image.js',
-                    'jbassets:js/price/quantity.js',
                     'jbassets:js/price/buttons.js'
                 ));
             } else {
@@ -145,7 +144,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * @param string $id
-     * @param array $params
+     * @param array  $params
      */
     public function currencyToggle($id, $params = array())
     {
@@ -374,6 +373,18 @@ class JBAssetsHelper extends AppHelper
     }
 
     /**
+     * Init quantity widget
+     */
+    public function initQuantity($id, $options)
+    {
+        $this->quantity();
+
+        $this->addScript('jQuery(function($){
+            $("#' . $id . '").JBZooQuantity(' . json_encode((object)$options) . ');
+        });');
+    }
+
+    /**
      * Load media widget
      */
     public function media()
@@ -596,7 +607,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Init color widget
-     * @param string $queryElement
+     * @param string  $queryElement
      * @param boolean $type
      */
     public function initJBColorHelper($queryElement, $type = true)
@@ -695,7 +706,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include JS in document
-     * @param array $files
+     * @param array  $files
      * @param string $group
      * @return bool
      */
@@ -706,7 +717,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include CSS in document
-     * @param array $files
+     * @param array  $files
      * @param string $group
      * @return bool
      */
@@ -761,7 +772,7 @@ class JBAssetsHelper extends AppHelper
     /**
      * Init modal window
      * @param string $class
-     * @param array $opt
+     * @param array  $opt
      */
     public function behaviorModal($class = 'modal', $opt = array())
     {
