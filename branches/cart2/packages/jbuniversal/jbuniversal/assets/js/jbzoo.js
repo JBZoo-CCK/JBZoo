@@ -176,6 +176,47 @@
         },
 
         /**
+         * Batch options setting
+         * @param options
+         * @returns {*}
+         */
+        setOptions: function (options) {
+            var key;
+            for (key in options) {
+                this._setOption(key, options[key]);
+            }
+            return this;
+        },
+
+        /**
+         * Set one option
+         * @param key
+         * @param value
+         * @returns {*}
+         */
+        setOption: function (key, value) {
+            this.options[key] = value;
+            return this;
+        },
+
+        /**
+         * Get option value
+         * @param key
+         * @returns {*}
+         */
+        getOption: function (key) {
+            return this.options[key];
+        },
+
+        /**
+         * Get option value
+         * @returns {*}
+         */
+        getOptions: function () {
+            return this.options;
+        },
+
+        /**
          * @param key
          * @returns String
          */
