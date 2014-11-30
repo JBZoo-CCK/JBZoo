@@ -17,7 +17,9 @@
      */
     JBZoo.widget('JBZoo.Money',
         {
-            'rates': {}
+            rates   : {},
+            duration: 400,
+            easing  : 'swing'
         },
         {
             // default data
@@ -52,6 +54,38 @@
 
                 var newValue = ($this.value / from.value) * to.value;
                 $this._update(newValue, currency);
+            },
+
+            /**
+             * Set new value
+             * @param value
+             * @param currency
+             */
+            setValue: function (value, currency) {
+
+                var $this = this,
+                    currency = currency || $this.currency;
+
+                if (currency == $this.currency) {
+
+                    $({value: $this.value})
+                        .animate({value: value}, {
+                            duration: $this.options.duration,
+                            easing  : $this.options.easing,
+                            step    : function () {
+                                $this._update(this.value, $this.currency);
+                            },
+                            complete: function () {
+                                $this._update(value, $this.currency);
+                            }
+                        });
+
+                } else {
+                    $this.currency = $this._cleanCur(currency);
+                    $this.value = JBZoo.float(value);
+                    $this._update($this.value, $this.currency);
+                }
+
             },
 
             /**
