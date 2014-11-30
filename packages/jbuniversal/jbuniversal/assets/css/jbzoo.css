@@ -793,14 +793,6 @@
     padding: 0;
 }
 
-.jbzoo .jbbasket-table .input-quantity {
-    width: 40px;
-    min-width: 40px;
-    padding: 3px;
-    border-radius: 3px;
-    border: 1px solid #CCC;
-}
-
 .jbzoo .jbcart-modal-window .add-to-cart-button {
     text-decoration: none;
     display: inline-block;
@@ -1034,36 +1026,39 @@
     margin-top: 12px;
 }
 
-.jbzoo .jbprice-sku .sku {
-    /*display: none;*/
-}
+/******************************** JBZooQuantity widget ****************************************************************/
 
-.jbzoo .jbprice-balance .balance {
-    /*display: none;*/
-}
-
-.jbzoo .item-count-wrapper {
-    margin: 0 auto;
-    padding: 7px 0;
-    background: #FFF;
+.jbzoo .quantity-wrapper .item-count-wrapper {
+    margin: 0;
     position: relative;
     overflow: hidden;
-    border: 1px solid #FFF;
-    width: 60px;
-    height: 24px;
+    width: 60px !important;
+    height: 40px !important;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    background: #fff;
 }
 
-.jbzoo .item-count-wrapper .item-count {
-    width: 60px;
-    height: 25px;
-    margin: 0 0 0 0;
+.jbzoo .quantity-wrapper tr,
+.jbzoo .quantity-wrapper td {
+    padding: 0 !important;
+    margin: 0 !important;
+    vertical-align: middle !important;
+    border: none !important;
+}
+
+.jbzoo .quantity-wrapper .item-count {
+    width: 60px !important;
+    height: 40px !important;
+    margin: 0;
+    padding: 0;
     position: relative;
     z-index: 0;
     white-space: nowrap;
     overflow: hidden;
 }
 
-.jbzoo .item-count-wrapper .item-count .item-count-digits {
+.jbzoo .quantity-wrapper .item-count-digits {
     width: 60px;
     margin: 0;
     padding: 0;
@@ -1071,80 +1066,72 @@
     left: 0;
 }
 
-.jbzoo .item-count-wrapper .item-count .item-count-digits dd {
-    height: 25px;
-    margin: 0 0 0 3px;
+.jbzoo .quantity-wrapper .item-count-digits dd {
+    height: 40px !important;
+    margin: 0;
     padding: 0;
     text-align: center;
-    line-height: 5em;
-    font: 14px/24px Arial;
-    width: 55px;
+    display: block;
+    font: 16px/40px "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    width: 60px;
 }
 
-.jbzoo .item-count-wrapper .item-count .count,
-.jbzoo .item-count-wrapper .item-count .input-quantity {
-    height: 25px;
-    width: 55px;
-    min-width: 55px;
-    margin: 0 0 0 2px;
-    padding: 0;
+.jbzoo .quantity-wrapper .input-quantity {
+    height: 40px !important;
+    width: 55px !important;
+    min-width: 60px;
+    margin: 0 !important;
+    padding: 0 !important;
     z-index: 1;
     display: block;
     position: absolute;
-    border-width: 1px;
-    border-color: transparent;
-    border-style: solid;
+    border: 1px solid #fff;
     border-radius: 3px;
     background: none;
-    line-height: 5em;
     outline: none !important;
-    opacity: 0;
-    filter: alpha(opacity=0);
-    font: 14px/24px Arial;
+    font: 16px/40px "Helvetica Neue", Helvetica, Arial, sans-serif !important;
     text-align: center;
     text-indent: 0;
+    opacity: 0;
 }
 
-.jbzoo .item-count-wrapper .item-count input.input-quantity:focus {
-    border-color: #CCC;
-    outline: 0;
+.jbzoo .quantity-wrapper .input-quantity:focus {
+    border-color: #ccc;
+    outline: none;
     color: black;
-    background-color: rgb(250, 255, 189);
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.04);
-    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.04);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.04);
-    -webkit-transition: border linear .2s, box-shadow linear .2s;
-    -moz-transition: border linear .2s, box-shadow linear .2s;
-    -o-transition: border linear .2s, box-shadow linear .2s;
-    transition: border linear .2s, box-shadow linear .2s;
+    background-color: #faffbd;
+    box-shadow: none!important;
 }
 
-.jbzoo .btn-mini {
-    width: 16px;
-    height: 16px;
+.jbzoo .quantity-wrapper .btn-mini {
+    width: 18px;
+    height: 18px;
     display: block;
     text-align: center;
-    float: left;
+    line-height: 0;
+    font-size: 0;
     margin-left: 6px;
-    text-decoration: none;
-    border: 1px solid #CCC;
+    border: 1px solid #ccc;
     border-radius: 3px;
     padding: 0;
+    cursor: pointer;
+}
+
+.jbzoo .quantity-wrapper .btn-mini:hover {
+    border-color: #666;
+}
+
+.jbzoo .quantity-wrapper .btn-mini.plus {
     margin-bottom: 1px;
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAIAAADZrBkAAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAMFJREFUeNrMk00KgzAQhXUiXiASiCt3XqDk/uuQKwQCgjshO0H86WsDaaG1pkKhb5Wf+eYNw0w+z3Pf9977aZqyI5VlWVWVlLIAM45j27Z4OsSQ2jkHJxqGoWmaFCa4IRil0bIsiUwk4Ulv/9Z1/QzT3sflrj2eslM6iRWvtT1flVLhYIz5gVvIik4EH601Ef1bS6JQ3i0r0RfYXvQjgDGGsUwvDwOJsSQhhLU2Zdni4nDO823buq5LX1MwdV1fBRgAr51adW9nEfIAAAAASUVORK5CYII=") no-repeat 50% 50%;
 }
 
-.jbzoo .quantity-table .btn-mini.minus {
-    background: url(../img/icon/minus.png) no-repeat 50% 50%;
+.jbzoo .quantity-wrapper .btn-mini.minus {
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAIAAADZrBkAAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKhJREFUeNrMk0EKxCAMRdtYvIAi6Ko7L+D9T+AVCoLgrtCdIFYnUHAlUykdmKwk5OV/5GfOOYcQjuNIKU13RSnlnEspF2RijFprbN1iuNo5h0qw7/u6riPMpYbDaA3O8xxkGomaMD2qpdstpbQ3QGf1Q7WXTBpjunPW2h+oXVv//Eu+GHvDJCEEYzkOYCAxliCE2LZt5Nja4TDG5lqr9378TJFRSn0EGACCOVBDjQe0EQAAAABJRU5ErkJggg==") no-repeat 50% 50%;
+    margin-top: 1px;
 }
 
-.jbzoo .quantity-table .btn-mini.plus {
-    background: url(../img/icon/plus.png) no-repeat 50% 50%;
-}
-
-.jbzoo .jbprice-count input:hover,
-.jbzoo .jbprice-count .btn-mini:hover {
-    border-color: #333;
-}
+/******************************** /JBZooQuantity widget ***************************************************************/
 
 .jbzoo table.no-border,
 .jbzoo table.no-border tr,
@@ -1300,26 +1287,6 @@
 }
 
 /**** currecny widget *************************************************************************************************/
-/*
-.jbzoo .currency-toggle1 .jbcurrency {
-    display: block;
-    width: 32px;
-    height: 22px;
-    float: left;
-    padding: 1px;
-    border-radius: 3px;
-    margin: 4px;
-    cursor: pointer;
-    line-height: 18px;
-    text-align: center;
-    color: transparent;
-    font-size: 0 !important;
-}
-
-.jbzoo .currency-toggle .jbcurrency-rub {
-    background: url('../img/flags/rub.png') no-repeat 50% 50%;
-}
-*/
 
 .jbzoo .currency-toggle {
     display: inline-block;
@@ -2270,27 +2237,6 @@ h3.jbzootabs-accordion-header.jbzootabs-accordion-active.jbzootabs-accordion-ico
     background: url('../img/autocomplete/loader.gif') no-repeat center;
 }
 
-.jbzoo .jbbasket-table .item-count-wrapper,
-.jbzoo .jbbasket-table .item-count-wrapper .item-count,
-.jbzoo .jbbasket-table .item-count-wrapper .item-count .item-count-digits {
-    width: 45px;
-}
-
-.jbzoo .jbbasket-table .item-count-wrapper .item-count {
-    height: 28px;
-}
-
-.jbzoo .jbbasket-table .item-count-wrapper .item-count .input-quantity,
-.jbzoo .jbbasket-table .item-count-wrapper .item-count .item-count-digits dd {
-    font: 14px/24px Arial;
-    width: 40px;
-    min-width: 40px;
-}
-
-.jbzoo .jbbasket-table .item-count-wrapper .item-count .input-quantity {
-    /*height: 23px !important;*/
-}
-
 .jbzoo .jbbasket-table .jbbasket-table-value {
     font-size: 16px;
     color: #505050;
@@ -2533,6 +2479,7 @@ form.jbzoo-app-basket {
     width: 95%;
 }
 
+/*
 .jbzoo .jbzoo-app-basket input[type="text"] {
     border: 1px solid #B0B0B0;
     border-radius: 3px;
@@ -2553,6 +2500,7 @@ form.jbzoo-app-basket {
     -moz-box-shadow: 0px 0px 0px 1px #B0B0B0;
     box-shadow: 0px 0px 0px 1px #B0B0B0;
 }
+*/
 
 .jbzoo .jbzoo-app-basket h2 {
     font-weight: bold;
