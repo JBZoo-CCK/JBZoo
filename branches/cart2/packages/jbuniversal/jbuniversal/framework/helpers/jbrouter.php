@@ -423,13 +423,10 @@ class JBRouterHelper extends AppHelper
      */
     public function basketDelete($appId = null)
     {
-        $appId = ($appId) ? $appId : (int)$this->_jbrequest->get('app_id');
-
         $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'delete',
-            'app_id'     => (int)$appId,
         );
 
         return $this->_url($linkParams, true);
@@ -442,13 +439,10 @@ class JBRouterHelper extends AppHelper
      */
     public function basketClear($appId = null)
     {
-        $appId = ($appId) ? $appId : (int)$this->_jbrequest->get('app_id');
-
         $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'clear',
-            'app_id'     => (int)$appId,
         );
 
         return $this->_url($linkParams, true);
@@ -456,18 +450,14 @@ class JBRouterHelper extends AppHelper
 
     /**
      * Get url to basket quantity action
-     * @param int $appId
      * @return string
      */
-    public function basketQuantity($appId = null)
+    public function basketQuantity()
     {
-        $appId = ($appId) ? $appId : (int)$this->_jbrequest->get('app_id');
-
         $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'quantity',
-            'app_id'     => (int)$appId,
         );
 
         return $this->_url($linkParams, true);
