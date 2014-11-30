@@ -918,20 +918,24 @@
     margin: 0 0 12px 0;
 }
 
-.jbzoo .jbzoo-basket-wraper .basket-link {
+.jbzoo.jbzoo-basket-wraper .basket-link {
     text-align: right;
 }
 
-.jbzoo .jbzoo-basket-wraper .price-total-value {
+.jbzoo.jbzoo-basket-wraper .add-to-cart {
+    display: inline-block;
+}
+
+.jbzoo.jbzoo-basket-wraper .price-total-value {
     font-size: 16px;
     font-weight: bold;
 }
 
-.jbzoo .jbzoo-basket-wraper .currency {
+.jbzoo.jbzoo-basket-wraper .currency {
     text-transform: lowercase;
 }
 
-.jbzoo .jbzoo-basket-wraper .total-items {
+.jbzoo.jbzoo-basket-wraper .total-items {
     font-weight: bold;
 }
 
@@ -1355,7 +1359,8 @@
     display: inline-block;
     padding: 3px 6px;
     margin-bottom: 0;
-    font-size: 0px;
+    font-size: 0;
+    line-height: 0;
     color: #333333;
     text-align: center;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
