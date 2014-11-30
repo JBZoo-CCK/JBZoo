@@ -14,18 +14,28 @@
     /**
      * Height fix plugin
      */
-    $.fn.JBZooHeightFix = function () {
+    JBZoo.widget('JBZoo.HeightFix', {
+        timeout: 300
+    }, {
 
-        var $this = $(this), maxHeight = 0;
+        init: function ($this) {
+            var maxHeight = 0;
 
-        setTimeout(function () {
-            $('.column', $this).each(function (n, obj) {
-                var tmpHeight = parseInt($(obj).height(), 10);
-                if (maxHeight < tmpHeight) {
-                    maxHeight = tmpHeight;
-                }
-            }).css({height: maxHeight});
-        }, 300);
-    };
+            $this._delay(function () {
+
+                $this.$('.column').each(function (n, obj) {
+
+                    var tmpHeight = JBZoo.int($(obj).height());
+
+                    if (maxHeight < tmpHeight) {
+                        maxHeight = tmpHeight;
+                    }
+
+                }).css({height: maxHeight});
+
+            }, $this.options.timeout);
+        }
+
+    });
 
 })(jQuery, window, document);
