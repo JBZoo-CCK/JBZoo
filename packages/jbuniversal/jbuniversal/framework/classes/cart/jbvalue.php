@@ -302,9 +302,9 @@ class JBCartValue
     }
 
     /**
-     * @param JBCartValue $value
-     * @param string      $mode
-     * @param integer     $round
+     * @param JBCartValue|string $value
+     * @param string             $mode
+     * @param integer            $round
      */
     public function compare($value, $mode = '==', $round = self::ROUND_DEFAULT)
     {
