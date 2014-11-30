@@ -44,12 +44,16 @@
                 // set starting state
                 $this.value = JBZoo.float($this.$input.val());
                 $this._setValue($this.$input.val());
-                $this._refresh();
+                $this._updateView();
             },
 
+            /**
+             * External method for set new value
+             * @param newValue
+             */
             setValue: function (newValue) {
                 this._setValue(newValue);
-                this._refresh();
+                this._updateView();
             },
 
             /**
@@ -60,11 +64,11 @@
             _setValue: function (newValue) {
                 var $this = this,
                     $input = $this.$input,
-                    newValue = $this._validate(newValue),
                     oldValue = $this.value;
 
                 // set value
-                $input.val($this._toFormat(newValue))
+                newValue = $this._validate(newValue);
+                $input.val($this._toFormat(newValue));
                 $this.value = newValue;
 
                 // change callback
@@ -75,6 +79,10 @@
                 }
             },
 
+            /**
+             * Cleanup option list
+             * @private
+             */
             _prepareOptions: function () {
                 var $this = this;
 
@@ -87,6 +95,12 @@
                 });
             },
 
+            /**
+             * Cleanup and validate value
+             * @param value
+             * @returns {*|Number}
+             * @private
+             */
             _validate: function (value) {
                 var $this = this;
 
@@ -103,11 +117,21 @@
                 return value;
             },
 
+            /**
+             * Formted output
+             * @param value
+             * @returns {string}
+             * @private
+             */
             _toFormat: function (value) {
                 return value.toFixed(this.options.decimals);
             },
 
-            _refresh: function () {
+            /**
+             * Update
+             * @private
+             */
+            _updateView: function () {
 
                 var $this = this,
                     max = this._validate($this.value) + 3 * JBZoo.float($this.options.step);
@@ -123,6 +147,12 @@
                 });
             },
 
+            /**
+             * Check, is currecnt value is valid for current config
+             * @param value
+             * @returns {boolean}
+             * @private
+             */
             _isValid: function (value) {
                 value = JBZoo.float(value);
 
@@ -136,6 +166,11 @@
                 return true;
             },
 
+            /**
+             * No scroll animations for no valud values
+             * @param newValue
+             * @private
+             */
             _noScroll: function (newValue) {
 
                 var $this = this,
@@ -170,6 +205,11 @@
                     });
             },
 
+            /**
+             * Set new value and start animate
+             * @param newValue
+             * @private
+             */
             _change: function (newValue) {
 
                 var $this = this,
@@ -184,7 +224,7 @@
                     return;
                 }
 
-                $this._refresh();
+                $this._updateView();
                 $this._setValue(newValue);
 
                 $this.isAnimate = true;
@@ -220,11 +260,11 @@
 
             'change .jsInput': function (e, $this) {
                 $this._setValue($(this).val());
-                $this._refresh();
+                $this._updateView();
             },
 
             'keyup .jsInput': function (e, $this) {
-                $this._refresh();
+                $this._updateView();
             },
 
             'mouseenter .jsCountBox': function (e, $this) {
@@ -246,12 +286,16 @@
                     }
 
                     $this._setValue(value);
-                    $this._refresh();
+                    $this._updateView();
                 }
 
                 return false;
             },
 
+            /**
+             * Build HTML template
+             * @private
+             */
             _buildTmpl: function () {
 
                 var $this = this,
