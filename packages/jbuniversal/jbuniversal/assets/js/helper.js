@@ -11,8 +11,7 @@
 
 
 /**
- * JBZoo JSLibHelper
- * @constructor
+ * JBZoo JBZooHelper with custom js functions
  */
 ;
 (function ($, window, document, undefined) {
@@ -335,6 +334,30 @@
             }
 
             return (isHalf ? value : Math.round(value)) / m;
+        },
+
+        /**
+         * @param min
+         * @param max
+         * @returns {*}
+         */
+        rand: function (min, max) {
+            var $jbzoo = this,
+                argc = arguments.length;
+
+            if (argc === 0) {
+                min = 0;
+                max = 2147483647;
+
+            } else if (argc === 1) {
+                $jbzoo.error('Warning: rand() expects exactly 2 parameters, 1 given');
+
+            } else {
+                min = $jbzoo.int(min);
+                max = $jbzoo.int(max);
+            }
+
+            return Math.floor(Math.random() * (max - min + 1)) + min;
         },
 
         /**
