@@ -263,6 +263,7 @@
                 return +mixed;
 
             } else if (type === 'string') {
+                mixed = mixed.replace(/\s/g, '');
                 var tmp = parseInt(mixed, base || 10);
                 return (isNaN(tmp) || !isFinite(tmp)) ? 0 : tmp;
 
@@ -290,7 +291,10 @@
          */
         float: function (mixed) {
             mixed = $.trim(mixed);
+            mixed = mixed.replace(/\s/g, '');
+            mixed = mixed.replace(',', '.');
             mixed = (parseFloat(mixed) || 0);
+            mixed = JBZoo.round(mixed, 9); // hack for nubers like "0.30000000000000004"
             return mixed;
         },
 
@@ -413,9 +417,7 @@
                 || typeof string === 'function'
                 || typeof string === 'object'
             ) {
-                return {
-                    0: ''
-                };
+                return {0: ''};
             }
 
             if (delimiter === true) delimiter = '1';
