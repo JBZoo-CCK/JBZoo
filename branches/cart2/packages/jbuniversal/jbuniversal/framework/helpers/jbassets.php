@@ -20,7 +20,6 @@ class JBAssetsHelper extends AppHelper
 {
     /**
      * Set application styles files
-     *
      * @param string $alias
      */
     public function setAppCss($alias = null)
@@ -62,7 +61,6 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Set application JavaScript files
-     *
      * @param string $alias
      */
     public function setAppJS($alias = null)
@@ -94,10 +92,13 @@ class JBAssetsHelper extends AppHelper
                 'jbassets:js/jbzoo.js',
                 'jbassets:js/front-end.js',
             ));
-            $this->js('jbassets:js/widget/tabs.js');
-            $this->js('jbassets:js/widget/recount.js');
-            $this->quantity();
-            $this->price();
+            $this->js('jbassets:js/widget/goto.js');
+
+            $this->js('jbassets:js/widget/tabs.js'); // TODO ??
+            $this->js('jbassets:js/widget/recount.js'); // TODO ??
+
+            $this->quantity(); // TODO ??
+            $this->price(); // TODO ??
         }
     }
 
@@ -144,7 +145,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * @param string $id
-     * @param array  $params
+     * @param array $params
      */
     public function currencyToggle($id, $params = array())
     {
@@ -472,7 +473,6 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Add global variable to javascript
-     *
      * @param $varName
      * @param $value
      */
@@ -491,7 +491,6 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Init script for JBCascadeSelect
-     *
      * @param string $uniqid
      * @param string $itemList
      */
@@ -597,8 +596,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Init color widget
-     *
-     * @param string  $queryElement
+     * @param string $queryElement
      * @param boolean $type
      */
     public function initJBColorHelper($queryElement, $type = true)
@@ -619,7 +617,6 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Init color widget
-     *
      * @param string $queryElement
      * @param string $text
      */
@@ -671,7 +668,6 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Add script to document
-     *
      * @param string $script
      */
     public function addScript($script)
@@ -699,10 +695,8 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include JS in document
-     *
-     * @param array  $files
+     * @param array $files
      * @param string $group
-     *
      * @return bool
      */
     public function js($files, $group = 'default')
@@ -712,10 +706,8 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include CSS in document
-     *
-     * @param array  $files
+     * @param array $files
      * @param string $group
-     *
      * @return bool
      */
     public function css($files, $group = 'default')
@@ -725,10 +717,8 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include files to document
-     *
      * @param array $files
      * @param       $type
-     *
      * @return bool
      */
     protected function _include(array $files, $type)
@@ -770,9 +760,8 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Init modal window
-     *
      * @param string $class
-     * @param array  $opt
+     * @param array $opt
      */
     public function behaviorModal($class = 'modal', $opt = array())
     {
