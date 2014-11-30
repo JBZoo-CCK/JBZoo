@@ -5,7 +5,7 @@
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @license     http://jbzoo.com/license JBZoo Licence
  */
 
 ;
@@ -26,13 +26,13 @@
         /**
          * Custom ajax handler
          * @param options = {
-         *      'url'     : 'index.php?format=raw&tmpl=component',
-         *      'data'    : {},
-         *      'dataType': 'json',
-         *      'success' : false,
-         *      'error'   : false,
-         *      'onFatal' : function () {}
-         *  }
+         *     'url'     : 'index.php?format=raw&tmpl=component',
+         *     'data'    : {},
+         *     'dataType': 'json',
+         *     'success' : false,
+         *     'error'   : false,
+         *     'onFatal' : function () {}
+         * }
          */
         ajax: function (options) {
 
@@ -42,33 +42,30 @@
 
             JBZoo.logger('w', 'ajax::request', options);
 
-            var options = $.extend({}, {
+            var options = $.extend(true, {}, {
                 'url'     : 'index.php?format=raw&tmpl=component',
-                'data'    : {},
+                'data'    : {
+                    'rand'  : JBZoo.rand(100, 999), // forced no cache
+                    'option': 'com_zoo',
+                    'tmpl'  : 'component',
+                    'format': 'raw'
+                },
                 'dataType': 'json',
-                'success' : false,
-                'error'   : false,
+                'success' : $.noop,
+                'error'   : $.noop,
                 'onFatal' : function (responce) {
                     if (JBZoo.DEBUG) {
                         JBZoo.logger('e', 'ajax::request - ' + options.url, options.data);
                         JBZoo.dump(responce.responseText, 'Ajax error responce:');
                     }
 
-                    $.error("Ajax response no parse");
+                    $this.error("Ajax response no parse");
                 }
             }, options);
 
             if (JBZoo.empty(options.url)) {
                 $this.error("AJAX url is no set!");
             }
-
-            // set default request data
-            options.data = $.extend({}, {
-                'nocache': Math.random(),
-                'option' : 'com_zoo',
-                'tmpl'   : 'component',
-                'format' : 'raw'
-            }, options.data);
 
             $.ajax({
                 'url'     : options.url,
@@ -91,18 +88,19 @@
                         //JBZoo.logger('i', 'ajax::responce', {'result': data.result, 'message': data.message});
 
                         if (data.result && $.isFunction(options.success)) {
-                            options.success.apply(this, arguments);
+                            options.success.apply($this, arguments);
+
                         } else if (!data.result && $.isFunction(options.error)) {
-                            options.error.apply(this, arguments);
+                            options.error.apply($this, arguments);
                         }
 
                     } else if ($.isFunction(options.success)) {
-                        options.success.apply(this, arguments);
+                        options.success.apply($this, arguments);
                     }
 
                 },
 
-                'error'   : function () {
+                'error': function () {
                     $this.isAjax = false;
                     options.onFatal(arguments);
                 }
@@ -140,7 +138,7 @@
          * @param message
          */
         error: function (message) {
-            return JBZoo.error('Plugin "' + this._name + '": ' + message);
+            return this.error('Plugin "' + this._name + '": ' + message);
         },
 
         /**
@@ -158,11 +156,21 @@
          * @param noCallback
          */
         confirm: function (message, yesCallback, noCallback) {
+            var $this = this;
+
             if (confirm(message)) {
-                yesCallback();
+                $.isFunction(yesCallback)
+                {
+                    yesCallback($this);
+                }
+
                 return true;
             } else {
-                noCallback();
+                $.isFunction(noCallback)
+                {
+                    noCallback($this);
+                }
+
                 return false;
             }
         },
