@@ -64,25 +64,31 @@
             setValue: function (value, currency) {
 
                 var $this = this,
-                    currency = currency || $this.currency;
+                    value = JBZoo.float(value),
+                    currency = $this._cleanCur((currency || $this.currency));
 
                 if (currency == $this.currency) {
 
-                    $({value: $this.value})
-                        .animate({value: value}, {
-                            duration: $this.options.duration,
-                            easing  : $this.options.easing,
-                            step    : function () {
-                                $this._update(this.value, $this.currency);
-                            },
-                            complete: function () {
-                                $this._update(value, $this.currency);
-                            }
-                        });
+                    if ($this.value != value) {
+
+                        $({value: $this.value})
+                            .stop()
+                            .animate({value: value}, {
+                                duration: $this.options.duration,
+                                easing  : $this.options.easing,
+                                step    : function () {
+                                    $this._update(this.value, $this.currency);
+                                },
+                                complete: function () {
+                                    $this._update(value, $this.currency);
+                                    $this.value = value;
+                                }
+                            });
+                    }
 
                 } else {
-                    $this.currency = $this._cleanCur(currency);
-                    $this.value = JBZoo.float(value);
+                    $this.currency = currency;
+                    $this.value = value;
                     $this._update($this.value, $this.currency);
                 }
 
