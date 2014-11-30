@@ -7,7 +7,6 @@
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
  * @coder       Denis Smetannikov <denis@jbzoo.com>
- * @coder       Vitaliy Yanovskiy <joejoker@jbzoo.com>
  */
 
 ;
@@ -16,15 +15,8 @@
     jQuery(function ($) {
 
         // Goto link by button click
-        $(document).on('click', '.jbzoo .jsGoto', function () {
-            var url = $(this).attr('href');
-            if (!url) {
-                url = $(this).data('href');
-            }
+        $('.jbzoo .jsGoto').JBZooGoto();
 
-            parent.location.href = url;
-            return false;
-        });
     });
 
 })(jQuery, window, document);
