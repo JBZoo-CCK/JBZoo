@@ -26,7 +26,7 @@
 
         init: function () {
 
-            this.params = JSON.parse(this.options.params);
+            this.params = this.options.params;
             this.$('.jsQuantity').JBZooQuantity(this.params._quantity);
             //$this.module = $('.jsJBZooCartModule').JBZooCartModule();
 
