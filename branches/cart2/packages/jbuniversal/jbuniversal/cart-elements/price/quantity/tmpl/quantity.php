@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -15,26 +14,22 @@ defined('_JEXEC') or die('Restricted access');
 
 $unique = $this->app->jbstring->getId('quantity-');
 
-$min = (float)$params->get('min', 0);
-$count = (float)$params->get('step', 1);
-$start = (float)$params->get('default', 1);
-$decimals = (float)$params->get('decimals', 0);
+$isEnabled = true;
 
-$isEnabled = TRUE;
+$default = (float)$params->get('default', 1);
+$params = array(
+    'step'     => (float)$params->get('step', 1),
+    'default'  => $default,
+    'decimals' => (float)$params->get('decimals', 0),
+    'min'      => (float)$params->get('min', 0),
+    'max'      => 999999,
+);
 
 if ($isEnabled) : ?>
-    <div class="jbprice-quantity jbprice-count"
-         data-step="<?php echo $count; ?>"
-         data-default="<?php echo $start; ?>"
-         data-decimals="<?php echo $decimals; ?>"
-         data-min="<?php echo $min; ?>"
-        >
+    <div class="jbprice-quantity jbprice-count">
 
         <label for="<?php echo $unique; ?>">
-            <input type="text" name="<?php echo $this->getRenderName('value'); ?>"
-                   value="<?php echo $start; ?>" class="jsQuantity input-quantity count"
-                   maxlength="6" id="<?php echo $unique; ?>"/>
-
+            <?php echo $this->app->jbhtml->quantity($default, $params, $unique, $this->getRenderName('value')); ?>
         </label>
     </div>
 
@@ -42,5 +37,5 @@ if ($isEnabled) : ?>
     <div class="count-value-wrapper">
         <?php echo JText::_('JBZOO_JBPRICE_COUNT_DEFAULT_VALUE'); ?>: <span class="jsCountValue">1</span>
     </div>
-    <input type="hidden" class="jsCount" value="1"/>
+    <input type="hidden" class="jsCount" value="1" />
 <?php endif;
