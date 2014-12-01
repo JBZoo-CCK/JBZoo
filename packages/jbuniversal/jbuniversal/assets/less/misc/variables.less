@@ -1,0 +1,25 @@
+// Your own variables here
+
+
+// ***************************************** System colors *************************************************************
+// @colorExample: #a00;
+
+
+
+// ***************************************** Media queries for different devices ***************************************
+// more info https://gist.github.com/gitawego/5803557
+@print:       ~"print";                               // print version of website
+@mobile-mini: ~"only screen and (min-width: 320px)";  // smartphones, iPhone, portrait 480x320 phones
+@mobile:      ~"only screen and (min-width: 480px)";  // portrait e-readers (Nook/Kindle), smaller tablets 600 or 640 wide
+@tablet-mini: ~"only screen and (min-width: 600px)";  // portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones
+@tablet:      ~"only screen and (min-width: 801px)";  // tablet, landscape iPad, lo-res laptops ands desktops
+@desktop:     ~"only screen and (min-width: 1025px)"; // big landscape tablets, laptops, and desktops
+@desktop-xl:  ~"only screen and (min-width: 1281px)"; // hi-res laptops and desktops
+
+// devices with retina display (http://css-tricks.com/snippets/css/retina-display-media-query/)
+@retina: ~"only screen and (-webkit-min-device-pixel-ratio: 2)",
+         ~"only screen and (   min--moz-device-pixel-ratio: 2)",
+         ~"only screen and (     -o-min-device-pixel-ratio: 2/1)",
+         ~"only screen and (        min-device-pixel-ratio: 2)",
+         ~"only screen and (           min-resolution: 192dpi)",
+         ~"only screen and (            min-resolution: 2dppx)";
