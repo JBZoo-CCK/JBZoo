@@ -144,7 +144,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * @param string $id
-     * @param array  $params
+     * @param array $params
      */
     public function currencyToggle($id, $params = array())
     {
@@ -152,6 +152,8 @@ class JBAssetsHelper extends AppHelper
             'jbassets:js/widget/money.js',
             'jbassets:js/widget/currencytoggle.js'
         ));
+
+        $this->less('jbassets:less/widget/currencytoggle.less');
 
         $this->addScript('jQuery(function($){
             $("#' . $id . '").JBZooCurrencyToggle(' . json_encode((object)$params) . ');
@@ -370,6 +372,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->tools();
         $this->js('jbassets:js/widget/quantity.js');
+        $this->less('jbassets:less/widget/quantity.less');
     }
 
     /**
@@ -607,7 +610,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Init color widget
-     * @param string  $queryElement
+     * @param string $queryElement
      * @param boolean $type
      */
     public function initJBColorHelper($queryElement, $type = true)
@@ -706,7 +709,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include JS in document
-     * @param array  $files
+     * @param array $files
      * @param string $group
      * @return bool
      */
@@ -717,13 +720,32 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include CSS in document
-     * @param array  $files
+     * @param array $files
      * @param string $group
      * @return bool
      */
     public function css($files, $group = 'default')
     {
         return $this->_include((array)$files, 'css', $group);
+    }
+
+    /**
+     * @param $files
+     * @param string $group
+     * @return bool
+     */
+    public function less($files, $group = 'default')
+    {
+        $files = (array)$files;
+
+        jbdump::mark();
+        $resultFiles = array();
+        foreach ($files as $file) {
+            $resultFiles[] = $this->app->jbless->compile($file);
+        }
+        jbdump::mark();
+
+        return $this->_include((array)$resultFiles, 'css', $group);
     }
 
     /**
@@ -772,7 +794,7 @@ class JBAssetsHelper extends AppHelper
     /**
      * Init modal window
      * @param string $class
-     * @param array  $opt
+     * @param array $opt
      */
     public function behaviorModal($class = 'modal', $opt = array())
     {

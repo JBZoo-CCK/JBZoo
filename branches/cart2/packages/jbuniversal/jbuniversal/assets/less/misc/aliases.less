@@ -1,0 +1,40 @@
+// Popular simple aliases for mixins
+// ---------------------------------------------------------------------------------------------------------------------
+.animate(...)                   { #animation    > .simple(@arguments);      }
+.anime(...)                     { #animation    > .simple(@arguments);      }
+.background-size(@size)         { #background   > .size(@size);             }
+.border-image(...)              { #border-image > .simple(@arguments);      }
+.border-radius(...)             { #border       > .radius(@arguments);      }
+.box-shadow(...)                { #box          > .shadow(@arguments);      }
+.center()                       { #box          > .center();                }
+.clear()                        { #box          > .clear();                 }
+.clearfix()                     { #box          > .clearfix();              }
+.columns(...)                   { #columns      > .simple(@arguments);      }
+.content-columns(@count, @gap)  { #columns      > .count(@count); #columns > .gap(@gap); }
+.focusable()                    { #box          > .focusable();             }
+.gradient(@start, @end)         { #gradient     > .vertical(@start, @end);  }
+.hidden()                       { #box          > .hide();                  }
+.hide()                         { #box          > .hide();                  }
+.invisible()                    { #box          > .invisible();             }
+.ir()                           { #helpers      > .ir();                    }
+.no-transparent()               { #box          > .opacity(1);              }
+.opacity(...)                   { #box          > .opacity(@arguments);     }
+.overflow()                     { #box          > .overflow();              }
+.rounded(...)                   { #border       > .radius(@arguments);      }
+.scale (...)                    { #scale        > .simple(@arguments);      }
+.selection (@text, @background) { #text         > .selection(@text, @background); }
+.seo-helper()                   { #helpers      > .debug();                 }
+.size(@width, @height)          { #box          > .size(@width, @height);   }
+.skew(...)                      { #skew         > .simple(@arguments);      }
+.sprite(@path, @size, @pad: 0)  { #sprite       > .init(@path, @size, @pad);}
+.sprite(@x, @y)                 { #sprite       > .image(@x, @y);           }
+.square(@size)                  { #box          > .square(@size);           }
+.text-shadow(...)               { #text         > .shadow(@arguments);      }
+.transition(...)                { #transition   > .simple(@arguments);      }
+.translate(...)                 { #translate    > .simple(@arguments);      }
+.transparent()                  { #box          > .opacity(0);              }
+.visuallyhidden()               { #box          > .visuallyhidden();        }
+
+.font-face(@name, @filename, @path:'@{fontpath}/', @weight:normal, @style:normal) {
+    #font > .include(@name, @filename, @path, @weight, @style);
+}
