@@ -738,12 +738,10 @@ class JBAssetsHelper extends AppHelper
     {
         $files = (array)$files;
 
-        jbdump::mark();
         $resultFiles = array();
         foreach ($files as $file) {
             $resultFiles[] = $this->app->jbless->compile($file);
         }
-        jbdump::mark();
 
         return $this->_include((array)$resultFiles, 'css', $group);
     }
