@@ -1,0 +1,106 @@
+
+.jbzoo {
+
+    .currency-toggle {
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+        font-size: 0;
+        white-space: nowrap;
+    }
+
+    .jbcurrency-label {
+        // box
+        float: left;
+        display: inline-block;
+        padding: 3px 6px;
+        margin-bottom: 0;
+        cursor: pointer;
+        vertical-align: middle;
+
+        // text
+        font-size: 0;
+        line-height: 0;
+        color: #333333;
+        text-align: center;
+
+        // borders
+        border: 1px solid #cccccc;
+        border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+        border-radius: 0 transition: 0.5s;
+        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+        border-bottom-color: #b3b3b3;
+
+        // others
+        .opacity(.8);
+        .text-shadow(0 1px 1px rgba(255, 255, 255, 0.75));
+        .box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05));
+        #gradient > .vertical(#ffffff, #e6e6e6);
+
+        &.isFirst {
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+        }
+
+        &.isLast {
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+
+        &:nth-child(n+2) {
+            margin-left: -1px;
+        }
+    }
+
+    .jbcurrency-label:hover {
+        .box-shadow(inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05));
+        .opacity(.8);
+    }
+
+    .jbcurrency-input {
+        position: absolute;
+        left: -9999px;
+    }
+
+    .jbcurrency-input:checked + .jbcurrency-label {
+        .opacity(1);
+        .box-shadow(inset 0 3px 5px #4D90FE);
+        .transition(background-position 0.1s linear);
+        background-color: #e6e6e6;
+        text-decoration: none;
+        background-position: 0 -15px;
+    }
+
+    .jbflag {
+        width: 32px;
+        height: 24px;
+        display: inline-block;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+    }
+
+    .jbcurrency-label {
+        &.jbcurrency-usd .jbflag {
+            background-image: url('../../img/flags/usd.png');
+        }
+        &.jbcurrency-eur .jbflag {
+            background-image: url('../../img/flags/eur.png');
+        }
+        &.jbcurrency-uah .jbflag {
+            background-image: url('../../img/flags/uah.png');
+        }
+        &.jbcurrency-byr .jbflag {
+            background-image: url('../../img/flags/byr.png');
+        }
+        &.jbcurrency-rub .jbflag {
+            background-image: url('../../img/flags/rub.png');
+        }
+        &.jbcurrency-default_cur .jbflag {
+            line-height: 28px;
+            font-size: 28px;
+            color: #333;
+            text-align: center;
+        }
+    }
+
+}
