@@ -20,8 +20,9 @@ $zoo = App::getInstance('zoo');
 
 $zoo->jbdebug->mark('mod_jbzoo_basket::start-' . $module->id);
 
-$zoo->jbassets->setAppCSS();
-$zoo->jbassets->setAppJS();
+$zoo->jbassets->tools();
+$zoo->jbassets->js('mod_jbzoo_basket:assets/module.js');
+$zoo->jbassets->less('mod_jbzoo_basket:assets/styles.less');
 
 $basketHelper = new JBZooBasketHelper($params, $module);
 
