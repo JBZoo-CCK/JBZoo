@@ -15,13 +15,13 @@ defined('_JEXEC') or die('Restricted access');
 
 
 $this->app->jbassets->fancybox();
+$this->app->jbassets->less('elements:jbgallery/assets/styles.less');
 
 ?>
 
 <div id="<?php echo $galleryId; ?>">
 
     <?php foreach ($thumbs as $thumb) { ?>
-
         <a href="<?php echo $thumb['img']; ?>"
            rel="<?php echo $rel; ?>"
            title="<?php echo $thumb['name']; ?>"
@@ -31,7 +31,6 @@ $this->app->jbassets->fancybox();
                                   width="<?php echo $thumb['thumb_width']; ?>"
                                   height="<?php echo $thumb['thumb_height']; ?>"
                 /></a>
-
     <?php } ?>
 
     <div class="clear clr"></div>
@@ -41,10 +40,10 @@ $this->app->jbassets->fancybox();
     jQuery(function ($) {
         $('#<?php echo $galleryId; ?> .jbgallery').fancybox({
             helpers: {
-                "title"  : { type: "outside" },
-                "buttons": { position: "top" },
-                "thumbs" : { width: 80, height: 80 },
-                "overlay": { locked: false}
+                "title"  : {type: "outside"},
+                "buttons": {position: "top"},
+                "thumbs" : {width: 80, height: 80},
+                "overlay": {locked: false}
             }
         });
     });
