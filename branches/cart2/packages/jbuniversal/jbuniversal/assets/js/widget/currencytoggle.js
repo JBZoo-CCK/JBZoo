@@ -14,10 +14,27 @@
 
     JBZoo.widget('JBZoo.CurrencyToggle',
         {
-            'target': '.jbzoo',
-            'rates' : {}
+            'target'    : '.jbzoo',
+            'rates'     : {},
+            'defaultCur': 'default_cur'
         },
         {
+            /**
+             * Get current currency
+             * @returns {*}
+             */
+            getCurrent: function () {
+
+                var $this = this,
+                    $checked = $this.$('.jbcurrency-input:checked');
+
+                if ($checked.length > 0) {
+                    return $checked.data('currency');
+                }
+
+                return $this.options.defaultCur;
+            },
+
             /**
              * @returns JBZooMoney
              * @private
