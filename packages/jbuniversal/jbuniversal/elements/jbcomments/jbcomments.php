@@ -196,6 +196,7 @@ class ElementJBComments extends Element implements iSubmittable
     public function loadAssets()
     {
         $this->app->jbassets->tabs();
+        $this->app->jbassets->less('elements:jbcomments/assets/styles.less');
     }
 
     /**
