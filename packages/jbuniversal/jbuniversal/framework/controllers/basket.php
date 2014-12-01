@@ -176,17 +176,16 @@ class BasketJBUniversalController extends JBUniversalController
      */
     public function form()
     {
-        $orderId        = $this->_jbrequest->get('orderId');
+        $orderId = $this->_jbrequest->get('orderId');
+        $order   = JBModelOrder::model()->getById($orderId);
         $this->template = $this->application->getTemplate();
 
-        if (!$orderId) {
+        if (!$orderId || !$order->id) {
             throw new AppException('Invalid order id');
         }
 
-        $order = JBModelOrder::model()->getById($orderId);
-
         if ($order->id) {
-            $payment           = $order->getPayment();
+            $payment = $order->getPayment();
             $this->paymentForm = $payment->renderPaymentForm();
 
             if ($this->_jbrequest->isPost()) {
@@ -200,16 +199,12 @@ class BasketJBUniversalController extends JBUniversalController
                             }
 
                             $this->setRedirect($paymentAction, JText::_($message));
-                        } else {
-                            $this->app->jbnotify->notice(JText::_('JBZOO_CART_ORDER_SUCCESS_CREATED'));
                         }
                     }
                 } catch (AppValidatorException $e) {
                     $this->app->jbnotify->warning(JText::_($e->getMessage()));
                 }
             }
-        } else {
-            throw new AppException('Invalid order id');
         }
 
         $this

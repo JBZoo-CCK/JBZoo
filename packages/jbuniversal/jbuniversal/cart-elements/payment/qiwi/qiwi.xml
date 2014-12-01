@@ -30,10 +30,6 @@
         <param name="sign_psw" type="text" default=""
                 label="JBZOO_PAYMENT_QIWI_REST_SIGN_PSW_LABEL"
                 description="JBZOO_PAYMENT_QIWI_REST_SIGN_PSW_DESC" />
-
-        <param name="lifetime" type="text" default="10"
-               label="JBZOO_PAYMENT_QIWI_LIFE_TIME_LABEL"
-               description="JBZOO_PAYMENT_QIWI_LIFE_TIME_DESC" />
     </params>
 
 </element>

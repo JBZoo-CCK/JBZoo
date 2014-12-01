@@ -20,6 +20,7 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
 {
 
     /**
+     * Payment uri
      * @var string
      */
     private $_uri = 'https://w.qiwi.com/order/external/main.action';
@@ -59,10 +60,10 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
             $this->app->jbrequest->get('user'),
         ));
 
-        $billHashSign   = base64_encode(hash_hmac('sha1', $hashData, $signPsw, true));
-        $requestHeaders = apache_request_headers();
+        $billHashSign = base64_encode(hash_hmac('sha1', $hashData, $signPsw, true));
 
-        if ($requestHeaders['X-Api-Signature'] === $billHashSign) {
+        if (isset($_SERVER['HTTP_X_API_SIGNATURE']) && $_SERVER['HTTP_X_API_SIGNATURE'] === $billHashSign)
+        {
             return true;
         }
 
@@ -135,15 +136,16 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
         $restId  = JString::trim($this->config->get('rest_id'));
         $request = $this->_jbrequest->get('jbzooform');
 
-        $lifeTime    = (int)$this->config->get('lifetime', 10);
-        $lifeTimeISO = JHtml::date(time() + $lifeTime * 60, 'c');
+        $payCurrency = $this->config->get('currency', 'eur');
+        $lifeTimeISO = JHtml::date(time() + 86400 * 30, 'c');
         $shopConfig  = JBModelConfig::model()->getGroup('cart.config');
+        $orderAmount = JBCart::val($this->getOrderSumm(), $order->getCurrency())->convert($payCurrency);
 
         $curlData = array(
-            'amount'     => $this->getOrderSumm(),
             'pay_source' => 'qw',
             'lifetime'   => $lifeTimeISO,
-            'ccy'        => $order->getCurrency(),
+            'ccy'        => $payCurrency,
+            'amount'     => $orderAmount->val(),
             'user'       => 'tel:' . JString::trim($request['phone']),
             'comment'    => $this->getOrderDescription(),
             'prv_name'   => $shopConfig->get('shop_name')
@@ -179,11 +181,13 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
     {
         $check = $request['jbzooform'];
 
-        $value = $this->app->validator
-            ->create('string', array('required' => true), array('required' => JText::_('Please enter the phone number.')))
-            ->clean($check['phone']);
+        if (preg_match('/\+\d{1,15}$/', $check['phone'])) {
+            return true;
+        } else {
+            $this->app->jbnotify->warning(JText::_('JBZOO_PAYMENT_QIWI_NO_VALID_PHONE'));
+        }
 
-        return compact('value');
+        return false;
     }
 
     /**
@@ -196,35 +200,17 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
      */
     protected function _createBill($shopId = null, $billId, $data = array(), $authHeaderKey)
     {
-        $httpClient = JHttpFactory::getHttp();
-        $qiwiCurl   = $this->_getQiwiCurl($shopId, $billId);
+        $curl = $this->_getQiwiCurl($shopId, $billId);
 
-        return $httpClient->put($qiwiCurl, $this->_jbrouter->query($data), array(
-            'Accept'        => 'application/json',
-            'Authorization' => 'Basic ' . $authHeaderKey
-        ));
-    }
-
-    /**
-     * Get data for qiwi bill
-     * @param $shopId
-     * @param $billId
-     * @param $restId
-     * @param $restPw
-     * @return mixed
-     */
-    protected function _getBillData($shopId, $billId, $restId, $restPw)
-    {
-        $httpClient = JHttpFactory::getHttp();
-        $qiwiCurl   = $this->_getQiwiCurl($shopId, $billId);
-
-        $httpResponse = $httpClient->get($qiwiCurl, array(
-            'Accept'         => 'application/json',
-            'Request Method' => 'GET',
-            'Authorization'  => 'Basic ' . base64_encode($restId . ':' . $restPw)
+        return $this->app->jbhttp->request($curl, $data, array(
+            'method'  => 'put',
+            'headers' => array(
+                'Accept'        => 'application/json',
+                'Authorization' => 'Basic ' . $authHeaderKey
+            ),
+            'response' => 'full'
         ));
 
-        return $httpResponse;
     }
 
     /**
