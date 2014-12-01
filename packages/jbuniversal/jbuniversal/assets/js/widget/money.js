@@ -17,7 +17,23 @@
      */
     JBZoo.widget('JBZoo.Money',
         {
-            rates   : {},
+            rates   : {
+                '%': {
+                    "value" : null,
+                    "code"  : "%",
+                    "name"  : "%",
+                    "format": {
+                        "symbol"         : "%",
+                        "round_type"     : "none",
+                        "round_value"    : "2",
+                        "num_decimals"   : "2",
+                        "decimal_sep"    : ".",
+                        "thousands_sep"  : " ",
+                        "format_positive": "%v %s",
+                        "format_negative": "-%v %s"
+                    }
+                }
+            },
             duration: 400,
             easing  : 'swing'
         },
