@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -22,8 +21,7 @@ $zoo            = App::getInstance('zoo');
 
 $zoo->jbdebug->mark('mod_jbzoo_category::start-' . $module->id);
 
-$zoo->jbassets->setAppCSS();
-$zoo->jbassets->setAppJS();
+$zoo->jbassets->less('mod_jbzoo_category:assets/styles.less');
 
 $categories = $categoryHelper->getCategories();
 
