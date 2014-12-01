@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -39,8 +38,11 @@ class ElementJBQuickView extends Element
         $params = $this->app->data->create($params);
 
         if (!empty($this->_item)) {
+            $this->app->jbassets->less('elements:jbquickview/assets/styles.less');
+
             return $this->_getLink($params);
         }
+
         return null;
     }
 
@@ -70,7 +72,7 @@ class ElementJBQuickView extends Element
         $html = array();
 
         if (!isset($jsDefined)) {
-            $html[] = '<script type="text/javascript">jQuery(function ($) {
+            $html[]    = '<script type="text/javascript">jQuery(function ($) {
                 $("a.jbquickview-modal-window").fancybox({
                     type       : "iframe",
                     fitToView  : true,
