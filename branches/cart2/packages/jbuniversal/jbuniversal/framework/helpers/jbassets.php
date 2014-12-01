@@ -144,7 +144,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * @param string $id
-     * @param array $params
+     * @param array  $params
      */
     public function currencyToggle($id, $params = array())
     {
@@ -308,6 +308,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->tools();
         $this->js('jbassets:js/widget/tabs.js');
+        $this->less('jbassets:less/widget/tabs.less');
     }
 
     /**
@@ -317,6 +318,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->tools();
         $this->js('jbassets:js/widget/accordion.js');
+        $this->less('jbassets:less/widget/tabs.less');
     }
 
     /**
@@ -363,6 +365,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->tools();
         $this->js('jbassets:js/widget/colors.js');
+        $this->less('jbassets:less/widget/colors.less');
     }
 
     /**
@@ -610,7 +613,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Init color widget
-     * @param string $queryElement
+     * @param string  $queryElement
      * @param boolean $type
      */
     public function initJBColorHelper($queryElement, $type = true)
@@ -709,7 +712,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include JS in document
-     * @param array $files
+     * @param array  $files
      * @param string $group
      * @return bool
      */
@@ -720,7 +723,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include CSS in document
-     * @param array $files
+     * @param array  $files
      * @param string $group
      * @return bool
      */
@@ -730,7 +733,7 @@ class JBAssetsHelper extends AppHelper
     }
 
     /**
-     * @param $files
+     * @param        $files
      * @param string $group
      * @return bool
      */
@@ -792,7 +795,7 @@ class JBAssetsHelper extends AppHelper
     /**
      * Init modal window
      * @param string $class
-     * @param array $opt
+     * @param array  $opt
      */
     public function behaviorModal($class = 'modal', $opt = array())
     {
