@@ -33,9 +33,6 @@
                 // force validate numeric options
                 $this._prepareOptions();
 
-                // perpare view
-                $this._buildTmpl();
-
                 // get links to DOM
                 $this.$input = $this.$('.jsInput');
                 $this.$box = $this.$('.item-count-digits');
@@ -54,6 +51,10 @@
             setValue: function (newValue) {
                 this._setValue(newValue);
                 this._updateView();
+            },
+
+            getValue: function () {
+                return this.value;
             },
 
             /**
@@ -291,45 +292,6 @@
 
                 return false;
             },
-
-            /**
-             * Build HTML template
-             * @private
-             */
-            _buildTmpl: function () {
-
-                var $this = this,
-                    $input = $this.$('input[type=text]').addClass('jsInput').detach(),
-                    tmpl =
-                        '<table cellpadding="0" cellspacing="0" border="0" class="quantity-wrapper">' +
-                        '  <tr>' +
-                        '    <td rowspan="2">' +
-                        '      <div class="jsCountBox item-count-wrapper">' +
-                        '        <div class="item-count">' +
-                        '          <dl class="item-count-digits">' +
-                        '            <dd></dd>' +
-                        '            <dd></dd>' +
-                        '            <dd></dd>' +
-                        '            <dd></dd>' +
-                        '            <dd></dd>' +
-                        '          </dl>' +
-                        '        </div>' +
-                        '      </div>' +
-                        '    </td>' +
-                        '    <td>' +
-                        '      <span class="jsAdd plus btn-mini"></span>' +
-                        '    </td>' +
-                        '  </tr>' +
-                        '  <tr>' +
-                        '    <td>' +
-                        '      <span class="jsRemove minus btn-mini"></span>' +
-                        '    </td>' +
-                        '  </tr>' +
-                        '</table>';
-
-                $this.el.html(tmpl);
-                $input.appendTo(this.$('.item-count'));
-            }
 
         }
     );
