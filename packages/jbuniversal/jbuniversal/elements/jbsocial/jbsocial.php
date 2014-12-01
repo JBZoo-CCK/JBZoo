@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -43,6 +42,7 @@ class ElementJBSocial extends Element implements iSubmittable
     public function render($params = array())
     {
         $this->_renderOpenGraph($params);
+        $this->app->jbassets->less('elements:jbsocial/assets/styles.less');
 
         $html['bookmarks'] = $this->_renderBookmarks($params);
         $html['likes']     = $this->_renderLikes($params);
@@ -431,7 +431,7 @@ class ElementJBSocial extends Element implements iSubmittable
     /**
      * Validate submission
      * @param array $value
-     * @param array submission parameters
+     * @param       array submission parameters
      * @return array
      */
     public function validateSubmission($value, $params)
@@ -448,4 +448,7 @@ class ElementJBSocial extends Element implements iSubmittable
     {
         return $this->app->jbbookmarks->getBookmarkList();
     }
+
 }
+
+
