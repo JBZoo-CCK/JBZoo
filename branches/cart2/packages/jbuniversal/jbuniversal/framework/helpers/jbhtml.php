@@ -147,9 +147,10 @@ class JBHTMLHelper extends AppHelper
      * @param int    $default
      * @param array  $options
      * @param string $id
+     * @param string $name
      * @return string
      */
-    public function quantity($default = 1, $options = array(), $id = null)
+    public function quantity($default = 1, $options = array(), $id = null, $name = 'quantity')
     {
         if (!$id) {
             $id = $this->app->jbstring->getId('quantity');
@@ -159,8 +160,23 @@ class JBHTMLHelper extends AppHelper
 
         $html = array(
             '<div class="jsQuantity" id="' . $id . '">',
-            '<input type="text" class="input-quantity" value="' . (float)$default . '">',
-            '</div>'
+            '  <table cellpadding="0" cellspacing="0" border="0" class="quantity-wrapper">',
+            '    <tr>',
+            '      <td rowspan="2">',
+            '        <div class="jsCountBox item-count-wrapper">',
+            '          <div class="item-count">',
+            '            <dl class="item-count-digits">' . str_repeat('<dd></dd>', 5) . '</dl>',
+            '            <input type="text" class="input-quantity jsInput" maxlength="6" name="' . $name . '" value="' . $options['default'] . '">',
+            '          </div>',
+            '        </div>',
+            '      </td>',
+            '      <td><span class="jsAdd plus btn-mini"></span></td>',
+            '    </tr>',
+            '    <tr>',
+            '      <td><span class="jsRemove minus btn-mini"></span></td>',
+            '    </tr>',
+            '  </table>',
+            '</div>',
         );
 
         $this->app->jbassets->initQuantity($id, $options);
@@ -268,7 +284,6 @@ class JBHTMLHelper extends AppHelper
         $defaultCur = $this->app->jbvars->lower($defaultCur);
         $moneyVal   = JBCart::val(1, $defaultCur, $curList); // for calculating
         $uniqId     = $this->app->jbstring->getId();
-
 
         if (isset($curList['%'])) {
             unset($curList['%']);
