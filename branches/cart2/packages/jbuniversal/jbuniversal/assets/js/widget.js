@@ -5,7 +5,7 @@
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @license     http://jbzoo.com/license JBZoo Licence
  */
 
 ;
@@ -15,6 +15,9 @@
         widgetId = 0,
         widgets = {};
 
+    /**
+     * JBZoo widget factory
+     */
     $.extend(JBZoo.constructor.prototype, {
 
         /**
@@ -344,6 +347,15 @@
             Child.prototype = new JBZooObject;
             Child.prototype.constructor = Child;
             Child.parent = Parent.prototype
+        },
+
+        /**
+         * Check is Widget exists
+         * @param widgetName
+         * @returns {boolean}
+         */
+        isWidgetExists: function (widgetName) {
+            return !JBZoo.empty($.fn[widgetName]);
         }
     });
 
