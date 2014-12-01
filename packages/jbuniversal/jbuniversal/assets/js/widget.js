@@ -290,7 +290,8 @@
             $.fn[widgetName] = function (options) {
 
                 var args = arguments,
-                    method = (args[0] && typeof args[0] == 'string') ? args[0] : null;
+                    method = (args[0] && typeof args[0] == 'string') ? args[0] : null,
+                    returnValue = this;
 
                 if (method && method.indexOf('_') === 0) {
                     $jbzoo.error('Method \"jQuery.' + widgetName + '.' + method + '\" is protected!');
@@ -302,10 +303,20 @@
 
                     if (widgets[widgetName].prototype[method] && $element.data(widgetName) && method != "init") {
 
-                        $element.data(widgetName)[method].apply(
+                        methodValue = $element.data(widgetName)[method].apply(
                             $element.data(widgetName),
                             Array.prototype.slice.call(args, 1)
                         );
+
+                        if (methodValue !== $element.data(widgetName) && methodValue !== undefined) {
+
+                            returnValue = methodValue && methodValue.jquery ?
+                                returnValue.pushStack(methodValue.get()) :
+                                methodValue;
+
+                            return false;
+                        }
+
 
                     } else if ((!method || $.isPlainObject(method)) && (!$.data(element, widgetName))) {
                         $element.data(widgetName, new widgets[widgetName](element, options));
@@ -316,7 +327,7 @@
                 });
 
                 // chain jQuery functions
-                return $(this);
+                return returnValue;
             };
         },
 
