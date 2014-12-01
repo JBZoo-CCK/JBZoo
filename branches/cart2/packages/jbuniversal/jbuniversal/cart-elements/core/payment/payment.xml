@@ -12,5 +12,8 @@
     <params>
         <param name="debug" type="jbbool" default="0" label="JBZOO_PAYMENT_DEBUG"
                description="JBZOO_PAYMENT_DEBUG_DESC"/>
+
+        <param name="currency" type="jbcurrency" default="eur" label="JBZOO_PAYMENT_CURRENCY"
+               description="JBZOO_PAYMENT_CURRENCY_DESC"/>
     </params>
 </element>
