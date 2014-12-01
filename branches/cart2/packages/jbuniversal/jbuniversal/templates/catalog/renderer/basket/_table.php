@@ -13,7 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 $params = array(); ?>
 
-<table class="jbbasket-table jsJBZooBasket">
+<table class="jbbasket-table jsJBZooCart">
     <thead>
     <tr>
         <th></th>
@@ -202,15 +202,18 @@ $params = array(); ?>
     <?php endif; ?>
 </table>
 
+
+<?php
+$params = array(
+    'confirm_message' => JText::_('JBZOO_CART_CLEAR_CONFIRM'),
+    'url_quantity'    => $this->app->jbrouter->basketQuantity(),
+    'url_delete'      => $this->app->jbrouter->basketDelete(),
+    'url_clear'       => $this->app->jbrouter->basketClear(),
+    'params'          => (object)$params
+);
+?>
 <script type="text/javascript">
     jQuery(function ($) {
-
-        $('.jbzoo .jsJBZooBasket').JBZooCart({
-            'confirm_message': "<?php echo JText::_('JBZOO_CART_CLEAR_CONFIRM');?>",
-            'url_quantity'   : "<?php echo $this->app->jbrouter->basketQuantity();?>",
-            'url_delete'     : "<?php echo $this->app->jbrouter->basketDelete();?>",
-            'url_clear'      : "<?php echo $this->app->jbrouter->basketClear();?>",
-            'params'         : <?php echo json_encode((object)$params); ?>
-        });
+        $(".jbzoo .jsJBZooCart").JBZooCart(<?php echo json_encode($params);?>);
     });
 </script>
