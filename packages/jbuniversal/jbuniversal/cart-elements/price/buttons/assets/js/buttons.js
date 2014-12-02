@@ -42,60 +42,64 @@
                 var jbPrice = $this.price.data('JBZooPrice'),
                     quantity = jbPrice.get('_quantity', 1);
 
-                $this.ajax({
-                    'url'    : $this.options.add,
-                    'data'   : {
-                        "args": {
-                            'quantity': quantity,
-                            'values'  : jbPrice.getValue()
-                        }
-                    },
-                    'success': function (data) {
+                if (!$this.isAjax) {
+                    $this.ajax({
+                        'target' : $(this),
+                        'url'    : $this.options.add,
+                        'data'   : {
+                            "args": {
+                                'quantity': quantity,
+                                'values'  : jbPrice.getValue()
+                            }
+                        },
+                        'success': function (data) {
 
-                        var params = {
-                            'key'     : $this.getKey(),
-                            'isInCart': data.result ? 1 : 0
-                        };
-                        this.set(params);
+                            var params = {
+                                'key'     : $this.getKey(),
+                                'isInCart': data.result ? 1 : 0
+                            };
+                            this.set(params);
 
-                        jbPrice._updateCache('_buttons', params);
-                        $this.toggleButtons();
-                    },
-                    'error'  : function (data) {
-                        if (data.message) {
-                            alert(data.message);
+                            jbPrice._updateCache('_buttons', params);
+                        },
+                        'error'  : function (data) {
+                            if (data.message) {
+                                alert(data.message);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             },
 
             'click .jsRemoveFromCart': function (e, $this) {
 
                 var jbPrice = $this.price.data('JBZooPrice');
-                $this.ajax({
-                    'url'    : $this.options.remove,
-                    'data'   : {
-                        "args": {
-                            'key': $this.getKey()
-                        }
-                    },
-                    'success': function (data) {
+                if (!$this.isAjax) {
+                    $this.ajax({
+                        'target' : $(this),
+                        'url'    : $this.options.remove,
+                        'data'   : {
+                            "args": {
+                                'key': $this.getKey()
+                            }
+                        },
+                        'success': function (data) {
 
-                        var params = {
-                            'key'     : $this.getKey(),
-                            'isInCart': data.removed ? 0 : 1
-                        };
-                        this.set(params);
+                            var params = {
+                                'key'     : $this.getKey(),
+                                'isInCart': data.removed ? 0 : 1
+                            };
+                            this.set(params);
 
-                        jbPrice._updateCache('_buttons', params);
-                        $this.toggleButtons();
-                    },
-                    'error'  : function (data) {
-                        if (data.message) {
-                            alert(data.message);
+                            jbPrice._updateCache('_buttons', params);
+                        },
+                        'error'  : function (data) {
+                            if (data.message) {
+                                alert(data.message);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             },
 
             rePaint: function (data) {
@@ -130,8 +134,16 @@
             },
 
             getKey: function () {
-
                 return this.key;
+            },
+
+            _onAjaxStart: function (options) {
+                options.target.toggleClass('loading', true);
+            },
+
+            _onAjaxStop: function (options) {
+                options.target.toggleClass('loading', false);
+                this.toggleButtons();
             }
 
         }
