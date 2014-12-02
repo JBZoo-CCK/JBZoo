@@ -1,0 +1,91 @@
+/**
+ * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ *
+ * @package     jbzoo
+ * @version     2.x Pro
+ * @author      JBZoo App http://jbzoo.com
+ * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+ * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
+ */
+
+.jbzoo {
+
+  .jbzoo-button {
+    display        : inline-block;
+    vertical-align : baseline;
+    margin         : 0;
+    padding        : 3px 6px;
+    outline        : none;
+    cursor         : pointer;
+    text-align     : center;
+    text-decoration: none;
+
+    .text-shadow(0 1px 1px rgba(0, 0, 0, .3));
+    .box-shadow(0 1px 2px rgba(0, 0, 0, .2));
+    .border-radius(3px);
+  }
+
+  .jbzoo-btn-green {
+
+    .jbzoo-button;
+    .gradient(#A7D27B, #6AB635);
+
+    &:hover {
+      .gradient(#ADE16B, #65BA50);
+    }
+
+    color : #FFF;
+    border: solid 1px #6AB635;
+  }
+
+  .jbzoo-btn-grey {
+
+    .jbzoo-button;
+
+    background : #F1F1F1;
+    color      : #777;
+    border     : solid 1px #DCDCDC;
+    text-shadow: none;
+    background : -moz-linear-gradient(top, #FDFDFD 0%, #DCDCDC 100%);
+    background : -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FDFDFD), color-stop(100%, #DCDCDC));
+    background : -webkit-linear-gradient(top, #FDFDFD 0%, #DCDCDC 100%);
+    background : -o-linear-gradient(top, #FDFDFD 0%, #DCDCDC 100%);
+    background : -ms-linear-gradient(top, #FDFDFD 0%, #DCDCDC 100%);
+    background : linear-gradient(to bottom, #FDFDFD 0%, #DCDCDC 100%);
+
+    &:hover {
+      background: #F9F9F9;
+      background: -moz-linear-gradient(top, #FCFCFC 0%, #E8E8E8 100%);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FCFCFC), color-stop(100%, #E8E8E8));
+      background: -webkit-linear-gradient(top, #FCFCFC 0%, #E8E8E8 100%);
+      background: -o-linear-gradient(top, #FCFCFC 0%, #E8E8E8 100%);
+      background: -ms-linear-gradient(top, #FCFCFC 0%, #E8E8E8 100%);
+      background: linear-gradient(to bottom, #FCFCFC 0%, #E8E8E8 100%);
+    }
+  }
+
+  .jbzoo-btn-orange {
+
+    .jbzoo-button;
+    .gradient(#FDAA63, #F97A2E);
+
+    &:hover {
+      .gradient(#FCC135, #FE9437);
+    }
+
+    color : #FFF;
+    border: solid 1px #F97A2E;
+  }
+
+  .jbzoo .jbzoo-btn-medium {
+    line-height: 25px;
+    font-size  : 15px;
+  }
+
+  .jbzoo .jbzoo-btn-big {
+    line-height: 50px;
+    font-size  : 18px;
+  }
+
+}

@@ -784,6 +784,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             'elements:jbprice/assets/js/jbprice.js',
             'jbassets:js/price/toggle.js'
         ));
+        $this->app->jbassets->less('elements:jbprice/assets/less/jbprice.less');
 
         return parent::loadAssets();
     }
