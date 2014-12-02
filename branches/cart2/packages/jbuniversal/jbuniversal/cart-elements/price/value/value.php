@@ -57,8 +57,9 @@ class JBCartElementPriceValue extends JBCartElementPrice
             return self::renderLayout($layout, array(
                 'mode'     => (int)$params->get('only_price_mode', 1),
                 'prices'   => $prices,
-                'discount' => $discount->convert($this->currency()),
-                'margin'   => $margin->convert($this->currency())
+                'discount' => $discount,
+                'margin'   => $margin,
+                'currency' => $this->currency()
             ));
         }
 

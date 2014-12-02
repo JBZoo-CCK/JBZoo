@@ -15,7 +15,12 @@
     JBZoo.widget('JBZoo.PriceElement_value', {},
         {
             rePaint: function (data) {
+
                 this.el.html(data);
+                var $jbPrice = this.el.closest('.jsPrice'),
+                    toggle = $('.jsCurrencyToggle', $jbPrice);
+
+                toggle.JBZooCurrencyToggle('toggle')
             }
         }
     );

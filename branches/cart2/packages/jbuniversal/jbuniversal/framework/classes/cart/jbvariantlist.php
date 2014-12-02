@@ -155,15 +155,14 @@ class JBCartVariantList
     /**
      * Get price for variant
      *
-     * @param string $id
-     *
      * @return JBCartValue
      */
-    public function getPrice($id = ElementJBPrice::BASIC_VARIANT)
+    public function getPrice()
     {
-        $default = $this->get($id);
+        $default = $this->byDefault();
+        $margin  = $default->get('_margin');
 
-        return $default->get('_value', JBCart::val())->convert($this->currency);
+        return $default->get('_value', JBCart::val())->add($margin);
     }
 
     /**
@@ -364,6 +363,7 @@ class JBCartVariantList
                 $value = $basic->add($value);
             }
         }
+
         $margin   = $default->get('_margin', JBCart::val());
         $discount = $default->get('_discount', JBCart::val());
 
@@ -371,7 +371,7 @@ class JBCartVariantList
             ->add($margin->abs())
             ->minus($discount->abs())->abs();
 
-        return $value->convert($this->currency);
+        return $value;
     }
 
     /**
@@ -390,7 +390,7 @@ class JBCartVariantList
             }
         }
 
-        return $total->convert($this->currency);
+        return $total;
     }
 
     /**

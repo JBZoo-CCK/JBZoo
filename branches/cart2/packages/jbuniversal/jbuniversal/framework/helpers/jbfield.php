@@ -60,7 +60,9 @@ class JBFieldHelper extends AppHelper
     public function currencyList($name, $value, $controlName, SimpleXMLElement $node, $parent)
     {
         $currencyList = $this->app->jbmoney->getCurrencyList();
+        $currencyList = $this->app->jbarray->unshiftAssoc($currencyList, JBCartValue::DEFAULT_CODE, JText::_('JBZOO_JBCURRENCY_DEFAULT_CUR'));
 
+        unset($currencyList['%']);
         return $this->_renderList($currencyList, $value, $this->_getName($controlName, $name), $node);
     }
 
