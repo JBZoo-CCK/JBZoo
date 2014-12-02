@@ -209,7 +209,11 @@ abstract class JBCartElementPrice extends JBCartElement
     {
         $options = $this->_jbprice->elementOptions($this->identifier);
 
-        return array('' => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - ') + $options;
+        if (!empty($options)) {
+            $options = array('' => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - ') + $options;
+        }
+
+        return $options;
     }
 
     /**
