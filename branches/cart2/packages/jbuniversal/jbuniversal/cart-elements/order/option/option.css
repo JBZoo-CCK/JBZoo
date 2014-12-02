@@ -1,0 +1,94 @@
+/* Copyright (C) YOOtheme GmbH, http://www.gnu.org/licenses/gpl.html GNU/GPL */
+
+/*
+ * options
+ */
+
+div.options { overflow: hidden; }
+
+div.options ul {
+	margin: 0px 0px 10px 0px;
+	padding: 0;
+	list-style-type: none;
+	position: relative;
+}
+
+div.options li {
+	padding: 10px 5px;
+	overflow: hidden;
+	border-top: 1px dotted #CCC;
+	position: relative;
+}
+div.options li:first-child,
+div.options li[style*="absolute"]:first-child + li { border-top: none; }
+
+div.options li:hover { background: #F0F0F0; }
+
+div.options li:hover label { color: #0B55C4; }
+
+div.options div.name-input,
+div.options div.value-input {
+	margin: 0px 5px;
+	float: left;
+}
+
+div.options div.add {
+	margin: 0px 0px 0px 10px;
+	padding: 5px;
+	border: 1px solid #CCCCCC;
+	background: url(../../assets/images/add.png) 5px 4px no-repeat;
+	text-indent: 20px;
+	cursor: pointer;
+	float: left;
+}
+
+div.options div.add:hover { background-color: #F0F0F0; }
+
+div.options div.sort-handle,
+div.options div.delete { display: none; }
+
+div.options li:hover div.sort-handle,
+div.options li:hover div.delete {
+	display: inline-block;
+	margin: 12px 5px 0px 5px;
+	cursor: pointer;
+}
+div.options li:hover div.sort-handle { cursor: move; }
+
+ul.element-list div.options li.dragging  { border: none; }
+
+div.options label {
+	display: block;
+	color: #666666;
+	font-weight: bold;
+	float: none;
+	margin-bottom: 0px;
+}
+
+div.options div.panel {
+	margin-left: 5px;
+	display: none;
+}
+
+div.options input[type="text"] { margin-top: 0px; }
+
+div.options input { float: none }
+
+div.options div.panel.active { display: inline-block; }
+
+div.options input[name$="[value]"] {
+	width: 200px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+div.options input.accept { margin: 0px 0px 0px 5px; }
+
+div.options a.cancel {
+	margin: 0px 0px 0px 5px;
+	color: #BC0B0B;
+	cursor: pointer;
+}
+
+div.options li.hidden { display: none; }
