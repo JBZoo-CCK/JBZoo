@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -24,7 +23,8 @@ class JBCartElementOrderOption extends JBCartElementOrder
      * @param array $params
      * @return bool
      */
-    public function hasValue($params = array()) {
+    public function hasValue($params = array())
+    {
 
         foreach ($this->get('option', array()) as $option) {
             if (!empty($option)) {
@@ -32,15 +32,16 @@ class JBCartElementOrderOption extends JBCartElementOrder
             }
         }
 
-    return false;
-}
+        return false;
+    }
 
     /**
      * renders the element
      * @param array $params
      * @return mixed|string
      */
-    public function render($params = array()) {
+    public function render($params = array())
+    {
 
         return $this->edit($params);
 
@@ -70,7 +71,7 @@ class JBCartElementOrderOption extends JBCartElementOrder
     public function getConfigForm($groupData = self::DEFAULT_GROUP)
     {
 
-    return parent::getConfigForm()->addElementPath(dirname(__FILE__));
+        return parent::getConfigForm()->addElementPath(dirname(__FILE__));
     }
 
 
@@ -80,9 +81,9 @@ class JBCartElementOrderOption extends JBCartElementOrder
      */
     public function loadConfigAssets()
     {
-    $this->app->document->addScript('cart-elements:order/option/option.js');
-    $this->app->document->addStylesheet('cart-elements:order/option/option.css');
-    return parent::loadConfigAssets();
+        $this->app->document->addScript('cart-elements:order/option/option.js');
+        $this->app->document->addStylesheet('cart-elements:order/option/option.css');
+        return parent::loadConfigAssets();
     }
 
 
@@ -128,11 +129,11 @@ class JBCartElementOrderOption extends JBCartElementOrder
     public function validateSubmission($value, $params)
     {
 
-        $params = $this->app->data->create($params);
-        $value = $this->app->data->create($value);
-        $options = array('required' => $params->get('required'));
+        $params   = $this->app->data->create($params);
+        $value    = $this->app->data->create($value);
+        $options  = array('required' => $params->get('required'));
         $messages = array('required' => 'Please choose an option.');
-        $option = $this->app->validator
+        $option   = $this->app->validator
             ->create('foreach', $this->app->validator->create('string', $options, $messages), $options, $messages)
             ->clean($value->get('option'));
 

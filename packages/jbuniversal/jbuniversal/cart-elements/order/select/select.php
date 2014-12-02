@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -17,18 +16,20 @@ defined('_JEXEC') or die('Restricted access');
 App::getInstance('zoo')->loader->register('JBCartElementOrderOption', 'cart-elements:order/option/option.php');
 
 
-class JBCartElementOrderSelect extends JBCartElementOrderOption {
+class JBCartElementOrderSelect extends JBCartElementOrderOption
+{
 
     /**
      * renders front-end submission
      * @param array $params
      * @return string
      */
-    public function renderSubmission($params = array()){
+    public function renderSubmission($params = array())
+    {
 
         // init vars
         $options_from_config = $this->config->get('option', array());
-        $multiple              = $this->config->get('multiple');
+        $multiple            = $this->config->get('multiple');
         $default             = $this->config->get('default');
         $name                = $this->config->get('name');
 
@@ -52,7 +53,7 @@ class JBCartElementOrderSelect extends JBCartElementOrderOption {
             $html[] = $this->app->html->_('select.genericlist', $options, $this->getControlName('option', true), $style, 'value', 'text', $this->get('option', array()));
 
             // workaround: if nothing is selected, the element is still being transfered
-            $html[] = '<input type="hidden" name="'.$this->getControlName('select').'" value="1" />';
+            $html[] = '<input type="hidden" name="' . $this->getControlName('select') . '" value="1" />';
 
             return implode("\n", $html);
         }
