@@ -318,12 +318,8 @@ class JBAssetsHelper extends AppHelper
     public function colors()
     {
         $this->tools();
-        static $isAdded;
-
-        if (!isset($isAdded)) {
-            $isAdded = true;
-            $this->js('jbassets:js/widget/colors.js');
-        }
+        $this->js('jbassets:js/widget/colors.js');
+        $this->less('jbassets:less/widget/colors.less');
 
         return $this;
     }
@@ -334,17 +330,10 @@ class JBAssetsHelper extends AppHelper
     public function quantity()
     {
         $this->tools();
-
-        static $isAdded;
-
-        if (!isset($isAdded)) {
-            $isAdded = true;
-            $this->js('jbassets:js/widget/quantity.js');
-            $this->less('jbassets:less/widget/quantity.less');
-        }
+        $this->js('jbassets:js/widget/quantity.js');
+        $this->less('jbassets:less/widget/quantity.less');
 
         return $this;
-        $this->less('jbassets:less/widget/colors.less');
     }
 
     /**
@@ -353,13 +342,7 @@ class JBAssetsHelper extends AppHelper
     public function media()
     {
         $this->tools();
-
-        static $isAdded;
-
-        if (!isset($isAdded)) {
-            $isAdded = true;
-            $this->js('jbassets:js/widget/media.js');
-        }
+        $this->js('jbassets:js/widget/media.js');
 
         return $this;
     }
@@ -371,6 +354,7 @@ class JBAssetsHelper extends AppHelper
      */
     public function initQuantity($id, $options)
     {
+        $this->tools();
         $this->quantity();
 
         $this->addScript('jQuery(function($){
@@ -582,8 +566,6 @@ class JBAssetsHelper extends AppHelper
      */
     public function initJBColorHelper($queryElement, $type = true)
     {
-        $this->jQuery();
-        $this->tools();
         $this->colors();
 
         // force include for back-end. Do not delete!
