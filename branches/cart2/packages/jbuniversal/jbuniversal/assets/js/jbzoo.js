@@ -23,6 +23,9 @@
          */
         isAjax: false,
 
+        _onAjaxStart: $.noop,
+        _onAjaxStop : $.noop,
+
         /**
          * Custom ajax handler
          * @param options = {
@@ -38,7 +41,10 @@
 
             var $this = this;
 
-            this.isAjax = true;
+            $this.isAjax = true;
+            if ($.isFunction($this._onAjaxStart)) {
+                $this._onAjaxStart.apply($this, [options]);
+            }
 
             JBZoo.logger('w', 'ajax::request', options);
 
@@ -78,7 +84,11 @@
                 },
                 'success' : function (data) {
 
+                    // inner flag & callback
                     $this.isAjax = false;
+                    if ($.isFunction($this._onAjaxStop)) {
+                        $this._onAjaxStop.apply($this, [options]);
+                    }
 
                     if (typeof data == 'string') {
                         data = $.trim(data);
@@ -101,7 +111,12 @@
                 },
 
                 'error': function () {
+                    // inner flag & callback
                     $this.isAjax = false;
+                    if ($.isFunction($this._onAjaxStop)) {
+                        $this._onAjaxStop.apply($this, [options]);
+                    }
+
                     options.onFatal(arguments);
                 }
             });
