@@ -13,13 +13,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 /**
  * Class JBPriceRenderer
  */
 class JBPriceRenderer extends PositionRenderer
 {
-
     /**
      * @var int
      */
@@ -216,7 +214,7 @@ class JBPriceRenderer extends PositionRenderer
         foreach ($elements as $i => $data) {
             $params = array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1)), $data['params']);
 
-            //$data['element']->loadAssets();
+            $data['element']->loadAssets();
             $output[$i] = parent::render('element.' . $style, array(
                 'element' => $data['element'],
                 'params'  => $this->app->data->create($params)

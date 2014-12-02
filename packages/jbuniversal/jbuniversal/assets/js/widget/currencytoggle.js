@@ -35,6 +35,11 @@
                 return $this.options.defaultCur;
             },
 
+            toggle: function () {
+
+                this._getMoney().JBZooMoney('convert', this.getCurrent());
+            },
+
             /**
              * @returns JBZooMoney
              * @private
