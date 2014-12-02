@@ -334,7 +334,6 @@ class JBHTMLHelper extends AppHelper
                 'title' => $title,
                 'class' => array(
                     'jbcurrency-label',
-                    'jbcurrency-' . $code,
                     'hasTip',
                 ),
             );
@@ -349,7 +348,9 @@ class JBHTMLHelper extends AppHelper
                 $labelAttrs['class'][] = 'isFirst';
             }
 
-            $flag = $defaultCur == JBCartValue::DEFAULT_CODE ? '<span class="jbflag">&curren;</span>' : '<span class="jbflag"></span>';
+            $flag = ($code == JBCartValue::DEFAULT_CODE)
+                ? '<span class="jbflag jbflag-' . $code . '">&curren;</span>'
+                : '<span class="jbflag jbflag-' . $code . '"></span>';
 
             $html[] = '<input ' . $this->buildAttrs($inputAttrs) . ' />';
             $html[] = '<label  ' . $this->buildAttrs($labelAttrs) . '>' . $flag . '</label>';
