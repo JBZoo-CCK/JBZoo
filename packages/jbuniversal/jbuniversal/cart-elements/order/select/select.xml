@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<element type="select" group="Form" orderable="true">
+	<name>Select</name>
+	<author>YOOtheme</author>
+	<creationDate>August 2011</creationDate>
+	<copyright>Copyright (C) YOOtheme GmbH</copyright>
+	<authorEmail>info@yootheme.com</authorEmail>
+	<authorUrl>http://www.yootheme.com</authorUrl>
+	<version>2.5.0</version>
+	<description>HTML Selectbox</description>
+	<params>
+		<param name="multiple" type="radio" default="0" label="Multiple" description="">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</param>
+	</params>
+</element>
