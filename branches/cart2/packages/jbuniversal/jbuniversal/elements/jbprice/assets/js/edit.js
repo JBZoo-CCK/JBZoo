@@ -23,8 +23,10 @@
         {
             'validator': {},
 
-            init: function ($this) {
-                $this.sortable();
+            init: function () {
+
+                this.$('.jbprice-variation-row:first .jsJBRemove').hide();
+                this.sortable();
 
                 //create validator
                 if (!!this.options.isOverlay) {
@@ -69,28 +71,62 @@
 
             'click .jsNewPrice': function (e, $this) {
 
-                var row = $this.$('.jbprice-variation-row:first').clone().hide();
-                $('*', row)
+                var row = $this.$('.jbprice-variation-row:first'),
+                    clone = row.clone().hide();
+
+                $('*', clone)
                     .removeAttr('id checked selected')
                     .unbind();
 
-                $('input[type="text"], textarea', row).val("");
-                $('label', row).removeAttr('for');
+                $('input[type="text"], textarea', clone).val("");
 
-                $('.variant-param', row).each(function (i) {
-                    var id = parseInt(new Date().getTime() + i);
+                //Init JBZooColors
+                var colors = $('.variant-color-wrap', row);
+                if (colors.length > 0) {
+                    var oldColor = $('.jbzoo-colors', colors).data('JBZooColors'),
+                        newColor = $('.variant-color-wrap .jbzoo-colors', clone);
+
+                    newColor.JBZooColors(oldColor.options);
+                }
+                //Init JBZooMedia
+                var image = $('.variant-image-wrap', row);
+                if (image.length > 0) {
+                    var oldMedia = $('.jsMedia', image).data('JBZooMedia'),
+                        newMedia = $('.variant-image-wrap .jsMedia', clone);
+                    $('.jsMediaCancel, .jsMediaButton', newMedia).remove();
+
+                    newMedia.JBZooMedia(oldMedia.options);
+                }
+
+                $('label', clone).removeAttr('for');
+                $('.variant-param', clone).each(function (i, param) {
+                    var $param = $(param),
+                        id = parseInt(new Date().getTime() + i);
+
+                    $(' > * label', $param).each(function (n, label) {
+
+                        var $label = $(label),
+                            random = Math.floor((Math.random() * 999999) + 1);
+
+                        id += n + random;
+
+                        $label.attr('for', id);
+
+                        $('input', $label).attr('id', id);
+                        $label.prev('input').attr('id', id);
+                    });
                 });
 
-                $this.$('.variations-list').append(row);
+                $this.$('.variations-list').append(clone);
 
                 $this
                     .reBuild()
                     .sortable();
                 $this.validator
-                    .clearRow(row)
-                    .clearOptions(row);
+                    .clearRow(clone)
+                    .clearOptions(clone);
 
-                row.slideDown();
+                clone.slideDown();
             },
 
             sortable: function () {

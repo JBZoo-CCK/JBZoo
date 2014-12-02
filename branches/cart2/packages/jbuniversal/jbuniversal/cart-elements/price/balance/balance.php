@@ -23,6 +23,21 @@ class JBCartElementPriceBalance extends JBCartElementPrice
     const UNDER_ORDER   = -2;
 
     /**
+     * Check if element has value
+     *
+     * @param array $params
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        if ($this->getRenderParams()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @param  array $params
      *
      * @return mixed|null|string
@@ -30,6 +45,9 @@ class JBCartElementPriceBalance extends JBCartElementPrice
     public function edit($params = array())
     {
         if ($layout = $this->getLayout('edit.php')) {
+
+            $this->app->jbassets->js('cart-elements:price/balance/assets/js/balance.js');
+
             return self::renderLayout($layout, array(
                 'params' => $params
             ));
@@ -45,7 +63,6 @@ class JBCartElementPriceBalance extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $params   = $this->app->data->create($params);
         $template = $params->get('template', 'simple');
 
         if ($layout = $this->getLayout($template . '.php')) {

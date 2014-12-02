@@ -38,8 +38,6 @@ class JBAssetsHelper extends AppHelper
         if ($this->app->jbenv->isSite()) {
             return;
         }
-
-        $this->jQuery();
         $this->tools();
         $this->css(array(
             'jbassets:css/jbzoo.css',
@@ -55,8 +53,6 @@ class JBAssetsHelper extends AppHelper
             'jbassets:js/admin/menu.js',
             'jbassets:js/back-end.js',
         ));
-        $this->media();
-        $this->price();
     }
 
     /**
@@ -85,48 +81,14 @@ class JBAssetsHelper extends AppHelper
             )));
 
             $this->jQuery();
-            $this->chosen();
             $this->js(array(
                 'jbassets:js/helper.js',
                 'jbassets:js/widget.js',
                 'jbassets:js/jbzoo.js',
                 'jbassets:js/front-end.js',
             ));
+
             $this->js('jbassets:js/widget/goto.js');
-
-            $this->js('jbassets:js/widget/tabs.js'); // TODO ??
-            $this->js('jbassets:js/widget/recount.js'); // TODO ??
-
-            $this->quantity(); // TODO ??
-            $this->price(); // TODO ??
-        }
-    }
-
-    /**
-     * Load
-     */
-    public function price()
-    {
-        static $isAdded;
-
-        if (!isset($isAdded)) {
-            $isAdded = true;
-            if ($this->app->jbenv->isSite()) {
-                $this->js(array(
-                    'jbassets:js/price/jbprice.js',
-                    'jbassets:js/price/default.js',
-                    'jbassets:js/price/image.js',
-                    'jbassets:js/price/buttons.js'
-                ));
-            } else {
-                $this->js(array(
-                    'jbassets:js/admin/price/balance.js',
-                    'jbassets:js/admin/price/edit.js',
-                    'jbassets:js/admin/price/validator.js',
-                    'jbassets:js/admin/price/plain.js',
-                    'jbassets:js/admin/price/calc.js'
-                ));
-            }
         }
     }
 
@@ -186,8 +148,14 @@ class JBAssetsHelper extends AppHelper
     public function jQueryUI()
     {
         $this->jQuery();
-        $this->css('libraries:jquery/jquery-ui.custom.css');
-        $this->js('libraries:jquery/jquery-ui.custom.min.js');
+
+        static $isAdded;
+
+        if (!isset($isAdded)) {
+            $isAdded = true;
+            $this->css('libraries:jquery/jquery-ui.custom.css');
+            $this->js('libraries:jquery/jquery-ui.custom.min.js');
+        }
     }
 
     /**
@@ -276,9 +244,7 @@ class JBAssetsHelper extends AppHelper
             'jbassets:js/cart/module.js',
             'jbassets:js/cart/cart.js',
             'jbassets:js/cart/shipping.js',
-            'jbassets:js/cart/shippingdefault.js',
-            'jbassets:js/price/jbprice.js',
-            'jbassets:js/widget/recount.js',
+            'jbassets:js/cart/shippingdefault.js'
         ));
     }
 
@@ -347,25 +313,19 @@ class JBAssetsHelper extends AppHelper
     }
 
     /**
-     * Init JBprice Advance plugin
-     */
-    public function initJBPriceAdvance()
-    {
-        // $this->js('jbassets:js/price/jbprice.js');
-        $this->colors();
-        $this->quantity();
-        $this->js('jbassets:js/price/toggle.js');
-        $this->tools();
-    }
-
-    /**
      * Load widget JBColors
      */
     public function colors()
     {
         $this->tools();
-        $this->js('jbassets:js/widget/colors.js');
-        $this->less('jbassets:less/widget/colors.less');
+        static $isAdded;
+
+        if (!isset($isAdded)) {
+            $isAdded = true;
+            $this->js('jbassets:js/widget/colors.js');
+        }
+
+        return $this;
     }
 
     /**
@@ -374,20 +334,17 @@ class JBAssetsHelper extends AppHelper
     public function quantity()
     {
         $this->tools();
-        $this->js('jbassets:js/widget/quantity.js');
-        $this->less('jbassets:less/widget/quantity.less');
-    }
 
-    /**
-     * Init quantity widget
-     */
-    public function initQuantity($id, $options)
-    {
-        $this->quantity();
+        static $isAdded;
 
-        $this->addScript('jQuery(function($){
-            $("#' . $id . '").JBZooQuantity(' . json_encode((object)$options) . ');
-        });');
+        if (!isset($isAdded)) {
+            $isAdded = true;
+            $this->js('jbassets:js/widget/quantity.js');
+            $this->less('jbassets:less/widget/quantity.less');
+        }
+
+        return $this;
+        $this->less('jbassets:less/widget/colors.less');
     }
 
     /**
@@ -396,7 +353,29 @@ class JBAssetsHelper extends AppHelper
     public function media()
     {
         $this->tools();
-        $this->js('jbassets:js/widget/image.js');
+
+        static $isAdded;
+
+        if (!isset($isAdded)) {
+            $isAdded = true;
+            $this->js('jbassets:js/widget/media.js');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Init quantity widget
+     * @param $id
+     * @param $options
+     */
+    public function initQuantity($id, $options)
+    {
+        $this->quantity();
+
+        $this->addScript('jQuery(function($){
+            $("#' . $id . '").JBZooQuantity(' . json_encode((object)$options) . ');
+        });');
     }
 
     /**
@@ -597,21 +576,6 @@ class JBAssetsHelper extends AppHelper
     }
 
     /**
-     * Init price widget
-     */
-    public function initJBPrice()
-    {
-        static $isAdded;
-
-        $this->tools();
-
-        if (!isset($isAdded)) {
-            $isAdded = true;
-            //$this->addScript('jQuery(function($){ $(".jbzoo .jsPrice").JBZooPrice(); });');
-        }
-    }
-
-    /**
      * Init color widget
      * @param string  $queryElement
      * @param boolean $type
@@ -627,7 +591,7 @@ class JBAssetsHelper extends AppHelper
 
         if ($queryElement) {
             $this->addScript('jQuery(function($){
-                $("#' . $queryElement . '").JBColorHelper({multiple: "' . (boolean)$type . '"});
+                $("#' . $queryElement . '").JBZooColors({multiple: "' . (boolean)$type . '"});
             });');
         }
     }

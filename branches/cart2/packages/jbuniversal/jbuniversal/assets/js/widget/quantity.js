@@ -168,7 +168,7 @@
             },
 
             /**
-             * No scroll animations for no valud values
+             * No scroll animations for no valid values
              * @param newValue
              * @private
              */
@@ -291,7 +291,7 @@
                 }
 
                 return false;
-            },
+            }
 
         }
     );

@@ -6,50 +6,41 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 ;
 (function ($, window, document, undefined) {
 
-    /**
-     * jQuery helper plugin for color element
-     * @param options
-     */
-    $.fn.JBColorHelper = function (options) {
+    JBZoo.widget('JBZoo.Colors',
+        {
+            'multiple': true
+        },
+        {
+            init: function () {
 
-        var options = $.extend({}, {
-            'multiple': true,
-            'method'  : ''
-        }, options);
+                this.el.find('input[type=' + this.options.type + ']:checked').next().addClass('checked');
+            },
 
-        return $(this).each(function () {
+            'click .jbcolor-input': function (e, $this) {
 
-            var $this = $(this);
+                var $field = $(this);
 
-            $this.find('input[type=' + options.type + ']:checked').next().addClass('checked');
-
-            if ($this.hasClass('jbcolor-initialized')) {
-                return $this;
-            } else {
-                $this.addClass('jbcolor-initialized');
-            }
-
-            $('.jbcolor-input', $this).on('click', function () {
-                var $obj = $(this);
-                if (!options.multiple) {
-                    if ($obj.hasClass('checked')) {
-                        $obj
+                if (!$this.options.multiple) {
+                    if ($field.hasClass('checked')) {
+                        $field
                             .attr('checked', false)
                             .addClass('unchecked')
                             .removeClass('checked')
                             .next()
                             .removeClass('checked');
 
-                        $obj.trigger('change');
+                        $field.trigger('change');
                     } else {
-                        $('.jbcolor-input', $this).removeClass('checked');
-                        $('.jbcolor-label', $this).removeClass('checked');
-                        $obj
+                        $this.$('.jbcolor-input').removeClass('checked');
+                        $this.$('.jbcolor-label').removeClass('checked');
+
+                        $field
                             .attr('checked', true)
                             .addClass('checked')
                             .removeClass('unchecked')
@@ -58,24 +49,23 @@
                     }
                 } else {
 
-                    if ($obj.hasClass('checked')) {
-                        $obj
+                    if ($field.hasClass('checked')) {
+                        $field
                             .removeClass('checked')
                             .next()
                             .removeClass('checked');
 
-                        $obj.trigger('change');
+                        $field.trigger('change');
                     } else {
-                        $obj
+                        $field
                             .addClass('checked')
                             .next()
                             .addClass('checked');
                     }
 
                 }
-            });
-
-        });
-    };
+            }
+        }
+    );
 
 })(jQuery, window, document);

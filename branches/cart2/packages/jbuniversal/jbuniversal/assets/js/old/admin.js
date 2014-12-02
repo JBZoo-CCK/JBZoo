@@ -12,10 +12,10 @@
 (function ($, window, document, undefined) {
 
     /**
-    * JBZoo JBPrice advance (for admin panel)
-    * @param options
-    * @constructor
-    */
+     * JBZoo JBPrice advance (for admin panel)
+     * @param options
+     * @constructor
+     */
     $.fn.JBZooPriceAdvanceAdmin = function (options) {
 
         return $(this).each(function (n, obj) {
@@ -92,17 +92,14 @@
                         if (typeof $control.attr('name') != 'undefined') {
                             $control.attr('name', $control.attr('name').replace(/\[variations\]\[\d\]/i, '[variations][' + n + ']'));
                         }
-
                     });
 
                     $('input[type="radio"]', $row).each(function () {
                         var $this = $(this);
 
-                        if (typeof $this.attr('name') != 'undefined') {
-                            $this.attr('name', $this.attr('name').replace(/\[variations\-\d*\]\[\d\]/i, '[variations][' + n + ']'));
-                            if ($this.is(':checked') == true) {
-                                $this.attr('checked', 'checked');
-                            }
+                        $this.attr('name', $this.attr('name').replace(/\[variations\-\d*\]\[\d\]/i, '[variations][' + n + ']'));
+                        if ($this.is(':checked') == true) {
+                            $this.attr('checked', 'checked');
                         }
                     });
 
@@ -173,7 +170,7 @@
                 var $newRow = $('.jbpriceadv-variation-row:first', $obj).clone().hide();
 
                 $('input, select, textarea, select option:selected', $newRow)
-                    .removeAttr('id')
+                    .removeAttr('id checked selected')
                     .removeAttr('checked')
                     .removeAttr('selected')
                     .unbind();

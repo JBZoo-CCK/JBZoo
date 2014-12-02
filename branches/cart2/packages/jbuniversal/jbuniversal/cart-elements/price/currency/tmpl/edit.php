@@ -13,16 +13,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$unique = $this->app->jbstring->getId('image-'); ?>
-
-<div class="jsMedia jbprice-img-row-file" id="<?php echo $unique; ?>">
-    <?php
-    echo $this->app->jbhtml->text($this->getControlName('value'), $this->getValue(), 'class="jsJBPriceImage jsMediaValue row-file" placeholder="Image"');
-    ?>
-</div>
-
-<script type="text/javascript">
-    (function ($) {
-        $('#<?php echo $unique; ?>').JBZooMedia();
-    })(jQuery)
-</script>
+if (count($currencyList) == 1) {
+    reset($currencyList);
+    $currency = current($currencyList);
+    echo $currency, $this->app->jbhtml->hidden($this->getControlName('value'), $currency, 'class="basic-currency"');
+} else {
+    echo $this->app->jbhtml->select($currencyList, $this->getControlName('value'), 'class="basic-currency"', $this->getValue('value'));
+}

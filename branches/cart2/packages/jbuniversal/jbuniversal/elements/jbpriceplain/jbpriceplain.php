@@ -77,8 +77,9 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
     /**
      * @param string $template - need to get render params for elements
      * @param array  $values - selected values
+     * @param string $currency
      */
-    public function ajaxChangeVariant($template = 'default', $values = array())
+    public function ajaxChangeVariant($template = 'default', $values = array(), $currency = '')
     {
         $list = $this->getVariantByValues($values);
 
@@ -87,7 +88,11 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
         $this->set('default_variant', $key);
 
         $this->_template = $template;
-        $this->_list     = new JBCartVariantList($list, $this);
+        $this->_list     = new JBCartVariantList($list, $this, array(
+            'values'   => $values,
+            'template' => $template,
+            'currency' => $currency
+        ));
 
         $this->app->jbajax->send($this->_list->renderVariant());
     }
@@ -113,7 +118,8 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
         $this->_template = $template;
         $this->_list     = new JBCartVariantList($list, $this, array(
             'values'   => $values,
-            'quantity' => $quantity
+            'quantity' => $quantity,
+            'currency' => $this->_config->get('cart.default_currency', JBCart::val()->cur())
         ));
 
         if ($this->inStock($quantity)) {
@@ -131,6 +137,19 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
     }
 
     /**
+     * Remove from cart method
+     *
+     * @param string $key - Session key
+     * @return mixed
+     */
+    public function ajaxRemoveFromCart($key)
+    {
+        $result = JBCart::getInstance()->removeVariant($key);
+
+        $this->app->jbajax->send(array('removed' => $result));
+    }
+
+    /**
      * @param $identifier
      *
      * @return array|void
@@ -138,6 +157,21 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
     public function elementOptions($identifier)
     {
         return parent::selectedOptions($identifier);
+    }
+
+    /**
+     * Load assets
+     * @return $this
+     */
+    public function loadEditAssets()
+    {
+        parent::loadEditAssets();
+
+        if ((int)$this->config->get('mode', 1)) {
+            $this->app->jbassets->js('jbassets:js/admin/validator/plain.js');
+        }
+
+        return $this;
     }
 
 }

@@ -150,6 +150,17 @@ class JBCartElementPriceColor extends JBCartElementPrice
     }
 
     /**
+     * Load elements css/js assets
+     * @return $this
+     */
+    public function loadAssets()
+    {
+        $this->app->jbassets->colors();
+
+        return parent::loadAssets();
+    }
+
+    /**
      * Load config assets
      * @return self
      */

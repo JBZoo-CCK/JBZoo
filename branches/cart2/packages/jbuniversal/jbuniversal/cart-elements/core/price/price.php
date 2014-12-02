@@ -93,7 +93,6 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * @param string $identifier
-     *
      * @return bool|JBCartElement|null
      */
     public function getElement($identifier)
@@ -167,11 +166,20 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     * Get default currency
+     * @return mixed
+     */
+    public function currency()
+    {
+        return $this->getList()->currency;
+    }
+
+    /**
      * @return JBCartVariant
      */
     public function isBasic()
     {
-        $variant = $this->getList()->get((int)$this->config->get('_variant'));
+        $variant = $this->getList()->get($this->config->get('_variant'));
 
         return $variant->isBasic();
     }
@@ -182,7 +190,7 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function interfaceParams()
     {
-        return array();
+        return null;
     }
 
     /**
@@ -268,6 +276,21 @@ abstract class JBCartElementPrice extends JBCartElement
         $itemId = $this->getJBprice()->getItem()->id;
 
         return "params[{$itemId}][{$this->identifier}][{$name}]";
+    }
+
+    /**
+     * Load elements css/js assets
+     * @return $this
+     */
+    public function loadAssets()
+    {
+        static $isAdded;
+        if (!isset($isAdded)) {
+            $this->app->jbassets->js('cart-elements:core/price/assets/js/default.js');
+            $isAdded = true;
+        }
+
+        return $this;
     }
 
     /**

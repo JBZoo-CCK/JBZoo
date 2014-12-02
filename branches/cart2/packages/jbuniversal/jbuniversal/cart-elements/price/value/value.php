@@ -48,18 +48,17 @@ class JBCartElementPriceValue extends JBCartElementPrice
     public function render($params = array())
     {
         $prices = $this->getPrices();
-        $layout = $this->getLayout('undiscounted.php');
+        $list   = $this->getList();
 
-        if ($discount = $this->getElement('_discount')) {
-            $discount = $discount->getValue();
-            $layout   = $this->getLayout();
-        }
+        $discount = $list->byDefault()->get('_discount', JBCart::val());
+        $margin   = $list->byDefault()->get('_margin', JBCart::val());
 
-        if ($layout) {
+        if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'mode'     => (int)$params->get('only_price_mode', 1),
                 'prices'   => $prices,
-                'discount' => $discount
+                'discount' => $discount->convert($this->currency()),
+                'margin'   => $margin->convert($this->currency())
             ));
         }
 
@@ -72,7 +71,7 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function getPrices()
     {
-        $list = $this->_jbprice->getVariantList();
+        $list = $this->getList();
 
         if ($this->_jbprice->isOverlay()) {
 
@@ -171,6 +170,17 @@ class JBCartElementPriceValue extends JBCartElementPrice
         $params = $this->getRenderParams();
 
         return $this->render($params);
+    }
+
+    /**
+     * Load elements css/js assets
+     * @return $this
+     */
+    public function loadAssets()
+    {
+        $this->app->jbassets->js('cart-elements:price/value/assets/js/value.js');
+
+        return parent::loadAssets();
     }
 
 }

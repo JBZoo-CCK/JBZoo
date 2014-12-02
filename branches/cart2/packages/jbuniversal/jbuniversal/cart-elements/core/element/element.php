@@ -124,7 +124,7 @@ abstract class JBCartElement
         if (is_array($config)) {
             $config = $this->app->data->create($config);
         }
-        
+
         $this->config = $config;
     }
 
@@ -202,7 +202,7 @@ abstract class JBCartElement
     /**
      * Get element layout path and use override if exists
      *
-     * @param null $layout
+     * @param null|string $layout
      *
      * @return string
      */
@@ -300,8 +300,8 @@ abstract class JBCartElement
     /**
      * Renders the element using template layout file
      *
-     * @param       $__layout layouts template file
-     * @param array $__args layouts template file args
+     * @param string $__layout layouts template file
+     * @param array  $__args layouts template file args
      *
      * @return string
      */

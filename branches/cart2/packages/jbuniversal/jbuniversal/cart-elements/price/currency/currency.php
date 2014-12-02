@@ -56,6 +56,21 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
     }
 
     /**
+     * Get elements value
+     *
+     * @param string $key
+     * @param null   $default
+     *
+     * @return mixed|null
+     */
+    public function getValue($key = 'value', $default = null)
+    {
+        $params = $this->getRenderParams();
+
+        return $params->get('currency_default', JBCart::val()->cur());
+    }
+
+    /**
      * Get JBPrice class
      * @return string
      */
@@ -84,7 +99,7 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
      */
     public function renderAjax()
     {
-        return array();
+        return null;
     }
 
 }
