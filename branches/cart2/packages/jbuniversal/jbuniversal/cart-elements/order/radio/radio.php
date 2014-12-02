@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -14,6 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 App::getInstance('zoo')->loader->register('JBCartElementOrderOption', 'cart-elements:order/option/option.php');
+
 /**
  * Class JBCartElementOrderFieldText
  */
@@ -25,7 +25,8 @@ class JBCartElementOrderRadio extends JBCartElementOrderOption
      * @param array $params
      * @return string
      */
-    public function renderSubmission($params = array()){
+    public function renderSubmission($params = array())
+    {
 
         // init vars
         $options_from_config = $this->config->get('option', array());
