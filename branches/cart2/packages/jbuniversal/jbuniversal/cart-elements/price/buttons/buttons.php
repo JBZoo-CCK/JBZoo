@@ -51,7 +51,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
         if ($layout = $this->getLayout($template . '.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params,
-                'inCart' => ((int)$interface['isInCart'] ? 'in-cart' : 'not-in-cart')
+                'inCart' => ((int)$interface['isInCart'] ? 'in-cart' : null)
             ));
         }
 

@@ -90,7 +90,7 @@
                                 'isInCart': data.removed ? 0 : 1
                             };
                             this.set(params);
-
+                            console.log(this.isInCart);
                             jbPrice._updateCache('_buttons', params);
                         },
                         'error'  : function (data) {
@@ -110,15 +110,11 @@
             },
 
             toggleButtons: function () {
-
+                console.log(this.isInCart);
                 var jsButtons = this.$('.jsPriceButtons');
 
-                if (!this.isInCart) {
-                    jsButtons.addClass('not-in-cart').removeClass('in-cart');
-                } else {
-                    jsButtons.addClass('in-cart').removeClass('not-in-cart');
-                }
-
+                jsButtons.toggleClass('in-cart', this.isInCart == true);
+                
                 return this;
             },
 
