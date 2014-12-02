@@ -311,24 +311,24 @@
     }
 
     // Opacity You can use 0.5 or 50
-    /*
-    .opacity(@value) when (isnumber(@value)) and (@value =< 1) {
-        zoom: 1; // IE hack
-        opacity: @value;
-        //filter: ~"alpha(opacity="@value*100~")";
-        //-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity="@value*100~")"; // very old IE
-    }
+    // BUG with PHP compiller
+    // .opacity(@value) when (isnumber(@value)) and (@value =< 1) {
+    //     zoom: 1; // IE hack
+    //     opacity: @value;
+    //     //filter: ~"alpha(opacity="@value*100~")";
+    //     //-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity="@value*100~")"; // very old IE
+    // }
+    //
+    // .opacity(@value) when (isnumber(@value)) and (@value > 1) and not (ispercentage(@value)){
+    //     zoom: 1; // IE hack
+    //     opacity: @value/100;
+    //     //filter: ~"alpha(opacity="@value~")";
+    //     //-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity="@value~")"; // very old IE
+    // }
 
-    .opacity(@value) when (isnumber(@value)) and (@value > 1) and not (ispercentage(@value)){
-        zoom: 1; // IE hack
-        opacity: @value/100;
-        //filter: ~"alpha(opacity="@value~")";
-        //-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity="@value~")"; // very old IE
-    }
-    */
-    
     .opacity(@value) {
         opacity: @value;
+        filter: ~"alpha(opacity="@value*100~")";
     }
 
     // Appearance
