@@ -28,11 +28,11 @@ class JBCartElementPriceMargin extends JBCartElementPrice
     public function hasValue($params = array())
     {
         $value = $this->getValue();
-        if ($value->isPositive()) {
-            return true;
+        if ($value->isEmpty()) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -76,9 +76,9 @@ class JBCartElementPriceMargin extends JBCartElementPrice
      */
     public function getValue($key = 'value', $default = null)
     {
-        $value = (float)parent::getValue($key, $default);
+        $value = parent::getValue($key, $default);
 
-        return JBCart::val($value);
+        return JBCart::val($value)->abs();
     }
 
     /**

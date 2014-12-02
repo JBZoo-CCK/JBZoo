@@ -12,12 +12,11 @@
 ;
 (function ($, window, document, undefined) {
 
-    JBZoo.widget('JBZooPrice.Element_quantity', {
-            'target': '.jsQuantity'
-        },
+    JBZoo.widget('JBZoo.PriceElement_default', {},
         {
-            init: function () {
-                this.$(this.options.target).JBZooQuantity(this.options);
+            rePaint: function (data) {
+
+                this.el.html(data);
             }
         }
     );

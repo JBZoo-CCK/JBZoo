@@ -24,6 +24,7 @@ class JBCartElementPriceImage extends JBCartElementPrice
     public function edit()
     {
         if ($layout = $this->getLayout('edit.php')) {
+            $this->app->jbassets->media();
             return self::renderLayout($layout);
         }
 
@@ -134,5 +135,16 @@ class JBCartElementPriceImage extends JBCartElementPrice
 
         return $this->getImage($path);
     }
-    
+
+    /**
+     * Load elements css/js assets
+     * @return $this
+     */
+    public function loadAssets()
+    {
+        $this->app->jbassets->js('cart-elements:price/image/assets/js/image.js');
+
+        return parent::loadAssets();
+    }
+
 }

@@ -56,8 +56,9 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
     /**
      * @param string $template
      * @param array  $values
+     * @param string $currency
      */
-    public function ajaxChangeVariant($template = 'default', $values = array())
+    public function ajaxChangeVariant($template = 'default', $values = array(), $currency = '')
     {
         $list = $this->getVariantByValues($values);
 
@@ -67,7 +68,11 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         $this->set('default_variant', $key);
 
         $this->_template = $template;
-        $this->_list     = new JBCartVariantList($list, $this);
+        $this->_list     = new JBCartVariantList($list, $this, array(
+            'values'   => $values,
+            'template' => $template,
+            'currency' => $currency
+        ));
 
         $this->app->jbajax->send($this->_list->renderVariant());
     }
@@ -95,7 +100,8 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         $this->_template = $template;
         $this->_list     = new JBCartVariantList($list, $this, array(
             'values'   => $values,
-            'quantity' => $quantity
+            'quantity' => $quantity,
+            'currency' => $this->_config->get('cart.default_currency', JBCart::val()->cur())
         ));
 
         if ($this->inStock($quantity)) {
@@ -110,6 +116,19 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         }
 
         $sendAjax && $jbAjax->send(array('added' => 0, 'message' => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE')));
+    }
+
+    /**
+     * Remove from cart method
+     *
+     * @param string $key - Session key
+     * @return mixed
+     */
+    public function ajaxRemoveFromCart($key)
+    {
+        $result = JBCart::getInstance()->removeVariant($key);
+
+        $this->app->jbajax->send(array('removed' => $result));
     }
 
     /**
@@ -137,6 +156,20 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         }
 
         return $result;
+    }
+
+    /**
+     * Load assets
+     * @return $this
+     */
+    public function loadEditAssets()
+    {
+        parent::loadEditAssets();
+        if ((int)$this->config->get('mode', 1)) {
+            $this->app->jbassets->js('jbassets:js/admin/validator/calc.js');
+        }
+
+        return $this;
     }
 
 }

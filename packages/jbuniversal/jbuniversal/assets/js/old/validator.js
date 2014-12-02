@@ -18,7 +18,7 @@
 
         $this.refreshAllModeDefault = function () {
 
-            $('.jbpriceadv-variation-row', $this).each(function () {
+            $('.jbprice-variation-row', $this).each(function () {
 
                 var $row = $(this);
                 $('.simple-param', $row).each(function () {
@@ -141,12 +141,12 @@
                 if (Object.keys(param).length > 0) {
                     objects[i] = param;
 
-                } /*else if (exists.length === 0) {
+                } else if (exists.length === 0) {
                  objects[i] = {
                  'exists': false
                  }
 
-                 }*/ else if ($('.jbpriceadv-variation-row', $this).length > 1 && exists.length !== 0) {
+                 } else if ($('.jbpriceadv-variation-row', $this).length > 1 && exists.length !== 0) {
                     objects[i] = {
                         'empty': true
                     };

@@ -11,11 +11,9 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die('Restricted access');?>
 
-?>
-
-<div class="jbprice-buttons">
+<div class="jbprice-buttons jsPriceButtons <?php echo $inCart; ?>">
     <a rel="nofollow" href="#add-to-cart" class="jsAddToCart jbzoo-button green"
        title="<?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART'); ?>"><?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART'); ?></a>
 

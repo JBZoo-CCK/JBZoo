@@ -41,19 +41,20 @@
                     }
 
                     if ($.isFunction(plugName)) {
-                        $this.elements[key] = element[plugName](params);
+                        $this.elements[key] = element[plugName](params).data(plugName);
 
                     } else if ($.fn[plugName]) {
-                        $this.elements[key] = element[plugName](params);
+
+                        $this.elements[key] = element[plugName](params).data(plugName);
 
                     } else {
-                        $this.elements[key] = element[defaultName](params);
-
+                        $this.elements[key] = element[defaultName](params).data(defaultName);
                     }
                 });
+
             },
 
-            'change .jbprice-simple-param input, select, textarea': function (e, $this) {
+            'change .jbprice-simple-param input, .jbprice-simple-param select, .jbprice-simple-param textarea': function (e, $this) {
                 $this.rePaint();
             },
 
@@ -70,18 +71,20 @@
 
             getHash: function () {
 
-                var values = this.getValues();
+                var values = this._getValues();
                 return this._buildHash(values);
             },
 
             getVariant: function () {
-                var $this = this;
+                var $this = this,
+                    currency = this.$('.jsCurrencyToggle').data('JBZooCurrencyToggle');
 
                 this.ajax({
                     'url'    : $this.options.variantUrl,
                     'data'   : {
                         'args': {
-                            'values': $this.getValues()
+                            'values'  : $this._getValues(),
+                            'currency': currency.getCurrent()
                         }
                     },
                     'success': function (data) {
@@ -90,48 +93,30 @@
                         $this._rePaint(data);
                     },
                     'error'  : function (error) {
-
+                        if (error.message) {
+                            $this.alert(error.message);
+                        }
                     }
                 });
             },
 
-            _rePaint: function (data) {
-
-                var $this = this;
-
-                $.each(data, function (key, data) {
-
-                    if (!JBZoo.empty($this.elements[key])) {
-
-                        var $object = $this.elements[key],
-                            element = $object.data($this._namespace + key);
-
-                        if (JBZoo.empty(element)) {
-                            element = $object.data($this._namespace + '_default');
-                        }
-
-                        if ((!JBZoo.empty(element)) && ($.isFunction(element["rePaint"]))) {
-                            element.rePaint(data);
-                        }
-                    }
-                });
-
+            getValue: function () {
+                return this._getValues();
             },
 
-            _buildHash: function (values) {
-                var hash = [];
+            get: function (identifier, defValue) {
+                var element = this.elements[identifier];
 
-                for (var key in values) {
-                    if (values.hasOwnProperty(key)) {
-                        var val = values[key];
+                if (!JBZoo.empty(element)) {
+                    if ($.isFunction(element["getValue"])) {
+                        return element.getValue();
                     }
-                    hash.push(key + val.value);
                 }
 
-                return hash.join('_');
+                return defValue;
             },
 
-            getValues: function () {
+            _getValues: function () {
 
                 var values = {};
 
@@ -162,6 +147,44 @@
                 });
 
                 return values;
+            },
+
+            _rePaint: function (data) {
+
+                var $this = this;
+                $.each(data, function (key, data) {
+
+                    if (!JBZoo.empty($this.elements[key])) {
+
+                        var element = $this.elements[key];
+
+                        if ((!JBZoo.empty(element)) && ($.isFunction(element["rePaint"]))) {
+                            element.rePaint(data);
+                        }
+                    }
+                });
+
+            },
+
+            _buildHash: function (values) {
+                var hash = [];
+
+                for (var key in values) {
+                    if (values.hasOwnProperty(key)) {
+                        var val = values[key];
+                    }
+                    hash.push(key + val.value);
+                }
+
+                return hash.join('_');
+            },
+
+            _updateCache: function (key, data) {
+
+                var neW = {};
+                neW[key] = data;
+
+                this.cache[this.getHash()] = neW;
             }
         }
     );

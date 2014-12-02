@@ -60,19 +60,21 @@ class JBCartVariantList
         $this->_default = $jbPrice->defaultVariantKey();
         $this->_options = $this->_jbprice->app->data->create($options);
 
-        //create basic variant if he isn't set in $list
+        //Add basic variant if he isn't set in $list
         if (!isset($list[$jbPrice::BASIC_VARIANT])) {
             $list[$jbPrice::BASIC_VARIANT] = $jbPrice->get('variations.' . $jbPrice::BASIC_VARIANT, array());
         }
 
-        //create variant instance
+        //Create variant instance
         if (!empty($list)) {
-            foreach ($list as $id => $variant) {
-                if ((!$this->has($id)) && ($instance = $this->_createInstance($id, $jbPrice, $variant))) {
+            foreach ($list as $id => $elements) {
+                $elements = array_merge($elements, $this->_jbprice->getSystemElementsParams());
+                if ((!$this->has($id)) && ($instance = $this->_createInstance($id, $jbPrice, $elements))) {
                     $this->set($instance);
                 }
             }
         }
+
     }
 
     /**
@@ -161,7 +163,7 @@ class JBCartVariantList
     {
         $default = $this->get($id);
 
-        return $default->get('_value', JBCart::val());
+        return $default->get('_value', JBCart::val())->convert($this->currency);
     }
 
     /**
@@ -174,7 +176,7 @@ class JBCartVariantList
         $result  = array();
 
         foreach ($variant->getElements() as $key => $element) {
-            if ($element->isCore()) {
+            if ($element->isCore() && $this->_jbprice->getElementRenderParams($key)) {
                 $data = $element->renderAjax();
                 //return data if not null
                 if (!is_null($data)) {
@@ -356,7 +358,7 @@ class JBCartVariantList
         $value   = $element->getValue();
 
         if (!$default->isBasic()) {
-            if ($element->isModifier()) {
+            if ($element && $element->isModifier()) {
 
                 $basic = $this->getPrice(ElementJBPrice::BASIC_VARIANT);
                 $value = $basic->add($value);
@@ -369,7 +371,7 @@ class JBCartVariantList
             ->add($margin->abs())
             ->minus($discount->abs())->abs();
 
-        return $value;
+        return $value->convert($this->currency);
     }
 
     /**
@@ -388,7 +390,7 @@ class JBCartVariantList
             }
         }
 
-        return $total;
+        return $total->convert($this->currency);
     }
 
     /**

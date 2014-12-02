@@ -59,7 +59,6 @@ class JBCartElementPriceDescription extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $params = $this->app->data->create($params);
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'params' => $params

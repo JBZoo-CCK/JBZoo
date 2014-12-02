@@ -12,14 +12,9 @@
 ;
 (function ($, window, document, undefined) {
 
-    JBZoo.widget('JBZooPrice.Element_default',{},
+    JBZoo.widget('JBZoo.PriceElement_value', {},
         {
-            init: function ($this) {
-
-            },
-
             rePaint: function (data) {
-
                 this.el.html(data);
             }
         }

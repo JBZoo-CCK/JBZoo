@@ -330,8 +330,7 @@ class JBCart
      * Remove item's variant from cart by $key.
      * Item_id-variant or item_id for basic.
      *
-     * @param $key - Item_id + index of variant.
-     *
+     * @param string $key - Item_id + index of variant.
      * @return bool
      */
     public function removeVariant($key)
@@ -361,19 +360,20 @@ class JBCart
      * Change item quantity from basket
      *
      * @param $key
-     * @param $value
+     * @param $quantity
      */
-    public function changeQuantity($key, $value)
+    public function changeQuantity($key, $quantity)
     {
         $items = $this->getItems();
 
         if (!empty($items[$key])) {
 
-            $item  = $items[$key];
-            $value = (float)$value;
-            $value = $value >= 1 ? $value : 1;
+            $item = $items[$key];
 
-            $item['quantity'] = $value;
+            $quantity = (float)$quantity;
+            $quantity = $quantity >= 0.1 ? $quantity : 1;
+
+            $item['quantity'] = $quantity;
 
             $items[$key] = $item;
 
@@ -448,7 +448,7 @@ class JBCart
         $currency = $this->_config->get('default_currency', 'EUR');
 
         foreach ($items as $key => $item) {
-            $key = base64_encode($key);
+            $key              = base64_encode($key);
             $itemsPrice[$key] = array();
 
             $itemTotal = JBCart::val($item['total']);
@@ -479,7 +479,7 @@ class JBCart
     public function inCart($id)
     {
         $items = $this->getItems();
-        if ((isset($items[$id])) && (!empty($items))) {
+        if (isset($items[$id])) {
             return true;
         }
 

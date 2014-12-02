@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $class  = 'jsJBPriceAdvance-' . $this->identifier . '-' . $this->getItem()->id;
 $unique = $this->app->jbstring->getId('jbprice-adv-'); ?>
-<div class="jsJBPriceAdvance jbprice-advance <?php echo $class; ?>" id="<?php echo $unique; ?>">
+<div class="jsPrice jsJBPriceAdvance jbprice-advance <?php echo $class; ?>" id="<?php echo $unique; ?>">
     <?php echo $data; ?>
 </div>
 
@@ -23,12 +23,9 @@ $unique = $this->app->jbstring->getId('jbprice-adv-'); ?>
     (function ($) {
 
         $('#<?php echo $unique;?>').JBZooPrice({
-            'elements': <?php echo json_encode($elements);?>,
-
+            'elements'  : <?php echo json_encode($elements);?>,
             'itemId'    : <?php echo $this->getItem()->id;?>,
             'identifier': "<?php echo $this->identifier;?>",
-
-            'isInCart'  : <?php echo $isInCart;?>,
             'variantUrl': "<?php echo $variantUrl; ?>"
         });
 

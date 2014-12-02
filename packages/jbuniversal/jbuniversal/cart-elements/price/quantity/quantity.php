@@ -87,6 +87,9 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
      */
     public function loadAssets()
     {
+        $this->app->jbassets->quantity();
+        $this->app->jbassets->js('cart-elements:price/quantity/assets/js/quantity.js');
+
         return parent::loadAssets();
     }
 

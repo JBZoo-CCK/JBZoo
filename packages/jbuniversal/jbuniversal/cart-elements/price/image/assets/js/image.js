@@ -12,7 +12,7 @@
 ;
 (function ($, window, document, undefined) {
 
-    JBZoo.widget('JBZooPrice.Element_image',
+    JBZoo.widget('JBZoo.PriceElement_image',
         {
             'related' : '',
             'image'   : '',
