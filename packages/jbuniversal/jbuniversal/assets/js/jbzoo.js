@@ -222,6 +222,15 @@
          */
         _: function (key) {
             return key;
+        },
+
+        /**
+         * Check widget
+         * @param widgetName
+         * @returns boolean
+         */
+        isWidgetExists: function (widgetName) {
+            return JBZoo.isWidgetExists(widgetName);
         }
 
     });
