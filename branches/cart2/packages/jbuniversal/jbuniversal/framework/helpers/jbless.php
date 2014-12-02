@@ -18,11 +18,6 @@ defined('_JEXEC') or die('Restricted access');
 class JBLessHelper extends AppHelper
 {
     /**
-     * @var Less_Parser
-     */
-    protected $_precessor;
-
-    /**
      * @var string
      */
     protected $_lessFull = '';
@@ -48,7 +43,7 @@ class JBLessHelper extends AppHelper
         $this->_lessFull = JPath::clean($this->app->path->path('jbassets:'));
         $this->_lessRel  = JUri::root() . $this->app->path->relative($this->_lessFull);
 
-        $this->_minFull = JPath::clean($this->app->path->path('jbassets:min/css'));
+        $this->_minFull = JPath::clean($this->app->path->path('root:') . '/cache/jbzoo_css');
         $this->_minRel  = JUri::root() . $this->app->path->relative($this->_minFull);
     }
 
@@ -100,7 +95,8 @@ class JBLessHelper extends AppHelper
         }
 
         if (filesize($cachePath) > 5) {
-            return $relPath;
+            $mtime = substr(filemtime($cachePath), -3);
+            return $relPath . '?' . $mtime;
         }
 
         return null;
@@ -114,9 +110,7 @@ class JBLessHelper extends AppHelper
     {
         try {
 
-            if (!$this->_precessor) {
-                $this->_precessor = $this->_getProcessor();
-            }
+            $precessor = $this->_getProcessor();
 
             $miscPath = JPath::clean($this->app->path->path('jbassets:less'));
             $imports  = '';
@@ -124,15 +118,19 @@ class JBLessHelper extends AppHelper
                 $imports .= '@import "' . $miscPath . '/' . $import . '";' . "\n";
             }
 
-            $rel  = JURi::root() . $this->app->path->relative($path);
+            $rel  = JUri::root() . '/' . ltrim($this->app->path->relative($path), '/');
             $code = $imports . "\n" . file_get_contents($path);
-            $this->_precessor->parse($code, $rel);
-            $resultCss = $this->_precessor->getCss();
+            $precessor->parse($code, $rel);
+            $resultCss = $precessor->getCss();
+
+            if ($this->_isDebug()) {
+                $resultCss = $this->_forceCompress($resultCss);
+            }
 
             return $resultCss;
 
-        } catch (Exception $ex) {
-            die ('<strong>Less Error (JBZoo):</strong><br/><pre>' . $ex->getMessage() . '</pre>');
+        } catch (Exception $e) {
+            die ('<strong>Less Error (JBZoo):</strong><br/><pre>' . $e->getMessage() . '</pre>');
         }
     }
 
@@ -178,7 +176,6 @@ class JBLessHelper extends AppHelper
      */
     protected function _getProcessor()
     {
-
         if (!class_exists('Less_Parser')) {
             require_once JPATH_ROOT . '/media/zoo/applications/jbuniversal/framework/libs/less.gpeasy.php';
         }
@@ -198,14 +195,47 @@ class JBLessHelper extends AppHelper
             // TODO add source map
         }
 
-        $this->_precessor = new Less_Parser($options);
+        $precessor = new Less_Parser($options);
 
-        $this->_precessor->SetImportDirs(array(
+        $precessor->SetImportDirs(array(
             $this->_lessFull => $this->_lessRel,
             JPATH_ROOT       => JUri::root(),
         ));
 
-        return $this->_precessor;
+        return $precessor;
+    }
+
+    /**
+     * @param $code
+     * @return mixed|string
+     */
+    public function _forceCompress($code)
+    {
+        $code = (string)$code;
+
+        // remove comments
+        // $code = preg_replace('#/\*[^*]*\*+([^/][^*]*\*+)*/#ius', '', $code); // exp
+
+        // remove tabs, spaces, newlines, etc.
+        $code = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $code);
+
+        $code = str_replace(' {', '{', $code); // spaces
+        $code = str_replace('{ ', '{', $code); // spaces
+        $code = str_replace(' }', '}', $code); // spaces
+        $code = str_replace('; ', ';', $code); // spaces
+        $code = str_replace(';;', ';', $code); // typos
+        $code = str_replace(';}', '}', $code); // last ";"
+
+        // remove space after colons
+        $code = preg_replace('#([a-z\-])(:\s*|\s*:\s*|\s*:)#ius', '$1:', $code);
+
+        // spaces before "!important"
+        $code = preg_replace('#(\s*\!important)#ius', '!important', $code);
+
+        // trim
+        $code = JString::trim($code);
+
+        return $code;
     }
 
     /**
@@ -216,5 +246,6 @@ class JBLessHelper extends AppHelper
     {
         return defined('JDEBUG') && JDEBUG;
     }
+
 
 }
