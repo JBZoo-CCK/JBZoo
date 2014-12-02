@@ -123,7 +123,7 @@ class JBLessHelper extends AppHelper
             $precessor->parse($code, $rel);
             $resultCss = $precessor->getCss();
 
-            if ($this->_isDebug()) {
+            if (!$this->_isDebug()) {
                 $resultCss = $this->_forceCompress($resultCss);
             }
 
