@@ -203,6 +203,29 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     * Renders the element using template layout file
+     *
+     * @param string $__layout layouts template file
+     * @param array  $__args layouts template file args
+     *
+     * @return string
+     */
+    protected function renderLayout($__layout, $__args = array())
+    {
+        $html = parent::renderLayout($__layout, $__args);
+
+        if ($html) {
+            $system = $this->getLayout('system.php');
+
+            return parent::renderLayout($system, array(
+                'html' => $html
+            ));
+        }
+
+        return $html;
+    }
+
+    /**
      * @return mixed
      */
     public function getOptions()

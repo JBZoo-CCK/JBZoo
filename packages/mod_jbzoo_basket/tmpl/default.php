@@ -61,16 +61,12 @@ if (!empty($items)) {
 echo '<div class="clr"></div>';
 echo '</div><!--/noindex-->';
 
-?>
-
-<?php
 if (!$zoo->jbrequest->isAjax()) :
     $zoo->jbassets->js('jbassets:js/cart/module.js');
-    $zoo->jbassets->js('jbassets:js/cart/cart.js');
-    ?>
+    $zoo->jbassets->js('jbassets:js/cart/cart.js'); ?>
     <script type="text/javascript">
         jQuery(function ($) {
             $('.jsJBZooCartModule').JBZooCartModule(<?php echo $basketHelper->getWidgetParams();?>);
         });
     </script>
-<?php endif; ?>
+<?php endif;

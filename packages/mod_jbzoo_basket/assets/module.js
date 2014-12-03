@@ -10,7 +10,6 @@
 
 ;
 (function ($, window, document, undefined) {
-
     /**
      * JBZoo Cart Module
      */
@@ -39,6 +38,11 @@
                 dataType: 'html',
                 success : function (data) {
                     $this.el.empty().prepend($(data).contents());
+                },
+                error   : function (error) {
+                    if (error.message) {
+                        $this.alert(error.message);
+                    }
                 }
             });
         }

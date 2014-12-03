@@ -13,14 +13,17 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// create label
-$html  = $this->app->jbhtml;
-$label = '';
-if (isset($params['showlabel']) && $params['showlabel']) {
-    $label = ($params['altlabel']) ? $params['altlabel'] : $element->config->get('name');
-}
+$classes = array(
+    'jbprice-param-' . $this->getElementType(),
+    'jbprice-' . ($this->isCore() ? 'core' : 'simple') . '-param',
+    'jbprice-param'
+);
 
-// render element
-echo '<div class="default-style">' .
-    $label . $element->render($params) .
+$attr = array(
+    'data-identifier' => $this->identifier
+);
+
+echo
+    '<div class="' . implode(' ', $classes) . '"' . $this->app->jbhtml->buildAttrs($attr) . '>'
+    . $html .
     '</div>';
