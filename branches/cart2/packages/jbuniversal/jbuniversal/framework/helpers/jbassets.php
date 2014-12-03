@@ -24,10 +24,8 @@ class JBAssetsHelper extends AppHelper
      */
     public function setAppCss($alias = null)
     {
-        $this->css(array(
-            'jbassets:css/jbzoo.css',
-            'jbassets:css/jbzoo.' . $alias . '.css'
-        ));
+        $this->less('jbassets:less/jbzoo.less');
+        $this->css('jbassets:css/jbzoo.' . $alias . '.css');
     }
 
     /**
@@ -39,10 +37,9 @@ class JBAssetsHelper extends AppHelper
             return;
         }
         $this->tools();
-        $this->css(array(
-            'jbassets:css/jbzoo.css',
-            'jbassets:css/admin.css'
-        ));
+
+        $this->less('jbassets:less/jbzoo.less');
+        $this->css('jbassets:css/admin.css');
         $this->js(array(
             'jbassets:js/admin/colors.js',
             'jbassets:js/admin/delimiter.js',
@@ -569,7 +566,7 @@ class JBAssetsHelper extends AppHelper
         $this->colors();
 
         // force include for back-end. Do not delete!
-        $this->css('jbassets:css/jbzoo.css');
+        $this->less('jbassets:less/jbzoo.less');
 
         if ($queryElement) {
             $this->addScript('jQuery(function($){

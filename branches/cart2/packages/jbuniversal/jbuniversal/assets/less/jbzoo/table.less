@@ -1,0 +1,62 @@
+.jbzoo .jbtable {
+
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 1em;
+
+    th {
+        text-align: left;
+    }
+
+    td {
+        vertical-align: top;
+        padding: 8px 8px;
+        border-bottom: 1px solid #ddd;
+        &.element-label {
+            width: 30%;
+            font-weight: bold;
+        }
+    }
+
+    thead th {
+        vertical-align: bottom;
+    }
+
+    caption {
+        text-align: left;
+        color: #999;
+    }
+
+    caption,
+    tfoot {
+        font-style: italic;
+    }
+
+    // zebra
+    tr:nth-of-type(odd),
+    tr:nth-of-type(odd) td,
+    tbody tr:nth-of-type(odd),
+    tbody tr:nth-of-type(odd) td {
+        background: #f5f6f7;
+    }
+
+    tr:hover,
+    tr:hover td,
+    tbody tr:hover,
+    tbody tr:hover td {
+        background: #f0f0f0;
+    }
+
+    tr:first-child td,
+    tbody tr:first-child td {
+        border-top: 1px solid #ddd;
+    }
+
+}
+
+// IE hack
+* + .jbzoo {
+    margin-top: 20px;
+}
