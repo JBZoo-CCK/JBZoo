@@ -29,7 +29,7 @@
 
             init: function () {
 
-                this.price = this.el.closest('.jsJBPriceAdvance');
+                this.price = this.el.closest('.jsPrice');
 
                 this.set({
                     'key'     : this.options.key,
@@ -61,6 +61,7 @@
                             this.set(params);
 
                             jbPrice._updateCache('_buttons', params);
+                            $this.basketReload();
                         },
                         'error'  : function (data) {
                             if (data.message) {
@@ -90,8 +91,9 @@
                                 'isInCart': data.removed ? 0 : 1
                             };
                             this.set(params);
-                            console.log(this.isInCart);
+
                             jbPrice._updateCache('_buttons', params);
+                            $this.basketReload();
                         },
                         'error'  : function (data) {
                             if (data.message) {
@@ -103,21 +105,13 @@
             },
 
             rePaint: function (data) {
-
                 this.set(data);
-
                 this.toggleButtons();
             },
 
             toggleButtons: function () {
-                console.log(this.isInCart);
                 var jsButtons = this.$('.jsPriceButtons');
-
                 jsButtons.toggleClass('in-cart', this.isInCart == true);
-                
-                if (this.isWidgetExists('JBZooCartModule')) {
-                    $('.jsJBZooCartModule').JBZooCartModule('reload');
-                }
 
                 return this;
             },
@@ -135,6 +129,12 @@
 
             getKey: function () {
                 return this.key;
+            },
+
+            basketReload: function () {
+                if (this.isWidgetExists('JBZooCartModule')) {
+                    $('.jsJBZooCartModule').JBZooCartModule('reload');
+                }
             },
 
             _onAjaxStart: function (options) {

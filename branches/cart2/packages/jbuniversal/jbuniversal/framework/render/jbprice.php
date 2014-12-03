@@ -161,8 +161,10 @@ class JBPriceRenderer extends PositionRenderer
             foreach ($elements as $i => $data) {
                 $params = array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1)), $data['params']);
 
-                $output[$i] = parent::render('element.jbprice.' . $style,
-                    array('element' => $data['element'], 'params' => $params));
+                $output[$i] = parent::render('element.jbprice.' . $style, array(
+                    'element' => $data['element'],
+                    'params'  => $params
+                ));
             }
         }
 
@@ -240,26 +242,6 @@ class JBPriceRenderer extends PositionRenderer
     }
 
     /**
-     * @return mixed
-     */
-    protected function _getConfig()
-    {
-        $params = $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $this->_jbprice->identifier);
-
-        return $params->get(JBCart::DEFAULT_POSITION);
-    }
-
-    /**
-     * @return JSONData
-     */
-    public function _getPositions()
-    {
-        $layouts = $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_PRICE_TMPL);
-
-        return $layouts;
-    }
-
-    /**
      * @param string $dir
      *
      * @return array
@@ -288,4 +270,24 @@ class JBPriceRenderer extends PositionRenderer
         return $layoutList;
     }
 
+    /**
+     * @return JSONData
+     */
+    public function _getPositions()
+    {
+        $layouts = $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_PRICE_TMPL);
+
+        return $layouts;
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function _getConfig()
+    {
+        $params = $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $this->_jbprice->identifier);
+
+        return $params->get(JBCart::DEFAULT_POSITION);
+    }
+    
 }
