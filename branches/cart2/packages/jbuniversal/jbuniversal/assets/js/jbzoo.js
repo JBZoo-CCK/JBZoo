@@ -86,9 +86,6 @@
 
                     // inner flag & callback
                     $this.isAjax = false;
-                    if ($.isFunction($this._onAjaxStop)) {
-                        $this._onAjaxStop.apply($this, [options]);
-                    }
 
                     if (typeof data == 'string') {
                         data = $.trim(data);
@@ -106,6 +103,10 @@
 
                     } else if ($.isFunction(options.success)) {
                         options.success.apply($this, arguments);
+                    }
+
+                    if ($.isFunction($this._onAjaxStop)) {
+                        $this._onAjaxStop.apply($this, [options]);
                     }
 
                 },
