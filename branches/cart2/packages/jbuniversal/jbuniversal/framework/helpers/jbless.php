@@ -40,7 +40,7 @@ class JBLessHelper extends AppHelper
     public function __construct($app)
     {
         parent::__construct($app);
-        $this->_lessFull = JPath::clean($this->app->path->path('jbassets:'));
+        $this->_lessFull = JPath::clean($this->app->path->path('jbassets:less'));
         $this->_lessRel  = JUri::root() . $this->app->path->relative($this->_lessFull);
 
         $this->_minFull = JPath::clean($this->app->path->path('root:') . '/cache/jbzoo_css');
@@ -118,7 +118,7 @@ class JBLessHelper extends AppHelper
                 $imports .= '@import "' . $miscPath . '/' . $import . '";' . "\n";
             }
 
-            $rel  = JUri::root() . '/' . ltrim($this->app->path->relative($path), '/');
+            $rel  = rtrim(JUri::root(), '/') . '/' . ltrim($this->app->path->relative($path), '/');
             $code = $imports . "\n" . file_get_contents($path);
             $precessor->parse($code, $rel);
             $resultCss = $precessor->getCss();
