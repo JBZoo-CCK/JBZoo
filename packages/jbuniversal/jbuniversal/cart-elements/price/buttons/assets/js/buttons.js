@@ -115,6 +115,10 @@
 
                 jsButtons.toggleClass('in-cart', this.isInCart == true);
                 
+                if (this.isWidgetExists('JBZooCartModule')) {
+                    $('.jsJBZooCartModule').JBZooCartModule('reload');
+                }
+
                 return this;
             },
 
