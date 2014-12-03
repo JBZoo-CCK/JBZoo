@@ -80,7 +80,7 @@
                 return false;
             }
 
-            var postfix = "\t\t\t\tvars:";
+            var postfix = "\t\tvars:";
 
             if (type == 'e') { // error
                 vars !== undefined ? console.error(message + postfix, vars) : console.error(message);
