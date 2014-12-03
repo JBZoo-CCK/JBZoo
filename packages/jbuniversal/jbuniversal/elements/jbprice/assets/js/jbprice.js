@@ -76,13 +76,14 @@
             },
 
             getVariant: function () {
-                var $this = this;
-                    //currency = this.$('.jsCurrencyToggle').JBZooCurrencyToggle('getCurrent');
+                var $this = this,
+                    currency = this.$('.jsCurrencyToggle').JBZooCurrencyToggle('getCurrent');
                 this.ajax({
                     'url'    : $this.options.variantUrl,
                     'data'   : {
                         'args': {
-                            'values'  : $this._getValues()
+                            'values'  : $this._getValues(),
+                            'currency': currency
                         }
                     },
                     'success': function (data) {
