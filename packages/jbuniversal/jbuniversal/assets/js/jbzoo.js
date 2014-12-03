@@ -23,7 +23,14 @@
          */
         isAjax: false,
 
+        /**
+         * Widget fire on ajax start
+         */
         _onAjaxStart: $.noop,
+
+        /**
+         * Widget fire on ajax end
+         */
         _onAjaxStop : $.noop,
 
         /**
@@ -106,7 +113,7 @@
                     }
 
                     if ($.isFunction($this._onAjaxStop)) {
-                        $this._onAjaxStop.apply($this, [options]);
+                        $this._onAjaxStop.apply($this, [options, arguments]);
                     }
 
                 },
@@ -115,7 +122,7 @@
                     // inner flag & callback
                     $this.isAjax = false;
                     if ($.isFunction($this._onAjaxStop)) {
-                        $this._onAjaxStop.apply($this, [options]);
+                        $this._onAjaxStop.apply($this, [options, arguments]);
                     }
 
                     options.onFatal(arguments);
