@@ -246,12 +246,13 @@ class JBAssetsHelper extends AppHelper
     }
 
     /**
-     * Include jQuery compare
+     * Include scripts and styles for compare
      */
-    public function jQueryCompare()
+    public function compare()
     {
         $this->tools();
-        $this->js('jbassets:js/widget/compare.js');
+        $this->js('elements:jbcompare/assets/script.js');
+        $this->less('elements:jbcompare/assets/styles.less');
     }
 
     /**
@@ -291,8 +292,7 @@ class JBAssetsHelper extends AppHelper
     {
         static $isAdded;
 
-        $this->jQuery();
-        $this->jQueryCompare();
+        $this->compare();
 
         if (!isset($isAdded)) {
             $isAdded = true;
@@ -303,10 +303,11 @@ class JBAssetsHelper extends AppHelper
     /**
      * Include jQuery favorite
      */
-    public function jQueryFavorite()
+    public function favorite()
     {
         $this->tools();
-        $this->js('jbassets:js/widget/favorite.js');
+        $this->js('elements:jbfavorite/assets/script.js');
+        $this->less('elements:jbfavorite/assets/styles.less');
     }
 
     /**
@@ -366,7 +367,7 @@ class JBAssetsHelper extends AppHelper
     {
         static $isAdded;
 
-        $this->jQueryFavorite();
+        $this->favorite();
 
         if (!isset($isAdded)) {
             $isAdded = true;

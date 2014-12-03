@@ -19,6 +19,8 @@ $this->app->jblayout->setView($this);
 $this->app->document->setTitle(JText::_('JBZOO_FAVORITE_ITEMS'));
 $this->app->jbwrapper->start();
 
+$this->app->jbassets->favorite();
+
 ?><h1 class="title"><?php echo JText::_('JBZOO_FAVORITE_ITEMS'); ?></h1><?php
 
 if (!empty($this->items)) {
