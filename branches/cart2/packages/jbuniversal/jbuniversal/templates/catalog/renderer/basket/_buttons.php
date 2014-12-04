@@ -18,11 +18,11 @@ defined('_JEXEC') or die('Restricted access');
 
 <div class="jbzoo-clear jbzoo-order-submit">
 
-    <input type="submit" name="create" value="Создать заказ" class="jbbutton-base jbbutton-green jbbutton-big" />
+    <input type="submit" name="create" value="Создать заказ" class="jbbutton green big" />
 
     <?php if ($view->payment) : ?>
         <input type="submit" name="create-pay" value="Заказать и оплатить"
-               class="jbbutton-base jbbutton-green jbbutton-big" />
+               class="jbbutton green big" />
     <?php endif; ?>
 
 </div>

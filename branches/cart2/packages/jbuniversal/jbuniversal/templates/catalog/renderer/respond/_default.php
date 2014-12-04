@@ -130,7 +130,7 @@ $this->app->document->addScript('assets:js/placeholder.js');
             <?php endif; ?>
 
             <div class="actions">
-                <input name="submit" class="jbzoo-button" type="submit"
+                <input name="submit" class="jbbutton" type="submit"
                        value="<?php echo JText::_('Submit comment'); ?>" accesskey="s"/>
             </div>
 

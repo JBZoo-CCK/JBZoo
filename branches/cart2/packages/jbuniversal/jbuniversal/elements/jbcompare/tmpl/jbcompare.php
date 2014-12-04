@@ -21,12 +21,12 @@ $this->app->jbassets->initJBCompare();
 <div class="wrapper-jbcompare jsJBZooCompare <?php echo ($isExists ? ' active ' : 'unactive');?>">
 
     <div class="active-compare">
-        <a rel="nofollow" href="<?php echo $ajaxUrl;?>" class="jsCompareToggle" title="<?php echo JText::_('JBZOO_COMPARE_REMOVE');?>"><?php echo JText::_('JBZOO_COMPARE_REMOVE');?></a>
-        <a rel="nofollow" href="<?php echo $compareUrl;?>" title="<?php echo JText::_('JBZOO_COMPARE');?>"><?php echo JText::_('JBZOO_COMPARE');?></a>
+        <a rel="nofollow" href="<?php echo $ajaxUrl;?>" class="jsCompareToggle jbbutton yellow" title="<?php echo JText::_('JBZOO_COMPARE_REMOVE');?>"><?php echo JText::_('JBZOO_COMPARE_REMOVE');?></a>
+        <a rel="nofollow" href="<?php echo $compareUrl;?>" class="jbbutton yellow" title="<?php echo JText::_('JBZOO_COMPARE');?>"><?php echo JText::_('JBZOO_COMPARE');?></a>
     </div>
 
     <div class="unactive-compare">
-        <a rel="nofollow" href="<?php echo $ajaxUrl;?>" class="jsCompareToggle" title="<?php echo JText::_('JBZOO_COMPARE_ADD');?>"><?php echo JText::_('JBZOO_COMPARE_ADD');?></a>
+        <a rel="nofollow" href="<?php echo $ajaxUrl;?>" class="jsCompareToggle jbbutton" title="<?php echo JText::_('JBZOO_COMPARE_ADD');?>"><?php echo JText::_('JBZOO_COMPARE_ADD');?></a>
     </div>
 
 </div>
