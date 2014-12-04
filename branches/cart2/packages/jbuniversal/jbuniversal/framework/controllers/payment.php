@@ -81,8 +81,8 @@ class PaymentJBUniversalController extends JBUniversalController
         $this->_init();
         $this->app->jbdoc->rawOutput();
 
-        $cart    = JBCart::getInstance();
-        $payment = $this->order->getPayment();
+        $cart     = JBCart::getInstance();
+        $payment  = $this->order->getPayment();
 
         // check payment element
         if (empty($payment)) {
@@ -105,14 +105,15 @@ class PaymentJBUniversalController extends JBUniversalController
         }
 
         // check summ
-        $realSum    = $this->_jbmoney->clearValue($payment->getOrderSumm());
-        $requestSum = $this->_jbmoney->clearValue($payment->getRequestOrderSum());
-        if ($realSum != $requestSum) {
+        $realSum    = JBCart::val($payment->getOrderSumm(), $payment->getOrder()->getCurrency());
+        $requestSum = $payment->getRequestOrderSum();
+
+        if (!$realSum->compare($requestSum, '==')) {
             $this->_error('Order #' . $this->order->id . ': Not correct amount');
         }
 
         // check if sum was empty
-        if ($realSum <= 0) {
+        if ($realSum->compare(0, '<=')) {
             $this->_error('Order #' . $this->order->id . ': Amount less or equal zero');
         }
 
