@@ -11,9 +11,13 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');?>
+defined('_JEXEC') or die('Restricted access');
+
+
+$this->app->jbassets->fancybox();
+?>
+
 <div class="jbprice-buttons jsPriceButtons <?php echo $inCart; ?>">
-    <?php $this->app->jbassets->fancybox(); ?>
-    <a rel="nofollow" href="#add-to-cart-modal" class="jsAddToCartModal jbzoo-button green"
+    <a rel="nofollow" href="#add-to-cart-modal" class="jsAddToCartModal jbbutton green"
        title="<?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART_MODAL'); ?>"><?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART'); ?></a>
 </div>

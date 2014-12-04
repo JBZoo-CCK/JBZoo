@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -20,7 +19,6 @@ class JBCartElementPriceButtons extends JBCartElementPrice
 {
     /**
      * @param array $params
-     *
      * @return bool
      */
     public function hasFilterValue($params = array())
@@ -30,7 +28,6 @@ class JBCartElementPriceButtons extends JBCartElementPrice
 
     /**
      * @param  array $params
-     *
      * @return mixed|null|string
      */
     public function edit($params = array())
@@ -40,7 +37,6 @@ class JBCartElementPriceButtons extends JBCartElementPrice
 
     /**
      * @param array $params
-     *
      * @return array|mixed|null|string
      */
     public function render($params = array())
@@ -72,10 +68,9 @@ class JBCartElementPriceButtons extends JBCartElementPrice
         return array(
             'key'      => $params['key'],
             'isInCart' => $params['isInCart'],
-            'add'      => $this->app->jbrouter->element($jbPrice->identifier, $item->id, 'ajaxAddToCart',
-                array(
-                    'template' => $jbPrice->getTemplate()
-                )),
+            'add'      => $this->app->jbrouter->element($jbPrice->identifier, $item->id, 'ajaxAddToCart', array(
+                'template' => $jbPrice->getTemplate()
+            )),
             'remove'   => $this->app->jbrouter->element($jbPrice->identifier, $item->id, 'ajaxRemoveFromCart'),
             'modal'    => $this->app->jbrouter->element($jbPrice->identifier, $item->id, 'ajaxModalWindow'),
         );
@@ -97,14 +92,12 @@ class JBCartElementPriceButtons extends JBCartElementPrice
     public function loadAssets()
     {
         $this->app->jbassets->js('cart-elements:price/buttons/assets/js/buttons.js');
-        $this->app->jbassets->less('cart-elements:price/buttons/assets/less/buttons.less');
 
         return parent::loadAssets();
     }
 
     /**
      * Get session key and check if variant is in cart
-     *
      * @return array
      */
     protected function _interfaceParams()
