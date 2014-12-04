@@ -138,11 +138,11 @@
             },
 
             _onAjaxStart: function (options) {
-                options.target.toggleClass('loading', true);
+                options.target.toggleClass('loading disabled', true);
             },
 
             _onAjaxStop: function (options) {
-                options.target.toggleClass('loading', false);
+                options.target.toggleClass('loading disabled', false);
                 this.toggleButtons();
             }
 
