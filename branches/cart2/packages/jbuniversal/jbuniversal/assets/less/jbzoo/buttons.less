@@ -1,80 +1,125 @@
-.jbzoo .jbzoo-button {
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Denis Smetannikov <denis@jbzoo.com>
+//
+.jbbutton-theme(@color, @colorText) {
 
-    border-radius: 3px !important;
-    display: inline-block;
-    padding: 5px 10px;
-    border: 1px solid #C8C8C8;
-    border-bottom-color: #AAA;
-    background: #EBEBEB;
-    background: -moz-linear-gradient(50% 0%, white, #EBEBEB 70%);
-    background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(white), to(#EBEBEB), color-stop(70%, #EBEBEB));
-    font-size: 12px;
-    line-height: 16px;
-    color: #323232;
-    text-shadow: 0px 1px 0px rgba(255, 255, 255, 1.0);
-    border-image: initial;
-    cursor: pointer;
-    text-decoration: none !important;
+    color: @colorText !important; // bug with other CSS FM's
+    #text > .selection(@colorText, transparent);
+
+    border: solid 1px darken(@color, 5%);
+    #gradient > .vertical(lighten(@color, 10%), darken(@color, 10%));
+
+    &:hover,
+    &:focus {
+        #gradient > .vertical(lighten(@color, 10%), @color);
+    }
 
     &:hover {
-        border: 1px solid #C8C8C8;
-        border-top-color: #AAA;
-        background: #E1E1E1;
-        background: -moz-linear-gradient(50% 0%, #E1E1E1, #F5F5F5 96%, #FFF 96%);
-        background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(#E1E1E1), to(#FFF), color-stop(90%, #F5F5F5));
-        text-shadow: 0px -1px 0px rgba(255, 255, 255, 1.0);
-        color: #404040;
-        text-decoration: none;
+        #translate > .y(2px);
     }
 
-    .green {
-        border: 1px solid #5a8200;
-        border-bottom-color: #325000;
-        background: #8CBE32;
-        background: -moz-linear-gradient(50% 0%, #AFF532, #9BD732 1px, #6E912D);
-        background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(#AFF532), to(#6E912D), color-stop(5%, #9BD732));
-        color: #FFF !important;
-        text-shadow: none;
+    &:active {
+        #gradient > .vertical(darken(@color, 10%), lighten(@color, 5%));
+    }
+
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        background: @color;
+    }
+
+}
+
+.jbbutton-size(@fontSize: 14px) {
+
+    #font > .sans-serif(normal, @fontSize, @fontSize * 1.25);
+
+    min-height: @fontSize * 2;
+
+    min-width: @fontSize * 6;
+    max-width: @fontSize * 20;
+    width: auto;
+
+    padding: @fontSize * 0.5px @fontSize * 0.75px;
+    margin-bottom: @fontSize * 0.5;
+    margin-right: @fontSize * 0.5;
+
+    .border-radius(@fontSize * 0.25);
+}
+
+.jbbutton () {
+
+    // text
+    #text > .user-select(none);
+    vertical-align: middle;
+    touch-action: manipulation;
+    overflow: visible;
+    text-align: center;
+    white-space: nowrap;
+    text-transform: none;
+
+    // box
+    cursor: pointer;
+    display: inline-block;
+
+    text-decoration: none !important;
+    outline: none;
+    #box > .backface-visibility(hidden);
+    #box > .appearance(none);
+    #box > .box-sizing(border-box) !important;
+    #box > .shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+
+    // effects
+    #transition > .perspective(1000);
+    #transition > .simple(all 100ms ease);
+
+    &:focus {
+        #box > .focus();
+    }
+
+    &[disabled],
+    &.disabled,
+    fieldset[disabled] & {
+        .opacity(.5);
+        cursor: not-allowed;
+        pointer-events: none; // Future-proof disabling of clicks
+        #box > .shadow(none);
+
         &:hover {
-            border: 1px solid #5A8200;
-            border-top-color: #4B7800;
-            background: #78A032;
-            background: -moz-linear-gradient(50% 0%, #78A032, #9BD732 90%);
-            background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(#78A032), to(#9BD732), color-stop(90%, #9BD732));
+            #translate > .y(0);
         }
-    }
-
-    .remove-button {
-        padding: 3px 6px;
-    }
-
-    .jbbutton {
-        text-decoration: none;
-        display: inline-block;
-        border: 1px solid #C8C8C8;
-        border-bottom-color: #AAA;
-        background: #EBEBEB;
-        background: -moz-linear-gradient(50% 0%, white, #EBEBEB 70%);
-        background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(white), to(#EBEBEB), color-stop(70%, #EBEBEB));
-        background: -moz-linear-gradient(50% 0%, white, #EBEBEB 70%);
-        color: #323232 !important;
-        text-shadow: 0px 1px 0px rgba(255, 255, 255, 1.0);
-        border-radius: 3px;
-        font: 12px/14px Arial, sans-serif;
-        cursor: pointer;
-        padding: 3px 4px;
-        margin-top: 4px;
-        margin-bottom: 4px;
-        &:hover {
-            border: 1px solid #C8C8C8;
-            border-top-color: #AAA;
-            background: #E1E1E1;
-            background: -moz-linear-gradient(50% 0%, #E1E1E1, whiteSmoke 96%, white 96%);
-            background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(#E1E1E1), to(white), color-stop(90%, whiteSmoke));
-            text-shadow: 0px -1px 0px rgba(255, 255, 255, 1.0);
-            color: #404040;
-        }
-
     }
 }
 
+.jbbutton {
+
+    .jbbutton(); // common styles
+    .jbbutton-theme(#e5e5e5, #555); // default color
+    .jbbutton-size(14px); // default size
+
+    &.green {
+        .jbbutton-theme(#6ab635, #fff);
+    }
+
+    &.orange {
+        .jbbutton-theme(#f97a2e, #fff);
+    }
+
+    &.yellow {
+        .jbbutton-theme(#FDD116, #555);
+    }
+
+    &.big {
+        .jbbutton-size(18px);
+    }
+
+    &.small {
+        .jbbutton-size(10px);
+    }
+}
