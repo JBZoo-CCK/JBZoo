@@ -26,6 +26,7 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
     private $_uri = 'https://w.qiwi.com/order/external/main.action';
 
     /**
+     * Redirect to payment form action
      * @return null|string
      */
     public function getRedirectUrl()
@@ -41,6 +42,7 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
     }
 
     /**
+     * Checks validation
      * @param array $params
      * @return bool|null|void
      */
@@ -91,7 +93,11 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
      */
     public function getRequestOrderSum()
     {
-        return $this->app->jbrequest->get('amount');
+        $order       = $this->getOrder();
+        $payCurrency = $this->config->get('currency', 'eur');
+        $orderAmount = JBCart::val($this->app->jbrequest->get('amount'), $order->getCurrency())->convert($payCurrency);
+
+        return $orderAmount;
     }
 
     /**
@@ -210,7 +216,6 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
             ),
             'response' => 'full'
         ));
-
     }
 
     /**
