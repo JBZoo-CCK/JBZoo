@@ -10,20 +10,17 @@
  */
 
 @color: #900;
+
 .jbzoo {
 
     .jbprice {
 
-        // Buttons Styles
+        // buttons styles
         .jbprice-buttons {
-
-            .add-button {
-                padding: 5px 8px;
-            }
 
             .loading {
                 position: relative;
-                opacity: 0.5;
+                .opacity(0.5);
                 &:after {
                     content: '';
                     position: absolute;
@@ -62,10 +59,12 @@
                 letter-spacing: 1px;
                 font-weight: bold;
             }
+
             // Price
             .price {
                 text-decoration: line-through;
             }
+
             // Save
             .save {
                 color: @color;
@@ -81,17 +80,16 @@
             height: 1em;
         }
 
-        //Hide remove buttons
-        .remove-button {
-            display: none;
-        }
+    }
+
+    //Hide remove buttons
+    .not-in-cart .remove-button {
+        display: none;
     }
 
     //Show remove buttons
-    .in-cart {
-        .remove-button {
-            display: inline-block;
-        }
+    .in-cart .remove-button {
+        display: inline-block;
     }
 
 }
