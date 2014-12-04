@@ -49,7 +49,7 @@ if (!empty($items)) {
     }
 
     if ((int)$params->get('link_show', 1)) {
-        echo '<a rel="nofollow" class="add-to-cart" href="' . $basketHelper->getBasketUrl() . '">'
+        echo '<a rel="nofollow" class="jbbutton green small add-to-cart" href="' . $basketHelper->getBasketUrl() . '">'
             . JText::_('JBZOO_CART_GOTO_BASKET') . '</a>
         </p>';
     }
