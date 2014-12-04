@@ -131,7 +131,7 @@ $params = array(); ?>
             <td class="jsSubtotal jbbasket-subtotal">
             <span class="jbbasket-table-value jsValue">
                 <?php echo $price->multiply($quantity, true)->html(); ?>
-                <a class="item-delete jbbutton-orange jbbutton-base jsDelete"
+                <a class="item-delete jbbutton orange jsDelete"
                    item_id="<?php echo $data['item_id']; ?>">x</a>
             </span>
             </td>
@@ -153,7 +153,7 @@ $params = array(); ?>
         <td class="null jsNull"></td>
         <td class="null jsNull"></td>
         <td class="null jsNull">
-            <a class="jsDeleteAll item-delete-all jbbutton-orange jbbutton-base"><?php echo JText::_('JBZOO_CART_EMPTY'); ?></a>
+            <a class="jsDeleteAll item-delete-all jbbutton orange"><?php echo JText::_('JBZOO_CART_EMPTY'); ?></a>
         </td>
     </tr>
 
