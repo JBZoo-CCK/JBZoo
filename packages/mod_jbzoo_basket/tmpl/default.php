@@ -41,18 +41,18 @@ if (!empty($items)) {
             . $summa . '</span></p>';
     }
 
+    echo '<div class="basket-link">';
+
     if ((int)$params->get('cancel_show', 1)) {
-        echo '<p class="basket-link">'
-            . '<a rel="nofollow" class="jsEmptyCart empty-cart" href="#clean-cart">'
-            . JText::_('JBZOO_CART_EMPTY')
-            . '</a>';
+        echo '<a rel="nofollow" class="jsEmptyCart empty-cart" href="#clean-cart">' . JText::_('JBZOO_CART_EMPTY') . '</a>';
     }
 
     if ((int)$params->get('link_show', 1)) {
         echo '<a rel="nofollow" class="jbbutton green small add-to-cart" href="' . $basketHelper->getBasketUrl() . '">'
-            . JText::_('JBZOO_CART_GOTO_BASKET') . '</a>
-        </p>';
+            . JText::_('JBZOO_CART_GOTO_BASKET') . '</a>';
     }
+
+    echo '</div>';
 
 } else {
     echo '<p>' . JText::_('JBZOO_CART_ITEMS_NOT_FOUND') . '</p>';
