@@ -207,7 +207,7 @@ class JBCartOrder
 
         // get Items prices
         foreach ($items as $item) {
-            $itemPrice = $this->val($item['price'])->multiply($item['quantity']);
+            $itemPrice = $this->val($item['total'])->multiply($item['quantity']);
 
             $summa->add($itemPrice);
 
@@ -511,7 +511,7 @@ class JBCartOrder
         if ($this->getItems()->count() == 0) {
             $errorMessages[] = 'JBZOO_CART_VALIDATOR_EMPTY';
         }
-
+jbdump::dump($this->getTotalSum()->logs());
         if ($this->getTotalSum()->compare('0', '<=')) {
             $errorMessages[] = 'JBZOO_CART_VALIDATOR_ZERO_SUM';
         }
