@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -34,9 +33,7 @@ $formId = 'jbzoo-filter-' . $itemLayout . '-' . $module->id;
 
 <div class="jbzoo jbzoo-filter-wrapper">
 
-    <form class="jbzoo-filter filter-<?php echo $itemLayout; ?>"
-          id="<?php echo $formId; ?>"
-          method="get"
+    <form class="jbzoo-filter filter-<?php echo $itemLayout; ?>" id="<?php echo $formId; ?>" method="get"
           action="<?php echo JRoute::_('index.php?Itemid=' . $params->get('menuitem', JRequest::getVar('Itemid'))); ?>"
           name="<?php echo $formId; ?>">
 
@@ -46,11 +43,11 @@ $formId = 'jbzoo-filter-' . $itemLayout . '-' . $module->id;
             -->
             <?php
             echo $renderer->render('item.' . $itemLayout, array(
-                    'params'      => $params,
-                    'type'        => $type,
-                    'layout'      => $itemLayout,
-                    'application' => $application,
-                ));
+                'params'      => $params,
+                'type'        => $type,
+                'layout'      => $itemLayout,
+                'application' => $application,
+            ));
             ?>
 
             <!--
@@ -95,12 +92,13 @@ $formId = 'jbzoo-filter-' . $itemLayout . '-' . $module->id;
         <div class="controls">
             <?php if ((int)$params->get('button_submit_show', 1)) : ?>
                 <input type="submit" name="send-form" value="<?php echo JText::_('JBZOO_BUTTON_SUBMIT'); ?>"
-                       class="jsSubmit button rborder"/>
+                       class="jsSubmit jbbutton" />
             <?php endif; ?>
 
             <?php if ((int)$params->get('button_reset_show', 0)) : ?>
                 <input type="button" name="reset-form" value="<?php echo JText::_('JBZOO_BUTTON_RESET'); ?>"
-                       class="reset button rborder jsFormReset"/>
+                       class="reset jbbutton jsFormReset" />
+
                 <script type="text/javascript">
                     jQuery(function ($) {
                         $('#<?php echo $formId;?> .jsFormReset').unbind().click(function () {
@@ -131,7 +129,7 @@ $formId = 'jbzoo-filter-' . $itemLayout . '-' . $module->id;
                                     $('input[type=radio]:eq(0)', $obj).trigger('click');
                                 }
 
-                                setTimeout(function(){
+                                setTimeout(function () {
                                     $('#<?php echo $formId;?>').submit();
                                 }, 50);
                             });
@@ -148,13 +146,13 @@ $formId = 'jbzoo-filter-' . $itemLayout . '-' . $module->id;
         <!--
             System required fields
         -->
-        <input type="hidden" name="controller" value="search"/>
-        <input type="hidden" name="Itemid" value="<?php echo $params->get('menuitem', JRequest::getVar('Itemid')); ?>"/>
-        <input type="hidden" name="option" value="com_zoo"/>
-        <input type="hidden" name="task" value="filter"/>
-        <input type="hidden" name="exact" value="<?php echo $params->get('exact', 0); ?>"/>
-        <input type="hidden" name="type" value="<?php echo $type; ?>" class="jsItemType"/>
-        <input type="hidden" name="app_id" value="<?php echo $application->id; ?>" class="jsApplicationId"/>
+        <input type="hidden" name="controller" value="search" />
+        <input type="hidden" name="Itemid" value="<?php echo $params->get('menuitem', $this->app->jbrequest->get('Itemid')); ?>" />
+        <input type="hidden" name="option" value="com_zoo" />
+        <input type="hidden" name="task" value="filter" />
+        <input type="hidden" name="exact" value="<?php echo $params->get('exact', 0); ?>" />
+        <input type="hidden" name="type" value="<?php echo $type; ?>" class="jsItemType" />
+        <input type="hidden" name="app_id" value="<?php echo $application->id; ?>" class="jsApplicationId" />
     </form>
 
 </div>
