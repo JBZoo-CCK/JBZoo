@@ -12,9 +12,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 $zoo = App::getInstance('zoo');
-
 // init assets
 $zoo->jbassets->filter($itemLayout);
 
@@ -111,7 +109,7 @@ $formId = 'jbzoo-filter-' . $itemLayout . '-' . $module->id;
 
                                 $input.val('')
                                     .removeAttr('checked')
-                                    .removeAttr('selected')
+                                    .removeAttr('selected');
 
                                 if ($input.is('select') && $input.attr('multiple') != 'multiple') {
                                     $('option:eq(0)', $input).attr('selected', 'selected');
@@ -138,8 +136,7 @@ $formId = 'jbzoo-filter-' . $itemLayout . '-' . $module->id;
                         });
                     });
                 </script>
-            <?php endif; ?>
-
+            <?php endif;?>
             <div class="clear clr"></div>
         </div>
 
@@ -147,7 +144,7 @@ $formId = 'jbzoo-filter-' . $itemLayout . '-' . $module->id;
             System required fields
         -->
         <input type="hidden" name="controller" value="search" />
-        <input type="hidden" name="Itemid" value="<?php echo $params->get('menuitem', $this->app->jbrequest->get('Itemid')); ?>" />
+        <input type="hidden" name="Itemid" value="<?php echo $params->get('menuitem', $zoo->jbrequest->get('Itemid')); ?>" />
         <input type="hidden" name="option" value="com_zoo" />
         <input type="hidden" name="task" value="filter" />
         <input type="hidden" name="exact" value="<?php echo $params->get('exact', 0); ?>" />
