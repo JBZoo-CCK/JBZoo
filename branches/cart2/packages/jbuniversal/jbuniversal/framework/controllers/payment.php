@@ -105,7 +105,7 @@ class PaymentJBUniversalController extends JBUniversalController
         }
 
         // check summ
-        $realSum    = JBCart::val($payment->getOrderSumm(), $payment->getOrder()->getCurrency());
+        $realSum    = $payment->getOrderSumm();
         $requestSum = $payment->getRequestOrderSum();
 
         if (!$realSum->compare($requestSum, '==')) {
