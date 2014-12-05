@@ -54,7 +54,7 @@ $emptyRow = '<tr class="empty-row"><td colspan="50"></td></tr>';
             <tr class="item-row">
                 <td rowspan="<?php echo $rowspan; ?>">
                     <?php
-                    if ($row['image']) {
+                    if (isset($row['image']) && $row['image']) {
                         $imagePath = $this->app->jbimage->resize($row['image'], 90);
                         echo '<img src="' . $imagePath->url . '" class="item-image" />';
                     } else {
@@ -113,7 +113,7 @@ $emptyRow = '<tr class="empty-row"><td colspan="50"></td></tr>';
                     <td></td>
                     <td colspan="3"><strong>Модификаторы:</strong></td>
                 </tr>
-                <?
+                <?php
                 foreach ($itemModifiers as $modifier) {
                     $i++;
                     $totalItem->addModify($modifier);
@@ -212,4 +212,3 @@ $emptyRow = '<tr class="empty-row"><td colspan="50"></td></tr>';
         </tr>
         </tfoot>
     </table>
-<?
