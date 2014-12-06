@@ -18,7 +18,18 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceButtons extends JBCartElementPrice
 {
     /**
+     * Check if element has value
      * @param array $params
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        return true;
+    }
+
+    /**
+     * @param array $params
+     *
      * @return bool
      */
     public function hasFilterValue($params = array())
@@ -92,7 +103,6 @@ class JBCartElementPriceButtons extends JBCartElementPrice
     public function loadAssets()
     {
         $this->app->jbassets->js('cart-elements:price/buttons/assets/js/buttons.js');
-
         return parent::loadAssets();
     }
 

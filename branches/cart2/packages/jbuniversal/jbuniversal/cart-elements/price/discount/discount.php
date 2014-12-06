@@ -42,6 +42,20 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
     }
 
     /**
+     * Get elements search data
+     * @return mixed
+     */
+    public function getSearchData()
+    {
+        $value = $this->getValue();
+        if ($value->isEmpty()) {
+            return (int)false;
+        }
+
+        return (int)true;
+    }
+
+    /**
      * @return mixed|string
      */
     public function edit()

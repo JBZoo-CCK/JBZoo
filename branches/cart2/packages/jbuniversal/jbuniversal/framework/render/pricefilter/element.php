@@ -13,7 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 /**
  * Class JBPriceFilterElement
  */
@@ -173,11 +172,9 @@ class JBPriceFilterElement
      */
     protected function _getDbValues()
     {
-        $paramID = str_replace('_', '', $this->_identifier);
-
         return JBModelValues::model()->getParamsValues(
             $this->_jbprice->identifier,
-            $paramID,
+            $this->_identifier,
             $this->_params->get('item_type', null),
             $this->_params->get('item_application_id', null)
         );
@@ -301,24 +298,16 @@ class JBPriceFilterElement
     /**
      * Get element name
      *
-     * @param string $postFix
-     *
+     * @param string|null $postFix
+     * @param string|null $key
      * @return string
      */
-    protected function _getName($postFix = null)
+    protected function _getName($postFix = null, $key = null)
     {
-        $name = 'e[' . $this->_jbprice->identifier . ']';
-
-        if (!$this->_element->isCore()) {
-            $name = 'e[' . $this->_jbprice->identifier . '][params][' . $this->_identifier . ']';
-        }
+        $name = 'e[' . $this->_jbprice->identifier . '][' . $this->_identifier . '][' . $key . ']';
 
         if ($postFix !== null) {
             $name .= '[' . $postFix . ']';
-        }
-
-        if ($postFix === null && $this->_element->isCore()) {
-            $name .= '[' . $this->_identifier . ']';
         }
 
         return $name;
@@ -330,7 +319,7 @@ class JBPriceFilterElement
      */
     public function html()
     {
-        return $this->app->jbhtml->text(
+        return $this->html->text(
             $this->_getName(),
             $this->_value,
             $this->_attrs,

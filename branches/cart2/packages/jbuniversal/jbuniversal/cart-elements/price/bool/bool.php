@@ -37,6 +37,17 @@ class JBCartElementPriceBool extends JBCartElementPrice
     }
 
     /**
+     * Get elements search data
+     * @return mixed
+     */
+    public function getSearchData()
+    {
+        $value = $this->getValue();
+
+        return $value;
+    }
+
+    /**
      * @return mixed|null|string
      */
     public function edit()
@@ -55,7 +66,6 @@ class JBCartElementPriceBool extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $params = $this->app->data->create($params);
         $data   = array(
             JText::_('JBZOO_NO')  => JText::_('JBZOO_NO'),
             JText::_('JBZOO_YES') => JText::_('JBZOO_YES')

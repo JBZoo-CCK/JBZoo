@@ -19,12 +19,27 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceImage extends JBCartElementPrice
 {
     /**
+     * Get elements search data
+     * @return null
+     */
+    public function getSearchData()
+    {
+        $value = $this->getValue();
+        if (!empty($value)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @return mixed|null|string
      */
     public function edit()
     {
         if ($layout = $this->getLayout('edit.php')) {
             $this->app->jbassets->media();
+
             return self::renderLayout($layout);
         }
 
@@ -51,13 +66,34 @@ class JBCartElementPriceImage extends JBCartElementPrice
     }
 
     /**
-     * @param $params
+     * Get elements value
      *
+     * @param string $key
+     * @param null   $default
+     *
+     * @return mixed|null
+     */
+    public function getValue($key = 'value', $default = null)
+    {
+        $value = parent::getValue($key, $default);
+
+        if (empty($value) && $this->config->get('image', null)) {
+            $identifier = $this->config->get('image');
+            if ($element = $this->_jbprice->getItem()->getElement($identifier)) {
+                $value = $element->get('file');
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * Get unique class
      * @return string
      */
-    public function unique($params)
+    public function unique()
     {
-        $image  = $params->get('image');
+        $image  = $this->config->get('image');
         $unique = $this->getJBPrice()->layout() . '_' . $this->getJBPrice()->getItem()->id;
 
         if (empty($image)) {
@@ -116,12 +152,11 @@ class JBCartElementPriceImage extends JBCartElementPrice
      */
     public function interfaceParams()
     {
-        $params = $this->getRenderParams();
-        $path   = $this->getValue();
+        $path = $this->getValue();
 
         return array(
-            'related' => $this->unique($params),
-            'image'   => $this->getImage($path, $params)
+            'related' => $this->unique(),
+            'image'   => $this->getImage($path)
         );
     }
 

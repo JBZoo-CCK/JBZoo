@@ -38,6 +38,7 @@ class JFormFieldJBKeyvalue extends JFormField
     {
         $elements     = array();
         $app          = App::getInstance('zoo');
+        $application  = $app->zoo->getApplication();
         $i            = 0;
         $elementsList = $app->jbentity->getItemTypesData(1);
         $typesList    = $app->jbtype->getSimpleList();
@@ -56,27 +57,57 @@ class JFormFieldJBKeyvalue extends JFormField
             '_itemtag'          => 'Item Tag'
         );
 
-        $elements[$textHeadType] = $stdFields;
+        $elements[$textHeadType] = array('items' => $stdFields);
 
-        foreach($exclude as $key => $value){
-            if($value == 'textarea'){
+        foreach ($exclude as $key => $value) {
+            if ($value == 'textarea') {
                 unset ($exclude[$key]);
             }
         }
 
-        foreach ($elementsList as $type => $tmpElements) {
+        /*JHtml::$formatOptions = array_merge(array(
+            'option.attr' => 'attr'
+        ), JHtml::$formatOptions);*/
 
+        foreach ($elementsList as $type => $tmpElements) {
             if (array_key_exists($type, $typesList)) {
+
+                $appType = $application->getType($type);
                 foreach ($tmpElements as $key => $element) {
 
                     if (!in_array($element['type'], $exclude) && strpos($key, '_') === false) {
-                        $newEls[$key] = $element['name'];
+
+                        $instance = $appType->getElement($key);
+
+                        if ($instance instanceof ElementJBPrice) {
+                            $name     = $instance->config->get('name');
+                            $newEls[] = array(
+                                'value'   => $key,
+                                'text'    => '- ' . $name,
+                                'disable' => true
+                            );
+
+                            if ($params = $instance->getElements()) {
+                                foreach ($params as $id => $param) {
+                                    if ($param->hasFilterValue()) {
+                                        $newEls[] = array(
+                                            'value' => $key . '__' . $id,
+                                            'text'  => '-- ' . $name . ' - ' . $param->getName()
+                                        );
+                                    }
+                                }
+                            }
+                        } else {
+                            $newEls[$element['name']] = array(
+                                'value' => $key,
+                                'text'  => $element['name'],
+                            );
+                        }
                     }
                 }
             }
-
             if (!empty($newEls)) {
-                $elements[$typesList[$type]] = $newEls;
+                $elements[$typesList[$type]] = array('items' => $newEls);
             }
             unset($newEls);
         }
@@ -86,7 +117,7 @@ class JFormFieldJBKeyvalue extends JFormField
         }
 
         foreach ($this->value as $value) {
-            $value = (array) $value;
+            $value = (array)$value;
             if ($i != 0 && (!isset($value['key']) || empty($value['key']))) {
                 continue;
             }
@@ -94,7 +125,6 @@ class JFormFieldJBKeyvalue extends JFormField
             $html[] = '<div class="jbjkeyvalue-row">';
             $html[] = JHtml::_('select.groupedlist', $elements, $this->getName($this->fieldname) . '[' . $i . '][key]', array(
                 'list.select' => isset($value['key']) ? $value['key'] : '',
-                'group.items' => null
             ));
 
             $html[] = '<strong>&nbsp;=&nbsp;</strong>';

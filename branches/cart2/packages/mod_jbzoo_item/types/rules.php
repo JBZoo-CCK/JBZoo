@@ -41,7 +41,6 @@ class JBZooModItemRuleText
     }
 }
 
-
 /**
  * Class JBZooModItemRuleItemCategory
  */
@@ -84,7 +83,6 @@ class JBZooModItemRuleItemDate extends JBZooModItemRuleText
      */
     public function validateValues($key, $value)
     {
-
         if (strpos($value, '/')) {
             $result[$key]['range'] = explode('/', $value);
         } else {
@@ -101,7 +99,6 @@ class JBZooModItemRuleItemDate extends JBZooModItemRuleText
  */
 class JBZooModItemRuleDate extends JBZooModItemRuleItemDate
 {
-
     /**
      * @param $key
      * @param $value
@@ -120,51 +117,158 @@ class JBZooModItemRuleDate extends JBZooModItemRuleItemDate
 }
 
 /**
- * Class JBZooModItemRulePriceadvance
+ * Class JBZooModItemRulePrice
  */
-class JBZooModItemRuleJBPriceAdvance extends JBZooModItemRuleText
+class JBZooModItemRuleJBPrice extends JBZooModItemRuleText
 {
     /**
-     * @param $key
+     * @var App
+     */
+    public $app;
+
+    /**
+     * Array of element config
+     * @var array
+     */
+    protected $_element = array();
+
+    /**
+     * UUID of element
+     * @var string|null
+     */
+    protected $_element_id = null;
+
+    /**
+     * UUID of price element
+     * @var string|null
+     */
+    protected $_param_id = null;
+
+    /**
+     * @param $elem_id
+     * @param $param_id
      * @param $value
      * @return array
      */
-    public function validateValues($key, $value)
+    public function validateElements($elem_id, $param_id, $value)
     {
-        $result   = array();
-        $userCurr = false;
-        $app      = App::getInstance('zoo');
-        $elements = $app->jbentity->getItemTypesData(false);
-        $element  = $elements[$key];
+        $params    = null;
+        $this->app = App::getInstance('zoo');
+
+        $elements = $this->app->jbentity->getItemTypesData(false);
+
+        $this->_element    = $elements[$elem_id];
+        $this->_element_id = $elem_id;
+        $this->_param_id   = $param_id;
+        $result[$elem_id]  = array();
+
+        $value = JString::trim($value);
 
         unset($elements);
+        if ($param_id == '_value') {
+            $params[$param_id] = $this->_validateValue($value);
 
-        $result[$key]['currency'] = $element['currency_default'];
+        } elseif ($param_id == '_balance') {
+            $params[$param_id] = $this->_validateBalance($value);
 
-        if (preg_match('#(.*)([a-z]{3})$#i', $value, $curr) && !$this->_getFlag($value)) {
+        } elseif (in_array($param_id, array('_image', '_discount'))) {
+            $params[$param_id] = $this->_validateBool($value);
 
-            list($empty, $value, $userCurr) = $curr;
-            unset($empty);
-            $value    = JString::trim($value);
-            $userCurr = $app->jbmoney->checkCurrency($userCurr);
-        }
-
-        if (strpos($value, '/')) {
-            $result[$key]['range'] = $value;
-
-        } elseif (is_numeric($value)) {
-            $result[$key]['val'] = $app->jbmoney->clearValue($value);
+        } elseif ($this->_validateDate($value)) {
+            $params[$param_id] = $this->_validateDate($value);
 
         } else {
-            $result[$key] = $this->_getFlag($value);
+            $params[$param_id] = $this->_validateDefault($value);
 
         }
 
-        if ($userCurr) {
-            $result[$key]['currency'] = $userCurr;
+        if (isset($params[$param_id])) {
+            $result[$elem_id] = $params;
         }
 
         return $result;
+    }
+
+    /**
+     * @param $value
+     * @return int|string
+     */
+    protected function _validateValue($value)
+    {
+        $result = array();
+        if (strpos($value, '/')) {
+            $result['range'] = $value;
+
+        } elseif (is_numeric($value)) {
+            $result['value'] = $this->app->jbmoney->clearValue($value);
+
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    protected function _validateBalance($value)
+    {
+        return $value;
+    }
+
+    /**
+     * @param $value
+     * @return int
+     */
+    protected function _validateBool($value)
+    {
+        return (int)$value;
+    }
+
+    /**
+     * @param $date
+     * @return mixed
+     */
+    protected function _validateDate($date)
+    {
+        $result = array();
+
+        if (strpos($date, '/')) {
+            list($from, $to) = explode('/', $date);
+
+            if ($this->_isDate($from) && $this->_isDate($to)) {
+                $result = array($from, $to);
+            }
+
+        } else {
+            if ($this->_isDate($date)) {
+                $result[] = $date;
+            }
+        }
+
+        return empty($result) ? false : $result;
+    }
+
+    /**
+     * Check if value seems like date
+     * @param        $date
+     * @param string $format
+     * @return bool
+     */
+    protected function _isDate($date, $format = 'Y-m-d')
+    {
+        $d = DateTime::createFromFormat($format, $date);
+
+        return $d && $d->format($format) == $date;
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    protected function _validateDefault($value)
+    {
+        return $value;
     }
 
     /**
@@ -223,6 +327,16 @@ class JBZooModItemRuleJBPriceAdvance extends JBZooModItemRuleText
 
 }
 
+class JBZooModItemRuleJBPricePlain extends JBZooModItemRuleJBPrice
+{
+
+}
+
+class JBZooModItemRuleJBPriceCalc extends JBZooModItemRuleJBPrice
+{
+
+}
+
 /**
  * Class JBZooModItemRuleItemFrontPage
  */
@@ -238,6 +352,7 @@ class JBZooModItemRuleItemFrontPage extends JBZooModItemRuleText
     {
         if (!empty($value) || $value === '0') {
             $result[$key] = $value;
+
             return $result;
         } else {
             return false;

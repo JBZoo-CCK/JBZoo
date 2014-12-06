@@ -14,6 +14,7 @@
 
     JBZoo.widget('JBZoo.PriceEdit', {
             // options
+            'isAdvance': true,
             'isOverlay': false,
             'isValid'  : false,
             'text_hide': 'Hide variations',
@@ -28,11 +29,13 @@
                 this.$('.jbprice-variation-row:first .jsJBRemove').hide();
                 this.sortable();
 
-                //create validator
-                if (!!this.options.isOverlay) {
-                    this.validator = this.el.JBZooPriceValidatorCalc().data('JBZooPriceValidatorCalc');
-                } else {
-                    this.validator = this.el.JBZooPriceValidatorPlain().data('JBZooPriceValidatorPlain');
+                //create validator if variations is on
+                if (this.options.isAdvance) {
+                    if (!!this.options.isOverlay) {
+                        this.validator = this.el.JBZooPriceValidatorCalc().data('JBZooPriceValidatorCalc');
+                    } else {
+                        this.validator = this.el.JBZooPriceValidatorPlain().data('JBZooPriceValidatorPlain');
+                    }
                 }
             },
 

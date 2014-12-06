@@ -34,37 +34,36 @@ class AutocompleteJBUniversalController extends JBUniversalController
             $appId   = $this->_jbrequest->get('app_id');
             $element = $this->_jbrequest->get('name');
 
-            if ($element && preg_match('#^e\[(.*?)\]\[(.*?)\]#i', $element, $elementName)) {
+            if ($element && preg_match('#^e\[(.*?)\]\[(.*?)\]#i', $element, $matches)) {
 
-                $paramID     = isset($elementName[2]) ? str_replace('_', '', $elementName[2]) : null;
-                $elementName = $elementName[1];
+                $param_id    = isset($matches[2]) ? $matches[2] : null;
+                $element_id  = $matches[1];
 
-                $autocomleteDb = JBModelAutocomplete::model();
-
-                $element     = $this->app->jbentity->getElement($elementName, $type, $appId);
+                $element     = $this->app->jbentity->getElement($element_id, $type, $appId);
                 $elementType = $element->getElementType();
 
-                if ($elementName == '_itemname') {
-                    $rows = $autocomleteDb->name($query, $type, $appId);
+                $db = JBModelAutocomplete::model();
 
-                } elseif ($elementName == '_itemtag') {
-                    $rows = $autocomleteDb->tag($query, $type, $appId);
+                if ($element_id == '_itemname') {
+                    $rows = $db->name($query, $type, $appId);
 
-                } elseif ($elementName == '_itemauthor') {
-                    $rows = $autocomleteDb->author($query, $type, $appId);
+                } elseif ($element_id == '_itemtag') {
+                    $rows = $db->tag($query, $type, $appId);
 
-                } else if ($elementType == 'jbpriceadvance') {
-                    $rows = $autocomleteDb->sku($query, $elementName, $paramID, $type, $appId);
+                } elseif ($element_id == '_itemauthor') {
+                    $rows = $db->author($query, $type, $appId);
+
+                } else if ($element instanceof ElementJBPrice) {
+                    $rows = $db->priceElement($query, $element_id, $param_id, $type, $appId);
 
                 } else if ($elementType == 'textarea') {
-                    $rows = $autocomleteDb->textarea($query, $elementName, $type, $appId);
+                    $rows = $db->textarea($query, $element_id, $type, $appId);
 
                 } else if ($elementType == 'jbcomments') {
-                    $rows = $autocomleteDb->comments($query, $type, $appId);
+                    $rows = $db->comments($query, $type, $appId);
 
                 } else {
-                    $rows = $autocomleteDb->field($query, $elementName, $type, $appId);
-
+                    $rows = $db->field($query, $element_id, $type, $appId);
                 }
 
                 $data = array();

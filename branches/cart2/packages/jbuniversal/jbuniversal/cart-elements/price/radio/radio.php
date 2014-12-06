@@ -36,6 +36,17 @@ class JBCartElementPriceRadio extends JBCartElementPrice
     }
 
     /**
+     * Get elements search data
+     * @return mixed|null
+     */
+    public function getSearchData()
+    {
+        $value = $this->getValue();
+
+        return $value;
+    }
+
+    /**
      * @return mixed|null|string
      */
     public function edit()

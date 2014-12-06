@@ -7,7 +7,7 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 // no direct access
@@ -79,27 +79,34 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
                 $categoryId = $this->app->jbrequest->getSystem('category');
             }
 
-            $rangesData = (array)JBModelValues::model()
-                ->getRangeByPrice($this->_jbprice->identifier, $itemType, $applicationId, $categoryId);
-
-            $ranges = array(
-                'min' => min((float)$rangesData['price_min'], (float)$rangesData['total_min']),
-                'max' => max((float)$rangesData['price_max'], (float)$rangesData['total_max']),
+            $rangesData = (array)JBModelValues::model()->getRangeByPrice(
+                $this->_jbprice->identifier,
+                $itemType,
+                $applicationId,
+                $categoryId
             );
 
-            $from = $this->_config->get('currency_default', 'EUR');
+            $ranges = array(
+                'min' => (float)$rangesData['total_min'],
+                'max' => (float)$rangesData['total_max'],
+            );
+
+            $from = $this->money->getDefaultCur();
             $to   = $this->_params->get('jbzoo_filter_currency_default', 'EUR');
 
             $ranges['min'] = floor($this->money->convert($from, $to, $ranges['min']));
             $ranges['max'] = ceil($this->money->convert($from, $to, $ranges['max']));
 
-            $params = array_merge($params, array('min' => $ranges['min'], 'max' => $ranges['max']));
+            $params = array_merge($params, array(
+                'min' => $ranges['min'],
+                'max' => $ranges['max']
+            ));
         }
 
         $html = '<div class="jbslider">' .
-                $this->html->slider($params, $value['range'], $this->_getName('range'),
-                    $this->_getId('range', true)) .
-                '</div>';
+            $this->html->slider($params, $value['range'], $this->_getName('range'),
+                $this->_getId('range', true)) .
+            '</div>';
 
         return $html;
     }
@@ -113,15 +120,15 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
      */
     public function renderRange($value)
     {
-        $html = '<label for="' . $this->_getId('val_min') . '">' . JText::_('JBZOO_FROM') . '</label>';
+        $html = '<label for="' . $this->_getId('min') . '">' . JText::_('JBZOO_FROM') . '</label>';
 
-        $html .= $this->html->text($this->_getName('val_min'), $value['val_min'], 'class="val_min"',
-            $this->_getId('val_min'));
+        $html .= $this->html->text($this->_getName('min'), $value['min'], 'class="val_min"',
+            $this->_getId('min'));
 
-        $html .= '<label for="' . $this->_getId('val_max') . '">' . JText::_('JBZOO_TO') . '</label>';
+        $html .= '<label for="' . $this->_getId('max') . '">' . JText::_('JBZOO_TO') . '</label>';
 
-        $html .= $this->html->text($this->_getName('val_max'), $value['val_max'], 'class="val_max"',
-            $this->_getId('val_max'));
+        $html .= $this->html->text($this->_getName('max'), $value['max'], 'class="val_max"',
+            $this->_getId('max'));
 
         return '<div class="jbprice-ranges">' . $html . '</div>';
     }
@@ -136,7 +143,7 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
     public function renderText($value)
     {
         return '<label for="' . $this->_getId('val') . '">' . JText::_('JBZOO_FILTER_JBPRICE_VALUE') . '</label>' .
-               $this->html->text($this->_getName('val'), $value['val'], 'class="val"', $this->_getId('val'));
+        $this->html->text($this->_getName('value'), $value['value'], 'class="val"', $this->_getId('val'));
     }
 
     /**
@@ -149,7 +156,7 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
         $html = null;
 
         if ($currency = $this->_params->get('jbzoo_filter_currency_default', 'EUR')) {
-            $html .= $this->html->hidden($this->_getName('currency'), $currency);
+            //$html .= $this->html->hidden($this->_getName();
         }
 
         return $html;
@@ -171,9 +178,9 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
             'sale'    => null,
             'new'     => null,
             'hit'     => null,
-            'val'     => null,
-            'val_min' => null,
-            'val_max' => null,
+            'value'   => null,
+            'min'     => null,
+            'max'     => null,
             'range'   => null,
         ), $this->_value);
     }

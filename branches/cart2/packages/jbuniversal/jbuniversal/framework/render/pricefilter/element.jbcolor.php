@@ -37,7 +37,7 @@ class JBPriceFilterElementJBColor extends JBPriceFilterElement
 
         $values = $this->_createValues($this->_getDbValues());
 
-        return $this->_jbhtml->colors(
+        return $this->html->colors(
             $type,
             $values,
             $this->_getName(),

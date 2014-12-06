@@ -7,16 +7,16 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Alexander Oganov <t_tapak@yahoo.com>
+ * @coder       Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBPriceFilterElementBalanceJQueryUI
+ * Class JBModelElementJBPriceCalc
  */
-class JBPriceFilterElementBalanceJQueryUI extends JBPriceFilterElementBalance
+class JBModelElementJBPriceCalc extends JBModelElementJBPrice
 {
-
+    
 }

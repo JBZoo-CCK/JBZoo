@@ -39,6 +39,20 @@ class JBCartElementPriceDate extends JBCartElementPrice
     }
 
     /**
+     * Get elements search data
+     * @return null
+     */
+    public function getSearchData()
+    {
+        $value = $this->getValue();
+        if (!empty($value)) {
+            return $value;
+        }
+
+        return false;
+    }
+
+    /**
      * @return mixed|null|string
      */
     public function edit()
