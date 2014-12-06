@@ -19,6 +19,16 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceCurrency extends JBCartElementPrice
 {
     /**
+     * Check if element has value
+     * @param array $params
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        return true;
+    }
+
+    /**
      * @return mixed|null|string
      */
     public function edit()
