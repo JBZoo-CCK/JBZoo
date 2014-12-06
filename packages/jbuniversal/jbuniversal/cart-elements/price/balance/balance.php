@@ -38,6 +38,17 @@ class JBCartElementPriceBalance extends JBCartElementPrice
     }
 
     /**
+     * Get elements search data
+     * @return mixed
+     */
+    public function getSearchData()
+    {
+        $value = $this->getValue();
+
+        return $value;
+    }
+
+    /**
      * @param  array $params
      *
      * @return mixed|null|string

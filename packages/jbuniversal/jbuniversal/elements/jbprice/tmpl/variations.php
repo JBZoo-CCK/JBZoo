@@ -14,7 +14,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $html = $this->app->jbhtml;
-$mode = $this->config->get('mode', 0);
+$mode = (int)$this->config->get('mode', 1);
 
 $string     = $this->app->jbstring;
 $unique     = $string->getId('jsJBPriceAdvance-');
@@ -120,6 +120,7 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
 
     jQuery(function ($) {
         $('#<?php echo $unique;?>').JBZooPriceEdit({
+            'isAdvance': <?php echo $mode; ?>,
             'text_show': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?>",
             'text_hide': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_HIDE'); ?>",
             'isOverlay': "<?php echo $this->isOverlay(); ?>"

@@ -36,6 +36,26 @@ class JBCartElementPriceMargin extends JBCartElementPrice
     }
 
     /**
+     * @param  array $params
+     * @return bool
+     */
+    public function hasFilterValue($params = array())
+    {
+        return false;
+    }
+
+    /**
+     * Get elements search data
+     * @return null
+     */
+    public function getSearchData()
+    {
+        $value = $this->getValue();
+
+        return $value->val($this->_jbmoney->getDefaultCur());
+    }
+
+    /**
      * @return mixed|string
      */
     public function edit()

@@ -12,11 +12,13 @@
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
 
-    <params group="render">
+    <params>
         <param name="image"
                type="jbelementlist"
                types="jbimage"
                label="Choose image element"/>
+    </params>
+    <params group="render">
 
         <param name="width"
                type="text"
@@ -36,6 +38,20 @@
         <param name="height_popup" type="text" default="800" label="JBZOO_RESIZE_POPUP_HEIGHT"
                description="JBZOO_RESIZE_WIDTH_POPUP_DESC"/>
 
+    </params>
+    <params group="filter">
+        <param name="jbzoo_filter_render"
+               type="list"
+               label="JBZOO_ELEMENT_TEMPLATE"
+               description="JBZOO_ELEMENT_TEMPLATE_DESC"
+               default="_auto_"
+                >
+
+            <option value="text">JBZOO_ELEMENT_TEMPLATE_TEXT</option>
+            <option value="imageexists-jqueryui">JBZOO_ELEMENT_TEMPLATE_IMAGEEXISTS_JQUERYUI</option>
+            <option value="imageexists">JBZOO_ELEMENT_TEMPLATE_IMAGEEXISTS</option>
+            <option value="hidden">JBZOO_ELEMENT_TEMPLATE_HIDDEN</option>
+        </param>
     </params>
 
 </element>

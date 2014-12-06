@@ -7,12 +7,11 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
 
 /**
  * Class JBPriceFilterElementSku
@@ -44,11 +43,11 @@ class JBPriceFilterElementSku extends JBPriceFilterElement
      */
     public function html()
     {
-        return $this->app->jbhtml->text(
-            $this->_getName('sku'),
-            $this->_value['sku'],
+        return $this->html->text(
+            $this->_getName(),
+            $this->_value,
             $this->_attrs,
-            $this->_getId('description-')
+            $this->_getId('sku-')
         );
     }
 }

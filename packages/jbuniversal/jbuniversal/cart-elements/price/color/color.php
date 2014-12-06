@@ -20,15 +20,28 @@ class JBCartElementPriceColor extends JBCartElementPrice
 {
     /**
      * Check if element has value
-     *
-     * @param array $params
-     *
+     * @param array|JSONData $params
      * @return bool
      */
     public function hasValue($params = array())
     {
-        //TODO make checking method like $this->getAllOptions()
-        return true;
+        $selected = $this->_jbprice->elementOptions($this->identifier);
+        if (!empty($selected)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get elements search data
+     * @return mixed
+     */
+    public function getSearchData()
+    {
+        $value = $this->getValue();
+
+        return $value;
     }
 
     /**
@@ -56,10 +69,14 @@ class JBCartElementPriceColor extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $params = $this->app->data->create($params);
         $type   = $this->getInputType();
         $height = (int)$params->get('height', 26);
         $width  = (int)$params->get('width', 26);
+
+        $selected = array();
+        if ((int)$this->_jbprice->config->get('only_selected', 1)) {
+            $selected = $this->_jbprice->elementOptions($this->identifier);
+        }
 
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
@@ -67,7 +84,7 @@ class JBCartElementPriceColor extends JBCartElementPrice
                 'type'       => $type,
                 'width'      => $width,
                 'height'     => $height,
-                'colorItems' => $this->getColors()
+                'colorItems' => $this->getColors($selected)
             ));
         }
 
@@ -107,10 +124,9 @@ class JBCartElementPriceColor extends JBCartElementPrice
 
         if (!empty($selected)) {
             foreach ($selected as $color) {
-                $key = $this->app->string->sluggify(JString::trim($color));
-
+                $key = JString::trim($color);
                 if (!empty($result[$key])) {
-                    $data[$key] = $color;
+                    $data[$key] = $result[$key];
                 }
             }
 

@@ -16,8 +16,7 @@ $zoo = App::getInstance('zoo');
 // init assets
 $zoo->jbassets->filter($itemLayout);
 
-$formId = 'jbzoo-filter-' . $itemLayout . '-' . $module->id;
-?>
+$formId = 'jbzoo-filter-' . $itemLayout . '-' . $module->id;?>
 
 <?php if ((int)$params->get('autosubmit', 0)) : ?>
     <script type="text/javascript">
@@ -90,12 +89,12 @@ $formId = 'jbzoo-filter-' . $itemLayout . '-' . $module->id;
         <div class="controls">
             <?php if ((int)$params->get('button_submit_show', 1)) : ?>
                 <input type="submit" name="send-form" value="<?php echo JText::_('JBZOO_BUTTON_SUBMIT'); ?>"
-                       class="jsSubmit jbbutton" />
+                       class="jsSubmit jbbutton"/>
             <?php endif; ?>
 
             <?php if ((int)$params->get('button_reset_show', 0)) : ?>
                 <input type="button" name="reset-form" value="<?php echo JText::_('JBZOO_BUTTON_RESET'); ?>"
-                       class="reset jbbutton jsFormReset" />
+                       class="reset jbbutton jsFormReset"/>
 
                 <script type="text/javascript">
                     jQuery(function ($) {
@@ -136,20 +135,21 @@ $formId = 'jbzoo-filter-' . $itemLayout . '-' . $module->id;
                         });
                     });
                 </script>
-            <?php endif;?>
+            <?php endif; ?>
             <div class="clear clr"></div>
         </div>
 
         <!--
             System required fields
         -->
-        <input type="hidden" name="controller" value="search" />
-        <input type="hidden" name="Itemid" value="<?php echo $params->get('menuitem', $zoo->jbrequest->get('Itemid')); ?>" />
-        <input type="hidden" name="option" value="com_zoo" />
-        <input type="hidden" name="task" value="filter" />
-        <input type="hidden" name="exact" value="<?php echo $params->get('exact', 0); ?>" />
-        <input type="hidden" name="type" value="<?php echo $type; ?>" class="jsItemType" />
-        <input type="hidden" name="app_id" value="<?php echo $application->id; ?>" class="jsApplicationId" />
+        <input type="hidden" name="controller" value="search"/>
+        <input type="hidden" name="Itemid"
+               value="<?php echo $params->get('menuitem', $zoo->jbrequest->get('Itemid')); ?>"/>
+        <input type="hidden" name="option" value="com_zoo"/>
+        <input type="hidden" name="task" value="filter"/>
+        <input type="hidden" name="exact" value="<?php echo $params->get('exact', 0); ?>"/>
+        <input type="hidden" name="type" value="<?php echo $type; ?>" class="jsItemType"/>
+        <input type="hidden" name="app_id" value="<?php echo $application->id; ?>" class="jsApplicationId"/>
     </form>
 
 </div>

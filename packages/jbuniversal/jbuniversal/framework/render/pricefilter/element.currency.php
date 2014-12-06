@@ -48,9 +48,9 @@ class JBPriceFilterElementCurrency extends JBPriceFilterElement
 
         return $this->html->buttonsJqueryUI(
             $this->_createOptionsList($options),
-            $this->_getName('currency'),
+            $this->_getName(),
             $this->_attrs,
-            $this->_value['currency'],
+            $this->_value,
             $this->_getId('currency')
         );
     }

@@ -47,14 +47,14 @@ class JBModelValues extends JBModel
             $tableName  = $this->_jbtables->getIndexTable($itemType);
 
             $select = $this->_getItemSelect($itemType, $applicationId)
-                ->innerJoin($tableName . ' AS tIndex ON tIndex.item_id = tItem.id')
-                ->clear('select')
-                ->select('tIndex.' . $identifier . ' AS value')
-                ->select('tIndex.' . $identifier . ' AS text')
-                ->select('COUNT(tIndex.' . $identifier . ') AS count')
-                ->where('tIndex.' . $identifier . ' <> ""')
-                ->where('tIndex.' . $identifier . ' IS NOT NULL')
-                ->group('tIndex.' . $identifier);
+                           ->innerJoin($tableName . ' AS tIndex ON tIndex.item_id = tItem.id')
+                           ->clear('select')
+                           ->select('tIndex.' . $identifier . ' AS value')
+                           ->select('tIndex.' . $identifier . ' AS text')
+                           ->select('COUNT(tIndex.' . $identifier . ') AS count')
+                           ->where('tIndex.' . $identifier . ' <> ""')
+                           ->where('tIndex.' . $identifier . ' IS NOT NULL')
+                           ->group('tIndex.' . $identifier);
 
             $columns = $this->_jbtables->getFields($this->_jbtables->getIndexTable($itemType));
 
@@ -68,7 +68,7 @@ class JBModelValues extends JBModel
 
                     } else if ($filterIdentifier == '_itemcategory') {
                         $select->leftJoin(ZOO_TABLE_CATEGORY_ITEM
-                                          . ' AS tCategoryItem ON tCategoryItem.item_id = tItem.id');
+                            . ' AS tCategoryItem ON tCategoryItem.item_id = tItem.id');
                         $select->where('tCategoryItem.category_id = ?', $filterValue);
 
                     } else {
@@ -107,13 +107,16 @@ class JBModelValues extends JBModel
      */
     public function getParamsValues($elementId, $paramID, $itemType, $applicationId)
     {
-        $select = $this->_getItemSelect($itemType, $applicationId)
-            ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tParams ON tParams.item_id = tItem.id')
+        $select = $this
+            ->_getItemSelect($itemType, $applicationId)
+            ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
             ->clear('select')
-            ->select('tParams.' . $paramID . ' as value, tParams.' . $paramID . ' as text, COUNT(DISTINCT tParams.item_id) as count')
-            ->where('tParams.element_id = "' . $elementId . '"')
-            ->where('tParams.' . $paramID . ' IS NOT NULL')
-            ->group('tParams.' . $paramID);
+            ->select('value_s as value')
+            ->select('value_s as text')
+            ->select('COUNT(\'tSku.item_id\') AS count')
+            ->where('tSku.param_id = ?', $paramID)
+            ->where('tSku.element_id = ?', $elementId)
+            ->group('tSku.value_s');
 
         $values = $this->fetchAll($select, true);
 
@@ -189,12 +192,12 @@ class JBModelValues extends JBModel
         if (!($result = $this->_jbcache->get(func_get_args(), 'get-author-values'))) {
 
             $select = $this->_getSelect()
-                ->select('tItem.created_by AS value, tUsers.name AS text, count(tItem.id) AS count')
-                ->from(ZOO_TABLE_ITEM . ' AS tItem')
-                ->innerJoin('#__users AS tUsers ON tUsers.id = tItem.created_by')
-                ->group('tItem.created_by')
-                ->where('tItem.application_id = ?', (int)$applicationId)
-                ->order('tUsers.name ASC');
+                           ->select('tItem.created_by AS value, tUsers.name AS text, count(tItem.id) AS count')
+                           ->from(ZOO_TABLE_ITEM . ' AS tItem')
+                           ->innerJoin('#__users AS tUsers ON tUsers.id = tItem.created_by')
+                           ->group('tItem.created_by')
+                           ->where('tItem.application_id = ?', (int)$applicationId)
+                           ->order('tUsers.name ASC');
 
             $result = $this->fetchAll($select, true);
 
@@ -220,10 +223,10 @@ class JBModelValues extends JBModel
         if (!($result = $this->_jbcache->get(func_get_args(), 'get-name-values'))) {
 
             $select = $this->_getItemSelect(null, $applicationId)
-                ->clear('select')
-                ->select(array('tItem.id AS value', 'tItem.name AS text', 'count(tItem.id) AS count'))
-                ->group('tItem.name')
-                ->order('tItem.name ASC');
+                           ->clear('select')
+                           ->select(array('tItem.id AS value', 'tItem.name AS text', 'count(tItem.id) AS count'))
+                           ->group('tItem.name')
+                           ->order('tItem.name ASC');
             $result = $this->fetchAll($select, true);
 
             $this->_jbcache->set(func_get_args(), $result, 'get-name-values');
@@ -249,11 +252,11 @@ class JBModelValues extends JBModel
         if (!($result = $this->_jbcache->get(func_get_args(), 'get-tag-values'))) {
 
             $select = $this->_getItemSelect(null, $applicationId)
-                ->clear('select')
-                ->select(array('tTag.name AS value', 'tTag.name AS text', 'count(tTag.name) AS count'))
-                ->innerJoin(ZOO_TABLE_TAG . ' AS tTag ON tTag.item_id = tItem.id')
-                ->group('tTag.name')
-                ->order('tTag.name ASC');
+                           ->clear('select')
+                           ->select(array('tTag.name AS value', 'tTag.name AS text', 'count(tTag.name) AS count'))
+                           ->innerJoin(ZOO_TABLE_TAG . ' AS tTag ON tTag.item_id = tItem.id')
+                           ->group('tTag.name')
+                           ->order('tTag.name ASC');
 
             if ($itemType) {
                 $select->where('tItem.type = ?', $itemType);
@@ -287,11 +290,11 @@ class JBModelValues extends JBModel
             $tableName  = $this->_jbtables->getIndexTable($itemType);
 
             $select = $this->_getItemSelect($itemType, $applicationId)
-                ->innerJoin($tableName . ' AS tIndex ON tIndex.item_id = tItem.id')
-                ->clear('select')
-                ->select('MAX(tIndex.' . $identifier . ') AS max, MIN(tIndex.' . $identifier . ') AS min')
-                ->where('tIndex.' . $identifier . ' <> ""')
-                ->where('tIndex.' . $identifier . ' IS NOT NULL');
+                           ->innerJoin($tableName . ' AS tIndex ON tIndex.item_id = tItem.id')
+                           ->clear('select')
+                           ->select('MAX(tIndex.' . $identifier . ') AS max, MIN(tIndex.' . $identifier . ') AS min')
+                           ->where('tIndex.' . $identifier . ' <> ""')
+                           ->where('tIndex.' . $identifier . ' IS NOT NULL');
 
             $result = $this->fetchRow($select);
 
@@ -320,15 +323,14 @@ class JBModelValues extends JBModel
         if (!($result = $this->_jbcache->get(func_get_args(), 'get-range-by-price'))) {
 
             $select = $this->_getItemSelect($itemType, $applicationId)
-                ->clear('select')
-                ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
-                ->select(array(
-                    'MAX(tSku.price) AS price_max',
-                    'MIN(tSku.price) AS price_min',
-                    'MAX(tSku.total) AS total_max',
-                    'MIN(tSku.total) AS total_min',
-                ))
-                ->where('tSku.element_id = ?', $identifier);
+                           ->clear('select')
+                           ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
+                           ->select(array(
+                               'MAX(tSku.value_n) AS total_max',
+                               'MIN(tSku.value_n) AS total_min'
+                           ))
+                           ->where('tSku.element_id = ?', $identifier)
+                           ->where('tSku.param_id = \'_value\'');
 
             if ($categoryId) {
                 $select->leftJoin(ZOO_TABLE_CATEGORY_ITEM . ' AS tCategoryItem ON tCategoryItem.item_id = tItem.id');

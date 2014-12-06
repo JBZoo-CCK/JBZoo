@@ -107,6 +107,8 @@ class JBModelSearchindex extends JBModel
             return 0;
         }
 
+        $dataPack = array();
+        
         $ids = $this->_groupBy($rows);
 
         foreach ($ids as $id) {

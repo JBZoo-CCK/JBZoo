@@ -25,6 +25,10 @@ class JBZooModItemConditions extends JBZooItemType
      */
     protected $_elements = array();
 
+    protected $_app_id = 0;
+
+    protected $_type = null;
+
     /**
      *
      */
@@ -41,9 +45,9 @@ class JBZooModItemConditions extends JBZooItemType
         $this->init();
         $items          = array();
         $searchElements = array();
-        $appId          = $this->_params->get('condition_app', '0');
-        $type           = $this->_params->get('condition_type', 'product');
-        $conditions     = $this->_params->get('conditions', array());
+        $this->_app_id  = $this->_params->get('condition_app', '0');
+        $this->_type    = $this->_params->get('condition_type', 'product');
+        $conditions     = (array)$this->_params->get('conditions', array());
         $logic          = $this->_params->get('logic', 'AND');
         $order          = (array)$this->_params->get('order_default');
         $exact          = $this->_params->get('type_search', 0);
@@ -60,7 +64,7 @@ class JBZooModItemConditions extends JBZooItemType
                 if (strpos($fieldKey, '_') === false) {
 
                     $table      = $this->_app->jbtables;
-                    $tableIndex = $table->getIndexTable($type);
+                    $tableIndex = $table->getIndexTable($this->_type);
                     $fields     = $table->getFields($tableIndex);
                     $myFiled    = $table->getFieldName($fieldKey);
                     $elements   = $this->_elements;
@@ -75,11 +79,12 @@ class JBZooModItemConditions extends JBZooItemType
 
                     $searchElements[$fieldKey] = $value;
                 }
-
             }
         }
-        
-        $items = JBModelFilter::model()->search($searchElements, strtoupper($logic), $type, $appId, $exact, 0, $limit, $order);
+
+        $items = JBModelFilter::model()->search(
+            $searchElements, strtoupper($logic), $this->_type, $this->_app_id,
+            $exact, 0, $limit, $order);
 
         return $items;
     }
@@ -99,16 +104,27 @@ class JBZooModItemConditions extends JBZooItemType
 
             if (isset($cond['key']) && !empty($cond['key'])) {
 
-                $key = preg_replace('#[^0-9a-z\_\-]#i', '', $cond['key']);
+                $key      = preg_replace('#[^0-9a-z\_\-]#i', '', $cond['key']);
+                $param_id = null;
+
+                if (strpos($key, '__')) {
+                    list($key, $param_id) = explode('__', $key);
+                }
 
                 $value = $this->_clearValue($cond['value']);
-                $conds = $this->_checkRule($key, $value);
+                $conds = $this->_checkRule($key, $value, $param_id);
 
                 if (empty($conds)) {
                     continue;
                 }
 
-                $result[$key][$k] = $conds[$key];
+                $data = $conds[$key];
+                if (isset($param_id)) {
+                    $result[$key][$param_id][$k] = $data[$param_id];
+
+                } else {
+                    $result[$key][$k] = $data;
+                }
 
                 if ($this->_checkDateElement($this->_elements[$key]['type'])) {
 
@@ -172,9 +188,10 @@ class JBZooModItemConditions extends JBZooItemType
     /**
      * @param $key
      * @param $value
+     * @param $param_id
      * @return bool
      */
-    protected function _checkRule($key, $value)
+    protected function _checkRule($key, $value, $param_id = null)
     {
         $prefixClass  = 'JBZooModItemRule';
         $elements     = $this->_elements;
@@ -196,26 +213,27 @@ class JBZooModItemConditions extends JBZooItemType
 
         $className = $prefixClass . $element['type'];
 
-        if (class_exists($className) && !in_array($element['type'], $similarTypes)) {
+        if (is_subclass_of($className, 'JBZooModItemRuleJBPrice')) {
 
             $objField = new $className;
 
-            $result = $objField->validateValues($key, $value);
+            return $objField->validateElements($key, $param_id, $value);
 
-            return $result;
+        } elseif (class_exists($className) && !in_array($element['type'], $similarTypes)) {
+
+            $objField = new $className;
+
+            return $objField->validateValues($key, $value);
 
         } elseif (in_array($element['type'], $similarTypes)) {
 
             if ($this->_checkDateElement($element['type'])) {
-
                 $objField = new JBZooModItemRuleItemDate();
             } else {
                 $objField = new JBZooModItemRuleText();
             }
 
-            $result = $objField->validateValues($key, $value);
-
-            return $result;
+            return $objField->validateValues($key, $value);
 
         } else {
 
@@ -224,7 +242,7 @@ class JBZooModItemConditions extends JBZooItemType
     }
 
     /**
-     * @param $date
+     * @param        $date
      * @param string $format
      * @return bool
      */
@@ -251,4 +269,5 @@ class JBZooModItemConditions extends JBZooItemType
 
         return in_array($type, $dateFormats, true);
     }
+
 }

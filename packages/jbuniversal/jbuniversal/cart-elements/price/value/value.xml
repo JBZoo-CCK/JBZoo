@@ -28,7 +28,7 @@
         <param name="jbzoo_filter_render" type="hidden" value="value" default="value"/>
 
         <param name="jbzoo_filter_template" type="list" label="JBZOO_FILTER_JBPRICE_TEMPLATE_VALUE"
-               description="JBZOO_FILTER_JBPRICE_TEMPLATE_VALUE_DESC" default="3">
+               description="JBZOO_FILTER_JBPRICE_TEMPLATE_VALUE_DESC" default="slider">
             <option value="0">JBZOO_FILTER_JBPRICE_TEMPLATE_NONE</option>
             <option value="simple">JBZOO_FILTER_JBPRICE_TEMPLATE_SIMPLE</option>
             <option value="range">JBZOO_ELEMENT_TEMPLATE_TEXT_RANGE</option>

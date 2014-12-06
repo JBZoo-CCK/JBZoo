@@ -27,6 +27,17 @@ class JBCartElementPriceValue extends JBCartElementPrice
     const PRICE_VIEW_SAVE     = 5;
 
     /**
+     * Get elements search data
+     * @return mixed
+     */
+    public function getSearchData()
+    {
+        $list = $this->getList();
+
+        return $list->getTotal()->val($this->_jbmoney->getDefaultCur());
+    }
+
+    /**
      * @return mixed|null|string
      */
     public function edit()

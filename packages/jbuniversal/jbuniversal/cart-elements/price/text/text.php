@@ -37,6 +37,17 @@ class JBCartElementPriceText extends JBCartElementPrice
     }
 
     /**
+     * Get elements search data
+     * @return mixed|null
+     */
+    public function getSearchData()
+    {
+        $value = $this->getValue();
+
+        return $value;
+    }
+
+    /**
      * @return mixed|void
      */
     public function edit()

@@ -7,12 +7,11 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
 
 /**
  * Class JBPriceFilterElementHidden
@@ -34,8 +33,8 @@ class JBPriceFilterElementHidden extends JBPriceFilterElement
             unset($this->_attrs['size']);
 
             foreach ($this->_value as $key => $value) {
-                $html[] = $this->app->jbhtml->hidden(
-                    $this->_getName($key),
+                $html[] = $this->html->hidden(
+                    $this->_getName(),
                     $value,
                     $this->_attrs,
                     $this->_getId($key)
@@ -43,7 +42,7 @@ class JBPriceFilterElementHidden extends JBPriceFilterElement
             }
 
         } else {
-            $html[] = $this->app->jbhtml->hidden(
+            $html[] = $this->html->hidden(
                 $this->_getName(),
                 $this->_value,
                 $this->_attrs,

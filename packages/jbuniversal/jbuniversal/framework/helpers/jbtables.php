@@ -123,26 +123,20 @@ class JBTablesHelper extends AppHelper
         if (!isset($checked) || $force) {
 
             $this->createTable(ZOO_TABLE_JBZOO_SKU, array(
+                '`id` INT(11) UNSIGNED AUTO_INCREMENT NOT NULL',
                 '`item_id` INT(11) NOT NULL',
                 '`element_id` VARCHAR(50) NOT NULL',
-                '`sku` VARCHAR(100) NOT NULL',
-                '`type` INT(11) NOT NULL',
-                '`discount` TINYINT(4) NOT NULL DEFAULT \'0\'',
-                '`price` FLOAT NOT NULL',
-                '`total` FLOAT NOT NULL',
-                '`currency` VARCHAR(20) NOT NULL',
-                '`balance` INT(11) NOT NULL DEFAULT \'0\'',
-                '`description` VARCHAR(255) NULL DEFAULT NULL',
-                '`image` VARCHAR(255) NULL DEFAULT NULL',
-                '`params` TEXT NULL'
+                '`param_id` VARCHAR(50) NOT NULL',
+                '`variant` INT(3) NOT NULL',
+                '`value_s` VARCHAR(50) NULL DEFAULT NULL COLLATE \'utf8_general_ci\'',
+                '`value_n` DOUBLE NULL DEFAULT NULL',
+                '`value_d` DATETIME NULL DEFAULT NULL',
             ), array(
+                'PRIMARY KEY (`id`)',
                 'INDEX `item_id` (`item_id`)',
-                'INDEX `type` (`type`)',
+                'INDEX `variant` (`variant`)',
                 'INDEX `element_id` (`element_id`)',
-                'INDEX `price` (`price`)',
-                'INDEX `total` (`total`)',
-                'INDEX `sku` (`sku`)',
-                'INDEX `discount` (`discount`)'
+                'INDEX `param_id` (`param_id`)'
             ));
         }
 
@@ -295,7 +289,7 @@ class JBTablesHelper extends AppHelper
     }
 
     /**
-     * @param $tableName
+     * @param       $tableName
      * @param array $tblFields
      * @param array $tblIndex
      */
@@ -440,7 +434,7 @@ class JBTablesHelper extends AppHelper
 
     /**
      * Drop indexes and fields from table
-     * @param $tableName
+     * @param       $tableName
      * @param array $fields
      */
     public function _removeFields($tableName, array $fields)
@@ -477,9 +471,9 @@ class JBTablesHelper extends AppHelper
 
     /**
      * Add indexes and fields to table
-     * @param $tableName
+     * @param       $tableName
      * @param array $fields
-     * @param $itemType
+     * @param       $itemType
      */
     public function _addFields($tableName, array $fields, $itemType)
     {

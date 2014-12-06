@@ -7,7 +7,7 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 // no direct access
@@ -45,7 +45,7 @@ class JBPriceFilterElementSlider extends JBPriceFilterElement
         return $this->app->jbhtml->slider(
             $params,
             $value,
-            $this->_getName('range'),
+            $this->_getName(),
             $this->_getId(null, true)
         );
 

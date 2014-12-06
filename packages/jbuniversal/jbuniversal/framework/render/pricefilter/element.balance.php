@@ -7,12 +7,11 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
 
 /**
  * Class JBPriceFilterElementBalance
@@ -29,9 +28,9 @@ class JBPriceFilterElementBalance extends JBPriceFilterElement
 
         return $this->html->buttonsJQueryUI(
             $this->_createOptionsList($options),
-            $this->_getName('balance'),
+            $this->_getName(),
             $this->_attrs,
-            $this->_value['balance'],
+            $this->_value,
             $this->_getId('balance')
         );
     }

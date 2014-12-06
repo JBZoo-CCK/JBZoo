@@ -7,12 +7,11 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
 
 /**
  * Class JBPriceFilterElementSelectChosen
@@ -31,7 +30,7 @@ class JBPriceFilterElementSelectChosen extends JBPriceFilterElementSelect
             $this->_createOptionsList($values),
             $this->_getName(),
             $this->_attrs,
-            $this->_value[$this->_identifier],
+            $this->_value,
             $this->_getId(),
             false,
             array('placeholder' => $this->_getPlaceholder())

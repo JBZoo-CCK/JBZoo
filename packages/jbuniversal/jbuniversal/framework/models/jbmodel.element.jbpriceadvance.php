@@ -13,20 +13,23 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+include_once 'jbmodel.element.jbprice.php';
+include_once 'jbmodel.element.jbprice.plain.php';
+include_once 'jbmodel.element.jbprice.calc.php';
+
 
 /**
  * Class JBModelElementJBPriceAdvance
  */
 class JBModelElementJBPriceAdvance extends JBModelElement
 {
-
+/*
     protected $_defaultCurrency = 'EUR';
 
     /**
      * @param Element $element
      * @param int     $applicationId
      * @param string  $itemType
-     */
     function __construct(Element $element, $applicationId, $itemType)
     {
         parent::__construct($element, $applicationId, $itemType);
@@ -43,7 +46,6 @@ class JBModelElementJBPriceAdvance extends JBModelElement
      * @param bool            $exact
      *
      * @return JBDatabaseQuery
-     */
     public function conditionAND(JBDatabaseQuery $select, $elementId, $value, $i = 0, $exact = false)
     {
         return $this->_getWhere($select, $elementId, $value, $exact);
@@ -59,7 +61,6 @@ class JBModelElementJBPriceAdvance extends JBModelElement
      * @param bool            $exact
      *
      * @return JBDatabaseQuery
-     */
     public function conditionOR(JBDatabaseQuery $select, $elementId, $value, $i = 0, $exact = false)
     {
         return $this->_getWhere($select, $elementId, $value, $exact);
@@ -72,7 +73,6 @@ class JBModelElementJBPriceAdvance extends JBModelElement
      * @param bool            $exact
      *
      * @return array
-     */
     protected function _getWhere(JBDatabaseQuery $select, $elementId, $value, $exact = false)
     {
         $value = $this->_prepareValue($value, $exact);
@@ -152,7 +152,6 @@ class JBModelElementJBPriceAdvance extends JBModelElement
      * @param $value
      *
      * @return array
-     */
     protected function _conditionValue($value)
     {
         $jbmoney = $this->app->jbmoney;
@@ -241,7 +240,6 @@ class JBModelElementJBPriceAdvance extends JBModelElement
      * @param bool         $exact
      *
      * @return mixed|void
-     */
     protected function _prepareValue($value, $exact = false)
     {
         if (is_array($value)) {
@@ -291,7 +289,6 @@ class JBModelElementJBPriceAdvance extends JBModelElement
      * @param array $value
      *
      * @return array $result
-     */
     protected function _setMinMax($value)
     {
         if (isset($value['range'])) {
@@ -307,5 +304,5 @@ class JBModelElementJBPriceAdvance extends JBModelElement
 
         return $value;
     }
-
+*/
 }

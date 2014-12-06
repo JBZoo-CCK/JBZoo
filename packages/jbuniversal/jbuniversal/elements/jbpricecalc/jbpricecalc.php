@@ -138,17 +138,30 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
      */
     public function elementOptions($identifier)
     {
-        $modifiers = $this->config->get('show_modifiers', 1);
-        if (!$modifiers) {
-            return parent::selectedOptions($identifier);
+        $modifiers = (int)$this->config->get('show_modifiers', 1);
+
+        if ($modifiers) {
+            $options = parent::findOptions($identifier);
+            $options = self::addModifiers($options);
+        } else {
+            $options = parent::selectedOptions($identifier);
         }
 
-        $options = parent::findOptions($identifier);
+        return $options;
+    }
+
+    /**
+     * Adds modifier value of each option
+     * @param array $options
+     * @return array
+     */
+    public function addModifiers($options = array())
+    {
         if (empty($options)) {
             return $options;
         }
-
         $result = array();
+
         foreach ($options as $key => $option) {
             $variant = new JBCartVariant($key, $this, $this->get('variations.' . $key));
 
@@ -156,6 +169,49 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         }
 
         return $result;
+    }
+
+    /**
+     * Get element search data for sku table
+     * @return array
+     */
+    public function getIndexData()
+    {
+        $variations = $this->get('variations');
+        $item_id    = $this->getItem()->id;
+
+        $data = array();
+        if (!empty($variations)) {
+
+            $key     = self::BASIC_VARIANT;
+            $variant = $variations[$key];
+
+            $this->set('default_variant', $key);
+            $this->_list = new JBCartVariantList(array($key => $variant), $this);
+
+            foreach ($this->_list->shift()->getElements() as $id => $element) {
+                $value = JString::trim($element->getSearchData());
+
+                if (JString::strlen($value) !== 0) {
+                    
+                    $n = $this->isNumeric($value);
+                    $d = $this->isDate($value);
+                    $s = $value;
+
+                    $data[$key . '_' . $id] = array(
+                        'item_id'    => $item_id,
+                        'element_id' => $this->identifier,
+                        'param_id'   => $element->identifier,
+                        'variant'    => $key,
+                        'value_s'    => $s,
+                        'value_n'    => $n,
+                        'value_d'    => $d
+                    );
+                }
+            }
+        }
+
+        return $data;
     }
 
     /**

@@ -34,7 +34,7 @@ class JBPriceFilterRenderer extends PositionRenderer
     protected $_jbconfig;
 
     /**
-     * @var ElementJBPriceAdvance
+     * @var ElementJBPrice
      */
     protected $_jbprice;
 
@@ -45,11 +45,11 @@ class JBPriceFilterRenderer extends PositionRenderer
      */
     protected $_moduleParams = null;
 
-    protected $_template = null;
+    protected $_template    = null;
     protected $_application = null;
 
     /**
-     * @param App $app
+     * @param App  $app
      * @param null $path
      */
     public function __construct($app, $path = null)
@@ -70,7 +70,7 @@ class JBPriceFilterRenderer extends PositionRenderer
     {
         foreach ($this->_getConfigPosition($position) as $key => $data) {
 
-            if ($element = $this->_jbprice->getParam($key)) {
+            if ($element = $this->_jbprice->getElement($key)) {
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
                 $data['_index']    = $key;
@@ -86,7 +86,7 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * @param string $layout
-     * @param array $args
+     * @param array  $args
      *
      * @return string
      */
@@ -105,7 +105,7 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * @param string $position
-     * @param array $args
+     * @param array  $args
      *
      * @return string|void
      */
@@ -118,8 +118,7 @@ class JBPriceFilterRenderer extends PositionRenderer
         $i     = 0;
 
         foreach ($this->_getConfigPosition($position) as $key => $data) {
-
-            if ($element = $this->_jbprice->getParam($key)) {
+            if ($element = $this->_jbprice->getElement($key)) {
 
                 $i++;
                 $data['_layout']   = $this->_layout;
@@ -188,9 +187,9 @@ class JBPriceFilterRenderer extends PositionRenderer
      * Element render
      *
      * @param string $element
-     * @param bool $value
-     * @param array $params
-     * @param array $attrs
+     * @param bool   $value
+     * @param array  $params
+     * @param array  $attrs
      *
      * @return mixed
      * @throws Exception
@@ -232,7 +231,7 @@ class JBPriceFilterRenderer extends PositionRenderer
     /**
      * Mapper elementType to render method
      *
-     * @param array $params
+     * @param array  $params
      * @param string $elementType
      *
      * @return string
@@ -323,27 +322,19 @@ class JBPriceFilterRenderer extends PositionRenderer
      */
     private function _getRequest($identifier)
     {
-        $value = $this->app->jbrequest->get($identifier);
+        $value = $this->app->jbrequest->get('e');
+        $id    = $this->_jbprice->identifier;
 
-        if (!$value) {
+        if (isset($value[$id])) {
+            $element = $value[$id];
 
-            $id = $this->_jbprice->identifier;
+            if (isset($element[$identifier])) {
+                $value = $element[$identifier];
 
-            $elements = $this->app->jbrequest->get('e');
-
-            $elements = $this->app->data->create($elements);
-
-            $param = $this->_jbprice->getParam($identifier);
-
-            if ($param->isCore() && $elements->has($id)) {
-
-                return $elements->get($id, array());
-
-            } else {
-
-                return $elements->find($id . '.params.' . $identifier);
+                return reset($value);
             }
 
+            return null;
         }
 
         return $value;

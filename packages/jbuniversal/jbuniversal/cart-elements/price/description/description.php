@@ -27,13 +27,24 @@ class JBCartElementPriceDescription extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $value = JString::trim($this->getValue('value'));
+        $value = JString::trim($this->getValue());
 
         if (JString::strlen($value) > 0) {
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Get elements search data
+     * @return null
+     */
+    public function getSearchData()
+    {
+        $value = $this->getValue();
+
+        return $value;
     }
 
     /**

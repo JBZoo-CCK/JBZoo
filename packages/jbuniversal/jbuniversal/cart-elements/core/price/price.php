@@ -57,12 +57,25 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function hasValue($params = array())
     {
-        return true;
+        $value = $this->getValue();
+        if (!empty($value)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get elements search data
+     * @return null
+     */
+    public function getSearchData()
+    {
+        return null;
     }
 
     /**
      * @param  array $params
-     *
      * @return bool
      */
     public function hasFilterValue($params = array())
@@ -226,11 +239,19 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     * Get options for simple element
      * @return mixed
      */
     public function getOptions()
     {
-        $options = $this->_jbprice->elementOptions($this->identifier);
+        $options = array();
+        $jbPrice = $this->_jbprice;
+        if (!$this->hasOptions() || (int)$jbPrice->config->get('only_selected', 1)) {
+            $options = $jbPrice->elementOptions($this->identifier);
+
+        } else if (!(int)$jbPrice->config->get('only_selected', 1)) {
+            $options = $this->parseOptions();
+        }
 
         if (!empty($options)) {
             $options = array('' => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - ') + $options;
@@ -240,6 +261,7 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     * Parse options from element config
      * @return array|null
      */
     public function parseOptions()
@@ -255,6 +277,15 @@ abstract class JBCartElementPrice extends JBCartElement
         }
 
         return null;
+    }
+
+    /**
+     * Check if element has options in config
+     * @return bool
+     */
+    public function hasOptions()
+    {
+        return $this->config->has('options');
     }
 
     /**
@@ -338,6 +369,7 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
 }
+
 
 /**
  * Class JBCartElementPriceException

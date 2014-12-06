@@ -19,6 +19,27 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceWeight extends JBCartElementPrice
 {
     /**
+     * Check if element has value
+     * @param array $params
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        return false;
+    }
+
+    /**
+     * Get elements search data
+     * @return mixed|null
+     */
+    public function getSearchData()
+    {
+        $value = $this->getValue();
+
+        return $value;
+    }
+
+    /**
      * Render element in ElementJBPriceAdvance
      *
      * @return bool|mixed|string
@@ -29,7 +50,7 @@ class JBCartElementPriceWeight extends JBCartElementPrice
             return self::renderLayout($layout, array());
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
@@ -50,7 +71,7 @@ class JBCartElementPriceWeight extends JBCartElementPrice
             ));
         }
 
-        return NULL;
+        return null;
     }
 
 }
