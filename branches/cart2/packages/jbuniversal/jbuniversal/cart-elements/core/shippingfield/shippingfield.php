@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -47,7 +46,7 @@ abstract class JBCartElementShippingField extends JBCartElement
             'control.text',
             $this->getControlName('value'),
             $this->get('value', $this->config->get('default')),
-            'size="60" maxlength="255" id="shipping-' . $this->identifier . '"'
+            'size="60" maxlength="255" id="jbcart-' . $this->identifier . '"'
         );
     }
 
