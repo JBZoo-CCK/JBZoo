@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -12,15 +11,15 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-?>
 
 
-<?php if (!empty($view->payment)) : ?>
+if (!empty($view->payment)) {
 
-    <div class="jbzoo-basket-payment">
-        <?php echo $view->paymentRenderer->render('payment.default', array(
-            'order' => $view->order
-        )); ?>
-    </div>
+    $this->app->jbassets->less('jbassets:less/cart/payment.less');
+    $this->app->jbassets->js('jbassets:js/cart/payment.js');
 
-<?php endif; ?>
+    echo $view->paymentRenderer->render('payment.default', array(
+        'order' => $view->order
+    ));
+
+}

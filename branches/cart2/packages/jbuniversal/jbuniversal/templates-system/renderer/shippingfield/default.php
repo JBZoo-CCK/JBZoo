@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -15,14 +14,8 @@ defined('_JEXEC') or die('Restricted access');
 
 if ($this->checkPosition('list')) : ?>
 
-    <div class="jbzoo-left shippingfield-default">
+    <p class="jbcart-title"><?php echo JText::_('JBZOO_CART_SHIPPINGFIELDS_TITLE'); ?></p>
 
-        <h2>Адрес доставки</h2>
-
-        <?php echo $this->renderPosition('list', array('order.shippingfield')); ?>
-
-    </div>
+    <?php echo $this->renderPosition('list', array('order.shippingfield')); ?>
 
 <?php endif;
-
-
