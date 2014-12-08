@@ -28,12 +28,12 @@ class JBCartElementOrderSelect extends JBCartElementOrderOption
     {
 
         // init vars
-        $options_from_config = $this->config->get('option', array());
-        $multiple            = $this->config->get('multiple');
-        $default             = $this->config->get('default');
-        $name                = $this->config->get('name');
+        $optionList = $this->config->get('option', array());
+        $multiple   = $this->config->get('multiple');
+        $default    = $this->config->get('default');
+        $name       = $this->config->get('name');
 
-        if (count($options_from_config)) {
+        if (count($optionList)) {
 
             // set default, if item is new
             if ($default != '' && $this->_item != null && $this->_item->id == 0) {
@@ -44,12 +44,12 @@ class JBCartElementOrderSelect extends JBCartElementOrderOption
             if (!$multiple) {
                 $options[] = $this->app->html->_('select.option', '', '-' . JText::sprintf('Select %s', $name) . '-');
             }
-            foreach ($options_from_config as $option) {
+
+            foreach ($optionList as $option) {
                 $options[] = $this->app->html->_('select.option', $option['value'], $option['name']);
             }
 
-            $style = $multiple ? 'multiple="multiple" size="5"' : '';
-
+            $style  = $multiple ? 'multiple="multiple" size="5"' : '';
             $html[] = $this->app->html->_('select.genericlist', $options, $this->getControlName('option', true), $style, 'value', 'text', $this->get('option', array()));
 
             // workaround: if nothing is selected, the element is still being transfered

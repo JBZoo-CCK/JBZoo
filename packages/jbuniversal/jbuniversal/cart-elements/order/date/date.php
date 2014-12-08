@@ -13,16 +13,13 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-/*
-   Class: ElementDate
-   The date element class
-*/
-
+/**
+ * Class JBCartElementOrderDate
+ */
 class JBCartElementOrderDate extends JBCartElementOrder
 {
 
     const EDIT_DATE_FORMAT = '%Y-%m-%d %H:%M:%S';
-
 
     /**
      * @param array $params
@@ -48,20 +45,20 @@ class JBCartElementOrderDate extends JBCartElementOrder
         return ' - ';
     }
 
-
-    /*
-       Function: _edit
-           Renders the repeatable edit form field.
-
-       Returns:
-           String - html
-    */
-
+    /**
+     * Renders the repeatable edit form field
+     * @param array $params
+     * @return string
+     */
     public function renderSubmission($params = array())
     {
-        $name = $this->getControlName('value');
+        $name  = $this->getControlName('value');
+        $attrs = array('class' => 'calendar-element');
+        $id    = 'jbcart-' . $this->identifier;
+        $value = $this->get('value', $this->config->get('default'));
 
-        return $this->app->html->_('zoo.calendar', '', $name, $name, array('class' => 'calendar-element'), true);
+        $this->app->jbassets->calendar();
+        return $this->app->html->_('zoo.calendar', $value, $name, $id, $attrs, true);
     }
 
     /**
@@ -72,8 +69,8 @@ class JBCartElementOrderDate extends JBCartElementOrder
      */
     public function validateSubmission($value, $params)
     {
-
         $value = $value->get('value');
+
         if (!empty($value) && ($time = strtotime($value))) {
             $value = strftime(self::EDIT_DATE_FORMAT, $time);
         }
