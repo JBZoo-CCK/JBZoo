@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -23,41 +22,43 @@ if ($params->get('show_tooltip') && ($description = $element->config->get('descr
 }
 
 // create error
-$error = '';
+$error   = '';
 $isError = isset($element->error) && !empty($element->error);
 if ($isError) {
-    $error = '<p class="error-message">' . (string)$element->error . '</p>';
+    $error = '<p class="jbcart-shippingfield-error">' . (string)$element->error . '</p>';
 }
 
 // create class attribute
 $classes = array_filter(array(
-    'element-' . $element->identifier,
-    'control-group',
-    'element',
-    'element-' . $element->getElementType(),
-    $params->get('first') ? ' first' : '',
-    $params->get('last') ? ' last' : '',
-    $params->get('required') ? ' required-field' : '',
-    $isError ? ' error' : '',
+    'jbcart-shippingfield-row',
+    'jbcart-shippingfield-' . $element->getElementType(),
+    $params->get('first') ? 'first' : '',
+    $params->get('last') ? 'last' : '',
+    $params->get('required') ? 'required' : '',
+    $isError ? 'error' : '',
 ));
 
 $element->loadAssets();
 
 $label = $params->get('altlabel') ? $params->get('altlabel') : $element->config->get('name');
-$label = $params->get('required') ? ($label . ' <span class="dot">*</span>') : $label;
+$label = $params->get('required') ? ($label . ' <span class="required-dot">*</span>') : $label;
+
+$uniqId = 'jbcart-' . $element->identifier;
 
 ?>
 <div class="<?php echo implode(' ', $classes); ?>">
-    <?php
-    echo '<div class="control-label">'
-        . '<label class="field-label" for="shippingfield-' . $element->identifier . '">'
-        . $label
-        . '</label></div>';
 
-    echo '<div class="controls"> '
-        . $element->renderSubmission($params)
-        . $error
-        . '</div>';
-    ?>
-    <div class="clear"></div>
+    <label class="jbcart-shippingfield-label" for="<?php echo $uniqId; ?>">
+        <?php echo $label; ?>
+    </label>
+
+    <div class="jbcart-shippingfield-element">
+        <?php echo $element->renderSubmission($params); ?>
+        <?php echo $error; ?>
+    </div>
+
+    <?php if ($description = $element->config->get('description')) : ?>
+        <p class="jbcart-shippingfield-desc"><?php echo JText::_($description); ?> </p>
+    <?php endif; ?>
+
 </div>
