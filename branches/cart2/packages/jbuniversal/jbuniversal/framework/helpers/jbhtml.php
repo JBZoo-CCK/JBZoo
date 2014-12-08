@@ -22,11 +22,11 @@ class JBHTMLHelper extends AppHelper
      * Render option list
      * @param        $data
      * @param        $name
-     * @param null   $attribs
-     * @param null   $selected
-     * @param bool   $idtag
-     * @param bool   $translate
-     * @param bool   $isLabelWrap
+     * @param null $attribs
+     * @param null $selected
+     * @param bool $idtag
+     * @param bool $translate
+     * @param bool $isLabelWrap
      * @return string
      */
     public function radio(
@@ -50,11 +50,11 @@ class JBHTMLHelper extends AppHelper
      * Render checkbox list
      * @param        $data
      * @param        $name
-     * @param null   $attribs
-     * @param null   $selected
-     * @param bool   $idtag
-     * @param bool   $translate
-     * @param bool   $isLabelWrap
+     * @param null $attribs
+     * @param null $selected
+     * @param bool $idtag
+     * @param bool $translate
+     * @param bool $isLabelWrap
      * @return string
      */
     public function checkbox(
@@ -144,8 +144,8 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Quantity widget
-     * @param int    $default
-     * @param array  $options
+     * @param int $default
+     * @param array $options
      * @param string $id
      * @param string $name
      * @return string
@@ -159,24 +159,22 @@ class JBHTMLHelper extends AppHelper
         $options['default'] = (float)$default;
 
         $html = array(
-            '<div class="jsQuantity" id="' . $id . '">',
-            '  <table cellpadding="0" cellspacing="0" border="0" class="quantity-wrapper">',
-            '    <tr>',
-            '      <td rowspan="2">',
-            '        <div class="jsCountBox item-count-wrapper">',
-            '          <div class="item-count">',
-            '            <dl class="item-count-digits">' . str_repeat('<dd></dd>', 5) . '</dl>',
-            '            <input type="text" class="input-quantity jsInput" maxlength="6" name="' . $name . '" value="' . $options['default'] . '">',
-            '          </div>',
+            '<table cellpadding="0" cellspacing="0" border="0" class="quantity-wrapper jsQuantity" id="' . $id . '">',
+            '  <tr>',
+            '    <td rowspan="2">',
+            '      <div class="jsCountBox item-count-wrapper">',
+            '        <div class="item-count">',
+            '          <dl class="item-count-digits">' . str_repeat('<dd></dd>', 5) . '</dl>',
+            '          <input type="text" class="input-quantity jsInput" maxlength="6" name="' . $name . '" value="' . $options['default'] . '">',
             '        </div>',
-            '      </td>',
-            '      <td><span class="jsAdd plus btn-mini"></span></td>',
-            '    </tr>',
-            '    <tr>',
-            '      <td><span class="jsRemove minus btn-mini"></span></td>',
-            '    </tr>',
-            '  </table>',
-            '</div>',
+            '      </div>',
+            '    </td>',
+            '    <td class="plus"><span class="jsAdd jbbutton micro">+</span></td>',
+            '  </tr>',
+            '  <tr>',
+            '    <td class="minus"><span class="jsRemove jbbutton micro">-</span></td>',
+            '  </tr>',
+            '</table>',
         );
 
         $this->app->jbassets->initQuantity($id, $options);
@@ -187,10 +185,10 @@ class JBHTMLHelper extends AppHelper
     /**
      * Render color field
      * @param string $inputType
-     * @param array  $data
+     * @param array $data
      * @param string $name
-     * @param null   $selected
-     * @param array  $attrs
+     * @param null $selected
+     * @param array $attrs
      * @return string
      */
     public function colors($inputType = 'checkbox', $data, $name, $selected = null, $attrs = array())
@@ -273,9 +271,9 @@ class JBHTMLHelper extends AppHelper
     }
 
     /**
-     * @param array  $curList
+     * @param array $curList
      * @param string $defaultCur
-     * @param array  $options
+     * @param array $options
      * @return array|null|string
      */
     public function currencyToggle($curList, $defaultCur = 'eur', $options = array())
@@ -372,10 +370,7 @@ class JBHTMLHelper extends AppHelper
 
             );
 
-            $html = '<div ' . $this->buildAttrs($widgetAttrs) . '>'
-                . implode("\n ", $html)
-                . '<div class="clear clr"></div>'
-                . '</div>';
+            $html = '<div ' . $this->buildAttrs($widgetAttrs) . '>' . implode("\n ", $html) . '</div>';
 
             return $html;
         }
@@ -406,9 +401,9 @@ class JBHTMLHelper extends AppHelper
     /**
      * Render calendar element
      * @param       $name
-     * @param null  $value
-     * @param null  $attribs
-     * @param null  $idtag
+     * @param null $value
+     * @param null $attribs
+     * @param null $idtag
      * @param array $params
      * @return string
      */
@@ -430,7 +425,7 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render jQueryUI slider
-     * @param array  $params
+     * @param array $params
      * @param string $value
      * @param string $name
      * @param string $idtag
@@ -473,10 +468,10 @@ class JBHTMLHelper extends AppHelper
      * Render option list
      * @param        $data
      * @param        $name
-     * @param null   $attribs
-     * @param null   $selected
-     * @param bool   $idtag
-     * @param bool   $translate
+     * @param null $attribs
+     * @param null $selected
+     * @param bool $idtag
+     * @param bool $translate
      * @return string
      */
     public function buttonsJqueryUI(
@@ -507,10 +502,10 @@ class JBHTMLHelper extends AppHelper
      * Render chosen
      * @param       $data
      * @param       $name
-     * @param null  $attribs
-     * @param null  $selected
-     * @param bool  $idtag
-     * @param bool  $translate
+     * @param null $attribs
+     * @param null $selected
+     * @param bool $idtag
+     * @param bool $translate
      * @param array $params
      * @return string
      */
@@ -538,11 +533,11 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Select cascade
-     * @param array  $selectInfo
+     * @param array $selectInfo
      * @param string $name
-     * @param array  $selected
-     * @param array  $attribs
-     * @param bool   $idtag
+     * @param array $selected
+     * @param array $attribs
+     * @param bool $idtag
      * @return string
      */
     public function selectCascade(
@@ -614,13 +609,13 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Generates an HTML checkbox/radio list.
-     * @param   string  $inputType   Type of html input element
-     * @param   array   $data        An array of objects
-     * @param   string  $name        The value of the HTML name attribute
-     * @param   array   $attribs     Additional HTML attributes for the <select> tag
-     * @param   string  $selected    The name of the object variable for the option text
-     * @param   boolean $idtag       Value of the field id or null by default
-     * @param   boolean $translate   True if options will be translated
+     * @param   string $inputType Type of html input element
+     * @param   array $data An array of objects
+     * @param   string $name The value of the HTML name attribute
+     * @param   array $attribs Additional HTML attributes for the <select> tag
+     * @param   string $selected The name of the object variable for the option text
+     * @param   boolean $idtag Value of the field id or null by default
+     * @param   boolean $translate True if options will be translated
      * @param   boolean $isLabelWrap True if options wrappeed label tag
      * @return  string HTML for the select list
      */
@@ -703,7 +698,7 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Build attrs
-     * @param array   $attrs
+     * @param array $attrs
      * @param boolean $clean
      * @return null|string
      */
@@ -749,7 +744,7 @@ class JBHTMLHelper extends AppHelper
     /**
      * Clear attribute value
      * @param string $value
-     * @param bool   $isTrim
+     * @param bool $isTrim
      * @return string
      */
     public function cleanAttrValue($value, $isTrim = true)
