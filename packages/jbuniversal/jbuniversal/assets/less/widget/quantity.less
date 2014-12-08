@@ -7,6 +7,9 @@
 // @license     http://jbzoo.com/license-pro.php JBZoo Licence
 // @coder       Denis Smetannikov <denis@jbzoo.com>
 //
+
+@import "jbzoo";
+
 .jbzoo .quantity-wrapper {
 
     .item-count-wrapper {
@@ -43,16 +46,16 @@
             padding: 0;
             text-align: center;
             display: block;
-            font: 16px/40px "Helvetica Neue", Helvetica, Arial, sans-serif;
+            #font > .sans-serif(normal, 16px, 40px);
             width: 60px;
         }
     }
 
     .input-quantity {
-        height: 40px!important;
-        width: 55px!important;
+        height: 40px !important;
+        width: 55px !important;
         min-width: 60px;
-        margin: 0;
+        margin: -1px 0 0 -1px; // hack for accurate position
         padding: 0;
         z-index: 1;
         display: block;
@@ -61,7 +64,7 @@
         border-radius: 3px;
         background: none;
         outline: none;
-        font: 16px/40px "Helvetica Neue", Helvetica, Arial, sans-serif;
+        #font > .sans-serif(normal, 16px, 40px);
         text-align: center;
         text-indent: 0;
         opacity: 0;
@@ -69,46 +72,26 @@
         &:focus {
             border-color: #ccc;
             outline: none;
-            color: black;
+            color: #000;
             background-color: #faffbd;
             box-shadow: none;
         }
     }
 
-    .btn-mini {
-        width: 18px;
-        height: 18px;
-        display: block;
-        text-align: center;
-        line-height: 0;
-        font-size: 0;
-        margin-left: 6px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        padding: 0;
-        cursor: pointer;
-
-        &:hover {
-            border-color: #666;
-        }
-
-        &.plus {
-            margin-bottom: 1px;
-            background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAIAAADZrBkAAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAMFJREFUeNrMk00KgzAQhXUiXiASiCt3XqDk/uuQKwQCgjshO0H86WsDaaG1pkKhb5Wf+eYNw0w+z3Pf9977aZqyI5VlWVWVlLIAM45j27Z4OsSQ2jkHJxqGoWmaFCa4IRil0bIsiUwk4Ulv/9Z1/QzT3sflrj2eslM6iRWvtT1flVLhYIz5gVvIik4EH601Ef1bS6JQ3i0r0RfYXvQjgDGGsUwvDwOJsSQhhLU2Zdni4nDO823buq5LX1MwdV1fBRgAr51adW9nEfIAAAAASUVORK5CYII=") no-repeat 50% 50%;
-        }
-
-        &.minus {
-            background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAIAAADZrBkAAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKhJREFUeNrMk0EKxCAMRdtYvIAi6Ko7L+D9T+AVCoLgrtCdIFYnUHAlUykdmKwk5OV/5GfOOYcQjuNIKU13RSnlnEspF2RijFprbN1iuNo5h0qw7/u6riPMpYbDaA3O8xxkGomaMD2qpdstpbQ3QGf1Q7WXTBpjunPW2h+oXVv//Eu+GHvDJCEEYzkOYCAxliCE2LZt5Nja4TDG5lqr9378TJFRSn0EGACCOVBDjQe0EQAAAABJRU5ErkJggg==") no-repeat 50% 50%;
-            margin-top: 1px;
-        }
-    }
-
     // clean table styles
-    .quantity-wrapper tr,
-    .quantity-wrapper td {
+    tr, td {
         padding: 0;
         margin: 0;
-        vertical-align: middle;
         border: none;
+    }
+
+    .plus {
+        vertical-align: top;
+        padding: 0 2px;
+    }
+
+    .minus {
+        vertical-align: bottom;
+        padding: 0 2px;
     }
 }

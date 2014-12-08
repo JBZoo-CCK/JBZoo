@@ -10,23 +10,20 @@
 
 @import "jbzoo";
 
-.jbzoo {
+// general
+@import "general/system";
+@import "general/align";
+@import "general/columns";
 
-    .element-jbgallery a {
-        float: left;
-        display: block;
-        margin-bottom: 1em;
-        padding: 0.5em;
-        margin-right: 1em;
-        border: 1px solid #CCC;
-        border-radius: 4px;
+// Catalog template
+@import "general/alphaindex";
+@import "general/comments";
+@import "general/form";
+@import "general/pagination";
+@import "general/rss";
 
-        &:hover {
-            border-color: #333;
-            img {
-                opacity: 0.8;
-            }
-        }
-    }
-
-}
+// others
+@import "general/others";
+@import "general/buttons";
+@import "general/table";
+@import "general/hacks";

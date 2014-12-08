@@ -268,7 +268,9 @@
     // Sizing shortcuts
     .size(@width, @height) {
         height: @height;
+        min-height: @height;
         width: @width;
+        min-width: @width;
     }
 
     .square(@size) {
@@ -289,14 +291,14 @@
     }
 
     // Box sizing
-    .box-sizing(@boxmodel) {
+    .sizing(@boxmodel) {
       //-webkit-box-sizing: @boxmodel; // deprecated
          //-moz-box-sizing: @boxmodel; // deprecated
                 box-sizing: @boxmodel;
     }
 
     // Resize anything
-    .resizable(@direction) {
+    .resize(@direction) {
         resize: @direction; // Options: horizontal, vertical, both
         overflow: auto;     // Safari fix
     }
@@ -369,6 +371,18 @@
     // Hide visually and from screenreaders, but maintain layout.
     .invisible () {
         visibility: hidden;
+    }
+
+    // hide
+    .ghost() {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        display: block !important;
+        position: absolute;
+        opacity: 0;
+        z-index: -101;
+        left: -9999px;
     }
 
 }
@@ -963,15 +977,15 @@
 #sprite {
 
     // Docs https://coderwall.com/p/oztebw
-    .init (@path, @size, @pad: 0) when (isstring(@path)) {
-        background-image: url(@path);
-        width: @size;
-        height: @size;
+    .init (@path, @size, @pad: 0) {
+        background-image: data-uri(@path);
         display: inline-block;
         font-size: @size + @pad;
+        width: @size;
+        height: @size;
     }
 
-    .image(@x, @y) {
+    .image(@x, @y: 0) {
         background-position: -@x * 1em -@y * 1em;
     }
 }

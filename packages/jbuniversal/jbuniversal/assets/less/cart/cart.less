@@ -1,0 +1,82 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Denis Smetannikov <denis@jbzoo.com>
+//
+
+@import "jbzoo";
+
+.jbzoo {
+
+    // customized radio button START
+    .jbcart-radio {
+
+        float: left;
+        cursor: pointer;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        position: relative;
+        #sprite > .init('../../img/misc/radio.png', 26px);
+
+        &:hover {
+            #sprite > .image(1);
+        }
+
+        // relate with real radio-button
+        &-input {
+            #box > .ghost();
+            &:hover            + .jbcart-radio-label .jbcart-radio { #sprite > .image(1); }
+            &:focus            + .jbcart-radio-label .jbcart-radio { #sprite > .image(1); }
+            &:checked          + .jbcart-radio-label .jbcart-radio { #sprite > .image(2); }
+            &:checked:hover    + .jbcart-radio-label .jbcart-radio { #sprite > .image(3); }
+            &:checked:focus    + .jbcart-radio-label .jbcart-radio { #sprite > .image(3); }
+            &:disabled         + .jbcart-radio-label .jbcart-radio { #sprite > .image(4); }
+            &:disabled:focus   + .jbcart-radio-label .jbcart-radio { #sprite > .image(4); }
+            &:disabled:checked + .jbcart-radio-label .jbcart-radio { #sprite > .image(5); }
+        }
+
+        &-label:hover .jbcart-radio,
+        label:hover &-input {
+            #sprite > .image(1);
+        }
+
+    }
+    // customized radio button END
+
+    // others
+    .jbcart {
+
+        &-title {
+            padding: 0;
+            color: #555;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 32px;
+            margin: 16px 0 16px 0;
+
+            &-main {
+                font-size: 18px;
+            }
+
+        }
+
+        &-form,
+        &-table,
+        &-payment,
+        &-shipping,
+        &-buttons {
+            margin: 12px 0 8px 0;
+            padding: 12px 0 20px 0;
+            border-bottom: 1px dashed #ddd;
+        }
+        &-buttons {
+            border: 0;
+        }
+
+    }
+
+}

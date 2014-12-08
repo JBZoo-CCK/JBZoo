@@ -24,7 +24,7 @@ class JBAssetsHelper extends AppHelper
      */
     public function setAppCss($alias = null)
     {
-        $this->less('jbassets:less/jbzoo.less');
+        $this->less('jbassets:less/general.less');
         $this->css('jbassets:css/jbzoo.' . $alias . '.css');
     }
 
@@ -38,7 +38,7 @@ class JBAssetsHelper extends AppHelper
         }
         $this->tools();
 
-        $this->less('jbassets:less/jbzoo.less');
+        $this->less('jbassets:less/general.less');
         $this->css('jbassets:css/admin.css');
         $this->js(array(
             'jbassets:js/admin/colors.js',
@@ -283,6 +283,15 @@ class JBAssetsHelper extends AppHelper
         $this->tools();
         $this->js('jbassets:js/widget/accordion.js');
         $this->less('jbassets:less/widget/tabs.less');
+    }
+
+    /**
+     * Load jquery calendar script
+     */
+    public function calendar()
+    {
+        $this->jQueryUI();
+        $this->js('libraries:jquery/plugins/timepicker/timepicker.js');
     }
 
     /**
@@ -567,7 +576,7 @@ class JBAssetsHelper extends AppHelper
         $this->colors();
 
         // force include for back-end. Do not delete!
-        $this->less('jbassets:less/jbzoo.less');
+        $this->less('jbassets:less/general.less');
 
         if ($queryElement) {
             $this->addScript('jQuery(function($){

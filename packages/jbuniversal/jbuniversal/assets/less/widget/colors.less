@@ -7,6 +7,9 @@
 // @license     http://jbzoo.com/license-pro.php JBZoo Licence
 // @coder       Denis Smetannikov <denis@jbzoo.com>
 //
+
+@import "jbzoo";
+
 .jbzoo {
 
     .jbzoo-colors .jbcolor-label,
@@ -75,14 +78,14 @@
                 border-color: #FFF;
                 .opacity(1);
                 cursor: inherit;
-                background: url('../../img/icon/checked.png') no-repeat 50%;
+                background: data-uri('../../img/icon/checked.png') no-repeat 50%;
             }
         }
     }
 
     /* for ie8 */
     .jbcolor-label.checked div {
-        background: url('../../img/icon/checked.png') no-repeat 50%;
+        background: data-uri('../../img/icon/checked.png') no-repeat 50%;
     }
 
 }
