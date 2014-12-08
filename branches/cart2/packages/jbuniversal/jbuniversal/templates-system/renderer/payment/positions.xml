@@ -10,12 +10,8 @@
 -->
 <renderer>
 
-    <renderer>
-
-        <positions layout="default">
-            <position name="list">List</position>
-        </positions>
-
-    </renderer>
+    <positions layout="default">
+        <position name="list">List</position>
+    </positions>
 
 </renderer>

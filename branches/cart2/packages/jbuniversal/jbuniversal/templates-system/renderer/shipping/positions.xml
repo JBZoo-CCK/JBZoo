@@ -14,8 +14,4 @@
         <position name="list">List</position>
     </positions>
 
-    <positions layout="order">
-        <position name="list">List</position>
-    </positions>
-
 </renderer>
