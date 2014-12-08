@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -14,14 +13,16 @@
 defined('_JEXEC') or die('Restricted access');
 
 
+$this->app->jbassets->less('jbassets:less/cart/buttons.less');
 ?>
 
-<div class="jbzoo-clear jbzoo-order-submit">
+<div class="jbcart-buttons clearfix">
 
-    <input type="submit" name="create" value="Создать заказ" class="jbbutton green big" />
+    <input type="submit" name="create" value="<?php echo JText::_('JBZOO_CART_SUBMIT'); ?>"
+           class="jbbutton green big" />
 
     <?php if ($view->payment) : ?>
-        <input type="submit" name="create-pay" value="Заказать и оплатить"
+        <input type="submit" name="create-pay" value="<?php echo JText::_('JBZOO_CART_SUBMIT_AND_PAY'); ?>"
                class="jbbutton green big" />
     <?php endif; ?>
 
