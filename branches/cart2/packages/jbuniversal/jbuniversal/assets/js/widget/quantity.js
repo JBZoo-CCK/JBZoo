@@ -18,7 +18,7 @@
             min     : 1,
             max     : 999999,
             decimals: 0,
-            speed   : 150,
+            speed   : 200,
             onChange: $.noop
         }, {
             value: 0,
