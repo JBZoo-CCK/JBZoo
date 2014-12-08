@@ -29,10 +29,10 @@ class JBCartElementOrderRadio extends JBCartElementOrderOption
     {
 
         // init vars
-        $options_from_config = $this->config->get('option', array());
-        $default             = $this->config->get('default');
+        $optionList = $this->config->get('option', array());
+        $default    = $this->config->get('default');
 
-        if (count($options_from_config)) {
+        if (count($optionList)) {
 
             // set default, if item is new
             if ($default != '' && $this->_item != null && $this->_item->id == 0) {
@@ -40,7 +40,7 @@ class JBCartElementOrderRadio extends JBCartElementOrderOption
             }
 
             $options = array();
-            foreach ($options_from_config as $option) {
+            foreach ($optionList as $option) {
                 $options[] = $this->app->html->_('select.option', $option['value'], $option['name']);
             }
 

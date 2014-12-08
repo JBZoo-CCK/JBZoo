@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -19,17 +18,25 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementOrderEmail extends JBCartElementOrder
 {
 
-    protected function _hasValue($params = array()) {
+    /**
+     * @param array $params
+     * @return int
+     */
+    protected function _hasValue($params = array())
+    {
         $value = $this->get('value');
 
         return $this->_containsEmail($value);
     }
 
-
-    protected function _containsEmail($text) {
+    /**
+     * @param $text
+     * @return int
+     */
+    protected function _containsEmail($text)
+    {
         return preg_match('/[\w!#$%&\'*+\/=?`{|}~^-]+(?:\.[!#$%&\'*+\/=?`{|}~^-]+)*@(?:[A-Z0-9-]+\.)+[A-Z]{2,6}/i', $text);
     }
-
 
     /**
      * Renders the element in submission
@@ -42,11 +49,15 @@ class JBCartElementOrderEmail extends JBCartElementOrder
             'control.text',
             $this->getControlName('value'),
             $this->get('value', $this->config->get('default')),
-            'size="60" maxlength="255" id="order-' . $this->identifier . '"'
+            'size="60" maxlength="255" id="jbcart-' . $this->identifier . '"'
         );
     }
 
-
+    /**
+     * @param $value
+     * @param $params
+     * @return array
+     */
     public function validateSubmission($value, $params)
     {
         $params = $this->app->data->create($params);

@@ -12,7 +12,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
+/**
+ * Class JBCartElementOrderTextarea
+ */
 class JBCartElementOrderTextarea extends JBCartElementOrder
 {
 
@@ -27,8 +29,8 @@ class JBCartElementOrderTextarea extends JBCartElementOrder
         return $this->app->html->_(
             'control.textarea',
             $this->getControlName('value'),
-            $this->get('value', ''),
-            'cols=20 rows=20'
+            $this->get('value', $this->config->get('default')),
+            'id="jbcart-' . $this->identifier . '"'
         );
     }
 
