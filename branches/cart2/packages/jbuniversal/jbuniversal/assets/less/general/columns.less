@@ -1,0 +1,39 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Denis Smetannikov <denis@jbzoo.com>
+//
+
+@gridMax: 99.9%;
+@gridMargin: 0.95%;
+
+.jbgrid(@cols) {
+    @width: (@gridMax - (@cols * @gridMargin)) / @cols;
+    width: @width;
+    margin: 0 @gridMargin @gridMargin 0;
+    float: left;
+    &.last {
+        margin-right: 0;
+        .clear();
+    }
+}
+
+.jbzoo {
+
+    .width100 {
+        // width: 100%;
+        margin: 0 0 @gridMargin 0;
+    }
+
+    .width50 { .jbgrid(2);}
+    .width33 { .jbgrid(3);}
+    .width25 { .jbgrid(4);}
+    .width20 { .jbgrid(5);}
+    .width16 { .jbgrid(6);}
+    .width14 { .jbgrid(7);}
+    .width12 { .jbgrid(8);}
+}

@@ -8,24 +8,20 @@
 // @coder       Denis Smetannikov <denis@jbzoo.com>
 //
 
-@import "jbzoo";
-
 .jbzoo {
 
-    .element-jbgallery a {
-        float: left;
+    .rsslink {
+        background: data-uri('../../img/icon/rss.png') no-repeat right top;
+        height: 32px;
+        line-height: 32px;
+        padding-right: 40px;
+        float: right;
+        text-decoration: underline;
         display: block;
         margin-bottom: 1em;
-        padding: 0.5em;
-        margin-right: 1em;
-        border: 1px solid #CCC;
-        border-radius: 4px;
 
         &:hover {
-            border-color: #333;
-            img {
-                opacity: 0.8;
-            }
+            text-decoration: none;
         }
     }
 

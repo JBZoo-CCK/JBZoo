@@ -7,37 +7,32 @@
 // @license     http://jbzoo.com/license-pro.php JBZoo Licence
 // @coder       Denis Smetannikov <denis@jbzoo.com>
 //
+
 .jbzoo {
+
+    &.jbzoo-rborder .rborder,
+    .jbzoo-rborder .rborder {
+        border: 1px solid #ccc;
+        .border-radius(6px);
+        background: #fbfbfb;
+    }
+
     .jbzoo-item-teaser .item-title {
         margin-bottom: 1em;
     }
 
+
     .frontpage,
-    .category {
+    .category,
+    .subcategory {
         padding: 1em;
         margin-bottom: 1em;
-    }
-
-    .subcategories .column,
-    .related-items .column,
-    .module-items .column,
-    .items .column {
-        margin-right: 1%;
-        margin-bottom: 1em;
-    }
-
-    .subcategories .column.last,
-    .related-items .column.last,
-    .module-items .column.last,
-    .items .column.last {
-        margin-right: 0;
     }
 
     .subcategory-description {
         margin-bottom: 1em;
     }
 
-    .subcategory,
     .items .jbzoo-item,
     .item-full .jbzoo-item,
     .commentslist .comments {
@@ -46,6 +41,7 @@
 
     .item-full {
         margin-bottom: 1em;
+        background: none;
     }
 
     .item-body {
@@ -53,29 +49,39 @@
         padding: 6px;
     }
 
-    .jbzoo-item .title {
-        margin-bottom: 1em;
-    }
-
     .jbzoo-item {
         margin: 0 0 1em 0;
         padding: 0;
+        .title {
+            margin-bottom: 1em;
+        }
     }
 
     .category .description-teaser {
         font-weight: bold;
     }
 
-    .item-full {
-        background: none;
-    }
-
     .jbtooltip {
-        background: url('../../img/icon/tooltip.png') no-repeat 50% 50%;
+        background: data-uri('../../img/icon/tooltip.png') no-repeat 50% 50%;
         width: 16px;
         height: 16px;
         display: inline-block;
         margin-left: 12px;
     }
 
+    .jbcurrency {
+        &-value {
+            font-size: 1.2em;
+        }
+        &-symbol {
+            .opacity(.7);
+            font-size: 0.9em;
+        }
+    }
+
+    .required-dot {
+        color: #f00;
+        font-weight: bold;
+        font-size: 16px;
+    }
 }

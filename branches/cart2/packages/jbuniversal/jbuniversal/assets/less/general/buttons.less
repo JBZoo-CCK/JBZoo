@@ -1,0 +1,152 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Denis Smetannikov <denis@jbzoo.com>
+//
+
+.jbbutton () {
+
+    // text
+    #text > .user-select(none);
+    vertical-align: middle;
+    touch-action: manipulation;
+    overflow: visible;
+    text-align: center;
+    white-space: nowrap;
+    text-transform: none;
+
+    // box
+    cursor: pointer;
+    display: inline-block;
+
+    text-decoration: none !important;
+    outline: none;
+    #box > .backface-visibility(hidden);
+    #box > .appearance(none);
+    #box > .sizing(border-box) !important;
+    #box > .shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+
+    // effects
+    #transition > .perspective(1000);
+    #transition > .simple(all 100ms ease);
+
+    &:focus {
+        #box > .focus();
+    }
+
+    &[disabled],
+    &.disabled,
+    fieldset[disabled] & {
+        .opacity(.5);
+        cursor: not-allowed;
+        pointer-events: none; // Future-proof disabling of clicks
+        #box > .shadow(none);
+
+        &:hover {
+            #translate > .y(0);
+        }
+    }
+}
+
+.jbbutton-theme(@color, @colorText) {
+
+    color: @colorText !important; // bug with other CSS FM's
+    #text > .selection(@colorText, transparent);
+
+    border: solid 1px darken(@color, 5%);
+    #gradient > .vertical(lighten(@color, 10%), darken(@color, 10%));
+
+    &:hover,
+    &:focus {
+        #gradient > .vertical(lighten(@color, 10%), @color);
+    }
+
+    &:hover {
+        #translate > .y(2px);
+    }
+
+    &:active {
+        #gradient > .vertical(darken(@color, 10%), lighten(@color, 5%));
+    }
+
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        background: @color;
+    }
+
+}
+
+.jbbutton-size(@fontSize: 14px) {
+
+    #font > .sans-serif(normal, @fontSize, @fontSize * 1.25);
+
+    min-height: @fontSize * 2;
+
+    min-width: @fontSize * 6;
+    max-width: @fontSize * 20;
+    width: auto;
+
+    padding: @fontSize * 0.5px @fontSize * 0.75px;
+    margin-bottom: @fontSize * 0.5;
+    margin-right: @fontSize * 0.5;
+
+    .border-radius(4px);
+}
+
+.jbbutton-round(@size) {
+    border-radius: 100%;
+    @realSize: @size * 1.5;
+    width: @realSize;
+    height: @realSize;
+    min-width: @realSize;
+    min-height: @realSize;
+    line-height: @realSize - 2px;
+    padding: 0;
+    margin: 0;
+}
+
+// Button styles
+
+@sizeBig    : 18px;
+@sizeMiddle : 14px;
+@sizeSmall  : 10px;
+
+.jbzoo .jbbutton {
+    // common styles
+    .jbbutton();
+    .jbbutton-theme(#e5e5e5, #555); // default color
+    .jbbutton-size(@sizeMiddle);    // default size
+
+    // shapes
+    &.round  { .jbbutton-round(@sizeMiddle);   }
+
+    // colors
+    &.green  { .jbbutton-theme(#6ab635, #fff); }
+    &.orange { .jbbutton-theme(#f97a2e, #fff); }
+    &.yellow { .jbbutton-theme(#FDD116, #555); }
+
+    &.big {
+        .jbbutton-size(@sizeBig);
+        &.round { .jbbutton-round(@sizeBig); }
+    }
+
+    &.small {
+        text-transform: uppercase;
+        .jbbutton-size(@sizeSmall);
+        &.round { .jbbutton-round(@sizeSmall); }
+    }
+
+    &.micro {
+        .square(18px);
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 18px;
+        padding: 0;
+        margin: 0;
+    }
+}

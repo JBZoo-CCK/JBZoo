@@ -1,0 +1,433 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Denis Smetannikov <denis@jbzoo.com>
+//
+@import "jbzoo";
+
+.jbzoo .jbcart {
+
+    // columns
+    &-shipping-full {
+
+        .jbcart-shipping-col,
+        .jbcart-shippingfield-col {
+            width: 48%;
+            float: left;
+            min-width: 300px;
+        }
+
+        .jbcart-shipping-col {
+            margin-right: 16px;
+            border-right: 1px dashed #ddd;
+        }
+    }
+
+    // services
+    &-shipping {
+
+        &-row {
+            width: 90%;
+            margin-bottom: 12px;
+            background: #f7fbfc;
+            border: 1px solid #eee;
+        }
+
+        &-element {
+            display: none;
+            margin: 10px 0 0 0;
+            padding: 0 36px 0 36px;
+        }
+
+        &-name {
+            height: 26px;
+            line-height: 26px;
+        }
+
+        &-label {
+            padding: 10px 10px 10px 5px;
+        }
+
+        &-price {
+
+            padding-left: 12px;
+            font-size: 14px;
+
+            // forced size for price!
+            .jbcartvalue {
+                color: #666;
+            }
+        }
+
+        select,
+        textarea,
+        input {
+            min-width: 120px;
+            max-width: 300px;
+            margin-bottom: 12px;
+        }
+
+        textarea {
+            #box > .resize(vertical);
+            min-height: 100px;
+        }
+
+    }
+
+    // fields
+    &-shippingfield {
+
+        &-label {
+            color: #505050;
+            padding: 6px 0;
+            font-size: 14px;
+        }
+
+        &-row {
+            padding: 12px;
+            margin: 0 0 12px 0;
+            background: #f7fbfc;
+            border: 1px solid #eee;
+
+            input,
+            select,
+            textarea {
+                width: 95%;
+            }
+
+        }
+
+    }
+}
+
+//.shippingfileds-list {
+//    &.loading {
+//        opacity: 0.5;
+//        background: data-uri('../../img/autocomplete/loader.gif') no-repeat center;
+//    }
+//}
+//
+//.shipping-default {
+//    margin-right: -2px;
+//    border-right: 1px dashed #DDD;
+//
+//    .shipping-element {
+//
+//        .loading {
+//            opacity: 0.5;
+//            background: data-uri('../../img/autocomplete/loader.gif') no-repeat center;
+//        }
+//
+//        .shipping-info {
+//            padding: 0 0 0 30px;
+//        }
+//
+//        input[type="text"] {
+//            width: 200px;
+//        }
+//
+//        .more-options {
+//            padding: 0 0 0 50px;
+//            margin: 10px 0 0 0;
+//        }
+//
+//        .field-label {
+//            line-height: 30px;
+//            margin: 0;
+//        }
+//
+//        .shipping-service {
+//            position: absolute;
+//            left: -9999px;
+//
+//            & + label {
+//                &.field-label {
+//                    div {
+//                        &.jbradio {
+//                            cursor: pointer;
+//                            display: inline-block;
+//                            height: 26px;
+//                            position: relative;
+//                            width: 26px;
+//                            background: url('../img/input/input-helper.png') -126px 0 no-repeat;
+//                            margin: 0 0 0 5px;
+//                            top: 2px;
+//                        }
+//                    }
+//                }
+//            }
+//
+//            & + .field-label {
+//                div {
+//                    &.jbradio {
+//                        &:hover {
+//                            background: url('../img/input/input-helper.png') -158px 0 no-repeat;
+//                        }
+//                    }
+//                }
+//            }
+//
+//            &:checked {
+//                & + .field-label {
+//                    div {
+//                        &.jbradio {
+//                            background: url('../img/input/input-helper.png') -223px 0 no-repeat;
+//                            color: #777;
+//                            font-size: 16px;
+//                        }
+//                    }
+//                }
+//            }
+//
+//            &:focus {
+//                & + .field-label {
+//                    div {
+//                        &.jbradio {
+//                            background: url('../img/input/input-helper.png') -191px 0 no-repeat;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        .jbradio {
+//            float: left;
+//        }
+//
+//        span {
+//            &.value {
+//                font-style: italic;
+//                display: inline-block;
+//                font-size: 12px;
+//                color: #999;
+//            }
+//            &.name {
+//                font-size: 15px;
+//                font-weight: normal;
+//                padding-left: 5px;
+//                -webkit-transition: all ease-out 0.5s;
+//                -moz-transition: all ease-out 0.5s;
+//                -o-transition: all ease-out 0.5s;
+//                transition: all ease-out 0.5s;
+//            }
+//        }
+//    }
+//
+//    .element {
+//
+//        &.active {
+//            .shipping-element {
+//                padding: 10px 10px 10px 5px;
+//                background: #F7FBFC;
+//                border: 1px solid #EEE;
+//                margin: 10px 0;
+//                .shipping-info {
+//                    padding: 0 0 0 50px;
+//                }
+//            }
+//        }
+//
+//        &:hover {
+//            .shipping-element {
+//                background: #F7FBFC;
+//                border: 1px solid #EEE;
+//            }
+//        }
+//
+//        &.loading {
+//            opacity: 0.5;
+//            background: url('../../img/autocomplete/loader.gif') no-repeat center;
+//        }
+//
+//        .shipping-element {
+//            color: #777;
+//            background: #E7EDEE;
+//            border: 1px solid transparent;
+//            padding: 10px 10px 10px 5px;
+//            margin: 1px 0;
+//        }
+//    }
+//
+//    .element-emspost {
+//
+//        .shipping-element {
+//
+//            .name {
+//                padding: 0 0 0 35px;
+//                display: inline-block;
+//                background-image: url('../../img/shipping/shipping-services.png');
+//                background-position: 0 -249px;
+//                background-repeat: no-repeat;
+//                &:hover {
+//                    background-position: 0 -221px;
+//                }
+//            }
+//
+//            .shipping-service {
+//                &:checked {
+//                    & + label {
+//                        &.field-label {
+//                            .name {
+//                                background-image: url('../../img/shipping/shipping-services.png');
+//                                background-position: 0 -221px;
+//                                background-repeat: no-repeat;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//    .element-newpost {
+//
+//        .shipping-element {
+//
+//            .name {
+//                background-image: url('../../img/shipping/shipping-services.png');
+//                background-position: 0px -185px;
+//                background-repeat: no-repeat;
+//                padding: 0 0 0 35px;
+//                display: inline-block;
+//                &:hover {
+//                    background-position: 0 -147px;
+//                }
+//            }
+//
+//            .shipping-service {
+//                &:checked {
+//                    & + label {
+//                        &.field-label {
+//                            .name {
+//                                background-image: url('../../img/shipping/shipping-services.png');
+//                                background-position: 0 -147px;
+//                                background-repeat: no-repeat;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//    .element-russianpost {
+//        .shipping-element {
+//            .name {
+//                padding: 0 0 0 35px;
+//                display: inline-block;
+//                background-image: url('../../img/shipping/shipping-services.png');
+//                background-position: 0 -28px;
+//                background-repeat: no-repeat;
+//                &:hover {
+//                    background-position: 0 3px;
+//                }
+//            }
+//            .shipping-service {
+//                &:checked {
+//                    & + label {
+//                        &.field-label {
+//                            .name {
+//                                background-image: url('../../img/shipping/shipping-services.png');
+//                                background-position: 0 3px;
+//                                background-repeat: no-repeat;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    .element-pickup {
+//        .shipping-element {
+//            .name {
+//                padding: 0 0 0 35px;
+//                display: inline-block;
+//                background-image: url('../../img/shipping/shipping-services.png');
+//                background-position: 0 -107px;
+//                background-repeat: no-repeat;
+//                &:hover {
+//                    background-position: 0 -65px;
+//                }
+//            }
+//            .shipping-service {
+//                &:checked {
+//                    & + label {
+//                        &.field-label {
+//                            .name {
+//                                background-image: url('../../img/shipping/shipping-services.png');
+//                                background-position: 0 -65px;
+//                                background-repeat: no-repeat;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    .element-courier {
+//        .shipping-element {
+//            .name {
+//                padding: 0 0 0 35px;
+//                display: inline-block;
+//                background-image: url('../../img/shipping/shipping-services.png');
+//                background-position: 0 -318px;
+//                background-repeat: no-repeat;
+//                &:hover {
+//                    background-position: 0 -281px;
+//                }
+//            }
+//            .shipping-service {
+//                &:checked {
+//                    & + label {
+//                        &.field-label {
+//                            .name {
+//                                background-image: url('../../img/shipping/shipping-services.png');
+//                                background-position: 0 -281px;
+//                                background-repeat: no-repeat;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//.shippingfield-default {
+//    .element {
+//        background: #F7FBFC;
+//        border: 1px solid #EEE;
+//        padding: 10px;
+//    }
+//}
+//
+//.payment-list {
+//    width: 100%;
+//}
+//
+//.jbzoo-app-basket {
+//    .shippingfield-default {
+//        .controls {
+//            width: 95%;
+//        }
+//    }
+//}
+//
+//.shippingfield-textarea {
+//    width: 100%;
+//    min-height: 100px;
+//    max-height: 500px;
+//    padding: 6px;
+//}
+//
+//.shipping-default,
+//.shippingfield-default {
+//    padding: 0 2% 2% 2%;
+//    width: 46%;
+//    min-width: 298px;
+//}
+

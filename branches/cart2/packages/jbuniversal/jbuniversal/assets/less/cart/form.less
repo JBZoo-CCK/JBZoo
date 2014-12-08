@@ -1,0 +1,102 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Denis Smetannikov <denis@jbzoo.com>
+//
+@import "jbzoo";
+
+.jbzoo .jbcart-form {
+
+    &-row {
+        .clear();
+        margin-bottom: 1em;
+    }
+
+    &-label,
+    &-control {
+        float: left;
+    }
+
+    &-label {
+        width: 20%;
+        margin: 0 4% 0 0;
+    }
+
+    &-control {
+        width: 30%;
+        margin: 0 4% 0 0;
+
+        textarea,
+        input[type=text],
+        input[type=number],
+        input[type=password] {
+            width: 95%;
+        }
+
+        select {
+            width: 100%;
+        }
+
+        textarea {
+            #box > .resize(vertical);
+            min-height: 100px;
+        }
+
+    }
+
+    &-desc {
+        width: 40%;
+        float: left;
+        font-size: 1em;
+        line-height: 1.5em;
+        font-style: italic;
+        .opacity(0.7);
+    }
+
+    // hack for date element
+    &-date {
+
+        .calendar-element {
+            width: 95% !important;
+        }
+
+        .zoo-calendar {
+            top: 9px;
+            right: 6px;
+            cursor: pointer;
+            position: absolute;
+        }
+
+        .jbcart-form-control {
+            position: relative;
+        }
+    }
+
+    // hack for radio & checkboxes
+    &-radio,
+    &-checkbox {
+
+        input[type=radio],
+        input[type=checkbox] {
+            float: left;
+            margin-right: 12px;
+        }
+
+        .jbcart-form-control label {
+            display: block;
+        }
+    }
+
+    &-error {
+        color: #f24949;
+        font-size: 12px;
+        line-height: 16px;
+        font-style: italic;
+        margin: 4px 0px 12px 0;
+    }
+
+}
