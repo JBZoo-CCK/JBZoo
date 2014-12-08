@@ -13,46 +13,5 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$labelAttrs = array(
-    'class' => 'field-label',
-    'for'   => 'shipping-' . $this->identifier
-);
 
-$attrs = array(
-    'type'    => 'radio',
-    'name'    => $this->getControlName('_shipping_id'),
-    'id'      => 'shipping-' . $this->identifier,
-    'class'   => 'jsInputShippingService shipping-service ghost',
-    'value'   => $this->identifier,
-    'checked' => $this->isDefault() ? 'checked="checked"' : ''
-);
-
-?>
-
-    <input <?php echo $this->app->jbhtml->buildAttrs($attrs); ?> />
-
-    <label <?php echo $this->app->jbhtml->buildAttrs($labelAttrs); ?>>
-
-        <div class="jbradio"></div>
-
-        <div class="shipping-info">
-
-            <span class="name">
-                <?php echo $this->getName(); ?>
-            </span>
-
-            <span class="value">
-(<span class="jsValue shipping-price"><?php echo $shipping ? $shipping : JText::_('JBZOO_ELEMENT_SHIPPING_COURIER_FREE'); ?>
-</span><span class="jsCurrency shipping-currency"></span>)
-            </span>
-
-        </div>
-    </label>
-
-    <div class="more-options jsMoreOptions">
-        <?php echo $this->renderFields(); ?>
-    </div>
-
-<?php if ($description = $this->config->get('description')) : ?>
-    <p class="shipping-description"> <?php echo $description; ?> </p>
-<?php endif;
+echo $this->renderFields();
