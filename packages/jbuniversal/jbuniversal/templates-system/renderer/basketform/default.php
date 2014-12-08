@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,12 +12,13 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if ($this->checkPosition('fields')) : ?>
-    <div class="jbzoo-basket-fields">
-        <h2>Контактная информация</h2>
 
-        <?php echo $this->renderPosition('fields', array(
-            'style' => 'order.block'
-        )); ?>
+if ($this->checkPosition('fields')) : ?>
+
+    <div class="jbcart-form clearfix">
+
+        <?php echo $this->renderPosition('fields', array('style' => 'order.block')); ?>
+
     </div>
+
 <?php endif;
