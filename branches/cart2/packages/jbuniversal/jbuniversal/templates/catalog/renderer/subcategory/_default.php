@@ -41,7 +41,7 @@ if ($showCount || $maxItems != "0" || $maxItems == "-1") {
 $image = $this->app->jbimage->get('category_teaser_image', $params);
 
 ?>
-    <div class="subcategory subcategory-<?php echo $subcategory->alias; ?>">
+    <div class="subcategory clearfix subcategory-<?php echo $subcategory->alias; ?>">
 
         <?php if ($vars['params']->get('template.subcategory_teaser_image', 1) && $image['src']) : ?>
             <div class="subcategory-image align-<?php echo $imageAlign; ?>">
@@ -68,8 +68,7 @@ $image = $this->app->jbimage->get('category_teaser_image', $params);
 
         <?php if (in_array($task, array('category', 'frontpage'))) : ?>
             <?php if ($maxItems != 0 && count($items) > 0) : ?>
-                <div class="clear clr"></div>
-                <div class="subcategory-items">
+                <div class="subcategory-items clearfix">
                     <?php
                     foreach ($items as $item) {
                         echo $this->app->jblayout->renderItem($item, 'subcategory_item');
@@ -78,8 +77,6 @@ $image = $this->app->jbimage->get('category_teaser_image', $params);
                 </div>
             <?php endif; ?>
         <?php endif; ?>
-
-        <div class="clear clr"></div>
     </div>
 
 <?php

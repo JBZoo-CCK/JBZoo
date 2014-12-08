@@ -20,7 +20,7 @@ if ($vars['count']) {
 
     $count = $vars['count'];
 
-    echo '<div class="subcategories subcategory-col-' . $vars['cols_num'] . '">';
+    echo '<div class="subcategories clearfix subcategory-col-' . $vars['cols_num'] . '">';
 
     $j = 0;
     foreach ($vars['objects'] as $object) {
@@ -37,15 +37,9 @@ if ($vars['count']) {
 
         echo '<div class="rborder column width' . intval(100 / $vars['cols_num']) . $first . $last . '">' . $object
             . '</div>';
-
-        if ($isLast) {
-            echo '<div class="clear clr"></div>';
-        }
     }
 
-    echo '<div class="clear clr"></div>';
     echo '</div>';
-
 }
 
 $this->app->jbdebug->mark('layout::subcategory_columns::finish');

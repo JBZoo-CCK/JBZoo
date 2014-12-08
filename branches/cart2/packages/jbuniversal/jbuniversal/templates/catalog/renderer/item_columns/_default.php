@@ -20,7 +20,7 @@ if ($vars['count']) {
 
     $count = $vars['count'];
 
-    echo '<div class="items items-col-' . $vars['cols_num'] . '">';
+    echo '<div class="items clearfix items-col-' . $vars['cols_num'] . '">';
 
     $j = 0;
     foreach ($vars['objects'] as $object) {
@@ -37,16 +37,9 @@ if ($vars['count']) {
 
         echo '<div class="column rborder width' . intval(100 / $vars['cols_num']) . $first . $last . '">' . $object
             . '</div>';
-
-        if ($isLast) {
-            echo '<div class="clear clr"></div>';
-        }
-
     }
 
     echo '</div>';
-    echo '<div class="clear clr"></div>';
-
 }
 
 $this->app->jbdebug->mark('layout::item_columns::finish');

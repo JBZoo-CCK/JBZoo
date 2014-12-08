@@ -25,7 +25,7 @@ $image = $this->app->jbimage->get('category_image', $vars['params']);
 $title = $title ? $title : $category->name;
 
 if ((int)$vars['params']->get('template.category_show', 1)) : ?>
-    <div class="frontpage rborder alias-<?php echo $category->alias; ?>">
+    <div class="frontpage clearfix rborder alias-<?php echo $category->alias; ?>">
 
         <?php if ((int)$vars['params']->get('template.category_title_show', 1)) : ?>
             <h1 class="title"><?php echo $title; ?></h1>
@@ -56,8 +56,6 @@ if ((int)$vars['params']->get('template.category_show', 1)) : ?>
             <div class="description-full"><?php echo $category->getText($category->description); ?></div>
         <?php endif; ?>
 
-
-        <div class="clr clear"></div>
     </div>
 
 <?php else: ?>

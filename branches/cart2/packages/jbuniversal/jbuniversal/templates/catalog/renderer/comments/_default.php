@@ -25,7 +25,7 @@ $this->app->document->addScript('libraries:jquery/plugins/cookie/jquery.cookie.j
 $this->app->document->addScript('assets:js/comment.js');
 
 ?>
-    <div id="comments" class="comments <?php echo implode(" ", $css); ?>">
+    <div id="comments" class="comments <?php echo implode(" ", $css); ?> clearfix">
 
         <h3 class="comments-meta">
             <span
@@ -76,7 +76,6 @@ $this->app->document->addScript('assets:js/comment.js');
             });
         });
     </script>
-    <div class="clear clr"></div>
 
 <?php
 $this->app->jbdebug->mark('layout::comments::finish');
