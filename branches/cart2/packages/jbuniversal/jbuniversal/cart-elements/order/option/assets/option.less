@@ -1,0 +1,127 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Denis Smetannikov <denis@jbzoo.com>
+//
+
+@import "jbzoo";
+
+.element .options {
+
+    overflow: hidden;
+
+    ul {
+        margin: 0px 0px 10px 0px;
+        padding: 0;
+        list-style-type: none;
+        position: relative;
+    }
+
+    li {
+        padding: 10px 5px;
+        overflow: hidden;
+        border-top: 1px dotted #ссс;
+        position: relative;
+
+        &:hover {
+            background: #f0f0f0;
+
+            label {
+                color: #0b55c4;
+            }
+
+            .sort-handle {
+                cursor: move;
+            }
+
+            .sort-handle,
+            .delete {
+                display: inline-block;
+                margin: 12px 5px 0px 5px;
+                cursor: pointer;
+            }
+        }
+
+        &.hidden {
+            display: none;
+        }
+
+        &:first-child,
+        &[style*="absolute"]:first-child + li {
+            border-top: none;
+        }
+
+        .dragging {
+            border: none;
+        }
+
+    }
+
+    .add {
+        margin: 0px 0px 0px 10px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        background: data-uri('add.png') 5px 4px no-repeat;
+        text-indent: 20px;
+        cursor: pointer;
+        float: left;
+        &:hover {
+            background-color: #f0f0f0;
+        }
+    }
+
+    .panel {
+        margin-left: 5px;
+        display: none;
+        &.active {
+            display: inline-block;
+        }
+    }
+
+    label {
+        display: block;
+        color: #666;
+        font-weight: bold;
+        float: none;
+        margin-bottom: 0px;
+    }
+
+    input {
+        float: none;
+
+        &.accept {
+            margin: 0 0 0 5px;
+        }
+
+        &[type="text"] {
+            margin-top: 0px;
+        }
+
+        &[name$="[value]"] {
+            .border-radius(3px);
+            width: 200px;
+        }
+    }
+
+    a.cancel {
+        margin: 0px 0px 0px 5px;
+        color: #bc0b0b;
+        cursor: pointer;
+    }
+
+    .name-input,
+    .value-input {
+        margin: 0px 5px;
+        float: left;
+    }
+
+    .sort-handle,
+    .delete {
+        display: none;
+    }
+
+}
