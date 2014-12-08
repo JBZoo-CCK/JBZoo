@@ -224,6 +224,15 @@ abstract class JBCartElementPayment extends JBCartElement
     }
 
     /**
+     * Default payment currency
+     * @return mixed
+     */
+    public function getDefaultCurrency()
+    {
+        return $this->config->get('currency', 'eur');
+    }
+
+    /**
      * @param array $params
      * @return string
      */
