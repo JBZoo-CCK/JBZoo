@@ -39,7 +39,7 @@ class JBCartElementPaymentLiqPay extends JBCartElementPayment
         $publicKey  = JString::trim($this->config->get('public_key'));
         $privateKey = JString::trim($this->config->get('private_key'));
 
-        $payCurrency = $this->config->get('currency', 'eur');
+        $payCurrency = $this->getDefaultCurrency();
         $orderAmount = $this->_order->val($this->getOrderSumm(), $order->getCurrency())->convert($payCurrency);
 
         $data = array(
