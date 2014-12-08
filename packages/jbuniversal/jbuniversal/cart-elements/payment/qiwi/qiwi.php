@@ -50,7 +50,7 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
     {
         $signPsw = JString::trim($this->config->get('sign_psw'));
 
-        $hashData = $this->_bindRequestData(array(
+        $hashData = implode('|', array(
             $this->app->jbrequest->get('amount'),
             $this->app->jbrequest->get('bill_id'),
             $this->app->jbrequest->get('ccy'),
@@ -94,8 +94,7 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
     public function getRequestOrderSum()
     {
         $order       = $this->getOrder();
-        $payCurrency = $this->config->get('currency', 'eur');
-        $orderAmount = JBCart::val($this->app->jbrequest->get('amount'), $order->getCurrency())->convert($payCurrency);
+        $orderAmount = $this->_order->val($this->app->jbrequest->get('amount'), $order->getCurrency());
 
         return $orderAmount;
     }
@@ -142,10 +141,10 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
         $restId  = JString::trim($this->config->get('rest_id'));
         $request = $this->_jbrequest->get('jbzooform');
 
-        $payCurrency = $this->config->get('currency', 'eur');
+        $payCurrency = $this->getDefaultCurrency();
         $lifeTimeISO = JHtml::date(time() + 86400 * 30, 'c');
         $shopConfig  = JBModelConfig::model()->getGroup('cart.config');
-        $orderAmount = JBCart::val($this->getOrderSumm(), $order->getCurrency())->convert($payCurrency);
+        $orderAmount = $this->_order->val($this->getOrderSumm(), $order->getCurrency())->convert($payCurrency);
 
         $curlData = array(
             'pay_source' => 'qw',
@@ -227,16 +226,6 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
     protected function _getQiwiCurl($shopId, $billId)
     {
         return 'https://w.qiwi.com/api/v2/prv/' . $shopId . '/bills/' . $billId;
-    }
-
-    /**
-     * Bind request data
-     * @param array $request
-     * @return string
-     */
-    protected function _bindRequestData($request = array())
-    {
-        return implode('|', $request);
     }
 
 }

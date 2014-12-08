@@ -49,9 +49,9 @@ class JBCartElementPaymentYandexMoney extends JBCartElementPayment
     {
         $order       = $this->getOrder();
         $targets     = $this->getOrderDescription();
-        $payCurrency = $this->config->get('currency', 'eur');
+        $payCurrency = $this->getDefaultCurrency();
         $account     = JString::trim($this->config->get('account_number'));
-        $orderAmount = JBCart::val($this->getOrderSumm(), $order->getCurrency())->convert($payCurrency);
+        $orderAmount = $this->_order->val($this->getOrderSumm(), $order->getCurrency())->convert($payCurrency);
         $successUrl  = $this->_jbrouter->payment('success') . '&bill_id=' . $this->getOrderId();
 
         $query = array(
@@ -63,7 +63,7 @@ class JBCartElementPaymentYandexMoney extends JBCartElementPayment
             'button-text' => '01',
             'label'       => $this->getOrderId(),
             'successURL'  => $successUrl,
-            'payment-type-choice' => 'on',
+            'payment-type-choice' => 'on'
         );
 
         $orderUri = $this->_uri . '?' . $this->_jbrouter->query($query);
@@ -84,7 +84,7 @@ class JBCartElementPaymentYandexMoney extends JBCartElementPayment
     {
         $requestHash = $this->app->jbrequest->get('sha1_hash');
 
-        $bindRequest = $this->_bindRequestData(array(
+        $bindRequest = implode('&', array(
             $this->app->jbrequest->get('notification_type'),
             $this->app->jbrequest->get('operation_id'),
             $this->app->jbrequest->get('amount'),
@@ -145,20 +145,9 @@ class JBCartElementPaymentYandexMoney extends JBCartElementPayment
     public function getRequestOrderSum()
     {
         $order       = $this->getOrder();
-        $payCurrency = $this->config->get('currency', 'eur');
-        $orderAmount = JBCart::val($this->app->jbrequest->get('withdraw_amount'), $order->getCurrency())->convert($payCurrency);
+        $orderAmount = $this->_order->val($this->app->jbrequest->get('withdraw_amount'), $order->getCurrency());
 
         return $orderAmount;
-    }
-
-    /**
-     * Bind request data
-     * @param array $request
-     * @return string
-     */
-    protected function _bindRequestData($request = array())
-    {
-        return implode('&', $request);
     }
 
 }
