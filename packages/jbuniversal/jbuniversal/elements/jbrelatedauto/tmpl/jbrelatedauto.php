@@ -18,7 +18,7 @@ $count = count($items);
 
 if ($count) {
 
-    echo '<div class="related-items related-items-col-' . $columns . '">';
+    echo '<div class="related-items related-items-col-' . $columns . ' clearfix">';
 
     $j = 0;
     foreach ($items as $item) {
@@ -34,13 +34,7 @@ if ($count) {
         }
 
         echo '<div class="rborder column width' . intval(100 / $columns) . $first . $last . '">' . $item . '</div>';
-
-        if ($isLast) {
-            echo '<div class="clear clr"></div>';
-        }
     }
 
-    echo '<div class="clear clr"></div>';
     echo '</div>';
-
 }
