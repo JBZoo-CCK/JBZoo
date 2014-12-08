@@ -25,7 +25,6 @@ class JBCartElementOrderOption extends JBCartElementOrder
      */
     public function hasValue($params = array())
     {
-
         foreach ($this->get('option', array()) as $option) {
             if (!empty($option)) {
                 return true;
@@ -42,26 +41,22 @@ class JBCartElementOrderOption extends JBCartElementOrder
      */
     public function render($params = array())
     {
-
         return $this->edit($params);
-
     }
-
 
     /**
      * renders element's options in the form
-     * @param $var
-     * @param $num
+     * @param      $var
+     * @param      $num
      * @param null $name
      * @param null $value
      * @return string
      */
     public function editOption($var, $num, $name = null, $value = null)
     {
-
-        return $this->renderLayout($this->app->path->path("cart-elements:order/option/tmpl/editoption.php"), compact('var', 'num', 'name', 'value'));
+        $path = $this->app->path->path("cart-elements:order/option/tmpl/editoption.php");
+        return $this->renderLayout($path, compact('var', 'num', 'name', 'value'));
     }
-
 
     /**
      * Get parameter form object to render input form.
@@ -70,10 +65,8 @@ class JBCartElementOrderOption extends JBCartElementOrder
      */
     public function getConfigForm($groupData = self::DEFAULT_GROUP)
     {
-
         return parent::getConfigForm()->addElementPath(dirname(__FILE__));
     }
-
 
     /**
      * adds js and css
@@ -81,11 +74,10 @@ class JBCartElementOrderOption extends JBCartElementOrder
      */
     public function loadConfigAssets()
     {
-        $this->app->document->addScript('cart-elements:order/option/option.js');
-        $this->app->document->addStylesheet('cart-elements:order/option/option.css');
+        $this->app->jbassets->js('cart-elements:order/option/assets/option.js');
+        $this->app->jbassets->less('cart-elements:order/option/assets/option.less');
         return parent::loadConfigAssets();
     }
-
 
     /**
      * for viewing in the admin panel
@@ -94,19 +86,15 @@ class JBCartElementOrderOption extends JBCartElementOrder
      */
     public function edit($params = array())
     {
-
         $options = $this->get('option', array());
 
         if ($options) {
-
             if (count($options) > 1) {
 
                 $html[] = '<ul>';
-
                 foreach ($options as $option) {
                     $html[] = '<li>' . $option . '</li>';
                 }
-
                 $html[] = '</ul>';
 
                 return implode("\n", $html);
@@ -119,7 +107,6 @@ class JBCartElementOrderOption extends JBCartElementOrder
         return ' - ';
     }
 
-
     /**
      * validates submission
      * @param $value
@@ -128,12 +115,12 @@ class JBCartElementOrderOption extends JBCartElementOrder
      */
     public function validateSubmission($value, $params)
     {
-
         $params   = $this->app->data->create($params);
         $value    = $this->app->data->create($value);
         $options  = array('required' => $params->get('required'));
         $messages = array('required' => 'Please choose an option.');
-        $option   = $this->app->validator
+
+        $option = $this->app->validator
             ->create('foreach', $this->app->validator->create('string', $options, $messages), $options, $messages)
             ->clean($value->get('option'));
 

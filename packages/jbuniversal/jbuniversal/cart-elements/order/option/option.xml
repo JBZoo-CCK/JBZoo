@@ -1,39 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <element type="option" group="Core" hidden="true">
-	<name>Option</name>
-	<author>YOOtheme</author>
-	<creationDate>August 2011</creationDate>
-	<copyright>Copyright (C) YOOtheme GmbH</copyright>
-	<authorEmail>info@yootheme.com</authorEmail>
-	<authorUrl>http://www.yootheme.com</authorUrl>
-	<version>2.5.0</version>
-	<description>Option Core System</description>
-	<params>
-		<param name="default" type="text" default="" label="Default" description="" />
-		<param name="options" type="options" default="" label="Options" description="" />
-	</params>
-	<params group="render">
-		<param name="separated_by" type="zoolist" default="Space" label="Separated by" description="CHOOSE_SEPARATOR_REPEATED_ELEMENTS">
-			<option name="Space"><![CDATA[separator=[ ]]]></option>
-			<option name="Comma"><![CDATA[separator=[, ]]]></option>
-			<option name="Hyphen"><![CDATA[separator=[ - ]]]></option>
-			<option name="Pipe"><![CDATA[separator=[ | ]]]></option>
-			<option name="Break"><![CDATA[separator=[<br />]]]></option>
-			<option name="Span"><![CDATA[tag=[<span>%s</span>]]]></option>
-			<option name="Paragraph"><![CDATA[tag=[<p>%s</p>]]]></option>
-			<option name="Div"><![CDATA[tag=[<div>%s</div>]]]></option>
-			<option name="List Item"><![CDATA[tag=[<li>%s</li>]]]></option>
-			<option name="Unordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul>%s</ul>]]]></option>
-			<option name="Ordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ol>%s</ol>]]]></option>
-			<option name="Warp Item"><![CDATA[tag=[<article class="item">%s</article>]]]></option>
-			<option name="Blank"><![CDATA[tag=[%s]]]></option>
-			<option name="UIkit Block"><![CDATA[tag=[<div class="uk-margin">%s</div>]]]></option>
-			<option name="UIkit Article"><![CDATA[tag=[<article class="uk-article">%s</article>]]]></option>
-			<option name="UIkit List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul class="uk-list">%s</ul>]]]></option>
-			<option name="UIkit List Line"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul class="uk-list uk-list-line">%s</ul>]]]></option>
-		</param>
+    <name>Option</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>Option Core System</description>
+
+    <params>
+        <param name="default" type="text" default="" label="Default" description=""/>
+        <param name="options" type="options" default="" label="Options" description=""/>
+    </params>
+
+    <params group="render">
+        <param name="separated_by" type="zoolist" default="Space" label="Separated by"
+               description="CHOOSE_SEPARATOR_REPEATED_ELEMENTS">
+            <option name="Space"><![CDATA[separator=[ ]]]></option>
+            <option name="Comma"><![CDATA[separator=[, ]]]></option>
+            <option name="Hyphen"><![CDATA[separator=[ - ]]]></option>
+            <option name="Pipe"><![CDATA[separator=[ | ]]]></option>
+            <option name="Break"><![CDATA[separator=[<br />]]]></option>
+            <option name="Span"><![CDATA[tag=[<span>%s</span>]]]></option>
+            <option name="Paragraph"><![CDATA[tag=[<p>%s</p>]]]></option>
+            <option name="Div"><![CDATA[tag=[<div>%s</div>]]]></option>
+            <option name="List Item"><![CDATA[tag=[<li>%s</li>]]]></option>
+            <option name="Unordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul>%s</ul>]]]></option>
+            <option name="Ordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ol>%s</ol>]]]></option>
+            <option name="Warp Item"><![CDATA[tag=[<article class="item">%s</article>]]]></option>
+            <option name="Blank"><![CDATA[tag=[%s]]]></option>
+            <option name="UIkit Block"><![CDATA[tag=[<div class="uk-margin">%s</div>]]]></option>
+            <option name="UIkit Article"><![CDATA[tag=[<article class="uk-article">%s</article>]]]></option>
+            <option name="UIkit List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul class="uk-list">%s</ul>]]]></option>
+            <option name="UIkit List Line">
+                <![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul class="uk-list uk-list-line">%s</ul>]]]></option>
+        </param>
 
         <param name="required" type="jbbool" default="" label="JBZOO_ELEMENT_REQUIRED"
                description="JBZOO_ELEMENT_REQUIRED_DESC"/>
-	</params>
+    </params>
+
 </element>
