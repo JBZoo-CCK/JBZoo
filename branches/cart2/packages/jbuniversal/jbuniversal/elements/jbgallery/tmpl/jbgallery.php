@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -19,7 +18,7 @@ $this->app->jbassets->less('elements:jbgallery/assets/styles.less');
 
 ?>
 
-<div id="<?php echo $galleryId; ?>">
+<div id="<?php echo $galleryId; ?>" class="clearfix">
 
     <?php foreach ($thumbs as $thumb) { ?>
         <a href="<?php echo $thumb['img']; ?>"
@@ -32,8 +31,6 @@ $this->app->jbassets->less('elements:jbgallery/assets/styles.less');
                                   height="<?php echo $thumb['thumb_height']; ?>"
                 /></a>
     <?php } ?>
-
-    <div class="clear clr"></div>
 </div>
 
 <script type="text/javascript">
