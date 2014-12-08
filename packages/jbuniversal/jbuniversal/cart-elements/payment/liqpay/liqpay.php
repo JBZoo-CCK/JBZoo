@@ -95,13 +95,15 @@ class JBCartElementPaymentLiqPay extends JBCartElementPayment
     public function getRequestOrderId()
     {
         $task = $this->app->jbrequest->get('task');
-        $data = $this->_decodeData($this->app->jbrequest->get('data'));
 
         if ($task == 'paymentSuccess') {
             return $this->app->jbrequest->get('orderId');
         }
 
-        return $data->order_id;
+        if ($data = $this->app->jbrequest->get('data')) {
+            $data = $this->_decodeData($data);
+            return $data->order_id;
+        }
     }
 
     /**
