@@ -116,8 +116,7 @@ class ElementDate extends ElementRepeatable implements iRepeatSubmittable
      */
     public function renderSubmission($params = array())
     {
-        $this->app->jbassets->jqueryui();
-        $this->app->document->addScript('libraries:jquery/plugins/timepicker/timepicker.js');
+        $this->app->jbassets->calendar();
         return parent::renderSubmission($params);
     }
 
