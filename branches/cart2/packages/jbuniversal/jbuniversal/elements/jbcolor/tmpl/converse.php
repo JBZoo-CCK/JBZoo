@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -25,10 +24,9 @@ defined('_JEXEC') or die('Restricted access');
         )
     );
 
-    $divAttrs = $jbHtml->buildAttrs($attributes);
+    $divAttrs = $jbhtml->buildAttrs($attributes);
 
-    echo '<div ' . $divAttrs . '>'.$label.'</div>';
+    echo '<div ' . $divAttrs . '>' . $label . '</div>';
 
-    echo '<div class="clear clr"></div>';
     ?>
 </div>
