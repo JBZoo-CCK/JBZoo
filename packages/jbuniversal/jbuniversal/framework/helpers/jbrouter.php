@@ -558,17 +558,15 @@ class JBRouterHelper extends AppHelper
     }
 
     /**
-     * @param $appId
      * @param $Itemid
      * @return string
      */
-    public function cartOrderCreate($appId, $Itemid)
+    public function cartOrderCreate($Itemid = null)
     {
         $params = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'index',
-            'app_id'     => (int)$appId,
             'Itemid'     => $Itemid,
         );
 
