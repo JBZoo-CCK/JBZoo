@@ -21,7 +21,12 @@
         /**
          * Ajax process flag
          */
-        isAjax: false,
+        _isAjax: false,
+
+        /**
+         * Ajax process flag
+         */
+        _isAjaxLocking: true,
 
         /**
          * Widget fire on ajax start
@@ -48,7 +53,12 @@
 
             var $this = this;
 
-            $this.isAjax = true;
+            if ($this._isAjaxLocking && $this._isAjax) {
+                JBZoo.logger('i', 'ajax::request::has locked - ' + options.url, options.data);
+                return $this;
+            }
+
+            $this._isAjax = true;
             if ($.isFunction($this._onAjaxStart)) {
                 $this._onAjaxStart.apply($this, [options]);
             }
@@ -92,7 +102,7 @@
                 'success' : function (data) {
 
                     // inner flag & callback
-                    $this.isAjax = false;
+                    $this._isAjax = false;
 
                     if (typeof data == 'string') {
                         data = $.trim(data);
@@ -120,7 +130,7 @@
 
                 'error': function () {
                     // inner flag & callback
-                    $this.isAjax = false;
+                    $this._isAjax = false;
                     if ($.isFunction($this._onAjaxStop)) {
                         $this._onAjaxStop.apply($this, [options, arguments]);
                     }
