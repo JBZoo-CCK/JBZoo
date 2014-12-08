@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,16 +12,15 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 if ($this->checkPosition('list')) : ?>
 
-    <div class="clear clr"></div>
+    <div class="jbcart-payment clearfix">
 
-    <div class="payment-list jbzoo-clear">
-        <div class="payment-list-middle">
-            <h2>Способ оплаты</h2>
-            <?php echo $this->renderPosition('list', array('order.payment')); ?>
-            <div class="clear clr"></div>
-        </div>
+        <p class="jbcart-title"><?php echo JText::_('JBZOO_CART_PAYPMENT_TITLE'); ?></p>
+
+        <?php echo $this->renderPosition('list', array('order.payment')); ?>
+
     </div>
 
 <?php endif;

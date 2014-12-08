@@ -13,9 +13,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$this->app->jbassets->less('jbassets:less/cart/form.less');
 
-?>
-
-<?php echo $view->formRenderer->render('basketform.default', array(
+echo $view->formRenderer->render('basketform.default', array(
     'order' => $view->order,
-)); ?>
+));

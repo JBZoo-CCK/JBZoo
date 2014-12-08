@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,20 +12,38 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (!empty($view->shipping))  : ?>
+$classes = array(
+    'jbcart-shipping',
+    $view->shipping && $view->shippingFields ? 'jbcart-shipping-full' : '',
+    'clearfix'
+);
 
-    <!--
-        You can not delete the class!
-        This base class is used in conjunction with js.
-        If you want to change the layout, be sure to use this class.
-    -->
-    <div class="shipping-list">
-        <?php echo $view->shippingRenderer->render(
-            'shipping.default', array(
+?>
+
+<div class="<?php echo implode(' ', $classes); ?>">
+
+    <?php
+    $this->app->jbassets->less('jbassets:less/cart/shipping.less');
+    $this->app->jbassets->less('jbassets:less/cart/shippingfield.less');
+    $this->app->jbassets->js('jbassets:js/cart/shipping.js');
+    $this->app->jbassets->js('jbassets:js/cart/shipping-service.js');
+    ?>
+
+    <?php if (!empty($view->shipping)) : ?>
+        <div class="jbcart-shipping-col">
+            <?php echo $view->shippingRenderer->render('shipping.default', array(
                 'order' => $view->order
-            )
-        );?>
-    </div>
+            ));?>
+        </div>
+    <?php endif; ?>
 
-<?php endif;
 
+    <?php if (!empty($view->shippingFields)) : ?>
+        <div class="jbcart-shippingfield-col">
+            <?php echo $view->shippingFieldRenderer->render('shippingfield.default', array(
+                'order' => $view->order
+            )); ?>
+        </div>
+    <?php endif; ?>
+
+</div>
