@@ -87,6 +87,7 @@ class JBStringHelper extends AppHelper
     }
 
     /**
+     * TODO REMOVE ME!!! and use JText::plural !!!
      * @param int    $n      число
      * @param string $only   Единственная форма: 1 секунда
      * @param string $dual   Двойственная форма: 2 секунды
@@ -96,6 +97,7 @@ class JBStringHelper extends AppHelper
      */
     function declension($n, $only, $dual, $plural)
     {
+        die('use JText::plural, not jbstring->declension()');
         $n  = abs($n) % 100;
         $n1 = $n % 10;
         if ($n > 10 && $n < 20) return $plural;
