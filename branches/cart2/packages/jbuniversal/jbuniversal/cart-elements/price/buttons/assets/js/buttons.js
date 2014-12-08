@@ -42,40 +42,38 @@
                 var jbPrice = $this.price.data('JBZooPrice'),
                     quantity = jbPrice.get('_quantity', 1);
 
-                if (!$this.isAjax) {
-                    $this.ajax({
-                        'target' : $(this),
-                        'url'    : $this.options.add,
-                        'data'   : {
-                            "args": {
-                                'quantity': quantity,
-                                'values'  : jbPrice.getValue()
-                            }
-                        },
-                        'success': function (data) {
-
-                            var params = {
-                                'key'     : $this.getKey(),
-                                'isInCart': data.result ? 1 : 0
-                            };
-                            this.set(params);
-
-                            jbPrice._updateCache('_buttons', params);
-                            $this.basketReload();
-                        },
-                        'error'  : function (data) {
-                            if (data.message) {
-                                alert(data.message);
-                            }
+                $this.ajax({
+                    'target' : $(this),
+                    'url'    : $this.options.add,
+                    'data'   : {
+                        "args": {
+                            'quantity': quantity,
+                            'values'  : jbPrice.getValue()
                         }
-                    });
-                }
+                    },
+                    'success': function (data) {
+
+                        var params = {
+                            'key'     : $this.getKey(),
+                            'isInCart': data.result ? 1 : 0
+                        };
+                        this.set(params);
+
+                        jbPrice._updateCache('_buttons', params);
+                        $this.basketReload();
+                    },
+                    'error'  : function (data) {
+                        if (data.message) {
+                            alert(data.message);
+                        }
+                    }
+                });
             },
 
             'click .jsRemoveFromCart': function (e, $this) {
 
                 var jbPrice = $this.price.data('JBZooPrice');
-                if (!$this.isAjax) {
+                if (!$this._isAjax) {
                     $this.ajax({
                         'target' : $(this),
                         'url'    : $this.options.remove,
