@@ -593,7 +593,9 @@ class JBPerformHelper extends AppHelper
         $fin = microtime(true);
 
         fclose($handle);
-        unlink($fileName);
+        if (JFile::exists($fileName)) {
+            unlink($fileName);
+        }
 
         return $fin - $st;
     }
@@ -620,7 +622,9 @@ class JBPerformHelper extends AppHelper
         $fin = microtime(true);
 
         fclose($handle);
-        unlink($fileName);
+        if (JFile::exists($fileName)) {
+            unlink($fileName);
+        }
 
         return $fin - $st;
     }
