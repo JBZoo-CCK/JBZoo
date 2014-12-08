@@ -17,6 +17,8 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBLessHelper extends AppHelper
 {
+    protected $_forceUpdate = false;
+
     /**
      * @var string
      */
@@ -59,9 +61,7 @@ class JBLessHelper extends AppHelper
         }
 
         $origFull = JPath::clean($origFull);
-        $origRel  = $this->app->path->relative($origFull);
         $debug    = $this->_isDebug();
-
         $hash     = $this->_getHash($origFull);
         $filename = sha1($virtPath) . ($debug ? '-debug' : '') . '.css';
 
@@ -85,10 +85,9 @@ class JBLessHelper extends AppHelper
             $updateFile = true;
         }
 
-        if ($updateFile) {
-            $css =
-                '/* cacheid:' . $hash . " */\n" .
-                '/* path:' . $origRel . " */\n" .
+        if ($updateFile || $this->_forceUpdate) {
+            $css = '/* cacheid:' . $hash . " */\n" .
+                '/* path:' . $virtPath . " */\n" .
                 $this->_compile($origFull);
 
             $this->_save($cachePath, $css);
@@ -103,24 +102,16 @@ class JBLessHelper extends AppHelper
     }
 
     /**
-     * @param $path
+     * @param $lessPath
      * @return mixed
      */
-    protected function _compile($path)
+    protected function _compile($lessPath)
     {
         try {
 
+            $relative  = rtrim(JUri::root(), '/') . '/' . ltrim($this->app->path->relative($lessPath), '/');
             $precessor = $this->_getProcessor();
-
-            $miscPath = JPath::clean($this->app->path->path('jbassets:less'));
-            $imports  = '';
-            foreach ($this->_import as $import) {
-                $imports .= '@import "' . $miscPath . '/' . $import . '";' . "\n";
-            }
-
-            $rel  = rtrim(JUri::root(), '/') . '/' . ltrim($this->app->path->relative($path), '/');
-            $code = $imports . "\n" . file_get_contents($path);
-            $precessor->parse($code, $rel);
+            $precessor->parseFile($lessPath, $relative);
             $resultCss = $precessor->getCss();
 
             if (!$this->_isDebug()) {
@@ -172,9 +163,10 @@ class JBLessHelper extends AppHelper
     }
 
     /**
+     * @param array $addPath
      * @return Less_Parser
      */
-    protected function _getProcessor()
+    protected function _getProcessor($addPath = array())
     {
         if (!class_exists('Less_Parser')) {
             require_once JPATH_ROOT . '/media/zoo/applications/jbuniversal/framework/libs/less.gpeasy.php';
@@ -197,10 +189,12 @@ class JBLessHelper extends AppHelper
 
         $precessor = new Less_Parser($options);
 
-        $precessor->SetImportDirs(array(
+        $paths = array_merge(array(
             $this->_lessFull => $this->_lessRel,
             JPATH_ROOT       => JUri::root(),
-        ));
+        ), $addPath);
+
+        $precessor->SetImportDirs($paths);
 
         return $precessor;
     }
@@ -246,6 +240,5 @@ class JBLessHelper extends AppHelper
     {
         return defined('JDEBUG') && JDEBUG;
     }
-
 
 }
