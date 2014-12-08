@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -37,7 +36,7 @@ class JBCartElementShippingFieldTextarea extends JBCartElementShippingField
             'control.textarea',
             $this->getControlName('value'),
             $this->get('value', $this->config->get('default')),
-            'size="60" maxlength="255" class="shippingfield-textarea" id="shipping-' . $this->identifier . '"'
+            'size="60" maxlength="255" class="shippingfield-textarea" id="jbcart-' . $this->identifier . '"'
         );
     }
 
