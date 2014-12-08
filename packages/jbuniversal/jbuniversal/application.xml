@@ -25,9 +25,6 @@
 
         <param name="applicationid" type="jbapplicationid" label="JBZOO_APPLICATION_ID"/>
 
-        <param name="yoo_support" type="jbbool" default="1" label="JBZOO_YOO_SUPPORT"
-               description="JBZOO_YOO_SUPPORT_DESC"/>
-
         <param name="rborder" type="jbbool" default="1" label="JBZOO_RBORDER" description="JBZOO_RBORDER_DESC"/>
 
         <param name="column_heightfix" type="jbbool" default="0" label="JBZOO_COLUMN_HEIGHTFIX"

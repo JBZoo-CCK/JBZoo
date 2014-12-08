@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -20,9 +19,9 @@ defined('_JEXEC') or die('Restricted access');
 class JBWrapperHelper extends AppHelper
 {
 
-    protected $_id = 'jbzoo';
+    protected $_id     = 'jbzoo';
     protected $_prefix = 'jbzoo';
-    protected $_yoo = 'yoo-zoo';
+    protected $_yoo    = 'yoo-zoo';
 
     /**
      * Get differen system classes for parent wrapper element
@@ -51,10 +50,8 @@ class JBWrapperHelper extends AppHelper
             $attrs['class'][] = $this->_prefix . '-app-' . $application->alias;
             $attrs['class'][] = $this->_prefix . '-tmpl-' . $application->getTemplate()->name;
 
-            if ((int)$application->params->get('global.config.yoo_support', 1)) {
-                $attrs['id']      = $this->_yoo;
-                $attrs['class'][] = $this->_yoo;
-            }
+            $attrs['id']      = $this->_yoo;
+            $attrs['class'][] = $this->_yoo;
 
             if ((int)$application->params->get('global.config.rborder', 1)) {
                 $attrs['class'][] = $this->_prefix . '-rborder';
@@ -79,7 +76,7 @@ class JBWrapperHelper extends AppHelper
      */
     public function end()
     {
-        echo '<div class="clear clr"></div></div>' . "\n";
+        echo '</div>' . "\n";
     }
 
     /**
