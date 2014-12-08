@@ -43,7 +43,7 @@ $emptyRow = '<tr class="empty-row"><td colspan="50"></td></tr>';
         foreach ($items as $key => $row) :
 
             $item      = $row->get('item');
-            $priceItem = $order->val($row->get('price'));
+            $priceItem = $order->val($row->get('total'));
             $quantity  = $row->get('quantity', 1);
             $totalItem = $priceItem->multiply($quantity, true);
             $discount  = $order->val($row->get('discount'));
