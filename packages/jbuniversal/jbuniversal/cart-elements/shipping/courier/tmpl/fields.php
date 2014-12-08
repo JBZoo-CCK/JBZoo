@@ -17,4 +17,4 @@ $name       = $this->getControlName('delivery_date');
 $idCalendar = $this->app->jbstring->getId('delivery-date');
 
 echo $this->app->html->_('zoo.calendar', '', $name,
-    $idCalendar, 'placeholder="' . JText::_('JBZOO_SHIPPING_COURIER_TIME_DELIVERY') . '"', true);
+    $idCalendar, 'calendar-element placeholder="' . JText::_('JBZOO_SHIPPING_COURIER_TIME_DELIVERY') . '"', true);
