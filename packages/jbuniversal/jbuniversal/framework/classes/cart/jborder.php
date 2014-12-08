@@ -511,7 +511,7 @@ class JBCartOrder
         if ($this->getItems()->count() == 0) {
             $errorMessages[] = 'JBZOO_CART_VALIDATOR_EMPTY';
         }
-jbdump::dump($this->getTotalSum()->logs());
+
         if ($this->getTotalSum()->compare('0', '<=')) {
             $errorMessages[] = 'JBZOO_CART_VALIDATOR_ZERO_SUM';
         }
