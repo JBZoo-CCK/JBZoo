@@ -29,14 +29,16 @@ class JBCartElementPaymentRobokassa extends JBCartElementPayment
     private $_testUrl = 'http://test.robokassa.ru/Index.aspx';
 
     /**
+     * Redirect to payment action
      * @return null|string
      */
     public function getRedirectUrl()
     {
+        $orderAmount = $this->_getOrderAmount();
         $merchantUrl = $this->isDebug() ? $this->_testUrl : $this->_realUrl;
 
         $fields = array(
-            'OutSum'         => $this->getOrderSumm(),
+            'OutSum'         => $orderAmount->val(),
             'InvId'          => $this->getOrderId(),
             'MrchLogin'      => $this->config->get('login'),
             'Desc'           => $this->getOrderDescription(),
@@ -47,6 +49,7 @@ class JBCartElementPaymentRobokassa extends JBCartElementPayment
     }
 
     /**
+     * Checks validation
      * @return null|void
      * @throws AppException
      */
@@ -72,15 +75,18 @@ class JBCartElementPaymentRobokassa extends JBCartElementPayment
      */
     protected function _getSignature()
     {
+        $orderAmount = $this->_getOrderAmount();
+
         return md5(implode(':', array(
             $this->config->get('login'),
-            $this->getOrderSumm(),
+            $orderAmount->val(),
             $this->getOrderId(),
             $this->config->get('password1'),
         )));
     }
 
     /**
+     * Detect order id from merchant's robot request
      * @return int
      */
     public function getRequestOrderId()
@@ -94,7 +100,19 @@ class JBCartElementPaymentRobokassa extends JBCartElementPayment
      */
     public function getRequestOrderSum()
     {
-        return $this->_jbrequest->get('OutSum');
+        return $this->_getOrderAmount();
+    }
+
+    /**
+     * Get order amount
+     * @return $this
+     */
+    protected function _getOrderAmount()
+    {
+        $order       = $this->getOrder();
+        $payCurrency = $this->getDefaultCurrency();
+
+        return $this->_order->val($this->getOrderSumm(), $order->getCurrency())->convert($payCurrency);
     }
 
 }
