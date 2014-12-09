@@ -27,7 +27,6 @@ class JBCartElementPaymentLiqPay extends JBCartElementPayment
      */
     private $_uri = 'https://www.liqpay.com/api/checkout';
 
-
     /**
      * Redirect to payment form action
      * @return null|string
@@ -108,7 +107,7 @@ class JBCartElementPaymentLiqPay extends JBCartElementPayment
 
     /**
      * Detect order id from merchant's robot request
-     * @return int
+     * @return int|JBCartValue
      */
     public function getRequestOrderSum()
     {

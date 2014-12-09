@@ -140,7 +140,7 @@ class JBCartElementPaymentYandexMoney extends JBCartElementPayment
 
     /**
      * Detect order id from merchant's robot request
-     * @return int
+     * @return int|JBCartValue
      */
     public function getRequestOrderSum()
     {

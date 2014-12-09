@@ -18,6 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementPaymentRobokassa extends JBCartElementPayment
 {
+
     /**
      * @var string
      */
@@ -96,7 +97,7 @@ class JBCartElementPaymentRobokassa extends JBCartElementPayment
 
     /**
      * Detect order id from merchant's robot request
-     * @return int
+     * @return int|JBCartValue
      */
     public function getRequestOrderSum()
     {
