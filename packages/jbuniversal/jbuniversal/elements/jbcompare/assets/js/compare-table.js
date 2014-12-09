@@ -75,8 +75,6 @@
                         isEqual = data == cellData;
                     }
 
-                    dump(isEqual);
-
                     if (!isEqual) {
                         $cells.addClass('jbcompare-not-equal');
                     }
