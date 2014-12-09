@@ -59,6 +59,7 @@ class JBCartElementPaymentInterkassa extends JBCartElementPayment
     }
 
     /**
+     * Checks validation
      * @param array $params
      * @return null|void
      * @throws AppException
@@ -101,6 +102,7 @@ class JBCartElementPaymentInterkassa extends JBCartElementPayment
     }
 
     /**
+     * Detect order id from merchant's robot request
      * @return int|void
      */
     public function getRequestOrderId()
@@ -110,7 +112,7 @@ class JBCartElementPaymentInterkassa extends JBCartElementPayment
 
     /**
      * Detect order id from merchant's robot request
-     * @return int
+     * @return int|JBCartValue
      */
     public function getRequestOrderSum()
     {
