@@ -22,6 +22,7 @@
 
             $this.ajax({
                 'url'    : $(this).data('url'),
+                'target' : this,
                 'success': function (data) {
                     if (data.result) {
                         $item.slideUp(function () {
@@ -40,6 +41,7 @@
 
             $this.ajax({
                 'url'    : $this.options.url_clear,
+                'target' : this,
                 'success': function () {
                     window.location.reload();
                 }

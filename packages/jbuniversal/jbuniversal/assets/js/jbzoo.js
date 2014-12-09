@@ -24,19 +24,25 @@
         _isAjax: false,
 
         /**
-         * Ajax process flag
+         * Ajax auto locker for multi ajax
          */
         _isAjaxLocking: true,
 
         /**
          * Widget fire on ajax start
          */
-        _onAjaxStart: $.noop,
+        _onAjaxStart: function (options) {
+            var $target = (options.target) ? $(options.target) : this.el;
+            $target.addClass('jbloading');
+        },
 
         /**
          * Widget fire on ajax end
          */
-        _onAjaxStop : $.noop,
+        _onAjaxStop: function (options, arguments) {
+            var $target = (options.target) ? $(options.target) : this.el;
+            $target.removeClass('jbloading');
+        },
 
         /**
          * Custom ajax handler
@@ -73,6 +79,7 @@
                     'tmpl'  : 'component',
                     'format': 'raw'
                 },
+                'target'  : false,
                 'dataType': 'json',
                 'success' : $.noop,
                 'error'   : $.noop,
