@@ -38,9 +38,7 @@ class ElementJBQuickView extends Element
         $params = $this->app->data->create($params);
 
         if (!empty($this->_item)) {
-            $this->app->jbassets->less('elements:jbquickview/assets/styles.less');
-
-            return $this->_getLink($params);
+            return $this->_renderButton($params);
         }
 
         return null;
@@ -50,7 +48,7 @@ class ElementJBQuickView extends Element
      * @param $params
      * @return string
      */
-    protected function _getLink($params)
+    protected function _renderButton($params)
     {
         static $jsDefined;
 
@@ -72,30 +70,34 @@ class ElementJBQuickView extends Element
         $html = array();
 
         if (!isset($jsDefined)) {
-            $html[]    = '<script type="text/javascript">jQuery(function ($) {
-                $("a.jbquickview-modal-window").fancybox({
-                    type       : "iframe",
-                    fitToView  : true,
-                    width      : "' . $popupWidth . '",
-                    height     : "' . $popupHeight . '",
-                    autoSize   : ' . $autoSize . ',
-                    iframe     : {
-                        scrolling : "' . $scroll . '",
-                        preload   : true
-                    },
-                    closeClick : false,
-                    title      : null,
-                    helpers   : {
-                        overlay: { locked: false }
-                    }
-                });
-            });</script>';
             $jsDefined = true;
+
+            $params = array(
+                'type'       => "iframe",
+                'fitToView'  => true,
+                'width'      => $popupWidth,
+                'height'     => $popupHeight,
+                'autoSize'   => $autoSize,
+                'iframe'     => array(
+                    'scrolling' => $scroll,
+                    'preload'   => true,
+                ),
+                'closeClick' => false,
+                'title'      => false,
+                'helpers'    => array(
+                    'overlay' => array(
+                        'locked' => true,
+                    )
+                ),
+            );
+
+            $html[] = '<script type="text/javascript">jQuery(function ($) {
+                $("a.jsQuickView").fancybox(' . json_encode($params) . ');
+            });</script>';
         }
 
         $html[] = '<!--noindex--><a href="' . $paramLink . '" title="' . $this->_item->name . '"'
-            . ' rel="nofollow" class="jbquickview-modal-window"><span class="quickview">'
-            . $buttonText . '</span></a><!--/noindex-->';
+            . ' rel="nofollow" class="jbbutton jsQuickView quickview">' . $buttonText . '</a><!--/noindex-->';
 
         return implode("\n ", $html);
     }
@@ -109,13 +111,10 @@ class ElementJBQuickView extends Element
     {
         $itemLink = $this->app->route->item($this->_item);
 
-        if (strripos($itemLink, '?')) {
-            $paramLink = '&amp;tmpl=component&amp;jbquickview=' . $layout;
-        } else {
-            $paramLink = '?tmpl=component&amp;jbquickview=' . $layout;
-        }
-
-        return JRoute::_($itemLink . $paramLink);
+        return $this->app->jbrouter->addParamsToUrl($itemLink, array(
+            'tmpl'        => 'component',
+            'jbquickview' => $layout
+        ));
     }
 
     /**
