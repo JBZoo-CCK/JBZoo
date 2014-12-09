@@ -19,7 +19,7 @@
         jbzoo: window.JBZoo,
 
         /**
-         * Ajax process flag
+         * Current ajax status
          */
         _isAjax: false,
 
