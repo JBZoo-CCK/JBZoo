@@ -7,25 +7,34 @@
 // @license     http://jbzoo.com/license-pro.php JBZoo Licence
 // @coder       Denis Smetannikov <denis@jbzoo.com>
 //
-
 @import "jbzoo";
 
-.jbzoo {
+.jbzoo .jbcompare {
 
-    .jbcompare-table {
+    &-active,
+    &-unactive {
+        display: none;
+    }
+
+    &.active .jbcompare-active,
+    &.unactive .jbcompare-unactive {
+        display: block;
+    }
+
+    &-table {
 
         border-collapse: collapse;
         border-spacing: 0;
         font-size: 100%;
         width: 100%;
-        border: none !important;
+        border: none;
 
         td,
         th {
             vertical-align: top;
             padding: 0.75em;
-            border: none !important;
-            border-top: solid 1px #e5e5e5 !important;
+            border: none;
+            border-top: solid 1px #e5e5e5;
             background: none;
             text-align: left;
             color: #333;
@@ -52,76 +61,26 @@
             background: rgba(0, 0, 0, 0.03);
         }
 
-        .compare-clear {
-            float: right;
-        }
-
-        .element-names,
-        .item-names {
-            width: 20%;
-        }
     }
 
-    .wrapper-jbcompare {
-
-        .active-compare,
-        .unactive-compare {
-            display: none;
-        }
-
-        &.active .active-compare,
-        &.unactive .unactive-compare {
-            display: block;
-        }
-
+    &-clear {
+        float: right;
     }
 
-    .compare-wrapper {
-        padding: 12px;
+    &-names,
+    &-item-name {
+        width: 20%;
     }
 
-    .jbzoo-compare-links {
-        margin-top: 0.5em;
-        margin-bottom: 0.5em;
-        width: 100%;
+    &-links {
+        width: 99%;
+        margin: 6px;
     }
 
-    td.compare-not-equal,
-    .compare-row.compare-not-equal td,
-    .compare-row.compare-not-equal th {
+    &-not-equal,
+    &-not-equal td,
+    &-not-equal th {
         background-color: #ffeacf !important;
     }
 
-    .wrapper-jbcompare a {
-        text-decoration: none;
-        display: inline-block;
-        border: 1px solid #C8C8C8;
-        border-bottom-color: #AAA;
-        background: #EBEBEB;
-        background: -moz-linear-gradient(50% 0%, white, #EBEBEB 70%);
-        background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(white), to(#EBEBEB), color-stop(70%, #EBEBEB));
-        background: -moz-linear-gradient(50% 0%, white, #EBEBEB 70%);
-        color: #323232 !important;
-        text-shadow: 0px 1px 0px rgba(255, 255, 255, 1.0);
-        border-radius: 3px;
-        line-height: 14px;
-        font: 12px Arial, sans-serif;
-        cursor: pointer;
-        padding: 3px 4px;
-        margin-top: 4px;
-        margin-bottom: 4px;
-
-        &:hover {
-            border: 1px solid #C8C8C8;
-            border-top-color: #AAA;
-            background: #E1E1E1;
-            background: -moz-linear-gradient(50% 0%, #E1E1E1, whiteSmoke 96%, white 96%);
-            background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(#E1E1E1), to(white), color-stop(90%, whiteSmoke));
-            text-shadow: 0px -1px 0px rgba(255, 255, 255, 1.0);
-            color: #404040;
-        }
-
-    }
-
 }
-

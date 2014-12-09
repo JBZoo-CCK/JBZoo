@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -19,13 +18,11 @@ $this->app->jblayout->setView($this);
 $this->app->document->setTitle(JText::_('JBZOO_COMPARE_ITEMS'));
 $this->app->jbwrapper->start();
 
-$this->app->jbassets->compare();
-
 ?><h1 class="title"><?php echo JText::_('JBZOO_COMPARE_ITEMS'); ?></h1><?php
 
 if (!empty($this->items)) {
     // items
-    echo '<div class="compare-wrapper rborder">';
+    echo '<div class="jbcompare-wrapper rborder">';
     echo $this->app->jblayout->render('compare', $this->items);
     echo '</div>';
 

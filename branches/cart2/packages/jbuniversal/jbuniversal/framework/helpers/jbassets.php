@@ -251,7 +251,8 @@ class JBAssetsHelper extends AppHelper
     public function compare()
     {
         $this->tools();
-        $this->js('elements:jbcompare/assets/script.js');
+        $this->js('elements:jbcompare/assets/buttons.js');
+        $this->js('elements:jbcompare/assets/table.js');
         $this->less('elements:jbcompare/assets/styles.less');
     }
 
@@ -295,27 +296,12 @@ class JBAssetsHelper extends AppHelper
     }
 
     /**
-     * Init jbzoo compare
-     */
-    public function initJBCompare()
-    {
-        static $isAdded;
-
-        $this->compare();
-
-        if (!isset($isAdded)) {
-            $isAdded = true;
-            $this->addScript('jQuery(function($){ $(".jbzoo .jsJBZooCompare").JBCompareButtons(); });');
-        }
-    }
-
-    /**
      * Include jQuery favorite
      */
     public function favorite()
     {
         $this->tools();
-        $this->js('elements:jbfavorite/assets/script.js');
+        $this->js('elements:jbfavorite/assets/buttons.js');
         $this->less('elements:jbfavorite/assets/styles.less');
     }
 
