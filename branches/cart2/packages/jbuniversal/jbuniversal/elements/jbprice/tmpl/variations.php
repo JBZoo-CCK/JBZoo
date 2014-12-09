@@ -141,7 +141,7 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
 
                 var validator = jQuery(jbprice).data('JBZooPriceEdit');
 
-                if (validator.isValid() === false) {
+                if (validator && validator.isValid() === false) {
                     valid = false;
 
                     return true;

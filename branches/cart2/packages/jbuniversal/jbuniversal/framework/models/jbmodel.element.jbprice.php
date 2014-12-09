@@ -94,7 +94,6 @@ class JBModelElementJBPrice extends JBModelElement
 
             $innerWhere = array();
             foreach ($values as $key => $value) {
-
                 if (is_null($value)) {
                     continue;
                 }
@@ -112,9 +111,14 @@ class JBModelElementJBPrice extends JBModelElement
                 } elseif ($type == 'date') {
                     $innerWhere[$key] = implode(' AND ', $this->_date($value));
 
-                } else {
+                } elseif ($this->_element->isNumeric($value)) {
+                    $innerWhere[$key] = 'tSku.value_n = ' . $this->_quote($value);
+
+                } elseif ($exact) {
                     $innerWhere[$key] = 'tSku.value_s = ' . $this->_quote($value);
 
+                } else {
+                    $innerWhere[$key] = $this->_buildLikeBySpaces($value, 'tSku.value_s');
                 }
             }
 
@@ -129,15 +133,15 @@ class JBModelElementJBPrice extends JBModelElement
         }
 
         if (!empty($where)) {
-
             $innerSelect->where(implode($where));
+            //jbdump::sql($innerSelect);
             $idList = $this->_groupBy($this->fetchAll($innerSelect), 'id');
             if (!empty($idList)) {
                 return array('tItem.id IN (' . implode(',', $idList) . ')');
             }
         }
 
-        return array('tItem.id IN (0)');
+        return null;
     }
 
     /**
@@ -174,6 +178,11 @@ class JBModelElementJBPrice extends JBModelElement
 
         if (count($values)) {
             foreach ($values as $key => $value) {
+                if (!isset($value[0]) && !isset($value[1])) {
+                    unset($values[$key]);
+                    continue;
+                }
+
                 $values[$key] = $this->_setMinMax($value);
             }
         }
@@ -192,7 +201,13 @@ class JBModelElementJBPrice extends JBModelElement
         }
 
         foreach ($values as $key => $value) {
-            $value        = (array)$value;
+            $value = (array)$value;
+
+            if (!isset($value[0]) && !isset($value[1])) {
+                unset($values[$key]);
+                continue;
+            }
+
             $values[$key] = array(
                 (isset($value[0]) ? $value[0] : '1970-01-01') . ' 00:00:00',
                 (isset($value[1]) ? $value[1] : '2099-12-31') . ' 23:59:59'
@@ -210,8 +225,8 @@ class JBModelElementJBPrice extends JBModelElement
     protected function _value($values)
     {
         return array(
-            'tSku.value_n >= ' . $this->_quote($values['min']),
-            'tSku.value_n <= ' . $this->_quote($values['max'])
+            'tSku.value_n >= ' . $this->_quote((float)$values['min']),
+            'tSku.value_n <= ' . $this->_quote((float)$values['max'])
         );
     }
 
@@ -244,7 +259,6 @@ class JBModelElementJBPrice extends JBModelElement
                 $value['min'] = $min;
                 $value['max'] = $max;
             }
-
         }
 
         return $value;

@@ -97,8 +97,7 @@ class JBPriceFilterRenderer extends PositionRenderer
         $this->_application = $args['app_id'];
 
         unset($args['price']);
-        $result = null;
-        $result .= parent::render('jbpricefilter.' . $layout, $args);
+        $result = parent::render('jbpricefilter.' . $layout, $args);
 
         return $result;
     }

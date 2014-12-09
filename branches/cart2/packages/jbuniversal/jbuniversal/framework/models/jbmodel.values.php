@@ -113,10 +113,11 @@ class JBModelValues extends JBModel
             ->clear('select')
             ->select('value_s as value')
             ->select('value_s as text')
-            ->select('COUNT(\'tSku.item_id\') AS count')
+            ->select('COUNT(DISTINCT(\'tSku.item_id\')) AS count')
             ->where('tSku.param_id = ?', $paramID)
             ->where('tSku.element_id = ?', $elementId)
-            ->group('tSku.value_s');
+            ->group('tSku.value_s')
+            ->group('tSku.item_id');
 
         $values = $this->fetchAll($select, true);
 

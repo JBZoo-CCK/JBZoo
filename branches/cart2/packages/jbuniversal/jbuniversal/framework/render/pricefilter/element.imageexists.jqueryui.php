@@ -14,24 +14,35 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBPriceFilterElementBalanceRadio
+ * Class JBPRiceFilterElementImageExistsJqueryUI
  */
-class JBPriceFilterElementBalanceRadio extends JBPriceFilterElement
+class JBPRiceFilterElementImageExistsJqueryUI extends JBPriceFilterElement
 {
     /**
-     * Render HTML
-     * @return string
+     * Return html
+     * @return null|string
      */
     public function html()
     {
-        $options = $this->_getValues();
+        $options = array(
+            array(
+                'text'  => JText::_('JBZOO_YES'),
+                'value' => JBCartElementPriceImage::IMAGE_EXISTS,
+                'count' => null
+            ),
+            array(
+                'text'  => JText::_('JBZOO_NO'),
+                'value' => JBCartElementPriceImage::IMAGE_NO_EXISTS,
+                'count' => null
+            )
+        );
 
-        return $this->html->radio(
+        return $this->html->buttonsJQueryUI(
             $this->_createOptionsList($options),
             $this->_getName(),
             $this->_attrs,
             $this->_value,
-            $this->_getId('balance')
+            $this->_getId()
         );
     }
 

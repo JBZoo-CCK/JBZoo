@@ -29,4 +29,20 @@
                 />
     </params>
 
+    <params group="filter">
+        <param name="jbzoo_filter_default"
+               type="text"
+               default=""
+               label="JBZOO_FILTER_DEFAULT"
+               description="JBZOO_FILTER_DEFAULT_DESC"
+                />
+
+        <param name="jbzoo_filter_placeholder"
+               type="text"
+               default=""
+               label="JBZOO_FILTER_PLACEHOLDER"
+               description="JBZOO_FILTER_PLACEHOLDER_DESC"
+                />
+    </params>
+
 </element>

@@ -135,6 +135,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $this->_template = $params->get('template', 'default');
 
         $config = $this->_getRenderParams();
+
         if (!empty($config)) {
             return true;
         }
@@ -149,23 +150,36 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function edit($submission = array())
     {
-        if ($layout = $this->getLayout('variations.php')) {
-            $this->loadEditAssets();
-            $this->app->jbassets->admin();
-            $variations = $this->get('variations', array('1' => array()));
+        $config = $this->_getConfig(false);
+        if (!empty($config)) {
+            if ($layout = $this->getLayout('variations.php')) {
+                $this->loadEditAssets();
 
-            $this->_list = new JBCartVariantList($variations, $this);
-            $renderer    = $this->app->jbrenderer->create('jbprice');
+                $variations = $this->get('variations', array('1' => array()));
 
-            return self::renderLayout($layout, array(
-                'variations' => $this->_list->all(),
-                'submission' => $submission,
-                'default'    => (int)$this->get('default_variant', self::BASIC_VARIANT),
-                'renderer'   => $renderer
-            ));
+                $this->_list = new JBCartVariantList($variations, $this);
+                $renderer    = $this->app->jbrenderer->create('jbprice');
+
+                return self::renderLayout($layout, array(
+                    'variations' => $this->_list->all(),
+                    'submission' => $submission,
+                    'default'    => (int)$this->get('default_variant', self::BASIC_VARIANT),
+                    'renderer'   => $renderer
+                ));
+            }
+
+            return null;
         }
 
-        return null;
+        $link = '<a target="_blank" href="'
+            . $this->app->jbrouter->admin(array(
+                'controller' => 'jbcart',
+                'task'       => 'price',
+                'layout'     => $this->identifier
+            ))
+            . '">' . JText::_('JBZOO_PRICE_EDIT_ERROR_ADD_ELEMENTS') . '</a>';
+
+        return JText::sprintf('JBZOO_PRICE_EDIT_ERROR_NO_ELEMENTS', $link);
     }
 
     /**
@@ -468,8 +482,8 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
                     if (JSTring::strlen($value) !== 0) {
 
-                        $n = $this->isNumeric($value);
-                        $d = $this->isDate($value);
+                        $n = $this->isNumeric($value) ? $value : null;
+                        $d = $this->toDate($value) ? $value : null;
                         $s = $value;
 
                         $data[$key . '_' . $id] = array(
@@ -505,9 +519,9 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * @param $date
      * @return null|string
      */
-    public function isDate($date)
+    public function toDate($date)
     {
-        return $this->app->jbpriceparams->isDate($date);
+        return $this->app->jbdate->convertToStamp($date);
     }
 
     /**
@@ -769,6 +783,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function loadEditAssets()
     {
+        $this->app->jbassets->admin();
         $this->app->jbassets->js('elements:jbprice/assets/js/edit.js');
         if ((int)$this->config->get('mode', 1)) {
             $this->app->jbassets->js('jbassets:js/admin/validator.js');

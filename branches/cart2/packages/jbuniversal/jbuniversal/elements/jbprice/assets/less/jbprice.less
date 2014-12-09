@@ -81,16 +81,17 @@
             height: 1em;
         }
 
-    }
-
-    //Hide remove buttons
-    .not-in-cart .remove-button {
-        display: none;
+        //Hide remove buttons
+        .remove-button {
+            display: none;
+        }
     }
 
     //Show remove buttons
-    .in-cart .remove-button {
-        display: inline-block;
+    .in-cart {
+        .remove-button {
+            display: inline-block;
+        }
     }
 
 }

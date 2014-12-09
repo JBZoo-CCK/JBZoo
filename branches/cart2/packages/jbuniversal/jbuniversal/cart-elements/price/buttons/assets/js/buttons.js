@@ -73,7 +73,6 @@
             'click .jsRemoveFromCart': function (e, $this) {
 
                 var jbPrice = $this.price.data('JBZooPrice');
-                if (!$this._isAjax) {
                     $this.ajax({
                         'target' : $(this),
                         'url'    : $this.options.remove,
@@ -99,7 +98,6 @@
                             }
                         }
                     });
-                }
             },
 
             rePaint: function (data) {
