@@ -11,15 +11,14 @@
 ;
 (function ($, window, document, undefined) {
 
-
-    JBZoo.widget('JBZoo.CompareButtons', {}, {
+    JBZoo.widget('JBZoo.CompareButtons', {
+        url_toggle: ''
+    }, {
 
         'click .jsCompareToggle': function (e, $this) {
 
-            var $toggle = $(this);
-
             $this.ajax({
-                'url': $toggle.attr("href"),
+                'url': $this.options.url_toggle,
 
                 'success': function (data) {
 
@@ -36,8 +35,6 @@
                     }
                 }
             });
-
-            return false;
         }
 
     });
