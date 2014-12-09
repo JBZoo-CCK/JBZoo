@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -25,10 +24,8 @@ class JBStringHelper extends AppHelper
 
     /**
      * Get sub string (by words)
-     *
      * @param $text
      * @param $searchword
-     *
      * @return mixed|string
      */
     public function smartSubstr($text, $searchword)
@@ -70,10 +67,8 @@ class JBStringHelper extends AppHelper
 
     /**
      * Get truncated string (by words)
-     *
      * @param $string
      * @param $maxlen
-     *
      * @return string
      */
     public function cutByWords($string, $maxlen = 255)
@@ -88,37 +83,22 @@ class JBStringHelper extends AppHelper
 
     /**
      * TODO REMOVE ME!!! and use JText::plural !!!
-     * @param int    $n      число
-     * @param string $only   Единственная форма: 1 секунда
-     * @param string $dual   Двойственная форма: 2 секунды
-     * @param string $plural Множественная форма: 5 секунд
-     *
-     * @return string Правильная форма
      */
     function declension($n, $only, $dual, $plural)
     {
         die('use JText::plural, not jbstring->declension()');
-        $n  = abs($n) % 100;
-        $n1 = $n % 10;
-        if ($n > 10 && $n < 20) return $plural;
-        if ($n1 > 1 && $n1 < 5) return $dual;
-        if ($n1 == 1) return $only;
-
-        return $plural;
     }
 
     /**
      * Parse text by lines
-     *
      * @param string $text
-     *
      * @return array
      */
     public function parseLines($text)
     {
-        $text  = JString::trim($text);
-        $text  = htmlspecialchars_decode($text);
-        $text  = strip_tags($text);
+        $text = JString::trim($text);
+        $text = htmlspecialchars_decode($text);
+        $text = strip_tags($text);
 
         //$text  = addslashes($text);
         $lines = explode("\n", $text);
@@ -128,8 +108,8 @@ class JBStringHelper extends AppHelper
 
             foreach ($lines as $line) {
 
-                $line = JString::trim($line);
-                    $result[$line] = $line;
+                $line          = JString::trim($line);
+                $result[$line] = $line;
 
             }
         }
@@ -142,24 +122,26 @@ class JBStringHelper extends AppHelper
 
     /**
      * Get unique string
-     *
      * @param  string $prefix
-     *
      * @return string
      */
-    public function getId($prefix = 'unique-')
+    public function getId($prefix = 'unique')
     {
-        $unique = $prefix . mt_rand(1, 999999);
+        $prefix = rtrim(trim($prefix), '-');
+        $random = mt_rand(1000, 9999);
 
-        return $unique;
+        $result = $random;
+        if ($prefix) {
+            $result = $prefix . '-' . $random;
+        }
+
+        return $result;
     }
 
     /**
      * Clean value
-     *
      * @param  string $value
      * @param  string $encoding
-     *
      * @return string
      */
     public function clean($value, $encoding = self::ENCODING)
