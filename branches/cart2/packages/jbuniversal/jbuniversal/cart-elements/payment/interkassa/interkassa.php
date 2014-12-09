@@ -23,16 +23,21 @@ class JBCartElementPaymentInterkassa extends JBCartElementPayment
     const HASH_SHA256 = 'sha256';
 
     /**
+     * Redirect to payment action
      * @return null|string
      */
     public function getRedirectUrl()
     {
+        $order       = $this->getOrder();
         $merchantUrl = 'https://sci.interkassa.com/';
+        $payCurrency = $this->getDefaultCurrency();
+        $orderAmount = $this->_order->val($this->getOrderSumm(), $order->getCurrency())->convert($payCurrency);
+
         $fields      = array(
             'ik_co_id' => $this->config->get('shopid'),
             'ik_pm_no' => $this->getOrderId(),
-            'ik_am'    => $this->getOrderSumm(),
-            'ik_cur'   => $this->getCurrency(),
+            'ik_am'    => $orderAmount->val(),
+            'ik_cur'   => $payCurrency,
             'ik_ia_u'  => $this->_jbrouter->payment('callback'),
             'ik_ia_m'  => 'post',
             'ik_suc_u' => $this->_jbrouter->payment('success'),
@@ -109,7 +114,10 @@ class JBCartElementPaymentInterkassa extends JBCartElementPayment
      */
     public function getRequestOrderSum()
     {
-        return $this->_jbrequest->get('ik_am');
+        $order  = $this->getOrder();
+        $amount = $this->_order->val($this->_jbrequest->get('ik_am'), $order->getCurrency());
+
+        return $amount;
     }
 
     /**
