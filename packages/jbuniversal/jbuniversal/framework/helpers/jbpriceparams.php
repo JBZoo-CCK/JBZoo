@@ -50,7 +50,7 @@ class JBPriceParamsHelper extends AppHelper
     {
         $value = str_replace(',', '.', $value);
 
-        return is_numeric($value) ? $value : false;
+        return is_numeric($value) ? true : false;
     }
 
     /**
@@ -61,12 +61,7 @@ class JBPriceParamsHelper extends AppHelper
      */
     public function isDate($date)
     {
-        $times = $this->app->jbdate->convertToStamp($date);
-        if (!empty($times)) {
-            return implode($times);
-        }
-
-        return null;
+        return $this->app->jbdate->isDate($date);
     }
 
     /**

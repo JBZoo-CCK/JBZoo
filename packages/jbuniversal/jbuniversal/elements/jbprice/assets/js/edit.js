@@ -206,6 +206,10 @@
 
             isValid: function () {
 
+                if (!!this.options.isAdvance === false) {
+                    return true;
+                }
+
                 var errors = this.validator.clear().fill().getErrors();
                 if (!JBZoo.empty(errors)) {
                     var $this = this,
@@ -217,6 +221,7 @@
                 }
 
                 return !!JBZoo.empty(errors);
+
             },
 
             scrollTo: function (row) {

@@ -18,18 +18,23 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementPriceImage extends JBCartElementPrice
 {
+    const IMAGE_EXISTS    = 1;
+    const IMAGE_NO_EXISTS = 0;
+
     /**
      * Get elements search data
      * @return null
      */
     public function getSearchData()
     {
-        $value = $this->getValue();
-        if (!empty($value)) {
-            return true;
+        $value    = JString::trim($this->getValue());
+        $isExists = !empty($value) && JFile::exists(JPATH_ROOT . '/' . $value);
+
+        if ($isExists) {
+            return self::IMAGE_EXISTS;
         }
 
-        return false;
+        return self::IMAGE_NO_EXISTS;
     }
 
     /**

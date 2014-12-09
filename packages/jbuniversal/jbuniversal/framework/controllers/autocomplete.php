@@ -34,16 +34,15 @@ class AutocompleteJBUniversalController extends JBUniversalController
             $appId   = $this->_jbrequest->get('app_id');
             $element = $this->_jbrequest->get('name');
 
-            if ($element && preg_match('#^e\[(.*?)\]\[(.*?)\]#i', $element, $matches)) {
+            if ($element && preg_match('/(?:\\[)([^]]*)(?:[]])(?(?<=\\[)|\\[?([^]]*))/i', $element, $element_id)) {
 
-                $param_id    = isset($matches[2]) ? $matches[2] : null;
-                $element_id  = $matches[1];
+                $param_id   = isset($element_id[2]) ? $element_id[2] : null;
+                $element_id = $element_id[1];
 
                 $element     = $this->app->jbentity->getElement($element_id, $type, $appId);
                 $elementType = $element->getElementType();
 
                 $db = JBModelAutocomplete::model();
-
                 if ($element_id == '_itemname') {
                     $rows = $db->name($query, $type, $appId);
 

@@ -20,7 +20,9 @@
                 var $jbPrice = this.el.closest('.jsPrice'),
                     toggle = $('.jsCurrencyToggle', $jbPrice);
 
-                toggle.JBZooCurrencyToggle('toggle')
+                if (toggle.length) {
+                    toggle.JBZooCurrencyToggle('toggle');
+                }
             }
         }
     );

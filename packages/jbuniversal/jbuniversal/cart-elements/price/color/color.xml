@@ -20,17 +20,6 @@
 
         <param name="default" type="text" default="" label="Default" />
 
-        <param name="multiplicity"
-               type="radio"
-               default="1"
-               label="JBZOO_FILTER_MULTIPLE"
-               description="JBZOO_FILTER_MULTIPLE"
-                >
-
-            <option value="0">JBZOO_NO</option>
-            <option value="1">JBZOO_YES</option>
-        </param>
-
         <param name="options"
                type="jbcolor"
                cols="35"

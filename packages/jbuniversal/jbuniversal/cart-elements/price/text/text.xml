@@ -50,6 +50,13 @@
                description="JBZOO_FILTER_DEFAULT_DESC"
                 />
 
+        <param name="jbzoo_filter_placeholder"
+               type="text"
+               default=""
+               label="JBZOO_FILTER_PLACEHOLDER"
+               description="JBZOO_FILTER_PLACEHOLDER_DESC"
+                />
+
         <param name="jbzoo_filter_count"
                type="jbbool"
                default="1"

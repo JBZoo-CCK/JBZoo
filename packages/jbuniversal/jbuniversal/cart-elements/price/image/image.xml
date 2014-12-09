@@ -40,18 +40,25 @@
 
     </params>
     <params group="filter">
+
         <param name="jbzoo_filter_render"
                type="list"
                label="JBZOO_ELEMENT_TEMPLATE"
                description="JBZOO_ELEMENT_TEMPLATE_DESC"
                default="_auto_"
                 >
-
-            <option value="text">JBZOO_ELEMENT_TEMPLATE_TEXT</option>
             <option value="imageexists-jqueryui">JBZOO_ELEMENT_TEMPLATE_IMAGEEXISTS_JQUERYUI</option>
             <option value="imageexists">JBZOO_ELEMENT_TEMPLATE_IMAGEEXISTS</option>
             <option value="hidden">JBZOO_ELEMENT_TEMPLATE_HIDDEN</option>
         </param>
+
+        <param name="jbzoo_filter_default"
+               type="text"
+               default=""
+               label="JBZOO_FILTER_DEFAULT"
+               description="JBZOO_FILTER_DEFAULT_DESC"
+                />
+
     </params>
 
 </element>

@@ -43,7 +43,6 @@ class JBZooModItemConditions extends JBZooItemType
     public function getItems()
     {
         $this->init();
-        $items          = array();
         $searchElements = array();
         $this->_app_id  = $this->_params->get('condition_app', '0');
         $this->_type    = $this->_params->get('condition_type', 'product');
@@ -193,9 +192,12 @@ class JBZooModItemConditions extends JBZooItemType
      */
     protected function _checkRule($key, $value, $param_id = null)
     {
+        if (!isset($this->_elements[$key])) {
+            return false;
+        }
+
         $prefixClass  = 'JBZooModItemRule';
-        $elements     = $this->_elements;
-        $element      = $elements[$key];
+        $element      = $this->_elements[$key];
         $similarTypes = array(
             'radio',
             'jbcolor',
@@ -208,8 +210,6 @@ class JBZooModItemConditions extends JBZooItemType
             'itempublish_up',
             'itempublish_down'
         );
-
-        unset($elements);
 
         $className = $prefixClass . $element['type'];
 

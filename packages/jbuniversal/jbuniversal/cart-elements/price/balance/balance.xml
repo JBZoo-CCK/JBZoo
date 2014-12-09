@@ -37,6 +37,13 @@
             <option value="balance-chosen">JBZOO_ELEMENT_TEMPLATE_SELECT_CHOSEN</option>
         </param>
 
+        <param name="jbzoo_filter_default"
+               type="text"
+               default=""
+               label="JBZOO_FILTER_DEFAULT"
+               description="JBZOO_FILTER_DEFAULT_DESC"
+                />
+
     </params>
 
 </element>

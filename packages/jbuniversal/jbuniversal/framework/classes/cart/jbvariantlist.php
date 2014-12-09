@@ -29,6 +29,12 @@ class JBCartVariantList
     protected $_default = ElementJBPrice::BASIC_VARIANT;
 
     /**
+     * Variations on/off
+     * @var bool
+     */
+    protected $_isAdvanced = true;
+
+    /**
      * Array of options when user add to cart
      *
      * @var array
@@ -74,7 +80,6 @@ class JBCartVariantList
                 }
             }
         }
-
     }
 
     /**
@@ -146,6 +151,7 @@ class JBCartVariantList
     public function getTotal()
     {
         if (!$this->_jbprice->isOverlay()) {
+
             return $this->_plainTotal();
         }
 
@@ -155,11 +161,12 @@ class JBCartVariantList
     /**
      * Get price for variant
      *
+     * @param string|integer $id
      * @return JBCartValue
      */
-    public function getPrice()
+    public function getPrice($id = ElementJBPrice::BASIC_VARIANT)
     {
-        $default = $this->byDefault();
+        $default = $this->get($id);
         $margin  = $default->get('_margin');
 
         return $default->get('_value', JBCart::val())->add($margin);
@@ -352,9 +359,11 @@ class JBCartVariantList
     protected function _plainTotal()
     {
         $default = $this->byDefault();
+        $value   = JBCart::val();
 
-        $element = $default->getElement('_value');
-        $value   = $element->getValue();
+        if ($element = $default->getElement('_value')) {
+            $value = $element->getValue();
+        }
 
         if (!$default->isBasic()) {
             if ($element && $element->isModifier()) {
