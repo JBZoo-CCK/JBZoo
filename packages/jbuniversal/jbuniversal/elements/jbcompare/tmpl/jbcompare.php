@@ -15,22 +15,38 @@ defined('_JEXEC') or die('Restricted access');
 
 $this->app->jbassets->compare();
 
+$uniqId    = $this->app->jbstring->getId('compare-');
+$wrapAttrs = array(
+    'id'    => $uniqId,
+    'class' => array(
+        'jsJBZooCompare',
+        'jbcompare-buttons',
+        $isExists ? ' active ' : 'unactive'
+    )
+);
+
 ?>
 <!--noindex-->
-<div class="jbcompare jsJBZooCompare <?php echo($isExists ? ' active ' : 'unactive'); ?>">
+<div <?php echo $this->app->jbhtml->buildAttrs($wrapAttrs); ?>>
 
     <div class="jbcompare-active">
-        <a rel="nofollow" href="<?php echo $ajaxUrl; ?>" class="jsCompareToggle jbbutton small"
-           title="<?php echo JText::_('JBZOO_COMPARE_REMOVE'); ?>"><?php echo JText::_('JBZOO_COMPARE_REMOVE'); ?></a>
+        <span class="jbbutton small jsCompareToggle"><?php echo JText::_('JBZOO_COMPARE_REMOVE'); ?></span>
 
-        <a rel="nofollow" href="<?php echo $compareUrl; ?>" class="jbbutton small"
-           title="<?php echo JText::_('JBZOO_COMPARE'); ?>"><?php echo JText::_('JBZOO_COMPARE'); ?></a>
+        <a rel="nofollow" href="<?php echo $compareUrl; ?>" class="jbbutton small">
+            <?php echo JText::_('JBZOO_COMPARE'); ?>
+        </a>
     </div>
 
     <div class="jbcompare-unactive">
-        <a rel="nofollow" href="<?php echo $ajaxUrl; ?>" class="jsCompareToggle jbbutton small"
-           title="<?php echo JText::_('JBZOO_COMPARE_ADD'); ?>"><?php echo JText::_('JBZOO_COMPARE_ADD'); ?></a>
+        <span class="jbbutton small jsCompareToggle"><?php echo JText::_('JBZOO_COMPARE_ADD'); ?></span>
     </div>
 
-</div>
-<!--/noindex-->
+</div><!--/noindex-->
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        $("#<?php echo $uniqId;?>").JBZooCompareButtons(<?php echo json_encode(array(
+            'url_toggle' => $ajaxUrl,
+        ));?>);
+    });
+</script>
