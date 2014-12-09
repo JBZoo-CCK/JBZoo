@@ -36,8 +36,8 @@ class JBAssetsHelper extends AppHelper
         if ($this->app->jbenv->isSite()) {
             return;
         }
-        $this->tools();
 
+        $this->tools();
         $this->less('jbassets:less/general.less');
         $this->css('jbassets:css/admin.css');
         $this->js(array(
@@ -72,20 +72,19 @@ class JBAssetsHelper extends AppHelper
         if (!isset($isAdded)) {
             $isAdded = true;
 
+            $this->jQuery();
             $this->addScript(implode("\n", array(
                 'JBZoo.DEBUG = 1;',
                 'jQuery.migrateMute = false;',
             )));
 
-            $this->jQuery();
             $this->js(array(
                 'jbassets:js/helper.js',
                 'jbassets:js/widget.js',
                 'jbassets:js/jbzoo.js',
                 'jbassets:js/front-end.js',
+                'jbassets:js/widget/goto.js'
             ));
-
-            $this->js('jbassets:js/widget/goto.js');
         }
     }
 
@@ -135,7 +134,6 @@ class JBAssetsHelper extends AppHelper
     public function filterProps()
     {
         $this->tools();
-
         $this->css('jbassets:css/jbzoo.filter.css');
     }
 
@@ -241,7 +239,7 @@ class JBAssetsHelper extends AppHelper
             'jbassets:js/cart/module.js',
             'jbassets:js/cart/cart.js',
             'jbassets:js/cart/shipping.js',
-            'jbassets:js/cart/shippingdefault.js'
+            'jbassets:js/cart/shipping-default.js'
         ));
     }
 
@@ -251,9 +249,11 @@ class JBAssetsHelper extends AppHelper
     public function compare()
     {
         $this->tools();
-        $this->js('elements:jbcompare/assets/buttons.js');
-        $this->js('elements:jbcompare/assets/table.js');
-        $this->less('elements:jbcompare/assets/styles.less');
+        $this->js(array(
+            'elements:jbcompare/assets/js/compare-buttons.js',
+            'elements:jbcompare/assets/js/compare-table.js'
+        ));
+        $this->less('elements:jbcompare/assets/less/compare.less');
     }
 
     /**
@@ -301,8 +301,11 @@ class JBAssetsHelper extends AppHelper
     public function favorite()
     {
         $this->tools();
-        $this->js('elements:jbfavorite/assets/buttons.js');
-        $this->less('elements:jbfavorite/assets/styles.less');
+        $this->js(array(
+            'elements:jbfavorite/assets/js/favorite-buttons.js',
+            'elements:jbfavorite/assets/js/favorite-list.js'
+        ));
+        $this->less('elements:jbfavorite/assets/less/favorite.less');
     }
 
     /**
@@ -349,25 +352,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->tools();
         $this->quantity();
-
-        $this->addScript('jQuery(function($){
-            $("#' . $id . '").JBZooQuantity(' . json_encode((object)$options) . ');
-        });');
-    }
-
-    /**
-     * Init JBZoo favorite
-     */
-    public function initJBFavorite()
-    {
-        static $isAdded;
-
-        $this->favorite();
-
-        if (!isset($isAdded)) {
-            $isAdded = true;
-            $this->addScript('jQuery(function($){ $(".jbzoo .jsJBZooFavorite").JBFavoriteButtons(); });');
-        }
+        $this->addScript('jQuery(function($){ $("#' . $id . '").JBZooQuantity(' . json_encode((object)$options) . '); });');
     }
 
     /**
@@ -375,7 +360,7 @@ class JBAssetsHelper extends AppHelper
      */
     public function payment()
     {
-        // $this->js('jbassets:js/widget/payment.js');
+        $this->js('jbassets:js/cart/payment.js');
     }
 
     /**
@@ -414,13 +399,8 @@ class JBAssetsHelper extends AppHelper
         $this->js('jbassets:js/widget/heightfix.js');
 
         if (!isset($isAdded)) {
-
             $isAdded = true;
-            $this->addScript('jQuery(function($){
-                $(".jbzoo .items").JBZooHeightFix();
-                $(".jbzoo .subcategories").JBZooHeightFix();
-                $(".jbzoo .related-items").JBZooHeightFix();
-            });');
+            $this->addScript('jQuery(function($){ $(".jbzoo .items, .jbzoo .subcategories, .jbzoo .related-items").JBZooHeightFix(); });');
         }
     }
 
@@ -692,9 +672,10 @@ class JBAssetsHelper extends AppHelper
      * Include files to document
      * @param array $files
      * @param       $type
+     * @param       $group
      * @return bool
      */
-    protected function _include(array $files, $type)
+    protected function _include(array $files, $type, $group)
     {
         if (
             empty($files)
