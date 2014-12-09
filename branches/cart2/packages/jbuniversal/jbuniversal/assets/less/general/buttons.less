@@ -40,6 +40,7 @@
 
     &[disabled],
     &.disabled,
+    &.jbloading,
     fieldset[disabled] & {
         .opacity(.5);
         cursor: not-allowed;
@@ -49,6 +50,18 @@
         &:hover {
             #translate > .y(0);
         }
+    }
+
+    &.jbloading:after {
+        .opacity(0.5);
+        content: '';
+        position: absolute;
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        background: data-uri('../../../assets/img/autocomplete/loader.gif') no-repeat center;
+        top: 50%;
+        left: 0;
     }
 }
 
@@ -75,10 +88,10 @@
 
     &.disabled,
     &[disabled],
+    &.jbloading,
     fieldset[disabled] & {
         background: @color;
     }
-
 }
 
 .jbbutton-size(@fontSize: 14px) {
@@ -96,6 +109,10 @@
     margin-right: @fontSize * 0.5;
 
     .border-radius(4px);
+
+    &.jbloading:after {
+        margin-top: -(@fontSize);
+    }
 }
 
 .jbbutton-round(@size) {

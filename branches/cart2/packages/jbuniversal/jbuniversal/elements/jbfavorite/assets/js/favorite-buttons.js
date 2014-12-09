@@ -19,6 +19,7 @@
 
             $this.ajax({
                 'url'    : $this.options.url_toggle,
+                'target' : this,
                 'success': function (data) {
 
                     if (data.status) {
@@ -38,6 +39,7 @@
 
             $this.ajax({
                 'url'    : $this.options.url_toggle,
+                'target' : this,
                 'success': function (data) {
                     if (data.result) {
                         $favorite.slideUp(function () {
