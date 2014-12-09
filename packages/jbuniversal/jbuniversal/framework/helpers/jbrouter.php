@@ -268,7 +268,7 @@ class JBRouterHelper extends AppHelper
         $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'favorite',
-            'task'       => 'favorite',
+            'task'       => 'removeAll',
             'app_id'     => (int)$appId,
             'Itemid'     => (int)$Itemid,
         );
