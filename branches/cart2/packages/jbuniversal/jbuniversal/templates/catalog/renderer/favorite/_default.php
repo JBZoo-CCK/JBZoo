@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -16,25 +15,29 @@ defined('_JEXEC') or die('Restricted access');
 
 $view = $this->getView();
 
-$this->app->jbassets->initJBFavorite();
-
 if (count($vars['objects'])) {
 
     foreach ($vars['objects'] as $id => $item) {
+        $this->app->jbassets->favorite();
 
-        $layout = $this->app->jblayout->_getItemLayout($item, 'favorite');
+        ?>
+        <div class="jsFavoriteItem jbfavorite-item-wrapper rborder item-<?php echo $item->id; ?>">
 
-        echo '<div class="jsJBZooFavorite favorite-item-wrapper rborder item-' . $item->id . '">';
+            <span class="jbbutton small orange jsFavoriteItemRemove jbfavorite-remove-item"
+                  data-url="<?php echo $this->app->jbrouter->favoriteRemoveItem($item->id); ?>">
+                <?php echo JText::_('JBZOO_FAVORITE_REMOVE'); ?>
+            </span>
 
-        echo '<a class="jbbutton jsJBZooFavoriteRemove" href="' . $this->app->jbrouter->favoriteRemoveItem($item->id) . '" '
-            . ' title="' . JText::_('JBZOO_FAVORITE_REMOVE_ITEM') . '">' . JText::_('JBZOO_FAVORITE_REMOVE') . '</a>';
+            <?php echo $view->renderer->render(
+                $this->app->jblayout->_getItemLayout($item, 'favorite'),
+                array(
+                    'view' => $view,
+                    'item' => $item
+                )
+            ); ?>
 
-        echo $view->renderer->render($layout, array(
-            'view' => $view,
-            'item' => $item
-        ));
-
-        echo '</div>';
+        </div>
+    <?php
     }
 
 } else {

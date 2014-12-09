@@ -7,5 +7,27 @@
 // @license     http://jbzoo.com/license-pro.php JBZoo Licence
 // @coder       Denis Smetannikov <denis@jbzoo.com>
 //
-
 @import "jbzoo";
+
+.jbzoo .jbfavorite {
+
+    &-active,
+    &-unactive {
+        display: none;
+    }
+
+    &-buttons.unactive .jbfavorite-unactive,
+    &-buttons.active .jbfavorite-active {
+        display: block;
+    }
+
+    &-remove-all,
+    &-remove-item {
+        float: right;
+    }
+
+    &-item-wrapper {
+        padding: 1em;
+        margin-bottom: 1em;
+    }
+}
