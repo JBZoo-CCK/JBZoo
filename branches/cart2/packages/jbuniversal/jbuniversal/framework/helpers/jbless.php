@@ -94,7 +94,7 @@ class JBLessHelper extends AppHelper
         }
 
         if (filesize($cachePath) > 5) {
-            $mtime = substr(filemtime($cachePath), -3);
+            $mtime = substr(filemtime($cachePath), -2);
             return $relPath . '?' . $mtime;
         }
 
