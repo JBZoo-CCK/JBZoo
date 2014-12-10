@@ -18,6 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementPaymentPayPal extends JBCartElementPayment
 {
+
     /**
      * @var string
      */
@@ -29,34 +30,35 @@ class JBCartElementPaymentPayPal extends JBCartElementPayment
     private $_testUrl = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
 
     /**
+     * Redirect to payment action
      * @return null|string
      */
     public function getRedirectUrl()
     {
+        $order       = $this->getOrder();
+        $payCurrency = $this->getDefaultCurrency();
         $merchantUrl = $this->isDebug() ? $this->_testUrl : $this->_realUrl;
-
-        $order  = $this->getOrder();
-        $defCur = $this->_jbmoney->getDefaultCur();
-        $summ   = $this->_jbmoney->convert($defCur, $defCur, $order->getTotalSum(false));
+        $orderAmount = $this->_order->val($this->getOrderSumm(), $order->getCurrency())->convert($payCurrency);
 
         $fields = array(
             'cmd'           => '_xclick',
-            'no_shipping'   => '1',
-            'rm'            => '2',
+            'no_shipping'   => 1,
+            'rm'            => 2,
             'business'      => JString::trim($this->config->get('email')),
             'item_number'   => $order->id,
-            'amount'        => $summ,
-            'currency_code' => $order->getTotalSum(false),
+            'amount'        => $orderAmount->val(),
+            'currency_code' => JString::strtoupper($payCurrency),
             'return'        => $this->_jbrouter->payment('success'),
             'cancel_return' => $this->_jbrouter->payment('fail'),
             'notify_url'    => $this->_jbrouter->payment('callback'),
-            'item_name'     => $this->getOrderDescription(),
+            'item_name'     => $this->getOrderDescription()
         );
 
         return $merchantUrl . '?' . $this->_jbrouter->query($fields);
     }
 
     /**
+     * Checks validation
      * @param array $params
      * @return null|void
      * @throws AppException
@@ -68,7 +70,7 @@ class JBCartElementPaymentPayPal extends JBCartElementPayment
 
         // check via PayPal service
         $checkParam = array_merge(array('cmd' => '_notify-validate'), $_POST);
-        $response   = $this->app->jbhttp->request($merchantUrl, $checkParam, array('method' => 'post'));
+        $response   = $this->_requestCurl($merchantUrl, $checkParam);
 
         if ($this->app->jbvars->upper($response) == 'VERIFIED') {
             return true;
@@ -78,6 +80,7 @@ class JBCartElementPaymentPayPal extends JBCartElementPayment
     }
 
     /**
+     * Detect order id from merchant's robot request
      * @return int|void
      */
     public function getRequestOrderId()
@@ -86,12 +89,42 @@ class JBCartElementPaymentPayPal extends JBCartElementPayment
     }
 
     /**
-     * @return float
+     * Detect order id from merchant's robot request
+     * @return int|JBCartValue
      */
     public function getRequestOrderSum()
     {
-        return $this->app->jbrequest->get('mc_gross');
+        $order  = $this->getOrder();
+        $amount = $this->_order->val($this->_jbrequest->get('mc_gross'), $order->getCurrency());
+
+        return $amount;
     }
 
+
+    /**
+     * Curl request
+     * @param $url
+     * @param array $data
+     * @throws AppException
+     */
+    protected function _requestCurl($url, $data = array())
+    {
+        if (function_exists('curl_init') && is_callable('curl_init')) {
+
+            $curl = curl_init($url);
+            curl_setopt ($curl, CURLOPT_HEADER, 0);
+            curl_setopt ($curl, CURLOPT_POST, 1);
+            curl_setopt ($curl, CURLOPT_POSTFIELDS, $this->_jbrouter->query($data));
+            curl_setopt ($curl, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
+            $response = curl_exec ($curl);
+            curl_close ($curl);
+
+            return $response;
+
+        } else {
+            throw new AppException('The module "curl" is not available.');
+        }
+    }
 
 }
