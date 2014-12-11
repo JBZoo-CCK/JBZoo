@@ -13,7 +13,8 @@
 
     var instanceId = 0,
         widgetId = 0,
-        widgets = {};
+        widgets = {},
+        parentSelector = '{element}';
 
     /**
      * JBZoo widget factory
@@ -127,6 +128,11 @@
                     _logs: [],
 
                     /**
+                     * internal timers
+                     */
+                    _timers: {},
+
+                    /**
                      * Only for class extending
                      */
                     _eventList: eventList,
@@ -185,7 +191,7 @@
                      * @returns jQuery
                      */
                     $: function (selector) {
-                        if (selector == '{element}') {
+                        if (selector == parentSelector) {
                             return this.el;
                         }
 
@@ -202,9 +208,21 @@
                         var $this = this,
                             eventName = eventName + '.' + $this._name;
 
-                        if (selector == '{element}') {
+                        if (selector == parentSelector) {
                             return $(this.el).on(eventName, function (event) {
-                                return callback.apply(this, [event, $this]);
+
+                                var args = arguments,
+                                    newArgs = [event, $this];
+
+                                if (args.length > 1) {
+                                    var i = 0;
+                                    while (args[i]) {
+                                        (i > 0) && newArgs.push(args[i]);
+                                        i++;
+                                    }
+                                }
+
+                                return callback.apply(this, newArgs);
                             });
 
                         } else {
@@ -227,7 +245,7 @@
                         var $this = this,
                             eventName = eventName + '.' + $this._name;
 
-                        if (!selector || selector == '{element}') {
+                        if (!selector || selector == parentSelector) {
                             return $(this.el).off(eventName);
 
                         } else {
@@ -243,8 +261,19 @@
                      * @private
                      */
                     _trigger: function (trigger, selector, data) {
-                        data = data || {};
-                        selector = selector || '{element}';
+
+                        if (arguments.length == 1) {
+                            data = [];
+                            selector = parentSelector;
+
+                        } else if (arguments.length == 2) {
+                            data = arguments[1];
+                            selector = parentSelector;
+
+                        } else {
+                            selector = arguments[2] || parentSelector;
+                        }
+
                         this.$(selector).trigger(trigger + '.' + this._name, data);
                     },
 
@@ -254,16 +283,17 @@
                      * @returns {number}
                      * @private
                      */
-                    _delay: function (handler, delay) {
+                    _delay: function (handler, delay, timerName) {
 
                         var $this = this;
+                        timerName = timerName || 'default';
 
-                        function handlerProxy() {
-                            return (typeof handler === "string" ? $this[handler] : handler )
-                                .apply($this, arguments);
-                        }
+                        clearTimeout($this._timers[timerName]);
+                        $this._timers[timerName] = setTimeout(function () {
+                            return (typeof handler === "string" ? $this[handler] : handler ).apply($this, arguments);
+                        }, delay || 0);
 
-                        return setTimeout(handlerProxy, delay || 0);
+                        return $this._timers[timerName];
                     },
 
                     /**
