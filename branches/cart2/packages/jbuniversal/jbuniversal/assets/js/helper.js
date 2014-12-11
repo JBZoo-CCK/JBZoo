@@ -465,7 +465,18 @@
         ajax: function (options) {
             $('body').JBZoo().JBZoo('ajax', options);
             //$jbzoo.error('Use widget extending, JBZoo must be parent!');
+        },
+
+        /**
+         * Show binded events
+         * @param selector
+         */
+        dumpBinds: function (selector) {
+            $.each($(selector).data('events'), function (eventName, event) {
+                dump(event, eventName);
+            });
         }
+
     });
 
     // init JS helper (deprecated)
