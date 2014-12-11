@@ -53,6 +53,10 @@
                 this._updateView();
             },
 
+            /**
+             * Get current value
+             * @returns {number}
+             */
             getValue: function () {
                 return this.value;
             },
@@ -74,8 +78,12 @@
 
                 // change callback
                 if (newValue != oldValue) {
+                    var args = [oldValue, newValue];
+
+                    $this._trigger('change', args);
+
                     if ($.isFunction($this.options.onChange)) {
-                        $this.options.onChange.apply($this, [oldValue, newValue]);
+                        $this.options.onChange.apply($this, args);
                     }
                 }
             },
@@ -291,7 +299,7 @@
                 }
 
                 return false;
-            }
+            },
 
         }
     );
