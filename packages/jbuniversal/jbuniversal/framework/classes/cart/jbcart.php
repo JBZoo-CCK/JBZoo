@@ -105,11 +105,9 @@ class JBCart
 
     /**
      * Create price value object
-     *
      * @param int   $value
      * @param null  $currency
      * @param array $rates
-     *
      * @return array|int|JBCartValue
      */
     static public function val($value = 0, $currency = null, $rates = array())
@@ -151,9 +149,7 @@ class JBCart
 
     /**
      * Get default status from cart configurations
-     *
      * @param string $type
-     *
      * @return JBCartElementStatus
      */
     public function getDefaultStatus($type = JBCart::STATUS_ORDER)
@@ -183,9 +179,7 @@ class JBCart
 
     /**
      * Get all items from session
-     *
      * @param bool $assoc
-     *
      * @return mixed
      */
     public function getItems($assoc = true)
@@ -205,7 +199,6 @@ class JBCart
 
     /**
      * @param $data
-     *
      * @internal param array $list
      */
     public function addItem($data)
@@ -277,10 +270,8 @@ class JBCart
      * Remove all variations if key is null.
      * $key = {item_id}-{variant_index}.
      * Priority on $key.
-     *
      * @param  int    $id
      * @param  string $key
-     *
      * @return bool
      */
     public function remove($id, $key = null)
@@ -302,9 +293,7 @@ class JBCart
     /**
      * Remove item from cart by id.
      * Item_id-variant or item_id for basic.
-     *
      * @param  int $id - Item_id
-     *
      * @return bool
      */
     public function removeItem($id)
@@ -329,7 +318,6 @@ class JBCart
     /**
      * Remove item's variant from cart by $key.
      * Item_id-variant or item_id for basic.
-     *
      * @param string $key - Item_id + index of variant.
      * @return bool
      */
@@ -358,7 +346,6 @@ class JBCart
 
     /**
      * Change item quantity from basket
-     *
      * @param $key
      * @param $quantity
      */
@@ -366,16 +353,8 @@ class JBCart
     {
         $items = $this->getItems();
 
-        if (!empty($items[$key])) {
-
-            $item = $items[$key];
-
-            $quantity = (float)$quantity;
-            $quantity = $quantity >= 0.1 ? $quantity : 1;
-
-            $item['quantity'] = $quantity;
-
-            $items[$key] = $item;
+        if ($this->inCart($key)) {
+            $items[$key]['quantity'] = (float)$quantity;
 
             $this->_setSession('items', $items);
         }
@@ -383,10 +362,8 @@ class JBCart
 
     /**
      * Is in stock item
-     *
      * @param $quantity
      * @param $key
-     *
      * @return bool
      */
     public function inStock($quantity, $key = null)
@@ -442,28 +419,27 @@ class JBCart
         $itemsPrice = array();
 
         $count = 0;
-        $total = JBCart::val();
+        $total = JBCart::val(0);
         $items = $this->getItems();
 
-        $currency = $this->_config->get('default_currency', 'EUR');
-
         foreach ($items as $key => $item) {
-            $key              = base64_encode($key);
+
             $itemsPrice[$key] = array();
 
             $itemTotal = JBCart::val($item['total']);
 
             $count += $item['quantity'];
+            $itemTotal->multiply($item['quantity']);
             $total->add($itemTotal);
 
-            $itemsPrice[$key]['total'] = $itemTotal->html();
+            $itemsPrice[$key]['Subtotal'] = $itemTotal->html();
         }
 
         $result = array(
-            'items'    => $itemsPrice,
-            'count'    => $count,
-            'total'    => $total->html(),
-            'currency' => $currency
+            'items'      => $itemsPrice,
+            'TotalCount' => $count,
+            'TotalPrice' => $total->html(),
+            'Total'      => $total->html(),
         );
 
         return $result;
@@ -471,14 +447,13 @@ class JBCart
 
     /**
      * Check if item in cart.
-     *
      * @param  string $id - item_id.
-     *
      * @return bool
      */
     public function inCart($id)
     {
         $items = $this->getItems();
+
         if (isset($items[$id])) {
             return true;
         }
@@ -488,9 +463,7 @@ class JBCart
 
     /**
      * Check if item or item variation in cart by $key.
-     *
      * @param  string $key - {Item_id}-{variant} or {item_id} for basic.
-     *
      * @return bool
      */
     public function inCartVariant($key)
@@ -519,7 +492,6 @@ class JBCart
 
     /**
      * Set session
-     *
      * @param string $key
      * @param mixed  $value
      */
