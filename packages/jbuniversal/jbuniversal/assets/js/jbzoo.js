@@ -95,6 +95,7 @@
 
             if (JBZoo.empty(options.url)) {
                 $this.error("AJAX url is no set!");
+                return;
             }
 
             $.ajax({
@@ -178,7 +179,7 @@
          * @param message
          */
         error: function (message) {
-            return this.error('Plugin "' + this._name + '": ' + message);
+            return JBZoo.error('Plugin "' + this._name + '": ' + message);
         },
 
         /**
@@ -198,17 +199,18 @@
         confirm: function (message, yesCallback, noCallback) {
             var $this = this;
 
+            noCallback = noCallback || $.noop;
+            yesCallback = yesCallback || $.noop;
+
             if (confirm(message)) {
-                $.isFunction(yesCallback)
-                {
-                    yesCallback($this);
+                if ($.isFunction(yesCallback)) {
+                    yesCallback.apply($this);
                 }
 
                 return true;
             } else {
-                $.isFunction(noCallback)
-                {
-                    noCallback($this);
+                if ($.isFunction(noCallback)) {
+                    noCallback.apply($this);
                 }
 
                 return false;
