@@ -15,103 +15,150 @@
      * JBZoo Cart widget
      */
     JBZoo.widget('JBZoo.Cart', {
-        'confirm_message': '',
-        'url_quantity'   : '',
-        'url_delete'     : '',
-        'url_clean'      : '',
-        'params'         : {}
+        'text_remove_all' : '',
+        'text_remove_item': '',
+        'url_quantity'    : '',
+        'url_delete'      : '',
+        'url_clear'       : '',
+        'items'           : {}
     }, {
-        'shipping': {},
-        'params'  : {},
+        shipping   : {},
+        params     : {},
+        quantity   : {},
+        changeDelay: 400,
 
-        init: function () {
-
-            this.params = this.options.params;
-            this.$('.jsQuantity').JBZooQuantity(this.params._quantity);
-            //$this.module = $('.jsJBZooCartModule').JBZooCartModule();
-
-        },
-
-        change: function (value, row) {
-            this.ajax({
-                'url'    : this.options.url_quantity,
-                'data'   : {
-                    'value': value,
-                    'key'  : row.key
-                },
-                'success': function (data) {
-                    console.log(data);
-                    //$.fn.JBZooPriceReloadBasket();
-                },
-                'error'  : function (data) {
-                    if (data.message) {
-                        alert(data.message);
-                    }
-                }
+        init: function ($this) {
+            $this.quantity = $this.$('.jsQuantity');
+            $this.quantity.JBZooQuantity('setOption', 'onChange', function (oldValue, newValue) {
+                var itemKey = this.el.closest('.jsCartTableRow').data('key');
+                $this._change(itemKey, newValue);
             });
-        },
 
-        'change .jsQuantity': function (e, $this) {
-
-            var jsQuantity = $(this),
-                row = $this.rowData(jsQuantity);
-
-            $this.change(jsQuantity.val(), row);
-        },
-
-        'keyUp .jsQuantity': function (e, $this) {
-
-            var jsQuantity = $(this),
-                row = $this.rowData(jsQuantity);
-
-            $this.change(jsQuantity.val(), row);
         },
 
         'click .jsDelete': function (e, $this) {
 
-            var jsDelete = $(this),
-                row = $this.rowData(jsDelete);
-            $this.ajax({
-                'url'    : $this.options.url_delete,
-                'data'   : {
-                    'item_id': row.item_id,
-                    'key'    : row.key
-                },
-                'success': function (data) {
-                    row.tr.slideUp(300, function () {
-                        row.tr.remove();
-                        if (!JBZoo.empty($this.$('tbody tr'))) {
+            var $tableRow = $(this).closest('.jsCartTableRow'),
+                itemsCount = $this.$('.jsCartTableRow');
+
+            $this.confirm($this.options.text_remove_item, function () {
+                $this.ajax({
+                    'url'    : $this.options.url_delete,
+                    'target' : $tableRow,
+                    'data'   : {
+                        'key': $tableRow.data('key')
+                    },
+                    'success': function (data) {
+
+                        if (itemsCount == 1) {
+                            $this._updateData(data.prices);
+                            $this._reloadModule();
+                        } else {
                             window.location.reload();
                         }
-                    });
 
-                    //$.fn.JBZooPriceReloadBasket();
-                },
-                'error'  : function (error) {
-                    alert(error);
-                }
+                        $tableRow.remove();
+                    },
+                    'error'  : function (error) {
+                        $this.alert(error);
+                    }
+                });
             });
+
         },
 
         'click .jsDeleteAll': function (e, $this) {
 
-            if (confirm($this.options.confirm_message)) {
-                JBZoo.ajax({
-                    'url'    : $this.options.url_clean,
-                    'success': function () {
+            $this.confirm($this.options.text_remove_all, function () {
+                $this.ajax({
+                    url    : $this.options.url_clear,
+                    success: function () {
                         window.location.reload();
                     }
                 });
+            });
+        },
+
+        /**
+         * Change quantity for item
+         * @param itemKey
+         * @param newValue
+         * @returns {boolean}
+         * @private
+         */
+        _change: function (itemKey, newValue) {
+
+            var $this = this;
+
+            if (!$this._getItem(itemKey)) {
+                return false;
+            }
+
+            $this._delay(function () {
+                $this.ajax({
+                    url    : $this.options.url_quantity,
+                    target : '.js' + itemKey,
+                    data   : {
+                        value: newValue,
+                        key  : itemKey
+                    },
+                    success: function (data) {
+                        $this._updateData(data.prices);
+                        $this._reloadModule();
+                    },
+                    error  : function (data) {
+                        if (data.message) {
+                            $this.alert(data.message);
+                        }
+                    }
+                });
+            }, $this.changeDelay);
+        },
+
+        /**
+         * Get item info
+         * @param rowId
+         * @returns {*}
+         * @private
+         */
+        _getItem: function (rowId) {
+            return this.options.items[rowId];
+        },
+
+        /**
+         * @private
+         */
+        _reloadModule: function () {
+            if (this.isWidgetExists('JBZooCartModule')) {
+                $('.jsJBZooCartModule').JBZooCartModule('reload');
             }
         },
 
-        rowData: function (field) {
-            var tr = field.closest('.jbbasket-item-row');
-            return {
-                'tr'     : $(tr),
-                'item_id': tr.data('item_id'),
-                'key'    : tr.data('key')
-            };
+        /**
+         * Set new params from responce
+         * @param prices
+         * @private
+         */
+        _updateData: function (prices, context) {
+
+            var $this = this;
+            context = context || ''
+
+            $.each(prices, function (key, value) {
+
+                if (typeof value == 'object') {
+                    $this._updateData(value, key);
+
+                } else {
+
+                    var selector = '.js' + key;
+                    if (context) {
+                        selector = '.js' + context + ' ' + '.js' + key;
+                    }
+
+                    $this.$(selector).html(value);
+                }
+            });
         }
 
     });
