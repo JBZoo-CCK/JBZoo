@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -15,7 +14,6 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * Class JBCartVariantList
- *
  * @package
  * @since    2.2
  */
@@ -23,7 +21,6 @@ class JBCartVariantList
 {
     /**
      * Default variant key
-     *
      * @var string
      */
     protected $_default = ElementJBPrice::BASIC_VARIANT;
@@ -36,7 +33,6 @@ class JBCartVariantList
 
     /**
      * Array of options when user add to cart
-     *
      * @var array
      */
     protected $_options = array();
@@ -55,7 +51,6 @@ class JBCartVariantList
     /**
      * Class constructor.
      * @help Create JBCartVariantList objects after JBPrice template is set.
-     *
      * @param array          $list
      * @param ElementJBPrice $jbPrice
      * @param array          $options
@@ -84,9 +79,7 @@ class JBCartVariantList
 
     /**
      * Get variant by id if exists
-     *
      * @param  integer|string $id
-     *
      * @return JBCartVariant|false
      */
     public function get($id = ElementJBPrice::BASIC_VARIANT)
@@ -100,9 +93,7 @@ class JBCartVariantList
 
     /**
      * Check if JBCartVariant exists.
-     *
      * @param  integer|string $id
-     *
      * @return bool
      */
     public function has($id)
@@ -116,7 +107,6 @@ class JBCartVariantList
 
     /**
      * Get all variants
-     *
      * @return array
      */
     public function all()
@@ -135,7 +125,6 @@ class JBCartVariantList
 
     /**
      * Get base variant
-     *
      * @return JBCartVariant
      */
     public function shift()
@@ -145,7 +134,6 @@ class JBCartVariantList
 
     /**
      * Get Total price for variant
-     *
      * @return JBCartValue
      */
     public function getTotal()
@@ -160,7 +148,6 @@ class JBCartVariantList
 
     /**
      * Get price for variant
-     *
      * @param string|integer $id
      * @return JBCartValue
      */
@@ -212,20 +199,28 @@ class JBCartVariantList
      */
     public function getSessionKey()
     {
-        $session = $this->_default . '::' . $this->_jbprice->getItem()->id . $this->_jbprice->identifier;
-        $values  = (array)$this->values;
+        $result = array(
+            '_default' => $this->_default,
+            '_priceId' => $this->_jbprice->identifier,
+            '_itemId'  => $this->_jbprice->getItem()->id,
+        );
+
+        $values = (array)$this->values;
 
         if (!empty($values)) {
             foreach ($values as $key => $value) {
+
                 //TODO Need to check value, method - issetOption
                 if ($element = $this->_jbprice->getElement($key)) {
                     $element->bindData($value);
-                    $session .= $key . $element->getValue();
+                    $result[$key] = $key . $element->getValue();
                 }
             }
         }
 
-        return $session;
+        ksort($result);
+
+        return md5(serialize($result));
     }
 
     /**
@@ -252,10 +247,8 @@ class JBCartVariantList
 
     /**
      * Check if option isset in element
-     *
      * @param $element
      * @param $value
-     *
      * @return bool|string
      */
     public function issetOption($element, $value)
@@ -272,9 +265,7 @@ class JBCartVariantList
 
     /**
      * Magic method to get access to protected property @_options
-     *
      * @param string $property
-     *
      * @return mixed
      */
     public function __get($property)
@@ -284,10 +275,8 @@ class JBCartVariantList
 
     /**
      * Magic method to call methods from default variant
-     *
      * @param string $method
      * @param array  $args
-     *
      * @return mixed
      * @throws Exception
      */
@@ -353,7 +342,6 @@ class JBCartVariantList
 
     /**
      * Get the total price for the variant element - ElementJBPricePlain
-     *
      * @return JBCartValue
      */
     protected function _plainTotal()
@@ -385,7 +373,6 @@ class JBCartVariantList
 
     /**
      * Get the total price for the variant element - ElementJBPriceCalc
-     *
      * @return JBCartValue
      */
     protected function _calcTotal()
@@ -404,11 +391,9 @@ class JBCartVariantList
 
     /**
      * Create JBCartVariant instance
-     *
      * @param integer        $id
      * @param ElementJBPrice $jbPrice
      * @param array          $elements - array of element id => data
-     *
      * @return JBCartVariant
      */
     protected function _createInstance($id, $jbPrice, $elements = array())
@@ -418,7 +403,6 @@ class JBCartVariantList
 
     /**
      * Set instance
-     *
      * @param JBCartVariant $variant
      */
     private function set(JBCartVariant $variant)
