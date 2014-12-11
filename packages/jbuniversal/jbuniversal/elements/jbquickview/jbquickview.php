@@ -58,8 +58,8 @@ class ElementJBQuickView extends Element
         $scroll      = (int)$params->get('scroll_enable', 0) ? 'yes' : 'no';
         $autoSize    = (int)$params->get('auto_size_enable', 0) ? 'true' : 'false';
 
-        $layout    = $params->get('layout') ? $params->get('layout') : 'quickview';
-        $paramLink = $this->_getParamsLink($layout);
+        $layout  = $params->get('layout') ? $params->get('layout') : 'quickview';
+        $itemUrl = $this->_getParamsLink($layout);
 
         if (empty($buttonText)) {
             $buttonText = JText::_('JBZOO_QUICKVIEW');
@@ -67,12 +67,11 @@ class ElementJBQuickView extends Element
 
         $this->app->jbassets->fancybox();
 
-        $html = array();
+        $uniqId = $this->app->jbstring->getId('quickview');
 
-        if (!isset($jsDefined)) {
-            $jsDefined = true;
-
-            $params = array(
+        $html   = array();
+        $html[] = '<script type="text/javascript">jQuery(function ($) {
+            $("#' . $uniqId . '").fancybox(' . json_encode(array(
                 'type'       => "iframe",
                 'fitToView'  => true,
                 'width'      => $popupWidth,
@@ -89,15 +88,22 @@ class ElementJBQuickView extends Element
                         'locked' => true,
                     )
                 ),
-            );
+            )) . ');
+        });</script>';
 
-            $html[] = '<script type="text/javascript">jQuery(function ($) {
-                $("a.jsQuickView").fancybox(' . json_encode($params) . ');
-            });</script>';
-        }
+        $btnAttrs = $this->app->jbhtml->buildAttrs(array(
+            'id'    => $uniqId,
+            'rel'   => 'nofollow',
+            'href'  => $itemUrl,
+            'title' => $this->getItem()->name,
+            'class' => array(
+                'jbbutton small',
+                'quickview',
+                'jsQuickView',
+            )
+        ));
 
-        $html[] = '<!--noindex--><a href="' . $paramLink . '" title="' . $this->_item->name . '"'
-            . ' rel="nofollow" class="jbbutton jsQuickView quickview">' . $buttonText . '</a><!--/noindex-->';
+        $html[] = '<!--noindex--><a ' . $btnAttrs . '>' . $buttonText . '</a><!--/noindex-->';
 
         return implode("\n ", $html);
     }
