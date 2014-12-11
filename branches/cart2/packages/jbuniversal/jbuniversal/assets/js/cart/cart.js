@@ -46,7 +46,7 @@
                     },
                     'success': function (data) {
 
-                        if (itemsCount == 1) {
+                        if (itemsCount != 1) {
                             $this._updateData(data.prices);
                             $this._reloadModule();
                         } else {
