@@ -235,9 +235,14 @@ class JBAssetsHelper extends AppHelper
     {
         $this->tools();
         $this->quantity();
+
+        $this->less(array(
+            'jbassets:less/cart/cart.less'
+        ));
+
         $this->js(array(
-            'jbassets:js/cart/module.js',
             'jbassets:js/cart/cart.js',
+            'jbassets:js/cart/module.js',
             'jbassets:js/cart/shipping.js',
             'jbassets:js/cart/shipping-default.js'
         ));
