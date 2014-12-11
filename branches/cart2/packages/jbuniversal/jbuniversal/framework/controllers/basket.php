@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -160,14 +159,14 @@ class BasketJBUniversalController extends JBUniversalController
      */
     public function delete()
     {
-        $id   = $this->_jbrequest->get('item_id');
-        $key  = base64_decode($this->_jbrequest->get('key'));
+        $id  = $this->_jbrequest->get('item_id');
+        $key = $this->_jbrequest->get('key');
+
         $cart = JBCart::getInstance();
-
         $cart->remove($id, $key);
-        //$recount = $cart->recount();
+        $recount = $cart->recount();
 
-        $this->app->jbajax->send(array());
+        $this->app->jbajax->send(array('prices' => $recount));
     }
 
     /**
@@ -176,8 +175,8 @@ class BasketJBUniversalController extends JBUniversalController
      */
     public function form()
     {
-        $orderId = $this->_jbrequest->get('orderId');
-        $order   = JBModelOrder::model()->getById($orderId);
+        $orderId        = $this->_jbrequest->get('orderId');
+        $order          = JBModelOrder::model()->getById($orderId);
         $this->template = $this->application->getTemplate();
 
         if (!$orderId || !$order->id) {
@@ -185,7 +184,7 @@ class BasketJBUniversalController extends JBUniversalController
         }
 
         if ($order->id) {
-            $payment = $order->getPayment();
+            $payment           = $order->getPayment();
             $this->paymentForm = $payment->renderPaymentForm();
 
             if ($this->_jbrequest->isPost()) {
@@ -221,19 +220,15 @@ class BasketJBUniversalController extends JBUniversalController
     {
         // get request
         $value = (float)$this->_jbrequest->get('value');
-        $key   = base64_decode(trim($this->_jbrequest->get('key')));
-
-        //$shipping = $this->_getShippingPrices();
-        $shipping = array();
+        $key   = $this->_jbrequest->get('key');
 
         $cart = JBCart::getInstance();
-
         if ($cart->inStock($key, $value)) {
 
             $cart->changeQuantity($key, $value);
             $recount = $cart->recount();
 
-            $this->app->jbajax->send(array('prices' => $recount, 'shipping' => $shipping));
+            $this->app->jbajax->send(array('prices' => $recount));
         }
 
         $this->app->jbajax->send(array('message' => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE')), false);
