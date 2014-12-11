@@ -14,13 +14,12 @@ defined('_JEXEC') or die('Restricted access');
 
 $this->app->jbassets->less('jbassets:less/cart/table.less');
 
-$params = array();
 $string = $this->app->jbstring;
 $jbhtml = $this->app->jbhtml;
 
 ?>
 
-<table class="jbcart-table jsJBZooCart">
+<table class="jbcart-table jsJBZooCartTable">
     <thead>
     <tr>
         <th class="jbcart-col jbcart-col-image"></th>
@@ -40,8 +39,9 @@ $jbhtml = $this->app->jbhtml;
     <?php
     $total = JBCart::val();
     $count = 0;
-    foreach ($view->items as $id => $data) {
+    foreach ($view->items as $itemKey => $data) {
         $data = $this->app->data->create($data);
+        unset($view->items[$itemKey]['params']);
 
         $item = $this->app->table->item->get($data->get('item_id'));
         $href = $this->app->route->item($item);
@@ -70,7 +70,7 @@ $jbhtml = $this->app->jbhtml;
         }
 
         ?>
-        <tr class="jbcart-row">
+        <tr class="jbcart-row jsCartTableRow js<?php echo $itemKey; ?>" data-key="<?php echo $itemKey; ?>">
             <td class="jbcart-image"><?php echo $image; ?></td>
             <td class="jbcart-name">
                 <?php
@@ -110,10 +110,8 @@ $jbhtml = $this->app->jbhtml;
         </tr>
     <?php } // endforeach ?>
     </tbody>
-
     <tfoot>
     <tr class="jbcart-row-total">
-
         <td colspan="3">
             <div>
                 <span class="jbcart-label"><?php echo JText::_('Товаров в корзине'); ?>:</span>
@@ -124,20 +122,17 @@ $jbhtml = $this->app->jbhtml;
                 <span class="jbcart-value jsTotalPrice"><?php echo $total->html(); ?></span>
             </div>
         </td>
-
         <td>
             <?php if ($view->shipping) : ?>
                 <div class="jbcart-label"><?php echo JText::_('Доставка'); ?>:</div>
                 <div class="jbcart-value jsShippingPrice"><?php echo JBCart::val(0)->html(); ?></div>
             <?php endif; ?>
         </td>
-
         <td colspan="2">
             <div class="jbcart-label"><?php echo JText::_('Итого к оплате'); ?>:</div>
             <div class="jbcart-value jsTotal"><?php echo $total->html(); ?></div>
         </td>
     </tr>
-
     <tr class="jbcart-row-remove">
         <td colspan="6">
             <a class="jsDeleteAll item-delete-all jbbutton orange"><?php echo JText::_('JBZOO_CART_REMOVE_ALL'); ?></a>
@@ -145,22 +140,3 @@ $jbhtml = $this->app->jbhtml;
     </tr>
     </tfoot>
 </table>
-
-
-<?php
-$this->app->jbassets->js('jbassets:js/cart/cart.js');
-
-$params = array(
-    'confirm_message' => JText::_('JBZOO_CART_CLEAR_CONFIRM'),
-    'url_quantity'    => $this->app->jbrouter->basketQuantity(),
-    'url_delete'      => $this->app->jbrouter->basketDelete(),
-    'url_clear'       => $this->app->jbrouter->basketClear(),
-    'params'          => (object)$params
-);
-
-?>
-<script type="text/javascript">
-    jQuery(function ($) {
-        $(".jbzoo .jsJBZooCart").JBZooCart(<?php echo json_encode($params);?>);
-    });
-</script>
