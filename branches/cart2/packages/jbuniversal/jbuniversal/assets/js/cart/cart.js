@@ -27,13 +27,9 @@
         quantity   : {},
         changeDelay: 400,
 
-        init: function ($this) {
-            $this.quantity = $this.$('.jsQuantity');
-            $this.quantity.JBZooQuantity('setOption', 'onChange', function (oldValue, newValue) {
-                var itemKey = this.el.closest('.jsCartTableRow').data('key');
-                $this._change(itemKey, newValue);
-            });
-
+        'change.JBZooQuantity .jsQuantity': function (e, $this, oldValue, newValue) {
+            var itemKey = $(this).closest('.jsCartTableRow').data('key');
+            $this._change(itemKey, newValue);
         },
 
         'click .jsDelete': function (e, $this) {

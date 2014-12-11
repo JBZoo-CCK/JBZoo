@@ -205,11 +205,9 @@
                      * @param callback
                      */
                     on: function (eventName, selector, callback) {
-                        var $this = this,
-                            eventName = eventName + '.' + $this._name;
 
-                        if (selector == parentSelector) {
-                            return $(this.el).on(eventName, function (event) {
+                        var $this = this,
+                            eventCallback = function (event) {
 
                                 var args = arguments,
                                     newArgs = [event, $this];
@@ -223,13 +221,18 @@
                                 }
 
                                 return callback.apply(this, newArgs);
-                            });
+                            };
+
+                        if (eventName.indexOf('.') == -1) {
+                            eventName = eventName + '.' + $this._name;
+                        }
+
+                        if (selector == parentSelector) {
+                            return $(this.el).on(eventName, eventCallback);
 
                         } else {
                             return $(this.el)
-                                .on(eventName, selector, function (event) {
-                                    return callback.apply(this, [event, $this]);
-                                })
+                                .on(eventName, selector, eventCallback)
                                 .find(selector);
                         }
                     },
@@ -271,10 +274,14 @@
                             selector = parentSelector;
 
                         } else {
-                            selector = arguments[2] || parentSelector;
+                            selector = arguments[1] || parentSelector;
                         }
 
-                        this.$(selector).trigger(trigger + '.' + this._name, data);
+                        if (trigger.indexOf('.') == -1) {
+                            trigger = trigger + '.' + this._name;
+                        }
+
+                        this.$(selector).trigger(trigger, data);
                     },
 
                     /**
