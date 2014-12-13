@@ -19,6 +19,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBEventApplication extends JBEvent
 {
+
     /**
      * On application installed
      * @param AppEvent $event
@@ -33,6 +34,8 @@ class JBEventApplication extends JBEvent
      */
     public static function init($event)
     {
+        $app = self::app();
+        $app->jbtemplate->init($event);
     }
 
     /**

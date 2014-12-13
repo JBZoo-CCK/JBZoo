@@ -21,11 +21,6 @@ class JBLayoutHelper extends AppHelper
 {
 
     /**
-     * @var string
-     */
-    private $_layoutDefault = '_default';
-
-    /**
      * @var Application
      */
     private $_application = null;
@@ -75,11 +70,9 @@ class JBLayoutHelper extends AppHelper
 
         if (isset($view->params)) {
             $this->_params = $view->params;
-
         } else {
             $this->_params = $this->_application->params;
         }
-
     }
 
     /**
@@ -177,34 +170,11 @@ class JBLayoutHelper extends AppHelper
     /**
      * Build layout variants
      * @param $vars
-     * @return array
+     * @return mixed
      */
     private function _buildVariants($vars)
     {
-        $tmplFullPaths = array();
-
-        if (isset($vars['params']) && $vars['layout'] != '__auto__') {
-            if ($tmpl = $vars['params']->get('config.layout_' . $vars['layout'], null)) {
-                $tmplFullPaths[] = $tmpl;
-            }
-        }
-
-        if (isset($vars['alias'])) {
-            $tmplFullPaths[] = $this->_application->alias . '.' . $vars['alias'];
-        }
-
-        if (isset($vars['id'])) {
-            $tmplFullPaths[] = $this->_application->alias . '.' . $vars['id'];
-        }
-
-        if ($template = $this->_application->params->get('template')) {
-            $tmplFullPaths[] = $this->_application->alias . '.' . $template;
-        }
-
-        $tmplFullPaths[] = $this->_application->alias;
-        $tmplFullPaths[] = $this->_layoutDefault;
-
-        return $tmplFullPaths;
+        return $this->_application->jbtemplate->buildVariants($vars);
     }
 
     /**
@@ -215,55 +185,7 @@ class JBLayoutHelper extends AppHelper
      */
     public function columns($layoutName, $objects)
     {
-        $cols_num   = $this->_params->get('template.' . $layoutName . '_cols', 1);
-        $cols_order = $this->_params->get('template.' . $layoutName . '_order', 1);
-
-        $vars = array(
-            'cols_num'   => $cols_num,
-            'cols_order' => $cols_order
-        );
-
-        // init vars
-        $i            = 0;
-        $columns      = array();
-        $column       = 0;
-        $row          = 0;
-        $countObjects = count($objects);
-        $rows         = ceil($countObjects / $cols_num);
-
-        if ($countObjects > 0) {
-            foreach ($objects as $object) {
-
-                if ($cols_order) {
-                    // order down
-                    if ($row >= $rows) {
-                        $column++;
-                        $row  = 0;
-                        $rows = ceil(($countObjects - $i) / ($cols_num - $column));
-                    }
-                    $row++;
-                    $i++;
-                } else {
-                    // order across
-                    $column = $i++ % $cols_num;
-                    $column = $i;
-                }
-
-                if (!isset($columns[$column])) {
-                    $columns[$column] = '';
-                }
-
-                if ($object instanceof Item) {
-                    $columns[$column] .= $this->renderItem($object);
-                } else {
-                    $columns[$column] .= $this->render($layoutName, $object, $vars);
-                }
-            }
-
-            return $this->render($layoutName . '_columns', $columns, $vars);
-        }
-
-        return false;
+        return $this->_application->jbtemplate->columns($layoutName, $objects, $this->getView());
     }
 
     /**
@@ -274,7 +196,6 @@ class JBLayoutHelper extends AppHelper
      */
     private function _getItemLayout($item, $layout)
     {
-
         $categoryId = $this->app->jbrequest->getSystem('category');
         if ($categoryId) {
             $category = $this->app->table->category->get($categoryId);
@@ -311,6 +232,7 @@ class JBLayoutHelper extends AppHelper
     }
 
     /**
+     * Render item wrapper
      * @param Item $item
      * @param string $defaultLayout
      * @param ItemRenderer|null $renderer
@@ -320,11 +242,8 @@ class JBLayoutHelper extends AppHelper
     {
         $this->app->jbdebug->mark('jblayout::renderItem (' . $item->id . ')::start');
 
-        //$this->app->event->dispatcher->notify($this->app->event->create($item, 'item:beforeRenderLayout', array('layout' => &$defaultLayout, 'render' => &$renderer)));
-
+        $htmlItem   = null;
         $itemLayout = $this->_getItemLayout($item, $defaultLayout);
-
-        $htmlItem = null;
 
         if (!$renderer && $this->_view) {
             $renderer = $this->_view->renderer;
@@ -334,22 +253,7 @@ class JBLayoutHelper extends AppHelper
             $htmlItem = $renderer->render($itemLayout, compact('item'));
         }
 
-        // add item wrapper if enabled
-        $wrapperTag = 'none';
-        if ($this->_application) {
-            $wrapperTag = $this->_application->params->get('global.config.wrap_item_style', 'none');
-        }
-
-        if ($wrapperTag != 'none') {
-            $class = array(
-                'jbzoo-item',
-                'jbzoo-item-' . $item->type,
-                'jbzoo-item-' . $defaultLayout,
-                'jbzoo-item-' . $item->id
-            );
-
-            $htmlItem = '<' . $wrapperTag . ' class="' . implode(' ', $class) . '">' . $htmlItem . '</' . $wrapperTag . '>';
-        }
+        $htmlItem = $item->getApplication()->jbtemplate->renderItem($item, $defaultLayout = 'teaser', $htmlItem);
 
         $this->app->event->dispatcher->notify($this->app->event->create($item, 'item:afterRenderLayout', array(
             'layout'   => &$defaultLayout,
@@ -369,7 +273,6 @@ class JBLayoutHelper extends AppHelper
      */
     public function checkLayout($item, $layout)
     {
-
         $layout = $this->_getItemLayout($item, $layout);
 
         if ($layout == 'item.teaser') {
