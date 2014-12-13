@@ -455,7 +455,7 @@ class JBHTMLHelper extends AppHelper
                     $("#' . $idtag . '-value-1").html(JBZoo.numberFormat(ui.values[1], 0, ".", " "));
                 }
             });
-		    $("#' . $idtag . '-value").val(' . (float)$value['0'] . '+ "/" +' . (float)$value['1'] . ');
+            $("#' . $idtag . '-value").val(' . (float)$value['0'] . '+ "/" +' . (float)$value['1'] . ');
         });');
 
         return '<div id="' . $idtag . '-wrapper"> </div>' . "\n"
