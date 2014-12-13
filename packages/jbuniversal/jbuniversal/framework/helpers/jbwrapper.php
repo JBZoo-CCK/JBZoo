@@ -12,54 +12,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 /**
  * Class JBWrapperHelper
  */
 class JBWrapperHelper extends AppHelper
 {
-
-    protected $_id     = 'jbzoo';
-    protected $_prefix = 'jbzoo';
-    protected $_yoo    = 'yoo-zoo';
-
-    /**
-     * Get differen system classes for parent wrapper element
-     * @return string
-     */
-    public function attrs()
-    {
-        $attrs = array();
-
-        // standart
-        $attrs['id']      = $this->_id;
-        $attrs['class'][] = $this->_prefix;
-
-        // view or task
-        if ($view = $this->app->jbrequest->get('view')) {
-            $attrs['class'][] = $this->_prefix . '-view-' . $view;
-        }
-
-        if ($task = $this->app->jbrequest->get('task')) {
-            $attrs['class'][] = $this->_prefix . '-view-' . $task;
-        }
-
-        // application info
-        $application = $this->app->zoo->getApplication();
-        if ($application) {
-            $attrs['class'][] = $this->_prefix . '-app-' . $application->alias;
-            $attrs['class'][] = $this->_prefix . '-tmpl-' . $application->getTemplate()->name;
-
-            $attrs['id']      = $this->_yoo;
-            $attrs['class'][] = $this->_yoo;
-
-            if ((int)$application->params->get('global.config.rborder', 1)) {
-                $attrs['class'][] = $this->_prefix . '-rborder';
-            }
-        }
-
-        return $this->_buildAttrs($attrs);
-    }
 
     /**
      * Tags on start
@@ -67,7 +24,7 @@ class JBWrapperHelper extends AppHelper
      */
     public function start()
     {
-        echo '<div ' . $this->attrs() . ">\n";
+        echo $this->app->zoo->getApplication()->jbtemplate->wrapStart();
     }
 
     /**
@@ -76,28 +33,7 @@ class JBWrapperHelper extends AppHelper
      */
     public function end()
     {
-        echo '</div>' . "\n";
+        echo $this->app->zoo->getApplication()->jbtemplate->wrapEnd();
     }
 
-    /**
-     * Convert array attrs to string
-     * @param array $attrs
-     * @return string
-     */
-    protected function _buildAttrs(array $attrs)
-    {
-        $result = array();
-
-        foreach ($attrs as $key => $attr) {
-
-            if (is_array($attr)) {
-                $result[] .= $key . '="' . implode(' ', $attr) . '"';
-            } else {
-                $result[] .= $key . '="' . $attr . '"';
-            }
-
-        }
-
-        return ' ' . implode(' ', $result) . ' ';
-    }
 }
