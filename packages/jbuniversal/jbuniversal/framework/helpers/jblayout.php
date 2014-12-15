@@ -55,7 +55,7 @@ class JBLayoutHelper extends AppHelper
         $this->_name         = strtolower(basename(get_class($this), 'Helper'));
         $this->_application  = $app->zoo->getApplication();
         $this->_rendererPath = $this->_application->getPath() .
-            '/templates/' . $this->_application->params->get('template') .
+            'templates/' . $this->_application->params->get('template') .
             '/renderer';
     }
 
@@ -196,14 +196,6 @@ class JBLayoutHelper extends AppHelper
      */
     private function _getItemLayout($item, $layout)
     {
-        $categoryId = $this->app->jbrequest->getSystem('category');
-        if ($categoryId) {
-            $category = $this->app->table->category->get($categoryId);
-            if ($category) {
-                $layout = $layout . '_' . $category->alias;
-            }
-        }
-
         if ($this->_params) {
             if (!isset($this->_params['template.layout_' . $layout])) {
                 $layout = $this->_params->get('template.layout_' . $layout, $layout);
