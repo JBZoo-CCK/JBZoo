@@ -20,12 +20,6 @@ class JBTemplateHelper extends AppHelper
 {
 
     /**
-     * Application group
-     * @var string
-     */
-    protected $_group = 'jbuniversal';
-
-    /**
      * Template class prefix
      * @var string
      */
@@ -48,7 +42,7 @@ class JBTemplateHelper extends AppHelper
         $appGroup    = $application->application_group;
         $template    = $application->params->get('template');
 
-        if ($isSite && $appGroup == $this->_group) {
+        if ($isSite && $appGroup == JBZOO_APP_GROUP) {
             $classPath     = $this->_getClassPath();
             $tmplClassPath = $this->_getTmplClassPath($template);
 
@@ -73,6 +67,10 @@ class JBTemplateHelper extends AppHelper
             } else {
                 $this->_initMethod($event, $this->_classPrefix);
             }
+        }
+
+        if ($appGroup == JBZOO_APP_GROUP) {
+            JFactory::getLanguage()->load('jbzoo_' . $template, $this->app->path->path('jbtmpl:' . $template));
         }
     }
 
