@@ -104,7 +104,10 @@ class JBTemplate
      */
     public function wrapStart()
     {
-        return '<div ' . $this->wrapperAttrs() . '>' . "\n";
+        $arrayAttrs = $this->wrapperAttrs();
+        $wrapAttrs  = $this->app->jbhtml->buildAttrs($arrayAttrs);
+
+        return '<div ' . $wrapAttrs . '>' . "\n";
     }
 
     /**
@@ -245,7 +248,7 @@ class JBTemplate
 
         $attrs['class'][] = 'clearfix';
 
-        return $this->app->jbhtml->buildAttrs($attrs);
+        return $attrs;
     }
 
     /**
