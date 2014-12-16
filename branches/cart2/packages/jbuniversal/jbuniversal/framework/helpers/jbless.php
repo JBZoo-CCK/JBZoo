@@ -42,7 +42,7 @@ class JBLessHelper extends AppHelper
     public function __construct($app)
     {
         parent::__construct($app);
-        $this->_lessFull = JPath::clean($this->app->path->path('jbassets:less'));
+        $this->_lessFull = JPath::clean($this->app->path->path('jbapp:assets/less'));
         $this->_lessRel  = JUri::root() . $this->app->path->relative($this->_lessFull);
 
         $this->_minFull = JPath::clean($this->app->path->path('root:') . '/cache/jbzoo_css');
@@ -149,11 +149,10 @@ class JBLessHelper extends AppHelper
         static $importHash;
 
         if (!isset($importHash)) {
-            $path   = $this->app->path->path('jbassets:less');
             $result = array();
             foreach ($this->_import as $import) {
-                $filePath = JPath::clean($path . '/' . $import);
-                $result[] = sha1_file($filePath);
+                $path     = JPath::clean($this->app->path->path('jbassets:less/' . $import));
+                $result[] = sha1_file($path);
             }
 
             $importHash = implode(':', $result);
