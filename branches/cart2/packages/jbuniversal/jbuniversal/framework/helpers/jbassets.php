@@ -24,7 +24,6 @@ class JBAssetsHelper extends AppHelper
      */
     public function setAppCss($alias = null)
     {
-        $this->less('jbassets:less/general.less');
         $this->css('jbassets:css/jbzoo.' . $alias . '.css');
     }
 
