@@ -134,7 +134,7 @@ class JBFieldHelper extends AppHelper
             }
         }
 
-        if (JFolder::exists($system)) {
+        if (JFolder::exists($system) && $system) {
             $files = JFolder::files($system, '^([-_A-Za-z0-9\.]*)\.php$', false, false, array('.svn', 'CVS'));
             foreach ($files as $tmpl) {
                 $tmpl           = basename($tmpl, '.php');
