@@ -162,7 +162,7 @@ class JBTemplate
     public function columns($layoutName, $objects, $view)
     {
         $colsNum   = $view->params->get('template.' . $layoutName . '_cols', 1);
-        $colsOrder = $view->params->get('template.' . $layoutName . '_cols', 1);
+        $colsOrder = $view->params->get('template.' . $layoutName . '_order', 1);
 
         $vars = array(
             'cols_num'   => $colsNum,

@@ -38,7 +38,7 @@ class JBEnvHelper extends AppHelper
     {
         $templateName = 'catalog';
         $currentApp   = $this->app->zoo->getApplication();
-        if ($currentApp) {
+        if ($currentApp && $currentApp->getTemplate()) {
             $templateName = $currentApp->getTemplate()->name;
         }
 
