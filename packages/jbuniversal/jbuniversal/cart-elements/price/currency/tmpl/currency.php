@@ -13,12 +13,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (count($list) > 1) :
-
+if (count($list) > 1) {
     $currencies = array_intersect_key((array)$this->_jbmoney->getData(), array_flip($list));
 
     echo $this->app->jbhtml->currencyToggle($currencies, $default, array(
         'target'      => $this->parentSelector(),
         'showDefault' => true
     ));
-endif;
+}

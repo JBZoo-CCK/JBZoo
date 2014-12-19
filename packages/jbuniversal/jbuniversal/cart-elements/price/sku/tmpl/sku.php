@@ -22,7 +22,6 @@ if ($sku) : ?>
         <span class="field-name">
             <?php echo JText::_('JBZOO_JBPRICE_SKU'); ?>:
         </span>
-
         <span class="sku"><?php echo $sku; ?></span>
     </div>
 

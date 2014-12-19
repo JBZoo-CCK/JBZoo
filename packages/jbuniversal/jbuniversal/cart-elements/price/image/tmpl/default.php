@@ -21,4 +21,3 @@ $jbhtml = $this->app->jbhtml;
     echo $jbhtml->text($this->getControlName('_image'), $this->getBasic('image'), 'class="jsJBPriceImage row-file" placeholder="Image"');
     ?>
 </div>
-

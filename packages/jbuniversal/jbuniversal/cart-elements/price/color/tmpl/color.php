@@ -14,6 +14,3 @@
 defined('_JEXEC') or die('Restricted access');
 
 echo $this->app->jbhtml->colors('radio', $colorItems, $this->getRenderName('value'), $this->getValue());
-
-
-

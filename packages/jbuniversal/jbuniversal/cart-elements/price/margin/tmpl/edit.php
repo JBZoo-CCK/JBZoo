@@ -17,4 +17,3 @@ $html    = $this->app->jbhtml;
 $variant = $this->config->get('_variant') ? '' : '-variant';
 
 echo $html->text($this->getControlName('value'), $margin->dump());
-

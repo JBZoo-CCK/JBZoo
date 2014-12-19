@@ -20,5 +20,3 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <a rel="nofollow" href="#remove-from-cart" class="jsRemoveFromCart jbbutton small remove-button"
        title="<?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?>"><?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?></a>
 </div>
-
-
