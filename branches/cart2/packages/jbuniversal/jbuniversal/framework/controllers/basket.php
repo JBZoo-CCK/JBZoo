@@ -166,7 +166,7 @@ class BasketJBUniversalController extends JBUniversalController
         $cart->remove($id, $key);
         $recount = $cart->recount();
 
-        $this->app->jbajax->send(array('prices' => $recount));
+        $this->app->jbajax->send(array('cart' => $recount));
     }
 
     /**
@@ -228,10 +228,24 @@ class BasketJBUniversalController extends JBUniversalController
             $cart->changeQuantity($key, $value);
             $recount = $cart->recount();
 
-            $this->app->jbajax->send(array('prices' => $recount));
+            $this->app->jbajax->send(array('cart' => $recount));
         }
 
         $this->app->jbajax->send(array('message' => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE')), false);
+    }
+
+    /**
+     *
+     */
+    public function shipping()
+    {
+        $shipping = $this->app->jbrequest->get('shipping');
+
+        $cart = JBCart::getInstance();
+
+        $cart->setShipping($shipping);
+
+        $this->app->jbajax->send(array('cart' => $cart->recount()));
     }
 
     /**
