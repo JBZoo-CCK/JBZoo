@@ -17,6 +17,8 @@ $this->app->jbassets->less('jbassets:less/cart/table.less');
 $string = $this->app->jbstring;
 $jbhtml = $this->app->jbhtml;
 
+$order = JBCart::getInstance()->newOrder();
+
 ?>
 
 <table class="jbcart-table jsJBZooCartTable">
@@ -38,7 +40,6 @@ $jbhtml = $this->app->jbhtml;
 
     <?php
     $total = JBCart::val();
-    $count = 0;
     foreach ($view->items as $itemKey => $data) {
         $data = $this->app->data->create($data);
         unset($view->items[$itemKey]['params']);
@@ -49,7 +50,6 @@ $jbhtml = $this->app->jbhtml;
         $price = JBCart::val($data->get('total'));
 
         $quantity = $data->get('quantity', 1);
-        $count += $quantity;
 
         $total->add($price->multiply($quantity, true));
 
@@ -105,7 +105,9 @@ $jbhtml = $this->app->jbhtml;
             </td>
             <td class="jbcart-price jsPrice"><?php echo $price->html(); ?></td>
             <td class="jbcart-quantity"><?php echo $jbhtml->quantity($quantity, $data->find('params._quantity', array())); ?></td>
-            <td class="jbcart-subtotal jsSubtotal"><?php echo $price->multiply($quantity, true)->html(); ?></td>
+            <td class="jbcart-subtotal jsSubtotal jsPrice-<?php echo $itemKey;?>">
+                <?php echo $price->multiply($quantity, true)->html(); ?>
+            </td>
             <td class="jbcart-delete"><a class="jbbutton orange round jsDelete">x</a></td>
         </tr>
     <?php } // endforeach ?>
@@ -115,22 +117,22 @@ $jbhtml = $this->app->jbhtml;
         <td colspan="3">
             <div>
                 <span class="jbcart-label"><?php echo JText::_('Товаров в корзине'); ?>:</span>
-                <span class="jbcart-value jsTotalCount"><?php echo $count; ?></span>
+                <span class="jbcart-value jsTotalCount"><?php echo $order->getTotalCount(); ?></span>
             </div>
             <div>
                 <span class="jbcart-label"><?php echo JText::_('на сумму'); ?>:</span>
-                <span class="jbcart-value jsTotalPrice"><?php echo $total->html(); ?></span>
+                <span class="jbcart-value jsTotalPrice"><?php echo $order->getTotalForItems()->html(); ?></span>
             </div>
         </td>
         <td>
             <?php if ($view->shipping) : ?>
                 <div class="jbcart-label"><?php echo JText::_('Доставка'); ?>:</div>
-                <div class="jbcart-value jsShippingPrice"><?php echo JBCart::val(0)->html(); ?></div>
+                <div class="jbcart-value jsShippingPrice"><?php echo $order->getShippingPrice()->html(); ?></div>
             <?php endif; ?>
         </td>
         <td colspan="2">
             <div class="jbcart-label"><?php echo JText::_('Итого к оплате'); ?>:</div>
-            <div class="jbcart-value jsTotal"><?php echo $total->html(); ?></div>
+            <div class="jbcart-value jsTotal"><?php echo $order->getTotalSum()->html(); ?></div>
         </td>
     </tr>
     <tr class="jbcart-row-remove">
