@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -31,7 +30,7 @@ class ShippingRenderer extends PositionRenderer
     protected $_jbconfig = null;
 
     /**
-     * @param App $app
+     * @param App  $app
      * @param null $path
      */
     public function __construct($app, $path = null)
@@ -65,7 +64,7 @@ class ShippingRenderer extends PositionRenderer
 
     /**
      * @param string $position
-     * @param array $args
+     * @param array  $args
      * @return string|void
      */
     public function renderPosition($position, $args = array())
@@ -78,7 +77,7 @@ class ShippingRenderer extends PositionRenderer
 
         // render elements
         foreach ($this->_getConfigPosition($position) as $index => $data) {
-            if ($element = $this->_order->getShippingElement($data['identifier'])) {
+            if ($element = $this->_getElement($data['identifier'])) {
 
                 if (!$element->canAccess() || !$element->hasValue()) {
                     continue;
@@ -156,7 +155,7 @@ class ShippingRenderer extends PositionRenderer
 
     /**
      * @param string $layout
-     * @param array $args
+     * @param array  $args
      * @return string|void
      */
     public function render($layout, $args = array())
@@ -232,6 +231,22 @@ class ShippingRenderer extends PositionRenderer
         $this->_layout = $layout;
 
         return $output;
+    }
+
+    /**
+     * @param $identifier
+     * @return JBCartElementShipping
+     */
+    protected function _getElement($identifier)
+    {
+        $shippingList = JBCart::getInstance()->getShippingList();
+
+        $shipping = $this->_order->getShippingElement($identifier);
+        if (isset($shippingList[$identifier])) {
+            $shipping->bindData($shippingList[$identifier]);
+        }
+
+        return $shipping;
     }
 
 }
