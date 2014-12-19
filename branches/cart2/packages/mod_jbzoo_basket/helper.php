@@ -30,6 +30,11 @@ class JBZooBasketHelper
     protected $_module = null;
 
     /**
+     * @var JBCartOrder
+     */
+    protected $_order = null;
+
+    /**
      * @var App
      */
     public $app = null;
@@ -46,6 +51,8 @@ class JBZooBasketHelper
         $this->_module = $module;
 
         JBZoo::init();
+
+        $this->_order = JBCart::getInstance()->newOrder();
     }
 
     /**
@@ -84,26 +91,7 @@ class JBZooBasketHelper
      */
     public function getSumm()
     {
-        $currency = $this->_params->get('currency', 'EUR');
-        $items    = $this->getBasketItems();
-
-        $total = JBCart::val();
-        foreach ($items as $item) {
-            $value = JBCart::val($item['total']);
-            $value->multiply($item['quantity']);
-            $total->add($value);
-        }
-
-        return $total->html($currency);
-    }
-
-    /**
-     * Get currency
-     * @return mixed
-     */
-    public function getCurrency()
-    {
-        return $this->_params->get('currency', 'EUR');
+        return $this->_order->getTotalSum();
     }
 
     /**
@@ -112,7 +100,7 @@ class JBZooBasketHelper
      */
     public function getBasketItems()
     {
-        return JBCart::getInstance()->getItems();
+        return $this->_order->getItems();
     }
 
     /**
