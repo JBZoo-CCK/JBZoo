@@ -20,5 +20,5 @@ echo $this->app->html->_('control.text', $this->getControlName('value'), $this->
     'maxlength'   => '255',
     'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_VALUE'),
     'id'          => $elId . '-basic-value',
-    'class'       => 'basic-value',
+    'class'       => 'basic-value'
 ));
