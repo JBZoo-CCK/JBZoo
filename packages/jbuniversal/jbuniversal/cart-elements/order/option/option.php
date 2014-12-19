@@ -134,5 +134,4 @@ class JBCartElementOrderOption extends JBCartElementOrder
         return compact('option');
     }
 
-
 }

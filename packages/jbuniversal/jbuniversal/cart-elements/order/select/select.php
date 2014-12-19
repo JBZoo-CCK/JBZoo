@@ -26,7 +26,6 @@ class JBCartElementOrderSelect extends JBCartElementOrderOption
      */
     public function renderSubmission($params = array())
     {
-
         // init vars
         $optionList = $this->config->get('option', array());
         $multiple   = $this->config->get('multiple');
@@ -60,6 +59,5 @@ class JBCartElementOrderSelect extends JBCartElementOrderOption
 
         return JText::_("There are no options to choose from.");
     }
-
 
 }

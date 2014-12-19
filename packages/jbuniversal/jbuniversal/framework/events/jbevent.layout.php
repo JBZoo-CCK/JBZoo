@@ -26,7 +26,6 @@ class JBEventLayout extends JBEvent
      */
     public static function init($event)
     {
-
     }
 
 }

@@ -98,4 +98,5 @@ class JBCartElementEmailAttach extends JBCartElementEmail
 
         return $this;
     }
+
 }

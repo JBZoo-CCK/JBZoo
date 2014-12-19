@@ -27,7 +27,6 @@ class JBCartElementOrderDate extends JBCartElementOrder
      */
     public function edit($params = array())
     {
-
         if ($value = $this->get('value', '')) {
             try {
                 $value = $this->app->html->_(
