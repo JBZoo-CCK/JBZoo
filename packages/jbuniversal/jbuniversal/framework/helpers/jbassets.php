@@ -82,7 +82,8 @@ class JBAssetsHelper extends AppHelper
                 'jbassets:js/widget.js',
                 'jbassets:js/jbzoo.js',
                 'jbassets:js/front-end.js',
-                'jbassets:js/widget/goto.js'
+                'jbassets:js/widget/goto.js',
+                'jbassets:js/widget/select.js',
             ));
         }
     }
@@ -243,7 +244,8 @@ class JBAssetsHelper extends AppHelper
             'jbassets:js/cart/cart.js',
             'jbassets:js/cart/module.js',
             'jbassets:js/cart/shipping.js',
-            'jbassets:js/cart/shipping-default.js'
+            'jbassets:js/cart/shipping-type.js',
+            'jbassets:js/widget/money.js',
         ));
     }
 
