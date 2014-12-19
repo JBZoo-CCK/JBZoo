@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -38,6 +37,21 @@ class JBShippingHelper extends AppHelper
         $list = $this->app->jbcartposition->loadElements(JBCart::ELEMENT_TYPE_SHIPPINGFIELD);
 
         return $list;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfigAssign()
+    {
+        $elements = $this->getEnabled();
+
+        $result = array();
+        foreach ($elements as $element) {
+            $result[$element->identifier] = $element->config->get('shippingfields');
+        }
+
+        return $result;
     }
 
 }
