@@ -299,8 +299,10 @@ class JBTemplate
      */
     protected function _registerPaths($templateName)
     {
-        $this->app->path->register($this->app->path->path('jbtmpl:' . $templateName) . DS . 'assets', 'jbassets');
-        $this->app->path->register($this->app->path->path('jbtmpl:' . $templateName) . DS . 'classes', 'classes');
+        $this->app->path->register($this->app->path->path('jbtmpl:' . $templateName . '/assets'), 'jbassets');
+        $this->app->path->register($this->app->path->path('jbtmpl:' . $templateName . '/helpers'), 'helpers');
+        $this->app->path->register($this->app->path->path('jbtmpl:' . $templateName . '/elements'), 'elements');
+        $this->app->path->register($this->app->path->path('jbtmpl:' . $templateName . '/cart-elements'), 'cart-elements');
     }
 
 }
