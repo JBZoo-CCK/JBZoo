@@ -48,6 +48,9 @@
         $.fn.JBZooKeyValue();
         $.fn.JBZooJKeyValue();
         $.fn.JBZooItemOrder();
+
+        // wrapper for all select with chosen
+        $('.jbzoo select').JBZooSelect();
     });
 
 })(jQuery, window, document);

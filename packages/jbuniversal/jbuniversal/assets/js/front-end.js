@@ -17,6 +17,8 @@
         // Goto link by button click
         $('.jbzoo .jsGoto').JBZooGoto();
 
+        // wrapper for all select with chosen
+        $('.jbzoo select').JBZooSelect();
     });
 
 })(jQuery, window, document);
