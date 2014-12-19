@@ -258,7 +258,6 @@ class JBCartValue
             $html  = '<span class="hasTip" title="' . $title . '">' . $html . '</span>';
         }
 
-
         return $html;
     }
 
@@ -279,8 +278,17 @@ class JBCartValue
     public function dump($showId = false)
     {
         $id = $showId ? ';id=' . $this->_id : '';
-
         return $this->_value . ' ' . $this->_currency . $id;
+    }
+
+    /**
+     * @param bool $toString
+     * @return array|string
+     */
+    public function data($toString = false)
+    {
+        $data = array($this->val(), $this->cur());
+        return (int)$toString ? implode(' ', $data) : $data;
     }
 
     /**
