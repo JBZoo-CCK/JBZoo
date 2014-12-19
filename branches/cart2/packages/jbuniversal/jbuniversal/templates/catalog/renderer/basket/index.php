@@ -61,10 +61,12 @@ $this->app->jbassets->basket();
             $(".jbzoo .jsJBZooCart").JBZooCart(<?php echo json_encode(array(
                 'text_remove_all'  => JText::_('JBZOO_CART_CLEANUP'),
                 'text_remove_item' => JText::_('JBZOO_CART_REMOVE_ITEM'),
+                'url_shipping'     => $this->app->jbrouter->basketShipping(),
                 'url_quantity'     => $this->app->jbrouter->basketQuantity(),
                 'url_delete'       => $this->app->jbrouter->basketDelete(),
                 'url_clear'        => $this->app->jbrouter->basketClear(),
                 'items'            => $view->items,
+                'rates'            => $this->app->jbmoney->getData(),
             ));?>);
         });
     </script>
