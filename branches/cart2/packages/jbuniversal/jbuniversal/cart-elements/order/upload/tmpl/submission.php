@@ -19,6 +19,10 @@ defined('_JEXEC') or die('Restricted access');
 
     <div class="download-select">
 
+        <?php if ($max_size) { ?>
+            <div class="info"><?php echo JText::sprintf( 'JBZOO_CART_UPLOAD_MAX_SIZE', $max_size ); ?></div>
+        <?php } ?>
+
         <div class="upload">
             <input type="text" id="filename<?php echo $this->identifier; ?>" readonly="readonly"/>
 
@@ -33,9 +37,21 @@ defined('_JEXEC') or die('Restricted access');
 
     </div>
 
-    <div class="download-preview">
-        <span class="preview"><?php echo $upload; ?></span>
-        <span class="download-cancel" title="<?php JText::_('Remove file'); ?>"></span>
-    </div>
-
 </div>
+
+<?php if ($max_size) { ?>
+    <script>
+        jQuery('input[name="elements_<?php echo $this->identifier; ?>"]').bind('change', function() {
+
+            if (this.files[0].size > parseInt(<?php echo $max_size; ?>)) {
+
+                alert("<?php echo JText::sprintf( 'JBZOO_CART_UPLOAD_MAX_SIZE_REACHED', $max_size ); ?>");
+                jQuery(this).val('');
+                jQuery('#filename<?php echo $this->identifier; ?>').val('');
+                jQuery('input[name="<?php echo $this->getControlName('upload'); ?>"]').val('');
+
+            }
+
+        });
+    </script>
+<?php } ?>
