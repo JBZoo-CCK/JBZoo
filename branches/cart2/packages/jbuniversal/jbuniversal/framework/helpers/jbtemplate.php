@@ -49,17 +49,7 @@ class JBTemplateHelper extends AppHelper
             require_once "{$classPath}";
             $this->_initMethod($event, $this->_classPrefix, 'init');
 
-            if (preg_match('/[-_]/', $template)) {
-                $newName  = null;
-                $template = preg_replace('/[-_]/', $this->_replacement, $template);
-                $template = explode($this->_replacement, $template);
-
-                foreach ($template as $subStr) {
-                    $newName .= JString::ucfirst($subStr);
-                }
-
-                $template = $newName;
-            }
+            $template = $this->camelize($template);
 
             if (file_exists($tmplClassPath)) {
                 require_once "{$tmplClassPath}";
@@ -72,6 +62,28 @@ class JBTemplateHelper extends AppHelper
         if ($appGroup == JBZOO_APP_GROUP) {
             JFactory::getLanguage()->load('jbzoo_' . $template, $this->app->path->path('jbtmpl:' . $template));
         }
+    }
+
+    /**
+     * Camilize string
+     * @param string $template
+     * @return array|mixed|null|string
+     */
+    public function camelize($template = 'catalog')
+    {
+        if (preg_match('/[-_]/', $template)) {
+            $newName  = null;
+            $template = preg_replace('/[-_]/', $this->_replacement, $template);
+            $template = explode($this->_replacement, $template);
+
+            foreach ($template as $subStr) {
+                $newName .= JString::ucfirst($subStr);
+            }
+
+            $template = $newName;
+        }
+
+        return $template;
     }
 
     /**
