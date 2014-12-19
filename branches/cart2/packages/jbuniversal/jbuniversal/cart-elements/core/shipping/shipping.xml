@@ -9,30 +9,21 @@
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
     <params>
-        <param name="name"
-               type="text"
-               default=""
-               label="JBZOO_ELEMENT_NAME"
-               description="JBZOO_ELEMENT_NAME_DESC"/>
+        <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME" description="JBZOO_ELEMENT_NAME_DESC"/>
 
-        <param name="description"
-               type="text"
-               default=""
-               label="JBZOO_ELEMENT_DESCRIPTION"
+        <param name="description" type="text" default="" label="JBZOO_ELEMENT_DESCRIPTION"
                description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
 
-        <param name="access"
-               type="zooaccesslevel"
-               default=""
-               label="JBZOO_ELEMENT_ACCESS"
+        <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
                description="JBZOO_ELEMENT_ACCESS_DESC"/>
 
-        <param name="shippingfields"
-               type="jbcartfields"
-               group="CONFIG_SHIPPINGFIELDS"
-               position="DEFAULT_POSITION"
-               multiple="true"
-               label="JBZOO_SHIPPING_SHIPPINGFIELDS_LABEL"
-               desc="JBZOO_SHIPPING_SHIPPINGFIELDS_DESC"/>
+        <param name="currency" type="jbcurrency" default="eur" label="JBZOO_SHIPPING_CURRENCY"
+               description="JBZOO_SHIPPING_CURRENCY_DESC"/>
+
+        <param name="modifytotal" type="jbbool" default="0" label="JBZOO_SHIPPING_MODIFYTOTAL"
+               description="JBZOO_SHIPPING_MODIFYTOTAL_DESC"/>
+
+        <param name="shippingfields" type="jbcartfields" group="CONFIG_SHIPPINGFIELDS" position="DEFAULT_POSITION"
+               multiple="true" label="JBZOO_SHIPPING_SHIPPINGFIELDS_LABEL" desc="JBZOO_SHIPPING_SHIPPINGFIELDS_DESC"/>
     </params>
 </element>

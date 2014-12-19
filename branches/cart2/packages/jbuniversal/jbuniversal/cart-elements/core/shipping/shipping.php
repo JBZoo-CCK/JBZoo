@@ -18,40 +18,19 @@ defined('_JEXEC') or die('Restricted access');
 abstract class JBCartElementShipping extends JBCartElement
 {
     /**
-     * Default price
-     * @var float|mixed
-     */
-    public $default_price = 0.00;
-
-    /**
-     * Path to shipping service
-     * @var
-     */
-    protected $_url;
-
-    /**
      * @var string
      */
     protected $_namespace = JBCart::ELEMENT_TYPE_SHIPPING;
+
+    /**
+     * @type JSONData
+     */
+    protected $_cartConfig = null;
+
     /**
      * @var JBMoneyHelper
      */
     protected $_jbmoney;
-
-    /**
-     * Default cart options
-     * @var JSONData
-     */
-    protected $_cartConfig;
-
-    /**
-     * Currency symbol
-     * @var string
-     */
-    protected $_symbol = null;
-
-    const HTTP_POST = 'post';
-    const HTTP_GET  = 'get';
 
     /**
      * Class constructor
@@ -63,49 +42,19 @@ abstract class JBCartElementShipping extends JBCartElement
     {
         parent::__construct($app, $type, $group);
 
-        $this->_cartConfig = $this->_getCartConfig();
-
-        $this->_jbmoney = $this->app->jbmoney;
-        //$this->_symbol  = $this->_jbmoney->getSymbol($this->currency());
-
-        $this->default_price = $this->_jbmoney->format(0);
+        $this->_jbmoney    = $this->app->jbmoney;
+        $this->_cartConfig = JBModelConfig::model()->getGroup('cart.config');
 
         $this->registerCallback('ajaxGetPrice');
     }
 
     /**
-     * Get price form element config
      * @param  array $params
-     * @return integer
+     * @return bool
      */
-    abstract function getPrice($params = array());
-
-    /**
-     * Convert price to shipping service currency
-     * before/after send call service.
-     * @param $price
-     * @param $from
-     * @param $to
-     * @return integer
-     */
-    public function convert($price, $from, $to)
+    public function hasValue($params = array())
     {
-        $value = $this->_jbmoney->convert($from, $to, $price);
-
-        if (JString::strlen($price) === 0 || $price === 0) {
-            $value = JText::_('JBZOO_CART_SHIPPING_VALUE_DEFAULT');
-        }
-
-        return $value;
-    }
-
-    /**
-     * @param $price
-     * @return float
-     */
-    public function clear($price)
-    {
-        return $this->_jbmoney->clearValue($price);
+        return true;
     }
 
     /**
@@ -114,7 +63,19 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     public function modify(JBCartValue $summa)
     {
+        if ((int)$this->config->get('modifytotal', 0)) {
+            $summa->add($this->getRate());
+        }
+
         return $summa;
+    }
+
+    /**
+     * @return JBCartValue
+     */
+    public function getRate()
+    {
+        return $this->_order->val(0);
     }
 
     /**
@@ -131,8 +92,19 @@ abstract class JBCartElementShipping extends JBCartElement
                 'fields' => $this->get('fields', array())
             ));
         }
+    }
 
-        return false;
+    /**
+     * @param array $params
+     * @return mixed|string
+     */
+    public function renderSubmission($params = array())
+    {
+        if ($layout = $this->getLayout('submission.php')) {
+            return self::renderLayout($layout, array(
+                'params' => $params,
+            ));
+        }
     }
 
     /**
@@ -140,9 +112,9 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     public function isDefault()
     {
-        $shipping = JBModelConfig::model()->get('default_shipping', null, 'cart.config');
+        $shipping = JBCart::getInstance()->getShipping();
 
-        return $this->identifier == $shipping;
+        return $this->identifier == $shipping['_shipping_id'];
     }
 
     /**
@@ -176,57 +148,13 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * @return bool|string
-     */
-    public function renderFields()
-    {
-        if ($layout = $this->getLayout('fields.php')) {
-            return self::renderLayout($layout);
-        }
-
-        return false;
-    }
-
-    /**
      * @param      $name
      * @param bool $array
      * @return string|void
      */
     public function getControlName($name, $array = false)
     {
-        return $this->_namespace . '[' . $name . ']';
-    }
-
-    /**
-     * @return JBCartValue
-     */
-    public function getRate()
-    {
-        return $this->_order->val(0);
-    }
-
-    /**
-     * @param  array $params
-     * @return string
-     */
-    public function mergeParams($params = array())
-    {
-        $defaultParams = $this->getDefaultParams();
-
-        if (!empty($params)) {
-
-            $defaultParams = array_change_key_case($defaultParams, CASE_LOWER);
-            $params        = array_change_key_case($params, CASE_LOWER);
-
-            foreach ($defaultParams as $key => $param) {
-
-                if (!empty($params[$key])) {
-                    $defaultParams[$key] = JString::strtolower($params[$key]);
-                }
-            }
-        }
-
-        return $defaultParams;
+        return $this->_namespace . '[' . $name . ']' . ($array ? '[]' : '');
     }
 
     /**
@@ -235,10 +163,10 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     public function getDefaultParams()
     {
-        $prop   = $this->getBasketProperties();
+        $prop   = $this->getCartProperties();
         $params = array(
             'city'   => $this->_getDefaultCity(),
-            'weight' => $this->getBasketWeight(),
+            'weight' => JBCart::getInstance()->getWeight(),
             'height' => $prop['height'],
             'width'  => $prop['width'],
             'depth'  => $prop['length'],
@@ -249,102 +177,18 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * Get the weight of all items in basket.
-     * @return int
-     */
-    public function getBasketWeight()
-    {
-        $cart = JBcart::getInstance();
-
-        $weight = $cart->getWeight();
-
-        return $weight;
-    }
-
-    /**
-     * Get the properties(width, height, length) of all items in basket.
-     * @return array
-     */
-    public function getBasketProperties()
-    {
-        $cart = JBcart::getInstance();
-
-        $properties = $cart->getProperties();
-
-        return $properties;
-    }
-
-    /**
-     * Get price for all items in basket
-     * @param string $currency
-     * @return int|mixed
-     */
-    public function getBasketValue($currency = 'EUR')
-    {
-        $cart   = JBcart::getInstance();
-        $items  = $cart->getItems();
-        $result = 0;
-
-        foreach ($items as $item) {
-
-            $value = $item['quantity'] * $item['price'];
-
-            $result += $this->_jbmoney->convert($item['currency'], $currency, $value);
-        }
-
-        return (float)$result;
-    }
-
-    /**
-     * Get all items in basket
-     * @return mixed
-     */
-    public function getBasketItems()
-    {
-        $cart  = JBCart::getInstance();
-        $items = $cart->getItems();
-
-        return $items;
-    }
-
-    /**
-     * Make path to service api from params
-     * @param  array $params
-     * @return string
-     */
-    public function getServicePath($params = array())
-    {
-        $result = $this->_url;
-
-        if (empty($params)) {
-            return $result;
-        }
-
-        foreach ($params as $key => $value) {
-            $result .= $key . '=' . $value . '&';
-        }
-
-        return $result;
-    }
-
-    /**
      * Try to get currency from order or cart config
      * @return mixed
      */
-    public function currency()
+    public function getCurrency()
     {
-        $currency = $this->_cartConfig->get('default_currency', 'EUR');
-        if (isset($this->_order->id)) {
-            $currency = $this->_order->getCurrency();
-        }
-
-        return $currency;
+        return $this->config->get('currency', 'eur');
     }
 
     /**
      * Save data in the order.
-     * Data comes from method - validateSubmission.
-     * return array
+     * Data comes from method - validateSubmission
+     * return JSONData
      */
     public function getOrderData()
     {
@@ -358,81 +202,24 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * Get array of parameters to push it into(data-params) element div
-     * @param  boolean $encode - Encode array or no
-     * @return string|array
+     * Validates the submited element
+     * @param $value
+     * @param $params
+     * @return array
      */
-    public function getWidgetParams($encode = true)
+    public function validateSubmission($value, $params)
     {
-        $params = array(
-            'shippingfields' => implode(':', $this->config->get('shippingfields', array())),
-            'getPriceUrl'    => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetPrice'),
-            'default_price'  => $this->config->get('cost', '-'),
-            'symbol'         => $this->_symbol
-        );
-
-        return $encode ? json_encode($params) : $params;
+        return array('value' => $this->getRate());
     }
 
     /**
-     *
+     * Get shipping price by ajax
      */
-    public function ajaxGetPrice($fields = '')
+    public function ajaxGetPrice()
     {
-        $price = $this->getPrice();
         $this->app->jbajax->send(array(
-            'price' => $this->_jbmoney->toFormat($price)
+            'price' => $this->getRate()->html(),
         ));
-    }
-
-    /**
-     * Cleans data
-     * @param  string         $data
-     * @param  string|boolean $charlist
-     * @return string mixed
-     */
-    public function clean($data, $charlist = false)
-    {
-        if (!is_array($data)) {
-            return $this->_clean($data, $charlist);
-        }
-
-        foreach ($data as $key => $value) {
-            $data[$this->_clean($key, $charlist)] = $this->_clean($value, $charlist);
-        }
-
-        return $data;
-    }
-
-    /**
-     * Decoding the result of API call
-     * @param $responseBody
-     * @return mixed
-     */
-    public function processingData($responseBody)
-    {
-        return $responseBody;
-    }
-
-    /**
-     * Make request to service and get results
-     * @param  string $url    - Shipping service url.
-     * @param  string $method - POST, GET.
-     * @param  array  $data   - Data for POST $method
-     * @return bool|array
-     */
-    protected function _callService($url, $method = 'get', $data = array())
-    {
-        $response = $this->app->jbhttp->request($url, $data, array(
-            'method'    => $method,
-            'cache'     => 1,
-            'cache_ttl' => 60,
-            'cache_id'  => $this->getElementGroup() . '_' . $this->getElementType(),
-        ));
-
-        $responseData = $this->processingData($response);
-
-        return $responseData;
     }
 
     /**
@@ -442,9 +229,7 @@ abstract class JBCartElementShipping extends JBCartElement
     protected function _getDefaultCity()
     {
         $city = $this->_cartConfig->get('default_shipping_city');
-        $city = JString::trim($city);
-
-        return JString::strtolower($city);
+        return $this->app->jbvars->lower($city);
     }
 
     /**
@@ -455,57 +240,9 @@ abstract class JBCartElementShipping extends JBCartElement
     {
         $country = $this->_cartConfig->get('default_shipping_country');
         $country = JString::trim($country);
+        $country = JString::strtolower($country);
 
-        return JString::strtolower($country);
-    }
-
-    /**
-     * Get default value for select
-     * @param string $type - Can be language constant or just a string.
-     * @return array
-     */
-    protected function _getDefaultValue($type = 'JBZOO_NONE')
-    {
-        return array('' => '-&nbsp;' . JText::_($type) . '&nbsp;-');
-    }
-
-    /**
-     * @return JSONData
-     */
-    protected function _getCartConfig()
-    {
-        $config = JBModelConfig::model();
-
-        return $config->getGroup('cart.config');
-    }
-
-    /**
-     * @param  JBCartOrder $order
-     * @return array
-     */
-    protected function _getParamsFromOrder(JBCartOrder $order)
-    {
-        $fields = $order->getShippingFields();
-        $params = array();
-
-        foreach ($fields as $identifier => $field) {
-            $params[$identifier] = $field->get('value');
-        }
-
-        return $params;
-    }
-
-    /**
-     * @param  string      $str
-     * @param  bool|string $charlist
-     * @return mixed|string
-     */
-    private function _clean($str, $charlist = false)
-    {
-        $str = JString::trim($str, $charlist);
-        $str = JString::strtolower($str);
-
-        return $str;
+        return $country;
     }
 
     /**
@@ -537,6 +274,13 @@ abstract class JBCartElementShipping extends JBCartElement
         $this->set('status', $newStatus);
     }
 
+    /**
+     * @return float
+     */
+    protected function _getWeight()
+    {
+        return $this->_order->getTotalWeight();
+    }
 }
 
 /**
