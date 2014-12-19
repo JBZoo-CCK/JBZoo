@@ -12,8 +12,8 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-if ($margin->isPositive()) : ?>
 
+if ($margin->isPositive()) : ?>
     <table cellpadding="0" cellspacing="0" border="0" class="no-border">
         <tr>
             <td><?php echo JText::_('JBZOO_JBPRICE_PRICE_PRICE'); ?>:</td>
@@ -35,5 +35,4 @@ if ($margin->isPositive()) : ?>
             </td>
         </tr>
     </table>
-
 <?php endif;

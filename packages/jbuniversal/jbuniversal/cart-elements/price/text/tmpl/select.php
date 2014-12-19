@@ -13,7 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (count($data)) :
-    echo $this->app->jbhtml->select($data, $this->getRenderName('value'), null,
-        $this->getValue('value'));
-endif;
+if (count($data)) {
+    echo $this->app->jbhtml->select($data, $this->getRenderName('value'), null, $this->getValue('value'));
+}

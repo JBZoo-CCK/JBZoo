@@ -27,7 +27,7 @@ if ($value = $this->getValue('value', '')) {
 }
 echo $this->app->html->_('zoo.calendar', $value, $this->getControlName('value'), $unique, array(
     'class' => $string->getId('calendar-element-')
-), TRUE);
+), true);
 
 
 

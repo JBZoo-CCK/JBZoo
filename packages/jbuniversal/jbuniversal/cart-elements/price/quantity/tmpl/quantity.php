@@ -30,7 +30,6 @@ if ($isEnabled) : ?>
             <?php echo $this->app->jbhtml->quantity($default, $params, $unique, $this->getRenderName('value')); ?>
         </label>
     </div>
-
 <?php else : ?>
     <div class="count-value-wrapper">
         <?php echo JText::_('JBZOO_JBPRICE_COUNT_DEFAULT_VALUE'); ?>: <span class="jsCountValue">1</span>

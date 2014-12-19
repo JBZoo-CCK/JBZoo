@@ -15,7 +15,6 @@ defined('_JEXEC') or die('Restricted access');
 
 $unique = $this->app->jbstring->getId('select-chosen-');
 
-if (count($data)) :
-    echo $this->app->jbhtml->selectChosen($data, $this->getRenderName('value'), null,
-        $this->getValue('value'), $unique);
-endif;
+if (count($data)) {
+    echo $this->app->jbhtml->selectChosen($data, $this->getRenderName('value'), null, $this->getValue('value'), $unique);
+}
