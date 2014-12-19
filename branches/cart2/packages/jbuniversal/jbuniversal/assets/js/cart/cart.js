@@ -15,17 +15,24 @@
      * JBZoo Cart widget
      */
     JBZoo.widget('JBZoo.Cart', {
-        'text_remove_all' : '',
         'text_remove_item': '',
+        'text_remove_all' : '',
+        'url_shipping'    : '',
         'url_quantity'    : '',
         'url_delete'      : '',
         'url_clear'       : '',
-        'items'           : {}
+        'items'           : {},
+        'rates'           : {}
     }, {
-        shipping   : {},
-        params     : {},
-        quantity   : {},
-        changeDelay: 400,
+        shipping      : {},
+        shippingFields: {},
+        changeDelay   : 400,
+
+        init: function ($this) {
+            $this.shipping = $this.$('.jsShipping');
+            $this.shippingFields = $this.$('.jsShippingField');
+
+        },
 
         'change.JBZooQuantity .jsQuantity': function (e, $this, oldValue, newValue) {
             var itemKey = $(this).closest('.jsCartTableRow').data('key');
@@ -35,7 +42,7 @@
         'click .jsDelete': function (e, $this) {
 
             var $tableRow = $(this).closest('.jsCartTableRow'),
-                itemsCount = $this.$('.jsCartTableRow');
+                itemsCount = $this.$('.jsCartTableRow').length;
 
             $this.confirm($this.options.text_remove_item, function () {
                 $this.ajax({
@@ -47,8 +54,8 @@
                     'success': function (data) {
 
                         if (itemsCount != 1) {
-                            $this._updateData(data.prices);
-                            $this._reloadModule();
+                            $this.updatePrices(data.cart);
+                            $this.reloadModule();
                         } else {
                             window.location.reload();
                         }
@@ -99,8 +106,8 @@
                         key  : itemKey
                     },
                     success: function (data) {
-                        $this._updateData(data.prices);
-                        $this._reloadModule();
+                        $this.updatePrices(data.cart);
+                        $this.reloadModule();
                     },
                     error  : function (data) {
                         if (data.message) {
@@ -124,7 +131,7 @@
         /**
          * @private
          */
-        _reloadModule: function () {
+        reloadModule: function () {
             if (this.isWidgetExists('JBZooCartModule')) {
                 $('.jsJBZooCartModule').JBZooCartModule('reload');
             }
@@ -132,28 +139,42 @@
 
         /**
          * Set new params from responce
-         * @param prices
+         * @param cart
+         * @param context
          * @private
          */
-        _updateData: function (prices, context) {
+        updatePrices: function (cart, context) {
 
             var $this = this;
-            context = context || ''
+            context = $this._def(context, '');
 
-            $.each(prices, function (key, value) {
+            $.each(cart, function (key, value) {
 
-                if (typeof value == 'object') {
-                    $this._updateData(value, key);
+                var selector = '.js' + key;
+                if (context) {
+                    selector = '.js' + context + ' ' + '.js' + key;
+                }
+
+                var $money = $this.$(selector + '>.jsMoney');
+                if ($money.length) {
+                    $money
+                        .JBZooMoney({rates: $this.options.rates})
+                        .JBZooMoney('setValue', value[0], value[1]);
 
                 } else {
 
-                    var selector = '.js' + key;
-                    if (context) {
-                        selector = '.js' + context + ' ' + '.js' + key;
+                    if (typeof value == 'object') {
+                        $this.updatePrices(value, key);
+
+                    } else {
+                        var $block = $this.$(selector);
+                        if ($block.length > 0) {
+                            $block.html(value);
+                        }
                     }
 
-                    $this.$(selector).html(value);
                 }
+
             });
         }
 
