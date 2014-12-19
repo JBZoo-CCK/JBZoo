@@ -16,17 +16,16 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 <div class="jbprice-balance jsJBPriceBalance">
     <span class="balance">
-
-        <?php if ($this->getValue('value') == 0) :
+        <?php
+        if ($this->getValue('value') == 0) {
             echo $textNo;
 
-        elseif ($this->getValue('value') == -2) :
+        } elseif ($this->getValue('value') == -2) {
             echo $textOrder;
 
-        else :
+        } else {
             echo $textYes;
-
-        endif; ?>
-
+        }
+        ?>
     </span>
 </div>

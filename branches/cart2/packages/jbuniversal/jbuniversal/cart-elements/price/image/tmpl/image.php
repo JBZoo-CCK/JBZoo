@@ -15,7 +15,4 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 
-<input type="hidden"
-       class="jsImageRelated"
-       data-element="<?php echo $element; ?>"/>
-
+<input type="hidden" class="jsImageRelated" data-element="<?php echo $element; ?>"/>

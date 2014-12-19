@@ -12,12 +12,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$unique = $this->app->jbstring->getId('quantity-');
-
+$unique    = $this->app->jbstring->getId('quantity-');
 $isEnabled = true;
 
 $default = (float)$params->get('default', 1);
-$params = array(
+$params  = array(
     'step'     => (float)$params->get('step', 1),
     'default'  => $default,
     'decimals' => (float)$params->get('decimals', 0),

@@ -21,5 +21,3 @@ echo $this->app->jbhtml->text($this->getControlName('value'), $discount->dump(),
     'maxlength'   => "255",
     'placeholder' => 'скидка'
 ));
-
-

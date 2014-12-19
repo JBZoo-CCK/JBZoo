@@ -11,7 +11,9 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
+?>
+
 <div class="jbprice-description jsDescription">
     <?php echo $this->getValue(); ?>
 </div>

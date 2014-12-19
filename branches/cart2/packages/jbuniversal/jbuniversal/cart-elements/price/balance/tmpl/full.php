@@ -35,5 +35,5 @@ $balance = $this->getValue('value');
             echo $textNo;
         }
         ?>
-</span>
+    </span>
 </div>
