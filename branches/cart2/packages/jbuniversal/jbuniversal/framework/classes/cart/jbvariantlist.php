@@ -337,6 +337,15 @@ class JBCartVariantList
             'params'    => $this->_jbprice->elementsInterfaceParams()
         );
 
+        // TODO remove hack
+        if (isset($data['params']['_currency'])) {
+            unset($data['params']['_currency']);
+        }
+
+        if (isset($data['params']['_buttons'])) {
+            unset($data['params']['_buttons']);
+        }
+
         return $data;
     }
 
