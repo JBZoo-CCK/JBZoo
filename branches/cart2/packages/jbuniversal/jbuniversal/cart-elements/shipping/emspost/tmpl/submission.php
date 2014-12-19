@@ -12,5 +12,31 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$uiqueId = $this->app->jbstring->getId('emspost-');
 
-echo $this->renderFields();
+$locTypes = array('russia', 'countries', 'regions', 'cities');
+
+?>
+
+<div id="<?php echo $uiqueId; ?>">
+    <?php
+    foreach ($locTypes as $type) {
+
+        if ($this->config->get($type)) {
+            echo '<div class="emspost-' . $type . '">'
+                . $this->app->jbhtml->select($this->_getLocations($type), $this->getControlName($type),
+                    array('class' => 'jsEms-' . $type), $this->get($type))
+                . '</div>';
+        }
+    }
+    ?>
+</div>
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        $('#<?php echo $uiqueId;?>').JBZooShippingTypeEms(<?php echo json_encode(array(
+            'url_price' => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetPrice'),
+            'text_free' => JText::_('JBZOO_FREE')
+        ));?>);
+    });
+</script>

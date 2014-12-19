@@ -224,11 +224,11 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      */
     public function getDefaultParams()
     {
-        $prop   = $this->getBasketProperties();
+        $prop   = $this->getCartProperties();
         $params = array(
             'sendercity'      => $this->_getDefaultCity(),
             'recipientcity'   => '',
-            'mass'            => (float)$this->getBasketWeight(),
+            'mass'            => (float)$this->getCartWeight(),
             'height'          => (float)$prop['height'],
             'width'           => (float)$prop['width'],
             'depth'           => (float)$prop['length'],
@@ -296,7 +296,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
             'getWarehousesUrl' => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetWarehouses'),
             'getPriceUrl'      => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetPrice'),
             'shippingfields'   => implode(':', $this->config->get('shippingfields', array())),
-            'default_price'    => $this->default_price,
+            'default_price'    => $this->defaultPrice,
             'symbol'           => $this->_symbol
         );
 
@@ -415,7 +415,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
         $floorCount    = $params->get('floor_count');
 
         $publicPrice = $this->convert($publicPrice, $this->currency(), self::NEWPOST_CURRENCY);
-        $price       = $this->default_price;
+        $price       = $this->defaultPrice;
 
         $xml = '<?xml version="1.0" encoding="utf-8"?>
         <file>
@@ -476,7 +476,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      */
     public function loadAssets()
     {
-        $this->app->jbassets->js('cart-elements:shipping/newpost/assets/newpost.js');
+        $this->app->jbassets->js('cart-elements:shipping/newpost/assets/js/newpost.js');
     }
 
 }
