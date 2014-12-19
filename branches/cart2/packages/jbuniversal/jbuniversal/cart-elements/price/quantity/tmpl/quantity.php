@@ -27,7 +27,6 @@ $params = array(
 
 if ($isEnabled) : ?>
     <div class="jbprice-quantity jbprice-count">
-
         <label for="<?php echo $unique; ?>">
             <?php echo $this->app->jbhtml->quantity($default, $params, $unique, $this->getRenderName('value')); ?>
         </label>
