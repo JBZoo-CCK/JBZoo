@@ -17,14 +17,13 @@ $zoo   = App::getInstance('zoo');
 $items = $basketHelper->getBasketItems();
 
 echo '<!--noindex-->';
-echo '<div class="jbzoo jbzoo-basket-wraper jsJBZooCartModule" id="jbzooCartModule-' . $module->id . '">';
+echo '<div class="jbzoo jbzoo-basket-wraper clearfix jsJBZooCartModule" id="jbzooCartModule-' . $module->id . '">';
 
 if (!empty($items)) {
 
     $summa    = $basketHelper->getSumm($items);
     $count    = $basketHelper->getCount($items);
     $countSku = $basketHelper->getCountSku($items);
-    $currency = $basketHelper->getCurrency($items);
 
     if ((int)$params->get('items_show', 1)) {
         echo '<p>' . JText::_('JBZOO_CART_TOTAL_COUNT') . ': <span class="total-items">'
@@ -58,7 +57,6 @@ if (!empty($items)) {
     echo '<p>' . JText::_('JBZOO_CART_ITEMS_NOT_FOUND') . '</p>';
 }
 
-echo '<div class="clr"></div>';
 echo '</div><!--/noindex-->';
 
 if (!$zoo->jbrequest->isAjax()) :
