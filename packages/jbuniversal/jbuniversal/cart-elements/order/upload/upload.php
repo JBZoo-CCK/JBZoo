@@ -86,22 +86,22 @@ class JBCartElementOrderUpload extends JBCartElementOrder
     public function renderSubmission($params = array())
     {
 
-
         // init vars
         $upload = $this->get('file');
 
-
         // is uploaded file
         $upload = is_array($upload) ? '' : $upload;
-
 
         if (!empty($upload)) {
             $upload = basename($upload);
         }
 
+        $max_size = $this->config->get('max_upload_size', '512') * 1024;
+        $max_size = empty($max_size) ? null : $max_size;
+
         if ($layout = $this->getLayout('submission.php')) {
             return $this->renderLayout($layout,
-                compact('upload')
+                compact('upload', 'max_size')
             );
         }
 
@@ -186,7 +186,7 @@ class JBCartElementOrderUpload extends JBCartElementOrder
             $this->_updateFileSize();
         }
 
-        return compact('file', 'download_limit');
+        return compact('file');
     }
 
 
@@ -207,7 +207,7 @@ class JBCartElementOrderUpload extends JBCartElementOrder
     protected function _updateFileSize()
     {
         if (is_string($this->get('file'))) {
-            $filepath = $this->app->path->path('root:' . $this->get('file'));
+            $filepath = $this->app->path->path('root:' . $this->app->path->relative($this->get('file')));
 
             if (is_readable($filepath) && is_file($filepath)) {
                 $this->set('size', sprintf('%u', filesize($filepath)));
