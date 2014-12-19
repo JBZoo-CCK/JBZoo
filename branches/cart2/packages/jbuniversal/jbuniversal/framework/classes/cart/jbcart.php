@@ -56,10 +56,6 @@ class JBCart
      * @var string
      */
     protected $_sessionNamespace = 'jbcart';
-
-    /**
-     * @var string
-     */
     protected $_namespace = 'jbzoo';
 
     /**
@@ -369,45 +365,6 @@ class JBCart
     public function inStock($quantity, $key = null)
     {
         return true;
-        $item_id    = null;
-        $no         = null;
-        $element_id = null;
-
-        list($item_id, $no, $element_id) = explode('_', $key);
-        $item = $this->app->table->item->get($item_id);
-
-        if (!$element_id) {
-
-            $element = $item->getElement($no);
-            $data    = (array)$element->getBasicData();
-
-        } else {
-
-            $element = $item->getElement($element_id);
-            $data    = $element->getVariations($no);
-        }
-
-        $data  = $this->app->data->create($data);
-        $value = $data->find('_balance.value');
-
-        if (!empty($data)) {
-
-            if (isset($value) && $value == 0) {
-                return false;
-
-            } else if ($value == -1 || $value >= $quantity) {
-                return true;
-
-            } else if (!isset($value)) {
-                return true;
-
-            } else {
-                return false;
-            }
-        }
-
-        return false;
-
     }
 
     /**
@@ -416,33 +373,85 @@ class JBCart
      */
     public function recount()
     {
-        $itemsPrice = array();
+        $order   = $this->newOrder();
+        $session = $this->_getSession();
 
-        $count = 0;
-        $total = JBCart::val(0);
-        $items = $this->getItems();
-
-        foreach ($items as $key => $item) {
-
-            $itemsPrice[$key] = array();
-
-            $itemTotal = JBCart::val($item['total']);
-
-            $count += $item['quantity'];
-            $itemTotal->multiply($item['quantity']);
-            $total->add($itemTotal);
-
-            $itemsPrice[$key]['Subtotal'] = $itemTotal->html();
+        // items
+        $items    = $order->getTotalForItems(true);
+        $itemsRes = array();
+        foreach ($items as $key => $itemSumm) {
+            $itemsRes['Price-' . $key] = $itemSumm->data();
         }
 
+        // shipping
+        $shippingRes = array();
+        if (isset($session['shipping'])) {
+            foreach ($session['shipping'] as $elemId => $shipping) {
+                if ($elemId == '_current') {
+                    continue;
+                }
+                $element = $order->getShippingElement($elemId);
+                $element->bindData($shipping);
+                $shippingRes['Price-' . $elemId] = $element->getRate()->data();
+            }
+        }
+
+        // result
         $result = array(
-            'items'      => $itemsPrice,
-            'TotalCount' => $count,
-            'TotalPrice' => $total->html(),
-            'Total'      => $total->html(),
+            'CartTableRow'  => $itemsRes,
+            'Shipping'      => $shippingRes,
+            'TotalCount'    => $order->getTotalCount(),
+            'TotalPrice'    => $order->getTotalForItems()->data(),
+            'ShippingPrice' => $order->getShippingPrice(false)->data(),
+            'Total'         => $order->getTotalSum()->data(),
         );
 
         return $result;
+    }
+
+    /**
+     * @param $shipping
+     */
+    public function setShipping($shipping)
+    {
+        if (!isset($shipping['_shipping_id'])) {
+            return;
+        }
+
+        $id = $shipping['_shipping_id'];
+
+        $session = $this->_getSession();
+
+        $session['shipping']['_current'] = $id;
+        $session['shipping'][$id]        = $shipping;
+
+        $this->_setSession('shipping', $session['shipping']);
+    }
+
+    /**
+     * @return array
+     */
+    public function getShipping()
+    {
+        $session = $this->_getSession();
+
+        if (isset($session['shipping']['_current']) && isset($session['shipping']['_current'])) {
+            $cur = $session['shipping']['_current'];
+            if (isset($session['shipping'][$cur])) {
+                return $session['shipping'][$cur];
+            }
+        }
+
+        return array('_shipping_id' => $this->_config->get('default_shipping'));
+    }
+
+    /**
+     * @return array
+     */
+    public function getShippingList()
+    {
+        $session = $this->_getSession();
+        return $session->get('shipping', array());
     }
 
     /**
