@@ -30,8 +30,10 @@ if ($isError) {
 
 // create class attribute
 $classes = array_filter(array(
+    'jsShippingField',
     'jbcart-shippingfield-row',
     'jbcart-shippingfield-' . $element->getElementType(),
+    'js' . $element->identifier,
     $params->get('first') ? 'first' : '',
     $params->get('last') ? 'last' : '',
     $params->get('required') ? 'required' : '',

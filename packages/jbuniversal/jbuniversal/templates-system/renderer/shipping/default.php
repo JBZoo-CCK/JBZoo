@@ -12,10 +12,22 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 if ($this->checkPosition('list')) : ?>
 
     <p class="jbcart-title"><?php echo JText::_('JBZOO_CART_SHIPPING_TITLE'); ?></p>
 
-    <?php echo $this->renderPosition('list', array('order.shipping')); ?>
+    <div class="jsJBCartShipping">
+        <?php echo $this->renderPosition('list', array('order.shipping')); ?>
+    </div>
+
+    <script type="text/javascript">
+        jQuery(function ($) {
+            $('.jsJBCartShipping').JBZooShipping(<?php echo json_encode(array(
+                'fields_assign' => $this->app->jbshipping->getConfigAssign(),
+                'url_shipping'  => $this->app->jbrouter->basketShipping(),
+            ));?>);
+        });
+    </script>
 
 <?php endif;
