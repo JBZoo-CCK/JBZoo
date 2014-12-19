@@ -13,84 +13,17 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBCartElementShippingRussianPost
+ * Class JBCartElementShippingRussianpost
  */
-class JBCartElementShippingRussianPost extends JBCartElementShipping
+class JBCartElementShippingRussianpost extends JBCartElementShipping
 {
+    const CURRENCY  = 'rub';
+    const CACHE_TTL = 1440;
+
     /**
      * @var string
      */
-    public $_url = 'http://www.russianpost.ru/autotarif/Autotarif.aspx?';
-
-    const RUSSIANPOST_CURRENCY = 'RUB';
-
-    /**
-     * Class constructor
-     * @param App    $app
-     * @param string $type
-     * @param string $group
-     */
-    public function __construct($app, $type, $group)
-    {
-        parent::__construct($app, $type, $group);
-
-        $this->registerCallback('ajaxGetPrice');
-    }
-
-    /**
-     * @param JBCartValue $summa
-     * @return JBCartValue
-     */
-    public function modify(JBCartValue $summa)
-    {
-        $shipping = $this->getRate();
-
-        return $summa->add($shipping);
-    }
-
-    /**
-     * @param array $params
-     * @return bool
-     */
-    public function hasValue($params = array())
-    {
-        return true;
-    }
-
-    /**
-     * @return array
-     */
-    public function getDefaultParams()
-    {
-        $params = array(
-            'viewpost'        => '',
-            'countrycode'     => 643,
-            'typePost'        => '',
-            'viewpostName'    => '',
-            'countrycodename' => '',
-            'typepostname'    => '',
-            'weight'          => $this->getBasketWeight(),
-            'value1'          => $this->getBasketValue(self::RUSSIANPOST_CURRENCY),
-            'postofficeid'    => 0
-        );
-
-        return $params;
-    }
-
-    /**
-     * @param array $params
-     * @return mixed|string
-     */
-    public function renderSubmission($params = array())
-    {
-        if ($layout = $this->getLayout('submission.php')) {
-            return self::renderLayout($layout, array(
-                'params' => $params
-            ));
-        }
-
-        return false;
-    }
+    public $_url = 'http://www.russianpost.ru/autotarif/Autotarif.aspx';
 
     /**
      * Validates the submitted element
@@ -100,19 +33,10 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
      */
     public function validateSubmission($value, $params)
     {
-        $params = $value->getArrayCopy();
-        $params = $this->mergeParams($params);
-        $price  = $this->getPrice($params);
+        $this->bindData($value);
+        $value->set('rate', $this->getRate()->dump());
 
-        return array(
-            'value'  => $price->get('price'),
-            'fields' => array(
-                'viewpost' => $this->getViewPostName($params['viewpost']),
-                'typepost' => $this->getTypePostName($params['typepost']),
-                'zip'      => $params['postofficeid']
-            ),
-            'params' => $params
-        );
+        return $value;
     }
 
     /**
@@ -120,150 +44,65 @@ class JBCartElementShippingRussianPost extends JBCartElementShipping
      */
     public function getRate()
     {
-        return $this->_order->val($this->get('value', 0));
-    }
+        $resp = $this->app->jbhttp->request($this->_url, array(
+            'countryCode'  => '643', // Russian code
+            'viewPost'     => $this->get('viewPost', 23),
+            'typePost'     => $this->get('typePost', 1),
+            'postOfficeId' => $this->get('postOfficeId'),
+            'weight'       => $this->_order->getTotalWeight() * 1000, // weight in gramm
+            'value1'       => ceil($this->_order->getTotalForItems()->plain()),
+        ), array(
+            'cache'     => true,
+            'cache_ttl' => self::CACHE_TTL,
+        ));
 
-    /**
-     * Get name of view post by id
-     * @param  $id
-     * @return string
-     */
-    public function getViewPostName($id)
-    {
-        $types = array(
-            ''   => '-&nbsp;' . JText::_('JBZOO_DELIVERY_RUSSIANPOST_VIEW') . '&nbsp;-',
-            '23' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_PARCEL'),
-            '18' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_CARD'),
-            '13' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_LETTER'),
-            '26' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_RICH_PARCEL'),
-            '36' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_RICH_PACKAGE'),
-            '16' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_RICH_LETTER')
-        );
+        if ($resp) {
+            preg_match('/<span id="TarifValue">([0-9\,\-]+)<\/span>/i', $resp, $result);
+            if (isset($result[1])) {
+                $summ = $this->_order->val($result[1], self::CURRENCY);
+                return $summ;
+            }
+        }
 
-        return !empty($types[$id]) ? $types[$id] : '-None-';
-    }
-
-    /**
-     * Get name of type post by id
-     * @param  $id
-     * @return string
-     */
-    public function getTypePostName($id)
-    {
-        $typePost = array(
-            ''  => '-&nbsp;' . JText::_('JBZOO_DELIVERY_RUSSIANPOST_TYPE') . '&nbsp;-',
-            '1' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_GROUND'),
-            '2' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_AIR'),
-            '3' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_COMBINE'),
-            '4' => JText::_('JBZOO_DELIVERY_RUSSIANPOST_FAST')
-        );
-
-        return !empty($typePost[$id]) ? $typePost[$id] : '-None-';
-    }
-
-    /**
-     * Get array of parameters to push it into(data-params) element div
-     * @param  boolean $encode - Encode array or no
-     * @return string|array
-     */
-    public function getWidgetParams($encode = true)
-    {
-        $params = array(
-            'getPriceUrl'    => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetPrice'),
-            'shippingfields' => implode(':', $this->config->get('shippingfields', array())),
-            'default_price'  => $this->default_price,
-            'symbol'         => $this->_symbol
-        );
-
-        return $encode ? json_encode($params) : $params;
+        return $this->_order->val(0, self::CURRENCY);
     }
 
     /**
      * @return array
      */
-    public function getCountries()
+    protected function _getViewpostList()
     {
-        $cUrl = 'http://www.russianpost.ru/autotarif/Selautotarif.aspx';
-        $c    = file_get_contents($cUrl);
-        preg_match('/<select>(.*?)<\/select>/si', $c, $res);
-
-        $countries = $this->app->country->getIsoToNameMapping();
-        $result    = $this->_getDefaultValue();
-
-        foreach ($countries as $key => $country) {
-
-            $value = JString::strtolower($this->app->country->isoToName($key));
-            if ($value == 'russian federation') {
-                $country = 'Russia';
-                $value   = JText::_('Россия');
-            }
-
-            $result[JString::strtolower($country)]['value'] = JString::strtolower(JText::_($value));
-            $result[JString::strtolower($country)]['code']  = $key;
-        }
-
-        return $result;
+        return array(
+            ''   => '-&nbsp;' . JText::_('JBZOO_SHIPPING_RUSSIANPOST_TYPE') . '&nbsp;-',
+            '23' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_PARCEL'),
+            '18' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_CARD'),
+            '13' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_LETTER'),
+            '26' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_RICH_PARCEL'),
+            '36' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_RICH_PACKAGE'),
+            '16' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_RICH_LETTER')
+        );
     }
 
     /**
-     * Get country code by country
-     * @param  string $country
-     * @return mixed
+     * @return array
      */
-    public function countryCode($country)
+    protected function _getTypePostList()
     {
-        $countries = $this->getCountries();
-        $country   = JString::trim(JString::strtolower($country));
-
-        if (!isset($countries[$country])) {
-
-            foreach ($countries as $region) {
-
-                $value = JString::trim(JString::strtolower($region['value']));
-                if ($country == $value) {
-                    return $region['code'];
-                }
-            }
-        }
-
-        return isset($countries[$country]['code']) ? $countries[$country]['code'] : null;
+        return array(
+            ''  => '-&nbsp;' . JText::_('JBZOO_SHIPPING_RUSSIANPOST_TYPE') . '&nbsp;-',
+            '1' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_GROUND'),
+            '2' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_AIR'),
+            '3' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_COMBINE'),
+            '4' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_FAST')
+        );
     }
 
     /**
-     * @param string $fields
+     * @return $this
      */
-    public function ajaxGetPrice($fields = '')
+    public function loadAssets()
     {
-        $params = json_decode($fields, true);
-        $price  = $this->getPrice($params);
-
-        $this->app->jbajax->send(array(
-            'price'  => $price->get('price'),
-            'symbol' => $price->get('symbol')
-        ));
+        $this->app->jbassets->js('cart-elements:shipping/russianpost/assets/js/russianpost.js');
+        $this->app->jbassets->chosen();
     }
-
-    /**
-     * Make request and get price form service
-     * @param  array $params
-     * @return int
-     */
-    public function getPrice($params = array())
-    {
-        $params = $this->mergeParams($params);
-        $url    = $this->getServicePath($params);
-        $data   = $this->_callService($url);
-
-        preg_match('/<span id="TarifValue">([0-9\,\-]+)<\/span>/i', $data, $result);
-        preg_match('/<span id="lblErrStr">(.*)<\/span>/i', $data, $matches);
-        list($unset, $value) = $result;
-        list($span, $error) = $matches;
-        $price = $this->_jbmoney->convert(self::RUSSIANPOST_CURRENCY, $this->currency(), $value);
-
-        return $this->app->data->create(array(
-            'price'  => $this->_jbmoney->format($price),
-            'symbol' => $this->_symbol
-        ));
-    }
-
 }

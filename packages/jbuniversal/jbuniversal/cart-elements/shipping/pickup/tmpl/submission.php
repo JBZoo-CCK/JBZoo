@@ -13,9 +13,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-if ($addresses) : ?>
-    <p>
-        <strong><?php echo JText::_('JBZOO_ELEMENT_SHIPPING_PICKUP_ADDRESS'); ?>:</strong>
-        <?php echo $addresses; ?>
-    </p>
-<?php endif; ?>
+?>
+<p>
+    <strong><?php echo JText::_('JBZOO_ELEMENT_SHIPPING_PICKUP_ADDRESS'); ?>:</strong>
+    <?php echo $address; ?>
+</p>

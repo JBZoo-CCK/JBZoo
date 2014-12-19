@@ -17,100 +17,56 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementShippingEmsPost extends JBCartElementShipping
 {
-    const EMSPOST_CURRENCY = 'RUB';
+    const CURRENCY  = 'rub';
+    const CACHE_TTL = 1440;
 
     /**
      * Url to make request
      * @var string
      */
-    protected $_url = 'http://emspost.ru/api/rest?';
+    protected $_url = 'http://emspost.ru/api/rest';
 
     /**
-     * Class constructor
-     * @param App    $app
-     * @param string $type
-     * @param string $group
+     * @return $this
      */
-    public function __construct($app, $type, $group)
+    public function loadAssets()
     {
-        parent::__construct($app, $type, $group);
-
-        $this->registerCallback('ajaxGetPrice');
+        $this->app->jbassets->js('cart-elements:shipping/emspost/assets/js/emspost.js');
+        $this->app->jbassets->chosen();
     }
 
     /**
-     * @param JBCartValue $summa
-     * @return JBCartValue
-     */
-    public function modify(JBCartValue $summa)
-    {
-        $rate = $this->getRate();
-
-        return $summa->add($rate);
-    }
-
-    /**
-     * @param array $params
-     * @return bool
-     */
-    public function hasValue($params = array())
-    {
-        return true;
-    }
-
-    /**
-     * @param  array $params
-     * @return mixed|string
-     */
-    public function renderSubmission($params = array())
-    {
-        if ($layout = $this->getLayout('submission.php')) {
-            return self::renderLayout($layout, array(
-                'params' => $params
-            ));
-        }
-
-        return false;
-    }
-
-    /**
-     * Validates the submitted element
-     * @param  $value
-     * @param  $params
-     * @return array
-     */
-    public function validateSubmission($value, $params)
-    {
-        $params = $value->getArrayCopy();
-        $params = $this->mergeParams($params);
-        $price  = $this->getPrice($params);
-
-        if ($country = $this->app->country->isoToName(strtoupper($params['to']))) {
-            $to = $country;
-        }
-
-        return array(
-            'value'  => $price->get('price'),
-            'fields' => array(
-                'recipient' => $this->app->validator->create('string')->clean($to)
-            ),
-            'params' => $params
-        );
-    }
-
-    /**
+     * @param  string $locType - cities, regions, countries, russia
      * @return string
      */
-    public function getDefaultParams()
+    protected function _getLocations($locType)
     {
-        $params = array(
-            'method' => 'ems.calculate',
-            'from'   => $this->_getDefaultCity(),
-            'to'     => '',
-            'weight' => $this->getBasketWeight(),
-        );
+        $locations = $this->_apiRequest(array(
+            'method' => 'ems.get.locations',
+            'plain'  => 'true',
+            'type'   => $locType,
+        ));
 
-        return $params;
+        $result = array('' => '-&nbsp;' . JText::_('JBZOO_SHIPPING_EMSPOST_' . $locType) . '&nbsp;-');
+
+        if (!$locations) {
+            return $result;
+        }
+
+        $jbvars = $this->app->jbvars;
+        foreach ($locations['locations'] as $location) {
+
+            $value = $jbvars->lower($location['value']);
+            $name  = JString::ucfirst($jbvars->lower($location['name']));
+
+            $result[$value] = $name;
+        }
+
+        if ($locType != 'russia') {
+            asort($result);
+        }
+
+        return $result;
     }
 
     /**
@@ -118,146 +74,125 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      */
     public function getRate()
     {
-        return $this->_order->val($this->get('value', 0));
-    }
+        $summ = $this->_order->val(0, self::CURRENCY);
 
-    /**
-     * Get array of parameters to push it into(data-params)
-     * @param  boolean $encode - Encode array or no
-     * @return string|array
-     */
-    public function getWidgetParams($encode = true)
-    {
-        $params = array(
-            'getPriceUrl'    => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetPrice'),
-            'shippingfields' => implode(':', $this->config->get('shippingfields', array())),
-            'default_price'  => $this->default_price,
-            'symbol'         => $this->_symbol
-        );
+        if ($location = $this->_getLocation($this->data())) {
+            $response = $this->_apiRequest(array(
+                'method' => 'ems.calculate',
+                'weight' => $this->_getWeight(),
+                'from'   => $this->_getDefaultCity(),
+                'to'     => $location,
+            ));
 
-        return $encode ? json_encode($params) : $params;
-    }
-
-    /**
-     * @param $fields - Russian city
-     */
-    public function ajaxGetPrice($fields = '')
-    {
-        $params = json_decode($fields, true);
-        $price  = $this->getPrice($params);
-
-        $this->app->jbajax->send(array(
-            'price'  => $price->get('price'),
-            'symbol' => $price->get('symbol')
-        ));
-    }
-
-    /**
-     * Decoding the result of API call
-     * @param $responseBody
-     * @return array
-     */
-    public function processingData($responseBody)
-    {
-        return json_decode($responseBody, true);
-    }
-
-    /**
-     * Change name/value to value/name
-     * @param $city
-     * @return mixed
-     */
-    public function convertCity($city)
-    {
-        $result   = $city;
-        $cities   = $this->_getLocations('cities');
-        $converse = array_flip($cities);
-
-        if (array_key_exists($city, $cities)) {
-            $result = $cities[$city];
-
-        } else if (array_key_exists($city, $converse)) {
-            $result = $converse[$city];
+            if ($response) {
+                $summ->set($response['price'], self::CURRENCY);
+            }
         }
 
-        return $result;
+        return $summ;
     }
 
     /**
-     * City location of the store
+     * @param JSONData $data
+     * @return string
+     */
+    protected function _getLocation($data)
+    {
+        $location = null;
+        if ($data->get('cities')) {
+            $location = $data->get('cities');
+
+        } else if ($data->get('countries')) {
+            $location = $data->get('countries');
+
+        } else if ($data->get('regions')) {
+            $location = $data->get('regions');
+
+        } else if ($data->get('russia')) {
+            $location = $data->get('russia');
+        }
+
+        return $location;
+    }
+
+    /**
      * @return string
      */
     protected function _getDefaultCity()
     {
-        $city = JString::ucfirst(parent::_getDefaultCity());
-        $city = $this->convertCity($city);
+        $jbvars = $this->app->jbvars;
 
-        return $city;
-    }
+        $defaultCity = $jbvars->lower(parent::_getDefaultCity());
+        $cityList    = $this->_getLocations('cities');
 
-    /**
-     * Make request and get price form service
-     * @param  array $params
-     * @return integer
-     */
-    public function getPrice($params = array())
-    {
-        $price  = $this->default_price;
-        $params = $this->mergeParams($params);
-        $url    = $this->getServicePath($params);
-
-        $result = $this->_callService($url);
-
-        $result = $result['rsp'];
-
-        if ($result['stat'] == 'ok') {
-            $price = $result['price'];
-            $price = $this->_jbmoney->convert(self::EMSPOST_CURRENCY, $this->currency(), $price);
-
-        } else if ($result['stat'] == 'fail') {
-
-            return $this->app->data->create(array(
-                'price'  => $result['err']['msg'],
-                'symbol' => ' '
-            ));
-        }
-
-        return $this->app->data->create(array(
-            'price'  => $this->_jbmoney->format($price),
-            'symbol' => $this->_symbol
-        ));
-    }
-
-    /**
-     * @param  string $type - cities, regions, countries, russia
-     * @return string
-     */
-    protected function _getLocations($type = 'countries')
-    {
-        $result    = $this->_getDefaultValue('JBZOO_' . $type);
-        $request   = $this->_url . 'method=ems.get.locations&type=' . $type . '&plain=true';
-        $locations = $this->_callService($request);
-        $locations = $locations['rsp'];
-
-        if ($locations['stat'] === 'ok') {
-            foreach ($locations['locations'] as $location) {
-
-                $key  = $this->clean($location['value']);
-                $name = JString::ucfirst($this->clean($location['name']));
-
-                $result[$key] = $name;
+        foreach ($cityList as $code => $city) {
+            $city = $jbvars->lower($city);
+            if ($defaultCity == $city) {
+                return $code;
             }
         }
-
-        return $result;
     }
 
     /**
-     * @return $this
+     * @param $options
+     * @return null
      */
-    public function loadAssets()
+    protected function _apiRequest($options)
     {
-        $this->app->jbassets->js('cart-elements:shipping/emspost/assets/emspost.js');
+        $options['plain'] = 'true'; // forced options for resolving bug with spaces
+
+        $response = $this->app->jbhttp->request($this->_url, $options, array(
+            'cache'     => 1,
+            'cache_ttl' => self::CACHE_TTL,
+        ));
+
+        $locations = json_decode($response, true);
+        if (isset($locations['rsp']) && $locations['rsp']['stat'] == 'ok') {
+            return $locations['rsp'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Validates the submitted element
+     * @param $value
+     * @param $params
+     * @return array
+     * @throws JBCartElementShippingException
+     */
+    public function validateSubmission($value, $params)
+    {
+        $location = $this->_getLocation($value);
+        if (!$location) {
+            throw new JBCartElementShippingException('empty location');
+        }
+
+        // for calculate rate
+        $this->bindData($value);
+
+        $rate = $this->getRate();
+        $value->set('rate', $rate->val() . ' ' . $rate->cur());
+
+        return $value;
+    }
+
+    /**
+     * @return float
+     */
+    protected function _getWeight()
+    {
+        $resp = $this->_apiRequest(array(
+            'method' => 'ems.get.max.weight'
+        ));
+
+        $max = (float)$resp['max_weight'];
+        $cur = $this->_order->getTotalWeight();
+        if ($cur <= $max) {
+            return $cur;
+        }
+
+        return $max;
     }
 
 }

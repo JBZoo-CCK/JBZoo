@@ -12,5 +12,45 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$jbhtml = $this->app->jbhtml;
 
-echo $this->renderFields();
+
+$uiqueId = $this->app->jbstring->getId('emspost-');
+?>
+
+
+<div id="<?php echo $uiqueId; ?>">
+    <div class="russianpost-viewPost">
+        <?php echo $jbhtml->select(
+            $this->_getViewPostList(),
+            $this->getControlName('viewPost'),
+            'jsViewPost',
+            $this->get('viewPost', 23)
+        ); ?>
+    </div>
+
+    <div class="russianpost-typePost">
+        <?php echo $jbhtml->select(
+            $this->_getTypePostList(),
+            $this->getControlName('typePost'),
+            'jsTypePost',
+            $this->get('typePost', 1)
+        ); ?>
+    </div>
+
+    <div class="russianpost-postOfficeId">
+        <?php echo $jbhtml->text(
+            $this->getControlName('postOfficeId'),
+            $this->get('postOfficeId'), array(
+                'placeholder' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_ZIP'),
+            )
+        ); ?>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        $('#<?php echo $uiqueId;?>').JBZooShippingTypeRussianPost(<?php echo json_encode(array(
+        ));?>);
+    });
+</script>

@@ -10,4 +10,19 @@
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
+
+    <params>
+        <param name="russia" type="jbbool" default="0" label="JBZOO_SHIPPING_EMSPOST_RUSSIA"
+               description="JBZOO_SHIPPING_EMSPOST_RUSSIA_DESC"/>
+
+        <param name="countries" type="jbbool" default="0" label="JBZOO_SHIPPING_EMSPOST_COUNTRIES"
+               description="JBZOO_SHIPPING_EMSPOST_COUNTRIES_DESC"/>
+
+        <param name="regions" type="jbbool" default="0" label="JBZOO_SHIPPING_EMSPOST_REGIONS"
+               description="JBZOO_SHIPPING_EMSPOST_REGIONS_DESC"/>
+
+        <param name="cities" type="jbbool" default="1" label="JBZOO_SHIPPING_EMSPOST_CITIES"
+               description="JBZOO_SHIPPING_EMSPOST_CITIES_DESC"/>
+    </params>
+
 </element>

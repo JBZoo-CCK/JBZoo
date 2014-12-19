@@ -9,8 +9,8 @@
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
     <params>
-        <param name="addresses" type="textarea" label="JBZOO_ELEMENT_PICKUP_ADRESSES"
-               description="JBZOO_ELEMENT_PICKUP_ADRESSES_DESC"/>
+        <param name="address" type="textarea" label="JBZOO_ELEMENT_PICKUP_ADDRESS"
+               description="JBZOO_ELEMENT_PICKUP_ADDRESS_DESC"/>
     </params>
 
 </element>

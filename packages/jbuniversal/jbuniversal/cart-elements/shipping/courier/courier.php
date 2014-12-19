@@ -20,56 +20,16 @@ class JBCartElementShippingCourier extends JBCartElementShipping
     const EDIT_DATE_FORMAT = '%Y-%m-%d %H:%M';
 
     /**
-     * @param JBCartValue $summa
-     * @return JBCartValue
-     */
-    public function modify(JBCartValue $summa)
-    {
-        $shipping = $this->getRate();
-
-        return $summa->add($shipping);
-    }
-
-    /**
-     * @param array $params
-     * @return bool
-     */
-    public function hasValue($params = array())
-    {
-        return true;
-    }
-
-    /**
-     * Get price form element config
-     * @param  array $params
-     * @return integer
-     */
-    public function getPrice($params = array())
-    {
-        $cost = (float)$this->config->get('cost', 0);
-
-        return $this->app->data->create(array(
-            'price'  => $this->_jbmoney->format($cost),
-            'symbol' => $this->_symbol
-        ));
-    }
-
-    /**
      * @param array $params
      * @return mixed|string
      */
     public function renderSubmission($params = array())
     {
-        $shipping = $this->config->get('cost', 0);
-
         if ($layout = $this->getLayout('submission.php')) {
             return self::renderLayout($layout, array(
-                'params'   => $params,
-                'shipping' => $this->_jbmoney->toFormat($shipping)
+                'params' => $params,
             ));
         }
-
-        return false;
     }
 
     /**
@@ -80,8 +40,6 @@ class JBCartElementShippingCourier extends JBCartElementShipping
      */
     public function validateSubmission($value, $params)
     {
-        $shipping = $this->config->get('cost', 0);
-
         $delivery = $this->app->validator->create('date')
             ->addOption('date_format', self::EDIT_DATE_FORMAT)
             ->clean($value->get('delivery_date'));
@@ -89,7 +47,7 @@ class JBCartElementShippingCourier extends JBCartElementShipping
         $date = new JDate($delivery);
 
         return array(
-            'value'  => $shipping,
+            'value'  => $this->getRate(),
             'fields' => array(
                 'delivery_date' => $date->calendar('D, d M Y H:i', false, true)
             )
@@ -97,13 +55,12 @@ class JBCartElementShippingCourier extends JBCartElementShipping
     }
 
     /**
-     * @return int|mixed
+     * @return JBCartValue
      */
     public function getRate()
     {
-        $shipping = $this->_order->val($this->config->get('cost', 0));
-
-        return $shipping;
+        $cost = $this->config->get('cost', 0);
+        return $this->_order->val($cost, $this->getCurrency());
     }
 
     /**
@@ -112,27 +69,10 @@ class JBCartElementShippingCourier extends JBCartElementShipping
      */
     public function loadAssets()
     {
-        parent::loadAssets();
-        $this->app->jbassets->jqueryui();
-        $this->app->document->addScript('libraries:jquery/plugins/timepicker/timepicker.js');
+        $this->app->jbassets->calendar();
+        $this->app->jbassets->less('cart-elements:shipping/courier/assets/less/courier.less');
 
         return $this;
     }
 
-    /**
-     * Get array of parameters to push it into(data-params) element div
-     * @param  boolean $encode - Encode array or no
-     * @return string|array
-     */
-    public function getWidgetParams($encode = true)
-    {
-        $params = array(
-            'shippingfields' => implode(':', $this->config->get('shippingfields', array())),
-            'getPriceUrl'    => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetPrice'),
-            'default_price'  => $this->_jbmoney->format($this->config->get('cost', '-')),
-            'symbol'         => $this->_symbol
-        );
-
-        return $encode ? json_encode($params) : $params;
-    }
 }
