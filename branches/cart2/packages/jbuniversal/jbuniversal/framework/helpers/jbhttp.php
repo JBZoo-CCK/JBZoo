@@ -20,6 +20,10 @@ class JBHttpHelper extends AppHelper
 {
     const METHOD_GET  = 'get';
     const METHOD_POST = 'post';
+    const METHOD_PUT  = 'put';
+
+    const CACHE_GROUP = 'http';
+
     /**
      * @type array
      */
@@ -27,16 +31,12 @@ class JBHttpHelper extends AppHelper
         'timeout'   => 10,
         'method'    => self::METHOD_GET,
         'headers'   => array(),
-        'response'  => 'body', // full, headers, body
+        'response'  => 'body', // full, headers, body, code
         'cache'     => 0,
         'cache_ttl' => 60, // in minutes!
         'cache_id'  => '',
-
+        'encoding'  => 'UTF-8', // source encoding. For example, WINDOWS-1251
     );
-
-    const METHOD_PUT = 'put';
-
-    const CACHE_GROUP = 'http';
 
     /**
      * @type JBCacheHelper
@@ -55,8 +55,8 @@ class JBHttpHelper extends AppHelper
 
     /**
      * @param string $url
-     * @param array $data
-     * @param array $options
+     * @param array  $data
+     * @param array  $options
      * @return null|string
      * @throws AppException
      */
@@ -73,7 +73,15 @@ class JBHttpHelper extends AppHelper
         $cacheId = $cacheGroup = $cacheParams = null;
         $isCache = (int)$options->get('cache');
         if ($isCache) {
-            $cacheId     = array($url, (array)$data, $options->get('cache_id'), (array)$options->get('headers'), $options->get('response'));
+
+            $cacheId = array(
+                $url,
+                (array)$data,
+                $options->get('cache_id'),
+                (array)$options->get('headers'),
+                $options->get('response')
+            );
+
             $cacheParams = array('ttl' => (int)$options->get('cache_ttl'));
             if ($responseBody = $this->_jbcache->get($cacheId, self::CACHE_GROUP, true, $cacheParams)) {
                 return $responseBody;
@@ -85,10 +93,11 @@ class JBHttpHelper extends AppHelper
 
         try {
             // prepare data
-            $method  = $this->app->jbvars->lower($options->get('method'));
-            $headers = (array)$options->get('headers');
-            $timeout = (int)$options->get('timeout');
-            $data    = is_object($data) ? (array)$data : $data;
+            $method   = $this->app->jbvars->lower($options->get('method'));
+            $encoding = $this->app->jbvars->upper($options->get('encoding'));
+            $headers  = (array)$options->get('headers');
+            $timeout  = (int)$options->get('timeout');
+            $data     = is_object($data) ? (array)$data : $data;
 
             // request
             if (self::METHOD_GET == $method) {
@@ -105,10 +114,16 @@ class JBHttpHelper extends AppHelper
                 throw new AppException('JBHttpHelper, undefined request method');
             }
 
+            // response type
             if ($options->get('response') == 'body') {
 
                 if ($response->code == 200) {
                     $result = $response->body;
+
+                    if ($encoding != 'UTF-8') {
+                        $result = iconv('UTF-8', $encoding . '//TRANSLIT', $result);
+                    }
+
                 }
 
             } else if ($options->get('response') == 'headers') {
