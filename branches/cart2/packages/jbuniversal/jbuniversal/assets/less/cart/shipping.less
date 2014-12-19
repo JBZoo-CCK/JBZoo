@@ -32,15 +32,29 @@
 
         &-row {
             width: 90%;
-            margin-bottom: 12px;
-            background: #f7fbfc;
+            margin-bottom: 4px;
+            background: #e7edee;
             border: 1px solid #eee;
+            &:hover,
+            &.active {
+                background: #f7fbfc;
+            }
+
+            &.active .jbcart-shipping-element {
+                display: block;
+            }
+
         }
 
         &-element {
             display: none;
             margin: 10px 0 0 0;
             padding: 0 36px 0 36px;
+
+            .chosen-container {
+                margin-bottom: 12px;
+            }
+
         }
 
         &-name {
@@ -48,7 +62,7 @@
             line-height: 26px;
         }
 
-        &-label {
+        &-wrapper {
             padding: 10px 10px 10px 5px;
         }
 
