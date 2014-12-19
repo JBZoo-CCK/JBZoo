@@ -6,6 +6,9 @@
  * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
  */
 
+// no direct access
+defined('_JEXEC') or die('Restricted access');
+
 // get element from parent parameter form
 $element = $parent->element;
 $config  = $element->config;

@@ -33,4 +33,5 @@ class JBCartElementModifierItemActivate extends JBCartElementModifierItem
 
         // noop
     }
+
 }

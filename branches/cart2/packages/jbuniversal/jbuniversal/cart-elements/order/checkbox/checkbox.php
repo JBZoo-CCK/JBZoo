@@ -59,5 +59,4 @@ class JBCartElementOrderCheckbox extends JBCartElementOrderOption
         return JText::_("There are no options to choose from.");
     }
 
-
 }

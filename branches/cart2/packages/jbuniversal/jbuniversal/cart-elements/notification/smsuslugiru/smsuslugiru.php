@@ -160,4 +160,5 @@ class JBCartElementNotificationSmsuslugiru extends JBCartElementNotification
 
         return $this->app->data->create($params);
     }
+
 }
