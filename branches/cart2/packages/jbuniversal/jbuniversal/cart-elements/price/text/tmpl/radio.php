@@ -13,6 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (count($data)) :
+if (count($data)) {
     echo $this->app->jbhtml->radio($data, $this->getRenderName('value'), null, $this->getValue('value'));
-endif;
+}

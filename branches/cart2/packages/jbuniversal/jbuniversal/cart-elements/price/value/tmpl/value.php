@@ -17,19 +17,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
     <?php if ($mode == JBCartElementPriceValue::PRICE_VIEW_FULL) : ?>
         <div class="jbprice-price">
-            <?php if ($discount->isEmpty()) : ?>
 
+            <?php if ($discount->isEmpty()) : ?>
                 <table cellpadding="0" cellspacing="0" border="0" class="no-border">
                     <tr>
                         <td><?php echo JText::_('JBZOO_JBPRICE_PRICE_TOTAL'); ?>:</td>
                         <td><span class="jsTotal total"><?php echo $prices['total']->html($currency); ?></span></td>
                     </tr>
                 </table>
-
             <?php endif;
 
             if ($discount->isPositive()) : ?>
-
                 <table cellpadding="0" cellspacing="0" border="0" class="no-border">
                     <tr>
                         <td><?php echo JText::_('JBZOO_JBPRICE_PRICE_PRICE'); ?>:</td>
@@ -57,8 +55,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
                         </td>
                     </tr>
                 </table>
-
             <?php endif; ?>
+
         </div>
     <?php endif;
 

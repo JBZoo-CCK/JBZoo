@@ -13,9 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (count($data)) :
-
+if (count($data)) {
     $unique = $this->app->jbstring->getId('buttons-');
-    echo $this->app->jbhtml->buttonsJqueryUI($data, $this->getRenderName('value'), null,
-        $this->getValue('value'), $unique);
-endif;
+    echo $this->app->jbhtml->buttonsJqueryUI($data, $this->getRenderName('value'), null, $this->getValue('value'), $unique);
+}
