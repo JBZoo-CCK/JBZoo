@@ -464,6 +464,21 @@ class JBRouterHelper extends AppHelper
     }
 
     /**
+     * Get url to basket shipping action
+     * @return string
+     */
+    public function basketShipping()
+    {
+        $linkParams = array(
+            'option'     => 'com_zoo',
+            'controller' => 'basket',
+            'task'       => 'shipping',
+        );
+
+        return $this->_url($linkParams, true);
+    }
+
+    /**
      * Get item url for back-end
      * @param Item $item
      * @return string
