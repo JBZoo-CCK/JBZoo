@@ -196,17 +196,20 @@ class JBCartOrder
     }
 
     /**
-     * @return JBCartValue
+     * @param bool $devideByItem
+     * @return array|JBCartValue
      */
-    public function getTotalForItems()
+    public function getTotalForItems($devideByItem = false)
     {
         $items = $this->getItems();
         $summa = $this->val();
 
         $modifiers = $this->getModifiers(JBCart::MODIFIER_ITEM);
 
+        $itemsSums = array();
+
         // get Items prices
-        foreach ($items as $item) {
+        foreach ($items as $key => $item) {
             $itemPrice = $this->val($item['total'])->multiply($item['quantity']);
 
             $summa->add($itemPrice);
@@ -214,9 +217,41 @@ class JBCartOrder
             foreach ($modifiers as $modifier) {
                 $summa->addModify($modifier);
             }
+
+            $itemsSums[$key] = $itemPrice;
+        }
+
+        if ($devideByItem) {
+            return $itemsSums;
         }
 
         return $summa;
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getTotalCount()
+    {
+        $items  = $this->getItems();
+        $result = 0;
+        foreach ($items as $item) {
+            $result += (float)$item['quantity'];
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return JBCartValue
+     */
+    public function getShippingPrice()
+    {
+        if ($shipping = $this->getShipping()) {
+            return $shipping->getRate();
+        }
+
+        return $this->val(0);
     }
 
     /**
@@ -226,17 +261,37 @@ class JBCartOrder
     {
         $summa = $this->getTotalForItems();
 
-        // check payment rate
-        if ($payment = $this->getPayment()) {
-            $summa->addModify($payment);
-        }
+        if (!$summa->isEmpty()) {
 
-        // check shipping rate
-        if ($shipping = $this->getShipping()) {
-            $summa->addModify($shipping);
+            // check payment rate
+            if ($payment = $this->getPayment()) {
+                $summa = $payment->modify($summa);
+            }
+
+            // check shipping rate
+            if ($shipping = $this->getShipping()) {
+                $summa = $shipping->modify($summa);
+            }
         }
 
         return $summa;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalWeight()
+    {
+        $items = $this->getItems();
+
+        $result = 0;
+        foreach ($items as $item) {
+            if (isset($item->elements['_weight'])) {
+                $result += (float)$item->elements['_weight'] * (float)$item->get('quantity', 0);
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -532,8 +587,7 @@ class JBCartOrder
      */
     public function getPaymentStatus()
     {
-        $payment = $this->getPayment();
-        if ($payment) {
+        if ($payment = $this->getPayment()) {
             return $payment->getStatus();
         }
 
@@ -545,6 +599,17 @@ class JBCartOrder
      */
     public function getShipping()
     {
+        if (!$this->id) {
+            if ($shippingData = JBCart::getInstance()->getShipping()) {
+
+                $shipping = $this->getShippingElement($shippingData['_shipping_id']);
+
+                unset($shippingData['_shipping_id']);
+                $shipping->bindData($shippingData);
+                return $shipping;
+            }
+        }
+
         return $this->_shipping;
     }
 
@@ -553,8 +618,7 @@ class JBCartOrder
      */
     public function getShippingStatus()
     {
-        $shipping = $this->getShipping();
-        if ($shipping) {
+        if ($shipping = $this->getShipping()) {
             return $shipping->getStatus();
         }
 
