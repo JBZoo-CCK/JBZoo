@@ -11,6 +11,8 @@
 ;
 (function ($, window, document, undefined) {
 
+    var globalAjaxId = 0;
+
     JBZoo.widget('JBZoo', {}, {
 
         /**
@@ -59,17 +61,17 @@
 
             var $this = this;
 
+            globalAjaxId++;
+
             if ($this._isAjaxLocking && $this._isAjax) {
-                JBZoo.logger('i', 'ajax::request::has locked - ' + options.url, options.data);
+                JBZoo.logger('i', 'ajax::' + globalAjaxId + ' locked!');
                 return $this;
             }
 
             $this._isAjax = true;
-            if ($.isFunction($this._onAjaxStart)) {
-                $this._onAjaxStart.apply($this, [options]);
-            }
+            $.isFunction($this._onAjaxStart) && $this._onAjaxStart.apply($this, [options]);
 
-            JBZoo.logger('w', 'ajax::request', options);
+            JBZoo.logger('w', 'ajax::' + globalAjaxId + ' ->', options);
 
             var options = $.extend(true, {}, {
                 'url'     : 'index.php?format=raw&tmpl=component',
@@ -85,19 +87,22 @@
                 'error'   : $.noop,
                 'onFatal' : function (responce) {
                     if (JBZoo.DEBUG) {
-                        JBZoo.logger('e', 'ajax::request - ' + options.url, options.data);
-                        JBZoo.dump(responce.responseText, 'Ajax error responce:');
+                        JBZoo.logger('e', 'ajax(' + globalAjaxId + ') ->', responce[0].responseText);
+                    } else {
+                        $this.error('ajax(' + globalAjaxId + ') response no parse');
                     }
-
-                    $this.error("Ajax response no parse");
                 }
             }, options);
 
+            // check url
             if (JBZoo.empty(options.url)) {
-                $this.error("AJAX url is no set!");
+                $this._isAjax = false;
+                $.isFunction($this._onAjaxStop) && $this._onAjaxStop.apply($this, [options]);
+                $this.error("ajax(" + globalAjaxId + ") url is no set!");
                 return;
             }
 
+            // jQuery ajax
             $.ajax({
                 'url'     : options.url,
                 'data'    : options.data,
@@ -117,7 +122,7 @@
                     }
 
                     if (options.dataType == 'json') {
-                        //JBZoo.logger('i', 'ajax::responce', {'result': data.result, 'message': data.message});
+                        JBZoo.logger('i', 'ajax::' + globalAjaxId + ' <-', data);
 
                         if (data.result && $.isFunction(options.success)) {
                             options.success.apply($this, arguments);
@@ -130,18 +135,14 @@
                         options.success.apply($this, arguments);
                     }
 
-                    if ($.isFunction($this._onAjaxStop)) {
-                        $this._onAjaxStop.apply($this, [options, arguments]);
-                    }
+                    $.isFunction($this._onAjaxStop) && $this._onAjaxStop.apply($this, [options, arguments]);
 
                 },
 
                 'error': function () {
                     // inner flag & callback
                     $this._isAjax = false;
-                    if ($.isFunction($this._onAjaxStop)) {
-                        $this._onAjaxStop.apply($this, [options, arguments]);
-                    }
+                    $.isFunction($this._onAjaxStop) && $this._onAjaxStop.apply($this, [options, arguments]);
 
                     options.onFatal(arguments);
                 }
@@ -179,7 +180,7 @@
          * @param message
          */
         error: function (message) {
-            return JBZoo.error('Plugin "' + this._name + '": ' + message);
+            return JBZoo.error(this._name + ': ' + message);
         },
 
         /**
@@ -203,16 +204,10 @@
             yesCallback = yesCallback || $.noop;
 
             if (confirm(message)) {
-                if ($.isFunction(yesCallback)) {
-                    yesCallback.apply($this);
-                }
-
+                $.isFunction(yesCallback) && yesCallback.apply($this);
                 return true;
             } else {
-                if ($.isFunction(noCallback)) {
-                    noCallback.apply($this);
-                }
-
+                $.isFunction(noCallback) && noCallback.apply($this);
                 return false;
             }
         },
@@ -264,6 +259,17 @@
          */
         _: function (key) {
             return key;
+        },
+
+        /**
+         * Check and return default value
+         * @param value
+         * @param defaultValue
+         * @returns {*}
+         * @private
+         */
+        _def: function (value, defaultValue) {
+            return typeof value !== 'undefined' ? value : defaultValue;
         },
 
         /**
