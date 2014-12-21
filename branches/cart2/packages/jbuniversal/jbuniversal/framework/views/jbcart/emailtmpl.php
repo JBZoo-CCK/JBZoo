@@ -13,6 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$this->app->jbassets->js('jbassets:js/widget/emailpreview.js');
 ?>
 <div class="uk-grid">
     <div id="sidebar" class="uk-width-1-6">
