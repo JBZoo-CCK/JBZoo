@@ -864,6 +864,10 @@ class JBCartValue
             return $this->_baseCur;
         }
 
+        if (empty($currency)) {
+            return $this->_baseCur;
+        }
+
         if (array_key_exists($currency, $this->_rates)) {
             return $currency;
         }
