@@ -11,28 +11,129 @@
 ;
 (function ($, window, document, undefined) {
 
-    /**
-     * @author YOOtheme.com
-     * @author JBZoo.com
-     * @param options
-     * @constructor
-     */
-    $.fn.JBZooEditPositions = function (options) {
+    JBZoo.widget('JBZoo.EditPositions', {
+        'urlAddElement'    : "index.php?option=com_zoo",
+        'textNoElements'   : "No elements",
+        'textElementRemove': "Are you sure you want to delete the element?"
+    }, {
 
-        var $this = $(this),
-            defaultOptions = {
-                'urlAddElement'    : "index.php?option=com_zoo",
-                'textNoElements'   : "No elements",
-                'textElementRemove': "Are you sure you want to delete the element?"
-            },
-            options = $.extend({}, defaultOptions, options),
-            $allLists = $(".jsElementList", $this),
-            $editableLists = $(".jsElementList:not(.unassigned)", $this),
-            $newElelements = $(".jsElement", $(".jsElementList.unassigned"));
+        _isAjaxLocking: false,
 
-        $this.emptyList = function () {
+        editableLists: {},
+        newElelements: {},
 
-            $(".jsElementList:not(.unassigned)", $this).each(function () {
+        init: function ($this) {
+            $this.editableLists = $this.$(".jsElementList:not(.unassigned)");
+            $this.newElelements = $(".jsElement", $(".jsElementList.unassigned"));
+
+            $this._initDragable();
+            $this._initSortable();
+
+            $this._emptyList();
+            $this._rebuildList();
+        },
+
+        _initSortable: function () {
+
+            var $this = this;
+
+            $this.editableLists.each(function (n, list) {
+                var $list = $(list);
+
+                $list.sortable({
+                    forcePlaceholderSize: true,
+
+                    connectWith: ".jsElementList",
+                    placeholder: "jsElement",
+                    handle     : ".jsSort",
+                    cursorAt   : {top: 16},
+                    tolerance  : "pointer",
+                    scroll     : false,
+
+                    change: function () {
+                        $this._emptyList();
+                    },
+
+                    update: function (event, ui) {
+
+                        if (ui.item.hasClass("jsAssigning")) {
+
+                            $this.el.find(".jsAssigning").each(function () {
+
+                                if ($(this).data("config")) {
+
+                                    var $newElem = $(this).data("config").clone();
+
+                                    $newElem.find("input:radio").each(function () {
+                                        var newAttrs = $(this).attr("name").replace(/^elements\[[\w_-]+\]/, "elements[_tmp]");
+
+                                        $(this).attr("name", newAttrs);
+                                    });
+
+                                    ui.item.append($newElem);
+                                }
+                            });
+
+                            ui.item.removeClass("jsAssigning");
+                        }
+
+                        $this._emptyList();
+                    },
+
+                    start: function (e, ui) {
+                        ui.helper.addClass("ghost")
+                    },
+
+                    stop: function (e, ui) {
+                        ui.item.removeClass("ghost");
+                        $this._emptyList();
+                        $this._rebuildList();
+                    }
+                });
+            });
+        },
+
+        _initDragable: function () {
+
+            var $this = this;
+
+            $this.newElelements.draggable({
+                connectToSortable: ".jsElementList",
+
+                handle: ".jsSort",
+                scroll: false,
+                zIndex: 1000,
+
+                helper: function () {
+                    var $newElem = $(this).clone();
+                    $newElem.find(".jsConfig").remove();
+                    return $newElem;
+                },
+
+                drag: function () {
+                    $this._emptyList();
+                },
+
+                start: function (event, ui) {
+                    $(this).addClass("jsAssigning");
+                    $(this).data("config", $(this).find(".jsConfig").remove());
+                    ui.helper.addClass("ghost");
+                },
+
+                stop: function (event, ui) {
+                    $(this).removeClass("jsAssigning");
+                    ui.helper.removeClass("ghost");
+                    $(this).append($(this).data("config"));
+                    $this._emptyList();
+                    $this._rebuildList();
+                }
+            });
+        },
+
+        _emptyList: function () {
+            var $this = this;
+
+            $this.$(".jsElementList:not(.unassigned)").each(function () {
 
                 var $list = $(this),
                     $emptyLists = $list.hasClass("empty-list"),
@@ -42,12 +143,14 @@
                     $list.toggleClass("empty-list");
                 }
             });
-        };
+        },
 
-        $this.rebuildList = function () {
-            var regReplace = new RegExp(/(tmp\[[a-z0-9_-]+\]\[[a-z0-9_-]+\])|(positions\[[a-z0-9_-]+\]\[[a-z0-9_-]+\])/);
+        _rebuildList: function () {
 
-            $editableLists.each(function () {
+            var $this = this,
+                regReplace = new RegExp(/(tmp\[[a-z0-9_-]+\]\[[a-z0-9_-]+\])|(positions\[[a-z0-9_-]+\]\[[a-z0-9_-]+\])/);
+
+            $this.editableLists.each(function () {
                 var $position = $(this),
                     positionName = "positions[" + $position.data("position") + "]";
 
@@ -66,133 +169,55 @@
                     });
                 });
             });
-        };
+        },
 
-        $this.noElements = function ($elementList) {
+        noElements: function ($elementList) {
+
+            var $this = this;
 
             $elementList.find(".jsNoElements").remove();
-            if ($this.children(".jsElement").length == 0) {
-                $("<li>").addClass("jsNoElements").text(options.textNoElements).appendTo($elementList)
+
+            if ($this.el.children(".jsElement").length == 0) {
+                $("<li>")
+                    .addClass("jsNoElements")
+                    .text($this.options.textNoElements)
+                    .appendTo($elementList);
             }
-        };
+        },
 
-        $allLists
-            .delegate(".jsSort", "mousedown", function () {
-                $(".jsElement", $this).addClass("hideconfig");
-            })
-            .delegate(".jsEdit", "click", function () {
-                $(this).closest(".jsElement").toggleClass("hideconfig");
-            })
-            .delegate(".jsDelete", "click", function () {
-                if (confirm(options.textElementRemove)) {
-                    $(this).closest(".jsElement").slideUp(300, function () {
-                        $(this).remove();
-                        $this.emptyList();
-                        $this.rebuildList();
-                    });
-                }
-            });
+        'mousedown .jsSort': function (e, $this) {
+            $this.$(".jsElement").addClass("hideconfig");
+        },
 
-        $editableLists.each(function (n, list) {
-            var $list = $(list);
+        'click .jsEdit': function (e, $this) {
+            $(this).closest(".jsElement").toggleClass("hideconfig");
+        },
 
-            $list.sortable({
-                forcePlaceholderSize: true,
+        'click .jsDelete': function (e, $this) {
 
-                connectWith: ".jsElementList",
-                placeholder: "jsElement",
-                handle     : ".jsSort",
-                cursorAt   : {top: 16},
-                tolerance  : "pointer",
-                scroll     : false,
+            if ($this.confirm($this.options.textElementRemove)) {
 
-                change: function () {
-                    $this.emptyList();
-                },
+                $(this).closest(".jsElement").slideUp(300, function () {
+                    $(this).remove();
+                    $this._emptyList();
+                    $this._rebuildList();
+                });
 
-                update: function (event, ui) {
+            }
+        },
 
-                    if (ui.item.hasClass("jsAssigning")) {
-
-                        $this.find(".jsAssigning").each(function () {
-
-                            if ($(this).data("config")) {
-
-                                var $newElem = $(this).data("config").clone();
-
-                                $newElem.find("input:radio").each(function () {
-                                    var newAttrs = $(this).attr("name").replace(/^elements\[[\w_-]+\]/, "elements[_tmp]");
-
-                                    $(this).attr("name", newAttrs);
-                                });
-
-                                ui.item.append($newElem);
-                            }
-                        });
-
-                        ui.item.removeClass("jsAssigning");
-                    }
-
-                    $this.emptyList();
-                },
-
-                start: function (e, ui) {
-                    ui.helper.addClass("ghost")
-                },
-
-                stop: function (e, ui) {
-                    ui.item.removeClass("ghost");
-                    $this.emptyList();
-                    $this.rebuildList();
-                }
-            });
-        });
-
-        $newElelements
-            .draggable({
-                connectToSortable: ".jsElementList",
-
-                handle: ".jsSort",
-                scroll: false,
-                zIndex: 1000,
-
-                helper: function () {
-                    var $newElem = $(this).clone();
-                    $newElem.find(".jsConfig").remove();
-                    return $newElem;
-                },
-
-                drag: function () {
-                    $this.emptyList();
-                },
-
-                start: function (event, ui) {
-                    $(this).addClass("jsAssigning");
-                    $(this).data("config", $(this).find(".jsConfig").remove());
-                    ui.helper.addClass("ghost");
-                },
-
-                stop: function (event, ui) {
-                    $(this).removeClass("jsAssigning");
-                    ui.helper.removeClass("ghost");
-                    $(this).append($(this).data("config"));
-                    $this.emptyList();
-                    $this.rebuildList();
-                }
-            });
-
-        $(".jsAddNewElement", $this).bind("click", function () {
+        'click .jsAddNewElement': function (e, $this) {
 
             var $link = $(this),
                 type = $link.data('type'),
                 group = $link.closest('.jsElementsGroup').data('group'),
-                $elementList = $('.jsElementList:first', $this),
+                $elementList = $this.$('.jsElementList:first'),
                 $place = $("<li>").addClass("element loading").prependTo($elementList);
 
             $elementList.removeClass('empty-list');
 
-            JBZoo.ajax({
-                'url'     : options.urlAddElement,
+            $this.ajax({
+                'url'     : $this.options.urlAddElement,
                 'data'    : {
                     elementType : type,
                     elementGroup: group,
@@ -224,19 +249,17 @@
                         fixed        : false
                     });
 
-                    $this.trigger("element.added", $place);
+                    $this.el.trigger("element.added", $place);
                     $newElement.fadeIn(300, function () {
                         $(this).effect("highlight", {}, 1000)
                     });
 
-                    $this.rebuildList();
+                    $this._rebuildList();
                 }
             });
 
-        });
+        }
 
-        $this.emptyList();
-        $this.rebuildList();
-    };
+    });
 
 })(jQuery, window, document);
