@@ -294,7 +294,7 @@
             mixed = mixed.replace(/\s/g, '');
             mixed = mixed.replace(',', '.');
             mixed = (parseFloat(mixed) || 0);
-            mixed = JBZoo.round(mixed, 9); // hack for nubers like "0.30000000000000004"
+            mixed = JBZoo.round(mixed, 9); // hack for numbers like "0.30000000000000004"
             return mixed;
         },
 
