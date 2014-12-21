@@ -245,7 +245,7 @@ class JBLayoutHelper extends AppHelper
             $htmlItem = $renderer->render($itemLayout, compact('item'));
         }
 
-        $htmlItem = $item->getApplication()->jbtemplate->renderItem($item, $defaultLayout = 'teaser', $htmlItem);
+        $htmlItem = $item->getApplication()->jbtemplate->renderItem($item, $defaultLayout, $htmlItem);
 
         $this->app->event->dispatcher->notify($this->app->event->create($item, 'item:afterRenderLayout', array(
             'layout'   => &$defaultLayout,
