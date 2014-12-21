@@ -11,42 +11,24 @@
 ;
 (function ($, window, document, undefined) {
 
-    $.fn.JBZooEmailPreview = function (options) {
-        var options = $.extend({}, {
-            'url': ''
-        }, options);
+    JBZoo.widget('JBZoo.EmailPreview', {
+        'url': ''
+    }, {
+        'click .jsEmailTmplPreview': function (e, $this) {
+            $this.$('#jsOrderList').toggle();
+        },
 
-        return $(this).each(function () {
+        'click #jsOrderList .order-id': function (e, $this) {
 
-            var $this = $(this),
-                init = false;
-
-            if (init) {
-                return $this;
-            }
-            init = true;
-
-            $('.jsEmailTmplPreview', $this).on('click', function () {
-
-                $('#jsOrderList', $this).toggle();
-
-                return false;
+            SqueezeBox.initialize({});
+            SqueezeBox.open($this.options.url + '&id=' + $(this).data('id'), {
+                handler: 'iframe',
+                size   : {x: 1050, y: 700}
             });
 
+            return false;
+        }
 
-            $('#jsOrderList .order-id', $this).on('click', function () {
+    });
 
-                var $a = $(this),
-                    url = options.url + '&id=' + $a.data('id');
-                SqueezeBox.initialize({});
-                SqueezeBox.open(url, {
-                    handler: 'iframe',
-                    size   : {x: 1050, y: 700}
-                });
-
-                return false;
-            })
-
-        });
-    }
 })(jQuery, window, document);
