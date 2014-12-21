@@ -477,6 +477,10 @@ a.jbajaxlink:hover {
     margin-right: 10px;
 }
 
+.jbzoo-price .jbpriceadv-row {
+    margin-bottom: 12px;
+}
+
 .jbzoo-price .basic-balance-wrap .balance {
     display: inline-block;
 }
@@ -587,7 +591,7 @@ a.jbajaxlink:hover {
 
 .jbedit {
     right: 35px;
-    background: url('/media/zoo/assets/images/edit.png') 0 0 no-repeat;
+    background: url('../img/icon/edit.png') 0 0 no-repeat;
     position: absolute;
     top: 8px;
     width: 16px;
