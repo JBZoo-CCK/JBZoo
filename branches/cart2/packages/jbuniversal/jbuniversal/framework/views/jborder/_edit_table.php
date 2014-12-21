@@ -20,9 +20,10 @@ $shipping = $order->getShipping();
 $orderModifiers = $order->getModifiers(JBCart::MODIFIER_ORDER);
 $itemModifiers  = $order->getModifiers(JBCart::MODIFIER_ITEM);
 
-$summa    = $order->val();
-$baseCur  = $summa->cur();
-$emptyRow = '<tr class="empty-row"><td colspan="50"></td></tr>';
+$summa      = $order->val();
+$baseCur    = $summa->cur();
+$emptyRow   = '<tr class="empty-row"><td colspan="50"></td></tr>';
+$totalCount = 0;
 
 ?>
 <h2><?php echo JText::_('JBZOO_ORDER_ITEMS_LIST'); ?></h2>
@@ -44,12 +45,12 @@ $emptyRow = '<tr class="empty-row"><td colspan="50"></td></tr>';
 
         $item      = $row->get('item');
         $priceItem = $order->val($row->get('total'));
-        $quantity  = $row->get('quantity', 1);
+        $quantity  = (float)$row->get('quantity', 1);
         $totalItem = $priceItem->multiply($quantity, true);
         $discount  = $order->val($row->get('discount'));
         $margin    = $order->val($row->get('margin'));
-
-        $rowspan = count($itemModifiers) + 1;
+        $rowspan   = count($itemModifiers) + 1;
+        $totalCount += $quantity;
         ?>
         <tr class="item-row">
             <td rowspan="<?php echo $rowspan; ?>">
@@ -137,7 +138,8 @@ $emptyRow = '<tr class="empty-row"><td colspan="50"></td></tr>';
     <?php if ($shipping || $payment || $orderModifiers) : ?>
         <tr>
             <td class="noborder-btm"></td>
-            <td colspan="3"><p><?php echo JText::_('JBZOO_ORDER_SUBTOTAL'); ?></p></td>
+            <td colspan="2"><p><?php echo JText::_('JBZOO_ORDER_SUBTOTAL'); ?></p></td>
+            <td class="align-right"><p><?php echo $totalCount; ?></p></td>
             <td class="align-right subtotal-money"><?php echo $summa->html(); ?></td>
         </tr>
         <?php echo $emptyRow; ?>
