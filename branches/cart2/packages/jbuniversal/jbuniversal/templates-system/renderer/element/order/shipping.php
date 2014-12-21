@@ -81,16 +81,13 @@ $uniqId = 'jbcart-' . $element->identifier;
                 $html[] = '<p class="jbcart-shipping-desc">' . JText::_($description) . '</p>';
             }
 
-            if ($element) {
-                $html[] = $element;
-            }
+            $html[] = $element;
+            $html[] = $error;
 
             $html[] = '</div>';
 
             echo implode("\n", $html);
         } ?>
-
-        <?php echo $error; ?>
     </div>
 
 </div>
