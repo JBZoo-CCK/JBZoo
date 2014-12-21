@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -20,14 +19,12 @@ class JBCartElementPriceProperties extends JBCartElementPrice
 {
     /**
      * Check if element has value
-     *
      * @param array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
     {
-        return FALSE;
+        return false;
     }
 
     /**
@@ -40,12 +37,11 @@ class JBCartElementPriceProperties extends JBCartElementPrice
             return self::renderLayout($layout);
         }
 
-        return FALSE;
+        return false;
     }
 
     /**
      * @param array $params
-     *
      * @return array|mixed|null|string|void
      */
     public function render($params = array())
@@ -61,7 +57,7 @@ class JBCartElementPriceProperties extends JBCartElementPrice
             ));
         }
 
-        return NULL;
+        return null;
     }
 
 }
