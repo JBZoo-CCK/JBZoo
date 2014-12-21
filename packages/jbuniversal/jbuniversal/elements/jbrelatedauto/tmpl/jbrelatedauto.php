@@ -18,6 +18,11 @@ $count = count($items);
 
 if ($count) {
 
+    $appParams = $this->getItem()->getApplication()->params;
+    if ((int)$appParams->get('global.config.column_heightfix', 0)) {
+        $this->app->jbassets->heightFix();
+    }
+
     echo '<div class="related-items related-items-col-' . $columns . ' clearfix">';
 
     $j = 0;
