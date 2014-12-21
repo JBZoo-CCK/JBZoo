@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+-->
+<renderer>
+    <positions layout="feed">
+        <position name="description">Description</position>
+    </positions>
+
+    <positions layout="full">
+        <position name="title">Title</position>
+        <position name="subtitle">Subtitle</position>
+
+        <position name="likes">Likes</position>
+        <position name="rating">Rating</position>
+        <position name="meta">Meta</position>
+
+        <position name="image">Image</position>
+        <position name="price">Price</position>
+        <position name="anons">Anons</position>
+
+        <position name="tab-text">Tab: text</position>
+        <position name="tab-gallery">Tab: gallery</position>
+        <position name="tab-properties">Tab: properties</position>
+        <position name="tab-reviews">Tab: reviews</position>
+        <position name="tab-comments">Tab: comments</position>
+
+        <position name="social">Social</position>
+        <position name="related">Related</position>
+    </positions>
+
+    <positions layout="teaser">
+        <position name="title">Title</position>
+        <position name="price">Price</position>
+        <position name="properties">Properties</position>
+        <position name="image">Image</position>
+        <position name="rating">Rating</position>
+        <position name="links">Links</position>
+        <position name="favourite">Favourite</position>
+    </positions>
+
+    <positions layout="related">
+        <position name="image">Image</position>
+        <position name="rating">Rating</position>
+        <position name="title">Title</position>
+        <position name="properties">Properties</position>
+        <position name="links">Links</position>
+    </positions>
+
+    <positions layout="subcategory_item">
+        <position name="title">Title</position>
+        <position name="image">Image</position>
+        <position name="properties">Properties</position>
+        <position name="text">Text</position>
+        <position name="meta">Meta</position>
+    </positions>
+
+    <positions layout="submission">
+        <position name="content">Content</position>
+        <position name="media">Media</position>
+        <position name="meta">Meta</position>
+        <position name="administration">Administration</position>
+    </positions>
+
+    <positions layout="compare">
+        <position name="fields">Fields</position>
+    </positions>
+
+    <positions layout="favorite">
+        <position name="title">Title</position>
+        <position name="image">Image</position>
+        <position name="properties">Properties</position>
+        <position name="text">Text</position>
+        <position name="meta">Meta</position>
+    </positions>
+
+    <positions layout="quickview">
+        <position name="top">Top</position>
+        <position name="title">Title</position>
+        <position name="price">Price</position>
+        <position name="image">Image</position>
+        <position name="description">Description</position>
+        <position name="properties">Properties</position>
+        <position name="bottom">Bottom</position>
+        <position name="related">Related</position>
+    </positions>
+
+    <positions layout="ymlexport">
+        <position name="title">Title</position>
+        <position name="properties">Properties</position>
+        <position name="image">Image</position>
+        <position name="description">Description</position>
+        <position name="vendor">Vendor</position>
+        <position name="country_of_origin">Country of origin</position>
+    </positions>
+
+</renderer>
