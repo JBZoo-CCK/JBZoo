@@ -101,11 +101,6 @@ class ElementJBRelatedAuto extends Element
 
         }
 
-        $appParams = $this->getItem()->getApplication()->params;
-        if ((int)$appParams->get('global.config.column_heightfix', 0)) {
-            $this->app->jbassets->heightFix();
-        }
-
         $columns = $params->get('columns', 1);
         if ($columns > 0 && $params->get('layout', false)) {
             if ($layout = $this->getLayout()) {
