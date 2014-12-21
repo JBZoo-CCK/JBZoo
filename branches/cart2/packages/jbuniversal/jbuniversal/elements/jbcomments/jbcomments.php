@@ -151,7 +151,6 @@ class ElementJBComments extends Element implements iSubmittable
         }
     }
 
-
     /**
      * @param $html
      * @return string
@@ -164,14 +163,12 @@ class ElementJBComments extends Element implements iSubmittable
         }
     }
 
-
     /**
      * Edit action
      * @return string
      */
     public function edit()
     {
-
         if ($layout = $this->getLayout('edit.php')) {
             if ((int)$this->config->get('fb_comments_enabled', 0) || (int)$this->config->get('vk_comments_enabled', 0)) {
                 return $this->renderLayout($layout);
