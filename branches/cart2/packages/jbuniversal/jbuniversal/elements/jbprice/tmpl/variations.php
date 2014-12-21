@@ -47,9 +47,7 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
 
     if ((int)$mode) : ?>
 
-        <a href="#show-variations" class="jbajaxlink jsShowVariations">
-            <?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?>
-        </a>
+        <span class="jsShowVariations jbbutton small"><?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?></span>
 
         <div class="variations" style="display: none;">
 
