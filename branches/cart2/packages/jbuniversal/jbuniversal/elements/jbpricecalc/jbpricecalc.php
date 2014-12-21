@@ -228,4 +228,13 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         return $this;
     }
 
+    /**
+     * @return $this|void
+     */
+    public function loadAssets()
+    {
+        parent::loadAssets();
+        $this->app->jbassets->less('elements:jbpricecalc/assets/less/jbpricecalc.less');
+    }
+
 }
