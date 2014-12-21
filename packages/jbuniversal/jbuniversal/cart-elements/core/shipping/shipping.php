@@ -44,8 +44,6 @@ abstract class JBCartElementShipping extends JBCartElement
 
         $this->_jbmoney    = $this->app->jbmoney;
         $this->_cartConfig = JBModelConfig::model()->getGroup('cart.config');
-
-        $this->registerCallback('ajaxGetPrice');
     }
 
     /**
@@ -210,16 +208,6 @@ abstract class JBCartElementShipping extends JBCartElement
     public function validateSubmission($value, $params)
     {
         return array('value' => $this->getRate());
-    }
-
-    /**
-     * Get shipping price by ajax
-     */
-    public function ajaxGetPrice()
-    {
-        $this->app->jbajax->send(array(
-            'price' => $this->getRate()->html(),
-        ));
     }
 
     /**
