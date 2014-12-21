@@ -20,14 +20,6 @@
         <param name="max_upload_size" type="text" default="512" label="MAX UPLOAD SIZE KB"
                description="UPLOAD_MAX_SIZE_DESCRIPTION"/>
 
-        <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME"
-               description="JBZOO_ELEMENT_NAME_DESC"/>
-
-        <param name="description" type="text" default="" label="JBZOO_ELEMENT_DESCRIPTION"
-               description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
-
-        <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
-               description="JBZOO_ELEMENT_ACCESS_DESC"/>
     </params>
 
     <params group="render">
