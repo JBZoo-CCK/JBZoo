@@ -856,7 +856,6 @@ a.jbajaxlink:hover {
 
 .creation-form .jbzoo-price .jbprice-variation-row input[type="text"] {
     width: 60%;
-    text-indent: 10px;
     text-align: left;
 }
 
@@ -869,7 +868,6 @@ a.jbajaxlink:hover {
 .creation-form .jbzoo-price .jbprice-variation-row textarea {
     width: 320px;
     height: 150px;
-    text-indent: 10px;
 }
 
 /*********************************** JBImage element ******************************************************************/
