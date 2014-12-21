@@ -126,13 +126,11 @@ class JBEventItem extends JBEvent
     {
         $order     = $event->getSubject();
         $ordParams = $event->getParameters();
-
-        $newOrder = self::app()->jborder->setItemOrder($order, $ordParams['result']);
+        $newOrder  = self::app()->jborder->setItemOrder($order, $ordParams['result']);
 
         if ($newOrder) {
             $ordParams['result'] = $newOrder;
         }
-
     }
 
     /**
