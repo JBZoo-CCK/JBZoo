@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -10,20 +9,25 @@
  * @coder       Andrey Voytsehovsky <kess@jbzoo.com>
  */
 
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 
+/**
+ * Class JBCartElementOrderUpload
+ */
 class JBCartElementOrderUpload extends JBCartElementOrder
 {
 
-
     /**
-     * Gets the size of a file
-     * @return mixed
+     * Checks if an element has value
+     * @param array $params
+     * @return bool
      */
-    public function getSize()
+    public function hasValue($params = array())
     {
-        return $this->app->filesystem->formatFilesize($this->get('size', 0));
+        $file = $this->app->path->path('root:' . $this->get('file'));
+        return !empty($file) && is_readable($file) && is_file($file);
     }
-
 
     /**
      * Renders the element
@@ -32,10 +36,8 @@ class JBCartElementOrderUpload extends JBCartElementOrder
      */
     public function render($params = array())
     {
-
         return $this->edit($params);
     }
-
 
     /**
      * For viewing in the admin panel
@@ -44,25 +46,15 @@ class JBCartElementOrderUpload extends JBCartElementOrder
      */
     public function edit($params = array())
     {
-
         if ($this->get('file')) {
-
-            $html[] = '<a href="/';
-            $html[] = $this->app->path->relative($this->get('file'));
-            $html[] = '">';
-            $html[] = $this->app->path->relative($this->get('file'));
-            $html[] = '</a>';
-            $html[] = ' <span>(';
-            $html[] = $this->getSize();
-            $html[] = ')</span>';
-
-            return implode("", $html);
-        } else {
-
-            return ' - ';
+            // TODO add download file with protection
+            $relPath = $this->app->path->relative($this->get('file'));
+            return '<a href="' . JUri::root() . $relPath . '" target="_blank">' . $relPath . '</a>'
+            . ' (' . $this->_getSize() . ')';
         }
-    }
 
+        return ' - ';
+    }
 
     /**
      * Binds data
@@ -77,7 +69,6 @@ class JBCartElementOrderUpload extends JBCartElementOrder
         $this->_updateFileSize();
     }
 
-
     /**
      * Renders element in an order form
      * @param array $params
@@ -85,28 +76,27 @@ class JBCartElementOrderUpload extends JBCartElementOrder
      */
     public function renderSubmission($params = array())
     {
-
         // init vars
         $upload = $this->get('file');
-
-        // is uploaded file
-        $upload = is_array($upload) ? '' : $upload;
+        $upload = is_array($upload) ? '' : $upload; // is uploaded file
 
         if (!empty($upload)) {
             $upload = basename($upload);
         }
 
-        $max_size = $this->config->get('max_upload_size', '512') * 1024;
-        $max_size = empty($max_size) ? null : $max_size;
+        $maxSize = $this->config->get('max_upload_size', '512') * 1024;
+        $maxSize = empty($maxSize) ? null : $maxSize;
 
         if ($layout = $this->getLayout('submission.php')) {
-            return $this->renderLayout($layout,
-                compact('upload', 'max_size')
-            );
+            return $this->renderLayout($layout, array(
+                'upload'          => $upload,
+                'maxSizeFormated' => $this->app->filesystem->formatFilesize($maxSize),
+                'maxSizeBytes'    => $maxSize,
+                'uploadFlag'      => $upload ? 1 : '',
+            ));
         }
 
     }
-
 
     /**
      * Validates submission
@@ -119,7 +109,6 @@ class JBCartElementOrderUpload extends JBCartElementOrder
      */
     public function validateSubmission($value, $params)
     {
-
         // get old file value
         $old_file = $this->get('file');
         $file     = '';
@@ -166,10 +155,10 @@ class JBCartElementOrderUpload extends JBCartElementOrder
 
         if ($userfile && is_array($userfile)) {
             // get file name
-            $ext = $this->app->filesystem->getExtension($userfile['name']);
+            $ext       = $this->app->filesystem->getExtension($userfile['name']);
             $base_path = JPATH_ROOT . '/' . $this->_getUploadPath() . '/';
-            $file = $base_path . $userfile['name'];
-            $filename = basename($file, '.' . $ext);
+            $file      = $base_path . $userfile['name'];
+            $filename  = basename($file, '.' . $ext);
 
             $i = 1;
             while (JFile::exists($file)) {
@@ -189,7 +178,6 @@ class JBCartElementOrderUpload extends JBCartElementOrder
         return compact('file');
     }
 
-
     /**
      * Gets upload path from config
      * @return string
@@ -198,7 +186,6 @@ class JBCartElementOrderUpload extends JBCartElementOrder
     {
         return trim(trim($this->config->get('upload_directory', 'images/jbzoo/uploads/')), '\/');
     }
-
 
     /**
      * Adds file size info
@@ -217,29 +204,35 @@ class JBCartElementOrderUpload extends JBCartElementOrder
         }
     }
 
-
-    /**
-     * Checks if an element has value
-     * @param array $params
-     * @return bool
-     */
-    public function hasValue($params = array())
+    public function loadAssets()
     {
-        // init vars
-        $file = $this->app->path->path('root:' . $this->get('file'));
-        return !empty($file) && is_readable($file) && is_file($file);
+        $this->app->jbassets->js('cart-elements:order/upload/assets/js/upload.js');
     }
 
-
+    /**
+     * @return string
+     */
+    protected function _getUploadName()
+    {
+        return 'elements_' . $this->identifier;
+    }
 
     /**
      * Gets file extension
      * @return mixed
      */
-    public function getExtension()
+    protected function _getExtension()
     {
         return $this->app->filesystem->getExtension($this->get('file'));
     }
 
+    /**
+     * Gets the size of a file
+     * @return mixed
+     */
+    protected function _getSize()
+    {
+        return $this->app->filesystem->formatFilesize($this->get('size', 0));
+    }
 
 }
