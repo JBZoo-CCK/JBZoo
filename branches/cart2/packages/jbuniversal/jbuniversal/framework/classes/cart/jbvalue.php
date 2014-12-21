@@ -577,6 +577,10 @@ class JBCartValue
             $currecny = $this->_currency;
         }
 
+        if ($this->cur() == self::PERCENT) {
+            $currecny = $this->cur();
+        }
+
         $currecny = $this->_checkCur($currecny);
         $format   = $this->_rates[$currecny]['format'];
         $format   = array_merge($this->_defaultFormat, (array)$format);
@@ -961,7 +965,6 @@ class JBCartValue
         $this->_logs = array();
         $this->_log('Has cloned from id = ' . $oldId . ' and created new with id = ' . $this->_id . '; dump = ' . $this->dump());
     }
-
 
 }
 
