@@ -396,8 +396,9 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Height fix for items columns
+     * @param string $element
      */
-    public function heightFix()
+    public function heightFix($element = '.column')
     {
         static $isAdded;
 
@@ -406,7 +407,9 @@ class JBAssetsHelper extends AppHelper
 
         if (!isset($isAdded)) {
             $isAdded = true;
-            $this->addScript('jQuery(function($){ $(".jbzoo .items, .jbzoo .subcategories, .jbzoo .related-items").JBZooHeightFix(); });');
+            $this->addScript('jQuery(function($){
+                $(".jbzoo .items, .jbzoo .subcategories, .jbzoo .related-items").JBZooHeightFix({element : "' . $element. '"});
+            });');
         }
     }
 

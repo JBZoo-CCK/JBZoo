@@ -15,15 +15,17 @@
      * Height fix plugin
      */
     JBZoo.widget('JBZoo.HeightFix', {
-        timeout: 300
+        timeout: 300,
+        element: '.column'
     }, {
 
         init: function ($this) {
+
             var maxHeight = 0;
 
             $this._delay(function () {
 
-                $this.$('.column').each(function (n, obj) {
+                $this.$($this.options.element).each(function (n, obj) {
 
                     var tmpHeight = JBZoo.int($(obj).height());
 
