@@ -103,9 +103,7 @@ class JBCartElementOrderUpload extends JBCartElementOrder
      * @param $value
      * @param $params
      * @return array
-     * @throws AppException
      * @throws AppValidatorException
-     * @throws Exception
      */
     public function validateSubmission($value, $params)
     {
@@ -153,7 +151,7 @@ class JBCartElementOrderUpload extends JBCartElementOrder
             throw new AppValidatorException('Please select a file to upload.');
         }
 
-        if ($userfile && is_array($userfile)) {
+        if ($userfile['tmp_name'] && is_array($userfile)) {
             // get file name
             $ext       = $this->app->filesystem->getExtension($userfile['name']);
             $base_path = JPATH_ROOT . '/' . $this->_getUploadPath() . '/';
@@ -166,7 +164,7 @@ class JBCartElementOrderUpload extends JBCartElementOrder
             }
 
             if (!JFile::upload($userfile['tmp_name'], $file)) {
-                throw new AppException('Unable to upload file.');
+                throw new AppValidatorException('Unable to upload file.');
             }
 
             $this->app->zoo->putIndexFile(dirname($file));
