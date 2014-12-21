@@ -24,9 +24,14 @@ class JBMoneyHelper extends AppHelper
     static $curList = array();
 
     /**
-     * @var array
+     * @var JSONData
      */
     protected $_config = array();
+
+    /**
+     * @var string
+     */
+    protected $_defaultCur = '';
 
     /**
      * @var boolean
@@ -54,7 +59,8 @@ class JBMoneyHelper extends AppHelper
     {
         parent::__construct($app);
 
-        $this->_config = JBModelConfig::model();
+        $this->_config     = JBModelConfig::model();
+        $this->_defaultCur = $this->_config->get('default_currency', 'eur', 'cart.config'); // TODO use constant
     }
 
     /**
@@ -216,11 +222,7 @@ class JBMoneyHelper extends AppHelper
      */
     public function getDefaultCur()
     {
-        if (!class_exists('JBCartElementCurrency')) {
-            $this->app->jbcartelement; // just init constructor
-        }
-
-        return JBCartElementCurrency::BASE_CURRENCY;
+        return $this->_defaultCur;
     }
 
     /**
@@ -245,75 +247,6 @@ class JBMoneyHelper extends AppHelper
     public function format($value)
     {
         return JBCart::val($value)->text();
-    }
-
-    /**
-     * Calculate total value
-     * @param float  $value
-     * @param string $baseCurrency
-     * @param float  $addValue
-     * @param string $currency
-     * @return float
-     */
-    public function calc($value, $baseCurrency, $addValue, $currency)
-    {
-        $value    = $this->clearValue($value);
-        $addValue = $this->clearValue($addValue);
-
-        $baseCurrency = $this->clearCurrency($baseCurrency);
-        $currency     = $this->clearCurrency($currency, $baseCurrency);
-
-        $sign = '';
-        if ($addValue[0] == '-' || $addValue[0] == '+') {
-            $sign = $addValue[0];
-        }
-
-        if ($currency == self::PERCENT) {
-            $addValue = (float)($sign . abs($value * $addValue / 100));
-        } else {
-            $addValue = (float)($sign . abs($this->convert($currency, $baseCurrency, $addValue)));
-        }
-
-        if ($sign == '-' || $sign == '+') {
-            $result = $value + $addValue;
-        } else {
-            $result = $addValue;
-        }
-
-        if ($result <= 0) {
-            return 0;
-        }
-
-        return $result;
-    }
-
-    /**
-     * Calculate with discount value
-     * @param $value
-     * @param $baseCurrency
-     * @param $addValue
-     * @param $currency
-     * @return float
-     */
-    public function calcDiscount($value, $baseCurrency, $addValue, $currency)
-    {
-        $value        = $this->clearValue($value);
-        $baseCurrency = $this->clearCurrency($baseCurrency);
-        $addValue     = $this->clearValue($addValue);
-        $currency     = $this->clearCurrency($currency, $baseCurrency);
-
-        if ($currency == self::PERCENT) {
-            $addValue = $value * $addValue / 100;
-        } else {
-            $addValue = $this->convert($currency, $baseCurrency, $addValue);
-        }
-
-        $result = $value + $addValue;
-        if ($result <= 0) {
-            return 0;
-        }
-
-        return $result;
     }
 
     /**
