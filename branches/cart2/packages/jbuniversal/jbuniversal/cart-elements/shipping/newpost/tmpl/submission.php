@@ -51,7 +51,6 @@ $uiqueId = $this->app->jbstring->getId('newpost-');
 
 <script type="text/javascript">
     jQuery(function ($) {
-        $('#<?php echo $uiqueId;?>').JBZooShippingTypeNewpost(<?php echo json_encode(array(
-         ));?>);
+        $('#<?php echo $uiqueId;?>').JBZooShippingTypeNewpost();
     });
 </script>

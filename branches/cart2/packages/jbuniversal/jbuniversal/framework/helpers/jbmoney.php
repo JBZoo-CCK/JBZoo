@@ -18,8 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBMoneyHelper extends AppHelper
 {
-    const BASE_CURRENCY = 'EUR'; // don't touch!
-    const PERCENT       = '%';
+    const PERCENT = '%';
 
     static $curList = array();
 
