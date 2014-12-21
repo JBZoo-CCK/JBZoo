@@ -1,0 +1,49 @@
+<?php
+/**
+ * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ * @package     jbzoo
+ * @version     2.x Pro
+ * @author      JBZoo App http://jbzoo.com
+ * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+ * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
+ */
+
+// no direct access
+defined('_JEXEC') or die('Restricted access');
+
+$classes = array(
+    'jbcart-shipping',
+    $view->shipping && $view->shippingFields ? 'jbcart-shipping-full' : '',
+    'clearfix'
+);
+
+?>
+
+<div class="<?php echo implode(' ', $classes); ?>">
+
+    <?php
+    $this->app->jbassets->less('jbassets:less/cart/shipping.less');
+    $this->app->jbassets->less('jbassets:less/cart/shippingfield.less');
+    $this->app->jbassets->js('jbassets:js/cart/shipping.js');
+    $this->app->jbassets->js('jbassets:js/cart/shipping-service.js');
+    ?>
+
+    <?php if (!empty($view->shipping)) : ?>
+        <div class="jbcart-shipping-col">
+            <?php echo $view->shippingRenderer->render('shipping.default', array(
+                'order' => $view->order
+            ));?>
+        </div>
+    <?php endif; ?>
+
+
+    <?php if (!empty($view->shippingFields)) : ?>
+        <div class="jbcart-shippingfield-col">
+            <?php echo $view->shippingFieldRenderer->render('shippingfield.default', array(
+                'order' => $view->order
+            )); ?>
+        </div>
+    <?php endif; ?>
+
+</div>
