@@ -115,7 +115,6 @@
             } else {
                 this.el.val(newVal);
                 this._update();
-                return this.el;
             }
         },
 
