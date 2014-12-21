@@ -50,7 +50,6 @@ $uiqueId = $this->app->jbstring->getId('emspost-');
 
 <script type="text/javascript">
     jQuery(function ($) {
-        $('#<?php echo $uiqueId;?>').JBZooShippingTypeRussianPost(<?php echo json_encode(array(
-        ));?>);
+        $('#<?php echo $uiqueId;?>').JBZooShippingTypeRussianPost();
     });
 </script>
