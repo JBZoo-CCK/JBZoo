@@ -35,13 +35,30 @@ class JBPriceFilterElementJBColor extends JBPriceFilterElement
             $this->_value = $this->app->jbcolor->clean(explode(',', $this->_value));
         }
 
+        $colors = explode("\n", $this->_element->config->get('options'));
+        $path   = JString::trim($this->_element->config->get('path'));
+        $colors = $this->app->jbcolor->getColors($colors, $path);
+
+        $data   = array();
+        $titles = array();
         $values = $this->_createValues($this->_getDbValues());
+
+        foreach ($values as $key => $value) {
+            if (isset($colors[$value])) {
+                $color = $colors[$value];
+
+                $data[$key]   = $color;
+                $titles[$key] = $value;
+            }
+        }
 
         return $this->html->colors(
             $type,
-            $values,
+            $data,
             $this->_getName(),
-            $this->_value
+            $this->_value,
+            array(),
+            $titles
         );
     }
 
@@ -51,19 +68,12 @@ class JBPriceFilterElementJBColor extends JBPriceFilterElement
      */
     protected function _createValues($values)
     {
-        $colors = explode("\n", $this->_element->config->get('options'));
-        $path   = JString::trim($this->_element->config->get('path'));
-
         $result = array();
-        $colors = $this->app->jbcolor->getColors($colors, $path);
-
         foreach ($values as $value) {
-            $result[$value['value']] = $value['value'];
+            $result[$value['value']] = $value['text'];
         }
 
-        $colors = array_intersect(array_flip($colors), $result);
-
-        return array_flip($colors);
+        return $result;
     }
 
 }

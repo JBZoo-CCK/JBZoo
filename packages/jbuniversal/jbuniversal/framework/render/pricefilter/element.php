@@ -137,9 +137,7 @@ class JBPriceFilterElement
 
     /**
      * Get available values
-     *
      * @param null $type
-     *
      * @return array
      */
     protected function _getValues($type = null)
@@ -174,7 +172,7 @@ class JBPriceFilterElement
     {
         return JBModelValues::model()->getParamsValues(
             $this->_jbprice->identifier,
-            $this->_identifier,
+            $this->_getSkuId(),
             $this->_params->get('item_type', null),
             $this->_params->get('item_application_id', null)
         );
@@ -304,13 +302,23 @@ class JBPriceFilterElement
      */
     protected function _getName($postFix = null, $key = null)
     {
-        $name = 'e[' . $this->_jbprice->identifier . '][' . $this->_identifier . '][' . $key . ']';
+        $name = 'e[' . $this->_jbprice->identifier . '][' . $this->_getSkuId() . '][' . $key . ']';
 
         if ($postFix !== null) {
             $name .= '[' . $postFix . ']';
         }
 
         return $name;
+    }
+
+    /**
+     * Get id from elements table
+     *
+     * @return int
+     */
+    protected function _getSkuId()
+    {
+        return JBModelSku::$ids[$this->_identifier];
     }
 
     /**
@@ -324,6 +332,21 @@ class JBPriceFilterElement
             $this->_value,
             $this->_attrs,
             $this->_getId()
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function autoCompleteInput()
+    {
+        $value = (array)$this->_value;
+
+        return $this->html->hidden(
+            $this->_getName(null, 'id'),
+            isset($value['id']) ? $value['id'] : $value[0],
+            array('class' => 'jsPriceAutoCompleteValue'),
+            $this->_getId('sku-value')
         );
     }
 
@@ -374,7 +397,9 @@ class JBPriceFilterElement
         }
 
         if ($isAutocomplete) {
-            $attrs['class'][]     = 'jsAutocomplete';
+            $this->app->jbassets->initPriceAutocomplete();
+
+            $attrs['class'][]     = 'jsPriceAutoComplete';
             $attrs['placeholder'] = $this->_getPlaceholder();
         }
 

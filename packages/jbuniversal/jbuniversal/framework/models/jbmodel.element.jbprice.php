@@ -18,6 +18,11 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBModelElementJBPrice extends JBModelElement
 {
+    /**
+     * @type \JBPriceHelper
+     */
+    protected $helper;
+
     const DATE_FORMAT = 'Y-m-d';
 
     /**
@@ -28,7 +33,8 @@ class JBModelElementJBPrice extends JBModelElement
     function __construct(Element $element, $applicationId, $itemType)
     {
         parent::__construct($element, $applicationId, $itemType);
-        $this->money = $this->app->jbmoney;
+        $this->money  = $this->app->jbmoney;
+        $this->helper = $this->app->jbprice;
     }
 
     /**
@@ -75,95 +81,126 @@ class JBModelElementJBPrice extends JBModelElement
      */
     protected function _getWhere(JBDatabaseQuery $select, $elementId, $values, $logic = 'AND', $exact = false)
     {
-        $data = $this->_processing($values, $exact);
+        $data  = $this->_prepareValue($values, $exact);
+        if (empty($data)) {
+            return null;
+        }
 
-        $where   = array();
-        $isFirst = true;
-        $type    = null;
+        $isFirst = 0;
+        $logic   = 'AND';
 
-        $innerSelect = $this
+        $where = $this
             ->_getSelect()
-            ->select('DISTINCT tSku.item_id as id')
+            ->select('tSku.item_id as id')
             ->from(ZOO_TABLE_JBZOO_SKU . ' AS tSku')
-            ->where('tSku.element_id = ?', $elementId);
+            ->where('tSku.element_id = ?', $elementId)
+            ->innerJoin(JBModelSku::JBZOO_TABLE_SKU_VALUES . ' AS tValues ON tValues.id = tSku.value_id');
 
-        foreach ($data as $id => $values) {
-            if ($element = $this->_element->getElement($id)) {
-                $type = $element->getElementType();
+        $iterator = new RecursiveArrayIterator($data);
+        foreach ($iterator as $key => $value) {
+            $id = array_search($iterator->key(), JBModelSku::$ids);
+            if ($isFirst !== 0) {
+                $logic = ' OR ';
             }
 
-            $innerWhere = array();
-            foreach ($values as $key => $value) {
-                if (is_null($value)) {
-                    continue;
-                }
-                if (is_string($value)) {
+            $where->where('tSku.param_id = ?', $iterator->key(), $logic);
+            if ($iterator->hasChildren()) {
 
-                    $value = JString::trim($value);
-                    if (JString::strlen($value) === 0) {
-                        continue;
+                $children = (array)$iterator->getChildren();
+                $inParams = 'AND';
+                $first    = key($children);
+
+                foreach ($children as $param_id => $string) {
+                    if ($first != $param_id) {
+                        $inParams = 'OR';
+                    }
+
+                    if ($id == '_value') {
+                        $where->where($string, null, $inParams);
+
+                    } elseif ((int)($param_id === 'id')) {
+                        $where->where('tSku.value_id = ?', $string, $inParams);
+
+                    } elseif ($this->isDate($string)) {
+                        $string = $this->_date($string);
+                        $where->where($string, null, $inParams);
+
+                    } elseif ($exact) {
+                        $where->where('tValues.value_s = ?', $string, $inParams);
+
+                    } else {
+                        $where->where($this->_buildLikeBySpaces($string, 'tValues.value_s'), null, $inParams);
                     }
                 }
-
-                if ($id == '_value') {
-                    $innerWhere[$key] = implode(' AND ', $this->_value($value));
-
-                } elseif ($type == 'date') {
-                    $innerWhere[$key] = implode(' AND ', $this->_date($value));
-
-                } elseif ($this->_element->isNumeric($value)) {
-                    $innerWhere[$key] = 'tSku.value_n = ' . $this->_quote($value);
-
-                } elseif ($exact) {
-                    $innerWhere[$key] = 'tSku.value_s = ' . $this->_quote($value);
-
-                } else {
-                    $innerWhere[$key] = $this->_buildLikeBySpaces($value, 'tSku.value_s');
-                }
             }
 
-            if (!empty($innerWhere)) {
-
-                $innerWhere = array(' AND (' . implode(") $logic (", $innerWhere) . ')'); // between the elements
-                array_unshift($innerWhere, 'tSku.param_id = ' . $this->_quote($id));
-
-                $where[] = ($isFirst !== true ? " $logic " : null) . "(" . implode($innerWhere) . ')';
-                $isFirst = false;
-            }
+            $isFirst++;
         }
 
-        if (!empty($where)) {
-            $innerSelect->where(implode($where));
-            //jbdump::sql($innerSelect);
-            $idList = $this->_groupBy($this->fetchAll($innerSelect), 'id');
-            if (!empty($idList)) {
-                return array('tItem.id IN (' . implode(',', $idList) . ')');
-            }
+        $where->group('tSku.item_id');
+        if ($isFirst > 0) {
+            $where->having('COUNT(tSku.item_id) >= ?', $isFirst);
         }
 
-        return null;
+        $idList = $this->_groupBy($this->fetchAll($where), 'id');
+        if (!empty($idList)) {
+            return array('tItem.id IN (' . implode(',', $idList) . ')');
+        }
+
+        return array('tItem.id IN (0)');
     }
 
     /**
      * @param array|string $values
      *
+     * @param bool         $exact
      * @return mixed|void
      */
-    protected function _processing($values)
+    protected function _prepareValue($values, $exact = false)
     {
-        $elms = $this->_element->getElementsByType('date');
-        $date = reset($elms);
+        $values = $this->unsetEmpty($values);
 
-        if (isset($values['_value'])) {
-            $values['_value'] = $this->_processValue($values['_value']);
-        }
+        $value_id = isset(JBModelSku::$ids['_value']) ? JBModelSku::$ids['_value'] : false;
 
-        if ($date && isset($values[$date->identifier])) {
-            $uuid          = $date->identifier;
-            $values[$uuid] = $this->_processDate($values[$uuid]);
+        if (isset($values[$value_id]) && !empty($values[$value_id])) {
+            $values[$value_id] = $this->_processValue($values[$value_id]);
         }
 
         return $values;
+    }
+
+    /**
+     * Unset empty
+     *
+     * @param $values
+     * @return array
+     */
+    protected function unsetEmpty($values)
+    {
+        if (empty($values)) {
+            return $values;
+        }
+        $result = array();
+
+        $iterator  = new RecursiveArrayIterator($values);
+        $recursive = new RecursiveIteratorIterator($iterator);
+
+        foreach ($recursive as $key => $value) {
+
+            $value = JString::trim($value);
+            if (!empty($value)) {
+                $depth  = $recursive->getDepth();
+                $subKey = $recursive->getSubIterator(--$depth)->key();
+
+                if ($subKey != $iterator->key()) {
+                    $result[$iterator->key()][$subKey][$key] = $value;
+                } else {
+                    $result[$iterator->key()][$key] = $value;
+                }
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -172,18 +209,27 @@ class JBModelElementJBPrice extends JBModelElement
      */
     protected function _processValue($values = array())
     {
-        if (empty($values)) {
-            return $values;
-        }
-
         if (count($values)) {
-            foreach ($values as $key => $value) {
-                if (!isset($value[0]) && !isset($value[1])) {
-                    unset($values[$key]);
-                    continue;
-                }
 
-                $values[$key] = $this->_setMinMax($value);
+            foreach ($values as $key => $value) {
+
+                if (is_string($value) && $this->isRange($value)) {
+                    $range        = $this->_setMinMax($value);
+                    $values[$key] = $this->_value($range);
+
+                } elseif ((is_array($value) && (isset($value['range']) && !empty($value['range'])))) {
+                    $range        = $this->_setMinMax($value['range']);
+                    $values[$key] = $this->_value($range);
+
+                } elseif ((is_array($value)) && (!empty($value['min']) || !empty($value['max']))) {
+                    $values[$key] = $this->_value($value);
+
+                } elseif (is_string($value)) {
+                    $values[$key] = $this->toSql('tValues.value_n', $value);
+
+                } else {
+                    unset($value[$key]);
+                }
             }
         }
 
@@ -224,10 +270,16 @@ class JBModelElementJBPrice extends JBModelElement
      */
     protected function _value($values)
     {
-        return array(
-            'tSku.value_n >= ' . $this->_quote((float)$values['min']),
-            'tSku.value_n <= ' . $this->_quote((float)$values['max'])
-        );
+        $range = array();
+        if (isset($values['min'])) {
+            $range[] = 'tValues.value_n >= ' . $this->_quote(floor($values['min']));
+        }
+
+        if (isset($values['max'])) {
+            $range[] = ' tValues.value_n <= ' . $this->_quote(ceil($values['max']));
+        }
+
+        return implode(' AND ', $range);
     }
 
     /**
@@ -236,9 +288,9 @@ class JBModelElementJBPrice extends JBModelElement
      */
     protected function _date($date)
     {
-        return array("tSku.value_d BETWEEN"
-            . " STR_TO_DATE('" . $date[0] . "', '%Y-%m-%d %H:%i:%s') AND"
-            . " STR_TO_DATE('" . $date[1] . "', '%Y-%m-%d %H:%i:%s')"
+        return array("tValues.value_d BETWEEN"
+            . " STR_TO_DATE('" . $date[0] . "', ' % Y -%m -%d % H:%i:%s') AND"
+            . " STR_TO_DATE('" . $date[1] . "', ' % Y -%m -%d % H:%i:%s')"
         );
     }
 
@@ -251,98 +303,51 @@ class JBModelElementJBPrice extends JBModelElement
      */
     protected function _setMinMax($value)
     {
-        if (isset($value['range'])) {
-
-            if (strpos($value['range'], '/') !== false) {
-                list($min, $max) = explode('/', $value['range']);
-
-                $value['min'] = $min;
-                $value['max'] = $max;
-            }
-        }
+        list($min, $max) = explode('/', $value);
+        $value = array(
+            'min' => $min,
+            'max' => $max
+        );
 
         return $value;
     }
 
     /**
-     * @param $value
+     * Check if value is range
      *
-     * @return array
+     * @param  $value
+     * @return bool
      */
-    protected function _conditionValue($value)
+    protected function isRange($value)
     {
-        /*
-        $jbmoney = $this->app->jbmoney;
-        $where   = array();
-        $valType = 0;
-        if (!empty($value['val'])) {
-
-            $val = 0;
-
-            $min = floor($val);
-            $max = ceil($val);
-
-            if ($valType == 1) {
-
-                $where[] = 'tSku.price >= ' . $this->_quote($min);
-                if ($max > 0) {
-                    $where[] = 'tSku.price <= ' . $this->_quote($max);
-                }
-
-            } else if ($valType == 2) {
-
-                $where[] = 'tSku.total >= ' . $this->_quote($min);
-                if ($max > 0) {
-                    $where[] = 'tSku.total <= ' . $this->_quote($max);
-                }
-
-            } else {
-
-                $where[] = 'tSku.price >= ' . $this->_quote($min);
-                $where[] = 'tSku.total >= ' . $this->_quote($min);
-                if ($max > 0) {
-                    $where[] = 'tSku.price <= ' . $this->_quote($max);
-                    $where[] = 'tSku.total <= ' . $this->_quote($max);
-                }
-            }
+        if (strpos($value, '/') !== false) {
+            return true;
         }
 
-        if (!empty($value['val_min']) || !empty($value['val_max']) || !empty($value['range'])) {
-
-            if (!empty($value['range'])) {
-                list($min, $max) = explode('/', $value['range']);
-            } else {
-                $min = $value['val_min'];
-                $max = $value['val_max'];
-            }
-
-            //$min = floor($jbmoney->convert($value['currency'], $this->_defaultCurrency, $min));
-            //$max = ceil($jbmoney->convert($value['currency'], $this->_defaultCurrency, $max));
-
-            if ($valType == 1) {
-                $where[] = 'tSku.price >= ' . $this->_quote($min);
-                if ($max > 0) {
-                    $where[] = 'tSku.price <= ' . $this->_quote($max);
-                }
-
-            } else if ($valType == 2) {
-                $where[] = 'tSku.total >= ' . $this->_quote($min);
-                if ($max > 0) {
-                    $where[] = 'tSku.total <= ' . $this->_quote($max);
-                }
-
-            } else {
-                $where[] = 'tSku.price >= ' . $this->_quote($min);
-                $where[] = 'tSku.total >= ' . $this->_quote($min);
-                if ($max > 0) {
-                    $where[] = 'tSku.price <= ' . $this->_quote($max);
-                    $where[] = 'tSku.total <= ' . $this->_quote($max);
-                }
-            }
-        }
-
-        return $where;
-        */
+        return false;
     }
 
+    /**
+     * Check if string seems like date
+     *
+     * @param string $date
+     * @param string $format
+     * @return bool
+     */
+    protected function isDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = DateTime::createFromFormat($format, $date);
+
+        return $d && $d->format($format) == $date;
+    }
+
+    /**
+     * @param $column
+     * @param $value
+     * @return string
+     */
+    public function toSql($column, $value)
+    {
+        return $column . ' = ' . $this->_quote($value);
+    }
 }

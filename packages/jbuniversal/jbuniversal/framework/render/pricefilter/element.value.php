@@ -156,7 +156,6 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
         $html = null;
 
         if ($currency = $this->_params->get('jbzoo_filter_currency_default', 'EUR')) {
-            //$html .= $this->html->hidden($this->_getName();
         }
 
         return $html;

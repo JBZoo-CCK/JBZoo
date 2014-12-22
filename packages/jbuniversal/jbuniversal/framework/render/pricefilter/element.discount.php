@@ -28,7 +28,7 @@ class JBPriceFilterElementDiscount extends JBPriceFilterElement
 
         return $this->html->buttonsJQueryUI(
             $this->_createOptionsList($options),
-            $this->_getName(),
+            $this->_getName(null, 'id'),
             $this->_attrs,
             $this->_value,
             $this->_getId('discount')
@@ -44,16 +44,25 @@ class JBPriceFilterElementDiscount extends JBPriceFilterElement
      */
     protected function _getValues($type = null)
     {
-        return array(
-            array(
+        $values  = (array)$this->_getDbValues();
+        $default = array(
+            '1' => array(
                 'text'  => JText::_('JBZOO_FILTER_JBPRICE_SALE_CHECKBOX'),
                 'value' => 1
             ),
-            array(
+            '0' => array(
                 'text'  => JText::_('JBZOO_FILTER_JBPRICE_SALE_NO'),
                 'value' => 0
             ),
         );
+
+        foreach ($values as $key => $value) {
+            if (isset($default[$value['text']])) {
+                $values[$key]['text'] = $default[$value['text']]['text'];
+            }
+        }
+
+        return $values;
     }
 
 }

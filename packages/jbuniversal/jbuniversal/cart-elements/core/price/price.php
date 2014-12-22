@@ -155,6 +155,28 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     * Set data through data array.
+     *
+     * @param  array  $data
+     * @param  string $key
+     * @return $this
+     */
+    public function bindData($data = array(), $key = 'value')
+    {
+        if (!is_array($data)) {
+            $this->set($key, $data);
+
+            return $this;
+        }
+
+        foreach ($data as $key => $value) {
+            $this->set($key, $value);
+        }
+
+        return $this;
+    }
+
+    /**
      * @param ElementJBPricePlain || ElementJBPriceCalc $object
      */
     public function setJBPrice($object)
@@ -168,6 +190,15 @@ abstract class JBCartElementPrice extends JBCartElement
     public function getJBPrice()
     {
         return $this->_jbprice;
+    }
+
+    /**
+     * Return price helper
+     * @return \JBPriceHelper
+     */
+    public function getHelper()
+    {
+        return $this->app->jbprice;
     }
 
     /**
@@ -192,9 +223,9 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function isBasic()
     {
-        $variant = $this->getList()->get($this->config->get('_variant'));
+        $variant = (int)$this->config->get('_variant', ElementJBPrice::BASIC_VARIANT);
 
-        return $variant->isBasic();
+        return $variant === ElementJBPrice::BASIC_VARIANT;
     }
 
     /**
@@ -219,14 +250,13 @@ abstract class JBCartElementPrice extends JBCartElement
      * Renders the element using template layout file
      *
      * @param string $__layout layouts template file
-     * @param array  $__args layouts template file args
+     * @param array  $__args   layouts template file args
      *
      * @return string
      */
     protected function renderLayout($__layout, $__args = array())
     {
         $html = parent::renderLayout($__layout, $__args);
-
         if ($html) {
             $system = $this->getLayout('system.php');
 
@@ -240,12 +270,14 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * Get options for simple element
+     * @param  bool $label - add option with no value
      * @return mixed
      */
-    public function getOptions()
+    public function getOptions($label = true)
     {
         $options = array();
         $jbPrice = $this->_jbprice;
+
         if (!$this->hasOptions() || (int)$jbPrice->config->get('only_selected', 1)) {
             $options = $jbPrice->elementOptions($this->identifier);
 
@@ -253,7 +285,7 @@ abstract class JBCartElementPrice extends JBCartElement
             $options = $this->parseOptions();
         }
 
-        if (!empty($options)) {
+        if (!empty($options) && $label) {
             $options = array('' => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - ') + $options;
         }
 
@@ -262,21 +294,21 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * Parse options from element config
-     * @return array|null
+     * @param  bool $label - add option with no value
+     * @return array
      */
-    public function parseOptions()
+    public function parseOptions($label = true)
     {
         $options = $this->config->get('options', array());
-
         if (!empty($options)) {
-
             $options = $this->app->jbstring->parseLines($options);
-            $options = array('' => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - ') + $options;
 
-            return $options;
+            if ($label) {
+                $options = array('' => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - ') + $options;
+            }
         }
 
-        return null;
+        return $options;
     }
 
     /**
@@ -291,13 +323,12 @@ abstract class JBCartElementPrice extends JBCartElement
     /**
      * Check if option isset in element
      *
-     * @param $value
-     *
+     * @param  string $value Option value
      * @return bool
      */
     public function issetOption($value)
     {
-        $options = $this->parseOptions();
+        $options = $this->parseOptions(false);
 
         if ((!empty($options)) && in_array($value, $options)) {
             return true;
