@@ -108,7 +108,7 @@ class JBStringHelper extends AppHelper
 
             foreach ($lines as $line) {
 
-                $line          = JString::trim($line);
+                $line     = JString::trim($line);
                 $result[$line] = $line;
 
             }

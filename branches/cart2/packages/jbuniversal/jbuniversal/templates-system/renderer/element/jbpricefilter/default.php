@@ -13,7 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 // create label
 $label = '';
 if (isset($params['showlabel']) && $params['showlabel']) {
@@ -28,7 +27,8 @@ if (isset($params['showlabel']) && $params['showlabel']) {
 $classes = array_filter(array(
     'filter-element-row',
     'element-' . $params['type'],
-    'element-price-param ' . $element->isCore() ? 'core-param' : 'simple-param'
+    'element-price-param ' . $element->isCore() ? 'core-param' : 'simple-param',
+    'jsPriceFilterParam'
 )); ?>
 
 

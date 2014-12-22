@@ -15,9 +15,9 @@ defined('_JEXEC') or die('Restricted access');
 
 
 /**
- * Class JBModelAutocomplete
+ * Class JBModelAutoComplete
  */
-Class JBModelAutocomplete extends JBModel
+Class JBModelAutoComplete extends JBModel
 {
 
     /**
@@ -173,7 +173,7 @@ Class JBModelAutocomplete extends JBModel
     }
 
     /**
-     * Autocomplete query for item SKU
+     * AutoComplete query for item SKU
      * @param string      $query
      * @param string      $element_id
      * @param string      $param_id
@@ -190,17 +190,18 @@ Class JBModelAutocomplete extends JBModel
 
         $select = $this
             ->_getSelect()
-            ->clear('select')
-            ->select('tSku.value_s as value')
-            ->from(ZOO_TABLE_JBZOO_SKU . ' AS tSku')
+            ->clear()
+            ->select('tValues.value_s as value, tValues.value_s as value, tValues.id as id')
+            ->from(JBModelSku::JBZOO_TABLE_SKU_VALUES . ' AS tValues')
+            ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.param_id = tSku.param_id')
             ->innerJoin(ZOO_TABLE_ITEM . ' AS tItem ON tItem.id = tSku.item_id')
             ->where('tItem.application_id = ?', (int)$applicationId)
             ->where('tItem.type = ?', $type)
-            ->where($this->_buildLikeBySpaces($query, 'tSku.value_s'))
+            ->where($this->_buildLikeBySpaces($query, 'tValues.value_s'))
             ->where('tSku.element_id = ?', $element_id)
-            ->where('tSku.param_id = ?', $param_id)
-            ->group('tSku.value_s')
-            ->order('tSku.value_s ASC')
+            ->where('tValues.param_id = ?', $param_id)
+            ->group('tValues.value_s')
+            ->order('tValues.value_s ASC')
             ->limit($limit);
 
         return $this->fetchAll($select);

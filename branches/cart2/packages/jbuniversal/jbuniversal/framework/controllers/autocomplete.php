@@ -75,10 +75,12 @@ class AutocompleteJBUniversalController extends JBUniversalController
                         } else {
                             $value = $row->value;
                         }
+                        $label  = isset($row->label) ? $row->label : $row->value;
+                        $id     = isset($row->id) ? $row->id : $row->value;
 
                         $data[] = array(
-                            'id'    => JString::str_ireplace("\n", " ", $value),
-                            'label' => JString::str_ireplace("\n", " ", $value),
+                            'id'    => JString::str_ireplace("\n", " ", $id),
+                            'label' => JString::str_ireplace("\n", " ", $label),
                             'value' => JString::str_ireplace("\n", " ", JString::trim($value, '.')),
                         );
                     }

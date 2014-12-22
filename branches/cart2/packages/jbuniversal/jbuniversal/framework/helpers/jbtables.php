@@ -64,10 +64,13 @@ class JBTablesHelper extends AppHelper
 
     /**
      * @param $tableName
+     * @return $this
      */
     public function dropTable($tableName)
     {
         $this->app->database->query('DROP TABLE IF EXISTS `' . $tableName . '`');
+
+        return $this;
     }
 
     /**
@@ -106,7 +109,6 @@ class JBTablesHelper extends AppHelper
                 'UNIQUE KEY `user_id_item_id` (`user_id`,`item_id`)',
                 'KEY `user_id` (`user_id`)'
             ));
-
         }
 
         $checked = true;
@@ -115,32 +117,50 @@ class JBTablesHelper extends AppHelper
     /**
      * Check and create SKU table
      * @param bool $force
+     * @return $this
      */
     public function checkSku($force = false)
     {
         static $checked;
 
         if (!isset($checked) || $force) {
-
             $this->createTable(ZOO_TABLE_JBZOO_SKU, array(
                 '`id` INT(11) UNSIGNED AUTO_INCREMENT NOT NULL',
                 '`item_id` INT(11) NOT NULL',
                 '`element_id` VARCHAR(50) NOT NULL',
-                '`param_id` VARCHAR(50) NOT NULL',
-                '`variant` INT(3) NOT NULL',
-                '`value_s` VARCHAR(50) NULL DEFAULT NULL COLLATE \'utf8_general_ci\'',
-                '`value_n` DOUBLE NULL DEFAULT NULL',
-                '`value_d` DATETIME NULL DEFAULT NULL',
+                '`param_id` INT(11) NOT NULL',
+                '`value_id` INT(11) NOT NULL',
+                '`variant` INT(11) NOT NULL'
+            ), array(
+                'PRIMARY KEY (`id`)'
+            ));
+
+            $this->createTable(JBModelSku::JBZOO_TABLE_SKU_VALUES, array(
+                '`id` INT(11) UNSIGNED AUTO_INCREMENT NOT NULL',
+                '`value_s` VARCHAR(150) NOT NULL',
+                '`value_n` DOUBLE',
+                '`value_d` DATETIME',
+                '`param_id` INT(11) NOT NULL',
+                '`variant` INT(11) NOT NULL',
             ), array(
                 'PRIMARY KEY (`id`)',
-                'INDEX `item_id` (`item_id`)',
-                'INDEX `variant` (`variant`)',
-                'INDEX `element_id` (`element_id`)',
-                'INDEX `param_id` (`param_id`)'
+                'UNIQUE INDEX `UNIQUE_VALUES_VARIANT_INDEX` (`value_s`, `param_id`)',
             ));
+
+            $this->createTable(JBModelSku::JBZOO_TABLE_SKU_PARAMS, array(
+                '`id` INT(11) UNSIGNED AUTO_INCREMENT NOT NULL',
+                '`element_id` VARCHAR(50) NOT NULL',
+            ), array(
+                'PRIMARY KEY (`id`)'
+            ));
+
+            $elements = $this->app->jbcartposition->loadParams('price');
+            JBModelSku::model()->insertSkuElements($elements)->getElementsKeys(true);
         }
 
         $checked = true;
+
+        return $this;
     }
 
     /**
@@ -224,23 +244,26 @@ class JBTablesHelper extends AppHelper
                 $this->createIndexTable($type);
             }
         }
+
+        return $this;
     }
 
     /**
      * @param $type
+     * @return $this
      */
     public function createIndexTable($type)
     {
         if (empty($type)) {
-            return;
+            return $this;
         }
 
-        $props = $this->_getTableProps($type);
-
+        $props     = $this->_getTableProps($type);
         $tableName = $this->getIndexTable($type);
-        $this->dropTable($tableName);
 
-        $this->createTable($tableName, $props['fields'], $props['indexes']);
+        return $this
+            ->dropTable($tableName)
+            ->createTable($tableName, $props['fields'], $props['indexes']);
     }
 
     /**
@@ -292,13 +315,14 @@ class JBTablesHelper extends AppHelper
      * @param       $tableName
      * @param array $tblFields
      * @param array $tblIndex
+     * @return $this
      */
     public function createTable($tableName, array $tblFields, array $tblIndex)
     {
         $params = array_merge($tblFields, $tblIndex);
 
         if (empty($params)) {
-            return;
+            return $this;
         }
 
         $sql   = array();
@@ -309,6 +333,8 @@ class JBTablesHelper extends AppHelper
         $sqlString = implode(' ', $sql);
 
         $this->_db->query($sqlString);
+
+        return $this;
     }
 
     /**
@@ -585,6 +611,7 @@ class JBTablesHelper extends AppHelper
 
     /**
      * Drop all index tables
+     * @return $this
      */
     public function dropAllIndex()
     {
@@ -596,5 +623,17 @@ class JBTablesHelper extends AppHelper
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * Drop all sku tables
+     * @return $this
+     */
+    public function dropAllSku()
+    {
+        return $this->dropTable(ZOO_TABLE_JBZOO_SKU)
+                    ->dropTable(JBModelSku::JBZOO_TABLE_SKU_VALUES)
+                    ->dropTable(JBModelSku::JBZOO_TABLE_SKU_PARAMS);
     }
 }

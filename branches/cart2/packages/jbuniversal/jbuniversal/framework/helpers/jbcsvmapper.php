@@ -15,6 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 
 /**
+ *
  * Class JBCSVMapperHelper
  */
 class JBCSVMapperHelper extends AppHelper
@@ -22,11 +23,12 @@ class JBCSVMapperHelper extends AppHelper
     const FIELD_CONTINUE = '__NO_EXPORT_DATA__';
 
     /**
-     * @var JBCSVCellHelper
+     * @type JBCSVCellHelper
      */
     protected $_csvcell = null;
 
     /**
+     *
      * @param App $app
      */
     public function __construct($app)
@@ -94,6 +96,7 @@ class JBCSVMapperHelper extends AppHelper
 
     /**
      * Get from item meta data
+     *
      * @param Item $item
      * @return array
      */
@@ -113,28 +116,41 @@ class JBCSVMapperHelper extends AppHelper
 
     /**
      * Get from item price data
+     *
      * @param Item $item
      * @return array
      */
     public function getItemPrice(Item $item)
     {
-        $itemPrices = $item->getElementsByType('jbpriceadvance');
-        $result     = array();
-        $cell       = $this->_csvcell;
+        /** @type JBPriceHelper $helper */
+        $helper = $this->app->jbprice;
+        $prices = $helper->getItemPrices($item);
+        $result = array();
 
-        if (!empty($itemPrices)) {
+        if (!empty($prices)) {
             $i = 0;
-            foreach ($itemPrices as $identifier => $itemPrice) {
+            /** @type ElementJBPrice $jbPrice */
+            foreach ($prices as $identifier => $jbPrice) {
                 $i++;
+                $zero = $jbPrice::BASIC_VARIANT;
+                $list = $jbPrice->getVariantList(array(
+                    $zero => $jbPrice->get('variations.' . $zero)
+                ));
 
-                $options = array(
-                    'elementId' => $identifier
-                );
+                $variant  = $list->shift();
+                $elements = $variant->getElements();
 
-                $csv = $cell->createItem('jbpriceadvance', $item, 'user', $options)->toCSV();
+                if (!empty($elements)) {
+                    /** @type JBCartElementPrice $element */
+                    foreach ($elements as $key => $element) {
 
-                for ($i = 0; $i < count($csv); $i++) {
-                    $result[$itemPrice->config->get('name') . '(Variant #' . $i . ')'] = $csv[$i];
+                        $instance = $helper->csvItem($element, $jbPrice);
+                        $value    = $instance->toCSV();
+
+                        if ($value = $helper->getValue($value)) {
+                            $result[$helper::ELEMENTS_CSV_GROUP . $key . '_' . $i] = $value;
+                        }
+                    }
                 }
             }
         }
@@ -151,20 +167,23 @@ class JBCSVMapperHelper extends AppHelper
     {
         $result = array();
         $type   = $item->getType();
-        $params = $this->app->jbuser->getParam('export-items', array());
+        $params = JBModelConfig::model()->getGroup('export.items');
 
         $i = 0;
         foreach ($type->getElements() as $identifier => $element) {
 
-            $elemValue = $this->_csvcell->createItem($element, $item, 'user')->toCSV();
+            $data = $this->_csvcell->createItem($element, $item, 'user')->toCSV();
 
-            if ($elemValue != JBCSVMapperHelper::FIELD_CONTINUE) {
-                if (!(int)$params->fields_full_price && $element->getElementType() == 'jbpriceadvance') {
+            if ($data != JBCSVMapperHelper::FIELD_CONTINUE) {
+                if (!(int)$params->get('fields_full_price') && $element instanceof ElementJBPrice) {
                     continue;
                 }
-                $name          = $element->config->get('name') ? $element->config->get('name') : $element->getElementType();
-                $name          = $name . ' (#' . ++$i . ')';
-                $result[$name] = (array)$elemValue;
+
+                $name = $element->config->get('name');
+                $name = $name ? $name : $element->getElementType();
+                $name = $name . ' (#' . ++$i . ')';
+
+                $result[$name] = (array)$data;
             }
         }
 
@@ -208,7 +227,6 @@ class JBCSVMapperHelper extends AppHelper
             'config_items_order'      => $this->_csvcell->createCategory('config_items_order', $category, 'category')->toCSV(),
         );
     }
-
 
     /**
      * Get categories filds for import
@@ -264,7 +282,7 @@ class JBCSVMapperHelper extends AppHelper
         $result = array(
             'basic'  => array(
                 'id'    => JText::_('JBZOO_ITEM_ID'),
-                //'sku'   => JText::_('JBZOO_ITEM_SKU'), // TODO replace to price.price_id value
+                'sku'   => JText::_('JBZOO_ITEM_SKU'), // TODO replace to price.price_id value
                 'name'  => JText::_('JBZOO_ITEM_NAME'),
                 'alias' => JText::_('JBZOO_ITEM_ALIAS'),
             ),
@@ -301,46 +319,30 @@ class JBCSVMapperHelper extends AppHelper
         );
 
         foreach ($elementTypes as $elements) {
-
             foreach ($elements as $element) {
 
-                $elementType = strtolower($element->getElementType());
+                $type = strtolower($element->getElementType());
+                $name = $element->config->get('name');
+                $id   = $element->identifier;
 
-                if ($elementType == 'jbpriceadvance') {
-
-                    $priceParams = $this->app->jbcartposition->loadForPrice($element);
-                    $params      = $this->app->jbcartelement->getGroups('price', true);
-                    $params      = $params['price'];
-                    $name        = $element->config->get('name');
-
-                    $result['price__' . $name] = array();
-
-                    $result['price__' . $name]['_currency__' . $element->identifier] = JText::_('JBZOO_JBPRICE_CURRENCY');
+                if ($element instanceof ElementJBPrice) {
+                    $params  = $element->getElements();
+                    $key     = 'price__' . $name;
+                    $postFix = '__' . $id;
 
                     if (!empty($params)) {
                         foreach ($params as $identifier => $param) {
-
-                            if (isset($priceParams[$identifier])) {
-                                $param->config = $priceParams[$priceParams]->config;
-                            }
-
-                            if (!$param->isSystemTmpl() && $param->identifier == null) {
+                            if ($param->isSystemTmpl()) {
                                 continue;
                             }
+                            $identifier = $type . $postFix . '__' . $param->identifier;
 
-                            $postFix = $param->identifier . '__';
-                            if ($param->isCore()) {
-                                $result['price__' . $name][$postFix . $element->identifier] = $param->config->get('name');
-                            } else {
-                                $result['price__' . $name][$postFix . $element->identifier] = $param->config->get('name');
-                            }
-
+                            $result[$key][$identifier] = $param->config->get('name');
                         }
                     }
                 }
 
-                $result['user'][$elementType . '__' . $element->identifier] =
-                    $element->config->get('name') . ' (' . ucfirst($elementType) . ')';
+                $result['user'][$type . '__' . $id] = $name . ' (' . ucfirst($type) . ')';
             }
         }
 
@@ -385,35 +387,23 @@ class JBCSVMapperHelper extends AppHelper
             'metadata_robots'         => array('group' => 'meta', 'name' => 'robots'),
             'metadata_author'         => array('group' => 'meta', 'name' => 'author'),
             'metadata_keywords'       => array('group' => 'meta', 'name' => 'keywords'),
-            'metadata_description'    => array('group' => 'meta', 'name' => 'description'),
-
+            'metadata_description'    => array('group' => 'meta', 'name' => 'description')
         );
-
-        list($name, $elementId) = explode('__', $fieldName);
-
-        $params = $this->app->jbcartelement->getGroups('price', true);
-        $params = $params['price'];
 
         if (isset($assign[$fieldName])) {
             return $assign[$fieldName];
         }
 
-        if (isset($assign[$name])) {
-            $assign[$name]['elementId'] = $elementId;
-            return $assign[$name];
+        // user group
+        if (strpos($fieldName, '__')) {
+            $pieces = explode('__', $fieldName);
         }
 
-        foreach ($params as $param) {
-            if ($param->identifier == $name) {
+        $name      = isset($pieces[0]) ? $pieces[0] : null;
+        $elementId = isset($pieces[1]) ? $pieces[1] : null;
+        $paramId   = isset($pieces[2]) ? $pieces[2] : null;
 
-                $identifier = $name;
-                $name       = 'JBPriceAdvance';
-
-                return array('group' => 'user', 'name' => $name, 'elementId' => $elementId, 'identifier' => $identifier);
-            }
-        }
-
-        return array('group' => 'user', 'name' => $name, 'elementId' => $elementId);
+        return array('group' => 'user', 'name' => $name, 'elementId' => $elementId, 'paramId' => $paramId);
     }
 
     /**

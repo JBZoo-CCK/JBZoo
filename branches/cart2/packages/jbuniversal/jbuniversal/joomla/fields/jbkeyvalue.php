@@ -36,6 +36,7 @@ class JFormFieldJBKeyvalue extends JFormField
      */
     public function getInput()
     {
+        JBModelSku::model();
         $elements     = array();
         $app          = App::getInstance('zoo');
         $application  = $app->zoo->getApplication();
@@ -65,10 +66,6 @@ class JFormFieldJBKeyvalue extends JFormField
             }
         }
 
-        /*JHtml::$formatOptions = array_merge(array(
-            'option.attr' => 'attr'
-        ), JHtml::$formatOptions);*/
-
         foreach ($elementsList as $type => $tmpElements) {
             if (array_key_exists($type, $typesList)) {
 
@@ -91,7 +88,7 @@ class JFormFieldJBKeyvalue extends JFormField
                                 foreach ($params as $id => $param) {
                                     if ($param->hasFilterValue()) {
                                         $newEls[] = array(
-                                            'value' => $key . '__' . $id,
+                                            'value' => $key . '__' . JBModelSku::$ids[$id],
                                             'text'  => '-- ' . $name . ' - ' . $param->getName()
                                         );
                                     }

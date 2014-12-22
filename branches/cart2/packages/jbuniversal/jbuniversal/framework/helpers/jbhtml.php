@@ -22,11 +22,11 @@ class JBHTMLHelper extends AppHelper
      * Render option list
      * @param        $data
      * @param        $name
-     * @param null $attribs
-     * @param null $selected
-     * @param bool $idtag
-     * @param bool $translate
-     * @param bool $isLabelWrap
+     * @param null   $attribs
+     * @param null   $selected
+     * @param bool   $idtag
+     * @param bool   $translate
+     * @param bool   $isLabelWrap
      * @return string
      */
     public function radio(
@@ -50,11 +50,11 @@ class JBHTMLHelper extends AppHelper
      * Render checkbox list
      * @param        $data
      * @param        $name
-     * @param null $attribs
-     * @param null $selected
-     * @param bool $idtag
-     * @param bool $translate
-     * @param bool $isLabelWrap
+     * @param null   $attribs
+     * @param null   $selected
+     * @param bool   $idtag
+     * @param bool   $translate
+     * @param bool   $isLabelWrap
      * @return string
      */
     public function checkbox(
@@ -144,8 +144,8 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Quantity widget
-     * @param int $default
-     * @param array $options
+     * @param int    $default
+     * @param array  $options
      * @param string $id
      * @param string $name
      * @return string
@@ -185,13 +185,14 @@ class JBHTMLHelper extends AppHelper
     /**
      * Render color field
      * @param string $inputType
-     * @param array $data
+     * @param array  $data
      * @param string $name
-     * @param null $selected
-     * @param array $attrs
+     * @param null   $selected
+     * @param array  $attrs
+     * @param array  $titles
      * @return string
      */
-    public function colors($inputType = 'checkbox', $data, $name, $selected = null, $attrs = array())
+    public function colors($inputType = 'checkbox', $data, $name, $selected = null, $attrs = array(), $titles = array())
     {
         $html = array();
         $uniq = $this->app->jbstring->getId();
@@ -213,7 +214,7 @@ class JBHTMLHelper extends AppHelper
                 'type'  => $inputType,
                 'name'  => $name,
                 'id'    => $id,
-                'title' => $key,
+                'title' => isset($titles[$key]) ? $titles[$key] : $key,
                 'value' => $key,
                 'class' => 'jbcolor-input'
             ), $attrs);
@@ -222,7 +223,7 @@ class JBHTMLHelper extends AppHelper
 
             $labelAttribs = array(
                 'for'   => $id,
-                'title' => $key,
+                'title' => isset($titles[$key]) ? $titles[$key] : $key,
                 'class' => 'jbcolor-label hasTip ' . $inputType . ' value-' . $valueSlug,
             );
 
@@ -271,9 +272,9 @@ class JBHTMLHelper extends AppHelper
     }
 
     /**
-     * @param array $curList
+     * @param array  $curList
      * @param string $defaultCur
-     * @param array $options
+     * @param array  $options
      * @return array|null|string
      */
     public function currencyToggle($curList, $defaultCur = 'eur', $options = array())
@@ -293,7 +294,6 @@ class JBHTMLHelper extends AppHelper
             'rates'       => $curList,
         ), $options));
 
-
         if ((int)$options->get('showDefault')) {
             $curList = $this->app->jbarray->unshiftAssoc($curList, JBCartValue::DEFAULT_CODE, array(
                 'code'   => JBCartValue::DEFAULT_CODE,
@@ -308,6 +308,7 @@ class JBHTMLHelper extends AppHelper
             $i++;
             $id    = $this->app->jbstring->getId('unique-');
             $title = JText::_('JBZOO_JBCURRENCY_' . $code);
+
             if ($code != JBCartValue::DEFAULT_CODE && !$moneyVal->isCur($code)) {
                 $title .= '; ' . $moneyVal->text() . ' = ' . $moneyVal->text($code);
             }
@@ -401,9 +402,9 @@ class JBHTMLHelper extends AppHelper
     /**
      * Render calendar element
      * @param       $name
-     * @param null $value
-     * @param null $attribs
-     * @param null $idtag
+     * @param null  $value
+     * @param null  $attribs
+     * @param null  $idtag
      * @param array $params
      * @return string
      */
@@ -425,7 +426,7 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Render jQueryUI slider
-     * @param array $params
+     * @param array  $params
      * @param string $value
      * @param string $name
      * @param string $idtag
@@ -468,10 +469,10 @@ class JBHTMLHelper extends AppHelper
      * Render option list
      * @param        $data
      * @param        $name
-     * @param null $attribs
-     * @param null $selected
-     * @param bool $idtag
-     * @param bool $translate
+     * @param null   $attribs
+     * @param null   $selected
+     * @param bool   $idtag
+     * @param bool   $translate
      * @return string
      */
     public function buttonsJqueryUI(
@@ -502,10 +503,10 @@ class JBHTMLHelper extends AppHelper
      * Render chosen
      * @param       $data
      * @param       $name
-     * @param null $attribs
-     * @param null $selected
-     * @param bool $idtag
-     * @param bool $translate
+     * @param null  $attribs
+     * @param null  $selected
+     * @param bool  $idtag
+     * @param bool  $translate
      * @param array $params
      * @return string
      */
@@ -533,11 +534,11 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Select cascade
-     * @param array $selectInfo
+     * @param array  $selectInfo
      * @param string $name
-     * @param array $selected
-     * @param array $attribs
-     * @param bool $idtag
+     * @param array  $selected
+     * @param array  $attribs
+     * @param bool   $idtag
      * @return string
      */
     public function selectCascade(
@@ -609,18 +610,18 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Generates an HTML checkbox/radio list.
-     * @param   string $inputType Type of html input element
-     * @param   array $data An array of objects
-     * @param   string $name The value of the HTML name attribute
-     * @param   array $attribs Additional HTML attributes for the <select> tag
-     * @param   string $selected The name of the object variable for the option text
-     * @param   boolean $idtag Value of the field id or null by default
-     * @param   boolean $translate True if options will be translated
+     * @param   string  $inputType   Type of html input element
+     * @param   array   $data        An array of objects
+     * @param   string  $name        The value of the HTML name attribute
+     * @param   array   $attribs     Additional HTML attributes for the <select> tag
+     * @param   string  $selected    The name of the object variable for the option text
+     * @param   boolean $idtag       Value of the field id or null by default
+     * @param   boolean $translate   True if options will be translated
      * @param   boolean $isLabelWrap True if options wrappeed label tag
      * @return  string HTML for the select list
      */
     private function _list($inputType, $data, $name, $attribs = array(), $selected = null, $idtag = false,
-                           $translate = false, $isLabelWrap = false
+        $translate = false, $isLabelWrap = false
     )
     {
         reset($data);
@@ -698,7 +699,7 @@ class JBHTMLHelper extends AppHelper
 
     /**
      * Build attrs
-     * @param array $attrs
+     * @param array   $attrs
      * @param boolean $clean
      * @return null|string
      */
@@ -744,7 +745,7 @@ class JBHTMLHelper extends AppHelper
     /**
      * Clear attribute value
      * @param string $value
-     * @param bool $isTrim
+     * @param bool   $isTrim
      * @return string
      */
     public function cleanAttrValue($value, $isTrim = true)

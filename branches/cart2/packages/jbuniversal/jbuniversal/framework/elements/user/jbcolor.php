@@ -15,7 +15,6 @@ defined('_JEXEC') or die('Restricted access');
 
 class JBCSVItemUserJBColor extends JBCSVItem
 {
-
     /**
      * @var Object JBColorHelper
      */

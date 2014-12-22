@@ -13,7 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 /**
  * Class JBCSVItemCoreSku
  */
@@ -24,27 +23,24 @@ class JBCSVItemCoreSku extends JBCSVItem
      */
     public function toCSV()
     {
-        $priceElements = $this->_item->getElementsByType('jbpriceadvance');
-
-        if (!empty($priceElements)) {
-
-            reset($priceElements);
-            $skuElement = current($priceElements);
-
-            $data = $skuElement->getIndexData(true);
-            if (!empty($data)) {
-                reset($data);
-                $basic = current($data);
-            }
-
-            return isset($basic['sku']) ? $basic['sku'] : $this->_item->id;
+        $elements = $this->app->jbprice->getItemPrices($this->_item);
+        if (!empty($elements)) {
+            return $this->_item->id;
         }
 
-        return $this->_item->id;
+        reset($elements);
+        $current = current($elements);
+
+        $variant = $current->getVariantList()->byDefault();
+        if ($variant) {
+            $sku = $variant->get('_sku');
+        }
+
+        return isset($sku) ? $sku : $this->_item->id;
     }
 
     /**
-     * @param $value
+     * @param      $value
      * @param null $position
      * @return Item|null
      */

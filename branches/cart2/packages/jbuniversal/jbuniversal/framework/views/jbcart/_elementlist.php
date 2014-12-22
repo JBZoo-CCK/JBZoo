@@ -19,9 +19,7 @@ $fields = array(
     'task'       => $this->app->jbrequest->get('task'),
 );
 
-?>
-
-<?php if ($this->get('elementList')) : ?>
+if ($this->get('elementList')) : ?>
     <form action="index.php" method="get" class="select-list-form">
 
         <?php foreach ($fields as $key => $value) {
@@ -48,4 +46,4 @@ $fields = array(
         });
     </script>
 
-<?php endif; ?>
+<?php endif;

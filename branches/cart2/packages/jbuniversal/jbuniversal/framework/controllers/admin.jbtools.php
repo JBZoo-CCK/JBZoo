@@ -15,13 +15,12 @@ defined('_JEXEC') or die('Restricted access');
 
 
 /**
- * Class JBToolsJBuniversalController
+ * Class JBToolsJBUniversalController
  * JBZoo tools controller for back-end
  */
-class JBToolsJBuniversalController extends JBUniversalController
+class JBToolsJBUniversalController extends JBUniversalController
 {
-
-    const INDEX_STEP = 200;
+    const INDEX_STEP = 50;
 
     /**
      * Index page
@@ -62,7 +61,6 @@ class JBToolsJBuniversalController extends JBUniversalController
         }
 
         $progress = round($current * 100 / $total, 2);
-
 
         $this->app->jbajax->send(array(
             'progress' => $progress,

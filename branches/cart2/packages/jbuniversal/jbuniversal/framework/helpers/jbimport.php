@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBImportHelper extends AppHelper
 {
-    const STEP_SIZE = 50;
+    const STEP_SIZE = 30;
 
     const LOSE_NONE    = 0;
     const LOSE_DISABLE = 1;
@@ -54,7 +54,7 @@ class JBImportHelper extends AppHelper
     /**
      * Get info for pre import step
      * @param string $file
-     * @param array $options
+     * @param array  $options
      * @return array
      */
     public function getInfo($file, $options)
@@ -215,7 +215,7 @@ class JBImportHelper extends AppHelper
         );
         $html['key'] = $htmlHelper->_('select.genericlist', $keyOptions, 'key');
 
-        $createOptions = array(
+        $createOptions  = array(
             $htmlHelper->_('select.option', self::OPTIONS_NO, JText::_('JBZOO_NO')),
             $htmlHelper->_('select.option', self::OPTIONS_YES, JText::_('JBZOO_YES')),
         );
@@ -241,9 +241,8 @@ class JBImportHelper extends AppHelper
     protected function _createItemsControl($typeid, $elementTypes)
     {
         $htmlHelper = $this->app->html;
-
-        $fields  = $this->app->jbcsvmapper->getItemFields($elementTypes);
-        $options = array($htmlHelper->_('select.option', '', ' ** '));
+        $fields     = $this->app->jbcsvmapper->getItemFields($elementTypes);
+        $options    = array($htmlHelper->_('select.option', '', ' ** '));
 
         foreach ($fields as $groupKey => $group) {
 
@@ -331,7 +330,7 @@ class JBImportHelper extends AppHelper
     /**
      * Get lines from CSV file for current step
      * @param string $file
-     * @param int $lastLine
+     * @param int    $lastLine
      * @return array
      */
     protected function _getCSVLines($file, $lastLine)
@@ -342,31 +341,28 @@ class JBImportHelper extends AppHelper
     /**
      * Process one Item row
      * @param array $row
-     * @param int $lineKey
+     * @param int   $lineKey
      * @return int
      */
     protected function _processItemRow($row, $lineKey)
     {
         // create item
         $item = $this->_getItemByKey($row, $lineKey);
-
         if (empty($item)) {
             return false;
         }
 
         $positions = array();
-
         // bind import data from CSV
         foreach ($this->_data->assign as $colKey => $itemField) {
-
             $itemField = JString::trim($itemField);
             if (!empty($itemField)) {
 
                 $value = isset($row[$colKey]) ? $row[$colKey] : null;
 
-                $fieldInfo = $this->app->jbcsvmapper->itemFieldToMeta($itemField);
-
+                $fieldInfo   = $this->app->jbcsvmapper->itemFieldToMeta($itemField);
                 $positionKey = implode('__', $fieldInfo);
+
                 if (!isset($positions[$positionKey])) {
                     $positions[$positionKey] = 0;
                 }
@@ -377,8 +373,7 @@ class JBImportHelper extends AppHelper
             }
         }
 
-        $id = $item->id;
-
+        $id   = $item->id;
         $item = $this->_checkItemAlias($item);
 
         // save all changes
@@ -394,7 +389,7 @@ class JBImportHelper extends AppHelper
     /**
      * Process one Category row
      * @param array $row
-     * @param int $lineKey
+     * @param int   $lineKey
      * @return int
      */
     protected function _processCategoryRow($row, $lineKey)
@@ -467,7 +462,7 @@ class JBImportHelper extends AppHelper
 
     /**
      * Get key field value
-     * @param array $row
+     * @param array  $row
      * @param string $lineKey
      * @return Item
      */
@@ -528,12 +523,13 @@ class JBImportHelper extends AppHelper
     protected function _createEmptyItem($nameSuf = null)
     {
         $newItem = JBModelItem::model()->createEmpty($this->_data->appid, $this->_data->typeid, $nameSuf);
+
         return $newItem;
     }
 
     /**
      * Get key field value
-     * @param array $row
+     * @param array  $row
      * @param string $lineKey
      * @return Item
      */
@@ -587,7 +583,7 @@ class JBImportHelper extends AppHelper
                 $addedIds[] = $this->_processItemRow($row, $lineKey);
             }
         }
-
+        
         $this->app->jbsession->set('ids', $addedIds, 'import-ids');
 
         return array('progress' => round(($lineKey / $this->_data->count) * 100, 2));
