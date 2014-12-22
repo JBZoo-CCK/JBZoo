@@ -15,8 +15,6 @@ defined('_JEXEC') or die('Restricted access');
 $view = $this->getView();
 $this->app->jbassets->basket();
 
-$this->app->jbassets->less('jbassets:less/cart/cart.less');
-$this->app->jbassets->less('jbassets:less/cart-btn.less');
 ?>
 
 
@@ -32,8 +30,8 @@ $this->app->jbassets->less('jbassets:less/cart-btn.less');
     //&& !$view->formRenderer->checkPosition('fields');
     ?>
 
-    <form action="<?php echo $this->app->jbrouter->cartOrderCreate(); ?>" class="jbcart" method="post" name="jbcartForm"
-          accept-charset="utf-8" enctype="multipart/form-data">
+    <form action="<?php echo $this->app->jbrouter->cartOrderCreate(); ?>" class="jbcart jsJBZooCart" method="post"
+          name="jbcartForm" accept-charset="utf-8" enctype="multipart/form-data">
 
         <?php echo $this->partial('basket', 'table'); ?>
 
@@ -57,5 +55,20 @@ $this->app->jbassets->less('jbassets:less/cart-btn.less');
         <input type="hidden" name="Itemid" value="<?php echo $view->Itemid; ?>" />
         <?php echo $this->app->html->_('form.token'); ?>
     </form>
+
+    <script type="text/javascript">
+        jQuery(function ($) {
+            $(".jbzoo .jsJBZooCart").JBZooCart(<?php echo json_encode(array(
+                'text_remove_all'  => JText::_('JBZOO_CART_CLEANUP'),
+                'text_remove_item' => JText::_('JBZOO_CART_REMOVE_ITEM'),
+                'url_shipping'     => $this->app->jbrouter->basketShipping(),
+                'url_quantity'     => $this->app->jbrouter->basketQuantity(),
+                'url_delete'       => $this->app->jbrouter->basketDelete(),
+                'url_clear'        => $this->app->jbrouter->basketClear(),
+                'items'            => $view->items,
+                'rates'            => $this->app->jbmoney->getData(),
+            ));?>);
+        });
+    </script>
 
 <?php endif;
