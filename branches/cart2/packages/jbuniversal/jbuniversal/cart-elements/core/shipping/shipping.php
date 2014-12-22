@@ -159,7 +159,7 @@ abstract class JBCartElementShipping extends JBCartElement
      * Default params to Call Service.
      * @return array
      */
-    public function getDefaultParams()
+    public function _getDefaultParams()
     {
         $prop   = $this->getCartProperties();
         $params = array(
@@ -200,14 +200,17 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * Validates the submited element
+     * Validates the submitted element
      * @param $value
      * @param $params
      * @return array
      */
     public function validateSubmission($value, $params)
     {
-        return array('value' => $this->getRate());
+        $this->bindData($value);
+        $value->set('rate', $this->getRate()->dump());
+
+        return $value;
     }
 
     /**
