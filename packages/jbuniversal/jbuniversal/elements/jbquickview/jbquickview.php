@@ -38,8 +38,11 @@ class ElementJBQuickView extends Element
         $params = $this->app->data->create($params);
 
         if (!empty($this->_item) && $layout = $this->getLayout('button.php')) {
+            $buttonData    = $this->_buttonData($params);
+            $dataForLayout = $this->app->data->create($buttonData);
+
             return $this->renderLayout($layout, array(
-                'quickView' => $this->_buttonData($params)
+                'quickView' => $dataForLayout
             ));
         }
 
