@@ -12,18 +12,16 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
-$this->app->jbassets->less('jbassets:less/cart/buttons.less');
 ?>
 
-<div class="jbcart-buttons clearfix">
+<div class="jbcart-buttons uk-text-center uk-clearfix">
 
     <input type="submit" name="create" value="<?php echo JText::_('JBZOO_CART_SUBMIT'); ?>"
-           class="jbbutton green big" />
+           class="uk-button uk-button-large uk-button-success" />
 
     <?php if ($view->payment) : ?>
         <input type="submit" name="create-pay" value="<?php echo JText::_('JBZOO_CART_SUBMIT_AND_PAY'); ?>"
-               class="jbbutton green big" />
+               class="uk-button uk-button-large uk-button-success" />
     <?php endif; ?>
 
 </div>

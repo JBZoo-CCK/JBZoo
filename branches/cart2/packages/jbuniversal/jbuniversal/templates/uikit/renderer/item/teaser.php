@@ -1,4 +1,4 @@
-/.<?php
+<?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
  *

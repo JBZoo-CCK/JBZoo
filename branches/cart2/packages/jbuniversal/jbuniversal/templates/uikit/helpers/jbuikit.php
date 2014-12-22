@@ -62,44 +62,4 @@ class JBUikitHelper extends AppHelper
         return $html;
     }
 
-    /**
-     * Quantity widget
-     * @param int $default
-     * @param array $options
-     * @param string $id
-     * @param string $name
-     * @return string
-     */
-    public function quantity($default = 1, $options = array(), $id = null, $name = 'quantity')
-    {
-        if (!$id) {
-            $id = $this->app->jbstring->getId('quantity');
-        }
-
-        $options['default'] = (float)$default;
-
-        $html = array(
-            '<table cellpadding="0" cellspacing="0" border="0" class="quantity-wrapper jsQuantity" id="' . $id . '">',
-            '  <tr>',
-            '    <td rowspan="2">',
-            '      <div class="jsCountBox item-count-wrapper">',
-            '        <div class="item-count">',
-            '          <dl class="item-count-digits">' . str_repeat('<dd></dd>', 5) . '</dl>',
-            '          <input type="text" class="input-quantity jsInput" maxlength="6" name="' . $name . '" value="' . $options['default'] . '">',
-            '        </div>',
-            '      </div>',
-            '    </td>',
-            '    <td class="plus"><i class="jsAdd uk-icon-plus-square-o"></i></td>',
-            '  </tr>',
-            '  <tr>',
-            '    <td class="minus"><i class="jsRemove uk-icon-minus-square-o"></i></td>',
-            '  </tr>',
-            '</table>',
-        );
-
-        $this->app->jbassets->initQuantity($id, $options);
-
-        return implode("\n", $html);
-    }
-
 }

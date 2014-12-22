@@ -20,7 +20,7 @@ if ($vars['count']) {
     $i = 0;
     $count = $vars['count'];
 
-    echo '<div class="subcategories subcategory-col-' . $vars['cols_num'] . '">';
+    echo '<div class="subcategories subcategory-col-' . $vars['cols_num'] . ' uk-article-divider">';
 
     $rowSubcategories = array_chunk($vars['objects'], $vars['cols_num']);
 
