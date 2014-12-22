@@ -14,6 +14,6 @@ defined('_JEXEC') or die('Restricted access');
 
 $this->app->jbassets->fancybox();
 
-echo $quickView['js'];
+echo $quickView->js;
 
-echo '<!--noindex--><a ' . $this->app->jbhtml->buildAttrs($quickView['btnAttrs']) . '>' . $quickView['buttonText'] . '</a><!--/noindex-->';
+echo '<!--noindex--><a ' . $this->app->jbhtml->buildAttrs($quickView->btnAttrs) . '>' . $quickView->buttonText . '</a><!--/noindex-->';
