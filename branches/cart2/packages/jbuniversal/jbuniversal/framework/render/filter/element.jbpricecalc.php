@@ -25,7 +25,6 @@ class JBFilterElementJBPriceCalc extends JBFilterElement
      */
     public function html()
     {
-        //$values   = $this->_prepareValues();
         $template = $this->_params->get('jbprice_filter_template', 'default');
         $renderer = $this->app->jbrenderer->create('jbpricefilter');
         $jbPrice  = $this->app->jbfilter->getElement($this->_identifier);

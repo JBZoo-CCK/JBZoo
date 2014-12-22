@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -18,6 +17,14 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBPriceFilterElementDate extends JBPriceFilterElement
 {
+    /**
+     * Check is has value
+     */
+    public function hasValue()
+    {
+        return false;
+    }
+
     /**
      * Render HTML
      * @return string
