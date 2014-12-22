@@ -15,6 +15,11 @@
         <description>This is the default layout to render jbzoo items module themes</description>
     </layout>
 
+    <layout name="uikit">
+        <name>Uikit</name>
+        <description>This is the uikit layout to render jbzoo items module themes</description>
+    </layout>
+
     <layout name="table">
         <name>Table</name>
         <description>This is the table layout to render jbzoo items module themes</description>
