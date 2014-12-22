@@ -148,11 +148,13 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function isModifier()
     {
-        if (!$this->isBasic()) {
-            $value = $this->get('value', 0);
-            if ($value[0] === '-' || $value[0] === '+') {
-                return true;
-            }
+        if ($this->isBasic()) {
+            return false;
+        }
+
+        $value = $this->get('value', null);
+        if (!empty($value) && ($value[0] === '-' || $value[0] === '+')) {
+            return $value[0];
         }
 
         return false;

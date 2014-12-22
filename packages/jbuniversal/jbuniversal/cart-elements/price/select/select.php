@@ -78,7 +78,6 @@ class JBCartElementPriceSelect extends JBCartElementPrice
             ));
         }
 
-        return NULL;
+        return null;
     }
-
 }

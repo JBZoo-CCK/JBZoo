@@ -161,7 +161,7 @@ class ElementJBColor extends Element implements iSubmittable
         $colorItems = $this->_jbcolor->getColors($colors, $path);
         $selected   = $this->get('option', array());
 
-        return array_intersect(array_flip($colorItems), $selected);
+        return array_intersect_key($colorItems, $selected);
     }
 
     /**
@@ -171,6 +171,7 @@ class ElementJBColor extends Element implements iSubmittable
     public function loadConfigAssets()
     {
         JHtml::_('behavior.colorpicker');
+
         return parent::loadConfigAssets();
     }
 

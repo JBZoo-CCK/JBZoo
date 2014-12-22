@@ -187,13 +187,13 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
             $variant = $variations[$key];
 
             $this->set('default_variant', $key);
-            $this->_list = new JBCartVariantList(array($key => $variant), $this);
+            $this->_list = $this->getVariantList(array($key => $variant));
 
             foreach ($this->_list->shift()->getElements() as $id => $element) {
                 $value = JString::trim($element->getSearchData());
 
                 if (JString::strlen($value) !== 0) {
-                    
+
                     $n = $this->isNumeric($value);
                     $d = $this->isDate($value);
                     $s = $value;
@@ -210,8 +210,22 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
                 }
             }
         }
+        unset($list,
+            $this->_list,
+            $this->_params,
+            $this->params);
 
         return $data;
+    }
+
+    /**
+     * Bind and validate data
+     *
+     * @param array $data
+     */
+    public function bindData($data = array())
+    {
+        parent::bindData($data);
     }
 
     /**
