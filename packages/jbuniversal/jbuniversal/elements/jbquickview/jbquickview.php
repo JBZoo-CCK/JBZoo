@@ -37,8 +37,10 @@ class ElementJBQuickView extends Element
     {
         $params = $this->app->data->create($params);
 
-        if (!empty($this->_item)) {
-            return $this->_renderButton($params);
+        if (!empty($this->_item) && $layout = $this->getLayout('button.php')) {
+            return $this->renderLayout($layout, array(
+                'quickView' => $this->_buttonData($params)
+            ));
         }
 
         return null;
@@ -48,7 +50,7 @@ class ElementJBQuickView extends Element
      * @param $params
      * @return string
      */
-    protected function _renderButton($params)
+    protected function _buttonData($params)
     {
         static $jsDefined;
 
@@ -65,12 +67,10 @@ class ElementJBQuickView extends Element
             $buttonText = JText::_('JBZOO_QUICKVIEW');
         }
 
-        $this->app->jbassets->fancybox();
-
         $uniqId = $this->app->jbstring->getId('quickview');
 
-        $html   = array();
-        $html[] = '<script type="text/javascript">jQuery(function ($) {
+        $return       = array();
+        $return['js'] = '<script type="text/javascript">jQuery(function ($) {
             $("#' . $uniqId . '").fancybox(' . json_encode(array(
                 'type'       => "iframe",
                 'fitToView'  => true,
@@ -91,7 +91,7 @@ class ElementJBQuickView extends Element
             )) . ');
         });</script>';
 
-        $btnAttrs = $this->app->jbhtml->buildAttrs(array(
+        $return['btnAttrs'] = array(
             'id'    => $uniqId,
             'rel'   => 'nofollow',
             'href'  => $itemUrl,
@@ -101,11 +101,11 @@ class ElementJBQuickView extends Element
                 'quickview',
                 'jsQuickView',
             )
-        ));
+        );
 
-        $html[] = '<!--noindex--><a ' . $btnAttrs . '>' . $buttonText . '</a><!--/noindex-->';
+        $return['buttonText'] = $buttonText;
 
-        return implode("\n ", $html);
+        return $return;
     }
 
     /**
