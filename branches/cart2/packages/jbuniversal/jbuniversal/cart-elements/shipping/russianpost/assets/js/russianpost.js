@@ -16,7 +16,7 @@
     JBZoo.widget('JBZoo.ShippingType.RussianPost', {}, {
 
         init: function ($this) {
-            $this.$('select').JBZooSelect('addChosen', {width: '80%'}); // init chosen widget
+            $this.$('select').JBZooSelect('addChosen', {width: '95%'}); // init chosen widget
         },
 
         'change input[type=text],select': function (e, $this) {
