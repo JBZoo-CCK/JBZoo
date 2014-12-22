@@ -119,6 +119,65 @@ class JBHTMLHelper extends AppHelper
     }
 
     /**
+     * Render select list
+     * @param      $data
+     * @param      $name
+     * @param null $attribs
+     * @param null $selected
+     * @param bool $idtag
+     * @param bool $translate
+     * @return string
+     */
+    public function selectGrouped(
+        $data,
+        $name,
+        $attribs = null,
+        $selected = null,
+        $idtag = false,
+        $translate = false
+    )
+    {
+        jimport('joomla.html.html.select');
+
+        if (empty($data)) {
+            return null;
+        }
+
+        if ($idtag) {
+            $attribs['id'] = $idtag;
+        }
+
+        if (is_array($attribs) && isset($attribs['multiple'])) {
+            $name = $name . '[]';
+        }
+
+        $name = preg_replace('#\[\]\[\]$#', '[]', $name); // hack for difference J2.5 and J3.x
+
+        $list = array();
+
+        $i = 0;
+        foreach ($data as $group => $options) {
+
+            $list[$i] = array('value' => '', 'text' => $group, 'items' => array());
+            foreach ($options as $key => $value) {
+                $list[$i]['items'][] = array('value' => $key, 'text' => $value);
+            }
+
+            $i++;
+        }
+
+        return JHtml::_('select.groupedlist', $list, $name, array(
+            'list.attr'      => $this->_buildAttrs($attribs),
+            'list.select'    => $selected,
+            'list.translate' => $translate,
+            'option.key'     => 'value',
+            'option.text'    => 'text',
+            'group.items'    => 'items',
+            'group.label'    => 'text',
+        ));
+    }
+
+    /**
      * Render text field
      * @param      $name
      * @param null $value
@@ -621,7 +680,7 @@ class JBHTMLHelper extends AppHelper
      * @return  string HTML for the select list
      */
     private function _list($inputType, $data, $name, $attribs = array(), $selected = null, $idtag = false,
-        $translate = false, $isLabelWrap = false
+                           $translate = false, $isLabelWrap = false
     )
     {
         reset($data);
