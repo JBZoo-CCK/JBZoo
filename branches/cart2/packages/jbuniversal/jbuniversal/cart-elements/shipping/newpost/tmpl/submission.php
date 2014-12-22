@@ -12,45 +12,54 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 $jbhtml  = $this->app->jbhtml;
-$regions = $this->getRegions();
-$cities  = $this->getCities();
-
-$deliveryType = array(
-    '3' => JText::_('JBZOO_DELIVERY_NEWPOST_TO_DOORS'),
-    '4' => JText::_('JBZOO_DELIVERY_NEWPOST_TO_WAREHOUSE')
-);
-
-$cityAttrs = array(
-    'placeholder' => JText::_('City')
-);
-
 $uiqueId = $this->app->jbstring->getId('newpost-');
-
 ?>
 
 <div id="<?php echo $uiqueId; ?>">
-    <div class="newpost-deliverytype">
-        <?php echo $jbhtml->select($deliveryType, $this->getControlName('deliverytype_id')); ?>
+    <div class="newpost-deliveryType_id">
+        <?php echo $jbhtml->select($this->_getTypeList(), $this->getControlName('deliveryType_id'),
+            'class="jsDeliveryType"', $this->get('deliveryType_id')); ?>
     </div>
 
-    <div class="newpost-regions jsNewPostRegions">
-        <?php echo $jbhtml->select($regions, $this->getControlName('regions')); ?>
+    <div class="newpost-region">
+        <?php echo $jbhtml->select($this->_getRegionList(), $this->getControlName('region'),
+            'class="jsRegion"', $this->get('region'));?>
     </div>
 
-    <div class="newpost-cities jsNewPostSenderCity">
-        <?php echo $jbhtml->select($cities, $this->getControlName('recipientcity')); ?>
+    <div class="newpost-recipientCity">
+        <?php echo $jbhtml->select($this->_getCityList($this->get('region')), $this->getControlName('recipientCity'),
+            'class="jsRecipientCity"', $this->get('recipientCity'));?>
     </div>
 
-    <div class="newpost-to-warehouse jsAreaWarehouse">
-        <div class="newpost-warehouse jsNewPostWareehouse">
-            <?php echo $jbhtml->select($this->getWarehouses(), $this->getControlName('street')); ?>
-        </div>
+    <div class="newpost-warehouse jsWarehouseWrapper">
+        <?php echo $jbhtml->select($this->_getWarehouseList($this->get('recipientCity')), $this->getControlName('warehouse'),
+            'class="jsWarehouse"', $this->get('warehouse')); ?>
+    </div>
+
+    <div class="newpost-doors jsDoorsWrapper">
+        <?php
+        echo $jbhtml->text(
+            $this->getControlName('street'),
+            $this->get('street'),
+            array('placeholder' => JText::_('JBZOO_SHIPPING_NEWPOST_STREET'))
+        );
+        echo $jbhtml->text(
+            $this->getControlName('floor_count'),
+            $this->get('floor_count'),
+            array('placeholder' => JText::_('JBZOO_SHIPPING_NEWPOST_FLOOR_COUNT'))
+        );
+        ?>
     </div>
 </div>
 
 <script type="text/javascript">
     jQuery(function ($) {
-        $('#<?php echo $uiqueId;?>').JBZooShippingTypeNewpost();
+        $('#<?php echo $uiqueId;?>').JBZooShippingTypeNewpost(<?php echo json_encode(array(
+            'type_doors'    => JBCartElementShippingNewPost::TYPE_DOORS,
+            'type_ware'     => JBCartElementShippingNewPost::TYPE_WARE,
+            'url_locations' => $this->_getAjaxLocationsUrl(),
+        ));?>);
     });
 </script>
