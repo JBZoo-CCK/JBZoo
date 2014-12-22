@@ -49,9 +49,7 @@ class JBTemplateUikit extends JBTemplate
         $defaultAttrs = parent::wrapperAttrs();
 
         if ($this->application) {
-            if ((int)$this->params->get('global.config.rborder', 1)) {
-                $attrs['class'][] = $this->prefix . '-rborder';
-            } else {
+            if (!(int)$this->params->get('global.config.rborder', 1)) {
                 $attrs['class'][] = $this->prefix . '-no-border';
             }
         }
