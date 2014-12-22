@@ -73,18 +73,13 @@ class JBCartElementPriceColor extends JBCartElementPrice
         $height = (int)$params->get('height', 26);
         $width  = (int)$params->get('width', 26);
 
-        $selected = array();
-        if ((int)$this->_jbprice->config->get('only_selected', 1)) {
-            $selected = $this->_jbprice->elementOptions($this->identifier);
-        }
-
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'params'     => $params,
                 'type'       => $type,
                 'width'      => $width,
                 'height'     => $height,
-                'colorItems' => $this->getColors($selected)
+                'colorItems' => $this->getOptions()
             ));
         }
 
@@ -106,34 +101,47 @@ class JBCartElementPriceColor extends JBCartElementPrice
     }
 
     /**
-     * @param array $selected
-     *
+     * Parse options from element config
+     * @param  bool $label - add option with no value
+     * @return array
+     */
+    public function parseOptions($label = false)
+    {
+        $options = explode("\n", $this->config->get('options'));
+        $colors  = $this->app->jbcolor->getColors($options, $this->config->get('path', 'images'));
+
+        return $colors;
+    }
+
+    /**
+     * Get options for simple element
+     * @param  bool $label - add option with no value
      * @return mixed
      */
-    public function getColors($selected = array())
+    public function getOptions($label = true)
     {
-        $colors = explode("\n", $this->config->get('options'));
-        $result = array();
-        $data   = array();
+        $jbPrice = $this->_jbprice;
+        $colors  = $this->parseOptions();
 
-        $colorItems = $this->app->jbcolor->getColors($colors, $this->config->get('path', 'images'));
-
-        foreach ($colorItems as $key => $value) {
-            $result[$key] = $value;
+        if (!$this->hasOptions() || (int)$jbPrice->config->get('only_selected', 1)) {
+            $options = $jbPrice->elementOptions($this->identifier);
+            $colors  = array_intersect_key($colors, $options);
         }
 
-        if (!empty($selected)) {
-            foreach ($selected as $color) {
-                $key = JString::trim($color);
-                if (!empty($result[$key])) {
-                    $data[$key] = $result[$key];
-                }
-            }
+        return $colors;
+    }
 
-            return $data;
+    /**
+     * @param  array $colors
+     * @return mixed
+     */
+    public function getColors($colors = array())
+    {
+        if (empty($colors)) {
+            $colors = explode("\n", $this->config->get('options'));
         }
 
-        return $result;
+        return $this->app->jbcolor->getColors($colors, $this->config->get('path', 'images'));
     }
 
     /**
