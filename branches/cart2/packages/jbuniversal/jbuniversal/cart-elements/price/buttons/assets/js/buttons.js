@@ -131,6 +131,15 @@
                 if (this.isWidgetExists('JBZooCartModule')) {
                     $('.jsJBZooCartModule').JBZooCartModule('reload');
                 }
+            },
+
+            /**
+             * Widget fire on ajax end
+             */
+            _onAjaxStop: function (options, arguments) {
+                var $target = (options.target) ? $(options.target) : this.el;
+                $target.removeClass('jbloading');
+                this.toggleButtons();
             }
 
         }
