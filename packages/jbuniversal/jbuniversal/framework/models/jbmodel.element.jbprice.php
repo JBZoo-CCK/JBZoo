@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -39,13 +38,11 @@ class JBModelElementJBPrice extends JBModelElement
 
     /**
      * Set OR element conditions
-     *
      * @param JBDatabaseQuery $select
      * @param string          $elementId
      * @param string|array    $value
      * @param int             $i
      * @param bool            $exact
-     *
      * @return JBDatabaseQuery
      */
     public function conditionAND(JBDatabaseQuery $select, $elementId, $value, $i = 0, $exact = false)
@@ -55,13 +52,11 @@ class JBModelElementJBPrice extends JBModelElement
 
     /**
      * Set AND element conditions
-     *
      * @param JBDatabaseQuery $select
      * @param string          $elementId
      * @param string|array    $value
      * @param int             $i
      * @param bool            $exact
-     *
      * @return JBDatabaseQuery
      */
     public function conditionOR(JBDatabaseQuery $select, $elementId, $value, $i = 0, $exact = false)
@@ -75,29 +70,31 @@ class JBModelElementJBPrice extends JBModelElement
      * @param                 $values
      * @param string          $logic
      * @param bool            $exact
-     *
      * @internal param $value
      * @return array
      */
     protected function _getWhere(JBDatabaseQuery $select, $elementId, $values, $logic = 'AND', $exact = false)
     {
-        $data  = $this->_prepareValue($values, $exact);
+        JBModelSku::model();
+        $data = $this->_prepareValue($values, $exact);
         if (empty($data)) {
             return null;
         }
 
-        $isFirst = 0;
-        $logic   = 'AND';
-
-        $where = $this
-            ->_getSelect()
-            ->select('tSku.item_id as id')
-            ->from(ZOO_TABLE_JBZOO_SKU . ' AS tSku')
-            ->where('tSku.element_id = ?', $elementId)
-            ->innerJoin(JBModelSku::JBZOO_TABLE_SKU_VALUES . ' AS tValues ON tValues.id = tSku.value_id');
-
+        $isFirst  = 0;
+        $logic    = 'AND';
+        $all      = array();
         $iterator = new RecursiveArrayIterator($data);
+        $where    = $this->_getSelect();
+
         foreach ($iterator as $key => $value) {
+            $where
+                ->clear()
+                ->select('tSku.item_id as id')
+                ->from(ZOO_TABLE_JBZOO_SKU . ' AS tSku')
+                ->where('tSku.element_id = ?', $elementId)
+                ->innerJoin(JBModelSku::JBZOO_TABLE_SKU_VALUES . ' AS tValues ON tValues.id = tSku.value_id');
+
             $id = array_search($iterator->key(), JBModelSku::$ids);
             if ($isFirst !== 0) {
                 $logic = ' OR ';
@@ -105,7 +102,6 @@ class JBModelElementJBPrice extends JBModelElement
 
             $where->where('tSku.param_id = ?', $iterator->key(), $logic);
             if ($iterator->hasChildren()) {
-
                 $children = (array)$iterator->getChildren();
                 $inParams = 'AND';
                 $first    = key($children);
@@ -121,6 +117,9 @@ class JBModelElementJBPrice extends JBModelElement
                     } elseif ((int)($param_id === 'id')) {
                         $where->where('tSku.value_id = ?', $string, $inParams);
 
+                    } elseif ((isset($string['id']) && !empty($string['id']))) {
+                        $where->where('tSku.value_id = ?', $string['id'], $inParams);
+
                     } elseif ($this->isDate($string)) {
                         $string = $this->_date($string);
                         $where->where($string, null, $inParams);
@@ -133,16 +132,18 @@ class JBModelElementJBPrice extends JBModelElement
                     }
                 }
             }
-
-            $isFirst++;
+            $where->group('tSku.item_id');
+            $all[] = '(' . $where->__toString() . ')';
         }
 
-        $where->group('tSku.item_id');
-        if ($isFirst > 0) {
-            $where->having('COUNT(tSku.item_id) >= ?', $isFirst);
-        }
+        $query  = $this->_getSelect()
+                       ->clear()
+                       ->select('tAll.id')
+                       ->from('(' . implode('UNION ALL', $all) . ') as tAll')
+                       ->group('tAll.id')
+                       ->having('COUNT(tAll.id) = ?', count($all));
+        $idList = $this->_groupBy($this->fetchAll($query), 'id');
 
-        $idList = $this->_groupBy($this->fetchAll($where), 'id');
         if (!empty($idList)) {
             return array('tItem.id IN (' . implode(',', $idList) . ')');
         }
@@ -152,14 +153,12 @@ class JBModelElementJBPrice extends JBModelElement
 
     /**
      * @param array|string $values
-     *
      * @param bool         $exact
      * @return mixed|void
      */
     protected function _prepareValue($values, $exact = false)
     {
-        $values = $this->unsetEmpty($values);
-
+        $values   = $this->unsetEmpty($values);
         $value_id = isset(JBModelSku::$ids['_value']) ? JBModelSku::$ids['_value'] : false;
 
         if (isset($values[$value_id]) && !empty($values[$value_id])) {
@@ -171,7 +170,6 @@ class JBModelElementJBPrice extends JBModelElement
 
     /**
      * Unset empty
-     *
      * @param $values
      * @return array
      */
@@ -296,9 +294,7 @@ class JBModelElementJBPrice extends JBModelElement
 
     /**
      * Get min/max value
-     *
      * @param array $value
-     *
      * @return array $result
      */
     protected function _setMinMax($value)
@@ -314,7 +310,6 @@ class JBModelElementJBPrice extends JBModelElement
 
     /**
      * Check if value is range
-     *
      * @param  $value
      * @return bool
      */
@@ -329,7 +324,6 @@ class JBModelElementJBPrice extends JBModelElement
 
     /**
      * Check if string seems like date
-     *
      * @param string $date
      * @param string $format
      * @return bool

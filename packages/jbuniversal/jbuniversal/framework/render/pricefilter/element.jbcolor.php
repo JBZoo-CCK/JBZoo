@@ -2,7 +2,6 @@
 
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -26,13 +25,20 @@ class JBPriceFilterElementJBColor extends JBPriceFilterElement
     public function html()
     {
         if ((int)$this->_params->get('jbzoo_filter_multiple', 1)) {
-            $type = 'checkbox';
+            $type    = 'checkbox';
+            $postfix = null;
+            $id      = 'id';
         } else {
-            $type = 'radio';
+            $type    = 'radio';
+            $postfix = null;
+            $id      = 'id';
         }
 
         if (is_string($this->_value)) {
             $this->_value = $this->app->jbcolor->clean(explode(',', $this->_value));
+        }
+        if (is_array($this->_value) && count($this->_value) > 1) {
+            $this->_value = JArrayHelper::getColumn($this->_value, 'id');
         }
 
         $colors = explode("\n", $this->_element->config->get('options'));
@@ -55,7 +61,7 @@ class JBPriceFilterElementJBColor extends JBPriceFilterElement
         return $this->html->colors(
             $type,
             $data,
-            $this->_getName(),
+            $this->_getName($id, ''),
             $this->_value,
             array(),
             $titles
