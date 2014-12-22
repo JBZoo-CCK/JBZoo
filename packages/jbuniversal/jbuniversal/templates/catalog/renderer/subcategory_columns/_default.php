@@ -37,6 +37,11 @@ if ($vars['count']) {
 
         echo '<div class="rborder column width' . intval(100 / $vars['cols_num']) . $first . $last . '">' . $object
             . '</div>';
+
+        if ($isLast) {
+            echo '<div class="clearfix"></div>';
+        }
+
     }
 
     echo '</div>';
