@@ -97,7 +97,8 @@
          */
         addOption: function (key, value, isUpdate) {
 
-            this.el.append($("<option/>", {value: key, text: value}));
+            var decoded = $("<div/>").html(value).text();
+            this.el.append($("<option/>", {value: key, text: decoded}));
 
             if (this._def(isUpdate, true)) {
                 this._update();
