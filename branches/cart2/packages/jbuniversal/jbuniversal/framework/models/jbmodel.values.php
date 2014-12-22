@@ -108,16 +108,17 @@ class JBModelValues extends JBModel
     public function getParamsValues($elementId, $paramID, $itemType, $applicationId)
     {
         $select = $this
-            ->_getItemSelect($itemType, $applicationId)
-            ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
+            ->_getSelect()
             ->clear('select')
-            ->select('value_s as value')
-            ->select('value_s as text')
-            ->select('COUNT(DISTINCT(\'tSku.item_id\')) AS count')
-            ->where('tSku.param_id = ?', $paramID)
+            ->select('COUNT(DISTINCT tSku.item_id) AS count')
+            ->select('tValues.id as value')
+            ->select('tValues.value_s as text')
+            ->from(ZOO_TABLE_JBZOO_SKU . ' AS tSku')
+            ->innerJoin(JBModelSku::JBZOO_TABLE_SKU_VALUES . ' AS tValues ON tValues.id = tSku.value_id')
             ->where('tSku.element_id = ?', $elementId)
-            ->group('tSku.value_s')
-            ->group('tSku.item_id');
+            ->where('tSku.param_id = ?', $paramID)
+            ->where('tValues.value_s IS NOT NULL')
+            ->group('tValues.value_s');
 
         $values = $this->fetchAll($select, true);
 
@@ -320,18 +321,20 @@ class JBModelValues extends JBModel
     public function getRangeByPrice($identifier, $itemType, $applicationId, $categoryId = null)
     {
         $this->app->jbdebug->mark('model::filter::getRangeByPrice:start');
+        JBModelSku::model();
 
         if (!($result = $this->_jbcache->get(func_get_args(), 'get-range-by-price'))) {
 
             $select = $this->_getItemSelect($itemType, $applicationId)
                            ->clear('select')
                            ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
+                           ->innerJoin(JBModelSku::JBZOO_TABLE_SKU_VALUES . ' AS tValues ON tValues.id = tSku.value_id')
                            ->select(array(
-                               'MAX(tSku.value_n) AS total_max',
-                               'MIN(tSku.value_n) AS total_min'
+                               'MAX(tValues.value_n) AS total_max',
+                               'MIN(tValues.value_n) AS total_min'
                            ))
                            ->where('tSku.element_id = ?', $identifier)
-                           ->where('tSku.param_id = \'_value\'');
+                           ->where('tSku.param_id = ?', JBModelSku::$ids['_value']);
 
             if ($categoryId) {
                 $select->leftJoin(ZOO_TABLE_CATEGORY_ITEM . ' AS tCategoryItem ON tCategoryItem.item_id = tItem.id');

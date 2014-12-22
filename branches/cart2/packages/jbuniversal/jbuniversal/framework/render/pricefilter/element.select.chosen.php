@@ -28,7 +28,7 @@ class JBPriceFilterElementSelectChosen extends JBPriceFilterElementSelect
 
         return $this->html->selectChosen(
             $this->_createOptionsList($values),
-            $this->_getName(),
+            $this->_getName(null, 'id'),
             $this->_attrs,
             $this->_value,
             $this->_getId(),

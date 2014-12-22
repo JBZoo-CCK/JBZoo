@@ -59,6 +59,8 @@ class JBPriceFilterRenderer extends PositionRenderer
         $this->_jbposition  = $app->jbcartposition;
         $this->_cartelement = $app->jbcartelement;
         $this->_jbconfig    = JBModelConfig::model();
+
+        JBModelSku::model();
     }
 
     /**
@@ -142,7 +144,9 @@ class JBPriceFilterRenderer extends PositionRenderer
                     )
                 );
 
-                $value       = $this->_getRequest($element->identifier);
+                $skuId = JBModelSku::$ids[$element->identifier];
+                $value = $this->_getRequest($skuId);
+
                 $elementHTML = $this->elementRender($element, $value, $params, $attrs);
 
                 if (empty($elementHTML)) {
@@ -330,7 +334,7 @@ class JBPriceFilterRenderer extends PositionRenderer
             if (isset($element[$identifier])) {
                 $value = $element[$identifier];
 
-                return reset($value);
+                return count($value) === 1 ? reset($value) : $value;
             }
 
             return null;

@@ -82,12 +82,12 @@ class JBModelSearchindex extends JBModel
         $this->app->jbenv->maxPerformance();
 
         if ($offset == 0) {
-            $this->_jbtables->dropAllIndex();
-            $this->_jbtables->dropTable(ZOO_TABLE_JBZOO_SKU);
-
-            $this->_jbtables->createIndexes();
-            $this->_jbtables->checkSKU(true);
-            $this->_jbtables->checkFavorite(true);
+            $this->_jbtables
+                ->dropAllIndex()
+                ->dropAllSku()
+                ->createIndexes()
+                ->checkSKU(true)
+                ->checkFavorite(true);
         }
 
         $this->_jbtables->getTableList(true); // force memory cache update
@@ -108,7 +108,7 @@ class JBModelSearchindex extends JBModel
         }
 
         $dataPack = array();
-        
+
         $ids = $this->_groupBy($rows);
 
         foreach ($ids as $id) {
@@ -130,7 +130,7 @@ class JBModelSearchindex extends JBModel
             $dataPack[$itemType][] = $itemData;
 
             // clear memory
-            unset($item);
+            unset($item, $itemData);
             $this->app->table->item->unsetObject($id);
         }
 

@@ -35,4 +35,24 @@ class JBPriceFilterElementText extends JBPriceFilterElement
         return $attrs;
     }
 
+    public function html()
+    {
+        $html   = array();
+        $value = (array)$this->_value;
+
+        $html[] = $this->html->text(
+            $this->_getName(null, 0),
+            $value['0'],
+            $this->_attrs,
+            $this->_getId('sku-')
+        );
+
+        $isAuto = (int)$this->_params->get('jbzoo_filter_autocomplete', 0);
+        if ($isAuto) {
+            $html[] = parent::autoCompleteInput();
+        }
+
+        return implode($html);
+    }
+
 }

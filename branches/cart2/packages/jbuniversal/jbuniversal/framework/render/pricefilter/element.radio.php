@@ -30,7 +30,7 @@ class JBPriceFilterElementRadio extends JBPriceFilterElement
 
         return $this->html->radio(
             $this->_createOptionsList($values),
-            $this->_getName(),
+            $this->_getName(null, 'id'),
             $this->_attrs,
             $this->_value,
             $this->_getId()
