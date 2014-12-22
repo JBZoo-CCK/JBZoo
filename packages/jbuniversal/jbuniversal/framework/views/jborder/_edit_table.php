@@ -42,6 +42,7 @@ $totalCount = 0;
     <tbody>
     <?php
     foreach ($items as $key => $row) :
+        $row = $this->app->data->create($row);
 
         $item      = $row->get('item');
         $priceItem = $order->val($row->get('total'));
@@ -55,8 +56,8 @@ $totalCount = 0;
         <tr class="item-row">
             <td rowspan="<?php echo $rowspan; ?>">
                 <?php
-                if (isset($row['image']) && $row['image']) {
-                    $imagePath = $this->app->jbimage->resize($row['image'], 90);
+                if ($row->find('elements._image')) {
+                    $imagePath = $this->app->jbimage->resize($row->find('elements._image'), 90);
                     echo '<img src="' . $imagePath->url . '" class="item-image" />';
                 } else {
                     echo '-';

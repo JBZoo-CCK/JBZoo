@@ -508,10 +508,69 @@ class JBAssetsHelper extends AppHelper
                                     "type"  : $(".jsItemType", $form).val()
                                 },
                                 function(data, status, xhr) {
+
                                     $input.removeClass("ui-autocomplete-loading");
                                     response(data);
                                 }
                             );
+                        }
+                    });
+                });
+            })');
+        }
+    }
+
+    /**
+     * Init jqueryUI autoComplete
+     */
+    public function initPriceAutoComplete()
+    {
+        static $isAdded;
+
+        $this->jQuery();
+        $this->jQueryUI();
+
+        if (!isset($isAdded)) {
+            $isAdded = true;
+            $this->addScript('jQuery(function($){
+                $(".jbzoo .jsPriceAutoComplete").each(function (n, obj) {
+                    var $input = $(obj),
+                        $form = $input.closest("form"),
+                    widget = $input.autocomplete({
+                        minLength: 2,
+                        source: function( request, response ) {
+                            var term = request.term;
+                            lastXhr = $.getJSON("' . $this->app->jbrouter->autocomplete() . '",
+                                {
+                                    "name"  : $input.attr("name"),
+                                    "value" : term,
+                                    "app_id": $(".jsApplicationId", $form).val(),
+                                    "type"  : $(".jsItemType", $form).val()
+                                },
+                                function(data, status, xhr) {
+
+                                    $input.removeClass("ui-autocomplete-loading");
+                                    response(data);
+                                }
+                            );
+                        },
+                        change: function(event, ui) {
+                            var element = $(".jsPriceAutoCompleteValue", $(this).parent());
+
+                            if(ui.item) {
+                                element.val(ui.item.id).removeAttr("disabled");
+                            } else {
+                                element.val(null).attr("disabled", true);
+                            }
+                        },
+                        select: function(event, ui) {
+                            var element = $(".jsPriceAutoCompleteValue", $(this).parent());
+
+                            if(ui.item) {
+                                element.val(ui.item.id).removeAttr("disabled");
+                            } else {
+                                element.val(null).attr("disabled", true);
+                            }
                         }
                     });
                 });

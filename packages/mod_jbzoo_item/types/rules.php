@@ -154,8 +154,7 @@ class JBZooModItemRuleJBPrice extends JBZooModItemRuleText
     {
         $params    = null;
         $this->app = App::getInstance('zoo');
-
-        $elements = $this->app->jbentity->getItemTypesData(false);
+        $elements  = $this->app->jbentity->getItemTypesData(false);
 
         $this->_element    = $elements[$elem_id];
         $this->_element_id = $elem_id;
@@ -391,7 +390,6 @@ class JBZooModItemRuleJBSelectCascade extends JBZooModItemRuleText
  */
 class JBZooModItemRuleJBImage extends JBZooModItemRuleText
 {
-
     /**
      * @param $key
      * @param $value

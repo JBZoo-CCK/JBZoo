@@ -13,7 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 /**
  * Class JBAjaxHelper
  */
@@ -27,9 +26,11 @@ class JBCartPositionHelper extends AppHelper
 
     /**
      * Load positions group with elements
-     * @param $group
+     *
+     * @param       $group
      * @param array $mustHave
      * @param array $forceElements
+     *
      * @return array
      */
     public function loadPositions($group, $mustHave = array(), $forceElements = array())
@@ -99,9 +100,10 @@ class JBCartPositionHelper extends AppHelper
     }
 
     /**
-     * @param $tmplGroup
-     * @param $configGroup
+     * @param       $tmplGroup
+     * @param       $configGroup
      * @param array $tmplPoitions
+     *
      * @return array
      */
     public function loadPositionsTmpl($tmplGroup, $configGroup, $tmplPoitions = array())
@@ -120,6 +122,7 @@ class JBCartPositionHelper extends AppHelper
 
     /**
      * @param $tmplGroup
+     *
      * @return array
      */
     public function loadParams($tmplGroup)
@@ -136,6 +139,7 @@ class JBCartPositionHelper extends AppHelper
 
     /**
      * @param $group
+     *
      * @return array
      */
     public function loadElements($group)
@@ -153,7 +157,7 @@ class JBCartPositionHelper extends AppHelper
 
     /**
      * @param string $group
-     * @param array $positions
+     * @param array  $positions
      * @param string $layout
      */
     public function save($group, $positions, $layout = null)
@@ -172,18 +176,18 @@ class JBCartPositionHelper extends AppHelper
     /**
      * @param $group
      * @param $positions
-     * @param $layout
      * @param $identifier
+     * @param $layout
      */
-    public function savePrice($group, $positions, $layout, $identifier)
+    public function savePrice($group, $positions, $identifier, $layout = null)
     {
-        $config = JBModelConfig::model();
-
+        $config      = JBModelConfig::model();
         $configGroup = $this->_mainGroup . $group;
 
         if ($identifier) {
             $configGroup .= '.' . $identifier;
         }
+
         if ($layout) {
             $configGroup .= '.' . $layout;
         }
@@ -194,11 +198,13 @@ class JBCartPositionHelper extends AppHelper
 
     /**
      * @param ElementJBPriceAdvance $element
+     *
      * @return array
      */
-    public function loadForPrice(ElementJBPriceAdvance $element)
+    public function loadForPrice($element)
     {
-        $data = $this->loadPostions(JBCart::ELEMENT_TYPE_PRICE . '.' . $element->identifier, array(JBCart::DEFAULT_POSITION));
+        $data = $this->loadPositions(JBCart::ELEMENT_TYPE_PRICE . '.' . $element->identifier,
+            array(JBCart::DEFAULT_POSITION));
 
         if (isset($data[$element->identifier])) {
             return $data[$element->identifier];
@@ -213,6 +219,7 @@ class JBCartPositionHelper extends AppHelper
 
     /**
      * @param string $group
+     *
      * @return JSONData
      */
     protected function _getConfig($group)

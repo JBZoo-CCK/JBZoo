@@ -23,7 +23,7 @@ class JBCartVariantList
      * Default variant key
      * @var string
      */
-    protected $_default = ElementJBPrice::BASIC_VARIANT;
+    public $_default = ElementJBPrice::BASIC_VARIANT;
 
     /**
      * Variations on/off
@@ -124,12 +124,24 @@ class JBCartVariantList
     }
 
     /**
-     * Get base variant
+     * Get first variant
      * @return JBCartVariant
      */
     public function shift()
     {
-        return $this->_variants[ElementJBPrice::BASIC_VARIANT];
+        reset($this->_variants);
+
+        return current($this->_variants);
+    }
+
+    /**
+     * Advance the internal array pointer of an array and return value
+     *
+     * @return JBCartVariant
+     */
+    public function next()
+    {
+        return next($this->_variants);
     }
 
     /**
@@ -154,9 +166,8 @@ class JBCartVariantList
     public function getPrice($id = ElementJBPrice::BASIC_VARIANT)
     {
         $default = $this->get($id);
-        $margin  = $default->get('_margin');
 
-        return $default->get('_value', JBCart::val())->add($margin);
+        return $default->get('_value');
     }
 
     /**
@@ -303,7 +314,7 @@ class JBCartVariantList
             'key'       => $this->getSessionKey(),
             'item_id'   => $item->id,
             'item_name' => $item->name,
-            'total'     => $this->getTotal()->dump(),
+            'total'     => $this->getTotal()->data(),
             'quantity'  => (float)$this->quantity,
             'template'  => $this->_jbprice->getTemplate(),
             'layout'    => $this->_jbprice->getLayout(),
@@ -328,7 +339,7 @@ class JBCartVariantList
             'key'       => $this->getSessionKey(),
             'item_id'   => $item->id,
             'item_name' => $item->name,
-            'total'     => $this->getTotal()->dump(),
+            'total'     => $this->getTotal()->data(),
             'quantity'  => (float)$this->quantity,
             'template'  => $this->_jbprice->getTemplate(),
             'layout'    => $this->_jbprice->getLayout(),
@@ -356,28 +367,23 @@ class JBCartVariantList
     protected function _plainTotal()
     {
         $default = $this->byDefault();
-        $value   = JBCart::val();
 
-        if ($element = $default->getElement('_value')) {
-            $value = $element->getValue();
-        }
+        $element = $default->getElement('_value');
+        $total   = $default->getTotal();
 
         if (!$default->isBasic()) {
             if ($element && $element->isModifier()) {
 
                 $basic = $this->getPrice(ElementJBPrice::BASIC_VARIANT);
-                $value = $basic->add($value);
+                $total = $basic->add($total);
+
+                $total
+                    ->add($this->get('_margin'))
+                    ->minus($this->get('_discount'))->abs();
             }
         }
 
-        $margin   = $default->get('_margin', JBCart::val());
-        $discount = $default->get('_discount', JBCart::val());
-
-        $value
-            ->add($margin->abs())
-            ->minus($discount->abs())->abs();
-
-        return $value;
+        return $total;
     }
 
     /**
@@ -420,5 +426,4 @@ class JBCartVariantList
             $this->_variants[$variant->id()] = $variant;
         }
     }
-
 }

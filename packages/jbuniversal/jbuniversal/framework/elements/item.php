@@ -79,24 +79,23 @@ class JBCSVItem
     /**
      * Constructor
      * @param Element|String $element
-     * @param Item $item
-     * @param array $options
+     * @param Item           $item
+     * @param array          $options
      */
     function __construct($element, Item $item = null, $options = array())
     {
         // get Zoo app
         $this->app = App::getInstance('zoo');
-
         // set inner vars
-        if (is_object($element)) {
-            $this->_element    = $element;
-            $this->_item       = $element->getItem();
-            $this->_identifier = $element->identifier;
-
-        } else if (isset($options['elementId'])) {
+        if (isset($options['elementId'])) {
             $this->_identifier = $options['elementId'];
             $this->_item       = $item;
             $this->_element    = $this->_item->getElement($this->_identifier);
+
+        } else if (is_object($element)) {
+            $this->_element    = $element;
+            $this->_item       = $element->getItem();
+            $this->_identifier = $element->identifier;
 
         } else {
             $this->_identifier = $element;
@@ -162,7 +161,7 @@ class JBCSVItem
 
     /**
      * Import data from CSV cell
-     * @param $value
+     * @param      $value
      * @param null $position
      * @return Item
      */
@@ -285,6 +284,7 @@ class JBCSVItem
     protected function _getFloat($value)
     {
         $value = (float)$this->app->jbmoney->clearValue($value);
+
         return $value;
     }
 
@@ -311,7 +311,7 @@ class JBCSVItem
     /**
      * Get date from string
      * @param string $value
-     * @param null $default
+     * @param null   $default
      * @return string
      */
     protected function _getDate($value, $default = null)
@@ -372,7 +372,7 @@ class JBCSVItem
 
     /**
      * Pack data from string
-     * @param $data
+     * @param      $data
      * @param bool $nullElement
      * @return string
      */
@@ -411,23 +411,21 @@ class JBCSVItem
                         }
                     } else if (!empty($value) && is_array($value)) {
 
-                        foreach ($value as $key => $val) {
+                        foreach ($value as $i => $val) {
 
                             if (is_string($val)) {
                                 $val = JString::trim($val);
-                                if (JString::strlen($val) > 0 && !empty($val) && $key) {
-                                    $result[$key] = $key . ':' . JString::str_ireplace($from, $to, $val);
+                                if (JString::strlen($val) > 0 && !empty($val) && $i) {
+                                    $result[$i] = $i . ':' . JString::str_ireplace($from, $to, $val);
                                 }
                             } else if (is_array($val)) {
                                 $val = $val[key($val)];
                                 $val = JString::trim($val);
-                                if (JString::strlen($val) > 0 && !empty($val) && $key) {
-                                    $result[$key] = $key . ':' . JString::str_ireplace($from, $to, $val);
+                                if (JString::strlen($val) > 0 && !empty($val) && $i) {
+                                    $result[$i] = $i . ':' . JString::str_ireplace($from, $to, $val);
                                 }
                             }
-
                         }
-
                     }
                 }
             }

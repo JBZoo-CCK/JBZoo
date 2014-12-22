@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 $this->app->jbdebug->mark('template::filter::start');
 
 $this->app->jblayout->setView($this);
-
+$this->app->jbassets->tabs();
 if (!$this->app->jbcache->start()) {
     $this->app->jbwrapper->start();
 

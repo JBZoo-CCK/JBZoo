@@ -24,9 +24,7 @@ class JBCSVItemCoreTags extends JBCSVItem
      */
     public function toCSV()
     {
-        $params = $this->app->jbuser->getParam('export-items', array());
-
-        if ((int)$params->merge_repeatable) {
+        if ((int)$this->_exportParams->merge_repeatable) {
             return implode(JBCSVItem::SEP_ROWS, $this->_item->getTags());
         } else {
             return $this->_item->getTags();

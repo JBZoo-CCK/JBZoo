@@ -16,48 +16,47 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Class JBCartVariant
  *
- * @package
- * @since    2.2
+ * @since 2.2
  */
 class JBCartVariant
 {
     /**
-     * @var bool
+     * @type bool
      */
     public $overlay;
 
     /**
      * Id of variant
      *
-     * @var integer
+     * @type integer
      */
     protected $_id;
 
     /**
      * Array of objects elements
      *
-     * @var array
+     * @type array
      */
     protected $_elements = array();
 
     /**
-     * @var ElementJBPricePlain || ElementJBPriceCalc
+     * @type ElementJBPrice
      */
     protected $_jbprice;
 
     /**
      * Empty object to set defaults
      *
-     * @var JBCartValue
+     * @type JBCartValue
      */
     private $value;
 
     /**
      * Class constructor
      *
-     * @param integer $id
-     * @param ElementJBPricePlain || ElementJBPriceCalc $jbPrice
-     * @param array   $data
+     * @param integer        $id
+     * @param ElementJBPrice $jbPrice
+     * @param array          $data
      */
     public function __construct($id, $jbPrice, $data = array())
     {
@@ -138,8 +137,7 @@ class JBCartVariant
     }
 
     /**
-     * @param $identifier
-     *
+     * @param string $identifier - element -identifier
      * @return JBCartElementPrice|null
      */
     public function getElement($identifier)
@@ -150,7 +148,7 @@ class JBCartVariant
     /**
      * Return array of elements
      *
-     * @return array
+     * @return array array of JBCartElementPrice
      */
     public function getElements()
     {
@@ -164,14 +162,14 @@ class JBCartVariant
      */
     public function getTotal()
     {
-        $value = $this->getPrice();
+        $value    = $this->getPrice();
+        $discount = $this->get('_discount');
 
-        $margin   = $this->get('_margin', $this->value);
-        $discount = $this->get('_discount', $this->value);
-
-        $value
-            ->add($margin->abs())
-            ->minus($discount->abs());
+        if ($element = $this->getElement('_value')) {
+            if (!$element->isModifier()) {
+                $value->minus($discount);
+            }
+        }
 
         return $value;
     }
@@ -183,7 +181,15 @@ class JBCartVariant
      */
     public function getPrice()
     {
-        return $this->get('_value', $this->value);
+        $value = $this->value;
+        if ($element = $this->getElement('_value')) {
+            $value = $this->get('_value', $this->value);
+            if (!$element->isModifier()) {
+                $value->add($this->get('_margin'));
+            }
+        }
+
+        return $value;
     }
 
     /**
@@ -201,7 +207,7 @@ class JBCartVariant
                     $value = $element->getValue();
 
                     if ($value instanceof JBCartValue) {
-                        $value = $value->dump();
+                        $value = $value->data();
                     }
                     $data[$key] = $value;
                 }
@@ -229,8 +235,7 @@ class JBCartVariant
      */
     protected function _setElement($element, $data = array())
     {
-        $key = $element->identifier;
-
+        $key    = $element->identifier;
         $config = $element->config;
 
         $config->set('_variant', $this->id());
@@ -244,5 +249,4 @@ class JBCartVariant
 
         return $element;
     }
-
 }
