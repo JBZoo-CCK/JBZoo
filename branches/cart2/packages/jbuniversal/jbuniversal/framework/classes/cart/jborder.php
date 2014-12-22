@@ -605,8 +605,11 @@ class JBCartOrder
                 $shipping = $this->getShippingElement($shippingData['_shipping_id']);
 
                 unset($shippingData['_shipping_id']);
-                $shipping->bindData($shippingData);
-                return $shipping;
+                if($shipping) {
+                    $shipping->bindData($shippingData);
+
+                    return $shipping;
+                }
             }
         }
 
@@ -712,15 +715,13 @@ class JBCartOrder
         }
 
         $result = array();
-        foreach ($items as $key => $item) {
-            $itemData = $this->app->data->create($item);
-
+        foreach ($items as $key => $data) {
             if ($loadItem) {
-                $item = $this->app->table->item->get($itemData->get('item_id'));
-                $itemData->set('item', $item);
+                $item = $this->app->table->item->get($data['item_id']);
+                $data['item'] = $item;
             }
 
-            $result[$key] = $itemData;
+            $result[$key] = $data;
         }
 
         $result = $this->app->data->create($result);

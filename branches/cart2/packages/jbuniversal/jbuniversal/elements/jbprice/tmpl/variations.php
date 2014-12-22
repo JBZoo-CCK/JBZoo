@@ -17,7 +17,7 @@ $html = $this->app->jbhtml;
 $mode = (int)$this->config->get('mode', 1);
 
 $string     = $this->app->jbstring;
-$unique     = $string->getId('jsJBPriceAdvance-');
+$unique     = $string->getId('jsJBPrice-');
 $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
 
 <div class="jbzoo-price jbzoo" id="<?php echo $unique; ?>" data-mode="<?php echo $mode; ?>" data-valid="false">
