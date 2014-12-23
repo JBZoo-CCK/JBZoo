@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -37,7 +36,6 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * Constructor
-     *
      * @param App    $app
      * @param string $type
      * @param string $group
@@ -90,7 +88,6 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * @param  array $params
-     *
      * @return array|mixed|null|string
      */
     public function render($params = array())
@@ -118,9 +115,7 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * Get render parameters of any price element
-     *
      * @param $identifier
-     *
      * @return array|mixed
      */
     public function getRenderParams($identifier = null)
@@ -134,10 +129,8 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * Get elements value
-     *
      * @param string $key
      * @param null   $default
-     *
      * @return mixed|null
      */
     public function getValue($key = 'value', $default = null)
@@ -156,7 +149,6 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * Set data through data array.
-     *
      * @param  array  $data
      * @param  string $key
      * @return $this
@@ -248,10 +240,8 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * Renders the element using template layout file
-     *
      * @param string $__layout layouts template file
      * @param array  $__args   layouts template file args
-     *
      * @return string
      */
     protected function renderLayout($__layout, $__args = array())
@@ -322,7 +312,6 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * Check if option isset in element
-     *
      * @param  string $value Option value
      * @return bool
      */
@@ -341,7 +330,6 @@ abstract class JBCartElementPrice extends JBCartElement
      * @param          $name
      * @param  integer $index
      * @param  boolean $array
-     *
      * @return string
      */
     public function getControlName($name, $index = null, $array = false)
@@ -357,14 +345,16 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * @param  string $name
-     *
      * @return string
      */
     public function getRenderName($name)
     {
-        $itemId = $this->getJBprice()->getItem()->id;
+        $jbPrice  = $this->getJBprice();
+        $itemId   = $jbPrice->getItem()->id;
+        $layout   = $jbPrice->layout();
+        $template = $jbPrice->getTemplate();
 
-        return "params[{$itemId}][{$this->identifier}][{$name}]";
+        return "params[{$itemId}{$layout}{$template}][{$this->identifier}][{$name}]";
     }
 
     /**

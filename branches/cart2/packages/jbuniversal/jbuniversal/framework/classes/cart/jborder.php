@@ -398,10 +398,6 @@ class JBCartOrder
 
     /**
      * @param $identifier
-     * @return JBCartElementOrder
-     */
-    /**
-     * @param $identifier
      * @param $groupName
      * @return JBCartElementModifierPrice
      */
@@ -605,7 +601,7 @@ class JBCartOrder
                 $shipping = $this->getShippingElement($shippingData['_shipping_id']);
 
                 unset($shippingData['_shipping_id']);
-                if($shipping) {
+                if ($shipping) {
                     $shipping->bindData($shippingData);
 
                     return $shipping;
@@ -717,11 +713,10 @@ class JBCartOrder
         $result = array();
         foreach ($items as $key => $data) {
             if ($loadItem) {
-                $item = $this->app->table->item->get($data['item_id']);
+                $item         = $this->app->table->item->get($data['item_id']);
                 $data['item'] = $item;
             }
-
-            $result[$key] = $data;
+            $result[$key] = $this->app->data->create($data);
         }
 
         $result = $this->app->data->create($result);
@@ -979,6 +974,7 @@ class JBCartOrder
     public function val($data = '0', $currency = null)
     {
         $rates = (array)$this->getCurrencyList();
+
         return JBcart::val($data, $currency, $rates);
     }
 

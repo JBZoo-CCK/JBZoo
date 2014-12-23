@@ -27,6 +27,9 @@
             'key'     : {},
             'isInCart': 0,
 
+            'isInCartVariant' : 0,
+            'canRemoveVariant': 0,
+
             init: function () {
 
                 this.price = this.el.closest('.jsPrice');
@@ -64,7 +67,7 @@
                     },
                     'error'  : function (data) {
                         if (data.message) {
-                            alert(data.message);
+                            $this.alert(data.message);
                         }
                     }
                 });
@@ -78,7 +81,7 @@
                     'url'    : $this.options.remove,
                     'data'   : {
                         "args": {
-                            'key': $this.getKey()
+                            'key'    : $this.getKey()
                         }
                     },
                     'success': function (data) {
@@ -107,7 +110,9 @@
 
             toggleButtons: function () {
                 var jsButtons = this.$('.jsPriceButtons');
-                jsButtons.toggleClass('in-cart', this.isInCart == true);
+                jsButtons
+                    .toggleClass('in-cart', this.isInCart == true)
+                    .toggleClass('in-cart-variant', this.isInCartVariant == true);
 
                 return this;
             },

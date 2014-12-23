@@ -65,7 +65,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         $this->set('default_variant', $key);
 
         $this->_template = $template;
-        $this->_list     = $this->getVariantList($list, $this, array(
+        $this->_list     = new JBCartVariantList($list, $this, array(
             'values'   => $values,
             'template' => $template,
             'currency' => $currency
@@ -94,7 +94,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         $this->set('default_variant', $key);
 
         $this->_template = $template;
-        $this->_list     = $this->getVariantList($list, $this, array(
+        $this->_list     = new JBCartVariantList($list, $this, array(
             'values'   => $values,
             'quantity' => $quantity,
             'currency' => $this->_config->get('cart.default_currency', JBCart::val()->cur())

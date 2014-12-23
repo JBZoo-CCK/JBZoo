@@ -14,11 +14,11 @@
 
     JBZoo.widget('JBZoo.Colors',
         {
-            'multiple': true
+            'multiple': true,
+            'type'    : 'radio'
         },
         {
             init: function () {
-
                 this.el.find('input[type=' + this.options.type + ']:checked').next().addClass('checked');
             },
 
@@ -29,7 +29,7 @@
                 if (!$this.options.multiple) {
                     if ($field.hasClass('checked')) {
                         $field
-                            .attr('checked', false)
+                            .removeAttr('checked')
                             .addClass('unchecked')
                             .removeClass('checked')
                             .next()
