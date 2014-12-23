@@ -27,7 +27,7 @@ defined('_JEXEC') or die('Restricted access');
     </th>
 
     <th <?php echo $this->getAttrs(array('width' => '18%')); ?>>
-        <?php echo JText::_('JBZOO_ORDER_PRICE_PER_PIECE'); ?>
+        <?php echo JText::_('JBZOO_ORDER_PRICE_PER_ITEM'); ?>
     </th>
 
     <th <?php echo $this->getAttrs(array('width' => '15%', 'align' => 'center')); ?>>
@@ -35,7 +35,7 @@ defined('_JEXEC') or die('Restricted access');
     </th>
 
     <th <?php echo $this->getAttrs(array('width' => '15%', 'align' => 'right')); ?>>
-        <?php echo JText::_('JBZOO_ORDER_ITEM_COST'); ?>
+        <?php echo JText::_('JBZOO_ORDER_ITEM_TOTAL'); ?>
     </th>
 </tr>
 </thead>

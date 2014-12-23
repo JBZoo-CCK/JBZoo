@@ -42,14 +42,13 @@ $totalCount = 0;
     <tbody>
     <?php
     foreach ($items as $key => $row) :
-        $row = $this->app->data->create($row);
 
         $item      = $row->get('item');
         $priceItem = $order->val($row->get('total'));
         $quantity  = (float)$row->get('quantity', 1);
         $totalItem = $priceItem->multiply($quantity, true);
-        $discount  = $order->val($row->get('discount'));
-        $margin    = $order->val($row->get('margin'));
+        $discount  = $order->val($row->find('elements._discount'));
+        $margin    = $order->val($row->find('elements._margin'));
         $rowspan   = count($itemModifiers) + 1;
         $totalCount += $quantity;
         ?>
@@ -94,7 +93,7 @@ $totalCount = 0;
             <td class="item-price4one">
                 <?php
                 echo '<p>' . $priceItem->html() . '</p>';
-
+                //TODO margin & discount empties
                 if (!$margin->isEmpty()) {
                     echo '<p>Наценка:' . $margin->htmlAdv($baseCur, true) . '</p>';
                 }

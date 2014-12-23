@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -29,14 +28,14 @@ if ($subtotal) :
                 ) .
                 $this->getStyles(array(
                     'padding' => '8px 0 8px 8px'
-                ));?>
+                )); ?>
                 ></td>
 
             <td <?php
             echo $this->getAttrs(array(
                         'colspan' => 2)
                 ) .
-                $this->getStyles();?>
+                $this->getStyles(); ?>
                 >
                 <p>Промежуточный итог</p>
             </td>
@@ -49,12 +48,11 @@ if ($subtotal) :
                 $this->getStyles(array(
                     'text-align' => 'right',
                     'padding'    => '8px 0 8px 8px'
-                ), true);?>
+                ), true); ?>
                 >
-                <?php echo $this->fontColor($order->getTotalForItems(true), '#dd0055', 4); ?>
+                <?php echo $this->fontColor($order->getTotalForItems(), '#dd0055', 4); ?>
             </td>
         </tr>
-
     <?php
     endif;
 endif;
@@ -81,7 +79,7 @@ echo $this->partial('subtotal_modifiers', array(
         'subtotal'  => $subtotal,
         'on'        => (int)$this->config->get('subtotal_modifiers', 1)
     )
-);?>
+); ?>
 
 
 <!-- Total order price -->
@@ -93,7 +91,7 @@ echo $this->partial('subtotal_modifiers', array(
     </td>
 
     <td <?php echo $this->getAttrs(array('colspan' => 2, 'border' => 0, 'align' => 'right')) . ' ' .
-        $this->getStyles(array('padding' => '8px 0 8px 8px'));?>>
+        $this->getStyles(array('padding' => '8px 0 8px 8px')); ?>>
         <strong><?php echo $this->fontColor($order->getTotalSum(true), '#a00', 5); ?></strong>
     </td>
 </tr>
