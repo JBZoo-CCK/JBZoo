@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,17 +12,15 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$i = 0
-?>
-
+$i = 0; ?>
 <tbody>
 <?php foreach ($items as $key => $item) :
-
+    $item  = $this->app->data->create($item);
     $image = null;
     if (!empty($item['image'])) {
-        $src   = 'cid:' . $this->clean($key) . '-' . $this->clean(basename($item['image']));
+        $src   = 'cid:' . $this->clean($key) . '-' . $this->clean(basename($item->find('elements.image')));
         $src   = JString::str_ireplace(' ', '', $src);
-        $image = '<img width="50" src="' . $src . '" title="' . $item['name'] . '"/>';
+        $image = '<img width="50" src="' . $src . '" title="' . $item['item_name'] . '"/>';
     }
     $i++;
 
@@ -31,9 +28,9 @@ $i = 0
     if ($i % 2 == 1) {
         $rowattr .= ' bgcolor="#fafafa"';
     }
-    $price = $item['price'] * $item['quantity'];
-    $total = $this->_jbmoney->toFormat($price, $currency);
-    ?>
+
+    $total = JBCart::val((float)$item->get('total'));
+    $total->multiply($item->get('quantity')); ?>
     <tr <?php echo $rowattr; ?>>
         <td>
             <?php echo $i + 1; ?>
@@ -42,13 +39,13 @@ $i = 0
             <?php echo $image; ?>
         </td>
         <td>
-            <?php echo $item['name']; ?>
+            <?php echo $item['item_name']; ?>
         </td>
         <td align="center">
-            <?php echo $this->_jbmoney->toFormat($item['price'], $currency); ?>
+            <?php echo JBCart::val($item->find('elements._value')); ?>
         </td>
         <td align="center">
-            <?php echo $item['quantity']; ?>
+            <?php echo $item->get('quantity'); ?>
         </td>
         <td align="right">
             <?php echo $total; ?>

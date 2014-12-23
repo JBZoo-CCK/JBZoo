@@ -32,7 +32,7 @@ if ($subtotal && $on) :
                 )
             ); ?>>
                 <strong>
-                    <?php echo $this->_jbmoney->toFormat($order->getPayment()->getRate(), $currency); ?>
+                    <?php echo JBCart::val($order->getPayment()->getRate(), $currency); ?>
                 </strong>
             </td>
         </tr>
@@ -53,7 +53,7 @@ if ($subtotal && $on) :
 
             <td <?php echo $this->getStyles(array('text-align' => 'right')); ?>>
                 <strong>
-                    <?php echo $this->_jbmoney->toFormat($order->getShipping()->getRate(), $currency); ?>
+                    <?php echo JBCart::val($order->getShipping()->getRate(), $currency); ?>
                 </strong>
             </td>
         </tr>
