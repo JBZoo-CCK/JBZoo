@@ -33,7 +33,7 @@ class JBFormHelper extends AppHelper
         $xmlPaths = $this->_getXmlFormPaths();
 
         foreach ($xmlPaths as $path) {
-            $xmlForm = $path . $formName . '.xml';
+            $xmlForm = $path . '\\' . $formName . '.xml';
 
             if (file_exists($xmlForm)) {
                 $formPath = $xmlForm;
