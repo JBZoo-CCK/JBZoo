@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -53,7 +52,6 @@ class JBCartElementPriceValue extends JBCartElementPrice
 
     /**
      * @param array $params
-     *
      * @return array|mixed|null|string
      */
     public function render($params = array())
@@ -114,7 +112,6 @@ class JBCartElementPriceValue extends JBCartElementPrice
 
     /**
      * Get prices for currencies from currency list
-     *
      * @return array
      */
     public function getCurrencyPrices()
@@ -143,7 +140,6 @@ class JBCartElementPriceValue extends JBCartElementPrice
 
     /**
      * Check if variant price will modified basic price
-     *
      * @return bool
      */
     public function isModifier()
@@ -153,8 +149,13 @@ class JBCartElementPriceValue extends JBCartElementPrice
         }
 
         $value = $this->get('value', null);
-        if (!empty($value) && ($value[0] === '-' || $value[0] === '+')) {
+        if (!empty($value) && ($value[0] === '-' || $value[0] === '+' || $value[0] === '%')) {
             return $value[0];
+        }
+
+        $value = JBCart::val($value);
+        if ($value->isCur('%')) {
+            return true;
         }
 
         return false;
@@ -162,10 +163,8 @@ class JBCartElementPriceValue extends JBCartElementPrice
 
     /**
      * Get elements value
-     *
      * @param string $key
      * @param null   $default
-     *
      * @return mixed|JBCartValue|null
      */
     public function getValue($key = 'value', $default = null)

@@ -64,7 +64,9 @@ class JBCartVariantList
         //Add basic variant if he isn't set in $list
         if (!isset($list[$jbPrice::BASIC_VARIANT])) {
             $list[$jbPrice::BASIC_VARIANT] = $jbPrice->get('variations.' . $jbPrice::BASIC_VARIANT, array());
+
         }
+        ksort($list);
 
         //Create variant instance
         if (!empty($list)) {
@@ -136,7 +138,6 @@ class JBCartVariantList
 
     /**
      * Advance the internal array pointer of an array and return value
-     *
      * @return JBCartVariant
      */
     public function next()
@@ -151,7 +152,6 @@ class JBCartVariantList
     public function getTotal()
     {
         if (!$this->_jbprice->isOverlay()) {
-
             return $this->_plainTotal();
         }
 
@@ -228,7 +228,6 @@ class JBCartVariantList
                 }
             }
         }
-
         ksort($result);
 
         return md5(serialize($result));
@@ -314,7 +313,8 @@ class JBCartVariantList
             'key'       => $this->getSessionKey(),
             'item_id'   => $item->id,
             'item_name' => $item->name,
-            'total'     => $this->getTotal()->data(),
+            'element_id' => $this->_jbprice->identifier,
+            'total'     => $this->getTotal()->data(true),
             'quantity'  => (float)$this->quantity,
             'template'  => $this->_jbprice->getTemplate(),
             'layout'    => $this->_jbprice->getLayout(),
@@ -336,16 +336,17 @@ class JBCartVariantList
         $item    = $this->_jbprice->getItem();
 
         $data = array(
-            'key'       => $this->getSessionKey(),
-            'item_id'   => $item->id,
-            'item_name' => $item->name,
-            'total'     => $this->getTotal()->data(),
-            'quantity'  => (float)$this->quantity,
-            'template'  => $this->_jbprice->getTemplate(),
-            'layout'    => $this->_jbprice->getLayout(),
-            'values'    => $this->getValues(),
-            'elements'  => $variant->getElementsCartData(),
-            'params'    => $this->_jbprice->elementsInterfaceParams()
+            'key'        => $this->getSessionKey(),
+            'item_id'    => $item->id,
+            'item_name'  => $item->name,
+            'element_id' => $this->_jbprice->identifier,
+            'total'      => $this->getTotal()->data(true),
+            'quantity'   => (float)$this->quantity,
+            'template'   => $this->_jbprice->getTemplate(),
+            'layout'     => $this->_jbprice->getLayout(),
+            'values'     => $this->getValues(),
+            'elements'   => $variant->getElementsCartData(),
+            'params'     => $this->_jbprice->elementsInterfaceParams()
         );
 
         // TODO remove hack
@@ -379,7 +380,7 @@ class JBCartVariantList
 
                 $total
                     ->add($this->get('_margin'))
-                    ->minus($this->get('_discount'))->abs();
+                    ->minus($this->get('_discount')->abs());
             }
         }
 
