@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -15,7 +14,6 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * Class JBCartVariant
- *
  * @since 2.2
  */
 class JBCartVariant
@@ -27,14 +25,12 @@ class JBCartVariant
 
     /**
      * Id of variant
-     *
      * @type integer
      */
     protected $_id;
 
     /**
      * Array of objects elements
-     *
      * @type array
      */
     protected $_elements = array();
@@ -46,14 +42,12 @@ class JBCartVariant
 
     /**
      * Empty object to set defaults
-     *
      * @type JBCartValue
      */
     private $value;
 
     /**
      * Class constructor
-     *
      * @param integer        $id
      * @param ElementJBPrice $jbPrice
      * @param array          $data
@@ -78,10 +72,8 @@ class JBCartVariant
 
     /**
      * Get elements value
-     *
      * @param $identifier
      * @param $default
-     *
      * @return mixed
      */
     public function get($identifier, $default = null)
@@ -97,7 +89,6 @@ class JBCartVariant
 
     /**
      * Get JBCartVariant id
-     *
      * @return int
      */
     public function id()
@@ -107,7 +98,6 @@ class JBCartVariant
 
     /**
      * Check if variant is basic
-     *
      * @return bool
      */
     public function isBasic()
@@ -117,9 +107,7 @@ class JBCartVariant
 
     /**
      * Check if item in stock
-     *
      * @param integer $quantity
-     *
      * @return bool
      */
     public function inStock($quantity)
@@ -147,7 +135,6 @@ class JBCartVariant
 
     /**
      * Return array of elements
-     *
      * @return array array of JBCartElementPrice
      */
     public function getElements()
@@ -157,7 +144,6 @@ class JBCartVariant
 
     /**
      * Get Total price for variant
-     *
      * @return JBCartValue
      */
     public function getTotal()
@@ -176,12 +162,11 @@ class JBCartVariant
 
     /**
      * Get price for variant
-     *
      * @return JBCartValue
      */
     public function getPrice()
     {
-        $value = $this->value;
+        $value = 0;
         if ($element = $this->getElement('_value')) {
             $value = $this->get('_value', $this->value);
             if (!$element->isModifier()) {
@@ -202,12 +187,14 @@ class JBCartVariant
 
         if (!empty($elements)) {
             foreach ($elements as $key => $element) {
-
                 if ($element->isCore()) {
                     $value = $element->getValue();
 
                     if ($value instanceof JBCartValue) {
                         $value = $value->data();
+
+                    } elseif ($key == '_properties') { //TODO HACK for multiplicity in properties element
+                        $value = (array)$element->data();
                     }
                     $data[$key] = $value;
                 }
@@ -219,7 +206,6 @@ class JBCartVariant
 
     /**
      * If someone is accessed as a string
-     *
      * @return string
      */
     public function __toString()
@@ -230,7 +216,6 @@ class JBCartVariant
     /**
      * @param JBCartElementPrice $element
      * @param array|string       elements data
-     *
      * @return mixed
      */
     protected function _setElement($element, $data = array())

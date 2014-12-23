@@ -338,9 +338,10 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     /**
      * Remove from cart method
      * @param string $key Session key
+     * @param bool   $item_id
      * @return mixed
      */
-    abstract public function ajaxRemoveFromCart($key);
+    abstract public function ajaxRemoveFromCart($item_id);
 
     /**
      * Get interface params for all core elements that used in widgets.

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -24,9 +23,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
     /**
      * Get variant from $this->data() by values
      * MODE: OVERLAY
-     *
      * @param  array $values
-     *
      * @return array
      */
     public function getVariantByValues($values = array())
@@ -63,12 +60,12 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         $list = $this->getVariantByValues($values);
 
         $keys = array_keys($list);
-        $key  = end($keys);
+        $key  = (int)end($keys);
 
         $this->set('default_variant', $key);
 
         $this->_template = $template;
-        $this->_list     = new JBCartVariantList($list, $this, array(
+        $this->_list     = $this->getVariantList($list, $this, array(
             'values'   => $values,
             'template' => $template,
             'currency' => $currency
@@ -79,7 +76,6 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
 
     /**
      * Ajax add to cart method
-     *
      * @param string $template
      * @param int    $quantity
      * @param array  $values
@@ -93,12 +89,12 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
 
         $list = $this->getVariantByValues($values);
         $keys = array_keys($list);
-        $key  = end($keys);
+        $key  = (int)end($keys);
 
         $this->set('default_variant', $key);
 
         $this->_template = $template;
-        $this->_list     = new JBCartVariantList($list, $this, array(
+        $this->_list     = $this->getVariantList($list, $this, array(
             'values'   => $values,
             'quantity' => $quantity,
             'currency' => $this->_config->get('cart.default_currency', JBCart::val()->cur())
@@ -107,7 +103,6 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         if ($this->inStock($quantity)) {
 
             $cart->addItem($this->_list->getCartData());
-
             $sendAjax && $jbAjax->send(array(), true);
 
         } else {
@@ -120,20 +115,22 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
 
     /**
      * Remove from cart method
-     *
      * @param string $key - Session key
      * @return mixed
      */
-    public function ajaxRemoveFromCart($key)
+    public function ajaxRemoveFromCart($key = null)
     {
-        $result = JBCart::getInstance()->removeVariant($key);
+        if (!(int)$this->config->get('remove_variant', 0)) {
+            $key = null;
+        }
+        $item_id = $this->getItem()->id;
+        $result  = JBCart::getInstance()->remove($item_id, $this->identifier, $key);
 
         $this->app->jbajax->send(array('removed' => $result));
     }
 
     /**
      * @param $identifier
-     *
      * @return array|void
      */
     public function elementOptions($identifier)
@@ -220,7 +217,6 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
 
     /**
      * Bind and validate data
-     *
      * @param array $data
      */
     public function bindData($data = array())

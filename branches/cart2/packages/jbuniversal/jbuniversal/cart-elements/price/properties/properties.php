@@ -46,7 +46,6 @@ class JBCartElementPriceProperties extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $params   = $this->app->data->create($params);
         $template = $params->get('template', 'radio');
         $data     = $this->getOptions();
 
@@ -58,6 +57,17 @@ class JBCartElementPriceProperties extends JBCartElementPrice
         }
 
         return null;
+    }
+
+    /**
+     * Get elements value
+     * @param string $key
+     * @param null   $default
+     * @return mixed|null
+     */
+    public function getValue($key = 'height', $default = null)
+    {
+        return parent::getValue($key, $default);
     }
 
 }

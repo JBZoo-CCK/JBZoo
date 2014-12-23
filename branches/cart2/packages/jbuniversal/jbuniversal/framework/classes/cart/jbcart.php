@@ -56,7 +56,7 @@ class JBCart
      * @var string
      */
     protected $_sessionNamespace = 'jbcart';
-    protected $_namespace = 'jbzoo';
+    protected $_namespace        = 'jbzoo';
 
     /**
      * @var App
@@ -224,7 +224,6 @@ class JBCart
 
         foreach ($items as $item) {
             if (!empty($item['params'])) {
-
                 $params = $this->app->data->create($item['params']);
                 $temp   = (float)$item['quantity'] * (float)$params['weight'];
 
@@ -266,21 +265,21 @@ class JBCart
      * Remove all variations if key is null.
      * $key = {item_id}-{variant_index}.
      * Priority on $key.
-     * @param  int    $id
+     * @param  int    $item_id
+     * @param  string $element_id
      * @param  string $key
      * @return bool
      */
-    public function remove($id, $key = null)
+    public function remove($item_id, $element_id, $key = null)
     {
         $items = $this->getItems();
 
         if (!empty($items)) {
-
             if (!empty($key)) {
                 return $this->removeVariant($key);
             }
 
-            return $this->removeItem($id);
+            return $this->removeItem($item_id, $element_id);
         }
 
         return false;
@@ -289,20 +288,20 @@ class JBCart
     /**
      * Remove item from cart by id.
      * Item_id-variant or item_id for basic.
-     * @param  int $id - Item_id
+     * @param  int $item_id - Item_id
+     * @param null $element_id
      * @return bool
      */
-    public function removeItem($id)
+    public function removeItem($item_id, $element_id)
     {
         $items = $this->getItems();
 
         if (!empty($items)) {
             foreach ($items as $key => $item) {
-                if ($item['item_id'] === $id) {
+                if ($item['item_id'] == $item_id && $item['element_id'] == $element_id) {
                     unset($items[$key]);
                 }
             }
-
             $this->_setSession('items', $items);
 
             return true;
@@ -322,7 +321,6 @@ class JBCart
         $items = $this->getItems();
 
         if (isset($items[$key])) {
-
             unset($items[$key]);
             $this->_setSession('items', $items);
 
@@ -349,7 +347,7 @@ class JBCart
     {
         $items = $this->getItems();
 
-        if ($this->inCart($key)) {
+        if ($this->inCartVariant($key)) {
             $items[$key]['quantity'] = (float)$quantity;
 
             $this->_setSession('items', $items);
@@ -451,20 +449,24 @@ class JBCart
     public function getShippingList()
     {
         $session = $this->_getSession();
+
         return $session->get('shipping', array());
     }
 
     /**
      * Check if item in cart.
      * @param  string $id - item_id.
+     * @param  string $element_id
      * @return bool
      */
-    public function inCart($id)
+    public function inCart($id, $element_id)
     {
         $items = $this->getItems();
 
-        if (isset($items[$id])) {
-            return true;
+        foreach ($items as $item) {
+            if ($item['item_id'] == $id && $item['element_id'] == $element_id) {
+                return true;
+            }
         }
 
         return false;

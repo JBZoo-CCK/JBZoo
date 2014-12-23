@@ -117,7 +117,8 @@ class JBModelElementJBPrice extends JBModelElement
                     } elseif ((int)($param_id === 'id')) {
                         $where->where('tSku.value_id = ?', $string, $inParams);
 
-                    } elseif ((isset($string['id']) && !empty($string['id']))) {
+                    } elseif (is_array($string) && (isset($string['id']) && !empty($string['id']))) {
+
                         $where->where('tSku.value_id = ?', $string['id'], $inParams);
 
                     } elseif ($this->isDate($string)) {

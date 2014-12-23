@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -24,9 +23,7 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
     /**
      * Get variant from $this->data() by values
      * MODE: DEFAULT
-     *
      * @param  array $values values from front end
-     *
      * @return array
      */
     public function getVariantByValues($values = array())
@@ -76,19 +73,19 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
 
     /**
      * @param string $template - need to get render params for elements
-     * @param array  $values - selected values
+     * @param array  $values   - selected values
      * @param string $currency
      */
     public function ajaxChangeVariant($template = 'default', $values = array(), $currency = '')
     {
         $list = $this->getVariantByValues($values);
 
-        $key = (JString::strlen(key($list)) > 0 ? key($list) : self::BASIC_VARIANT);
+        $key = (int)(JString::strlen(key($list)) > 0 ? key($list) : self::BASIC_VARIANT);
 
         $this->set('default_variant', $key);
 
         $this->_template = $template;
-        $this->_list     = new JBCartVariantList($list, $this, array(
+        $this->_list     = $this->getVariantList($list, $this, array(
             'values'   => $values,
             'template' => $template,
             'currency' => $currency
@@ -99,7 +96,6 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
 
     /**
      * Ajax add to cart method
-     *
      * @param string $template
      * @param int    $quantity
      * @param array  $values
@@ -111,12 +107,12 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
 
         $cart = JBCart::getInstance();
         $list = $this->getVariantByValues($values);
-        $key  = (JString::strlen(key($list)) > 0 ? key($list) : self::BASIC_VARIANT);
+        $key  = (int)(JString::strlen(key($list)) > 0 ? key($list) : self::BASIC_VARIANT);
 
         $this->set('default_variant', $key);
 
         $this->_template = $template;
-        $this->_list     = new JBCartVariantList($list, $this, array(
+        $this->_list     = $this->getVariantList($list, $this, array(
             'values'   => $values,
             'quantity' => $quantity,
             'currency' => $this->_config->get('cart.default_currency', JBCart::val()->cur())
@@ -126,32 +122,33 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
 
             $cart->addItem($this->_list->getCartData());
 
-            $sendAjax && $jbAjax->send(array(), true);
+            $jbAjax->send(array(), true);
 
         } else {
-
-            $sendAjax && $jbAjax->send(array('message' => JText::_('JBZOO_JBPRICE_ITEM_NO_QUANTITY')), false);
+            $jbAjax->send(array('message' => JText::_('JBZOO_JBPRICE_ITEM_NO_QUANTITY')), false);
         }
 
-        $sendAjax && $jbAjax->send(array('added' => 0, 'message' => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE')));
+        $jbAjax->send(array('added' => 0, 'message' => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE')));
     }
 
     /**
      * Remove from cart method
-     *
      * @param string $key - Session key
      * @return mixed
      */
-    public function ajaxRemoveFromCart($key)
+    public function ajaxRemoveFromCart($key = null)
     {
-        $result = JBCart::getInstance()->removeVariant($key);
+        if (!(int)$this->config->get('remove_variant', 0)) {
+            $key = null;
+        }
+        $item_id = $this->getItem()->id;
+        $result  = JBCart::getInstance()->remove($item_id, $this->identifier, $key);
 
         $this->app->jbajax->send(array('removed' => $result));
     }
 
     /**
      * @param $identifier
-     *
      * @return array|void
      */
     public function elementOptions($identifier)
