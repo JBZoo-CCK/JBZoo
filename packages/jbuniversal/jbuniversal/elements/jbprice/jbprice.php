@@ -337,7 +337,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Remove from cart method
-     * @param string $key Session key
      * @param bool   $item_id
      * @return mixed
      */
