@@ -76,8 +76,8 @@ echo $this->partial('orderlist'); ?>
     <input type="hidden" name="option" value="com_zoo" />
     <input type="hidden" name="controller" value="jbcart" />
     <input type="hidden" name="task" value="<?php echo $task; ?>" />
-    <input type="hidden" name="layout" value="<?= $this->layout; ?>" class="jsLayout" />
-    <input type="hidden" name="element" value="<?= $this->element; ?>" class="jsElement" />
+    <input type="hidden" name="layout" value="<?php echo $this->layout; ?>" class="jsLayout" />
+    <input type="hidden" name="element" value="<?php echo $this->element; ?>" class="jsElement" />
     <input type="hidden" name="group" value="<?php echo $groupKey; ?>" />
     <input type="hidden" name="redirect" value="<?php echo $redirectUrl; ?>" />
     <?php echo $this->app->html->_('form.token'); ?>
