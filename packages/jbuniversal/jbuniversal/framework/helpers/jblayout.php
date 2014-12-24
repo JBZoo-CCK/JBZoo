@@ -55,7 +55,7 @@ class JBLayoutHelper extends AppHelper
         $this->_name         = strtolower(basename(get_class($this), 'Helper'));
         $this->_application  = $app->zoo->getApplication();
         $this->_rendererPath = $this->_application->getPath() .
-            'templates/' . $this->_application->params->get('template') .
+            '/templates/' . $this->_application->params->get('template') .
             '/renderer';
     }
 
