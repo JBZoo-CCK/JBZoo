@@ -33,19 +33,20 @@ class JBFormHelper extends AppHelper
         $xmlPaths = $this->_getXmlFormPaths();
 
         foreach ($xmlPaths as $path) {
-            $xmlForm = $path . DS . $formName . '.xml';
+            $xmlForm = JPath::clean($path . '/' . $formName . '.xml');
 
-            if (file_exists($xmlForm)) {
+            if (JFile::exists($xmlForm)) {
                 $formPath = $xmlForm;
                 break;
             }
         }
-         if (!($xmlPath = $formPath)) {
-             throw new AppException('Form ' . $formName . ' not found!');
-             return null;
-         }
+        
+        if (!$formPath) {
+            throw new AppException('Form ' . $formName . ' not found!');
+            return null;
+        }
 
-        $form = $this->_createJoomlaForm($formName, $xmlPath, $options);
+        $form = $this->_createJoomlaForm($formName, $formPath, $options);
         $form->bind($data);
 
         $html = array();
@@ -212,7 +213,7 @@ class JBFormHelper extends AppHelper
             $folders = JFolder::folders($path);
 
             foreach ($folders as $folder) {
-                $formDir = $path . $folder . '/forms/';
+                $formDir = $path . '/' . $folder . '/forms/';
 
                 if (JFolder::exists($formDir)) {
                     $paths[] = $formDir;
