@@ -285,10 +285,10 @@ ccf3add8493c94e6aeb56df74c28bfee jbapp/cart-elements/email/attach/js/finder.js
 8ca096fda23d564fe62bc65ef5f498e0 jbapp/cart-elements/email/items/tmpl/index.html
 08ce3a67e192740fdec3ee687d85e25f jbapp/cart-elements/email/items/tmpl/order.php
 ce0535fae73393b4d0c3676bd4baeb33 jbapp/cart-elements/email/items/tmpl/subtotal_modifiers.php
-183bb8b1206d4e264b78afa8194d1246 jbapp/cart-elements/email/items/tmpl/subtotal_services.php
-15019247abdebf9060883bdc7774dace jbapp/cart-elements/email/items/tmpl/table_body.php
-868f6a1e45fead3c6594db21dba515af jbapp/cart-elements/email/items/tmpl/table_foot.php
-824a7c50d4a6e719fbb36f5bbc0eb585 jbapp/cart-elements/email/items/tmpl/table_head.php
+d13654c34fb1e874cf208a6685b71488 jbapp/cart-elements/email/items/tmpl/subtotal_services.php
+52f33d42b00c0eaed67ffa39240e4092 jbapp/cart-elements/email/items/tmpl/table_body.php
+789e727d8c2c768bf6e1d76e2d460cb5 jbapp/cart-elements/email/items/tmpl/table_foot.php
+35ad1186442eabe220cc7b80c9c85deb jbapp/cart-elements/email/items/tmpl/table_head.php
 8ca096fda23d564fe62bc65ef5f498e0 jbapp/cart-elements/email/no/index.html
 5a036c831dbd73da521a95c01b4a2a57 jbapp/cart-elements/email/no/no.php
 670650e7962a5f176019d9805df5aa8a jbapp/cart-elements/email/no/no.xml
@@ -1100,7 +1100,7 @@ c045b568c489d6dad57afa757d3ed3e6 jbapp/framework/helpers/jbentity.php
 a515976ce147eec9291437857c8ab597 jbapp/framework/helpers/jbfilter.php
 cf7014ed79a72d022939fc67d5268d84 jbapp/framework/helpers/jbfilterprops.php
 c6fed6ca21c00c37ccefa5ace90167e6 jbapp/framework/helpers/jbfilterrender.php
-673df4a5a1d031bbeefa3dfe0f68ff65 jbapp/framework/helpers/jbform.php
+915bbdd6736458a30d037d679d63d1dd jbapp/framework/helpers/jbform.php
 8df02659a27ac22888d1ae6cbcf85998 jbapp/framework/helpers/jbformat.php
 2cdf58b0bee41ddb35075a87c5de3ed2 jbapp/framework/helpers/jbhtml.php
 99174f95175f3815b44eba0f4b88b2f7 jbapp/framework/helpers/jbhttp.php
@@ -1345,7 +1345,7 @@ a20d3de1cfd4cea4b5fad17973f86a6c jbapp/framework/views/jbinfo/systemreport.php
 4382072a0fc16717f936f1c45c52d0a9 jbapp/framework/views/jborder/_edit_block_payment.php
 963afa9398bde3b5b36fa9a6c9bb1c5f jbapp/framework/views/jborder/_edit_block_shipping.php
 b7eb7edc8e2af1acc8bf6de7f2d9315b jbapp/framework/views/jborder/_edit_orderinfo.php
-32c75f970829b7770ff06ad3c644f98f jbapp/framework/views/jborder/_edit_table.php
+331bde621c1374a412bc33a5c9bf6c6f jbapp/framework/views/jborder/_edit_table.php
 64a6f5edf128b9e18753c0f1fb4f4ff8 jbapp/framework/views/jborder/_index_filter.php
 c74b0c0a81de4a5f81c65b4466dac043 jbapp/framework/views/jborder/_index_orderlist.php
 cb6434f781b8bb76e62348044d7a60e0 jbapp/framework/views/jborder/edit.php
