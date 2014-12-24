@@ -92,7 +92,7 @@ class JBTemplateHelper extends AppHelper
      */
     protected function _getClassPath()
     {
-        return $this->app->path->path('jbzoo:') . 'classes' . DS . 'jbtemplate.php';
+        return $this->app->path->path('jbzoo:classes') . DS . 'jbtemplate.php';
     }
 
     /**
