@@ -26,6 +26,7 @@
         <filename>helper.php</filename>
         <filename>index.html</filename>
         <folder>tmpl</folder>
+        <folder>assets</folder>
     </files>
 
     <config>
