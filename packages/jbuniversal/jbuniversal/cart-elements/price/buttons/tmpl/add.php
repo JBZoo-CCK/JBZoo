@@ -16,11 +16,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <a rel="nofollow" href="#add-to-cart" class="jsAddToCart jbbutton green add-button"
        title="<?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART'); ?>"><?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART'); ?></a>
 
-    <?php if ((int)$params->get('remove_variant', 0)) : ?>
-        <a rel="nofollow" href="#remove-from-cart" class="jsRemoveFromCart jsRemoveVariant jbbutton small remove-button"
-           title="<?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?>"><?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART_VARIANT'); ?></a>
-    <?php endif; ?>
-
     <a rel="nofollow" href="#remove-from-cart" class="jsRemoveFromCart jsRemoveElement jbbutton small orange remove-button"
        title="<?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?>"><?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?></a>
 </div>
