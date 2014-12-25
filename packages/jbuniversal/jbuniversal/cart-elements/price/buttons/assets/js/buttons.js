@@ -17,6 +17,7 @@
             'isInCart': false,
             'add'     : '',
             'remove'  : '',
+            'basket'  : '',
             'modal'   : ''
         },
         {
@@ -43,7 +44,8 @@
             'click .jsAddToCart': function (e, $this) {
 
                 var jbPrice = $this.price.data('JBZooPrice'),
-                    quantity = jbPrice.get('_quantity', 1);
+                    quantity = jbPrice.get('_quantity', 1),
+                    input = $(this);
 
                 $this.ajax({
                     'target' : $(this),
@@ -61,8 +63,13 @@
                             'isInCart': data.result ? 1 : 0
                         };
                         this.set(params);
-
                         jbPrice._updateCache('_buttons', params);
+                        
+                        if (input.hasClass('jsAddToCartGoTo')) {
+                            if ($this.options.basket) {
+                                parent.location.href = $this.options.basket;
+                            }
+                        }
                         $this.basketReload();
                     },
                     'error'  : function (data) {
@@ -81,7 +88,7 @@
                     'url'    : $this.options.remove,
                     'data'   : {
                         "args": {
-                            'key'    : $this.getKey()
+                            'key': $this.getKey()
                         }
                     },
                     'success': function (data) {
