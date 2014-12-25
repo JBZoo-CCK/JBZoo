@@ -1,6 +1,4 @@
-<?php
-
-require_once dirname(__FILE__) . '/jbvalue.php';
+<?php require_once dirname(__FILE__) . '/jbvalue.php';
 
 /**
  * Class JBCart
@@ -195,7 +193,6 @@ class JBCart
 
     /**
      * @param $data
-     * @internal param array $list
      */
     public function addItem($data)
     {
@@ -433,7 +430,7 @@ class JBCart
     {
         $session = $this->_getSession();
 
-        if (isset($session['shipping']['_current']) && isset($session['shipping']['_current'])) {
+        if (isset($session['shipping']) && isset($session['shipping']['_current']) && isset($session['shipping']['_current'])) {
             $cur = $session['shipping']['_current'];
             if (isset($session['shipping'][$cur])) {
                 return $session['shipping'][$cur];
