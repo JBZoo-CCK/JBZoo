@@ -413,6 +413,7 @@ class JBCartJBUniversalController extends JBUniversalController
         $element   = $this->_jbrequest->get('element');
         $redirect  = $this->_jbrequest->get('redirect', $defaultRedirect);
 
+        $this->app->jbtables->checkSku(true);
         JBModelSku::model()->insertSkuElements($positions['list']);
 
         $this->_position->savePrice($group, $positions, $element, $layout);
