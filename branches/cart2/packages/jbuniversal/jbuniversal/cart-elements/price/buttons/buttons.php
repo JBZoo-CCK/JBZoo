@@ -80,6 +80,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
 
         return array(
             'key'              => $_interface['key'],
+            'basket'           => $_interface['basket'],
             'isInCart'         => $_interface['isInCart'],
             'isInCartVariant'  => $_interface['isInCartVariant'],
             'add'              => $this->app->jbrouter->element($jbPrice->identifier, $item->id, 'ajaxAddToCart', array(
@@ -125,8 +126,23 @@ class JBCartElementPriceButtons extends JBCartElementPrice
 
         return array(
             'key'             => $key,
+            'basket'          => $this->getBasketUrl(),
             'isInCart'        => (int)$cart->inCart($item_id, $jbPrice->identifier),
             'isInCartVariant' => (int)$cart->inCartVariant($key),
         );
+    }
+
+    /**
+     * Get basket url
+     * @return null
+     */
+    protected function getBasketUrl()
+    {
+        $url  = null;
+        $menu = (int)$this->_jbprice->config->get('basket_menuitem');
+
+        $url = $this->app->jbrouter->basket($menu);
+
+        return $url;
     }
 }

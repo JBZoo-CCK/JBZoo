@@ -13,10 +13,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 
-<div class="jbprice-buttons jsPriceButtons <?php echo $inCart; ?>">
-    <a rel="nofollow" href="#add-to-cart-goto" class="jsAddToCartGoto jbbutton green"
+<div class="jbprice-buttons jsPriceButtons <?php echo $inCart . ' ' . $inCartVariant; ?> ?>">
+    <a rel="nofollow" href="#add-to-cart-goto" class="jsAddToCart jsAddToCartGoTo jbbutton green"
        title="<?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART_GOTO'); ?>"><?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART_GOTO'); ?></a>
 
-    <a rel="nofollow" href="#remove-from-cart" class="jsRemoveFromCart jbbutton small remove-button"
+    <a rel="nofollow" href="#remove-from-cart" class="jsRemoveFromCart jsRemoveElement jbbutton small remove-button"
        title="<?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?>"><?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?></a>
 </div>
