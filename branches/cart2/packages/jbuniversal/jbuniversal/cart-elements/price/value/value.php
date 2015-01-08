@@ -97,7 +97,7 @@ class JBCartElementPriceValue extends JBCartElementPrice
             return $prices;
 
         } else {
-            jbdump($list->getTotal());
+            jbdump($list->getTotal()->minus($list->getPrice()));
             $prices = array(
                 'total' => $list->getTotal(),
                 'price' => $list->getPrice(),
