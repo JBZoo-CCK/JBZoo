@@ -206,7 +206,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     {
         $this->loadAssets();
         $params = $this->app->data->create($params);
-        JBCart::getInstance()->removeItems();
+
         $this->_template = $params->get('template', 'default');
         $this->_layout   = $params->get('_layout');
 
