@@ -167,7 +167,7 @@ class JBCartVariantList
     {
         $default = $this->get($id);
 
-        return $default->get('_value');
+        return $default->get('_value', JBCart::val());
     }
 
     /**
