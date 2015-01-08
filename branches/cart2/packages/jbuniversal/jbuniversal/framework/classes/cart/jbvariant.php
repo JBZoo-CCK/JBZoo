@@ -79,7 +79,7 @@ class JBCartVariant
     public function get($identifier, $default = null)
     {
         $element = $this->getElement($identifier);
-
+        jbdump($element);
         if ($element) {
             return $element->getValue();
         }
