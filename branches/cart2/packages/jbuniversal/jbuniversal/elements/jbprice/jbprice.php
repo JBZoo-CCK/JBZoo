@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -134,17 +133,16 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Check if elements value is set
-     *
      * @param array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
     {
         $this->_template = $params->get('template', 'default');
 
+        $data   = (array)$this->data();
         $config = $this->_getRenderParams();
-        if (!empty($config)) {
+        if (!empty($config) && !empty($data)) {
             return true;
         }
 
@@ -153,7 +151,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * @param array $submission
-     *
      * @return null|string
      */
     public function edit($submission = array())
@@ -197,9 +194,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Renders the element
-     *
      * @param array $params Render parameters
-     *
      * @return string|void
      */
     public function render($params = array())
@@ -239,9 +234,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Render submission
-     *
      * @param array $params
-     *
      * @return null|string
      */
     public function renderSubmission($params = array())
@@ -251,10 +244,8 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Validate submission
-     *
      * @param $value
      * @param $params
-     *
      * @return mixed
      * @throws AppValidatorException
      */
@@ -263,7 +254,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         if ((int)$params->get('required', 0)) {
             $basic = $value->get('basic');
             $this->app->validator->create('textfilter', array('required' => $params->get('required')))
-                                 ->clean($basic['_value']);
+                ->clean($basic['_value']);
             //if (empty($basic['_value']) || $basic['_value'] == 0) {
             //throw new AppValidatorException('This field is required');
             //}
@@ -274,7 +265,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Get default variant index
-     *
      * @return mixed
      */
     public function defaultVariantKey()
@@ -327,7 +317,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Ajax add to cart method
-     *
      * @param string $template
      * @param int    $quantity
      * @param array  $values
@@ -337,14 +326,13 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Remove from cart method
-     * @param bool   $item_id
+     * @param bool $item_id
      * @return mixed
      */
     abstract public function ajaxRemoveFromCart($item_id);
 
     /**
      * Get interface params for all core elements that used in widgets.
-     *
      * @return array
      */
     public function elementsInterfaceParams()
@@ -370,9 +358,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * //TODO Hard function
      * Get all options for element.
      * Used in element like select, color, radio etc.
-     *
      * @param $identifier
-     *
      * @return array
      */
     public function findOptions($identifier)
@@ -408,9 +394,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Prepare element data to push into JBHtmlHelper - select, radio etc.
-     *
      * @param $identifier
-     *
      * @return array
      */
     public function selectedOptions($identifier)
@@ -430,7 +414,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Get element template in layout.
-     *
      * @return string|null
      */
     public function getTemplate()
@@ -440,7 +423,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Get element layout.
-     *
      * @return null|string
      */
     public function layout()
@@ -460,7 +442,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Check if calc element
-     *
      * @return bool
      */
     public function isOverlay()
@@ -470,7 +451,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Get element data in JSONData Object
-     *
      * @return JSONData
      */
     public function data()
@@ -568,7 +548,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Check if value seems as date
-     *
      * @param $date
      * @return null|string
      */
@@ -584,10 +563,8 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Get control name
-     *
      * @param string $id
      * @param bool   $array
-     *
      * @return string
      */
     public function getControlName($id, $array = false)
@@ -597,9 +574,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Get element layout path and use override if exists
-     *
      * @param null $layout
-     *
      * @return string
      */
     public function getLayout($layout = null)
@@ -676,7 +651,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * @param $type
-     *
      * @return array
      */
     public function getElementsByType($type)
@@ -696,7 +670,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * @param $identifier
-     *
      * @return null
      */
     public function getElementConfig($identifier)
@@ -718,9 +691,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Get render params for price param
-     *
      * @param $identifier
-     *
      * @return null
      */
     public function getElementRenderParams($identifier)
@@ -740,7 +711,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * @param $identifiers
-     *
      * @return array
      */
     public function _getElements($identifiers)
@@ -761,9 +731,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Is in stock item
-     *
      * @param $quantity
-     *
      * @return bool
      */
     public function inStock($quantity)
@@ -780,7 +748,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Bind and validate data
-     *
      * @param array $data
      */
     public function bindData($data = array())
@@ -857,7 +824,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Get variation list
-     *
      * @return array
      */
     protected function getVariations()
@@ -886,7 +852,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Get default variant
-     *
      * @return JBCartVariant
      */
     protected function getDefaultVariant()
@@ -898,7 +863,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * @param int|string $id
-     *
      * @return JBCartVariant
      */
     protected function getVariant($id = self::BASIC_VARIANT)
@@ -927,9 +891,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Load all params
-     *
      * @param bool $core
-     *
      * @return array
      */
     protected function _getConfig($core = true)
@@ -950,7 +912,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Load elements render params for item
-     *
      * @return array
      */
     protected function _getRenderParams()
@@ -971,7 +932,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Load elements render params for @filter
-     *
      * @return array
      */
     protected function _getFilterParams()

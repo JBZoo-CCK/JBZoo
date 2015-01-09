@@ -13,7 +13,7 @@
 (function ($, window, document, undefined) {
 
     JBZoo.widget('JBZoo.Media', {
-            'folder'             : 'author',
+            'folder'             : '',
             'author'             : '',
             'message_open_editor': 'Open editor',
 
