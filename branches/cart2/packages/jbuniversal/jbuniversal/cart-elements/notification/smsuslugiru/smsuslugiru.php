@@ -96,7 +96,7 @@ class JBCartElementNotificationSmsuslugiru extends JBCartElementNotification
         $xml = $this->makeXML($params, $someXML);
         $xml = $this->replace($xml);
 
-        $response = $this->_callService($this->getURI($action), parent::HTTP_POST, $xml);
+        $response = $this->_callService($this->getURI($action), "POST", $xml);
 
         return $response;
     }
