@@ -163,7 +163,7 @@ class BasketJBUniversalController extends JBUniversalController
         $key = $this->_jbrequest->get('key');
 
         $cart = JBCart::getInstance();
-        $cart->remove($id, $key);
+        $cart->remove($id, null, $key);
         $recount = $cart->recount();
 
         $this->app->jbajax->send(array('cart' => $recount));
