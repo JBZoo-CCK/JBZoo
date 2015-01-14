@@ -189,20 +189,20 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
             foreach ($this->_list->shift()->getElements() as $id => $element) {
                 $value = JString::trim($element->getSearchData());
 
-                if (JString::strlen($value) !== 0) {
+                if (JSTring::strlen($value) !== 0) {
 
-                    $n = $this->isNumeric($value);
-                    $d = $this->isDate($value);
+                    $n = $this->isNumeric($value) ? $value : null;
+                    $d = $this->isDate($value) ? $value : null;
                     $s = $value;
 
-                    $data[$key . '_' . $id] = array(
+                    $data[$key . $id] = array(
                         'item_id'    => $item_id,
                         'element_id' => $this->identifier,
-                        'param_id'   => $element->identifier,
-                        'variant'    => $key,
+                        'param_id'   => $id,
                         'value_s'    => $s,
                         'value_n'    => $n,
-                        'value_d'    => $d
+                        'value_d'    => $d,
+                        'variant'    => $key
                     );
                 }
             }
