@@ -184,12 +184,15 @@ class JBCartOrder
      */
     public function getTotalSum()
     {
-        $summa = $this->getTotalForSevices();
+        $items = $this->getItems();
 
-        // get modifiers
-        $modifiers = $this->getModifiers(JBCart::MODIFIER_ORDER);
-        foreach ($modifiers as $modifier) {
-            $summa->addModify($modifier);
+        $summa = $this->getTotalForSevices();
+        if (count($items) > 0) {
+            // get modifiers
+            $modifiers = $this->getModifiers(JBCart::MODIFIER_ORDER);
+            foreach ($modifiers as $modifier) {
+                $summa->addModify($modifier);
+            }
         }
 
         return $summa;
