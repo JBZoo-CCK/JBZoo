@@ -306,6 +306,7 @@ class JBCartJBUniversalController extends JBUniversalController
      */
     public function jbpriceFilterTmpl()
     {
+        $this->app->jbtables->checkSku(true);
         $renderer = $this->app->jbrenderer->create('jbpricefilter');
 
         $this->elementList = $this->app->jbprice->getPricesList();
@@ -335,6 +336,7 @@ class JBCartJBUniversalController extends JBUniversalController
      */
     public function jbpriceTmpl()
     {
+        $this->app->jbtables->checkSku(true);
         $renderer = $this->app->jbrenderer->create('jbprice');
 
         $this->elementList = $this->app->jbprice->getPricesList();

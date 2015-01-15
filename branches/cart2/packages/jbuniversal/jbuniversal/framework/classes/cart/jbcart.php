@@ -260,7 +260,7 @@ class JBCart
 
     /**
      * Remove all variations if key is null.
-     * $key = {item_id}-{variant_index}.
+     * $key = md5({item_id}_{element_id}_{selected_values}).
      * Priority on $key.
      * @param  int    $item_id
      * @param  string $element_id
