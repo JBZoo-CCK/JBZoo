@@ -33,7 +33,7 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $value = $this->getValue();
+        $value = $this->getList()->addModifiers($this->getValue());
         if ($value->isEmpty()) {
             return false;
         }
@@ -76,13 +76,19 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $value = $this->getElement('_value');
+        $_value = $this->getElement('_value');
+        $prices = $_value->getPrices();
 
-        if ($layout = $this->getLayout()) {
+        $value = $this->getValue();
+        $value = $this->getList()->addModifiers($value);
+        if ($value->isPositive()) {
+            $value->setEmpty();
+        }
+        if ($prices && $layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'params'   => $params,
-                'base'     => $value->getPrices(),
-                'discount' => $this->getValue(),
+                'base'     => $prices,
+                'discount' => $value,
                 'mode'     => $params->get('sale_show', self::SALE_VIEW_ICON_VALUE)
             ));
         }
@@ -92,18 +98,15 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
 
     /**
      * Get elements value
-     *
      * @param string $key
      * @param null   $default
-     *
-     * @internal param string $key
-     * @return mixed|null
+     * @return mixed|JBCartValue|null
      */
     public function getValue($key = 'value', $default = null)
     {
         $value = parent::getValue($key, $default);
 
-        return JBCart::val($value)->abs();
+        return JBCart::val($value);
     }
 
     /**

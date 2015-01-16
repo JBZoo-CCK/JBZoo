@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $elId = $this->app->jbstring->getId('value-');
 
-echo $this->app->html->_('control.text', $this->getControlName('value'), $this->getValue()->dump(), array(
+echo $this->app->html->_('control.text', $this->getControlName('value'), $this->get('value'), array(
     'size'        => '10',
     'maxlength'   => '255',
     'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_VALUE'),

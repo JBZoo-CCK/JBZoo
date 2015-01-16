@@ -22,9 +22,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render currency list
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -49,9 +49,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render currency list
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -63,15 +63,16 @@ class JBFieldHelper extends AppHelper
         $currencyList = $this->app->jbarray->unshiftAssoc($currencyList, JBCartValue::DEFAULT_CODE, JText::_('JBZOO_JBCURRENCY_DEFAULT_CUR'));
 
         unset($currencyList['%']);
+
         return $this->_renderList($currencyList, $value, $this->_getName($controlName, $name), $node);
     }
 
     /**
      * Render application list
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -99,11 +100,146 @@ class JBFieldHelper extends AppHelper
     }
 
     /**
+     * Render application list
+     *
+     * @param string           $name
+     * @param string|array     $value
+     * @param                  $control_name
+     * @param SimpleXMLElement $node
+     * @param SimpleXMLElement $parent
+     * @return mixed
+     */
+    public function jbapplication($name, $value, $control_name, SimpleXMLElement $node, $parent)
+    {
+        // load zoo frontend language file
+        $this->app->system->language->load('com_zoo');
+
+        $this->app->html->_('behavior.modal', 'a.modal');
+        $this->app->document->addStylesheet('fields:zooapplication.css');
+        $this->app->document->addScript('fields:zooapplication.js');
+
+        // init vars
+        //$params = $this->app->parameterform->convertParams($parent);
+        $table  = $this->app->table->application;
+
+        // set modes
+        $modes       = array();
+        $common_name = $this->_getName($control_name, $name);
+        if ($node->attributes()->allitems) {
+            $modes[] = $this->app->html->_('select.option', 'all', JText::_('All Items'));
+        }
+
+        if ($node->attributes()->categories) {
+            $modes[] = $this->app->html->_('select.option', 'categories', JText::_('Categories'));
+        }
+
+        if ($node->attributes()->types) {
+            $modes[] = $this->app->html->_('select.option', 'types', JText::_('Types'));
+        }
+
+        if ($node->attributes()->items) {
+            $modes[] = $this->app->html->_('select.option', 'item', JText::_('Item'));
+        }
+
+        // create application/category select
+        $cats    = array();
+        $types   = array();
+        $options = array($this->app->html->_('select.option', '', '- ' . JText::_('Select Application') . ' -'));
+
+        foreach ($table->all(array('order' => 'name')) as $application) {
+
+            $app_value = isset($value['app']) ? $value['app'] : null;
+            // application option
+            $options[] = $this->app->html->_('select.option', $application->id, $application->name);
+
+            // create category select
+            if ($node->attributes()->categories) {
+
+                $cat_value = isset($value['category']) && JString::strlen($value['category']) > 0 ? $value['category'] : null;
+                $attribs   = 'class="category app-' . $application->id . ($app_value != $application->id ? ' hidden' : null) . '" data-category="' . $common_name . '[category]"';
+                $opts      = array();
+                if ($node->attributes()->frontpage) {
+                    $opts[] = $this->app->html->_('select.option', '', '&#8226;	' . JText::_('Frontpage'));
+                }
+                $cats[] = $this->app->html->_('zoo.categorylist', $application, $opts, ($app_value == $application->id ? $common_name . '[category]' : null), $attribs, 'value', 'text', $cat_value);
+            }
+
+            // create types select
+            if ($node->attributes()->types) {
+                $opts = array();
+
+                foreach ($application->getTypes() as $type) {
+                    $opts[] = $this->app->html->_('select.option', $type->id, $type->name);
+                }
+
+                $type_value = isset($value['type']) ? $value['type'] : null;
+                $attribs    = 'class="type app-' . $application->id . ($app_value != $application->id ? ' hidden' : null) . '" data-type="' . $common_name . '[type]"';
+                $types[]    = $this->app->html->_('select.genericlist', $opts, $common_name . '[type]', $attribs, 'value', 'text', $type_value, 'application-type-' . $application->id);
+            }
+        }
+
+        // create html
+        $html[] = '<div id="' . $name . '" class="zoo-application">';
+        $html[] = $this->app->html->_('select.genericlist', $options, $common_name . '[app]', 'class="application"', 'value', 'text', $app_value);
+
+        $mode_value = isset($value['mode']) ? $value['mode'] : null;
+        // create mode select
+        if (count($modes) > 1) {
+            $html[] = $this->app->html->_('select.genericlist', $modes, $common_name . '[mode]', 'class="mode"', 'value', 'text', $mode_value);
+        }
+
+        // create categories html
+        if (!empty($cats)) {
+            $html[] = '<div class="categories">' . implode("\n", $cats) . '</div>';
+        }
+
+        // create types html
+        if (!empty($types)) {
+            $html[] = '<div class="types">' . implode("\n", $types) . '</div>';
+        }
+
+        // create items html
+        $link = '';
+        if ($node->attributes()->items) {
+
+            $field_name = $common_name . '[item_id]';
+            $item_name  = JText::_('Select Item');
+            $item_value = isset($value['item_id']) ? $value['item_id'] : null;
+            if ($item_id = $item_value) {
+                $item      = $this->app->table->item->get($item_id);
+                $item_name = $item->name;
+            }
+
+            $link = $this->app->link(array(
+                'controller' => 'item',
+                'task'       => 'element',
+                'tmpl'       => 'component',
+                'func'       => 'selectZooItem',
+                'object'     => $name
+            ), false);
+
+            $html[] = '<div class="item">';
+            $html[] = '<input type="text" id="' . $name . '_name" value="' . htmlspecialchars($item_name, ENT_QUOTES, 'UTF-8') . '" disabled="disabled" />';
+            $html[] = '<a class="modal" title="' . JText::_('Select Item') . '"  href="#" rel="{handler: \'iframe\', size: {x: 850, y: 500}}">' . JText::_('Select') . '</a>';
+            $html[] = '<input type="hidden" id="' . $name . '_id" name="' . $field_name . '" value="' . (int)$item_id . '" />';
+            $html[] = '</div>';
+
+        }
+
+        $html[] = '</div>';
+
+        $javascript = 'jQuery(function($) { jQuery("#' . $name . '").ZooApplication({ url: "' . $link . '", msgSelectItem: "' . JText::_('Select Item') . '" }); });';
+        $javascript = "<script type=\"text/javascript\">\n// <!--\n$javascript\n// -->\n</script>\n";
+
+        echo implode("\n", $html) . $javascript;
+    }
+
+    /**
      * Render layout list
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -148,9 +284,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render submission layout list
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -184,9 +320,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render email layout list
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -221,9 +357,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render submission list
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -246,9 +382,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render layout list
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -262,9 +398,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render typelist list
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -287,9 +423,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render hidden timestamp
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -309,9 +445,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render hidden timestamp
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -348,9 +484,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render hidden timestamp
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -438,9 +574,9 @@ class JBFieldHelper extends AppHelper
     }
 
     /**
-     * @param $name
-     * @param $value
-     * @param $controlName
+     * @param                  $name
+     * @param                  $value
+     * @param                  $controlName
      * @param SimpleXMLElement $node
      *
      * @return string
@@ -555,9 +691,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render boolean list
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -576,9 +712,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render boolean list
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -593,9 +729,9 @@ class JBFieldHelper extends AppHelper
      * Render boolean list
      * TODO Move queries to models
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -633,7 +769,7 @@ class JBFieldHelper extends AppHelper
 
         $groupedList = array();
         foreach ($list as $k => $v) {
-            $groupedList[$v->menutype][] = & $list[$k];
+            $groupedList[$v->menutype][] = &$list[$k];
         }
 
         // Assemble menu items to the array
@@ -648,7 +784,7 @@ class JBFieldHelper extends AppHelper
                 $n = count($groupedList[$type->menutype]);
                 for ($i = 0; $i < $n; $i++) {
 
-                    $item = & $groupedList[$type->menutype][$i];
+                    $item = &$groupedList[$type->menutype][$i];
 
                     $options[$item->id] = $item->treename;
                 }
@@ -663,9 +799,9 @@ class JBFieldHelper extends AppHelper
      * TODO Move queries to models
      * Render boolean list
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -693,9 +829,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render textarea
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -751,9 +887,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render colors fields
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -802,9 +938,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render element list
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -848,9 +984,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render element list
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -894,9 +1030,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render element list
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -999,7 +1135,7 @@ class JBFieldHelper extends AppHelper
 
         $html[] = '<div class="jbprice-fields-parameter clearfix">';
         $html[] = '<input type="text" name="' . $controlName . '['
-                  . $name . '][params][0][name]" class="jsJBPriceParamAddValue" disabled>';
+            . $name . '][params][0][name]" class="jsJBPriceParamAddValue" disabled>';
         $html[] =
             '<input type="hidden" name="' . $controlName . '[' . $name . '][params][0][value]" value="" disabled>';
         $html[] = '<a class="jsJBPriceDeleteParam jbprice-adv-delete-param" href=""></a>';
@@ -1009,9 +1145,9 @@ class JBFieldHelper extends AppHelper
 
         $html[] = '<div class="jbprice-field-option">';
         $html[] = '<input type="text" name="' . $controlName . '['
-                  . $name . '][params][0][option][0][name]" class="jsJBPriceOptionAddValue" disabled/>';
+            . $name . '][params][0][option][0][name]" class="jsJBPriceOptionAddValue" disabled/>';
         $html[] = '<input type="hidden" name="' . $controlName . '['
-                  . $name . '][params][0][option][0][value]" value=""disabled/>';
+            . $name . '][params][0][option][0][value]" value=""disabled/>';
         $html[] = '<a class="jsJBPriceDeleteOption jbprice-adv-delete-option" href=""></a>';
         $html[] = '</div></div>';
 
@@ -1024,7 +1160,7 @@ class JBFieldHelper extends AppHelper
                     '<input type="text" name="' . $controlName . '[' . $name . '][params][' . $key . '][name]" value="'
                     . $value['name'] . '" class="jsJBPriceParamAddValue" />';
                 $html[] = '<input type="hidden" name="' . $controlName . '[' . $name . '][params][' . $key
-                          . '][value]" value="' . $value['value'] . '" />';
+                    . '][value]" value="' . $value['value'] . '" />';
 
                 $html[] = '<a class="jsJBPriceDeleteParam jbprice-adv-delete-param" href=""></a>';
                 $html[] = '<div class="jbprice-fields-options">';
@@ -1039,10 +1175,10 @@ class JBFieldHelper extends AppHelper
 
                         $html[] = '<div class="jbprice-field-option">';
                         $html[] = '<input type="text" name="' . $controlName . '[' . $name . '][params][' . $key
-                                  . '][option][' . $i . '][name]" value="'
-                                  . $value['option'][$i]['name'] . '" class="jsJBPriceOptionAddValue" />';
+                            . '][option][' . $i . '][name]" value="'
+                            . $value['option'][$i]['name'] . '" class="jsJBPriceOptionAddValue" />';
                         $html[] = '<input type="hidden" name="' . $controlName . '[' . $name . '][params][' . $key
-                                  . '][option][' . $i . '][value]" value="' . $value['option'][$i]['value'] . '" />';
+                            . '][option][' . $i . '][value]" value="' . $value['option'][$i]['value'] . '" />';
                         $html[] = '<a class="jsJBPriceDeleteOption jbprice-adv-delete-option" href=""></a>';
                         $html[] = '</div>';
 
@@ -1056,8 +1192,8 @@ class JBFieldHelper extends AppHelper
             }
         }
         $html[] = '<a href="javascript:void(0)" class="jbprice-addParam"> <span class="jsJBPriceAddParam">'
-                  . JText::_('JBZOO_JBPRICE_ADVANCEFIELDS_PARAMETER_ADD')
-                  . '</span></a>';
+            . JText::_('JBZOO_JBPRICE_ADVANCEFIELDS_PARAMETER_ADD')
+            . '</span></a>';
 
         $html[] = '</div>';
 
@@ -1077,11 +1213,11 @@ class JBFieldHelper extends AppHelper
     }
 
     /**
-     * @param $name
-     * @param $value
-     * @param $controlName
+     * @param                  $name
+     * @param                  $value
+     * @param                  $controlName
      * @param SimpleXMLElement $node
-     * @param $parent
+     * @param                  $parent
      *
      * @return mixed
      */
@@ -1098,9 +1234,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render element id
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1118,9 +1254,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render element id
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1138,9 +1274,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render custom description
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1158,9 +1294,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render related fields
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1214,9 +1350,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render hidden timestamp
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1237,9 +1373,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render key-value pair
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1297,9 +1433,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render itemOrder global
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1313,9 +1449,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render itemOrder
      *
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1344,11 +1480,11 @@ class JBFieldHelper extends AppHelper
         }
 
         $output = '<div class="jsItemOrder jbzoo-itemorder">'
-                  . '<div class="jbzoo-itemorder-row">' . implode("</div><div class=\"jbzoo-itemorder-row\">\n ", $html)
-                  . '</div>'
-                  . '<br>'
-                  . '<a href="#jbitemorder-add" class="jsItemOrderAdd">' . JText::_('JBZOO_SORT_ADD') . '</a>'
-                  . '</div>';
+            . '<div class="jbzoo-itemorder-row">' . implode("</div><div class=\"jbzoo-itemorder-row\">\n ", $html)
+            . '</div>'
+            . '<br>'
+            . '<a href="#jbitemorder-add" class="jsItemOrderAdd">' . JText::_('JBZOO_SORT_ADD') . '</a>'
+            . '</div>';
 
         return $output;
     }
@@ -1376,35 +1512,35 @@ class JBFieldHelper extends AppHelper
         $i    = 0;
 
         $ctrl[] = '<span class="jbzoo-itemorder-label">' . JText::_('JBZOO_SORT_FIELD')
-                  . ': </span>' . JHtml::_('select.groupedlist', $options, $customName . '[]', array(
+            . ': </span>' . JHtml::_('select.groupedlist', $options, $customName . '[]', array(
                 'list.attr'   => $this->app->jbhtml->buildAttrs(array()),
                 'list.select' => $values->get('key_' . $i++),
                 'group.items' => null,
             ));
 
         $ctrl[] = '<span class="jbzoo-itemorder-label">' . JText::_('JBZOO_SORT_AS')
-                  . ': </span>' . $this->app->jbhtml->select(array(
+            . ': </span>' . $this->app->jbhtml->select(array(
                 '_jbzoo_' . $index . '_mode_s' => JText::_('JBZOO_SORT_AS_STRINGS'),
                 '_jbzoo_' . $index . '_mode_n' => JText::_('JBZOO_SORT_AS_NUMBERS'),
                 '_jbzoo_' . $index . '_mode_d' => JText::_('JBZOO_SORT_AS_DATES'),
             ), $customName . '[]', '', $values->get('key_' . $i++));
 
         $ctrl[] = '<span class="jbzoo-itemorder-label">' . JText::_('JBZOO_SORT_ORDER')
-                  . ': </span>' . $this->app->jbhtml->select(array(
+            . ': </span>' . $this->app->jbhtml->select(array(
                 '_jbzoo_' . $index . '_order_asc'    => JText::_('JBZOO_SORT_ORDER_ASC'),
                 '_jbzoo_' . $index . '_order_desc'   => JText::_('JBZOO_SORT_ORDER_DESC'),
                 '_jbzoo_' . $index . '_order_random' => JText::_('JBZOO_SORT_ORDER_RANDOM'),
             ), $customName . '[]', '', $values->get('key_' . $i++));
 
         return '<div class="jbzoo-itemorder-row-field">'
-               . implode("</div><div class=\"jbzoo-itemorder-row-field\">\n ", $ctrl)
-               . '</div>';
+        . implode("</div><div class=\"jbzoo-itemorder-row-field\">\n ", $ctrl)
+        . '</div>';
     }
 
     /**
      * Get pre-prepared options list for itemorder list
      *
-     * @param int $index
+     * @param int    $index
      * @param string $prefix
      *
      * @return array
@@ -1468,7 +1604,7 @@ class JBFieldHelper extends AppHelper
     }
 
     /**
-     * @param array $element
+     * @param array  $element
      * @param string $elementId
      * @param string $prefix
      *
@@ -1518,9 +1654,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render radio params
      *
-     * @param array $optionsList
-     * @param string $value
-     * @param string $controlName
+     * @param array            $optionsList
+     * @param string           $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      *
      * @return mixed
@@ -1542,9 +1678,9 @@ class JBFieldHelper extends AppHelper
             }
 
             $html[] = '<input ' . $this->app->jbhtml->buildAttrs($attributes) . ' /> '
-                      . '<label ' . $this->app->jbhtml->buildAttrs(array('for' => $id)) . '>'
-                      . JText::_($option)
-                      . '</label>';
+                . '<label ' . $this->app->jbhtml->buildAttrs(array('for' => $id)) . '>'
+                . JText::_($option)
+                . '</label>';
         }
 
         return implode(" \n", $html);
@@ -1553,10 +1689,10 @@ class JBFieldHelper extends AppHelper
     /**
      * Render layout list
      *
-     * @param string $method
-     * @param string $name
-     * @param string|array $value
-     * @param string $controlName
+     * @param string           $method
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      *
@@ -1586,9 +1722,9 @@ class JBFieldHelper extends AppHelper
     /**
      * Render list params
      *
-     * @param array $optionsList
-     * @param string $value
-     * @param string $controlName
+     * @param array            $optionsList
+     * @param string           $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
      *
      * @return mixed
@@ -1611,8 +1747,8 @@ class JBFieldHelper extends AppHelper
 
     /**
      * @param SimpleXMLElement $node
-     * @param string $attrName
-     * @param mixed $default
+     * @param string           $attrName
+     * @param mixed            $default
      *
      * @return bool|string
      */
@@ -1645,7 +1781,7 @@ class JBFieldHelper extends AppHelper
      *
      * @param string $key
      * @param string $value
-     * @param bool $translate
+     * @param bool   $translate
      *
      * @return mixed
      */

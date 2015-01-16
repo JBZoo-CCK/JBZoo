@@ -142,6 +142,25 @@ class JBPriceHelper extends AppHelper
     }
 
     /**
+     * Check if string has plus|minus|percent at the start or end
+     * @param string|int $value
+     * @return bool|string
+     */
+    public function isModifier($value)
+    {
+        if (!empty($value) && ($value[0] === '-' || $value[0] === '+' || $value[0] === '%')) {
+            return $value[0];
+        }
+
+        $value = JBCart::val($value);
+        if ($value->isCur('%')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @param  ElementJBPrice $jbPrice
      * @param  string         $id
      * @param  string|array   $value
