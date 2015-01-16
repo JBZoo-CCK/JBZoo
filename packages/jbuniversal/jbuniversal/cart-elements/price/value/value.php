@@ -26,6 +26,21 @@ class JBCartElementPriceValue extends JBCartElementPrice
     const PRICE_VIEW_SAVE     = 5;
 
     /**
+     * Check if element has value
+     * @param array $params
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        $value = $this->getValue();
+        if ($value->isEmpty()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Get elements search data
      * @return mixed
      */
@@ -60,13 +75,17 @@ class JBCartElementPriceValue extends JBCartElementPrice
         $list   = $this->getList();
 
         $discount = $list->byDefault()->get('_discount', JBCart::val());
-        $margin   = $list->byDefault()->get('_margin', JBCart::val());
+        $discount = $list->addModifiers($discount);
+        if ($discount->isPositive()) {
+            $discount->setEmpty();
+        }
+        $margin = $list->byDefault()->get('_margin', JBCart::val());
 
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'mode'     => (int)$params->get('only_price_mode', 1),
                 'prices'   => $prices,
-                'discount' => $discount,
+                'discount' => $discount->abs(),
                 'margin'   => $margin,
                 'currency' => $this->currency()
             ));
@@ -102,8 +121,8 @@ class JBCartElementPriceValue extends JBCartElementPrice
                 'total' => $list->getTotal(),
                 'price' => $list->getPrice(),
                 'save'  => $list->getTotal()
-                                ->minus($list->getPrice(), true)
-                                ->abs()
+                    ->minus($list->getPrice(), true)
+                    ->abs()
             );
         }
 
@@ -129,8 +148,8 @@ class JBCartElementPriceValue extends JBCartElementPrice
                     'total' => $price['total']->html($currency),
                     'price' => $price['price']->html($currency),
                     'save'  => $price['total']->minus($price['price'], true)
-                                              ->abs()
-                                              ->html($currency)
+                        ->abs()
+                        ->html($currency)
                 );
             }
         }
@@ -147,18 +166,9 @@ class JBCartElementPriceValue extends JBCartElementPrice
         if ($this->isBasic()) {
             return false;
         }
-
         $value = $this->get('value', null);
-        if (!empty($value) && ($value[0] === '-' || $value[0] === '+' || $value[0] === '%')) {
-            return $value[0];
-        }
 
-        $value = JBCart::val($value);
-        if ($value->isCur('%')) {
-            return true;
-        }
-
-        return false;
+        return $this->getHelper()->isModifier($value);
     }
 
     /**

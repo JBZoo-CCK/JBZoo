@@ -22,9 +22,10 @@ abstract class JBCartElementModifierPrice extends JBCartElement
 
     /**
      * @param JBCartValue $summa
-     * @return JBCartValue
+     * @param \Item       $item
+     * @return \JBCartValue
      */
-    abstract public function modify(JBCartValue $summa);
+    abstract public function modify(JBCartValue $summa, Item $item = null);
 
     /**
      * @return JBCartValue

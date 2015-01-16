@@ -184,9 +184,9 @@ class JBCartOrder
      */
     public function getTotalSum()
     {
-        $items = $this->getItems();
-
+        $items = $this->getItems(false);
         $summa = $this->getTotalForSevices();
+
         if (count($items) > 0) {
             // get modifiers
             $modifiers = $this->getModifiers(JBCart::MODIFIER_ORDER);
@@ -207,8 +207,6 @@ class JBCartOrder
         $items = $this->getItems();
         $summa = $this->val();
 
-        $modifiers = $this->getModifiers(JBCart::MODIFIER_ITEM);
-
         $itemsSums = array();
 
         // get Items prices
@@ -216,10 +214,6 @@ class JBCartOrder
             $itemPrice = $this->val($item['total'])->multiply($item['quantity']);
 
             $summa->add($itemPrice);
-
-            foreach ($modifiers as $modifier) {
-                $summa->addModify($modifier);
-            }
 
             $itemsSums[$key] = $itemPrice;
         }

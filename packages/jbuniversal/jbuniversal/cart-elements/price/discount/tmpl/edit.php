@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $variant = $this->config->get('_variant') ? '' : '-variant';
 
-echo $this->app->jbhtml->text($this->getControlName('value'), $discount->dump(), array(
+echo $this->app->jbhtml->text($this->getControlName('value'), $this->get('value'), array(
     'class'       => 'discount' . $variant . '-input',
     'size'        => "60",
     'maxlength'   => "255",

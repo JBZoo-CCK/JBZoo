@@ -18,22 +18,23 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementModifierPriceAddVAT extends JBCartElementModifierPrice
 {
     /**
-     * @param JBCartValue $summa
-     * @return JBCartValue
+     * @param JBCartValue $value
+     * @param \Item       $item
+     * @return \JBCartValue
      */
-    public function modify(JBCartValue $summa)
+    public function modify(JBCartValue $value, Item $item = null)
     {
-        $testVal = $summa->getClone();
+        $testVal = $value->getClone();
         $rate    = $this->getRate();
         $testVal->add($rate);
 
         if ($testVal->isPositive()) {
-            $summa->add($this->getRate());
+            $value->add($this->getRate());
         } else {
-            $summa->setEmpty();
+            $value->setEmpty();
         }
 
-        return $summa;
+        return $value;
     }
 
     /**
