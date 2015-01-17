@@ -126,12 +126,12 @@ class JBExportHelper extends AppHelper
                 $data[$item->id] = array_merge($data[$item->id], $this->_mapper->getItemCore($item));
             }
 
-            if ((int)$options->get('fields_price')) {
-                $data[$item->id] = array_merge($data[$item->id], $this->_mapper->getItemPrice($item));
-            }
-
             if ((int)$options->get('fields_user')) {
                 $data[$item->id] = array_merge($data[$item->id], $this->_mapper->getItemUser($item));
+            }
+
+            if ((int)$options->get('fields_price')) {
+                $data[$item->id] = array_merge($data[$item->id], $this->_mapper->getItemPrice($item));
             }
 
             if ((int)$options->get('fields_config')) {
