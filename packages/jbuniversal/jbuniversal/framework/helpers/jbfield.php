@@ -204,10 +204,11 @@ class JBFieldHelper extends AppHelper
 
             $field_name = $common_name . '[item_id]';
             $item_name  = JText::_('Select Item');
-            $item_value = isset($value['item_id']) ? $value['item_id'] : null;
-            if ($item_id = $item_value) {
+            $item_id = isset($value['item_id']) ? $value['item_id'] : null;
+
+            if ($item_id) {
                 $item      = $this->app->table->item->get($item_id);
-                $item_name = $item->name;
+                $item_name = ($item ? $item->name : $item_name);
             }
 
             $link = $this->app->link(array(
