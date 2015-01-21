@@ -34,7 +34,7 @@ class JBCartElementShippingRussianpost extends JBCartElementShipping
     public function validateSubmission($value, $params)
     {
         $this->bindData($value);
-        $value->set('rate', $this->getRate()->dump());
+        $value->set('rate', $this->getRate()->data(true));
 
         return $value;
     }

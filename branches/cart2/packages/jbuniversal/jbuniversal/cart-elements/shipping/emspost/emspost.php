@@ -172,7 +172,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
         $this->bindData($value);
 
         $rate = $this->getRate();
-        $value->set('rate', $rate->val() . ' ' . $rate->cur());
+        $value->set('rate', $rate->data(true));
 
         return $value;
     }
