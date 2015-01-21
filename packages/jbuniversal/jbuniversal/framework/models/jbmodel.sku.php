@@ -35,7 +35,7 @@ class JBModelSku extends JBModel
     {
         parent::__construct();
 
-        self::$ids = $this->getElementsKeys();
+        self::$ids = $this->getElementsKeys(true);
     }
 
     /**
@@ -66,8 +66,8 @@ class JBModelSku extends JBModel
         static $loaded;
         if (!isset($loaded) || $byForce === true) {
             $query = $this->_getSelect()
-                          ->select('id, element_id')
-                          ->from(self::JBZOO_TABLE_SKU_PARAMS);
+                ->select('id, element_id')
+                ->from(self::JBZOO_TABLE_SKU_PARAMS);
 
             $this->_db->setQuery($query);
             self::$ids = $this->_db->loadAssocList('element_id', 'id');
@@ -98,7 +98,6 @@ class JBModelSku extends JBModel
     {
         $select = $this
             ->_getSelect()
-            ->clear()
             ->select('id')
             ->from(self::JBZOO_TABLE_SKU_VALUES)
             ->where('value_s = ?', $value)
@@ -106,9 +105,8 @@ class JBModelSku extends JBModel
             ->limit(1);
 
         $this->_db->setQuery($select);
-        $id = $this->_db->loadResult();
 
-        return $id;
+        return $this->_db->loadResult();
     }
 
     /**
@@ -124,12 +122,12 @@ class JBModelSku extends JBModel
 
         if (!empty($sku) && isset(self::$ids['_sku'])) {
             $select = $this->_getSelect()
-                           ->select('tItem.id')
-                           ->from(ZOO_TABLE_ITEM . ' AS tItem')
-                           ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
-                           ->where('tSku.param_id = ?', self::$ids['_sku'])
-                           ->where('tSku.value = ?', $sku)
-                           ->limit(1);
+                ->select('tItem.id')
+                ->from(ZOO_TABLE_ITEM . ' AS tItem')
+                ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
+                ->where('tSku.param_id = ?', self::$ids['_sku'])
+                ->where('tSku.value = ?', $sku)
+                ->limit(1);
 
             if ($row = $this->fetchRow($select)) {
                 $row = $this->_groupBy($row, 'item_id');
@@ -167,6 +165,15 @@ class JBModelSku extends JBModel
     }
 
     /**
+     * Remove columns from #__jbzoo_config when element deleted
+     * @param $identifier
+     */
+    public function removeByElement($identifier)
+    {
+
+    }
+
+    /**
      * Remove rows by item
      * @param \Item $item
      * @return bool
@@ -174,10 +181,11 @@ class JBModelSku extends JBModel
     public function removeByItem(Item $item)
     {
         $select = $this->_getSelect()
-                       ->select('value_id')
-                       ->from(ZOO_TABLE_JBZOO_SKU)
-                       ->where('item_id = ?', $item->id)
-                       ->group('value_id');
+            ->clear()
+            ->select('value_id')
+            ->from(ZOO_TABLE_JBZOO_SKU)
+            ->where('item_id = ?', $item->id)
+            ->group('value_id');
 
         $rows = $this->_db->setQuery($select)->loadAssocList('value_id', 'value_id');
 
@@ -201,7 +209,7 @@ class JBModelSku extends JBModel
 
         if (!empty($rows)) {
 
-            if (count($rows) >= 1) {
+            if (count($rows) > 0) {
                 $select
                     ->clear()
                     ->delete(self::JBZOO_TABLE_SKU_VALUES)
@@ -232,8 +240,8 @@ class JBModelSku extends JBModel
     {
         if (!empty($data)) {
             foreach ($data as $values) {
-
                 $value_id = $this->getValueId($values['value_s'], self::$ids[$values['param_id']]);
+
                 if (!$value_id) {
                     $value_id = $this->_insert(array(
                         'value_s'  => $values['value_s'],
@@ -263,12 +271,16 @@ class JBModelSku extends JBModel
 
     /**
      * Insert elements if they are not exists
-     *
-     * @param array $elements
      * @return $this
      */
-    public function insertSkuElements($elements = array())
+    public function updateParams()
     {
+        $position = $this->app->jbcartposition;
+        $elements = array_merge(
+            (array)$position->loadParams(JBCart::CONFIG_PRICE),
+            (array)$position->loadParams(JBCart::CONFIG_PRICE_TMPL)
+        );
+
         if (!empty($elements)) {
             foreach ($elements as $id => $element) {
                 if (!isset(self::$ids[$id])) {
@@ -278,6 +290,7 @@ class JBModelSku extends JBModel
                 }
             }
         }
+        $this->getElementsKeys(true);
 
         return $this;
     }

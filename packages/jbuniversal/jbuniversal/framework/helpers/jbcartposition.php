@@ -197,7 +197,7 @@ class JBCartPositionHelper extends AppHelper
     }
 
     /**
-     * @param ElementJBPriceAdvance $element
+     * @param ElementJBPrice $element
      *
      * @return array
      */

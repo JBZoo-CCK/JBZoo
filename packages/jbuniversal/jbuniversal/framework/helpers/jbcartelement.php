@@ -55,7 +55,7 @@ class JBCartElementHelper extends AppHelper
     /**
      * Returns an array of all Elements.
      * @param array $groups
-     * @param bool $getHidden
+     * @param bool  $getHidden
      * @return array
      */
     public function getGroups($groups, $getHidden = false)
@@ -143,15 +143,14 @@ class JBCartElementHelper extends AppHelper
         $list     = $this->getGroups($group, true);
 
         if (isset($list[$group])) {
-
             foreach ($list[$group] as $type => $element) {
                 if ($element->isSystemTmpl()) {
+                    $type = strtolower($element->getElementType());
 
-                    $element->setConfig(array(
-                        'name' => 'JBZOO_ELEMENT_CORE_' . strtoupper($element->getElementType())
-                    ));
-
-                    $elements[$type] = $element;
+                    if ($element->isCore()) {
+                        $element->identifier = '_' . $type;
+                    }
+                    $elements[$element->identifier] = $element;
                 }
             }
 
@@ -162,9 +161,9 @@ class JBCartElementHelper extends AppHelper
 
     /**
      * Creates element of given type
-     * @param string $type The type to create
+     * @param string $type  The type to create
      * @param string $group The group to create
-     * @param array $config
+     * @param array  $config
      * @return JBCartElement
      */
     public function create($type, $group, $config = array())
@@ -199,29 +198,5 @@ class JBCartElementHelper extends AppHelper
 
         return $element;
     }
-
-    /**
-     * HACK
-     *
-     * @param $elementId
-     * @param $priceId
-     * @param array $data
-     * @return JBCartElement
-     */
-    public function getPriceParamElement($elementId, $priceId, $data = array())
-    {
-        $priceElements = JBModelConfig::model()->get(JBCart::DEFAULT_POSITION, array(), 'cart.' . JBCart::CONFIG_PRICE . '.' . $priceId);
-        $priceElements = $this->app->data->create($priceElements);
-        $paramConfig   = $priceElements->get($elementId);
-
-        $element = $this->create($paramConfig['type'], $paramConfig['group'], $paramConfig);
-
-        if (!empty($data)) {
-            $element->bindData($data);
-        }
-
-        return $element;
-    }
-
 }
 

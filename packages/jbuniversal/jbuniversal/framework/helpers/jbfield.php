@@ -115,12 +115,12 @@ class JBFieldHelper extends AppHelper
         $this->app->system->language->load('com_zoo');
 
         $this->app->html->_('behavior.modal', 'a.modal');
-        $this->app->document->addStylesheet('fields:zooapplication.css');
-        $this->app->document->addScript('fields:zooapplication.js');
+        $this->app->jbassets->css('fields:zooapplication.css');
+        $this->app->jbassets->js('fields:zooapplication.js');
 
         // init vars
         //$params = $this->app->parameterform->convertParams($parent);
-        $table  = $this->app->table->application;
+        $table = $this->app->table->application;
 
         // set modes
         $modes       = array();
@@ -146,6 +146,7 @@ class JBFieldHelper extends AppHelper
         $types   = array();
         $options = array($this->app->html->_('select.option', '', '- ' . JText::_('Select Application') . ' -'));
 
+        $unique_id = $this->app->jbstring->getId('jbapplication-');
         foreach ($table->all(array('order' => 'name')) as $application) {
 
             $app_value = isset($value['app']) ? $value['app'] : null;
@@ -179,7 +180,7 @@ class JBFieldHelper extends AppHelper
         }
 
         // create html
-        $html[] = '<div id="' . $name . '" class="zoo-application">';
+        $html[] = '<div id="' . $unique_id . '" class="zoo-application">';
         $html[] = $this->app->html->_('select.genericlist', $options, $common_name . '[app]', 'class="application"', 'value', 'text', $app_value);
 
         $mode_value = isset($value['mode']) ? $value['mode'] : null;
@@ -201,14 +202,13 @@ class JBFieldHelper extends AppHelper
         // create items html
         $link = '';
         if ($node->attributes()->items) {
-
             $field_name = $common_name . '[item_id]';
             $item_name  = JText::_('Select Item');
-            $item_id = isset($value['item_id']) ? $value['item_id'] : null;
+            $item_id    = isset($value['item_id']) ? $value['item_id'] : null;
 
-            if ($item_id) {
+            if ($item_id > 0) {
                 $item      = $this->app->table->item->get($item_id);
-                $item_name = ($item ? $item->name : $item_name);
+                $item_name = $item ? $item->name : $item_name;
             }
 
             $link = $this->app->link(array(
@@ -216,20 +216,20 @@ class JBFieldHelper extends AppHelper
                 'task'       => 'element',
                 'tmpl'       => 'component',
                 'func'       => 'selectZooItem',
-                'object'     => $name
+                'object'     => $unique_id
             ), false);
 
             $html[] = '<div class="item">';
-            $html[] = '<input type="text" id="' . $name . '_name" value="' . htmlspecialchars($item_name, ENT_QUOTES, 'UTF-8') . '" disabled="disabled" />';
+            $html[] = '<input type="text" id="' . $unique_id . '_name" value="' . htmlspecialchars($item_name, ENT_QUOTES, 'UTF-8') . '" disabled="disabled" />';
             $html[] = '<a class="modal" title="' . JText::_('Select Item') . '"  href="#" rel="{handler: \'iframe\', size: {x: 850, y: 500}}">' . JText::_('Select') . '</a>';
-            $html[] = '<input type="hidden" id="' . $name . '_id" name="' . $field_name . '" value="' . (int)$item_id . '" />';
+            $html[] = '<input type="hidden" id="' . $unique_id . '_id" name="' . $field_name . '" value="' . (int)$item_id . '" />';
             $html[] = '</div>';
 
         }
 
         $html[] = '</div>';
 
-        $javascript = 'jQuery(function($) { jQuery("#' . $name . '").ZooApplication({ url: "' . $link . '", msgSelectItem: "' . JText::_('Select Item') . '" }); });';
+        $javascript = 'jQuery(function($) { jQuery("#' . $unique_id . '").ZooApplication({ url: "' . $link . '", msgSelectItem: "' . JText::_('Select Item') . '" }); });';
         $javascript = "<script type=\"text/javascript\">\n// <!--\n$javascript\n// -->\n</script>\n";
 
         echo implode("\n", $html) . $javascript;
