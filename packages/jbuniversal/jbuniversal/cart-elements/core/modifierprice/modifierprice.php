@@ -25,7 +25,7 @@ abstract class JBCartElementModifierPrice extends JBCartElement
      * @param \Item       $item
      * @return \JBCartValue
      */
-    abstract public function modify(JBCartValue $summa, Item $item = null);
+    abstract public function modify(JBCartValue $summa, $item = null);
 
     /**
      * @return JBCartValue
@@ -33,6 +33,14 @@ abstract class JBCartElementModifierPrice extends JBCartElement
     public function getRate()
     {
         return $this->_order->val(0);
+    }
+
+    public function getOrderData()
+    {
+        return $this->app->data->create(array(
+            'rate'   => $this->data(),
+            'config' => (array)$this->config,
+        ));
     }
 
 }

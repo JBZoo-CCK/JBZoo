@@ -20,14 +20,12 @@ $unique = $this->app->jbstring->getId('jbprice-adv-'); ?>
 </div>
 
 <script type="text/javascript">
-    (function ($) {
-
+    jQuery(function ($) {
         $('#<?php echo $unique;?>').JBZooPrice({
-            'elements'  : <?php echo json_encode($elements);?>,
-            'itemId'    : <?php echo $this->getItem()->id;?>,
+            'elements': <?php echo json_encode($elements);?>,
+            'itemId': <?php echo $this->getItem()->id;?>,
             'identifier': "<?php echo $this->identifier;?>",
             'variantUrl': "<?php echo $variantUrl; ?>"
         });
-
-    })(jQuery);
+    });
 </script>
