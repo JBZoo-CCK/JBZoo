@@ -31,9 +31,10 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
     }
 
     /**
+     * @param array $params
      * @return mixed|null|string
      */
-    public function edit()
+    public function edit($params = array())
     {
         return null;
     }

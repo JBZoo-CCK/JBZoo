@@ -48,16 +48,12 @@ class JBCartElementPriceDescription extends JBCartElementPrice
     }
 
     /**
-     * @param array $params
-     *
      * @return mixed|null|string
      */
-    public function edit($params = array())
+    public function edit()
     {
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderLayout($layout, array(
-                'params' => $params
-            ));
+            return self::renderLayout($layout);
         }
 
         return null;
@@ -70,8 +66,8 @@ class JBCartElementPriceDescription extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        if ($layout = $this->getLayout()) {
-            return self::renderLayout($layout, array(
+        if ($layout = $this->getLayout('edit.php')) {
+            return self::renderEditLayout($layout, array(
                 'params' => $params
             ));
         }

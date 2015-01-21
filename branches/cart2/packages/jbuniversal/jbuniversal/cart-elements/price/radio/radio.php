@@ -52,7 +52,7 @@ class JBCartElementPriceRadio extends JBCartElementPrice
     public function edit()
     {
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderLayout($layout, array(
+            return self::renderEditLayout($layout, array(
                 'options' => $this->parseOptions()
             ));
         }

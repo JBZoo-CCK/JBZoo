@@ -29,12 +29,13 @@ class JBCartElementPriceProperties extends JBCartElementPrice
 
     /**
      * Render element in jbprice admin
+     * @param array $params
      * @return bool|mixed|string
      */
-    public function edit()
+    public function edit($params = array())
     {
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderLayout($layout);
+            return self::renderEditLayout($layout);
         }
 
         return false;

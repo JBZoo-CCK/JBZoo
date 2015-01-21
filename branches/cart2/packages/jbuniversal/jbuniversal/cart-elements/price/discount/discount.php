@@ -33,12 +33,15 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $value = $this->getList()->addModifiers($this->getValue());
-        if ($value->isEmpty()) {
-            return false;
+        $total = $this->getList()->getTotal();
+        $price = $this->getList()->getPrice();
+        $diff  = $total->minus($price, true);
+
+        if ($diff->isNegative()) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -56,12 +59,13 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
     }
 
     /**
+     * @param array $params
      * @return mixed|string
      */
-    public function edit()
+    public function edit($params = array())
     {
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderLayout($layout, array(
+            return self::renderEditLayout($layout, array(
                 'discount' => $this->getValue()
             ));
         }
@@ -76,19 +80,18 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $_value = $this->getElement('_value');
-        $prices = $_value->getPrices();
+        $total = $this->getList()->getTotal();
+        $price = $this->getList()->getPrice();
+        $value = $total->minus($price, true);
 
-        $value = $this->getValue();
-        $value = $this->getList()->addModifiers($value);
-        if ($value->isPositive()) {
+        if (!$value->isNegative()) {
             $value->setEmpty();
         }
-        if ($prices && $layout = $this->getLayout()) {
+
+        if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'params'   => $params,
-                'base'     => $prices,
-                'discount' => $value,
+                'discount' => $value->positive(),
                 'mode'     => $params->get('sale_show', self::SALE_VIEW_ICON_VALUE)
             ));
         }
