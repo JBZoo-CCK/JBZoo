@@ -79,8 +79,7 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
     public function ajaxChangeVariant($template = 'default', $values = array(), $currency = '')
     {
         $list = $this->getVariantByValues($values);
-
-        $key = (int)(JString::strlen(key($list)) > 0 ? key($list) : self::BASIC_VARIANT);
+        $key  = (int)(JString::strlen(key($list)) > 0 ? key($list) : self::BASIC_VARIANT);
 
         $this->set('default_variant', $key);
 
@@ -99,16 +98,18 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
      * @param string $template
      * @param int    $quantity
      * @param array  $values
-     * @param bool   $sendAjax
      */
-    public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array(), $sendAjax = true)
+    public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array())
     {
         $jbAjax = $this->app->jbajax;
 
-        $cart = JBCart::getInstance();
+        //Get variant by selected values
         $list = $this->getVariantByValues($values);
+
+        $cart = JBCart::getInstance();
         $key  = (int)(JString::strlen(key($list)) > 0 ? key($list) : self::BASIC_VARIANT);
 
+        //Set the default option, which we have received, not saved. For correct calculation.
         $this->set('default_variant', $key);
 
         $this->_template = $template;
@@ -118,9 +119,9 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
             'currency' => $this->_config->get('cart.default_currency', JBCart::val()->cur())
         ));
 
+        //Check balance
         if ($this->inStock($quantity)) {
             $cart->addItem($this->_list->getCartData());
-
             $jbAjax->send(array(), true);
 
         } else {

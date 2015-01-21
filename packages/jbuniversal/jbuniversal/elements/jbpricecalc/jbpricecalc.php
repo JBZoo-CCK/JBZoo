@@ -79,18 +79,19 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
      * @param string $template
      * @param int    $quantity
      * @param array  $values
-     * @param bool   $sendAjax
      */
-    public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array(), $sendAjax = true)
+    public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array())
     {
         $jbAjax = $this->app->jbajax;
 
-        $cart = JBCart::getInstance();
-
+        //Get variant by selected values
         $list = $this->getVariantByValues($values);
+
+        $cart = JBCart::getInstance();
         $keys = array_keys($list);
         $key  = (int)end($keys);
 
+        //Set the default option, which we have received, not saved. For correct calculation.
         $this->set('default_variant', $key);
 
         $this->_template = $template;
@@ -100,17 +101,17 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
             'currency' => $this->_config->get('cart.default_currency', JBCart::val()->cur())
         ));
 
+        //Check balance
         if ($this->inStock($quantity)) {
-
             $cart->addItem($this->_list->getCartData());
-            $sendAjax && $jbAjax->send(array(), true);
+            $jbAjax->send(array(), true);
 
         } else {
 
-            $sendAjax && $jbAjax->send(array('message' => JText::_('JBZOO_JBPRICE_ITEM_NO_QUANTITY')), false);
+            $jbAjax->send(array('message' => JText::_('JBZOO_JBPRICE_ITEM_NO_QUANTITY')), false);
         }
 
-        $sendAjax && $jbAjax->send(array('added' => 0, 'message' => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE')));
+        $jbAjax->send(array('added' => 0, 'message' => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE')));
     }
 
     /**
@@ -179,30 +180,42 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
 
         $data = array();
         if (!empty($variations)) {
+            $elements = $this->_element->getSystemTmpl(JBCart::ELEMENT_TYPE_PRICE);
 
-            $key     = self::BASIC_VARIANT;
-            $variant = $variations[$key];
+            $this->set('default_variant', self::BASIC_VARIANT);
 
-            $this->set('default_variant', $key);
-            $this->_list = $this->getVariantList(array($key => $variant));
+            $list = $this->getVariantList(array(
+                self::BASIC_VARIANT => $variations[self::BASIC_VARIANT]
+            ));
 
-            foreach ($this->_list->shift()->getElements() as $id => $element) {
-                $value = JString::trim($element->getSearchData());
+            $elements = array_merge((array)$list->shift()->getElements(), (array)$elements);
+            foreach ($elements as $id => $element) {
+                if ($element->isSystemTmpl()) {
+                    $element->setJBPrice($this);
+                    $element->config->set('_variant', self::BASIC_VARIANT);
+                }
 
-                if (JSTring::strlen($value) !== 0) {
+                $value = $element->getSearchData();
 
-                    $n = $this->isNumeric($value) ? $value : null;
-                    $d = $this->isDate($value) ? $value : null;
-                    $s = $value;
+                if(!empty($value)) {
+                    $d = $s = $n = null;
+                    if ($value instanceof JBCartValue) {
+                        $s = $value->cur();
+                        $n = $value->val();
+                    } elseif (JSTring::strlen($value) !== 0) {
+                        $s = $value;
+                        $n = $this->isNumeric($value) ? $value : null;
+                        $d = $this->isDate($value) ? $value : null;
+                    }
 
-                    $data[$key . $id] = array(
+                    $data[self::BASIC_VARIANT . $id] = array(
                         'item_id'    => $item_id,
                         'element_id' => $this->identifier,
                         'param_id'   => $id,
                         'value_s'    => $s,
                         'value_n'    => $n,
                         'value_d'    => $d,
-                        'variant'    => $key
+                        'variant'    => self::BASIC_VARIANT
                     );
                 }
             }
