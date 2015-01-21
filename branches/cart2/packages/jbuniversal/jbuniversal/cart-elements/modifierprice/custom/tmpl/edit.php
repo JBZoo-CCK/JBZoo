@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -11,6 +10,17 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die('Restricted access'); ?>
 
-echo $element->edit($params);
+<td class="align-right"></td>
+<td class="align-right">
+    <?php echo $this->getName(); ?>
+</td>
+<td class="align-right">
+    <?php echo $rate->htmlAdv($this->get('currency'), true); ?>
+</td>
+<td class="align-right">
+    <small><?php echo $value->html(); ?></small>
+</td>
+
+

@@ -12,18 +12,5 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-$type = strtoupper($params['type']);
-$elId = $this->app->jbstring->getId('basic-');
 
-?>
-
-<div class="jbpriceadv-row basic-<?php echo strtolower($type); ?>-wrap">
-    <label for="<?php echo $elId . '-' . $type; ?>" class="hasTip row-field"
-           title="<?php echo JText::_('JBZOO_JBPRICE_BASIC_' . $type . '_DESC'); ?>">
-        <?php echo JText::_('JBZOO_JBPRICE_BASIC_' . $type); ?>
-    </label>
-
-    <?php echo $element->edit(); ?>
-
-    <div class="clear clr"></div>
-</div>
+echo $element->edit($params);
