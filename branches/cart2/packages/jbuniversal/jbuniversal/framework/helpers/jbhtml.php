@@ -247,17 +247,28 @@ class JBHTMLHelper extends AppHelper
      * @param array  $data
      * @param string $name
      * @param null   $selected
-     * @param array  $attrs
+     * @param array  $input_attr
+     * @param array  $label_attr
+     * @param array  $div_attr
      * @param array  $titles
      * @return string
      */
-    public function colors($inputType = 'checkbox', $data, $name, $selected = null, $attrs = array(), $titles = array())
+    public function colors(
+        $inputType = 'checkbox',
+        $data,
+        $name,
+        $selected = null,
+        $input_attr = array(),
+        $label_attr = array(),
+        $div_attr = array(),
+        $titles = array()
+    )
     {
-        $html = array();
-        $uniq = $this->app->jbstring->getId();
-        $i    = 0;
+        $html   = array();
+        $unique = $this->app->jbstring->getId('jbcolor-');
+        $i      = 0;
 
-        $html[] = '<div id="' . $uniq . '" class="jbzoo-colors">';
+        $html[] = '<div id="' . $unique . '" class="jbzoo-colors">';
 
         foreach ($data as $key => $value) {
 
@@ -267,27 +278,28 @@ class JBHTMLHelper extends AppHelper
                 $isFile = $value;
             }
 
-            $id = $this->app->jbstring->getId();
+            $id = $this->app->jbstring->getId('jbcolor-input-');
 
-            $attribs = array_merge(array(
+            $input_attr = array_merge((array)$input_attr,array(
                 'type'  => $inputType,
                 'name'  => $name,
                 'id'    => $id,
                 'title' => isset($titles[$key]) ? $titles[$key] : $key,
                 'value' => $key,
                 'class' => 'jbcolor-input'
-            ), $attrs);
+            ));
 
             $valueSlug = $this->app->string->sluggify(!$isFile ? $key : basename($value));
 
-            $labelAttribs = array(
+            $label_attr = array_merge($label_attr, array(
                 'for'   => $id,
                 'title' => isset($titles[$key]) ? $titles[$key] : $key,
-                'class' => 'jbcolor-label hasTip ' . $inputType . ' value-' . $valueSlug,
-            );
+                'class' => 'jbcolor-label hasTip ' . $inputType . ' value-' . $valueSlug
+            ));
 
-            $divAttribs = array(
-                'style' => 'background-color: ' . (!$isFile ? '#' . $value . ';' : 'transparent;')
+
+            $attr = array(
+                'style' => ' background-color: ' . (!$isFile ? '#' . $value . ';' : 'transparent;') . (isset($div_attr['style']) ? $div_attr['style'] : null)
             );
 
             if (is_array($selected)) {
@@ -298,8 +310,8 @@ class JBHTMLHelper extends AppHelper
                     }
 
                     if ($key == $val) {
-                        $attribs['checked'] = 'checked';
-                        $attribs['class'] .= ' checked';
+                        $input_attr['checked'] = 'checked';
+                        $input_attr['class'] .= ' checked';
                         $i++;
                         break;
                     }
@@ -307,16 +319,17 @@ class JBHTMLHelper extends AppHelper
             } else {
 
                 if ((string)$key == (string)$selected) {
-                    $attribs['checked'] = 'checked';
-                    $attribs['class'] .= ' checked';
+                    $input_attr['checked'] = 'checked';
+                    $input_attr['class'] .= ' checked';
                 }
             }
 
-            $html[] = ' <input ' . $this->_buildAttrs($attribs) . ' />'
-                . '<label ' . $this->_buildAttrs($labelAttribs) . '>';
+            $html[] = ' <input ' . $this->_buildAttrs($input_attr) . ' />'
+                . '<label ' . $this->_buildAttrs($label_attr) . '>';
 
-            $html[] = ($isFile ? '<div class="checkIn" style="background: url(\'' . $isFile . '\') center;" >' : '');
-            $html[] = '<div ' . $this->_buildAttrs($divAttribs) . '></div>';
+            $html[] = ($isFile ? '<div class="checkIn" style="background: url(\'' . $isFile . '\') center; ' .
+                (isset($div_attr['style']) ? $div_attr['style'] : null) . '" >' : '');
+            $html[] = '<div ' . $this->_buildAttrs($attr) . '></div>';
 
             $html[] = ($isFile ? '</div>' : '');
             $html[] = '</label>';
@@ -325,7 +338,7 @@ class JBHTMLHelper extends AppHelper
         $html[] = '</div>';
 
         $multiple = $inputType == 'checkbox' ? 1 : 0;
-        $this->app->jbassets->initJBColorHelper($uniq, $multiple);
+        $this->app->jbassets->initJBColorHelper($unique, $multiple);
 
         return implode("\n", $html);
     }
@@ -482,7 +495,7 @@ class JBHTMLHelper extends AppHelper
 
         return $this->text($name, $value, $attribs, $idtag);
     }
-
+    
     /**
      * Render jQueryUI slider
      * @param array  $params
