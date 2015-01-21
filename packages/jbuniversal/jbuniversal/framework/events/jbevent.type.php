@@ -54,6 +54,19 @@ class JBEventType extends JBEvent
      */
     public static function deleted($event)
     {
+        $app    = self::app();
+        $type   = $event->getSubject();
+        $config = JBModelConfig::model();
+
+        $elements = $app->jbprice->getTypePrices($type);
+
+        if (!empty($elements)) {
+            foreach ($elements as $id => $element) {
+                $config->removeGroup('cart.' . JBCart::ELEMENT_TYPE_PRICE . '.' . $id);
+                $config->removeGroup('cart.' . JBCart::CONFIG_PRICE_TMPL . '.' . $id);
+                $config->removeGroup('cart.' . JBCart::CONFIG_PRICE_TMPL_FILTER . '.' . $id);
+            }
+        }
 
     }
 

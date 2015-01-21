@@ -140,18 +140,14 @@ class JBPriceRenderer extends PositionRenderer
                         continue;
                     }
 
-                    if ($element->edit()) {
+                    $data['_price_layout'] = $this->_priceLayout;
 
-                        $data['_price_layout'] = $this->_priceLayout;
+                    $data['_layout'] = $this->_layout;
+                    $data['_index']  = $key;
 
-                        $data['_layout'] = $this->_layout;
-                        $data['_index']  = $key;
+                    $params = array_merge($data, $args);
 
-                        $params = array_merge($data, $args);
-
-                        $elements[] = compact('element', 'params');
-                    }
-
+                    $elements[] = compact('element', 'params');
                 }
             }
         }
@@ -159,11 +155,12 @@ class JBPriceRenderer extends PositionRenderer
         if (!empty($elements)) {
 
             foreach ($elements as $i => $data) {
-                $params = array_merge(array('first' => ($i == 0), 'last' => ($i == count($elements) - 1)), $data['params']);
+                $params = array_merge(array('first' => ($i == 0),
+                                            'last'  => ($i == count($elements) - 1)), $data['params']);
 
                 $output[$i] = parent::render('element.jbprice.' . $style, array(
                     'element' => $data['element'],
-                    'params'  => $params
+                    'params'  => $this->app->data->create($params)
                 ));
             }
         }
@@ -289,5 +286,5 @@ class JBPriceRenderer extends PositionRenderer
 
         return $params->get(JBCart::DEFAULT_POSITION);
     }
-    
+
 }
