@@ -32,16 +32,17 @@ class JBCartValue
     const ROUND_TYPE_FLOOR   = 'floor';
     const ROUND_TYPE_CLASSIC = 'classic';
 
-    const ACT_PLUS     = 'plus';
-    const ACT_MINUS    = 'minus';
-    const ACT_ABS      = 'abs';
-    const ACT_MODIFY   = 'modifier';
-    const ACT_MULTIPLY = 'multiply';
-    const ACT_INVERT   = 'invert';
-    const ACT_POSITIVE = 'positive';
-    const ACT_NEGATIVE = 'negative';
-    const ACT_CLEAN    = 'clean';
-    const ACT_CONVERT  = 'convert';
+    const ACT_PLUS       = 'plus';
+    const ACT_MINUS      = 'minus';
+    const ACT_ABS        = 'abs';
+    const ACT_MODIFY     = 'modifier';
+    const ACT_MULTIPLY   = 'multiply';
+    const ACT_PERCENTAGE = 'percentage';
+    const ACT_INVERT     = 'invert';
+    const ACT_POSITIVE   = 'positive';
+    const ACT_NEGATIVE   = 'negative';
+    const ACT_CLEAN      = 'clean';
+    const ACT_CONVERT    = 'convert';
 
     /**
      * @type int
@@ -499,6 +500,15 @@ class JBCartValue
     }
 
     /**
+     * @param      $value
+     * @return \JBCartValue
+     */
+    public function percentage($value)
+    {
+        return $this->_modifer($value, self::ACT_PERCENTAGE, true);
+    }
+
+    /**
      * @param string $data
      * @param string $currency
      * @return $this
@@ -728,6 +738,19 @@ class JBCartValue
             $value    = (float)$value;
             $newValue = $value * $this->_value;
             $logMess  = 'Multiply with "' . $value . '"';
+
+        } else if (self::ACT_PERCENTAGE == $action) {
+            if (!$value instanceof JBCartValue) {
+                $value = JBCart::val($value);
+            }
+            $obj = clone($this);
+
+            $value->val($obj->_currency);
+
+            $obj->_currency = self::PERCENT;
+            $obj->_value    = $obj->_value * $value->val() / 100;
+
+            return $obj;
 
         } else if (self::ACT_INVERT == $action) {
 

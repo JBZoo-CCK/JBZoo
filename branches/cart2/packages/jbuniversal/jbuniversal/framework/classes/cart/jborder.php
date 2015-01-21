@@ -385,12 +385,36 @@ class JBCartOrder
     }
 
     /**
+     * @return array
+     */
+    public function getModifiersItemPrice()
+    {
+        $elements = $this->_elements[JBCart::ELEMENT_TYPE_MODIFIERS][JBCart::MODIFIER_ITEM];
+
+        return $elements;
+
+    }
+
+    /**
      * @param $identifier
      * @return JBCartElementOrder
      */
     public function getFieldElement($identifier)
     {
         return $this->getElement($identifier, JBCart::CONFIG_FIELDS);
+    }
+
+    /**
+     * @param $identifier
+     * @return JBCartElementOrder
+     */
+    public function getModifierItemPriceElement($identifier)
+    {
+        $elements = $this->_elements[JBCart::ELEMENT_TYPE_MODIFIERS][JBCart::MODIFIER_ITEM];
+
+        return isset($elements[$identifier]) ? $elements[$identifier] : null;
+
+        //return $this->getElement($identifier, JBCart::MODIFIER_ITEM);
     }
 
     /**
@@ -972,7 +996,7 @@ class JBCartOrder
     {
         $rates = (array)$this->getCurrencyList();
 
-        return JBcart::val($data, $currency, $rates);
+        return JBCart::val($data, $currency, $rates);
     }
 
 }
