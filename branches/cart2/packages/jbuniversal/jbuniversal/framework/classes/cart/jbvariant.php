@@ -179,7 +179,7 @@ class JBCartVariant
                 $value = $this->basic->get('_value')->add($value);
             }
 
-            $value->add($this->get('_margin', $this->value)->abs());
+            $value->add($this->get('_margin', $this->value));
         }
 
         return $value;
