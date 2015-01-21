@@ -56,12 +56,13 @@ class JBCartElementPriceMargin extends JBCartElementPrice
     }
 
     /**
+     * @param array $params
      * @return mixed|string
      */
-    public function edit()
+    public function edit($params = array())
     {
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderLayout($layout, array(
+            return self::renderEditLayout($layout, array(
                 'margin' => $this->getValue()
             ));
         }

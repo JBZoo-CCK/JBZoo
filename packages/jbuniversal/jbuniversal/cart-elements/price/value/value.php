@@ -48,16 +48,17 @@ class JBCartElementPriceValue extends JBCartElementPrice
     {
         $list = $this->getList();
 
-        return $list->getTotal()->val($this->_jbmoney->getDefaultCur());
+        return $list->getTotal();
     }
 
     /**
+     * @param array $params
      * @return mixed|null|string
      */
-    public function edit()
+    public function edit($params = array())
     {
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderLayout($layout, array(
+            return self::renderEditLayout($layout, array(
                 'value' => $this->getValue()
             ));
         }
@@ -72,21 +73,24 @@ class JBCartElementPriceValue extends JBCartElementPrice
     public function render($params = array())
     {
         $prices = $this->getPrices();
-        $list   = $this->getList();
 
-        $discount = $list->byDefault()->get('_discount', JBCart::val());
-        $discount = $list->addModifiers($discount);
-        if ($discount->isPositive()) {
-            $discount->setEmpty();
-        }
-        $margin = $list->byDefault()->get('_margin', JBCart::val());
+        $total = $prices['total'];
+        $price = $prices['price'];
+        $save  = $prices['save'];
+
+        $discount = JBCart::val();
+
+        if ($save->isNegative()) {
+            $discount = $save->getClone();
+        };
 
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'mode'     => (int)$params->get('only_price_mode', 1),
-                'prices'   => $prices,
+                'total'    => $total,
+                'price'    => $price,
+                'save'     => $save->abs(),
                 'discount' => $discount->abs(),
-                'margin'   => $margin,
                 'currency' => $this->currency()
             ));
         }
@@ -100,58 +104,25 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function getPrices()
     {
-        $list = $this->getList();
+        $list  = $this->getList();
+        $total = $list->getTotal();
+        $price = $list->getPrice();
 
         if ($this->_jbprice->isOverlay()) {
-
-            $total = $list->getTotal();
-            $price = $list->getPrice();
 
             $prices = array(
                 'total' => $total,
                 'price' => $price,
-                'save'  => $total->minus($price, true)->abs()
+                'save'  => $total->minus($price, true)
             );
-
-            return $prices;
 
         } else {
 
             $prices = array(
-                'total' => $list->getTotal(),
-                'price' => $list->getPrice(),
-                'save'  => $list->getTotal()
-                    ->minus($list->getPrice(), true)
-                    ->abs()
+                'total' => $total,
+                'price' => $price,
+                'save'  => $total->minus($price, true)
             );
-        }
-
-        return $prices;
-    }
-
-    /**
-     * Get prices for currencies from currency list
-     * @return array
-     */
-    public function getCurrencyPrices()
-    {
-        $prices = array();
-        $params = $this->getRenderParams('_currency');
-        $list   = $params->get('currency_list');
-
-        $price = $this->getPrices();
-
-        if (!empty($list)) {
-            foreach ($list as $currency) {
-
-                $prices[$currency] = array(
-                    'total' => $price['total']->html($currency),
-                    'price' => $price['price']->html($currency),
-                    'save'  => $price['total']->minus($price['price'], true)
-                        ->abs()
-                        ->html($currency)
-                );
-            }
         }
 
         return $prices;

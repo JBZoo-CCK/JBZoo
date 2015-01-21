@@ -13,4 +13,18 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $this->app->jbhtml->colors('radio', $colorItems, $this->getRenderName('value'), $this->getValue());
+$input_attr = array(
+    'class' => 'jbcolor-input ',
+    'style' => 'width:' . $width . 'px; height:' . $height . 'px;'
+);
+
+$label_attr = array(
+    'class' => 'jbcolor-label hasTip radio',
+    'style' => 'width:' . $width . 'px; height:' . $height . 'px;'
+);
+
+$div_attr = array(
+    'style' => 'width:' . $width . 'px; height:' . $height . 'px;'
+);
+
+echo $this->_jbhtml->colors('radio', $colorItems, $this->getRenderName('value'), $this->getValue(), $input_attr, $label_attr, $div_attr);

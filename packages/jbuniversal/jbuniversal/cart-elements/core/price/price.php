@@ -17,6 +17,9 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElementPrice extends JBCartElement
 {
+    /**
+     * @type string
+     */
     protected $_namespace = JBCart::ELEMENT_TYPE_PRICE;
 
     /**
@@ -103,7 +106,7 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * @param string $identifier
-     * @return bool|JBCartElement|null
+     * @return JBCartElement|mixed|null
      */
     public function getElement($identifier)
     {
@@ -221,6 +224,15 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     * Check if element is required
+     * @return int
+     */
+    public function isRequired()
+    {
+        return (int)$this->config->get('required', 0);
+    }
+
+    /**
      * Get params for widget
      * @return array
      */
@@ -236,6 +248,30 @@ abstract class JBCartElementPrice extends JBCartElement
     public function renderAjax()
     {
         return null;
+    }
+
+    /**
+     * Renders the element using template layout file
+     * @param string $__layout layouts template file
+     * @param array  $__args   layouts template file args
+     * @return string
+     */
+    protected function renderEditLayout($__layout, $__args = array())
+    {
+        $html = parent::renderLayout($__layout, $__args);
+        if ($html) {
+            $layout = 'variations.php';
+            if ($this->isBasic()) {
+                $layout = 'basic.php';
+            }
+            $system = $this->getLayout($layout);
+
+            return parent::renderLayout($system, array(
+                'html' => $html
+            ));
+        }
+
+        return $html;
     }
 
     /**

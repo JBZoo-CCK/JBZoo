@@ -25,7 +25,8 @@ class JBCartElementPriceImage extends JBCartElementPrice
      * @param array $params
      * @return bool
      */
-    public function hasValue($params = array()) {
+    public function hasValue($params = array())
+    {
         return true;
     }
 
@@ -33,7 +34,8 @@ class JBCartElementPriceImage extends JBCartElementPrice
      * Get elements search data
      * @return null
      */
-    public function getSearchData() {
+    public function getSearchData()
+    {
         $value    = JString::trim($this->getValue());
         $isExists = !empty($value) && JFile::exists(JPATH_ROOT . '/' . $value);
 
@@ -47,11 +49,12 @@ class JBCartElementPriceImage extends JBCartElementPrice
     /**
      * @return mixed|null|string
      */
-    public function edit() {
+    public function edit()
+    {
         if ($layout = $this->getLayout('edit.php')) {
             $this->app->jbassets->media();
 
-            return self::renderLayout($layout);
+            return self::renderEditLayout($layout);
         }
 
         return null;
@@ -61,7 +64,8 @@ class JBCartElementPriceImage extends JBCartElementPrice
      * @param array $params
      * @return array|mixed|null|string
      */
-    public function render($params = array()) {
+    public function render($params = array())
+    {
         $unique = $this->unique($params);
 
         if ($layout = $this->getLayout()) {
@@ -80,7 +84,8 @@ class JBCartElementPriceImage extends JBCartElementPrice
      * @param null   $default
      * @return mixed|null
      */
-    public function getValue($key = 'value', $default = null) {
+    public function getValue($key = 'value', $default = null)
+    {
         $value = parent::getValue($key, $default);
 
         if (empty($value) && $this->config->get('image', null)) {
@@ -97,7 +102,8 @@ class JBCartElementPriceImage extends JBCartElementPrice
      * Get unique class
      * @return string
      */
-    public function unique() {
+    public function unique()
+    {
         $image  = $this->config->get('image');
         $unique = $this->getJBPrice()->layout() . '_' . $this->getJBPrice()->getItem()->id;
 
@@ -113,7 +119,8 @@ class JBCartElementPriceImage extends JBCartElementPrice
      * @param $params
      * @return JSONData|string
      */
-    public function getImage($image, $params = array()) {
+    public function getImage($image, $params = array())
+    {
         if (empty($image)) {
             return $image;
         }
@@ -153,7 +160,8 @@ class JBCartElementPriceImage extends JBCartElementPrice
      * Get params for widget
      * @return array
      */
-    public function interfaceParams() {
+    public function interfaceParams()
+    {
         $path = $this->getValue();
 
         return array(
@@ -166,7 +174,8 @@ class JBCartElementPriceImage extends JBCartElementPrice
      * Returns data when variant changes
      * @return null
      */
-    public function renderAjax() {
+    public function renderAjax()
+    {
         $path = $this->getValue();
 
         return $this->getImage($path);
@@ -176,7 +185,8 @@ class JBCartElementPriceImage extends JBCartElementPrice
      * Load elements css/js assets
      * @return $this
      */
-    public function loadAssets() {
+    public function loadAssets()
+    {
         $this->app->jbassets->js('cart-elements:price/image/assets/js/image.js');
 
         return parent::loadAssets();

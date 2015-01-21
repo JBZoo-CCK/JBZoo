@@ -49,19 +49,14 @@ class JBCartElementPriceBalance extends JBCartElementPrice
     }
 
     /**
-     * @param  array $params
-     *
      * @return mixed|null|string
      */
     public function edit($params = array())
     {
         if ($layout = $this->getLayout('edit.php')) {
-
             $this->app->jbassets->js('cart-elements:price/balance/assets/js/balance.js');
 
-            return self::renderLayout($layout, array(
-                'params' => $params
-            ));
+            return self::renderEditLayout($layout);
         }
 
         return null;

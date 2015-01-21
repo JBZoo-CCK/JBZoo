@@ -194,7 +194,7 @@ abstract class JBCartElementShipping extends JBCartElement
 
         $data->set('status', $this->getStatus());
         $data->set('name', $this->getName());
-        $data->set('rate', $this->getRate());
+        $data->set('rate', $this->getRate()->data(true));
 
         return $data;
     }
@@ -208,7 +208,7 @@ abstract class JBCartElementShipping extends JBCartElement
     public function validateSubmission($value, $params)
     {
         $this->bindData($value);
-        $value->set('rate', $this->getRate()->dump());
+        $value->set('rate', $this->getRate()->data(true));
 
         return $value;
     }

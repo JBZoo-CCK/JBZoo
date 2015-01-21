@@ -22,18 +22,19 @@ defined('_JEXEC') or die('Restricted access'); ?>
                 <table cellpadding="0" cellspacing="0" border="0" class="no-border">
                     <tr>
                         <td><?php echo JText::_('JBZOO_JBPRICE_PRICE_TOTAL'); ?>:</td>
-                        <td><span class="jsTotal total"><?php echo $prices['total']->html($currency); ?></span></td>
+                        <td><span class="jsTotal total"><?php echo $total->html($currency); ?></span></td>
                     </tr>
                 </table>
             <?php endif;
 
             if ($discount->isPositive()) : ?>
                 <table cellpadding="0" cellspacing="0" border="0" class="no-border">
+
                     <tr>
                         <td><?php echo JText::_('JBZOO_JBPRICE_PRICE_PRICE'); ?>:</td>
                         <td>
                             <span class="jsPrice price discount-less">
-                                <?php echo $prices['price']->html($currency); ?>
+                                <?php echo $price->html($currency); ?>
                             </span>
                         </td>
                     </tr>
@@ -41,7 +42,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
                         <td><?php echo JText::_('JBZOO_JBPRICE_PRICE_TOTAL'); ?>:</td>
                         <td>
                             <span class="jsTotal total discount-less">
-                                <?php echo $prices['total']->html($currency); ?>
+                                <?php echo $total->html($currency); ?>
                             </span>
                         </td>
                     </tr>
@@ -49,8 +50,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
                         <td><?php echo JText::_('JBZOO_JBPRICE_PRICE_SAVE'); ?>:</td>
                         <td>
                             <span class="save discount-less">
-                                <span class="jsSave"><?php echo $prices['save']->html($currency); ?></span>
-                                (<span class="discount"><?php echo $discount->html($currency); ?></span>)
+                                <span class="jsSave"><?php echo $save->html($currency); ?></span>
+                                (<span class="discount"><?php echo $total->percentage($price)->text($currency); ?></span>)
                             </span>
                         </td>
                     </tr>
@@ -61,13 +62,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <?php endif;
 
     if ($mode == JBCartElementPriceValue::PRICE_VIEW_PRICE) : ?>
-        <span class="jsPrice price"><?php echo $prices['price']->html($currency); ?></span>
+        <span class="jsPrice price"><?php echo $price->html($currency); ?></span>
     <?php endif;
 
     if ($mode == JBCartElementPriceValue::PRICE_VIEW_TOTAL) : ?>
         <span class="jbprice-price">
             <span class="jsTotal total">
-                <?php echo $prices['total']->html($currency); ?>
+                <?php echo $total->html($currency); ?>
             </span>
         </span>
     <?php endif;
@@ -81,9 +82,9 @@ defined('_JEXEC') or die('Restricted access'); ?>
         <?php endif;
     endif;
 
-    if ($mode == JBCartElementPriceValue::PRICE_VIEW_SAVE && $prices['save']->isPositive()) : ?>
+    if ($mode == JBCartElementPriceValue::PRICE_VIEW_SAVE && $save->isPositive()) : ?>
         <span class="jsSave discount">
-            <?php echo $prices['save']->html($currency); ?>
+            <?php echo $save->html($currency); ?>
         </span>
     <?php endif; ?>
 </div>

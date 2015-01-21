@@ -28,16 +28,24 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
     }
 
     /**
-     * @return mixed|null|string
+     * Get elements search data
+     * @return null
      */
-    public function edit()
+    public function getSearchData()
     {
-        if ($layout = $this->getLayout('edit.php')) {
-            return self::renderLayout($layout, array(
-                'currencyList' => $this->_jbmoney->getCurrencyList()
-            ));
+        if ($element = $this->getElement('_value')) {
+            return $element->getValue()->cur();
         }
 
+        return false;
+    }
+
+    /**
+     * @param array $params
+     * @return mixed|null|string
+     */
+    public function edit($params = array())
+    {
         return null;
     }
 

@@ -40,17 +40,16 @@ class JBCartElementPriceWeight extends JBCartElementPrice
     }
 
     /**
-     * Render element in ElementJBPriceAdvance
-     *
-     * @return bool|mixed|string
+     * @param array $params
+     * @return mixed|null|string
      */
-    public function edit()
+    public function edit($params = array())
     {
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderLayout($layout, array());
+            return self::renderEditLayout($layout);
         }
 
-        return false;
+        return null;
     }
 
     /**

@@ -64,7 +64,7 @@ class JBCartElementPriceDate extends JBCartElementPrice
     public function edit()
     {
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderLayout($layout, array());
+            return self::renderEditLayout($layout);
         }
 
         return null;

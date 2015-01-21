@@ -50,10 +50,10 @@ class JBCartElementPriceBool extends JBCartElementPrice
     /**
      * @return mixed|null|string
      */
-    public function edit()
+    public function edit($params = array())
     {
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderLayout($layout);
+            return self::renderEditLayout($layout);
         }
 
         return null;
@@ -66,7 +66,7 @@ class JBCartElementPriceBool extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $data   = array(
+        $data = array(
             JText::_('JBZOO_NO')  => JText::_('JBZOO_NO'),
             JText::_('JBZOO_YES') => JText::_('JBZOO_YES')
         );
