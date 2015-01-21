@@ -320,9 +320,8 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * @param string $template
      * @param int    $quantity
      * @param array  $values
-     * @param bool   $sendAjax
      */
-    abstract public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array(), $sendAjax = true);
+    abstract public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array());
 
     /**
      * Remove from cart method
@@ -500,19 +499,30 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
         $data = array();
         if (!empty($variations)) {
-            $list = $this->getVariantList($variations);
+            $elements = $this->_element->getSystemTmpl(JBCart::ELEMENT_TYPE_PRICE);
+            $list     = $this->getVariantList($variations);
 
             foreach ($list->all() as $key => $variant) {
                 $list->_default = $key;
 
-                foreach ($variant->getElements() as $id => $element) {
-                    $value = JString::trim($element->getSearchData());
+                $elements = array_merge((array)$variant->getElements(), (array)$elements);
+                foreach ($elements as $id => $element) {
+                    if ($element->isSystemTmpl()) {
+                        $element->setJBPrice($this);
+                        $element->config->set('_variant', $key);
+                    }
+                    $value = $element->getSearchData();
 
-                    if (JSTring::strlen($value) !== 0) {
-
-                        $n = $this->isNumeric($value) ? $value : null;
-                        $d = $this->isDate($value) ? $value : null;
-                        $s = $value;
+                    if (!empty($value)) {
+                        $d = $s = $n = null;
+                        if ($value instanceof JBCartValue) {
+                            $s = $value->cur();
+                            $n = $value->val();
+                        } elseif (JSTring::strlen($value) !== 0) {
+                            $s = $value;
+                            $n = $this->isNumeric($value) ? $value : null;
+                            $d = $this->isDate($value) ? $value : null;
+                        }
 
                         $data[$key . $id] = array(
                             'item_id'    => $item_id,
@@ -531,7 +541,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             $this->_list,
             $this->_params,
             $this->params);
-
 
         return $data;
     }
@@ -601,7 +610,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     /**
      * @param  string    $identifier elementID
      * @param int|string $variant    variant key
-     * @return bool|\JBCartElement|null
+     * @return \JBCartElementPrice|bool
      */
     public function getElement($identifier, $variant = self::BASIC_VARIANT)
     {
@@ -759,7 +768,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
             foreach ($variations as $i => $variant) {
                 foreach ($variant as $id => $value) {
-                    $element = $this->getElement($id);
+                    $element = $this->getElement($id, $i);
 
                     if (!$element->isCore()) {
                         $result['values'][$i][$id] = $value;
@@ -799,6 +808,8 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public function loadEditAssets()
     {
         $this->app->jbassets->admin();
+        $this->app->jbassets->less('elements:jbprice/assets/less/edit.less');
+
         $this->app->jbassets->js('elements:jbprice/assets/js/edit.js');
         if ((int)$this->config->get('mode', 1)) {
             $this->app->jbassets->js('jbassets:js/admin/validator.js');
