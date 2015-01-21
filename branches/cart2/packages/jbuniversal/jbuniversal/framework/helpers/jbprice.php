@@ -18,23 +18,6 @@ class JBPriceHelper extends AppHelper
     const ELEMENTS_CSV_GROUP = 'price';
 
     /**
-     * Get field type by value
-     *
-     * @param $value
-     * @return string
-     */
-    public function getFieldKey($value)
-    {
-        if ($this->isDate($value)) {
-            return 'd';
-        } elseif ($this->isNumeric($value)) {
-            return 'n';
-        }
-
-        return 's';
-    }
-
-    /**
      * Check if value seems as numeric
      *
      * @param $value
@@ -121,14 +104,32 @@ class JBPriceHelper extends AppHelper
     }
 
     /**
-     * Get element value
+     * Get field type by value
+     *
      * @param $value
+     * @return string
+     */
+    public function getFieldKey($value)
+    {
+        if ($this->isDate($value)) {
+            return 'd';
+        } elseif ($this->isNumeric($value)) {
+            return 'n';
+        }
+
+        return 's';
+    }
+
+    /**
+     * Get element value
+     * @param      $value
+     * @param bool $toString
      * @return bool|string
      */
-    public function getValue($value)
+    public function getValue($value, $toString = false)
     {
         if ($value instanceof JBCartValue) {
-            $value = $value->data();
+            $value = $value->data($toString);
 
         } elseif (is_string($value)) {
             $value = JString::trim($value);

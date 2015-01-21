@@ -90,7 +90,7 @@ class JBModelOrder extends JBModel
             $data['shipping'] = $shipping->data();
         }
 
-        if ($payment = $order->getShipping()) {
+        if ($payment = $order->getPayment()) {
             $data['payment'] = $payment->data();
         }
 

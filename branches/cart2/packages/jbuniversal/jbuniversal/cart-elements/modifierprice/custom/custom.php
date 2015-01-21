@@ -6,7 +6,7 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 // no direct access
@@ -23,38 +23,57 @@ class JBCartElementModifierPriceCustom extends JBCartElementModifierPrice
     const MODE_CATEGORIES = 'categories';
 
     /**
-     * @param JBCartValue $value
-     * @param \Item       $item
-     * @return \JBCartValue
+     * @param \JBCartValue $value
+     * @return mixed
      */
-    public function modify(JBCartValue $value, Item $item = null)
+    public function edit(JBCartValue &$value)
     {
-        $rate = $this->getRate();
-        if ($rate->isEmpty()) {
-            return $value;
+        if ($layout = $this->getLayout('edit.php')) {
+            $rate = $this->_order->val($this->get('rate', 0));
+            $value->add($rate);
+
+            return self::renderLayout($layout, array(
+                'rate'  => $rate,
+                'value' => $value
+            ));
         }
 
-        if ($this->isValid($item)) {
-            $value->add($this->getRate());
-        }
-
-        return $value;
+        return null;
     }
 
     /**
-     * @return JBCartValue
+     * @param JBCartValue   $value
+     * @param Item          $item
+     * @param JBCartVariant $variant
+     * @return \JBCartValue
      */
-    public function getRate()
+    public function modify(JBCartValue $value, $item = null, $variant = null)
     {
-        return $this->_order->val($this->config->get('value'));
+        $rate = $this->getRate($item, $variant);
+
+        return $value->add($rate);
+    }
+
+    /**
+     * @param Item          $item
+     * @param JBCartVariant $variant
+     * @return \JBCartValue
+     */
+    public function getRate($item = null, $variant = null)
+    {
+        if ($this->_isValid($item)) {
+            return $this->_order->val($this->config->get('value'));
+        }
+
+        return $this->_order->val();
     }
 
     /**
      * Check if item is valid to modify price
-     * @param Item|mixed $item
+     * @param Item $item
      * @return bool
      */
-    public function isValid(Item $item)
+    private function _isValid($item = null)
     {
         $config = $this->config;
         $mode   = $config->find('subject.mode') ? $config->find('subject.mode') : self::MODE_ALL;
@@ -73,7 +92,7 @@ class JBCartElementModifierPriceCustom extends JBCartElementModifierPrice
             }
 
         } elseif ($mode == self::MODE_TYPES) {
-            if ($config->find('subject.type') == $item->getType()->id) {
+            if ($config->find('subject.type') == $item->type) {
                 return true;
             }
 
