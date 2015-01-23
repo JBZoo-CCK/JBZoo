@@ -30,7 +30,7 @@ class JBCartElementOrderTextarea extends JBCartElementOrder
             'control.textarea',
             $this->getControlName('value'),
             $this->get('value', $this->config->get('default')),
-            'id="jbcart-' . $this->identifier . '"'
+            'id="' . $this->htmlId() . '"'
         );
     }
 

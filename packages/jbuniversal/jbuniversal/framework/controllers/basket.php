@@ -63,10 +63,11 @@ class BasketJBUniversalController extends JBUniversalController
      */
     function index()
     {
-        $this->formRenderer          = $this->app->jbrenderer->create('Order');
-        $this->shippingRenderer      = $this->app->jbrenderer->create('Shipping');
-        $this->paymentRenderer       = $this->app->jbrenderer->create('Payment');
-        $this->shippingFieldRenderer = $this->app->jbrenderer->create('ShippingFields');
+        $this->formRenderer               = $this->app->jbrenderer->create('Order');
+        $this->shippingRenderer           = $this->app->jbrenderer->create('Shipping');
+        $this->paymentRenderer            = $this->app->jbrenderer->create('Payment');
+        $this->shippingFieldRenderer      = $this->app->jbrenderer->create('ShippingFields');
+        $this->modifierOrderPriceRenderer = $this->app->jbrenderer->create('ModifierOrderPrice');
 
         $this->application = $this->app->zoo->getApplication();
         $this->template    = $this->application->getTemplate();
@@ -74,6 +75,7 @@ class BasketJBUniversalController extends JBUniversalController
         $this->shipping       = $this->app->jbshipping->getEnabled();
         $this->shippingFields = $this->app->jbshipping->getFields();
         $this->payment        = $this->app->jbpayment->getEnabled();
+        $this->modifierPrice  = $this->app->jbmodifierprice->getEnabled();
 
         $this->Itemid = $this->_jbrequest->get('Itemid');
         $this->order  = $this->cart->newOrder();
@@ -189,6 +191,7 @@ class BasketJBUniversalController extends JBUniversalController
 
             if ($this->_jbrequest->isPost()) {
                 try {
+
                     if ($payment->validatePaymentForm($this->_getRequest())) {
                         if ($payment && $paymentAction = $payment->actionPaymentForm()) {
 
@@ -200,6 +203,7 @@ class BasketJBUniversalController extends JBUniversalController
                             $this->setRedirect($paymentAction, JText::_($message));
                         }
                     }
+
                 } catch (AppValidatorException $e) {
                     $this->app->jbnotify->warning(JText::_($e->getMessage()));
                 }
@@ -242,7 +246,6 @@ class BasketJBUniversalController extends JBUniversalController
         $shipping = $this->app->jbrequest->get('shipping');
 
         $cart = JBCart::getInstance();
-
         $cart->setShipping($shipping);
 
         $this->app->jbajax->send(array('cart' => $cart->recount()));
@@ -265,15 +268,41 @@ class BasketJBUniversalController extends JBUniversalController
      */
     public function callElement()
     {
-        $element  = $this->app->request->getCmd('element', '');
-        $method   = $this->app->request->getCmd('method', '');
-        $args     = $this->app->request->getVar('args', array(), 'default', 'array');
-        $services = $this->app->data->create($this->app->jbshipping->getEnabled());
+        // get request
+        $group     = $this->app->request->getCmd('group', '');
+        $elementId = $this->app->request->getCmd('element', '');
+        $orderId   = $this->app->request->getInt('order_id', '');
+        $method    = $this->app->request->getCmd('method', '');
+        $args      = $this->app->request->getVar('args', array(), 'default', 'array');
 
-        // get element and execute callback method
-        if ($element = $services->get($element)) {
-            $element->callback($method, $args);
+        if ($orderId > 0) {
+            $order = JBModelOrder::model()->getById($orderId);
+        } else {
+            $order = JBCart::getInstance()->newOrder();
         }
+
+        if (empty($order)) {
+            return $this->app->error->raiseError(404, JText::_('Order not found'));
+        }
+
+        // get element
+        if ($group == JBCart::CONFIG_SHIPPINGS) { // custom init with session data
+            $element = $order->getShippingElement($elementId);
+        } elseif ($group == JBCart::CONFIG_MODIFIER_ORDER_PRICE) { // custom init with session data
+            $element = $order->getModifierOrderPriceElement($elementId);
+        } else {
+            $element = $order->getElement($elementId, $group);
+        }
+
+        if (empty($element)) {
+            return $this->app->error->raiseError(404, JText::_('Element not forund'));
+        }
+
+        if (!$element->canAccess($this->app->user->get())) {
+            return $this->app->error->raiseError(403, JText::_('Unable to access item'));
+        }
+
+        $element->callback($method, $args);
     }
 
     /**

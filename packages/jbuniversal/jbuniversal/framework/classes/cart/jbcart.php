@@ -12,49 +12,51 @@ class JBCart
     const NOTIFY_ORDER_STATUS  = 'order_status';
     const NOTIFY_ORDER_PAYMENT = 'order_payment';
 
-    const MODIFIER_ORDER = 'modifier_order';
-    const MODIFIER_ITEM  = 'modifier_item';
+    const MODIFIER_ITEM_PRICE  = 'modifieritemprice';
+    const MODIFIER_ORDER_PRICE = 'modifierorderprice';
 
     const STATUS_ORDER    = 'order';
     const STATUS_PAYMENT  = 'payment';
     const STATUS_SHIPPING = 'shipping';
 
-    const CONFIG_NOTIFICATION      = 'notification';
-    const CONFIG_MODIFIERS         = 'modifier';
-    const CONFIG_VALIDATORS        = 'validator';
-    const CONFIG_PAYMENTS          = 'payment';
-    const CONFIG_SHIPPINGS         = 'shipping';
-    const CONFIG_STATUS_EVENTS     = 'status_events';
-    const CONFIG_CURRENCIES        = 'currency';
-    const CONFIG_STATUSES          = 'status';
-    const CONFIG_EMAIL_TMPL        = 'email_tmpl';
-    const CONFIG_SHIPPINGFIELDS    = 'shippingfield';
-    const CONFIG_FIELDS            = 'field';
-    const CONFIG_FIELDS_TMPL       = 'field_tmpl';
-    const CONFIG_PRICE             = 'price';
-    const CONFIG_PRICE_TMPL        = 'price_tmpl';
-    const CONFIG_PRICE_TMPL_FILTER = 'price_tmpl_filter';
+    const CONFIG_NOTIFICATION         = 'notification';
+    const CONFIG_MODIFIER_ITEM        = 'modifieritem';
+    const CONFIG_MODIFIER_ITEM_PRICE  = 'modifieritemprice';
+    const CONFIG_MODIFIER_ORDER_PRICE = 'modifierorderprice';
+    const CONFIG_VALIDATORS           = 'validator';
+    const CONFIG_PAYMENTS             = 'payment';
+    const CONFIG_SHIPPINGS            = 'shipping';
+    const CONFIG_STATUS_EVENTS        = 'status_events';
+    const CONFIG_CURRENCIES           = 'currency';
+    const CONFIG_STATUSES             = 'status';
+    const CONFIG_EMAIL_TMPL           = 'email_tmpl';
+    const CONFIG_SHIPPINGFIELDS       = 'shippingfield';
+    const CONFIG_FIELDS               = 'field';
+    const CONFIG_FIELDS_TMPL          = 'field_tmpl';
+    const CONFIG_PRICE                = 'price';
+    const CONFIG_PRICE_TMPL           = 'price_tmpl';
+    const CONFIG_PRICE_TMPL_FILTER    = 'price_tmpl_filter';
 
-    const ELEMENT_TYPE_DEFAULT       = 'element';
-    const ELEMENT_TYPE_CURRENCY      = 'currency';
-    const ELEMENT_TYPE_SHIPPING      = 'shipping';
-    const ELEMENT_TYPE_SHIPPINGFIELD = 'shippingfield';
-    const ELEMENT_TYPE_MODIFIERITEM  = 'modifieritem';
-    const ELEMENT_TYPE_MODIFIERPRICE = 'modifierprice';
-    const ELEMENT_TYPE_MODIFIERS     = 'modifier';
-    const ELEMENT_TYPE_NOTIFICATION  = 'notification';
-    const ELEMENT_TYPE_ORDER         = 'order';
-    const ELEMENT_TYPE_EMAIL         = 'email';
-    const ELEMENT_TYPE_PAYMENT       = 'payment';
-    const ELEMENT_TYPE_PRICE         = 'price';
-    const ELEMENT_TYPE_STATUS        = 'status';
-    const ELEMENT_TYPE_VALIDATOR     = 'validator';
+    const ELEMENT_TYPE_DEFAULT              = 'element';
+    const ELEMENT_TYPE_CURRENCY             = 'currency';
+    const ELEMENT_TYPE_SHIPPING             = 'shipping';
+    const ELEMENT_TYPE_SHIPPINGFIELD        = 'shippingfield';
+    const ELEMENT_TYPE_MODIFIER_ITEM        = 'modifieritem';
+    const ELEMENT_TYPE_MODIFIER_ORDER_PRICE = 'modifierorderprice';
+    const ELEMENT_TYPE_MODIFIER_ITEM_PRICE  = 'modifieritemprice';
+    const ELEMENT_TYPE_NOTIFICATION         = 'notification';
+    const ELEMENT_TYPE_ORDER                = 'order';
+    const ELEMENT_TYPE_EMAIL                = 'email';
+    const ELEMENT_TYPE_PAYMENT              = 'payment';
+    const ELEMENT_TYPE_PRICE                = 'price';
+    const ELEMENT_TYPE_STATUS               = 'status';
+    const ELEMENT_TYPE_VALIDATOR            = 'validator';
 
     /**
      * @var string
      */
     protected $_sessionNamespace = 'jbcart';
-    protected $_namespace        = 'jbzoo';
+    protected $_namespace = 'jbzoo';
 
     /**
      * @var App
@@ -391,8 +393,20 @@ class JBCart
             }
         }
 
+        // modifiers
+        $modiferRes = array();
+        $elements   = $order->getModifiersOrderPrice();
+        if (!empty($elements)) {
+            foreach ($elements as $identifier => $modifier) {
+                $modiferRes['Modifier-' . $identifier] = array(
+                    'MoneyWrap' => $modifier->getRate()->data()
+                );
+            }
+        }
+
         // result
         $result = array(
+            'Modifier'      => $modiferRes,
             'CartTableRow'  => $itemsRes,
             'Shipping'      => $shippingRes,
             'TotalCount'    => $order->getTotalCount(),
@@ -418,9 +432,37 @@ class JBCart
         $session = $this->_getSession();
 
         $session['shipping']['_current'] = $id;
-        $session['shipping'][$id]        = $shipping;
+        $session['shipping'][$id]        = (array)$shipping;
 
         $this->_setSession('shipping', $session['shipping']);
+    }
+
+    /**
+     * @param $elementId
+     * @param $data
+     */
+    public function setModifier($elementId, $data)
+    {
+        $session = $this->_getSession();
+
+        $session['modifiers'][$elementId] = (array)$data;
+
+        $this->_setSession('modifiers', $session['modifiers']);
+    }
+
+    /**
+     * @param $elementId
+     * @return array
+     */
+    public function getModifier($elementId)
+    {
+        $session = $this->_getSession();
+
+        if (isset($session['modifiers']) && isset($session['modifiers'][$elementId])) {
+            return $session['modifiers'][$elementId];
+        }
+
+        return array();
     }
 
     /**

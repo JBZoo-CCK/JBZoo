@@ -46,7 +46,7 @@ abstract class JBCartElementShippingField extends JBCartElement
             'control.text',
             $this->getControlName('value'),
             $this->get('value', $this->config->get('default')),
-            'size="60" maxlength="255" id="jbcart-' . $this->identifier . '"'
+            'size="60" maxlength="255" id="' . $this->htmlId() . '"'
         );
     }
 

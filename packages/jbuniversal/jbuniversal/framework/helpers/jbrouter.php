@@ -127,20 +127,21 @@ class JBRouterHelper extends AppHelper
 
     /**
      * Element ajax call
-     * @param string $identifier
      * @param string $method
+     * @param array  $urlParams
      * @param array  $params
      * @return string
      */
-    public function elementOrder($identifier = null, $method = 'ajax', array $params = array())
+    public function elementOrder($method = 'ajax', array $urlParams = array(), array $params = array())
     {
         $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'callelement',
             'format'     => 'raw',
-            'element'    => $identifier,
-            'elm_id'     => $identifier,
+            'element'    => $urlParams['element'],
+            'group'      => $urlParams['group'],
+            'order_id'   => $urlParams['order_id'],
             'method'     => $method,
         );
 

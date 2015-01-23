@@ -92,23 +92,18 @@ class JBCartOrder
     public function __construct()
     {
         // get app instance
-        $this->app = App::getInstance('zoo');
-
-        // decorate data as object
-        $this->params = $this->app->parameter->create($this->params);
-
-        // decorate data as object
-        $this->_elements = $this->app->data->create($this->_elements);
-        $this->_items    = $this->app->data->create($this->_items);
-
+        $this->app     = App::getInstance('zoo');
         $this->_config = JBModelConfig::model()->getGroup('cart');
 
-        $this->_elements = $this->app->data->create(array(
-            JBCart::ELEMENT_TYPE_MODIFIERS     => $this->_loadCurrentModifiers(),
-            JBCart::ELEMENT_TYPE_ORDER         => array(),
-            JBCart::ELEMENT_TYPE_SHIPPINGFIELD => array(),
-            JBCart::ELEMENT_TYPE_VALIDATOR     => array(),
+        // decorate data as object
+        $this->params = $this->app->parameter->create(array(
+            JBCart::CONFIG_MODIFIER_ORDER_PRICE => $this->_config->find(JBCart::ELEMENT_TYPE_MODIFIER_ORDER_PRICE . '.' . JBCart::DEFAULT_POSITION, array()),
+            JBCart::CONFIG_MODIFIER_ITEM_PRICE  => $this->_config->find(JBCart::ELEMENT_TYPE_MODIFIER_ITEM_PRICE . '.' . JBCart::DEFAULT_POSITION, array()),
         ));
+
+        // decorate data as object
+        $this->_elements = $this->app->data->create(array());
+        $this->_items    = $this->app->data->create($this->_items);
     }
 
     /**
@@ -117,30 +112,6 @@ class JBCartOrder
     public function getName()
     {
         return sprintf('%06d', $this->id);
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function _loadCurrentModifiers()
-    {
-        $elementsGroups = $this->app->jbcartposition->loadPositions(JBCart::CONFIG_MODIFIERS);
-
-        $result = array();
-        foreach ($elementsGroups as $groupName => $elements) {
-
-            $this->params[$groupName] = array();
-
-            foreach ($elements as $element) {
-                $element->setOrder($this);
-                $orderdata = $element->getOrderData();
-
-                $result[$groupName][$element->identifier]       = $element;
-                $this->params[$groupName][$element->identifier] = $orderdata['config'];
-            }
-        }
-
-        return $result;
     }
 
     /**
@@ -184,17 +155,7 @@ class JBCartOrder
      */
     public function getTotalSum()
     {
-        $items = $this->getItems(false);
         $summa = $this->getTotalForSevices();
-
-        if (count($items) > 0) {
-            // get modifiers
-            $modifiers = $this->getModifiers(JBCart::MODIFIER_ORDER);
-            foreach ($modifiers as $modifier) {
-                $summa->addModify($modifier);
-            }
-        }
-
         return $summa;
     }
 
@@ -220,6 +181,14 @@ class JBCartOrder
 
         if ($devideByItem) {
             return $itemsSums;
+        }
+
+        if (count($items) > 0) {
+            // get modifiers
+            $modifiers = $this->getModifiersOrderPrice(JBCart::MODIFIER_ORDER_PRICE);
+            foreach ($modifiers as $modifier) {
+                $modifier->modify($summa);
+            }
         }
 
         return $summa;
@@ -342,6 +311,47 @@ class JBCartOrder
     }
 
     /**
+     * @return array
+     */
+    public function getModifiersOrderPrice()
+    {
+        if (!isset($this->_elements[JBCart::ELEMENT_TYPE_MODIFIER_ORDER_PRICE])) {
+
+            $elementConfigs = $this->params->get(JBCart::CONFIG_MODIFIER_ORDER_PRICE);
+
+            $elements = array();
+            if (!empty($elementConfigs)) {
+                foreach ($elementConfigs as $elementId => $elementConfig) {
+                    if ($modifierElement = $this->getModifierOrderPriceElement($elementId)) {
+                        $elements[$elementId] = $modifierElement;
+                    }
+                }
+            }
+
+            $this->_elements[JBCart::ELEMENT_TYPE_MODIFIER_ORDER_PRICE] = $elements;
+        }
+
+        return $this->_elements[JBCart::ELEMENT_TYPE_MODIFIER_ORDER_PRICE];
+    }
+
+    /**
+     * @return array
+     */
+    public function getModifiersItemPrice()
+    {
+        $elementConfigs = $this->params->get(JBCart::CONFIG_MODIFIER_ITEM_PRICE);
+
+        $elements = array();
+        if (!empty($elementConfigs)) {
+            foreach ($elementConfigs as $elementId => $elementConfig) {
+                $elements[$elementId] = $this->getModifierItemPriceElement($elementId);
+            }
+        }
+
+        return $elements;
+    }
+
+    /**
      * @param        $identifier
      * @param string $type
      * @return JBCartElement
@@ -364,6 +374,10 @@ class JBCartOrder
             $element = $this->app->jbcartelement->create($config['type'], $config['group'], $config);
             $element->setOrder($this);
 
+            if (!isset($this->_elements[$type])) {
+                $this->_elements[$type] = array();
+            }
+
             $this->_elements[$type][$identifier] = $element;
 
             return $this->_elements[$type][$identifier];
@@ -373,26 +387,27 @@ class JBCartOrder
     }
 
     /**
-     * @param string $type
-     * @return array
+     * @param $identifier
+     * @return JBCartElementModifierOrderPrice
      */
-    public function getModifiers($type = JBCart::MODIFIER_ORDER)
+    public function getModifierOrderPriceElement($identifier)
     {
-        $elements  = $this->_elements[JBCart::ELEMENT_TYPE_MODIFIERS];
-        $modifiers = isset($elements[$type]) ? $elements[$type] : array();
+        $modifierElement = $this->getElement($identifier, JBCart::CONFIG_MODIFIER_ORDER_PRICE);
+        if (!$this->id) {
+            $data = JBcart::getInstance()->getModifier($identifier);
+            $modifierElement->bindData($data);
+        }
 
-        return $modifiers;
+        return $modifierElement;
     }
 
     /**
-     * @return array
+     * @param $identifier
+     * @return JBCartElementModifierItemPrice
      */
-    public function getModifiersItemPrice()
+    public function getModifierItemPriceElement($identifier)
     {
-        $elements = $this->_elements[JBCart::ELEMENT_TYPE_MODIFIERS][JBCart::MODIFIER_ITEM];
-
-        return $elements;
-
+        return $this->getElement($identifier, JBCart::CONFIG_MODIFIER_ITEM_PRICE);
     }
 
     /**
@@ -402,29 +417,6 @@ class JBCartOrder
     public function getFieldElement($identifier)
     {
         return $this->getElement($identifier, JBCart::CONFIG_FIELDS);
-    }
-
-    /**
-     * @param $identifier
-     * @return JBCartElementOrder
-     */
-    public function getModifierItemPriceElement($identifier)
-    {
-        $elements = $this->_elements[JBCart::ELEMENT_TYPE_MODIFIERS][JBCart::MODIFIER_ITEM];
-
-        return isset($elements[$identifier]) ? $elements[$identifier] : null;
-
-        //return $this->getElement($identifier, JBCart::MODIFIER_ITEM);
-    }
-
-    /**
-     * @param $identifier
-     * @param $groupName
-     * @return JBCartElementModifierPrice
-     */
-    public function getModifierElement($identifier, $groupName)
-    {
-        return $this->getElement($identifier, $groupName);
     }
 
     /**
@@ -490,6 +482,12 @@ class JBCartOrder
             $errors += $this->_bindPayment($formData[JBCart::ELEMENT_TYPE_PAYMENT]);
         }
 
+        if (!isset($formData[JBCart::ELEMENT_TYPE_MODIFIER_ORDER_PRICE])) {
+            $formData[JBCart::ELEMENT_TYPE_MODIFIER_ORDER_PRICE] = array();
+        }
+
+        $params = $this->app->jbrenderer->create('ModifierOrderPrice')->getLayoutParams();
+        $errors += $this->_bindElements($formData[JBCart::ELEMENT_TYPE_MODIFIER_ORDER_PRICE], JBCart::CONFIG_MODIFIER_ORDER_PRICE, $params);
 
         return $errors;
     }
@@ -507,7 +505,9 @@ class JBCartOrder
         foreach ($elementsParams as $elementParam) {
 
             $identifier = $elementParam['identifier'];
-            $value      = isset($data[$identifier]) ? $this->app->data->create($data[$identifier]) : array();
+
+            $value = isset($data[$identifier]) ? $data[$identifier] : array();
+            $value = $this->app->data->create($value);
 
             try {
 
@@ -786,13 +786,11 @@ class JBCartOrder
     {
         $result = array();
 
-        if (isset($this->_elements[JBCart::ELEMENT_TYPE_MODIFIERS])) {
+        $elements = $this->getModifiersOrderPrice();
 
-            $elementsGroups = $this->_elements[JBCart::ELEMENT_TYPE_MODIFIERS];
-            foreach ($elementsGroups as $groupName => $elements) {
-                foreach ($elements as $element) {
-                    $result[$groupName][$element->identifier] = $element->data();
-                }
+        if (!empty($elements)) {
+            foreach ($elements as $element) {
+                $result[$element->identifier] = $element->data();
             }
         }
 
@@ -948,20 +946,15 @@ class JBCartOrder
         $dataFields = $this->app->data->create($dataFields);
 
         $elements = array();
-        foreach ($dataFields as $groupName => $items) {
-            foreach ($items as $identifier => $data) {
-
-                $data    = $this->app->data->create($data);
-                $element = $this->getModifierElement($identifier, $groupName);
-                $element->bindData($data);
-                $element->setOrder($this);
-                $element->identifier = $identifier;
-
-                $elements[$groupName][$identifier] = $element;
-            }
+        foreach ($dataFields as $identifier => $data) {
+            $element = $this->getModifierOrderPriceElement($identifier);
+            $element->bindData($data);
+            $element->setOrder($this);
+            $element->identifier   = $identifier;
+            $elements[$identifier] = $element;
         }
 
-        $this->_elements[JBCart::ELEMENT_TYPE_MODIFIERS] = $elements;
+        $this->_elements[JBCart::ELEMENT_TYPE_MODIFIER_ORDER_PRICE] = $elements;
     }
 
     /**

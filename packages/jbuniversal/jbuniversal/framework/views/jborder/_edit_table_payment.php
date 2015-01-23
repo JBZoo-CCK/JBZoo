@@ -12,6 +12,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+if (!$payment) {
+    return;
+}
+
 $this->sum->addModify($payment); ?>
 <tr>
     <td class="noborder-btm"></td>

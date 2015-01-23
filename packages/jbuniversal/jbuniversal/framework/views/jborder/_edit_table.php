@@ -14,14 +14,12 @@ defined('_JEXEC') or die('Restricted access');
 
 $emptyRow = '<tr class="empty-row"><td colspan="50"></td></tr>';
 
-$payment   = $order->getPayment();
-$shipping  = $order->getShipping();
-$modifiers = $order->getModifiers(JBCart::MODIFIER_ORDER);
+$payment  = $order->getPayment();
+$shipping = $order->getShipping();
 
 $this->sum   = $order->val();
 $this->count = 0;
 $currency    = $this->sum->cur(); ?>
-
 <h2>
     <?php echo JText::_('JBZOO_ORDER_ITEMS_LIST'); ?>
 </h2>
@@ -29,90 +27,65 @@ $currency    = $this->sum->cur(); ?>
 <table class="uk-table uk-table-condensed jborder-details-table">
     <thead>
     <tr>
-        <th class="col-image">
-            <?php echo JText::_('JBZOO_ORDER_ITEM_IMAGE'); ?>
-        </th>
-        <th class="col-name">
-            <?php echo JText::_('JBZOO_ORDER_ITEM_NAME'); ?>
-        </th>
-        <th class="col-item">
-            <?php echo JText::_('JBZOO_ORDER_PRICE_PER_ITEM'); ?>
-        </th>
-        <th class="col-quantity">
-            <?php echo JText::_('JBZOO_ORDER_ITEM_QUANTITY'); ?>
-        </th>
-        <th class="col-total">
-            <?php echo JText::_('JBZOO_ORDER_ITEM_TOTAL'); ?>
-        </th>
+        <th class="col-image">      <?php echo JText::_('JBZOO_ORDER_ITEM_IMAGE'); ?>      </th>
+        <th class="col-name">       <?php echo JText::_('JBZOO_ORDER_ITEM_NAME'); ?>       </th>
+        <th class="col-item">       <?php echo JText::_('JBZOO_ORDER_PRICE_PER_ITEM'); ?>  </th>
+        <th class="col-quantity">   <?php echo JText::_('JBZOO_ORDER_ITEM_QUANTITY'); ?>   </th>
+        <th class="col-total">      <?php echo JText::_('JBZOO_ORDER_ITEM_TOTAL'); ?>      </th>
     </tr>
     </thead>
 
     <tbody>
     <?php echo $this->partial('edit_table_tbody', array(
-        'order'     => $order,
-        'items'     => $order->getItems(),
-        'modifiers' => $order->getModifiers(JBCart::MODIFIER_ITEM),
-        'currency'  => $currency
+        'order'    => $order,
+        'items'    => $order->getItems(),
+        'currency' => $currency
     )); ?>
     </tbody>
 
     <tfoot>
-
     <?php if ($shipping || $payment || $modifiers) : ?>
         <tr>
             <td class="noborder-btm"></td>
-            <td colspan="2">
-                <p><?php echo JText::_('JBZOO_ORDER_SUBTOTAL'); ?></p>
-            </td>
-            <td class="align-right">
-                <p><?php echo $this->count; ?></p>
-            </td>
-            <td class="align-right subtotal-money">
-                <?php echo $this->sum->html(); ?>
-            </td>
+            <td colspan="2"><p><?php echo JText::_('JBZOO_ORDER_SUBTOTAL'); ?></p></td>
+            <td class="align-right"><p><?php echo $this->count; ?></p></td>
+            <td class="align-right subtotal-money"><?php echo $this->sum->html(); ?>
         </tr>
         <?php echo $emptyRow;
     endif;
 
-    if ($payment) :
-        echo $this->partial('edit_table_payment', array(
-            'payment'   => $order->getPayment(),
-            'currency'  => $currency
-        ));
-    endif;
+    echo $this->partial('edit_table_payment', array(
+        'order'    => $order,
+        'payment'  => $order->getPayment(),
+        'currency' => $currency
+    ));
 
-    if ($shipping) :
-        echo $this->partial('edit_table_shipping', array(
-            'shipping' => $order->getShipping(),
-            'currency' => $currency
-        ));
-    endif;
+    echo $this->partial('edit_table_shipping', array(
+        'order'    => $order,
+        'shipping' => $order->getShipping(),
+        'currency' => $currency
+    ));
 
     if ($shipping || $payment) : ?>
         <tr>
-            <td style="border-bottom: none;"></td>
-            <td colspan="3">
-                <p><?php echo JText::_('JBZOO_ORDER_SUBTOTAL'); ?></p>
-            </td>
-            <td class="align-right subtotal-money">
-                <?php echo $this->sum->html(); ?>
-            </td>
+            <td class="noborder-btm"></td>
+            <td colspan="3"><p><?php echo JText::_('JBZOO_ORDER_SUBTOTAL'); ?></p></td>
+            <td class="align-right subtotal-money"><?php echo $this->sum->html(); ?></td>
         </tr>
         <?php echo $emptyRow;
     endif;
 
-    if ($modifiers) :
-        echo $this->partial('edit_table_modifiers', array(
-            'modifiers' => $order->getModifiers(JBCart::MODIFIER_ORDER),
-            'currency'  => $currency
-        ));
-    endif; ?>
+    echo $this->partial('edit_table_modifiers', array(
+        'order'    => $order,
+        'currency' => $currency
+    ));
 
+    ?>
     <tr>
         <td colspan="2" class="noborder-btm"></td>
         <td class="total-name" colspan="2"><?php echo JText::_('JBZOO_ORDER_TOTALPRICE'); ?></td>
         <td class="total-value"><?php echo $this->sum->html(); ?></td>
     </tr>
-
     </tfoot>
+
 </table>

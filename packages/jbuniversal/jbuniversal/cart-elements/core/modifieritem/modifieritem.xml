@@ -8,4 +8,10 @@
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
+
+    <params>
+        <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
+               description="JBZOO_ELEMENT_ACCESS_DESC"/>
+    </params>
+
 </element>

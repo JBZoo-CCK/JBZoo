@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -86,10 +85,11 @@ $allItems = array(
             'payment' => array('payment', 'params' => array('icon' => 'credit-card')),
         ),
         'events'   => array(
-            'modifier'     => array('modifier', 'params' => array('icon' => 'cubes')),
-            'validator'    => array('validator', 'params' => array('icon' => 'cube')),
-            'notification' => array('notification', 'params' => array('icon' => 'envelope-o')),
-            'statusEvents' => array('statusEvents', 'params' => array('icon' => 'code-fork')),
+            'modifier_item_price'  => array('modifierItemPrice', 'params' => array('icon' => 'cubes')),
+            'modifier_order_price' => array('modifierOrderPrice', 'params' => array('icon' => 'cubes')),
+            'validator'            => array('validator', 'params' => array('icon' => 'cube')),
+            'notification'         => array('notification', 'params' => array('icon' => 'envelope-o')),
+            'statusEvents'         => array('statusEvents', 'params' => array('icon' => 'code-fork')),
         ),
         'others'   => array(
             'emailTmpl' => array('emailTmpl', 'params' => array('icon' => 'envelope-o')),

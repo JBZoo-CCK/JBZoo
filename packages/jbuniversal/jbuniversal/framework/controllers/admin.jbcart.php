@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -102,7 +101,7 @@ class JBCartJBUniversalController extends JBUniversalController
     {
         $this->groupList = $this->_element->getGroups(array(
             JBCart::ELEMENT_TYPE_NOTIFICATION,
-            JBCart::ELEMENT_TYPE_MODIFIERITEM
+            JBCart::ELEMENT_TYPE_MODIFIER_ITEM
         ));
 
         $this->positions =
@@ -114,17 +113,34 @@ class JBCartJBUniversalController extends JBUniversalController
     /**
      * Modifier list action
      */
-    public function modifier()
+    public function modifierItemPrice()
     {
         $this->groupList = $this->_element->getGroups(array(
-            JBCart::ELEMENT_TYPE_MODIFIERPRICE
-        ));
-        $this->positions = $this->_position->loadPositions(JBCart::CONFIG_MODIFIERS, array(
-            JBCart::MODIFIER_ORDER,
-            JBCart::MODIFIER_ITEM,
+            JBCart::ELEMENT_TYPE_MODIFIER_ITEM_PRICE
         ));
 
-        $this->groupKey = JBCart::CONFIG_MODIFIERS;
+        $this->positions = $this->_position->loadPositions(JBCart::CONFIG_MODIFIER_ITEM_PRICE, array(
+            JBCart::DEFAULT_POSITION
+        ));
+
+        $this->groupKey = JBCart::CONFIG_MODIFIER_ITEM_PRICE;
+        $this->renderView();
+    }
+
+    /**
+     * Modifier list action
+     */
+    public function modifierOrderPrice()
+    {
+        $this->groupList = $this->_element->getGroups(array(
+            JBCart::ELEMENT_TYPE_MODIFIER_ORDER_PRICE
+        ));
+
+        $this->positions = $this->_position->loadPositions(JBCart::CONFIG_MODIFIER_ORDER_PRICE, array(
+            JBCart::DEFAULT_POSITION
+        ));
+
+        $this->groupKey = JBCart::CONFIG_MODIFIER_ORDER_PRICE;
         $this->renderView();
     }
 
@@ -189,8 +205,8 @@ class JBCartJBUniversalController extends JBUniversalController
     {
         $this->groupList = $this->_element->getGroups(array(
             JBCart::ELEMENT_TYPE_NOTIFICATION,
-            JBCart::ELEMENT_TYPE_MODIFIERPRICE,
-            JBCart::ELEMENT_TYPE_MODIFIERITEM
+            JBCart::ELEMENT_TYPE_MODIFIER_ITEM_PRICE,
+            JBCart::ELEMENT_TYPE_MODIFIER_ITEM
         ));
 
         $jbstatus = $this->app->jbcartstatus;

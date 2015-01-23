@@ -12,6 +12,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+if (!$shipping) {
+    return;
+}
+
 $this->sum->addModify($shipping); ?>
 <tr>
     <td class="noborder-btm"></td>

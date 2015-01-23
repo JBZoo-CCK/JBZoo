@@ -36,7 +36,7 @@ class JBCartElementShippingFieldTextarea extends JBCartElementShippingField
             'control.textarea',
             $this->getControlName('value'),
             $this->get('value', $this->config->get('default')),
-            'size="60" maxlength="255" class="shippingfield-textarea" id="jbcart-' . $this->identifier . '"'
+            'size="60" maxlength="255" class="shippingfield-textarea" id="' . $this->htmlId() . '"'
         );
     }
 
