@@ -311,7 +311,12 @@ a.jbajaxlink:hover {
 .jbzoo .uk-table th,
 .jbzoo .uk-table td {
     padding: 8px;
-    border-bottom: 1px solid #E5E5E5;
+    /* border-bottom: 1px solid #E5E5E5; a lot of bugs! */
+}
+
+.jbzoo .uk-table tr:hover,
+.jbzoo .uk-table tr:hover td {
+    background: #f7f7f7;
 }
 
 .jbzoo .uk-grid em {
