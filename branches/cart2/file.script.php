@@ -56,7 +56,7 @@ class pkg_jbzooInstallerScript
 
         // check installed Zoo
         if (!JFolder::exists(JPATH_ROOT . '/components/com_zoo')) {
-            $messages[] = 'Please, first of all, you need to install <a href="http://www.yootheme.com/zoo" target="_blank">YOOtheme Zoo (free)</a>. Arter this, please, try again.';
+            $messages[] = 'Please, first of all, you need to install <a href="http://www.yootheme.com/zoo" target="_blank">YOOtheme Zoo (free)</a>. After this, please, try again.';
         }
 
         // no auto update!
