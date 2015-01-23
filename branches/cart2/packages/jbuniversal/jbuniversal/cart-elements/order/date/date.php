@@ -53,7 +53,7 @@ class JBCartElementOrderDate extends JBCartElementOrder
     {
         $name  = $this->getControlName('value');
         $attrs = array('class' => 'calendar-element');
-        $id    = 'jbcart-' . $this->identifier;
+        $id    = $this->htmlId();
         $value = $this->get('value', $this->config->get('default'));
 
         $this->app->jbassets->calendar();

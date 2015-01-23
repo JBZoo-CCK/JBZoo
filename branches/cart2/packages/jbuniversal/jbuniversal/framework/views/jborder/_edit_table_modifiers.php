@@ -12,36 +12,32 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$i = 0;
-foreach ($modifiers as $modifier) :
-    $i++;
-    $this->sum->addModify($modifier);
-    if ($i == 1) : ?>
-        <tr>
-            <td rowspan="<?php echo count($modifiers); ?>" class="noborder-btm"></td>
-            <td rowspan="<?php echo count($modifiers); ?>">
-                <strong><?php echo JText::_('JBZOO_ORDER_MODIFIERS_OTHER'); ?></strong><br>
-                <i>(<?php echo JText::_('JBZOO_ORDER_MODIFIERS_OTHER_ELEMENTS'); ?>)</i>
-            </td>
-            <td>
-                <?php echo $modifier->getName(); ?>
-            </td>
-            <td class="align-right">
-                <?php echo $modifier->getRate()->htmlAdv($currency, true); ?>
-            </td>
-            <td class="align-right">
-                <?php echo $this->sum->html(); ?>
-            </td>
-        </tr>
-    <?php else : ?>
-        <tr>
-            <td><?php echo $modifier->getName(); ?></td>
-            <td class="align-right">
-                <?php echo $modifier->getRate()->htmlAdv($currency, true); ?>
-            </td>
-            <td class="align-right">
-                <?php echo $this->sum->html(); ?>
-            </td>
-        </tr>
-    <?php endif;
-endforeach;
+$modifiers = $order->getModifiersOrderPrice();
+
+if (!empty($modifiers)) {
+    $i = 0;
+    foreach ($modifiers as $modifier) {
+        $i++;
+        $this->sum->add($modifier->get('rate'));
+        ?>
+        <?php if ($i == 1) { ?>
+            <tr>
+                <td rowspan="<?php echo count($modifiers); ?>" class="noborder-btm"></td>
+                <td rowspan="<?php echo count($modifiers); ?>">
+                    <strong><?php echo JText::_('JBZOO_ORDER_MODIFIERS_OTHER'); ?></strong><br>
+                    <i>(<?php echo JText::_('JBZOO_ORDER_MODIFIERS_OTHER_ELEMENTS'); ?>)</i>
+                </td>
+                <td><?php echo $modifier->getName(); ?></td>
+                <td class="align-right"><?php echo $modifier->edit(); ?></td>
+                <td class="align-right"><?php echo $this->sum->html(); ?></td>
+            </tr>
+        <?php } else { ?>
+            <tr>
+                <td><?php echo $modifier->getName(); ?></td>
+                <td class="align-right"><?php echo $modifier->edit(); ?></td>
+                <td class="align-right"><?php echo $this->sum->html(); ?></td>
+            </tr>
+        <?php
+        }
+    }
+}

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -24,19 +23,20 @@ class JBCartElementHelper extends AppHelper
      * @var array
      */
     protected $_coreElements = array(
-        'JBCartElement'              => 'cart-elements:core/element/element.php',
-        'JBCartElementCurrency'      => 'cart-elements:core/currency/currency.php',
-        'JBCartElementEmail'         => 'cart-elements:core/email/email.php',
-        'JBCartElementShipping'      => 'cart-elements:core/shipping/shipping.php',
-        'JBCartElementShippingField' => 'cart-elements:core/shippingfield/shippingfield.php',
-        'JBCartElementModifierItem'  => 'cart-elements:core/modifieritem/modifieritem.php',
-        'JBCartElementModifierPrice' => 'cart-elements:core/modifierprice/modifierprice.php',
-        'JBCartElementNotification'  => 'cart-elements:core/notification/notification.php',
-        'JBCartElementOrder'         => 'cart-elements:core/order/order.php',
-        'JBCartElementPayment'       => 'cart-elements:core/payment/payment.php',
-        'JBCartElementPrice'         => 'cart-elements:core/price/price.php',
-        'JBCartElementStatus'        => 'cart-elements:core/status/status.php',
-        'JBCartElementValidator'     => 'cart-elements:core/validator/validator.php',
+        'JBCartElement'                   => 'cart-elements:core/element/element.php',
+        'JBCartElementCurrency'           => 'cart-elements:core/currency/currency.php',
+        'JBCartElementEmail'              => 'cart-elements:core/email/email.php',
+        'JBCartElementShipping'           => 'cart-elements:core/shipping/shipping.php',
+        'JBCartElementShippingField'      => 'cart-elements:core/shippingfield/shippingfield.php',
+        'JBCartElementModifierItem'       => 'cart-elements:core/modifieritem/modifieritem.php',
+        'JBCartElementModifierItemPrice'  => 'cart-elements:core/modifieritemprice/modifieritemprice.php',
+        'JBCartElementModifierOrderPrice' => 'cart-elements:core/modifierorderprice/modifierorderprice.php',
+        'JBCartElementNotification'       => 'cart-elements:core/notification/notification.php',
+        'JBCartElementOrder'              => 'cart-elements:core/order/order.php',
+        'JBCartElementPayment'            => 'cart-elements:core/payment/payment.php',
+        'JBCartElementPrice'              => 'cart-elements:core/price/price.php',
+        'JBCartElementStatus'             => 'cart-elements:core/status/status.php',
+        'JBCartElementValidator'          => 'cart-elements:core/validator/validator.php',
     );
 
     /**
@@ -198,5 +198,28 @@ class JBCartElementHelper extends AppHelper
 
         return $element;
     }
+
+    /**
+     * HACK
+     * @param       $elementId
+     * @param       $priceId
+     * @param array $data
+     * @return JBCartElement
+     */
+    public function getPriceParamElement($elementId, $priceId, $data = array())
+    {
+        $priceElements = JBModelConfig::model()->get(JBCart::DEFAULT_POSITION, array(), 'cart.' . JBCart::CONFIG_PRICE . '.' . $priceId);
+        $priceElements = $this->app->data->create($priceElements);
+        $paramConfig   = $priceElements->get($elementId);
+
+        $element = $this->create($paramConfig['type'], $paramConfig['group'], $paramConfig);
+
+        if (!empty($data)) {
+            $element->bindData($data);
+        }
+
+        return $element;
+    }
+
 }
 

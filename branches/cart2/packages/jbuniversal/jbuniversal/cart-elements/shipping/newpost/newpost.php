@@ -260,7 +260,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      */
     protected function _getAjaxLocationsUrl()
     {
-        return $this->app->jbrouter->elementOrder($this->identifier, 'ajaxLocations');
+        return $this->getAjaxUrl('ajaxLocations');
     }
 
 }

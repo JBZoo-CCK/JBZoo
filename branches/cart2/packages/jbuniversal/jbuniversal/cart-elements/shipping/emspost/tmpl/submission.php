@@ -35,7 +35,7 @@ $locTypes = array('russia', 'countries', 'regions', 'cities');
 <script type="text/javascript">
     jQuery(function ($) {
         $('#<?php echo $uiqueId;?>').JBZooShippingTypeEms(<?php echo json_encode(array(
-            'url_price' => $this->app->jbrouter->elementOrder($this->identifier, 'ajaxGetPrice'),
+            'url_price' => $this->getAjaxUrl('ajaxGetPrice'),
             'text_free' => JText::_('JBZOO_FREE')
         ));?>);
     });
