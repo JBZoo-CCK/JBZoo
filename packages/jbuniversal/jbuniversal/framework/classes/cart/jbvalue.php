@@ -603,10 +603,6 @@ class JBCartValue
         $valueStr     = number_format(abs($roundedValue), $format['num_decimals'], $format['decimal_sep'], $format['thousands_sep']);
         $moneyFormat  = ($isPositive) ? $format['format_positive'] : $format['format_negative'];
 
-        if ($isPositive && $showPlus) {
-            $valueStr = '+' . $valueStr;
-        }
-
         // output with styles
         $result = null;
         if (self::STYLE_NONE == $style) {
@@ -614,9 +610,15 @@ class JBCartValue
 
         } elseif (self::STYLE_PLAIN == $style) {
             $result = $valueStr;
+            if ($isPositive && $showPlus) {
+                $result = '+' . $result;
+            }
 
         } elseif (self::STYLE_TEXT == $style) {
             $result = JString::str_ireplace(array('%s', '%v'), array($format['symbol'], $valueStr), $moneyFormat);
+            if ($isPositive && $showPlus) {
+                $result = '+' . $result;
+            }
 
         } elseif (self::STYLE_HTML == $style) {
             $result = JString::str_ireplace(array('%s', '%v'), array(
@@ -628,7 +630,12 @@ class JBCartValue
                 'class'         => 'jsMoney jbcartvalue',
                 'data-value'    => $this->_value,
                 'data-currency' => $this->_currency,
+                'data-showplus' => (int)$showPlus,
             ), false);
+
+            if ($isPositive && $showPlus) {
+                $result = '+' . $result;
+            }
 
             $result = '<span ' . $attrs . ">\n" . $result . '</span>';
         }
