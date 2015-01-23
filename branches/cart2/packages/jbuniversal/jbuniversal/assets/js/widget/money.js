@@ -45,10 +45,12 @@
             // currenct money data
             'currency'     : 'eur',
             'value'        : .0,
+            'showplus'     : 0,
 
             init: function ($this) {
                 $this.currency = this._cleanCur(this.data('currency'));
                 $this.value = JBZoo.float(this.data('value'));
+                $this.showplus = this.data('showplus');
             },
 
             /**
@@ -130,6 +132,10 @@
                 formated = template
                     .replace('%v', '<span class="jbcurrency-value">' + formated + '</span>')
                     .replace('%s', '<span class="jbcurrency-symbol">' + format.symbol + '</span>');
+
+                if ($this.showplus) {
+                    formated = '+' + formated;
+                }
 
                 this.el.html(formated);
             },
