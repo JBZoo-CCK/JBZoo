@@ -143,8 +143,7 @@ $formId = 'jbzoo-filter-' . $itemLayout . '-' . $module->id;?>
             System required fields
         -->
         <input type="hidden" name="controller" value="search"/>
-        <input type="hidden" name="Itemid"
-               value="<?php echo $params->get('menuitem', $zoo->jbrequest->get('Itemid')); ?>"/>
+        <input type="hidden" name="Itemid" value="<?php echo $params->get('menuitem', $zoo->jbrequest->get('Itemid')); ?>"/>
         <input type="hidden" name="option" value="com_zoo"/>
         <input type="hidden" name="task" value="filter"/>
         <input type="hidden" name="exact" value="<?php echo $params->get('exact', 0); ?>"/>
