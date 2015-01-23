@@ -105,7 +105,7 @@ $order = JBCart::getInstance()->newOrder();
             </td>
             <td class="jbcart-price jsPrice"><?php echo $price->html(); ?></td>
             <td class="jbcart-quantity"><?php echo $jbhtml->quantity($quantity, $data->find('params._quantity', array())); ?></td>
-            <td class="jbcart-subtotal jsSubtotal jsPrice-<?php echo $itemKey;?>">
+            <td class="jbcart-subtotal jsSubtotal jsPrice-<?php echo $itemKey; ?>">
                 <?php echo $price->multiply($quantity, true)->html(); ?>
             </td>
             <td class="jbcart-delete"><a class="jbbutton orange round jsDelete">x</a></td>
@@ -113,6 +113,13 @@ $order = JBCart::getInstance()->newOrder();
     <?php } // endforeach ?>
     </tbody>
     <tfoot>
+
+    <?php
+    if (!empty($view->items) && !empty($view->modifierPrice)) {
+        $this->app->jbassets->less('jbassets:less/cart/modifier.less');
+        echo $view->modifierOrderPriceRenderer->render('modifier.default', array('order' => $view->order));
+    } ?>
+
     <tr class="jbcart-row-total">
         <td colspan="3">
             <div>
