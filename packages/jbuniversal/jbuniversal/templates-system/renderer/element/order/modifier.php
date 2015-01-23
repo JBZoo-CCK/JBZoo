@@ -12,12 +12,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$description = $element->config->get('description');
-$params      = $this->app->data->create($params);
+
+$params = $this->app->data->create($params);
 
 // add tooltip
 $tooltip = '';
-if ($params->get('show_tooltip') && ($description)) {
+if ($params->get('show_tooltip') && ($description = $element->config->get('description'))) {
     $tooltip = ' class="hasTip" title="' . $description . '"';
 }
 
@@ -25,13 +25,14 @@ if ($params->get('show_tooltip') && ($description)) {
 $error   = '';
 $isError = isset($element->error) && !empty($element->error);
 if ($isError) {
-    $error = '<p class="jbcart-form-error">' . (string)$element->error . '</p>';
+    $error = '<p class="jbcart-modifier-error">' . (string)$element->error . '</p>';
 }
 
 // create class attribute
 $classes = array_filter(array(
-    'jbcart-form-row',
-    'jbcart-form-' . $element->getElementType(),
+    'jsModifier',
+    'jbcart-modifier-row',
+    'jbcart-modifier-' . $element->getElementType(),
     $params->get('first') ? 'first' : '',
     $params->get('last') ? 'last' : '',
     $params->get('required') ? 'required' : '',
@@ -43,21 +44,23 @@ $element->loadAssets();
 $label = $params->get('altlabel') ? $params->get('altlabel') : $element->config->get('name');
 $label = $params->get('required') ? ($label . ' <span class="required-dot">*</span>') : $label;
 
+$uniqId = $element->htmlId();
+
 ?>
+<tr class="<?php echo implode(' ', $classes); ?>">
 
-<div class="<?php echo implode(' ', $classes); ?>">
+    <td></td>
 
-    <label class="jbcart-form-label" for="<?php echo $element->htmlId(); ?>">
-        <?php echo $label; ?>
-    </label>
+    <td colspan="2" class="jbcart-modifier-label">
+        <label for="<?php echo $uniqId; ?>"><?php echo $label; ?></label>
+        <?php if ($description = $element->config->get('description')) : ?>
+            <p class="jbcart-modifier-desc"><?php echo JText::_($description); ?> </p>
+        <?php endif; ?>
+    </td>
 
-    <div class="jbcart-form-control">
+    <td class="jbcart-modifier-element jsModifier-<?php echo $element->identifier; ?>" colspan="3">
         <?php echo $element->renderSubmission($params); ?>
         <?php echo $error; ?>
-    </div>
+    </td>
 
-    <div class="jbcart-form-desc">
-        <?php echo $description; ?>
-    </div>
-
-</div>
+</tr>

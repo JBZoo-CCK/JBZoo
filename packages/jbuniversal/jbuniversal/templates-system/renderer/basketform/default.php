@@ -16,9 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 if ($this->checkPosition('fields')) : ?>
 
     <div class="jbcart-form clearfix">
-
         <?php echo $this->renderPosition('fields', array('style' => 'order.block')); ?>
-
     </div>
 
 <?php endif;

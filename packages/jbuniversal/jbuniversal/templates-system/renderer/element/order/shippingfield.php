@@ -45,7 +45,7 @@ $element->loadAssets();
 $label = $params->get('altlabel') ? $params->get('altlabel') : $element->config->get('name');
 $label = $params->get('required') ? ($label . ' <span class="required-dot">*</span>') : $label;
 
-$uniqId = 'jbcart-' . $element->identifier;
+$uniqId = $element->htmlId();
 
 ?>
 <div class="<?php echo implode(' ', $classes); ?>">

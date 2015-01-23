@@ -35,7 +35,7 @@ $classes = array_filter(array(
 
 $element->loadAssets();
 $label  = $params->get('altlabel') ? $params->get('altlabel') : $element->config->get('name');
-$uniqId = 'jbcart-' . $element->identifier;
+$uniqId = $element->htmlId();
 
 ?>
 
@@ -56,7 +56,9 @@ $uniqId = 'jbcart-' . $element->identifier;
 
     <div class="jbcart-radio-label jbcart-shipping-wrapper">
 
-        <div class="jbcart-radio"></div>
+        <label for="<?php echo $uniqId; ?>">
+            <div class="jbcart-radio"></div>
+        </label>
 
         <label class="jbcart-shipping-name" for="<?php echo $uniqId; ?>">
             <?php echo $label; ?>

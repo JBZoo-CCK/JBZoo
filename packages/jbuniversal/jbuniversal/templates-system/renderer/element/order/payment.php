@@ -37,7 +37,7 @@ $classes = array_filter(array(
 
 $element->loadAssets();
 
-$paymentId = 'jbcart-' . $element->identifier;
+$paymentId = $element->htmlId();
 ?>
 <div class="<?php echo implode(' ', $classes); ?>">
 
