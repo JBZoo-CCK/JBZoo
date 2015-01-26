@@ -18,10 +18,12 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementModifierItemPriceMultiply extends JBCartElementModifierItemPrice
 {
     /**
+     * /**
      * @param \JBCartValue $value
+     * @param  array       $data
      * @return mixed
      */
-    public function edit(JBCartValue &$value)
+    public function edit(JBCartValue &$value, $data = array())
     {
         if ($layout = $this->getLayout('edit.php')) {
             $this->modify($value);
@@ -36,25 +38,29 @@ class JBCartElementModifierItemPriceMultiply extends JBCartElementModifierItemPr
     }
 
     /**
-     * @param JBCartValue   $value
-     * @param Item          $item
-     * @param JBCartVariant $variant
+     * @param JBCartValue    $value
+     * @param ElementJBPrice $jbPrice
+     * @param array          $session_data
      * @return \JBCartValue
      */
-    public function modify(JBCartValue $value, $item = null, $variant = null)
+    public function modify(JBCartValue $value, $jbPrice = null, $session_data = null)
     {
-        $rate = (float)$this->getRate($item, $variant)->val();
+        $rate = (float)$this->getRate($jbPrice, $session_data)->val();
 
         return $value->multiply($rate);
     }
 
     /**
-     * @param Item          $item
-     * @param JBCartVariant $variant
+     * @param ElementJBPrice $jbPrice
+     * @param array          $session_data
      * @return \JBCartValue
      */
-    public function getRate($item = null, $variant = null)
+    public function getRate($jbPrice = null, $session_data = null)
     {
-        return $this->_order->val($this->config->get('value'));
+        if ($this->_isValid($jbPrice->getItem())) {
+            return $this->_order->val($this->config->get('value'));
+        }
+
+        return $this->_order->val();
     }
 }

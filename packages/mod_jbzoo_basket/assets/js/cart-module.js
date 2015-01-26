@@ -19,10 +19,10 @@
     }, {
 
         'click .jsEmptyCart': function (e, $this) {
-
             $this.ajax({
                 url    : $this.options.url_clean,
                 success: function () {
+                    $this._trigger('emptyCart');
                     $this.reload();
                 }
             });
@@ -32,7 +32,6 @@
 
         reload: function () {
             var $this = this;
-
             $this.ajax({
                 url     : $this.options.url_reload,
                 dataType: 'html',

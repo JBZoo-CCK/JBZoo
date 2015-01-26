@@ -585,7 +585,7 @@ abstract class JBCartElement
     {
         return $this->app->data->create(array(
             'data'   => $this->data(),
-            'config' => $this->config->getArrayCopy(),
+            'config' => (array)$this->config,
         ));
     }
 

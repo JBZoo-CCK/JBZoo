@@ -9,7 +9,7 @@
  * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
-(function ($) {
+jQuery(function ($) {
     $.fn.Directories = function (options) {
         var args = arguments,
             method = args[0] ? args[0] : null,
@@ -46,9 +46,9 @@
     }
 
     $('.jsAssignElements').on('element.added', function ($place) {
-        console.log($place);
+
     });
-})(jQuery);
+});
 
 
 

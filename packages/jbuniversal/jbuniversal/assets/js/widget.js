@@ -230,7 +230,12 @@
                         if (selector == parentSelector) {
                             return $(this.el).on(eventName, eventCallback);
 
+                        } if(selector.indexOf('{document} ') == 0) {
+                            selector = selector.replace('{document} ', '');
+                            return $(selector).on(eventName, eventCallback);
+
                         } else {
+
                             return $(this.el)
                                 .on(eventName, selector, eventCallback)
                                 .find(selector);
