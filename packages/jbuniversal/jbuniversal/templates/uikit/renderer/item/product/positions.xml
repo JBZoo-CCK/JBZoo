@@ -25,6 +25,8 @@
         <position name="price">Price</position>
         <position name="anons">Anons</position>
 
+        <position name="links">Links</position>
+
         <position name="tab-text">Tab: text</position>
         <position name="tab-gallery">Tab: gallery</position>
         <position name="tab-properties">Tab: properties</position>
