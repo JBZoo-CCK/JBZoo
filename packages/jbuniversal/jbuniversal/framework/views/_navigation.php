@@ -69,9 +69,9 @@ $allItems = array(
             'currency' => array('currency', 'params' => array('icon' => 'eur')),
         ),
         'price'    => array(
-            'price'             => array('price', 'params' => array('icon' => 'money')),
-            'jbpriceTmpl'       => array('jbpriceTmpl', 'params' => array('icon' => 'columns')),
-            'jbpriceFilterTmpl' => array('jbpriceFilterTmpl', 'params' => array('icon' => 'filter')),
+            'price'           => array('price', 'params' => array('icon' => 'money')),
+            'jbpriceTmpl'       => array('priceTmpl', 'params' => array('icon' => 'columns')),
+            'jbpriceFilterTmpl' => array('priceFilterTmpl', 'params' => array('icon' => 'filter')),
         ),
         'order'    => array(
             'fields'   => array('fields', 'params' => array('icon' => 'check-square-o')),
