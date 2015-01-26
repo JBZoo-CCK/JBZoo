@@ -28,17 +28,23 @@ echo $this->renderPosition('rating', array('style' => 'jbblock', 'class' => 'uk-
 
     <div class="uk-grid block-divider" data-uk-grid-margin>
         <?php if ($this->checkPosition('image')) : ?>
-            <div class="uk-width-medium-1-2 item-image">
+            <div class="uk-width-medium-3-10 item-image">
                 <?php echo $this->renderPosition('image'); ?>
             </div>
         <?php endif; ?>
 
         <?php if ($this->checkPosition('price')) : ?>
-            <div class="uk-width-medium-1-2 item-price-position">
+            <div class="uk-width-medium-7-10 item-price-position">
                 <?php echo $this->renderPosition('price'); ?>
             </div>
         <?php endif; ?>
     </div>
+
+    <?php if ($this->checkPosition('links')) : ?>
+        <div class="item-links">
+            <?php echo $this->renderPosition('links', array('style' => 'pipe')); ?>
+        </div>
+    <?php endif; ?>
 
     <?php if ($this->checkPosition('anons')) : ?>
         <div class="item-anons">
