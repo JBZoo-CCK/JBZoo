@@ -194,6 +194,7 @@ class JBCartJBUniversalController extends JBUniversalController
      */
     public function price()
     {
+        $this->app->jbtables->checkSku(true);
         $this->groupList   = $this->_element->getGroups(array(JBCart::ELEMENT_TYPE_PRICE));
         $this->elementList = $this->app->jbprice->getPricesList();
 
