@@ -948,10 +948,12 @@ class JBCartOrder
         $elements = array();
         foreach ($dataFields as $identifier => $data) {
             $element = $this->getModifierOrderPriceElement($identifier);
-            $element->bindData($data);
-            $element->setOrder($this);
-            $element->identifier   = $identifier;
-            $elements[$identifier] = $element;
+            if ($element) {
+                $element->bindData($data);
+                $element->setOrder($this);
+                $element->identifier   = $identifier;
+                $elements[$identifier] = $element;
+            }
         }
 
         $this->_elements[JBCart::ELEMENT_TYPE_MODIFIER_ORDER_PRICE] = $elements;
