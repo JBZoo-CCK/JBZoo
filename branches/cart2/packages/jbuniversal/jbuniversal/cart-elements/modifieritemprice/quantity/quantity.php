@@ -6,20 +6,25 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBCartElementModifierItemPriceAddVAT
+ * Class JBCartElementModifierItemPriceQuantity
  */
-class JBCartElementModifierItemPriceAddVAT extends JBCartElementModifierItemPrice
+class JBCartElementModifierItemPriceQuantity extends JBCartElementModifierItemPrice
 {
+    const MODE_ALL        = 'all';
+    const MODE_TYPES      = 'types';
+    const MODE_ITEMS      = 'item';
+    const MODE_CATEGORIES = 'categories';
+
     /**
      * @param \JBCartValue $value
-     * @param array        $data
+     * @param  JSONData|array    $data
      * @return mixed
      */
     public function edit(JBCartValue &$value, $data = array())
@@ -45,16 +50,29 @@ class JBCartElementModifierItemPriceAddVAT extends JBCartElementModifierItemPric
      */
     public function modify(JBCartValue $value, $jbPrice = null, $session_data = null)
     {
-        $testVal = $value->getClone();
         $rate = $this->getRate($jbPrice, $session_data);
-        $testVal->add($rate);
 
-        if ($testVal->isPositive()) {
-            $value->add($this->getRate());
-        } else {
-            $value->setEmpty();
+        return $value->add($rate);
+    }
+
+    /**
+     * @param ElementJBPrice $jbPrice
+     * @param array          $session_data
+     * @return \JBCartValue
+     */
+    public function getRate($jbPrice = null, $session_data = null)
+    {
+        if ($this->app->jbrequest->isAjax() && $this->_isValid($jbPrice->getItem())) {
+            $quantity = (float)$this->config->get('quantity', 0);
+
+            $list = $jbPrice->getVariantList();
+            if (($session_data && $session_data['quantity'] >= $quantity) ||
+                (!$session_data && $list->quantity >= $quantity)
+            ) {
+                return $this->_order->val($this->config->get('value'));
+            }
         }
 
-        return $value;
+        return $this->_order->val();
     }
 }

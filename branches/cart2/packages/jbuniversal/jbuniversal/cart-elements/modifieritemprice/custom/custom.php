@@ -24,9 +24,10 @@ class JBCartElementModifierItemPriceCustom extends JBCartElementModifierItemPric
 
     /**
      * @param \JBCartValue $value
+     * @param array        $data
      * @return mixed
      */
-    public function edit(JBCartValue &$value)
+    public function edit(JBCartValue &$value, $data = array())
     {
         if ($layout = $this->getLayout('edit.php')) {
             $rate = $this->_order->val($this->get('rate', 0));
@@ -42,63 +43,29 @@ class JBCartElementModifierItemPriceCustom extends JBCartElementModifierItemPric
     }
 
     /**
-     * @param JBCartValue   $value
-     * @param Item          $item
-     * @param JBCartVariant $variant
+     * @param JBCartValue    $value
+     * @param ElementJBPrice $jbPrice
+     * @param array          $session_data
      * @return \JBCartValue
      */
-    public function modify(JBCartValue $value, $item = null, $variant = null)
+    public function modify(JBCartValue $value, $jbPrice = null, $session_data = null)
     {
-        $rate = $this->getRate($item, $variant);
+        $rate = $this->getRate($jbPrice, $session_data);
 
         return $value->add($rate);
     }
 
     /**
-     * @param Item          $item
-     * @param JBCartVariant $variant
+     * @param ElementJBPrice $jbPrice
+     * @param array          $session_data
      * @return \JBCartValue
      */
-    public function getRate($item = null, $variant = null)
+    public function getRate($jbPrice = null, $session_data = null)
     {
-        if ($this->_isValid($item)) {
+        if ($this->_isValid($jbPrice->getItem())) {
             return $this->_order->val($this->config->get('value'));
         }
 
         return $this->_order->val();
     }
-
-    /**
-     * Check if item is valid to modify price
-     * @param Item $item
-     * @return bool
-     */
-    private function _isValid($item = null)
-    {
-        $config = $this->config;
-        $mode   = $config->find('subject.mode') ? $config->find('subject.mode') : self::MODE_ALL;
-
-        if ($mode == self::MODE_ALL) {
-            return true;
-
-        } elseif ($mode == self::MODE_ITEMS) {
-            if ($config->find('subject.item_id') == $item->id) {
-                return true;
-            }
-
-        } elseif ($mode == self::MODE_CATEGORIES) {
-            if (in_array((int)$config->find('subject.category'), $item->getRelatedCategoryIds(true))) {
-                return true;
-            }
-
-        } elseif ($mode == self::MODE_TYPES) {
-            if ($config->find('subject.type') == $item->type) {
-                return true;
-            }
-
-        }
-
-        return false;
-    }
-
 }

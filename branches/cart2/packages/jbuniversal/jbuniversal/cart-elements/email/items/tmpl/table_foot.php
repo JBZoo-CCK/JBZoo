@@ -75,7 +75,7 @@ echo $this->partial('subtotal_services', array(
  */
 echo $this->partial('subtotal_modifiers', array(
         'order'     => $order,
-        'modifiers' => $order->getModifiers(),
+        'modifiers' => $order->getModifiersOrderPrice(),
         'subtotal'  => $subtotal,
         'on'        => (int)$this->config->get('subtotal_modifiers', 1)
     )
