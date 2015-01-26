@@ -17,9 +17,7 @@ $this->app->jbassets->less('jbassets:less/cart/table.less');
 $string = $this->app->jbstring;
 $jbhtml = $this->app->jbhtml;
 
-$order = JBCart::getInstance()->newOrder();
-
-?>
+$order = JBCart::getInstance()->newOrder(); ?>
 
 <table class="jbcart-table jsJBZooCartTable">
     <thead>
@@ -103,7 +101,7 @@ $order = JBCart::getInstance()->newOrder();
                 echo implode("\n", $html);
                 ?>
             </td>
-            <td class="jbcart-price jsPrice"><?php echo $price->html(); ?></td>
+            <td class="jbcart-price jsPrice4One-<?php echo $itemKey;?>"><?php echo $price->html(); ?></td>
             <td class="jbcart-quantity"><?php echo $jbhtml->quantity($quantity, $data->find('params._quantity', array())); ?></td>
             <td class="jbcart-subtotal jsSubtotal jsPrice-<?php echo $itemKey; ?>">
                 <?php echo $price->multiply($quantity, true)->html(); ?>

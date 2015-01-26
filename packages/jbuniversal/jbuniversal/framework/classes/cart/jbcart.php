@@ -56,7 +56,7 @@ class JBCart
      * @var string
      */
     protected $_sessionNamespace = 'jbcart';
-    protected $_namespace = 'jbzoo';
+    protected $_namespace        = 'jbzoo';
 
     /**
      * @var App
@@ -182,19 +182,97 @@ class JBCart
     {
         $session = $this->_getSession();
         $items   = $session->get('items', array());
-        $result  = array();
 
-        if (!empty($items)) {
-            foreach ($items as $key => $item) {
-                $result[$key] = $item;
+        return $assoc === true ? $items : $this->app->data->create($items);
+    }
+
+    /**
+     * @param string $key Session key
+     * @return mixed
+     */
+    public function getItem($key)
+    {
+        $items = $this->getItems(false);
+
+        return $items->get($key, array());
+    }
+
+    /**
+     * Get the weight of all items in basket.
+     * @return int
+     */
+    public function getWeight()
+    {
+        $items  = $this->getItems();
+        $weight = 0;
+
+        foreach ($items as $item) {
+            if (!empty($item['params'])) {
+                $params = $item['params'];
+                $temp   = (float)$item['quantity'] * (float)$params['weight'];
+
+                $weight += $temp;
             }
         }
 
-        return $assoc === true ? $result : $this->app->data->create($result);
+        return $weight;
+    }
+
+    /**
+     * Get properties
+     * @return mixed
+     */
+    public function getProperties()
+    {
+        $items = $this->getItems();
+
+        $properties['height'] = $properties['width'] = $properties['length'] = 0;
+        foreach ($items as $item) {
+            if (!empty($item['params'])) {
+
+                $height = (float)$item->find('params.height', 0);
+                $width  = (float)$item->find('params.width', 0);
+                $length = (float)$item->find('params.length', 0);
+
+                $properties['height'] += $item['quantity'] * $height;
+                $properties['width'] += $item['quantity'] * $width;
+                $properties['length'] += $item['quantity'] * $length;
+            }
+        }
+
+        return $properties;
+    }
+
+    /**
+     * @return array
+     */
+    public function getShipping()
+    {
+        $session = $this->_getSession();
+
+        if (isset($session['shipping']) && isset($session['shipping']['_current']) && isset($session['shipping']['_current'])) {
+            $cur = $session['shipping']['_current'];
+            if (isset($session['shipping'][$cur])) {
+                return $session['shipping'][$cur];
+            }
+        }
+
+        return array('_shipping_id' => $this->_config->get('default_shipping'));
+    }
+
+    /**
+     * @return array
+     */
+    public function getShippingList()
+    {
+        $session = $this->_getSession();
+
+        return $session->get('shipping', array());
     }
 
     /**
      * @param $data
+     * @return $this
      */
     public function addItem($data)
     {
@@ -210,54 +288,8 @@ class JBCart
         }
 
         $this->_setSession('items', (array)$items);
-    }
 
-    /**
-     * Get the weight of all items in basket.
-     * @return int
-     */
-    public function getWeight()
-    {
-        $items  = $this->getItems();
-        $weight = 0;
-
-        foreach ($items as $item) {
-            if (!empty($item['params'])) {
-                $params = $this->app->data->create($item['params']);
-                $temp   = (float)$item['quantity'] * (float)$params['weight'];
-
-                $weight += $temp;
-            }
-        }
-
-        return $weight;
-    }
-
-    /**
-     * Get
-     * @return mixed
-     */
-    public function getProperties()
-    {
-        $items = $this->getItems();
-
-        $properties['height'] = $properties['width'] = $properties['length'] = 0;
-        foreach ($items as $item) {
-            if (!empty($item['params'])) {
-
-                $params = $this->app->data->create($item['params']);
-
-                $height = (float)$params->get('height', 0);
-                $width  = (float)$params->get('width', 0);
-                $length = (float)$params->get('length', 0);
-
-                $properties['height'] += $item['quantity'] * $height;
-                $properties['width'] += $item['quantity'] * $width;
-                $properties['length'] += $item['quantity'] * $length;
-            }
-        }
-
-        return $properties;
+        return $this;
     }
 
     /**
@@ -354,14 +386,87 @@ class JBCart
     }
 
     /**
+     * Check Item
+     * @param array $data
+     * @return $this
+     */
+    public function checkItem($data = array())
+    {
+        if (!empty($data)) {
+            $item = $this->app->table->item->get($data['item_id']);
+
+            /** @type ElementJBPrice $price * */
+            $price = $item->getElement($data['element_id']);
+            $price->set('default_variant', $data['variant']);
+            $price->setProp('_template', $data['template']);
+            $price->setProp('_layout', $data['layout']);
+
+            $list = $price->getVariantList(array(), array(
+                'quantity' => $data['quantity']
+            ), true);
+
+            $this->removeVariant($data['key']);
+            $this->addItem($list->getCartData());
+        }
+
+        return $this;
+    }
+
+    /**
      * Is in stock item
      * @param $quantity
      * @param $key
      * @return bool
      */
-    public function inStock($quantity, $key = null)
+    public function inStock($quantity, $key)
     {
-        return true;
+        $data = $this->getItem($key);
+
+        if (!empty($data)) {
+            $this->checkItem($data);
+
+            $item  = $this->app->table->item->get($data['item_id']);
+            $price = $item->getElement($data['element_id']);
+
+            return $price->inStock($quantity, $data['variant']);
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if item in cart.
+     * @param  string $id - item_id.
+     * @param  string $element_id
+     * @return bool
+     */
+    public function inCart($id, $element_id)
+    {
+        $items = $this->getItems();
+
+        foreach ($items as $item) {
+            if ($item['item_id'] == $id && $item['element_id'] == $element_id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if item or item variation in cart by $key.
+     * @param  string $key - {Item_id}-{variant} or {item_id} for basic.
+     * @return bool
+     */
+    public function inCartVariant($key)
+    {
+        $items = $this->getItems();
+
+        if (isset($items[$key])) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -370,14 +475,22 @@ class JBCart
      */
     public function recount()
     {
+        $this->checkItems();
+
         $order   = $this->newOrder();
         $session = $this->_getSession();
 
         // items
         $items    = $order->getTotalForItems(true);
         $itemsRes = array();
+
         foreach ($items as $key => $itemSumm) {
             $itemsRes['Price-' . $key] = $itemSumm->data();
+        }
+
+        $items = $this->getItems();
+        foreach ($items as $key => $data) {
+            $itemsRes['Price4One-' . $key] = $this->val($data['total'])->data();
         }
 
         // shipping
@@ -439,19 +552,6 @@ class JBCart
 
     /**
      * @param $elementId
-     * @param $data
-     */
-    public function setModifier($elementId, $data)
-    {
-        $session = $this->_getSession();
-
-        $session['modifiers'][$elementId] = (array)$data;
-
-        $this->_setSession('modifiers', $session['modifiers']);
-    }
-
-    /**
-     * @param $elementId
      * @return array
      */
     public function getModifier($elementId)
@@ -466,65 +566,37 @@ class JBCart
     }
 
     /**
-     * @return array
+     * @param $elementId
+     * @param $data
      */
-    public function getShipping()
+    public function setModifier($elementId, $data)
     {
         $session = $this->_getSession();
 
-        if (isset($session['shipping']) && isset($session['shipping']['_current']) && isset($session['shipping']['_current'])) {
-            $cur = $session['shipping']['_current'];
-            if (isset($session['shipping'][$cur])) {
-                return $session['shipping'][$cur];
-            }
-        }
+        $session['modifiers'][$elementId] = (array)$data;
 
-        return array('_shipping_id' => $this->_config->get('default_shipping'));
+        $this->_setSession('modifiers', $session['modifiers']);
     }
 
     /**
-     * @return array
+     * @param       $method
+     * @param array $args
      */
-    public function getShippingList()
-    {
-        $session = $this->_getSession();
-
-        return $session->get('shipping', array());
-    }
-
-    /**
-     * Check if item in cart.
-     * @param  string $id - item_id.
-     * @param  string $element_id
-     * @return bool
-     */
-    public function inCart($id, $element_id)
+    public function __call($method, $args = array())
     {
         $items = $this->getItems();
-
-        foreach ($items as $item) {
-            if ($item['item_id'] == $id && $item['element_id'] == $element_id) {
-                return true;
+        if (!empty($items)) {
+            $method = JString::substr_replace($method, '', -1, 1);
+            if (method_exists($this, $method)) {
+                foreach ($items as $item) {
+                    $data = array($item);
+                    if (!empty($args)) {
+                        $data[] = array_intersect_key($item, array_flip($args));
+                    }
+                    call_user_func_array(array($this, $method), $data);
+                }
             }
         }
-
-        return false;
-    }
-
-    /**
-     * Check if item or item variation in cart by $key.
-     * @param  string $key - {Item_id}-{variant} or {item_id} for basic.
-     * @return bool
-     */
-    public function inCartVariant($key)
-    {
-        $items = $this->getItems();
-
-        if (isset($items[$key])) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -535,9 +607,8 @@ class JBCart
     {
         $session = JFactory::getSession();
         $result  = $session->get($this->_sessionNamespace, array(), $this->_namespace);
-        $result  = $this->app->data->create($result);
 
-        return $result;
+        return $this->app->data->create($result);
     }
 
     /**

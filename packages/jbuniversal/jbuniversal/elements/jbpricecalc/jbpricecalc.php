@@ -100,10 +100,19 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
             'quantity' => $quantity,
             'currency' => $this->_config->get('cart.default_currency', JBCart::val()->cur())
         ));
+        $session_key = $this->_list->getSessionKey();
+
+        $data = $cart->getItem($session_key);
+        if (!empty($data)) {
+            $quantity += $data['quantity'];
+        }
 
         //Check balance
-        if ($this->inStock($quantity)) {
-            $cart->addItem($this->_list->getCartData());
+        if ($this->inStock($quantity, $key)) {
+            $cart
+                ->addItem($this->_list->getCartData())
+                ->checkItem($cart->getItem($session_key));
+
             $jbAjax->send(array(), true);
 
         } else {
