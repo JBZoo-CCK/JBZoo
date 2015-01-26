@@ -84,6 +84,22 @@ class JBRequestHelper extends AppHelper
     }
 
     /**
+     * Gets the value of a user state variable.
+   	 *
+   	 * @param   string  $key      The key of the user state variable.
+   	 * @param   string  $request  The name of the variable passed in a request.
+   	 * @param   string  $default  The default value for the variable if not found. Optional.
+   	 * @param   string  $type     Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
+   	 *
+   	 * @return  object  The request user state.
+     * @throws \Exception
+     */
+    public function take($key, $request, $default = null, $type = 'none')
+    {
+        return JFactory::getApplication()->getUserStateFromRequest($key, $request, $default, $type);
+    }
+
+    /**
      * Get element name
      * @return mixed
      */

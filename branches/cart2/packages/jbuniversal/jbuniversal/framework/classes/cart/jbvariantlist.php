@@ -41,7 +41,7 @@ class JBCartVariantList
      * @var ElementJBPrice
      */
     protected $_jbprice = null;
-    
+
     /**
      * List of variants Objects
      * @var array
@@ -52,7 +52,7 @@ class JBCartVariantList
 
     /**
      * Class constructor.
-     * @help Create JBCartVariantList objects after JBPrice template is set.
+     * @help Create JBCartVariantList object after JBPrice template is set.
      * @param array          $list
      * @param ElementJBPrice $jbPrice
      * @param array          $options
@@ -159,7 +159,7 @@ class JBCartVariantList
         }
         $variant = $this->get($id);
 
-        return $variant->getPrice();
+        return $this->addModifiers($variant->getPrice());
     }
 
     /**
@@ -168,15 +168,15 @@ class JBCartVariantList
      */
     public function getTotal()
     {
-        if (!$this->_jbprice->isOverlay()) {
-            $total = $this->_plainTotal();
-        } else {
+        if ($this->_jbprice->isOverlay()) {
             $total = $this->_calcTotal();
+        } else {
+            $total = $this->_plainTotal();
         }
 
-        $total = $this->addModifiers($total);
+        $total = $this->addModifiers($total, true);
 
-        if($total->isNegative()) {
+        if ($total->isNegative()) {
             $total->setEmpty();
         }
 
@@ -184,19 +184,25 @@ class JBCartVariantList
     }
 
     /**
-     * Add modifiers to the total price
+     * Add modifiers to the total or price
      * @param \JBCartValue $total
+     * @param bool         $visible
      * @return \JBCartValue
      */
-    public function addModifiers(JBCartValue $total)
+    public function addModifiers(JBCartValue $total, $visible = false)
     {
-        $elements = JBCart::getInstance()
+        $cart = JBCart::getInstance();
+        $data = $cart->getItem($this->getSessionKey());
+
+        $elements = $cart
             ->newOrder()
             ->getModifiersItemPrice();
 
         if (!empty($elements)) {
             foreach ($elements as $id => $element) {
-                $total = $element->modify($total, $this->_jbprice->getItem(), $this->byDefault());
+                if ((int)$visible === (int)$element->config->get('visible', 0)) {
+                    $element->modify($total, $this->_jbprice, $data);
+                }
             }
         }
 
@@ -209,14 +215,17 @@ class JBCartVariantList
      */
     public function getModifiersRates()
     {
-        $elements = JBCart::getInstance()
+        $cart = JBCart::getInstance();
+        $data = $cart->getItem($this->getSessionKey());
+
+        $elements = $cart
             ->newOrder()
             ->getModifiersItemPrice();
 
         $modifiers = array();
         if (!empty($elements)) {
             foreach ($elements as $id => $element) {
-                $modifiers[$id] = $element->getRate($this->_jbprice->getItem(), $this->byDefault())->data(true);
+                $modifiers[$id] = $element->getRate($this->_jbprice, $data)->data(true);
             }
         }
 
@@ -236,10 +245,8 @@ class JBCartVariantList
         );
 
         $values = (array)$this->values;
-
         if (!empty($values)) {
             foreach ($values as $key => $value) {
-
                 //TODO Need to check value, method - issetOption
                 if ($element = $this->_jbprice->getElement($key)) {
                     $element->bindData($value);
@@ -371,21 +378,27 @@ class JBCartVariantList
     protected function _plainCartData()
     {
         $variant = $this->byDefault();
-        $item    = $this->_jbprice->getItem();
+        $jbPrice = $this->_jbprice;
+        $item    = $jbPrice->getItem();
 
         $data = array(
             'key'        => $this->getSessionKey(),
             'item_id'    => $item->id,
             'item_name'  => $item->name,
-            'element_id' => $this->_jbprice->identifier,
+            'element_id' => $jbPrice->identifier,
             'total'      => $this->getTotal()->data(true),
             'quantity'   => (float)$this->quantity,
-            'template'   => $this->_jbprice->getTemplate(),
-            'layout'     => $this->_jbprice->getLayout(),
+            'template'   => $jbPrice->getTemplate(),
+            'layout'     => $jbPrice->getLayout(),
             'values'     => $this->getValues(),
             'elements'   => $variant->getElementsCartData(),
-            'params'     => $this->_jbprice->elementsInterfaceParams(),
-            'modifiers'  => $this->getModifiersRates()
+            'params'     => $jbPrice->elementsInterfaceParams(),
+            'modifiers'  => $this->getModifiersRates(),
+            'variant'    => $this->_default,
+            'variations' => array(
+                $jbPrice::BASIC_VARIANT => $jbPrice->get('variations.' . $jbPrice::BASIC_VARIANT),
+                $this->_default         => $jbPrice->get('variations.' . $this->_default)
+            )
         );
 
         return $data;
@@ -398,21 +411,27 @@ class JBCartVariantList
     protected function _calcCartData()
     {
         $variant = $this->byDefault();
-        $item    = $this->_jbprice->getItem();
+        $jbPrice = $this->_jbprice;
+        $item    = $jbPrice->getItem();
 
         $data = array(
             'key'        => $this->getSessionKey(),
             'item_id'    => $item->id,
             'item_name'  => $item->name,
-            'element_id' => $this->_jbprice->identifier,
+            'element_id' => $jbPrice->identifier,
             'total'      => $this->getTotal()->data(true),
             'quantity'   => (float)$this->quantity,
-            'template'   => $this->_jbprice->getTemplate(),
-            'layout'     => $this->_jbprice->getLayout(),
+            'template'   => $jbPrice->getTemplate(),
+            'layout'     => $jbPrice->getLayout(),
             'values'     => $this->getValues(),
             'elements'   => $variant->getElementsCartData(),
-            'params'     => $this->_jbprice->elementsInterfaceParams(),
-            'modifiers'  => $this->getModifiersRates()
+            'params'     => $jbPrice->elementsInterfaceParams(),
+            'modifiers'  => $this->getModifiersRates(),
+            'variant'    => $this->_default,
+            'variations' => array(
+                $jbPrice::BASIC_VARIANT => $jbPrice->get('variations.' . $jbPrice::BASIC_VARIANT),
+                $this->_default         => $jbPrice->get('variations.' . $this->_default)
+            )
         );
 
         return $data;
@@ -424,7 +443,7 @@ class JBCartVariantList
      */
     protected function _plainTotal()
     {
-        return $this->byDefault()->getTotal();
+        return $this->getPrice();
     }
 
     /**

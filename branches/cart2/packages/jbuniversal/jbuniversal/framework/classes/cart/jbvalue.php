@@ -750,12 +750,12 @@ class JBCartValue
             if (!$value instanceof JBCartValue) {
                 $value = JBCart::val($value);
             }
-            $obj = clone($this);
+            $obj = clone($value);
 
-            $value->val($obj->_currency);
+            $value->val($this->_currency);
 
             $obj->_currency = self::PERCENT;
-            $obj->_value    = $obj->_value * $value->val() / 100;
+            $obj->_value    = ($this->_value / $value->val()) * 100 ;
 
             return $obj;
 

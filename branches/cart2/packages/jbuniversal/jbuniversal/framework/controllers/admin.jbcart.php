@@ -29,6 +29,11 @@ class JBCartJBUniversalController extends JBUniversalController
      */
     protected $_position = null;
 
+    /**
+     * @type \JBSessionHelper
+     */
+    protected $_session;
+
     protected $_extensions;
 
     /**
@@ -41,10 +46,14 @@ class JBCartJBUniversalController extends JBUniversalController
 
         $this->_element  = $this->app->jbcartelement;
         $this->_position = $this->app->jbcartposition;
+        $this->_session  = $this->app->jbsession;
 
-        // default
-        $this->element  = $this->app->jbrequest->get('element');
-        $this->layout   = $this->app->jbrequest->get('layout');
+        // task
+        $task = strtolower($this->_jbrequest->get('task'));
+
+        $this->element = $this->_jbrequest->take('jbcart.' . $task . '.element', 'element', null, 'string');
+        $this->layout  = $this->_jbrequest->take('jbcart.' . $task . '.layout', 'layout', null, 'string');
+
         $this->saveTask = 'savePositions';
     }
 
@@ -188,12 +197,11 @@ class JBCartJBUniversalController extends JBUniversalController
         $this->groupList   = $this->_element->getGroups(array(JBCart::ELEMENT_TYPE_PRICE));
         $this->elementList = $this->app->jbprice->getPricesList();
 
-        $layout          = $this->_jbrequest->get('element', key($this->elementList));
-        $this->positions =
-            $this->_position->loadPositions(JBCart::CONFIG_PRICE . '.' . $layout, array(JBCart::DEFAULT_POSITION));
+        $this->element   = $this->_jbrequest->take('jbcart.price.element', 'element', key($this->elementList), 'string');
+        $this->positions = $this->_position->loadPositions(JBCart::CONFIG_PRICE . '.' . $this->element, array(JBCart::DEFAULT_POSITION));
 
         $this->groupKey = JBCart::CONFIG_PRICE;
-        $this->saveTask = 'saveElementPositions';
+        $this->saveTask = 'savePricePositions';
 
         $this->renderView();
     }
@@ -281,7 +289,6 @@ class JBCartJBUniversalController extends JBUniversalController
 
         $this->layoutList = $renderer->getLayouts('email');
         $this->layout     = $this->_jbrequest->get('layout', key($this->layoutList));
-        $this->app->request->set('layout', $this->layout);
 
         $this->positionList = $renderer->getPositions(JBCart::ELEMENT_TYPE_EMAIL . '.' . $this->layout);
         $this->groupList    = $this->_element->getGroups(array(JBCart::ELEMENT_TYPE_EMAIL));
@@ -320,7 +327,7 @@ class JBCartJBUniversalController extends JBUniversalController
     /**
      *
      */
-    public function jbpriceFilterTmpl()
+    public function priceFilterTmpl()
     {
         $this->app->jbtables->checkSku(true);
         $renderer = $this->app->jbrenderer->create('jbpricefilter');
@@ -328,8 +335,8 @@ class JBCartJBUniversalController extends JBUniversalController
         $this->elementList = $this->app->jbprice->getPricesList();
         $this->layoutList  = $renderer->getLayouts('jbpricefilter');
 
-        $this->layout  = $this->_jbrequest->get('layout', key($this->layoutList));
-        $this->element = $this->_jbrequest->get('element', key($this->elementList));
+        $this->element = $this->_jbrequest->take('jbcart.' . strtolower(__METHOD__) . '.element', 'element', key($this->elementList), 'string');
+        $this->layout  = $this->_jbrequest->take('jbcart.' . strtolower(__METHOD__) . '.layout', 'layout', key($this->layoutList), 'string');
 
         $this->positionList = $renderer->getPositions('jbpricefilter.' . $this->layout);
 
@@ -342,7 +349,7 @@ class JBCartJBUniversalController extends JBUniversalController
         $this->positions =
             $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE, $this->positionList);
 
-        $this->saveTask = 'saveElementPositions';
+        $this->saveTask = 'savePricePositions';
         $this->groupKey = JBCart::CONFIG_PRICE_TMPL_FILTER;
         $this->renderView();
     }
@@ -350,7 +357,7 @@ class JBCartJBUniversalController extends JBUniversalController
     /**
      * Field list action
      */
-    public function jbpriceTmpl()
+    public function priceTmpl()
     {
         $this->app->jbtables->checkSku(true);
         $renderer = $this->app->jbrenderer->create('jbprice');
@@ -358,8 +365,8 @@ class JBCartJBUniversalController extends JBUniversalController
         $this->elementList = $this->app->jbprice->getPricesList();
         $this->layoutList  = $renderer->getLayouts('jbprice');
 
-        $this->layout  = $this->_jbrequest->get('layout', key($this->layoutList));
-        $this->element = $this->_jbrequest->get('element', key($this->elementList));
+        $this->element = $this->_jbrequest->take('jbcart.' . strtolower(__METHOD__) . '.element', 'element', key($this->elementList), 'string');
+        $this->layout  = $this->_jbrequest->take('jbcart.' . strtolower(__METHOD__) . '.layout', 'layout', key($this->layoutList), 'string');
 
         $this->positionList = $renderer->getPositions('jbprice.' . $this->layout);
 
@@ -371,7 +378,7 @@ class JBCartJBUniversalController extends JBUniversalController
         $this->positions      =
             $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE, $this->positionList);
 
-        $this->saveTask = 'saveElementPositions';
+        $this->saveTask = 'savePricePositions';
         $this->groupKey = JBCart::CONFIG_PRICE_TMPL;
         $this->renderView();
     }
@@ -415,7 +422,7 @@ class JBCartJBUniversalController extends JBUniversalController
     /**
      * Custom save action for any positions data
      */
-    public function saveElementPositions()
+    public function savePricePositions()
     {
         // session token
         $this->app->session->checkToken() or jexit('Invalid Token');
@@ -425,14 +432,13 @@ class JBCartJBUniversalController extends JBUniversalController
             $this->setRedirect($defaultRedirect);
         }
 
+        $this->app->jbtables->checkSku(true);
+
         $positions = $this->_jbrequest->getArray('positions');
         $group     = $this->_jbrequest->get('group');
         $layout    = $this->_jbrequest->get('layout');
         $element   = $this->_jbrequest->get('element');
         $redirect  = $this->_jbrequest->get('redirect', $defaultRedirect);
-
-        $this->app->jbtables->checkSku(true);
-        JBModelSku::model()->insertSkuElements($positions['list']);
 
         $this->_position->savePrice($group, $positions, $element, $layout);
 
@@ -458,6 +464,18 @@ class JBCartJBUniversalController extends JBUniversalController
 
         $this->app->jbdoc->disableTmpl();
         $this->renderView();
+    }
+
+    /**
+     * Wrapper for AppView init and rendering
+     * @param string $tpl
+     */
+    public function renderView($tpl = null)
+    {
+        $this->_jbrequest->take('jbcart.' . strtolower($this->task) . '.element', 'element', $this->element, 'string');
+        $this->_jbrequest->take('jbcart.' . strtolower($this->task) . '.layout', 'layout', $this->layout, 'string');
+
+        parent::renderView($tpl);
     }
 
     /**
