@@ -51,7 +51,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
                         <td>
                             <span class="save discount-less">
                                 <span class="jsSave"><?php echo $save->html($currency); ?></span>
-                                (<span class="discount"><?php echo $total->percentage($price)->text($currency); ?></span>)
+                                (<span class="discount"><?php echo $save->percentage($price)->text($currency); ?></span>)
                             </span>
                         </td>
                     </tr>

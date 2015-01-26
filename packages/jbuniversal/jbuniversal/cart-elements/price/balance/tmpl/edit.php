@@ -66,9 +66,9 @@ if ($value > 0) {
 </div>
 
 <script type="text/javascript">
-    (function ($) {
+    jQuery(function ($) {
         $('#<?php echo $unique; ?>').JBZooPriceAdvanceBalanceHelper();
-    })(jQuery)
+    });
 </script>
 
 

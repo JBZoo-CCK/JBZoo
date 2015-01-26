@@ -13,8 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$jbhtml = $this->app->jbhtml;
-?>
+$jbhtml = $this->app->jbhtml; ?>
 
 <div class="jbprice-img-row-file">
     <?php

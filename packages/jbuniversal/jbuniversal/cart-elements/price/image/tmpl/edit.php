@@ -17,12 +17,12 @@ $unique = $this->app->jbstring->getId('image-'); ?>
 
 <div class="jsMedia jbprice-img-row-file" id="<?php echo $unique; ?>">
     <?php
-    echo $this->app->jbhtml->text($this->getControlName('value'), $this->getValue(), 'class="jsJBPriceImage jsMediaValue row-file" placeholder="Image"');
+    echo $this->_jbhtml->text($this->getControlName('value'), $this->getValue(), 'class="jsJBPriceImage jsMediaValue row-file" placeholder="Image"');
     ?>
 </div>
 
 <script type="text/javascript">
-    (function ($) {
+    jQuery(function ($) {
         $('#<?php echo $unique; ?>').JBZooMedia();
-    })(jQuery)
+    });
 </script>

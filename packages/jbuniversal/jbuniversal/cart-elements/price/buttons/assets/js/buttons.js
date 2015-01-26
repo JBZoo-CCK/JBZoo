@@ -31,14 +31,23 @@
             'isInCartVariant' : 0,
             'canRemoveVariant': 0,
 
-            init: function () {
+            init: function ($this) {
 
-                this.price = this.el.closest('.jsPrice');
+                this.price = this.el.closest('.jsJBPrice');
 
                 this.set({
                     'key'     : this.options.key,
                     'isInCart': this.options.isInCart
                 });
+            },
+
+            'emptyCart.JBZooCartModule {document} .jsJBZooCartModule': function(e, $this) {
+                $this.set({
+                    'key'     : $this.options.key,
+                    'isInCart': $this.options.isInCart
+                });
+
+                $this.toggleButtons();
             },
 
             'click .jsAddToCart': function (e, $this) {
@@ -117,6 +126,7 @@
 
             toggleButtons: function () {
                 var jsButtons = this.$('.jsPriceButtons');
+
                 jsButtons
                     .toggleClass('in-cart', this.isInCart == true)
                     .toggleClass('in-cart-variant', this.isInCartVariant == true);
