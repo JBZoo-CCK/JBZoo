@@ -13,9 +13,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$class  = 'jsJBPriceAdvance-' . $this->identifier . '-' . $this->getItem()->id;
+$class  = 'jsJBPrice-' . $this->identifier . '-' . $this->getItem()->id;
 $unique = $this->app->jbstring->getId('jbprice-adv-'); ?>
-<div class="jsPrice jsJBPriceAdvance jbprice <?php echo $class; ?>" id="<?php echo $unique; ?>">
+<div class="jsPrice jsJBPrice jbprice <?php echo $class; ?>" id="<?php echo $unique; ?>">
     <?php echo $data; ?>
 </div>
 

@@ -113,15 +113,24 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
         $this->set('default_variant', $key);
 
         $this->_template = $template;
-        $this->_list     = new JBCartVariantList($list, $this, array(
+        $this->getVariantList($list, array(
             'values'   => $values,
             'quantity' => $quantity,
             'currency' => $this->_config->get('cart.default_currency', JBCart::val()->cur())
-        ));
+        ), true);
+        $session_key = $this->_list->getSessionKey();
+
+        $data = $cart->getItem($session_key);
+        if (!empty($data)) {
+            $quantity += $data['quantity'];
+        }
 
         //Check balance
-        if ($this->inStock($quantity)) {
-            $cart->addItem($this->_list->getCartData());
+        if ($this->inStock($quantity, $key)) {
+            $cart
+                ->addItem($this->_list->getCartData())
+                ->checkItem($cart->getItem($session_key));
+
             $jbAjax->send(array(), true);
 
         } else {
