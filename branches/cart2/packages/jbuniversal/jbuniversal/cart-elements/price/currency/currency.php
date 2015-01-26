@@ -90,7 +90,7 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
      */
     public function parentSelector()
     {
-        return '.jsJBPriceAdvance-' . $this->getJBPrice()->identifier . '-' . $this->getJBPrice()->getItem()->id;
+        return '.jsJBPrice-' . $this->getJBPrice()->identifier . '-' . $this->getJBPrice()->getItem()->id;
     }
 
     /**

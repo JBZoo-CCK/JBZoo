@@ -12,27 +12,20 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$unique    = $this->app->jbstring->getId('quantity-');
+$params    = $this->interfaceParams();
+$unique    = $this->htmlId();
+$default   = $params['default'];
 $isEnabled = true;
-
-$default = (float)$params->get('default', 1);
-$params  = array(
-    'step'     => (float)$params->get('step', 1),
-    'default'  => $default,
-    'decimals' => (float)$params->get('decimals', 0),
-    'min'      => (float)$params->get('min', 0),
-    'max'      => 999999,
-);
 
 if ($isEnabled) : ?>
     <div class="jbprice-quantity jbprice-count">
         <label for="<?php echo $unique; ?>">
-            <?php echo $this->app->jbhtml->quantity($default, $params, $unique, $this->getRenderName('value')); ?>
+            <?php echo $this->_jbhtml->quantity($default, $params, $unique, $this->getRenderName('value')); ?>
         </label>
     </div>
 <?php else : ?>
     <div class="count-value-wrapper">
         <?php echo JText::_('JBZOO_JBPRICE_COUNT_DEFAULT_VALUE'); ?>: <span class="jsCountValue">1</span>
     </div>
-    <input type="hidden" class="jsCount" value="1" />
+    <input type="hidden" class="jsCount" value="1"/>
 <?php endif;

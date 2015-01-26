@@ -49,6 +49,7 @@ class JBCartElementPriceBalance extends JBCartElementPrice
     }
 
     /**
+     * @param array $params
      * @return mixed|null|string
      */
     public function edit($params = array())
