@@ -36,7 +36,7 @@ class JBTemplateUikit extends JBTemplate
             $this->app->jbassets->css('jbassets:js/uikit.min.js');
         }
 
-        $this->app->jbassets->less('jbassets:less/uikit-hacks.less');
+        $this->app->jbassets->less('jbassets:less/uikit.styles.less');
     }
 
     /**

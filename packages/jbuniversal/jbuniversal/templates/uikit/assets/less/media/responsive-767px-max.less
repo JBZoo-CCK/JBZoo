@@ -1,0 +1,75 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Sergey Kalistratov <kalistratov.s.m@gmail.com>
+//
+
+/* Landscape phone to desktop/tablet */
+@media (max-width: 767px) {
+
+    .jbzoo {
+
+        .jbcart-table {
+
+            .jbcart-col-image,
+            .jbcart-image {
+                display: none;
+            }
+
+        }
+
+        .jbcart-payment {
+
+            .jbcart-payment-row {
+                width: 100%;
+                float: none;
+                padding: 16px 0;
+                min-height: inherit;
+                margin-bottom: 0;
+                border-bottom: 1px solid #ddd;
+
+                &:nth-child(3n+3) {
+                    border-left: none;
+                    border-right: none;
+                }
+
+                &.last {
+                    border-bottom: none;
+                }
+
+            }
+
+        }
+
+        .jbcart {
+
+            .jbcart-shipping {
+
+                .jbcart-shipping-col,
+                .jbcart-shippingfield-col {
+                    margin: 0;
+                    border-right: 0;
+                    width: 100%;
+                    float: none;
+
+                }
+
+                .jbcart-shipping-row {
+                    width: 100%;
+                }
+
+            }
+
+            .jbcart-title {
+                text-align: center;
+            }
+
+        }
+
+    }
+
+}
