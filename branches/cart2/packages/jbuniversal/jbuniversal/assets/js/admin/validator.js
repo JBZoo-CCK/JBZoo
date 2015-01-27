@@ -27,7 +27,7 @@
                 });
             },
 
-            'change .simple-param input, .simple-param select, .simple-param textarea': function (e, $this) {
+            'change .simple-param .jsElementData input, .simple-param .jsElementData select, .simple-param .jsElementData textarea': function (e, $this) {
 
                 var $row = $(this).closest('.jbprice-variation-row');
                 $this
@@ -43,7 +43,7 @@
 
                 this.$('.jbprice-variation-row').each(function (i, row) {
                     var data = {};
-                    $('.simple-param', row).each(function (j, param) {
+                    $('.simple-param .jsElementData', row).each(function (j, param) {
 
                         var value = $this._simpleData(param);
                         if (!JBZoo.empty(value)) {
@@ -116,7 +116,7 @@
                     }
                 });
 
-                $('.simple-param', $row).each(function (i, param) {
+                $('.simple-param .jsElementData', $row).each(function (i, param) {
 
                     var option = $this._simpleData($(param));
                     if (!JBZoo.empty(option)) {
