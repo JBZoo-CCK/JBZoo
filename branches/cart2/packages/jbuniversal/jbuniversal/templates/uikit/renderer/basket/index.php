@@ -30,7 +30,7 @@ $this->app->jbassets->basket();
     //&& !$view->formRenderer->checkPosition('fields');
     ?>
 
-    <form action="<?php echo $this->app->jbrouter->cartOrderCreate(); ?>" class="jbcart jsJBZooCart" method="post"
+    <form action="<?php echo $this->app->jbrouter->cartOrderCreate(); ?>" class="jbcart jsJBZooCart uk-form" method="post"
           name="jbcartForm" accept-charset="utf-8" enctype="multipart/form-data">
 
         <?php echo $this->partial('basket', 'table'); ?>
