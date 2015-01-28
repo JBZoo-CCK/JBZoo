@@ -12,17 +12,4 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 
-
-<td class="align-right"></td>
-<td class="align-right">
-    <?php echo $this->getName(); ?>
-</td>
-<td class="align-right">
-    <span class="jbcurrency-value">
-        <?php echo '*' . $rate->val(); ?>
-    </span>
-</td>
-<td class="align-right">
-    <small><?php echo $value; ?></small>
-</td>
-
+<?php echo $rate->htmlAdv($params->get('currency'), true); ?>
