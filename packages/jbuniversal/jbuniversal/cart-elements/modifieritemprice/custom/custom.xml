@@ -8,4 +8,10 @@
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
+
+    <params>
+        <param name="rate" type="text" default="0" label="JBZOO_ELEMENT_MODIFIERITEMPRICE_RATE"
+               description="JBZOO_ELEMENT_MODIFIERITEMPRICE_RATE_DESC"/>
+    </params>
+
 </element>
