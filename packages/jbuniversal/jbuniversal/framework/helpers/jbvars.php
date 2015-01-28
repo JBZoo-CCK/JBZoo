@@ -79,4 +79,13 @@ class JBVarsHelper extends AppHelper
         return $string;
     }
 
+    /**
+     * @param $value
+     * @return float
+     */
+    public function number($value)
+    {
+        return $this->money($value);
+    }
+
 }
