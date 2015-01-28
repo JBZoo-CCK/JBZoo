@@ -20,6 +20,15 @@ abstract class JBCartElementShippingField extends JBCartElement
     protected $_namespace = JBCart::ELEMENT_TYPE_SHIPPINGFIELD;
 
     /**
+     * @param array $params
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        return true;
+    }
+
+    /**
      * Render shipping in order
      * @param  array
      * @return bool|string

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -14,12 +13,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 $attrs = array(
-    'type' => 'text',
-    'name' => $this->getControlName('value'),
-    'id'   => $this->htmlId(true)
+    'type'  => 'text',
+    'name'  => $this->getControlName('value'),
+    'id'    => $this->htmlId(true),
+    'value' => $this->get('value'),
 ); ?>
-    <input <?php echo $this->app->jbhtml->buildAttrs($attrs); ?> />
 
-<?php if ($description = $this->config->get('description')) : ?>
-    <p class="shippingfileds-description"> <?php echo $description; ?> </p>
-<?php endif;
+<input <?php echo $this->app->jbhtml->buildAttrs($attrs); ?> />
