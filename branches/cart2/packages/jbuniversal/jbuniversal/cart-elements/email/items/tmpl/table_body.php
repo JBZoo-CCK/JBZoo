@@ -46,7 +46,18 @@ foreach ($items as $key => $item) :
             <?php echo $image; ?>
         </td>
         <td>
-            <?php echo $item['item_name']; ?>
+            <?php echo $item['item_name'];
+            if (!empty($item['values'])) : ?>
+                <ul>
+                    <?php foreach ($item['values'] as $label => $param) :
+                        echo '<li><strong>' . $label . ':</strong> ' . $param . '</li>';
+                    endforeach; ?>
+                </ul>
+            <?php endif;
+
+            if ($item->find('elements._description')) :
+                echo '<p><i>' . $item->find('elements._description') . '</i></p>';
+            endif; ?>
         </td>
         <td align="center">
             <?php echo JBCart::val($item->find('elements._value'))->html(); ?>
