@@ -18,7 +18,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementShippingFieldCity extends JBCartElementShippingField
 {
-
     /**
      * @param array $params
      * @return bool
@@ -36,7 +35,7 @@ class JBCartElementShippingFieldCity extends JBCartElementShippingField
     {
         if ($layout = $this->getLayout('submission.php')) {
             return self::renderLayout($layout, array(
-                'params'   => $params
+                'params' => $params
             ));
         }
 

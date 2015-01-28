@@ -38,11 +38,12 @@ if (!empty($data)) : ?>
         </tr>
 
         <?php foreach ($data as $key => $field) :
-            if (!empty($field)) : ?>
+            if (!empty($field)) :
+                $element = $order->getShippingFieldElement($key); ?>
                 <tr>
                     <td align="left">
                         <strong>
-                            <?php echo JText::_('JBZOO_ORDER_SHIPPINGFIELDS_' . strtoupper($key)); ?>
+                            <?php echo $element->config->get('name'); ?>
                         </strong>
                     </td>
 

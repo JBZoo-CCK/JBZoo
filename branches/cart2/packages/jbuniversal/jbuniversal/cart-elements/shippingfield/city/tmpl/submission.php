@@ -14,12 +14,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 $attrs = array(
-    'type'    => 'text',
-    'name'    => $this->getControlName('value'),
-    'id'      => 'shippingfields' . $this->identifier
-);
-
-?>
+    'type' => 'text',
+    'name' => $this->getControlName('value'),
+    'id'   => $this->htmlId(true)
+); ?>
     <input <?php echo $this->app->jbhtml->buildAttrs($attrs); ?> />
 
 <?php if ($description = $this->config->get('description')) : ?>

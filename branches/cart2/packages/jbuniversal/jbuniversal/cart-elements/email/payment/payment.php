@@ -50,9 +50,10 @@ class JBCartElementEmailPayment extends JBCartElementEmail
     {
         if ($layout = $this->getLayout('order.php')) {
             return self::renderLayout($layout, array(
-                'params' => $params,
-                'order'  => $this->getOrder(),
-                'title'  => $this->getTitle(self::DEFAULT_TITLE)
+                'params'  => $params,
+                'order'   => $this->getOrder(),
+                'payment' => $this->getOrder()->getPayment(),
+                'title'   => $this->getTitle(self::DEFAULT_TITLE)
             ));
         }
 

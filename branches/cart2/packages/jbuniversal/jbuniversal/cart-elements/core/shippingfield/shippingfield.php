@@ -42,14 +42,34 @@ abstract class JBCartElementShippingField extends JBCartElement
      */
     public function renderSubmission($params = array())
     {
-        return $this->app->html->_(
-            'control.text',
-            $this->getControlName('value'),
-            $this->get('value', $this->config->get('default')),
-            'size="60" maxlength="255" id="' . $this->htmlId() . '"'
-        );
+        if ($layout = $this->getLayout('submission.php')) {
+            return self::renderLayout($layout, array(
+                'params' => $params
+            ));
+        }
+
+        return false;
     }
 
+    /**
+     * Validates the submitted element
+     * @param $value
+     * @param $params
+     * @return array
+     */
+    public function validateSubmission($value, $params)
+    {
+        $data = $this->app->validator->create('textfilter', array(
+            'required' => false,
+            'trim'     => true
+        ))->clean($value->get('value'));
+
+        if (!empty($data)) {
+            return array('value' => $data);
+        }
+
+        return array();
+    }
 }
 
 /**

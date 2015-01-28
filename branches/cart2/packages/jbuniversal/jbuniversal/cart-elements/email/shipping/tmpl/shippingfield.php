@@ -14,7 +14,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 if (!empty($data)) : ?>
-
     <tr>
         <td <?php echo $this->getAttrs(array(
             'colspan' => 2
@@ -26,22 +25,21 @@ if (!empty($data)) : ?>
         </td>
     </tr>
 
-    <?php foreach ($data as $key => $field) : ?>
+    <?php foreach ($data as $key => $field) :
+        if (!empty($field)) :
+            $element = $order->getShippingFieldElement($key); ?>
+            <tr>
+                <td align="left">
+                    <strong>
+                        <?php echo $element->config->get('name'); ?>
+                    </strong>
+                </td>
 
-        <?php if (empty($field)) :
-            continue;
-        endif; ?>
-        <tr>
-            <td align="left">
-                <strong>
-                    <?php echo JText::_('JBZOO_ORDER_SHIPPINGFIELDS_' . strtoupper($key)); ?>
-                </strong>
-            </td>
+                <td align="left">
+                    <?php echo $field->get('value'); ?>
+                </td>
 
-            <td align="left">
-                <?php echo $field->get('value'); ?>
-            </td>
-
-        </tr>
-    <?php endforeach;
+            </tr>
+        <?php endif;
+    endforeach;
 endif;

@@ -48,21 +48,17 @@ class JBCartElementEmailShipping extends JBCartElementEmail
      */
     public function render($params = array())
     {
-        $on = (int)$this->config->get('shippingfield', 1);
-
-        $options = array();
-        if ($on) {
-            $options = $this->getFieldsParams();
-        }
+        $order    = $this->getOrder();
+        $shipping = $order->getShipping();
 
         if ($layout = $this->getLayout('order.php')) {
             return self::renderLayout($layout, array(
-                'params'      => $params,
-                'order'       => $this->getOrder(),
-                'shipping'    => $this->_getShipping(),
-                'data'        => $this->_getShippingData(),
-                'title'       => $this->getTitle(self::DEFAULT_TITLE),
-                'fieldParams' => $options
+                'params'         => $params,
+                'order'          => $order,
+                'shipping'       => $shipping,
+                'data'           => $this->_getShippingData(),
+                'title'          => $this->getTitle(self::DEFAULT_TITLE),
+                'shippingFields' => $this->getShippingFields()
             ));
         }
 
@@ -74,15 +70,20 @@ class JBCartElementEmailShipping extends JBCartElementEmail
      *
      * @return JSONData
      */
-    public function getFieldsParams()
+    public function getShippingFields()
     {
-        $title = $this->config->get('shippingfieldtitle');
-        $title = !empty($title) ? $title : self::FIELD_DEFAULT_TITLE;
+        $fields = (int)$this->config->get('shippingfield', 1);
+        $params = array();
 
-        $params = array(
-            'data'  => $this->_getShippingFieldsData(),
-            'title' => JText::_($title)
-        );
+        if ($fields) {
+            $title = $this->config->get('shippingfieldtitle');
+            $title = !empty($title) ? $title : self::FIELD_DEFAULT_TITLE;
+
+            $params = array(
+                'data'  => $this->_getShippingFieldsData(),
+                'title' => JText::_($title)
+            );
+        }
 
         return $this->app->data->create($params);
     }

@@ -320,33 +320,26 @@ abstract class JBCartElementEmail extends JBCartElement
 
     /**
      * Get related shipping fields data data from order
-     *
-     * @param  boolean $assoc - return array or JSONData
-     *
      * @return JSONData|array
      */
-    protected function _getShippingFieldsData($assoc = false)
+    protected function _getShippingFieldsData()
     {
-        $elements       = array();
-        $shipping       = $this->_getShipping();
-        $relatedfields  = $shipping->config->get('shippingfields', array());
-        $shippingfields = $this->getOrder()->getShippingFields();
+        $order    = $this->getOrder();
+        $elements = array();
 
-        if (!empty($relatedfields)) {
-            foreach ($relatedfields as $relatedfield) {
+        $shipping = $order->getShipping();
+        $related  = $shipping->config->get('shippingfields', array());
 
-                $relatedfield = JString::strtolower(JString::trim($relatedfield));
-
-                if (empty($relatedfield)) {
-                    continue;
+        $shippingFields = $order->getShippingFields();
+        if (!empty($related)) {
+            foreach ($related as $id) {
+                $data = $shippingFields->get($id);
+                if (!empty($data)) {
+                    $elements[$id] = $data;
                 }
-                $identifier = '_' . $relatedfield;
-
-                $elements[$relatedfield] = $shippingfields->get($identifier);
             }
         }
 
-        //return !empty($elements) && $assoc === true ? $elements->getArrayCopy() : $elements;
         return $elements;
     }
 

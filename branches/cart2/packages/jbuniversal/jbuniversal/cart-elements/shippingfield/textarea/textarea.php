@@ -13,9 +13,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBCartElementShippingFieldTextarea
+ * Class JBCartElementShippingFieldTextArea
  */
-class JBCartElementShippingFieldTextarea extends JBCartElementShippingField
+class JBCartElementShippingFieldTextArea extends JBCartElementShippingField
 {
     /**
      * @param array $params
@@ -32,12 +32,12 @@ class JBCartElementShippingFieldTextarea extends JBCartElementShippingField
      */
     public function renderSubmission($params = array())
     {
-        return $this->app->html->_(
-            'control.textarea',
-            $this->getControlName('value'),
-            $this->get('value', $this->config->get('default')),
-            'size="60" maxlength="255" class="shippingfield-textarea" id="' . $this->htmlId() . '"'
-        );
-    }
+        if ($layout = $this->getLayout('submission.php')) {
+            return self::renderLayout($layout, array(
+                'params' => $params
+            ));
+        }
 
+        return false;
+    }
 }
