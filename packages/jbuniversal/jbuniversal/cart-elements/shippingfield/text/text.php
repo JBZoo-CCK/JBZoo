@@ -27,4 +27,19 @@ class JBCartElementShippingFieldText extends JBCartElementShippingField
         return true;
     }
 
+    /**
+     * @param array $params
+     * @return mixed|string
+     */
+    public function renderSubmission($params = array())
+    {
+        if ($layout = $this->getLayout('submission.php')) {
+            return self::renderLayout($layout, array(
+                'params' => $params
+            ));
+        }
+
+        return false;
+    }
+
 }

@@ -11,9 +11,7 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
-
-?>
+defined('_JEXEC') or die('Restricted access'); ?>
 <table <?php echo $this->getAttrs(array(
         'width'       => '100%',
         'bgcolor'     => '#fafafa',
@@ -24,12 +22,12 @@ defined('_JEXEC') or die('Restricted access');
         'border'        => '1px solid #dddddd',
         'border-radius' => '4px',
         'margin-top'    => '35px'
-    ));?>
+    )); ?>
     >
     <tr>
         <td <?php echo $this->getAttrs(array(
             'colspan' => 2
-        ));?>
+        )); ?>
             >
             <h3 style="color: #444444;margin: 0 0 15px 0;font-size: 18px;">
                 <?php echo $title; ?>
@@ -57,13 +55,13 @@ defined('_JEXEC') or die('Restricted access');
         </td>
 
         <td align="left">
-            <?php echo $this->_jbmoney->toFormat($data->get('value', 0)); ?>
+            <?php echo JBCart::val($data->get('rate', 0))->html(); ?>
         </td>
     </tr>
+
     <?php if ($fields = $data->get('fields')) :
         foreach ($fields as $key => $field) :
-            $name = JText::_('JBZOO_ORDER_SHIPPING_' . $shipping->getElementType() . '_' . $key);
-            ?>
+            $name = JText::_('JBZOO_ORDER_SHIPPING_' . $shipping->getElementType() . '_' . $key); ?>
             <tr>
                 <td align="left">
                     <strong>
@@ -77,15 +75,25 @@ defined('_JEXEC') or die('Restricted access');
             </tr>
 
         <?php endforeach;
-    endif;
+    endif; ?>
 
-    if (!empty($fieldParams)) :
+    <tr>
+        <td align="left">
+            <strong>
+                <?php echo JText::_('JBZOO_EMAIL_SHIPPING_STATUS'); ?>
+            </strong>
+        </td>
+        <td align="left">
+            <?php echo $shipping->getStatus(); ?>
+        </td>
+    </tr>
 
+    <?php if (!empty($shippingFields)) :
         echo $this->partial('shippingfield', array(
-                'data'  => $fieldParams->get('data'),
-                'title' => $fieldParams->get('title')
-            )
-        );
+            'data'  => $shippingFields->get('data'),
+            'title' => $shippingFields->get('title'),
+            'order' => $order
+        ));
     endif; ?>
 </table>
 

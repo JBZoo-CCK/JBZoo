@@ -31,7 +31,7 @@ class JBCartElementEmailItems extends JBCartElementEmail
     public function hasValue($params = array())
     {
         $order = $this->getOrder();
-        if (!empty($order->id) && $order->getItems()) {
+        if (!empty($order->id) && $order->getItems(false)) {
             return true;
         }
 

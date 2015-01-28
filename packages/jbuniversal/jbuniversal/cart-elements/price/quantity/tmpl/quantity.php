@@ -13,7 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $params    = $this->interfaceParams();
-$unique    = $this->htmlId();
+$unique    = $this->htmlId(true);
 $default   = $params['default'];
 $isEnabled = true;
 

@@ -16,8 +16,9 @@ $i = 0; ?>
 <tbody>
 <?php foreach ($items as $key => $item) :
     $image = null;
+
     if ($item->find('elements._image')) {
-        $src   = 'cid:' . $this->clean($key) . '-' . $this->clean(basename($item->find('elements.image')));
+        $src   = 'cid:' . $this->clean($key) . '-' . $this->clean(basename($item->find('elements._image')));
         $src   = JString::str_ireplace(' ', '', $src);
         $image = '<img width="50" src="' . $src . '" title="' . $item['item_name'] . '"/>';
     }
@@ -27,8 +28,8 @@ $i = 0; ?>
     if ($i % 2 == 1) {
         $rowattr .= ' bgcolor="#fafafa"';
     }
-
     $total = JBCart::val((float)$item->get('total'));
+
     $total->multiply($item->get('quantity')); ?>
     <tr <?php echo $rowattr; ?>>
         <td>
@@ -41,13 +42,13 @@ $i = 0; ?>
             <?php echo $item['item_name']; ?>
         </td>
         <td align="center">
-            <?php echo JBCart::val($item->find('elements._value')); ?>
+            <?php echo JBCart::val($item->find('elements._value'))->html(); ?>
         </td>
         <td align="center">
             <?php echo $item->get('quantity'); ?>
         </td>
         <td align="right">
-            <?php echo $total; ?>
+            <?php echo $total->html(); ?>
         </td>
     </tr>
 

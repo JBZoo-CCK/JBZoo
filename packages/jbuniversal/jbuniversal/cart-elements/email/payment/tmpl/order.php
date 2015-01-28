@@ -11,9 +11,7 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
-
-?>
+defined('_JEXEC') or die('Restricted access'); ?>
 <table <?php echo $this->getAttrs(array(
         'width'       => '100%',
         'cellpadding' => 10,
@@ -35,6 +33,36 @@ defined('_JEXEC') or die('Restricted access');
     </tr>
 
     <tr>
-        <?php //jbdump::dump($order->getPayment()); ?>
+        <td>
+        <strong>
+            <?php echo JText::_('JBZOO_EMAIL_PAYMENT_METHOD'); ?>
+        </strong>
+        </td>
+
+        <td>
+            <?php echo $payment->getName(); ?>
+        </td>
+    </tr>
+
+    <tr>
+        <td align="left">
+            <strong>
+                <?php echo JText::_('JBZOO_EMAIL_PAYMENT_COMMISSION'); ?>
+            </strong>
+        </td>
+        <td align="left">
+            <?php echo $payment->getRate()->html(); ?>
+        </td>
+    </tr>
+
+    <tr>
+        <td align="left">
+            <strong>
+                <?php echo JText::_('JBZOO_EMAIL_PAYMENT_STATUS'); ?>
+            </strong>
+        </td>
+        <td align="left">
+            <?php echo $payment->getStatus(); ?>
+        </td>
     </tr>
 </table>

@@ -16,10 +16,8 @@ defined('_JEXEC') or die('Restricted access');
 $attrs = array(
     'type' => 'text',
     'name' => $this->getControlName('value'),
-    'id'   => 'shipping-' . $this->identifier
-);
-
-?>
+    'id'   => $this->htmlId(true)
+); ?>
     <input <?php echo $this->app->jbhtml->buildAttrs($attrs); ?> />
 
 <?php if ($description = $this->config->get('description')) : ?>
