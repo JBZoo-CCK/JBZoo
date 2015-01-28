@@ -214,6 +214,23 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     * Get unique class/id for element
+     * @param bool $unique
+     * @return string
+     */
+    public function htmlId($unique = false)
+    {
+        $jbPrice = $this->_jbprice;
+
+        $id = 'jbcart-' . $jbPrice->layout() . '-' . $jbPrice->getItem()->id . '-' . $this->identifier;
+        if ($unique) {
+            return $this->app->jbstring->getId($id);
+        }
+
+        return $id;
+    }
+
+    /**
      * @return JBCartVariant
      */
     public function isBasic()
