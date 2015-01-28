@@ -17,27 +17,4 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementShippingFieldTextArea extends JBCartElementShippingField
 {
-    /**
-     * @param array $params
-     * @return bool
-     */
-    public function hasValue($params = array())
-    {
-        return true;
-    }
-
-    /**
-     * @param array $params
-     * @return mixed|string
-     */
-    public function renderSubmission($params = array())
-    {
-        if ($layout = $this->getLayout('submission.php')) {
-            return self::renderLayout($layout, array(
-                'params' => $params
-            ));
-        }
-
-        return false;
-    }
 }
