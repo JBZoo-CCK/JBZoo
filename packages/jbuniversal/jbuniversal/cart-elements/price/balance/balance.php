@@ -30,11 +30,7 @@ class JBCartElementPriceBalance extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        if ($this->getRenderParams()) {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     /**
@@ -71,12 +67,14 @@ class JBCartElementPriceBalance extends JBCartElementPrice
     public function render($params = array())
     {
         $template = $params->get('template', 'simple');
+        $useStock = (int)$this->config->get('balance_mode', 1);
 
         if ($layout = $this->getLayout($template . '.php')) {
             return self::renderLayout($layout, array(
                 'textNo'    => '<span class="not-available">' . JText::_('JBZOO_JBPRICE_NOT_AVAILABLE') . '</span>',
                 'textYes'   => '<span class="available">' . JText::_('JBZOO_JBPRICE_AVAILABLE') . '</span>',
-                'textOrder' => '<span class="under-order">' . JText::_('JBZOO_JBPRICE_BALANCE_UNDER_ORDER') . '</span>'
+                'textOrder' => '<span class="under-order">' . JText::_('JBZOO_JBPRICE_BALANCE_UNDER_ORDER') . '</span>',
+                'useStock'  => $useStock
             ));
         }
 
@@ -122,5 +120,4 @@ class JBCartElementPriceBalance extends JBCartElementPrice
 
         return $this->render($params);
     }
-
 }
