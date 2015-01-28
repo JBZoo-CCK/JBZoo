@@ -918,7 +918,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * @param int|string $id
      * @return JBCartVariant
      */
-    protected function getVariant($id = self::BASIC_VARIANT)
+    public function getVariant($id = self::BASIC_VARIANT)
     {
         if ($this->_list instanceof JBCartVariantList) {
             return $this->_list->get($id);

@@ -235,7 +235,14 @@ class BasketJBUniversalController extends JBUniversalController
             $this->app->jbajax->send(array('cart' => $recount));
         }
 
-        $this->app->jbajax->send(array('message' => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE')), false);
+        $item = $cart->getItem($key);
+        $this->app->jbajax->send(array(
+            'message'  => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE'),
+            'quantity' => (float)$cart
+                ->getJBPrice($item)
+                ->getVariant($item['variant'])
+                ->get('_balance')
+        ), false);
     }
 
     /**

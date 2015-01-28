@@ -129,7 +129,7 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
         if ($this->inStock($quantity, $key)) {
             $cart
                 ->addItem($this->_list->getCartData())
-                ->checkItem($cart->getItem($session_key));
+                ->updateItem($cart->getItem($session_key));
 
             $jbAjax->send(array(), true);
 
@@ -179,5 +179,4 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
 
         return $this;
     }
-
 }
