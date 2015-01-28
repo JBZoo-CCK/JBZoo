@@ -13,27 +13,23 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$balance = $this->getValue('value');
-
-?>
+$balance = $this->getValue('value'); ?>
 <div class="jbprice-balance jsJBPriceBalance">
     <span class="balance">
-        <?php
-        if ($balance > 0) {
+        <?php if (!$useStock || $balance > 0) {
             echo '<span class="available">' . JText::_('JBZOO_JBPRICE_BALANCE_TEXT') . ': ' . $balance . '</span>';
 
-        } else if ($balance > 0) {
+        } elseif ($balance > 0) {
             echo $textYes;
 
-        } else if ($balance == -1) {
+        } elseif ($balance == -1) {
             echo $textYes;
 
-        } else if ($balance == -2) {
+        } elseif ($balance == -2) {
             echo $textOrder;
 
-        } else if ($balance == 0) {
+        } elseif ($balance == 0) {
             echo $textNo;
-        }
-        ?>
+        } ?>
     </span>
 </div>

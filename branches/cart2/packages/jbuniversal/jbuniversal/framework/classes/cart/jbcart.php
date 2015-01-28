@@ -154,6 +154,25 @@ class JBCart
     }
 
     /**
+     * Add an error message.
+     * @param   string $error Error message.
+     */
+    public function setError($error)
+    {
+        array_push($this->_errors, $error);
+    }
+
+    /**
+     * Return all errors, if any.
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->_errors;
+    }
+
+    /**
      * Get payment success status
      * @return string
      */
@@ -665,25 +684,6 @@ class JBCart
         );
 
         return $result;
-    }
-
-    /**
-     * Add an error message.
-     * @param   string $error Error message.
-     */
-    public function setError($error)
-    {
-        array_push($this->_errors, $error);
-    }
-
-    /**
-     * Return all errors, if any.
-     *
-     * @return array
-     */
-    public function getErrors()
-    {
-        return $this->_errors;
     }
 
     /**

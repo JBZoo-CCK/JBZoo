@@ -11,13 +11,13 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
-
-?>
+defined('_JEXEC') or die('Restricted access'); ?>
 <div class="jbprice-balance jsJBPriceBalance">
     <span class="balance">
-        <?php
-        if ($this->getValue('value') == 0) {
+        <?php if (!$useStock) {
+            echo $textYes;
+
+        } elseif ($this->getValue('value') == 0) {
             echo $textNo;
 
         } elseif ($this->getValue('value') == -2) {
@@ -25,7 +25,6 @@ defined('_JEXEC') or die('Restricted access');
 
         } else {
             echo $textYes;
-        }
-        ?>
+        } ?>
     </span>
 </div>
