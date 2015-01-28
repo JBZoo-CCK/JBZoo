@@ -418,7 +418,7 @@ class JBCartOrder
             $itemData && $element->setItemData($itemData);
 
             // clean memory, hack
-            unset($this->_elements[JBCart::CONFIG_MODIFIER_ITEM_PRICE][$identifier]);
+            $this->_elements->set(JBCart::CONFIG_MODIFIER_ITEM_PRICE, array());
         }
 
         return $element;
