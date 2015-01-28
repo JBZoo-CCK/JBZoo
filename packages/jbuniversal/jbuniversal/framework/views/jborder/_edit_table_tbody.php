@@ -63,8 +63,8 @@ if (!empty($items)) :
                     </ul>
                 <?php endif; ?>
 
-                <?php if ($row->get('description')) :
-                    echo '<p><i>' . $row->get('description') . '</i></p>';
+                <?php if ($row->find('elements._description')) :
+                    echo '<p><i>' . $row->find('elements._description') . '</i></p>';
                 endif; ?>
             </td>
 
