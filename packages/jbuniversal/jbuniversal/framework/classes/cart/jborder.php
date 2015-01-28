@@ -156,6 +156,7 @@ class JBCartOrder
     public function getTotalSum()
     {
         $summa = $this->getTotalForSevices();
+
         return $summa;
     }
 
@@ -599,6 +600,11 @@ class JBCartOrder
 
         if ($this->getTotalSum()->compare('0', '<=')) {
             $errorMessages[] = 'JBZOO_CART_VALIDATOR_ZERO_SUM';
+        }
+
+        $cart = JBCart::getInstance()->checkItems();
+        if ($cart->getErrors()) {
+            $errorMessages[] = $cart->getErrors();
         }
 
         return $errorMessages;

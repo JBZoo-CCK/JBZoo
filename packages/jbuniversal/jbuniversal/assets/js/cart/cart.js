@@ -113,6 +113,9 @@
                         if (data.message) {
                             $this.alert(data.message);
                         }
+                        if ($this.isWidgetExists('JBZooQuantity')) {
+                            $this.$('.js' + itemKey + ' .jsQuantity').JBZooQuantity('setValue', data.quantity);
+                        }
                     }
                 });
             }, $this.changeDelay);
