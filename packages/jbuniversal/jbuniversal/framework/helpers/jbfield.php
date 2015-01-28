@@ -115,8 +115,8 @@ class JBFieldHelper extends AppHelper
         $this->app->system->language->load('com_zoo');
 
         $this->app->html->_('behavior.modal', 'a.modal');
-        $this->app->jbassets->css('fields:zooapplication.css');
-        $this->app->jbassets->js('fields:zooapplication.js');
+        $this->app->document->addStylesheet('fields:zooapplication.css');
+        $this->app->document->addScript('fields:zooapplication.js');
 
         // init vars
         //$params = $this->app->parameterform->convertParams($parent);
