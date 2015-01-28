@@ -18,8 +18,10 @@ $i = 0; ?>
     $image = null;
 
     if ($item->find('elements._image')) {
-        $src   = 'cid:' . $this->clean($key) . '-' . $this->clean(basename($item->find('elements._image')));
-        $src   = JString::str_ireplace(' ', '', $src);
+        $path = $this->app->jbimage->getUrl($item->find('elements._image'));
+        $src  = 'cid:' . $this->clean($key) . '-' . $this->clean(basename($path));
+        $src  = JString::str_ireplace(' ', '', $src);
+
         $image = '<img width="50" src="' . $src . '" title="' . $item['item_name'] . '"/>';
     }
     $i++;

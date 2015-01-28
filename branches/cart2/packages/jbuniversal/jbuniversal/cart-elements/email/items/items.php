@@ -49,7 +49,7 @@ class JBCartElementEmailItems extends JBCartElementEmail
     {
         $order = $this->getOrder();
         $items = (array)$order->getItems(false);
-        
+
         if ($layout = $this->getLayout('order.php')) {
             return self::renderLayout($layout, array(
                     'title'    => $this->getTitle(self::DEFAULT_TITLE),

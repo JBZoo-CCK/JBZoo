@@ -66,7 +66,7 @@ class JBCartElementEmailShipping extends JBCartElementEmail
     }
 
     /**
-     * Get params for shippingfield layout
+     * Get params for shipping field layout
      *
      * @return JSONData
      */

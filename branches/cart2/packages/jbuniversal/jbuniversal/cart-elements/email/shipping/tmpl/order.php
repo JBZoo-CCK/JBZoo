@@ -73,7 +73,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
                     <?php echo $field; ?>
                 </td>
             </tr>
-
         <?php endforeach;
     endif; ?>
 
