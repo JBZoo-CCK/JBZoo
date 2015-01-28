@@ -45,7 +45,7 @@
 
             rePlace: function (data, duration) {
                 if (JBZoo.empty(data)) {
-                    data = this.default;
+                    data = this.options.default;
                 }
 
                 if (!JBZoo.empty(data) && data.image != this.image.attr('src')) {
