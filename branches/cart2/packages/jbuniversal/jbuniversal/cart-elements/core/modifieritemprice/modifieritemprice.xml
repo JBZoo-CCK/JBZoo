@@ -13,7 +13,9 @@
         <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
                description="JBZOO_ELEMENT_ACCESS_DESC"/>
 
-        <param name="visible" type="jbbool" default="1" label="JBZOO_ELEMENT_MODIFIER_VALUE_IS_VISIBLE"/>
+        <param name="visible" type="jbbool" default="1" label="JBZOO_ELEMENT_MODIFIERITEM_IS_VISIBLE"/>
+
+        <param name="value" type="text" default="0" label="JBZOO_ELEMENT_MODIFIERITEM_VALUE"/>
 
         <param name="subject" type="jbapplication" allitems="1" items="1" categories="1" types="1" frontpage="1"
                label="JBZOO_ELEMENT_MODIFIER_VALUE_SUBJECT"/>
