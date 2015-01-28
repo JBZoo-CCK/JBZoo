@@ -10,53 +10,45 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
-
-?>
+defined('_JEXEC') or die('Restricted access'); ?>
 <tfoot>
 
 <!-- Subtotal price for items -->
-<?php
-if ($subtotal) :
-    if ((int)$this->config->get('subtotal_items', 1)) : ?>
+<?php if ($subtotal && (int)$this->config->get('subtotal_items', 1)) : ?>
+    <tr>
+        <td <?php
+        echo $this->getAttrs(array(
+                    'colspan' => 2,
+                    'border'  => 0)
+            ) .
+            $this->getStyles(array(
+                'padding' => '8px 0 8px 8px'
+            )); ?>
+            ></td>
 
-        <tr>
-            <td <?php
-            echo $this->getAttrs(array(
-                        'colspan' => 2,
-                        'border'  => 0)
-                ) .
-                $this->getStyles(array(
-                    'padding' => '8px 0 8px 8px'
-                )); ?>
-                ></td>
+        <td <?php
+        echo $this->getAttrs(array(
+                'colspan' => 2
+            )) .
+            $this->getStyles(); ?>
+            >
+            <p>Промежуточный итог</p>
+        </td>
 
-            <td <?php
-            echo $this->getAttrs(array(
-                        'colspan' => 2)
-                ) .
-                $this->getStyles(); ?>
-                >
-                <p>Промежуточный итог</p>
-            </td>
-
-            <td <?php
-            echo $this->getAttrs(array(
-                        'align'   => 'right',
-                        'colspan' => 2)
-                ) .
-                $this->getStyles(array(
-                    'text-align' => 'right',
-                    'padding'    => '8px 0 8px 8px'
-                ), true); ?>
-                >
-                <?php echo $this->fontColor($order->getTotalForItems(), '#dd0055', 4); ?>
-            </td>
-        </tr>
-    <?php
-    endif;
-endif;
-
+        <td <?php
+        echo $this->getAttrs(array(
+                'align'   => 'right',
+                'colspan' => 2
+            )) .
+            $this->getStyles(array(
+                'text-align' => 'right',
+                'padding'    => '8px 0 8px 8px'
+            ), true); ?>
+            >
+            <?php echo $this->fontColor($order->getTotalForItems(), '#dd0055', 4); ?>
+        </td>
+    </tr>
+<?php endif;
 /**
  * - subtotal_services.php
  */
