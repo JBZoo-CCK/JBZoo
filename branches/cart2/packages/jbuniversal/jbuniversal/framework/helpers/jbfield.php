@@ -111,13 +111,6 @@ class JBFieldHelper extends AppHelper
      */
     public function jbapplication($name, $value, $control_name, SimpleXMLElement $node, $parent)
     {
-        // load zoo frontend language file
-        $this->app->system->language->load('com_zoo');
-
-        $this->app->html->_('behavior.modal', 'a.modal');
-        $this->app->document->addStylesheet('fields:zooapplication.css');
-        $this->app->document->addScript('fields:zooapplication.js');
-
         // init vars
         //$params = $this->app->parameterform->convertParams($parent);
         $table = $this->app->table->application;
