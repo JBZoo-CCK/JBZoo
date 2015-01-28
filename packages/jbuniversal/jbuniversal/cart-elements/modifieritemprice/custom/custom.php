@@ -19,7 +19,7 @@ class JBCartElementModifierItemPriceCustom extends JBCartElementModifierItemPric
 {
     /**
      * @param \JBCartValue $value
-     * @param array        $data
+     * @param  JSONData|array    $data
      * @return mixed
      */
     public function edit(JBCartValue &$value, $data = array())
