@@ -81,6 +81,15 @@ abstract class JBCartElementModifierOrderPrice extends JBCartElement
         return parent::bindData($data);
     }
 
+    /**
+     * @return JSONData
+     */
+    public function getOrderData()
+    {
+        $this->set('rate', $this->getRate()->data());
+        return $this->data();
+    }
+
 }
 
 /**

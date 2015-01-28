@@ -335,16 +335,20 @@ class JBCartOrder
     }
 
     /**
+     * @param ElementJBPrice $jbPrice
+     * @param array          $itemData
      * @return array
      */
-    public function getModifiersItemPrice()
+    public function getModifiersItemPrice(ElementJBPrice $jbPrice = null, $itemData = array())
     {
         $elementConfigs = $this->params->get(JBCart::CONFIG_MODIFIER_ITEM_PRICE);
 
         $elements = array();
         if (!empty($elementConfigs)) {
             foreach ($elementConfigs as $elementId => $elementConfig) {
-                $elements[$elementId] = $this->getModifierItemPriceElement($elementId);
+                if ($element = $this->getModifierItemPriceElement($elementId, $jbPrice, $itemData)) {
+                    $elements[$elementId] = $element;
+                }
             }
         }
 
@@ -402,12 +406,22 @@ class JBCartOrder
     }
 
     /**
-     * @param $identifier
+     * @param                $identifier
+     * @param ElementJBPrice $jbPrice
+     * @param array          $itemData
      * @return JBCartElementModifierItemPrice
      */
-    public function getModifierItemPriceElement($identifier)
+    public function getModifierItemPriceElement($identifier, ElementJBPrice $jbPrice = null, $itemData = array())
     {
-        return $this->getElement($identifier, JBCart::CONFIG_MODIFIER_ITEM_PRICE);
+        if ($element = $this->getElement($identifier, JBCart::CONFIG_MODIFIER_ITEM_PRICE)) {
+            $jbPrice && $element->setPriceElement($jbPrice);
+            $itemData && $element->setItemData($itemData);
+
+            // clean memory, hack
+            unset($this->_elements[JBCart::CONFIG_MODIFIER_ITEM_PRICE][$identifier]);
+        }
+
+        return $element;
     }
 
     /**
@@ -512,11 +526,10 @@ class JBCartOrder
             try {
 
                 if (($element = $this->getElement($identifier, $type))) {
-                    $params    = $this->app->data->create($elementParam);
-                    $elemData  = $element->validateSubmission($value, $params);
-                    $orderData = $element->getOrderData();
+                    $params   = $this->app->data->create($elementParam);
+                    $elemData = $element->validateSubmission($value, $params);
                     $element->bindData($elemData);
-                    $this->params[$type][$identifier] = $orderData['config'];
+                    $this->params[$type][$identifier] = (array)$element->config;
                 }
 
             } catch (AppValidatorException $e) {

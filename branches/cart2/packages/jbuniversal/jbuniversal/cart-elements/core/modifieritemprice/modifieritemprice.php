@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -26,60 +25,118 @@ abstract class JBCartElementModifierItemPrice extends JBCartElement
     protected $_namespace = JBCart::ELEMENT_TYPE_MODIFIER_ITEM_PRICE;
 
     /**
-     * @param JBCartValue $summa
-     * @param Item       $item
-     * @return JBCartValue
+     * @type ElementJBPrice
      */
-    //abstract public function modify(JBCartValue $summa, Item $item = null);
+    protected $_price = null;
 
     /**
-     * @param ElementJBPrice $jbPrice
-     * @param array          $session_data
-     * @return \JBCartValue
+     * @type JSONData
      */
-    public function getRate($jbPrice = null, $session_data = null)
+    protected $_itemData = null;
+
+    /**
+     * @param ElementJBPrice $priceElement
+     */
+    public function setPriceElement(ElementJBPrice $priceElement)
     {
-        if ($this->_isValid($jbPrice->getItem())) {
-            return $this->_order->val($this->config->get('value'));
+        $this->_price = $priceElement;
+    }
+
+    /**
+     * @param Array $itemData
+     */
+    public function setItemData($itemData = array())
+    {
+        $this->_itemData = $this->app->data->create($itemData);
+    }
+
+    /**
+     * @param JBCartValue $value
+     * @return JBCartValue
+     */
+    public function modify(JBCartValue $value)
+    {
+        return $value->add($this->getRate());
+    }
+
+    /**
+     * @return JBCartValue
+     */
+    public function getRate()
+    {
+        if ($this->_isValid()) {
+            return $this->_order->val($this->config->get('rate'));
         }
 
-        return $this->_order->val();
+        return $this->_order->val(0);
     }
 
     /**
      * Check if item is valid to modify price
-     * @param Item $item
      * @return bool
      */
-    protected function _isValid($item = null)
+    protected function _isValid()
     {
+        $item = $this->_price->getItem();
         if (!$item) {
             return false;
         }
 
+        if ($this->app->jbenv->isSite() && !$this->canAccess()) {
+            return false;
+        }
+
         $config = $this->config;
-        $mode   = $config->find('subject.mode') ? $config->find('subject.mode') : self::MODE_ALL;
+        $mode   = $config->find('target.mode', self::MODE_ALL);
 
         if ($mode == self::MODE_ALL) {
             return true;
 
         } elseif ($mode == self::MODE_ITEMS) {
-            if ($config->find('subject.item_id') == $item->id) {
+            if ($config->find('target.item_id') == $item->id) {
                 return true;
             }
 
         } elseif ($mode == self::MODE_CATEGORIES) {
-            if (in_array((int)$config->find('subject.category'), $item->getRelatedCategoryIds(true))) {
+            if (in_array((int)$config->find('target.category'), $item->getRelatedCategoryIds(true))) {
                 return true;
             }
 
         } elseif ($mode == self::MODE_TYPES) {
-            if ($config->find('subject.type') == $item->type) {
+            if ($config->find('target.type') == $item->type) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    /**
+     * @param array $params
+     * @return null|string
+     */
+    public function edit($params = array())
+    {
+        if ($layout = $this->getLayout('edit.php')) {
+            $rate   = $this->_order->val($this->get('rate', 0));
+            $params = $this->app->data->create($params);
+
+            return self::renderLayout($layout, array(
+                'rate'   => $rate,
+                'params' => $params,
+            ));
+        }
+
+        return null;
+    }
+
+    /**
+     * @return JSONData
+     */
+    public function getOrderData()
+    {
+        $this->set('rate', $this->getRate()->data());
+        return $this->data();
     }
 
     /**
