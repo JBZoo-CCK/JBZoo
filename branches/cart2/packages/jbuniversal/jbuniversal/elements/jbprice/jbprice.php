@@ -199,7 +199,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function render($params = array())
     {
-        $this->loadAssets()->_getConfig();
+        $this->loadAssets();
         $params = $this->app->data->create($params);
 
         $this->_template = $params->get('template', 'default');
