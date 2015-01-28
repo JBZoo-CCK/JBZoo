@@ -10,8 +10,8 @@
     <description>HTML Selectbox</description>
     <params>
         <param name="multiple" type="radio" default="0" label="Multiple" description="">
-            <option value="0">JNO</option>
-            <option value="1">JYES</option>
+            <option value="0">JBZOO_NO</option>
+            <option value="1">JBZOO_YES</option>
         </param>
     </params>
 </element>
