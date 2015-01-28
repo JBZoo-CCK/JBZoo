@@ -14,8 +14,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$unique = $this->app->jbstring->getId('sku-');
-$sku    = (!empty($value) ? $value : $this->getJBPrice()->getItem()->id);
+$sku = (!empty($value) ? $value : $this->getJBPrice()->getItem()->id);
 
 if ($sku) : ?>
     <div class="jbprice-sku">
@@ -24,4 +23,4 @@ if ($sku) : ?>
         </span>
         <span class="sku uk-badge uk-badge-notification"><?php echo $sku; ?></span>
     </div>
-<?php endif; ?>
+<?php endif;

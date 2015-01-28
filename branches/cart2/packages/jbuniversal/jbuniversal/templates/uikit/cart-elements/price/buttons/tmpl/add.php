@@ -23,12 +23,6 @@ defined('_JEXEC') or die('Restricted access');?>
     <a rel="nofollow" href="#remove-from-cart" class="jsRemoveFromCart uk-button uk-button-danger uk-button-small remove-button"
        title="<?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?>">
         <i class="uk-icon-trash-o"></i>
-        <?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART_VARIANT'); ?>
-    </a>
-
-    <a rel="nofollow" href="#remove-from-cart" class="jsRemoveFromCart uk-button uk-button-danger uk-button-small remove-button"
-       title="<?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?>">
-        <i class="uk-icon-trash-o"></i>
         <?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?>
     </a>
 </div>
