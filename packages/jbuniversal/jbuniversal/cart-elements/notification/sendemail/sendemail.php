@@ -154,7 +154,7 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
             if (!empty($items)) {
                 foreach ($items as $key => $params) {
                     if ($path = $params->find('elements._image')) {
-                        $path = $this->app->jbimage->getUrl($path);
+                        $path = JPATH_ROOT . DS . $path;
 
                         $file = $this->clean(basename($path));
                         $name = $this->clean($params->get('name'));
