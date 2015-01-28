@@ -18,7 +18,7 @@ if ($this->get('ordersList')) :
     $url = $this->app->jbrouter->admin(array(
             'task'   => 'getPreview',
             'format' => 'raw',
-            'layout' => $this->request->get('layout', 'string')
+            'layout' => $this->layout
         )
     ); ?>
 

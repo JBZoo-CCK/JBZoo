@@ -73,11 +73,12 @@ $editUrl = $this->app->jbrouter->admin(array('cid' => array($order->id)));
                     ));
                 }
 
-                echo $this->partial('edit_block_shipping', array(
-                    'order'    => $order,
-                    'shipping' => $shipping,
-                ));
-
+                if ($shipping) {
+                    echo $this->partial('edit_block_shipping', array(
+                        'order'    => $order,
+                        'shipping' => $shipping,
+                    ));
+                }
                 ?>
             </div>
 
