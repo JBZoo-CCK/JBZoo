@@ -17,11 +17,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementModifierItemPriceQuantity extends JBCartElementModifierItemPrice
 {
-    const MODE_ALL        = 'all';
-    const MODE_TYPES      = 'types';
-    const MODE_ITEMS      = 'item';
-    const MODE_CATEGORIES = 'categories';
-
     /**
      * @param \JBCartValue $value
      * @param  JSONData|array    $data
