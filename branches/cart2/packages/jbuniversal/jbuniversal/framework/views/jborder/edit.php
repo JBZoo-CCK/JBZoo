@@ -43,12 +43,14 @@ $editUrl = $this->app->jbrouter->admin(array('cid' => array($order->id)));
             <div class="uk-width-7-10 order-table">
 
                 <?php echo $this->partial('edit_table', array(
-                    'order' => $order,
-                ));?>
+                    'order'    => $order,
+                    'shipping' => $shipping,
+                    'payment'  => $payment
+                )); ?>
 
                 <?php echo $this->partial('edit_orderinfo', array(
                     'order' => $order,
-                ));?>
+                )); ?>
             </div>
 
             <div class="uk-width-3-10 order-system">
@@ -81,10 +83,10 @@ $editUrl = $this->app->jbrouter->admin(array('cid' => array($order->id)));
 
         </div>
 
-        <input type="hidden" name="option" value="<?php echo $this->app->jbrequest->get('option'); ?>" />
-        <input type="hidden" name="cid[0]" value="<?php echo $order->id; ?>" />
-        <input type="hidden" name="controller" value="<?php echo $this->app->jbrequest->getCtrl(); ?>" />
-        <input type="hidden" name="task" value="edit" />
+        <input type="hidden" name="option" value="<?php echo $this->app->jbrequest->get('option'); ?>"/>
+        <input type="hidden" name="cid[0]" value="<?php echo $order->id; ?>"/>
+        <input type="hidden" name="controller" value="<?php echo $this->app->jbrequest->getCtrl(); ?>"/>
+        <input type="hidden" name="task" value="edit"/>
         <?php echo $this->app->html->_('form.token'); ?>
     </form>
 

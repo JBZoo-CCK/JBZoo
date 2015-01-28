@@ -12,26 +12,22 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$jbmoney = $this->app->jbmoney;
-
 $statusList = $this->app->jbcartstatus->getList(JBCart::STATUS_SHIPPING, true);
-$element    = $order->getShipping();
-if ($element) {
-    $curStatus = $element->getStatus();
-}
 
-?>
+if ($shipping) {
+    $curStatus = $element->getStatus();
+} ?>
 <div class="uk-panel uk-panel-box">
 
     <h3 class="uk-panel-title"><?php echo JText::_('JBZOO_ORDER_SHIPPING_TITLE'); ?></h3>
 
     <?php echo $this->shipRender->renderAdminEdit(array('order' => $order)); ?>
 
-    <?php if ($element) : ?>
+    <?php if ($shipping) : ?>
         <dl class="uk-description-list-horizontal">
             <dt><?php echo JText::_('JBZOO_ORDER_SHIPPING_BLOCK_PRICE'); ?></dt>
             <dd>
-                <p><?php echo $element->getRate()->html(); ?></p>
+                <p><?php echo $shipping->getRate()->html(); ?></p>
             </dd>
 
             <dt>Статус</dt>
