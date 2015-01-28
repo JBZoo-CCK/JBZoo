@@ -14,9 +14,6 @@ defined('_JEXEC') or die('Restricted access');
 
 $emptyRow = '<tr class="empty-row"><td colspan="50"></td></tr>';
 
-$payment  = $order->getPayment();
-$shipping = $order->getShipping();
-
 $this->sum   = $order->val();
 $this->count = 0;
 $currency    = $this->sum->cur(); ?>
@@ -56,13 +53,13 @@ $currency    = $this->sum->cur(); ?>
 
     echo $this->partial('edit_table_payment', array(
         'order'    => $order,
-        'payment'  => $order->getPayment(),
+        'payment'  => $payment,
         'currency' => $currency
     ));
 
     echo $this->partial('edit_table_shipping', array(
         'order'    => $order,
-        'shipping' => $order->getShipping(),
+        'shipping' => $shipping,
         'currency' => $currency
     ));
 
