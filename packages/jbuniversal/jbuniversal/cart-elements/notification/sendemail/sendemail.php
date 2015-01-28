@@ -150,15 +150,12 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
         $order = $this->getOrder();
 
         if ($order->id && (int)$this->config->get('images', 0)) {
-
-            $items = $items = $order->getItems(false);
+            $items = (array)$order->getItems(false);
 
             if (!empty($items)) {
                 foreach ($items as $key => $params) {
-
-                    if ($path = $params->get('image')) {
-
-                        $path = JPATH_ROOT . DS . $path;
+                    if ($path = $params->find('elements._image')) {
+                        $path = $this->app->jbimage->getUrl(JPATH_ROOT . DS . $path);
 
                         $file = $this->clean(basename($path));
                         $name = $this->clean($params->get('name'));
@@ -375,5 +372,4 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
 
         return $this;
     }
-
 }

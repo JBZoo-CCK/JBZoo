@@ -15,9 +15,8 @@ defined('_JEXEC') or die('Restricted access');
 $i = 0; ?>
 <tbody>
 <?php foreach ($items as $key => $item) :
-    $item  = $this->app->data->create($item);
     $image = null;
-    if (!empty($item['image'])) {
+    if ($item->find('elements._image')) {
         $src   = 'cid:' . $this->clean($key) . '-' . $this->clean(basename($item->find('elements.image')));
         $src   = JString::str_ireplace(' ', '', $src);
         $image = '<img width="50" src="' . $src . '" title="' . $item['item_name'] . '"/>';

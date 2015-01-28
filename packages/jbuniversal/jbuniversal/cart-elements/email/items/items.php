@@ -48,12 +48,12 @@ class JBCartElementEmailItems extends JBCartElementEmail
     public function render($params = array())
     {
         $order = $this->getOrder();
-        $items = $order->getItems();
+        $items = (array)$order->getItems(false);
         
         if ($layout = $this->getLayout('order.php')) {
             return self::renderLayout($layout, array(
                     'title'    => $this->getTitle(self::DEFAULT_TITLE),
-                    'items'    => json_decode($items->__toString(), true),
+                    'items'    => $items,
                     'order'    => $order,
                     'currency' => $order->getCurrency()
                 )
