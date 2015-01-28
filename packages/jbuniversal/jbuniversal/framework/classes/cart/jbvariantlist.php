@@ -14,7 +14,6 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * Class JBCartVariantList
- * @package
  * @since    2.2
  */
 class JBCartVariantList
@@ -164,7 +163,7 @@ class JBCartVariantList
 
     /**
      * Get Total price for variant
-     * @return \JBCartValue
+     * @return JBCartValue
      */
     public function getTotal()
     {
@@ -185,23 +184,22 @@ class JBCartVariantList
 
     /**
      * Add modifiers to the total or price
-     * @param \JBCartValue $total
-     * @param bool         $visible
-     * @return \JBCartValue
+     * @param JBCartValue $total
+     * @param bool        $visible
+     * @return JBCartValue
      */
     public function addModifiers(JBCartValue $total, $visible = false)
     {
         $cart = JBCart::getInstance();
         $data = $cart->getItem($this->getSessionKey());
 
-        $elements = $cart
-            ->newOrder()
-            ->getModifiersItemPrice();
+        $order    = $cart->newOrder();
+        $elements = $order->getModifiersItemPrice($this->_jbprice, $data);
 
         if (!empty($elements)) {
             foreach ($elements as $id => $element) {
-                if ((int)$visible === (int)$element->config->get('visible', 0)) {
-                    $element->modify($total, $this->_jbprice, $data);
+                if ($visible && (int)$element->config->get('visible', 1)) {
+                    $element->modify($total);
                 }
             }
         }
@@ -218,14 +216,13 @@ class JBCartVariantList
         $cart = JBCart::getInstance();
         $data = $cart->getItem($this->getSessionKey());
 
-        $elements = $cart
-            ->newOrder()
-            ->getModifiersItemPrice();
+        $order    = $cart->newOrder();
+        $elements = $order->getModifiersItemPrice($this->_jbprice, $data);
 
         $modifiers = array();
         if (!empty($elements)) {
             foreach ($elements as $id => $element) {
-                $modifiers[$id] = $element->getRate($this->_jbprice, $data)->data(true);
+                $modifiers[$id] = (array)$element->getOrderData();
             }
         }
 
@@ -254,6 +251,7 @@ class JBCartVariantList
                 }
             }
         }
+
         ksort($result);
 
         return md5(serialize($result));

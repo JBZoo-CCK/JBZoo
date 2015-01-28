@@ -12,15 +12,14 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$modifiers = $order->getModifiersItemPrice();
-
 if (!empty($items)) :
     foreach ($items as $key => $row) :
         $i    = 0;
         $item = $row->get('item');
 
-        $discount = $order->val($row->find('elements._discount'));
-        $margin   = $order->val($row->find('elements._margin'));
+        $discount  = $order->val($row->find('elements._discount'));
+        $margin    = $order->val($row->find('elements._margin'));
+        $modifiers = $order->getModifiersItemPrice(null, $row);
 
         $quantity = (float)$row->get('quantity', 1);
 
@@ -95,14 +94,18 @@ if (!empty($items)) :
             </tr>
 
             <?php foreach ($modifiers as $id => $modifier) :
-                $modified = $row->find('modifiers.' . $id);
-                $modifier->bindData(array(
-                    'rate'     => $modified,
-                    'currency' => $currency
-                )); ?>
+                $modifier->bindData($row->find('modifiers.' . $id));
+                $itemPrice->add($modifier->get('rate'));
 
+                $editHtml = $modifier->edit(array(
+                    'currency' => $this->get('currency')
+                ));
+                ?>
                 <tr class="item-modifiers">
-                    <?php echo $modifier->edit($itemPrice); ?>
+                    <td class="align-right"></td>
+                    <td class="align-right"><?php echo $modifier->getName(); ?></td>
+                    <td class="align-right"><?php echo $editHtml; ?></td>
+                    <td class="align-right"><?php echo $itemPrice->html(); ?></td>
                 </tr>
             <?php endforeach; ?>
 

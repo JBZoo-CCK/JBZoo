@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 $statusList = $this->app->jbcartstatus->getList(JBCart::STATUS_SHIPPING, true);
 
 if ($shipping) {
-    $curStatus = $element->getStatus();
+    $curStatus = $shipping->getStatus();
 } ?>
 <div class="uk-panel uk-panel-box">
 
