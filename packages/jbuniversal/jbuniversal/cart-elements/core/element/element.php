@@ -372,14 +372,18 @@ abstract class JBCartElement
         // get form
         $form = $this->app->parameterform->create();
 
-        $group = $this->getElementGroup();
-        $type  = $this->getElementType();
+        $params = array();
 
-        $params = array(
-            $this->app->path->path("cart-elements:core/element/element.xml"),
-            $this->app->path->path("cart-elements:core/$group/$group.xml"),
-            $this->app->path->path("cart-elements:$group/$type/$type.xml"),
-        );
+        $class = new ReflectionClass($this);
+        while ($class !== false) {
+            $xmlPath = preg_replace('#\.php$#i', '.xml', $class->getFileName());
+            if (file_exists($xmlPath)) {
+                $params[] = $xmlPath;
+            }
+            $class = $class->getParentClass();
+        }
+
+        $params = array_reverse($params);
 
         // trigger configparams event
         $event  = $this->app->event->create($this, 'cart-element:configparams')->setReturnValue($params);
