@@ -28,7 +28,7 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
     /**
      * Class constructor
      *
-     * @param App $app
+     * @param App    $app
      * @param string $type
      * @param string $group
      */
@@ -58,7 +58,7 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
             ->addImageItems();
 
         $this->send();
-
+        
         return $html;
     }
 
@@ -151,14 +151,12 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
 
         if ($order->id && (int)$this->config->get('images', 0)) {
             $items = (array)$order->getItems(false);
-
             if (!empty($items)) {
                 foreach ($items as $key => $params) {
                     if ($path = $params->find('elements._image')) {
                         $path = $this->app->jbimage->getUrl($path);
 
                         $file = $this->clean(basename($path));
-
                         $name = $this->clean($params->get('name'));
 
                         $cid = $this->clean($key) . '-' . $file;
@@ -177,7 +175,7 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
      * Add image width CID to attach. Use for Order Items.
      *
      * @param string $path Path to image
-     * @param string $cid Unique
+     * @param string $cid  Unique
      * @param string $name Name of image
      *
      * @return $this
@@ -221,7 +219,7 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
      * Add recipients to the email
      *
      * @param  string|array $recipient - email address
-     * @param  string|array $name - name of recipient
+     * @param  string|array $name      - name of recipient
      *
      * @return $this
      */
@@ -297,9 +295,7 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
                     $element = $order->getFieldElement($type);
 
                     if ($element) {
-
                         $email = JString::trim($element->data()->get('value'));
-
                         if (!empty($email)) {
                             $this->addRecipient($email);
                             $this->_send();

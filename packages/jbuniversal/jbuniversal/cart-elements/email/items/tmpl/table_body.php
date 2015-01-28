@@ -10,19 +10,24 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
-
-$i = 0; ?>
+defined('_JEXEC') or die('Restricted access'); ?>
 <tbody>
-<?php foreach ($items as $key => $item) :
+<?php
+$i = 0;
+foreach ($items as $key => $item) :
     $image = null;
 
-    if ($item->find('elements._image')) {
-        $path = $this->app->jbimage->getUrl($item->find('elements._image'));
-        $src  = 'cid:' . $this->clean($key) . '-' . $this->clean(basename($path));
-        $src  = JString::str_ireplace(' ', '', $src);
+    if ($path = $item->find('elements._image')) {
+        $path = $this->app->jbimage->getUrl($path);
 
-        $image = '<img width="50" src="' . $src . '" title="' . $item['item_name'] . '"/>';
+        $file = $this->clean(basename($path));
+        $name = $this->clean($item->get('name'));
+
+        $cid = $this->clean($key) . '-' . $file;
+        $cid = JString::str_ireplace(' ', '', $cid);
+        $src = 'cid:' . $cid;
+
+        $image = '<img width="50" src="' . $src . '" title="' . ucfirst($name) . '"/>';
     }
     $i++;
 
