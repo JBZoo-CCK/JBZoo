@@ -32,17 +32,17 @@ class JBCartValue
     const ROUND_TYPE_FLOOR   = 'floor';
     const ROUND_TYPE_CLASSIC = 'classic';
 
-    const ACT_PLUS       = 'plus';
-    const ACT_MINUS      = 'minus';
-    const ACT_ABS        = 'abs';
-    const ACT_MODIFY     = 'modifier';
-    const ACT_MULTIPLY   = 'multiply';
-    const ACT_PERCENTAGE = 'percentage';
-    const ACT_INVERT     = 'invert';
-    const ACT_POSITIVE   = 'positive';
-    const ACT_NEGATIVE   = 'negative';
-    const ACT_CLEAN      = 'clean';
-    const ACT_CONVERT    = 'convert';
+    const ACT_PLUS     = 'plus';
+    const ACT_MINUS    = 'minus';
+    const ACT_ABS      = 'abs';
+    const ACT_MODIFY   = 'modifier';
+    const ACT_MULTIPLY = 'multiply';
+    const ACT_INVERT   = 'invert';
+    const ACT_POSITIVE = 'positive';
+    const ACT_NEGATIVE = 'negative';
+    const ACT_CLEAN    = 'clean';
+    const ACT_CONVERT  = 'convert';
+    const ACT_PERCENT  = 'percent';
 
     /**
      * @type int
@@ -500,12 +500,13 @@ class JBCartValue
     }
 
     /**
-     * @param      $value
-     * @return \JBCartValue
+     * @param  $value
+     * @return JBCartValue
      */
-    public function percentage($value)
+    public function percent($value)
     {
-        return $this->_modifer($value, self::ACT_PERCENTAGE, true);
+        $value = JBCart::val($value);
+        return $this->_modifer($value, self::ACT_PERCENT, true);
     }
 
     /**
@@ -746,19 +747,6 @@ class JBCartValue
             $newValue = $value * $this->_value;
             $logMess  = 'Multiply with "' . $value . '"';
 
-        } else if (self::ACT_PERCENTAGE == $action) {
-            if (!$value instanceof JBCartValue) {
-                $value = JBCart::val($value);
-            }
-            $obj = clone($value);
-
-            $value->val($this->_currency);
-
-            $obj->_currency = self::PERCENT;
-            $obj->_value    = ($this->_value / $value->val()) * 100 ;
-
-            return $obj;
-
         } else if (self::ACT_INVERT == $action) {
 
             $logMess = 'Invert sign';
@@ -805,6 +793,10 @@ class JBCartValue
             } else {
                 $this->_error('Value doesn\'t have modyfy action!');
             }
+
+        } else if (self::ACT_PERCENT == $action) {
+            $percent = ($this->_value / $value->val($this->_currency)) * 100;
+            return JBCart::val($percent, self::PERCENT);
 
         } else {
             $this->_error('Undefined action: "' . $action . '"');

@@ -57,7 +57,7 @@ class JBCartVariant
      * @param integer        $id
      * @param ElementJBPrice $jbPrice
      * @param array          $data
-     * @param \JBCartVariant $basic link to the basic variant
+     * @param JBCartVariant $basic link to the basic variant
      */
     public function __construct($id, $jbPrice, $data = array(), $basic = null)
     {
@@ -68,8 +68,7 @@ class JBCartVariant
         $this->id    = $id;
         $this->value = JBCart::val();
 
-        $elements = $this->jbprice->_getElements(array_keys((array)$data));
-        if ($elements) {
+        if ($elements = $this->jbprice->_getElements(array_keys((array)$data))) {
             foreach ($elements as $id => $element) {
                 $this->_setElement($element, $data[$id]);
             }
