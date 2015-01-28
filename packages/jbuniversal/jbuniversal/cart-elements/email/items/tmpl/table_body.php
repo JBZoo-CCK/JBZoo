@@ -50,7 +50,7 @@ foreach ($items as $key => $item) :
             if (!empty($item['values'])) : ?>
                 <ul>
                     <?php foreach ($item['values'] as $label => $param) :
-                        echo '<li><strong>' . $label . ':</strong> ' . $param . '</li>';
+                        echo '<li style="list-style-type: none;"><strong>' . $label . ':</strong> ' . $param . '</li>';
                     endforeach; ?>
                 </ul>
             <?php endif;
