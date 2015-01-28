@@ -28,7 +28,7 @@
         /**
          * Ajax auto locker for multi ajax
          */
-        _isAjaxLocking: true,
+        _isAjaxLocking: false,
 
         /**
          * Widget fire on ajax start

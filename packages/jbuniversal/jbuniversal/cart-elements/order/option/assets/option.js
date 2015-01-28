@@ -59,7 +59,7 @@
         _removeOptionPanel: function (option) {
             option.find(".panel input:text").val(option.find("a.trigger").show().text());
             option.find(".panel").removeClass("active");
-            $this._orderOptions();
+            this._orderOptions();
         },
 
         _orderOptions: function () {
@@ -73,7 +73,7 @@
                     if (name) {
                         name = name.replace(pattern, "$1[" + i + "]$2");
                         name = name.replace(/^tmp/, 'positions');
-                        name = name.replace(/--\d*\]\[/, '][');
+                        name = name.replace(/-\d*\]\[/, '][');
                         $(this).attr("name", name);
                     }
                 });
