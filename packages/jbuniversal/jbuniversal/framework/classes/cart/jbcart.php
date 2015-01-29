@@ -316,7 +316,6 @@ class JBCart
             $price = $this->getJBPrice($data);
             $price->set('default_variant', $data['variant']);
             $price->setProp('_template', $data['template']);
-            $price->setProp('_layout', $data['layout']);
 
             $list = $price->getVariantList($data['variations'], array(
                 'quantity' => $data['quantity']
