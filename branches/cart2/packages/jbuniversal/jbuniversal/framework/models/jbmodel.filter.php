@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -31,14 +30,14 @@ class JBModelFilter extends JBModel
 
     /**
      * Filter search
-     * @param array $elements
+     * @param array  $elements
      * @param string $logic
-     * @param bool $type
-     * @param int $appId
-     * @param bool $exact
-     * @param int $offset
-     * @param int $limit
-     * @param array $order
+     * @param bool   $type
+     * @param int    $appId
+     * @param bool   $exact
+     * @param int    $offset
+     * @param int    $limit
+     * @param array  $order
      * @return array|JObject
      */
     public function search(
@@ -91,11 +90,11 @@ class JBModelFilter extends JBModel
 
     /**
      * Get count for pagination
-     * @param array $elements
+     * @param array  $elements
      * @param string $logic
-     * @param bool $type
-     * @param int $appId
-     * @param bool $exact
+     * @param bool   $type
+     * @param int    $appId
+     * @param bool   $exact
      * @return mixed
      */
     public function searchCount(
@@ -131,11 +130,11 @@ class JBModelFilter extends JBModel
 
     /**
      * Create sql query for search items in database
-     * @param array $elements
+     * @param array  $elements
      * @param string $logic
-     * @param bool $itemType
-     * @param int $appId
-     * @param bool $exact
+     * @param bool   $itemType
+     * @param int    $appId
+     * @param bool   $exact
      * @return JBDatabaseQuery
      */
     protected function _getSearchSelect(
@@ -216,8 +215,8 @@ class JBModelFilter extends JBModel
     /**
      * Add order to query
      * @param JBDatabaseQuery $select
-     * @param array $order
-     * @param string $itemType
+     * @param array           $order
+     * @param string          $itemType
      */
     protected function _addOrder(JBDatabaseQuery $select, $order, $itemType)
     {
@@ -303,6 +302,7 @@ class JBModelFilter extends JBModel
 
                     if (in_array($fieldName, $columns, true)) {
                         $select->order('tIndex.' . $fieldName . ' ' . $dir);
+                        $select->where('tIndex.' . $fieldName . ' IS NOT NULL');
                     }
                 }
             }
