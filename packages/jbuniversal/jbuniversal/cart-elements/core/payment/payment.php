@@ -133,7 +133,7 @@ abstract class JBCartElementPayment extends JBCartElement
      */
     public function modify(JBCartValue $summa)
     {
-        return $summa;
+        return $summa->add($this->getRate());;
     }
 
     /**

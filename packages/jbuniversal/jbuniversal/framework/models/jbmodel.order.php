@@ -70,6 +70,8 @@ class JBModelOrder extends JBModel
         $params     = $order->getParams();
         $params->set(JBCart::CONFIG_CURRENCIES, $currencies);
 
+        $total = $order->getTotalSum()->data();
+
         $data = array(
             'id'              => $order->id,
             'status'          => $order->getStatus()->getCode(),
@@ -77,7 +79,7 @@ class JBModelOrder extends JBModel
             'status_shipping' => $order->getShippingStatus(),
             'created'         => $order->created,
             'created_by'      => $order->created_by,
-            'total'           => $order->getTotalSum(),
+            'total'           => $total[0],
             'items'           => $order->getItems(false),
             'fields'          => $order->getFields(),
             'shippingfields'  => $order->getShippingFields(),
