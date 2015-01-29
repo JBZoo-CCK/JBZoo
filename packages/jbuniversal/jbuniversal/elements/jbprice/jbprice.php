@@ -285,7 +285,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public function getVariantList($variations = array(), $options = array(), $reload = false)
     {
         if ($reload) {
-            $this->_list = null;
+            $this->unsetList();
         }
 
         if (!$this->_list instanceof JBCartVariantList) {
@@ -295,10 +295,11 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                     self::defaultVariantKey() => $this->get('variations.' . self::defaultVariantKey())
                 );
             }
+            
             $options = array_merge(array(
-                'values'   => $this->get('values.' . self::defaultVariantKey()),
+                'values'   => $this->data()->find('values.' . self::defaultVariantKey()),
                 'currency' => $this->_config->get('cart.default_currency', JBCart::val()->cur())
-            ), $options);
+            ), (array)$options);
 
             $this->_list = new JBCartVariantList($variations, $this, $options);
         }
@@ -930,6 +931,16 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         ));
 
         return $this->_list->get($id);
+    }
+
+    /**
+     * Unset $_list JBCartVariantList
+     */
+    protected function unsetList()
+    {
+        $this->_list = null;
+
+        return $this;
     }
 
     /**
