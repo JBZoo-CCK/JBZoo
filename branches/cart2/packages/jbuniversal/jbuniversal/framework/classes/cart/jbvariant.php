@@ -44,7 +44,12 @@ class JBCartVariant
     /**
      * @type ElementJBPrice
      */
-    protected $jbprice;
+    protected $price;
+
+    /**
+     * @type JBCartVariantList
+     */
+    protected $list;
 
     /**
      * Empty object to set defaults
@@ -54,21 +59,24 @@ class JBCartVariant
 
     /**
      * Class constructor
-     * @param integer        $id
-     * @param ElementJBPrice $jbPrice
-     * @param array          $data
-     * @param JBCartVariant $basic link to the basic variant
+     * @param integer           $id
+     * @param JBCartVariantList $jbList
+     * @param array             $data
+     * @param JBCartVariant     $basic link to the basic variant
      */
-    public function __construct($id, $jbPrice, $data = array(), $basic = null)
+    public function __construct($id, $jbList, $data = array(), $basic = null)
     {
-        $this->jbprice  = $jbPrice;
+        $jbPrice     = $jbList->getJBPrice();
+        $this->list  = $jbList;
+        $this->price = $jbPrice;
+
         $this->elements = $jbPrice->app->data->create();
         $this->overlay  = $jbPrice->isOverlay();
 
         $this->id    = $id;
         $this->value = JBCart::val();
 
-        if ($elements = $this->jbprice->_getElements(array_keys((array)$data))) {
+        if ($elements = $jbPrice->_getElements(array_keys((array)$data))) {
             foreach ($elements as $id => $element) {
                 $this->_setElement($element, $data[$id]);
             }
@@ -159,10 +167,12 @@ class JBCartVariant
      */
     public function getTotal()
     {
-        $value = $this->getPrice();
-        $value->minus($this->get('_discount', $this->value));
+        $price = $this->getPrice();
+        if ($this->price->isOverlay()) {
+            return $this->getCalcTotal($price);
+        }
 
-        return $value;
+        return $this->getPlainTotal($price);
     }
 
     /**
@@ -171,44 +181,68 @@ class JBCartVariant
      */
     public function getPrice()
     {
-        $value = $this->value;
+        $price = $this->value;
         if ($element = $this->getElement('_value')) {
-            $value = $element->getValue();
+            $price = $element->getValue();
             if ($element->isModifier() && !$this->isBasic()) {
-                $value = $this->basic->get('_value')->add($value);
+                $price = $this->basic->get('_value')->add($price);
             }
-
-            $value->add($this->get('_margin', $this->value));
         }
 
-        return $value;
+        if ($this->price->isOverlay()) {
+            return $this->getCalcPrice($price);
+        }
+
+        return $this->getPlainPrice($price);
     }
 
     /**
-     * @return array
+     * @param  JBCartValue $price
+     * @return JBCartValue
      */
-    public function getElementsCartData()
+    protected function getPlainTotal(JBCartValue $price)
     {
-        $elements = $this->getElements();
-        $data     = array();
+        $total = $price->minus($this->get('_discount', $this->value));
 
-        if (!empty($elements)) {
-            foreach ($elements as $key => $element) {
-                if ($element->isCore()) {
-                    $value = $element->getValue();
+        return $this->list->addModifiers($total, true);
+    }
 
-                    if ($value instanceof JBCartValue) {
-                        $value = $value->data(true);
+    /**
+     * @param JBCartValue $price
+     * @return JBCartValue
+     */
+    protected function getPlainPrice(JBCartValue $price)
+    {
+        $price->add($this->get('_margin', $this->value));
 
-                    } elseif ($key == '_properties') { //TODO HACK for multiplicity in properties element
-                        $value = (array)$element->data();
-                    }
-                    $data[$key] = $value;
+        return $this->list->addModifiers($price, false);
+    }
+
+    /**
+     * @param  JBCartValue $price
+     * @return JBCartValue
+     */
+    protected function getCalcTotal(JBCartValue $price)
+    {
+        return $this->list->addModifiers($price, true);
+    }
+
+    /**
+     * @param  JBCartValue $price
+     * @return JBCartValue
+     */
+    protected function getCalcPrice(JBCartValue $price)
+    {
+        $all = $this->list->all();
+        if (count($all)) {
+            foreach ($all as $key => $variant) {
+                if (!$variant->isBasic()) {
+                    $price->add($variant->get('_value', $this->value));
                 }
             }
         }
 
-        return $data;
+        return $this->list->addModifiers($price, false);
     }
 
     /**

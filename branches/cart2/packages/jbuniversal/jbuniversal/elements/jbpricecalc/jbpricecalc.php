@@ -169,9 +169,10 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         $result = array();
 
         foreach ($options as $key => $option) {
-            $variant = new JBCartVariant($key, $this, $this->get('variations.' . $key));
+            $variant = new JBCartVariant($key, $this->_list, $this->get('variations.' . $key));
+            $total = $variant->get('_value');
 
-            $result[$option['value']] = $option['name'] . ' <em>' . $variant->getTotal()->html() . '</em>';
+            $result[$option['value']] = $option['name'] . ' <em>' . $total->html() . '</em>';
         }
 
         return $result;
