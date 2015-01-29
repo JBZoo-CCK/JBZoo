@@ -65,6 +65,7 @@ echo $this->partial('subtotal_services', array(
 /**
  * - subtotal_modifiers.php
  */
+
 echo $this->partial('subtotal_modifiers', array(
         'order'     => $order,
         'modifiers' => $order->getModifiersOrderPrice(),
