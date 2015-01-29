@@ -92,9 +92,9 @@ class JBCartElementEmailAttach extends JBCartElementEmail
     {
         parent::loadConfigAssets();
 
-        $this->app->document->addScript('assets:js/finder.js');
-        $this->app->document->addScript('cart-elements:email/attach/js/finder.js');
-        $this->app->document->addStylesheet('assets:css/ui.css');
+        $this->app->jbassets->js('assets:js/finder.js');
+        $this->app->jbassets->js('cart-elements:email/attach/js/finder.js');
+        $this->app->jbassets->css('assets:css/ui.css');
 
         return $this;
     }

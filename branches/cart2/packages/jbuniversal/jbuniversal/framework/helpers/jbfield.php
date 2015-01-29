@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -20,14 +19,23 @@ defined('_JEXEC') or die('Restricted access');
 class JBFieldHelper extends AppHelper
 {
     /**
+     * @param App $app
+     */
+    public function __construct($app)
+    {
+        parent::__construct($app);
+
+        // hack
+        $this->app->path->register($this->app->path->path('helpers:fields'), 'fields');
+    }
+
+    /**
      * Render currency list
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function elementCode($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -48,13 +56,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render currency list
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function currencyList($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -69,13 +75,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render application list
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function applicationList($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -101,7 +105,6 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render application list
-     *
      * @param string           $name
      * @param string|array     $value
      * @param                  $control_name
@@ -230,13 +233,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render layout list
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function layoutList($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -277,13 +278,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render submission layout list
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function formLayoutList($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -313,13 +312,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render email layout list
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function emailLayoutList($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -350,13 +347,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render submission list
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function submissionList($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -375,13 +370,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render layout list
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function layoutListGlobal($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -391,13 +384,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render typelist list
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function types($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -416,13 +407,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render hidden timestamp
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function timestamp($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -438,13 +427,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render hidden timestamp
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function currentCategoryId($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -462,7 +449,6 @@ class JBFieldHelper extends AppHelper
      * @param                  $controlName
      * @param SimpleXMLElement $node
      * @param                  $parent
-     *
      * @return string
      */
     public function currentApplicationId($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -477,13 +463,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render hidden timestamp
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function select($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -501,7 +485,6 @@ class JBFieldHelper extends AppHelper
      * @param                  $value
      * @param                  $controlName
      * @param SimpleXMLElement $node
-     *
      * @return mixed
      */
     public function singlechoice($name, $value, $controlName, SimpleXMLElement $node)
@@ -529,7 +512,6 @@ class JBFieldHelper extends AppHelper
      * @param                  $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return string $field
      */
     public function finder($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -572,7 +554,6 @@ class JBFieldHelper extends AppHelper
      * @param                  $value
      * @param                  $controlName
      * @param SimpleXMLElement $node
-     *
      * @return string
      */
     public function cartFields($name, $value, $controlName, SimpleXMLElement $node)
@@ -622,7 +603,6 @@ class JBFieldHelper extends AppHelper
      * @param                  $controlName
      * @param SimpleXMLElement $node
      * @param                  $parent
-     *
      * @return string
      */
     public function notificationRecipients($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -684,13 +664,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render boolean list
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function bool($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -705,13 +683,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render boolean list
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function boolGlobal($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -722,13 +698,11 @@ class JBFieldHelper extends AppHelper
     /**
      * Render boolean list
      * TODO Move queries to models
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function menuItems_j25($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -792,13 +766,11 @@ class JBFieldHelper extends AppHelper
     /**
      * TODO Move queries to models
      * Render boolean list
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function menuItems_j3($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -822,13 +794,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render textarea
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function textarea($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -880,13 +850,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render colors fields
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function colors($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -931,13 +899,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render element list
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function elementList($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -977,13 +943,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render element list
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function elementListByType($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -1023,13 +987,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render element list
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function JBElementListByType($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -1109,13 +1071,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Field for type - jbpricefields
-     *
      * @param                  $name
      * @param                  $values
      * @param                  $controlName
      * @param SimpleXMLElement $node
      * @param                  $parent
-     *
      * @return string
      */
     public function priceAdvanceFields($name, $values, $controlName, SimpleXMLElement $node, $parent)
@@ -1212,7 +1172,6 @@ class JBFieldHelper extends AppHelper
      * @param                  $controlName
      * @param SimpleXMLElement $node
      * @param                  $parent
-     *
      * @return mixed
      */
     public function jbpriceTemplates($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -1227,13 +1186,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render element id
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function elementId($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -1247,13 +1204,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render element id
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function spacer($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -1267,13 +1222,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render custom description
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function desc($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -1287,13 +1240,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render related fields
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function relatedFields($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -1343,13 +1294,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render hidden timestamp
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function password($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -1366,13 +1315,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render key-value pair
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function keyValue($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -1426,13 +1373,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render itemOrder global
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function itemOrderGlobal($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -1442,13 +1387,11 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render itemOrder
-     *
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     public function itemOrder($name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -1485,11 +1428,9 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render itemorder row
-     *
      * @param     $rowValue
      * @param     $customName
      * @param int $index
-     *
      * @return null|string
      */
     protected function _renderItemOrderRow($rowValue, $customName, $index = 0)
@@ -1533,10 +1474,8 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Get pre-prepared options list for itemorder list
-     *
      * @param int    $index
      * @param string $prefix
-     *
      * @return array
      */
     public function getSortElementsOptionList($index = 0, $prefix = '_jbzoo_<INDEX>')
@@ -1601,7 +1540,6 @@ class JBFieldHelper extends AppHelper
      * @param array  $element
      * @param string $elementId
      * @param string $prefix
-     *
      * @return array
      */
     protected function _getSortJBPriceOptionList($element, $elementId, $prefix)
@@ -1619,10 +1557,8 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Check is current
-     *
      * @param SimpleXMLElement $node
      * @param AppParameterForm $parent
-     *
      * @return bool
      */
     public function isGlobal(SimpleXMLElement $node, $parent)
@@ -1647,12 +1583,10 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render radio params
-     *
      * @param array            $optionsList
      * @param string           $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
-     *
      * @return mixed
      */
     protected function _renderRadio($optionsList, $value, $controlName, SimpleXMLElement $node)
@@ -1682,14 +1616,12 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render layout list
-     *
      * @param string           $method
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
-     *
      * @return mixed
      */
     protected function _global($method, $name, $value, $controlName, SimpleXMLElement $node, $parent)
@@ -1715,12 +1647,10 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Render list params
-     *
      * @param array            $optionsList
      * @param string           $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
-     *
      * @return mixed
      */
     protected function _renderList($optionsList, $value, $controlName, SimpleXMLElement $node)
@@ -1743,7 +1673,6 @@ class JBFieldHelper extends AppHelper
      * @param SimpleXMLElement $node
      * @param string           $attrName
      * @param mixed            $default
-     *
      * @return bool|string
      */
     protected function _getAttr(SimpleXMLElement $node, $attrName, $default = null)
@@ -1759,10 +1688,8 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Get name
-     *
      * @param $controlName
      * @param $name
-     *
      * @return string
      */
     protected function _getName($controlName, $name)
@@ -1772,11 +1699,9 @@ class JBFieldHelper extends AppHelper
 
     /**
      * Create option instance
-     *
      * @param string $key
      * @param string $value
      * @param bool   $translate
-     *
      * @return mixed
      */
     protected function _createOption($key, $value, $translate = true)
