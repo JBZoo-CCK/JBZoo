@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -15,69 +14,42 @@ defined('_JEXEC') or die('Restricted access');
 
 if ($subtotal && $on) :
 
-    if ($payment) : ?>
+    if ($payment && !$payment->getRate()->isEmpty()) : ?>
         <tr>
             <td colspan="2" style="border-bottom: none;"></td>
+
             <td <?php echo $this->getStyles(); ?>>
                 <p style="<?php echo $this->getStyles(); ?>">
                     <strong>Комиссия платежной системы</strong>
                 </p>
             </td>
+
             <td colspan="2" <?php echo $this->getStyles(); ?>>
                 <?php echo $order->getPayment()->getName(); ?>
             </td>
-            <td <?php echo $this->getStyles(array(
-                    'text-align'    => 'right',
-                    'border-bottom' => '1px solid #dddddd'
-                )
-            ); ?>>
-                <strong>
-                    <?php echo JBCart::val($order->getPayment()->getRate(), $currency); ?>
-                </strong>
+
+            <td <?php echo $this->getStyles(array('text-align' => 'right', 'border-bottom' => '1px solid #dddddd')); ?>>
+                <strong><?php echo $order->val($payment->getRate(), $currency); ?></strong>
             </td>
         </tr>
     <?php endif;
 
-
-    if ($shipping) : ?>
+    if ($shipping && !$shipping->getRate()->isEmpty()) : ?>
         <tr>
             <td colspan="2" style="border-bottom: none;"></td>
+
             <td <?php echo $this->getStyles(); ?>">
-            <p style="<?php echo $this->getStyles(); ?>">
-                <strong>Цена доставки</strong>
-            </p>
+            <p style="<?php echo $this->getStyles(); ?>"><strong>Цена доставки</strong></p>
             </td>
+
             <td colspan="2" <?php echo $this->getStyles(); ?>>
-                <?php echo $order->getShipping()->getName(); ?>
+                <?php echo $shipping->getName(); ?>
             </td>
 
             <td <?php echo $this->getStyles(array('text-align' => 'right')); ?>>
-                <strong>
-                    <?php echo JBCart::val($order->getShipping()->getRate(), $currency); ?>
-                </strong>
+                <strong><?php echo $order->val($shipping->getRate(), $currency); ?></strong>
             </td>
         </tr>
     <?php endif; ?>
-
-    <tr>
-        <td colspan="2" style="border-bottom: none;"></td>
-        <td colspan="2" <?php echo $this->getStyles(); ?>>
-            <p>
-                Промежуточный итог
-            </p>
-        </td>
-
-        <td colspan="2" <?php echo $this->getStyles(array(
-                'text-align'    => 'right',
-                'font-size'     => '18px',
-                'border-bottom' => '1px solid #dddddd'
-            )
-        ); ?>
-            >
-            <em style="color: #dd0055;font-style: italic;">
-                <?php echo $order->getTotalForSevices(true); ?>
-            </em>
-        </td>
-    </tr>
 
 <?php endif;
