@@ -65,8 +65,7 @@ class JBCSVItemUserJBPrice extends JBCSVItem
     {
         $result = array();
         if (!empty($this->_value['variations'])) {
-
-            $list = $this->_element->getVariantList($this->_value['variations']);
+            $list = $this->_element->getVariantList($this->_value['variations'], array(), true);
             foreach ($list->all() as $key => $variant) {
                 $line = $this->_packToLine($variant);
 

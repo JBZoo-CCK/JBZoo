@@ -50,8 +50,6 @@ class JBCSVItemPrice extends JBCSVItem
      */
     public function fromCSV($value, $variant = 0)
     {
-        $value = JString::trim((string)$value);
-
         return array('value' => $value);
     }
 }

@@ -135,8 +135,13 @@ class JBPriceHelper extends AppHelper
             $value = JString::trim($value);
 
         }
-        if (JString::strlen($value) !== 0) {
+
+        if (is_array($value) && !empty($value)) {
             return $value;
+
+        } elseif (JString::strlen($value) !== 0) {
+            return $value;
+
         }
 
         return false;
