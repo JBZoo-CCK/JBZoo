@@ -10,12 +10,19 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
+
+$order = $this->getOrder();
+$items = $order->getItems()
+?>
 <tbody>
 <?php
 $i = 0;
+
 foreach ($items as $key => $item) :
     $image = null;
+
+    $modifiers = $order->getModifiersItemPrice(null, $item);
 
     if ($path = $item->find('elements._image')) {
         $path = $this->app->jbimage->getUrl($path);
@@ -35,39 +42,30 @@ foreach ($items as $key => $item) :
     if ($i % 2 == 1) {
         $rowattr .= ' bgcolor="#fafafa"';
     }
-    $total = JBCart::val((float)$item->get('total'));
+    $itemPrice = $order->val((float)$item->get('total'));
 
-    $total->multiply($item->get('quantity')); ?>
+    ?>
     <tr <?php echo $rowattr; ?>>
+        <td><?php echo $i + 1; ?></td>
+        <td><?php echo $image; ?></td>
         <td>
-            <?php echo $i + 1; ?>
-        </td>
-        <td>
-            <?php echo $image; ?>
-        </td>
-        <td>
-            <?php echo $item['item_name'];
-            if (!empty($item['values'])) : ?>
+            <?php echo $item['item_name'];?>
+
+            <?php if (!empty($item['values'])) : ?>
                 <ul>
                     <?php foreach ($item['values'] as $label => $param) :
                         echo '<li style="list-style-type: none;"><strong>' . $label . ':</strong> ' . $param . '</li>';
                     endforeach; ?>
                 </ul>
-            <?php endif;
+            <?php endif; ?>
 
-            if ($item->find('elements._description')) :
+            <?php if ($item->find('elements._description')) :
                 echo '<p><i>' . $item->find('elements._description') . '</i></p>';
             endif; ?>
         </td>
-        <td align="center">
-            <?php echo JBCart::val($item->find('elements._value'))->html(); ?>
-        </td>
-        <td align="center">
-            <?php echo $item->get('quantity'); ?>
-        </td>
-        <td align="right">
-            <?php echo $total->html(); ?>
-        </td>
+        <td align="center"><?php echo $itemPrice->html(); ?></td>
+        <td align="center"><?php echo $item->get('quantity'); ?></td>
+        <td align="right"><?php echo $itemPrice->multiply($item->get('quantity'))->html();?></td>
     </tr>
 
 <?php endforeach; ?>

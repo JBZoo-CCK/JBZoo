@@ -157,6 +157,14 @@ class JBCartOrder
     {
         $summa = $this->getTotalForSevices();
 
+        $modifiers = $this->getModifiersOrderPrice();
+
+        if (!empty($modifiers)) {
+            foreach ($modifiers as $modifier) {
+                $summa->add($modifier->get('rate'));
+            }
+        }
+
         return $summa;
     }
 
@@ -173,7 +181,9 @@ class JBCartOrder
 
         // get Items prices
         foreach ($items as $key => $item) {
-            $itemPrice = $this->val($item['total'])->multiply($item['quantity']);
+
+            $itemPrice = $this->val($item['total']);
+            $itemPrice->multiply($item['quantity']);
 
             $summa->add($itemPrice);
 
@@ -182,14 +192,6 @@ class JBCartOrder
 
         if ($devideByItem) {
             return $itemsSums;
-        }
-
-        if (count($items) > 0) {
-            // get modifiers
-            $modifiers = $this->getModifiersOrderPrice(JBCart::MODIFIER_ORDER_PRICE);
-            foreach ($modifiers as $modifier) {
-                $modifier->modify($summa);
-            }
         }
 
         return $summa;
