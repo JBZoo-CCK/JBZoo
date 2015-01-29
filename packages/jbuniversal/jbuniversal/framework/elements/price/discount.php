@@ -23,7 +23,7 @@ class JBCSVItemPriceDiscount extends JBCSVItemPrice
      */
     public function toCSV()
     {
-        return parent::toCSV()->data();
+        return parent::toCSV()->data(true);
     }
 
     /**

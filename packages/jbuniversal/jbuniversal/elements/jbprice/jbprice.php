@@ -295,7 +295,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                     self::defaultVariantKey() => $this->get('variations.' . self::defaultVariantKey())
                 );
             }
-            
+
             $options = array_merge(array(
                 'values'   => $this->data()->find('values.' . self::defaultVariantKey()),
                 'currency' => $this->_config->get('cart.default_currency', JBCart::val()->cur())
