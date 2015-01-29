@@ -329,6 +329,7 @@ abstract class JBCartElement
      */
     public function loadConfigAssets()
     {
+        $this->app->path->register($this->app->path->path('helpers:fields'), 'fields');
         return $this;
     }
 
