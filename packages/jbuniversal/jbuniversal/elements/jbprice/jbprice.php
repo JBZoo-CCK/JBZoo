@@ -253,7 +253,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         if ((int)$params->get('required', 0)) {
             $basic = $value->get('basic');
             $this->app->validator->create('textfilter', array('required' => $params->get('required')))
-                ->clean($basic['_value']);
+                                 ->clean($basic['_value']);
             //if (empty($basic['_value']) || $basic['_value'] == 0) {
             //throw new AppValidatorException('This field is required');
             //}
@@ -884,6 +884,41 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $this->app->jbassets->less('elements:jbprice/assets/less/jbprice.less');
 
         return parent::loadAssets();
+    }
+
+    /**
+     * @param array  $list   Array of keys.
+     * @param string $target Can be 'value' or 'key'.
+     *                       Show where to find the number of variant in the key or value of array.
+     * @param bool   $addKey Add current key from list to array.
+     * @param string $searchIn
+     * @return array
+     */
+    public function quickSearch($list = array(), $target = 'value', $addKey = true, $searchIn = 'variations')
+    {
+        $variations = array();
+        if (!empty($list))
+        {
+            $data = $this->data();
+            foreach ($list as $key => $value)
+            {
+                $result = $data->find($searchIn . '.' . $$target);
+                if (!empty($result))
+                {
+                    if ($addKey)
+                    {
+                        $variations[$$target] = $result;
+
+                    }
+                    else
+                    {
+                        $variations = array_merge($variations, $result);
+                    }
+                }
+            }
+        }
+
+        return $variations;
     }
 
     /**

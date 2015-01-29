@@ -426,10 +426,7 @@ class JBCartVariantList
             'params'     => $jbPrice->elementsInterfaceParams(),
             'modifiers'  => $this->getModifiersRates(),
             'variant'    => $this->_default,
-            'variations' => array(
-                $jbPrice::BASIC_VARIANT => $jbPrice->get('variations.' . $jbPrice::BASIC_VARIANT),
-                $this->_default         => $jbPrice->get('variations.' . $this->_default)
-            )
+            'variations' => $jbPrice->quickSearch(array_keys($this->all()))
         );
 
         return $data;

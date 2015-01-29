@@ -95,11 +95,11 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         $this->set('default_variant', $key);
 
         $this->_template = $template;
-        $this->_list     = new JBCartVariantList($list, $this, array(
+        $this->getVariantList($list, array(
             'values'   => $values,
             'quantity' => $quantity,
             'currency' => $this->_config->get('cart.default_currency', JBCart::val()->cur())
-        ));
+        ), true);
         $session_key = $this->_list->getSessionKey();
 
         $data = $cart->getItem($session_key);
@@ -116,7 +116,6 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
             $jbAjax->send(array(), true);
 
         } else {
-
             $jbAjax->send(array('message' => JText::_('JBZOO_JBPRICE_ITEM_NO_QUANTITY')), false);
         }
 
@@ -206,7 +205,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
 
                 $value = $element->getSearchData();
 
-                if(!empty($value)) {
+                if (!empty($value)) {
                     $d = $s = $n = null;
                     if ($value instanceof JBCartValue) {
                         $s = $value->cur();
@@ -238,12 +237,34 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
     }
 
     /**
-     * Bind and validate data
-     * @param array $data
+     * @param array $variations
+     * @param array $options
+     * @param bool  $reload
+     * @return \JBCartVariantList
      */
-    public function bindData($data = array())
+    public function getVariantList($variations = array(), $options = array(), $reload = false)
     {
-        parent::bindData($data);
+        if ($reload) {
+            $this->unsetList();
+        }
+
+        if (!$this->_list instanceof JBCartVariantList) {
+            if (empty($variations)) {
+                $variations = array(
+                    self::BASIC_VARIANT       => $this->get('variations.' . self::BASIC_VARIANT),
+                    self::defaultVariantKey() => $this->get('variations.' . self::defaultVariantKey())
+                );
+            }
+
+            $options = array_merge(array(
+                'values'   => $this->quickSearch(array_keys($variations), 'value', false, 'values'),
+                'currency' => $this->_config->get('cart.default_currency', JBCart::val()->cur())
+            ), (array)$options);
+
+            $this->_list = new JBCartVariantList($variations, $this, $options);
+        }
+
+        return $this->_list;
     }
 
     /**
