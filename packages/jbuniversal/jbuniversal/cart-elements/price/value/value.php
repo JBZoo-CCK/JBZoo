@@ -79,7 +79,6 @@ class JBCartElementPriceValue extends JBCartElementPrice
         $save  = $prices['save'];
 
         $discount = JBCart::val();
-
         if ($save->isNegative()) {
             $discount = $save->getClone();
         };
@@ -108,22 +107,11 @@ class JBCartElementPriceValue extends JBCartElementPrice
         $total = $list->getTotal();
         $price = $list->getPrice();
 
-        if ($this->_jbprice->isOverlay()) {
-
-            $prices = array(
-                'total' => $total,
-                'price' => $price,
-                'save'  => $total->minus($price, true)
-            );
-
-        } else {
-
-            $prices = array(
-                'total' => $total,
-                'price' => $price,
-                'save'  => $total->minus($price, true)
-            );
-        }
+        $prices = array(
+            'total' => $total,
+            'price' => $price,
+            'save'  => $total->minus($price, true)
+        );
 
         return $prices;
     }
