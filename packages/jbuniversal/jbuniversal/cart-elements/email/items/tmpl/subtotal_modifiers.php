@@ -17,18 +17,19 @@ if (!empty($modifiers)) :
     $count = count($modifiers);
     $i     = 0;
     foreach ($modifiers as $modifier) :
-        $i++;
-
         $name = $modifier->getName();
         $rate = $modifier->getRate();
+        if ($rate->isEmpty()) {
+            continue;
+        }
+
+        $i++;
 
         if ($i == 1) : ?>
             <tr>
                 <td rowspan="<?php echo $count; ?>" colspan="2" style="border-bottom: none;"></td>
                 <td rowspan="<?php echo $count; ?>" <?php echo $this->getStyles(); ?>>
                     <strong>Прочее</strong>
-                    <br>
-                    <i>(Элементы модификаторов цены)</i>
                 </td>
                 <td <?php echo $this->getStyles(); ?> colspan="2">
                     <?php echo $name; ?>
