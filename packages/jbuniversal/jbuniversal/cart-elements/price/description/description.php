@@ -53,7 +53,7 @@ class JBCartElementPriceDescription extends JBCartElementPrice
     public function edit()
     {
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderLayout($layout);
+            return self::renderEditLayout($layout);
         }
 
         return null;
@@ -67,7 +67,7 @@ class JBCartElementPriceDescription extends JBCartElementPrice
     public function render($params = array())
     {
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderEditLayout($layout, array(
+            return self::renderLayout($layout, array(
                 'params' => $params
             ));
         }
