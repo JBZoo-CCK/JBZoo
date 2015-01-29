@@ -61,11 +61,7 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     public function modify(JBCartValue $summa)
     {
-        if ((int)$this->config->get('modifytotal', 0)) {
-            $summa->add($this->getRate());
-        }
-
-        return $summa;
+        return $summa->add($this->getRate());
     }
 
     /**

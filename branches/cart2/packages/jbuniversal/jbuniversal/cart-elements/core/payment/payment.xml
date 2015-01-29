@@ -15,5 +15,9 @@
 
         <param name="currency" type="jbcurrency" default="eur" label="JBZOO_PAYMENT_CURRENCY"
                description="JBZOO_PAYMENT_CURRENCY_DESC"/>
+
+        <param name="modifytotal" type="jbbool" default="0" label="JBZOO_PAYMENT_MODIFYTOTAL"
+               description="JBZOO_PAYMENT_MODIFYTOTAL_DESC"/>
+
     </params>
 </element>
