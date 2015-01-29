@@ -88,7 +88,7 @@ class JBCSVMapperHelper extends AppHelper
             'teaser_image_align'      => $this->_csvcell->createItem('teaser_image_align', $item, 'config')->toCSV(),
             'full_image_align'        => $this->_csvcell->createItem('full_image_align', $item, 'config')->toCSV(),
             'related_image_align'     => $this->_csvcell->createItem('related_image_align', $item, 'config')->toCSV(),
-            'subcategory_image_align' => $this->_csvcell->createItem('subcategory_image_align', $item, 'config')->toCSV(),
+            'subcategory_image_align' => $this->_csvcell->createItem('subcategory_image_align', $item, 'config')->toCSV()
         );
 
         return $result;
@@ -132,14 +132,10 @@ class JBCSVMapperHelper extends AppHelper
             /** @type ElementJBPrice $jbPrice */
             foreach ($prices as $identifier => $jbPrice) {
                 $i++;
-                $zero = $jbPrice::BASIC_VARIANT;
-                $list = $jbPrice->getVariantList(array(
-                    $zero => $jbPrice->get('variations.' . $zero)
-                ));
+                $list = $jbPrice->getVariantList(null, null, true);
 
                 $variant  = $list->shift();
                 $elements = $variant->getElements();
-
                 if (!empty($elements)) {
                     /** @type JBCartElementPrice $element */
                     foreach ($elements as $key => $element) {
@@ -171,14 +167,14 @@ class JBCSVMapperHelper extends AppHelper
 
         $i = 0;
         foreach ($type->getElements() as $identifier => $element) {
+            $csvItem = $this->_csvcell->createItem($element, $item, 'user');
 
-            $data = $this->_csvcell->createItem($element, $item, 'user')->toCSV();
+            if (!(int)$params->get('fields_full_price') && $element instanceof ElementJBPrice) {
+                continue;
+            }
 
+            $data = $csvItem->toCSV();
             if ($data != JBCSVMapperHelper::FIELD_CONTINUE) {
-                if (!(int)$params->get('fields_full_price') && $element instanceof ElementJBPrice) {
-                    continue;
-                }
-
                 $name = $element->config->get('name');
                 $name = $name ? $name : $element->getElementType();
                 $name = $name . ' (#' . ++$i . ')';
