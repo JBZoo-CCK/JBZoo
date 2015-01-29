@@ -52,7 +52,7 @@ foreach ($items as $key => $item) :
             <?php echo $item['item_name'];?>
 
             <?php if (!empty($item['values'])) : ?>
-                <ul style="margin:0;padding:0;">
+                <ul style="margin:6px 0 0 0;padding:0;">
                     <?php foreach ($item['values'] as $label => $param) :
                         echo '<li style="list-style-type: none;"><strong>' . $label . ':</strong> ' . $param . '</li>';
                     endforeach; ?>
