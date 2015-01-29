@@ -225,10 +225,16 @@
                 },
                 'dataType': 'html',
                 'success' : function (data) {
+
                     var $newElement = $(data),
                         elemHeight = $newElement.height();
 
                     $newElement.removeClass('hideconfig').hide();
+
+                    // evalate
+                    $newElement.find("script").each(function () {
+                        eval($(this).text());
+                    });
 
                     $place
                         .removeClass("loading")
