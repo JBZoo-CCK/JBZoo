@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -73,10 +72,7 @@ if (!$this->app->jbcache->start($this->params->get('config.lastmodified'))) {
 
     // pagination render
     if ($this->params->get('template.item_pagination', 1)) {
-        echo $this->app->jblayout->render('pagination', $this->pagination, array(
-            'url'        => $this->pagination_link,
-            'pagination' => $this->pagination
-        ));
+        echo $this->app->jblayout->render('pagination', $this->pagination, array('link' => $this->pagination_link));
     }
 
     $this->app->jbwrapper->end();
