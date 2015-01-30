@@ -14,8 +14,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$url        = $vars['url'];
-$pagination = $vars['pagination'];
+$url        = $vars['link'];
+$pagination = $vars['object'];
 
 $this->app->jbdebug->mark('layout::pagination::start');
 
