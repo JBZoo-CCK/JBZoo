@@ -308,6 +308,14 @@ class JBRequestHelper extends AppHelper
             $menuParam  = 'item_id';
 
         } else if ($type == 'category') {
+
+            if ($this->is('task', 'filter')) {
+                $elements = $this->getElements();
+                if (isset($elements['_itemcategory'])) {
+                    return (int)$elements['_itemcategory'];
+                }
+            }
+
             $requestVar = 'category_id';
             $menuParam  = 'category';
 
@@ -320,7 +328,7 @@ class JBRequestHelper extends AppHelper
             return $default;
         }
 
-        $varId = (int)$this->app->jbrequest->get($requestVar);
+        $varId = (int)$this->get($requestVar);
         if ($varId > 0) {
             return $varId;
         }

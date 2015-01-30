@@ -19,7 +19,6 @@ $this->app->jbdebug->mark('layout::pagination::start');
 if ($pagination = $vars['object']->render($vars['link'])) : ?>
     <div class="pagination">
         <?php echo $pagination; ?>
-        <div class="clr clear"></div>
     </div>
 <?php endif;
 
