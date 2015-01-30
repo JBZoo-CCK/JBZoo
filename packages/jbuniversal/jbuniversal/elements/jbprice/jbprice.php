@@ -62,7 +62,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     protected $_list;
 
     /**
-     * @type \JBPriceHelper
+     * @type JBPriceHelper
      */
     protected $_helper;
 
@@ -544,7 +544,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                     if (!empty($value)) {
                         $d = $s = $n = null;
                         if ($value instanceof JBCartValue) {
-                            $s = $value->cur();
+                            $s = $value->data(true);
                             $n = $value->val();
                         } elseif (JSTring::strlen($value) !== 0) {
                             $s = $value;
@@ -908,7 +908,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                     if ($addKey)
                     {
                         $variations[$$target] = $result;
-
                     }
                     else
                     {
