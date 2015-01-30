@@ -144,7 +144,7 @@ class JBTablesHelper extends AppHelper
                 '`variant` INT(11) NOT NULL',
             ), array(
                 'PRIMARY KEY (`id`)',
-                'UNIQUE INDEX `UNIQUE_VALUES_VARIANT_INDEX` (`value_s`, `param_id`)',
+                'UNIQUE INDEX `UNIQUE_VALUES_VARIANT_INDEX` (`value_s`, `param_id`, `variant`)'
             ));
 
             $this->createTable(JBModelSku::JBZOO_TABLE_SKU_PARAMS, array(
@@ -233,6 +233,7 @@ class JBTablesHelper extends AppHelper
 
     /**
      * Drop & create indexes table
+     * @return $this
      */
     public function createIndexes()
     {
