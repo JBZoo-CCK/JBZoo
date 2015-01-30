@@ -28,7 +28,7 @@ class JBCartElementPriceMargin extends JBCartElementPrice
     public function hasValue($params = array())
     {
         $value = $this->getValue();
-        if ($value->isEmpty()) {
+        if ($value->isEmpty() || $this->_jbprice->isOverlay()) {
             return false;
         }
 
@@ -45,25 +45,20 @@ class JBCartElementPriceMargin extends JBCartElementPrice
     }
 
     /**
-     * Get elements search data
-     * @return null
-     */
-    public function getSearchData()
-    {
-        $value = $this->getValue();
-
-        return $value->val($this->_jbmoney->getDefaultCur());
-    }
-
-    /**
      * @param array $params
      * @return mixed|string
      */
     public function edit($params = array())
     {
-        if ($layout = $this->getLayout('edit.php')) {
+        $layout = 'edit';
+        if ($this->_jbprice->isOverlay()) {
+            $layout = 'disabled';
+        }
+
+        if ($layout = $this->getLayout($layout . '.php')) {
             return self::renderEditLayout($layout, array(
-                'margin' => $this->getValue()
+                'margin'  => $this->getValue(),
+                'message' => JText::sprintf('JBZOO_JBPRICE_CALC_PARAM_CANT_USE', '<strong>' . $this->getElementType() . '</strong>')
             ));
         }
 

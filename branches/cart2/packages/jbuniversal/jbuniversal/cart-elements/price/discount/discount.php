@@ -37,7 +37,7 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
         $price = $this->getList()->getPrice();
         $diff  = $total->minus($price, true);
 
-        if ($diff->isNegative()) {
+        if ($diff->isNegative() && !$this->_jbprice->isOverlay()) {
             return true;
         }
 
@@ -64,9 +64,15 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
      */
     public function edit($params = array())
     {
-        if ($layout = $this->getLayout('edit.php')) {
+        $layout = 'edit';
+        if ($this->_jbprice->isOverlay()) {
+            $layout = 'disabled';
+        }
+
+        if ($layout = $this->getLayout($layout . '.php')) {
             return self::renderEditLayout($layout, array(
-                'discount' => $this->getValue()
+                'discount' => $this->getValue(),
+                'message'  => JText::sprintf('JBZOO_JBPRICE_CALC_PARAM_CANT_USE', '<strong>' . $this->getElementType() . '</strong>')
             ));
         }
 
