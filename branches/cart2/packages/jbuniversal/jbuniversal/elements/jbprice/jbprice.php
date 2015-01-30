@@ -531,9 +531,10 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             $list     = $this->getVariantList($variations);
 
             foreach ($list->all() as $key => $variant) {
+                $this->set('default_variant', $key);
                 $list->_default = $key;
 
-                $elements = array_merge((array)$variant->getElements(), (array)$elements);
+                $elements = array_merge((array)$elements, (array)$variant->getElements());
                 foreach ($elements as $id => $element) {
                     if ($element->isSystemTmpl()) {
                         $element->setJBPrice($this);
@@ -897,20 +898,14 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public function quickSearch($list = array(), $target = 'value', $addKey = true, $searchIn = 'variations')
     {
         $variations = array();
-        if (!empty($list))
-        {
+        if (!empty($list)) {
             $data = $this->data();
-            foreach ($list as $key => $value)
-            {
+            foreach ($list as $key => $value) {
                 $result = $data->find($searchIn . '.' . $$target);
-                if (!empty($result))
-                {
-                    if ($addKey)
-                    {
+                if (!empty($result)) {
+                    if ($addKey) {
                         $variations[$$target] = $result;
-                    }
-                    else
-                    {
+                    } else {
                         $variations = array_merge($variations, $result);
                     }
                 }
@@ -969,6 +964,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Unset $_list JBCartVariantList
+     * @return $this
      */
     protected function unsetList()
     {
