@@ -342,11 +342,8 @@ class JBPriceFilterElement
     {
         $value = (array)$this->_value;
 
-        return $this->html->hidden(
-            $this->_getName(null, 'id'),
-            isset($value['id']) ? $value['id'] : $value[0],
-            array('class' => 'jsPriceAutoCompleteValue'),
-            $this->_getId('sku-value')
+        return $this->html->hidden($this->_getName(null, 'id'), isset($value['id']) ? $value['id'] : $value[0],
+            array('class' => 'jsPriceAutoCompleteValue'), $this->_getId('sku-value')
         );
     }
 
