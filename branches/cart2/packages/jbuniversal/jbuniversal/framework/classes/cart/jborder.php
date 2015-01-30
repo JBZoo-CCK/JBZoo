@@ -157,11 +157,12 @@ class JBCartOrder
     {
         $summa = $this->getTotalForSevices();
 
+        // get modifiers
         $modifiers = $this->getModifiersOrderPrice();
 
         if (!empty($modifiers)) {
             foreach ($modifiers as $modifier) {
-                $summa->add($modifier->get('rate'));
+                $modifier->modify($summa);
             }
         }
 
