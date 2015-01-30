@@ -254,7 +254,7 @@ class JBCart
                 if (!$this->inStock($item['quantity'], $key)) {
                     $variant = $this
                         ->getJBPrice($item)
-                        ->getVariant($item['variant']);
+                        ->getVariantList($item['variations'], null, true);
 
                     $this->setError(JText::sprintf('JBZOO_CART_VALIDATOR_ITEM_NOBALANCE',
                         $item['item_name'] .
