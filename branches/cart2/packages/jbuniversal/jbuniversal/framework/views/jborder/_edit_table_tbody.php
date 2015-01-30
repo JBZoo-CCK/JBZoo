@@ -17,14 +17,32 @@ if (!empty($items)) :
         $i    = 0;
         $item = $row->get('item');
 
-        $discount  = $order->val($row->find('elements._discount'));
-        $margin    = $order->val($row->find('elements._margin'));
+        $discount  = $order->val();
+        $margin    = $order->val();
         $modifiers = $order->getModifiersItemPrice(null, $row);
 
         $quantity = (float)$row->get('quantity', 1);
+        if ((int)$row->get('isOverlay')) {
+            $variations = $row->get('variations');
+            if (!empty($variations)) {
+                ksort($variations);
+                $basic = $variations[0];
 
-        $itemValue = $order->val($row->find('elements._value'));
-        $itemPrice = $itemValue->getClone()->add($margin)->minus($discount);
+                $itemValue = $order->val($basic['_value']['value']);
+                $itemPrice = $itemValue->getClone();
+                foreach ($variations as $j => $variant) {
+                    if ($j !== 0) {
+                        $itemPrice->add($variant['_value']['value']);
+                    }
+                }
+            }
+        } else {
+            $discount = $order->val($row->find('elements._discount'));
+            $margin   = $order->val($row->find('elements._margin'));
+
+            $itemValue = $order->val($row->find('elements._value'));
+            $itemPrice = $itemValue->getClone()->add($margin)->minus($discount);
+        }
 
         $rowspan = count($modifiers) + 2;
         $this->count += $quantity; ?>
@@ -81,7 +99,7 @@ if (!empty($items)) :
             </td>
 
             <td class="item-quantity"><?php echo $quantity; ?></td>
-            <td class="align-right"><?php echo $itemPrice->multiply($quantity)->html(); ?></td>
+            <td class="align-right"><?php echo $itemPrice->multiply($quantity, true)->html(); ?></td>
         </tr>
 
         <?php
@@ -113,6 +131,7 @@ if (!empty($items)) :
                 <td colspan="4"></td>
                 <td class="item-total align-right subtotal-money">
                     <?php
+                    $itemPrice->multiply($quantity);
                     if ($itemPrice->isNegative()) {
                         $itemPrice->setEmpty();
                     }
