@@ -421,7 +421,7 @@ class JBCartVariantList
             'quantity'   => (float)$this->quantity,
             'template'   => $jbPrice->getTemplate(),
             'values'     => $this->getValues(),
-            'elements'   => $this->getElementsCartData(),
+            'elements'   => $this->defaultVariantCartData(),
             'params'     => $jbPrice->elementsInterfaceParams(),
             'modifiers'  => $this->getModifiersRates(),
             'variant'    => $this->_default,
