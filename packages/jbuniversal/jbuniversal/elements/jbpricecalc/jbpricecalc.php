@@ -170,7 +170,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
 
         foreach ($options as $key => $option) {
             $variant = new JBCartVariant($key, $this->_list, $this->get('variations.' . $key));
-            $total = $variant->get('_value');
+            $total   = $variant->get('_value');
 
             $result[$option['value']] = $option['name'] . ' <em>' . $total->html() . '</em>';
         }
@@ -193,11 +193,9 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
 
             $this->set('default_variant', self::BASIC_VARIANT);
 
-            $list = $this->getVariantList(array(
-                self::BASIC_VARIANT => $variations[self::BASIC_VARIANT]
-            ));
-
-            $elements = array_merge((array)$list->shift()->getElements(), (array)$elements);
+            $list     = $this->getVariantList();
+            $variant  = $list->shift();
+            $elements = array_merge((array)$elements, (array)$variant->getElements());
             foreach ($elements as $id => $element) {
                 if ($element->isSystemTmpl()) {
                     $element->setJBPrice($this);

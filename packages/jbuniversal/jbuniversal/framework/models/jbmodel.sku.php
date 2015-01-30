@@ -66,8 +66,8 @@ class JBModelSku extends JBModel
         static $loaded;
         if (!isset($loaded) || $byForce === true) {
             $query = $this->_getSelect()
-                ->select('id, element_id')
-                ->from(self::JBZOO_TABLE_SKU_PARAMS);
+                          ->select('id, element_id')
+                          ->from(self::JBZOO_TABLE_SKU_PARAMS);
 
             $this->_db->setQuery($query);
             self::$ids = $this->_db->loadAssocList('element_id', 'id');
@@ -96,8 +96,7 @@ class JBModelSku extends JBModel
      */
     public function getValueId($value, $param_id)
     {
-        $select = $this
-            ->_getSelect()
+        $select = $this->_getSelect()
             ->select('id')
             ->from(self::JBZOO_TABLE_SKU_VALUES)
             ->where('value_s = ?', $value)
@@ -151,11 +150,11 @@ class JBModelSku extends JBModel
     {
         if ($item) {
             $this->checkColumns();
-            $this->removeByItem($item);
 
             $elements = $this->app->jbprice->getItemPrices($item);
             if (!empty($elements)) {
-                foreach ($elements as $element) {
+                foreach ($elements as $key => $element) {
+                    $this->removeByItem($item, $key);
                     $this->_indexPrice($element->getIndexData());
                 }
             }
@@ -176,57 +175,57 @@ class JBModelSku extends JBModel
     /**
      * Remove rows by item
      * @param \Item $item
+     * @param       $identifier
      * @return bool
      */
-    public function removeByItem(Item $item)
+    public function removeByItem(Item $item, $identifier)
     {
         $select = $this->_getSelect()
-            ->clear()
-            ->select('value_id')
-            ->from(ZOO_TABLE_JBZOO_SKU)
-            ->where('item_id = ?', $item->id)
-            ->group('value_id');
+                       ->select('value_id')
+                       ->from(ZOO_TABLE_JBZOO_SKU)
+                       ->where('item_id = ?', $item->id)
+                       ->where('element_id = ?', $identifier)
+                       ->group('value_id');
 
-        $rows = $this->_db->setQuery($select)->loadAssocList('value_id', 'value_id');
+        $this->_db->setQuery($select);
+        $rows = $this->_db->loadAssocList('value_id', 'value_id');
 
-        $select
-            ->clear()
-            ->from(ZOO_TABLE_JBZOO_SKU)
-            ->group('value_id')
-            ->select('value_id');
-
-        foreach ($rows as $id) {
-            $select
-                ->clear('where')
-                ->where('value_id = ?', $id)
-                ->where('item_id <> ?', $item->id);
-
-            $this->_db->setQuery($select);
-            $inUse = $this->_db->loadResult();
-
-            unset($rows[$inUse]);
-        }
+        $select = $this->_getSelect()
+                       ->select('value_id')
+                       ->from(ZOO_TABLE_JBZOO_SKU)
+                       ->group('value_id');
 
         if (!empty($rows)) {
-
-            if (count($rows) > 0) {
+            foreach ($rows as $id) {
                 $select
-                    ->clear()
-                    ->delete(self::JBZOO_TABLE_SKU_VALUES)
-                    ->where('id IN(' . implode(',', $rows) . ')');
+                    ->clear('where')
+                    ->where('value_id = ?', $id)
+                    ->where('element_id = ?', $identifier)
+                    ->where('item_id <> ?', $item->id);
 
-                $this->sqlQuery($select);
+                $this->_db->setQuery($select);
+                $inUse = $this->_db->loadResult();
+
+                unset($rows[$inUse]);
+            }
+
+            if (!empty($rows)) {
+                if (count($rows) > 0) {
+                    $select = $this->_getSelect()
+                                   ->delete(self::JBZOO_TABLE_SKU_VALUES)
+                                   ->where('id IN(' . implode(',', $rows) . ')');
+
+                    $this->sqlQuery($select);
+                }
             }
         }
 
-        $select
-            ->clear()
-            ->delete(ZOO_TABLE_JBZOO_SKU)
-            ->where('item_id = ?', $item->id);
+        $select = $this->_getSelect()
+                       ->delete(ZOO_TABLE_JBZOO_SKU)
+                       ->where('item_id = ?', $item->id);
 
-        $this->sqlQuery($select);
+        $result = $this->sqlQuery($select);
 
-        unset($select);
     }
 
     /**
@@ -261,6 +260,7 @@ class JBModelSku extends JBModel
                 );
 
                 $this->_insert($eav, ZOO_TABLE_JBZOO_SKU);
+
             }
 
             return true;
