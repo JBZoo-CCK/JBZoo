@@ -161,8 +161,12 @@ class JBCartVariantList
      */
     public function getPrice($id = self::DEFAULT_VARIANT)
     {
-        if ($id == self::DEFAULT_VARIANT) {
+        if ($this->_jbprice->isOverlay()) {
+            $id = ElementJBPrice::BASIC_VARIANT;
+
+        } elseif ($id == self::DEFAULT_VARIANT) {
             $id = $this->_default;
+
         }
         $variant = $this->get($id);
 
