@@ -19,7 +19,7 @@ if ($subtotal && $on) :
             <td colspan="2" style="border-bottom: none;"></td>
 
             <td <?php echo $this->getStyles(); ?>>
-                <p <?php echo $this->getStyles(); ?>>
+                <p>
                     <strong>Комиссия платежной системы</strong>
                 </p>
             </td>
