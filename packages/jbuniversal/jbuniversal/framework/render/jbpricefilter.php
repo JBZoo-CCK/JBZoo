@@ -138,13 +138,13 @@ class JBPriceFilterRenderer extends PositionRenderer
                 }
 
                 $attrs = array(
-                    'id'    => 'filterEl_' . $element->identifier,
+                    'id'    => 'filterEl_' . $key,
                     'class' => array(
                         'element-' . strtolower($element->getElementType())
                     )
                 );
 
-                $skuId = JBModelSku::$ids[$element->identifier];
+                $skuId = JBModelSku::$ids[$key];
                 $value = $this->_getRequest($skuId);
 
                 $elementHTML = $this->elementRender($element, $value, $params, $attrs);
