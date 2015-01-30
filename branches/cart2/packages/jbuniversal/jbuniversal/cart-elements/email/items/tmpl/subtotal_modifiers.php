@@ -13,6 +13,12 @@
 defined('_JEXEC') or die('Restricted access');
 
 if (!empty($modifiers)) :
+    foreach ($modifiers as $key => $modifier) {
+        $rate = $modifier->getRate();
+        if ($rate->isEmpty()) {
+            unset($modifiers[$key], $rate);
+        }
+    }
 
     $count = count($modifiers);
     $i     = 0;
@@ -34,7 +40,10 @@ if (!empty($modifiers)) :
                 <td <?php echo $this->getStyles(); ?> colspan="2">
                     <?php echo $name; ?>
                 </td>
-                <td <?php echo $this->getStyles(array('text-align' => 'right', 'border-bottom' => '1px solid #dddddd')); ?>>
+                <td <?php echo $this->getStyles(array(
+                    'text-align'    => 'right',
+                    'border-bottom' => '1px solid #dddddd'
+                )); ?>>
                     <?php echo $rate; ?>
                 </td>
             </tr>
@@ -43,11 +52,13 @@ if (!empty($modifiers)) :
                 <td <?php echo $this->getStyles(); ?> colspan="2">
                     <?php echo $name; ?>
                 </td>
-                <td <?php echo $this->getStyles(array('text-align' => 'right', 'border-bottom' => '1px solid #dddddd')); ?>>
+                <td <?php echo $this->getStyles(array(
+                    'text-align'    => 'right',
+                    'border-bottom' => '1px solid #dddddd'
+                )); ?>>
                     <?php echo $rate; ?>
                 </td>
             </tr>
-        <?php
-        endif;
+        <?php endif;
     endforeach;
 endif;

@@ -19,7 +19,7 @@ if ($subtotal && $on) :
             <td colspan="2" style="border-bottom: none;"></td>
 
             <td <?php echo $this->getStyles(); ?>>
-                <p style="<?php echo $this->getStyles(); ?>">
+                <p <?php echo $this->getStyles(); ?>>
                     <strong>Комиссия платежной системы</strong>
                 </p>
             </td>
@@ -28,7 +28,10 @@ if ($subtotal && $on) :
                 <?php echo $order->getPayment()->getName(); ?>
             </td>
 
-            <td <?php echo $this->getStyles(array('text-align' => 'right', 'border-bottom' => '1px solid #dddddd')); ?>>
+            <td <?php echo $this->getStyles(array(
+                'text-align'    => 'right',
+                'border-bottom' => '1px solid #dddddd'
+            )); ?>>
                 <strong><?php echo $order->val($payment->getRate(), $currency); ?></strong>
             </td>
         </tr>
@@ -38,18 +41,22 @@ if ($subtotal && $on) :
         <tr>
             <td colspan="2" style="border-bottom: none;"></td>
 
-            <td <?php echo $this->getStyles(); ?>">
-            <p style="<?php echo $this->getStyles(); ?>"><strong>Цена доставки</strong></p>
+            <td <?php echo $this->getStyles(); ?>>
+                <p>
+                    <strong>Цена доставки</strong>
+                </p>
             </td>
 
             <td colspan="2" <?php echo $this->getStyles(); ?>>
                 <?php echo $shipping->getName(); ?>
             </td>
 
-            <td <?php echo $this->getStyles(array('text-align' => 'right')); ?>>
+            <td <?php echo $this->getStyles(array(
+                'text-align'    => 'right',
+                'border-bottom' => '1px solid #dddddd'
+            )); ?>>
                 <strong><?php echo $order->val($shipping->getRate(), $currency); ?></strong>
             </td>
         </tr>
-    <?php endif; ?>
-
-<?php endif;
+    <?php endif;
+endif;
