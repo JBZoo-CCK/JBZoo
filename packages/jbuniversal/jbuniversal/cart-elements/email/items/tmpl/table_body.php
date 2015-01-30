@@ -40,13 +40,11 @@ foreach ($items as $key => $item) :
 
     $rowattr = 'style="border-bottom: 1px solid #dddddd;"';
     if ($i % 2 == 1) {
-        $rowattr .= ' bgcolor="#fafafa"';
+        $rowattr .= ' bgcolor="#fafafa;"';
     }
-    $itemPrice = $order->val((float)$item->get('total'));
-
-    ?>
+    $itemPrice = $order->val((float)$item->get('total')); ?>
     <tr <?php echo $rowattr; ?>>
-        <td><?php echo $i + 1; ?></td>
+        <td><?php echo $i; ?></td>
         <td><?php echo $image; ?></td>
         <td>
             <?php echo $item['item_name'];?>
