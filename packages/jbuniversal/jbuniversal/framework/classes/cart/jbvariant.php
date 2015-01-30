@@ -93,7 +93,7 @@ class JBCartVariant
      * Get elements value
      * @param $identifier
      * @param $default
-     * @return mixed|JBCartValue
+     * @return mixed
      */
     public function get($identifier, $default = null)
     {
@@ -177,10 +177,9 @@ class JBCartVariant
 
     /**
      * Get price for variant
-     * @param bool $modify Modify basic price
      * @return JBCartValue
      */
-    public function getPrice($modify = true)
+    public function getPrice()
     {
         $price = $this->value;
         if ($element = $this->getElement('_value')) {
@@ -191,10 +190,10 @@ class JBCartVariant
         }
 
         if ($this->price->isOverlay()) {
-            return $this->getCalcPrice($price, $modify);
+            return $this->getCalcPrice($price);
         }
 
-        return $this->getPlainPrice($price, $modify);
+        return $this->getPlainPrice($price);
     }
 
     /**
@@ -219,26 +218,20 @@ class JBCartVariant
 
     /**
      * @param JBCartValue $price
-     * @param bool        $modify
-     * @return \JBCartValue
+     * @return JBCartValue
      */
-    protected function getPlainPrice(JBCartValue $price, $modify = true)
+    protected function getPlainPrice(JBCartValue $price)
     {
         $price->add($this->get('_margin', $this->value));
 
-        if ($modify) {
-            $price = $this->list->addModifiers($price, false);
-        }
-
-        return $price;
+        return $this->list->addModifiers($price, false);
     }
 
     /**
      * @param  JBCartValue $price
-     * @param bool         $modify
-     * @return \JBCartValue
+     * @return JBCartValue
      */
-    protected function getCalcPrice(JBCartValue $price, $modify = true)
+    protected function getCalcPrice(JBCartValue $price)
     {
         $all = $this->list->all();
         if (count($all)) {
@@ -249,11 +242,7 @@ class JBCartVariant
             }
         }
 
-        if ($modify) {
-            $price = $this->list->addModifiers($price, false);
-        }
-
-        return $price;
+        return $this->list->addModifiers($price, false);
     }
 
     /**

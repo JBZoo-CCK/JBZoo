@@ -428,7 +428,8 @@ class JBCartVariantList
             'variations' => array(
                 $jbPrice::BASIC_VARIANT => $jbPrice->get('variations.' . $jbPrice::BASIC_VARIANT),
                 $this->_default         => $jbPrice->get('variations.' . $this->_default)
-            )
+            ),
+            'isOverlay'  => false
         );
 
         return $data;
@@ -455,8 +456,9 @@ class JBCartVariantList
             'elements'   => $this->defaultVariantCartData(),
             'params'     => $jbPrice->elementsInterfaceParams(),
             'modifiers'  => $this->getModifiersRates(),
-            'variant'    => $this->_default,
-            'variations' => $jbPrice->quickSearch(array_keys($this->all()))
+            'variant'    => $jbPrice::BASIC_VARIANT,
+            'variations' => $jbPrice->quickSearch(array_keys($this->all())),
+            'isOverlay'  => true
         );
 
         return $data;
