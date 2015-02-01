@@ -16,4 +16,4 @@ defined('_JEXEC') or die('Restricted access');
 $html    = $this->app->jbhtml;
 $variant = $this->config->get('_variant') ? '' : '-variant';
 
-echo $html->text($this->getControlName('value'), $this->get('value'));
+echo $html->text($this->getControlName('value'), $this->getValue()->data(true));

@@ -60,11 +60,11 @@ class JBCartVariantList
     {
         $this->_jbprice = $jbPrice;
         $this->_default = $jbPrice->defaultVariantKey();
-        $this->_options = $this->_jbprice->app->data->create($options);
+        $this->_options = $jbPrice->app->data->create($options);
 
         //Add basic variant if he isn't set in $list
         if (!isset($list[$jbPrice::BASIC_VARIANT])) {
-            $list[$jbPrice::BASIC_VARIANT] = $jbPrice->get('variations.' . $jbPrice::BASIC_VARIANT, array());
+            $list[$jbPrice::BASIC_VARIANT] = $jbPrice->data()->find('variations.' . $jbPrice::BASIC_VARIANT, array());
 
         }
         ksort($list);
@@ -496,9 +496,9 @@ class JBCartVariantList
     {
         $basic = null;
         if ($id != ElementJBPrice::BASIC_VARIANT) {
-            $basic = $this->get($id);
+            $basic = $this->get(ElementJBPrice::BASIC_VARIANT);
         }
-
+        
         return new JBCartVariant($id, $this, $elements, $basic);
     }
 
