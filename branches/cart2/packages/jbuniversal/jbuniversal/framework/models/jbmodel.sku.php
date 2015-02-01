@@ -281,11 +281,11 @@ class JBModelSku extends JBModel
             (array)$this->app->jbcartposition->loadParams(JBCart::CONFIG_PRICE_TMPL)
         );
 
-        if (!empty($elements[JBCart::ELEMENT_TYPE_PRICE])) {
-            foreach ($elements[JBCart::ELEMENT_TYPE_PRICE] as $id => $element) {
-                if (!isset(self::$ids[$id]) && $element->isCore()) {
+        if (!empty($elements)) {
+            foreach ($elements as $id => $element) {
+                if (!isset(self::$ids[$id])) {
                     $this->_insert(array(
-                        'element_id' => $element->identifier
+                        'element_id' => $id
                     ), self::JBZOO_TABLE_SKU_PARAMS);
                 }
             }
