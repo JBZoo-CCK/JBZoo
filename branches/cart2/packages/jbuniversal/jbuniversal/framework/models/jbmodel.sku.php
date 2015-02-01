@@ -97,11 +97,11 @@ class JBModelSku extends JBModel
     public function getValueId($value, $param_id)
     {
         $select = $this->_getSelect()
-            ->select('id')
-            ->from(self::JBZOO_TABLE_SKU_VALUES)
-            ->where('value_s = ?', $value)
-            ->where('param_id = ?', $param_id)
-            ->limit(1);
+                       ->select('id')
+                       ->from(self::JBZOO_TABLE_SKU_VALUES)
+                       ->where('value_s = ?', $value)
+                       ->where('param_id = ?', $param_id)
+                       ->limit(1);
 
         $this->_db->setQuery($select);
 
@@ -121,12 +121,12 @@ class JBModelSku extends JBModel
 
         if (!empty($sku) && isset(self::$ids['_sku'])) {
             $select = $this->_getSelect()
-                ->select('tItem.id')
-                ->from(ZOO_TABLE_ITEM . ' AS tItem')
-                ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
-                ->where('tSku.param_id = ?', self::$ids['_sku'])
-                ->where('tSku.value = ?', $sku)
-                ->limit(1);
+                           ->select('tItem.id')
+                           ->from(ZOO_TABLE_ITEM . ' AS tItem')
+                           ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
+                           ->where('tSku.param_id = ?', self::$ids['_sku'])
+                           ->where('tSku.value = ?', $sku)
+                           ->limit(1);
 
             if ($row = $this->fetchRow($select)) {
                 $row = $this->_groupBy($row, 'item_id');
@@ -275,17 +275,17 @@ class JBModelSku extends JBModel
      */
     public function updateParams()
     {
-        $position = $this->app->jbcartposition;
         $elements = array_merge(
-            (array)$position->loadParams(JBCart::CONFIG_PRICE),
-            (array)$position->loadParams(JBCart::CONFIG_PRICE_TMPL)
+            $this->app->jbcartelement->getPriceCore(),
+            (array)$this->app->jbcartposition->loadParams(JBCart::CONFIG_PRICE),
+            (array)$this->app->jbcartposition->loadParams(JBCart::CONFIG_PRICE_TMPL)
         );
 
-        if (!empty($elements)) {
-            foreach ($elements as $id => $element) {
-                if (!isset(self::$ids[$id])) {
+        if (!empty($elements[JBCart::ELEMENT_TYPE_PRICE])) {
+            foreach ($elements[JBCart::ELEMENT_TYPE_PRICE] as $id => $element) {
+                if (!isset(self::$ids[$id]) && $element->isCore()) {
                     $this->_insert(array(
-                        'element_id' => $id
+                        'element_id' => $element->identifier
                     ), self::JBZOO_TABLE_SKU_PARAMS);
                 }
             }

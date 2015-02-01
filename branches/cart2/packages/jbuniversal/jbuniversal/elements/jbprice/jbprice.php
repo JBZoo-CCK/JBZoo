@@ -527,7 +527,10 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
         $data = array();
         if (!empty($variations)) {
-            $elements = $this->_element->getSystemTmpl(JBCart::ELEMENT_TYPE_PRICE);
+            $elements = array_merge(
+                (array)$this->_position->loadElements(JBCart::CONFIG_PRICE),
+                (array)$this->_position->loadElements(JBCart::CONFIG_PRICE_TMPL)
+            );
             $list     = $this->getVariantList($variations);
 
             foreach ($list->all() as $key => $variant) {
@@ -566,10 +569,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 }
             }
         }
-        unset($list,
-            $this->_list,
-            $this->_params,
-            $this->params);
+        $this->_list = $this->_params = $this->params = null;
 
         return $data;
     }
@@ -671,7 +671,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         if (!$element = isset($this->_params[$identifier]) ? $this->_params[$identifier] : null) {
             if ($config = $this->getElementConfig($identifier)) {
                 if ($element = $this->_element->create($config->get('type'), $config->get('group'), $config)) {
-
                     $element->identifier = $identifier;
 
                     $this->_params[$identifier] = $element;
