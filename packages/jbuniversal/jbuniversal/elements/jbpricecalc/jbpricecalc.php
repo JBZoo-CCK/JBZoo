@@ -68,7 +68,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         $this->_list     = new JBCartVariantList($list, $this, array(
             'values'   => $values,
             'template' => $template,
-            'currency' => $currency
+            'currency' => !empty($currency) ? $currency : $this->currency()
         ));
 
         $this->app->jbajax->send($this->_list->renderVariant());
@@ -79,8 +79,9 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
      * @param string $template
      * @param int    $quantity
      * @param array  $values
+     * @param string $currency
      */
-    public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array())
+    public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array(), $currency = '')
     {
         $jbAjax = $this->app->jbajax;
 
@@ -98,7 +99,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         $this->getVariantList($list, array(
             'values'   => $values,
             'quantity' => $quantity,
-            'currency' => $this->_config->get('cart.default_currency', JBCart::val()->cur())
+            'currency' => !empty($currency) ? $currency : $this->currency()
         ), true);
         $session_key = $this->_list->getSessionKey();
 
@@ -256,7 +257,8 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
 
             $options = array_merge(array(
                 'values'   => $this->quickSearch(array_keys($variations), 'value', false, 'values'),
-                'currency' => $this->_config->get('cart.default_currency', JBCart::val()->cur())
+                'currency' => $this->currency(),
+                'hash'     => $this->hash
             ), (array)$options);
 
             $this->_list = new JBCartVariantList($variations, $this, $options);

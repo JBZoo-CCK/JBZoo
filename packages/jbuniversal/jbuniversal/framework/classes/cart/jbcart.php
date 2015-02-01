@@ -318,7 +318,8 @@ class JBCart
             $price->setProp('_template', $data['template']);
 
             $list = $price->getVariantList($data['variations'], array(
-                'quantity' => $data['quantity']
+                'quantity' => $data['quantity'],
+                'currency' => $data['currency']
             ), true);
 
             $this->removeVariant($data['key']);

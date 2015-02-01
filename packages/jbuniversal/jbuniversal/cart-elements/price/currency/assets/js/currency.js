@@ -12,14 +12,13 @@
 ;
 (function ($, window, document, undefined) {
 
-    JBZoo.widget('JBZoo.PriceElement_quantity', {
-            'target': '.jsQuantity'
+    JBZoo.widget('JBZoo.PriceElement_currency', {
+            'target' : '',
+            'default': ''
         },
         {
             getValue: function () {
-                var quantity = this.$(this.options.target).JBZooQuantity('getValue');
-                
-                return quantity;
+                return this.$(this.options.target).JBZooCurrencyToggle('getCurrent');
             }
         }
     );

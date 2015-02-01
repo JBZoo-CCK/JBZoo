@@ -90,7 +90,7 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
      */
     public function parentSelector()
     {
-        return '.jsJBPrice-' . $this->getJBPrice()->identifier . '-' . $this->getJBPrice()->getItem()->id;
+        return '.' . $this->get('_hash');
     }
 
     /**
@@ -103,7 +103,8 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
 
         return array(
             'default' => $params->get('currency_default'),
-            'rates'   => (array)$this->_jbmoney->getData()
+            'rates'   => (array)$this->_jbmoney->getData(),
+            'target'  => '.jsCurrencyToggle'
         );
     }
 

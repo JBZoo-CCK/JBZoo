@@ -422,7 +422,7 @@ abstract class JBCartElementPrice extends JBCartElement
             $isAdded = true;
         }
 
-        return $this;
+        return parent::loadAssets();
     }
 
     /**

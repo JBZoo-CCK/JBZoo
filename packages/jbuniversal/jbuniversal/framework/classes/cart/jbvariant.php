@@ -272,9 +272,9 @@ class JBCartVariant
         $element->setConfig($config);
 
         if (!empty($data)) {
+            $data['_hash'] = $this->list->hash;
             $element->bindData($data);
         }
-
         $this->elements[$key] = $element;
 
         return $element;

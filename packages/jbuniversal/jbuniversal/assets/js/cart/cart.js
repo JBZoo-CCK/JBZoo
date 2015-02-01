@@ -35,6 +35,9 @@
         },
 
         'change.JBZooQuantity .jsQuantity': function (e, $this, oldValue, newValue) {
+            if (arguments.length != 4) {
+                return false;
+            }
             var itemKey = $(this).closest('.jsCartTableRow').data('key');
             $this._change(itemKey, newValue);
         },

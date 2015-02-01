@@ -22,6 +22,11 @@ App::getInstance('zoo')->loader->register('JBCartVariant', 'jbapp:framework/clas
 abstract class ElementJBPrice extends Element implements iSubmittable
 {
     /**
+     * @type string Unique string for each item and his params
+     */
+    public $hash;
+
+    /**
      * @var Array of params config
      */
     public $params = null;
@@ -201,11 +206,12 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     {
         $this->loadAssets();
         $params = $this->app->data->create($params);
+        $item   = $this->getItem();
 
+        $this->hash      = md5($params . $item->alias);
         $this->_template = $params->get('template', 'default');
         $this->_layout   = $params->get('_layout');
 
-        $item     = $this->getItem();
         $renderer = $this->app->jbrenderer->create('jbprice');
 
         $variant = $this->getDefaultVariant();
@@ -220,6 +226,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $elements = $this->elementsInterfaceParams();
         if ($layout = $this->getLayout('render.php')) {
             return self::renderLayout($layout, array(
+                'hash'       => $this->hash,
                 'data'       => $data,
                 'elements'   => $elements,
                 'variantUrl' => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxChangeVariant', array(
@@ -298,7 +305,8 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
             $options = array_merge(array(
                 'values'   => $this->data()->find('values.' . self::defaultVariantKey()),
-                'currency' => $this->currency()
+                'currency' => $this->currency(),
+                'hash'     => $this->hash
             ), (array)$options);
 
             $this->_list = new JBCartVariantList($variations, $this, $options);
@@ -335,8 +343,10 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * @param string $template
      * @param int    $quantity
      * @param array  $values
+     * @param string $currency
+     * @return
      */
-    abstract public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array());
+    abstract public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array(), $currency = '');
 
     /**
      * Remove from cart method
@@ -663,7 +673,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     /**
      * @param  string    $identifier elementID
      * @param int|string $variant    variant key
-     * @return \JBCartElementPrice|bool
+     * @return JBCartElementPrice
      */
     public function getElement($identifier, $variant = self::BASIC_VARIANT)
     {
@@ -683,7 +693,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         }
 
         $element = clone($element);
-
+        
         $element->config->set('_variant', $variant);
         $element->setJBPrice($this);
 

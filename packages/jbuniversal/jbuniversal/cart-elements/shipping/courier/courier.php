@@ -30,6 +30,8 @@ class JBCartElementShippingCourier extends JBCartElementShipping
                 'params' => $params,
             ));
         }
+
+        return null;
     }
 
     /**
