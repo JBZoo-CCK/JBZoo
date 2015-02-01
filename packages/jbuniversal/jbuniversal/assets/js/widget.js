@@ -70,6 +70,8 @@
                 $this.el = $(element);
                 $this.options = $.extend(true, {}, $this._defaults, options);
 
+                $this.el.attr('data-widgetid', $this._id);
+
                 // init
                 $this._initEvents(this._eventList, this);
                 $this.init(this);
