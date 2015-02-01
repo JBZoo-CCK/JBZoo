@@ -298,7 +298,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
             $options = array_merge(array(
                 'values'   => $this->data()->find('values.' . self::defaultVariantKey()),
-                'currency' => $this->_config->get('cart.default_currency', JBCart::val()->cur())
+                'currency' => $this->currency()
             ), (array)$options);
 
             $this->_list = new JBCartVariantList($variations, $this, $options);
@@ -313,7 +313,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function currency()
     {
-        $default = JBCart::val()->cur();
+        $default = $this->_config->get('cart.default_currency', JBCart::val()->cur());
         $params  = $this->getElementRenderParams('_currency');
 
         if ($params) {

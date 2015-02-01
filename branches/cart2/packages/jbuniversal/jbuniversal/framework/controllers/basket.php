@@ -241,7 +241,7 @@ class BasketJBUniversalController extends JBUniversalController
             'quantity' => (float)$cart
                 ->getJBPrice($item)
                 ->getVariant($item['variant'])
-                ->get('_balance')
+                ->get('_balance', 0)
         ), false);
     }
 
