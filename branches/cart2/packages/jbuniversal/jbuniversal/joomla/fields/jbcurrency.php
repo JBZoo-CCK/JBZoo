@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -36,6 +35,11 @@ class JFormFieldJBCurrency extends JFormField
         $app = App::getInstance('zoo');
 
         $currencyLst = $app->jbmoney->getCurrencyList();
+        if (isset($currencyLst['%'])) {
+            unset($currencyLst['%']);
+        }
+
+        $isMultiply = (int)$this->element->attributes()->multiple;
 
         // create select
         $options = array();
@@ -43,11 +47,13 @@ class JFormFieldJBCurrency extends JFormField
             $options[] = $app->html->_('select.option', $key, $currency);
         }
 
+        $attrs = $isMultiply ? 'multiple="multiple" size="5"' : '';
+
         return $app->html->_(
             'select.genericlist',
             $options,
             $this->getName($this->fieldname),
-            '',
+            $attrs,
             'value',
             'text',
             $this->value
