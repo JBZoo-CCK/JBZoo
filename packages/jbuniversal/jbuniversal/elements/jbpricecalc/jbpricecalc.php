@@ -189,8 +189,10 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
 
         $data = array();
         if (!empty($variations)) {
-            $elements = $this->_element->getSystemTmpl(JBCart::ELEMENT_TYPE_PRICE);
-
+            $elements = array_merge(
+                (array)$this->_position->loadElements(JBCart::CONFIG_PRICE),
+                (array)$this->_position->loadElements(JBCart::CONFIG_PRICE_TMPL)
+            );
             $this->set('default_variant', self::BASIC_VARIANT);
 
             $list     = $this->getVariantList();
@@ -227,10 +229,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
                 }
             }
         }
-        unset($list,
-            $this->_list,
-            $this->_params,
-            $this->params);
+        $this->_list = $this->_params = $this->params = null;
 
         return $data;
     }

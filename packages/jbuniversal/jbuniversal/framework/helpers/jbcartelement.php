@@ -200,25 +200,23 @@ class JBCartElementHelper extends AppHelper
     }
 
     /**
-     * HACK
-     * @param       $elementId
-     * @param       $priceId
-     * @param array $data
-     * @return JBCartElement
+     * Get core elements from price group
+     * @return array
      */
-    public function getPriceParamElement($elementId, $priceId, $data = array())
+    public function getPriceCore()
     {
-        $priceElements = JBModelConfig::model()->get(JBCart::DEFAULT_POSITION, array(), 'cart.' . JBCart::CONFIG_PRICE . '.' . $priceId);
-        $priceElements = $this->app->data->create($priceElements);
-        $paramConfig   = $priceElements->get($elementId);
+        $group    = $this->getGroups(JBCart::ELEMENT_TYPE_PRICE);
+        $elements = array();
 
-        $element = $this->create($paramConfig['type'], $paramConfig['group'], $paramConfig);
-
-        if (!empty($data)) {
-            $element->bindData($data);
+        if (!empty($group['price'])) {
+            foreach ($group['price'] as $key => $element) {
+                if ($element->isCore()) {
+                    $elements[$element->identifier] = $element;
+                }
+            }
         }
 
-        return $element;
+        return $elements;
     }
 
 }
