@@ -16,9 +16,21 @@
         {
             'target'    : '.jbzoo',
             'rates'     : {},
-            'defaultCur': 'default_cur'
+            'defaultCur': 'default_cur',
+            'setOnInit' : false
         },
         {
+
+            init: function ($this) {
+
+                if ($this.options.setOnInit) {
+                    var newCurrency = $this.getCurrent();
+                    $this._getMoney().JBZooMoney('convert', [newCurrency]);
+                    $this._trigger('change', [newCurrency]);
+                }
+
+            },
+
             /**
              * Get current currency
              * @returns {*}
@@ -35,8 +47,20 @@
                 return $this.options.defaultCur;
             },
 
-            toggle: function () {
+            setCurrency: function (newCurrency) {
+                var $this = this;
 
+                if (newCurrency) {
+                    var $input = $this.$('.jbcurrency-' + newCurrency)
+                    if ($input.length) {
+                        $input.prop('checked', true);
+                    } else {
+                        $this.$('.jbcurrency-input').removeAttr('checked');
+                    }
+                }
+            },
+
+            toggle: function () {
                 this._getMoney().JBZooMoney('convert', this.getCurrent());
             },
 
@@ -47,16 +71,25 @@
             _getMoney: function () {
                 var $this = this;
 
-                return $('.jsMoney', $($this.options.target)).JBZooMoney({
-                    'rates': $this.options.rates
-                });
+                return $(".jsMoney", $($this.options.target)).filter(function () {
+                    return $(this).closest('.jsNoCurrencyToggle').length == 0;
+                }).JBZooMoney({'rates': $this.options.rates});
             },
 
             'change .jbcurrency-input': function (e, $this) {
-                var currency = $(this).data('currency');
+                var newCurrency = $(this).data('currency');
 
-                $this._getMoney().JBZooMoney('convert', [currency]);
+                $this._getMoney().JBZooMoney('convert', [newCurrency]);
+                $this._trigger('change', [newCurrency]);
+            },
+
+            'change.JBZooCurrencyToggle {document} .jsCurrencyToggle': function (event, $this, newCurrency) {
+
+                if ($this.getCurrent() != newCurrency) {
+                    $this.setCurrency(newCurrency);
+                }
             }
+
         }
     );
 
