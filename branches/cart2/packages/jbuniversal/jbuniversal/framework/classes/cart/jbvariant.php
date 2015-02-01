@@ -63,6 +63,7 @@ class JBCartVariant
      * @param JBCartVariantList $jbList
      * @param array             $data
      * @param JBCartVariant     $basic link to the basic variant
+     * @throws JBCartVariantException
      */
     public function __construct($id, $jbList, $data = array(), $basic = null)
     {
@@ -83,6 +84,9 @@ class JBCartVariant
         }
 
         if (!$this->isBasic()) {
+            if (!$basic instanceof JBCartVariant) {
+                throw new JBCartVariantException();
+            }
             $this->basic = $basic;
         }
 
@@ -275,4 +279,12 @@ class JBCartVariant
 
         return $element;
     }
+}
+
+/**
+ * Class JBCartVariantException
+ */
+class JBCartVariantException extends AppException
+{
+
 }
