@@ -41,7 +41,7 @@
                 });
             },
 
-            'emptyCart.JBZooCartModule {document} .jsJBZooCartModule': function(e, $this) {
+            'emptyCart.JBZooCartModule {document} .jsJBZooCartModule': function (e, $this) {
                 $this.set({
                     'key'     : $this.options.key,
                     'isInCart': $this.options.isInCart
@@ -53,7 +53,8 @@
             'click .jsAddToCart': function (e, $this) {
 
                 var jbPrice = $this.price.data('JBZooPrice'),
-                    quantity = jbPrice.get('_quantity', 1),
+                    quantity = $this.get('_quantity', 1),
+                    currency = $this.get('_currency', ''),
                     input = $(this);
 
                 $this.ajax({
@@ -62,7 +63,8 @@
                     'data'   : {
                         "args": {
                             'quantity': quantity,
-                            'values'  : jbPrice.getValue()
+                            'values'  : jbPrice.getValue(),
+                            'currency': currency
                         }
                     },
                     'success': function (data) {
@@ -73,7 +75,7 @@
                         };
                         this.set(params);
                         jbPrice._updateCache('_buttons', params);
-                        
+
                         if (input.hasClass('jsAddToCartGoTo')) {
                             if ($this.options.basket) {
                                 parent.location.href = $this.options.basket;
@@ -152,6 +154,12 @@
             basketReload: function () {
                 if (this.isWidgetExists('JBZooCartModule')) {
                     $('.jsJBZooCartModule').JBZooCartModule('reload');
+                }
+            },
+
+            get: function (identifier, defValue) {
+                if (this.isWidgetExists('JBZooPrice')) {
+                     return this.el.closest('.jsJBPrice').JBZooPrice('get', identifier, defValue);
                 }
             },
 

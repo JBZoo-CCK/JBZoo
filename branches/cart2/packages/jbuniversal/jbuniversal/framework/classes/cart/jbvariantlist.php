@@ -421,8 +421,9 @@ class JBCartVariantList
             'item_id'    => $item->id,
             'item_name'  => $item->name,
             'element_id' => $jbPrice->identifier,
-            'total'      => $this->getTotal()->data(true),
+            'total'      => $this->getTotal()->convert($this->currency)->data(true),
             'quantity'   => (float)$this->quantity,
+            'currency'   => $this->currency,
             'template'   => $jbPrice->getTemplate(),
             'values'     => $this->getValues(),
             'elements'   => $this->defaultVariantCartData(),
@@ -453,8 +454,9 @@ class JBCartVariantList
             'item_id'    => $item->id,
             'item_name'  => $item->name,
             'element_id' => $jbPrice->identifier,
-            'total'      => $this->getTotal()->data(true),
+            'total'      => $this->getTotal()->convert($this->currency)->data(true),
             'quantity'   => (float)$this->quantity,
+            'currency'   => $this->currency,
             'template'   => $jbPrice->getTemplate(),
             'values'     => $this->getValues(),
             'elements'   => $this->defaultVariantCartData(),
@@ -498,7 +500,7 @@ class JBCartVariantList
         if ($id != ElementJBPrice::BASIC_VARIANT) {
             $basic = $this->get(ElementJBPrice::BASIC_VARIANT);
         }
-        
+
         return new JBCartVariant($id, $this, $elements, $basic);
     }
 

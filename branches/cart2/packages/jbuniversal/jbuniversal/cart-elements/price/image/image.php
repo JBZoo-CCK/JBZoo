@@ -66,7 +66,7 @@ class JBCartElementPriceImage extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $unique = $this->unique($params);
+        $unique = $this->unique();
 
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
