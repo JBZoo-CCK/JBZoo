@@ -249,8 +249,8 @@ class JBHTMLHelper extends AppHelper
      * @param null   $selected
      * @param array  $input_attr
      * @param array  $label_attr
-     * @param array $div_attr
-     * @param array $titles
+     * @param array  $div_attr
+     * @param array  $titles
      * @return string
      */
     public function colors(
@@ -264,9 +264,9 @@ class JBHTMLHelper extends AppHelper
         $titles = array()
     )
     {
-        $html = array();
+        $html   = array();
         $unique = $this->app->jbstring->getId('jbcolor-');
-        $i = 0;
+        $i      = 0;
 
         $html[] = '<div id="' . $unique . '" class="jbzoo-colors">';
 
@@ -280,7 +280,7 @@ class JBHTMLHelper extends AppHelper
 
             $id = $this->app->jbstring->getId('jbcolor-input-');
 
-            $input_attr = array_merge((array)$input_attr,array(
+            $input_attr = array_merge((array)$input_attr, array(
                 'type'    => $inputType,
                 'name'    => $name,
                 'id'      => $id,
@@ -312,7 +312,7 @@ class JBHTMLHelper extends AppHelper
 
                     if ($key == $val) {
                         $input_attr['checked'] = 'checked';
-                        $input_attr['class']   .= ' checked';
+                        $input_attr['class'] .= ' checked';
                         $i++;
                         break;
                     }
@@ -322,7 +322,7 @@ class JBHTMLHelper extends AppHelper
                 if ((string)$key == (string)$selected) {
 
                     $input_attr['checked'] = 'checked';
-                    $input_attr['class']  .= ' checked';
+                    $input_attr['class'] .= ' checked';
                 }
             }
 
@@ -365,7 +365,8 @@ class JBHTMLHelper extends AppHelper
         $options = $this->app->data->create(array_merge(array(
             'target'      => '.jbzoo',
             'showDefault' => true,
-            'rates'       => $curList,
+            'setOnInit'   => false,
+            'rates'       => isset($options['rates']) ? $options['rates'] : $curList,
         ), $options));
 
         if ((int)$options->get('showDefault')) {
