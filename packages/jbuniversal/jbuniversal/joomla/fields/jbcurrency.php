@@ -39,10 +39,16 @@ class JFormFieldJBCurrency extends JFormField
             unset($currencyLst['%']);
         }
 
-        $isMultiply = (int)$this->element->attributes()->multiple;
+        $isMultiply  = (int)$this->element->attributes()->multiple;
+        $defaultCode = (int)$this->element->attributes()->defaultCode;
 
         // create select
         $options = array();
+
+        if ($defaultCode) {
+            $options[JBCartValue::DEFAULT_CODE] = JText::_('JBZOO_CURRENCY_DEFAULT_CODE');
+        }
+
         foreach ($currencyLst as $key => $currency) {
             $options[] = $app->html->_('select.option', $key, $currency);
         }
