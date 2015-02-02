@@ -72,7 +72,7 @@ class JBCartVariantList
         //Create variant instance
         if (!empty($list)) {
             foreach ($list as $id => $elements) {
-                $elements = array_merge($elements, $this->_jbprice->getSystemElementsParams());
+                $elements = array_merge((array)$elements, (array)$this->_jbprice->getSystemElementsParams());
                 if ((!$this->has($id)) && ($instance = $this->_createInstance($id, $elements))) {
                     $this->set($instance);
                 }

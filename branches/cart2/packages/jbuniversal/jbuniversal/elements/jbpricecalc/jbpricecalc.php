@@ -28,10 +28,10 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
      */
     public function getVariantByValues($values = array())
     {
-        $data = $this->get('values', array());
+        $data = (array)$this->get('values', array());
 
         if (empty($values) || empty($data)) {
-            return $values;
+            return (array)$values;
         }
 
         $variations = array();
@@ -47,7 +47,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
             }
         }
 
-        return $variations;
+        return (array)$variations;
     }
 
     /**
