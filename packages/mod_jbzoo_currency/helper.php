@@ -69,10 +69,11 @@ class JBZooCurrencyModuleHelper
             $this->_curList,
             $this->_defaultCur(true),
             array(
+                'rates'       => $this->app->jbmoney->getData(),
                 'target'      => $this->_params->get('switcher_target', '.jbzoo'),
                 'showDefault' => (int)$this->_params->get('currency_defaultcode', 1),
                 'setOnInit'   => (int)$this->_params->get('set_on_init', 1),
-                'rates'       => $this->app->jbmoney->getData(),
+                'isMain'      => true,
             )
         );
     }

@@ -17,7 +17,8 @@
             'target'    : '.jbzoo',
             'rates'     : {},
             'defaultCur': 'default_cur',
-            'setOnInit' : false
+            'setOnInit' : false,
+            'isMain'    : false
         },
         {
 
@@ -80,7 +81,9 @@
                 var newCurrency = $(this).data('currency');
 
                 $this._getMoney().JBZooMoney('convert', [newCurrency]);
-                $this._trigger('change', [newCurrency]);
+                if ($this.options.isMain) {
+                    $this._trigger('change', [newCurrency]);
+                }
             },
 
             'change.JBZooCurrencyToggle {document} .jsCurrencyToggle': function (event, $this, newCurrency) {
