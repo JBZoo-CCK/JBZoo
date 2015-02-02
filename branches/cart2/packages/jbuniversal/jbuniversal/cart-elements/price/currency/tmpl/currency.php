@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,11 +12,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (count($list) > 1) {
-    $currencies = array_intersect_key((array)$this->_jbmoney->getData(), array_flip($list));
+$rates = array_intersect_key((array)$this->_jbmoney->getData(), array_flip($list));
 
-    echo $this->_jbhtml->currencyToggle($currencies, $default, array(
+if (count($list) > 1) {
+    echo $this->_jbhtml->currencyToggle($default, $rates, array(
         'target'      => $this->parentSelector(),
-        'showDefault' => (in_array(JBCartValue::DEFAULT_CODE, $list) ? true : false)
+        'showDefault' => (in_array(JBCartValue::DEFAULT_CODE, $list) ? true : false),
     ));
 }

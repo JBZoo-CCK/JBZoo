@@ -21,8 +21,13 @@
             'isMain'    : false
         },
         {
+            'rates': {},
 
             init: function ($this) {
+
+                if (JBZoo.empty($this.options.rates)) {
+                    $this.options.rates = JBZoo.getVar('currencyList', {});
+                }
 
                 if ($this.options.setOnInit) {
                     var newCurrency = $this.getCurrent();

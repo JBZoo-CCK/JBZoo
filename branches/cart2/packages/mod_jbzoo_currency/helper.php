@@ -54,7 +54,7 @@ class JBZooCurrencyModuleHelper
 
         JBZoo::init();
 
-        $this->_curList = $this->_getList($this->app->jbmoney->getData());
+        $this->_curList = $this->_getList();
     }
 
     /**
@@ -64,17 +64,12 @@ class JBZooCurrencyModuleHelper
     {
         $curList = $this->_params->get('currency_list', array());
 
-        return $this->app->jbhtml->currencyToggle(
-            $this->_curList,
-            $this->_defaultCur(true),
-            array(
-                'rates'       => $this->app->jbmoney->getData(),
-                'target'      => $this->_params->get('switcher_target', '.jbzoo'),
-                'showDefault' => isset($curList[JBCartValue::DEFAULT_CODE]),
-                'setOnInit'   => (int)$this->_params->get('set_on_init', 1),
-                'isMain'      => true,
-            )
-        );
+        return $this->app->jbhtml->currencyToggle($this->_defaultCur(true), $this->_curList, array(
+            'target'      => $this->_params->get('switcher_target', '.jbzoo'),
+            'showDefault' => isset($curList[JBCartValue::DEFAULT_CODE]),
+            'setOnInit'   => (int)$this->_params->get('set_on_init', 1),
+            'isMain'      => true,
+        ));
     }
 
     /**
@@ -115,12 +110,12 @@ class JBZooCurrencyModuleHelper
     }
 
     /**
-     * @param $list
      * @return array
      */
-    protected function _getList($list)
+    protected function _getList()
     {
         $curList = $this->_params->get('currency_list', array());
+        $list    = $this->app->jbmoney->getData();
 
         $result = array();
         foreach ($curList as $code) {

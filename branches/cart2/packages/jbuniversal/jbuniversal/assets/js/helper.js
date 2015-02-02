@@ -19,6 +19,8 @@
     var JBZooHelper = function () {
     };
 
+    var globalVars = {};
+
     $.extend(JBZooHelper.prototype, {
 
         /**
@@ -46,7 +48,7 @@
                 toFixedFix = function (n, prec) {
                     var k = Math.pow(10, prec);
                     return '' + (Math.round(n * k) / k)
-                        .toFixed(prec);
+                            .toFixed(prec);
                 };
 
             // Fix for IE parseFloat(0.55).toFixed(0) = 0;
@@ -475,6 +477,33 @@
             $.each($(selector).data('events'), function (eventName, event) {
                 dump(event, eventName);
             });
+        },
+
+        /**
+         * @param varName
+         * @param value
+         */
+        addVar: function (varName, value) {
+            globalVars[varName] = value;
+        },
+
+        /**
+         *
+         * @param varName
+         * @param defaultValue
+         * @returns {*}
+         */
+        getVar: function (varName, defaultValue) {
+
+            if (!this.empty(globalVars[varName])) {
+                return globalVars[varName];
+            }
+
+            if (typeof defaultValue == 'undefined') {
+                return undefined;
+            }
+
+            return defaultValue;
         }
 
     });

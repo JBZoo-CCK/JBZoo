@@ -103,7 +103,6 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
 
         return array(
             'default' => $params->get('currency_default'),
-            'rates'   => (array)$this->_jbmoney->getData(),
             'target'  => '.jsCurrencyToggle'
         );
     }

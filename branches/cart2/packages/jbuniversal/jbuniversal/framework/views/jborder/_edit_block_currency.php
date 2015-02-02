@@ -11,7 +11,10 @@ if (count($curList) <= 2) {
     <p>Список и курсы валют на момент создания заказа</p>
 
     <?php
-    echo $this->app->jbhtml->currencyToggle($curList, JBCartValue::DEFAULT_CODE, array(
+
+    $this->app->jbassets->addVar('currencyList', $curList);
+
+    echo $this->app->jbhtml->currencyToggle(JBCartValue::DEFAULT_CODE, $curList, array(
         'target'      => '.jbzoo .uk-grid',
         'showDefault' => true,
     ));
