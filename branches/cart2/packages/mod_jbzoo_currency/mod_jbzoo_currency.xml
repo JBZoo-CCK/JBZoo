@@ -37,27 +37,19 @@
                 <field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL"
                        description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
 
-                <field name="currency_list" type="jbcurrency" multiple="1" default="" label="JBZOO_MODULE_CURRENCY_LIST"
+                <field name="currency_list" type="jbcurrency" multiple="1" defaultCode="1" default=""
+                       label="JBZOO_MODULE_CURRENCY_LIST"
                        description="JBZOO_MODULE_CURRENCY_LIST_DESC"/>
 
-                <field name="currency_default" type="jbcurrency" default="eur" label="JBZOO_MODULE_CURRENCY_DEFAULT"
+                <field name="currency_default" type="jbcurrency" defaultCode="1" default="eur"
+                       label="JBZOO_MODULE_CURRENCY_DEFAULT"
                        description="JBZOO_MODULE_CURRENCY_DEFAULT_DESC"/>
-
-                <field name="currency_defaultcode" type="jbbool" default="1" label="JBZOO_MODULE_CURRENCY_DEFAULTCODE"
-                       description="JBZOO_MODULE_CURRENCY_DEFAULTCODE_DESC"/>
 
                 <field name="set_on_init" type="jbbool" default="1" label="JBZOO_MODULE_CURRENCY_SET_ON_INIT"
                        description="JBZOO_MODULE_CURRENCY_SET_ON_INIT_DESC"/>
 
                 <field name="switcher_target" type="text" default=".jbzoo" label="JBZOO_MODULE_CURRENCY_SWITCHER_TARGET"
                        description="JBZOO_MODULE_CURRENCY_SWITCHER_TARGET_DESC"/>
-
-                <field name="list_direction" type="list" default="direct"
-                       label="JBZOO_MODULE_CURRENCY_LIST_DIRECTION"
-                       description="JBZOO_MODULE_CURRENCY_LIST_DIRECTION_DESC">
-                    <option value="direct">JBZOO_MODULE_CURRENCY_LIST_DIRECTION_DIRECT</option>
-                    <option value="reverse">JBZOO_MODULE_CURRENCY_LIST_DIRECTION_REVERSE</option>
-                </field>
 
                 <field name="list_multiply" type="text" default="1" label="JBZOO_MODULE_CURRENCY_LIST_MULTIPLY"
                        description="JBZOO_MODULE_CURRENCY_LIST_MULTIPLY_DESC"/>

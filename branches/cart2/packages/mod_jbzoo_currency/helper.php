@@ -21,9 +21,6 @@ require_once(JPATH_BASE . '/media/zoo/applications/jbuniversal/framework/jbzoo.p
  */
 class JBZooCurrencyModuleHelper
 {
-    const LIST_DIRECT  = "direct";
-    const LIST_REVERSE = "reverse";
-
     /**
      * @var App
      */
@@ -65,13 +62,15 @@ class JBZooCurrencyModuleHelper
      */
     public function renderToggleSwitcher()
     {
+        $curList = $this->_params->get('currency_list', array());
+
         return $this->app->jbhtml->currencyToggle(
             $this->_curList,
             $this->_defaultCur(true),
             array(
                 'rates'       => $this->app->jbmoney->getData(),
                 'target'      => $this->_params->get('switcher_target', '.jbzoo'),
-                'showDefault' => (int)$this->_params->get('currency_defaultcode', 1),
+                'showDefault' => isset($curList[JBCartValue::DEFAULT_CODE]),
                 'setOnInit'   => (int)$this->_params->get('set_on_init', 1),
                 'isMain'      => true,
             )
@@ -83,14 +82,16 @@ class JBZooCurrencyModuleHelper
      */
     public function getCurrencyList()
     {
-        $result = array();
+        $result = array(
+            'orig' => null,
+            'list' => array(),
+        );
+
         if (!empty($this->_curList)) {
 
             $defaultCur = $this->_defaultCur(false);
             $multiply   = $this->app->jbvars->number($this->_params->get('list_multiply', 1));
-            $moneyVal   = JBCart::val(1, $defaultCur, $this->_curList)->multiply($multiply);
-
-            $direction = $this->_params->get('list_direction', self::LIST_DIRECT);
+            $moneyVal   = JBCart::val(1, $defaultCur)->multiply($multiply);
 
             foreach ($this->_curList as $code => $currency) {
 
@@ -98,22 +99,15 @@ class JBZooCurrencyModuleHelper
                     continue;
                 }
 
-                if ($direction == self::LIST_DIRECT) {
-                    $result[$code] = array(
-                        'from' => $moneyVal->html(),
-                        'to'   => $moneyVal->html($code),
-                        'name' => $currency['name'],
-                    );
-
-                } else if ($direction == self::LIST_REVERSE) {
-                    $result[$code] = array(
-                        'from' => $moneyVal->html($code),
-                        'to'   => $moneyVal->html(),
-                        'name' => $currency['name'],
-                    );
-                }
+                $result['list'][$code] = array(
+                    'from' => $moneyVal->html(),
+                    'to'   => $moneyVal->html($code),
+                    'name' => $currency['name'],
+                );
 
             }
+
+            $result['orig'] = $moneyVal;
         }
 
         return $result;
@@ -147,9 +141,11 @@ class JBZooCurrencyModuleHelper
 
         if (!$this->_curList->get($currentCur)) {
             $currentCur = null;
+
             if ($availableDefault) {
                 $currentCur = JBCartValue::DEFAULT_CODE;
             }
+
         }
 
         return $currentCur;

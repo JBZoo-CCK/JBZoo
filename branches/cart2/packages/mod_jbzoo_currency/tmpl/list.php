@@ -17,20 +17,35 @@ $curList = $currencyHelper->getCurrencyList();
 
 ?>
 
-<?php if (!empty($curList) || empty($curList)) : ?>
+<?php if (!empty($curList['list'])) : ?>
     <div class="jbzoo jsNoCurrencyToggle">
 
-        <?php if (!empty($curList)) : ?>
+        <?php if (count($curList['list']) > 1) : ?>
+
+            <p><?php echo $curList['orig']->html(); ?> в других валютах </p>
+
             <table class="jbcurrency-list jbcurrency-reverse no-border">
-                <?php foreach ($curList as $code => $currency) : ?>
-                    <tr class="jbcurrency-<?php echo $code; ?>" title="<?php echo $currency['name']; ?>">
+                <?php foreach ($curList['list'] as $code => $currency) : ?>
+                    <tr class="jbcurrency-<?php echo $code; ?>">
+                        <td class="jbcurrency-from"><?php echo $currency['name']; ?></td>
+                        <td class="jbcurrency-devider">. . .</td>
+                        <td class="jbcurrency-to"><?php echo $currency['to']; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+
+        <?php else: ?>
+
+            <table class="jbcurrency-list jbcurrency-reverse no-border">
+                <?php foreach ($curList['list'] as $code => $currency) : ?>
+                    <tr class="jbcurrency-<?php echo $code; ?>">
                         <td class="jbcurrency-from"><?php echo $currency['from']; ?></td>
                         <td class="jbcurrency-devider">. . .</td>
                         <td class="jbcurrency-to"><?php echo $currency['to']; ?></td>
                     </tr>
                 <?php endforeach; ?>
             </table>
-        <?php endif; ?>
 
+        <?php endif; ?>
     </div>
 <?php endif; ?>
