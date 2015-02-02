@@ -20,6 +20,11 @@
         </description>
     </layout>
 
+    <layout name="quickview">
+        <name>Quick view</name>
+        <description>Quick view item layout.</description>
+    </layout>
+
     <layout name="compare">
         <name>Compare</name>
         <description>Compare item layout</description>
