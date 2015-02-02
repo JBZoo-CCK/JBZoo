@@ -134,6 +134,10 @@ class JBCartElementPriceImage extends JBCartElementPrice
             $params = $this->getRenderParams();
         }
 
+        if (!$params) {
+            return false;
+        }
+
         $width  = $params->get('width');
         $height = $params->get('height');
 
