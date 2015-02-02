@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -14,9 +13,11 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 
 <div class="jbprice-buttons jsPriceButtons <?php echo $inCart . ' ' . $inCartVariant; ?> ?>">
-    <a rel="nofollow" href="#add-to-cart-goto" class="jsAddToCart jsAddToCartGoTo jbbutton green"
-       title="<?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART_GOTO'); ?>"><?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART_GOTO'); ?></a>
+    <span class="jsAddToCart jsAddToCartGoTo jbbutton green"
+          title="<?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART_GOTO'); ?>">
+        <?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART_GOTO'); ?></span>
 
-    <a rel="nofollow" href="#remove-from-cart" class="jsRemoveFromCart jsRemoveElement jbbutton small remove-button"
-       title="<?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?>"><?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?></a>
+    <span class="jsRemoveFromCart jsRemoveElement jbbutton small remove-button"
+          title="<?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?>">
+        <?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?></span>
 </div>
