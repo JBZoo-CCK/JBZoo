@@ -75,7 +75,7 @@ class JBAssetsHelper extends AppHelper
             $this->addScript("\t" . implode("\n\t", array(
                     'JBZoo.DEBUG = 1;',
                     'jQuery.migrateMute = false;',
-                )), false);
+                )) . "\n", false);
 
             $this->js(array(
                 'jbassets:js/helper.js',
