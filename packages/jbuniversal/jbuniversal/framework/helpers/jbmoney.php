@@ -84,8 +84,10 @@ class JBMoneyHelper extends AppHelper
         self::$curList = $this->app->jbcache->get($cacheKey, 'currency', true);
         if (empty(self::$curList)) {
 
-            $curList[JBCartValue::DEFAULT_CODE] = array(
+            self::$curList[JBCartValue::DEFAULT_CODE] = array(
                 'code'   => JBCartValue::DEFAULT_CODE,
+                'name'   => JText::_('JBZOO_CURRENCY_DEFAULT_CODE'),
+                'value'  => 0,
                 'format' => array(),
             );
 
