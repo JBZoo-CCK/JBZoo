@@ -346,40 +346,31 @@ class JBHTMLHelper extends AppHelper
     }
 
     /**
-     * @param array  $curList
      * @param string $defaultCur
+     * @param array  $rates
      * @param array  $options
      * @return array|null|string
      */
-    public function currencyToggle($curList, $defaultCur = 'eur', $options = array())
+    public function currencyToggle($defaultCur = 'eur', $rates = null, $options = array())
     {
-        $curList    = (array)$curList;
+        $rates = !empty($rates) ? $rates : $this->app->jbmoney->getData();
+
         $defaultCur = $this->app->jbvars->lower($defaultCur);
-        $moneyVal   = JBCart::val(1, $defaultCur, $curList); // for calculating
+        $moneyVal   = JBCart::val(1, $defaultCur, $rates); // for calculating
         $uniqId     = $this->app->jbstring->getId();
 
-        if (isset($curList['%'])) {
-            unset($curList['%']);
+        if (isset($rates['%'])) {
+            unset($rates['%']);
         }
 
         $options = $this->app->data->create(array_merge(array(
-            'target'      => '.jbzoo',
             'showDefault' => true,
-            'setOnInit'   => false,
-            'rates'       => isset($options['rates']) ? $options['rates'] : $curList,
         ), $options));
 
-        if ((int)$options->get('showDefault')) {
-            $curList = $this->app->jbarray->unshiftAssoc($curList, JBCartValue::DEFAULT_CODE, array(
-                'code'   => JBCartValue::DEFAULT_CODE,
-                'format' => array(),
-            ));
-        }
-
         $i     = 0;
-        $count = count($curList);
+        $count = count($rates);
         $html  = array();
-        foreach ($curList as $code => $currency) {
+        foreach ($rates as $code => $currency) {
             $i++;
             $id    = $this->app->jbstring->getId('unique-');
             $title = JText::_('JBZOO_JBCURRENCY_' . $code);

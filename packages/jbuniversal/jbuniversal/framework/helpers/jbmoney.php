@@ -79,11 +79,15 @@ class JBMoneyHelper extends AppHelper
         $cacheKey = serialize(array(
             'params' => (array)$curParams,
             'date'   => date('d-m-Y'),
-            //'debug'  => time(),
         ));
 
         self::$curList = $this->app->jbcache->get($cacheKey, 'currency', true);
         if (empty(self::$curList)) {
+
+            $curList[JBCartValue::DEFAULT_CODE] = array(
+                'code'   => JBCartValue::DEFAULT_CODE,
+                'format' => array(),
+            );
 
             $elements = $this->app->jbcartposition->loadElements('currency');
 

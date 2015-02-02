@@ -72,10 +72,10 @@ class JBAssetsHelper extends AppHelper
             $isAdded = true;
 
             $this->jQuery();
-            $this->addScript(implode("\n", array(
-                'JBZoo.DEBUG = 1;',
-                'jQuery.migrateMute = false;',
-            )));
+            $this->addScript("\t" . implode("\n\t", array(
+                    'JBZoo.DEBUG = 1;',
+                    'jQuery.migrateMute = false;',
+                )), false);
 
             $this->js(array(
                 'jbassets:js/helper.js',
@@ -106,17 +106,14 @@ class JBAssetsHelper extends AppHelper
      */
     public function currencyToggle($id, $params = array())
     {
+        $this->less('jbassets:less/widget/currencytoggle.less');
         $this->js(array(
             'jbassets:js/widget/money.js',
             'jbassets:js/widget/currencytoggle.js'
         ));
 
-        $this->less('jbassets:less/widget/currencytoggle.less');
-
-        $this->addScript('jQuery(function($){
-            $("#' . $id . '").JBZooCurrencyToggle(' . json_encode((object)$params) . ');
-        });');
-
+        $this->addVar('currencyList', $this->app->jbmoney->getData());
+        $this->addScript('$("#' . $id . '").JBZooCurrencyToggle(' . $this->_toJSON($params) . ')');
     }
 
     /**
@@ -358,7 +355,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->tools();
         $this->quantity();
-        $this->addScript('jQuery(function($){ $("#' . $id . '").JBZooQuantity(' . json_encode((object)$options) . '); });');
+        $this->addScript('$("#' . $id . '").JBZooQuantity(' . $this->_toJSON($options) . ')');
     }
 
     /**
@@ -381,16 +378,17 @@ class JBAssetsHelper extends AppHelper
 
         if (!isset($isAdded)) {
             $isAdded = true;
-            $this->addScript('jQuery(function($){
-                $("a.jbimage-link[rel=jbimage-popup], a.jbimage-gallery").fancybox({
-                    "helpers" : {
-                        "title"  : { type : "outside" },
-                        "buttons": { position:"top" },
-                        "thumbs" : { width :80, height:80 },
-                        "overlay": { locked: false}
-                    }
-                });
-            });');
+
+            $params = array(
+                'helpers' => array(
+                    'title'   => array('type' => 'outside'),
+                    'buttons' => array('position' => 'top'),
+                    'thumbs'  => array('width' => 80, 'height' => 80),
+                    'overlay' => array('locked' => false),
+                )
+            );
+
+            $this->addScript('$("a.jbimage-link[rel=jbimage-popup], a.jbimage-gallery").fancybox(' . $this->_toJSON($params) . ')');
         }
     }
 
@@ -407,9 +405,7 @@ class JBAssetsHelper extends AppHelper
 
         if (!isset($isAdded)) {
             $isAdded = true;
-            $this->addScript('jQuery(function($){
-                $(".jbzoo .items, .jbzoo .subcategories, .jbzoo .related-items").JBZooHeightFix({element : "' . $element. '"});
-            });');
+            $this->addScript('$(".jbzoo .items, .jbzoo .subcategories, .jbzoo .related-items").JBZooHeightFix({element : "' . $element . '"})');
         }
     }
 
@@ -440,7 +436,14 @@ class JBAssetsHelper extends AppHelper
      */
     public function addVar($varName, $value)
     {
-        $this->addScript('var ' . $varName . ' = ' . json_encode($value) . "; \n \n ");
+        static $vars;
+
+        $vars = isset($vars) ? $vars : array();
+
+        if (!isset($vars[$varName])) {
+            $vars[$varName] = true;
+            $this->addScript("JBZoo.addVar('" . $varName . "', " . $this->_toJSON($value) . ")");
+        }
     }
 
     /**
@@ -468,13 +471,13 @@ class JBAssetsHelper extends AppHelper
 
         if (!isset($isAdded[$uniqid])) {
 
-            $this->addScript('jQuery(function($){
-                $(".jbcascadeselect-wrapper.jbcascadeselect-' . $uniqid . '").JBCascadeSelect({
-                    "items": ' . json_encode($itemList) . ',
-                    "uniqid" : "' . $uniqid . '",
-                    "text_all" : " - ' . JText::_('JBZOO_ALL') . ' - "
-                });
-            });');
+            $params = $this->_toJSON(array(
+                'items'    => $itemList,
+                'uniqid'   => $uniqid,
+                'text_all' => ' - ' . JText::_('JBZOO_ALL') . ' - ',
+            ));
+
+            $this->addScript('$(".jbcascadeselect-wrapper.jbcascadeselect-' . $uniqid . '").JBCascadeSelect(' . $params . ')');
 
             $isAdded[$uniqid] = true;
         }
@@ -492,29 +495,28 @@ class JBAssetsHelper extends AppHelper
 
         if (!isset($isAdded)) {
             $isAdded = true;
-            $this->addScript('jQuery(function($){
-                $(".jbzoo .jsAutocomplete").each(function (n, obj) {
-                    var $input = $(obj),
-                        $form = $input.closest("form");
-                    $input.autocomplete({
-                        minLength: 2,
-                        source: function( request, response ) {
-                            var term = request.term;
-                            lastXhr = $.getJSON("' . $this->app->jbrouter->autocomplete() . '",
-                                {
-                                    "name"  : $input.attr("name"),
-                                    "value" : term,
-                                    "app_id": $(".jsApplicationId", $form).val(),
-                                    "type"  : $(".jsItemType", $form).val()
-                                },
-                                function(data, status, xhr) {
+            $this->addScript('$(".jbzoo .jsAutocomplete").each(function (n, obj) {
+                var $input = $(obj),
+                    $form = $input.closest("form");
 
-                                    $input.removeClass("ui-autocomplete-loading");
-                                    response(data);
-                                }
-                            );
-                        }
-                    });
+                $input.autocomplete({
+                    minLength: 2,
+                    source: function( request, response ) {
+                        var term = request.term;
+                        lastXhr = $.getJSON("' . $this->app->jbrouter->autocomplete() . '",
+                            {
+                                "name"  : $input.attr("name"),
+                                "value" : term,
+                                "app_id": $(".jsApplicationId", $form).val(),
+                                "type"  : $(".jsItemType", $form).val()
+                            },
+                            function(data, status, xhr) {
+
+                                $input.removeClass("ui-autocomplete-loading");
+                                response(data);
+                            }
+                        );
+                    }
                 });
             })');
         }
@@ -532,47 +534,45 @@ class JBAssetsHelper extends AppHelper
 
         if (!isset($isAdded)) {
             $isAdded = true;
-            $this->addScript('jQuery(function($){
-                $(".jbzoo .jsPriceAutoComplete").each(function (n, obj) {
-                    var $input = $(obj),
-                        $form = $input.closest("form"),
-                    widget = $input.autocomplete({
-                        minLength: 2,
-                        source: function( request, response ) {
-                            var term = request.term;
-                            lastXhr = $.getJSON("' . $this->app->jbrouter->autocomplete() . '",
-                                {
-                                    "name"  : $input.attr("name"),
-                                    "value" : term,
-                                    "app_id": $(".jsApplicationId", $form).val(),
-                                    "type"  : $(".jsItemType", $form).val()
-                                },
-                                function(data, status, xhr) {
+            $this->addScript('$(".jbzoo .jsPriceAutoComplete").each(function (n, obj) {
+                var $input = $(obj),
+                    $form = $input.closest("form"),
+                widget = $input.autocomplete({
+                    minLength: 2,
+                    source: function( request, response ) {
+                        var term = request.term;
+                        lastXhr = $.getJSON("' . $this->app->jbrouter->autocomplete() . '",
+                            {
+                                "name"  : $input.attr("name"),
+                                "value" : term,
+                                "app_id": $(".jsApplicationId", $form).val(),
+                                "type"  : $(".jsItemType", $form).val()
+                            },
+                            function(data, status, xhr) {
 
-                                    $input.removeClass("ui-autocomplete-loading");
-                                    response(data);
-                                }
-                            );
-                        },
-                        change: function(event, ui) {
-                            var element = $(".jsPriceAutoCompleteValue", $(this).parent());
-
-                            if(ui.item) {
-                                element.val(ui.item.id).removeAttr("disabled");
-                            } else {
-                                element.val(null).attr("disabled", true);
+                                $input.removeClass("ui-autocomplete-loading");
+                                response(data);
                             }
-                        },
-                        select: function(event, ui) {
-                            var element = $(".jsPriceAutoCompleteValue", $(this).parent());
+                        );
+                    },
+                    change: function(event, ui) {
+                        var element = $(".jsPriceAutoCompleteValue", $(this).parent());
 
-                            if(ui.item) {
-                                element.val(ui.item.id).removeAttr("disabled");
-                            } else {
-                                element.val(null).attr("disabled", true);
-                            }
+                        if(ui.item) {
+                            element.val(ui.item.id).removeAttr("disabled");
+                        } else {
+                            element.val(null).attr("disabled", true);
                         }
-                    });
+                    },
+                    select: function(event, ui) {
+                        var element = $(".jsPriceAutoCompleteValue", $(this).parent());
+
+                        if(ui.item) {
+                            element.val(ui.item.id).removeAttr("disabled");
+                        } else {
+                            element.val(null).attr("disabled", true);
+                        }
+                    }
                 });
             })');
         }
@@ -589,13 +589,11 @@ class JBAssetsHelper extends AppHelper
 
         if (!isset($isAdded)) {
             $isAdded = true;
-            $this->addScript('jQuery(function($){
-                $(".jbzoo .jsAccordion").each(function(n, obj){
-                    var $obj = $(obj),
-                        id   = "jbaccordion-" + n;
-                    $obj.attr("id", id);
-                    $("#" + id).JBZooAccordion();
-                });
+            $this->addScript('$(".jbzoo .jsAccordion").each(function(n, obj){
+                var $obj = $(obj),
+                    id   = "jbaccordion-" + n;
+                $obj.attr("id", id);
+                $("#" + id).JBZooAccordion();
             })');
         }
     }
@@ -613,9 +611,7 @@ class JBAssetsHelper extends AppHelper
         $this->less('jbassets:less/general.less');
 
         if ($queryElement) {
-            $this->addScript('jQuery(function($){
-                $("#' . $queryElement . '").JBZooColors({multiple: "' . (boolean)$type . '"});
-            });');
+            $this->addScript('$("#' . $queryElement . '").JBZooColors({multiple: "' . (boolean)$type . '"})');
         }
     }
 
@@ -631,9 +627,7 @@ class JBAssetsHelper extends AppHelper
         if ($queryElement) {
             $this->js('media:jui/js/jquery.minicolors.min.js');
             $this->css('media:jui/css/jquery.minicolors.css');
-            $this->addScript('jQuery(function($){
-                $("' . $queryElement . '").JBColorElement({message: "' . $text . '"});
-            });');
+            $this->addScript('$("' . $queryElement . '").JBColorElement({message: "' . $text . '"})');
         }
     }
 
@@ -648,12 +642,14 @@ class JBAssetsHelper extends AppHelper
 
         if (!isset($isAdded)) {
             $isAdded = true;
-            $this->addScript('jQuery(document).ready(function($){
-                $(".jbzoo .jbtooltip").tooltip();
-            });');
+            $this->addScript('$(".jbzoo .jbtooltip").tooltip()');
         }
     }
 
+    /**
+     * @param      $queryElement
+     * @param null $version
+     */
     public function initJBDelimiter($queryElement, $version = null)
     {
         $this->jQuery();
@@ -662,22 +658,25 @@ class JBAssetsHelper extends AppHelper
             $version = JString::substr($this->app->jbversion->joomla(), 0, 1);
         }
 
-        $this->addScript('jQuery(document).ready(function($){
-                $("' . $queryElement . '").JBZooDelimiter({
-                    "version": "' . $version . '"
-                });
-            });'
-        );
+        $this->addScript('$("' . $queryElement . '").JBZooDelimiter({
+            "version": "' . $version . '"
+        })');
     }
 
     /**
      * Add script to document
-     * @param string $script
+     * @param      $script
+     * @param bool $docReady
      */
-    public function addScript($script)
+    public function addScript($script, $docReady = true)
     {
         if (!$this->app->jbrequest->isAjax()) {
-            JFactory::getDocument()->addScriptDeclaration("\n" . $script);
+
+            if ($docReady) {
+                $script = "\tjQuery(function($){ " . $script . "; });\n";
+            }
+
+            JFactory::getDocument()->addScriptDeclaration($script);
         }
 
     }
@@ -734,6 +733,15 @@ class JBAssetsHelper extends AppHelper
         }
 
         return $this->_include((array)$resultFiles, 'css', $group);
+    }
+
+    /**
+     * @param $vars
+     * @return mixed|string
+     */
+    protected function _toJSON($vars)
+    {
+        return json_encode((object)$vars);
     }
 
     /**
@@ -799,9 +807,7 @@ class JBAssetsHelper extends AppHelper
 
         if (!isset($isAdded)) {
             $isAdded = true;
-            $this->addScript('jQuery(function($){
-                $(".jbzoo a").attr("target", "_top");
-            });');
+            $this->addScript('$(".jbzoo a").attr("target", "_top")');
         }
     }
 }
