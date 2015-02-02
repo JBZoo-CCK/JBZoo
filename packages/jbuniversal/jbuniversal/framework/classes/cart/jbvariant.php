@@ -85,7 +85,7 @@ class JBCartVariant
 
         if (!$this->isBasic()) {
             if (!$basic instanceof JBCartVariant) {
-                throw new JBCartVariantException();
+                throw new JBCartVariantException('JBCartVariant exception');
             }
             $this->basic = $basic;
         }
