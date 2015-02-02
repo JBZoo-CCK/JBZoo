@@ -47,7 +47,7 @@ jQuery(document).ready(function ($) {
                 $selectImage
                     .unbind()
                     .bind("change", function () {
-                        $obj.find("img").attr("src", JB_URL_ROOT + $selectImage.val());
+                        $obj.find("img").attr("src", JBZoo.getVar('rootUrl') + $selectImage.val());
                         reInit($obj, $selectImage);
                     });
             }

@@ -417,7 +417,7 @@ class JBAssetsHelper extends AppHelper
         static $isAdded;
         if (!isset($isAdded)) {
             $isAdded = true;
-            $this->addVar('JB_URL_ROOT', JURI::root());
+            $this->addVar('rootUrl', JURI::root());
         }
     }
 
