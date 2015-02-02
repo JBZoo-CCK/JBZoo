@@ -45,8 +45,8 @@ class JFormFieldJBCurrency extends JFormField
         // create select
         $options = array();
 
-        if ($defaultCode) {
-            $options[JBCartValue::DEFAULT_CODE] = JText::_('JBZOO_CURRENCY_DEFAULT_CODE');
+        if (!$defaultCode) {
+            unset($options[JBCartValue::DEFAULT_CODE]);
         }
 
         foreach ($currencyLst as $key => $currency) {
