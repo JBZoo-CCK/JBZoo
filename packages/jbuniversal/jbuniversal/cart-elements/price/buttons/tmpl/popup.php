@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -18,6 +17,6 @@ $this->app->jbassets->fancybox();
 ?>
 
 <div class="jbprice-buttons jsPriceButtons <?php echo $inCart; ?>">
-    <a rel="nofollow" href="#add-to-cart-modal" class="jsAddToCartModal jbbutton green"
-       title="<?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART_MODAL'); ?>"><?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART'); ?></a>
+    <span class="jsAddToCartModal jbbutton green" title="<?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART_MODAL'); ?>">
+        <?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART'); ?></span>
 </div>
