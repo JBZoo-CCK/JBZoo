@@ -113,7 +113,7 @@ class JBAssetsHelper extends AppHelper
         ));
 
         $this->addVar('currencyList', $this->app->jbmoney->getData());
-        $this->addScript('$("#' . $id . '").JBZooCurrencyToggle(' . $this->_toJSON($params) . ')');
+        $this->addScript('$("#' . $id . '").JBZooCurrencyToggle(' . $this->toJSON($params) . ')');
     }
 
     /**
@@ -355,7 +355,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->tools();
         $this->quantity();
-        $this->addScript('$("#' . $id . '").JBZooQuantity(' . $this->_toJSON($options) . ')');
+        $this->addScript('$("#' . $id . '").JBZooQuantity(' . $this->toJSON($options) . ')');
     }
 
     /**
@@ -388,7 +388,7 @@ class JBAssetsHelper extends AppHelper
                 )
             );
 
-            $this->addScript('$("a.jbimage-link[rel=jbimage-popup], a.jbimage-gallery").fancybox(' . $this->_toJSON($params) . ')');
+            $this->addScript('$("a.jbimage-link[rel=jbimage-popup], a.jbimage-gallery").fancybox(' . $this->toJSON($params) . ')');
         }
     }
 
@@ -442,7 +442,7 @@ class JBAssetsHelper extends AppHelper
 
         if (!isset($vars[$varName])) {
             $vars[$varName] = true;
-            $this->addScript("JBZoo.addVar('" . $varName . "', " . $this->_toJSON($value) . ")");
+            $this->addScript("JBZoo.addVar('" . $varName . "', " . $this->toJSON($value) . ")");
         }
     }
 
@@ -471,7 +471,7 @@ class JBAssetsHelper extends AppHelper
 
         if (!isset($isAdded[$uniqid])) {
 
-            $params = $this->_toJSON(array(
+            $params = $this->toJSON(array(
                 'items'    => $itemList,
                 'uniqid'   => $uniqid,
                 'text_all' => ' - ' . JText::_('JBZOO_ALL') . ' - ',
@@ -739,7 +739,7 @@ class JBAssetsHelper extends AppHelper
      * @param $vars
      * @return mixed|string
      */
-    protected function _toJSON($vars)
+    public function toJSON($vars)
     {
         return json_encode((object)$vars);
     }

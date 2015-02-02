@@ -483,9 +483,7 @@ class JBHTMLHelper extends AppHelper
         $params['dateFormat'] = trim($params['dateFormat']);
 
         $this->app->jbassets->jqueryui();
-        $this->app->jbassets->addScript('jQuery(function($){
-            $("#' . $idtag . '").datepicker(' . json_encode($params) . ');
-        });');
+        $this->app->jbassets->addScript('$("#' . $idtag . '").datepicker(' . $this->app->jbassets->toJSON($params) . ')');
 
         return $this->text($name, $value, $attribs, $idtag);
     }
@@ -507,8 +505,8 @@ class JBHTMLHelper extends AppHelper
         }
 
         $this->app->jbassets->jqueryui();
-        $this->app->jbassets->addScript('jQuery(function($){
-            $("#' . $idtag . '-wrapper").removeAttr("slide");
+        $this->app->jbassets->addScript(
+            '$("#' . $idtag . '-wrapper").removeAttr("slide");
             $("#' . $idtag . '-wrapper")[0].slide = null;
             $("#' . $idtag . '-wrapper").slider({
                 "range" : true,
@@ -522,8 +520,8 @@ class JBHTMLHelper extends AppHelper
                     $("#' . $idtag . '-value-1").html(JBZoo.numberFormat(ui.values[1], 0, ".", " "));
                 }
             });
-            $("#' . $idtag . '-value").val(' . (float)$value['0'] . '+ "/" +' . (float)$value['1'] . ');
-        });');
+            $("#' . $idtag . '-value").val(' . (float)$value['0'] . '+ "/" +' . (float)$value['1'] . ');'
+        );
 
         return '<div id="' . $idtag . '-wrapper"> </div>' . "\n"
         . '<span id="' . $idtag . '-value-0" class="slider-value-0">' . $value['0'] . '</span>' . "\n"
@@ -558,9 +556,7 @@ class JBHTMLHelper extends AppHelper
         }
 
         $this->app->jbassets->jqueryui();
-        $this->app->jbassets->addScript('jQuery(function($){
-            $("#' . $idtag . '-wrapper' . '").buttonset();
-        });');
+        $this->app->jbassets->addScript('$("#' . $idtag . '-wrapper' . '").buttonset()');
 
         return '<div id="' . $idtag . '-wrapper">' . $html . '</div>';
     }
@@ -588,9 +584,7 @@ class JBHTMLHelper extends AppHelper
     {
         $this->app->jbassets->chosen();
 
-        $this->app->jbassets->addScript('jQuery(function($){
-            $("#' . $idtag . '").chosen();
-        });');
+        $this->app->jbassets->addScript('$("#' . $idtag . '").chosen()');
 
         $attribs['data-no_results_text'] = JText::_('JBZOO_CHOSEN_NORESULT');
         $attribs['data-placeholder']     = (isset($params['placeholder'])) ? $params['placeholder'] : JText::_('JBZOO_CHOSEN_SELECT');
