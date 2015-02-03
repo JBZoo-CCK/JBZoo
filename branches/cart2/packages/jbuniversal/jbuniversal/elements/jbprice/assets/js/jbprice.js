@@ -81,8 +81,7 @@
                     'url'    : $this.options.variantUrl,
                     'data'   : {
                         'args': {
-                            'values'  : $this._getValues(),
-                            'currency': $this.get('_currency')
+                            'values'  : $this._getValues()
                         }
                     },
                     'success': function (data) {
