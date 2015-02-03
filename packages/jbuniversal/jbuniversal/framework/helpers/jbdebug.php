@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -79,4 +78,15 @@ class JBDebugHelper extends AppHelper
             self::$_jbdump->sql((string)$select, 'jbdebug::sql');
         }
     }
+
+    /**
+     * @param $message
+     */
+    public function log($message)
+    {
+        if (self::$_jbdump !== null && method_exists(self::$_jbdump, 'log')) {
+            self::$_jbdump->log((string)$message, 'jbdebug::log');
+        }
+    }
+
 }
