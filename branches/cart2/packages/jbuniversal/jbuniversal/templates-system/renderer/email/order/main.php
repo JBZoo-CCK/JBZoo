@@ -43,4 +43,3 @@ defined('_JEXEC') or die('Restricted access');
     </tr>
     <?php echo $this->renderPosition('main', array('style' => 'table')); ?>
 </table>
-
