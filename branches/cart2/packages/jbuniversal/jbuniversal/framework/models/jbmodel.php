@@ -209,6 +209,7 @@ Class JBModel
      */
     public function getZooItemsByIds($ids, $order = null)
     {
+        $ids = array_filter($ids);
         if (empty($ids)) {
             return array();
         }
