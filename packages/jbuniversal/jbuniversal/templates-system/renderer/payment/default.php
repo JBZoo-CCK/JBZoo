@@ -19,7 +19,7 @@ if ($this->checkPosition('list')) : ?>
 
         <p class="jbcart-title"><?php echo JText::_('JBZOO_CART_PAYPMENT_TITLE'); ?></p>
 
-        <?php echo $this->renderPosition('list', array('order.payment')); ?>
+        <?php echo $this->renderPosition('list', array('style' => 'order.payment')); ?>
 
     </div>
 

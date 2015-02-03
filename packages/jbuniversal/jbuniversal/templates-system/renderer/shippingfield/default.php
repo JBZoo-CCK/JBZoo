@@ -16,6 +16,6 @@ if ($this->checkPosition('list')) : ?>
 
     <p class="jbcart-title"><?php echo JText::_('JBZOO_CART_SHIPPINGFIELDS_TITLE'); ?></p>
 
-    <?php echo $this->renderPosition('list', array('order.shippingfield')); ?>
+    <?php echo $this->renderPosition('list', array('style' => 'order.shippingfield')); ?>
 
 <?php endif;

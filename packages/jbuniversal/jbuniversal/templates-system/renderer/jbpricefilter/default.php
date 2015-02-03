@@ -14,4 +14,3 @@ defined('_JEXEC') or die('Restricted access');
 
 
 echo $this->renderPosition('fields', array('style' => 'default'));
-

@@ -17,7 +17,6 @@ if ($this->checkPosition('title')) : ?>
     <h1><?php echo $this->renderPosition('title'); ?></h1>
 <?php endif;
 
-if ($this->checkPosition('body')) :
+if ($this->checkPosition('body')) {
     echo $this->renderPosition('body');
-endif;
-
+}
