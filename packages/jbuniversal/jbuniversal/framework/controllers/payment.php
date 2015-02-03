@@ -153,12 +153,8 @@ class PaymentJBUniversalController extends JBUniversalController
      */
     protected function _error($message)
     {
-        if (class_exists('jbdump')) {
-            jbdump::log($message);
-            die('' . $message);
-        } else {
-            throw new AppException($message);
-        }
+        $this->app->jbdebug->log($message);
+        die('' . $message);
     }
 
 }
