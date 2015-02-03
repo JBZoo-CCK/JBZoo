@@ -28,7 +28,6 @@ class JBCartElementPriceSelect extends JBCartElementPrice
     public function hasValue($params = array())
     {
         $value = $this->getOptions();
-
         if (!empty($value)) {
             return true;
         }
@@ -55,7 +54,7 @@ class JBCartElementPriceSelect extends JBCartElementPrice
     {
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderEditLayout($layout, array(
-                'options' => $this->getOptions()
+                'options' => $this->parseOptions()
             ));
         }
 
@@ -70,12 +69,10 @@ class JBCartElementPriceSelect extends JBCartElementPrice
     public function render($params = array())
     {
         $template = $params->get('template', 'radio');
-        $data     = $this->getOptions();
-
         if ($layout = $this->getLayout($template . '.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params,
-                'data'   => $data
+                'data'   => $this->getOptions()
             ));
         }
 
