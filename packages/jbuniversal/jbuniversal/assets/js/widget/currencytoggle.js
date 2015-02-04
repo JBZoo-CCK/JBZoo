@@ -41,6 +41,7 @@
 
                     if (curCurrency != newCurrency) {
                         $this.setCurrency(newCurrency);
+                        $this.toggle();
                     }
                 }
 
@@ -95,6 +96,7 @@
                 var newCurrency = $(this).data('currency');
 
                 $this._getMoney().JBZooMoney('convert', [newCurrency]);
+
                 if ($this.options.isMain) {
                     $this.setCookie('current', newCurrency);
                     $this._trigger('change', [newCurrency]);
