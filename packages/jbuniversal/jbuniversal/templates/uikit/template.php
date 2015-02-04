@@ -36,7 +36,12 @@ class JBTemplateUikit extends JBTemplate
             $this->app->jbassets->css('jbassets:js/uikit.min.js');
         }
 
-        $this->app->jbassets->less('jbassets:less/uikit.styles.less');
+        $this->app->jbassets->less(array(
+            'jbassets:less/uikit.styles.less',
+            'jbassets:less/media/desktop.less',
+            'jbassets:less/media/tablet.less',
+            'jbassets:less/media/mobile.less',
+        ));
     }
 
     /**

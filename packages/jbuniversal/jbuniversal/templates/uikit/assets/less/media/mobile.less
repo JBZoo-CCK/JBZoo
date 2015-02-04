@@ -1,0 +1,257 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Sergey Kalistratov <kalistratov.s.m@gmail.com>
+//
+
+
+@import "../uikit.vars.less";
+
+@media @uikit-mobile {
+
+    .jbzoo {
+
+        .title {
+            text-align: center;
+        }
+
+        .jbcart-table {
+            width: 100%;
+            display: block;
+            border-collapse: collapse;
+            padding-top: 0;
+            margin-top: 0;
+
+            thead, tbody, th, tr, td {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tbody .jbcart-row {
+                border: 1px solid @mob-jbcart-border-color;
+                padding: 10px 20px 10px 0;
+
+                &:hover {
+
+                    td {
+                        background: inherit;
+                    }
+
+                }
+
+                &:nth-of-type(odd) {
+                    background: @mob-jbcart-row-odd-bg;
+                    border-top-color: @mob-jbcart-odd-border-color;
+                }
+
+                > td {
+                    overflow: hidden;
+                    position: relative;
+                    padding-left: 48%;
+                    text-align: left;
+
+                    &:before {
+                        position: absolute;
+                        top: 6px;
+                        left: 6px;
+                        width: 34%;
+                        padding-right: 10px;
+                        white-space: nowrap;
+                        text-align: right;
+                        font-weight: bold;
+                    }
+
+                }
+
+            }
+
+            tfoot {
+                display: block;
+                width:100%;
+
+                td {
+                    width: 100%;
+                    text-align: center;
+                }
+
+                .jbcurrency-value {
+                    font-size: 24px;
+                }
+
+            }
+
+            .input-code {
+                font-size: 24px;
+                line-height: 150%;
+                height: auto;
+            }
+
+            .jsSendCode,
+            .item-delete-all {
+                display: block;
+                width: 50%;
+                font-size: 22px;
+                margin: 10px auto;
+                padding: 8px 0;
+                text-align: center;
+            }
+
+            .jbcart-row-empty {
+                display: none;
+            }
+
+            .jbcart-quantity  {
+
+                .quantity-wrapper {
+                    float: left;
+
+                    table {
+                        display: table;
+                    }
+
+                    tr {
+                        display: table-row;
+                    }
+
+                    td {
+                        display: table-cell;
+                    }
+
+                }
+
+            }
+
+            .jbcart-price,
+            .jbcart-subtotal {
+
+                .jbcartvalue {
+                    font-size: 16px;
+                }
+
+            }
+
+            .jbcart-delete .uk-button {
+                font-size: 24px;
+                padding: 8px 30%;
+            }
+
+        }
+
+        .jbcart-payment {
+
+            .jbcart-payment-row {
+                width: 100%;
+                float: none;
+                padding: 16px 0;
+                min-height: inherit;
+                margin-bottom: 0;
+                border-bottom: 1px solid @silver;
+
+                &:nth-child(3n+3) {
+                    border-left: none;
+                    border-right: none;
+                }
+
+                &.last {
+                    border-bottom: none;
+                }
+
+            }
+
+        }
+
+        .jbcart-form {
+            .jbcart-form-label {
+                width: 100%;
+                font-size: 16px;
+                margin: 0 0 10px 0;
+            }
+
+            .jbcart-form-control {
+                float: none;
+                width: 100%;
+                margin: 0;
+
+                select,
+                textarea,
+                input[type=text],
+                input[type=number],
+                input[type=password] {
+                    width: 100%;
+                }
+
+            }
+
+            .jbcart-form-desc {
+                float: none;
+                width: 100%;
+                margin: 0;
+            }
+
+        }
+
+        .jbcart {
+
+            .jbcart-shipping {
+
+                .jbcart-shipping-col,
+                .jbcart-shippingfield-col {
+                    margin: 0;
+                    border-right: 0;
+                    width: 100%;
+                    float: none;
+
+                }
+
+                .jbcart-shipping-row {
+                    width: 100%;
+                }
+
+                .jbcart-shippingfield-row {
+
+                    label {
+                        font-size: 20px;
+                    }
+
+                    input {
+                        width: 100%;
+                    }
+
+                    textarea {
+                        max-width: 100%;
+                    }
+
+                    .jbcart-shippingfield-element {
+                        margin-top: 10px;
+                    }
+
+                }
+
+            }
+
+            .jbcart-title {
+                font-size: 24px;
+                text-align: center;
+            }
+
+        }
+
+        .jbcart-row {
+            border-color: #ccc;
+        }
+
+        .jbcart-form-date .zoo-calendar {
+            top: 2.65em !important;
+            right: 0.8em !important;
+        }
+
+    }
+
+}

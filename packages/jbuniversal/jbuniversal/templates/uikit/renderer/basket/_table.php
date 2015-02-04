@@ -19,6 +19,8 @@ $jbhtml = $this->app->jbhtml;
 
 $order = JBCart::getInstance()->newOrder();
 
+echo $this->partial('basket', 'table.styles');
+
 ?>
 
 <table class="jbcart-table jsJBZooCartTable">
@@ -121,7 +123,7 @@ $order = JBCart::getInstance()->newOrder();
     } ?>
 
     <tr class="jbcart-row-total">
-        <td colspan="3">
+        <td colspan="3" class="jbcart-total-cell-1">
             <div>
                 <span class="jbcart-label"><?php echo JText::_('Товаров в корзине'); ?>:</span>
                 <span class="jbcart-value jsTotalCount"><?php echo $order->getTotalCount(); ?></span>
