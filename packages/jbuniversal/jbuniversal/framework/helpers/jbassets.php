@@ -72,10 +72,10 @@ class JBAssetsHelper extends AppHelper
             $isAdded = true;
 
             $this->jQuery();
-            $this->addScript("\t" . implode("\n\t", array(
-                    'JBZoo.DEBUG = 1;',
-                    'jQuery.migrateMute = false;',
-                )) . "\n", false);
+            $this->addScript(implode("\n\t", array(
+                'JBZoo.DEBUG = 1;',
+                'jQuery.migrateMute = false;',
+            )), false);
 
             $this->js(array(
                 'jbassets:js/helper.js',
@@ -443,7 +443,7 @@ class JBAssetsHelper extends AppHelper
 
         if (!isset($vars[$varName])) {
             $vars[$varName] = true;
-            $this->addScript("JBZoo.addVar('" . $varName . "', " . $this->toJSON($value) . ")");
+            $this->addScript("JBZoo.addVar('" . $varName . "', " . $this->toJSON($value) . ")", false);
         }
     }
 
@@ -675,6 +675,8 @@ class JBAssetsHelper extends AppHelper
 
             if ($docReady) {
                 $script = "\tjQuery(function($){ " . $script . "; });\n";
+            } else {
+                $script = "\t" . $script . "\n";
             }
 
             JFactory::getDocument()->addScriptDeclaration($script);

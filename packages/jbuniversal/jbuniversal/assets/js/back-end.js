@@ -31,9 +31,7 @@
         });
 
         // init Joomla CP Scripts
-        if (typeof JBAdminItems != 'undefined') {
-            $('#menu').JBZooAdminMenu(JBAdminItems);
-        }
+        $('#menu').JBZooAdminMenu(JBZoo.getVar('JBAdminItems', {'items': {}}));
 
         $('.jbzoo .uk-grid').closest('html').addClass('jbzoo-print');
 
