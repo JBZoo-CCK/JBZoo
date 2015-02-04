@@ -35,6 +35,15 @@
                     $this._trigger('change', [newCurrency]);
                 }
 
+                if ($this.options.isMain) {
+                    var curCurrency = $this.getCurrent(),
+                        newCurrency = $this.getCookie('current', curCurrency);
+
+                    if (curCurrency != newCurrency) {
+                        $this.setCurrency(newCurrency);
+                    }
+                }
+
             },
 
             /**
@@ -87,6 +96,7 @@
 
                 $this._getMoney().JBZooMoney('convert', [newCurrency]);
                 if ($this.options.isMain) {
+                    $this.setCookie('current', newCurrency);
                     $this._trigger('change', [newCurrency]);
                 }
             },

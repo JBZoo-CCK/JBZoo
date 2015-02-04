@@ -279,7 +279,36 @@
          */
         isWidgetExists: function (widgetName) {
             return JBZoo.isWidgetExists(widgetName);
+        },
+
+        /**
+         * Save var in browser cookie
+         * @param key
+         * @param value
+         * @param namespace
+         */
+        setCookie: function (key, value, namespace) {
+            var $this = this,
+                ns = $this._def(namespace, $this._name);
+
+            $.cookie(ns + '.' + key, value);
+        },
+
+        /**
+         * Get var from browser cookie
+         * @param key
+         * @param defaultVal
+         * @param namespace
+         * @returns {*}
+         */
+        getCookie: function (key, defaultVal, namespace) {
+            var $this = this,
+                ns = $this._def(namespace, $this._name),
+                cookieKey = $.cookie(ns + '.' + key);
+
+            return this._def(cookieKey, defaultVal);
         }
+
 
     });
 
