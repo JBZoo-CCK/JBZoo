@@ -291,7 +291,7 @@
             var $this = this,
                 ns = $this._def(namespace, $this._name);
 
-            $.cookie(ns + '.' + key, value);
+            $.cookie(ns + '.' + key, value, {'path': '/'});
         },
 
         /**
