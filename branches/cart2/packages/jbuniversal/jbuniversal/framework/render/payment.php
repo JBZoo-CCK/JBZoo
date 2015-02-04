@@ -114,8 +114,28 @@ class PaymentRenderer extends PositionRenderer
             ));
         }
 
-        // restore layout
         $this->_layout = $layout;
+
+        if (isset($args['rowAttrs']) && is_array($args['rowAttrs'])) {
+            $rowOutput = '';
+            $_rowAttrs = array('class' => 'grid-row');
+            $rowAttrs  = array_replace_recursive($_rowAttrs, $args['rowAttrs']);
+            $column    = (isset($args['column'])) ? (int)$args['column'] : 3;
+
+            $rowElements = array_chunk($output, $column);
+
+            foreach ($rowElements as $elements) {
+                $rowOutput .= '<div ' . $this->app->jbhtml->buildAttrs($rowAttrs) . '>';
+
+                foreach ($elements as $element) {
+                    $rowOutput .= $element;
+                }
+
+                $rowOutput .= '</div>';
+            }
+
+            return $rowOutput;
+        }
 
         return implode("\n", $output);
     }
