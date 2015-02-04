@@ -8,7 +8,18 @@
 // @coder       Sergey Kalistratov <kalistratov.s.m@gmail.com>
 //
 
-/* Responsive: Tablet to desktop */
-@media (min-width: 768px) and (max-width: 979px) {
+
+@import "../uikit.vars.less";
+
+@media @uikit-desktop {
+
+    .jbzoo {
+
+        .jbcart-col-image,
+        .jbcart-image {
+            display: table-cell;
+        }
+
+    }
 
 }
