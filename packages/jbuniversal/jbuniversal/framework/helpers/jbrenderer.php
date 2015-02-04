@@ -28,10 +28,12 @@ class JBRendererHelper extends AppHelper
     {
         $rendererType = trim(strtolower($rendererType));
         $renderer     = $this->app->renderer->create($rendererType);
+        $tmplName     = $this->app->zoo->getApplication()->getTemplate()->name;
 
         $renderer->addPath(array(
-            $this->app->path->path('jbtmpl:' . $this->app->zoo->getApplication()->getTemplate()->name),
+            $this->app->path->path('jbtmpl:' . $tmplName),
             $this->app->path->path('jbapp:templates-system'),
+            $this->app->path->path('jbtmpl:' . $tmplName . '/templates-system'),
         ));
 
         if (!$this->app->jbenv->isSite()) {
