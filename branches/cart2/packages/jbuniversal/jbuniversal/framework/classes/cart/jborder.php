@@ -157,15 +157,6 @@ class JBCartOrder
     {
         $summa = $this->getTotalForSevices();
 
-        // get modifiers
-        $modifiers = $this->getModifiersOrderPrice();
-
-        if (!empty($modifiers)) {
-            foreach ($modifiers as $modifier) {
-                $modifier->modify($summa);
-            }
-        }
-
         return $summa;
     }
 
@@ -230,6 +221,14 @@ class JBCartOrder
     public function getTotalForSevices()
     {
         $summa = $this->getTotalForItems();
+
+        // get modifiers
+        $modifiers = $this->getModifiersOrderPrice();
+        if (!empty($modifiers)) {
+            foreach ($modifiers as $modifier) {
+                $modifier->modify($summa);
+            }
+        }
 
         if (!$summa->isEmpty()) {
 
