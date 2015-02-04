@@ -84,6 +84,7 @@ class JBAssetsHelper extends AppHelper
                 'jbassets:js/front-end.js',
                 'jbassets:js/widget/goto.js',
                 'jbassets:js/widget/select.js',
+                'jbassets:js/libs/cookie.js',
             ));
         }
     }
