@@ -30,7 +30,7 @@ class JBCartElementOrderRadio extends JBCartElementOrderOption
 
         // init vars
         $optionList = $this->config->get('option', array());
-        $default    = $this->config->get('default');
+        $default = $this->getUserState($params->get('user_field'));
 
         if (count($optionList)) {
 

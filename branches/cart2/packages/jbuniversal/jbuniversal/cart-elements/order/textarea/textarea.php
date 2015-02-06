@@ -25,11 +25,12 @@ class JBCartElementOrderTextarea extends JBCartElementOrder
      */
     public function renderSubmission($params = array())
     {
+        $default = $this->getUserState($params->get('user_field'));
 
         return $this->app->html->_(
             'control.textarea',
             $this->getControlName('value'),
-            $this->get('value', $this->config->get('default')),
+            $this->get('value', $default),
             'id="' . $this->htmlId() . '"'
         );
     }

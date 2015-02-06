@@ -26,6 +26,6 @@ $attr = array(
 );
 
 echo
-    '<div class="' . implode(' ', $classes) . '"' . $this->app->jbhtml->buildAttrs($attr) . '>'
+    '<div class="' . implode(' ', $classes) . '"' . $this->_jbhtml->buildAttrs($attr) . '>'
     . $html .
     '</div>';

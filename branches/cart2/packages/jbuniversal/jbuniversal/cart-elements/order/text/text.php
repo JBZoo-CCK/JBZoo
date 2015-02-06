@@ -17,7 +17,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementOrderText extends JBCartElementOrder
 {
-
     /**
      * Renders the element in submission
      * @param array $params
@@ -25,10 +24,12 @@ class JBCartElementOrderText extends JBCartElementOrder
      */
     public function renderSubmission($params = array())
     {
+        $value = $this->getUserState($params->get('user_field'));
+
         return $this->app->html->_(
             'control.text',
             $this->getControlName('value'),
-            $this->get('value', $this->config->get('default')),
+            $this->get('value', $value),
             'size="60" maxlength="255" id="' . $this->htmlId() . '"'
         );
     }

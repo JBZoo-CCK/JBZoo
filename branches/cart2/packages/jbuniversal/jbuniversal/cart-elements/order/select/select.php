@@ -29,7 +29,7 @@ class JBCartElementOrderSelect extends JBCartElementOrderOption
         // init vars
         $optionList = $this->config->get('option', array());
         $multiple   = $this->config->get('multiple');
-        $default    = $this->config->get('default');
+        $default    = $this->getUserState($params->get('user_field'));
         $name       = $this->config->get('name');
 
         if (count($optionList)) {

@@ -20,7 +20,7 @@
     <version>2.0</version>
     <params>
 
-        <param name="mode" type="radio" default="0" label="JBZOO_JBPRICE_MODE" description="JBZOO_JBPRICE_MODE_DESC">
+        <param name="mode" type="radio" default="1" label="JBZOO_JBPRICE_MODE" description="JBZOO_JBPRICE_MODE_DESC">
             <option value="0">JBZOO_JBPRICE_MODE_SIMPLE</option>
             <option value="1">JBZOO_JBPRICE_MODE_ADV</option>
         </param>
