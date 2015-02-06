@@ -11,6 +11,7 @@
 @import "jbzoo";
 
 #flags {
+
     .init (@path, @size, @pad: 0) when (isstring(@path)) {
         background: url(@path) 0 0 no-repeat;
         width: @size;
@@ -22,6 +23,7 @@
     .image(@y) {
         background-position: 0 -@y * 1em;
     }
+
 }
 
 .jbzoo {
@@ -32,6 +34,13 @@
         position: relative;
         font-size: 0;
         white-space: nowrap;
+
+        .jbtooltip {
+            background: inherit;
+            width: inherit;
+            height: inherit;
+        }
+
     }
 
     .jbcurrency-label {
@@ -76,6 +85,7 @@
         &:nth-child(n+2) {
             margin-left: -1px;
         }
+
     }
 
     .jbcurrency-label:hover {
@@ -154,6 +164,7 @@
         .jbflag-try { #flags > .image(40); }
         .jbflag-uzs { #flags > .image(41); }
         .jbflag-zar { #flags > .image(42); }
+
     }
 
 }

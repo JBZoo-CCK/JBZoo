@@ -33,7 +33,12 @@ class JBTemplateUikit extends JBTemplate
         }
 
         if ($isAddJs) {
-            $this->app->jbassets->css('jbassets:js/uikit.min.js');
+            $this->app->jbassets->js('jbassets:js/uikit.min.js');
+        }
+
+        if ($isQuickView = $this->app->jbrequest->get('jbquickview', false)) {
+            $this->app->jbassets->css('jbassets:css/uikit.gradient.min.css');
+            $this->app->jbassets->js('jbassets:js/uikit.min.js');
         }
 
         $this->app->jbassets->less(array(
