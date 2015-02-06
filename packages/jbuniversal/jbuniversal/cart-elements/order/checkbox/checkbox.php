@@ -26,10 +26,9 @@ class JBCartElementOrderCheckbox extends JBCartElementOrderOption
      */
     public function renderSubmission($params = array())
     {
-
         // init vars
         $options_from_config = $this->config->get('option', array());
-        $default             = $this->config->get('default');
+        $default = $this->getUserState($params->get('user_field'));
 
         if (count($options_from_config)) {
 

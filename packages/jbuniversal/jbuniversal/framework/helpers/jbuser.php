@@ -27,18 +27,24 @@ class JBUserHelper extends AppHelper
      */
     protected $_user = null;
 
+    /**
+     * @type JTableUser
+     */
+    protected $_table = null;
+
     public function __construct($app)
     {
         parent::__construct($app);
 
-        $this->_user = JFactory::getUser();
+        $this->_user  = JFactory::getUser();
+        $this->_table = $this->_user->getTable();
     }
 
 
     /**
      * Set param to user storage
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      * @return bool
      */
     public function setParam($key, $value)
@@ -55,7 +61,7 @@ class JBUserHelper extends AppHelper
     /**
      * Get param from user storage
      * @param string $key
-     * @param mixed $default
+     * @param mixed  $default
      * @return mixed
      */
     public function getParam($key, $default = null)
@@ -76,7 +82,15 @@ class JBUserHelper extends AppHelper
     public function purgeParams()
     {
         $this->_user->setParam(self::PARAM_NAMESPACE, array());
+
         return $this->_user->save(true);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getFields()
+    {
+        return $this->_table->getFields();
+    }
 }

@@ -51,10 +51,11 @@ class JBCartElementOrderDate extends JBCartElementOrder
      */
     public function renderSubmission($params = array())
     {
+        $default = $this->getUserState($params->get('user_field'));
         $name  = $this->getControlName('value');
         $attrs = array('class' => 'calendar-element');
         $id    = $this->htmlId();
-        $value = $this->get('value', $this->config->get('default'));
+        $value = $this->get('value', $default);
 
         $this->app->jbassets->calendar();
         return $this->app->html->_('zoo.calendar', $value, $name, $id, $attrs, true);

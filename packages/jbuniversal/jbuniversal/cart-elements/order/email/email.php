@@ -45,10 +45,11 @@ class JBCartElementOrderEmail extends JBCartElementOrder
      */
     public function renderSubmission($params = array())
     {
+        $default = $this->getUserState($params->get('user_field'));
         return $this->app->html->_(
             'control.text',
             $this->getControlName('value'),
-            $this->get('value', $this->config->get('default')),
+            $this->get('value', $default),
             'size="60" maxlength="255" id="' . $this->htmlId() . '"'
         );
     }

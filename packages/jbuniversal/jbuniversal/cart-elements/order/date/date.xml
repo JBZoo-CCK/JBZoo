@@ -19,9 +19,4 @@
         <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
                description="JBZOO_ELEMENT_ACCESS_DESC"/>
     </params>
-
-    <params group="render">
-        <param name="required" type="jbbool" default="" label="JBZOO_ELEMENT_REQUIRED"
-               description="JBZOO_ELEMENT_REQUIRED_DESC"/>
-    </params>
 </element>

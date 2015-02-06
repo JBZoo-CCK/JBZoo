@@ -111,7 +111,7 @@ class JBFieldHelper extends AppHelper
      * @param SimpleXMLElement $parent
      * @return mixed
      */
-    public function jbapplication($name, $value, $control_name, SimpleXMLElement $node, $parent)
+    public function jbApplication($name, $value, $control_name, SimpleXMLElement $node, $parent)
     {
         // init vars
         //$params = $this->app->parameterform->convertParams($parent);
@@ -228,6 +228,26 @@ class JBFieldHelper extends AppHelper
         $javascript = "<script type=\"text/javascript\">\n// <!--\n$javascript\n// -->\n</script>\n";
 
         echo implode("\n", $html) . $javascript;
+    }
+
+    /**
+     * Render application list
+     * @param string           $name
+     * @param string|array     $value
+     * @param                  $controlName
+     * @param SimpleXMLElement $node
+     * @param SimpleXMLElement $parent
+     * @return mixed
+     */
+    public function userData($name, $value, $controlName, SimpleXMLElement $node, $parent)
+    {
+        $whiteList  = array('name', 'username', 'email', 'registerDate', 'lastvisitDate');
+        $properties = array_keys($this->app->jbuser->getFields());
+
+        $list = (array)array_intersect($whiteList, $properties);
+        $list = array_combine($list, $list);
+
+        return $this->_renderList(array('' => '--') + $list, $value, $this->_getName($controlName, $name), $node);
     }
 
     /**
@@ -484,32 +504,6 @@ class JBFieldHelper extends AppHelper
      * @param                  $value
      * @param                  $controlName
      * @param SimpleXMLElement $node
-     * @return mixed
-     */
-    public function singlechoice($name, $value, $controlName, SimpleXMLElement $node)
-    {
-        $optionList = array();
-        foreach ($node->children() as $option) {
-            $optionList[$this->_getAttr($option, 'value', '')] = JText::_((string)$option);
-        }
-
-        $options = $this->app->html->listOptions($optionList);
-
-        $attributes['class'] = $this->_getAttr($node, 'class', 'inputbox');
-
-        if (!empty($value)) {
-            $attributes['readonly'] = 'readonly';
-        }
-
-        return $this->app->html->genericList($options, $this->_getName($controlName, $name), $attributes, 'value',
-            'text', $value);
-    }
-
-    /**
-     * @param                  $name
-     * @param                  $value
-     * @param                  $controlName
-     * @param SimpleXMLElement $node
      * @param SimpleXMLElement $parent
      * @return string $field
      */
@@ -607,7 +601,7 @@ class JBFieldHelper extends AppHelper
      */
     public function notificationRecipients($name, $value, $controlName, SimpleXMLElement $node, $parent)
     {
-        $jbhtml = $this->app->jbhtml;
+        $jbHTML = $this->app->jbhtml;
 
         $value = $this->app->data->create($value);
 
@@ -641,23 +635,14 @@ class JBFieldHelper extends AppHelper
             'multiple' => true
         );
 
-        $html[] =
-            $this->spacer($name, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_ADMIN_GROUPS'), $controlName, $node,
-                $parent);
-        $html[] =
-            JHtml::_('access.usergroup', $adminName, $value->get('admin', array()), $jbhtml->buildAttrs($adminAttrs),
-                false);
+        $html[] = $this->spacer($name, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_ADMIN_GROUPS'), $controlName, $node, $parent);
+        $html[] = JHtml::_('access.usergroup', $adminName, $value->get('admin', array()), $jbHTML->buildAttrs($adminAttrs), false);
 
-        $html[] = $this->spacer($userName, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_USER'), $controlName, $node,
-            $parent);
-        $html[] =
-            $this->app->html->_('select.genericlist', $userOptions, $userName, $jbhtml->buildAttrs($userAttrs), 'value',
-                'text', $value->get('user', array()));
+        $html[] = $this->spacer($userName, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_USER'), $controlName, $node, $parent);
+        $html[] = $this->app->html->_('select.genericlist', $userOptions, $userName, $jbHTML->buildAttrs($userAttrs), 'value', 'text', $value->get('user', array()));
 
-        $html[] =
-            $this->spacer($userName, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_ADVANCED_EMAIL'), $controlName,
-                $node, $parent);
-        $html[] = $jbhtml->text($advName, $value->get('advanced', ''));
+        $html[] = $this->spacer($userName, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_ADVANCED_EMAIL'), $controlName, $node, $parent);
+        $html[] = $jbHTML->text($advName, $value->get('advanced', ''));
 
         return implode("\n", $html);
     }
@@ -913,12 +898,10 @@ class JBFieldHelper extends AppHelper
         if ($types) {
             $types = explode(',', $types);
         }
-
         $files = JFolder::files($this->app->path->path('jbtypes:'), '\.config');
 
         $optionList = array();
         foreach ($files as $file) {
-
             $json = $this->app->jbfile->read($this->app->path->path('jbtypes:' . $file));
             $data = @json_decode($json, true);
 
@@ -1066,103 +1049,6 @@ class JBFieldHelper extends AppHelper
         $optionList = array_unique($optionList);
 
         return $this->_renderList($optionList, $value, $this->_getName($controlName, $name), $node);
-    }
-
-    /**
-     * Field for type - jbpricefields
-     * @param                  $name
-     * @param                  $values
-     * @param                  $controlName
-     * @param SimpleXMLElement $node
-     * @param                  $parent
-     * @return string
-     */
-    public function priceAdvanceFields($name, $values, $controlName, SimpleXMLElement $node, $parent)
-    {
-        $html   = array();
-        $unique = $this->app->jbstring->getId('jbprice-advance-fields-');
-
-        $html[] = '<div class="jbprice-advance-fields" id="' . $unique . '">';
-
-        $html[] = '<div class="hidden">';
-
-        $html[] = '<div class="jbprice-fields-parameter clearfix">';
-        $html[] = '<input type="text" name="' . $controlName . '['
-            . $name . '][params][0][name]" class="jsJBPriceParamAddValue" disabled>';
-        $html[] =
-            '<input type="hidden" name="' . $controlName . '[' . $name . '][params][0][value]" value="" disabled>';
-        $html[] = '<a class="jsJBPriceDeleteParam jbprice-adv-delete-param" href=""></a>';
-        $html[] = '<div class="jbprice-fields-options"></div>';
-        $html[] = '<a href="javascript:void(0)" class="jbprice-addOption jsJBPriceAddOption clearfix"></a>';
-        $html[] = '</div>';
-
-        $html[] = '<div class="jbprice-field-option">';
-        $html[] = '<input type="text" name="' . $controlName . '['
-            . $name . '][params][0][option][0][name]" class="jsJBPriceOptionAddValue" disabled/>';
-        $html[] = '<input type="hidden" name="' . $controlName . '['
-            . $name . '][params][0][option][0][value]" value=""disabled/>';
-        $html[] = '<a class="jsJBPriceDeleteOption jbprice-adv-delete-option" href=""></a>';
-        $html[] = '</div></div>';
-
-        if (!empty($values['params'])) {
-
-            foreach ($values['params'] as $key => $value) {
-
-                $html[] = '<div class="jbprice-fields-parameter clearfix">';
-                $html[] =
-                    '<input type="text" name="' . $controlName . '[' . $name . '][params][' . $key . '][name]" value="'
-                    . $value['name'] . '" class="jsJBPriceParamAddValue" />';
-                $html[] = '<input type="hidden" name="' . $controlName . '[' . $name . '][params][' . $key
-                    . '][value]" value="' . $value['value'] . '" />';
-
-                $html[] = '<a class="jsJBPriceDeleteParam jbprice-adv-delete-param" href=""></a>';
-                $html[] = '<div class="jbprice-fields-options">';
-
-                if (!empty($value['option'])) {
-
-                    for ($i = 0; $i < count($value['option']); $i++) {
-
-                        if (empty($value['option'][$i]['name']) || (empty($value['option'][$i]['value']))) {
-                            continue;
-                        }
-
-                        $html[] = '<div class="jbprice-field-option">';
-                        $html[] = '<input type="text" name="' . $controlName . '[' . $name . '][params][' . $key
-                            . '][option][' . $i . '][name]" value="'
-                            . $value['option'][$i]['name'] . '" class="jsJBPriceOptionAddValue" />';
-                        $html[] = '<input type="hidden" name="' . $controlName . '[' . $name . '][params][' . $key
-                            . '][option][' . $i . '][value]" value="' . $value['option'][$i]['value'] . '" />';
-                        $html[] = '<a class="jsJBPriceDeleteOption jbprice-adv-delete-option" href=""></a>';
-                        $html[] = '</div>';
-
-                    }
-
-                }
-
-                $html[] = '</div>';
-                $html[] = '<a href="javascript:void(0)" class="jbprice-addOption jsJBPriceAddOption clearfix"></a>';
-                $html[] = '</div>';
-            }
-        }
-        $html[] = '<a href="javascript:void(0)" class="jbprice-addParam"> <span class="jsJBPriceAddParam">'
-            . JText::_('JBZOO_JBPRICE_ADVANCEFIELDS_PARAMETER_ADD')
-            . '</span></a>';
-
-        $html[] = '</div>';
-
-        $url = $this->app->link(array(
-            'controller' => 'manager',
-            'format'     => 'raw',
-            'task'       => 'getalias',
-            'force_safe' => 1
-        ), false);
-
-        $html[] = '<script type="text/javascript">';
-        $html[] = 'jQuery(document).ready(function ($) {';
-        $html[] = '$("#' . $unique . '").JBZooPriceAdvanceFields({"url": "' . $url . '"}); });';
-        $html[] = '</script>';
-
-        return implode($html);
     }
 
     /**
@@ -1665,7 +1551,7 @@ class JBFieldHelper extends AppHelper
 
         $options = $this->app->html->listOptions($optionsList);
 
-        return $this->app->html->genericList($options, $controlName, $attributes, 'value', 'text', $value);
+        return $this->app->html->genericList($options, $controlName, $attributes, 'value', 'text', $value, false, true);
     }
 
     /**

@@ -26,6 +26,7 @@ class JBCartElementOrderUpload extends JBCartElementOrder
     public function hasValue($params = array())
     {
         $file = $this->app->path->path('root:' . $this->get('file'));
+
         return !empty($file) && is_readable($file) && is_file($file);
     }
 
@@ -49,6 +50,7 @@ class JBCartElementOrderUpload extends JBCartElementOrder
         if ($this->get('file')) {
             // TODO add download file with protection
             $relPath = $this->app->path->relative($this->get('file'));
+
             return '<a href="' . JUri::root() . $relPath . '" target="_blank">' . $relPath . '</a>'
             . ' (' . $this->_getSize() . ')';
         }
@@ -77,8 +79,9 @@ class JBCartElementOrderUpload extends JBCartElementOrder
     public function renderSubmission($params = array())
     {
         // init vars
-        $upload = $this->get('file');
-        $upload = is_array($upload) ? '' : $upload; // is uploaded file
+        $default = $this->getUserState($params->get('user_field'));
+        $upload  = $this->get('file', $default);
+        $upload  = is_array($upload) ? '' : $upload; // is uploaded file
 
         if (!empty($upload)) {
             $upload = basename($upload);

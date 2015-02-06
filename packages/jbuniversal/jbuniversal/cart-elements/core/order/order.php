@@ -35,8 +35,54 @@ abstract class JBCartElementOrder extends JBCartElement
             ));
         }
 
+        return false;
     }
-    
+
+    /**
+     * Renders the element in submission
+     * @param array $params
+     * @return string
+     */
+    public function renderSubmission($params = array())
+    {
+        $value = $this->getUserState($params->get('user_field'));
+
+        return $this->app->html->_(
+            'control.text',
+            $this->getControlName('value'),
+            $this->get('value', $value),
+            'size="60" maxlength="255" id="' . $this->htmlId() . '"'
+        );
+    }
+
+    /**
+     * Get value from user profile
+     * @param         $key
+     * @param  string $default
+     * @return mixed
+     */
+    public function getUserState($key, $default = '')
+    {
+        $user = JFactory::getUser();
+        if (empty($default)) {
+            $default = $this->config->get('default', ' ');
+        }
+
+        if ($user->guest) {
+            return $default;
+        }
+
+        $value = null;
+        if (property_exists($user, $key)) {
+            $value = $user->$key;
+
+            if (empty($value) || !isset($value)) {
+                $value = $default;
+            }
+        }
+
+        return $value;
+    }
 }
 
 /**

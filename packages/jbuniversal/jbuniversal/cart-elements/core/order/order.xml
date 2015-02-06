@@ -8,4 +8,18 @@
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
+
+    <params group="render">
+
+        <param name="showlabel" type="jbbool" default="0" label="JBZOO_ELEMENT_LABEL"
+               description="JBZOO_ELEMENT_LABEL_DESC"/>
+
+        <param name="altlabel" type="text" default="" label="JBZOO_ELEMENT_LABEL_ALTERNATIVE"
+               description="JBZOO_ELEMENT_LABEL_ALTERNATIVE_DESC"/>
+
+        <param name="required" type="jbbool" default="" label="JBZOO_ELEMENT_REQUIRED"
+               description="JBZOO_ELEMENT_REQUIRED_DESC"/>
+
+        <param name="user_field" type="jbuserdata" label="JBZOO_ELEMENT_ORDER_USERPROFILE_FIELD" description=""/>
+    </params>
 </element>
