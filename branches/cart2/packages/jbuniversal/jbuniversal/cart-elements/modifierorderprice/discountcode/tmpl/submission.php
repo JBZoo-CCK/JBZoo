@@ -11,23 +11,19 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-$unique = $this->htmlId(true);
+$unique = $this->htmlId();
+
+$this->app->jbassets->widget(".$unique", 'JBZooDiscountCode', array(
+    'url' => $this->getAjaxUrl('ajaxSetCode'),
+));
+
 ?>
-<div class="jbdiscountcode jsElement <?php echo $unique; ?>">
+<div class="jbdiscountcode <?php echo $unique; ?>">
 
     <input type="text" value="<?php echo $this->get('code'); ?>" name="<?php echo $this->getControlName('code'); ?>"
-           class="jsCode input-code <?php echo $unique; ?>"/>
+           class="jsCode input-code" />
 
     <span class="jsSendCode jbbutton small"><?php echo JText::_('JBZOO_ELEMENT_DISCOUNTCODE_SEND'); ?></span>
 
     <div class="jsMoneyWrap"><?php echo $this->getRate()->html(); ?></div>
 </div>
-
-
-<script type="text/javascript">
-    jQuery(function ($) {
-        $('.jsElement.<?php echo $unique; ?>').JBZooDiscountCode(<?php echo json_encode(array(
-            'url' => $this->getAjaxUrl('ajaxSetCode')
-        ));?>);
-    });
-</script>
