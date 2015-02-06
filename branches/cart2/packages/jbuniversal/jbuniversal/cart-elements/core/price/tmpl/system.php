@@ -13,10 +13,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$type   = $this->getElementType();
+$isCore = ($this->isCore() ? 'core' : 'simple');
+
 $classes = array(
-    'jbprice-param-' . $this->getElementType(),
-    'jbprice-' . ($this->isCore() ? 'core' : 'simple') . '-param',
-    'jbprice-param'
+    'jbprice-param-' . $type . ' jbprice-' . $isCore . '-param jbprice-param',
+    'jsElement jsPriceElement js' . ucfirst($type) . ' js' . ucfirst($isCore)
 );
 
 $attr = array(
