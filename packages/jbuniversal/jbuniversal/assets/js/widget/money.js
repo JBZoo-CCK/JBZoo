@@ -72,6 +72,8 @@
 
                 var newValue = ($this.value / from.value) * to.value;
                 $this._update(newValue, currency);
+                $this.currency = currency;
+                $this.value = newValue;
             },
 
             /**
@@ -84,6 +86,8 @@
                 var $this = this,
                     value = JBZoo.float(value),
                     currency = $this._cleanCur((currency || $this.currency));
+
+                $this.currency = currency;
 
                 if (currency == $this.currency) {
 
@@ -103,11 +107,6 @@
                                 }
                             });
                     }
-
-                } else {
-                    $this.currency = currency;
-                    $this.value = value;
-                    $this._update($this.value, $this.currency);
                 }
 
             },
@@ -137,7 +136,8 @@
                     formated = '+' + formated;
                 }
 
-                this.el.html(formated);
+                //$this.currency = currency;
+                $this.el.html(formated);
             },
 
             /**
@@ -178,15 +178,22 @@
              * @private
              */
             _cleanCur: function (currency) {
-                currency = $.trim(currency);
-                currency = currency.toLowerCase();
 
-                if (currency == '%' || currency == this._defaultCur) {
+                var $this = this;
+
+                currency = $.trim(currency).toLowerCase();
+
+                if (currency == '%') {
                     return currency;
                 }
 
+                if (currency == this._defaultCur) {
+                    return $.trim($this.data('currency')).toLowerCase();
+                    ;
+                }
+
                 if (!this.options.rates[currency]) {
-                    this.error('Undefined currency - ' + currency);
+                    $this.error('Undefined currency - ' + currency);
                 }
 
                 return currency;
@@ -198,15 +205,11 @@
              * @private
              */
             _getCurInfo: function (currency) {
+
                 var $this = this,
-                    currency = $this._cleanCur(currency),
-                    info = $this.options.rates[currency];
+                    currency = $this._cleanCur(currency);
 
-                if (currency == $this._defaultCur) {
-                    info = $this.options.rates[$this.currency];
-                }
-
-                return info;
+                return $this.options.rates[currency];
             }
 
         }
