@@ -70,7 +70,9 @@ class JBZooBasketHelper
      */
     public function getBasketItems()
     {
-        return $this->_order->renderItems(array(// TODO config from module
+        return $this->_order->renderItems(array(
+            // TODO config from module
+            'currency' => $this->_params->get('currency'),
         ));
     }
 
