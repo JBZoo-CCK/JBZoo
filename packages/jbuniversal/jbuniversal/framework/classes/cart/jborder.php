@@ -204,6 +204,14 @@ class JBCartOrder
     }
 
     /**
+     * @return int
+     */
+    public function getTotalCountSku()
+    {
+        return count($this->getItems());
+    }
+
+    /**
      * @return JBCartValue
      */
     public function getShippingPrice()
@@ -768,6 +776,129 @@ class JBCartOrder
         $result = $this->app->data->create($result);
 
         return $result;
+    }
+
+    /**
+     * @param array $params
+     * @return array
+     */
+    public function renderItems($params = array())
+    {
+        $params   = $this->app->data->create($params);
+        $items    = $this->getItems(true);
+        $editMode = $params->get('edit', false);
+        $currency = $params->get('currency', null);
+
+        $html = array();
+        foreach ($items as $cartItem) {
+            // get regf to item
+            $item = $cartItem->get('item');
+
+            $quantity = $cartItem->get('quantity', 1);
+
+            // default values
+            $itemHtml = array(
+                'sku'          => '',
+                'image'        => '',
+                'params'       => '',
+                'description'  => '',
+                // TODO 'margin' => '', 'discount' => '',
+                'name'         => '<span class="jbcart-item-name ' . $params->find('class.name') . '">'
+                    . $cartItem->get('item_name') . '</span>',
+
+                'price'        => '<span class="jbcart-item-price ' . $params->find('class.price') . '">'
+                    . $this->val($cartItem->total)->html($currency) . '</span>',
+
+                'total'        => '<span class="jbcart-item-total ' . $params->find('class.total') . '">'
+                    . $this->val($cartItem->total)->multiply($quantity)->html($currency) . '</span>',
+
+                'quantity'     => '<span class="jbcart-item-quantity ' . $params->find('class.quantity') . '">'
+                    . $quantity . ' ' . JText::_('JBZOO_CART_COUNT_ABR') . '</span>',
+
+                'quantityEdit' => '',
+
+                'itemid'       => implode("\n ", array(
+                    '<div class="jbcart-item-itemid ' . $params->find('class.itemid') . '">',
+                    '<span class="jbcart-item-itemid-key ' . $params->find('class.itemid-key') . '">' . JText::_('JBZOO_ORDER_ITEM_ID') . ':</span>',
+                    '<span class="jbcart-item-itemid-value ' . $params->find('class.itemid-value') . '">' . $cartItem->find('item_id') . '</span>',
+                    '</div>',
+                )),
+            );
+
+            if ($editMode) {
+                $itemHtml['quantityEdit'] = $this->app->jbhtml->quantity($quantity, $cartItem->find('params._quantity', array()));
+            }
+
+            if ($cartItem->find('elements._description')) {
+                $itemHtml['description'] = '<div class="jbcart-item-description ' . $params->find('class.description') . '">'
+                    . $cartItem->find('elements._description') . '</div>';
+            }
+
+            if ($cartItem->get('sku')) {
+                $itemHtml['sku'] = implode("\n ", array(
+                    '<div class="jbcart-item-sku ' . $params->find('class.sku') . '">',
+                    '<span class="jbcart-item-sku-key ' . $params->find('class.sku-key') . '">' . JText::_('JBZOO_CART_ITEM_SKU') . ':</span>',
+                    '<span class="jbcart-item-sku-value ' . $params->find('class.sku-value') . '">' . $cartItem->get('sku') . '</span>',
+                    '</div>',
+                ));
+            }
+
+            // render image
+            if ($cartItem->find('elements._image')) {
+                $image = $this->app->jbimage->resize(
+                    $cartItem->find('elements._image'),
+                    $params->get('image_width', 75),
+                    $params->get('image_height', 75)
+                );
+
+                if ($image) {
+                    $itemHtml['image'] = '<img  ' . $this->app->jbhtml->buildAttrs(array(
+                            'src'    => $image->url,
+                            'class'  => 'jbcart-item-image ' . $params->find('class.image') . '',
+                            'alt'    => $cartItem->get('item_name'),
+                            'title'  => $cartItem->get('item_name'),
+                            'width'  => $params->get('image_width', 75),
+                            'height' => $params->get('image_height', 75),
+                        )) . ' />';
+                }
+            }
+
+            // render links to item
+            if ($item) {
+                if ((bool)$params->get('admin_url', false)) {
+                    $itemUrl = $this->app->jbrouter->adminItem($item);
+                } else {
+                    $itemUrl = JRoute::_($this->app->route->item($item, false), false, 2);
+                }
+
+                $urlTmpl = '<a ' . $this->app->jbhtml->buildAttrs(array(
+                        'href'  => $itemUrl,
+                        'class' => '%class% jbcart-item-url ' . $params->find('class.url') . '',
+                        'title' => $cartItem->get('item_name'),
+                    )) . '>%obj%</a>';
+
+                $itemHtml['name']  = JString::str_ireplace(array('%class%', '%obj%'), array('jbcart-item-name', $cartItem->get('item_name')), $urlTmpl);
+                $itemHtml['image'] = JString::str_ireplace(array('%class%', '%obj%'), array('jbcart-item-image-url', $itemHtml['image']), $urlTmpl);
+            }
+
+            // render param list
+            if ($values = (array)$cartItem->get('values')) {
+                foreach ($values as $parName => $parValue) {
+                    $itemHtml['params'] .= implode("\n ", array(
+                        '<div class="jbcart-item-param ' . $params->find('class.param') . '">',
+                        '<span class="jbcart-item-param-key ' . $params->find('class.param-key') . '">' . $parName . ':</span>',
+                        '<span class="jbcart-item-param-value ' . $params->find('class.param-value') . '">' . $parValue . '</span>',
+                        '</div> '
+                    ));
+                }
+
+                $itemHtml['params'] = '<div class="jbcart-item-params ' . $params->find('class.params') . '">' . $itemHtml['params'] . '</div>';
+            }
+
+            $html[$cartItem->get('key')] = $itemHtml;
+        }
+
+        return $html;
     }
 
     /**
