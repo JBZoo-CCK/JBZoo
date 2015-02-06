@@ -88,4 +88,19 @@ class JBVarsHelper extends AppHelper
         return $this->money($value);
     }
 
+    /**
+     * @param $currency
+     * @return bool|mixed|string
+     */
+    public function currency($currency)
+    {
+        $currency = $this->lower($currency, true);
+        $rates    = $this->app->jbmoney->getData();
+        if ($rates && $rates->get($currency)) {
+            return $currency;
+        }
+
+        return false;
+    }
+
 }
