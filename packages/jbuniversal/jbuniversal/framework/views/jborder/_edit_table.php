@@ -16,7 +16,9 @@ $emptyRow = '<tr class="empty-row"><td colspan="50"></td></tr>';
 
 $this->sum   = $order->val();
 $this->count = 0;
-$currency    = $this->sum->cur(); ?>
+$currency    = $this->sum->cur();
+?>
+
 <h2>
     <?php echo JText::_('JBZOO_ORDER_ITEMS_LIST'); ?>
 </h2>
