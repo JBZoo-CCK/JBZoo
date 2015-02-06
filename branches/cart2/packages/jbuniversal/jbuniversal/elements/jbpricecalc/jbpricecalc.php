@@ -53,9 +53,8 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
     /**
      * @param string $template
      * @param array  $values
-     * @param string $currency
      */
-    public function ajaxChangeVariant($template = 'default', $values = array(), $currency = '')
+    public function ajaxChangeVariant($template = 'default', $values = array())
     {
         $list = $this->getVariantByValues($values);
 
@@ -65,11 +64,11 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         $this->set('default_variant', $key);
 
         $this->_template = $template;
-        $this->_list     = new JBCartVariantList($list, $this, array(
+        $this->getVariantList($list, array(
             'values'   => $values,
             'template' => $template,
             'currency' => !empty($currency) ? $currency : $this->currency()
-        ));
+        ), true);
 
         $this->app->jbajax->send($this->_list->renderVariant());
     }
@@ -79,9 +78,8 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
      * @param string $template
      * @param int    $quantity
      * @param array  $values
-     * @param string $currency
      */
-    public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array(), $currency = '')
+    public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array())
     {
         $jbAjax = $this->app->jbajax;
 

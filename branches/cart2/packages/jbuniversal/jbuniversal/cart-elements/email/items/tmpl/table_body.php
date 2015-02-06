@@ -13,13 +13,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 $order = $this->getOrder();
-$items = $order->getItems()
-?>
+$items = $order->getItems();
+$i     = 0; ?>
 <tbody>
-<?php
-$i = 0;
-
-foreach ($items as $key => $item) :
+<?php foreach ($items as $key => $item) :
     $image = null;
 
     $modifiers = $order->getModifiersItemPrice(null, $item);

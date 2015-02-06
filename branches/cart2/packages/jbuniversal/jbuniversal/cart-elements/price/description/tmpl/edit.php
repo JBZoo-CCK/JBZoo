@@ -13,8 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$html  = $this->app->jbhtml;
-$attrs = $html->buildAttrs(array(
+$attrs = $this->_jbhtml->buildAttrs(array(
     'size'        => '60',
     'rows'        => '5',
     'style'       => 'resize: none;',
@@ -25,4 +24,4 @@ $attrs = $html->buildAttrs(array(
 
 echo '<textarea name="' . $this->getControlName('value') . '"
                 ' . $attrs . '
-                >' . $this->getValue('value') . '</textarea>';
+                >' . $this->get('value') . '</textarea>';
