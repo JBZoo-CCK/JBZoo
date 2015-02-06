@@ -13,58 +13,84 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$zoo   = App::getInstance('zoo');
+$zoo = App::getInstance('zoo');
+
+$zoo->jbassets->widget('.jsJBZooCartModule', 'JBZoo.CartModule', $basketHelper->getWidgetParams());
+
+$order = $basketHelper->getOrder();
 $items = $basketHelper->getBasketItems();
 
-echo '<!--noindex-->';
-echo '<div class="jbzoo jbzoo-basket-wraper clearfix jsJBZooCartModule" id="jbzooCartModule-' . $module->id . '">';
+?><!--noindex-->
+<div class="jbzoo jbcart-module clearfix jsJBZooCartModule" id="jbzooCartModule-'<?php echo $module->id; ?>">
 
-if (!empty($items)) {
+    <?php if (empty($items)) : ?>
+        <div class="jbcart-module-empty"><?php echo JText::_('JBZOO_CART_MODULE_EMPTY'); ?></div>
+    <?php else: ?>
 
-    $summa    = $basketHelper->getSumm($items);
-    $count    = $basketHelper->getCount($items);
-    $countSku = $basketHelper->getCountSku($items);
+        <div class="jbcart-module-items">
+            <?php foreach ($items as $itemKey => $cartItem) : ?>
+                <div class="<?php echo $itemKey; ?> jsCartItem jbcart-module-item clearfix" data-key="<?php echo $itemKey; ?>">
+                    <span class="jbbutton orange round jsDelete jbcart-item-delete">x</span>
 
-    if ((int)$params->get('items_show', 1)) {
-        echo '<p>' . JText::_('JBZOO_CART_TOTAL_COUNT') . ': <span class="total-items">'
-            . $count . ' ' . JText::_('JBZOO_CART_COUNT_ABR') . '</span></p>';
-    }
+                    <?php echo $cartItem['image']; ?>
+                    <?php echo $cartItem['name']; ?>
 
-    if ((int)$params->get('lots_show', 1)) {
-        echo '<p>' . JText::_('JBZOO_CART_TOTAL_SKU') . ': <span class="total-items">'
-            . $countSku . ' ' . JText::_('JBZOO_CART_COUNT_ABR') . '</span></p>';
-    }
+                    <div class="jbcart-item-price">
+                        <?php echo $cartItem['price']; ?>
+                        <span class="jbcart-item-price-multiple">x</span>
+                        <?php echo $cartItem['quantity']; ?>
+                    </div>
 
-    if ((int)$params->get('summa_show', 1)) {
-        echo '<p>' . JText::_('JBZOO_CART_TOTAL_PRICE') . ': <span class="price-total-value">'
-            . $summa . '</span></p>';
-    }
+                    <?php echo $cartItem['params']; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
 
-    echo '<div class="basket-link">';
 
-    if ((int)$params->get('cancel_show', 1)) {
-        echo '<a rel="nofollow" class="jsEmptyCart empty-cart" href="#clean-cart">' . JText::_('JBZOO_CART_EMPTY') . '</a>';
-    }
+        <?php if ((int)$params->get('items_show', 1)) : ?>
+            <div class="jbcart-module-line">
+                <?php echo JText::_('JBZOO_CART_MODULE_TOTAL_COUNT'); ?>:
+                <span class="jbcart-module-total-items">
+                    <?php echo $order->getTotalCount() . ' ' . JText::_('JBZOO_CART_COUNT_ABR'); ?>
+                </span>
+            </div>
+        <?php endif ?>
 
-    if ((int)$params->get('link_show', 1)) {
-        echo '<a rel="nofollow" class="jbbutton green small add-to-cart" href="' . $basketHelper->getBasketUrl() . '">'
-            . JText::_('JBZOO_CART_GOTO_BASKET') . '</a>';
-    }
 
-    echo '</div>';
+        <?php if ((int)$params->get('lots_show', 1)) : ?>
+            <div class="jbcart-module-line">
+                <?php echo JText::_('JBZOO_CART_MODULE_TOTAL_SKU'); ?>:
+                <span class="jbcart-module-total-items">
+                    <?php echo $order->getTotalCountSku() . ' ' . JText::_('JBZOO_CART_COUNT_ABR'); ?>
+                </span>
+            </div>
+        <?php endif ?>
 
-} else {
-    echo '<p>' . JText::_('JBZOO_CART_ITEMS_NOT_FOUND') . '</p>';
-}
 
-echo '</div><!--/noindex-->';
+        <?php if ((int)$params->get('summa_show', 1)) : ?>
+            <div class="jbcart-module-line">
+                <?php echo JText::_('JBZOO_CART_MODULE_TOTAL_SUM'); ?>:
+                <span class="jbcart-module-total-value"><?php echo $order->getTotalSum()->html(); ?></span>
+            </div>
+        <?php endif ?>
 
-if (!$zoo->jbrequest->isAjax()) :
-    $zoo->jbassets->js('jbassets:js/cart/module.js');
-    $zoo->jbassets->js('jbassets:js/cart/cart.js'); ?>
-    <script type="text/javascript">
-        jQuery(function ($) {
-            $('.jsJBZooCartModule').JBZooCartModule(<?php echo $basketHelper->getWidgetParams();?>);
-        });
-    </script>
-<?php endif;
+
+        <?php if ((int)$params->get('cancel_show', 1) && (int)$params->get('link_show', 1)) : ?>
+
+            <div class="jbcart-module-buttons">
+
+                <?php if ((int)$params->get('cancel_show', 1)): ?>
+                    <span class="jbbutton small jbcart-module-empty jsEmptyCart">
+                        <?php echo JText::_('JBZOO_CART_MODULE_EMPTY_BUTTON'); ?></span>
+                <?php endif ?>
+
+                <?php if ((int)$params->get('link_show', 1)): ?>
+                    <a rel="nofollow" class="jbbutton green small jbcart-module-gotocart"
+                       href="<?php echo $basketHelper->getBasketUrl(); ?>"><?php echo JText::_('JBZOO_CART_MODULE_CART_BUTTON'); ?></a>
+                <?php endif ?>
+
+            </div>
+        <?php endif ?>
+
+    <?php endif; ?>
+</div><!--/noindex-->

@@ -16,7 +16,9 @@ defined('_JEXEC') or die('Restricted access');
 require_once(JPATH_ADMINISTRATOR . '/components/com_zoo/config.php');
 require_once(JPATH_BASE . '/media/zoo/applications/jbuniversal/framework/jbzoo.php');
 
-
+/**
+ * Class JBZooBasketHelper
+ */
 class JBZooBasketHelper
 {
     /**
@@ -56,51 +58,41 @@ class JBZooBasketHelper
     }
 
     /**
+     * @return JBCartOrder
+     */
+    public function getOrder()
+    {
+        return $this->_order;
+    }
+
+    /**
+     * @return JBCartOrder
+     */
+    public function getBasketItems()
+    {
+        return $this->_order->renderItems(array(// TODO config from module
+        ));
+    }
+
+    /**
      * Get basket count
      * @return int
      */
     public function getCountSku()
     {
-        $basketItems = $this->getBasketItems();
-
-        return count($basketItems);
+        return count($this->_order->getItems());
     }
 
     /**
-     * @return mixed|string
+     * @return string
      */
     public function getWidgetParams()
     {
-        return json_encode(array(
-            'url_clean'  => $this->getBasketEmptyUrl(),
-            'url_reload' => $this->getBasketReloadUrl(),
-        ));
-    }
-
-    /**
-     * Reload module url
-     */
-    public function getBasketReloadUrl()
-    {
-        return $this->app->jbrouter->basketReloadModule($this->_module->id);
-    }
-
-    /**
-     * Get total summ
-     * @return int
-     */
-    public function getSumm()
-    {
-        return $this->_order->getTotalSum();
-    }
-
-    /**
-     * Get basket items
-     * @return mixed
-     */
-    public function getBasketItems()
-    {
-        return $this->_order->getItems();
+        return array(
+            'url_clean'       => $this->app->jbrouter->basketEmpty(),
+            'url_reload'      => $this->app->jbrouter->basketReloadModule($this->_module->id),
+            'url_item_remove' => $this->app->jbrouter->basketDelete(),
+        );
     }
 
     /**
@@ -110,32 +102,7 @@ class JBZooBasketHelper
     public function getBasketUrl()
     {
         $menuItemId = $this->_params->get('menuitem');
-
         return $this->app->jbrouter->basket($menuItemId);
     }
 
-    /**
-     * Get basket url for empty
-     * @return mixed
-     */
-    public function getBasketEmptyUrl()
-    {
-        return $this->app->jbrouter->basketEmpty();
-    }
-
-    /**
-     * Get count SKU
-     * @return int
-     */
-    public function getCount()
-    {
-        $basketItems = $this->getBasketItems();
-
-        $count = 0;
-        foreach ($basketItems as $basketItem) {
-            $count += $basketItem['quantity'];
-        }
-
-        return $count;
-    }
 }

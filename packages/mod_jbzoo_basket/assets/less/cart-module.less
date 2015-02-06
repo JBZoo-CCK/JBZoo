@@ -9,29 +9,64 @@
 //
 @import "jbzoo";
 
-.jbzoo.jbzoo-basket-wraper {
+.jbcart-module {
 
     &.jbloading {
         .opacity(.5);
     }
 
-    .basket-link {
-        text-align: right;
+    &-item {
+        margin-bottom: 12px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid #ccc;
     }
 
-    .price-total-value {
+    &-empty {
+        float: left;
+    }
+
+    &-gotocart {
+        float: right;
+    }
+
+    &-line {
+        margin-bottom: 12px;
+    }
+
+    &-total-value,
+    &-total-items {
         font-weight: bold;
     }
 
-    .total-items {
-        font-weight: bold;
-    }
+    .jbcart-item {
+        .clearfix();
 
-    .add-to-cart {
-        margin-left: 16px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
+        &-delete {
+            float: right;
+        }
+
+        &-image {
+            float: left;
+            margin: 0 12px 12px 0;
+        }
+
+        &-price {
+            .clear();
+            margin: 8px 0;
+        }
+
+        &-price-multiple {
+            font-size: 0.75em;
+        }
+
+        &-quantity,
+        &-param-key {
+            font-weight: bold;
+        }
+
+
     }
 }
+
 
 
