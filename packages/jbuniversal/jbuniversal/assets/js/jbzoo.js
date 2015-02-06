@@ -291,7 +291,7 @@
             var $this = this,
                 ns = $this._def(namespace, $this._name);
 
-            $.cookie(ns + '.' + key, value, {
+            $.cookie(ns + '_' + key, value, {
                 'path'   : '/',
                 'expires': 365
             });
@@ -307,7 +307,7 @@
         getCookie: function (key, defaultVal, namespace) {
             var $this = this,
                 ns = $this._def(namespace, $this._name),
-                cookieKey = $.cookie(ns + '.' + key);
+                cookieKey = $.cookie(ns + '_' + key);
 
             return this._def(cookieKey, defaultVal);
         }
