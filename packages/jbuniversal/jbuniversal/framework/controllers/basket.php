@@ -77,10 +77,15 @@ class BasketJBUniversalController extends JBUniversalController
         $this->payment        = $this->app->jbpayment->getEnabled();
         $this->modifierPrice  = $this->app->jbmodifierprice->getEnabled();
 
-        $this->Itemid = $this->_jbrequest->get('Itemid');
-        $this->order  = $this->cart->newOrder();
-        $this->items  = $this->cart->getItems();
-        $this->config = $this->_config;
+        $this->Itemid    = $this->_jbrequest->get('Itemid');
+        $this->order     = $this->cart->newOrder();
+        $this->items     = $this->order->getItems(true);
+        $this->itemsHtml = $this->order->renderItems(array(
+            'image_width'  => 75, // TODO from main config
+            'image_height' => 75,
+            'edit'         => true,
+        ));
+        $this->config    = $this->_config;
 
         $errors     = 0;
         $orderSaved = false;
