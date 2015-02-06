@@ -54,7 +54,6 @@
 
                 var jbPrice = $this.price.data('JBZooPrice'),
                     quantity = $this.get('_quantity', 1),
-                    currency = $this.get('_currency', ''),
                     input = $(this);
 
                 $this.ajax({
@@ -63,9 +62,7 @@
                     'data'   : {
                         "args": {
                             'quantity': quantity,
-                            'values'  : jbPrice.getValue(),
-                            'currency': currency
-                        }
+                            'values'  : jbPrice.getValue()}
                     },
                     'success': function (data) {
 

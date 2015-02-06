@@ -35,9 +35,14 @@ abstract class JBCartElementEmail extends JBCartElement
     protected $_subject;
 
     /**
+     * @type JMail
+     */
+    protected $_mailer;
+
+    /**
      * Class constructor
-     *-+
-     *     * @param App $app
+     *
+     * @param App    $app
      *
      * @param string $type
      * @param string $group
@@ -80,6 +85,35 @@ abstract class JBCartElementEmail extends JBCartElement
         }
 
         return false;
+    }
+
+    /**
+     * Add attachment to JMail
+     * @return $this
+     */
+    public function addAttachment()
+    {
+        $file = JString::trim($this->config->get('file', ''));
+
+        if (!empty($file)) {
+            $name = $this->config->get('name');
+            $this->_attach($file, ucfirst($name) . ' - ' . self::filename($file));
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $filename filename or path to file
+     * @return string
+     */
+    public function filename($filename)
+    {
+        if (empty($filename) || !is_string($filename)) {
+            return __FUNCTION__;
+        }
+
+        return JFile::stripExt(basename($filename));
     }
 
     /**
@@ -135,6 +169,7 @@ abstract class JBCartElementEmail extends JBCartElement
     public function setSubject($subject)
     {
         $this->_subject = $subject;
+        $this->_mailer  = JMail::getInstance($this->get('_hash'));
 
         if (get_class($subject) == 'JBCartOrder') {
             $this->setOrder($subject);
@@ -261,6 +296,21 @@ abstract class JBCartElementEmail extends JBCartElement
     public function fontColor($text, $color = '#000', $size = 2)
     {
         return '<i><font size="' . $size . '" color="' . $color . '">' . $text . '</font></i>';
+    }
+
+    /**
+     * Attach file
+     * @param string $file path to file
+     * @param string $name name
+     * @return $this
+     */
+    protected function _attach($file, $name)
+    {
+        $file = $this->app->path->path('root:' . $file);
+
+        $this->_mailer->addAttachment($file, $name);
+
+        return $this;
     }
 
     /**

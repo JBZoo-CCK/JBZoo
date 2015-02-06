@@ -18,22 +18,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementEmailAttach extends JBCartElementEmail
 {
-    protected $_extensions = '';
-
-    /**
-     * Class constructor
-     *
-     * @param App    $app
-     * @param string $type
-     * @param string $group
-     */
-    public function __construct($app, $type, $group)
-    {
-        parent::__construct($app, $type, $group);
-
-        $this->registerCallback('files');
-    }
-
     /**
      * Check elements value.
      * Output element or no.
@@ -54,9 +38,7 @@ class JBCartElementEmailAttach extends JBCartElementEmail
 
     /**
      * Render elements data
-     *
      * @param  array $params
-     *
      * @return null|string
      */
     public function render($params = array())
@@ -66,19 +48,6 @@ class JBCartElementEmailAttach extends JBCartElementEmail
                 'params' => $params,
                 'order'  => $this->getOrder()
             ));
-        }
-
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getFile()
-    {
-        $file = JString::trim($this->config->get('file'));
-        if (!empty($file)) {
-            return $this->app->path->path('root:' . $file);
         }
 
         return false;
@@ -98,5 +67,4 @@ class JBCartElementEmailAttach extends JBCartElementEmail
 
         return $this;
     }
-
 }

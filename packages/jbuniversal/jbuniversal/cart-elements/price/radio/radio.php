@@ -47,9 +47,10 @@ class JBCartElementPriceRadio extends JBCartElementPrice
     }
 
     /**
+     * @param array $params
      * @return mixed|null|string
      */
-    public function edit()
+    public function edit($params = array())
     {
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderEditLayout($layout, array(

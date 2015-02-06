@@ -13,12 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$elId = $this->app->jbstring->getId('value-');
-
-echo $this->app->html->_('control.text', $this->getControlName('value'), $this->getValue()->data(true), array(
-    'size'        => '10',
-    'maxlength'   => '255',
-    'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_VALUE'),
-    'id'          => $elId . '-basic-value',
-    'class'       => 'basic-value'
+echo $this->_jbhtml->text($this->getControlName('value'), $this->getValue()->data(true), array(
+    'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_VALUE')
 ));
+

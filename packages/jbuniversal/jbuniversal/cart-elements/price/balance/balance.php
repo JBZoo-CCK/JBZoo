@@ -97,13 +97,35 @@ class JBCartElementPriceBalance extends JBCartElementPrice
         $quantity = (float)$quantity;
         $inStock  = $this->getValue();
 
-        if ($inStock == -1) {
+        if ($inStock == self::AVAILABLE) {
             return true;
 
         } elseif (($inStock == self::NOT_AVAILABLE) || ($inStock == self::UNDER_ORDER)) {
             return false;
 
         } elseif ($inStock >= $quantity) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Reduce balance from element after order saved
+     * @param int $quantity How much items was ordered
+     * @return bool
+     */
+    public function reduce($quantity)
+    {
+        $value = (float)$this->getValue();
+        if (!(int)$this->config->get('balance_mode', 1) || $value == self::AVAILABLE) {
+            return true;
+        }
+
+        if ($value >= $quantity) {
+            $value -= $quantity;
+            $this->bindData(array('value' => $value));
+
             return true;
         }
 

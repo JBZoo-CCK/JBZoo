@@ -334,19 +334,17 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     /**
      * @param string $template
      * @param array  $values
-     * @param string $currency
      */
-    abstract public function ajaxChangeVariant($template = 'default', $values = array(), $currency = '');
+    abstract public function ajaxChangeVariant($template = 'default', $values = array());
 
     /**
      * Ajax add to cart method
      * @param string $template
      * @param int    $quantity
      * @param array  $values
-     * @param string $currency
      * @return
      */
-    abstract public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array(), $currency = '');
+    abstract public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array());
 
     /**
      * Remove from cart method

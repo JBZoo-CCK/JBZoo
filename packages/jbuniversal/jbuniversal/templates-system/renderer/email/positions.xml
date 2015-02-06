@@ -17,6 +17,7 @@
         <position name="payment">Payment</position>
         <position name="shipping">Shipping</position>
         <position name="shippingfield">Shippingfield</position>
+        <position name="downloads">Downloads</position>
         <position name="advertise">Advertise</position>
     </positions>
 

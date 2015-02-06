@@ -574,6 +574,7 @@ class JBFieldHelper extends AppHelper
         }
 
         $fields = $this->app->jbcartposition->loadPositions($group, array($position));
+
         if (empty($fields) || empty($fields[$position])) {
             return null;
         }
@@ -930,11 +931,10 @@ class JBFieldHelper extends AppHelper
                     $optionList[$key] = $data['name'] . ' - ' . $element['name'];
                 }
             }
-
         }
 
         if (!empty($optionList) && !(int)$this->_getAttr($node, 'multiple', '0')) {
-            $optionList = $this->app->jbarray->unshiftAssoc($optionList, '', ' - ');
+            $optionList = $this->app->jbarray->unshiftAssoc($optionList, '', '----');
         }
 
         return $this->_renderList($optionList, $value, $this->_getName($controlName, $name), $node);

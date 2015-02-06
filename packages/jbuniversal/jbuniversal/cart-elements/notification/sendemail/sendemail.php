@@ -19,6 +19,12 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementNotificationSendEmail extends JBCartElementNotification
 {
     /**
+     * Unique id of JMail instance
+     * @type string
+     */
+    public $hash;
+
+    /**
      * @var JMail
      */
     protected $_mailer;
@@ -36,7 +42,8 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
     {
         parent::__construct($app, $type, $group);
 
-        $this->_mailer  = JMail::getInstance();
+        $this->hash     = $this->htmlId(true);
+        $this->_mailer  = JMail::getInstance($this->hash);
         $this->renderer = $this->app->jbrenderer->create('email');
     }
 
@@ -46,20 +53,32 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
      */
     public function notify()
     {
-        $html   = $this->getHTML();
-        $attach = $this->renderer->getAttach();
-
+        $html = $this->getHTML();
         $this
             ->setHead()
             ->setBody($html)
             ->isHtml(true)
             ->setSender()
-            ->addAttachment($attach)
             ->addImageItems();
 
         $this->send();
-        
+
         return $html;
+    }
+
+    /**
+     * @param $subject
+     * @return $this
+     */
+    public function setSubject($subject)
+    {
+        $this->_subject = $subject;
+
+        if (get_class($subject) == 'JBCartOrder') {
+            $this->setOrder($subject);
+        }
+
+        return $this->setMacrosValues();
     }
 
     /**
@@ -67,13 +86,14 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
      */
     public function send()
     {
+        $this->renderer->addAttachment();
         $this
             /** Send message to administrators */
             ->sendToAdmins()
-            /** Send message to order owner - user */
-            ->sendToUser()
             /** Send message to advance email's - user */
-            ->sendToAdvance();
+            ->sendToAdvance()
+            /** Send message to order owner - user */
+            ->sendToUser();
     }
 
     /**
@@ -87,7 +107,8 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
         $html   = '';
 
         $html .= $this->renderer->render($layout, array(
-            'subject' => $this->getSubject()
+            'subject' => $this->getSubject(),
+            'hash'    => $this->hash
         ));
 
         //TODO В события смены статуса пеймента не вызывается setMacrosValues в setSubject
@@ -128,10 +149,9 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
 
     /**
      * Add file attachments to the email
-     *
-     * @param   mixed $data string|array of
-     *
+     * @param   mixed $data
      * @return $this
+     * @deprecated
      */
     public function addAttachment($data)
     {
@@ -242,12 +262,9 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
 
         if (!empty($to)) {
             foreach ($to as $id) {
-
                 $users = JAccess::getUsersByGroup($id);
                 if (!empty($users)) {
-
                     foreach ($users as $userId) {
-
                         $user  = JFactory::getUser($userId);
                         $email = JString::trim($user->get('email'));
 
@@ -276,13 +293,10 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
         //send notification to user
         if (!empty($to)) {
             foreach ($to as $type) {
-
                 //send to email from user profile
                 if ($type == self::RECIPIENT_USER_PROFILE) {
-
                     $user  = JFactory::getUser();
                     $email = JString::trim($user->get('email'));
-
                     if (!empty($email)) {
                         $this->addRecipient($user->get('email'), $user->get('name'));
 
@@ -293,7 +307,6 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
                 } else {
                     $order   = $this->getOrder();
                     $element = $order->getFieldElement($type);
-
                     if ($element) {
                         $email = JString::trim($element->data()->get('value'));
                         if (!empty($email)) {
@@ -303,7 +316,6 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
                     }
 
                 }
-
             }
         }
 
@@ -322,7 +334,6 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
 
         //advanced email's
         if (!empty($to)) {
-
             if (strpos($to, ',') === false) {
                 $this->addRecipient($to);
                 $this->_send();
@@ -330,9 +341,7 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
             } else {
                 $advRecipients = explode(',', $to);
                 foreach ($advRecipients as $recipient) {
-
                     $recipient = JString::trim($recipient);
-
                     if (!empty($recipient)) {
                         $this->addRecipient($recipient);
 
