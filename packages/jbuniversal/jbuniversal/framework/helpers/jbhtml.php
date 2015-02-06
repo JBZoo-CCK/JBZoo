@@ -399,6 +399,7 @@ class JBHTMLHelper extends AppHelper
                 'title' => $title,
                 'class' => array(
                     'jbcurrency-label',
+                    'jbtooltip',
                     'hasTip',
                 ),
             );
@@ -420,6 +421,8 @@ class JBHTMLHelper extends AppHelper
             $html[] = '<input ' . $this->buildAttrs($inputAttrs) . ' />';
             $html[] = '<label  ' . $this->buildAttrs($labelAttrs) . '>' . $flag . '</label>';
         }
+
+        $this->app->jbassets->initTooltip();
 
         if (!empty($html)) {
 
