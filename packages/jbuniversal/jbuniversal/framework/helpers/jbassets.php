@@ -19,6 +19,109 @@ defined('_JEXEC') or die('Restricted access');
 class JBAssetsHelper extends AppHelper
 {
     /**
+     * Mapping: 'jQuery Widget Name' => 'helper action'
+     * @type array
+     */
+    protected $_libraryMap = array(
+        'jbzoocart' => 'basket',
+    );
+
+    /**
+     * @param string $jquerySelector
+     * @param string $widgetName
+     * @param array  $params
+     * @param bool   $return
+     * @return string
+     */
+    public function widget($jquerySelector, $widgetName, $params = array(), $return = false)
+    {
+        static $included;
+        $included = isset($included) ? $included : array();
+
+        $hash = $jquerySelector . ' /// ' . $widgetName;
+        if (!isset($included[$hash])) {
+            $included[$hash] = true;
+
+            $widgetName = str_replace('.', '', $widgetName);
+
+            // experimental lib loader!
+            $mapName = $this->app->jbvars->lower($widgetName, true);
+            if (isset($this->_libraryMap[$mapName])) {
+                if (is_array($this->_libraryMap[$mapName])) {
+                    foreach ($this->_libraryMap[$mapName] as $method) {
+                        call_user_func(array($this, $method));
+                    }
+                } else {
+                    call_user_func(array($this, $this->_libraryMap[$mapName]));
+                }
+            }
+
+            // widget init script
+            $initScript = '$("' . $jquerySelector . '").' . $widgetName . '(' . $this->toJSON($params) . ');';
+
+            if ($return) {
+                return implode("\n", array(
+                    '<script type="text/javascript">',
+                    "\tjQuery(function($){ " . $initScript . "});",
+                    '</script>'
+                ));
+            }
+
+            $this->addScript($initScript);
+        }
+        return null;
+    }
+
+    /**
+     * Include JS in document
+     * @param array  $files
+     * @param string $group
+     * @return bool
+     */
+    public function js($files, $group = 'default')
+    {
+        return $this->_include((array)$files, 'js', $group);
+    }
+
+    /**
+     * Include CSS in document
+     * @param array  $files
+     * @param string $group
+     * @return bool
+     */
+    public function css($files, $group = 'default')
+    {
+        return $this->_include((array)$files, 'css', $group);
+    }
+
+    /**
+     * Complile&cache less and include rsult to document
+     * @param        $files
+     * @param string $group
+     * @return bool
+     */
+    public function less($files, $group = 'default')
+    {
+        $files = (array)$files;
+
+        $resultFiles = array();
+        foreach ($files as $file) {
+            $resultFiles[] = $this->app->jbless->compile($file);
+        }
+
+        return $this->_include((array)$resultFiles, 'css', $group);
+    }
+
+    /**
+     * @param $vars
+     * @return mixed|string
+     */
+    public function toJSON($vars)
+    {
+        return json_encode((array)$vars);
+    }
+
+    /**
      * Set application styles files
      * @param string $alias
      */
@@ -443,7 +546,7 @@ class JBAssetsHelper extends AppHelper
 
         if (!isset($vars[$varName])) {
             $vars[$varName] = true;
-            $this->addScript("JBZoo.addVar('" . $varName . "', " . $this->toJSON($value) . ")", false);
+            $this->addScript("\n\tJBZoo.addVar('" . $varName . "', " . $this->toJSON($value) . ")", false);
         }
     }
 
@@ -673,15 +776,16 @@ class JBAssetsHelper extends AppHelper
     {
         if (!$this->app->jbrequest->isAjax()) {
 
+            $script = trim(trim($script), ';') . ';';
+
             if ($docReady) {
-                $script = "\tjQuery(function($){ " . $script . "; });\n";
+                $script = "\tjQuery(function($){ " . $script . " });\n\n";
             } else {
-                $script = "\t" . $script . "\n";
+                $script = "\t" . $script . "\n\n";
             }
 
             JFactory::getDocument()->addScriptDeclaration($script);
         }
-
     }
 
     /**
@@ -697,54 +801,6 @@ class JBAssetsHelper extends AppHelper
         }
 
         return $root;
-    }
-
-    /**
-     * Include JS in document
-     * @param array  $files
-     * @param string $group
-     * @return bool
-     */
-    public function js($files, $group = 'default')
-    {
-        return $this->_include((array)$files, 'js', $group);
-    }
-
-    /**
-     * Include CSS in document
-     * @param array  $files
-     * @param string $group
-     * @return bool
-     */
-    public function css($files, $group = 'default')
-    {
-        return $this->_include((array)$files, 'css', $group);
-    }
-
-    /**
-     * @param        $files
-     * @param string $group
-     * @return bool
-     */
-    public function less($files, $group = 'default')
-    {
-        $files = (array)$files;
-
-        $resultFiles = array();
-        foreach ($files as $file) {
-            $resultFiles[] = $this->app->jbless->compile($file);
-        }
-
-        return $this->_include((array)$resultFiles, 'css', $group);
-    }
-
-    /**
-     * @param $vars
-     * @return mixed|string
-     */
-    public function toJSON($vars)
-    {
-        return json_encode((object)$vars);
     }
 
     /**
