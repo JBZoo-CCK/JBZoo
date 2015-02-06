@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -85,13 +84,11 @@ class JBRequestHelper extends AppHelper
 
     /**
      * Gets the value of a user state variable.
-   	 *
-   	 * @param   string  $key      The key of the user state variable.
-   	 * @param   string  $request  The name of the variable passed in a request.
-   	 * @param   string  $default  The default value for the variable if not found. Optional.
-   	 * @param   string  $type     Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
-   	 *
-   	 * @return  object  The request user state.
+     * @param   string $key     The key of the user state variable.
+     * @param   string $request The name of the variable passed in a request.
+     * @param   string $default The default value for the variable if not found. Optional.
+     * @param   string $type    Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
+     * @return  object  The request user state.
      * @throws \Exception
      */
     public function take($key, $request, $default = null, $type = 'none')
@@ -190,7 +187,7 @@ class JBRequestHelper extends AppHelper
 
     /**
      * Get file
-     * @param $fieldName
+     * @param      $fieldName
      * @param null $group
      * @return array|null
      */
@@ -221,7 +218,7 @@ class JBRequestHelper extends AppHelper
     /**
      * Get array from request
      * @param string $arrayName
-     * @param array $default
+     * @param array  $default
      * @return array
      */
     public function getArray($arrayName, $default = array())
@@ -263,7 +260,7 @@ class JBRequestHelper extends AppHelper
 
     /**
      * Get request value as word
-     * @param $varName
+     * @param      $varName
      * @param null $default
      * @return string
      */
@@ -297,7 +294,7 @@ class JBRequestHelper extends AppHelper
 
     /**
      * @param string $type
-     * @param int $default
+     * @param int    $default
      * @return int
      */
     public function getSystem($type, $default = null)
@@ -344,6 +341,22 @@ class JBRequestHelper extends AppHelper
         }
 
         return $result;
+    }
+
+    /**
+     * @param string $default
+     * @return string
+     */
+    public function  getCurrency($default = null)
+    {
+        $currency = $this->get('JBZooCurrencyToggle_current', $default);
+        $currency = $this->app->jbvars->currency($currency);
+
+        if ($currency == JBCartValue::DEFAULT_CODE || $currency == JBCartValue::PERCENT) {
+            return null;
+        }
+
+        return $currency;
     }
 
 }

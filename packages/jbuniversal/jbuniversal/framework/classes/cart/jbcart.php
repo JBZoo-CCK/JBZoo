@@ -70,7 +70,7 @@ class JBCart
      * @var string
      */
     protected $_sessionNamespace = 'jbcart';
-    protected $_namespace        = 'jbzoo';
+    protected $_namespace = 'jbzoo';
 
     /**
      * @var App
@@ -164,7 +164,6 @@ class JBCart
 
     /**
      * Return all errors, if any.
-     *
      * @return array
      */
     public function getErrors()
@@ -226,7 +225,6 @@ class JBCart
 
     /**
      * Update all session data for items.
-     *
      * @return array
      */
     public function updateItems()
@@ -243,7 +241,6 @@ class JBCart
 
     /**
      * Check session data for items
-     *
      * @return $this
      */
     public function checkItems()
@@ -629,6 +626,8 @@ class JBCart
      */
     public function recount()
     {
+        $cookieCur = $this->app->jbrequest->getCurrency();
+
         $this->checkItems();
 
         $order   = $this->newOrder();
@@ -639,12 +638,12 @@ class JBCart
         $itemsRes = array();
 
         foreach ($items as $key => $itemSumm) {
-            $itemsRes['Price-' . $key] = $itemSumm->data();
+            $itemsRes['Price-' . $key] = $itemSumm->convert($cookieCur)->data();
         }
 
         $items = $this->getItems();
         foreach ($items as $key => $data) {
-            $itemsRes['Price4One-' . $key] = $this->val($data['total'])->data();
+            $itemsRes['Price4One-' . $key] = $this->val($data['total'])->convert($cookieCur)->data();
         }
 
         // shipping
@@ -656,7 +655,7 @@ class JBCart
                 }
                 $element = $order->getShippingElement($elemId);
                 $element->bindData($shipping);
-                $shippingRes['Price-' . $elemId] = $element->getRate()->data();
+                $shippingRes['Price-' . $elemId] = $element->getRate()->convert($cookieCur)->data();
             }
         }
 
@@ -665,8 +664,14 @@ class JBCart
         $elements   = $order->getModifiersOrderPrice();
         if (!empty($elements)) {
             foreach ($elements as $identifier => $modifier) {
+                $modRate = $modifier->getRate();
+
+                if (!$modRate->isCur('%')) {
+                    $modRate->convert($cookieCur);
+                }
+
                 $modiferRes['Modifier-' . $identifier] = array(
-                    'MoneyWrap' => $modifier->getRate()->data()
+                    'MoneyWrap' => $modRate->data()
                 );
             }
         }
@@ -677,9 +682,9 @@ class JBCart
             'CartTableRow'  => $itemsRes,
             'Shipping'      => $shippingRes,
             'TotalCount'    => $order->getTotalCount(),
-            'TotalPrice'    => $order->getTotalForItems()->data(),
-            'ShippingPrice' => $order->getShippingPrice(false)->data(),
-            'Total'         => $order->getTotalSum()->data(),
+            'TotalPrice'    => $order->getTotalForItems()->convert($cookieCur)->data(),
+            'ShippingPrice' => $order->getShippingPrice(false)->convert($cookieCur)->data(),
+            'Total'         => $order->getTotalSum()->convert($cookieCur)->data(),
         );
 
         return $result;

@@ -314,6 +314,7 @@ class JBCartValue
      * @param JBCartValue $value
      * @param string      $mode
      * @param integer     $round
+     * @return bool
      */
     public function compare($value, $mode = '==', $round = self::ROUND_DEFAULT)
     {
@@ -348,6 +349,7 @@ class JBCartValue
         }
 
         $this->_error('Undefined compare mode: ' . $mode);
+        return false;
     }
 
     /**
@@ -431,6 +433,10 @@ class JBCartValue
      */
     public function convert($newCurrency, $getClone = false)
     {
+        if (empty($newCurrency)) {
+            return $this;
+        }
+
         return $this->_modifer($newCurrency, self::ACT_CONVERT, $getClone);
     }
 
@@ -588,6 +594,11 @@ class JBCartValue
             $currecny = $this->_currency;
         }
 
+        $cookieCur = $this->app->jbrequest->getCurrency();
+        if ($cookieCur && $this->app->jbrequest->isAjax()) {
+            $currecny = $cookieCur;
+        }
+
         if ($this->cur() == self::PERCENT) {
             $currecny = $this->cur();
         }
@@ -661,19 +672,19 @@ class JBCartValue
         if (($from == self::PERCENT && $to != self::PERCENT) ||
             ($from != self::PERCENT && $to == self::PERCENT)
         ) {
-            $this->_error('JBCartValue convertor - Percent can\'t be converted (' . $logFormat . ')');
+            $this->_error(__CLASS__ . ' convertor - Percent can\'t be converted (' . $logFormat . ')');
         }
 
         if (empty($to)) {
-            $this->_error('JBCartValue convertor - undefined currency');
+            $this->_error(__CLASS__ . ' convertor - undefined currency');
         }
 
         if (!isset($this->_rates[$to])) {
-            $this->_error('JBCartValue convertor - undefined currency: ' . $logFormat);
+            $this->_error(__CLASS__ . ' convertor - undefined currency: ' . $logFormat);
         }
 
         if (!isset($this->_rates[$from])) {
-            $this->_error('JBCartValue convertor - undefined currency: ' . $logFormat);
+            $this->_error(__CLASS__ . ' convertor - undefined currency: ' . $logFormat);
         }
 
         $result = $this->_value;
@@ -697,12 +708,13 @@ class JBCartValue
      */
     protected function _modifer($value, $action, $getClone = false)
     {
-        $newValue = null;
+        $logMess = $newValue = null;
         if (self::ACT_PLUS == $action || self::ACT_MINUS == $action) {
 
             if ($value instanceof JBCartValue) {
 
-                $logMess = ucfirst($action) . ' "' . $value->dump() . '"';
+                $logMess  = ucfirst($action) . ' "' . $value->dump() . '"';
+                $addValue = 0;
 
                 if ($this->_currency == self::PERCENT) {
                     if ($value->cur() == self::PERCENT) {
@@ -872,7 +884,7 @@ class JBCartValue
 
     /**
      * @param $currency
-     * @return mixed|string
+     * @return bool|mixed|null|string
      */
     protected function _checkCur($currency)
     {
@@ -897,6 +909,8 @@ class JBCartValue
         if ($currency) {
             $this->_error('Undefined currency: ' . $currency);
         }
+
+        return false;
     }
 
     /**
@@ -911,7 +925,7 @@ class JBCartValue
 
     /**
      * @param array $data
-     * @return string
+     * @return bool|mixed
      */
     protected function _logVar($data)
     {
@@ -919,6 +933,8 @@ class JBCartValue
             $removeData = array('Array', "\n", "\r", '     ');
             return str_replace($removeData, ' ', print_r($data, true));
         }
+
+        return false;
     }
 
     /**
