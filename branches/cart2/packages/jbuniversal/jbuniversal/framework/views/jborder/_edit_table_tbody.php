@@ -12,10 +12,21 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$itemsHtml = $order->renderItems(array(
+    'admin_url'    => true,
+    'image_width'  => 75,
+    'image_height' => 75,
+    'class'        => array(
+        'sku' => 'uk-badge uk-badge-notification'
+    )
+));
+
 if (!empty($items)) :
     foreach ($items as $key => $row) :
         $i    = 0;
         $item = $row->get('item');
+
+        $itemHtml = $itemsHtml[$key];
 
         $discount  = $order->val();
         $margin    = $order->val();
@@ -48,44 +59,14 @@ if (!empty($items)) :
         $this->count += $quantity; ?>
 
         <tr class="item-row">
-
-            <td rowspan="<?php echo $rowspan; ?>">
-                <?php if ($row->find('elements._image')) {
-                    $imagePath = $this->app->jbimage->resize($row->find('elements._image'), 90);
-                    echo '<img src="' . $imagePath->url . '" class="item-image" />';
-                } else {
-                    echo '-';
-                }?>
-            </td>
-
+            <td rowspan="<?php echo $rowspan; ?>"><?php echo $itemHtml['image'];?></td>
             <td>
-                <p><?php echo JText::_('JBZOO_ORDER_ITEM_id') . ':' . $row->get('item_id'); ?></p>
-
-                <?php if ($row->get('sku')) {
-                    echo '<p>' . JText::_('JBZOO_ORDER_ITEM_SKU') . ':' . $row->get('sku') . '</p>';
-                } ?>
-
-                <p><?php if ($item) {
-                        $itemLink = $this->app->jbrouter->adminItem($item);
-                        echo '<a href="' . $itemLink . '" target="_blank">' . $row->get('item_name') . '</a>';
-                    } else {
-                        echo $row->get('item_name');
-                    }?>
-                </p>
-
-                <?php if (!empty($row['values'])) : ?>
-                    <ul>
-                        <?php foreach ($row['values'] as $label => $param) :
-                            echo '<li><strong>' . $label . ':</strong> ' . $param . '</li>';
-                        endforeach; ?>
-                    </ul>
-                <?php endif; ?>
-
-                <?php if ($row->find('elements._description')) :
-                    echo '<p><i>' . $row->find('elements._description') . '</i></p>';
-                endif; ?>
+                <?php echo $itemHtml['itemid']; ?>
+                <?php echo $itemHtml['sku']; ?>
+                <?php echo $itemHtml['name'];?>
+                <?php echo $itemHtml['params'];?>
+                <?php echo $itemHtml['description'];?>
             </td>
-
             <td class="item-price4one">
                 <?php echo '<p>' . $itemValue->html() . '</p>'; ?>
 
@@ -98,7 +79,7 @@ if (!empty($items)) :
                 } ?>
             </td>
 
-            <td class="item-quantity"><?php echo $quantity; ?></td>
+            <td class="item-quantity"><?php echo $itemHtml['quantity'];?></td>
             <td class="align-right"><?php echo $itemPrice->multiply($quantity, true)->html(); ?></td>
         </tr>
 
