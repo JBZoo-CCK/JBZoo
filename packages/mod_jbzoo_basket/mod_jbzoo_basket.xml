@@ -35,9 +35,6 @@
             <fieldset name="basic" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
                 <field name="@spacer" type="jbzooinit"/>
 
-                <field name="app_id" type="jbbasketapp" default="0" label="JBZOO_APPLICATION"
-                       description="JBZOO_APPLICATION_DESC"/>
-
                 <field name="currency" type="jbcurrency" default="RUR" label="JBZOO_CURRENCY"
                        description="JBZOO_CURRENCY_DESC"/>
 
@@ -46,7 +43,9 @@
 
             </fieldset>
 
+            <!--
             <fieldset name="template">
+
                 <field name="items_show" type="jbbool" default="1" label="JBZOO_BASKET_ITEMS_SHOW"
                        description="JBZOO_BASKET_ITEMS_SHOW_DESC"/>
 
@@ -61,7 +60,9 @@
 
                 <field name="link_show" type="jbbool" default="1" label="JBZOO_BASKET_LINK_SHOW"
                        description="JBZOO_BASKET_LINK_SHOW_DESC"/>
+
             </fieldset>
+            -->
 
             <fieldset name="advanced">
                 <field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL"

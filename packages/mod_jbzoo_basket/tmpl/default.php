@@ -36,7 +36,7 @@ $items = $basketHelper->getBasketItems();
                     <?php echo $cartItem['name']; ?>
 
                     <div class="jbcart-item-price">
-                        <?php echo $cartItem['price']; ?>
+                        <?php echo $cartItem['price4one']; ?>
                         <span class="jbcart-item-price-multiple">x</span>
                         <?php echo $cartItem['quantity']; ?>
                     </div>

@@ -43,9 +43,9 @@ $order = JBCart::getInstance()->newOrder(); ?>
                 <?php echo $itemHtml['sku']; ?>
                 <?php echo $itemHtml['params']; ?>
             </td>
-            <td class="jbcart-price jsPrice4One-<?php echo $itemKey; ?>"><?php echo $itemHtml['price']; ?></td>
+            <td class="jbcart-price jsPrice4One-<?php echo $itemKey; ?>"><?php echo $itemHtml['price4one']; ?></td>
             <td class="jbcart-quantity"><?php echo $itemHtml['quantityEdit']; ?></td>
-            <td class="jbcart-subtotal jsSubtotal jsPrice-<?php echo $itemKey; ?>"><?php echo $itemHtml['total']; ?></td>
+            <td class="jbcart-subtotal jsSubtotal jsPrice-<?php echo $itemKey; ?>"><?php echo $itemHtml['totalsum']; ?></td>
             <td class="jbcart-delete"><span class="jbbutton orange round jsDelete">x</span></td>
         </tr>
     <?php endforeach; ?>

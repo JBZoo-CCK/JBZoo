@@ -806,11 +806,11 @@ class JBCartOrder
                 'name'         => '<span class="jbcart-item-name ' . $params->find('class.name') . '">'
                     . $cartItem->get('item_name') . '</span>',
 
-                'price'        => '<span class="jbcart-item-price ' . $params->find('class.price') . '">'
-                    . $this->val($cartItem->total)->html($currency) . '</span>',
+                'price4one'    => '<span class="jbcart-item-price4one ' . $params->find('class.price4one') . '">'
+                    . $this->val($cartItem->total)->convert($currency)->html() . '</span>',
 
-                'total'        => '<span class="jbcart-item-total ' . $params->find('class.total') . '">'
-                    . $this->val($cartItem->total)->multiply($quantity)->html($currency) . '</span>',
+                'totalsum'        => '<span class="jbcart-item-totalsum ' . $params->find('class.totalsum') . '">'
+                    . $this->val($cartItem->total)->multiply($quantity)->convert($currency)->html() . '</span>',
 
                 'quantity'     => '<span class="jbcart-item-quantity ' . $params->find('class.quantity') . '">'
                     . $quantity . ' ' . JText::_('JBZOO_CART_COUNT_ABR') . '</span>',

@@ -433,7 +433,7 @@ class JBCartValue
      */
     public function convert($newCurrency, $getClone = false)
     {
-        if (empty($newCurrency)) {
+        if (empty($newCurrency) || $newCurrency == self::DEFAULT_CODE) {
             return $this;
         }
 
