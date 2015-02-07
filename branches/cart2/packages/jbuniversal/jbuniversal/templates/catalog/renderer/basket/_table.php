@@ -32,7 +32,7 @@ $order = JBCart::getInstance()->newOrder(); ?>
     </thead>
     <tbody>
     <tr class="jbcart-row-empty">
-        <td colspan="6"></td>
+        <td colspan="6" class="jbcart-cell-empty"></td>
     </tr>
 
     <?php foreach ($view->itemsHtml as $itemKey => $itemHtml) : ?>
@@ -60,23 +60,23 @@ $order = JBCart::getInstance()->newOrder(); ?>
     } ?>
 
     <tr class="jbcart-row-total">
-        <td colspan="3">
-            <div>
+        <td colspan="3" class="jbcart-total-cell">
+            <div class="jbcart-items-in-cart">
                 <span class="jbcart-label"><?php echo JText::_('Товаров в корзине'); ?>:</span>
                 <span class="jbcart-value jsTotalCount"><?php echo $order->getTotalCount(); ?></span>
             </div>
-            <div>
+            <div class="jbcart-price-of-goods">
                 <span class="jbcart-label"><?php echo JText::_('на сумму'); ?>:</span>
                 <span class="jbcart-value jsTotalPrice"><?php echo $order->getTotalForItems()->html(); ?></span>
             </div>
         </td>
-        <td>
+        <td  class="jbcart-shipping-cell">
             <?php if ($view->shipping) : ?>
                 <div class="jbcart-label"><?php echo JText::_('Доставка'); ?>:</div>
                 <div class="jbcart-value jsShippingPrice"><?php echo $order->getShippingPrice()->html(); ?></div>
             <?php endif; ?>
         </td>
-        <td colspan="2">
+        <td colspan="2" class="jbcart-total-price-cell">
             <div class="jbcart-label"><?php echo JText::_('Итого к оплате'); ?>:</div>
             <div class="jbcart-value jsTotal"><?php echo $order->getTotalSum()->html(); ?></div>
         </td>

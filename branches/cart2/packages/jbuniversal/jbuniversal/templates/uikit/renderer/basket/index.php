@@ -13,7 +13,16 @@
 defined('_JEXEC') or die('Restricted access');
 
 $view = $this->getView();
-$this->app->jbassets->basket();
+
+$this->app->jbassets->widget('.jbzoo .jsJBZooCart', 'JBZoo.Cart', array(
+    'text_remove_all'  => JText::_('JBZOO_CART_CLEANUP'),
+    'text_remove_item' => JText::_('JBZOO_CART_REMOVE_ITEM'),
+    'url_shipping'     => $this->app->jbrouter->basketShipping(),
+    'url_quantity'     => $this->app->jbrouter->basketQuantity(),
+    'url_delete'       => $this->app->jbrouter->basketDelete(),
+    'url_clear'        => $this->app->jbrouter->basketClear(),
+    'items'            => $view->order->getItems(false),
+));
 
 ?>
 
@@ -48,6 +57,8 @@ $this->app->jbassets->basket();
             <?php echo $this->partial('basket', 'buttons'); ?>
 
         <?php endif; ?>
+
+        <?php echo $this->partial('basket', 'mobile_tools'); ?>
 
         <input type="hidden" name="option" value="com_zoo" />
         <input type="hidden" name="controller" value="basket" />
