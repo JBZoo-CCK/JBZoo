@@ -869,6 +869,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public function loadEditAssets()
     {
         $this->app->jbassets->admin();
+        $this->app->jbassets->tools();
         $this->app->jbassets->less('elements:jbprice/assets/less/edit.less');
 
         $this->app->jbassets->js('elements:jbprice/assets/js/edit.js');
