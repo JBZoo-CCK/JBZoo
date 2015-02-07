@@ -422,12 +422,11 @@ class JBHTMLHelper extends AppHelper
             $html[] = '<label  ' . $this->buildAttrs($labelAttrs) . '>' . $flag . '</label>';
         }
 
-        $this->app->jbassets->initTooltip();
-
         if (!empty($html)) {
 
             $id = $this->app->jbstring->getId('currency-toggle-');
 
+            $this->app->jbassets->initTooltip();
             $this->app->jbassets->currencyToggle($id, (array)$options);
 
             $widgetAttrs = array(

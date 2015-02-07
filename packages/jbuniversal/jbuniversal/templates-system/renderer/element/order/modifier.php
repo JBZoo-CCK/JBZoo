@@ -49,7 +49,7 @@ $uniqId = $element->htmlId();
 ?>
 <tr class="<?php echo implode(' ', $classes); ?>">
 
-    <td></td>
+    <td class="jbcart-cell-empty"></td>
 
     <td colspan="2" class="jbcart-modifier-label">
         <label for="<?php echo $uniqId; ?>"><?php echo $label; ?></label>

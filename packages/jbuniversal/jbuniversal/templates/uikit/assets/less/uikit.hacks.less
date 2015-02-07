@@ -15,6 +15,23 @@
         cursor: pointer;
         position: relative;
         .border-radius(4px);
+
+        &.round {
+            padding: 0 8px;
+            line-height: 24px;
+            .border-radius(100%);
+
+            &:active {
+                box-shadow: none;
+                border: none;
+            }
+
+        }
+
+    }
+
+    .jbcurrency-value {
+        font-size: 1.2em;
     }
 
     .uk-panel-box {
@@ -90,7 +107,7 @@
     .jbprice {
 
         .default-style {
-            margin-bottom: 10px;
+            margin-bottom: @base-indent;
         }
 
     }
@@ -99,7 +116,7 @@
 
         .quantity-wrapper {
             .item-count-wrapper {
-                padding-right: 10px;
+                padding-right: @base-indent;
             }
         }
 
@@ -143,7 +160,7 @@
     }
 
     .block-divider {
-        margin-bottom: 10px;
+        margin-bottom: @base-indent;
     }
 
     .jbcomments {
@@ -185,11 +202,12 @@
     }
 
     .table-no-border {
+
         td {
             border-bottom: none;
         }
-    }
 
+    }
 
     //  Item teaser styles
     .jbzoo-item-teaser {
@@ -250,6 +268,7 @@
     .jbcart-payment-ui-row {
 
         .jbcart-payment-label {
+            padding: 20px;
             .transition(0.3s);
             .box-shadow(0 0 40px rgba(215, 215, 215, 0.5) inset);
 
@@ -258,6 +277,46 @@
                 .box-shadow(0 0 40px rgba(186, 186, 186, 0.5) inset);
             }
 
+        }
+
+    }
+
+    .jbcart-row.jbloading:after {
+        display: none;
+    }
+
+    .jbcart-mobile-tools {
+        position: fixed;
+        display: none;
+        height: 78px;
+        bottom: 0px;
+        left: 0;
+        width: 100%;
+        z-index: 2;
+        color: @white;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.57);
+        border-top: 6px solid rgba(0, 0, 0, 0.44);
+        .box-shadow(0 0 40px rgba(0, 0, 0, 0.5) inset);
+
+        .jbtool-total-price {
+            font-size: 20px;
+            padding-top: @base-indent / 2;
+        }
+
+        .jbcart-buttons {
+            margin-top: 0;
+
+            .uk-button {
+                min-height: 34px;
+                padding: 0 14px;
+                line-height: 34px;
+            }
+
+        }
+
+        .jbtool-value {
+            font-weight: bold;
         }
 
     }

@@ -99,7 +99,7 @@
                 width: 50%;
                 font-size: 22px;
                 margin: 10px auto;
-                padding: 8px 0;
+                padding: 8px 4px;
                 text-align: center;
             }
 
@@ -111,6 +111,7 @@
 
                 .quantity-wrapper {
                     float: left;
+                    margin-left: -6px;
 
                     table {
                         display: table;
@@ -122,6 +123,37 @@
 
                     td {
                         display: table-cell;
+                    }
+
+                    .item-count-wrapper {
+                        margin-left: @mob-quantity-btn-width + @mob-quantity-btn-height / 2;
+                    }
+
+                    .plus,
+                    .minus {
+                        position: relative;
+
+                        .jbbutton {
+                            position: absolute;
+                            top: 0;
+                            width: @mob-quantity-btn-width;
+                            height: @mob-quantity-btn-height;
+                            line-height: @mob-quantity-btn-height;
+                            font-size: @mob-quantity-btn-font-size;
+                        }
+
+                    }
+
+                    .plus {
+
+                        .jbbutton {
+                            left: -(@mob-quantity-input-width + @mob-quantity-btn-width + @base-indent);
+                        }
+
+                    }
+
+                    .minus {
+                        left: @base-indent;
                     }
 
                 }
@@ -140,6 +172,7 @@
             .jbcart-delete .uk-button {
                 font-size: 24px;
                 padding: 8px 30%;
+                border-radius: 4px;
             }
 
         }
@@ -197,7 +230,8 @@
                         font-size: 20px;
                     }
 
-                    input {
+                    input,
+                    textarea {
                         width: 100%;
                     }
 
@@ -215,18 +249,43 @@
 
             .jbcart-title {
                 font-size: 24px;
-                text-align: center;
+            }
+
+            .jbcart-buttons {
+                display: none;
+            }
+
+            .jbcart-mobile-tools {
+                display: block;
+
+                .jbcart-buttons {
+                    display: block;
+                }
+
             }
 
         }
 
         .jbcart-row {
             border-color: #ccc;
+
+            .jbimage {
+                min-width: 60%;
+            }
+
         }
 
-        .jbcart-form-date .zoo-calendar {
-            top: 2.65em !important;
-            right: 0.8em !important;
+        .jbcart-form-date {
+
+            .zoo-calendar {
+                top: 2.65em !important;
+                right: 0.8em !important;
+            }
+
+            input.calendar-element {
+                width: 100% !important;
+            }
+
         }
 
     }
