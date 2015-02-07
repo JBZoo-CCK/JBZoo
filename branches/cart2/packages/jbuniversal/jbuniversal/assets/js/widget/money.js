@@ -50,7 +50,7 @@
             init: function ($this) {
                 $this.currency = this._cleanCur(this.data('currency'));
                 $this.value = JBZoo.float(this.data('value'));
-                $this.showplus = this.data('showplus');
+                $this.showplus = this.data('showplus');                
             },
 
             /**
@@ -179,7 +179,8 @@
              */
             _cleanCur: function (currency) {
 
-                var $this = this;
+                var $this = this,
+                    rates = JBZoo.getVar('currencyList', $this.options.rates);
 
                 currency = $.trim(currency).toLowerCase();
 
@@ -189,10 +190,9 @@
 
                 if (currency == this._defaultCur) {
                     return $.trim($this.data('currency')).toLowerCase();
-                    ;
                 }
 
-                if (!this.options.rates[currency]) {
+                if (!rates[currency]) {
                     $this.error('Undefined currency - ' + currency);
                 }
 
@@ -207,9 +207,10 @@
             _getCurInfo: function (currency) {
 
                 var $this = this,
+                    rates = JBZoo.getVar('currencyList', $this.options.rates),
                     currency = $this._cleanCur(currency);
 
-                return $this.options.rates[currency];
+                return rates[currency];
             }
 
         }

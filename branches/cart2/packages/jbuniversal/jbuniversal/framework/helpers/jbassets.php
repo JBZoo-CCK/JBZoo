@@ -189,6 +189,8 @@ class JBAssetsHelper extends AppHelper
                 'jbassets:js/widget/select.js',
                 'jbassets:js/libs/cookie.js',
             ));
+            
+            $this->addVar('currencyList', $this->app->jbmoney->getData());
         }
     }
 
@@ -216,7 +218,6 @@ class JBAssetsHelper extends AppHelper
             'jbassets:js/widget/currencytoggle.js'
         ));
 
-        $this->addVar('currencyList', $this->app->jbmoney->getData());
         $this->addScript('$("#' . $id . '").JBZooCurrencyToggle(' . $this->toJSON($params) . ')');
     }
 
