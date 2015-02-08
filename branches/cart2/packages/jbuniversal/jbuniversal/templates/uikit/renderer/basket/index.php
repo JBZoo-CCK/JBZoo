@@ -29,7 +29,6 @@ $this->app->jbassets->widget('.jbzoo .jsJBZooCart', 'JBZoo.Cart', array(
 
 <?php if (count($view->items) == 0) : ?>
     <p><?php echo JText::_('JBZOO_CART_ITEMS_NOT_FOUND'); ?></p>
-
 <?php else: ?>
 
     <?php
