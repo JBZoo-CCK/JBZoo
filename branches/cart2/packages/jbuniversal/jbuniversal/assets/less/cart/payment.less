@@ -12,18 +12,9 @@
 .jbzoo .jbcart-payment {
 
     &-row {
-        width: 30%;
-        float: left;
-        display: block;
-        padding: 0 10px;
-        overflow: hidden;
-        min-width: 200px;
-        min-height: 210px;
-        margin-bottom: 20px;
 
-        &:nth-child(3n+3) {
-            border-left: 1px solid #ddd;
-            border-right: 1px solid #ddd;
+        .column:last-child {
+            margin-right: 0;
         }
 
     }
@@ -64,6 +55,11 @@
         #filter > .grayscale(0%);
         .opacity(1);
         .transition(all 500ms);
+    }
+
+    .jbcart-radio-label {
+        padding: 10px;
+        display: block;
     }
 
 }
