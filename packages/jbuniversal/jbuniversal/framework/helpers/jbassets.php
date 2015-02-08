@@ -508,9 +508,15 @@ class JBAssetsHelper extends AppHelper
         $this->jQuery();
         $this->js('jbassets:js/widget/heightfix.js');
 
+        $jsQuery = array(
+            '.jbzoo .items',
+            '.jbzoo .subcategories',
+            '.jbzoo .jbcart-payment',
+        );
+
         if (!isset($isAdded)) {
             $isAdded = true;
-            $this->addScript('$(".jbzoo .items, .jbzoo .subcategories, .jbzoo .related-items").JBZooHeightFix({element : "' . $element . '"})');
+            $this->addScript('$("' . implode(',', $jsQuery) . '").JBZooHeightFix({element : "' . $element . '"})');
         }
     }
 

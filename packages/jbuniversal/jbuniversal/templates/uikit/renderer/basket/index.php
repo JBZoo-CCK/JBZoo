@@ -14,6 +14,10 @@ defined('_JEXEC') or die('Restricted access');
 
 $view = $this->getView();
 
+if ((int)$view->application->params->get('global.config.column_heightfix', 0)) {
+    $this->app->jbassets->heightFix('.uk-panel');
+}
+
 $this->app->jbassets->widget('.jbzoo .jsJBZooCart', 'JBZoo.Cart', array(
     'text_remove_all'  => JText::_('JBZOO_CART_CLEANUP'),
     'text_remove_item' => JText::_('JBZOO_CART_REMOVE_ITEM'),
