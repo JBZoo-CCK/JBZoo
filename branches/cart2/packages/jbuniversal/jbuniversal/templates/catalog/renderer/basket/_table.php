@@ -35,7 +35,12 @@ $order = JBCart::getInstance()->newOrder(); ?>
         <td colspan="6" class="jbcart-cell-empty"></td>
     </tr>
 
-    <?php foreach ($view->itemsHtml as $itemKey => $itemHtml) : ?>
+    <?php
+    foreach ($view->itemsHtml as $itemKey => $itemHtml) :
+        $data     = $view->items->get($itemKey);
+        $price    = JBCart::val($data->get('total'));
+        $quantity = $data->get('quantity', 1);
+        ?>
         <tr class="jbcart-row jsCartTableRow js<?php echo $itemKey; ?>" data-key="<?php echo $itemKey; ?>">
             <td class="jbcart-image"><?php echo $itemHtml['image']; ?></td>
             <td class="jbcart-name">
@@ -45,7 +50,9 @@ $order = JBCart::getInstance()->newOrder(); ?>
             </td>
             <td class="jbcart-price jsPrice4One-<?php echo $itemKey; ?>"><?php echo $itemHtml['price4one']; ?></td>
             <td class="jbcart-quantity"><?php echo $itemHtml['quantityEdit']; ?></td>
-            <td class="jbcart-subtotal jsSubtotal jsPrice-<?php echo $itemKey; ?>"><?php echo $itemHtml['totalsum']; ?></td>
+            <td class="jbcart-subtotal jsSubtotal jsPrice-<?php echo $itemKey; ?>">
+                <?php echo $price->multiply($quantity, true)->html(); ?>
+            </td>
             <td class="jbcart-delete"><span class="jbbutton orange round jsDelete">x</span></td>
         </tr>
     <?php endforeach; ?>
