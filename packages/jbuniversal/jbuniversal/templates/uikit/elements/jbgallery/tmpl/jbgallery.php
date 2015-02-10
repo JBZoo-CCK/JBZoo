@@ -33,15 +33,11 @@ $this->app->jbassets->fancybox();
     <?php } ?>
 </div>
 
-<script type="text/javascript">
-    jQuery(function ($) {
-        $('#<?php echo $galleryId; ?> .jbgallery').fancybox({
-            helpers: {
-                "title"  : {type: "outside"},
-                "buttons": {position: "top"},
-                "thumbs" : {width: 80, height: 80},
-                "overlay": {locked: false}
-            }
-        });
-    });
-</script>
+<?php echo $this->app->jbassets->widget('#' . $galleryId . ' .jbgallery', 'fancybox', array(
+    'helpers' => array(
+        'title'   => array('type' => 'outside'),
+        'buttons' => array('position' => "top"),
+        'thumbs'  => array('width' => 80, 'height' => 80),
+        'overlay' => array('locked' => false)
+    )
+), true); ?>

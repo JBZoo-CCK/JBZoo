@@ -21,13 +21,9 @@ if ($this->checkPosition('list')) : ?>
         <?php echo $this->renderPosition('list', array('style' => 'order.shipping')); ?>
     </div>
 
-    <script type="text/javascript">
-        jQuery(function ($) {
-            $('.jsJBCartShipping').JBZooShipping(<?php echo json_encode(array(
-                'fields_assign' => $this->app->jbshipping->getConfigAssign(),
-                'url_shipping'  => $this->app->jbrouter->basketShipping(),
-            ));?>);
-        });
-    </script>
+    <?php echo $this->app->jbassets->widget('.jsJBCartShipping', 'JBZooShipping', array(
+        'fields_assign' => $this->app->jbshipping->getConfigAssign(),
+        'url_shipping'  => $this->app->jbrouter->basketShipping(),
+    ), true); ?>
 
 <?php endif;

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -64,18 +63,14 @@ $this->app->document->addScript('assets:js/comment.js');
         }
 
         ?>
-
     </div>
 
-    <script type="text/javascript">
-        jQuery(function ($) {
-            $('#comments').Comment({
-                cookiePrefix  : '<?php echo CommentHelper::COOKIE_PREFIX; ?>',
-                cookieLifetime: '<?php echo CommentHelper::COOKIE_LIFETIME; ?>',
-                msgCancel     : '<?php echo JText::_('Cancel'); ?>'
-            });
-        });
-    </script>
-
 <?php
+
+echo $this->app->jbassets->widget('#comments', 'Comment', array(
+    'cookiePrefix'   => CommentHelper::COOKIE_PREFIX,
+    'cookieLifetime' => CommentHelper::COOKIE_LIFETIME,
+    'msgCancel'      => JText::_('Cancel'),
+), true);
+
 $this->app->jbdebug->mark('layout::comments::finish');

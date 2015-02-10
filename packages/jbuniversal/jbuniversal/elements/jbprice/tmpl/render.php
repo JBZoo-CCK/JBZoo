@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -19,13 +18,9 @@ $unique = $this->app->jbstring->getId('jbprice-adv-'); ?>
     <?php echo $data; ?>
 </div>
 
-<script type="text/javascript">
-    jQuery(function ($) {
-        $('#<?php echo $unique;?>').JBZooPrice({
-            'elements': <?php echo json_encode($elements);?>,
-            'itemId': <?php echo $this->getItem()->id;?>,
-            'identifier': "<?php echo $this->identifier;?>",
-            'variantUrl': "<?php echo $variantUrl; ?>"
-        });
-    });
-</script>
+<?php echo $this->app->jbassets->widget('#' . $unique, 'JBZoo.Price', array(
+    'elements'   => $elements,
+    'itemId'     => $this->getItem()->id,
+    'identifier' => $this->identifier,
+    'variantUrl' => $variantUrl,
+), true); ?>

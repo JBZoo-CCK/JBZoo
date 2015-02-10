@@ -43,10 +43,6 @@ $wrapAttrs = array(
 
 </div><!--/noindex-->
 
-<script type="text/javascript">
-    jQuery(function ($) {
-        $("#<?php echo $uniqId;?>").JBZooCompareButtons(<?php echo json_encode(array(
-            'url_toggle' => $ajaxUrl,
-        ));?>);
-    });
-</script>
+<?php echo $this->app->jbassets->widget('#' . $uniqId, 'JBZooCompareButtons', array(
+    'url_toggle' => $ajaxUrl
+), true); ?>

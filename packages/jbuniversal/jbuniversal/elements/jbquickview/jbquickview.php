@@ -55,8 +55,6 @@ class ElementJBQuickView extends Element
      */
     protected function _buttonData($params)
     {
-        static $jsDefined;
-
         $buttonText  = $params->get('button_text');
         $popupWidth  = (int)$params->get('popup_width', 600) ? $params->get('popup_width', 600) : 600;
         $popupHeight = (int)$params->get('popup_height', 400) ? $params->get('popup_height', 400) : 400;
@@ -72,27 +70,26 @@ class ElementJBQuickView extends Element
 
         $uniqId = $this->app->jbstring->getId('quickview');
 
-        $return       = array();
-        $return['js'] = '<script type="text/javascript">jQuery(function ($) {
-            $("#' . $uniqId . '").fancybox(' . json_encode(array(
-                'type'       => "iframe",
-                'fitToView'  => true,
-                'width'      => $popupWidth,
-                'height'     => $popupHeight,
-                'autoSize'   => $autoSize,
-                'iframe'     => array(
-                    'scrolling' => $scroll,
-                    'preload'   => true,
-                ),
-                'closeClick' => false,
-                'title'      => false,
-                'helpers'    => array(
-                    'overlay' => array(
-                        'locked' => true,
-                    )
-                ),
-            )) . ');
-        });</script>';
+        $return = array();
+
+        $return['js'] = $this->app->jbassets->widget('#' . $uniqId, 'fancybox', array(
+            'type'       => "iframe",
+            'fitToView'  => true,
+            'width'      => $popupWidth,
+            'height'     => $popupHeight,
+            'autoSize'   => $autoSize,
+            'iframe'     => array(
+                'scrolling' => $scroll,
+                'preload'   => true,
+            ),
+            'closeClick' => false,
+            'title'      => false,
+            'helpers'    => array(
+                'overlay' => array(
+                    'locked' => true,
+                )
+            ),
+        ), true);
 
         $return['btnAttrs'] = array(
             'id'    => $uniqId,

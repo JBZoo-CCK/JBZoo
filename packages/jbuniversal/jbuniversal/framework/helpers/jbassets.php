@@ -23,7 +23,12 @@ class JBAssetsHelper extends AppHelper
      * @type array
      */
     protected $_libraryMap = array(
-        'jbzoocart' => 'basket',
+        'jbzoocart'   => 'basket',
+        'jbzoocolors' => 'colors',
+        'fancybox'    => array(
+            'jQuery',
+            'fancybox'
+        ),
     );
 
     /**
@@ -35,8 +40,9 @@ class JBAssetsHelper extends AppHelper
      */
     public function widget($jquerySelector, $widgetName, $params = array(), $return = false)
     {
-        static $included;
-        $included = isset($included) ? $included : array();
+        static $included = array();
+
+        $jquerySelector = is_array($jquerySelector) ? implode(', ', $jquerySelector) : $jquerySelector;
 
         $hash = $jquerySelector . ' /// ' . $widgetName;
         if (!isset($included[$hash])) {
@@ -47,12 +53,9 @@ class JBAssetsHelper extends AppHelper
             // experimental lib loader!
             $mapName = $this->app->jbvars->lower($widgetName, true);
             if (isset($this->_libraryMap[$mapName])) {
-                if (is_array($this->_libraryMap[$mapName])) {
-                    foreach ($this->_libraryMap[$mapName] as $method) {
-                        call_user_func(array($this, $method));
-                    }
-                } else {
-                    call_user_func(array($this, $this->_libraryMap[$mapName]));
+                $methods = (array)$this->_libraryMap[$mapName];
+                foreach ($methods as $method) {
+                    call_user_func(array($this, $method));
                 }
             }
 
@@ -118,7 +121,12 @@ class JBAssetsHelper extends AppHelper
      */
     public function toJSON($vars)
     {
-        return json_encode((array)$vars);
+        $vars = (array)$vars;
+        if (!empty($vars)) {
+            return json_encode($vars);
+        }
+
+        return '';
     }
 
     /**
@@ -169,9 +177,9 @@ class JBAssetsHelper extends AppHelper
      */
     public function tools()
     {
-        static $isAdded;
+        static $isAdded = false;
 
-        if (!isset($isAdded)) {
+        if (!$isAdded) {
             $isAdded = true;
 
             $this->jQuery();
@@ -189,7 +197,7 @@ class JBAssetsHelper extends AppHelper
                 'jbassets:js/widget/select.js',
                 'jbassets:js/libs/cookie.js',
             ));
-            
+
             $this->addVar('currencyList', $this->app->jbmoney->getData());
         }
     }
@@ -218,7 +226,7 @@ class JBAssetsHelper extends AppHelper
             'jbassets:js/widget/currencytoggle.js'
         ));
 
-        $this->addScript('$("#' . $id . '").JBZooCurrencyToggle(' . $this->toJSON($params) . ')');
+        $this->widget('#' . $id, 'JBZoo.CurrencyToggle', $params);
     }
 
     /**
@@ -244,11 +252,11 @@ class JBAssetsHelper extends AppHelper
      */
     public function jQueryUI()
     {
+        static $isAdded = false;
+
         $this->jQuery();
 
-        static $isAdded;
-
-        if (!isset($isAdded)) {
+        if (!$isAdded) {
             $isAdded = true;
             $this->css('libraries:jquery/jquery-ui.custom.css');
             $this->js('libraries:jquery/jquery-ui.custom.min.js');
@@ -315,9 +323,9 @@ class JBAssetsHelper extends AppHelper
      */
     public function jQuery()
     {
-        static $isAdded;
+        static $isAdded = false;
 
-        if (!isset($isAdded)) {
+        if (!$isAdded) {
             $isAdded = true;
             if (!$this->app->joomla->version->isCompatible('3.0')) {
                 if (!$this->app->system->application->get('jquery')) {
@@ -460,7 +468,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->tools();
         $this->quantity();
-        $this->addScript('$("#' . $id . '").JBZooQuantity(' . $this->toJSON($options) . ')');
+        $this->widget('#' . $id, 'JBZoo.Quantity', $options);
     }
 
     /**
@@ -476,25 +484,21 @@ class JBAssetsHelper extends AppHelper
      */
     public function jbimagePopup()
     {
-        static $isAdded;
-
-        $this->jQuery();
-        $this->fancybox();
-
-        if (!isset($isAdded)) {
-            $isAdded = true;
-
-            $params = array(
+        $this->widget(
+            array(
+                'a.jbimage-link[rel=jbimage-popup]',
+                'a.jbimage-gallery'
+            ),
+            'fancybox',
+            array(
                 'helpers' => array(
                     'title'   => array('type' => 'outside'),
                     'buttons' => array('position' => 'top'),
                     'thumbs'  => array('width' => 80, 'height' => 80),
                     'overlay' => array('locked' => false),
                 )
-            );
-
-            $this->addScript('$("a.jbimage-link[rel=jbimage-popup], a.jbimage-gallery").fancybox(' . $this->toJSON($params) . ')');
-        }
+            )
+        );
     }
 
     /**
@@ -503,8 +507,6 @@ class JBAssetsHelper extends AppHelper
      */
     public function heightFix($element = '.column')
     {
-        static $isAdded;
-
         $this->jQuery();
         $this->js('jbassets:js/widget/heightfix.js');
 
@@ -514,10 +516,7 @@ class JBAssetsHelper extends AppHelper
             '.jbzoo .jbcart-payment',
         );
 
-        if (!isset($isAdded)) {
-            $isAdded = true;
-            $this->addScript('$("' . implode(',', $jsQuery) . '").JBZooHeightFix({element : "' . $element . '"})');
-        }
+        $this->widget(implode(',', $jsQuery), 'JBZoo.HeightFix', array('element' => $element));
     }
 
     /**
@@ -525,11 +524,7 @@ class JBAssetsHelper extends AppHelper
      */
     public function addRootUrl()
     {
-        static $isAdded;
-        if (!isset($isAdded)) {
-            $isAdded = true;
-            $this->addVar('rootUrl', JURI::root());
-        }
+        $this->addVar('rootUrl', JURI::root());
     }
 
     /**
@@ -547,13 +542,11 @@ class JBAssetsHelper extends AppHelper
      */
     public function addVar($varName, $value)
     {
-        static $vars;
-
-        $vars = isset($vars) ? $vars : array();
+        static $vars = array();
 
         if (!isset($vars[$varName])) {
             $vars[$varName] = true;
-            $this->addScript("\n\tJBZoo.addVar('" . $varName . "', " . $this->toJSON($value) . ")", false);
+            $this->addScript("\n\tJBZoo.addVar(\"" . $varName . "\", " . $this->toJSON($value) . " )", false);
         }
     }
 
@@ -572,26 +565,14 @@ class JBAssetsHelper extends AppHelper
      */
     public function initJBCascadeSelect($uniqid, $itemList)
     {
-        static $isAdded;
         $this->jQuery();
         $this->initSelectCascade();
 
-        if (!isset($isAdded)) {
-            $isAdded = array();
-        }
-
-        if (!isset($isAdded[$uniqid])) {
-
-            $params = $this->toJSON(array(
-                'items'    => $itemList,
-                'uniqid'   => $uniqid,
-                'text_all' => ' - ' . JText::_('JBZOO_ALL') . ' - ',
-            ));
-
-            $this->addScript('$(".jbcascadeselect-wrapper.jbcascadeselect-' . $uniqid . '").JBCascadeSelect(' . $params . ')');
-
-            $isAdded[$uniqid] = true;
-        }
+        $this->widget('.jbcascadeselect-wrapper.jbcascadeselect-' . $uniqid, 'JBCascadeSelect', array(
+            'items'    => $itemList,
+            'uniqid'   => $uniqid,
+            'text_all' => ' - ' . JText::_('JBZOO_ALL') . ' - ',
+        ));
     }
 
     /**
@@ -599,12 +580,12 @@ class JBAssetsHelper extends AppHelper
      */
     public function initAutocomplete()
     {
-        static $isAdded;
+        static $isAdded = false;
 
         $this->jQuery();
         $this->jQueryUI();
 
-        if (!isset($isAdded)) {
+        if (!$isAdded) {
             $isAdded = true;
             $this->addScript('$(".jbzoo .jsAutocomplete").each(function (n, obj) {
                 var $input = $(obj),
@@ -614,15 +595,12 @@ class JBAssetsHelper extends AppHelper
                     minLength: 2,
                     source: function( request, response ) {
                         var term = request.term;
-                        lastXhr = $.getJSON("' . $this->app->jbrouter->autocomplete() . '",
-                            {
+                        lastXhr = $.getJSON("' . $this->app->jbrouter->autocomplete() . '", {
                                 "name"  : $input.attr("name"),
                                 "value" : term,
                                 "app_id": $(".jsApplicationId", $form).val(),
                                 "type"  : $(".jsItemType", $form).val()
-                            },
-                            function(data, status, xhr) {
-
+                            }, function(data, status, xhr) {
                                 $input.removeClass("ui-autocomplete-loading");
                                 response(data);
                             }
@@ -638,12 +616,12 @@ class JBAssetsHelper extends AppHelper
      */
     public function initPriceAutoComplete()
     {
-        static $isAdded;
+        static $isAdded = false;
 
         $this->jQuery();
         $this->jQueryUI();
 
-        if (!isset($isAdded)) {
+        if (!$isAdded) {
             $isAdded = true;
             $this->addScript('$(".jbzoo .jsPriceAutoComplete").each(function (n, obj) {
                 var $input = $(obj),
@@ -694,11 +672,11 @@ class JBAssetsHelper extends AppHelper
      */
     public function jqueryAccordion()
     {
-        static $isAdded;
+        static $isAdded = false;
 
         $this->accordion();
 
-        if (!isset($isAdded)) {
+        if (!$isAdded) {
             $isAdded = true;
             $this->addScript('$(".jbzoo .jsAccordion").each(function(n, obj){
                 var $obj = $(obj),
@@ -716,13 +694,11 @@ class JBAssetsHelper extends AppHelper
      */
     public function initJBColorHelper($queryElement, $type = true)
     {
-        $this->colors();
-
         // force include for back-end. Do not delete!
         $this->less('jbassets:less/general.less');
 
         if ($queryElement) {
-            $this->addScript('$("#' . $queryElement . '").JBZooColors({multiple: "' . (boolean)$type . '"})');
+            $this->widget('#' . $queryElement, 'JBZoo.Colors', array('multiple' => (boolean)$type));
         }
     }
 
@@ -738,7 +714,7 @@ class JBAssetsHelper extends AppHelper
         if ($queryElement) {
             $this->js('media:jui/js/jquery.minicolors.min.js');
             $this->css('media:jui/css/jquery.minicolors.css');
-            $this->addScript('$("' . $queryElement . '").JBColorElement({message: "' . $text . '"})');
+            $this->widget($queryElement, 'JBColorElement', array('message' => $text));
         }
     }
 
@@ -747,14 +723,8 @@ class JBAssetsHelper extends AppHelper
      */
     public function initTooltip()
     {
-        static $isAdded;
-
         $this->jQueryUI();
-
-        if (!isset($isAdded)) {
-            $isAdded = true;
-            $this->addScript('$(".jbzoo .jbtooltip").tooltip()');
-        }
+        $this->widget(".jbzoo .jbtooltip", 'tooltip');
     }
 
     /**
@@ -769,9 +739,7 @@ class JBAssetsHelper extends AppHelper
             $version = JString::substr($this->app->jbversion->joomla(), 0, 1);
         }
 
-        $this->addScript('$("' . $queryElement . '").JBZooDelimiter({
-            "version": "' . $version . '"
-        })');
+        $this->widget($queryElement, 'JBZoo.Delimiter', array('version' => $version));
     }
 
     /**
@@ -869,9 +837,9 @@ class JBAssetsHelper extends AppHelper
      */
     public function jbzooLinks()
     {
-        static $isAdded;
+        static $isAdded = false;
 
-        if (!isset($isAdded)) {
+        if (!$isAdded) {
             $isAdded = true;
             $this->addScript('$(".jbzoo a").attr("target", "_top")');
         }

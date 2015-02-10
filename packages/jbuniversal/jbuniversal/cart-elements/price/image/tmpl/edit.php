@@ -21,8 +21,4 @@ $unique = $this->app->jbstring->getId('image-'); ?>
     ?>
 </div>
 
-<script type="text/javascript">
-    jQuery(function ($) {
-        $('#<?php echo $unique; ?>').JBZooMedia();
-    });
-</script>
+<?php echo $this->app->jbassets->widget('#' . $unique, 'JBZooMedia', array(), true); ?>

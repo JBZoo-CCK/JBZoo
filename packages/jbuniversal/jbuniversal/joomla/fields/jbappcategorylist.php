@@ -86,12 +86,7 @@ class JFormFieldJBAppCategoryList extends JFormField
 
             $html[] = $app->jbhtml->hidden($this->getName($this->fieldname), $this->value, array('class' => 'hidden-value'));
             $html[] = '</div>';
-
-            $html[] = '<script type="text/javascript">
-                jQuery(function($){
-                    $("#' . $idElement . '").JBCategoryList(' . json_encode($value) . ');
-                });
-                </script>';
+            $html[] =  $this->app->jbassets->widget('#' . $idElement, 'JBCategoryList', $value, true);
 
             $app->jbassets->jQuery();
             $app->jbassets->js("jbapp:joomla/fields/jbappcategorylist.js");

@@ -23,10 +23,6 @@ $unique = $this->htmlId(true);
     <div class="jsMoneyWrap"><?php echo $this->getRate()->html(); ?></div>
 </div>
 
-<script type="text/javascript">
-    jQuery(function ($) {
-        $('.jsElement.<?php echo $unique; ?>').JBZooDiscountCode(<?php echo json_encode(array(
-            'url' => $this->getAjaxUrl('ajaxSetCode')
-        ));?>);
-    });
-</script>
+<?php echo $this->app->jbassets->widget('.jsElement.' . $unique, 'JBZooDiscountCode', array(
+    'url' => $this->getAjaxUrl('ajaxSetCode')
+), true); ?>

@@ -33,9 +33,12 @@ $i  = 0;
     <div class="add"><?php echo JText::_('Add Option'); ?></div>
 </div>
 
-<script type="text/javascript">
-    jQuery('#<?php echo $id; ?>').JBZooElementSelect({
-        variable: '<?php echo $control_name; ?>',
-        url     : '<?php echo $this->app->link(array('controller' => 'manager', 'format' => 'raw', 'task' => 'getalias', 'force_safe' => 1), false); ?>'
-    });
-</script>
+<?php echo $this->app->jbassets->widget('#' . $id, 'JBZooElementSelect', array(
+    'variable' => $control_name,
+    'url'      => $this->app->link(array(
+        'controller' => 'manager',
+        'format'     => 'raw',
+        'task'       => 'getalias',
+        'force_safe' => 1
+    ), false)
+), true); ?>

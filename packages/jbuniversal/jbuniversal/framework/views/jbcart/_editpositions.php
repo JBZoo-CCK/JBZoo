@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -15,14 +14,14 @@ defined('_JEXEC') or die('Restricted access');
 
 
 // get vars
-$task = isset($this->saveTask) ? $this->saveTask : 'savePositions';
-$positions = isset($positions) ? $positions : array();
-$groupList = isset($groupList) ? $groupList : array();
-$dragElements = isset($dragElements) ? $dragElements : array();
+$task           = isset($this->saveTask) ? $this->saveTask : 'savePositions';
+$positions      = isset($positions) ? $positions : array();
+$groupList      = isset($groupList) ? $groupList : array();
+$dragElements   = isset($dragElements) ? $dragElements : array();
 $elementsParams = isset($elementsParams) ? $elementsParams : array();
 $systemElements = isset($systemElements) ? $systemElements : array();
-$elementGroup = isset($elementGroup) ? $elementGroup : JBCartElement::DEFAULT_GROUP;
-$groupKey = isset($this->groupKey) ? $this->groupKey : $this->task;
+$elementGroup   = isset($elementGroup) ? $elementGroup : JBCartElement::DEFAULT_GROUP;
+$groupKey       = isset($this->groupKey) ? $this->groupKey : $this->task;
 
 // add misc
 $this->app->html->_('behavior.tooltip');
@@ -84,14 +83,8 @@ echo $this->partial('orderlist'); ?>
 
 </form>
 
-<script type="text/javascript">
-    jQuery(function ($) {
-
-        $('.jsAssignElements').JBZooEditPositions({
-            'urlAddElement'    : '<?php echo $this->app->jbrouter->admin(array('task' => 'addElement'));?>',
-            'textEmptyPosition': '<?php echo JText::_('JBZOO_ADMIN_POSITIONS_EMPTY_POSITION');?>',
-            'textRemove'       : '<?php echo JText::_('JBZOO_ADMIN_POSITIONS_REMOVE');?>'
-        });
-
-    });
-</script>
+<?php echo $this->app->jbassets->widget('.jsAssignElements', 'JBZooEditPositions', array(
+    'urlAddElement'     => $this->app->jbrouter->admin(array('task' => 'addElement')),
+    'textEmptyPosition' => JText::_('JBZOO_ADMIN_POSITIONS_EMPTY_POSITION'),
+    'textRemove'        => JText::_('JBZOO_ADMIN_POSITIONS_REMOVE'),
+), true); ?>

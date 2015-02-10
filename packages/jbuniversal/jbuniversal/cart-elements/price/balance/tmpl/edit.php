@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,8 +12,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$unique = $this->app->jbstring->getId('balance-custom-');
-$html = $this->app->jbhtml;
+$unique  = $this->app->jbstring->getId('balance-custom-');
+$html    = $this->app->jbhtml;
 $variant = (int)$this->config->get('_variant') ? '' : '-variant';
 
 $text = array(
@@ -43,8 +42,8 @@ $inputAttr = $html->buildAttrs(array(
     'style'       => 'width:100px; text-align:left;'
 ));
 
-$selected = NULL;
-$value = $this->getValue('value', -1);
+$selected = null;
+$value    = $this->getValue('value', -1);
 
 if ($value > 0) {
     $selected = 1;
@@ -65,10 +64,4 @@ if ($value > 0) {
 
 </div>
 
-<script type="text/javascript">
-    jQuery(function ($) {
-        $('#<?php echo $unique; ?>').JBZooPriceAdvanceBalanceHelper();
-    });
-</script>
-
-
+<?php echo $this->app->jbassets->widget('#' . $unique, 'JBZooPriceAdvanceBalanceHelper', array(), true); ?>

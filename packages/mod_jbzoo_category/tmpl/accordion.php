@@ -80,13 +80,8 @@ if (!empty($categories)) {
 
 if (!empty($html)) {
     echo implode("\n ", $html);
-    ?>
-    <script type="text/javascript">
-        jQuery(function ($) {
-            $("#<?php echo $uniqId ?>").JBZooAccordion({
-                headerWidget: '.jbaccordion-header'
-            });
-        });
-    </script>
-<?php
+    
+    echo $this->app->jbassets->widget('#' . $uniqId, 'JBZooAccordion', array(
+        'headerWidget' => '.jbaccordion-header'
+    ), true);
 }

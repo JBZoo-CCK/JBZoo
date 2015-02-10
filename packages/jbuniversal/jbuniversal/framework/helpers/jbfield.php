@@ -224,8 +224,10 @@ class JBFieldHelper extends AppHelper
 
         $html[] = '</div>';
 
-        $javascript = 'jQuery(function($) { jQuery("#' . $unique_id . '").ZooApplication({ url: "' . $link . '", msgSelectItem: "' . JText::_('Select Item') . '" }); });';
-        $javascript = "<script type=\"text/javascript\">\n// <!--\n$javascript\n// -->\n</script>\n";
+        $javascript = $this->app->jbassets->widget('#' . $unique_id, 'ZooApplication', array(
+            'url'           => $link,
+            'msgSelectItem' => JText::_('Select Item')
+        ), true);
 
         echo implode("\n", $html) . $javascript;
     }
@@ -528,16 +530,12 @@ class JBFieldHelper extends AppHelper
                value="' . $value . '" placeholder="' . JText::_('File') . '" />';
         $html[] = '</div>';
 
-        $html[] = '<script type="text/javascript">';
-        $html[] = 'jQuery(document).ready(function ($) {';
-        $html[] = '$("#' . $id . ' input").Directories({
-                            mode: "file",
-                            url: "' . $this->app->jbrouter->admin($params) . '",
-                            title: "' . JText::_('Files') . '",
-                            msgDelete: "' . JText::_('Delete') . '"
-                   });';
-        $html[] = '});';
-        $html[] = '</script>';
+        $html[] = $this->app->jbassets->widget('#' . $id . ' input', 'Directories', array(
+            'mode'      => 'file',
+            'url'       => $this->app->jbrouter->admin($params),
+            'title'     => JText::_('Files'),
+            'msgDelete' => JText::_('Delete')
+        ), true);
 
         return implode("\n", $html);
     }
