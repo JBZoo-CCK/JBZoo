@@ -79,37 +79,52 @@ class JBMoneyHelper extends AppHelper
         $cacheKey = serialize(array(
             'params' => (array)$curParams,
             'date'   => date('d-m-Y'),
+            //'rand'   => time(),
         ));
 
         self::$curList = $this->app->jbcache->get($cacheKey, 'currency', true);
         if (empty(self::$curList)) {
 
-            self::$curList[JBCartValue::DEFAULT_CODE] = array(
-                'code'   => JBCartValue::DEFAULT_CODE,
-                'name'   => JText::_('JBZOO_CURRENCY_DEFAULT_CODE'),
-                'value'  => 0,
-                'format' => array(),
+            self::$curList = array(
+                JBCartValue::DEFAULT_CODE => array(
+                    'code'   => JBCartValue::DEFAULT_CODE,
+                    'name'   => JText::_('JBZOO_CURRENCY_DEFAULT_CODE'),
+                    'value'  => 0,
+                    'format' => array(),
+                ),
+                self::PERCENT             => array(
+                    'value'  => 0,
+                    'code'   => self::PERCENT,
+                    'name'   => JText::_('JBZOO_CART_CURRENCY_PERCENT'),
+                    'format' => array_merge($this->_defaultFormat, array('symbol' => self::PERCENT)),
+                ),
             );
 
             $elements = $this->app->jbcartposition->loadElements('currency');
 
             foreach ($elements as $element) {
 
-                $code = $element->getCode();
+                $code      = $element->getCode();
+                $checkCode = $element->checkCurrency($code);
 
-                if ($code && $element->checkCurrency($code)) {
+                if ($code && $checkCode) {
+
+                    $value = $element->getValue($code);
+                    if ($value <= 0) {
+                        continue;
+                    }
 
                     self::$curList[$code] = array(
                         'code'   => $code,
-                        'name'   => $element->getCurrencyName(),
-                        'value'  => $element->getValue($code),
+                        'value'  => $value,
                         'format' => $element->getFormat(),
+                        'name'   => $element->getCurrencyName(),
                     );
-
                 }
             }
 
             if (empty(self::$curList)) { // TODO it doesn't work!!!
+
                 $defaultCur = $this->getDefaultCur();
 
                 self::$curList [$defaultCur] = array(
@@ -119,13 +134,6 @@ class JBMoneyHelper extends AppHelper
                     'format' => $this->_defaultFormat,
                 );
             }
-
-            self::$curList[self::PERCENT] = array(
-                'value'  => null,
-                'code'   => self::PERCENT,
-                'name'   => JText::_('JBZOO_CART_CURRENCY_PERCENT'),
-                'format' => array_merge($this->_defaultFormat, array('symbol' => self::PERCENT)),
-            );
 
             $this->app->jbcache->set($cacheKey, self::$curList, 'currency', true);
         }
