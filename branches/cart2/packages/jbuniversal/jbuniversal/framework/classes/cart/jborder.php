@@ -792,7 +792,8 @@ class JBCartOrder
         $html = array();
         foreach ($items as $cartItem) {
             // get regf to item
-            $item = $cartItem->get('item');
+            $item    = $cartItem->get('item');
+            $itemKey = $cartItem->get('key');
 
             $quantity = $cartItem->get('quantity', 1);
 
@@ -802,14 +803,16 @@ class JBCartOrder
                 'image'        => '',
                 'params'       => '',
                 'description'  => '',
-                // TODO 'margin' => '', 'discount' => '',
+                // TODO 'margin' => '',
+                // TODO 'discount' => '',
+                // TODO 'weight' => '',
                 'name'         => '<span class="jbcart-item-name ' . $params->find('class.name') . '">'
                     . $cartItem->get('item_name') . '</span>',
 
-                'price4one'    => '<span class="jbcart-item-price4one ' . $params->find('class.price4one') . '">'
+                'price4one'    => '<span class="jbcart-item-price4one jsPrice4One jsPrice4One-' . $itemKey . ' ' . $params->find('class.price4one') . '">'
                     . $this->val($cartItem->total)->convert($currency)->html() . '</span>',
 
-                'totalsum'        => '<span class="jbcart-item-totalsum ' . $params->find('class.totalsum') . '">'
+                'totalsum'     => '<span class="jbcart-item-totalsum jsSubtotal jsPrice-' . $itemKey . ' ' . $params->find('class.totalsum') . '">'
                     . $this->val($cartItem->total)->multiply($quantity)->convert($currency)->html() . '</span>',
 
                 'quantity'     => '<span class="jbcart-item-quantity ' . $params->find('class.quantity') . '">'
