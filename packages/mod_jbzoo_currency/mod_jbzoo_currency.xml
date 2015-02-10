@@ -34,7 +34,7 @@
             <fieldset name="basic" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
                 <field name="@spacer" type="jbzooinit"/>
 
-                <field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL"
+                <field name="layout" type="modulelayout" default="switcher-buttons" label="JFIELD_ALT_LAYOUT_LABEL"
                        description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
 
                 <field name="currency_list" type="jbcurrency" multiple="1" defaultCode="1" default=""

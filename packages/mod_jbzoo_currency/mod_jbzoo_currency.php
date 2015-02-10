@@ -24,6 +24,6 @@ $zoo->jbassets->less('modules:mod_jbzoo_currency/assets/less/styles.less');
 $currencyHelper = new JBZooCurrencyModuleHelper($params, $module);
 
 // render module
-include(JModuleHelper::getLayoutPath('mod_jbzoo_currency', $params->get('layout', 'default')));
+include(JModuleHelper::getLayoutPath('mod_jbzoo_currency', $params->get('layout', 'switcher-buttons')));
 
 $zoo->jbdebug->mark('mod_jbzoo_currency::finish-' . $module->id);

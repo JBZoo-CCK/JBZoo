@@ -128,7 +128,8 @@ class JBZooCurrencyModuleHelper
     }
 
     /**
-     * @return string
+     * @param bool $availableDefault
+     * @return null|string
      */
     protected function _defaultCur($availableDefault = false)
     {
