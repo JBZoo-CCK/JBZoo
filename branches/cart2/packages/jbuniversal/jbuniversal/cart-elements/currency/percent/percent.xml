@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<element type="element" group="Core" hidden="false" core="true">
+    <name>Percent (core)</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZoo Cart Element Core System</description>
+
+    <params>
+        <param name="name" type="hidden" default="%"/>
+        <param name="description" type="hidden" default=""/>
+        <param name="code" type="hidden" default="%"/>
+        <param name="symbol" type="hidden" default="%"/>
+        <param name="rate" type="hidden" default="1"/>
+    </params>
+
+</element>
