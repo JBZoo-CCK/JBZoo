@@ -356,7 +356,7 @@ class JBHTMLHelper extends AppHelper
         $rates = !empty($rates) ? $rates : $this->app->jbmoney->getData();
 
         $defaultCur = $this->app->jbvars->lower($defaultCur);
-        $moneyVal   = JBCart::val(1, $defaultCur, $rates); // for calculating
+        $moneyVal   = JBCart::val(1, $rates); // for calculating
         $uniqId     = $this->app->jbstring->getId();
 
         if (isset($rates['%'])) {
