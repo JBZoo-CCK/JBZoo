@@ -46,10 +46,6 @@ if ($vars['count']) : ?>
 
     </table>
 
-    <script type="text/javascript">
-        jQuery(function ($) {
-            $('.jsTableSorter').tablesorter({});
-        });
-    </script>
+    <?php echo $this->app->jbassets->widget('.jsTableSorter', 'tablesorter', array(), true); ?>
 
 <?php endif;

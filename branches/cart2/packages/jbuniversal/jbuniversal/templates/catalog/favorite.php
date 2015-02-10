@@ -44,13 +44,10 @@ $this->app->jbassets->favorite();
         ?>
     </div>
 
-    <script type="text/javascript">
-        jQuery(function ($) {
-            $('.jsFavoriteList').JBZooFavoriteList(<?php echo json_encode(array(
-                'url_clear' => $this->app->jbrouter->favoriteClear()
-            ));?>);
-        });
-    </script>
+    <?php echo $this->app->jbassets->widget('.jsFavoriteList', 'JBZooFavoriteList', array(
+        'url_clear' => $this->app->jbrouter->favoriteClear()
+    ), true); ?>
+
 <?php
 $this->app->jbwrapper->end();
 $this->app->jbdebug->mark('template::favorite::finish');

@@ -35,11 +35,7 @@ $uniqId = $this->app->jbstring->getId('upload');
 
 </div>
 
-<script type="text/javascript">
-    jQuery(function ($) {
-        $('#<?php echo $uniqId;?>').JBZooOrderUpload(<?php echo json_encode(array(
-            'text_size_reached' => JText::sprintf('JBZOO_CART_UPLOAD_MAX_SIZE_REACHED', $maxSizeFormated),
-            'max_size'          => $maxSizeBytes,
-        ));?>);
-    });
-</script>
+<?php echo $this->app->jbassets->widget('#' . $uniqId, 'JBZooOrderUpload', array(
+    'text_size_reached' => JText::sprintf('JBZOO_CART_UPLOAD_MAX_SIZE_REACHED', $maxSizeFormated),
+    'max_size'          => $maxSizeBytes,
+), true); ?>

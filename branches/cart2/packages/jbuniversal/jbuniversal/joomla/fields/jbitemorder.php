@@ -76,12 +76,7 @@ class JFormFieldJBItemOrder extends JFormField
 
         $html[] = $app->jbhtml->hidden($this->getName($this->fieldname), $this->value, array('class' => 'hidden-value'));
         $html[] = '</div>';
-
-        $html[] = '<script type="text/javascript">
-                jQuery(function($){
-                    $("#' . $orderId . '").JBItemOrder(' . json_encode($value) . ');
-                });
-                </script>';
+        $html[] = $this->app->jbassets->widget('#' . $orderId, 'JBItemOrder', $value, true);
 
         return implode("\n", $html);
     }

@@ -48,8 +48,4 @@ $uiqueId = $this->app->jbstring->getId('emspost-');
     </div>
 </div>
 
-<script type="text/javascript">
-    jQuery(function ($) {
-        $('#<?php echo $uiqueId;?>').JBZooShippingTypeRussianPost();
-    });
-</script>
+<?php echo $this->app->jbassets->widget('#' . $uiqueId, 'JBZooShippingTypeRussianPost', array(), true); ?>

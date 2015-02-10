@@ -77,11 +77,7 @@ class JFormFieldJBCategoryOrder extends JFormField
         $html[] = $app->jbhtml->hidden($this->getName($this->fieldname), $this->value, array('class' => 'hidden-value'));
         $html[] = '</div>';
 
-        $html[] = '<script type="text/javascript">
-                jQuery(function($){
-                    $("#' . $orderId . '").JBCategoryOrder(' . json_encode($value) . ');
-                });
-                </script>';
+        $html[] = $this->app->jbassets->widget('#' . $orderId, 'JBCategoryOrder', $value, true);
 
         return implode("\n", $html);
     }

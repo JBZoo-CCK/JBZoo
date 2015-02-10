@@ -27,7 +27,6 @@ $this->app->jbassets->widget('.jbzoo .jsJBZooCart', 'JBZoo.Cart', array(
     'url_clear'        => $this->app->jbrouter->basketClear(),
     'items'            => $view->order->getItems(false),
 ));
-
 ?>
 
 

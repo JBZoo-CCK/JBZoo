@@ -53,11 +53,9 @@ echo $this->partial('basket', 'table.styles');
                 <?php echo $itemHtml['sku']; ?>
                 <?php echo $itemHtml['params']; ?>
             </td>
-            <td class="jbcart-price jsPrice4One-<?php echo $itemKey; ?>"><?php echo $itemHtml['price4one']; ?></td>
+            <td class="jbcart-price"><?php echo $itemHtml['price4one']; ?></td>
             <td class="jbcart-quantity"><?php echo $itemHtml['quantityEdit']; ?></td>
-            <td class="jbcart-subtotal jsSubtotal jsPrice-<?php echo $itemKey; ?>">
-                <?php echo $price->multiply($quantity, true)->html(); ?>
-            </td>
+            <td class="jbcart-subtotal"><?php echo $itemHtml['totalsum']; ?></td>
             <td class="jbcart-delete"><a class="uk-button uk-button-danger uk-button-small round jsDelete"><i class="uk-icon-trash-o"></i></a></td>
         </tr>
     <?php endforeach; ?>

@@ -37,19 +37,19 @@ $html = array();
 $html[] = '<div class="jbcompare-links uk-article-divider uk-clearfix">';
 if ($view->layoutType == 'h') {
     $html[] = '<a href="' . $verticalUrl . '" class="uk-button">' .
-                    '<i class="uk-icon-ellipsis-v"></i>&nbsp;' .
-                    JTEXT::_('JBZOO_COMPARE_VERTICAL') .
-              '</a>';
+        '<i class="uk-icon-ellipsis-v"></i>&nbsp;' .
+        JTEXT::_('JBZOO_COMPARE_VERTICAL') .
+        '</a>';
 } else {
     $html[] = '<a href="' . $horizontalUrl . '" class="uk-button">' .
-                    '<i class="uk-icon-ellipsis-h"></i>&nbsp;' .
-                    JTEXT::_('JBZOO_COMPARE_HORIZONTAL') .
-              '</a>';
+        '<i class="uk-icon-ellipsis-h"></i>&nbsp;' .
+        JTEXT::_('JBZOO_COMPARE_HORIZONTAL') .
+        '</a>';
 }
 $html[] = '<a href="' . $clearUrl . '" class="uk-button uk-button-danger jbcompare-clear">' .
-                '<i class="uk-icon-trash"></i>&nbsp;' .
-                JText::_('JBZOO_COMPARE_REMOVEALL') .
-          '</a>';
+    '<i class="uk-icon-trash"></i>&nbsp;' .
+    JText::_('JBZOO_COMPARE_REMOVEALL') .
+    '</a>';
 $html[] = '</div>';
 
 // render compare table html
@@ -127,11 +127,10 @@ if ($view->layoutType == 'v') {
 echo implode("\n", $html);
 
 ?>
-<script type="text/javascript">
-    jQuery(function ($) {
-        $('.jsCompareTable').JBZooCompareTable({dir: '<?php echo $view->layoutType;?>'});
-    });
-</script>
+
+<?php echo $this->app->jbassets->widget('.jsCompareTable', 'JBZooCompareTable', array(
+    'dir' => $view->layoutType,
+), true); ?>
 
 
 

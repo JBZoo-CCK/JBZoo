@@ -43,14 +43,12 @@ if ($count) : ?>
         </div>
     </div>
 
-    <?php if ($params->get('delete') && $params->get('mode') == 'viewed')  : ?>
-        <script type="text/javascript">
-            jQuery(document).ready(function ($) {
-                $('#<?php echo $unique; ?>').JBZooViewed({
-                    'message': '<?php echo JText::_('JBZOO_MODITEM_RECENTLY_VIEWED_DELETE_HISTORY'); ?>',
-                    'app_id' :  <?php echo $app_id; ?>
-                });
-            });
-        </script>
-    <?php endif;
-endif;
+    <?php 
+    if ($params->get('delete') && $params->get('mode') == 'viewed') {
+        echo $this->app->jbassets->widget('#' . $unique, 'JBZooViewed', array(
+            'message' => JText::_('JBZOO_MODITEM_RECENTLY_VIEWED_DELETE_HISTORY'),
+            'app_id'  => $app_id,
+        ), true);
+    } ?>
+    
+<?php endif;

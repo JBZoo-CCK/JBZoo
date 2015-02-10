@@ -118,12 +118,7 @@ if ($view->layoutType == 'v') {
 echo implode("\n", $html);
 
 ?>
-<script type="text/javascript">
-    jQuery(function ($) {
-        $('.jsCompareTable').JBZooCompareTable({dir: '<?php echo $view->layoutType;?>'});
-    });
-</script>
 
-
-
-
+<?php echo $this->app->jbassets->widget('.jsCompareTable', 'JBZooCompareTable', array(
+    'dir' => $view->layoutType,
+), true); ?>

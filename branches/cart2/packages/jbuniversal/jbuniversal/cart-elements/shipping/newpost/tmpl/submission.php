@@ -25,12 +25,12 @@ $uiqueId = $this->app->jbstring->getId('newpost-');
 
     <div class="newpost-region">
         <?php echo $jbhtml->select($this->_getRegionList(), $this->getControlName('region'),
-            'class="jsRegion"', $this->get('region'));?>
+            'class="jsRegion"', $this->get('region')); ?>
     </div>
 
     <div class="newpost-recipientCity">
         <?php echo $jbhtml->select($this->_getCityList($this->get('region')), $this->getControlName('recipientCity'),
-            'class="jsRecipientCity"', $this->get('recipientCity'));?>
+            'class="jsRecipientCity"', $this->get('recipientCity')); ?>
     </div>
 
     <div class="newpost-warehouse jsWarehouseWrapper">
@@ -54,12 +54,9 @@ $uiqueId = $this->app->jbstring->getId('newpost-');
     </div>
 </div>
 
-<script type="text/javascript">
-    jQuery(function ($) {
-        $('#<?php echo $uiqueId;?>').JBZooShippingTypeNewpost(<?php echo json_encode(array(
-            'type_doors'    => JBCartElementShippingNewPost::TYPE_DOORS,
-            'type_ware'     => JBCartElementShippingNewPost::TYPE_WARE,
-            'url_locations' => $this->_getAjaxLocationsUrl(),
-        ));?>);
-    });
-</script>
+<?php echo $this->app->jbassets->widget('#' . $uiqueId, 'JBZooShippingTypeNewpost', array(
+    'type_doors'    => JBCartElementShippingNewPost::TYPE_DOORS,
+    'type_ware'     => JBCartElementShippingNewPost::TYPE_WARE,
+    'url_locations' => $this->_getAjaxLocationsUrl(),
+), true); ?>
+

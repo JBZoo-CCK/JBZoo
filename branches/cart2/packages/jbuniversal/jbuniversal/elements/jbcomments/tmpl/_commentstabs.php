@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -43,8 +42,4 @@ $jbCommId = uniqid('comments-tabs-');
     ?>
 </div>
 
-<script type="text/javascript">
-    jQuery(function ($) {
-        $('#<?php echo $jbCommId ; ?>').JBZooTabs();
-    });
-</script>
+<?php echo $this->app->jbassets->widget('#' . $jbCommId, 'JBZoo.Tabs', array(), true); ?>

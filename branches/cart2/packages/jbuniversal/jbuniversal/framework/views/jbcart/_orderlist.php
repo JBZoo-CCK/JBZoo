@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -42,11 +41,6 @@ if ($this->get('ordersList')) :
 
     </div>
 
-    <script type="text/javascript">
-        jQuery(function ($) {
-            $('.email-preview').JBZooEmailPreview({
-                url: "<?php echo $url; ?>"
-            });
-        });
-    </script>
+    <?php echo $this->app->jbassets->widget('.email-preview', 'JBZooEmailPreview', array('url' => $url), true); ?>
+
 <?php endif;

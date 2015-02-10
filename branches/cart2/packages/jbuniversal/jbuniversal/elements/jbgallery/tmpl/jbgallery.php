@@ -19,29 +19,19 @@ $this->app->jbassets->less('elements:jbgallery/assets/styles.less');
 ?>
 
 <div id="<?php echo $galleryId; ?>" class="clearfix">
-
     <?php foreach ($thumbs as $thumb) { ?>
-        <a href="<?php echo $thumb['img']; ?>"
-           rel="<?php echo $rel; ?>"
-           title="<?php echo $thumb['name']; ?>"
-           class="jbgallery"><img src="<?php echo $thumb['thumb']; ?>"
-                                  alt="<?php echo $thumb['name']; ?>"
-                                  title="<?php echo $thumb['name']; ?>"
-                                  width="<?php echo $thumb['thumb_width']; ?>"
-                                  height="<?php echo $thumb['thumb_height']; ?>"
-                /></a>
+        <a href="<?php echo $thumb['img']; ?>" rel="<?php echo $rel; ?>" title="<?php echo $thumb['name']; ?>"
+           class="jbgallery"><img src="<?php echo $thumb['thumb']; ?>" alt="<?php echo $thumb['name']; ?>"
+                                  title="<?php echo $thumb['name']; ?>" width="<?php echo $thumb['thumb_width']; ?>"
+                                  height="<?php echo $thumb['thumb_height']; ?>" /></a>
     <?php } ?>
 </div>
 
-<script type="text/javascript">
-    jQuery(function ($) {
-        $('#<?php echo $galleryId; ?> .jbgallery').fancybox({
-            helpers: {
-                "title"  : {type: "outside"},
-                "buttons": {position: "top"},
-                "thumbs" : {width: 80, height: 80},
-                "overlay": {locked: false}
-            }
-        });
-    });
-</script>
+<?php echo $this->app->jbassets->widget('#' . $galleryId . ' .jbgallery', 'fancybox', array(
+    'helpers' => array(
+        'title'   => array('type' => 'outside'),
+        'buttons' => array('position' => "top"),
+        'thumbs'  => array('width' => 80, 'height' => 80),
+        'overlay' => array('locked' => false)
+    )
+), true); ?>

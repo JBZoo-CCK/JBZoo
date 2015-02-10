@@ -90,23 +90,15 @@ if ($count) {
 
     echo '</div></div>';
 
-    if ($params->get('delete') && $params->get('mode') == 'viewed') : ?>
-        <script type="text/javascript">
-            jQuery(document).ready(function ($) {
-                $('#<?php echo $unique; ?>').JBZooViewed({
-                    'message': '<?php echo JText::_('JBZOO_MODITEM_RECENTLY_VIEWED_DELETE_HISTORY'); ?>',
-                    'app_id' :  <?php echo $app_id; ?>
-                });
-            });
-        </script>
-    <?php endif; ?>
+    if ($params->get('delete') && $params->get('mode') == 'viewed') {
+        echo $this->app->jbassets->widget('#' . $unique, 'JBZooViewed', array(
+            'message'=> JText::_('JBZOO_MODITEM_RECENTLY_VIEWED_DELETE_HISTORY'),
+            'app_id' =>  <?php echo $app_id; ?>
+        ), true);
+    }
 
-    <?php if ($params->get('column_heightfix')) : ?>
-        <script type="text/javascript">
-            jQuery(document).ready(function ($) {
-                $('.module-items').JBZooHeightFix();
-            });
-        </script>
-    <?php endif;
+    if ($params->get('column_heightfix')) {
+        echo $this->app->jbassets->widget('.module-items', 'JBZooHeightFix', array(), true);    
+    }
 
 }
