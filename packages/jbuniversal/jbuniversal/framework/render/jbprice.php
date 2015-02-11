@@ -73,11 +73,9 @@ class JBPriceRenderer extends PositionRenderer
     public function checkPosition($position)
     {
         foreach ($this->getConfigPosition($position) as $key => $data) {
-
             if (($element = $this->_variant->getElement($key)) ||
                 ($element = $this->_jbprice->getElement($key, $this->variant))
             ) {
-
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
                 $data['_index']    = $key;
@@ -126,12 +124,11 @@ class JBPriceRenderer extends PositionRenderer
         $output   = array();
 
         // get style
-        $style  = $this->_variant->isBasic() ? 'basic' : 'variations';
+        $style  = $this->_variant->isBasic() ? '_basic' : '_variations';
         $config = $this->_getConfig();
 
         if (!empty($config)) {
             foreach ($config as $key => $data) {
-
                 if (($element = $this->_variant->getElement($key)) ||
                     ($element = $this->_jbprice->getElement($key, $this->variant))
                 ) {
@@ -153,10 +150,11 @@ class JBPriceRenderer extends PositionRenderer
         }
 
         if (!empty($elements)) {
-
             foreach ($elements as $i => $data) {
-                $params = array_merge(array('first' => ($i == 0),
-                                            'last'  => ($i == count($elements) - 1)), $data['params']);
+                $params = array_merge(array(
+                    'first' => ($i == 0),
+                    'last'  => ($i == count($elements) - 1)
+                ), $data['params']);
 
                 $output[$i] = parent::render('element.jbprice.' . $style, array(
                     'element' => $data['element'],
@@ -207,7 +205,9 @@ class JBPriceRenderer extends PositionRenderer
                 if ($element->hasValue($this->app->data->create($params))) {
                     $elements[] = compact('element', 'params');
                 }
+
             }
+
         }
 
         foreach ($elements as $i => $data) {
