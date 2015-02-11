@@ -246,7 +246,9 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function renderSubmission($params = array())
     {
+        $this->app->jbassets->less('elements:jbprice/assets/less/submission.less');
         $this->hash = md5($params . $this->getItem()->alias);
+
         return $this->edit($params);
     }
 
