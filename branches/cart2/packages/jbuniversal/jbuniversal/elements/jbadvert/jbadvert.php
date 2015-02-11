@@ -67,6 +67,13 @@ class ElementJBAdvert extends Element implements iSubmittable
      */
     public function edit($params = array())
     {
+        if ($layout = $this->getLayout('edit.php')) {
+            return self::renderLayout($layout, array(
+                'params' => $params,
+                'data'   => $this->addPrices($this->data)
+            ));
+        }
+
         return false;
     }
 
