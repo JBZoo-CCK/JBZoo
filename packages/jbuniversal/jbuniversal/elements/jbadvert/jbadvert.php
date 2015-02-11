@@ -87,8 +87,9 @@ class ElementJBAdvert extends Element implements iSubmittable
      */
     public function renderSubmission($params = array())
     {
-        $tpl  = 'submission.php';
-        $data = $this->data;
+        $tpl    = 'submission.php';
+        $data   = $this->data;
+
         if ($this->getItem()->state) {
             unset($data['0']);
         }
@@ -99,7 +100,7 @@ class ElementJBAdvert extends Element implements iSubmittable
         if ($layout = $this->getLayout($tpl)) {
             return self::renderLayout($layout, array(
                 'params' => $params,
-                'data'   => $data
+                'data'   => $this->addPrices($data)
             ));
         }
 
@@ -238,6 +239,15 @@ class ElementJBAdvert extends Element implements iSubmittable
     }
 
     /**
+     * Get parameter form object to render input form.
+     * @return Object
+     */
+    public function getConfigForm()
+    {
+        return parent::getConfigForm()->addElementPath(dirname(__FILE__));
+    }
+
+    /**
      * @param  integer $quantity
      * @return bool
      */
@@ -253,11 +263,22 @@ class ElementJBAdvert extends Element implements iSubmittable
     }
 
     /**
-     * Get parameter form object to render input form.
-     * @return Object
+     * Get services with prices
+     * @param array $data Array of services
+     * @return array
      */
-    public function getConfigForm()
+    public function addPrices($data)
     {
-        return parent::getConfigForm()->addElementPath(dirname(__FILE__));
+        $config = $this->config;
+        if (!empty($data)) {
+            foreach ($data as $key => $value) {
+                $price = $config->find('prices.' . $key, 0);
+                $price = JBCart::val($price);
+                $data[$key] .= ' <small>(' . $price->text() . ')</small>';
+
+            }
+        }
+
+        return $data;
     }
 }
