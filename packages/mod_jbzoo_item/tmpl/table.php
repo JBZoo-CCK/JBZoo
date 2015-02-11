@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -14,6 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $count = count($items);
+$zoo   = App::getInstance('zoo');
 
 if ($count) : ?>
 
@@ -43,12 +43,12 @@ if ($count) : ?>
         </div>
     </div>
 
-    <?php 
+    <?php
     if ($params->get('delete') && $params->get('mode') == 'viewed') {
-        echo $this->app->jbassets->widget('#' . $unique, 'JBZooViewed', array(
+        echo $zoo->jbassets->widget('#' . $unique, 'JBZooViewed', array(
             'message' => JText::_('JBZOO_MODITEM_RECENTLY_VIEWED_DELETE_HISTORY'),
             'app_id'  => $app_id,
         ), true);
     } ?>
-    
+
 <?php endif;
