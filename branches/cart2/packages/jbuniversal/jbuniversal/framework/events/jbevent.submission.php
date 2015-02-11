@@ -34,6 +34,20 @@ class JBEventSubmission extends JBEvent
      */
     public static function saved($event)
     {
+        $app    = self::app();
+        $params = $event->getParameters();
+        $item   = $params['item'];
+
+        if ($app->jbrequest->get('goTo', false) && $elements = $item->getElementsByType('jbadvert')) {
+            foreach ($elements as $element) {
+                /** @type ElementJBAdvert $element */
+                $element->addToCart();
+            }
+            $mod_params = $app->jbjoomla->getModuleParams('mod_jbzoo_basket');
+
+            $url = $app->jbrouter->basket((int)$mod_params->get('menuitem'));
+            JFactory::getApplication()->redirect($url);
+        }
     }
 
     /**

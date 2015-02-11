@@ -19,15 +19,79 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBEventBasket extends JBEvent
 {
-
     /**
      * On after order saved
      * @param AppEvent $event
+     * @throws \JBCartOrderException
+     * @return bool
      */
     public static function saved($event)
     {
         $app = self::app();
         $app->jbeventmanager->fireListeners();
+
+        $order = $event->getSubject();
+        $items = (array)$order->getItems();
+
+        if (!empty($items)) {
+            foreach ($items as $orderData) {
+                /** @type Item $item */
+                $item = $app->table->item->get($orderData->get('item_id'));
+                /**@type ElementJBPrice $element */
+                if ($element = $item->getElement($orderData->get('element_id'))) {
+                    if ($element instanceof ElementJBPrice) {
+                        try {
+                            $default = $element->data()->get('default_variant');
+
+                            // Create variant list object
+                            $element->getVariantList($orderData->get('variations'), $orderData->get('quantity'), true);
+                            $key = $orderData->get('variant');
+
+                            $element->set('default_variant', $key)
+                                    ->setProp('_template', $orderData->get('template'));
+
+                            $variant = $element->getVariant($key);
+
+                            /** @type JBCartElementPriceBalance $balance */
+                            if (!$balance = $variant->getElement('_balance')) {
+                                continue;
+                            }
+
+                            if ($balance->reduce((float)$orderData->get('quantity'))) {
+                                $data       = $element->data();
+                                $variations = $data->get('variations');
+
+                                $variations[$key]['_balance'] = (array)$balance->data();
+
+                                $data->set('variations', $variations)
+                                     ->set('default_variant', $default);
+
+                                $element->set('default_variant', $default)
+                                        ->bindData((array)$data);
+
+                                $app->table->item->save($item);
+
+                                continue;
+                            }
+
+                        } catch (JBCartOrderException $e) {
+                            $app->jbnotify->warning(JText::_($e->getMessage()));
+                        }
+                    }
+                }
+
+                if ($item && is_a($element, 'ElementJBAdvert')) {
+                    if ($elements = $item->getElementsByType('jbadvert')) {
+                        foreach ($elements as $element) {
+                            if (method_exists($element, 'modify')) {
+                                $element->modify();
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
     }
 
     /**
@@ -82,7 +146,6 @@ class JBEventBasket extends JBEvent
                 $element->notify($order, $params);
             }
         }
-
     }
 
     /**

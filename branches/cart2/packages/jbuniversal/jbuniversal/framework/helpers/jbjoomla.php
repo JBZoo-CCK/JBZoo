@@ -23,13 +23,13 @@ class JBJoomlaHelper extends AppHelper
     /**
      * Render modules by position name
      * @param string $position
-     * @param array $options
+     * @param array  $options
      * @return string
      */
     public function renderPosition($position, array $options = array())
     {
         $this->app->jbdebug->mark('jbjoomla::renderPosition (' . $position . ')::start');
-        
+
         jimport('joomla.application.module.helper');
 
         $document     = JFactory::getDocument();
@@ -49,7 +49,7 @@ class JBJoomlaHelper extends AppHelper
     public function renderModuleById($moduleId)
     {
         $this->app->jbdebug->mark('jbjoomla::renderModuleById (' . $moduleId . ')::start');
-        
+
         jimport('joomla.application.module.helper');
 
         $modules = $this->app->module->load();
@@ -70,5 +70,18 @@ class JBJoomlaHelper extends AppHelper
 
         return null;
     }
+
+    /**
+     * Get module params by name
+     * @param $name
+     * @return JRegistry
+     */
+    public function getModuleParams($name)
+    {
+        $module = JModuleHelper::getModule($name);
+
+        return new JRegistry($module->params);
+    }
+
 
 }

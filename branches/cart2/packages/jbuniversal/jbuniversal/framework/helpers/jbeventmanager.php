@@ -84,7 +84,6 @@ class JBEventManagerHelper extends AppHelper
         foreach ($events as $event) {
             $this->app->event->dispatcher->connect($event, array($this, 'notify'));
         }
-
     }
 
     /**
@@ -93,19 +92,20 @@ class JBEventManagerHelper extends AppHelper
      *
      * @param AppEventDispatcher $event
      *
-     * @return void
+     * @return bool
      */
     public function notify($event)
     {
         $name = $event->getName();
         if (array_key_exists($name, $this->_events)) {
             if ($positions = $this->_position->loadPositions(JBcart::CONFIG_NOTIFICATION)) {
-
                 $key = $this->_events[$name];
                 if (array_key_exists($key, $positions)) {
-
                     $subject = $event->getSubject();
-                    if (!$subject->id) return;
+                    if (!$subject->id) {
+                        return false;
+                    }
+
                     foreach ($positions[$key] as $element) {
                         $element->setSubject($subject);
                         $element->notify();
@@ -114,6 +114,7 @@ class JBEventManagerHelper extends AppHelper
             }
         }
 
+        return true;
     }
 
 }
