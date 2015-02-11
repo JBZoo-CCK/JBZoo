@@ -24,11 +24,14 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
     <div class="jbprice-row basic-variant-wrap">
 
         <div class="default_variant">
-            <?php
-            $data = array(0 => JText::_('JBZOO_JBPRICE_DEFAULT_VARIANT'));
-            echo $html->radio($data, $this->getControlName('default_variant'), array(
-                'id' => $string->getId('default-variant')
-            ), $default, $string->getId('default-variant')); ?>
+            <?php if ($mode) {
+                $data = array(0 => JText::_('JBZOO_JBPRICE_DEFAULT_VARIANT'));
+                echo $html->radio($data, $this->getControlName('default_variant'), array(
+                    'id' => $string->getId('default-variant')
+                ), $default, $string->getId('default-variant'));
+            } else {
+                echo $html->hidden($this->getControlName('default_variant'), ElementJBPrice::BASIC_VARIANT);
+            } ?>
         </div>
 
     </div>
