@@ -17,23 +17,6 @@
      */
     JBZoo.widget('JBZoo.Money',
         {
-            rates   : {
-                '%': {
-                    "value" : null,
-                    "code"  : "%",
-                    "name"  : "%",
-                    "format": {
-                        "symbol"         : "%",
-                        "round_type"     : "none",
-                        "round_value"    : "2",
-                        "num_decimals"   : "2",
-                        "decimal_sep"    : ".",
-                        "thousands_sep"  : " ",
-                        "format_positive": "%v %s",
-                        "format_negative": "-%v %s"
-                    }
-                }
-            },
             duration: 400,
             easing  : 'swing'
         },
@@ -50,7 +33,7 @@
             init: function ($this) {
                 $this.currency = this._cleanCur(this.data('currency'));
                 $this.value = JBZoo.float(this.data('value'));
-                $this.showplus = this.data('showplus');                
+                $this.showplus = this.data('showplus');
             },
 
             /**
@@ -180,7 +163,7 @@
             _cleanCur: function (currency) {
 
                 var $this = this,
-                    rates = JBZoo.getVar('currencyList', $this.options.rates);
+                    rates = JBZoo.getVar('currencyList');
 
                 currency = $.trim(currency).toLowerCase();
 
@@ -207,7 +190,7 @@
             _getCurInfo: function (currency) {
 
                 var $this = this,
-                    rates = JBZoo.getVar('currencyList', $this.options.rates),
+                    rates = JBZoo.getVar('currencyList'),
                     currency = $this._cleanCur(currency);
 
                 return rates[currency];
