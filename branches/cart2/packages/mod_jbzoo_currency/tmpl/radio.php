@@ -15,4 +15,4 @@ defined('_JEXEC') or die('Restricted access');
 
 $zoo = App::getInstance('zoo');
 
-echo '<div class="jbzoo">', $currencyHelper->renderToggleSwitcher(), '</div>';
+echo 'Coming soon';
