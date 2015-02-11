@@ -70,7 +70,7 @@ class JBCart
      * @var string
      */
     protected $_sessionNamespace = 'jbcart';
-    protected $_namespace = 'jbzoo';
+    protected $_namespace        = 'jbzoo';
 
     /**
      * @var App
@@ -248,18 +248,17 @@ class JBCart
     {
         $items = $this->getItems();
         if (!empty($items)) {
-            foreach ($items as $key => $item) {
-                if (!$this->inStock($item['quantity'], $key)) {
-                    $variant = $this
-                        ->getJBPrice($item)
-                        ->getVariantList($item['variations'], null, true);
+            foreach ($items as $key => $data) {
+                if (!$this->inStock($data['quantity'], $key)) {
+                    $element = $this->getItemElement($data);
+                    $balance = $element->getBalance($data['variant']);
 
                     $this->setError(JText::sprintf('JBZOO_CART_VALIDATOR_ITEM_NOBALANCE',
-                        $item['item_name'] .
-                        (!empty($item['values'])
-                            ? ' (' . JArrayHelper::toString($item['values'], ': ', '; ', false) . ')'
+                        $data['item_name'] .
+                        (!empty($data['values'])
+                            ? ' (' . JArrayHelper::toString($data['values'], ': ', '; ', false) . ')'
                             : null),
-                        $variant->get('_balance')
+                        $balance
                     ));
                 }
             }
@@ -309,18 +308,18 @@ class JBCart
     public function updateItem($data = array())
     {
         if (!empty($data)) {
-
             /** @type ElementJBPrice $price * */
-            $price = $this->getJBPrice($data);
-            $price->set('default_variant', $data['variant']);
-            $price->setProp('_template', $data['template']);
+            if ($price = $this->getJBPrice($data)) {
+                $price->set('default_variant', $data['variant']);
+                $price->setProp('_template', $data['template']);
 
-            $list = $price->getVariantList($data['variations'], array(
-                'quantity' => $data['quantity']
-            ), true);
+                $list = $price->getVariantList($data['variations'], array(
+                    'quantity' => $data['quantity']
+                ), true);
 
-            $this->removeVariant($data['key']);
-            $this->addItem($list->getCartData());
+                $this->removeVariant($data['key']);
+                $this->addItem($list->getCartData());
+            }
         }
 
         return $this;
@@ -463,13 +462,28 @@ class JBCart
 
     /**
      * @param array $data
-     * @return ElementJBPrice
+     * @return Element
      */
-    public function getJBPrice($data = array())
+    public function getItemElement($data = array())
     {
         $item = $this->getZooItem($data);
 
         return $item->getElement($data['element_id']);
+    }
+
+    /**
+     * @param array $data
+     * @return ElementJBPrice
+     */
+    public function getJBPrice($data = array())
+    {
+        $element = $this->getItemElement($data);
+
+        if ($element instanceof ElementJBPrice) {
+            return $element;
+        }
+
+        return false;
     }
 
     /**
@@ -574,11 +588,9 @@ class JBCart
     public function inStock($quantity, $key)
     {
         $data = $this->getItem($key);
-
         if (!empty($data)) {
             $this->updateItem($data);
-
-            $price = $this->getJBPrice($data);
+            $price = $this->getItemElement($data);
 
             return $price->inStock($quantity, $data['variant']);
         }
@@ -595,7 +607,6 @@ class JBCart
     public function inCart($id, $element_id)
     {
         $items = $this->getItems();
-
         foreach ($items as $item) {
             if ($item['item_id'] == $id && $item['element_id'] == $element_id) {
                 return true;
@@ -613,7 +624,6 @@ class JBCart
     public function inCartVariant($key)
     {
         $items = $this->getItems();
-
         if (isset($items[$key])) {
             return true;
         }
@@ -628,7 +638,6 @@ class JBCart
     public function recount()
     {
         $cookieCur = $this->app->jbrequest->getCurrency();
-
         $this->checkItems();
 
         $order   = $this->newOrder();

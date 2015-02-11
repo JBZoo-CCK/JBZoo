@@ -112,7 +112,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     const PARAM_SKU_ID                 = '_sku';
     const PARAM_VALUE_ID               = '_value';
 
-
     /**
      * Constructor
      */
@@ -208,7 +207,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $params = $this->app->data->create($params);
         $item   = $this->getItem();
 
-        $this->hash      = md5($params . $item->alias);
         $this->_template = $params->get('template', 'default');
         $this->_layout   = $params->get('_layout');
 
@@ -225,6 +223,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         //Must be after renderer
         $elements = $this->elementsInterfaceParams();
         if ($layout = $this->getLayout('render.php')) {
+
             return self::renderLayout($layout, array(
                 'hash'       => $this->hash,
                 'data'       => $data,
@@ -245,7 +244,9 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function renderSubmission($params = array())
     {
-        return $this->edit();
+        $params['mode'] = 1;
+
+        return $this->edit($params);
     }
 
     /**
@@ -348,10 +349,10 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Remove from cart method
-     * @param bool $item_id
+     * @param string|bool $key
      * @return mixed
      */
-    abstract public function ajaxRemoveFromCart($item_id);
+    abstract public function ajaxRemoveFromCart($key = null);
 
     /**
      * Get interface params for all core elements that used in widgets.
@@ -491,37 +492,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public function data()
     {
         return $this->app->data->create(parent::data());
-    }
-
-    /**
-     * //TODO Метод использоватся при импорте, когда импорт работал с объектами цены.
-     * Bind price variant
-     * @param \JBCartVariant $variant
-     * @return bool
-     */
-    public function bindVariant(JBCartVariant $variant)
-    {
-        $data = $this->data();
-        $key  = $variant->id();
-
-        $variations = (array)$data->get('variations');
-        $original   = (array)$data->find('variations.' . $variant->id());
-
-        $elements = $variant->getElements();
-
-        if (!empty($elements)) {
-            foreach ($elements as $id => $element) {
-                $original[$id] = (array)$element->data();
-            }
-            $variations[$key] = $original;
-
-            $data->set('variations', $variations);
-            $this->bindData((array)$data);
-
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -691,7 +661,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         }
 
         $element = clone($element);
-        
+
         $element->config->set('_variant', $variant);
         $element->setJBPrice($this);
 
@@ -814,6 +784,16 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
+     * Get balance from variant
+     * @param $key
+     * @return mixed
+     */
+    public function getBalance($key)
+    {
+        return $this->getVariant($key)->get('_balance');
+    }
+
+    /**
      * Bind and validate data
      * @param array $data
      */
@@ -869,7 +849,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public function loadEditAssets()
     {
         $this->app->jbassets->admin();
-        $this->app->jbassets->tools();
         $this->app->jbassets->less('elements:jbprice/assets/less/edit.less');
 
         $this->app->jbassets->js('elements:jbprice/assets/js/edit.js');
@@ -1006,7 +985,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * Load elements render params for item
      * @return array
      */
-    protected function _getRenderParams()
+    public function _getRenderParams()
     {
         if (!$this->_template) {
             return array();

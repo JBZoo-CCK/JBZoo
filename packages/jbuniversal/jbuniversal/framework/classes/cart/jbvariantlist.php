@@ -72,7 +72,8 @@ class JBCartVariantList
         //Create variant instance
         if (!empty($list)) {
             foreach ($list as $id => $elements) {
-                $elements = array_merge((array)$elements, (array)$this->_jbprice->getSystemElementsParams());
+                $elements = array_merge((array)$this->_jbprice->_getRenderParams(), (array)$elements);
+
                 if ((!$this->has($id)) && ($instance = $this->_createInstance($id, $elements))) {
                     $this->set($instance);
                 }
@@ -166,8 +167,8 @@ class JBCartVariantList
 
         } elseif ($id == self::DEFAULT_VARIANT) {
             $id = $this->_default;
-
         }
+
         $variant = $this->get($id);
 
         return $variant->getPrice();
@@ -358,7 +359,7 @@ class JBCartVariantList
     public function defaultVariantCartData()
     {
         $variant  = $this->byDefault();
-        $elements = $variant->getElements();
+        $elements = (array)$variant->getElements();
 
         $data = array();
         if (!empty($elements)) {
