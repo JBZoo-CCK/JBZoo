@@ -60,22 +60,73 @@ class JBZooCurrencyModuleHelper
     /**
      * @return mixed
      */
-    public function renderToggleSwitcher()
+    public function renderButtons()
     {
         $curList = $this->_params->get('currency_list', array());
 
-        return $this->app->jbhtml->currencyToggle($this->_defaultCur(true), $this->_curList, array(
-            'target'      => $this->_params->get('switcher_target', '.jbzoo'),
-            'showDefault' => isset($curList[JBCartValue::DEFAULT_CODE]),
-            'setOnInit'   => (int)$this->_params->get('set_on_init', 1),
-            'isMain'      => true,
-        ));
+        return $this->app->jbhtml->currencyToggle(
+            $this->_defaultCur(true),
+            $this->_curList,
+            array(
+                'target'      => $this->_params->get('switcher_target', '.jbzoo'),
+                'showDefault' => isset($curList[JBCartValue::DEFAULT_CODE]),
+                'setOnInit'   => (int)$this->_params->get('set_on_init', 1),
+                'isMain'      => true,
+            )
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function renderSelect()
+    {
+        $this->_loadSwitcherAssets();
+        $list    = $this->_getOptionList();
+        $current = $this->_defaultCur(true);
+
+        return
+            '<div class="jsCurrencyModuleSwitcher jbcurrency-list-select">'
+            . $this->app->jbhtml->select($list, 'cur-' . $this->_module->id, '', $current)
+            . '</div>';
+    }
+
+    /**
+     * @return string
+     */
+    public function renderRadio()
+    {
+        $this->_loadSwitcherAssets();
+        $list    = $this->_getOptionList();
+        $current = $this->_defaultCur(true);
+
+        return
+            '<div class="jsCurrencyModuleSwitcher jbcurrency-list-radio">'
+            . $this->app->jbhtml->radio($list, 'cur-' . $this->_module->id, '', $current)
+            . '</div>';
     }
 
     /**
      * @return array
      */
-    public function getCurrencyList()
+    protected function _getOptionList()
+    {
+        $options = array();
+
+        if (!empty($this->_curList)) {
+            foreach ($this->_curList as $code => $currency) {
+                $options[$code] = $currency['name'];
+            }
+        }
+
+        return $options;
+    }
+
+    /**
+     * @param bool $addDefault
+     * @return array
+     */
+    public function getCurrencyList($addDefault = false)
     {
         $result = array(
             'orig' => null,
@@ -84,14 +135,18 @@ class JBZooCurrencyModuleHelper
 
         if (!empty($this->_curList)) {
 
-            $defaultCur = $this->_defaultCur(false);
+            $defaultCur = $this->_params->get('currency_default', 'eur');
             $multiply   = $this->app->jbvars->number($this->_params->get('list_multiply', 1));
             $moneyVal   = JBCart::val(1, $defaultCur)->multiply($multiply);
 
             foreach ($this->_curList as $code => $currency) {
 
-                if ($moneyVal->isCur($code) || $code == JBCartValue::DEFAULT_CODE) {
+                if ($moneyVal->isCur($code)) {
                     continue;
+                }
+
+                if (!($addDefault && $code == JBCartValue::DEFAULT_CODE)) {
+                    //continue;
                 }
 
                 $result['list'][$code] = array(
@@ -133,7 +188,8 @@ class JBZooCurrencyModuleHelper
      */
     protected function _defaultCur($availableDefault = false)
     {
-        $currentCur = $this->_params->get('currency_default', 'eur');
+        $defaultCur = $this->_params->get('currency_default', 'eur');
+        $currentCur = $this->app->jbrequest->getCurrency($defaultCur);
 
         if (!$this->_curList->get($currentCur)) {
             $currentCur = null;
@@ -147,5 +203,15 @@ class JBZooCurrencyModuleHelper
         return $currentCur;
     }
 
+    /**
+     * Load assets for switcher
+     */
+    protected function _loadSwitcherAssets()
+    {
+        $this->app->jbassets->js('modules:mod_jbzoo_currency/assets/js/switcher.js');
+        $this->app->jbassets->widget('.jsCurrencyModuleSwitcher', 'JBZoo.CurrencyModuleSwitcher', array(
+            'target' => $this->_params->get('switcher_target', '.jbzoo'),
+        ));
+    }
 }
 

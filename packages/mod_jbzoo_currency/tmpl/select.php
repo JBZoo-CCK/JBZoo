@@ -13,6 +13,4 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$zoo = App::getInstance('zoo');
-
-echo 'Coming soon';
+echo '<div class="jbzoo">' . $currencyHelper->renderSelect() . '</div>';

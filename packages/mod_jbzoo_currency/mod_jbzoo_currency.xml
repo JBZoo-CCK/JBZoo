@@ -34,7 +34,7 @@
             <fieldset name="basic" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
                 <field name="@spacer" type="jbzooinit"/>
 
-                <field name="layout" type="modulelayout" default="buttons" label="JFIELD_ALT_LAYOUT_LABEL"
+                <field name="layout" type="modulelayout" default="switcher-buttons" label="JFIELD_ALT_LAYOUT_LABEL"
                        description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
 
                 <field name="currency_list" type="jbcurrency" multiple="1" defaultCode="1" default=""
@@ -45,11 +45,15 @@
                        label="JBZOO_MODULE_CURRENCY_DEFAULT"
                        description="JBZOO_MODULE_CURRENCY_DEFAULT_DESC"/>
 
+                <field name="for_switcher" type="jbspacer" default="JBZOO_MODULE_CURRENCY_FOR_SWITCHER"/>
+
                 <field name="set_on_init" type="jbbool" default="1" label="JBZOO_MODULE_CURRENCY_SET_ON_INIT"
                        description="JBZOO_MODULE_CURRENCY_SET_ON_INIT_DESC"/>
 
                 <field name="switcher_target" type="text" default=".jbzoo" label="JBZOO_MODULE_CURRENCY_SWITCHER_TARGET"
                        description="JBZOO_MODULE_CURRENCY_SWITCHER_TARGET_DESC"/>
+
+                <field name="for_rates" type="jbspacer" default="JBZOO_MODULE_CURRENCY_FOR_RATES"/>
 
                 <field name="list_multiply" type="text" default="1" label="JBZOO_MODULE_CURRENCY_LIST_MULTIPLY"
                        description="JBZOO_MODULE_CURRENCY_LIST_MULTIPLY_DESC"/>
