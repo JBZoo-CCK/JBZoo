@@ -43,7 +43,7 @@ $inputAttr = $html->buildAttrs(array(
 ));
 
 $selected = null;
-$value    = $this->getValue('value', -1);
+$value    = $this->get('value', -1);
 
 if ($value > 0) {
     $selected = 1;

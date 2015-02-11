@@ -18,4 +18,4 @@ $weight = array(
     'placeholder' => JText::_('JBZOO_PRICE_WEIGHT_WEIGHT')
 );
 
-echo $html->text($this->getControlName('value'), $this->getValue('value'), $html->buildAttrs($weight));
+echo $html->text($this->getControlName('value'), $this->get('value'), $html->buildAttrs($weight));

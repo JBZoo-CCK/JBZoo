@@ -42,9 +42,12 @@ class JBCartElementPriceDescription extends JBCartElementPrice
      */
     public function getSearchData()
     {
-        $value = $this->getValue();
+        $value = JString::trim($this->getValue());
+        if (JString::strlen($value) > 0) {
+            return $value;
+        }
 
-        return $value;
+        return false;
     }
 
     /**
