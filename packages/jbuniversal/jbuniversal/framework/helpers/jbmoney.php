@@ -89,11 +89,11 @@ class JBMoneyHelper extends AppHelper
                 JBCartValue::DEFAULT_CODE => array(
                     'code'   => JBCartValue::DEFAULT_CODE,
                     'name'   => JText::_('JBZOO_CURRENCY_DEFAULT_CODE'),
-                    'value'  => 0,
+                    'value'  => 1,
                     'format' => array(),
                 ),
                 self::PERCENT             => array(
-                    'value'  => 0,
+                    'value'  => 1,
                     'code'   => self::PERCENT,
                     'name'   => JText::_('JBZOO_CART_CURRENCY_PERCENT'),
                     'format' => array_merge($this->_defaultFormat, array('symbol' => self::PERCENT)),
