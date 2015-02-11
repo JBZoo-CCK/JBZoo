@@ -433,7 +433,7 @@ class JBCartVariantList
                 $jbPrice::BASIC_VARIANT => $jbPrice->get('variations.' . $jbPrice::BASIC_VARIANT),
                 $this->_default         => $jbPrice->get('variations.' . $this->_default)
             ),
-            'isOverlay'  => false
+            'isOverlay'  => false,
         );
 
         return $data;
@@ -462,7 +462,7 @@ class JBCartVariantList
             'modifiers'  => $this->getModifiersRates(),
             'variant'    => $jbPrice::BASIC_VARIANT,
             'variations' => $jbPrice->quickSearch(array_keys($this->all())),
-            'isOverlay'  => true
+            'isOverlay'  => true,
         );
 
         return $data;

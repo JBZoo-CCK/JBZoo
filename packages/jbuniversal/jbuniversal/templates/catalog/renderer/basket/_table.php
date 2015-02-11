@@ -36,11 +36,7 @@ $order = JBCart::getInstance()->newOrder(); ?>
     </tr>
 
     <?php
-    foreach ($view->itemsHtml as $itemKey => $itemHtml) :
-        $data     = $view->items->get($itemKey);
-        $price    = JBCart::val($data->get('total'));
-        $quantity = $data->get('quantity', 1);
-        ?>
+    foreach ($view->itemsHtml as $itemKey => $itemHtml) : ?>
         <tr class="jbcart-row jsCartTableRow js<?php echo $itemKey; ?>" data-key="<?php echo $itemKey; ?>">
             <td class="jbcart-image"><?php echo $itemHtml['image']; ?></td>
             <td class="jbcart-name">

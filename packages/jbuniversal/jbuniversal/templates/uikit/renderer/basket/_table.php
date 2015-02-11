@@ -41,11 +41,7 @@ echo $this->partial('basket', 'table.styles');
         <td class="jbcart-cell-empty" colspan="6"></td>
     </tr>
 
-    <?php foreach ($view->itemsHtml as $itemKey => $itemHtml) :
-        $data     = $view->items->get($itemKey);
-        $price    = JBCart::val($data->get('total'));
-        $quantity = $data->get('quantity', 1);
-        ?>
+    <?php foreach ($view->itemsHtml as $itemKey => $itemHtml) : ?>
         <tr class="jbcart-row jsCartTableRow js<?php echo $itemKey; ?>" data-key="<?php echo $itemKey; ?>">
             <td class="jbcart-image"><?php echo $itemHtml['image']; ?></td>
             <td class="jbcart-name">
@@ -56,7 +52,9 @@ echo $this->partial('basket', 'table.styles');
             <td class="jbcart-price"><?php echo $itemHtml['price4one']; ?></td>
             <td class="jbcart-quantity"><?php echo $itemHtml['quantityEdit']; ?></td>
             <td class="jbcart-subtotal"><?php echo $itemHtml['totalsum']; ?></td>
-            <td class="jbcart-delete"><a class="uk-button uk-button-danger uk-button-small round jsDelete"><i class="uk-icon-trash-o"></i></a></td>
+            <td class="jbcart-delete">
+                <a class="uk-button uk-button-danger uk-button-small round jsDelete"><i class="uk-icon-trash-o"></i></a>
+            </td>
         </tr>
     <?php endforeach; ?>
 
