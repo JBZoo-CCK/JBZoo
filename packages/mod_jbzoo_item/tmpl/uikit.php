@@ -93,7 +93,7 @@ if ($count) {
     if ($params->get('delete') && $params->get('mode') == 'viewed') {
         echo $this->app->jbassets->widget('#' . $unique, 'JBZooViewed', array(
             'message'=> JText::_('JBZOO_MODITEM_RECENTLY_VIEWED_DELETE_HISTORY'),
-            'app_id' =>  <?php echo $app_id; ?>
+            'app_id' => $app_id,
         ), true);
     }
 
