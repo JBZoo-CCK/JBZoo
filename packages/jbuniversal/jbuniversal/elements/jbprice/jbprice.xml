@@ -9,7 +9,7 @@
     @license     http://jbzoo.com/license-pro.php JBZoo Licence
     @coder       Denis Smetannikov <denis@jbzoo.com>
 -->
-<element type="jbpriceadvance" group="JBZoo" hidden="true" orderable="true">
+<element type="jbprice" group="JBZoo" hidden="true" orderable="true">
     <name>JBPrice Core</name>
     <description>Price element for catalog</description>
     <author>JBZoo.com</author>

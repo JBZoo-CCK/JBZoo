@@ -14,7 +14,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 $html = $this->app->jbhtml;
-$mode = (int)$this->config->get('mode', 1);
 
 $string     = $this->app->jbstring;
 $unique     = $string->getId('jsJBPrice-');
@@ -42,8 +41,7 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
         ));
     endfor;
 
-    if ((int)$mode) : ?>
-
+    if ($mode) : ?>
         <span class="jsShowVariations jbbutton small"><?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?></span>
         <div class="variations" style="display: none;">
             <div class="variations-list">
