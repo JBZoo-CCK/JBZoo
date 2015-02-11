@@ -13,4 +13,4 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $this->_jbhtml->text($this->getControlName('value'), $this->getValue()->data(true));
+echo $this->_jbhtml->text($this->getControlName('value'), JBCart::val($this->get('value'))->data(true));

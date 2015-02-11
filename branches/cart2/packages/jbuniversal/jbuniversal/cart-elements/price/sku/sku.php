@@ -87,4 +87,20 @@ class JBCartElementPriceSku extends JBCartElementPrice
         return $this->render($params);
     }
 
+    /**
+     * Get elements value
+     * @param string $key
+     * @param null   $default
+     * @return mixed|null
+     */
+    public function getValue($key = 'value', $default = null)
+    {
+        $value = parent::getValue($key, $default);
+        if (empty($value)) {
+            $value = $this->getJBPrice()->getItem()->id;
+        }
+
+        return $value;
+    }
+
 }

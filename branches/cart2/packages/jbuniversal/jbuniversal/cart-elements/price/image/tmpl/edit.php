@@ -17,7 +17,7 @@ $unique = $this->app->jbstring->getId('image-'); ?>
 
 <div class="jsMedia jbprice-img-row-file" id="<?php echo $unique; ?>">
     <?php
-    echo $this->_jbhtml->text($this->getControlName('value'), $this->getValue(), 'class="jsJBPriceImage jsMediaValue row-file" placeholder="Image"');
+    echo $this->_jbhtml->text($this->getControlName('value'), $this->get('value'), 'class="jsJBPriceImage jsMediaValue row-file" placeholder="Image"');
     ?>
 </div>
 

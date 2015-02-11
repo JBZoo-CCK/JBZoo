@@ -184,16 +184,4 @@ class JBCartElementPriceImage extends JBCartElementPrice
 
         return $this->getImage($path);
     }
-
-    /**
-     * Load elements css/js assets
-     * @return $this
-     */
-    public function loadAssets()
-    {
-        $this->app->jbassets->js('cart-elements:price/image/assets/js/image.js');
-
-        return parent::loadAssets();
-    }
-
 }

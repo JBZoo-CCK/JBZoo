@@ -13,13 +13,13 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$jbHTML  = $this->app->jbhtml;
+
 $variant = $this->config->get('_variant') ? '' : '-variant';
 $attr    = array(
-    'class'       => 'discount' . $variant . '-input',
+    'class'       => 'sku ' . $variant . '-input',
     'size'        => '60',
     'maxlength'   => '255',
     'placeholder' => 'Sku'
 );
 
-echo $jbHTML->text($this->getControlName('value'), $this->getValue(), $attr);
+echo $this->_jbhtml->text($this->getControlName('value'), $this->get('value'), $attr);
