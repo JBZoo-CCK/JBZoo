@@ -219,6 +219,7 @@ class JBCart
     {
         $session = $this->_getSession();
         $items   = $session->get('items', array());
+        ksort($items);
 
         return $assoc === true ? $items : $this->app->data->create($items);
     }
