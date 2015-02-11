@@ -352,7 +352,7 @@ class JBRequestHelper extends AppHelper
         $currency = $this->get('JBZooCurrencyToggle_current', $default);
         $currency = $this->app->jbvars->currency($currency);
 
-        if ($currency == JBCartValue::DEFAULT_CODE || $currency == JBCartValue::PERCENT) {
+        if ($currency == JBCartValue::PERCENT) {
             return null;
         }
 
