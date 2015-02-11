@@ -176,9 +176,9 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
                 return self::renderLayout($layout, array(
                     'variations' => $this->_list->all(),
-                    'submission' => $submission,
                     'default'    => (int)$this->get('default_variant', self::BASIC_VARIANT),
-                    'renderer'   => $renderer
+                    'renderer'   => $renderer,
+                    'mode'       => !empty($submission) ? (int)$submission->get('mode', 1) : (int)$this->config->get('mode', 1)
                 ));
             }
 
@@ -244,8 +244,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function renderSubmission($params = array())
     {
-        $params['mode'] = 1;
-
         return $this->edit($params);
     }
 
