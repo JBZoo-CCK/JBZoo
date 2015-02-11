@@ -33,19 +33,68 @@
         <fields name="params">
 
             <fieldset name="basic" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
                 <field name="@spacer" type="jbzooinit"/>
 
-                <field name="currency" type="jbcurrency" default="RUR" label="JBZOO_CURRENCY"
-                       description="JBZOO_CURRENCY_DESC"/>
+                <field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL"
+                       description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
 
-                <field name="menuitem" type="menuitem" default="0" state="1" label="JBZOO_FILTER_MENU"
-                       description="JBZOO_FILTER_MENU_DESC"/>
+                <field name="currency" type="jbcurrency" defaultCode="1" default="RUR"
+                       label="JBZOO_CART_MODULE_CURRENCY"
+                       description="JBZOO_CART_MODULE_CURRENCY_DESC"/>
+
+                <field name="menuitem" type="menuitem" default="0" state="1" label="JBZOO_CART_MODULE_MENUITEM"
+                       description="JBZOO_CART_MODULE_MENUITEM_DESC"/>
 
             </fieldset>
 
-            <!--
             <fieldset name="template">
 
+                <field name="jbcart_items" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEMS"
+                       description="BZOO_CART_MODULE_JBCART_ITEMS_DESC"/>
+
+                <field name="jbcart_item_delete" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_DELETE"
+                       description="JBZOO_CART_MODULE_ITEM_DELETE_DESC"/>
+
+                <field name="jbcart_item_image" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_IMAGE"
+                       description="JBZOO_CART_MODULE_ITEM_IMAGE_DESC"/>
+
+                <field name="jbcart_item_image_width" type="text" default="75"
+                       label="JBZOO_CART_MODULE_ITEM_IMAGE_WIDTH"
+                       description="BZOO_CART_MODULE_ITEM_IMAGE_WIDTH_DESC"/>
+
+                <field name="jbcart_item_image_height" type="text" default="75"
+                       label="JBZOO_CART_MODULE_ITEM_IMAGE_HEIGHT"
+                       description="JBZOO_CART_MODULE_ITEM_IMAGE_HEIGHT_DESC"/>
+
+                <field name="jbcart_item_price" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_PRICE"
+                       description="JBZOO_CART_MODULE_ITEM_PRICE_DESC"/>
+
+                <field name="jbcart_item_total" type="jbbool" default="0" label="JBZOO_CART_MODULE_ITEM_TOTAL"
+                       description="JBZOO_CART_MODULE_ITEM_TOTAL_DESC"/>
+
+                <field name="jbcart_item_quantity" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_QUANTITY"
+                       description="JBZOO_CART_MODULE_ITEM_QUANTITY_DESC"/>
+
+                <field name="jbcart_item_params" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_PARAMS"
+                       description="JBZOO_CART_MODULE_ITEM_PARAMS_DESC"/>
+
+                <field name="jbcart_count_items" type="jbbool" default="1" label="JBZOO_CART_MODULE_COUNT_ITEMS"
+                       description="JBZOO_CART_MODULE_COUNT_ITEMS_DESC"/>
+
+                <field name="jbcart_count_sku" type="jbbool" default="1" label="JBZOO_CART_MODULE_COUNT_SKU"
+                       description="JBZOO_CART_MODULE_COUNT_SKU_DESC"/>
+
+                <field name="jbcart_totalsum" type="jbbool" default="1" label="JBZOO_CART_MODULE_TOTALSUM"
+                       description="JBZOO_CART_MODULE_TOTALSUM_DESC"/>
+
+                <field name="jbcart_button_empty" type="jbbool" default="1" label="JBZOO_CART_MODULE_BUTTON_EMPTY"
+                       description="JBZOO_CART_MODULE_BUTTON_EMPTY_DESC"/>
+
+                <field name="jbcart_button_gotocart" type="jbbool" default="1" label="JBZOO_CART_MODULE_BUTTON_GOTOCART"
+                       description="JBZOO_CART_MODULE_BUTTON_GOTOCART_DESC"/>
+
+                <!--
                 <field name="items_show" type="jbbool" default="1" label="JBZOO_BASKET_ITEMS_SHOW"
                        description="JBZOO_BASKET_ITEMS_SHOW_DESC"/>
 
@@ -60,13 +109,11 @@
 
                 <field name="link_show" type="jbbool" default="1" label="JBZOO_BASKET_LINK_SHOW"
                        description="JBZOO_BASKET_LINK_SHOW_DESC"/>
+                -->
 
             </fieldset>
-            -->
 
             <fieldset name="advanced">
-                <field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL"
-                       description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
 
                 <field name="moduleclass_sfx" type="textarea" rows="3" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
                        description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"/>

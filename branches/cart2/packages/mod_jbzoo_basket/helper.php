@@ -72,8 +72,20 @@ class JBZooBasketHelper
     {
         return $this->_order->renderItems(array(
             // TODO config from module
-            'currency' => $this->_params->get('currency'),
+            'currency'     => $this->getCurrency(),
+            'image_width'  => $this->_params->get('jbcart_item_width', 75),
+            'image_height' => $this->_params->get('jbcart_item_height', 75),
         ));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrency()
+    {
+        $currencyDef = $this->_params->get('currency', 'eur');
+        $currencyCur = $this->app->jbrequest->getCurrency($currencyDef);
+        return $currencyCur;
     }
 
     /**
