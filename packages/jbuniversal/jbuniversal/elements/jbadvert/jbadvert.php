@@ -87,8 +87,8 @@ class ElementJBAdvert extends Element implements iSubmittable
      */
     public function renderSubmission($params = array())
     {
-        $tpl    = 'submission.php';
-        $data   = $this->data;
+        $tpl  = 'submission.php';
+        $data = $this->data;
 
         if ($this->getItem()->state) {
             unset($data['0']);
@@ -273,8 +273,8 @@ class ElementJBAdvert extends Element implements iSubmittable
         if (!empty($data)) {
             foreach ($data as $key => $value) {
                 $price = $config->find('prices.' . $key, 0);
-                $price = JBCart::val($price);
-                $data[$key] .= ' <small>(' . $price->text() . ')</small>';
+
+                $data[$key] .= ' <small>(' . JBCart::val($price)->text() . ')</small>';
 
             }
         }

@@ -16,6 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 echo $this->app->jbhtml->checkbox($data, $this->getControlName('value', true), null, $this->data());
 
 //Buttons
-echo '<input type="submit" name="goTo" class="jsAddToCart jsAddToCartGoTo jbbutton green"
+echo '<div class="' . $this->getElementType() . '-button">
+        <input type="submit" name="goTo" class="jsAddToCart jsAddToCartGoTo jbbutton green"
         title="' . JText::_('JBZOO_JBPRICE_ADD_TO_CART_GOTO') . '"
-        value="' . JText::_('JBZOO_JBPRICE_ADD_TO_CART_GOTO') . '" />';
+        value="' . JText::_('JBZOO_JBPRICE_ADD_TO_CART_GOTO') . '" /></div>';
