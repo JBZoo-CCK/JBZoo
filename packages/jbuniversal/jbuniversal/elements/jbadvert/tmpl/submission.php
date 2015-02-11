@@ -18,5 +18,5 @@ echo $this->app->jbhtml->checkbox($data, $this->getControlName('value', true), n
 //Buttons
 echo '<div class="' . $this->getElementType() . '-button">
         <input type="submit" name="goTo" class="jsAddToCart jsAddToCartGoTo jbbutton green"
-        title="' . JText::_('JBZOO_JBPRICE_ADD_TO_CART_GOTO') . '"
-        value="' . JText::_('JBZOO_JBPRICE_ADD_TO_CART_GOTO') . '" /></div>';
+        title="' . JText::_('JBZOO_JBADVER_ADD_TO_CART') . '"
+        value="' . JText::_('JBZOO_JBADVER_ADD_TO_CART') . '" /></div>';
