@@ -19,8 +19,6 @@ $zoo = App::getInstance('zoo');
 
 $zoo->jbdebug->mark('mod_jbzoo_currency::start-' . $module->id);
 
-$zoo->jbassets->less('modules:mod_jbzoo_currency/assets/less/styles.less');
-
 $currencyHelper = new JBZooCurrencyModuleHelper($params, $module);
 
 // render module
