@@ -15,9 +15,6 @@
                   label=""
                   addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
 
-            <field name="enable" type="jbbool" default="0" label="JBZOO_CART_ENABLE"
-                   description="JBZOO_CART_ENABLE_DESC"/>
-
             <!-- replace to ACL -->
             <field name="access" type="accesslevel" default="1" label="JBZOO_CART_AUTH_ONLY"
                    description="JBZOO_CART_AUTH_ONLY_DESC"/>
@@ -28,8 +25,8 @@
             <field name="default_order_status" type="jbstatus" default="new" label="JBZOO_CART_CONFIG_ORDER_STATUS"
                    status_type="STATUS_ORDER" description="JBZOO_CART_CONFIG_ORDER_STATUS_DESC"/>
 
-            <field name="default_currency" type="jbcurrency" default="EUR" label="JBZOO_CART_CONFIG_CURRENCY"
-                   description="JBZOO_CART_CONFIG_CURRENCY_DESC"/>
+            <field name="default_currency" type="jbcurrency" defaultCode="0" default="EUR"
+                   label="JBZOO_CART_CONFIG_CURRENCY" description="JBZOO_CART_CONFIG_CURRENCY_DESC"/>
 
             <!--  shop info configs -->
             <field name="spacer_shop_about" type="jbspacer" default="JBZOO_CART_CONFIG_SHOP_ABOUT"/>
