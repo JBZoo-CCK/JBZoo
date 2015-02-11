@@ -197,6 +197,11 @@
                             return this.el;
                         }
 
+                        if (selector.indexOf('{document} ') === 0) {
+                            selector = selector.replace('{document} ', '');
+                            return $(selector);
+                        }
+
                         return $(selector, this.el);
                     },
 
