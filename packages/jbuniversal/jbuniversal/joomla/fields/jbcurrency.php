@@ -34,9 +34,9 @@ class JFormFieldJBCurrency extends JFormField
         // get app
         $app = App::getInstance('zoo');
 
-        $currencyLst = $app->jbmoney->getCurrencyList();
-        if (isset($currencyLst['%'])) {
-            unset($currencyLst['%']);
+        $currencyList = $app->jbmoney->getCurrencyList();
+        if (isset($currencyList['%'])) {
+            unset($currencyList['%']);
         }
 
         $isMultiply  = (int)$this->element->attributes()->multiple;
@@ -46,10 +46,10 @@ class JFormFieldJBCurrency extends JFormField
         $options = array();
 
         if (!$defaultCode) {
-            unset($options[JBCartValue::DEFAULT_CODE]);
+            unset($currencyList[JBCartValue::DEFAULT_CODE]);
         }
 
-        foreach ($currencyLst as $key => $currency) {
+        foreach ($currencyList as $key => $currency) {
             $options[] = $app->html->_('select.option', $key, $currency);
         }
 
