@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,9 +12,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$count = count($items);
+$count   = count($items);
 $columns = (int)$params->get('item_cols', 1);
-$border = (int)$params->get('display_border', 1) ? 'rborder' : '';
+$border  = (int)$params->get('display_border', 1) ? 'rborder' : '';
+$zoo     = App::getInstance('zoo');
 
 if ($count) {
 
@@ -74,14 +74,14 @@ if ($count) {
     echo '</div></div>';
 
     if ($params->get('delete') && $params->get('mode') == 'viewed') {
-        echo $this->app->jbassets->widget('#' . $unique, 'JBZooViewed', array(
-            'message'=> JText::_('JBZOO_MODITEM_RECENTLY_VIEWED_DELETE_HISTORY'),
-            'app_id' => $app_id,
+        echo $zoo->jbassets->widget('#' . $unique, 'JBZooViewed', array(
+            'message' => JText::_('JBZOO_MODITEM_RECENTLY_VIEWED_DELETE_HISTORY'),
+            'app_id'  => $app_id,
         ), true);
     }
 
     if ($params->get('column_heightfix')) {
-        echo $this->app->jbassets->widget('.module-items', 'JBZooHeightFix', array(), true);    
+        echo $zoo->jbassets->widget('.module-items', 'JBZooHeightFix', array(), true);
     }
 }
 

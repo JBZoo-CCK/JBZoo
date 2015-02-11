@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,9 +12,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$uniqId = uniqid('jbzoo-accordion-');
+$uniqId      = uniqid('jbzoo-accordion-');
 $borderClass = (int)$params->get('category_display_border', 0) ? 'jbzoo-rborder' : '';
-$classes = array('yoo-zoo', 'jbzoo', 'jbzoo-category-module', 'jbcategory-layout-accordion', $borderClass);
+$classes     = array('yoo-zoo', 'jbzoo', 'jbzoo-category-module', 'jbcategory-layout-accordion', $borderClass);
+$zoo         = App::getInstance('zoo');
 
 $html = array();
 
@@ -80,8 +80,8 @@ if (!empty($categories)) {
 
 if (!empty($html)) {
     echo implode("\n ", $html);
-    
-    echo $this->app->jbassets->widget('#' . $uniqId, 'JBZooAccordion', array(
+
+    echo $zoo->jbassets->widget('#' . $uniqId, 'JBZooAccordion', array(
         'headerWidget' => '.jbaccordion-header'
     ), true);
 }
