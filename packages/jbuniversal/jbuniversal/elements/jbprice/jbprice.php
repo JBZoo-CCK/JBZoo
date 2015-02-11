@@ -154,10 +154,10 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
-     * @param array $submission
+     * @param array $params
      * @return null|string
      */
-    public function edit($submission = array())
+    public function edit($params = array())
     {
         $config = $this->_getConfig(false);
 
@@ -178,7 +178,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                     'variations' => $this->_list->all(),
                     'default'    => (int)$this->get('default_variant', self::BASIC_VARIANT),
                     'renderer'   => $renderer,
-                    'mode'       => !empty($submission) ? (int)$submission->get('mode', 1) : (int)$this->config->get('mode', 1)
+                    'mode'       => (int)$this->config->get('mode', 1)
                 ));
             }
 
@@ -209,6 +209,8 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
         $this->_template = $params->get('template', 'default');
         $this->_layout   = $params->get('_layout');
+
+        $this->hash = md5($params . $item->alias);
 
         $renderer = $this->app->jbrenderer->create('jbprice');
 
@@ -244,6 +246,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function renderSubmission($params = array())
     {
+        $this->hash = md5($params . $this->getItem()->alias);
         return $this->edit($params);
     }
 
