@@ -208,10 +208,10 @@ class JBZooCurrencyModuleHelper
      */
     protected function _loadSwitcherAssets()
     {
+        $this->app->jbassets->tools();
         $this->app->jbassets->js('modules:mod_jbzoo_currency/assets/js/switcher.js');
         $this->app->jbassets->widget('.jsCurrencyModuleSwitcher', 'JBZoo.CurrencyModuleSwitcher', array(
             'target' => $this->_params->get('switcher_target', '.jbzoo'),
         ));
     }
 }
-
