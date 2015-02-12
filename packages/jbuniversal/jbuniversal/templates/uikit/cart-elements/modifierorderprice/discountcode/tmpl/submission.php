@@ -18,7 +18,10 @@ $unique = $this->htmlId(true);
     <input type="text" value="<?php echo $this->get('code'); ?>" name="<?php echo $this->getControlName('code'); ?>"
            class="jsCode input-code <?php echo $unique; ?>"/>
 
-    <span class="jsSendCode uk-button uk-button-success"><?php echo JText::_('JBZOO_ELEMENT_DISCOUNTCODE_SEND'); ?></span>
+    <span class="jsSendCode uk-button uk-button-success">
+        <i class="uk-icon-check"></i>
+        <?php echo JText::_('JBZOO_ELEMENT_DISCOUNTCODE_SEND'); ?>
+    </span>
 
     <div class="jsMoneyWrap"><?php echo $this->getRate()->html(); ?></div>
 </div>

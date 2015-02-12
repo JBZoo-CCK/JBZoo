@@ -22,12 +22,6 @@
     <params group="category">
         <param name="show_alpha_index" type="jbbool" default="0" label="JBZOO_SHOW_ALPHA_INDEX"/>
 
-        <param name="@spacer" type="jbspacer" default="JBZOO_UIKIT_PARAMS"/>
-
-        <param name="add_css" type="jbbool" default="0" label="JBZOO_UIKIT_ADD_CSS"/>
-
-        <param name="add_js" type="jbbool" default="0" label="JBZOO_UIKIT_ADD_JS"/>
-
         <param name="@spacer" type="jbspacer" default="JBZOO_CONFIG_CATEGORIES"/>
 
         <param name="category_title_show" type="jbbool" default="1" label="JBZOO_CATEGORY_TITLE_SHOW"
@@ -126,6 +120,12 @@
     </params>
 
     <params group="item">
+        <param name="@spacer" type="jbspacer" default="JBZOO_UIKIT_PARAMS"/>
+
+        <param name="add_css" type="jbbool" default="0" label="JBZOO_UIKIT_ADD_CSS"/>
+
+        <param name="add_js" type="jbbool" default="0" label="JBZOO_UIKIT_ADD_JS"/>
+
         <param name="@spacer" type="jbspacer" default="JBZOO_ITEM_IMAGE_ALIGN"/>
 
         <param name="item_full_image_align" type="list" default="left" label="JBZOO_ITEM_FULL_IMAGE_ALIGN"
