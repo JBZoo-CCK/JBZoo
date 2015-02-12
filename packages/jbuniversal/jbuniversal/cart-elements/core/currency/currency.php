@@ -124,7 +124,7 @@ abstract class JBCartElementCurrency extends JBCartElement
             return array();
         }
 
-        $baseCur = $this->_jbmoney->getDefaultCur();
+        $baseCur = 'eur';
 
         $baseValue = 1;
         if (isset($data[$baseCur])) {
