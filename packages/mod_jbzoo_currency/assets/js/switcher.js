@@ -17,12 +17,9 @@
         },
         {
             init: function ($this) {
-                var curCurrency = $this.getCurrent(),
-                    newCurrency = $this.getCookie('current', curCurrency);
+                var curCurrency = $this.getCookie('current', $this.getCurrent(), 'JBZooCurrencyToggle');
 
-                if (curCurrency != newCurrency) {
-                    $this.toggle(newCurrency);
-                }
+                $this.toggle(curCurrency);
             },
 
             getCurrent: function () {
