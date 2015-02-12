@@ -45,6 +45,7 @@
     }
 
     .jbloading {
+        position: relative;
         .opacity(0.5);
 
         &:after {
@@ -273,6 +274,7 @@
             .box-shadow(0 0 40px rgba(215, 215, 215, 0.5) inset);
 
             &:hover {
+                cursor: pointer;
                 .transition(0.3s);
                 .box-shadow(0 0 40px rgba(186, 186, 186, 0.5) inset);
             }
@@ -281,9 +283,20 @@
 
     }
 
-    .jbcart-row.jbloading:after {
-        display: none;
+    .jbcart-row {
+
+        &.jbloading:after {
+            display: none;
+        }
+
+        .jbcart-item-image {
+            padding: 4px;
+            border: 1px solid #dddddd;
+            .border-radius(4px);
+        }
+
     }
+
 
     .jbcart-mobile-tools {
         position: fixed;
@@ -319,6 +332,10 @@
             font-weight: bold;
         }
 
+    }
+
+    .jbdiscountcode.jbloading:after {
+        display: none;
     }
 
 }
