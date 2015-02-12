@@ -48,6 +48,8 @@ class JBAssetsHelper extends AppHelper
         if (!isset($included[$hash])) {
             $included[$hash] = true;
 
+            $this->tools();
+
             $widgetName = str_replace('.', '', $widgetName);
 
             // experimental lib loader!
@@ -189,13 +191,14 @@ class JBAssetsHelper extends AppHelper
             )), false);
 
             $this->js(array(
+                'jbassets:js/libs/cookie.js',
                 'jbassets:js/helper.js',
                 'jbassets:js/widget.js',
                 'jbassets:js/jbzoo.js',
                 'jbassets:js/front-end.js',
                 'jbassets:js/widget/goto.js',
                 'jbassets:js/widget/select.js',
-                'jbassets:js/libs/cookie.js',
+                'jbassets:js/widget/money.js',
             ));
 
             $this->addVar('currencyList', $this->app->jbmoney->getData());
