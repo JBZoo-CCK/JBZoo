@@ -25,7 +25,7 @@ $curList = $currencyHelper->getCurrencyList();
 
             <p><?php echo $curList['orig']->html(); ?> в других валютах </p>
 
-            <table class="jbcurrency-list jbcurrency-reverse no-border">
+            <table class="jbcurrency-list no-border">
                 <?php foreach ($curList['list'] as $code => $currency) : ?>
                     <tr class="jbcurrency-<?php echo $code; ?>">
                         <td class="jbcurrency-from"><?php echo $currency['name']; ?></td>
@@ -37,7 +37,7 @@ $curList = $currencyHelper->getCurrencyList();
 
         <?php else: ?>
 
-            <table class="jbcurrency-list jbcurrency-reverse no-border">
+            <table class="jbcurrency-list no-border">
                 <?php foreach ($curList['list'] as $code => $currency) : ?>
                     <tr class="jbcurrency-<?php echo $code; ?>">
                         <td class="jbcurrency-from"><?php echo $currency['from']; ?></td>
