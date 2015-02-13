@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 
-<div class="jbcart-buttons uk-text-center uk-clearfix">
+<div class="uk-text-center jbform-actions uk-clearfix">
 
     <input type="submit" name="create" value="<?php echo JText::_('JBZOO_CART_SUBMIT'); ?>"
            class="uk-button uk-button-large uk-button-success" />

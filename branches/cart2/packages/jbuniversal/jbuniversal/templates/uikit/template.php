@@ -14,7 +14,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBTemplateCatalog
+ * Class JBTemplateUikit
  */
 class JBTemplateUikit extends JBTemplate
 {
