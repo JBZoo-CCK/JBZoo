@@ -55,7 +55,6 @@
         height: 40px !important;
         width: 55px !important;
         min-width: 60px;
-        //margin: -1px 0 0 -1px; // hack for accurate position
         padding: 0;
         z-index: 1;
         display: block;
@@ -68,6 +67,10 @@
         text-align: center;
         text-indent: 0;
         opacity: 0;
+        color: inherit;
+        font: inherit;
+        margin: 0;
+        .box-sizing(border-box);
 
         &:focus {
             border-color: #ccc;
@@ -75,6 +78,7 @@
             color: #000;
             background-color: #faffbd;
             box-shadow: none;
+            font-size: 16px;
         }
     }
 
