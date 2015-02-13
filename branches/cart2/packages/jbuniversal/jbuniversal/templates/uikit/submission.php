@@ -23,6 +23,11 @@ $css_class = $this->application->getGroup() . '-' . $this->template->name;
 
 $class = array('zoo', 'jbzoo', 'yoo-zoo', $css_class, $css_class . '-' . $this->submission->alias);
 
+$this->app->jbassets->less(array(
+    'jbassets:less/general/submission.less',
+    'jbassets:less/_submission.less',
+));
+
 ?>
 
 <div id="yoo-zoo" class="<?php echo implode(' ', $class); ?>">

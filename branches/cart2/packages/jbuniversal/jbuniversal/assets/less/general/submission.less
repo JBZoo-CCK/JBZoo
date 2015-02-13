@@ -1,0 +1,90 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Sergey Kalistratov <kalistratov.s.m@gmail.com>
+//
+
+
+@import "jbzoo.less";
+
+// ***************************************** Submission vars ***********************************************************
+@jbprice-row-margin:        240px;
+@jbprice-row-var-margin:    140px;
+
+
+// ***************************************** Submission styles *********************************************************
+.jbzoo {
+
+    .submission {
+
+        fieldset {
+            margin-bottom: @jb-indent;
+            border: 1px solid #EDEDED;
+            border-radius: 4px;
+            background: #FDFDFD;
+            .box-shadow(0 0 40px rgba(215, 215, 215, 0.63));
+
+            .element {
+                padding: @jb-indent;
+                position: relative;
+            }
+
+        }
+
+        legend {
+            color: #5A5A5A;
+            font-size: 28px;
+            line-height: @jb-indent * 5;
+            padding-bottom: 0;
+            margin-left: @jb-indent;
+            width: inherit;
+        }
+
+        .jbzoo-price {
+
+            .default_variant {
+                position: static;
+                margin-left: @jbprice-row-margin;
+                margin-bottom: @jb-indent;
+            }
+
+            .variations {
+                margin-top: @jb-indent * 2;
+
+                .default_variant {
+                    margin-left: @jbprice-row-var-margin;
+                }
+
+            }
+
+            .variations-list {
+
+                .jbprice-variation-row {
+                    padding: @jb-indent;
+                    margin-bottom: @jb-indent * 3;
+
+                    .row-field {
+                        width: @jbprice-row-var-margin;
+                    }
+
+                    .balance {
+                        margin-left: @jbprice-row-var-margin;
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    .hidden {
+        display: none;
+    }
+
+}

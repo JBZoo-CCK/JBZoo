@@ -63,7 +63,6 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
                             <a href="javascript:void(0);" class="jsJBMove jbmove">
                                 <?php echo JText::_('JBZOO_JBPRICE_VARIATION_ROW'); ?>
                                 #<span class="list-num"><?php echo $i; ?></span>
-
                             </a>
 
                             <div class="options">
@@ -140,4 +139,3 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
     }
 
 </script>
-

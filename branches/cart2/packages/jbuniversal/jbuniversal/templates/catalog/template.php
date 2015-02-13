@@ -25,7 +25,9 @@ class JBTemplateCatalog extends JBTemplate
      */
     public function onInit()
     {
-        $this->app->jbassets->less('jbassets:less/general.less');
+        $this->app->jbassets->less(array(
+            'jbassets:less/general.less',
+        ));
     }
 
 }
