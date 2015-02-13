@@ -20,6 +20,29 @@ class JBUikitHelper extends AppHelper
 {
 
     /**
+     * Include uikit assets
+     * @param $params
+     * @return void
+     */
+    public function assets($params)
+    {
+        if ($params) {
+            $isAddJs  = (int)$params->get('global.template.add_js', 0);
+            $isAddCss = $params->get('global.template.add_css', 'no');
+
+            $this->js($isAddJs);
+            $this->cssVariation($isAddCss);
+
+            if ($isQuickView = $this->app->jbrequest->get('jbquickview', false)) {
+                $isAddCss = ($isAddCss == 'no') ? 'yes' : $isAddCss;
+
+                $this->js(true);
+                $this->cssVariation($isAddCss);
+            }
+        }
+    }
+
+    /**
      * Uikit pagination
      * @param $pagination
      * @param $url
@@ -60,6 +83,35 @@ class JBUikitHelper extends AppHelper
         }
 
         return $html;
+    }
+
+    /**
+     * Include css variation
+     * @param string $addCss
+     * @return void
+     */
+    public function cssVariation($addCss = 'no')
+    {
+        switch($addCss) {
+            case 'yes':
+                $this->app->jbassets->css('jbassets:css/uikit.min.css');
+                break;
+
+            case 'yes_gradient':
+                $this->app->jbassets->css('jbassets:css/uikit.gradient.min.css');
+                break;
+        }
+    }
+
+    /**
+     * Include uikit js
+     * @param bool $isTrue
+     */
+    public function js($isTrue = false)
+    {
+        if ($isTrue) {
+            $this->app->jbassets->js('jbassets:js/uikit.min.js');
+        }
     }
 
 }
