@@ -131,7 +131,7 @@ class JBCartPositionHelper extends AppHelper
 
         $elements = array();
         foreach ($list as $items) {
-            $elements = array_merge($elements, $items);
+            $elements = array_merge((array)$elements, (array)$items);
         }
 
         return $elements;

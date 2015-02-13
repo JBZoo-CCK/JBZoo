@@ -49,48 +49,48 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
         <div class="variations" style="display: none;">
             <div class="variations-list">
 
-                <?php
-                for ($i = 1; $i < count($variations); $i++) :
-                    $variant = $variations[$i]; ?>
+                <?php for ($i = 1; $i < count($variations); $i++) :
+                    if (isset($variations[$i])) :
+                        $variant = $variations[$i];?>
 
-                    <fieldset class="jbprice-variation-row fieldset-hidden">
+                        <fieldset class="jbprice-variation-row fieldset-hidden">
 
-                        <span class="jbedit jsToggleVariation"></span>
-                        <span class="jbremove jsJBRemove"></span>
+                            <span class="jbedit jsToggleVariation"></span>
+                            <span class="jbremove jsJBRemove"></span>
 
-                        <div class="variation-label jsVariantLabel visible">
+                            <div class="variation-label jsVariantLabel visible">
 
-                            <a href="javascript:void(0);" class="jsJBMove jbmove">
-                                <?php echo JText::_('JBZOO_JBPRICE_VARIATION_ROW'); ?>
-                                #<span class="list-num"><?php echo $i; ?></span>
-                            </a>
+                                <a href="javascript:void(0);" class="jsJBMove jbmove">
+                                    <?php echo JText::_('JBZOO_JBPRICE_VARIATION_ROW'); ?>
+                                    #<span class="list-num"><?php echo $i; ?></span>
+                                </a>
 
-                            <div class="options">
-                                <span class="attention jsMessage"></span>
-                                <span class="variant-price jsVariantPrice"></span>
+                                <div class="options">
+                                    <span class="attention jsMessage"></span>
+                                    <span class="variant-price jsVariantPrice"></span>
 
-                                <div class="overflow"></div>
+                                    <div class="overflow"></div>
+                                </div>
+
+                                <div class="default_variant">
+                                    <?php $data = array($i => JText::_('JBZOO_JBPRICE_DEFAULT_VARIANT'));
+                                    echo $html->radio($data, $this->getControlName('default_variant'), array(
+                                        'id' => $string->getId('default-variant')
+                                    ), $default, $string->getId('default-variant')); ?>
+                                </div>
+
+                                <div class="description"></div>
                             </div>
 
-                            <div class="default_variant">
-                                <?php $data = array($i => JText::_('JBZOO_JBPRICE_DEFAULT_VARIANT'));
-                                echo $html->radio($data, $this->getControlName('default_variant'), array(
-                                    'id' => $string->getId('default-variant')
-                                ), $default, $string->getId('default-variant')); ?>
+                            <div class="jbprice-params">
+                                <?php echo $renderer->render('_edit', array(
+                                    'variant'  => $i,
+                                    '_variant' => $variant,
+                                    'price'    => $this
+                                )); ?>
                             </div>
-
-                            <div class="description"></div>
-                        </div>
-
-                        <div class="jbprice-params">
-                            <?php echo $renderer->render('_edit', array(
-                                'variant'  => $i,
-                                '_variant' => $variant,
-                                'price'    => $this
-                            )); ?>
-                        </div>
-                    </fieldset>
-                <?php endfor; ?>
+                        </fieldset>
+                    <?php endif; endfor; ?>
             </div>
 
             <a href="#new-price" class="jbajaxlink jsNewPrice">
