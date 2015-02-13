@@ -71,6 +71,7 @@
         font: inherit;
         margin: 0;
         .box-sizing(border-box);
+        .transition(none);
 
         &:focus {
             border-color: #ccc;
@@ -78,8 +79,9 @@
             color: #000;
             background-color: #faffbd;
             box-shadow: none;
-            font-size: 16px;
+            #font > .sans-serif(normal, 16px, 40px);
         }
+
     }
 
     // clean table styles

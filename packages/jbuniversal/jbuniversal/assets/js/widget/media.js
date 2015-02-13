@@ -26,9 +26,7 @@
 
             init: function ($this) {
 
-                //this.url = location.href.match(/^(.+)administrator\/index\.php.*/i)[1];
-
-                this.url = '/';
+                this.url = location.href.match(/^(.+)administrator\/index\.php.*/i)[1];
 
                 this.unique = this._name + '_' + this._id;
 
