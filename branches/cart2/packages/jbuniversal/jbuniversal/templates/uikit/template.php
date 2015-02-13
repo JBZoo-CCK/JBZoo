@@ -25,21 +25,7 @@ class JBTemplateUikit extends JBTemplate
      */
     public function onInit()
     {
-        $isAddCss = $this->params->get('global.template.add_css', 0);
-        $isAddJs  = $this->params->get('global.template.add_js', 0);
-
-        if ($isAddCss) {
-            $this->app->jbassets->css('jbassets:css/uikit.gradient.min.css');
-        }
-
-        if ($isAddJs) {
-            $this->app->jbassets->js('jbassets:js/uikit.min.js');
-        }
-
-        if ($isQuickView = $this->app->jbrequest->get('jbquickview', false)) {
-            $this->app->jbassets->css('jbassets:css/uikit.gradient.min.css');
-            $this->app->jbassets->js('jbassets:js/uikit.min.js');
-        }
+        $this->app->jbuikit->assets($this->params);
 
         $this->app->jbassets->less(array(
             'jbassets:less/uikit.styles.less',
@@ -57,11 +43,15 @@ class JBTemplateUikit extends JBTemplate
     {
         $attrs        = array();
         $defaultAttrs = parent::wrapperAttrs();
+        $isAddCss     = $this->params->get('global.template.add_css', 'no');
+        $isGradient   = ($isAddCss == 'yes_gradient') ? 'yes' : 'no';
 
         if ($this->application) {
             if (!(int)$this->params->get('global.config.rborder', 1)) {
                 $attrs['class'][] = $this->prefix . '-no-border';
             }
+
+            $attrs['class'][] = $this->prefix . '-gradient-' . $isGradient;
         }
 
         $attrs = array_merge_recursive($defaultAttrs, $attrs);
