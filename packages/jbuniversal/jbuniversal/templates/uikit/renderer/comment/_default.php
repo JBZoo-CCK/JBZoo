@@ -18,10 +18,10 @@ defined('_JEXEC') or die('Restricted access');
 $this->app->jbdebug->mark('layout::comment(' . $vars['comment']->id . ')::start');
 
 // set vars
-$comment =& $vars['comment'];
-$author  =& $vars['author'];
-$params  =& $vars['params'];
-$level   =& $level['params'];
+$comment       =& $vars['comment'];
+$author        =& $vars['author'];
+$params        =& $vars['params'];
+$level         =& $level['params'];
 $childComments = $comment->getChildren();
 
 // set author name

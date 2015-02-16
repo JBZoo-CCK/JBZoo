@@ -1472,6 +1472,7 @@ table.list.order-list thead th {
 .jbzoo .email-preview {
     position: relative;
     display: inline-block;
+    top: 24px;
 }
 
 .jbzoo .paymenturl-area {
@@ -1603,6 +1604,24 @@ table.list.order-list thead th {
 .jbzoo .jborder-details-table td {
     /*border: 1px solid #ccc !important;*/
 }
+
+.jbzoo .jbinfo.uk-panel {
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+}
+
+.jbzoo .jbinfo .jbinfo-header {
+    margin-top: 0;
+}
+
+
+.jbzoo .jbinfo .jbinfo-block-top {
+    padding: 10px;
+    margin-bottom: 20px;
+    background: #EAF3FF;
+    border-left: 10px solid #A5E0FF;
+}
+
 
 @media print {
 
