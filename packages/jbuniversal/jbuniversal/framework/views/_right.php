@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 <div class="jbinfo uk-panel uk-panel-box">
-    <h3 class="jbinfo-header"><?php echo JText::_('JBZOO_REFENCE') ?></h3>
+    <h3 class="jbinfo-header"><?php echo JText::_('JBZOO_CART_HELP_RIGHT') ?></h3>
 
     <div class="jbinfo-block-right">
         <?php echo $this->app->jbhelp->hook('cart', 'right'); ?>
