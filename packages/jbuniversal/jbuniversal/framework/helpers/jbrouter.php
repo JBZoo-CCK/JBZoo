@@ -113,7 +113,6 @@ class JBRouterHelper extends AppHelper
             'task'       => 'callelement',
             'format'     => 'raw',
             'element'    => $identifier,
-            'elm_id'     => $identifier,
             'method'     => $method,
             'item_id'    => $itemId,
         );
