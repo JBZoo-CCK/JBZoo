@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -81,8 +80,8 @@ class PaymentJBUniversalController extends JBUniversalController
         $this->_init();
         $this->app->jbdoc->rawOutput();
 
-        $cart     = JBCart::getInstance();
-        $payment  = $this->order->getPayment();
+        $cart    = JBCart::getInstance();
+        $payment = $this->order->getPayment();
 
         // check payment element
         if (empty($payment)) {
@@ -154,6 +153,7 @@ class PaymentJBUniversalController extends JBUniversalController
     protected function _error($message)
     {
         $this->app->jbdebug->log($message);
+        header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
         die('' . $message);
     }
 
