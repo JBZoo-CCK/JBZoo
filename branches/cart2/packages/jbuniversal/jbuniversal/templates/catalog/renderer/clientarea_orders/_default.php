@@ -12,6 +12,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
+$this->app->jbassets->less('jbassets:less/cart/clientarea.less');
+
 ?>
 
 <?php foreach ($vars['objects'] as $order) :
