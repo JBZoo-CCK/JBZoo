@@ -905,6 +905,14 @@ class JBCartOrder
     }
 
     /**
+     * @return mixed
+     */
+    public function getUrl()
+    {
+        return $this->app->jbrouter->order($this);
+    }
+
+    /**
      * Get order item list
      * @return mixed
      */

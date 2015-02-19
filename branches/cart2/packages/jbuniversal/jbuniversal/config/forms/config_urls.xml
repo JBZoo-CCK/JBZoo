@@ -18,6 +18,9 @@
             <field name="basket" type="jbrouter" method="basket" arg1="MENU_ITEMID"
                    label="JBZOO_CART_URL_CART" description="JBZOO_CART_URL_CART_DESC"/>
 
+            <field name="orders" type="jbrouter" method="orders" arg1="MENU_ITEMID"
+                   label="JBZOO_CART_URL_ORDERS" description="JBZOO_CART_URL_ORDERS_DESC"/>
+
             <!--  payment configs -->
             <field name="payment" type="jbspacer" default="JBZOO_CART_URLS_PAYMENT_URL"/>
 
