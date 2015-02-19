@@ -589,6 +589,38 @@ class JBRouterHelper extends AppHelper
     }
 
     /**
+     * @param JBCartOrder $order
+     * @return string
+     */
+    public function order($order)
+    {
+        $params = array(
+            'option'     => 'com_zoo',
+            'controller' => 'clientarea',
+            'task'       => 'order',
+            'order_id'   => $order->id,
+            'Itemid'     => $this->app->jbrequest->get('Itemid'),
+        );
+
+        return JURI::root() . 'index.php?' . $this->query($params);
+    }
+
+    /**
+     * @return string
+     */
+    public function orders($menuItemid)
+    {
+        $params = array(
+            'option'     => 'com_zoo',
+            'controller' => 'clientarea',
+            'task'       => 'orders',
+            'Itemid'     => $menuItemid,
+        );
+
+        return JURI::root() . 'index.php?' . $this->query($params);
+    }
+
+    /**
      * Get url by params
      * @param array  $params
      * @param bool   $zooRoute

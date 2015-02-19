@@ -85,21 +85,6 @@ class JBMoneyHelper extends AppHelper
         self::$curList = $this->app->jbcache->get($cacheKey, 'currency', true);
         if (empty(self::$curList)) {
 
-            self::$curList = array(
-                JBCartValue::DEFAULT_CODE => array(
-                    'code'   => JBCartValue::DEFAULT_CODE,
-                    'name'   => JText::_('JBZOO_CURRENCY_DEFAULT_CODE'),
-                    'value'  => 1,
-                    'format' => array(),
-                ),
-                self::PERCENT             => array(
-                    'value'  => 1,
-                    'code'   => self::PERCENT,
-                    'name'   => JText::_('JBZOO_CART_CURRENCY_PERCENT'),
-                    'format' => array_merge($this->_defaultFormat, array('symbol' => self::PERCENT)),
-                ),
-            );
-
             $elements = $this->app->jbcartposition->loadElements('currency');
 
             foreach ($elements as $element) {
@@ -123,15 +108,20 @@ class JBMoneyHelper extends AppHelper
                 }
             }
 
-            if (empty(self::$curList)) { // TODO it doesn't work!!!
+            if (!empty(self::$curList)) {
 
-                $defaultCur = $this->getDefaultCur();
-
-                self::$curList [$defaultCur] = array(
+                self::$curList[JBCartValue::DEFAULT_CODE] = array(
+                    'code'   => JBCartValue::DEFAULT_CODE,
+                    'name'   => JText::_('JBZOO_CURRENCY_DEFAULT_CODE'),
                     'value'  => 1,
-                    'code'   => $defaultCur,
-                    'name'   => JText::_('JBZOO_CART_CURRENCY_DEFAULT'),
-                    'format' => $this->_defaultFormat,
+                    'format' => array(),
+                );
+
+                self::$curList[self::PERCENT] = array(
+                    'value'  => 1,
+                    'code'   => self::PERCENT,
+                    'name'   => JText::_('JBZOO_CART_CURRENCY_PERCENT'),
+                    'format' => array_merge($this->_defaultFormat, array('symbol' => self::PERCENT)),
                 );
             }
 
