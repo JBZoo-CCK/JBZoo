@@ -46,7 +46,7 @@ class JBModelItem extends JBModel
 
     /**
      * Get Zoo items
-     * @param int|array $appId
+     * @param int $appId
      * @param int|array $catId
      * @param string $typeId
      * @param array $options
@@ -59,8 +59,8 @@ class JBModelItem extends JBModel
         // create select
         $select = $this->_getSelect()
             ->select('tItem.id')
-            ->from(ZOO_TABLE_ITEM . ' AS tItem')
-            ->group('tItem.id');
+            ->from(ZOO_TABLE_ITEM . ' AS tItem');
+
 
         // check type
         if (!empty($typeId)) {
@@ -75,13 +75,8 @@ class JBModelItem extends JBModel
             $select->where('tItem.application_id = ?', (int)$appId);
         }
 
-        $itemIds = $options->get('id');
-        if (is_array($itemIds)) {
-            $select->where('tItem.id IN (' . implode(',', $itemIds) . ')');
-        }
-
         // check category
-        if ($catId != -1) {
+        if (!empty($catId) && $catId != -1) {
             $select->innerJoin(ZOO_TABLE_CATEGORY_ITEM . ' AS tCategoryItem ON tItem.id = tCategoryItem.item_id');
 
             $catId = (array)$catId;
@@ -93,7 +88,7 @@ class JBModelItem extends JBModel
 
             $catId += $subcatId;
 
-            if (!empty($catId)) {
+            if(!empty($catId)){
                 $select->where('tCategoryItem.category_id IN ("' . implode('", "', $catId) . '")');
             }
 
@@ -421,29 +416,14 @@ class JBModelItem extends JBModel
         $select = $this->_getSelect()
             ->select('COUNT(tItem.id) AS count')
             ->from(ZOO_TABLE_ITEM . ' AS tItem')
-            ->where($strApp . ' AND ' . $srtTypes);
+            ->where($strApp . ' AND ' . $srtTypes)
+            ->where('tItem.state = ?', 1)
+            ->where('(tItem.publish_up = ' . $this->_dbNull . ' OR tItem.publish_up <= ' . $this->_dbNow . ')')
+            ->where('(tItem.publish_down = ' . $this->_dbNull . ' OR tItem.publish_down >= ' . $this->_dbNow . ')');
 
         $result = $this->fetchRow($select);
 
         return (int)$result->count;
-    }
-
-    /**
-     * Get next item_id
-     * @return int
-     */
-    public function getNextItemId()
-    {
-        $itemId = 0;
-        $db     = JFactory::getDBO();
-        $config = JFactory::getConfig();
-
-        $db->setQuery('SHOW TABLE STATUS LIKE "' . str_replace('#__', $config->get('dbprefix'), ZOO_TABLE_ITEM) . '"');
-        if ($row = $db->loadAssoc()) {
-            $itemId = (int)$row['Auto_increment'];
-        }
-
-        return $itemId;
     }
 
 }
