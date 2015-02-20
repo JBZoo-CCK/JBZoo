@@ -43,12 +43,12 @@ $uiqueId = $this->app->jbstring->getId('newpost-');
         echo $jbhtml->text(
             $this->getControlName('street'),
             $this->get('street'),
-            array('placeholder' => JText::_('JBZOO_SHIPPING_NEWPOST_STREET'))
+            array('placeholder' => JText::_('JBZOO_ELEMENT_SHIPPING_NEWPOST_STREET'))
         );
         echo $jbhtml->text(
             $this->getControlName('floor_count'),
             $this->get('floor_count'),
-            array('placeholder' => JText::_('JBZOO_SHIPPING_NEWPOST_FLOOR_COUNT'))
+            array('placeholder' => JText::_('JBZOO_ELEMENT_SHIPPING_NEWPOST_FLOOR_COUNT'))
         );
         ?>
     </div>

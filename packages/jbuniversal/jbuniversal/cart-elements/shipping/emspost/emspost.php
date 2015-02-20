@@ -47,7 +47,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
             'type'   => $locType,
         ));
 
-        $result = array('' => '-&nbsp;' . JText::_('JBZOO_SHIPPING_EMSPOST_' . $locType) . '&nbsp;-');
+        $result = array('' => '-&nbsp;' . JText::_('JBZOO_ELEMENT_SHIPPING_EMSPOST_' . $locType) . '&nbsp;-');
 
         if (!$locations) {
             return $result;

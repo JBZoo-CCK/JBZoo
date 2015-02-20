@@ -42,7 +42,7 @@ $uiqueId = $this->app->jbstring->getId('emspost-');
         <?php echo $jbhtml->text(
             $this->getControlName('postOfficeId'),
             $this->get('postOfficeId'), array(
-                'placeholder' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_ZIP'),
+                'placeholder' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_ZIP'),
             )
         ); ?>
     </div>
