@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -56,8 +55,8 @@ class JBModelConfig extends JBModel
     }
 
     /**
-     * @param $key
-     * @param null $default
+     * @param        $key
+     * @param null   $default
      * @param string $group
      * @return mixed
      */
@@ -71,35 +70,39 @@ class JBModelConfig extends JBModel
     }
 
     /**
-     * @param $group
-     * @param null $default
+     * @param string $origGroup
+     * @param null   $default
      * @return JSONData
      */
-    public function getGroup($group, $default = null)
+    public function getGroup($origGroup, $default = null)
     {
-        $group = $this->_clean($group);
-        $group = empty($group) ? 'default' : $group;
-        $group = $group . '.';
+        static $cache = array(); // try to speedup it!
 
-        $result = array();
-        foreach ($this->_configs as $key => $value) {
-            if (strpos($key, $group) === 0) {
-                $result[str_replace($group, '', $key)] = $value;
+        if (!isset($cache[$origGroup])) { // TODO experimental
+            $group = $this->_clean($origGroup);
+            $group = empty($group) ? 'default' : $group;
+            $group = $group . '.';
+
+            $result = array();
+            foreach ($this->_configs as $key => $value) {
+                if (strpos($key, $group) === 0) {
+                    $result[str_replace($group, '', $key)] = $value;
+                }
+            }
+
+            if (empty($result)) {
+                $cache[$origGroup] = $this->app->data->create($default);
+            } else {
+                $cache[$origGroup] = $this->app->data->create($result);
             }
         }
 
-        if (empty($result)) {
-            return $this->app->data->create($default);
-        }
-
-        $result = $this->app->data->create($result);
-
-        return $result;
+        return $cache[$origGroup];
     }
 
     /**
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param mixed  $value
      * @param string $group
      * @param string $type
      * @return AppData
@@ -224,7 +227,7 @@ class JBModelConfig extends JBModel
 
     /**
      * Convert data to type
-     * @param $value
+     * @param        $value
      * @param string $type
      * @return bool|float
      */
@@ -245,7 +248,7 @@ class JBModelConfig extends JBModel
     }
 
     /**
-     * @param $value
+     * @param        $value
      * @param string $type
      * @return float|int|string
      */
