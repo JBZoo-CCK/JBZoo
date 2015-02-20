@@ -18,6 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementEmailStatus extends JBCartElementEmail
 {
+
     /**
      * Check elements value.
      * Output element or no.
@@ -55,4 +56,5 @@ class JBCartElementEmailStatus extends JBCartElementEmail
 
         return false;
     }
+
 }

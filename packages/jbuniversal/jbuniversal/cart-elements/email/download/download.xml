@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Alexander Oganov <t_tapak@yahoo.com>
+-->
 <element type="element" group="Core" hidden="false">
     <name>Download (From Type)</name>
     <author>JBZoo.com</author>
@@ -7,24 +17,28 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZoo Cart Element Core System</description>
+    <description>JBZOO_ELEMENT_EMAIL_DOWNLOAD_DESC</description>
+
     <params>
-        <param name="showlabel"
-               type="jbbool"
-               default="1"
-               label="JBZOO_ELEMENT_LABEL"
+
+        <param name="showlabel" type="jbbool" default="1" label="JBZOO_ELEMENT_LABEL"
                description="JBZOO_ELEMENT_LABEL_DESC"/>
 
-        <param name="element" type="jbelementlist" types="download" label="JBZOO_ELEMENT_EMAIL_DOWNLOAD_RELATED_ELEMENT"
-               desc="JBZOO_ELEMENT_EMAIL_DOWNLOAD_RELATED_ELEMENT_DESC"/>
+        <param name="element" type="jbelementlist" types="download" label="JBZOO_ELEMENT_EMAIL_DOWNLOAD_ELEMENT"
+               desc="JBZOO_ELEMENT_EMAIL_DOWNLOAD_ELEMENT_DESC"/>
 
-        <param name="download_mode" type="list" default="1" label="Download Mode" description="The download mode">
-            <option value="1">Link</option>
+        <param name="download_mode" type="list" default="1" label="JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_MODE"
+               description="JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_MODE_DESC">
+            <option value="1">JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_MODE_1_OPTIONNAME</option>
         </param>
 
-        <param name="file_size" type="jbbool" default="1" label="Show file size" description="File size will be shown"/>
-        <param name="download_name" type="text" default="Download {filename}" label="Download Name"
-               description="DISPLAY_TEXT_LINK"/>
+        <param name="file_size" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_DOWNLOAD_FILE_SIZE"
+               description="JBZOO_ELEMENT_EMAIL_DOWNLOAD_FILE_SIZE_DESC"/>
+
+        <param name="download_name" type="text" default="Download {filename}"
+               label="JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_NAME"
+               description="JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_NAME_DESC"/>
 
     </params>
+
 </element>

@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<element type="element"
-         group="Core"
-         hidden="false">
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Alexander Oganov <t_tapak@yahoo.com>
+-->
+<element type="element" group="Core" hidden="false">
     <name>Sitename</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
@@ -9,19 +17,16 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZoo Cart Element Core System</description>
-    <params>
-        <param name="showlabel"
-               type="jbbool"
-               default="1"
-               label="JBZOO_ELEMENT_LABEL"
-               description="JBZOO_ELEMENT_LABEL_DESC" />
+    <description>JBZOO_ELEMENT_EMAIL_SITENAME_DESC</description>
 
-        <param name="more_text"
-               type="text"
-               default=""
-               label="JBZOO_EMAIL_SITENAME_MORETEXT"
-               description="JBZOO_EMAIL_SITENAME_MORETEXT_DESC" />
+    <params>
+
+        <param name="showlabel" type="jbbool" default="1" label="JBZOO_ELEMENT_SHOWLABEL"
+               description="JBZOO_ELEMENT_SHOWLABEL_DESC" />
+
+        <param name="more_text" type="text" label="JBZOO_EMAIL_SITENAME_MORETEXT_MORE_TEXT"
+               description="JBZOO_EMAIL_SITENAME_MORETEXT_MORE_TEXT_DESC" />
 
     </params>
+
 </element>
