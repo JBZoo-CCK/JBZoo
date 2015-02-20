@@ -17,18 +17,19 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZoo Cart Element Core System</description>
+    <description>JBZOO_ELEMENT_PAYMENT_LICPAY_DESC</description>
 
     <params>
+
         <param name="description" type="textarea" label="JBZOO_ELEMENT_DESCRIPTION"
-               default="JBZOO_PAYMENT_LIQPAY_DEFAULT_DESCRIPTION"
-               description="JBZOO_ELEMENT_DESCRIPTION_DESC" />
+               default="JBZOO_ELEMENT_PAYMENT_LIQPAY_DEFAULT_DESCRIPTION" />
 
-        <param name="public_key" type="text" label="JBZOO_PAYMENT_LIQPAY_PUBLIC_KEY_LABEL" default=""
-               description="JBZOO_PAYMENT_LIQPAY_PUBLIC_KEY_DESC" />
+        <param name="public_key" type="text" label="JBZOO_ELEMENT_PAYMENT_LIQPAY_PUBLIC_KEY_LABEL"
+               description="JBZOO_ELEMENT_PAYMENT_LIQPAY_PUBLIC_KEY_DESC" />
 
-        <param name="private_key" type="text" label="JBZOO_PAYMENT_LIQPAY_PRIVATE_KEY_LABEL" default=""
-               description="JBZOO_PAYMENT_LIQPAY_PRIVATE_KEY_DESC" />
+        <param name="private_key" type="text" label="JBZOO_ELEMENT_PAYMENT_LIQPAY_PRIVATE_KEY_LABEL"
+               description="JBZOO_ELEMENT_PAYMENT_LIQPAY_PRIVATE_KEY_DESC" />
+
     </params>
 
 </element>
