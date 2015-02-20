@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<element type="element"
-         group="Core"
-         core="true"
-         hidden="false">
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Alexander Oganov <t_tapak@yahoo.com>
+-->
+<element type="element" group="Core" core="true" hidden="false">
     <name>Send email</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
@@ -10,9 +17,10 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZoo Cart Element Core System</description>
+    <description>JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_DESC</description>
 
     <params>
+
         <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME" description="JBZOO_ELEMENT_NAME_DESC"/>
 
         <param name="description" type="text" default="" label="JBZOO_ELEMENT_DESCRIPTION"
@@ -22,27 +30,28 @@
                description="JBZOO_ELEMENT_ACCESS_DESC"/>
 
         <param name="layout_email" type="jblayout" default="" auto="false"
-               label="JBZOO_NOTIFICATION_SENDEMAIL_LAYOUY_LIST"
-               description="JBZOO_NOTIFICATION_SENDEMAIL_LAYOUY_LIST_DESC"/>
+               label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_LAYOUY_LIST"
+               description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_LAYOUY_LIST_DESC"/>
 
-        <param name="images" type="jbbool" default="0" label="JBZOO_NOTIFICATION_SENDEMAIL_ITEM_IMAGES"
-               description="JBZOO_NOTIFICATION_SENDEMAIL_ITEM_IMAGES_DESC"/>
+        <param name="images" type="jbbool" default="0" label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_ITEM_IMAGES"
+               description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_ITEM_IMAGES_DESC"/>
 
         <param name="recipient" type="jbsendemailrecipients" multiple="1" default="admin"
-               label="JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT" description="JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_DESC">
+               label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_RECIPIENT" description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_RECIPIENT_DESC">
         </param>
 
-        <param name="from" type="text" default="" label="JBZOO_NOTIFICATION_SENDEMAIL_FROM"
-               description="JBZOO_NOTIFICATION_SENDEMAIL_FROM_DESC"/>
+        <param name="from" type="text" default="" label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_FROM"
+               description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_FROM_DESC"/>
 
-        <param name="fromname" type="text" default="" label="JBZOO_NOTIFICATION_SENDEMAIL_FROMNAME"
-               description="JBZOO_NOTIFICATION_SENDEMAIL_FROMNAME_DESC"/>
+        <param name="fromname" type="text" default="" label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_FROMNAME"
+               description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_FROMNAME_DESC"/>
 
-        <param name="subject" type="textarea" default="" label="JBZOO_NOTIFICATION_SENDEMAIL_SUBJECT"
-               description="JBZOO_NOTIFICATION_SENDEMAIL_SUBJECT_DESC"/>
+        <param name="subject" type="textarea" default="" label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_SUBJECT"
+               description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_SUBJECT_DESC"/>
 
-        <param name="macros" type="spacer" default="JBZOO_NOTIFICATION_SENDEMAIL_EXISTING_MACROS"
-               label="JBZOO_NOTIFICATION_SENDEMAIL_MACROS" description="JBZOO_NOTIFICATION_SENDEMAIL_MACROS_DESC"/>
+        <param name="macros" type="spacer" default="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_MACROS_DEFAULT"
+               label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_MACROS" description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_MACROS_DESC"/>
+
     </params>
 
 </element>
