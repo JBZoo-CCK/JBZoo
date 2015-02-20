@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Alexander Oganov <t_tapak@yahoo.com>
+-->
 <element type="element" group="Core" hidden="false" core="true">
     <name>Image - Unique</name>
     <author>JBZoo.com</author>
@@ -7,26 +17,20 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZoo Cart Element Core System</description>
+    <description>JBZOO_ELEMENT_PRICE_IMAGE_DESC</description>
 
     <params>
-        <param name="image"
-               type="jbelementlist"
-               types="jbimage"
-               label="Choose image element"/>
+
+        <param name="image" type="jbelementlist" types="jbimage" label="JBZOO_ELEMENT_PRICE_IMAGE_DESC_IMAGEChoose image element"/>
+
     </params>
+
     <params group="render">
 
-        <param name="width"
-               type="text"
-               default="400"
-               label="JBZOO_RESIZE_WIDTH"
+        <param name="width" type="text" default="400" label="JBZOO_RESIZE_WIDTH"
                description="JBZOO_RESIZE_WIDTH_DESC"/>
 
-        <param name="height"
-               type="text"
-               default="300"
-               label="JBZOO_RESIZE_HEIGHT"
+        <param name="height" type="text" default="300" label="JBZOO_RESIZE_HEIGHT"
                description="JBZOO_RESIZE_WIDTH_DESC"/>
 
         <param name="width_popup" type="text" default="1280" label="JBZOO_RESIZE_POPUP_WIDTH"
@@ -36,25 +40,20 @@
                description="JBZOO_RESIZE_WIDTH_POPUP_DESC"/>
 
     </params>
+
     <params group="filter">
 
-        <param name="jbzoo_filter_render"
-               type="list"
-               label="JBZOO_ELEMENT_TEMPLATE"
-               description="JBZOO_ELEMENT_TEMPLATE_DESC"
-               default="_auto_"
-                >
+        <param name="jbzoo_filter_render" type="list" label="JBZOO_ELEMENT_TEMPLATE"
+               description="JBZOO_ELEMENT_TEMPLATE_DESC" default="_auto_" >
+
             <option value="imageexists-jqueryui">JBZOO_ELEMENT_TEMPLATE_IMAGEEXISTS_JQUERYUI</option>
             <option value="imageexists">JBZOO_ELEMENT_TEMPLATE_IMAGEEXISTS</option>
             <option value="hidden">JBZOO_ELEMENT_TEMPLATE_HIDDEN</option>
+
         </param>
 
-        <param name="jbzoo_filter_default"
-               type="text"
-               default=""
-               label="JBZOO_FILTER_DEFAULT"
-               description="JBZOO_FILTER_DEFAULT_DESC"
-                />
+        <param name="jbzoo_filter_default" type="text" label="JBZOO_FILTER_DEFAULT"
+               description="JBZOO_FILTER_DEFAULT_DESC" />
 
     </params>
 
