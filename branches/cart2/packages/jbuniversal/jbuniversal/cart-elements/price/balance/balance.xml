@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Alexander Oganov <t_tapak@yahoo.com>
+-->
 <element type="element" group="Core" hidden="false" core="true">
     <name>Balance - Unique</name>
     <author>JBZoo.com</author>
@@ -7,42 +17,37 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZoo Cart Element Core System</description>
+    <description>JBZOO_ELEMENT_PRICE_BALANCE_DECS</description>
 
     <params>
-        <param name="balance_mode" type="jbbool" default="0" label="JBZOO_JBPRICE_BALANCE"
-               description="JBZOO_JBPRICE_BALANCE_DESC"/>
+        <param name="balance_mode" type="jbbool" default="0" label="JBZOO_ELEMENT_PRICE_BALANCE_BALANCE_MODE"
+               description="JBZOO_ELEMENT_PRICE_BALANCE_BALANCE_MODE_DESC"/>
     </params>
+
     <params group="render">
 
-        <param name="template" type="radio" default="simple" label="JBZOO_JBPRICE_BALANCE_SHOW"
-               description="JBZOO_JBPRICE_BALANCE_SHOW_DESC">
-            <option value="simple">JBZOO_BALANCE_SIMPLE</option>
-            <option value="full">JBZOO_BALANCE_FULL</option>
+        <param name="template" type="radio" default="simple" label="JBZOO_ELEMENT_PRICE_BALANCE_TEMPLATE"
+               description="JBZOO_ELEMENT_PRICE_BALANCE_TEMPLATE_DESC">
+            <option value="simple">JBZOO_ELEMENT_PRICE_BALANCE_TEMPLATE_SIMPLE_OPTIONNAME</option>
+            <option value="full">JBZOO_ELEMENT_PRICE_BALANCE_TEMPLATE_FULL_OPTIONNAME</option>
         </param>
 
     </params>
 
     <params group="filter">
 
-        <param name="jbzoo_filter_render"
-               type="list"
-               label="JBZOO_ELEMENT_TEMPLATE"
-               description="JBZOO_ELEMENT_TEMPLATE_DESC"
-               default="_auto_"
-                >
+        <param name="jbzoo_filter_render" type="list" label="JBZOO_ELEMENT_TEMPLATE"
+               description="JBZOO_ELEMENT_TEMPLATE_DESC" efault="_auto_" >
+
             <option value="balance-jqueryui">JBZOO_ELEMENT_TEMPLATE_JQUERYUI</option>
             <option value="balance-radio">JBZOO_ELEMENT_TEMPLATE_RADIO</option>
             <option value="balance-select">JBZOO_ELEMENT_TEMPLATE_SELECT</option>
             <option value="balance-chosen">JBZOO_ELEMENT_TEMPLATE_SELECT_CHOSEN</option>
+
         </param>
 
-        <param name="jbzoo_filter_default"
-               type="text"
-               default=""
-               label="JBZOO_FILTER_DEFAULT"
-               description="JBZOO_FILTER_DEFAULT_DESC"
-                />
+        <param name="jbzoo_filter_default" type="text" label="JBZOO_FILTER_DEFAULT"
+               description="JBZOO_FILTER_DEFAULT_DESC" />
 
     </params>
 

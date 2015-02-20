@@ -25,7 +25,7 @@ if ($isEnabled) : ?>
     </div>
 <?php else : ?>
     <div class="count-value-wrapper">
-        <?php echo JText::_('JBZOO_JBPRICE_COUNT_DEFAULT_VALUE'); ?>: <span class="jsCountValue">1</span>
+        <?php echo JText::_('JBZOO_ELEMENT_PRICE_QUANTITY_DEFAULT_VALUE'); ?>: <span class="jsCountValue">1</span>
     </div>
     <input type="hidden" class="jsCount" value="1"/>
 <?php endif;

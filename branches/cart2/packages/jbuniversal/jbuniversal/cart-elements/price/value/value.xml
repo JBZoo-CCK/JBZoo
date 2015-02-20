@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Alexander Oganov <t_tapak@yahoo.com>
+-->
 <element type="value" group="Core" core="true">
     <name>Price Value - Core</name>
     <author>JBZoo.com</author>
@@ -7,18 +17,21 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZoo Cart Element Core System</description>
+    <description>JBZOO_ELEMENT_PRICE_VALUE_DESC</description>
 
     <params group="render">
 
         <param name="only_price_mode" type="list" default="1" label="JBZOO_JBPRICE_ONLY_PRICE_MODE"
                description="JBZOO_JBPRICE_ONLY_PRICE_MODE_DESC">
+
             <option value="1">JBZOO_JBPRICE_ONLY_PRICE_MODE_FULL</option>
             <option value="2">JBZOO_JBPRICE_ONLY_PRICE_MODE_PRICE</option>
             <option value="3">JBZOO_JBPRICE_ONLY_PRICE_MODE_TOTAL</option>
             <option value="4">JBZOO_JBPRICE_ONLY_PRICE_MODE_DISCOUNT</option>
             <option value="5">JBZOO_JBPRICE_ONLY_PRICE_MODE_SAVE</option>
+
         </param>
+
     </params>
 
     <params group="filter">
@@ -29,10 +42,12 @@
 
         <param name="jbzoo_filter_template" type="list" label="JBZOO_FILTER_JBPRICE_TEMPLATE_VALUE"
                description="JBZOO_FILTER_JBPRICE_TEMPLATE_VALUE_DESC" default="slider">
+
             <option value="0">JBZOO_FILTER_JBPRICE_TEMPLATE_NONE</option>
             <option value="simple">JBZOO_FILTER_JBPRICE_TEMPLATE_SIMPLE</option>
             <option value="range">JBZOO_ELEMENT_TEMPLATE_TEXT_RANGE</option>
             <option value="slider">JBZOO_ELEMENT_TEMPLATE_SLIDER</option>
+
         </param>
 
         <param name="jbzoo_filter_currency_default" type="jbcurrency" default="EUR"
@@ -53,19 +68,11 @@
         <param name="jbzoo_filter_slider_step" type="text" default="100" label="JBZOO_FILTER_SLIDER_STEP"
                description="JBZOO_FILTER_SLIDER_STEP_DESC"/>
 
-        <param name="jbzoo_filter_default"
-               type="text"
-               default=""
-               label="JBZOO_FILTER_DEFAULT"
-               description="JBZOO_FILTER_DEFAULT_DESC"
-                />
+        <param name="jbzoo_filter_default" type="text" label="JBZOO_FILTER_DEFAULT"
+               description="JBZOO_FILTER_DEFAULT_DESC" />
 
-        <param name="jbzoo_filter_placeholder"
-               type="text"
-               default=""
-               label="JBZOO_FILTER_PLACEHOLDER"
-               description="JBZOO_FILTER_PLACEHOLDER_DESC"
-                />
+        <param name="jbzoo_filter_placeholder" type="text" label="JBZOO_FILTER_PLACEHOLDER"
+               description="JBZOO_FILTER_PLACEHOLDER_DESC" />
 
     </params>
 
