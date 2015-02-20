@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Andrey Voytsehovsky <kess@jbzoo.com>
+-->
 <element type="element" group="Core" hidden="false">
     <name>Upload</name>
     <author>JBZoo.com</author>
@@ -7,18 +17,22 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZoo Cart Element Core System</description>
+    <description>JBZOO_ELEMENT_ORDER_UPLOAD_DESC</description>
 
     <params>
+
         <param name="upload_extensions" type="text" default="png,jpg,doc,mp3,mov,avi,mpg,zip,rar,gz"
-               label="Legal Extensions"
-               description="UPLOAD_EXTENSION_DESCRIPTION"/>
+               label="JBZOO_ELEMENT_ORDER_UPLOAD_UPLOAD_EXTENSIONS"
+               description="JBZOO_ELEMENT_ORDER_UPLOAD_UPLOAD_EXTENSIONS_DESC"/>
 
-        <param name="upload_directory" type="text" default="images/jbzoo/uploads/" label="Upload Directory"
-               description="UPLOAD_DIR_DESCRIPTION"/>
+        <param name="upload_directory" type="text" default="images/jbzoo/uploads/"
+               label="JBZOO_ELEMENT_ORDER_UPLOAD_UPLOAD_DIRECTORY"
+               description="JBZOO_ELEMENT_ORDER_UPLOAD_UPLOAD_DIRECTORY_DESC"/>
 
-        <param name="max_upload_size" type="text" default="512" label="MAX UPLOAD SIZE KB"
-               description="UPLOAD_MAX_SIZE_DESCRIPTION"/>
+        <param name="max_upload_size" type="text" default="512"
+               label="JBZOO_ELEMENT_ORDER_UPLOAD_MAX_UPLOAD_SIZE"
+               description="JBZOO_ELEMENT_ORDER_UPLOAD_MAX_UPLOAD_SIZE_DESC"/>
 
     </params>
+
 </element>

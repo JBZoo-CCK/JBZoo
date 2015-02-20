@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Andrey Voytsehovsky <kess@jbzoo.com>
+-->
 <element type="select" group="Form" orderable="true">
     <name>Select</name>
     <author>JBZoo.com</author>
@@ -7,11 +17,15 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>HTML Selectbox</description>
+    <description>JBZOO_ELEMENT_ORDER_SELECT_DESC</description>
+
     <params>
-        <param name="multiple" type="radio" default="0" label="Multiple" description="">
+
+        <param name="multiple" type="radio" default="0" label="JBZOO_ELEMENT_ORDER_MULTIPLE" description="">
             <option value="0">JBZOO_NO</option>
             <option value="1">JBZOO_YES</option>
         </param>
+
     </params>
+
 </element>
