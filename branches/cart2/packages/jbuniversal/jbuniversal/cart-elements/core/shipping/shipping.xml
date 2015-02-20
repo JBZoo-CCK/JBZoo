@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
 <element type="element" group="Core" hidden="true">
     <name>JBCart Element - Shipping Core</name>
     <author>JBZoo.com</author>
@@ -8,7 +18,9 @@
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
+
     <params>
+
         <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME" description="JBZOO_ELEMENT_NAME_DESC"/>
 
         <param name="description" type="text" default="" label="JBZOO_ELEMENT_DESCRIPTION"
@@ -17,13 +29,16 @@
         <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
                description="JBZOO_ELEMENT_ACCESS_DESC"/>
 
-        <param name="currency" type="jbcurrency" default="eur" label="JBZOO_SHIPPING_CURRENCY"
-               description="JBZOO_SHIPPING_CURRENCY_DESC"/>
+        <param name="currency" type="jbcurrency" default="eur" label="JBZOO_ELEMENT_SHIPPING_CURRENCY"
+               description="JBZOO_ELEMENT_SHIPPING_CURRENCY_DESC"/>
 
-        <param name="modifytotal" type="jbbool" default="0" label="JBZOO_SHIPPING_MODIFYTOTAL"
-               description="JBZOO_SHIPPING_MODIFYTOTAL_DESC"/>
+        <param name="modifytotal" type="jbbool" default="0" label="JBZOO_ELEMENT_SHIPPING_MODIFYTOTAL"
+               description="JBZOO_ELEMENT_SHIPPING_MODIFYTOTAL_DESC"/>
 
         <param name="shippingfields" type="jbcartfields" group="CONFIG_SHIPPINGFIELDS" position="DEFAULT_POSITION"
-               multiple="true" label="JBZOO_SHIPPING_SHIPPINGFIELDS_LABEL" desc="JBZOO_SHIPPING_SHIPPINGFIELDS_DESC"/>
+               multiple="true" label="JBZOO_ELEMENT_SHIPPING_SHIPPINGFIELDS_LABEL"
+               desc="JBZOO_ELEMENT_SHIPPING_SHIPPINGFIELDS_DESC"/>
+
     </params>
+
 </element>

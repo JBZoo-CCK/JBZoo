@@ -10,6 +10,7 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
 
-<?php echo $rate->htmlAdv($params->get('currency'), true); ?>
+
+echo $rate->htmlAdv($params->get('currency'), true);
