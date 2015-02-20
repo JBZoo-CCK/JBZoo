@@ -64,7 +64,7 @@ class JBAssetsHelper extends AppHelper
             // widget init script
             $initScript = '$("' . $jquerySelector . '").' . $widgetName . '(' . $this->toJSON($params) . ');';
 
-            if ($return) {
+            if (0 && $return) {
                 return implode("\n", array(
                     '<script type="text/javascript">',
                     "\tjQuery(function($){ " . $initScript . "});",
@@ -128,7 +128,7 @@ class JBAssetsHelper extends AppHelper
             return json_encode($vars);
         }
 
-        return '';
+        return '{}';
     }
 
     /**
