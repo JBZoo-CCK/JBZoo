@@ -53,11 +53,11 @@ class JBCSVCellHelper extends AppHelper
 
         // load table class
         $class = 'JBCSVItem' . $group . $type;
-        if (!class_exists($class)) {
+        if (!class_exists($class, false)) {
             $this->app->loader->register($class, 'jbelements:' . $group . '/' . strtolower($type) . '.php');
         }
 
-        if (class_exists($class)) {
+        if (class_exists($class, false)) {
             $instance = new $class($element, $item, $options);
         } else {
             $instance = new JBCSVItem($element, $item, $options);
@@ -79,7 +79,7 @@ class JBCSVCellHelper extends AppHelper
 
         $this->app->loader->register($class, 'jbelements:category/' . strtolower($type) . '.php');
 
-        if (class_exists($class)) {
+        if (class_exists($class, false)) {
             $instance = new $class($category);
         } else {
             throw new AppException('Unknown category class ' . $class);

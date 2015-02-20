@@ -172,7 +172,9 @@ class JBCartElementHelper extends AppHelper
         $elementClass = 'JBCartElement' . $group . $type;
 
         if (!class_exists($elementClass)) {
-            $this->app->loader->register($elementClass, "cart-elements:$group/$type/$type.php");
+            if ($classPath = $this->app->path->path("cart-elements:$group/$type/$type.php")) {
+                require_once $classPath;
+            }
         }
 
         if (!class_exists($elementClass)) {

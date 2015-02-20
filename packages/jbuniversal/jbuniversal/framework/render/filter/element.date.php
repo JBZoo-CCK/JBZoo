@@ -14,7 +14,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-if (!class_exists('JBFilterElementDate')){
+if (!class_exists('JBFilterElementDate', false)){
     /**
      * Class JBFilterElementDate
      */

@@ -422,7 +422,7 @@ Class JBModel
      */
     protected function _explain(JBDatabaseQuery $select)
     {
-        if (!(class_exists('jbdump') || (defined('JDEBUG') && JDEBUG))) {
+        if (!(class_exists('jbdump', false) || (defined('JDEBUG') && JDEBUG))) {
             return null;
         }
 

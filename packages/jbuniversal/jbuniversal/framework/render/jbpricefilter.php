@@ -217,7 +217,7 @@ class JBPriceFilterRenderer extends PositionRenderer
 
             $this->app->loader->register($className, 'renderer:/pricefilter/' . $classFilename . '.php');
 
-            if (!class_exists($className)) {
+            if (!class_exists($className, false)) {
                 throw new Exception('Unkown class render "' . $className . '"');
             }
         }

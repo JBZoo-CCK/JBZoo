@@ -251,10 +251,6 @@ class JBRequestHelper extends AppHelper
      */
     public function set($key, $value)
     {
-        if (class_exists('jbrequest')) {
-            JRequest::setVar($key, $value);
-        }
-
         return $this->_request->set($key, $value);
     }
 

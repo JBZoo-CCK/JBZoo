@@ -51,7 +51,7 @@ class JBDebugHelper extends AppHelper
             }
 
             // jbdump plugin
-            if (class_exists('jbdump')) {
+            if (class_exists('jbdump', false)) {
                 self::$_jbdump = JBDump::i($this->_jbdumpParams);
             }
         }

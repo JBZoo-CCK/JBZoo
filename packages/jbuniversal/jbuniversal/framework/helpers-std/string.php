@@ -145,7 +145,7 @@ class StringHelper extends AppHelper
     public function applyTextFilters($string)
     {
         // Apply the textfilters (let's reuse Joomla's ContentHelper class)
-        if (!class_exists('ContentHelper')) {
+        if (!class_exists('ContentHelper', false)) {
             require_once JPATH_SITE . '/administrator/components/com_content/helpers/content.php';
         }
 
