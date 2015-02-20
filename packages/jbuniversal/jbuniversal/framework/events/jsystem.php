@@ -84,7 +84,20 @@ class JBZooSystemPlugin
      */
     public function onAfterDispatch()
     {
-        // noop
+        if ($this->app->jbstorage->has('assets')) {
+            $cache  = $this->app->jbcache->get('assets', 'storage', true);
+            $assets = $this->app->jbstorage->get('assets');
+
+            if (count((array)$assets)) {
+                if ($cache) {
+                    $assets = array_merge((array)$assets, (array)$cache);
+                    $assets = array_filter($assets);
+                }
+
+                $this->app->jbcache->set('assets', $assets, 'storage', true);
+            }
+        }
+
     }
 
     /**
@@ -92,7 +105,6 @@ class JBZooSystemPlugin
      */
     public function onAfterRender()
     {
-        // noop
     }
 
     /**
@@ -100,7 +112,13 @@ class JBZooSystemPlugin
      */
     public function onBeforeRender()
     {
-        // noop
+        $assets = $this->app->jbcache->get('assets', 'storage', true);
+        if (!empty($assets)) {
+            foreach ($assets as $file) {
+                $ext = JFile::getExt($file);
+                $this->app->jbassets->$ext($file);
+            }
+        }
     }
 
     /**
