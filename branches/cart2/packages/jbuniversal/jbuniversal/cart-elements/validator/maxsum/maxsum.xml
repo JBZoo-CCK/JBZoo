@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
 <element type="element" group="Core" hidden="false">
     <name>Maximum Summ</name>
     <author>JBZoo.com</author>
@@ -7,11 +17,11 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZoo Cart Element Core System</description>
+    <description>JBZOO_ELEMENT_VALIDATOR_MAXSUM_DESC</description>
 
     <params>
-        <param name="value" type="text" default="" label="JBZOO_ELEMENT_MAXSUM_VALUE"
-               description="JBZOO_ELEMENT_MAXSUM_VALUE_DESC"/>
+        <param name="value" type="text" default="" label="JBZOO_ELEMENT_VALIDATOR_MAXSUM_VALUE"
+               description="JBZOO_ELEMENT_VALIDATOR_MAXSUM_VALUE_DESC"/>
     </params>
 
 
