@@ -13,12 +13,7 @@
     <fields>
         <fieldset name="licence" label="">
 
-            <field type="text"
-                   default=""
-                   size="60"
-                   name="phone"
-                   label="JBZOO_PHONE"
-                   description="" />
+            <field type="text" size="60" name="phone" label="JBZOO_PHONE" description="" />
 
         </fieldset>
     </fields>
