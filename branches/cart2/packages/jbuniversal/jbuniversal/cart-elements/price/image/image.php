@@ -27,6 +27,11 @@ class JBCartElementPriceImage extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
+        $img = $this->config->get('image', null);
+        if (!empty($img)) {
+            return true;
+        }
+
         return true;
     }
 
@@ -184,4 +189,20 @@ class JBCartElementPriceImage extends JBCartElementPrice
 
         return $this->getImage($path);
     }
+
+    /**
+     * Load elements css/js assets
+     * @return $this
+     */
+    public function loadAssets()
+    {
+        $this->app->jbassets->js('cart-elements:price/image/assets/js/image.js');
+        self::addToStorage(array(
+            'jbassets:js/widget/media.js',
+            'cart-elements:price/image/assets/js/image.js'
+        ));
+
+        return parent::loadAssets();
+    }
+
 }

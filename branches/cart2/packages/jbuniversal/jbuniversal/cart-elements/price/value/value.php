@@ -17,8 +17,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementPriceValue extends JBCartElementPrice
 {
-    const IDENTIFIER = '_value';
-
     const PRICE_VIEW_FULL     = 1;
     const PRICE_VIEW_PRICE    = 2;
     const PRICE_VIEW_TOTAL    = 3;
@@ -46,9 +44,9 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function getSearchData()
     {
-        $list = $this->getList();
+        $prices = $this->getPrices();
 
-        return $list->getTotal();
+        return $prices['total'];
     }
 
     /**
@@ -74,46 +72,23 @@ class JBCartElementPriceValue extends JBCartElementPrice
     {
         $prices = $this->getPrices();
 
-        $total = $prices['total'];
-        $price = $prices['price'];
-        $save  = $prices['save'];
-
         $discount = JBCart::val();
-        if ($save->isNegative()) {
-            $discount = $save->getClone();
+        if ($prices['save']->isNegative()) {
+            $discount = $prices['save']->getClone();
         };
 
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'mode'     => (int)$params->get('only_price_mode', 1),
-                'total'    => $total,
-                'price'    => $price,
-                'save'     => $save->abs(),
+                'total'    => $prices['total'],
+                'price'    => $prices['price'],
+                'save'     => $prices['save']->abs(),
                 'discount' => $discount->abs(),
                 'currency' => $this->currency()
             ));
         }
 
         return null;
-    }
-
-    /**
-     * Get prices for render currency
-     * @return array
-     */
-    public function getPrices()
-    {
-        $list  = $this->getList();
-        $total = $list->getTotal();
-        $price = $list->getPrice();
-
-        $prices = array(
-            'total' => $total,
-            'price' => $price,
-            'save'  => $total->minus($price, true)
-        );
-
-        return $prices;
     }
 
     /**
@@ -162,7 +137,7 @@ class JBCartElementPriceValue extends JBCartElementPrice
     {
         $this->app->jbassets->js('cart-elements:price/value/assets/js/value.js');
 
-        return parent::loadAssets();
+        self::_addToStorage('cart-elements:price/value/assets/js/value.js');
     }
 
 }

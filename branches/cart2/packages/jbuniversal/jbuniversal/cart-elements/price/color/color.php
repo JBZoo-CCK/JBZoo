@@ -124,8 +124,8 @@ class JBCartElementPriceColor extends JBCartElementPrice
         $colors  = $this->parseOptions();
 
         if (!$this->hasOptions() || (int)$jbPrice->config->get('only_selected', 1)) {
-            $options = $jbPrice->elementOptions($this->identifier);
-            $colors  = array_intersect_key($colors, $options);
+            $selected = $jbPrice->elementOptions($this->identifier);
+            $colors   = array_intersect_key($colors, $selected);
         }
 
         return $colors;
@@ -180,6 +180,10 @@ class JBCartElementPriceColor extends JBCartElementPrice
     public function loadAssets()
     {
         $this->app->jbassets->colors();
+        parent::addToStorage(array(
+            'jbassets:js/widget/colors.js',
+            'jbassets:less/widget/colors.less'
+        ));
 
         return parent::loadAssets();
     }

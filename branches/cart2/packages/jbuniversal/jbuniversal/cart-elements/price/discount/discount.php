@@ -33,14 +33,10 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $total = $this->getList()->getTotal();
-        $price = $this->getList()->getPrice();
-        $diff  = $total->minus($price, true);
-
-        if ($diff->isNegative() && !$this->_jbprice->isOverlay()) {
+        $prices = $this->getPrices();
+        if ($prices['save']->isNegative() && !$this->isOverlay) {
             return true;
         }
-
         return false;
     }
 
@@ -52,10 +48,10 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
     {
         $value = $this->getValue();
         if ($value->isEmpty()) {
-            return (int)false;
+            return 0;
         }
 
-        return (int)true;
+        return 1;
     }
 
     /**
@@ -86,19 +82,18 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $total = $this->getList()->getTotal();
-        $price = $this->getList()->getPrice();
-        $value = $total->minus($price, true);
-
-        if (!$value->isNegative()) {
-            $value->setEmpty();
+        $prices = $this->getPrices();
+        if (!$prices['save']->isNegative()) {
+            $prices['save']->setEmpty();
         }
 
         if ($layout = $this->getLayout()) {
+
             return self::renderLayout($layout, array(
                 'params'   => $params,
-                'discount' => $value->positive(),
-                'mode'     => $params->get('sale_show', self::SALE_VIEW_ICON_VALUE)
+                'discount' => $prices['save']->positive(),
+                'mode'     => $params->get('sale_show', self::SALE_VIEW_ICON_VALUE),
+                'currency' => $this->currency()
             ));
         }
 
