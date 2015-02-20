@@ -15,6 +15,6 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 <p>
-    <strong><?php echo JText::_('JBZOO_ELEMENT_SHIPPING_PICKUP_ADDRESS'); ?>:</strong>
+    <strong><?php echo JText::_('JBZOO_ELEMENT_SHIPPING_PICKUP_ADDRESS_TMPL'); ?>:</strong>
     <?php echo $address; ?>
 </p>

@@ -73,13 +73,13 @@ class JBCartElementShippingRussianpost extends JBCartElementShipping
     protected function _getViewpostList()
     {
         return array(
-            ''   => '-&nbsp;' . JText::_('JBZOO_SHIPPING_RUSSIANPOST_TYPE') . '&nbsp;-',
-            '23' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_PARCEL'),
-            '18' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_CARD'),
-            '13' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_LETTER'),
-            '26' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_RICH_PARCEL'),
-            '36' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_RICH_PACKAGE'),
-            '16' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_RICH_LETTER')
+            ''   => '-&nbsp;' . JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_TYPE') . '&nbsp;-',
+            '23' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_PARCEL'),
+            '18' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_CARD'),
+            '13' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_LETTER'),
+            '26' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_RICH_PARCEL'),
+            '36' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_RICH_PACKAGE'),
+            '16' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_RICH_LETTER')
         );
     }
 
@@ -89,10 +89,10 @@ class JBCartElementShippingRussianpost extends JBCartElementShipping
     protected function _getTypePostList()
     {
         return array(
-            ''  => '-&nbsp;' . JText::_('JBZOO_SHIPPING_RUSSIANPOST_TYPE') . '&nbsp;-',
-            '1' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_GROUND'),
-            '2' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_AIR'),
-            '3' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_COMBINE'),
+            ''  => '-&nbsp;' . JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_TYPE') . '&nbsp;-',
+            '1' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_GROUND'),
+            '2' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_AIR'),
+            '3' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_COMBINE'),
             '4' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_FAST')
         );
     }
