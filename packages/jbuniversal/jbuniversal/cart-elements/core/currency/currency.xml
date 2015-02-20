@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
 <element type="element" group="Core" hidden="true">
     <name>JBCart Element - Currency Core</name>
     <author>JBZoo.com</author>
@@ -10,6 +20,7 @@
     <description>JBZoo Cart Element Core System</description>
 
     <params>
+
         <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME"
                description="JBZOO_ELEMENT_NAME_DESC"/>
 
@@ -24,10 +35,10 @@
 
         <param name="round_type" type="list" default="none" label="JBZOO_ELEMENT_CURRENCY_ROUND_TYPE"
                description="JBZOO_ELEMENT_CURRENCY_ROUND_TYPE_DESC">
-            <option value="none">JBZOO_ELEMENT_CURRENCY_ROUND_TYPE_NONE</option>
-            <option value="ceil">JBZOO_ELEMENT_CURRENCY_ROUND_TYPE_CEIL</option>
-            <option value="classic">JBZOO_ELEMENT_CURRENCY_ROUND_TYPE_CLASSIC</option>
-            <option value="floor">JBZOO_ELEMENT_CURRENCY_ROUND_TYPE_FLOOR</option>
+            <option value="none">JBZOO_ELEMENT_CURRENCY_ROUND_TYPE_NONE_OPTIONNAME</option>
+            <option value="ceil">JBZOO_ELEMENT_CURRENCY_ROUND_TYPE_CEIL_OPTIONNAME</option>
+            <option value="classic">JBZOO_ELEMENT_CURRENCY_ROUND_TYPE_CLASSIC_OPTIONNAME</option>
+            <option value="floor">JBZOO_ELEMENT_CURRENCY_ROUND_TYPE_FLOOR_OPTIONNAME</option>
         </param>
 
         <param name="round_value" type="text" default="2" label="JBZOO_ELEMENT_CURRENCY_ROUND_VALUE"
@@ -50,6 +61,7 @@
 
         <param name="rate" type="text" default="1" label="JBZOO_ELEMENT_CURRENCY_RATE"
                description="JBZOO_ELEMENT_CURRENCY_RATE_DESC"/>
+
     </params>
 
 </element>

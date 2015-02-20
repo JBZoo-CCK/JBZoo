@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
 <element type="element" group="Core" hidden="true">
     <name>JBCart Element - Status Core</name>
     <author>JBZoo.com</author>
@@ -10,6 +20,7 @@
     <description>JBZoo Cart Element Core System</description>
 
     <params>
+
         <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME"
                description="JBZOO_ELEMENT_NAME_DESC"/>
 
@@ -18,6 +29,7 @@
 
         <param name="code" type="jbcode" default="" label="JBZOO_ELEMENT_STATUS_CODE"
                description="JBZOO_ELEMENT_STATUS_CODE_DESC"/>
+
     </params>
 
 </element>
