@@ -888,7 +888,7 @@ class JBCartValue
      */
     protected function _checkCur($currency)
     {
-        $currency = $this->_jbvars->lower($currency, true);
+        $currency = strtolower(trim($currency));
 
         if (self::PERCENT === $currency) {
             return $currency;
@@ -902,7 +902,7 @@ class JBCartValue
             return $this->_baseCur;
         }
 
-        if (array_key_exists($currency, $this->_rates)) {
+        if (isset($this->_rates[$currency])) {
             return $currency;
         }
 

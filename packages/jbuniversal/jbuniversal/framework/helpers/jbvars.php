@@ -26,30 +26,23 @@ class JBVarsHelper extends AppHelper
      */
     public function money($value, $round = 10)
     {
-        $value = (string)$value;
         $value = trim($value);
-        $value = preg_replace('#[^0-9\,\.\-\+]#ius', '', $value);
+        $value = str_replace(array(' ', ','), array('', '.'), $value);
+        $value = (float)$value;
+        $res   = round($value, $round);
 
-        if (preg_match('#^([\+\-]{0,1})([0-9\.\,]*)$#ius', $value, $matches)) {
-            $value = str_replace(',', '.', $matches[2]);
-
-            $value = (float)($matches[1] . (float)$value);
-
-            return round($value, $round);
-        }
-
-        return 0.0;
+        return $res;
     }
 
     /**
      * Convert string to lower chars
      * @param string $string
-     * @param bool   $speedUp
+     * @param bool   $joomla
      * @return mixed|string
      */
-    public function lower($string, $speedUp = false)
+    public function lower($string, $joomla = false)
     {
-        if ($speedUp) {
+        if ($joomla) {
             $string = trim($string);
             $string = function_exists('mb_strtolower') ? mb_strtolower($string) : strtolower($string);
         } else {
@@ -63,12 +56,12 @@ class JBVarsHelper extends AppHelper
     /**
      * Convert string to lower chars
      * @param string $string
-     * @param bool   $speedUp
+     * @param bool   $joomla
      * @return mixed|string
      */
-    public function upper($string, $speedUp = false)
+    public function upper($string, $joomla = false)
     {
-        if ($speedUp) {
+        if ($joomla) {
             $string = trim($string);
             $string = function_exists('mb_strtoupper') ? mb_strtoupper($string) : strtoupper($string);
         } else {
