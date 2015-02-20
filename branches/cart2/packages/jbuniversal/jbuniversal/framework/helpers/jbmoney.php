@@ -228,8 +228,9 @@ class JBMoneyHelper extends AppHelper
      */
     public function checkCurrency($currency)
     {
+
         $currency = trim(strtolower($currency));
-        if (array_key_exists($currency, self::$curList)) {
+        if (isset(self::$curList[$currency])) {
             return $currency;
         }
 
@@ -254,6 +255,7 @@ class JBMoneyHelper extends AppHelper
 
         // for speed only
         if (!isset($result)) {
+
             $this->init();
             $result = $this->app->data->create(self::$curList);
         }
