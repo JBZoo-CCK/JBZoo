@@ -54,7 +54,7 @@ class JBMoneyHelper extends AppHelper
         parent::__construct($app);
 
         $this->_config     = JBModelConfig::model();
-        $this->_defaultCur = $this->_config->get('default_currency', 'eur', 'cart.config'); // TODO use constant
+        $this->_defaultCur = $this->_config->get('default_currency', 'eur', 'cart.config');
     }
 
     /**
@@ -246,13 +246,19 @@ class JBMoneyHelper extends AppHelper
     }
 
     /**
-     * @return array
+     * @return JSONData
      */
     public function getData()
     {
-        $this->init();
+        static $result;
 
-        return $this->app->data->create(self::$curList);
+        // for speed only
+        if (!isset($result)) {
+            $this->init();
+            $result = $this->app->data->create(self::$curList);
+        }
+
+        return $result;
     }
 
 }
