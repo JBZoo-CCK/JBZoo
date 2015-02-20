@@ -33,11 +33,6 @@ class JBMoneyHelper extends AppHelper
     protected $_defaultCur = '';
 
     /**
-     * @var boolean
-     */
-    protected $_isBuilded = false;
-
-    /**
      * @var array
      */
     protected $_defaultFormat = array(
@@ -68,7 +63,7 @@ class JBMoneyHelper extends AppHelper
     public function init()
     {
         // optimize
-        if ($this->_isBuilded || !empty(self::$curList)) {
+        if (!empty(self::$curList)) {
             return self::$curList;
         }
 
@@ -127,8 +122,6 @@ class JBMoneyHelper extends AppHelper
 
             $this->app->jbcache->set($cacheKey, self::$curList, 'currency', true);
         }
-
-        $this->_isBuilded = true;
 
         $this->app->jbdebug->mark('jbmoney::init::finish');
 
