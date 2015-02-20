@@ -17,25 +17,34 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElementPrice extends JBCartElement
 {
+    public $total;
+
+    public $price;
+
+    /**
+     * @type bool
+     */
+    public $isOverlay;
+
     /**
      * @type string
      */
-    protected $_namespace = JBCart::ELEMENT_TYPE_PRICE;
-
-    /**
-     * @var JBModelConfig
-     */
-    protected $_jbconfig;
+    public $_namespace = JBCart::ELEMENT_TYPE_PRICE;
 
     /**
      * @var JBHtmlHelper
      */
-    protected $_jbhtml;
+    public $_jbhtml;
 
     /**
      * @var ElementJBPricePlain || ElementJBPriceCalc
      */
-    protected $_jbprice;
+    public $_jbprice;
+
+    /**
+     * @type JBStorageHelper
+     */
+    public $_storage;
 
     /**
      * Constructor
@@ -47,13 +56,13 @@ abstract class JBCartElementPrice extends JBCartElement
     {
         parent::__construct($app, $type, $group);
 
-        $this->_jbhtml   = $app->jbhtml;
-        $this->_jbconfig = JBModelConfig::model();
+        $this->_jbhtml  = $app->jbhtml;
+        $this->_storage = $app->jbstorage;
     }
 
     /**
      * Check if element has value
-     * @param array $params
+     * @param AppData|array $params
      * @return bool
      */
     public function hasValue($params = array())
@@ -139,15 +148,31 @@ abstract class JBCartElementPrice extends JBCartElement
     public function getValue($key = 'value', $default = null)
     {
         $value = $this->get($key, $default);
-
         if ((JString::strlen($value) === 0) && ($this->isCore()) && (!$this->isBasic())) {
-            $variant = $this->getList()->shift();
-            if ($element = $variant->getElement($this->identifier)) {
-                $value = $element->get($key, $default);
-            }
+            $value = $this->get('_basic', $default);
         }
 
         return $value;
+    }
+
+    /**
+     * Get prices
+     * @return array
+     */
+    public function getPrices()
+    {
+        if(!isset($this->total)) {
+            $this->total = $this->getList()->getTotal();
+        }
+        if(!isset($this->price)) {
+            $this->price = $this->getList()->getPrice();
+        }
+
+        return array(
+            'total' => $this->total,
+            'price' => $this->price,
+            'save'  => $this->total->minus($this->price, true)
+        );
     }
 
     /**
@@ -172,7 +197,8 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
-     * @param ElementJBPricePlain || ElementJBPriceCalc $object
+     * @param ElementJBPrice $object
+     * @throws JBCartElementPriceException
      */
     public function setJBPrice($object)
     {
@@ -189,7 +215,7 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * Return price helper
-     * @return \JBPriceHelper
+     * @return JBPriceHelper
      */
     public function getHelper()
     {
@@ -201,7 +227,7 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function getList()
     {
-        return $this->getJBPrice()->getVariantList();
+        return $this->_jbprice->getVariantList();
     }
 
     /**
@@ -276,14 +302,10 @@ abstract class JBCartElementPrice extends JBCartElement
     protected function renderEditLayout($__layout, $__args = array())
     {
         $html = parent::renderLayout($__layout, $__args);
-        if ($html) {
-            $layout = 'variations.php';
-            if ($this->isBasic()) {
-                $layout = 'basic.php';
-            }
-            $system = $this->getLayout($layout);
+        if ($html && $this->isBasic()) {
+            $system = $this->getLayout('basic.php');
 
-            return parent::renderLayout($system, array(
+            $html = parent::renderLayout($system, array(
                 'html' => $html
             ));
         }
@@ -301,9 +323,8 @@ abstract class JBCartElementPrice extends JBCartElement
     {
         $html = parent::renderLayout($__layout, $__args);
         if ($html) {
-            $system = $this->getLayout('system.php');
-
-            return parent::renderLayout($system, array(
+            $system = $this->getLayout('_system.php');
+            $html   = parent::renderLayout($system, array(
                 'html' => $html
             ));
         }
@@ -416,13 +437,54 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function loadAssets()
     {
-        static $isAdded;
-        if (!isset($isAdded)) {
-            $this->app->jbassets->js('cart-elements:core/price/assets/js/default.js');
-            $isAdded = true;
+        static $default;
+
+        if (!isset($default)) {
+            $this->app->jbassets->js('cart-elements:core/price/assets/js/price.js');
+            $this->_addToStorage('cart-elements:core/price/assets/js/price.js');
+            $default = true;
         }
 
         return parent::loadAssets();
+    }
+
+    /**
+     * @param  array $files
+     * @return $this
+     */
+    public function addToStorage($files = array())
+    {
+        $isCache = (int)$this->_data->find('_options.cache', 0);
+        if ($isCache && !empty($files)) {
+            if (is_string($files)) {
+                $this->_addToStorage($files);
+            } else {
+                foreach ($files as $file) {
+                    if (!empty($file)) {
+                        $this->_addToStorage($file);
+                    }
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $file
+     * @return $this
+     */
+    protected function _addToStorage($file)
+    {
+        $isCache = (int)$this->_data->find('_options.cache', 0);
+        if ($isCache) {
+            $file = JString::trim($file);
+            $key  = md5(strtolower(get_called_class()) . $file);
+
+            $this->_storage->set('assets', $file, $key);
+        }
+
+        return $this;
     }
 
     /**
@@ -434,6 +496,32 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     * @param $name
+     * @param $value
+     * @return bool
+     */
+    public function setProperty($name, $value)
+    {
+        if (property_exists($this, $name)) {
+            $this->$name = $value;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param      $name
+     * @param bool $checkVars
+     * @return bool
+     */
+    public function canSetProperty($name, $checkVars = true)
+    {
+        return method_exists($this, 'set' . $name) || $checkVars && property_exists($this, $name);
+    }
+
+    /**
      * Clone data
      */
     public function __clone()
@@ -441,7 +529,6 @@ abstract class JBCartElementPrice extends JBCartElement
         $this->_data  = clone($this->_data);
         $this->config = clone($this->config);
     }
-
 }
 
 

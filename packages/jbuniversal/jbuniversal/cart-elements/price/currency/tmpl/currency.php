@@ -18,5 +18,5 @@ if (count($list) > 1) {
     echo $this->_jbhtml->currencyToggle($default, $rates, array(
         'target'      => $this->parentSelector(),
         'showDefault' => (in_array(JBCartValue::DEFAULT_CODE, $list) ? true : false),
-    ));
+    ), true);
 }

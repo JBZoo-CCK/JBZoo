@@ -18,10 +18,10 @@ if ($mode == JBCartElementPriceDiscount::SALE_VIEW_ICON_SIMPLE) : ?>
 <?php endif;
 
 if ($mode == JBCartElementPriceDiscount::SALE_VIEW_ICON_VALUE) : ?>
-    <span class="sale-icon-empty"><?php echo $discount->html($this->currency()); ?></span>
+    <span class="sale-icon-empty"><?php echo $discount->html($currency); ?></span>
 <?php endif;
 
 if ($mode == JBCartElementPriceDiscount::SALE_VIEW_TEXT_SIMPLE) : ?>
     <span class="jsSave save discount-less"><?php echo $base['save']->html(); ?></span>
-    (<span class="discount"><?php echo $discount->html($this->currency()); ?></span>)
+    (<span class="discount"><?php echo $discount->html($currency); ?></span>)
 <?php endif;

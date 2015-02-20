@@ -48,7 +48,7 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
     {
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
-                'params' => $params
+                'params' => $this->interfaceParams()
             ));
         }
 
@@ -64,11 +64,11 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
         $params = $this->getRenderParams();
 
         return array(
-            'min'      => (float)$params->get('min', 1),
-            'max'      => (float)$params->get('max', 9),
-            'step'     => (float)$params->get('step', 1),
-            'default'  => (float)$params->get('default', 1),
-            'decimals' => (float)$params->get('decimals', 0)
+            'min'      => $params->get('min', 1),
+            'max'      => $params->get('max', 9),
+            'step'     => $params->get('step', 1),
+            'default'  => $params->get('default', 1),
+            'decimals' => $params->get('decimals', 0)
         );
     }
 
@@ -88,9 +88,13 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
     public function loadAssets()
     {
         $this->app->jbassets->quantity();
-        $this->app->jbassets->js('cart-elements:price/quantity/assets/js/quantity.js');
+        self::addToStorage(array(
+            'jbassets:css/libraries.css',
+            'jbassets:less/widget/quantity.less',
+            'jbassets:js/widget/quantity.js',
+            'cart-elements:price/quantity/assets/js/quantity.js'
+        ));
 
         return parent::loadAssets();
     }
-
 }

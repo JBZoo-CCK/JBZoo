@@ -51,7 +51,7 @@ class JBCartElementPriceBalance extends JBCartElementPrice
     public function edit($params = array())
     {
         if ($layout = $this->getLayout('edit.php')) {
-            $this->app->jbassets->js('cart-elements:price/balance/assets/js/balance.js');
+            $this->app->jbassets->js('cart-elements:price/balance/assets/js/edit.js');
 
             return self::renderEditLayout($layout);
         }

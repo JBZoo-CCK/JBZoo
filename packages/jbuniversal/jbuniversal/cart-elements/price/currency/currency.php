@@ -24,7 +24,12 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        return true; // TODO check
+        $list = (array)$params->get('currency_list', array());
+        if (!empty($list)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -90,7 +95,7 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
      */
     public function parentSelector()
     {
-        return '.' . $this->get('_hash');
+        return '.' . $this->_data->find('_options.hash');
     }
 
     /**
@@ -107,13 +112,14 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
         );
     }
 
-    /**
-     * Returns data when variant changes
-     * @return null
-     */
-    public function renderAjax()
+    public function loadAssets()
     {
-        return null;
-    }
+        self::addToStorage(array(
+            'jbassets:js/widget/money.js',
+            'jbassets:js/widget/currencytoggle.js',
+            'jbassets:less/widget/currencytoggle.less'
+        ));
 
+        return parent::loadAssets();
+    }
 }

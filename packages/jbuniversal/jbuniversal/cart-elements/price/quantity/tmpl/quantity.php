@@ -12,7 +12,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$params    = $this->interfaceParams();
 $unique    = $this->htmlId(true);
 $default   = $params['default'];
 $isEnabled = true;
@@ -20,7 +19,7 @@ $isEnabled = true;
 if ($isEnabled) : ?>
     <div class="jbprice-quantity jbprice-count">
         <label for="<?php echo $unique; ?>">
-            <?php echo $this->_jbhtml->quantity($default, $params, $unique, $this->getRenderName('value')); ?>
+            <?php echo $this->_jbhtml->quantity($default, $params, $unique, $this->getRenderName('value'), true); ?>
         </label>
     </div>
 <?php else : ?>
