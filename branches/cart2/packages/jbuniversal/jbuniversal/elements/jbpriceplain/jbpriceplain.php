@@ -80,14 +80,15 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
         $list = $this->getVariantByValues($values);
         $key  = (int)(JString::strlen(key($list)) > 0 ? key($list) : self::BASIC_VARIANT);
 
-        $this->set('default_variant', $key);
-
+        $this->setDefault($key);
         $this->_template = $template;
+
         $this->getVariantList($list, array(
+            'default'  => $key,
             'values'   => $values,
             'template' => $template,
             'currency' => !empty($currency) ? $currency : $this->currency()
-        ), true);
+        ));
 
         $this->app->jbajax->send($this->_list->renderVariant());
     }
@@ -109,14 +110,14 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
         $key  = (int)(JString::strlen(key($list)) > 0 ? key($list) : self::BASIC_VARIANT);
 
         //Set the default option, which we have received, not saved. For correct calculation.
-        $this->set('default_variant', $key);
+        $this->setDefault($key);
 
         $this->_template = $template;
         $this->getVariantList($list, array(
             'values'   => $values,
             'quantity' => $quantity,
             'currency' => !empty($currency) ? $currency : $this->currency()
-        ), true);
+        ));
         $session_key = $this->_list->getSessionKey();
 
         $data = $cart->getItem($session_key);
@@ -153,15 +154,6 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
         $result  = JBCart::getInstance()->remove($item_id, $this->identifier, $key);
 
         $this->app->jbajax->send(array('removed' => $result));
-    }
-
-    /**
-     * @param $identifier
-     * @return array|void
-     */
-    public function elementOptions($identifier)
-    {
-        return parent::selectedOptions($identifier);
     }
 
     /**

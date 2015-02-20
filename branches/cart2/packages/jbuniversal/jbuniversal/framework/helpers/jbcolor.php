@@ -34,13 +34,9 @@ class JBColorHelper extends AppHelper
             $default = false;
         }
         $path = $this->_clean($path, '/\\');
-
         foreach ($colors as $color) {
-
             $color = $this->_clean($color);
-
             if (!empty($color)) {
-
                 if (!$hasSeparator = strpos($color, '#')) {
                     continue;
                 }

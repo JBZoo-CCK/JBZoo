@@ -27,6 +27,11 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public $hash;
 
     /**
+     * @type JBCartVariant
+     */
+    public $basic;
+
+    /**
      * @var Array of params config
      */
     public $params = null;
@@ -47,19 +52,19 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     protected $_params = array();
 
     /**
-     * @var JBMoneyHelper
-     */
-    protected $_money = null;
-
-    /**
-     * @var JBCartElementHelper
-     */
-    protected $_element = null;
-
-    /**
      * @var JBCartPositionHelper
      */
     protected $_position = null;
+
+    /**
+     * @type JBCacheHelper
+     */
+    protected $_cache = null;
+
+    /**
+     * @type JBStorageHelper
+     */
+    protected $_storage;
 
     /**
      * @var JBCartVariantList
@@ -70,11 +75,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * @type JBPriceHelper
      */
     protected $_helper;
-
-    /**
-     * @var JBImageHelper
-     */
-    protected $_image = null;
 
     /**
      * @var JBModelConfig
@@ -103,15 +103,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     const BASIC_VARIANT       = 0;
     const SIMPLE_PARAM_LENGTH = 36;
 
-    const TABLE_SKU_ELEMENTS_PREFIX = '_elements';
-    const TABLE_SKU_VALUE_PREFIX    = '_values';
-
-    const PARAM_IMAGE_IDENTIFIER       = '_image';
-    const PARAM_DESCRIPTION_IDENTIFIER = '_description';
-    const PARAM_WEIGHT_ID              = '_weight';
-    const PARAM_SKU_ID                 = '_sku';
-    const PARAM_VALUE_ID               = '_value';
-
     /**
      * Constructor
      */
@@ -126,13 +117,26 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $this->registerCallback('ajaxChangeVariant');
 
         // link to money helper
-        $this->_money    = $this->app->jbmoney;
         $this->_position = $this->app->jbcartposition;
-        $this->_image    = $this->app->jbimage;
         $this->_config   = JBModelConfig::model();
 
-        $this->_element = $this->app->jbcartelement;
         $this->_helper  = $this->app->jbprice;
+        $this->_cache   = $this->app->jbcache;
+        $this->_storage = $this->app->jbstorage;
+    }
+
+    public function setType($type)
+    {
+        $this->_getConfig();
+
+        parent::setType($type);
+    }
+
+    public function setItem($item)
+    {
+        $this->_getConfig();
+
+        parent::setItem($item);
     }
 
     /**
@@ -159,15 +163,14 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function edit($params = array())
     {
-        $config = $this->_getConfig(false);
-
+        $config = $this->_getConfig();
         if (!empty($config)) {
             if ($layout = $this->getLayout('variations.php')) {
                 $this->loadEditAssets();
 
                 $variations = $this->get('variations', array('1' => array()));
+                $renderer   = $this->app->jbrenderer->create('jbprice');
 
-                $renderer = $this->app->jbrenderer->create('jbprice');
                 if (count($variations) === 1) {
                     $variations[count($variations)] = array();
                 }
@@ -203,40 +206,49 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function render($params = array())
     {
-        $this->loadAssets();
-        $params = $this->app->data->create($params);
-        $item   = $this->getItem();
+        $caching    = (int)$this->config->get('cache', 0);
+        $this->hash = md5($this->identifier
+            . $this->_item->id
+            . serialize($params)
+            . serialize((array)$this->data())
+            . serialize($this->params)
+            . serialize($this->_render_params)
+        );
 
-        $this->_template = $params->get('template', 'default');
-        $this->_layout   = $params->get('_layout');
+        if (!$caching || $caching && !$cache = $this->_cache->get($this->hash, 'price', true)) {
+            $this->loadAssets();
 
-        $this->hash = md5($params . $item->alias);
+            $params          = new AppData($params);
+            $this->_template = $params->get('template', 'default');
+            $this->_layout   = $params->get('_layout');
 
-        $renderer = $this->app->jbrenderer->create('jbprice');
+            $renderer = $this->app->jbrenderer->create('jbprice');
+            $variant  = $this->getVariantList()->byDefault();
 
-        $variant = $this->getDefaultVariant();
-        $data    = $renderer->render($this->_template, array(
-            'price'    => $this,
-            '_variant' => $variant,
-            'variant'  => $variant->id(),
-            '_layout'  => $this->_layout
-        ));
-
-        //Must be after renderer
-        $elements = $this->elementsInterfaceParams();
-        if ($layout = $this->getLayout('render.php')) {
-
-            return self::renderLayout($layout, array(
-                'hash'       => $this->hash,
-                'data'       => $data,
-                'elements'   => $elements,
-                'variantUrl' => $this->app->jbrouter->element($this->identifier, $item->id, 'ajaxChangeVariant', array(
-                    'template' => $this->_template
-                )),
+            $data = $renderer->render($this->_template, array(
+                'price'    => $this,
+                '_variant' => $variant,
+                'variant'  => $variant->getId(),
+                '_layout'  => $this->_layout
             ));
+
+            //Must be after renderer
+            $elements = $this->elementsInterfaceParams();
+            if ($layout = $this->getLayout('render.php')) {
+                return self::renderLayout($layout, array(
+                    'hash'       => $this->hash,
+                    'data'       => $data,
+                    'elements'   => $elements,
+                    'variantUrl' => $this->app->jbrouter->element($this->identifier, $this->_item->id, 'ajaxChangeVariant', array(
+                        'template' => $this->_template
+                    )),
+                ));
+            }
+
+            return null;
         }
 
-        return null;
+        return $cache;
     }
 
     /**
@@ -250,6 +262,22 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $this->hash = md5($params . $this->getItem()->alias);
 
         return $this->edit($params);
+    }
+
+    /**
+     * Renders the element using template layout file.
+     * @param       $__layout
+     * @param array $__args
+     * @return string
+     */
+    public function renderLayout($__layout, $__args = array())
+    {
+        $html = parent::renderLayout($__layout, $__args);
+        if ((int)$this->config->get('cache', 0)) {
+            $this->_cache->set($this->hash, $html, 'price', true);
+        }
+
+        return $html;
     }
 
     /**
@@ -277,7 +305,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * Get default variant index
      * @return mixed
      */
-    public function defaultVariantKey()
+    public function defaultKey()
     {
         $data = $this->data();
         if (isset($data['default_variant']) && JString::strlen($data['default_variant']) > 0) {
@@ -288,35 +316,146 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
-     * @param array $variations
-     * @param array $options
-     * @param bool  $reload
-     * @return \JBCartVariantList
+     * @param $variant
+     * @return array
      */
-    public function getVariantList($variations = array(), $options = array(), $reload = false)
+    public function allData($variant)
     {
-        if ($reload) {
-            $this->unsetList();
+        $variations = $this->get('variations', array());
+        $elements   = array();
+        if (!empty($variations) && isset($variant[$variant])) {
+            $variant  = $variant[$variant];
+            $elements = $this->mergeSysElements($variant);
         }
 
+        return $elements;
+    }
+
+    /**
+     * @param array $elements
+     * @return array
+     */
+    public function mergeSysElements(array $elements)
+    {
+        if (empty($elements)) {
+            return $elements;
+        }
+
+        $elements = array_merge((array)$this->_render_params, (array)$elements);
+
+        return $elements;
+    }
+
+    /**
+     * @param array $list
+     * @param array $options
+     * @return \JBCartVariantList
+     */
+    public function getVariantList($list = array(), $options = array())
+    {
         if (!$this->_list instanceof JBCartVariantList) {
-            if (empty($variations)) {
-                $variations = array(
-                    self::BASIC_VARIANT       => $this->get('variations.' . self::BASIC_VARIANT),
-                    self::defaultVariantKey() => $this->get('variations.' . self::defaultVariantKey())
-                );
+            if (empty($list)) {
+                $list = $this->defaultList();
             }
 
-            $options = array_merge(array(
-                'values'   => $this->data()->find('values.' . self::defaultVariantKey()),
-                'currency' => $this->currency(),
-                'hash'     => $this->hash
+            $variations = $this->build($list);
+            $options    = array_merge(array(
+                'element'    => $this,
+                'element_id' => $this->identifier,
+                'item_id'    => $this->_item->id,
+                'item_name'  => $this->_item->name,
+                'template'   => $this->_template,
+                'layout'     => $this->_layout,
+                'hash'       => $this->hash,
+                'isOverlay'  => $this->isOverlay(),
+                'values'     => $this->get('values.' . $this->defaultKey()),
+                'currency'   => $this->currency(),
+                'default'    => $this->defaultKey(),
+                'cache'      => $this->config->get('cache')
             ), (array)$options);
 
-            $this->_list = new JBCartVariantList($variations, $this, $options);
+            $this->_list = new JBCartVariantList($variations, $options);
+
+            return $this->_list;
+        }
+
+        if (!empty($list)) {
+            $variations = $this->build($list);
+            $this->_list
+                ->add($variations)
+                ->setOptions($options);
         }
 
         return $this->_list;
+    }
+
+    public function build($list, $options = array())
+    {
+        $variations = array();
+        if (!empty($list)) {
+            if (!isset($list[0])) {
+                $list[0] = $this->get('variations.' . 0);
+            }
+            $isOverlay = $this->isOverlay();
+            $isCache   = $this->isCache();
+            ksort($list);
+            foreach ($list as $id => $elements) {
+                $elements = $this->mergeSysElements($elements);
+                $elements = $this->_getElements(array_keys($elements));
+
+                $basic = null;
+                if ($id != self::BASIC_VARIANT) {
+                    $basic = $variations[self::BASIC_VARIANT];
+                }
+                $variations[$id] = $this->_storage->create('variant', array(
+                    'elements' => $elements,
+                    'options'  => array(
+                        'id'         => $id,
+                        'data'       => $list[$id],
+                        'element_id' => $this->identifier,
+                        'item_id'    => $this->_item->id,
+                        'item_name'  => $this->_item->name,
+                        'template'   => $this->_template,
+                        'layout'     => $this->_layout,
+                        'hash'       => $this->hash,
+                        'isOverlay'  => $isOverlay,
+                        'basic'      => $basic,
+                        'cache'      => $isCache
+                    )
+                ));
+            }
+        }
+
+        return $variations;
+    }
+
+    /**
+     * @return array
+     */
+    public function defaultList()
+    {
+        $default = $this->defaultKey();
+        $list    = $this->get('variations');
+
+        return array(
+            0        => isset($list[0]) ? $list[0] : array(),
+            $default => isset($list[$default]) ? $list[$default] : array()
+        );
+    }
+
+    /**
+     * @param $key
+     */
+    public function setDefault($key)
+    {
+        $old = (int)$this->get('default_variant');
+
+        if ($old != (int)$key) {
+            $this->set('default_variant', $key);
+            if ($this->_list instanceof JBCartVariantList) {
+                $this->_list->setDefault($key);
+            }
+        }
     }
 
     /**
@@ -325,7 +464,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function currency()
     {
-        $default = $this->_config->get('cart.default_currency', JBCart::val()->cur());
+        $default = JBCart::val()->cur();
         $params  = $this->getElementRenderParams('_currency');
 
         if ($params) {
@@ -391,27 +530,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         if (empty($identifier)) {
             return $result;
         }
-
-        $variations = $this->get('variations', array());
-        if (!empty($variations)) {
-            foreach ($variations as $key => $variant) {
-                if (isset($variant[$identifier])) {
-
-                    $element = $this->getElement($identifier);
-                    $value   = $variant[$identifier];
-
-                    $element->bindData($value);
-
-                    $value = $element->getValue();
-                    if (JString::strlen($value) !== 0) {
-                        $result[$key] = array(
-                            'value' => $value,
-                            'name'  => $value
-                        );
-                    }
-                }
-            }
-        }
+        $result = $this->get('selected.' . $identifier, array());
 
         return $result;
     }
@@ -423,17 +542,16 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function selectedOptions($identifier)
     {
-        $options = self::findOptions($identifier);
-        if (empty($options)) {
-            return $options;
-        }
+        return $this->findOptions($identifier);
+    }
 
-        $result = array();
-        foreach ($options as $key => $value) {
-            $result[$value['value']] = $value['name'];
-        }
-
-        return $result;
+    /**
+     * @param $identifier
+     * @return array|void
+     */
+    public function elementOptions($identifier)
+    {
+        return $this->findOptions($identifier);
     }
 
     /**
@@ -494,7 +612,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function data()
     {
-        return $this->app->data->create(parent::data());
+        return new AppData(parent::data());
     }
 
     /**
@@ -508,30 +626,32 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
         $data = array();
         if (!empty($variations)) {
-            $elements = array_merge(
-                (array)$this->_position->loadElements(JBCart::CONFIG_PRICE),
-                (array)$this->_position->loadElements(JBCart::CONFIG_PRICE_TMPL)
-            );
-            $list     = $this->getVariantList($variations);
+            $_config  = $this->_position->loadElements(JBCart::CONFIG_PRICE);
+            $_tmpl    = $this->_position->loadElements(JBCart::CONFIG_PRICE_TMPL);
+            $elements = array_merge($_config, $_tmpl);
+            unset($_config, $_tmpl);
 
-            foreach ($list->all() as $key => $variant) {
-                $this->set('default_variant', $key);
-                $list->_default = $key;
+            $this->getVariantList($variations);
 
-                $elements = array_merge((array)$elements, (array)$variant->getElements());
-                foreach ($elements as $id => $element) {
+            $all = $this->_list->all();
+            foreach ($all as $key => $variant) {
+                $this->setDefault($key);
+                $this->_list->_default = $key;
+
+                $_elements = array_merge((array)$elements, (array)$variant->getElements());
+                foreach ($_elements as $id => $element) {
                     if ($element->isSystemTmpl()) {
                         $element->setJBPrice($this);
                         $element->config->set('_variant', $key);
                     }
-                    $value = $element->getSearchData();
 
+                    $value = $element->getSearchData();
                     if (!empty($value)) {
                         $d = $s = $n = null;
                         if ($value instanceof JBCartValue) {
                             $s = $value->data(true);
                             $n = $value->val();
-                        } elseif (JSTring::strlen($value) !== 0) {
+                        } elseif (mb_strlen($value) !== 0) {
                             $s = $value;
                             $n = $this->isNumeric($value) ? $value : null;
                             $d = $this->isDate($value) ? $value : null;
@@ -546,11 +666,15 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                             'value_d'    => $d,
                             'variant'    => $key
                         );
+
+                        unset($value, $d, $s, $n);
                     }
                 }
             }
+            unset($elements, $variations, $this->_list, $all, $list);
         }
-        $this->_list = $this->_params = $this->params = null;
+
+        $this->_position = $this->_config = $this->_element = null;
 
         return $data;
     }
@@ -572,9 +696,8 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function isDate($date)
     {
-        $jbDate = $this->app->jbdate;
-        if ($jbDate->isDate($date)) {
-            return $jbDate->convertToStamp($date);
+        if ($this->app->jbdate->isDate($date)) {
+            return $this->app->jbdate->convertToStamp($date);
         }
 
         return false;
@@ -648,13 +771,23 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function getElement($identifier, $variant = self::BASIC_VARIANT)
     {
+        //@jbdump::mark($this->getItem()->name . '::' . __FUNCTION__ . '::identifier::' . $identifier . '::start');
         // has element already been loaded?
-        if (!$element = isset($this->_params[$identifier]) ? $this->_params[$identifier] : null) {
+        if (!$element = ($this->_storage->get('elements', $identifier) ? $this->_storage->get('elements', $identifier) : null)) {
             if ($config = $this->getElementConfig($identifier)) {
-                if ($element = $this->_element->create($config->get('type'), $config->get('group'), $config)) {
-                    $element->identifier = $identifier;
+                $group = $config->get('group');
+                $type  = $config->get('type');
 
-                    $this->_params[$identifier] = $element;
+                if ($element = $this->_storage->create('elements', array(
+                    'app'        => $this->app,
+                    'type'       => $type,
+                    'group'      => $group,
+                    'config'     => $config,
+                    'class'      => 'JBCartElement' . $group . $type,
+                    'identifier' => $identifier
+                ))
+                ) {
+
                 } else {
                     return false;
                 }
@@ -664,10 +797,11 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         }
 
         $element = clone($element);
-
         $element->config->set('_variant', $variant);
         $element->setJBPrice($this);
+        $element->setProperty('isOverlay', $this->isOverlay());
 
+        //@jbdump::mark($this->getItem()->name . '::' . __FUNCTION__ . '::identifier::' . $identifier . '::end');
         return $element;
     }
 
@@ -676,10 +810,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function getElements()
     {
-        if (is_null($this->params)) {
-            $this->_getConfig();
-        }
-
         return $this->_getElements(array_keys(array_diff_key($this->params, $this->_getRenderParams())));
     }
 
@@ -716,10 +846,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function getElementConfig($identifier)
     {
-        if (is_null($this->params)) {
-            $this->_getConfig();
-        }
-
         if (isset($this->params[$identifier])) {
             return $this->app->data->create($this->params[$identifier]);
         }
@@ -806,31 +932,55 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
         if (isset($data['variations'])) {
             $variations = $data['variations'];
-
             foreach ($variations as $i => $variant) {
+                $hasSimple = false;
                 foreach ($variant as $id => $value) {
+
                     $element = $this->getElement($id, $i);
+                    $element->bindData($value);
+                    $value = $element->getValue();
 
-                    if (!$element->isCore()) {
-                        if ($required = $element->isRequired()) {
-                            $result['required'][$id] = $required;
-                        }
-                        $result['values'][$i][$id] = $value;
+                    switch (gettype($value)) {
+                        case 'array': {
 
-                        if (is_array($value)) {
                             foreach ($value as $j => $var) {
                                 $var       = JString::trim($var);
                                 $value[$j] = $var;
 
-                                if (empty($var) && JString::strlen($var) === 0) {
-                                    unset($result['variations'][$i][$id]);
-                                    unset($result['values'][$i][$id]);
+                                if (JString::strlen($var) === 0) {
+                                    unset($variant[$id]);
                                 }
                             }
+
+                            if (!$element->isCore() && !empty($variant[$id])) {
+                                $_data                           = (array)$element->bindData($value)->data();
+                                $result['values'][$i][$id]       = $_data;
+                                $result['selected'][$id][$value] = $value;
+                            }
+                            break;
+                        }
+                        default: {
+
+                            if (JString::strlen($value) === 0) {
+                                unset($variant[$id]);
+                            }
+
+                            if (!$element->isCore() && !empty($variant[$id])) {
+                                $_data                           = (array)$element->bindData($value)->data();
+                                $result['values'][$i][$id]       = $_data;
+                                $result['selected'][$id][$value] = $value;
+                            }
+                            break;
                         }
                     }
 
-                    $result['variations'][$i][$id] = $value;
+                    if (!$element->isCore() && isset($variant[$id]) || $i === 0) {
+                        $hasSimple = true;
+                    }
+                }
+
+                if (!empty($variant) && $hasSimple) {
+                    $result['variations'][$i] = $variant;
                 }
             }
         }
@@ -840,6 +990,15 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             foreach ($data as $id => $unknown) {
                 $result[$id] = is_string($unknown) ? JString::trim($unknown) : $unknown;
             }
+        }
+
+        if (isset($result['variations'])) {
+            $result['variations'] = array_values($result['variations']);
+        }
+
+        if (isset($result['values'])) {
+            $keys             = range(1, count($result['values']));
+            $result['values'] = array_combine($keys, array_values($result['values']));
         }
 
         parent::bindData($result);
@@ -863,16 +1022,32 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
+     * @return int
+     */
+    public function isCache()
+    {
+        return (int)$this->config->get('cache', 0);
+    }
+
+    /**
      * Load assets
      * @return $this
      */
     public function loadAssets()
     {
+        $js   = 'elements:jbprice/assets/js/jbprice.js';
+        $less = 'elements:jbprice/assets/less/jbprice.less';
+
         $this->app->jbassets->js(array(
-            'elements:jbprice/assets/js/jbprice.js',
-            'jbassets:js/price/toggle.js'
+            $js, 'jbassets:js/price/toggle.js'
         ));
-        $this->app->jbassets->less('elements:jbprice/assets/less/jbprice.less');
+        $this->app->jbassets->less($less);
+
+        if ($this->isCache()) {
+            $key = strtolower(get_called_class());
+            $this->_storage->set('assets', $js, md5($key . $js));
+            $this->_storage->set('assets', $less, md5($key . $less));
+        }
 
         return parent::loadAssets();
     }
@@ -915,12 +1090,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             return $this->_list->all();
         }
 
-        $this->getVariantList(array(), array(
-            'template' => $this->_template,
-            'layout'   => $this->_layout,
-        ));
-
-        return $this->_list->all();
+        return $this->getVariantList()->all();
     }
 
     /**
@@ -929,7 +1099,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     protected function getDefaultVariant()
     {
-        $default = $this->defaultVariantKey();
+        $default = $this->defaultKey();
 
         return $this->getVariant($default);
     }
@@ -940,46 +1110,37 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function getVariant($id = self::BASIC_VARIANT)
     {
-        if ($this->_list instanceof JBCartVariantList) {
-            return $this->_list->get($id);
+        $array = $this->defaultList() + array(
+                $id => $this->data()->find('variations.' . $id)
+            );
+
+        if (!$this->_list instanceof JBCartVariantList) {
+            $this->getVariantList($array);
         }
 
-        $this->getVariantList(array(), array(
-            'template' => $this->_template,
-            'layout'   => $this->_layout,
-        ));
+        if (!$this->_list->has($id)) {
+            $variations = $this->build($array);
+
+            $this->_list->add($variations);
+        }
 
         return $this->_list->get($id);
     }
 
     /**
-     * Unset $_list JBCartVariantList
-     * @return $this
-     */
-    protected function unsetList()
-    {
-        $this->_list = null;
-
-        return $this;
-    }
-
-    /**
      * Load all params
-     * @param bool $core
      * @return array
      */
-    protected function _getConfig($core = true)
+    protected function _getConfig()
     {
         if (is_null($this->params)) {
-            $this->params = $this->_config
+            $this->params = (array)$this->_config
                 ->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $this->identifier)
                 ->get('list', array());
         }
 
-        if ($core === true) {
-            $this->_getRenderParams();
-            $this->_getFilterParams();
-        }
+        $this->_getRenderParams();
+        $this->_getFilterParams();
 
         return $this->params;
     }
@@ -994,11 +1155,10 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             return array();
         }
 
-        if (is_null($this->_render_params)) {
-
+        if (!isset($this->_render_params)) {
             $config = JBCart::CONFIG_PRICE_TMPL . '.' . $this->identifier . '.' . $this->_template;
 
-            $this->_render_params = $this->_position->loadParams($config);
+            $this->_render_params = new AppData($this->_position->loadParams($config));
         }
 
         return $this->_render_params;
@@ -1014,11 +1174,10 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             return array();
         }
 
-        if (!$this->filter_params) {
-
+        if (!isset($this->filter_params)) {
             $config = JBCart::CONFIG_PRICE_TMPL_FILTER . '.' . $this->identifier . '.' . $this->_filter_template;
 
-            $this->filter_params = $this->_position->loadParams($config);
+            $this->filter_params = (array)$this->_position->loadParams($config);
         }
 
         return $this->filter_params;

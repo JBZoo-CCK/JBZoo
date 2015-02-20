@@ -310,13 +310,15 @@ class JBCart
         if (!empty($data)) {
             /** @type ElementJBPrice $price * */
             if ($price = $this->getJBPrice($data)) {
-                $price->set('default_variant', $data['variant']);
+                $price->setDefault($data['variant']);
                 $price->setProp('_template', $data['template']);
 
                 $list = $price->getVariantList($data['variations'], array(
+                    'default'  => $data['variant'],
+                    'template' => $data['template'],
                     'quantity' => $data['quantity']
-                ), true);
-
+                ));
+                //die;
                 $this->removeVariant($data['key']);
                 $this->addItem($list->getCartData());
             }
@@ -589,10 +591,12 @@ class JBCart
     {
         $data = $this->getItem($key);
         if (!empty($data)) {
-            $this->updateItem($data);
-            $price = $this->getItemElement($data);
+            if ($price = $this->getItemElement($data)) {
+                $price->setDefault($data['variant']);
+                return $price->inStock($quantity, $data['variant']);
+            }
 
-            return $price->inStock($quantity, $data['variant']);
+            return false;
         }
 
         return false;
