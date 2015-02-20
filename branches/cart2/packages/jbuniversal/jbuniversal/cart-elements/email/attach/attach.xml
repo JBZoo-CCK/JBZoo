@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<element type="element"
-         group="Core"
-         hidden="false">
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Alexander Oganov <t_tapak@yahoo.com>
+-->
+<element type="element" group="Core" hidden="false">
     <name>Attach - Files</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
@@ -9,22 +17,19 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZoo Cart Element Core System</description>
-    <params>
-        <param name="file"
-               type="jbfinder"
-               default=""
-               label="JBZOO_EMAIL_ATTACH_FILE"
-               description="JBZOO_EMAIL_ATTACH_FILE_DESC" />
+    <description>JBZOO_ELEMENT_EMAIL_ATTACH_DESC</description>
 
-        <param name="nameformat"
-               type="list"
-               default=""
-               label="JBZOO_EMAIL_ATTACH_NAMEFORMAT"
-               description="JBZOO_EMAIL_ATTACH_NAMEFORMAT_DESC">
-            <option value="0">Filename</option>
-            <option value="1">Element name - Filename</option>
-            <option value="2">Element name - Filename (Description)</option>
+    <params>
+        <param name="file" type="jbfinder" default="" label="JBZOO_ELEMENT_EMAIL_ATTACH_FILE"
+               description="JBZOO_ELEMENT_EMAIL_ATTACH_FILE_DESC" />
+
+        <param name="nameformat" type="list" default="" label="JBZOO_ELEMENT_EMAIL_ATTACH_NAMEFORMAT"
+               description="JBZOO_ELEMENT_EMAIL_ATTACH_DESC">
+            <option value="0">JBZOO_ELEMENT_EMAIL_ATTACH_NAMEFORMAT_0_OPTIONNAME</option>
+            <option value="1">JBZOO_ELEMENT_EMAIL_ATTACH_NAMEFORMAT_1_OPTIONNAME</option>
+            <option value="2">JBZOO_ELEMENT_EMAIL_ATTACH_NAMEFORMAT_2_OPTIONNAME</option>
         </param>
+
     </params>
+
 </element>

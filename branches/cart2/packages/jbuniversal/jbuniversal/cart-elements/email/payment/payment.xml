@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Alexander Oganov <t_tapak@yahoo.com>
+-->
 <element type="element" group="Core" hidden="false">
     <name>Payment</name>
     <author>JBZoo.com</author>
@@ -7,12 +17,13 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZoo Cart Element Core System</description>
+    <description>JBZOO_ELEMENT_EMAIL_PAYMENT_DESC</description>
+
     <params>
-        <param name="title"
-               type="text"
-               default=""
-               label="JBZOO_EMAIL_PAYMENT_TITLE"
-               description="JBZOO_EMAIL_PAYMENT_TITLE_DESC" />
+
+        <param name="title" type="text" default="" label="JBZOO_ELEMENT_EMAIL_PAYMENT_TITLE"
+               description="JBZOO_ELEMENT_EMAIL_PAYMENT_TITLE_DESC" />
+
     </params>
+
 </element>

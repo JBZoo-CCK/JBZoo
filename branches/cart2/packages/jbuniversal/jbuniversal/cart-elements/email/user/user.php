@@ -18,6 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementEmailUser extends JBCartElementEmail
 {
+
     /**
      * User formats of name
      *
@@ -69,11 +70,11 @@ class JBCartElementEmailUser extends JBCartElementEmail
             $format = $this->config->get('format', 'name');
         }
 
-        $userid = $this->getOrder()->created_by;
-        $user   = JFactory::getUser($userid);
+        $userId = $this->getOrder()->created_by;
+        $user   = JFactory::getUser($userId);
         $full   = $this->_toFullFormat();
 
-        if ($userid === 0) {
+        if ($userId === 0) {
             return JText::_('JBZOO_ORDER_CREATED_BY_GUEST');
 
         } else if ($format === self::USERNAME_FORMAT_FULL) {
@@ -132,4 +133,5 @@ class JBCartElementEmailUser extends JBCartElementEmail
 
         return $title;
     }
+
 }
