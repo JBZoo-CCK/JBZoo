@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Andrey Voytsehovsky <kess@jbzoo.com>
+-->
 <element type="option" group="Core" hidden="true">
     <name>Option</name>
     <author>JBZoo.com</author>
@@ -7,16 +17,18 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>Option Core System</description>
+    <description>JBZOO_ELEMENT_ORDER_OPTION_DESC</description>
 
     <params>
-        <param name="default" type="text" default="" label="Default" description=""/>
-        <param name="options" type="options" default="" label="Options" description=""/>
+        <param name="default" type="text" default="" label="JBZOO_DEFAULT" description=""/>
+        <param name="options" type="options" default="" label="JBZOO_OPTIONS" description=""/>
     </params>
 
     <params group="render">
-        <param name="separated_by" type="zoolist" default="Space" label="Separated by"
-               description="CHOOSE_SEPARATOR_REPEATED_ELEMENTS">
+
+        <param name="separated_by" type="zoolist" default="Space" label="JBZOO_ELEMENT_ORDER_OPTION_SEPARATED_BY"
+               description="JBZOO_ELEMENT_ORDER_OPTION_SEPARATED_BY_DESC">
+
             <option name="Space"><![CDATA[separator=[ ]]]></option>
             <option name="Comma"><![CDATA[separator=[, ]]]></option>
             <option name="Hyphen"><![CDATA[separator=[ - ]]]></option>
@@ -35,12 +47,14 @@
             <option name="UIkit List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul class="uk-list">%s</ul>]]]></option>
             <option name="UIkit List Line">
                 <![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul class="uk-list uk-list-line">%s</ul>]]]></option>
+
         </param>
 
         <param name="required" type="jbbool" default="" label="JBZOO_ELEMENT_REQUIRED"
                description="JBZOO_ELEMENT_REQUIRED_DESC"/>
 
-        <param name="user_field" type="jbuserdata" label="JBZOO_ELEMENT_ORDER_USERPROFILE_FIELD" description=""/>
+        <param name="user_field" type="jbuserdata" label="JBZOO_ELEMENT_ORDER_OPTION_USER_FIELD" description=""/>
+
     </params>
 
 </element>
