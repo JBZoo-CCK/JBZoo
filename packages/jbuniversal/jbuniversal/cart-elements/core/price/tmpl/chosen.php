@@ -14,6 +14,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 if (count($data)) {
-    $unique = $this->app->jbstring->getId('buttons-');
-    echo $this->app->jbhtml->buttonsJqueryUI($data, $this->getRenderName('value'), null, $this->getValue('value'), $unique);
+    $this->addToStorage(array(
+        'jbassets:css/libraries.css',
+        'jbassets:js/libs/chosen.js'
+    ));
+    echo $this->_jbhtml->selectChosen($data, $this->getRenderName('value'), null, $this->getValue('value'), $this->htmlId(true));
 }

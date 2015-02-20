@@ -73,6 +73,7 @@ class ElementJBColor extends Element implements iSubmittable
      */
     public function render($params = array())
     {
+        $this->loadAssets();
         $result = array();
         $params = $this->app->data->create($params);
         $colors = $this->getSelectedColors();
@@ -244,4 +245,14 @@ class ElementJBColor extends Element implements iSubmittable
         return compact('option');
     }
 
+    /**
+     * Load elements css/js assets
+     * @return $this
+     */
+    public function loadAssets()
+    {
+        $this->app->jbassets->colors();
+
+        return parent::loadAssets();
+    }
 }

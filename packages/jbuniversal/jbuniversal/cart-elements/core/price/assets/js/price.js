@@ -1,4 +1,3 @@
-<?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
  *
@@ -10,10 +9,16 @@
  * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+;
+(function ($, window, document, undefined) {
 
-if (count($data)) {
-    $unique = $this->app->jbstring->getId('buttons-');
-    echo $this->app->jbhtml->buttonsJqueryUI($data, $this->getRenderName('value'), null, $this->getValue('value'), $unique);
-}
+    JBZoo.widget('JBZoo.PriceElement_default', {},
+        {
+            rePaint: function (data) {
+
+                this.el.html(data);
+            }
+        }
+    );
+
+})(jQuery, window, document);
