@@ -124,13 +124,13 @@ class JBEntityHelper extends AppHelper
 
         $modelName = 'JBModelElement' . $elementType;
 
-        if (class_exists($modelName)) {
+        if (class_exists($modelName, false)) {
             return new $modelName($element, $applicationId, $type);
 
-        } elseif ($isRange && class_exists('JBModelElementRange')) {
+        } elseif ($isRange && class_exists('JBModelElementRange', false)) {
             return new JBModelElementRange($element, $applicationId, $type);
 
-        } elseif (!$isRange && class_exists('JBModelElement')) {
+        } elseif (!$isRange && class_exists('JBModelElement', false)) {
             return new JBModelElement($element, $applicationId, $type);
 
         } else {
