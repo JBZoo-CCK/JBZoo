@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
 <element type="element" group="Core" hidden="false">
     <name>Local XML file</name>
     <author>JBZoo.com</author>
@@ -7,14 +17,13 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZoo Cart Element Core System</description>
+    <description>JBZOO_ELEMENT_CURRENCY_LOCALXML_DESC</description>
 
     <params>
 
-        <param name="rate" type="text" default="jbconfig:jbcurrency.xml" label="JBZOO_ELEMENT_CURRENCY_LOCALXML"
-               description="JBZOO_ELEMENT_CURRENCY_LOCALXML_DESC"/>
+        <param name="rate" type="text" default="jbconfig:jbcurrency.xml" label="JBZOO_ELEMENT_CURRENCY_LOCALXML_RATE"
+               description="JBZOO_ELEMENT_CURRENCY_LOCALXML_RATE_DESC"/>
 
     </params>
-
 
 </element>
