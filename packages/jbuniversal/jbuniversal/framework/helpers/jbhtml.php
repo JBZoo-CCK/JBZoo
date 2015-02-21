@@ -829,7 +829,7 @@ class JBHTMLHelper extends AppHelper
     {
         $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
         if ($isTrim) {
-            $value = JString::trim($value);
+            $value = trim($value);
         }
 
         return $value;
