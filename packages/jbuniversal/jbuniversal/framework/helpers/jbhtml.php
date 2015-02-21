@@ -207,9 +207,10 @@ class JBHTMLHelper extends AppHelper
      * @param array  $options
      * @param string $id
      * @param string $name
+     * @param bool   $return
      * @return string
      */
-    public function quantity($default = 1, $options = array(), $id = null, $name = 'quantity')
+    public function quantity($default = 1, $options = array(), $id = null, $name = 'quantity', $return = false)
     {
         if (!$id) {
             $id = $this->app->jbstring->getId('quantity');
@@ -236,7 +237,7 @@ class JBHTMLHelper extends AppHelper
             '</table>',
         );
 
-        $this->app->jbassets->initQuantity($id, $options);
+        $html[] = $this->app->jbassets->initQuantity($id, $options, $return);
 
         return implode("\n", $html);
     }
@@ -340,7 +341,7 @@ class JBHTMLHelper extends AppHelper
         $html[] = '</div>';
 
         $multiple = $inputType == 'checkbox' ? 1 : 0;
-        $this->app->jbassets->initJBColorHelper($unique, $multiple);
+        $html[] = $this->app->jbassets->initJBColorHelper($unique, $multiple, true);
 
         return implode("\n", $html);
     }
@@ -349,9 +350,10 @@ class JBHTMLHelper extends AppHelper
      * @param string $defaultCur
      * @param array  $rates
      * @param array  $options
+     * @param bool   $return
      * @return array|null|string
      */
-    public function currencyToggle($defaultCur = 'eur', $rates = null, $options = array())
+    public function currencyToggle($defaultCur = 'eur', $rates = null, $options = array(), $return = false)
     {
         $rates = !empty($rates) ? $rates : $this->app->jbmoney->getData();
 
@@ -427,7 +429,7 @@ class JBHTMLHelper extends AppHelper
             $id = $this->app->jbstring->getId('currency-toggle-');
 
             $this->app->jbassets->initTooltip();
-            $this->app->jbassets->currencyToggle($id, (array)$options);
+            $html[] = $this->app->jbassets->currencyToggle($id, (array)$options, $return);
 
             $widgetAttrs = array(
                 'data-default' => $moneyVal->cur(),
@@ -489,7 +491,7 @@ class JBHTMLHelper extends AppHelper
 
         return $this->text($name, $value, $attribs, $idtag);
     }
-
+    
     /**
      * Render jQueryUI slider
      * @param array  $params
@@ -572,6 +574,7 @@ class JBHTMLHelper extends AppHelper
      * @param bool  $idtag
      * @param bool  $translate
      * @param array $params
+     * @param bool  $return
      * @return string
      */
     public function selectChosen(
@@ -581,17 +584,29 @@ class JBHTMLHelper extends AppHelper
         $selected = null,
         $idtag = false,
         $translate = false,
-        $params = array()
+        $params = array(),
+        $return = true
     )
     {
         $this->app->jbassets->chosen();
-
-        $this->app->jbassets->addScript('$("#' . $idtag . '").chosen()');
+        $html   = array();
+        $script = '$("#' . $idtag . '").chosen();';
 
         $attribs['data-no_results_text'] = JText::_('JBZOO_CHOSEN_NORESULT');
         $attribs['data-placeholder']     = (isset($params['placeholder'])) ? $params['placeholder'] : JText::_('JBZOO_CHOSEN_SELECT');
 
-        return $this->select($data, $name, $attribs, $selected, $idtag, $translate);
+        $html[] = $this->select($data, $name, $attribs, $selected, $idtag, $translate);
+        if ($return) {
+            $html[] = implode("\n", array(
+                '<script type="text/javascript">',
+                "\tjQuery(function($){ " . $script . "});",
+                '</script>'
+            ));
+        } else {
+            $this->app->jbassets->addScript($script);
+        }
+
+        return implode("\n", $html);
     }
 
     /**
