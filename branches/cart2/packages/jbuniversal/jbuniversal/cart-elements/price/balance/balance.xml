@@ -37,7 +37,7 @@
     <params group="filter">
 
         <param name="jbzoo_filter_render" type="list" label="JBZOO_ELEMENT_TEMPLATE"
-               description="JBZOO_ELEMENT_TEMPLATE_DESC" efault="_auto_" >
+               description="JBZOO_ELEMENT_TEMPLATE_DESC" default="_auto_" >
 
             <option value="balance-jqueryui">JBZOO_ELEMENT_TEMPLATE_JQUERYUI</option>
             <option value="balance-radio">JBZOO_ELEMENT_TEMPLATE_RADIO</option>

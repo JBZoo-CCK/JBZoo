@@ -21,7 +21,7 @@
 
     <params>
 
-        <param name="description" type="textarea" label="JBZOO_ELEMENT_ELEMENT_DESCRIPTION"
+        <param name="description" type="textarea" label="JBZOO_ELEMENT_DESCRIPTION"
                default="JBZOO_ELEMENT_PAYMENT_QIWI_DEFAULT_DESCRIPTION"
                description="JBZOO_ELEMENT_ELEMENT_DESCRIPTION_DESC" />
 
