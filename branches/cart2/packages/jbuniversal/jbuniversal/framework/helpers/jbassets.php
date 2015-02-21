@@ -64,7 +64,7 @@ class JBAssetsHelper extends AppHelper
             // widget init script
             $initScript = '$("' . $jquerySelector . '").' . $widgetName . '(' . $this->toJSON($params) . ');';
 
-            if (0 && $return) {
+            if ($return) {
                 return implode("\n", array(
                     '<script type="text/javascript">',
                     "\tjQuery(function($){ " . $initScript . "});",
@@ -220,8 +220,10 @@ class JBAssetsHelper extends AppHelper
     /**
      * @param string $id
      * @param array  $params
+     * @param bool   $return
+     * @return string
      */
-    public function currencyToggle($id, $params = array())
+    public function currencyToggle($id, $params = array(), $return = false)
     {
         $this->less('jbassets:less/widget/currencytoggle.less');
         $this->js(array(
@@ -229,7 +231,10 @@ class JBAssetsHelper extends AppHelper
             'jbassets:js/widget/currencytoggle.js'
         ));
 
-        $this->widget('#' . $id, 'JBZoo.CurrencyToggle', $params);
+        $script = $this->widget('#' . $id, 'JBZoo.CurrencyToggle', $params, $return);
+        if($return && $script) {
+            return $script;
+        }
     }
 
     /**
@@ -445,6 +450,7 @@ class JBAssetsHelper extends AppHelper
     public function quantity()
     {
         $this->tools();
+        $this->css('jbassets:css/libraries.css');
         $this->js('jbassets:js/widget/quantity.js');
         $this->less('jbassets:less/widget/quantity.less');
 
@@ -464,14 +470,19 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Init quantity widget
-     * @param $id
-     * @param $options
+     * @param      $id
+     * @param      $options
+     * @param bool $return
+     * @return string|void
      */
-    public function initQuantity($id, $options)
+    public function initQuantity($id, $options, $return = false)
     {
         $this->tools();
         $this->quantity();
-        $this->widget('#' . $id, 'JBZoo.Quantity', $options);
+        $script = $this->widget('#' . $id, 'JBZoo.Quantity', $options, $return);
+        if ($return && $script) {
+            return $script;
+        }
     }
 
     /**
@@ -694,14 +705,20 @@ class JBAssetsHelper extends AppHelper
      * Init color widget
      * @param string  $queryElement
      * @param boolean $type
+     * @param bool    $return
+     * @return string
      */
-    public function initJBColorHelper($queryElement, $type = true)
+    public function initJBColorHelper($queryElement, $type = true, $return = true)
     {
         // force include for back-end. Do not delete!
         $this->less('jbassets:less/general.less');
 
         if ($queryElement) {
-            $this->widget('#' . $queryElement, 'JBZoo.Colors', array('multiple' => (boolean)$type));
+            $script = $this->widget('#' . $queryElement, 'JBZoo.Colors', array('multiple' => (boolean)$type), $return);
+
+            if($return) {
+                return $script;
+            }
         }
     }
 
