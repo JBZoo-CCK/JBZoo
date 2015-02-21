@@ -21,7 +21,7 @@
 
     <params>
 
-        <param name="description" type="textarea" default="JBZOO_PAYMENT_INTERKASSA_DEFAULT_DESCRIPTION"
+        <param name="description" type="textarea" default="JBZOO_ELEMENT_PAYMENT_INTERKASSA_DEFAULT_DESCRIPTION"
                label="JBZOO_ELEMENT_DESCRIPTION" description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
 
         <param name="shopid" type="text" default="" label="JBZOO_ELEMENT_PAYMENT_INTERKASSA_SHOPID"
