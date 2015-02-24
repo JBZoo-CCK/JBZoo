@@ -44,7 +44,6 @@ class JBPriceFilterElementJBColor extends JBPriceFilterElement
         $colors = explode("\n", $this->_element->config->get('options'));
         $path   = JString::trim($this->_element->config->get('path'));
         $colors = $this->app->jbcolor->getColors($colors, $path);
-
         $data   = array();
         $titles = array();
         $values = $this->_createValues($this->_getDbValues());
@@ -64,6 +63,8 @@ class JBPriceFilterElementJBColor extends JBPriceFilterElement
             $this->_getName($id, ''),
             $this->_value,
             array(),
+            '26px',
+            '26px',
             $titles
         );
     }
