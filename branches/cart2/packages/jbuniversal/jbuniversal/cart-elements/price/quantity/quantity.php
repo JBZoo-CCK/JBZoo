@@ -48,7 +48,7 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
     {
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
-                'params' => $this->interfaceParams()
+                'params' => $this->interfaceParams($params)
             ));
         }
 
@@ -57,12 +57,11 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
 
     /**
      * Get params for widget
+     * @param array $params
      * @return array
      */
-    public function interfaceParams()
+    public function interfaceParams($params = array())
     {
-        $params = $this->getRenderParams();
-
         return array(
             'min'      => $params->get('min', 1),
             'max'      => $params->get('max', 9),
@@ -70,15 +69,6 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
             'default'  => $params->get('default', 1),
             'decimals' => $params->get('decimals', 0)
         );
-    }
-
-    /**
-     * Returns data when variant changes
-     * @return null
-     */
-    public function renderAjax()
-    {
-        return array();
     }
 
     /**

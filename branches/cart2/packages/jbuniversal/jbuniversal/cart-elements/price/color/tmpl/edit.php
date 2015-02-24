@@ -13,6 +13,4 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (count($colorItems)) {
-    echo $this->_jbhtml->colors('radio', $colorItems, $this->getControlName('value'), $this->getValue());
-}
+echo $this->_jbhtml->colors('radio', $colorItems, $name, $value);

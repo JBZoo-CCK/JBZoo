@@ -39,9 +39,7 @@ class JBCartElementPriceColor extends JBCartElementPrice
      */
     public function getSearchData()
     {
-        $value = $this->getValue();
-
-        return $value;
+        return $this->getValue();
     }
 
     /**
@@ -49,13 +47,12 @@ class JBCartElementPriceColor extends JBCartElementPrice
      */
     public function edit()
     {
-        $type       = $this->getInputType();
-        $colorItems = $this->getColors();
-
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderEditLayout($layout, array(
-                'type'       => $type,
-                'colorItems' => $colorItems,
+            return $this->renderEditLayout($layout, array(
+                'type'       => $this->getInputType(),
+                'colorItems' => $this->getColors(),
+                'name'       => $this->getControlName('value'),
+                'value'      => $this->getValue()
             ));
         }
 
@@ -69,16 +66,16 @@ class JBCartElementPriceColor extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $type   = $this->getInputType();
         $height = (int)$params->get('height', 26);
         $width  = (int)$params->get('width', 26);
 
-        if ($layout = $this->getLayout()) {
-            return self::renderLayout($layout, array(
-                'params'     => $params,
-                'type'       => $type,
+        if ($layout = $this->getLayout('color.php')) {
+            return $this->renderLayout($layout, array(
+                'type'       => $this->getInputType(),
                 'width'      => $width,
                 'height'     => $height,
+                'value'      => $this->getValue(),
+                'name'       => $this->getRenderName('value'),
                 'colorItems' => $this->getOptions()
             ));
         }
@@ -120,11 +117,10 @@ class JBCartElementPriceColor extends JBCartElementPrice
      */
     public function getOptions($label = true)
     {
-        $jbPrice = $this->_jbprice;
-        $colors  = $this->parseOptions();
+        $colors = $this->parseOptions();
 
-        if (!$this->hasOptions() || (int)$jbPrice->config->get('only_selected', 1)) {
-            $selected = $jbPrice->elementOptions($this->identifier);
+        if (!$this->hasOptions() || (int)$this->options('selected')) {
+            $selected = $this->_jbprice->elementOptions($this->identifier);
             $colors   = array_intersect_key($colors, $selected);
         }
 

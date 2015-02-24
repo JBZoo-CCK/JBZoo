@@ -64,7 +64,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         $this->setDefault($key);
 
         $this->_template = $template;
-        $this->getVariantList($list, array(
+        $this->getList($list, array(
             'values'   => $values,
             'template' => $template,
             'currency' => !empty($currency) ? $currency : $this->currency()
@@ -94,7 +94,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         $this->setDefault($key);
 
         $this->_template = $template;
-        $this->getVariantList($list, array(
+        $this->getList($list, array(
             'values'   => $values,
             'quantity' => $quantity,
             'currency' => !empty($currency) ? $currency : $this->currency()
@@ -141,32 +141,16 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
      * //TODO Hard function
      * Get all options for element.
      * Used in element like select, color, radio etc.
-     * @param string $identifier
+     * @param string $id
      * @return array
      */
-    public function findOptions($identifier)
+    public function findOptions($id)
     {
-        $result = array();
-        if (empty($identifier)) {
-            return $result;
+        if (empty($id)) {
+            return array();
         }
 
-        $variations = $this->get('values', array());
-        if (!empty($variations)) {
-            foreach ($variations as $key => $variant) {
-                if (isset($variant[$identifier])) {
-                    $value = $variant[$identifier]['value'];
-                    if (JString::strlen($value) !== 0) {
-                        $result[$key] = array(
-                            'value' => $value,
-                            'name'  => $value
-                        );
-                    }
-                }
-            }
-        }
-
-        return $result;
+        return $this->get('selected.' . $id, array());
     }
 
     /**
@@ -176,17 +160,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
      */
     public function selectedOptions($identifier)
     {
-        $options = $this->findOptions($identifier);
-        if (empty($options)) {
-            return $options;
-        }
-
-        $result = array();
-        foreach ($options as $key => $value) {
-            $result[$value['value']] = $value['name'];
-        }
-
-        return $result;
+        return $this->findOptions($identifier);
     }
 
     /**
@@ -217,23 +191,72 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
             return $options;
         }
         $result = array();
-        $data   = array(
-            0 => $this->get('variations.' . 0)
-        );
         foreach ($options as $key => $option) {
-            if (!$variant = $this->_list->get($key)) {
-                if ($key != 0) {
-                    $data[$key] = $this->get('variations.' . $key);
-                }
+            $parts = explode('.', $key);
+            if ($value = $this->getData($parts[1] . '._value.value')) {
+                $total = JBCart::val($value);
 
-                $variant = $this->build($data);
+                $result[$option] = $option . ' <em>' . $total->html($this->currency()) . '</em>';
             }
-            $total = $variant[$key]->get('_value');
-
-            $result[$option['value']] = $option['name'] . ' <em>' . $total->html() . '</em>';
         }
 
         return $result;
+    }
+
+    /**
+     * Bind and validate data
+     * @param array $data
+     */
+    public function bindData($data = array())
+    {
+        $result = array();
+        if (isset($data['variations'])) {
+            $list       = $data['variations'];
+            $variations = $this->build($list);
+            unset($data['variations']);
+            /**
+             * @type string        $key
+             * @type JBCartVariant $variant
+             */
+            foreach ($variations as $key => $variant) {
+                /** @type JBCartElementPrice $element */
+                foreach ($variant->getElements() as $id => $element) {
+                    $value = $element->getValue();
+
+                    if ($value instanceof JBCartValue) {
+                        $value = $value->data(true);
+                    }
+
+                    if (JString::strlen($value) > 0) {
+                        $_data = (array)$element->data();
+                        if (count($_data) > 0) {
+                            $result['variations'][$key][$id] = $_data;
+                            if (!$element->isCore()) {
+                                $result['values'][$key][$id]                  = $_data;
+                                $result['selected'][$id][$value . '.' . $key] = $value;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (isset($result['variations'])) {
+                $result['variations'] = array_values($result['variations']);
+            }
+
+            if (isset($result['values'])) {
+                $keys             = range(1, count($result['values']));
+                $result['values'] = array_combine($keys, array_values($result['values']));
+            }
+        }
+
+        if (!empty($data)) {
+            foreach ($data as $id => $unknown) {
+                $result[$id] = is_string($unknown) ? JString::trim($unknown) : $unknown;
+            }
+        }
+
+        return parent::bindData($result);
     }
 
     /**
@@ -242,25 +265,20 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
      */
     public function getIndexData()
     {
-        $variations = $this->get('variations');
-        $item_id    = $this->getItem()->id;
+        $list    = $this->get('variations');
+        $item_id = $this->getItem()->id;
 
         $data = array();
-        if (!empty($variations)) {
-            $elements = array_merge(
+        if (!empty($list)) {
+            /*$elements = array_merge(
                 (array)$this->_position->loadElements(JBCart::CONFIG_PRICE),
                 (array)$this->_position->loadElements(JBCart::CONFIG_PRICE_TMPL)
             );
-            $this->set('default_variant', self::BASIC_VARIANT);
+            */
+            $this->setDefault(self::BASIC_VARIANT);
 
-            $list     = $this->getVariantList();
-            $variant  = $list->shift();
-            $elements = array_merge((array)$elements, (array)$variant->getElements());
-            foreach ($elements as $id => $element) {
-                if ($element->isSystemTmpl()) {
-                    $element->setJBPrice($this);
-                    $element->config->set('_variant', self::BASIC_VARIANT);
-                }
+            $_list = $this->getList($list);
+            foreach ($_list->first()->getElements() as $id => $element) {
                 $value = $element->getSearchData();
 
                 if (!empty($value)) {
@@ -268,21 +286,23 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
                     if ($value instanceof JBCartValue) {
                         $s = $value->data(true);
                         $n = $value->val();
-                    } elseif (JSTring::strlen($value) !== 0) {
+                    } elseif (isset($value{0})) {
                         $s = $value;
                         $n = $this->isNumeric($value) ? $value : null;
                         $d = $this->isDate($value) ? $value : null;
                     }
 
-                    $data[self::BASIC_VARIANT . $id] = array(
-                        'item_id'    => $item_id,
-                        'element_id' => $this->identifier,
-                        'param_id'   => $id,
-                        'value_s'    => $s,
-                        'value_n'    => $n,
-                        'value_d'    => $d,
-                        'variant'    => self::BASIC_VARIANT
-                    );
+                    if (isset($s) || isset($n) || isset($d)) {
+                        $data[self::BASIC_VARIANT . $id] = array(
+                            'item_id'    => $item_id,
+                            'element_id' => $this->identifier,
+                            'param_id'   => $id,
+                            'value_s'    => $s,
+                            'value_n'    => $n,
+                            'value_d'    => $d,
+                            'variant'    => self::BASIC_VARIANT
+                        );
+                    }
                 }
             }
         }
@@ -292,59 +312,20 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
     }
 
     /**
-     * @param array $list
-     * @param array $options
-     * @return JBCartVariantList
-     */
-    public function getVariantList($list = array(), $options = array())
-    {
-        if (!$this->_list instanceof JBCartVariantList) {
-            if (empty($list)) {
-                $list = $this->defaultList();
-            }
-
-            $variations = $this->build($list);
-            $options = array_merge(array(
-                'element'    => $this,
-                'element_id' => $this->identifier,
-                'item_id'    => $this->_item->id,
-                'item_name'  => $this->_item->name,
-                'template'   => $this->_template,
-                'layout'     => $this->_layout,
-                'hash'       => $this->hash,
-                'isOverlay'  => $this->isOverlay(),
-                'values'     => $this->get('values.' . $this->defaultKey()),
-                'currency'   => $this->currency(),
-                'default'    => $this->defaultKey()
-            ), (array)$options);
-
-            $this->_list = new JBCartVariantList($variations, $options);
-
-            return $this->_list;
-        }
-
-        if (!empty($list)) {
-            $variations = $this->build($list);
-            $this->_list
-                ->add($variations)
-                ->setOptions($options);
-        }
-
-        return $this->_list;
-    }
-
-    /**
      * Load assets
      * @return $this
      */
     public function loadEditAssets()
     {
+        parent::loadEditAssets();
+
         if ((int)$this->config->get('mode', 1)) {
             $this->app->jbassets->js('jbassets:js/admin/validator/calc.js');
         }
 
-        return parent::loadEditAssets();
+        return $this;
     }
+
 
     /**
      * @return $this|void

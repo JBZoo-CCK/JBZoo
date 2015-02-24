@@ -25,14 +25,9 @@ class JBCartVariantList extends ArrayObject
     protected $default = 0;
 
     /**
-     * @type JBCartValue
+     * @type string
      */
-    public $total = null;
-
-    /**
-     * @type JBCartValue
-     */
-    public $price = null;
+    protected $session_key;
 
     /**
      * Array of options when user add to cart
@@ -80,6 +75,7 @@ class JBCartVariantList extends ArrayObject
         //add variations
         if (!empty($variations)) {
             $this->add($variations);
+            unset($variations);
         }
 
         // set ElementJBPrice if exists
@@ -92,9 +88,8 @@ class JBCartVariantList extends ArrayObject
         if(!empty($options) && isset($options))
         {
             $this->setOptions($options);
+            unset($options);
         }
-
-        unset($variations);
     }
 
     /**
@@ -282,12 +277,11 @@ class JBCartVariantList extends ArrayObject
 
     /**
      * Get price for variant
-     * @param string|int $id
      * @return JBCartValue
      */
-    public function getPrice($id = self::DEFAULT_VARIANT)
+    public function getPrice()
     {
-        if ($this->options->get('isOverlay')) {
+        if ($this->isOverlay) {
             return $this->_calcPrice();
         }
 
@@ -369,25 +363,25 @@ class JBCartVariantList extends ArrayObject
      */
     public function getSessionKey()
     {
+        if(!empty($this->session_key)) {
+            return $this->session_key;
+        }
+
         $result = array(
-            '_default' => $this->default,
-            '_priceId' => $this->element_id,
-            '_itemId'  => $this->item_id
+            '_default' => $this->options->get('default'),
+            '_priceId' => $this->options->get('element_id'),
+            '_itemId'  => $this->options->get('item_id')
         );
 
         $values = (array)$this->values;
         if (!empty($values)) {
-            foreach ($values as $key => $value) {
-                //TODO Need to check value, method - issetOption
-                if ($element = $this->_jbprice->getElement($key)) {
-                    $element->bindData($value);
-                    $result[$key] = $key . $element->getValue();
-                }
-            }
+            $result['values'] = $values;
         }
         ksort($result);
 
-        return md5(serialize($result));
+        $this->session_key = md5(serialize($result));
+
+        return $this->session_key;
     }
 
     /**
@@ -400,9 +394,9 @@ class JBCartVariantList extends ArrayObject
         $values = (array)$this->values;
         if (!empty($values)) {
             foreach ($values as $key => $value) {
-                if ($element = $this->_jbprice->getElement($key)) {
-                    //TODO Need to check value, method - issetOption
+                if ($element = $this->_jbprice->getElement($key, $this->default)) {
                     $element->bindData($value);
+                    //TODO Need to check value, method - issetOption
                     $result[$element->getName()] = $element->getValue();
                 }
             }
@@ -464,10 +458,10 @@ class JBCartVariantList extends ArrayObject
         $result  = array();
 
         foreach ($variant->getElements() as $key => $element) {
-            if ($element->isCore() && $this->_jbprice->getElementRenderParams($key)) {
-                $data = $element->renderAjax();
+            if ($element->isCore() &&  $params = $this->_jbprice->getElementRenderParams($key)) {
+                $data = $element->renderAjax(new AppData($params));
                 //return data if not null
-                if (!is_null($data)) {
+                if ($data !== null) {
                     $result[$key] = $data;
                 }
             }
@@ -482,8 +476,7 @@ class JBCartVariantList extends ArrayObject
      */
     public function defaultVariantCartData()
     {
-        $variant  = $this->byDefault();
-        $elements = (array)$variant->getElements();
+        $elements = $this->byDefault()->getElements();
 
         $data = array();
         if (!empty($elements)) {
@@ -580,7 +573,7 @@ class JBCartVariantList extends ArrayObject
             'elements'   => $this->defaultVariantCartData(),
             'params'     => $jbPrice->elementsInterfaceParams(),
             'modifiers'  => $this->getModifiersRates(),
-            'variant'    => $jbPrice::BASIC_VARIANT,
+            'variant'    => 0,
             'variations' => $jbPrice->quickSearch(array_keys($this->all())),
             'isOverlay'  => true
         );
@@ -628,61 +621,11 @@ class JBCartVariantList extends ArrayObject
      */
     protected function _calcTotal()
     {
-        $price = $this->_calcPrice()->getClone();
+        $price = $this->_calcPrice();
 
         return $this->addModifiers($price, true);
     }
 
-    /**
-     * @param array $list
-     * @param array $options
-     * @return array
-     */
-    public function build(array $list, $options = array())
-    {
-        $structure = array();
-        if (!empty($list)) {
-            foreach ($list as $id => $elements) {
-                $elements = $this->_jbprice->mergeSysElements($elements);
-                $elements = $this->_jbprice->_getElements(array_keys($elements));
-
-                $structure[$id] = array(
-                    'list'     => $this,
-                    'elements' => $elements,
-                    'options'  => array(
-                        'data'      => $list[$id],
-                        'id'        => $id,
-                        'isOverlay' => $this->_jbprice->isOverlay(),
-                        'basic'     => $id != 0 ? $this->get(0) : null
-                    )
-                );
-            }
-        }
-
-        return $structure;
-    }
-
-    /**
-     * Create JBCartVariant instance
-     * @param integer $id
-     * @param array   $elements - array of element id => data
-     * @param array   $data
-     * @return JBCartVariant
-     */
-    public function create($id, $elements = array(), $data = array())
-    {
-        $variant = $this->_storage->create('variant', array(
-            'elements' => $elements,
-            'options'  => array(
-                'data'      => $data,
-                'id'        => $id,
-                'isOverlay' => $this->isOverlay,
-                'basic'     => $id != 0 ? $this->get(0) : null
-            )
-        ));
-
-        return $variant;
-    }
 
     /**
      *  Clear all variants

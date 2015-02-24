@@ -17,10 +17,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
         <?php if (!$useStock) {
             echo $textYes;
 
-        } elseif ($this->getValue('value') == 0) {
+        } elseif ($balance == 0) {
             echo $textNo;
 
-        } elseif ($this->getValue('value') == -2) {
+        } elseif ($balance == -2) {
             echo $textOrder;
 
         } else {

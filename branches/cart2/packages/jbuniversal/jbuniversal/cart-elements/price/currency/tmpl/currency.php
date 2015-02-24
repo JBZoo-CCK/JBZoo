@@ -12,8 +12,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$rates = array_intersect_key((array)$this->_jbmoney->getData(), array_flip($list));
-
 if (count($list) > 1) {
     echo $this->_jbhtml->currencyToggle($default, $rates, array(
         'target'      => $this->parentSelector(),

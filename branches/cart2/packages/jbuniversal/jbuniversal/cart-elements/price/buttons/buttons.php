@@ -56,7 +56,6 @@ class JBCartElementPriceButtons extends JBCartElementPrice
 
         if ($layout = $this->getLayout($template . '.php')) {
             return self::renderLayout($layout, array(
-                'params'        => $params,
                 'inCart'        => ((int)$interface['isInCart'] ? 'in-cart' : null),
                 'inCartVariant' => ((int)$interface['isInCartVariant'] ? 'in-cart-variant' : null)
             ));
@@ -67,36 +66,34 @@ class JBCartElementPriceButtons extends JBCartElementPrice
 
     /**
      * Get params for widget
+     * @param array $params
      * @return array
      */
-    public function interfaceParams()
+    public function interfaceParams($params = array())
     {
-        $params  = $this->getRenderParams();
-        $options = $this->get('_options');
-
-        $item_id    = $options->get('item_id');
-        $element_id = $options->get('element_id');
         $_interface = $this->_interfaceParams();
 
         return array(
-            'key'              => $_interface['key'],
-            'basket'           => $_interface['basket'],
-            'isInCart'         => $_interface['isInCart'],
-            'isInCartVariant'  => $_interface['isInCartVariant'],
-            'add'              => $this->app->jbrouter->element($element_id, $item_id, 'ajaxAddToCart', array(
-                'template' => $options->get('template')
+            'item_id'         => $_interface['item_id'],
+            'element_id'      => $_interface['element_id'],
+            'key'             => $_interface['key'],
+            'basket'          => $_interface['basket'],
+            'isInCart'        => $_interface['isInCart'],
+            'isInCartVariant' => $_interface['isInCartVariant'],
+            'add'             => $this->app->jbrouter->element($_interface['element_id'], $_interface['item_id'], 'ajaxAddToCart', array(
+                'template' => $this->options('template')
             )),
-            'remove'           => $this->app->jbrouter->element($element_id, $item_id, 'ajaxRemoveFromCart'),
-            'modal'            => $this->app->jbrouter->element($element_id, $item_id, 'ajaxModalWindow'),
-            'canRemoveVariant' => (int)$params->get('remove_variant', 0)
+            'remove'          => $this->app->jbrouter->element($_interface['element_id'], $_interface['item_id'], 'ajaxRemoveFromCart'),
+            'modal'           => $this->app->jbrouter->element($_interface['element_id'], $_interface['item_id'], 'ajaxModalWindow')
         );
     }
 
     /**
      * Returns data when variant changes
+     * @param array $params
      * @return null
      */
-    public function renderAjax()
+    public function renderAjax($params = array())
     {
         return $this->_interfaceParams();
     }
@@ -119,15 +116,15 @@ class JBCartElementPriceButtons extends JBCartElementPrice
      */
     protected function _interfaceParams()
     {
-        $cart    = JBCart::getInstance();
-        $options = $this->get('_options');
-        $key     = $options->get('session_key');
+        $cart = JBCart::getInstance();
 
         return array(
-            'key'             => $key,
+            'item_id'         => $this->options('item_id'),
+            'element_id'      => $this->options('element_id'),
+            'key'             => $this->options('session_key'),
             'basket'          => $this->getBasketUrl(),
-            'isInCart'        => (int)$cart->inCart($options->get('item_id'), $options->get('element_id')),
-            'isInCartVariant' => (int)$cart->inCartVariant($key),
+            'isInCart'        => (int)$cart->inCart($this->options('item_id'), $this->options('element_id')),
+            'isInCartVariant' => (int)$cart->inCartVariant($this->options('session_key')),
         );
     }
 

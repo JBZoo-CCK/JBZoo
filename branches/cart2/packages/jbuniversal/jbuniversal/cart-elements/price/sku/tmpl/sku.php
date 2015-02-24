@@ -13,9 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$unique = $this->app->jbstring->getId('sku-');
-$sku    = (!empty($value) ? $value : $this->getJBPrice()->getItem()->id);
-
 if ($sku) : ?>
     <div class="jbprice-sku">
         <span class="field-name">

@@ -83,7 +83,7 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
         $this->setDefault($key);
         $this->_template = $template;
 
-        $this->getVariantList($list, array(
+        $this->getList($list, array(
             'default'  => $key,
             'values'   => $values,
             'template' => $template,
@@ -113,7 +113,7 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
         $this->setDefault($key);
 
         $this->_template = $template;
-        $this->getVariantList($list, array(
+        $this->getList($list, array(
             'values'   => $values,
             'quantity' => $quantity,
             'currency' => !empty($currency) ? $currency : $this->currency()
@@ -151,7 +151,7 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
             $key = null;
         }
         $item_id = $this->getItem()->id;
-        $result  = JBCart::getInstance()->remove($item_id, $this->identifier, $key);
+        $result  = JBCart::getInstance()->remove($item_id, $this->identifier);
 
         $this->app->jbajax->send(array('removed' => $result));
     }

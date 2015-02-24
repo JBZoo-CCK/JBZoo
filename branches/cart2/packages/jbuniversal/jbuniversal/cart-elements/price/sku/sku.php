@@ -27,12 +27,12 @@ class JBCartElementPriceSku extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $value = JString::trim($this->getValue());
-        if (JString::strlen($value) > 0) {
-            return true;
+        $value = $this->get('value', 0);
+        if (!isset($value) || empty($value)) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -67,9 +67,11 @@ class JBCartElementPriceSku extends JBCartElementPrice
     public function render($params = array())
     {
         if ($layout = $this->getLayout()) {
+            $value = $this->getValue();
+
             return self::renderLayout($layout, array(
-                'value'  => $this->getValue(),
-                'params' => $params
+                'sku'    => !empty($value) ? $value : $this->options('_options.item_id'),
+                'unique' => $this->htmlId(true)
             ));
         }
 
@@ -78,12 +80,11 @@ class JBCartElementPriceSku extends JBCartElementPrice
 
     /**
      * Returns data when variant changes
+     * @param array $params
      * @return null
      */
-    public function renderAjax()
+    public function renderAjax($params = array())
     {
-        $params = $this->getRenderParams();
-
         return $this->render($params);
     }
 }
