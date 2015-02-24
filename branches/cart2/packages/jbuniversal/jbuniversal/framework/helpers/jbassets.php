@@ -203,6 +203,7 @@ class JBAssetsHelper extends AppHelper
             ));
 
             $this->addVar('currencyList', $this->app->jbmoney->getData());
+            $this->addVar('cartItems', JBCart::getInstance()->map('element_id', 'element_id', 'item_id'));
         }
     }
 

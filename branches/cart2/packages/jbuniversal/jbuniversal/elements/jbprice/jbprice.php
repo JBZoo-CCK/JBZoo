@@ -274,7 +274,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     {
         $html = parent::renderLayout($__layout, $__args);
         if ($this->isCache()) {
-            //$this->_cache->set($this->hash, $html, 'price', true);
+            $this->_cache->set($this->hash, $html, 'price', true);
         }
 
         return $html;
