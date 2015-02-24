@@ -44,11 +44,11 @@ class JBEventBasket extends JBEvent
                             $default = $element->data()->get('default_variant');
 
                             // Create variant list object
-                            $element->getVariantList($orderData->get('variations'), $orderData->get('quantity'), true);
+                            $element->getList($orderData->get('variations'), array('quantity' => $orderData->get('quantity')));
                             $key = $orderData->get('variant');
 
-                            $element->set('default_variant', $key)
-                                    ->setProp('_template', $orderData->get('template'));
+                            $element->setProp('_template', $orderData->get('template'))
+                                    ->setDefault($key);
 
                             $variant = $element->getVariant($key);
 
@@ -66,8 +66,8 @@ class JBEventBasket extends JBEvent
                                 $data->set('variations', $variations)
                                      ->set('default_variant', $default);
 
-                                $element->set('default_variant', $default)
-                                        ->bindData((array)$data);
+                                $element->setDefault($default);
+                                $element->bindData((array)$data);
 
                                 $app->table->item->save($item);
 
