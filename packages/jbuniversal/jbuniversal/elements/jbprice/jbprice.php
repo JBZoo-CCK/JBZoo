@@ -40,7 +40,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * @var Array of core/unique price params config
      */
     public $filter_params = null;
-    
+
     /**
      * @var JBCartPositionHelper
      */
