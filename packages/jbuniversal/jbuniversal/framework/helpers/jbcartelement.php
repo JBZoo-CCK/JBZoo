@@ -23,20 +23,20 @@ class JBCartElementHelper extends AppHelper
      * @var array
      */
     protected $_coreElements = array(
-        'JBCartElement'                   => 'cart-elements:core/element/element.php',
-        'JBCartElementCurrency'           => 'cart-elements:core/currency/currency.php',
-        'JBCartElementEmail'              => 'cart-elements:core/email/email.php',
-        'JBCartElementShipping'           => 'cart-elements:core/shipping/shipping.php',
-        'JBCartElementShippingField'      => 'cart-elements:core/shippingfield/shippingfield.php',
-        'JBCartElementModifierItem'       => 'cart-elements:core/modifieritem/modifieritem.php',
-        'JBCartElementModifierItemPrice'  => 'cart-elements:core/modifieritemprice/modifieritemprice.php',
-        'JBCartElementModifierOrderPrice' => 'cart-elements:core/modifierorderprice/modifierorderprice.php',
-        'JBCartElementNotification'       => 'cart-elements:core/notification/notification.php',
-        'JBCartElementOrder'              => 'cart-elements:core/order/order.php',
-        'JBCartElementPayment'            => 'cart-elements:core/payment/payment.php',
-        'JBCartElementPrice'              => 'cart-elements:core/price/price.php',
-        'JBCartElementStatus'             => 'cart-elements:core/status/status.php',
-        'JBCartElementValidator'          => 'cart-elements:core/validator/validator.php',
+        'JBCartElement'                   => 'element',
+        'JBCartElementCurrency'           => 'currency',
+        'JBCartElementEmail'              => 'email',
+        'JBCartElementShipping'           => 'shipping',
+        'JBCartElementShippingField'      => 'shippingfield',
+        'JBCartElementModifierItem'       => 'modifieritem',
+        'JBCartElementModifierItemPrice'  => 'modifieritemprice',
+        'JBCartElementModifierOrderPrice' => 'modifierorderprice',
+        'JBCartElementNotification'       => 'notification',
+        'JBCartElementOrder'              => 'order',
+        'JBCartElementPayment'            => 'payment',
+        'JBCartElementPrice'              => 'price',
+        'JBCartElementStatus'             => 'status',
+        'JBCartElementValidator'          => 'validator',
     );
 
     /**
@@ -47,8 +47,9 @@ class JBCartElementHelper extends AppHelper
         parent::__construct($app);
 
         // load parent classes
-        foreach ($this->_coreElements as $type => $path) {
-            $app->loader->register($type, $path);
+        $path = JPATH_ROOT . '/media/zoo/applications/jbuniversal/cart-elements/core/';
+        foreach ($this->_coreElements as $class => $type) {
+            JLoader::register($class, $path . $type . '/' . $type . '.php');
         }
     }
 

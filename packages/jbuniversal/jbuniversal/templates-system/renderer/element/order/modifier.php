@@ -44,21 +44,23 @@ $element->loadAssets();
 $label = $params->get('altlabel') ? $params->get('altlabel') : $element->config->get('name');
 $label = $params->get('required') ? ($label . ' <span class="required-dot">*</span>') : $label;
 
-$uniqId = $element->htmlId();
+$uniqId  = $element->htmlId();
+$colspan = $params->get('colspan', 3);
 
 ?>
 <tr class="<?php echo implode(' ', $classes); ?>">
 
     <td class="jbcart-cell-empty"></td>
 
-    <td colspan="2" class="jbcart-modifier-label">
+    <td colspan="<?php echo(($colspan - 3) <= 0 ? 1 : $colspan - 3); ?>" class="jbcart-modifier-label">
         <label for="<?php echo $uniqId; ?>"><?php echo $label; ?></label>
         <?php if ($description = $element->config->get('description')) : ?>
             <p class="jbcart-modifier-desc"><?php echo JText::_($description); ?> </p>
         <?php endif; ?>
     </td>
 
-    <td class="jbcart-modifier-element jsModifier-<?php echo $element->identifier; ?>" colspan="3">
+    <td colspan="<?php echo(($colspan - 3) <= 0 ? 1 : $colspan - 3); ?>"
+        class="jbcart-modifier-element jsModifier-<?php echo $element->identifier; ?>">
         <?php echo $element->renderSubmission($params); ?>
         <?php echo $error; ?>
     </td>

@@ -70,7 +70,7 @@ class JBCart
      * @var string
      */
     protected $_sessionNamespace = 'jbcart';
-    protected $_namespace        = 'jbzoo';
+    protected $_namespace = 'jbzoo';
 
     /**
      * @var App
@@ -116,6 +116,11 @@ class JBCart
 
         $this->_config  = JBModelConfig::model()->getGroup('cart.config');
         $this->_jbmoney = $this->app->jbmoney;
+
+        if (!$this->_config->get('enable', 1)) {
+            $this->app->jbnotity->error('JBZOO_CART_DISABLED');
+        }
+
     }
 
     /**
@@ -135,7 +140,9 @@ class JBCart
             $value = array($value, $currency);
         }
 
-        return new JBCartValue($value, $rates);
+        $result = new JBCartValue($value, $rates);
+
+        return $result;
     }
 
     /**
@@ -151,6 +158,23 @@ class JBCart
         $order->created_by = (int)JFactory::getUser()->id;
 
         return $order;
+    }
+
+    /**
+     * @return JSONData
+     */
+    public function getCofigs()
+    {
+        return $this->_config;
+    }
+
+    /**
+     * @param JUser $user
+     * @return bool
+     */
+    public function canAccess($user)
+    {
+        return $this->app->user->canAccess($user, $this->_config->get('access', $this->app->joomla->getDefaultAccess()));
     }
 
     /**

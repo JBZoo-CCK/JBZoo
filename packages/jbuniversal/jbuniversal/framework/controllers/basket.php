@@ -52,10 +52,14 @@ class BasketJBUniversalController extends JBUniversalController
     {
         parent::__construct($app, $config);
 
-        //$this->app->jbdoc->noindex();
+        $this->app->jbdoc->noindex();
         $this->_jbmoney = $this->app->jbmoney;
         $this->_config  = JBModelConfig::model()->getGroup('cart.config');
-        $this->cart     = JBcart::getInstance();
+        $this->cart     = JBCart::getInstance();
+
+        if (!$this->cart->canAccess($this->app->user->get())) {
+            $this->app->jbnotity->error('JBZOO_CART_UNABLE_ACCESS');
+        }
     }
 
     /**
@@ -77,15 +81,17 @@ class BasketJBUniversalController extends JBUniversalController
         $this->payment        = $this->app->jbpayment->getEnabled();
         $this->modifierPrice  = $this->app->jbmodifierprice->getEnabled();
 
+        $this->config    = $this->_config;
         $this->Itemid    = $this->_jbrequest->get('Itemid');
         $this->order     = $this->cart->newOrder();
         $this->items     = $this->order->getItems(true);
         $this->itemsHtml = $this->order->renderItems(array(
-            'image_width'  => 75, // TODO from main config
-            'image_height' => 75,
+            'image_width'  => $this->_config->get('tmpl_image_width', 75),
+            'image_height' => $this->_config->get('tmpl_image_height', 75),
+            'image_link'   => $this->_config->get('tmpl_image_link', 1),
+            'item_link'    => $this->_config->get('tmpl_item_link', 1),
             'edit'         => true,
         ));
-        $this->config    = $this->_config;
 
         $errors     = 0;
         $orderSaved = false;
