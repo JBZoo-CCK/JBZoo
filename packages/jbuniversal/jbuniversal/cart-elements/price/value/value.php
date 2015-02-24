@@ -30,8 +30,8 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $value = $this->getValue();
-        if ($value->isEmpty()) {
+        $value = $this->get('value', 0);
+        if (!isset($value) || empty($value)) {
             return false;
         }
 
@@ -73,17 +73,17 @@ class JBCartElementPriceValue extends JBCartElementPrice
         $prices = $this->getPrices();
 
         $discount = JBCart::val();
-        if ($prices['save']->isNegative()) {
-            $discount = $prices['save']->getClone();
+        if ($prices['save'] < 0) {
+            $discount = $prices['save'];
         };
 
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'mode'     => (int)$params->get('only_price_mode', 1),
-                'total'    => $prices['total'],
-                'price'    => $prices['price'],
-                'save'     => $prices['save']->abs(),
-                'discount' => $discount->abs(),
+                'total'    => JBCart::val($prices['total']),
+                'price'    => JBCart::val($prices['price']),
+                'save'     => JBCart::val($prices['save'])->abs(),
+                'discount' => JBCart::val($discount)->abs(),
                 'currency' => $this->currency()
             ));
         }
@@ -120,12 +120,11 @@ class JBCartElementPriceValue extends JBCartElementPrice
 
     /**
      * Returns data when variant changes
+     * @param array $params
      * @return null
      */
-    public function renderAjax()
+    public function renderAjax($params = array())
     {
-        $params = $this->getRenderParams();
-
         return $this->render($params);
     }
 
@@ -138,6 +137,8 @@ class JBCartElementPriceValue extends JBCartElementPrice
         $this->app->jbassets->js('cart-elements:price/value/assets/js/value.js');
 
         self::_addToStorage('cart-elements:price/value/assets/js/value.js');
+
+        return parent::loadAssets();
     }
 
 }

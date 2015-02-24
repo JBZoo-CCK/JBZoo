@@ -11,9 +11,7 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
-
-$balance = $this->getValue('value'); ?>
+defined('_JEXEC') or die('Restricted access'); ?>
 <div class="jbprice-balance jsJBPriceBalance">
     <span class="balance">
         <?php if (!$useStock || $balance > 0) {

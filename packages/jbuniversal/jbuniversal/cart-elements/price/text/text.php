@@ -70,12 +70,22 @@ class JBCartElementPriceText extends JBCartElementPrice
 
         if ($layout = $this->getLayout($template . '.php')) {
             return self::renderLayout($layout, array(
-                'params' => $params,
-                'data'   => $this->getOptions()
+                'data' => $this->getOptions()
             ));
         }
 
         return null;
+    }
+
+    /**
+     * Get elements value
+     * @param string $key
+     * @param null   $default
+     * @return mixed|null
+     */
+    public function getValue($key = 'value', $default = null)
+    {
+        return $this->get($key, $default);
     }
 
 }

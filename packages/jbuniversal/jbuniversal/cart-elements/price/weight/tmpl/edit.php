@@ -13,9 +13,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$html = $this->app->jbhtml;
 $weight = array(
     'placeholder' => JText::_('JBZOO_PRICE_WEIGHT_WEIGHT')
 );
 
-echo $html->text($this->getControlName('value'), $this->get('value'), $html->buildAttrs($weight));
+echo $this->_jbhtml->text($this->getControlName('value'), $this->get('value'), $this->_jbhtml->buildAttrs($weight));

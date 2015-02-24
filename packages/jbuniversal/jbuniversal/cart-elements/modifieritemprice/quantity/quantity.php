@@ -30,7 +30,7 @@ class JBCartElementModifierItemPriceQuantity extends JBCartElementModifierItemPr
 
         if ($isAjax && $isValid) {
 
-            $list = $jbPrice->getVariantList();
+            $list = $jbPrice->getList();
             if (($itemData && $itemData->get('quantity', 1) >= $quantity) ||
                 (!$itemData && $list->quantity >= $quantity)
             ) {

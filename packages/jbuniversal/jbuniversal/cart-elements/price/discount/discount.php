@@ -33,11 +33,12 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $prices = $this->getPrices();
-        if ($prices['save']->isNegative() && !$this->isOverlay) {
-            return true;
+        $value = $this->get('value', 0);
+        if (!isset($value) || empty($value)) {
+            return false;
         }
-        return false;
+
+        return true;
     }
 
     /**
@@ -47,11 +48,8 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
     public function getSearchData()
     {
         $value = $this->getValue();
-        if ($value->isEmpty()) {
-            return 0;
-        }
 
-        return 1;
+        return (int)$value->isEmpty();
     }
 
     /**
@@ -61,7 +59,7 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
     public function edit($params = array())
     {
         $layout = 'edit';
-        if ($this->_jbprice->isOverlay()) {
+        if ($this->options('isOverlay', 0)) {
             $layout = 'disabled';
         }
 
@@ -83,15 +81,13 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
     public function render($params = array())
     {
         $prices = $this->getPrices();
-        if (!$prices['save']->isNegative()) {
-            $prices['save']->setEmpty();
+        if (!$prices['save'] < 0) {
+            $prices['save'] = 0;
         }
 
         if ($layout = $this->getLayout()) {
-
             return self::renderLayout($layout, array(
-                'params'   => $params,
-                'discount' => $prices['save']->positive(),
+                'discount' => JBCart::val($prices['save'])->positive(),
                 'mode'     => $params->get('sale_show', self::SALE_VIEW_ICON_VALUE),
                 'currency' => $this->currency()
             ));
@@ -115,12 +111,11 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
 
     /**
      * Returns data when variant changes
+     * @param array $params
      * @return null
      */
-    public function renderAjax()
+    public function renderAjax($params = array())
     {
-        $params = $this->getRenderParams();
-
         return $this->render($params);
     }
 

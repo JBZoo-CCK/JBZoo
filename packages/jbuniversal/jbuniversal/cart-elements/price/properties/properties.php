@@ -48,27 +48,11 @@ class JBCartElementPriceProperties extends JBCartElementPrice
     public function render($params = array())
     {
         $template = $params->get('template', 'radio');
-        $data     = $this->getOptions();
 
         if ($layout = $this->getLayout($template . '.php')) {
-            return self::renderLayout($layout, array(
-                'params' => $params,
-                'data'   => $data
-            ));
+            return self::renderLayout($layout);
         }
 
         return null;
     }
-
-    /**
-     * Get elements value
-     * @param string $key
-     * @param null   $default
-     * @return mixed|null
-     */
-    public function getValue($key = 'height', $default = null)
-    {
-        return parent::getValue($key, $default);
-    }
-
 }

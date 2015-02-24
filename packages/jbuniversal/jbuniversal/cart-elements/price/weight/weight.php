@@ -59,15 +59,9 @@ class JBCartElementPriceWeight extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $params   = $this->app->data->create($params);
         $template = $params->get('template', 'radio');
-        $data     = $this->getOptions();
-
         if ($layout = $this->getLayout($template . '.php')) {
-            return self::renderLayout($layout, array(
-                'params' => $params,
-                'data'   => $data
-            ));
+            return self::renderLayout($layout);
         }
 
         return null;

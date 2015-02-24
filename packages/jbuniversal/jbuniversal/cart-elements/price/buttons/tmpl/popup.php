@@ -12,9 +12,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
-$this->app->jbassets->fancybox();
-?>
+$this->app->jbassets->fancybox();?>
 
 <div class="jbprice-buttons jsPriceButtons <?php echo $inCart; ?>">
     <span class="jsAddToCartModal jbbutton green" title="<?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART_MODAL'); ?>">

@@ -24,7 +24,7 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $list = (array)$params->get('currency_list', array());
+        $list = $params->get('currency_list', array());
         if (!empty($list)) {
             return true;
         }
@@ -62,14 +62,14 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
     {
         $template = $params->get('template', 'currency');
 
-        $list    = $params->get('currency_list', array());
+        $list    = (array)$params->get('currency_list', array());
         $default = $params->get('currency_default', 'EUR');
 
         if ($layout = $this->getLayout($template . '.php')) {
             return self::renderLayout($layout, array(
-                'params'  => $params,
                 'list'    => $list,
-                'default' => $default
+                'default' => $default,
+                'rates'   => array_intersect_key((array)$this->_jbmoney->getData(), array_flip($list))
             ));
         }
 
@@ -84,9 +84,7 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
      */
     public function getValue($key = 'value', $default = null)
     {
-        $params = $this->getRenderParams();
-
-        return $params->get('currency_default', JBCart::val()->cur());
+        return JBCart::val()->cur();
     }
 
     /**
@@ -95,17 +93,16 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
      */
     public function parentSelector()
     {
-        return '.' . $this->_data->find('_options.hash');
+        return '.' . $this->options('hash');
     }
 
     /**
      * Get params for widget
+     * @param array $params
      * @return array
      */
-    public function interfaceParams()
+    public function interfaceParams($params = array())
     {
-        $params = $this->getRenderParams();
-
         return array(
             'default' => $params->get('currency_default'),
             'target'  => '.jsCurrencyToggle'

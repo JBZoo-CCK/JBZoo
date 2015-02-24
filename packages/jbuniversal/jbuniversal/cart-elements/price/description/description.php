@@ -27,13 +27,12 @@ class JBCartElementPriceDescription extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $value = JString::trim($this->getValue());
-
-        if (JString::strlen($value) > 0) {
-            return true;
+        $value = $this->get('value', 0);
+        if (!isset($value) || empty($value)) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -70,9 +69,7 @@ class JBCartElementPriceDescription extends JBCartElementPrice
     public function render($params = array())
     {
         if ($layout = $this->getLayout()) {
-            return self::renderLayout($layout, array(
-                'params' => $params
-            ));
+            return self::renderLayout($layout);
         }
 
         return null;
@@ -80,12 +77,11 @@ class JBCartElementPriceDescription extends JBCartElementPrice
 
     /**
      * Returns data when variant changes
+     * @param array $params
      * @return null
      */
-    public function renderAjax()
+    public function renderAjax($params = array())
     {
-        $params = $this->getRenderParams();
-
         return $this->render($params);
     }
 

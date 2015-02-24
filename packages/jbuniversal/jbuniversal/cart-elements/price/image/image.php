@@ -75,7 +75,6 @@ class JBCartElementPriceImage extends JBCartElementPrice
 
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
-                'params'  => $params,
                 'element' => $unique
             ));
         }
@@ -93,13 +92,6 @@ class JBCartElementPriceImage extends JBCartElementPrice
     {
         $value = parent::getValue($key, $default);
 
-        if (empty($value) && $this->config->get('image', null)) {
-            $identifier = $this->config->get('image');
-            if ($element = $this->_jbprice->getItem()->getElement($identifier)) {
-                $value = $element->get('file');
-            }
-        }
-
         return $value;
     }
 
@@ -110,7 +102,7 @@ class JBCartElementPriceImage extends JBCartElementPrice
     public function unique()
     {
         $image  = $this->config->get('image');
-        $unique = $this->getJBPrice()->layout() . '_' . $this->getJBPrice()->getItem()->id;
+        $unique = $this->options('layout') . '_' . $this->options('item_id');
 
         if (empty($image)) {
             return $unique;
@@ -133,10 +125,6 @@ class JBCartElementPriceImage extends JBCartElementPrice
         $jbImage = $this->app->jbimage;
         if (is_array($image)) {
             $image = $image['value'];
-        }
-
-        if (empty($params)) {
-            $params = $this->getRenderParams();
         }
 
         if (!$params) {
@@ -167,27 +155,29 @@ class JBCartElementPriceImage extends JBCartElementPrice
 
     /**
      * Get params for widget
+     * @param array $params
      * @return array
      */
-    public function interfaceParams()
+    public function interfaceParams($params = array())
     {
         $path = $this->getValue();
 
         return array(
             'related' => $this->unique(),
-            'image'   => $this->getImage($path)
+            'image'   => $this->getImage($path, $params)
         );
     }
 
     /**
      * Returns data when variant changes
+     * @param array $params
      * @return null
      */
-    public function renderAjax()
+    public function renderAjax($params = array())
     {
         $path = $this->getValue();
 
-        return $this->getImage($path);
+        return $this->getImage($path, $params);
     }
 
     /**
