@@ -247,7 +247,7 @@ class BasketJBUniversalController extends JBUniversalController
         }
 
         $item    = $cart->getItem($key);
-        $variant = isset($item['variant']) ? $item['variant'] : ElementJBPrice::BASIC_VARIANT;
+        $variant = isset($item['variant']) ? $item['variant'] : 0;
         $this->app->jbajax->send(array(
             'message'  => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE'),
             'quantity' => (float)$cart->getItemElement($item)->getBalance($variant)

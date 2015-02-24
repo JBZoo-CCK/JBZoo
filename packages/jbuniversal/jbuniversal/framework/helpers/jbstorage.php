@@ -96,7 +96,7 @@ class JBStorageHelper extends AppHelper
      */
     public function setElement($id, $element)
     {
-        if (!($this->elements->has($id))) {
+        if (!$this->elements->has($id)) {
             $this->elements->set($id, $element);
         }
 
@@ -115,7 +115,7 @@ class JBStorageHelper extends AppHelper
             return $this->$route;
         }
 
-        return $this->$route->get($key, $default);
+        return $this->$route->find($key, $default);
     }
 
     /**
@@ -139,7 +139,7 @@ class JBStorageHelper extends AppHelper
      */
     public function has($route, $key = null)
     {
-        if (property_exists($this, $route)) {
+        if (isset($this->$route) && $key === null) {
             return true;
         }
 
@@ -207,7 +207,6 @@ class JBStorageHelper extends AppHelper
      */
     protected function createVariant($elements, $options = array())
     {
-        $elements = array_filter($elements);
         $variant = new JBCartVariant($elements, $options);
 
         return $variant;

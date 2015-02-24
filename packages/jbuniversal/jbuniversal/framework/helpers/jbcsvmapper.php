@@ -132,7 +132,7 @@ class JBCSVMapperHelper extends AppHelper
             /** @type ElementJBPrice $jbPrice */
             foreach ($prices as $identifier => $jbPrice) {
                 $i++;
-                $list = $jbPrice->getVariantList(null, null, true);
+                $list = $jbPrice->getList();
 
                 $variant  = $list->shift();
                 $elements = $variant->getElements();
