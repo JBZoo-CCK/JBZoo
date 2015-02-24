@@ -125,6 +125,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $this->_storage = $this->app->jbstorage;
         
         $this->app->jbassets->tools();
+        $this->loadAssets();
     }
 
     public function setType($type)

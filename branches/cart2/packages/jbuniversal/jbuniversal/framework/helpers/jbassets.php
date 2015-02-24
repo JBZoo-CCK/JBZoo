@@ -74,6 +74,7 @@ class JBAssetsHelper extends AppHelper
 
             $this->addScript($initScript);
         }
+
         return null;
     }
 

@@ -837,11 +837,11 @@ class JBCartOrder
                     . $cartItem->find('elements._description') . '</div>';
             }
 
-            if ($cartItem->get('sku')) {
+            if ($sku = $cartItem->get('sku', $cartItem->get('item_id'))) {
                 $itemHtml['sku'] = implode("\n ", array(
                     '<div class="jbcart-item-sku ' . $params->find('class.sku') . '">',
                     '<span class="jbcart-item-sku-key ' . $params->find('class.sku-key') . '">' . JText::_('JBZOO_CART_ITEM_SKU') . ':</span>',
-                    '<span class="jbcart-item-sku-value ' . $params->find('class.sku-value') . '">' . $cartItem->get('sku') . '</span>',
+                    '<span class="jbcart-item-sku-value ' . $params->find('class.sku-value') . '">' .$sku . '</span>',
                     '</div>',
                 ));
             }
@@ -856,12 +856,10 @@ class JBCartOrder
 
                 if ($image) {
                     $itemHtml['image'] = '<img  ' . $this->app->jbhtml->buildAttrs(array(
-                            'src'    => $image->url,
-                            'class'  => 'jbcart-item-image ' . $params->find('class.image') . '',
-                            'alt'    => $cartItem->get('item_name'),
-                            'title'  => $cartItem->get('item_name'),
-                            'width'  => $params->get('image_width', 75),
-                            'height' => $params->get('image_height', 75),
+                            'src'   => $image->url,
+                            'class' => 'jbcart-item-image ' . $params->find('class.image') . '',
+                            'alt'   => $cartItem->get('item_name'),
+                            'title' => $cartItem->get('item_name'),
                         )) . ' />';
                 }
             }
@@ -880,8 +878,13 @@ class JBCartOrder
                         'title' => $cartItem->get('item_name'),
                     )) . '>%obj%</a>';
 
-                $itemHtml['name']  = JString::str_ireplace(array('%class%', '%obj%'), array('jbcart-item-name', $cartItem->get('item_name')), $urlTmpl);
-                $itemHtml['image'] = JString::str_ireplace(array('%class%', '%obj%'), array('jbcart-item-image-url', $itemHtml['image']), $urlTmpl);
+                if ((int)$params->get('item_link', 1)) {
+                    $itemHtml['name'] = JString::str_ireplace(array('%class%', '%obj%'), array('jbcart-item-name', $cartItem->get('item_name')), $urlTmpl);
+                }
+
+                if ((int)$params->get('image_link', 1)) {
+                    $itemHtml['image'] = JString::str_ireplace(array('%class%', '%obj%'), array('jbcart-item-image-url', $itemHtml['image']), $urlTmpl);
+                }
             }
 
             // render param list

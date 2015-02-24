@@ -29,13 +29,6 @@ class JBDocHelper extends AppHelper
 
         // set meta
         $doc->setMetadata('robots', 'noindex, nofollow');
-
-        // remove canonical
-        unset($doc->_links[array_search(array(
-            'relation' => 'canonical',
-            'relType'  => 'rel',
-            'attribs'  => array()
-        ), $doc->_links)]);
     }
 
     /**

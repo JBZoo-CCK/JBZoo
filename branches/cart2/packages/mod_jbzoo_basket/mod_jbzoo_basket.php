@@ -18,15 +18,20 @@ require_once dirname(__FILE__) . DS . 'helper.php';
 
 $zoo = App::getInstance('zoo');
 
-$zoo->jbdebug->mark('mod_jbzoo_basket::start-' . $module->id);
+if (JBCart::getInstance()->canAccess($zoo->user->get())) {
 
-$zoo->jbassets->tools();
-$zoo->jbassets->js('mod_jbzoo_basket:assets/js/cart-module.js');
-$zoo->jbassets->less('mod_jbzoo_basket:assets/less/cart-module.less');
+    $zoo->jbdebug->mark('mod_jbzoo_basket::start-' . $module->id);
 
-$basketHelper = new JBZooBasketHelper($params, $module);
+    $zoo->jbassets->tools();
+    $zoo->jbassets->js('mod_jbzoo_basket:assets/js/cart-module.js');
+    $zoo->jbassets->less('mod_jbzoo_basket:assets/less/cart-module.less');
 
-// render module
-include(JModuleHelper::getLayoutPath('mod_jbzoo_basket', $params->get('layout', 'default')));
+    $basketHelper = new JBZooBasketHelper($params, $module);
 
-$zoo->jbdebug->mark('mod_jbzoo_basket::finish-' . $module->id);
+    // render module
+    include(JModuleHelper::getLayoutPath('mod_jbzoo_basket', $params->get('layout', 'default')));
+
+    $zoo->jbdebug->mark('mod_jbzoo_basket::finish-' . $module->id);
+} else {
+    echo JText::_('JBZOO_CART_UNABLE_ACCESS');
+}
