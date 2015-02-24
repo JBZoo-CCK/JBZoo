@@ -27,11 +27,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public $hash;
 
     /**
-     * @type JBCartVariant
-     */
-    public $basic;
-
-    /**
      * @var Array of params config
      */
     public $params = null;
@@ -45,12 +40,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * @var Array of core/unique price params config
      */
     public $filter_params = null;
-
-    /**
-     * @var array of objects
-     */
-    protected $_params = array();
-
+    
     /**
      * @var JBCartPositionHelper
      */
@@ -69,7 +59,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     /**
      * @var JBCartVariantList
      */
-    public $_list;
+    protected $_list;
 
     /**
      * @type JBPriceHelper
@@ -445,7 +435,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function defaultData()
     {
-        return $this->_item->elements->find("{$this->identifier}.variations.0", array());
+        return $this->list->find("0", array());
     }
 
     /**
