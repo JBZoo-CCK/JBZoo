@@ -17,6 +17,9 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElementPrice extends JBCartElement
 {
+    /**
+     * @type
+     */
     public $prices;
 
     /**
@@ -38,11 +41,6 @@ abstract class JBCartElementPrice extends JBCartElement
      * @type JBStorageHelper
      */
     protected $_storage;
-
-    /**
-     * @type JBCartVariant
-     */
-    protected $_variant;
 
     /**
      * Constructor
@@ -117,19 +115,19 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function getElement($identifier)
     {
-        $element = $this->_variant->getElement($identifier);
+        $element = $this->_jbprice->getElement($identifier);
 
         return $element;
     }
 
     /**
+     * Get element data
      * @param string $key
      * @param mixed $default
      * @return mixed
      */
     public function get($key, $default = null)
     {
-        return $this->_jbprice->getData("{$this->config->get('_variant')}.{$this->identifier}.{$key}");
         return $this->_data->get($key, $default);
     }
 
@@ -141,6 +139,15 @@ abstract class JBCartElementPrice extends JBCartElement
     {
         return $this->_data;
     }
+
+    /**
+     * @return int
+     */
+    public function count()
+    {
+        return count((array)$this->_data);
+    }
+
     /**
      * @param      $key
      * @param null $default
@@ -148,7 +155,7 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function options($key, $default = null)
     {
-        return $this->_variant->options->get($key, $default);
+        return $this->_jbprice->getOption($key, $default);
     }
 
     /**
@@ -177,6 +184,7 @@ abstract class JBCartElementPrice extends JBCartElement
         if (isset($this->prices)) {
             return $this->prices;
         }
+
         $total = $this->_jbprice->getList()->getTotal();
         $price = $this->_jbprice->getList()->getPrice();
 
@@ -204,14 +212,6 @@ abstract class JBCartElementPrice extends JBCartElement
         }
 
         return $this;
-    }
-
-    /**
-     * @param JBCartVariant $variant
-     */
-    public function setVariant($variant)
-    {
-        $this->_variant = $variant;
     }
 
     /**

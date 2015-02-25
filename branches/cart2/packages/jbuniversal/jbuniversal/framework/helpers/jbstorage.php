@@ -161,6 +161,7 @@ class JBStorageHelper extends AppHelper
         $class = strtolower($args['class']);
         $path  = $this->get('paths', $class);
 
+        unset($args['class']);
         if (!$class || !file_exists($path))
         {
             return false;
