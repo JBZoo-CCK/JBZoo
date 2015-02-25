@@ -633,6 +633,15 @@ abstract class JBCartElement
 
         return $this->app->jbrouter->elementOrder($methodName, $urlParams, $params);
     }
+
+    /**
+     * @param $attrs
+     * @return mixed
+     */
+    protected function _attrs($attrs)
+    {
+        return $this->app->jbhtml->buildAttrs($attrs);
+    }
 }
 
 /**

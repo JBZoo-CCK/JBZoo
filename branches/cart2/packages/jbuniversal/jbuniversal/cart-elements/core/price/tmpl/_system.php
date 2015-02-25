@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -16,16 +15,16 @@ defined('_JEXEC') or die('Restricted access');
 $type   = $this->getElementType();
 $isCore = ($this->isCore() ? 'core' : 'simple');
 
-$classes = array(
-    'jbprice-param-' . $type . ' jbprice-' . $isCore . '-param jbprice-param',
-    'jsElement jsPriceElement js' . ucfirst($type) . ' js' . ucfirst($isCore)
-);
-
 $attr = array(
-    'data-identifier' => $this->identifier
+    'data-identifier' => $this->identifier,
+    'class'           => array(
+        'jbprice-param-' . $type,
+        'jbprice-' . $isCore . '-param jbprice-param',
+        'jsElement',
+        'jsPriceElement',
+        'js' . ucfirst($type),
+        'js' . ucfirst($isCore)
+    )
 );
 
-echo
-    '<div class="' . implode(' ', $classes) . '"' . $this->_jbhtml->buildAttrs($attr) . '>'
-    . $html .
-    '</div>';
+echo '<div ' . $this->_attrs($attr) . '>' . $html . '</div>';
