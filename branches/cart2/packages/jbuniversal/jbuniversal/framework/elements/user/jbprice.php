@@ -64,8 +64,10 @@ class JBCSVItemUserJBPrice extends JBCSVItem
     public function toCSV()
     {
         $result = array();
+
         if (!empty($this->_value['variations'])) {
-            $list = $this->_element->getList($this->_value['variations'], array(), true);
+            $list = $this->_element->getList($this->_value['variations']);
+
             foreach ($list->all() as $key => $variant) {
                 $line = $this->_packToLine($variant);
 
@@ -97,7 +99,7 @@ class JBCSVItemUserJBPrice extends JBCSVItem
                 $value    = $instance->toCSV();
             }
 
-            if ($value = $this->_helper->getValue($value)) {
+            if ($value = $this->_helper->getValue($value, true)) {
                 $line[] = $id . ':' . JString::str_ireplace($from, $to, $value);
             }
         }

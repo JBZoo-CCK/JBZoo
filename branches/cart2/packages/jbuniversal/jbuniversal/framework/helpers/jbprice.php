@@ -43,9 +43,11 @@ class JBPriceHelper extends AppHelper
 
     /**
      * Get all JBPrice elements from all types in app
+     * @param array $filter Array of options to filter re result.
+     *                      Can be like type, identifier etc.
      * @return array
      */
-    public function getAppPrices()
+    public function getAppPrices($filter = array())
     {
         $elements    = array();
         $application = $this->app->zoo->getApplication();
@@ -203,7 +205,7 @@ class JBPriceHelper extends AppHelper
                 $position[$id]      = $element;
 
                 $positions->set(JBCart::DEFAULT_POSITION, $position);
-                $helper->savePrice(JBCart::CONFIG_PRICE, $positions, $jbPrice->identifier);
+                $helper->savePrice(JBCart::CONFIG_PRICE, (array)$positions, $jbPrice->identifier);
             }
         }
 
@@ -287,11 +289,11 @@ class JBPriceHelper extends AppHelper
         // load table class
         $class = 'JBCSVItemPrice' . $type;
 
-        if (!class_exists($class)) {
+        if (!class_exists($class, false)) {
             $this->app->loader->register($class, 'jbelements:' . self::ELEMENTS_CSV_GROUP . '/' . strtolower($type) . '.php');
         }
 
-        if (class_exists($class)) {
+        if (class_exists($class, false)) {
             $instance = new $class($element, $jbPrice, $options);
         } else {
             $instance = new JBCSVItemPrice($element, $jbPrice, $options);
