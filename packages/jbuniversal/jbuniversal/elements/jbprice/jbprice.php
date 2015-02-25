@@ -963,11 +963,13 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                         if (!$element->isCore()) {
                             $simple++;
                             $result['selected'][$id][$value] = $value;
+                            $result['values'][$key][$id]     = $_data;
                         }
                     }
                 }
-                if($simple === 0) {
+                if($simple === 0 && $key !== 0) {
                     unset($result['variations'][$key]);
+                    unset($result['values'][$key]);
                 }
             }
             if (isset($result['variations'])) {
