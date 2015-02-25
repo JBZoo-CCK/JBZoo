@@ -401,7 +401,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 $variations[$id] = $this->_storage->create('variant', array(
                     'elements' => $elements,
                     'options'  => array(
-                        'elements'   => $list[$id],
                         'id'         => $id,
                         'element_id' => $this->identifier,
                         'item_id'    => $this->_item->id,
