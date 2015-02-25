@@ -955,19 +955,18 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                     if ($value instanceof JBCartValue) {
                         $value = $value->data(true);
                     }
-
-                    if (JString::strlen($value) > 0 && $element->count()) {
-                        $_data = (array)$element->data();
-
+                    $_data = (array)$element->data();
+                    if ($element->count() || $key === 0) {
                         $result['variations'][$key][$id] = $_data;
-                        if (!$element->isCore()) {
+
+                        if (JString::strlen($value) > 0 && !$element->isCore()) {
                             $simple++;
                             $result['selected'][$id][$value] = $value;
                             $result['values'][$key][$id]     = $_data;
                         }
                     }
                 }
-                if($simple === 0 && $key !== 0) {
+                if ($simple === 0 && $key !== 0) {
                     unset($result['variations'][$key]);
                     unset($result['values'][$key]);
                 }
