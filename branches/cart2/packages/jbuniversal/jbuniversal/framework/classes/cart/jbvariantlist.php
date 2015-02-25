@@ -479,7 +479,6 @@ class JBCartVariantList extends ArrayObject
     public function defaultVariantCartData()
     {
         $elements = $this->byDefault()->getElements();
-
         $data = array();
         if (!empty($elements)) {
             foreach ($elements as $key => $element) {

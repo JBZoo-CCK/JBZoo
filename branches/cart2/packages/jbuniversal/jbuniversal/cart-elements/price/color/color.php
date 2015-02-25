@@ -72,8 +72,8 @@ class JBCartElementPriceColor extends JBCartElementPrice
         if ($layout = $this->getLayout('color.php')) {
             return $this->renderLayout($layout, array(
                 'type'       => $this->getInputType(),
-                'width'      => $width,
-                'height'     => $height,
+                'width'      => $width . 'px',
+                'height'     => $height . 'px',
                 'value'      => $this->getValue(),
                 'name'       => $this->getRenderName('value'),
                 'colorItems' => $this->getOptions()
