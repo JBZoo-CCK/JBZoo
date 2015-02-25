@@ -28,9 +28,15 @@ echo $this->partial('basket', 'table.styles');
     <tr>
         <th class="jbcart-col jbcart-col-image"></th>
         <th class="jbcart-col jbcart-col-name"><?php echo JText::_('JBZOO_CART_ITEM_NAME'); ?></th>
-        <th class="jbcart-col jbcart-col-price"><?php echo JText::_('JBZOO_CART_ITEM_PRICE'); ?></th>
-        <th class="jbcart-col jbcart-col-quantity"><?php echo JText::_('JBZOO_CART_ITEM_QUANTITY'); ?></th>
-        <th class="jbcart-col jbcart-col-subtotal"><?php echo JText::_('JBZOO_CART_ITEM_SUBTOTAL'); ?></th>
+        <th class="jbcart-col jbcart-col-price"><?php if ($config->get('tmpl_price4one', 1)) {
+                echo JText::_('JBZOO_CART_ITEM_PRICE');
+            } ?></th>
+        <th class="jbcart-col jbcart-col-quantity"><?php if ($config->get('tmpl_quntity', 1)) {
+                echo JText::_('JBZOO_CART_ITEM_QUANTITY');
+            } ?></th>
+        <th class="jbcart-col jbcart-col-subtotal"><?php if ($config->get('tmpl_subtotal', 1)) {
+                echo JText::_('JBZOO_CART_ITEM_SUBTOTAL');
+            } ?></th>
         <th class="jbcart-col jbcart-col-delete"></th>
     </tr>
     </thead>
@@ -43,15 +49,33 @@ echo $this->partial('basket', 'table.styles');
 
     <?php foreach ($view->itemsHtml as $itemKey => $itemHtml) : ?>
         <tr class="jbcart-row jsCartTableRow js<?php echo $itemKey; ?>" data-key="<?php echo $itemKey; ?>">
-            <td class="jbcart-image"><?php echo $itemHtml['image']; ?></td>
+            <td class="jbcart-image">
+                <?php if ($config->get('tmpl_image_show', 1)) {
+                    echo $itemHtml['image'];
+                } ?>
+            </td>
             <td class="jbcart-name">
                 <?php echo $itemHtml['name']; ?>
-                <?php echo $itemHtml['sku']; ?>
+                <?php if ($config->get('tmpl_sku_show', 1)) {
+                    echo $itemHtml['sku'];
+                } ?>
                 <?php echo $itemHtml['params']; ?>
             </td>
-            <td class="jbcart-price"><?php echo $itemHtml['price4one']; ?></td>
-            <td class="jbcart-quantity"><?php echo $itemHtml['quantityEdit']; ?></td>
-            <td class="jbcart-subtotal"><?php echo $itemHtml['totalsum']; ?></td>
+            <td class="jbcart-price"><?php
+                if ($config->get('tmpl_price4one', 1)) {
+                    echo $itemHtml['price4one'];
+                } ?>
+            </td>
+            <td class="jbcart-quantity"><?php
+                if ($config->get('tmpl_quntity', 1)) {
+                    echo $itemHtml['quantityEdit'];
+                } ?>
+            </td>
+            <td class="jbcart-subtotal">
+                <?php if ($config->get('tmpl_subtotal', 1)) {
+                    echo $itemHtml['totalsum'];
+                } ?>
+            </td>
             <td class="jbcart-delete">
                 <a class="uk-button uk-button-danger uk-button-small round jsDelete"><i class="uk-icon-trash-o"></i></a>
             </td>
@@ -70,22 +94,22 @@ echo $this->partial('basket', 'table.styles');
     <tr class="jbcart-row-total">
         <td colspan="3" class="jbcart-total-cell">
             <div class="jbcart-items-in-cart">
-                <span class="jbcart-label"><?php echo JText::_('Товаров в корзине'); ?>:</span>
+                <span class="jbcart-label"><?php echo JText::_('JBZOO_CART_TABLE_TOTAL_COUNT'); ?>:</span>
                 <span class="jbcart-value jsTotalCount"><?php echo $order->getTotalCount(); ?></span>
             </div>
             <div class="jbcart-price-of-goods">
-                <span class="jbcart-label"><?php echo JText::_('на сумму'); ?>:</span>
+                <span class="jbcart-label"><?php echo JText::_('JBZOO_CART_TABLE_SUBTOTAL_SUM'); ?>:</span>
                 <span class="jbcart-value jsTotalPrice"><?php echo $order->getTotalForItems()->html(); ?></span>
             </div>
         </td>
         <td class="jbcart-shipping-cell">
             <?php if ($view->shipping) : ?>
-                <div class="jbcart-label"><?php echo JText::_('Доставка'); ?>:</div>
+                <div class="jbcart-label"><?php echo JText::_('JBZOO_CART_TABLE_SHIPPING'); ?>:</div>
                 <div class="jbcart-value jsShippingPrice"><?php echo $order->getShippingPrice()->html(); ?></div>
             <?php endif; ?>
         </td>
         <td colspan="2" class="jbcart-total-price-cell">
-            <div class="jbcart-label"><?php echo JText::_('Итого к оплате'); ?>:</div>
+            <div class="jbcart-label"><?php echo JText::_('JBZOO_CART_TABLE_TOTAL_SUM'); ?>:</div>
             <div class="jbcart-value jsTotal"><?php echo $order->getTotalSum()->html(); ?></div>
         </td>
     </tr>

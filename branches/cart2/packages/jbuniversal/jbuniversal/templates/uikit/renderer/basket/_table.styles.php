@@ -12,31 +12,25 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$itemName     = JText::_('JBZOO_CART_ITEM_NAME');
-$itemPrice    = JText::_('JBZOO_CART_ITEM_PRICE');
-$itemQuantity = JText::_('JBZOO_CART_ITEM_QUANTITY');
-$itemSubTotal = JText::_('JBZOO_CART_ITEM_SUBTOTAL');
-
 ?>
-
 
 <style type="text/css">
     @media (max-width: 767px) {
 
         .jbcart-table tbody .jbcart-row .jbcart-name:before {
-            content: "<?php echo $itemName; ?>";
+            content: "<?php echo JText::_('JBZOO_CART_ITEM_NAME'); ?>";
         }
 
         .jbcart-table tbody .jbcart-row .jbcart-price:before {
-            content: "<?php echo $itemPrice; ?>";
+            content: "<?php echo JText::_('JBZOO_CART_ITEM_PRICE'); ?>";
         }
 
         .jbcart-table tbody .jbcart-row .jbcart-quantity:before {
-            content: "<?php echo $itemQuantity; ?>";
+            content: "<?php echo JText::_('JBZOO_CART_ITEM_QUANTITY'); ?>";
         }
 
         .jbcart-table tbody .jbcart-row .jbcart-subtotal:before {
-            content: "<?php echo $itemSubTotal; ?>";
+            content: "<?php echo JText::_('JBZOO_CART_ITEM_SUBTOTAL'); ?>";
         }
 
     }
