@@ -21,11 +21,6 @@ class JBCartVariant extends ArrayObject
     /**
      * @type AppData
      */
-    public $elements;
-
-    /**
-     * @type AppData
-     */
     public $options;
 
     /**
@@ -42,7 +37,7 @@ class JBCartVariant extends ArrayObject
      * Id of variant
      * @type integer
      */
-    public $id;
+    protected $id;
 
     /**
      * Array of objects elements
@@ -70,22 +65,12 @@ class JBCartVariant extends ArrayObject
     public function __construct(array $elements = array(), array $options = array(), JBCartVariantList $list = null)
     {
         $this->value    = JBCart::val();
-        $this->elements = new AppData();
 
         // set variant list if exists
         if ($list instanceof JBCartVariantList)
         {
             $this->setList($list);
             unset($list);
-        }
-
-        //set options
-        if(isset($options['elements']))
-        {
-            $this->elements->exchangeArray($options['elements']);
-
-            // remove elements data
-            unset($options['elements']);
         }
 
         //set elements data
@@ -156,8 +141,7 @@ class JBCartVariant extends ArrayObject
     public function add(array $elements)
     {
         foreach($elements as $key => $element) {
-            $data = $this->elements->get($key, null);
-            $this->_elements[$key] = $this->_setElement($element, $data);
+            $this->_elements[$key] = $this->_setElement($element);
         }
     }
 
@@ -374,13 +358,10 @@ class JBCartVariant extends ArrayObject
         $element->config->set('_variant', $this->id);
 
         if (!$this->isBasic() && $this->list instanceof JBCartVariantList) {
-            $data['_basic'] = $this->list->get(0)->get($id);
+            $data['_basic'] = $this->list->first()->get($id);
         }
         $element->setVariant($this);
-
-        if ($data !== null) {
-            $element->bindData($data);
-        }
+        $element->bindData($data);
 
         return $element;
     }

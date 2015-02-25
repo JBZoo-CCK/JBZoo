@@ -20,11 +20,6 @@ abstract class JBCartElementPrice extends JBCartElement
     public $prices;
 
     /**
-     * @type bool
-     */
-    public $isOverlay;
-
-    /**
      * @type string
      */
     protected $_namespace = JBCart::ELEMENT_TYPE_PRICE;
@@ -134,6 +129,7 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function get($key, $default = null)
     {
+        return $this->_jbprice->getData("{$this->config->get('_variant')}.{$this->identifier}.{$key}");
         return $this->_data->get($key, $default);
     }
 
@@ -178,20 +174,17 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function getPrices()
     {
-        if ($this->prices) {
+        if (isset($this->prices)) {
             return $this->prices;
         }
-
         $total = $this->_jbprice->getList()->getTotal();
         $price = $this->_jbprice->getList()->getPrice();
 
-        $this->prices = array(
+        return $this->prices = array(
             'total' => $total->data(true),
             'price' => $price->data(true),
             'save'  => $total->minus($price, true)->data(true)
         );
-
-        return $this->prices;
     }
 
     /**
