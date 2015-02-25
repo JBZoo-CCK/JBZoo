@@ -124,7 +124,7 @@ class JBAssetsHelper extends AppHelper
      */
     public function toJSON($vars)
     {
-        $vars = (array)$vars;
+        $vars = $this->app->jbarray->cleanJson($vars);
         if (!empty($vars)) {
             return json_encode($vars);
         }
@@ -234,7 +234,7 @@ class JBAssetsHelper extends AppHelper
         ));
 
         $script = $this->widget('#' . $id, 'JBZoo.CurrencyToggle', $params, $return);
-        if($return && $script) {
+        if ($return && $script) {
             return $script;
         }
     }
@@ -718,7 +718,7 @@ class JBAssetsHelper extends AppHelper
         if ($queryElement) {
             $script = $this->widget('#' . $queryElement, 'JBZoo.Colors', array('multiple' => (boolean)$type), $return);
 
-            if($return) {
+            if ($return) {
                 return $script;
             }
         }

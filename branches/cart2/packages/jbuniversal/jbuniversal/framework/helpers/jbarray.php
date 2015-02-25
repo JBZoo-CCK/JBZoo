@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -40,7 +39,7 @@ class JBArrayHelper extends AppHelper
 
     /**
      * Group array by key
-     * @param array $array
+     * @param array  $array
      * @param string $key
      * @param string $value
      * @return array
@@ -83,9 +82,9 @@ class JBArrayHelper extends AppHelper
 
     /**
      * Add cell to assoc array
-     * @param array $array
+     * @param array  $array
      * @param string $key
-     * @param mixed $val
+     * @param mixed  $val
      * @return array
      */
     function unshiftAssoc(array $array, $key, $val)
@@ -100,7 +99,7 @@ class JBArrayHelper extends AppHelper
 
     /**
      * Get one field from array of arrays (array of objects)
-     * @param array $options
+     * @param array  $options
      * @param string $fieldName
      * @return array
      */
@@ -125,7 +124,7 @@ class JBArrayHelper extends AppHelper
     /**
      * Recursive array mapping
      * @param Closure $function
-     * @param array $array
+     * @param array   $array
      * @return array
      */
     public function mapRecursive($function, $array)
@@ -164,7 +163,7 @@ class JBArrayHelper extends AppHelper
     }
 
     /**
-     * @param array $array
+     * @param array  $array
      * @param string $prefix
      * @return array
      */
@@ -209,6 +208,28 @@ class JBArrayHelper extends AppHelper
         }
 
         return implode("\n", $result);
+    }
+
+    /**
+     * @param $haystack
+     * @return mixed
+     */
+    public function cleanJson($haystack)
+    {
+        $haystack = (array)$haystack;
+
+        foreach ($haystack as $key => $value) {
+
+            if (is_array($value)) {
+                $haystack[$key] = $this->cleanJson($haystack[$key]);
+            }
+
+            if ($haystack[$key] === '' || is_null($haystack[$key])) {
+                unset($haystack[$key]);
+            }
+        }
+
+        return $haystack;
     }
 
 }
