@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<form>
+    <fields>
+        <fieldset name="others" label="" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
+            <field name="enable" type="jbbool" default="1" label="JBZOO_CART_CONFIG_ENABLE"
+                   description="JBZOO_CART_CONFIG_ENABLE_DESC"/>
+
+            <field name="access" type="accesslevel" default="1" label="JBZOO_CART_CONFIG_ACCESS"
+                   description="JBZOO_CART_CONFIG_ACCESS_DESC"/>
+
+            <field name="default_order_status" type="jbstatus" default="new" label="JBZOO_CART_CONFIG_ORDER_STATUS"
+                   status_type="STATUS_ORDER" description="JBZOO_CART_CONFIG_ORDER_STATUS_DESC"/>
+
+            <field name="default_currency" type="jbcurrency" defaultCode="0" default="EUR"
+                   label="JBZOO_CART_CONFIG_CURRENCY" description="JBZOO_CART_CONFIG_CURRENCY_DESC"/>
+
+        </fieldset>
+    </fields>
+</form>

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -68,6 +67,10 @@ class JBLayoutHelper extends AppHelper
     {
         $this->_view = $view;
 
+        if (isset($this->_view->template)) {
+            $this->_rendererPath = JPath::clean($this->_view->template->getPath() . '/renderer');
+        }
+
         if (isset($view->params)) {
             $this->_params = $view->params;
         } else {
@@ -130,7 +133,7 @@ class JBLayoutHelper extends AppHelper
     /**
      * Load application layout
      * @param       $layout
-     * @param null $templateVar
+     * @param null  $templateVar
      * @param array $vars
      * @return string
      */
@@ -225,8 +228,8 @@ class JBLayoutHelper extends AppHelper
 
     /**
      * Render item wrapper
-     * @param Item $item
-     * @param string $defaultLayout
+     * @param Item              $item
+     * @param string            $defaultLayout
      * @param ItemRenderer|null $renderer
      * @return null|string
      */
@@ -277,7 +280,7 @@ class JBLayoutHelper extends AppHelper
      * Simple subtemplate including
      * @param string $layout
      * @param string $name
-     * @param array $args
+     * @param array  $args
      * @return null|string
      */
     public function partial($layout, $name, $args = array())

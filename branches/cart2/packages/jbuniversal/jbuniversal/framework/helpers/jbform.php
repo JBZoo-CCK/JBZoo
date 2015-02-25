@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -21,7 +20,7 @@ class JBFormHelper extends AppHelper
 {
     /**
      * Render Joomla form
-     * @param $formName
+     * @param       $formName
      * @param array $options
      * @param array $data
      * @throws AppException
@@ -40,10 +39,9 @@ class JBFormHelper extends AppHelper
                 break;
             }
         }
-        
+
         if (!$formPath) {
             throw new AppException('Form ' . $formName . ' not found!');
-            return null;
         }
 
         $form = $this->_createJoomlaForm($formName, $formPath, $options);
@@ -82,7 +80,7 @@ class JBFormHelper extends AppHelper
         JHtml::_('behavior.formvalidation');
         $this->app->jbtoolbar->save();
 
-        $options = array_merge($this->_getDefaultFormOptions(), $options);
+        $options = array_merge($this->getDefaultFormOptions(), $options);
 
         $submitLabel = isset($options['submit']) ? $options['submit'] : JText::_('JBZOO_FORM_SAVE');
         unset($options['submit']);
@@ -91,7 +89,7 @@ class JBFormHelper extends AppHelper
 
         if ($submitLabel) {
             $html .= '<div class="jbzoo-submit">'
-                . '<input type="submit" class="jbzoo-button" name="send" value="' . $submitLabel .'" />'
+                . '<input type="submit" class="jbzoo-button" name="send" value="' . $submitLabel . '" />'
                 . '</div>';
         }
 
@@ -102,8 +100,8 @@ class JBFormHelper extends AppHelper
 
     /**
      * Render only one form field row
-     * @param $controlHtml
-     * @param $label
+     * @param      $controlHtml
+     * @param      $label
      * @param null $id
      * @return string
      */
@@ -123,8 +121,8 @@ class JBFormHelper extends AppHelper
 
     /**
      * Create Joomla Form
-     * @param $name
-     * @param $xmlPath
+     * @param       $name
+     * @param       $xmlPath
      * @param array $options
      * @return JForm
      */
@@ -172,7 +170,7 @@ class JBFormHelper extends AppHelper
     /**
      * @return array
      */
-    protected function _getDefaultFormOptions()
+    public function getDefaultFormOptions()
     {
         $_options = array(
             'action'         => $this->app->jbrouter->admin(),
@@ -225,6 +223,62 @@ class JBFormHelper extends AppHelper
         $paths[] = $this->app->path->path('jbconfig:forms/');
 
         return $paths;
+    }
+
+
+    public function renderFields($formName, $data = array())
+    {
+        $formPath = null;
+        $xmlPaths = $this->_getXmlFormPaths();
+
+        foreach ($xmlPaths as $path) {
+            $xmlForm = JPath::clean($path . '/' . $formName . '.xml');
+
+            if (JFile::exists($xmlForm)) {
+                $formPath = $xmlForm;
+                break;
+            }
+        }
+
+        if (!$formPath) {
+            throw new AppException('Form ' . $formName . ' not found!');
+        }
+
+        $form = $this->_createJoomlaForm($formName, $formPath, array());
+        $form->bind($data);
+
+        $html = array();
+
+        $fields = $form->getFieldsets();
+        if (!empty($fields)) {
+            $html[] = '<div>';
+            foreach ($fields as $fieldSet) {
+
+                $fieldSetName = $fieldSet->name;
+
+                $html[] = '<fieldset class="' . $fieldSetName . '">';
+
+                if ($fieldSet->label) {
+                    $html[] = '<legend>' . JText::_($fieldSet->label) . '</legend>';
+                }
+
+                if ($fieldSet->description) {
+                    $html[] = '<p>' . JText::_($fieldSet->description) . '</p>';
+                }
+
+                foreach ($form->getFieldset($fieldSetName) as $field) {
+                    $html[] = $this->_renderFieldRow($field);
+                }
+
+                $html[] = '</fieldset>';
+            }
+
+            $html[] = '</div>';
+        }
+
+        $html[] = '<div class="clr"></div>';
+
+        return implode("\n", $html);
     }
 
 }

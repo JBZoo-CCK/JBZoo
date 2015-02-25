@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<form>
+    <fields>
+        <fieldset name="others" label="" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
+            <field name="default_payment" type="jbpayment" default="" label="JBZOO_CART_CONFIG_PAYMENT"
+                   description="JBZOO_CART_CONFIG_PAYMENT_DESC"/>
+
+            <field name="default_payment_status" type="jbstatus" default="new" label="JBZOO_CART_CONFIG_PAYMENT_STATUS"
+                   status_type="STATUS_PAYMENT" description="JBZOO_CART_CONFIG_PAYMENT_STATUS_DESC"/>
+
+            <field name="default_payment_status_success" type="jbstatus" default="success"
+                   label="JBZOO_CART_CONFIG_PAYMENT_STATUS_SUCCESS"
+                   status_type="STATUS_PAYMENT" description="JBZOO_CART_CONFIG_PAYMENT_STATUS_SUCCESS_DESC"/>
+
+            <field name="default_payment_status_error" type="jbstatus" default="error"
+                   label="JBZOO_CART_CONFIG_PAYMENT_STATUS_ERROR" status_type="STATUS_PAYMENT"
+                   description="JBZOO_CART_CONFIG_PAYMENT_STATUS_ERROR_DESC"/>
+        </fieldset>
+    </fields>
+</form>

@@ -57,6 +57,16 @@ class BasketJBUniversalController extends JBUniversalController
         $this->_config  = JBModelConfig::model()->getGroup('cart.config');
         $this->cart     = JBCart::getInstance();
 
+        $this->application = $this->app->zoo->getApplication();
+
+        // load template
+        $tmplName       = $this->_config->get('tmpl_name', 'catalog');
+        $templates      = $this->application->getTemplates();
+        $this->template = $this->application->getTemplate();
+        if (isset($templates[$tmplName])) {
+            $this->template = $templates[$tmplName];
+        }
+
         if (!$this->cart->canAccess($this->app->user->get())) {
             $this->app->jbnotity->error('JBZOO_CART_UNABLE_ACCESS');
         }
@@ -72,9 +82,6 @@ class BasketJBUniversalController extends JBUniversalController
         $this->paymentRenderer            = $this->app->jbrenderer->create('Payment');
         $this->shippingFieldRenderer      = $this->app->jbrenderer->create('ShippingFields');
         $this->modifierOrderPriceRenderer = $this->app->jbrenderer->create('ModifierOrderPrice');
-
-        $this->application = $this->app->zoo->getApplication();
-        $this->template    = $this->application->getTemplate();
 
         $this->shipping       = $this->app->jbshipping->getEnabled();
         $this->shippingFields = $this->app->jbshipping->getFields();

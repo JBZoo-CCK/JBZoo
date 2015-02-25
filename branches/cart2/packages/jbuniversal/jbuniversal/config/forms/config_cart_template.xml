@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<form>
+    <fields>
+        <fieldset name="others" label="" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
+            <field name="tmpl_name" type="jbtemplates" default="catalog" label="JBZOO_CART_CONFIG_TMPL_NAME"
+                   description="JBZOO_CART_CONFIG_TMPL_NAME_DESC"/>
+
+            <field name="tmpl_item_link" type="jbbool" default="1" label="JBZOO_CART_CONFIG_TMPL_ITEM_LINK"
+                   description="JBZOO_CART_CONFIG_TMPL_ITEM_LINK_DESC"/>
+
+            <field name="tmpl_image_show" type="jbbool" default="1" label="JBZOO_CART_CONFIG_TMPL_IMAGE_SHOW"
+                   description="JBZOO_CART_CONFIG_TMPL_IMAGE_SHOW_DESC"/>
+
+            <field name="tmpl_image_link" type="jbbool" default="1" label="JBZOO_CART_CONFIG_TMPL_IMAGE_LINK"
+                   description="JBZOO_CART_CONFIG_TMPL_IMAGE_LINK_DESC"/>
+
+            <field name="tmpl_image_width" type="text" default="75" label="JBZOO_CART_CONFIG_TMPL_IMAGE_WIDTH"
+                   description="JBZOO_CART_CONFIG_TMPL_IMAGE_WIDTH_DESC"/>
+
+            <field name="tmpl_image_height" type="text" default="75" label="JBZOO_CART_CONFIG_TMPL_IMAGE_HEIGHT"
+                   description="JBZOO_CART_CONFIG_TMPL_IMAGE_HEIGHT_DESC"/>
+
+            <field name="tmpl_sku_show" type="jbbool" default="1" label="JBZOO_CART_CONFIG_TMPL_SKU_SHOW"
+                   description="JBZOO_CART_CONFIG_TMPL_SKU_SHOW_DESC"/>
+
+            <field name="tmpl_price4one" type="jbbool" default="1" label="JBZOO_CART_CONFIG_TMPL_PRICE4ONE"
+                   description="JBZOO_CART_CONFIG_TMPL_PRICE4ONE_DESC"/>
+
+            <field name="tmpl_quntity" type="jbbool" default="1" label="JBZOO_CART_CONFIG_TMPL_QUNTITY"
+                   description="JBZOO_CART_CONFIG_TMPL_QUNTITY_DESC"/>
+
+            <field name="tmpl_subtotal" type="jbbool" default="1" label="JBZOO_CART_CONFIG_TMPL_SUBTOTAL"
+                   description="JBZOO_CART_CONFIG_TMPL_SUBTOTAL_DESC"/>
+        </fieldset>
+    </fields>
+</form>

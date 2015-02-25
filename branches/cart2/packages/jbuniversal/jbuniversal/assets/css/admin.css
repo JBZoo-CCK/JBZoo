@@ -1614,6 +1614,9 @@ table.list.order-list thead th {
     margin-top: 0;
 }
 
+.jbzoo #tab-comments {
+    margin-top: 24px;
+}
 
 .jbzoo .jbinfo .jbinfo-block-top {
     padding: 10px;
