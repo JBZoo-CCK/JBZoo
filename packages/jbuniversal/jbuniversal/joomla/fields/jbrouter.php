@@ -45,7 +45,7 @@ class JFormFieldJBRouter extends JFormField
             $url = $router->$method($arg1, $arg2, $arg3, $arg4);
         }
 
-        return '<textarea readonly="readonly" class="paymenturl-area">' . $url . '</textarea>';
+        return '<pre>' . $url . '</pre>';
     }
 
 }
