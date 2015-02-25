@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -23,13 +22,9 @@ defined('_JEXEC') or die('Restricted access');
     <div class="uk-width-4-6">
 
         <h2>Электронная коммерция</h2>
-
-        <strong>Скоро тут будет...</strong><br />
-        график последних продаж<br>
-        краткая статистика<br>
-        - деньги (всего / месяц )<br>
-        - заказы (всего / месяц )<br>
-        10 последних продаж
+        <?php echo $this->partial('index_graph'); ?>
+        <?php echo $this->partial('index_stats'); ?>
+        <?php echo $this->partial('index_orders'); ?>
 
         <?php echo $this->partial('footer'); ?>
     </div>
