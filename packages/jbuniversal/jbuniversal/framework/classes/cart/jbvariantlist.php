@@ -33,7 +33,7 @@ class JBCartVariantList extends ArrayObject
      * Array of options when user add to cart
      * @var AppData|array
      */
-    protected $options = array();
+    public $options = array();
 
     /**
      * @type JBStorageHelper
@@ -56,26 +56,20 @@ class JBCartVariantList extends ArrayObject
     /**
      * Class constructor.
      * @help Create JBCartVariantList object after JBPrice template is set.
-     * @param array          $variations
+     * @param array          $list
      * @param array          $options
      */
-    public function __construct(array $variations, $options = array())
+    public function __construct($list, $options = array())
     {
         $this->setFlags(ArrayObject::STD_PROP_LIST);
 
         //sort ascending
-        ksort($variations);
+        ksort($list);
 
         // set default variant key
         if(isset($options['default']))
         {
             $this->setDefault($options['default']);
-        }
-
-        //add variations
-        if (!empty($variations)) {
-            $this->add($variations);
-            unset($variations);
         }
 
         // set ElementJBPrice if exists
@@ -89,6 +83,12 @@ class JBCartVariantList extends ArrayObject
         {
             $this->setOptions($options);
             unset($options);
+        }
+
+        //add variations
+        if (!empty($list)) {
+            $this->add($list);
+            unset($list);
         }
     }
 
@@ -106,27 +106,29 @@ class JBCartVariantList extends ArrayObject
      * @param  integer       $key
      * @param  JBCartVariant $variant
      * @return bool
+     * @throws Exception
      */
-    public function set($key, JBCartVariant $variant)
+    public function set($key, $variant)
     {
+        if(!$variant instanceof JBCartVariant)
+        {
+            throw new Exception('In Method: ' . __FUNCTION__ . ' values of array must be an instance of JBCartVariant.');
+        }
+
         $this->variants[$key] = $variant;
     }
 
     /**
-     * @param  array $data
+     * @param  array $list
      * @return $this
      * @throws Exception
      */
-    public function add(array $data = array())
+    public function add($list = array())
     {
-        foreach ($data as $key => $variant)
+        foreach ($list as $key => $variant)
         {
-            if(!$variant instanceof JBCartVariant)
-            {
-                throw new Exception('In Method: ' . __FUNCTION__ . ' values of array must be an instance of JBCartVariant.');
-            }
             $variant->setList($this);
-            $this->variants[$key] = $variant;
+            $this->set($key, $variant);
         }
 
         return $this;
@@ -228,9 +230,9 @@ class JBCartVariantList extends ArrayObject
 
     /**
      * @param array $options
-     * @return \AppData|array
+     * @return AppData|array
      */
-    public function setOptions(array $options)
+    public function setOptions($options = array())
     {
         if(!empty($this->options))
         {
@@ -316,7 +318,7 @@ class JBCartVariantList extends ArrayObject
      * @param bool        $visible
      * @return JBCartValue
      */
-    public function addModifiers(JBCartValue $total, $visible = false)
+    public function addModifiers($total, $visible = false)
     {
         $cart = JBCart::getInstance();
         $data = $cart->getItem($this->getSessionKey());
