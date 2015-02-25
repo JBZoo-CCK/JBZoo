@@ -53,9 +53,9 @@ $config = $cart->getCofigs();
     foreach ($view->itemsHtml as $itemKey => $itemHtml) : ?>
         <tr class="jbcart-row jsCartTableRow js<?php echo $itemKey; ?>" data-key="<?php echo $itemKey; ?>">
             <td class="jbcart-image">
-                <?php if ($config->get('tmpl_image_show', 1)) : ?>
-                    <?php echo $itemHtml['image']; ?>
-                <?php endif; ?>
+                <?php if ($config->get('tmpl_image_show', 1)) {
+                    echo $itemHtml['image'];
+                } ?>
             </td>
             <td class="jbcart-name">
                 <?php echo $itemHtml['name']; ?>
