@@ -10,11 +10,11 @@
     @coder       Denis Smetannikov <denis@jbzoo.com>
 -->
 <template>
-    <name>Uikit</name>
+    <name>UIkit (Yootheme)</name>
     <description>JBZoo uikit template</description>
     <author>JBZoo.com</author>
     <creationDate>2014 06</creationDate>
-    <copyright>Copyright (C) JBZoo.com,  All rights reserved.</copyright>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
