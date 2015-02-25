@@ -819,7 +819,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function getElements()
     {
-        return $this->_getElements(array_keys(array_diff_key($this->params, $this->_getRenderParams())));
+        return $this->_getElements(array_keys(array_diff_key((array)$this->params, (array)$this->_getRenderParams())));
     }
 
     /**
