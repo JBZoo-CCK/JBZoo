@@ -192,7 +192,7 @@ class JBPriceHelper extends AppHelper
             $element    = $position[$id];
             $oldOptions = $element['options'];
 
-            if ($id['type'] == 'color') {
+            if ($element['type'] == 'color') {
                 $options = $this->app->jbcolor->parse($oldOptions);
                 $new     = $this->app->jbcolor->build($option, $options);
             } else {
