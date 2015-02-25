@@ -266,4 +266,26 @@ class JBModelOrder extends JBModel
         return $select;
     }
 
+    /**
+     *
+     */
+    public function countByDate()
+    {
+        $select = $this->_getSelect()
+            ->select(array(
+                'COUNT(tOrder.id) AS count',
+                'YEAR(tOrder.created) AS year',
+                'MONTH(tOrder.created) AS month',
+                'DAY(tOrder.created) AS day',
+                'DATE_FORMAT(tOrder.created, "%Y-%m-%d") AS date'
+            ))
+            ->from(ZOO_TABLE_JBZOO_ORDER, 'tOrder')
+            ->where("YEAR(tOrder.created) = YEAR(CURDATE())")
+            ->group('date');
+
+        $result = $this->fetchAll($select);
+
+        return $result;
+    }
+
 }
