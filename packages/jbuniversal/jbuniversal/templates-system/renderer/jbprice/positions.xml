@@ -29,8 +29,6 @@
         <position name="cell4">Table cell #4</position>
         <position name="cell5">Table cell #5</position>
         <position name="cell6">Table cell #6</position>
-        <position name="cell7">Table cell #7</position>
-        <position name="cell8">Table cell #8</position>
     </positions>
 
 </renderer>
