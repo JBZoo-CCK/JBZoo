@@ -12,5 +12,14 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+if ($this->checkPosition('right')) : ?>
+    <div class="right">
+        <?php echo $this->renderPosition('right'); ?>
+    </div>
+<?php endif;
 
-echo $this->renderPosition('fields');
+if ($this->checkPosition('left')) : ?>
+    <div class="left">
+        <?php echo $this->renderPosition('left'); ?>
+    </div>
+<?php endif;
