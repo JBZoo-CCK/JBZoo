@@ -40,6 +40,12 @@
             <option value="oneclick">JBZOO_JBPRICE_BUTTON_MODE_ONECLICK</option>
         </param>
 
+        <param name="add_label" type="text" default="JBZOO_JBPRICE_ADD_TO_CART" label="JBZOO_JBPRICE_BUTTONS_ADD_LABEL"
+               description="JBZOO_JBPRICE_ELEMENT_BUTTONS_ADD_DESC" />
+
+        <param name="remove_label" type="text" default="JBZOO_JBPRICE_REMOVE_FROM_CART" label="JBZOO_JBPRICE_BUTTONS_REMOVE_LABEL"
+               description="JBZOO_JBPRICE_ELEMENT_BUTTONS_REMOVE_DESC" />
+
     </params>
 
 </element>

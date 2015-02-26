@@ -84,7 +84,6 @@
 
             'emptyCart.JBZooCartModule {document} .jsJBZooCartModule': function (e, $this) {
 
-                $this.removeItem();
                 $this.toggleButtons();
             },
 
@@ -103,7 +102,7 @@
                             'values'  : jbPrice.getValue()
                         }
                     },
-                    'success': function (data) {
+                    'success': function () {
 
                         $this.addItem();
                         $this.toggleButtons();
@@ -124,8 +123,6 @@
             },
 
             'click .jsRemoveFromCart': function (e, $this) {
-
-                var jbPrice = $this.price.data('JBZooPrice');
                 $this.ajax({
                     'target' : $(this),
                     'url'    : $this.options.remove,
@@ -134,7 +131,7 @@
                             'key': $this.getKey()
                         }
                     },
-                    'success': function (data) {
+                    'success': function () {
 
                         $this.removeItem();
                         $this.toggleButtons();

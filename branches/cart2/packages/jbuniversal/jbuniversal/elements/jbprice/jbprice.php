@@ -222,7 +222,10 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
             //Must be after renderer
             $elements = $this->elementsInterfaceParams();
-            if ($layout = $this->getLayout('render.php')) {
+            if (!$layout = $this->getLayout($this->_template . '.php')) {
+                $layout = $this->getLayout('render.php');
+            }
+            if ($layout) {
                 return $this->renderLayout($layout, array(
                     'hash'       => $this->hash,
                     'data'       => $data,
@@ -355,6 +358,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 'hash'       => $this->hash,
                 'isOverlay'  => $this->isOverlay(),
                 'cache'      => $this->isCache(),
+                'values'     => $this->get('values.' . $this->defaultKey()),
                 'selected'   => $this->config->get('only_selected', self::BASIC_VARIANT),
                 'currency'   => $this->currency(),
                 'default'    => $this->defaultKey()
@@ -1095,7 +1099,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public function getVariant($id = self::BASIC_VARIANT)
     {
         $array = $this->defaultList() + array(
-                $id => $this->data()->find('variations.' . $id)
+                $id => $this->getData($id)
             );
 
         if (!$this->_list instanceof JBCartVariantList) {

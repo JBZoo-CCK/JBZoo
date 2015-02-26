@@ -56,6 +56,8 @@ class JBCartElementPriceButtons extends JBCartElementPrice
 
         if ($layout = $this->getLayout($template . '.php')) {
             return self::renderLayout($layout, array(
+                'addLabel'      => JText::_($this->config->get('add_label', 'JBZOO_JBPRICE_ADD_TO_CART')),
+                'removeLabel'   => JText::_($this->config->get('remove_label', 'JBZOO_JBPRICE_REMOVE_FROM_CART')),
                 'inCart'        => ((int)$interface['isInCart'] ? 'in-cart' : null),
                 'inCartVariant' => ((int)$interface['isInCartVariant'] ? 'in-cart-variant' : null)
             ));

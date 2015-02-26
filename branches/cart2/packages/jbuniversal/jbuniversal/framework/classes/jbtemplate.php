@@ -137,7 +137,7 @@ class JBTemplate
             )
         );
 
-        $output = null;
+        $output = $htmlItem;
         $attrs  = $this->app->jbhtml->buildAttrs($attrs);
 
         $wrapperTag = 'none';

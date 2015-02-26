@@ -18,9 +18,6 @@ $sku = (!empty($value) ? $value : $this->getJBPrice()->getItem()->id);
 
 if ($sku) : ?>
     <div class="jbprice-sku">
-        <span class="field-name">
-            <?php echo JText::_('JBZOO_JBPRICE_SKU'); ?>:
-        </span>
         <span class="sku uk-badge uk-badge-notification"><?php echo $sku; ?></span>
     </div>
 <?php endif;

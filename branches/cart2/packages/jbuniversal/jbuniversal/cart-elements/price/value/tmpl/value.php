@@ -39,7 +39,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
                         </td>
                     </tr>
                     <tr>
-                        <td><?php echo JText::_('JBZOO_JBPRICE_PRICE_TOTAL'); ?>:</td>
+                        <td><?php echo JText::_('JBPRICE'); ?>:</td>
                         <td>
                             <span class="jsTotal total discount-less">
                                 <?php echo $total->html($currency); ?>

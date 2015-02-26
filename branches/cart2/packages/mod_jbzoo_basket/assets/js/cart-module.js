@@ -35,11 +35,13 @@
 
         'click .jsEmptyCart': function (e, $this) {
 
-            $this._trigger('emptyCart');
-
             $this.ajax({
                 url    : $this.options.url_clean,
                 success: function () {
+
+                    JBZoo.addVar('cartItems', {});
+                    $this._trigger('emptyCart');
+
                     $this.reload();
                 }
             });
