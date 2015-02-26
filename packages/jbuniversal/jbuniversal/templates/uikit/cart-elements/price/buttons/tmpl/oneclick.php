@@ -16,8 +16,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <div class="jbprice-buttons jsPriceButtons <?php echo $inCart; ?>">
     <a rel="nofollow" href="#add-to-cart-goto" class="jsAddToCartGoto uk-button uk-button-success add-button"
-       title="<?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART_GOTO'); ?>"><?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART_GOTO'); ?></a>
+       title="<?php echo $addLabel; ?>"><?php echo $addLabel; ?></a>
 
     <a rel="nofollow" href="#remove-from-cart" class="jsRemoveFromCart uk-button uk-button-danger uk-button-small remove-button remove-button"
-       title="<?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?>"><?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?></a>
+       title="<?php echo $removeLabel; ?>"><?php echo $removeLabel; ?></a>
 </div>

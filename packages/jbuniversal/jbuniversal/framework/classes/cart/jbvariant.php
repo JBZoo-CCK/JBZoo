@@ -359,8 +359,12 @@ class JBCartVariant extends ArrayObject
         $id = $element->identifier;
         $element->config->set('_variant', $this->id);
 
-        if (!$this->isBasic() && $this->list instanceof JBCartVariantList) {
-            $data['_basic'] = $this->list->first()->get($id);
+        if ($this->list instanceof JBCartVariantList) {
+            if (!$this->isBasic()) {
+                $data['_basic'] = $this->list->first()->get($id);
+            }
+
+            $data['_hash'] = $this->list->hash;
         }
 
         if(count($data)) {

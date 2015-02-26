@@ -13,10 +13,10 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 
 <div class="jbprice-buttons jsPriceButtons <?php echo $inCart . ' ' . $inCartVariant; ?>">
-    <span class="jsAddToCart jbbutton green add-button" title="<?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART'); ?>">
-        <?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART'); ?></span>
+    <span class="jsAddToCart jbbutton green add-button" title="<?php echo $addLabel; ?>">
+        <?php echo $addLabel; ?></span>
 
     <span class="jsRemoveFromCart jsRemoveElement jbbutton small orange remove-button"
-          title="<?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?>">
-        <?php echo JText::_('JBZOO_JBPRICE_REMOVE_FROM_CART'); ?></span>
+          title="<?php echo $removeLabel; ?>">
+        <?php echo $removeLabel; ?></span>
 </div>
