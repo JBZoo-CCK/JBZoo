@@ -208,6 +208,21 @@ class JBModelOrder extends JBModel
     }
 
     /**
+     * @return array()
+     */
+    public function getTotalSum()
+    {
+        $select = $this->_getSelect()
+            ->select('SUM(tOrder.total) AS total')
+            ->from(ZOO_TABLE_JBZOO_ORDER, 'tOrder');
+
+        $result = $this->fetchRow($select);
+        $value  = JBCart::val($result->total);
+
+        return $value;
+    }
+
+    /**
      * @param array $filter
      * @return JBDatabaseQuery
      */
