@@ -169,13 +169,13 @@
             },
 
             basketReload: function () {
-                if (this.isWidgetExists('JBZooCartModule')) {
+                if (JBZoo.isWidgetExists('JBZooCartModule')) {
                     $('.jsJBZooCartModule').JBZooCartModule('reload');
                 }
             },
 
             get: function (identifier, defValue) {
-                if (this.isWidgetExists('JBZooPrice')) {
+                if (JBZoo.isWidgetExists('JBZooPrice')) {
                     return this.el.closest('.jsJBPrice').JBZooPrice('get', identifier, defValue);
                 }
             },
