@@ -90,14 +90,13 @@
 
                 $('.jsJBPriceDeleteParam', $obj).on('click', function () {
 
-                    var yes = confirm('Yes/No ?');
-                    if (yes) {
+                    JBZoo.confirm('Yes/No ?', function(){
                         var $parent = $(this).parent();
                         $parent.slideUp('normal', function () {
                             $parent.remove();
                         });
                         refreshAll();
-                    }
+                    });
 
                     return false;
                 })
@@ -107,14 +106,13 @@
 
                 $('.jsJBPriceDeleteOption', $obj).on('click', function () {
 
-                    var yes = confirm('Yes/No ?');
-                    if (yes) {
+                    JBZoo.confirm('Yes/No ?', function(){
                         var $parent = $(this).parent();
                         $parent.slideUp('normal', function () {
                             $parent.remove();
                         });
                         refreshAll();
-                    }
+                    });
 
                     return false;
                 })

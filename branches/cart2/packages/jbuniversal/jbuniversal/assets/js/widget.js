@@ -237,7 +237,7 @@
                         if (selector == parentSelector) {
                             return $(this.el).on(eventName, eventCallback);
 
-                        } if(selector.indexOf('{document} ') == 0) {
+                        } else if (selector.indexOf('{document} ') == 0) {
                             selector = selector.replace('{document} ', '');
                             return $(selector).on(eventName, eventCallback);
 
@@ -405,7 +405,66 @@
          */
         isWidgetExists: function (widgetName) {
             return !JBZoo.empty($.fn[widgetName]);
+        },
+
+        /**
+         * Simple system message like alert
+         * @param message
+         */
+        alert: function (message) {
+            if ($.isFunction(swal)) {
+                swal({
+                    title            : message,
+                    type             : 'info',
+                    allowOutsideClick: true
+                });
+            } else {
+                alert(message);
+            }
+        },
+
+        /**
+         * Confirm dialogbox
+         * @param message
+         * @param yesCallback
+         * @param noCallback
+         * @param context
+         */
+        confirm: function (message, yesCallback, noCallback, context) {
+
+            noCallback = noCallback || $.noop;
+            yesCallback = yesCallback || $.noop;
+
+            if ($.isFunction(swal)) {
+                swal({
+                        title            : message,
+                        type             : "warning",
+                        showCancelButton : true,
+                        closeOnConfirm   : true,
+                        closeOnCancel    : true,
+                        allowOutsideClick: false
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            if ($.isFunction(yesCallback)) {
+                                yesCallback.apply(context)
+                            }
+                        } else {
+                            if ($.isFunction(noCallback)) {
+                                noCallback.apply(context)
+                            }
+                        }
+                    });
+
+            } else {
+                if (confirm(message)) {
+                    $.isFunction(yesCallback) && yesCallback.apply(context);
+                } else {
+                    $.isFunction(noCallback) && noCallback.apply(context);
+                }
+            }
         }
+
     });
 
 })(jQuery, window, document);

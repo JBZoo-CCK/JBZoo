@@ -193,6 +193,7 @@ class JBAssetsHelper extends AppHelper
 
             $this->js(array(
                 'jbassets:js/libs/cookie.js',
+                'jbassets:js/libs/sweet-alert.js',
                 'jbassets:js/helper.js',
                 'jbassets:js/widget.js',
                 'jbassets:js/jbzoo.js',
@@ -200,6 +201,10 @@ class JBAssetsHelper extends AppHelper
                 'jbassets:js/widget/goto.js',
                 'jbassets:js/widget/select.js',
                 'jbassets:js/widget/money.js',
+            ));
+
+            $this->css(array(
+                'jbassets:css/libs/sweet-alert.css'
             ));
 
             $this->addVar('currencyList', $this->app->jbmoney->getData());
@@ -279,7 +284,11 @@ class JBAssetsHelper extends AppHelper
     public function fancybox()
     {
         $this->jQuery();
-        $this->css('jbassets:css/libraries.css');
+
+        $this->css(array(
+            'jbassets:css/libs/fancybox.css'
+        ));
+
         $this->js(array(
             'jbassets:js/libs/fancybox/core.js',
             'jbassets:js/libs/fancybox/buttons.js',
@@ -294,7 +303,7 @@ class JBAssetsHelper extends AppHelper
     public function tablesorter()
     {
         $this->jQuery();
-        $this->css('jbassets:css/libraries.css');
+        $this->css('jbassets:css/libs/tablesorter.css');
         $this->js('jbassets:js/libs/tablesorter.js');
     }
 
@@ -304,7 +313,7 @@ class JBAssetsHelper extends AppHelper
     public function chosen()
     {
         $this->jQuery();
-        $this->css('jbassets:css/libraries.css');
+        $this->css('jbassets:css/libs/chosen.css');
         $this->js('jbassets:js/libs/chosen.js');
     }
 
@@ -324,7 +333,7 @@ class JBAssetsHelper extends AppHelper
     public function nivoslider()
     {
         $this->jQuery();
-        $this->css('jbassets:css/libraries.css');
+        $this->css('jbassets:css/libs/nivolider.css');
         $this->js('jbassets:js/libs/nivoslider.js');
     }
 
@@ -452,9 +461,8 @@ class JBAssetsHelper extends AppHelper
     public function quantity()
     {
         $this->tools();
-        $this->css('jbassets:css/libraries.css');
-        $this->js('jbassets:js/widget/quantity.js');
         $this->less('jbassets:less/widget/quantity.less');
+        $this->js('jbassets:js/widget/quantity.js');
 
         return $this;
     }
