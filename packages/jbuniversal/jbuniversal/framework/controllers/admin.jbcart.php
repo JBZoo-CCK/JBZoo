@@ -62,6 +62,12 @@ class JBCartJBUniversalController extends JBUniversalController
      */
     public function index()
     {
+        $this->orders = JBModelOrder::model()->getList(array(
+            'limit' => 5,
+            'field' => 'created',
+            'dir'   => 'DESC',
+        ));
+
         $this->renderView();
     }
 
