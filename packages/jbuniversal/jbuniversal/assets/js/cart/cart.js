@@ -116,7 +116,7 @@
                         if (data.message) {
                             $this.alert(data.message);
                         }
-                        if ($this.isWidgetExists('JBZooQuantity')) {
+                        if (JBZoo.isWidgetExists('JBZooQuantity')) {
                             $this.$('.js' + itemKey + ' .jsQuantity').JBZooQuantity('setValue', data.quantity);
                         }
                     }
@@ -138,7 +138,7 @@
          * @private
          */
         reloadModule: function () {
-            if (this.isWidgetExists('JBZooCartModule')) {
+            if (JBZoo.isWidgetExists('JBZooCartModule')) {
                 $('.jsJBZooCartModule').JBZooCartModule('reload');
             }
         },

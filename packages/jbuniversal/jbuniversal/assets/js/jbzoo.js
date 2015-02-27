@@ -262,15 +262,6 @@
         },
 
         /**
-         * Check widget
-         * @param widgetName
-         * @returns boolean
-         */
-        isWidgetExists: function (widgetName) {
-            return JBZoo.isWidgetExists(widgetName);
-        },
-
-        /**
          * Save var in browser cookie
          * @param key
          * @param value
