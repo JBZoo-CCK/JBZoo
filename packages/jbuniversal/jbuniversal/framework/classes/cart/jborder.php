@@ -912,7 +912,11 @@ class JBCartOrder
      */
     public function getUrl()
     {
-        return $this->app->jbrouter->order($this);
+        if ($this->app->jbenv->isSite()) {
+            return $this->app->jbrouter->order($this);
+        } else {
+            return $this->app->jbrouter->orderAdmin($this);
+        }
     }
 
     /**
