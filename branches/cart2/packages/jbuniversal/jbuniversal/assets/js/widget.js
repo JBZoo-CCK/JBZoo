@@ -237,7 +237,8 @@
                         if (selector == parentSelector) {
                             return $(this.el).on(eventName, eventCallback);
 
-                        } else if (selector.indexOf('{document} ') == 0) {
+                        }
+                        if (selector.indexOf('{document} ') == 0) {
                             selector = selector.replace('{document} ', '');
                             return $(selector).on(eventName, eventCallback);
 
@@ -404,7 +405,7 @@
          * @returns {boolean}
          */
         isWidgetExists: function (widgetName) {
-            return !JBZoo.empty($.fn[widgetName]);
+            return !JBZoo.empty($.fn[widgetName]) || $.isFunction($[widgetName]);
         },
 
         /**
