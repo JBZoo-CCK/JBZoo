@@ -17,6 +17,8 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBCartElementPrice extends JBCartElement
 {
+    protected $isCache = false;
+
     /**
      * @type
      */
@@ -38,11 +40,6 @@ abstract class JBCartElementPrice extends JBCartElement
     protected $_jbprice;
 
     /**
-     * @type JBStorageHelper
-     */
-    protected $_storage;
-
-    /**
      * Constructor
      * @param App    $app
      * @param string $type
@@ -52,8 +49,7 @@ abstract class JBCartElementPrice extends JBCartElement
     {
         parent::__construct($app, $type, $group);
 
-        $this->_jbhtml  = $app->jbhtml;
-        $this->_storage = $app->jbstorage;
+        $this->_jbhtml = $app->jbhtml;
     }
 
     /**
@@ -123,7 +119,7 @@ abstract class JBCartElementPrice extends JBCartElement
     /**
      * Get element data
      * @param string $key
-     * @param mixed $default
+     * @param mixed  $default
      * @return mixed
      */
     public function get($key, $default = null)
@@ -166,10 +162,10 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function getValue($key = 'value', $default = null)
     {
-        $value = $this->get($key, $default);
+        $value = $this->get($key);
 
         if ((JString::strlen($value) === 0) && ($this->isCore()) && (!$this->isBasic())) {
-            $value = $this->get('_basic', $default);
+            $value = $this->_jbprice->getList()->first()->get($this->identifier, $default);
         }
 
         return $value;
@@ -203,7 +199,7 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function bindData($data = array(), $key = 'value')
     {
-        if(!is_array($data)) {
+        if (!is_array($data)) {
             $this->set($key, $data);
         }
 
@@ -229,6 +225,16 @@ abstract class JBCartElementPrice extends JBCartElement
     public function setJBPrice($object)
     {
         $this->_jbprice = $object;
+
+        $this->isCache = $this->_jbprice->isCache();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCache()
+    {
+        return $this->isCache;
     }
 
     /**
@@ -471,33 +477,61 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function loadAssets()
     {
-        static $default;
+        static $isAdded = false;
 
-        if (!isset($default)) {
-            $this->app->jbassets->js('cart-elements:core/price/assets/js/price.js');
-            $this->_addToStorage('cart-elements:core/price/assets/js/price.js');
-            $default = true;
+        if (!$isAdded) {
+
+            $this->js('cart-elements:core/price/assets/js/price.js');
+            $isAdded = true;
         }
 
         return parent::loadAssets();
     }
 
     /**
-     * @param  array $files
+     * @param  string $file
+     * @return $this|JBCartElementPrice
+     */
+    public function less($file)
+    {
+        return $this->addToStorage($file, 'less');
+    }
+
+    /**
+     * @param  string $file
+     * @return $this|JBCartElementPrice
+     */
+    public function js($file)
+    {
+        return $this->addToStorage($file, 'js');
+    }
+
+    /**
+     * @param  string $file
+     * @return $this|JBCartElementPrice
+     */
+    public function css($file)
+    {
+        return $this->addToStorage($file, 'css');
+    }
+
+    /**
+     * @param  array $assets
+     * @param string $method
      * @return $this
      */
-    public function addToStorage($files = array())
+    public function addToStorage($assets, $method = 'js')
     {
-        $isCache = (int)$this->options('cache', 0);
-        if ($isCache && !empty($files)) {
-            if (is_string($files)) {
-                $this->_addToStorage($files);
-            } else {
-                foreach ($files as $file) {
-                    if (!empty($file)) {
-                        $this->_addToStorage($file);
-                    }
+        $assets = (array)$assets;
+        $count  = count($assets);
+
+        $this->app->jbassets->$method($assets);
+        if ($this->isCache) {
+            if ($count) {
+                for ($i = 0; $i < $count; $i++) {
+                    $this->_addToStorage($assets[$i]);
                 }
+
             }
         }
 
@@ -505,18 +539,12 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
-     * @param $file
+     * @param $asset
      * @return $this
      */
-    protected function _addToStorage($file)
+    protected function _addToStorage($asset)
     {
-        $isCache = (int)$this->options('cache', 0);
-        if ($isCache) {
-            $file = JString::trim($file);
-            $key  = md5(strtolower(get_called_class()) . $file);
-
-            $this->_storage->set('assets', $file, $key);
-        }
+        $this->_jbprice->toStorage($asset);
 
         return $this;
     }

@@ -176,10 +176,8 @@ class JBCartElementPriceColor extends JBCartElementPrice
     public function loadAssets()
     {
         $this->app->jbassets->colors();
-        parent::addToStorage(array(
-            'jbassets:js/widget/colors.js',
-            'jbassets:less/widget/colors.less'
-        ));
+        $this->js('jbassets:js/widget/colors.js')
+             ->less('jbassets:less/widget/colors.less');
 
         return parent::loadAssets();
     }

@@ -106,8 +106,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
      */
     public function loadAssets()
     {
-        $this->app->jbassets->js('cart-elements:price/buttons/assets/js/buttons.js');
-        self::addToStorage(array('cart-elements:price/buttons/assets/js/buttons.js'));
+        $this->js('cart-elements:price/buttons/assets/js/buttons.js');
 
         return parent::loadAssets();
     }

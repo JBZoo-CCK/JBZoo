@@ -186,10 +186,9 @@ class JBCartElementPriceImage extends JBCartElementPrice
      */
     public function loadAssets()
     {
-        $this->app->jbassets->js('cart-elements:price/image/assets/js/image.js');
-        self::addToStorage(array(
+        $this->js(array(
+            'cart-elements:price/image/assets/js/image.js',
             'jbassets:js/widget/media.js',
-            'cart-elements:price/image/assets/js/image.js'
         ));
 
         return parent::loadAssets();

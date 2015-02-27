@@ -346,6 +346,11 @@ class JBCartVariant extends ArrayObject
      */
     public function setData(array $options)
     {
+        foreach($this->_elements as $key => $element)
+        {
+            $this->_elements[$key] = $this->_setElement($element, $options);
+        }
+
         return $this;
     }
 
@@ -363,11 +368,9 @@ class JBCartVariant extends ArrayObject
             if (!$this->isBasic()) {
                 $data['_basic'] = $this->list->first()->get($id);
             }
-
-            $data['_hash'] = $this->list->hash;
         }
 
-        if(count($data)) {
+        if(!empty($data)) {
             $element->bindData($data);
         }
 
