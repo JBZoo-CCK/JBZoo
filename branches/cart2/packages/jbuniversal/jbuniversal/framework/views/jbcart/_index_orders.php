@@ -3,7 +3,7 @@ if (!empty($this->orders)) {
 
     $html = array(
         '<br><h2>5 последних заказов</h2>',
-        '<table class="uk-table"><thead><tr>',
+        '<table class="uk-table uk-table-hover uk-table-striped uk-table-condensed"><thead><tr>',
         '<th>' . JText::_('JBZOO_ADMIN_NAME') . '</th>',
         '<th>' . JText::_('JBZOO_ADMIN_CREATED') . '</th>',
         '<th>' . JText::_('JBZOO_ADMIN_STATUS') . '</th>',
