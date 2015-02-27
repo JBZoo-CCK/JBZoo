@@ -345,7 +345,9 @@ class JBRequestHelper extends AppHelper
      */
     public function  getCurrency($default = null)
     {
-        $currency = $this->get('JBZooCurrencyToggle_current', $default);
+        $key = 'JBZooCurrencyToggle_current';
+
+        $currency = isset($_COOKIE[$key]) ? $_COOKIE[$key] : $default; // TODO use Joomla API
         $currency = $this->app->jbvars->currency($currency);
 
         if ($currency == JBCartValue::PERCENT) {
