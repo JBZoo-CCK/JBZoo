@@ -147,6 +147,26 @@ class JBStorageHelper extends AppHelper
     }
 
     /**
+     * @param $route
+     * @param $value
+     * @param $key
+     * @return bool
+     */
+    public function add($route, $value, $key)
+    {
+        if (!isset($key)) {
+            return false;
+        }
+
+        if (!$this->$route->has($key)) {
+            $this->$route->set($key, new AppData(array()));
+        }
+        $this->$route->$key->append($value);
+
+        return true;
+    }
+
+    /**
      * @param string $route
      * @param array  $args
      * @return mixed
@@ -202,8 +222,8 @@ class JBStorageHelper extends AppHelper
     }
 
     /**
-     * @param array             $elements
-     * @param array             $options
+     * @param array $elements
+     * @param array $options
      * @return JBCartVariant
      */
     protected function createVariant($elements, $options = array())

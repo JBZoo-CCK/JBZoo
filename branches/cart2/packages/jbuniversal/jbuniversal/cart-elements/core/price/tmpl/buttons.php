@@ -13,10 +13,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (count($data)) {
-    $this->addToStorage(array(
-        'libraries:jquery/jquery-ui.custom.css',
-        'libraries:jquery/jquery-ui.custom.min.js'
-    ));
-    echo $this->_jbhtml->buttonsJqueryUI($data, $this->getRenderName('value'), null, $this->getValue('value'), $this->htmlId(true));
-}
+$this->js('libraries:jquery/jquery-ui.custom.min.js')
+     ->css('libraries:jquery/jquery-ui.custom.css');
+
+echo $this->_jbhtml->buttonsJqueryUI($data, $this->getRenderName('value'), null, $this->getValue('value'), $this->htmlId(true));
+

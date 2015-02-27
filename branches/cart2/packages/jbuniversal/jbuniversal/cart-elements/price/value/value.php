@@ -134,9 +134,7 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function loadAssets()
     {
-        $this->app->jbassets->js('cart-elements:price/value/assets/js/value.js');
-
-        self::_addToStorage('cart-elements:price/value/assets/js/value.js');
+        $this->js('cart-elements:price/value/assets/js/value.js');
 
         return parent::loadAssets();
     }

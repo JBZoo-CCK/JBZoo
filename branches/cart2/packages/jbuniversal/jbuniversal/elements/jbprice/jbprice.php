@@ -27,6 +27,11 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public $hash;
 
     /**
+     * @type bool
+     */
+    public $isCache = false;
+
+    /**
      * @var Array of params config
      */
     public $params = null;
@@ -115,7 +120,15 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $this->_storage = $this->app->jbstorage;
 
         $this->app->jbassets->tools();
-        $this->loadAssets();
+    }
+
+    public function setType($type)
+    {
+        parent::setType($type);
+
+        if ($this->canAccess()) {
+            $this->isCache = (bool)$this->config->get('cache', 0);
+        }
     }
 
     /**
@@ -196,16 +209,17 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function render($params = array())
     {
-        $this->hash = md5($this->identifier
-            . $this->_item->id
-            . serialize($params)
-            . serialize((array)$this->_item->elements->get($this->identifier))
-            . serialize($this->params)
-            . serialize($this->_render_params)
-        );
+        $this->hash = md5(serialize(array($this->identifier
+                  , $this->_item->id
+                  , (array)$params
+                  , (array)$this->_item->elements->get($this->identifier)
+                  , (array)$this->params
+                  , (array)$this->_render_params
+            )));
 
-        if (!$this->isCache() || $this->isCache() && !$cache = $this->_cache->get($this->hash, 'price', true)) {
-            $this->loadAssets();
+        $this->loadAssets();
+        if (!$this->isCache || $this->isCache && !$cache = $this->_cache->get($this->hash, 'price_elements', true)) {
+
             $params          = new AppData($params);
             $this->_template = $params->get('template', 'default');
             $this->_layout   = $params->get('_layout');
@@ -266,8 +280,12 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public function renderLayout($__layout, $__args = array())
     {
         $html = parent::renderLayout($__layout, $__args);
-        if ($this->isCache()) {
-            $this->_cache->set($this->hash, $html, 'price', true);
+        if ($this->isCache) {
+            $this->_cache->set($this->hash, $html, 'price_elements', true);
+
+            $storage = $this->_storage->get('assets', $this->hash, true);
+
+            $this->_cache->set($this->hash, $storage, 'price_assets', true);
         }
 
         return $html;
@@ -357,7 +375,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 'layout'     => $this->_layout,
                 'hash'       => $this->hash,
                 'isOverlay'  => $this->isOverlay(),
-                'cache'      => $this->isCache(),
+                'cache'      => $this->isCache,
                 'values'     => $this->get('values.' . $this->defaultKey()),
                 'selected'   => $this->config->get('only_selected', self::BASIC_VARIANT),
                 'currency'   => $this->currency(),
@@ -426,7 +444,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             'layout'     => $this->_layout,
             'hash'       => $this->hash,
             'isOverlay'  => $this->isOverlay(),
-            'cache'      => $this->isCache(),
+            'cache'      => $this->isCache,
             'selected'   => $this->config->get('only_selected', self::BASIC_VARIANT)
         );
 
@@ -1010,11 +1028,16 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function isCache()
     {
-        if ($this->canAccess()) {
-            return (int)$this->config->get('cache', 0);
-        }
+        return $this->isCache;
+    }
 
-        return false;
+    /**
+     * @param        $path
+     * @return bool
+     */
+    public function toStorage($path)
+    {
+        return $this->_storage->add('assets', $path, $this->hash);
     }
 
     /**
@@ -1025,20 +1048,27 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     {
         $js   = 'elements:jbprice/assets/js/jbprice.js';
         $less = 'elements:jbprice/assets/less/jbprice.less';
-
-        $this->app->jbassets->js(array(
-            $js, 'jbassets:js/price/toggle.js'
-        ));
-        $this->app->jbassets->less($less);
-
-        if ($this->isCache()) {
-            $key = strtolower(get_called_class());
-            $this->_storage->set('assets', $js, md5($key . $js));
-            $this->_storage->set('assets', $less, md5($key . $less));
+        if ($this->isCache) {
+            if ($assets = $this->_cache->get($this->hash, 'price_assets', true)) {
+                if (count($assets)) {
+                    foreach ($assets as $asset) {
+                        if ($ext = JFile::getExt($asset)) {
+                            $this->app->jbassets->$ext($asset);
+                        }
+                    }
+                }
+                return true;
+            }
         }
+        $this->toStorage($js);
+        $this->toStorage($less);
+
+        $this->app->jbassets->less($less);
+        $this->app->jbassets->js($js);
 
         return parent::loadAssets();
     }
+
 
     /**
      * @param array  $list   Array of keys.
