@@ -17,7 +17,9 @@ $this->app->jbassets->less('jbassets:less/cart/table.less');
 $string = $this->app->jbstring;
 $jbhtml = $this->app->jbhtml;
 
-$order = JBCart::getInstance()->newOrder();
+$cart   = JBCart::getInstance();
+$order  = $cart->newOrder();
+$config = $cart->getCofigs();
 
 echo $this->partial('basket', 'table.styles');
 

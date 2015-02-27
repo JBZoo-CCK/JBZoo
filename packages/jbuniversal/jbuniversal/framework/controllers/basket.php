@@ -68,7 +68,7 @@ class BasketJBUniversalController extends JBUniversalController
         }
 
         if (!$this->cart->canAccess($this->app->user->get())) {
-            $this->app->jbnotity->error('JBZOO_CART_UNABLE_ACCESS');
+            $this->app->jbnotify->error('JBZOO_CART_UNABLE_ACCESS');
         }
     }
 

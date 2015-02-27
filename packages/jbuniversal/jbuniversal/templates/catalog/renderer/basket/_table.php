@@ -19,7 +19,7 @@ $jbhtml = $this->app->jbhtml;
 
 $cart   = JBCart::getInstance();
 $order  = $cart->newOrder();
-$config = $cart->getCofigs();
+$config = $cart->getConfig();
 
 ?>
 

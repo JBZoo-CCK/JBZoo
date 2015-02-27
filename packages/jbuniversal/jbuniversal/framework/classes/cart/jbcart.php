@@ -118,7 +118,7 @@ class JBCart
         $this->_jbmoney = $this->app->jbmoney;
 
         if (!$this->_config->get('enable', 1)) {
-            $this->app->jbnotity->error('JBZOO_CART_DISABLED');
+            $this->app->jbnotify->error('JBZOO_CART_DISABLED');
         }
 
     }
@@ -163,7 +163,7 @@ class JBCart
     /**
      * @return JSONData
      */
-    public function getCofigs()
+    public function getConfig()
     {
         return $this->_config;
     }
