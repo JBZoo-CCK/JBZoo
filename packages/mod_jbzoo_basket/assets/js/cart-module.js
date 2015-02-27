@@ -14,36 +14,42 @@
      * JBZoo Cart Module
      */
     JBZoo.widget('JBZoo.CartModule', {
-        'url_clean'      : '',
-        'url_reload'     : '',
-        'url_item_remove': ''
+        'url_clean'          : '',
+        'url_reload'         : '',
+        'url_item_remove'    : '',
+        'text_delete_confirm': 'Are you sure?',
+        'text_empty_confirm' : 'Are you sure?'
     }, {
 
         'click .jsDelete': function (e, $this) {
             var $item = $(this).closest('.jsCartItem');
 
-            $this.ajax({
-                url    : $this.options.url_item_remove,
-                data   : {
-                    key: $item.data('key')
-                },
-                success: function () {
-                    $this.reload();
-                }
+            $this.confirm($this.options.text_delete_confirm, function () {
+                $this.ajax({
+                    url    : $this.options.url_item_remove,
+                    data   : {
+                        key: $item.data('key')
+                    },
+                    success: function () {
+                        $this.reload();
+                    }
+                });
             });
         },
 
         'click .jsEmptyCart': function (e, $this) {
 
-            $this.ajax({
-                url    : $this.options.url_clean,
-                success: function () {
+            $this.confirm($this.options.text_empty_confirm, function () {
+                $this.ajax({
+                    url    : $this.options.url_clean,
+                    success: function () {
 
-                    JBZoo.addVar('cartItems', {});
-                    $this._trigger('emptyCart');
+                        JBZoo.addVar('cartItems', {});
+                        $this._trigger('emptyCart');
 
-                    $this.reload();
-                }
+                        $this.reload();
+                    }
+                });
             });
         },
 

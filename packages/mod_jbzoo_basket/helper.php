@@ -107,9 +107,11 @@ class JBZooBasketHelper
     public function getWidgetParams()
     {
         return array(
-            'url_clean'       => $this->app->jbrouter->basketEmpty(),
-            'url_reload'      => $this->app->jbrouter->basketReloadModule($this->_module->id),
-            'url_item_remove' => $this->app->jbrouter->basketDelete(),
+            'url_clean'           => $this->app->jbrouter->basketEmpty(),
+            'url_reload'          => $this->app->jbrouter->basketReloadModule($this->_module->id),
+            'url_item_remove'     => $this->app->jbrouter->basketDelete(),
+            'text_delete_confirm' => JText::_('JBZOO_CART_MODULE_DELETE_CONFIRM'),
+            'text_empty_confirm'  => JText::_('JBZOO_CART_MODULE_EMPTY_CONFIRM'),
         );
     }
 
