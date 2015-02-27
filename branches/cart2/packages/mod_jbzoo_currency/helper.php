@@ -70,8 +70,8 @@ class JBZooCurrencyModuleHelper
             array(
                 'target'      => $this->_params->get('switcher_target', '.jbzoo'),
                 'showDefault' => isset($curList[JBCartValue::DEFAULT_CODE]),
-                'setOnInit'   => (int)$this->_params->get('set_on_init', 1),
-                'isMain'      => true,
+                'setOnInit'   => 1,
+                'isMain'      => 1,
             )
         );
     }

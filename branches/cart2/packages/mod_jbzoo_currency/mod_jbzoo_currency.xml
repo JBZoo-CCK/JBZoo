@@ -47,9 +47,6 @@
 
                 <field name="for_switcher" type="jbspacer" default="JBZOO_MODULE_CURRENCY_FOR_SWITCHER"/>
 
-                <field name="set_on_init" type="jbbool" default="1" label="JBZOO_MODULE_CURRENCY_SET_ON_INIT"
-                       description="JBZOO_MODULE_CURRENCY_SET_ON_INIT_DESC"/>
-
                 <field name="switcher_target" type="text" default=".jbzoo" label="JBZOO_MODULE_CURRENCY_SWITCHER_TARGET"
                        description="JBZOO_MODULE_CURRENCY_SWITCHER_TARGET_DESC"/>
 
