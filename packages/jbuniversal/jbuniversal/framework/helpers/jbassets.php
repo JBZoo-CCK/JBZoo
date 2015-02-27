@@ -809,6 +809,8 @@ class JBAssetsHelper extends AppHelper
      */
     protected function _include(array $files, $type, $group)
     {
+        static $added = array();
+
         if (
             empty($files)
             || $this->app->jbrequest->isAjax()
@@ -819,7 +821,12 @@ class JBAssetsHelper extends AppHelper
 
         foreach ($files as $file) {
 
-            $isExternal = strpos($file, 'http') !== false;
+            if (isset($added[$file])) {
+                continue;
+            }
+
+            $added[$file] = true;
+            $isExternal   = strpos($file, 'http') !== false;
 
             $filePath = $file;
             if (!$isExternal) {
