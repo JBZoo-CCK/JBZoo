@@ -787,7 +787,7 @@ class JBCartOrder
         $params   = $this->app->data->create($params);
         $items    = $this->getItems(true);
         $editMode = $params->get('edit', false);
-        $currency = $params->get('currency', null);
+        $currency = $params->get('currency', $this->app->jbrequest->getCurrency());
 
         $html = array();
         foreach ($items as $cartItem) {
@@ -841,7 +841,7 @@ class JBCartOrder
                 $itemHtml['sku'] = implode("\n ", array(
                     '<div class="jbcart-item-sku ' . $params->find('class.sku') . '">',
                     '<span class="jbcart-item-sku-key ' . $params->find('class.sku-key') . '">' . JText::_('JBZOO_CART_ITEM_SKU') . ':</span>',
-                    '<span class="jbcart-item-sku-value ' . $params->find('class.sku-value') . '">' .$sku . '</span>',
+                    '<span class="jbcart-item-sku-value ' . $params->find('class.sku-value') . '">' . $sku . '</span>',
                     '</div>',
                 ));
             }
