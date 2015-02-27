@@ -29,9 +29,8 @@
         }
 
         return $this.find('.jsRecentlyViewedClear').on('click', function () {
-            var ok = confirm(options.message);
 
-            if (ok) {
+            JBZoo.confirm(options.message, function () {
                 JBZoo.ajax({
                     'data'    : {
                         'controller': 'viewed',
@@ -43,7 +42,7 @@
                         $this.slideUp('slow');
                     }
                 });
-            }
+            });
 
             return false;
         });

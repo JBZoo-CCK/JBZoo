@@ -188,7 +188,7 @@
          * @param message
          */
         alert: function (message) {
-            return alert(message);
+            return JBZoo.alert(message);
         },
 
         /**
@@ -198,18 +198,7 @@
          * @param noCallback
          */
         confirm: function (message, yesCallback, noCallback) {
-            var $this = this;
-
-            noCallback = noCallback || $.noop;
-            yesCallback = yesCallback || $.noop;
-
-            if (confirm(message)) {
-                $.isFunction(yesCallback) && yesCallback.apply($this);
-                return true;
-            } else {
-                $.isFunction(noCallback) && noCallback.apply($this);
-                return false;
-            }
+            return JBZoo.confirm(message, yesCallback, noCallback, this);
         },
 
         /**
@@ -288,6 +277,11 @@
          * @param namespace
          */
         setCookie: function (key, value, namespace) {
+
+            if (!JBZoo.isWidgetExists('cookie')) {
+                return;
+            }
+
             var $this = this,
                 ns = $this._def(namespace, $this._name);
 
@@ -305,6 +299,11 @@
          * @returns {*}
          */
         getCookie: function (key, defaultVal, namespace) {
+
+            if (!JBZoo.isWidgetExists('cookie')) {
+                return;
+            }
+
             var $this = this,
                 ns = $this._def(namespace, $this._name),
                 cookieKey = $.cookie(ns + '_' + key);

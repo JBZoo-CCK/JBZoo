@@ -195,15 +195,16 @@
 
         'click .jsDelete': function (e, $this) {
 
-            if ($this.confirm($this.options.textElementRemove)) {
+            var $button = $(this);
 
-                $(this).closest(".jsElement").slideUp(300, function () {
+            $this.confirm($this.options.textElementRemove, function () {
+
+                $button.closest(".jsElement").slideUp(300, function () {
                     $(this).remove();
                     $this._emptyList();
                     $this._rebuildList();
                 });
-
-            }
+            });
         },
 
         'click .jsAddNewElement': function (e, $this) {

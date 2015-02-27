@@ -48,10 +48,10 @@
             'text_wait'         : "Wait please ...",
             'autoStart'         : false,
             'url'               : '',
-            'onStart'           : new Function(),
-            'onStop'            : new Function(),
-            'onRequest'         : new Function(),
-            'onTimer'           : new Function(),
+            'onStart'           : $.noop,
+            'onStop'            : $.noop,
+            'onRequest'         : $.noop,
+            'onTimer'           : $.noop,
             'onFinal'           : function (callback) {
                 callback()
             }
@@ -163,16 +163,16 @@
         }
 
         $start.bind('click', function () {
-            if (confirm(options.text_start_confirm)) {
+            JBZoo.confirm(options.text_start_confirm, function () {
                 triggerStart();
-            }
+            });
             return false;
         });
 
         $stop.bind('click', function () {
-            if (confirm(options.text_stop_confirm)) {
+            JBZoo.confirm(options.text_stop_confirm, function () {
                 triggerStop();
-            }
+            });
             return false;
         });
 
