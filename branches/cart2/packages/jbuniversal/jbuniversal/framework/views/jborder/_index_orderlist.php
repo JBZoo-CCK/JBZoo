@@ -33,7 +33,6 @@ $orderDir = $this->filter->get('filter_order_Dir', 'desc');
     <tbody>
 
     <?php foreach ($orderList as $order) :
-        $orderOrder = $this->app->jbrouter->admin(array('task' => 'edit', 'cid[]' => $order->id));
         ?>
         <tr class="odd">
             <td class="checkbox">
@@ -41,7 +40,7 @@ $orderDir = $this->filter->get('filter_order_Dir', 'desc');
             </td>
 
             <td>
-                <a href="<?php echo $orderOrder; ?>">№<?php echo $order->getName(); ?></a>
+                <a href="<?php echo $order->getUrl(); ?>">№<?php echo $order->getName(); ?></a>
                 <?php
                 echo JText::_('JBZOO_BY');
                 if ($user = $order->getAuthor()) {

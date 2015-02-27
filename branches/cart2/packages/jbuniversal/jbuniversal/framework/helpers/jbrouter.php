@@ -606,6 +606,19 @@ class JBRouterHelper extends AppHelper
     }
 
     /**
+     * @param JBCartOrder $order
+     * @return string
+     */
+    public function orderAdmin($order)
+    {
+        return $this->app->jbrouter->admin(array(
+            'controller' => 'jborder',
+            'task'       => 'edit',
+            'cid[]'      => $order->id
+        ));
+    }
+
+    /**
      * @return string
      */
     public function orders($menuItemid)
