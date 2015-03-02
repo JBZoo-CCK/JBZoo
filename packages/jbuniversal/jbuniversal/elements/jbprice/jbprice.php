@@ -1053,10 +1053,10 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 }
                 return true;
             }
-
-            $this->toStorage($js);
-            $this->toStorage($less);
         }
+        $this->toStorage($js);
+        $this->toStorage($less);
+
         $this->app->jbassets->less($less);
         $this->app->jbassets->js($js);
 
