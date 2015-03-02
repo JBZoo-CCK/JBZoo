@@ -15,8 +15,10 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 
-<div class="jbinfo">
-    <div class="jbinfo-block-top">
-        <?php echo $this->app->jbhelp->hook('cart'); ?>
+<?php if ($helpMsg = $this->app->jbhelp->hook('cart')) : ?>
+    <div class="jbinfo">
+        <div class="jbinfo-block-top">
+            <?php echo $helpMsg; ?>
+        </div>
     </div>
-</div>
+<?php endif;

@@ -24,32 +24,25 @@ class JBHelpHelper extends AppHelper
      * Hook jbzoo help information file
      * @param string $controller
      * @param string $position
-     * @return bool
+     * @return null|string
      */
     public function hook($controller = 'cart', $position = 'top')
     {
         if ($task = $this->app->jbrequest->get('task')) {
-            $file = JString::strtolower($task) . '_' . $position;
 
-            if ($pregRes = preg_match_all('/[A-Z]/', $task, $matches)) {
-                $newLetter     = array();
-                list($letters) = $matches;
-
-                foreach ($letters as $letter) {
-                    $newLetter[] = '_' . JString::strtolower($letter);
-                }
-
-                $task = str_replace($letters, $newLetter, $task);
-                $file = $task . '_' . $position;
-            }
-
-            $file     = $this->_getName($file);
+            $file     = $this->_getName($task . '_' . $position);
             $filePath = $this->app->path->path('jbviews:jb' . $controller . '/help/' . $file);
 
             if (JFile::exists($filePath)) {
-                require_once($filePath);
+                ob_start();
+                include($filePath);
+                $output = ob_get_contents();
+                ob_end_clean();
+                return $output;
             }
         }
+
+        return null;
     }
 
     /**
@@ -66,7 +59,7 @@ class JBHelpHelper extends AppHelper
             $file .= '.php';
         }
 
-        return $file;
+        return JString::strtolower($file);
     }
 
 }
