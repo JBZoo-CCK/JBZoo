@@ -10,7 +10,7 @@
     @coder       Denis Smetannikov <denis@jbzoo.com>
 -->
 <template>
-    <name>JBZoo default (Сatalog)</name>
+    <name>Default (Сatalog)</name>
     <description>JBZoo catalog template</description>
     <author>JBZoo.com</author>
     <creationDate>2014 06</creationDate>
