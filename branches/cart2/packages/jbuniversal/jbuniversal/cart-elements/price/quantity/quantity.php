@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -20,9 +19,7 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
 {
     /**
      * Check if element has value
-     *
      * @param array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
@@ -41,7 +38,6 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
 
     /**
      * @param array $params
-     *
      * @return array|mixed|null|string
      */
     public function render($params = array())
@@ -78,12 +74,12 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
     public function loadAssets()
     {
         $this->app->jbassets->quantity();
-        $this->css('jbassets:css/libraries.css')
-             ->less('jbassets:less/widget/quantity.less')
-             ->js(array(
-                 'jbassets:js/widget/quantity.js',
-                 'cart-elements:price/quantity/assets/js/quantity.js'
-             ));
+        $this
+            ->less('jbassets:less/widget/quantity.less')
+            ->js(array(
+                'jbassets:js/widget/quantity.js',
+                'cart-elements:price/quantity/assets/js/quantity.js'
+            ));
 
         return parent::loadAssets();
     }

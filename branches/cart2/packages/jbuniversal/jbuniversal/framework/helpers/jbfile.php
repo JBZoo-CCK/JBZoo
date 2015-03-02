@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -35,4 +34,32 @@ class JBFileHelper extends AppHelper
         return null;
     }
 
+    /**
+     * @param $file
+     * @param $data
+     * @return bool
+     */
+    public function save($file, $data)
+    {
+        $dir = dirname($file);
+        if (!JFolder::exists($dir)) {
+            JFolder::create($dir);
+        }
+
+        return JFile::write($file, $data);
+    }
+
+    /**
+     * Quickest way for getting first file line
+     * @param string $file
+     * @return string
+     */
+    public function firstLine($file)
+    {
+        $cacheRes  = fopen($file, 'r');
+        $firstLine = fgets($cacheRes);
+        fclose($cacheRes);
+
+        return $firstLine;
+    }
 }

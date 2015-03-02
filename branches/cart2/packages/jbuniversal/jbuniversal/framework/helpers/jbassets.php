@@ -18,8 +18,27 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBAssetsHelper extends AppHelper
 {
+    const GROUP_CORE    = 'core';
+    const GROUP_LIBRARY = 'library';
+    const GROUP_DEFAULT = 'default';
+
+    /**
+     * @type array
+     */
+    protected $_list = array(
+        'js'  => array(
+            self::GROUP_CORE    => array(),
+            self::GROUP_LIBRARY => array(),
+            self::GROUP_DEFAULT => array()
+        ),
+        'css' => array(
+            self::GROUP_DEFAULT => array()
+        )
+    );
+
     /**
      * Mapping: 'jQuery Widget Name' => 'helper action'
+     * Experimental!
      * @type array
      */
     protected $_libraryMap = array(
@@ -84,20 +103,19 @@ class JBAssetsHelper extends AppHelper
      * @param string $group
      * @return bool
      */
-    public function js($files, $group = 'default')
+    public function js($files, $group = self::GROUP_DEFAULT)
     {
         return $this->_include((array)$files, 'js', $group);
     }
 
     /**
      * Include CSS in document
-     * @param array  $files
-     * @param string $group
+     * @param array $files
      * @return bool
      */
-    public function css($files, $group = 'default')
+    public function css($files)
     {
-        return $this->_include((array)$files, 'css', $group);
+        return $this->_include((array)$files, 'css');
     }
 
     /**
@@ -106,7 +124,7 @@ class JBAssetsHelper extends AppHelper
      * @param string $group
      * @return bool
      */
-    public function less($files, $group = 'default')
+    public function less($files, $group = self::GROUP_DEFAULT)
     {
         $files = (array)$files;
 
@@ -116,6 +134,14 @@ class JBAssetsHelper extends AppHelper
         }
 
         return $this->_include((array)$resultFiles, 'css', $group);
+    }
+
+    /**
+     * @return array
+     */
+    public function getList()
+    {
+        return $this->_list;
     }
 
     /**
@@ -197,7 +223,9 @@ class JBAssetsHelper extends AppHelper
                 'jbassets:js/helper.js',
                 'jbassets:js/widget.js',
                 'jbassets:js/jbzoo.js',
-                'jbassets:js/front-end.js',
+            ), self::GROUP_LIBRARY);
+
+            $this->js(array(
                 'jbassets:js/widget/goto.js',
                 'jbassets:js/widget/select.js',
                 'jbassets:js/widget/money.js',
@@ -208,7 +236,12 @@ class JBAssetsHelper extends AppHelper
             ));
 
             $this->addVar('currencyList', $this->app->jbmoney->getData());
-            $this->addVar('cartItems', JBCart::getInstance()->map('element_id', 'element_id', 'item_id'));
+            if ($this->app->jbenv->isSite()) {
+                $this->addVar('cartItems', JBCart::getInstance()->map('element_id', 'element_id', 'item_id'));
+            }
+
+            $this->widget('.jbzoo .jsGoto', 'JBZoo.Goto');
+            $this->widget('.jbzoo select', 'JBZoo.Select');
         }
     }
 
@@ -218,7 +251,7 @@ class JBAssetsHelper extends AppHelper
     public function uikit($addJS = false)
     {
         if ($addJS) {
-            $this->js('jbassets:js/libs/uikit.min.js');
+            $this->js('jbassets:js/libs/uikit.min.js', self::GROUP_CORE);
         }
 
         $this->css('jbassets:css/uikit.min.css');
@@ -274,7 +307,7 @@ class JBAssetsHelper extends AppHelper
         if (!$isAdded) {
             $isAdded = true;
             $this->css('libraries:jquery/jquery-ui.custom.css');
-            $this->js('libraries:jquery/jquery-ui.custom.min.js');
+            $this->js('libraries:jquery/jquery-ui.custom.min.js', self::GROUP_CORE);
         }
     }
 
@@ -294,7 +327,7 @@ class JBAssetsHelper extends AppHelper
             'jbassets:js/libs/fancybox/buttons.js',
             'jbassets:js/libs/fancybox/media.js',
             'jbassets:js/libs/fancybox/thumbnail.js',
-        ));
+        ), self::GROUP_LIBRARY);
     }
 
     /**
@@ -304,7 +337,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->jQuery();
         $this->css('jbassets:css/libs/tablesorter.css');
-        $this->js('jbassets:js/libs/tablesorter.js');
+        $this->js('jbassets:js/libs/tablesorter.js', self::GROUP_LIBRARY);
     }
 
     /**
@@ -314,7 +347,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->jQuery();
         $this->css('jbassets:css/libs/chosen.css');
-        $this->js('jbassets:js/libs/chosen.js');
+        $this->js('jbassets:js/libs/chosen.js', self::GROUP_LIBRARY);
     }
 
     /**
@@ -324,7 +357,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->jQueryUI();
         $this->css('libraries:jquery/plugins/timepicker/timepicker.css');
-        $this->js('libraries:jquery/plugins/timepicker/timepicker.js');
+        $this->js('libraries:jquery/plugins/timepicker/timepicker.js', self::GROUP_LIBRARY);
     }
 
     /**
@@ -334,7 +367,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->jQuery();
         $this->css('jbassets:css/libs/nivolider.css');
-        $this->js('jbassets:js/libs/nivoslider.js');
+        $this->js('jbassets:js/libs/nivoslider.js', self::GROUP_LIBRARY);
     }
 
     /**
@@ -427,7 +460,7 @@ class JBAssetsHelper extends AppHelper
     public function calendar()
     {
         $this->jQueryUI();
-        $this->js('libraries:jquery/plugins/timepicker/timepicker.js');
+        $this->js('libraries:jquery/plugins/timepicker/timepicker.js', self::GROUP_LIBRARY);
     }
 
     /**
@@ -742,8 +775,8 @@ class JBAssetsHelper extends AppHelper
         $this->jQuery();
 
         if ($queryElement) {
-            $this->js('media:jui/js/jquery.minicolors.min.js');
             $this->css('media:jui/css/jquery.minicolors.css');
+            $this->js('media:jui/js/jquery.minicolors.min.js', self::GROUP_LIBRARY);
             $this->widget($queryElement, 'JBColorElement', array('message' => $text));
         }
     }
@@ -810,15 +843,13 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include files to document
-     * @param array $files
-     * @param       $type
-     * @param       $group
+     * @param array  $files
+     * @param string $type
+     * @param string $group
      * @return bool
      */
-    protected function _include(array $files, $type, $group)
+    protected function _include(array $files, $type, $group = self::GROUP_DEFAULT)
     {
-        static $added = array();
-
         if (
             empty($files)
             || $this->app->jbrequest->isAjax()
@@ -827,32 +858,28 @@ class JBAssetsHelper extends AppHelper
             return false;
         }
 
-        foreach ($files as $file) {
+        foreach ($files as $origPath) {
 
-            if (isset($added[$file])) {
+            if (!$origPath || isset($this->_list[$type][$group][$origPath])) {
                 continue;
             }
 
-            $added[$file] = true;
-            $isExternal   = strpos($file, 'http') !== false;
+            $resultPath = $origPath;
 
-            $filePath = $file;
-            if (!$isExternal) {
-                $fullPath = $this->app->path->path($file);
-                $filePath = $this->app->path->url($file);
+            if (strpos($origPath, 'http') !== false) { // external path
+                $resultPath = $origPath;
+
+            } elseif (strpos($origPath, ':') > 0) { // virtual path
+
+                $resultPath = null;
+                if ($fullPath = $this->app->path->path($origPath)) {
+                    $resultPath = $this->app->path->relative($fullPath);
+                }
+
             }
 
-            if ($filePath) {
-                if (!$isExternal) {
-                    $filePath = $filePath . '?' . substr(filemtime($fullPath), -2);
-                    $filePath = $this->_getRoot() . $this->app->path->relative($filePath);
-                }
-
-                if ($type == 'css') {
-                    JFactory::getDocument()->addStylesheet($filePath);
-                } elseif ($type == 'js') {
-                    JFactory::getDocument()->addScript($filePath);
-                }
+            if ($resultPath) {
+                $this->_list[$type][$group][$origPath] = $resultPath;
             }
         }
 
@@ -881,4 +908,23 @@ class JBAssetsHelper extends AppHelper
             $this->addScript('$(".jbzoo a").attr("target", "_top")');
         }
     }
+
+    /**
+     * @param string $filePath
+     * @param string $type
+     */
+    public function includeFile($filePath, $type = 'css')
+    {
+        if (strpos($filePath, 'http') === false) { // if not external
+            $mtime    = substr(filemtime(JPATH_ROOT . '/' . $filePath), -2);
+            $filePath = JUri::root() . $filePath . '?' . $mtime;
+        }
+
+        if ($type == 'css') {
+            JFactory::getDocument()->addStylesheet($filePath);
+        } elseif ($type == 'js') {
+            JFactory::getDocument()->addScript($filePath);
+        }
+    }
+
 }

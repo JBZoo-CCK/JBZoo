@@ -42,11 +42,12 @@ class JBLessHelper extends AppHelper
     public function __construct($app)
     {
         parent::__construct($app);
+
         $this->_lessFull = JPath::clean($this->app->path->path('jbapp:assets/less'));
         $this->_lessRel  = JUri::root() . $this->app->path->relative($this->_lessFull);
 
         $this->_minFull = JPath::clean($this->app->path->path('root:') . '/cache/jbzoo_css');
-        $this->_minRel  = JUri::root() . $this->app->path->relative($this->_minFull);
+        $this->_minRel  = $this->app->path->relative($this->_minFull);
     }
 
     /**
@@ -63,18 +64,14 @@ class JBLessHelper extends AppHelper
         $origFull = JPath::clean($origFull);
         $debug    = $this->_isDebug();
         $hash     = $this->_getHash($origFull);
-        $filename = sha1($virtPath) . ($debug ? '-debug' : '') . '.css';
+        $filename = md5($virtPath) . ($debug ? '-debug' : '') . '.css';
 
         $relPath   = $this->_minRel . '/' . $filename;
         $cachePath = JPath::clean($this->_minFull . '/' . $filename);
 
         $updateFile = false;
         if (JFile::exists($cachePath)) {
-
-            // quickest way for getting first file line
-            $cacheRes  = fopen($cachePath, 'r');
-            $firstLine = fgets($cacheRes);
-            fclose($cacheRes);
+            $firstLine = $this->app->jbfile->firstLine($cachePath);
 
             // check cacheid
             if (!preg_match('#' . $hash . '#i', $firstLine)) {
@@ -86,16 +83,16 @@ class JBLessHelper extends AppHelper
         }
 
         if ($updateFile || $this->_forceUpdate) {
-            $css = '/* cacheid:' . $hash . " */\n" .
-                '/* path:' . $virtPath . " */\n" .
+            $css =
+                '/* cacheid:' . $hash . " */" . PHP_EOL .
+                '/* path:' . $virtPath . " */" . PHP_EOL .
                 $this->_compile($origFull);
 
-            $this->_save($cachePath, $css);
+            $this->app->jbfile->save($cachePath, $css);
         }
 
-        if (filesize($cachePath) > 5) {
-            $mtime = substr(filemtime($cachePath), -2);
-            return $relPath . '?' . $mtime;
+        if (filesize($cachePath)) {
+            return $relPath;
         }
 
         return null;
@@ -108,7 +105,6 @@ class JBLessHelper extends AppHelper
     protected function _compile($lessPath)
     {
         try {
-
             $relative  = rtrim(JUri::root(), '/') . '/' . ltrim($this->app->path->relative($lessPath), '/');
             $precessor = $this->_getProcessor();
             $precessor->parseFile($lessPath, $relative);
@@ -126,21 +122,6 @@ class JBLessHelper extends AppHelper
     }
 
     /**
-     * @param $file
-     * @param $data
-     * @return bool
-     */
-    protected function _save($file, $data)
-    {
-        $dir = dirname($file);
-        if (!JFolder::exists($dir)) {
-            JFolder::create($dir);
-        }
-
-        return JFile::write($file, $data);
-    }
-
-    /**
      * @param $mainPath
      * @return string
      */
@@ -152,13 +133,13 @@ class JBLessHelper extends AppHelper
             $result = array();
             foreach ($this->_import as $import) {
                 $path     = JPath::clean($this->app->path->path('jbassets:less/' . $import));
-                $result[] = sha1_file($path);
+                $result[] = md5_file($path);
             }
 
             $importHash = implode(':', $result);
         }
 
-        return $importHash . ':' . sha1_file($mainPath);
+        return $importHash . ':' . md5_file($mainPath);
     }
 
     /**
@@ -167,7 +148,7 @@ class JBLessHelper extends AppHelper
      */
     protected function _getProcessor($addPath = array())
     {
-        if (!class_exists('Less_Parser')) {
+        if (!class_exists('Less_Parser', false)) {
             require_once JPATH_ROOT . '/media/zoo/applications/jbuniversal/framework/libs/less.gpeasy.php';
         }
 
