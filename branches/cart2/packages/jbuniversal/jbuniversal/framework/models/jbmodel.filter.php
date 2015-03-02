@@ -53,7 +53,7 @@ class JBModelFilter extends JBModel
     {
         $this->app->jbdebug->mark('filter::model::filter-start');
 
-        $cacheHash  = sha1(serialize(func_get_args()));
+        $cacheHash  = md5(serialize(func_get_args()));
         $cacheGroup = 'filter';
         $result     = $this->app->jbcache->get($cacheHash, $cacheGroup);
 
@@ -107,7 +107,7 @@ class JBModelFilter extends JBModel
     {
         $this->app->jbdebug->mark('filter::model::searchCount-start');
 
-        $cacheHash = sha1(serialize(func_get_args()));
+        $cacheHash = md5(serialize(func_get_args()));
         $cacheKey  = 'filter-count';
         $result    = $this->app->jbcache->get($cacheHash, $cacheKey);
 

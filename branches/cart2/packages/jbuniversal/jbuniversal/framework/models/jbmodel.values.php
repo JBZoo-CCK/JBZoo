@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -32,14 +31,13 @@ class JBModelValues extends JBModel
      * @param       $itemType
      * @param       $applicationId
      * @param array $filter
-     *
      * @return array|JObject|null
      */
     public function getPropsValues($elementId, $itemType, $applicationId, array $filter = array())
     {
         $this->app->jbdebug->mark('model::' . $elementId . '::start');
 
-        $cacheHash = sha1(serialize(func_get_args()));
+        $cacheHash = md5(serialize(func_get_args()));
         $cacheKey  = 'get-props-values';
         if (!($result = $this->_jbcache->get($cacheHash, $cacheKey))) {
 
@@ -47,14 +45,14 @@ class JBModelValues extends JBModel
             $tableName  = $this->_jbtables->getIndexTable($itemType);
 
             $select = $this->_getItemSelect($itemType, $applicationId)
-                           ->innerJoin($tableName . ' AS tIndex ON tIndex.item_id = tItem.id')
-                           ->clear('select')
-                           ->select('tIndex.' . $identifier . ' AS value')
-                           ->select('tIndex.' . $identifier . ' AS text')
-                           ->select('COUNT(tIndex.' . $identifier . ') AS count')
-                           ->where('tIndex.' . $identifier . ' <> ""')
-                           ->where('tIndex.' . $identifier . ' IS NOT NULL')
-                           ->group('tIndex.' . $identifier);
+                ->innerJoin($tableName . ' AS tIndex ON tIndex.item_id = tItem.id')
+                ->clear('select')
+                ->select('tIndex.' . $identifier . ' AS value')
+                ->select('tIndex.' . $identifier . ' AS text')
+                ->select('COUNT(tIndex.' . $identifier . ') AS count')
+                ->where('tIndex.' . $identifier . ' <> ""')
+                ->where('tIndex.' . $identifier . ' IS NOT NULL')
+                ->group('tIndex.' . $identifier);
 
             $columns = $this->_jbtables->getFields($this->_jbtables->getIndexTable($itemType));
 
@@ -102,7 +100,6 @@ class JBModelValues extends JBModel
      * @param $paramID
      * @param $itemType
      * @param $applicationId
-     *
      * @return array|JObject
      */
     public function getParamsValues($elementId, $paramID, $itemType, $applicationId)
@@ -128,7 +125,6 @@ class JBModelValues extends JBModel
     /**
      * @param $data
      * @param $identifier
-     *
      * @return array
      */
     public function _sortValues($data, $identifier)
@@ -162,10 +158,8 @@ class JBModelValues extends JBModel
 
     /**
      * Sort by text field
-     *
      * @param $a
      * @param $b
-     *
      * @return int
      */
     static public function sortByText($a, $b)
@@ -182,9 +176,7 @@ class JBModelValues extends JBModel
 
     /**
      * Get authors values list
-     *
      * @param $applicationId int
-     *
      * @return array
      */
     public function getAuthorValues($applicationId)
@@ -194,12 +186,12 @@ class JBModelValues extends JBModel
         if (!($result = $this->_jbcache->get(func_get_args(), 'get-author-values'))) {
 
             $select = $this->_getSelect()
-                           ->select('tItem.created_by AS value, tUsers.name AS text, count(tItem.id) AS count')
-                           ->from(ZOO_TABLE_ITEM . ' AS tItem')
-                           ->innerJoin('#__users AS tUsers ON tUsers.id = tItem.created_by')
-                           ->group('tItem.created_by')
-                           ->where('tItem.application_id = ?', (int)$applicationId)
-                           ->order('tUsers.name ASC');
+                ->select('tItem.created_by AS value, tUsers.name AS text, count(tItem.id) AS count')
+                ->from(ZOO_TABLE_ITEM . ' AS tItem')
+                ->innerJoin('#__users AS tUsers ON tUsers.id = tItem.created_by')
+                ->group('tItem.created_by')
+                ->where('tItem.application_id = ?', (int)$applicationId)
+                ->order('tUsers.name ASC');
 
             $result = $this->fetchAll($select, true);
 
@@ -213,9 +205,7 @@ class JBModelValues extends JBModel
 
     /**
      * Get name values
-     *
      * @param int $applicationId
-     *
      * @return array
      */
     public function getNameValues($applicationId)
@@ -225,10 +215,10 @@ class JBModelValues extends JBModel
         if (!($result = $this->_jbcache->get(func_get_args(), 'get-name-values'))) {
 
             $select = $this->_getItemSelect(null, $applicationId)
-                           ->clear('select')
-                           ->select(array('tItem.id AS value', 'tItem.name AS text', 'count(tItem.id) AS count'))
-                           ->group('tItem.name')
-                           ->order('tItem.name ASC');
+                ->clear('select')
+                ->select(array('tItem.id AS value', 'tItem.name AS text', 'count(tItem.id) AS count'))
+                ->group('tItem.name')
+                ->order('tItem.name ASC');
             $result = $this->fetchAll($select, true);
 
             $this->_jbcache->set(func_get_args(), $result, 'get-name-values');
@@ -241,10 +231,8 @@ class JBModelValues extends JBModel
 
     /**
      * Get name values
-     *
      * @param int  $applicationId
      * @param null $itemType
-     *
      * @return array|JObject
      */
     public function getTagValues($applicationId, $itemType = null)
@@ -254,11 +242,11 @@ class JBModelValues extends JBModel
         if (!($result = $this->_jbcache->get(func_get_args(), 'get-tag-values'))) {
 
             $select = $this->_getItemSelect(null, $applicationId)
-                           ->clear('select')
-                           ->select(array('tTag.name AS value', 'tTag.name AS text', 'count(tTag.name) AS count'))
-                           ->innerJoin(ZOO_TABLE_TAG . ' AS tTag ON tTag.item_id = tItem.id')
-                           ->group('tTag.name')
-                           ->order('tTag.name ASC');
+                ->clear('select')
+                ->select(array('tTag.name AS value', 'tTag.name AS text', 'count(tTag.name) AS count'))
+                ->innerJoin(ZOO_TABLE_TAG . ' AS tTag ON tTag.item_id = tItem.id')
+                ->group('tTag.name')
+                ->order('tTag.name ASC');
 
             if ($itemType) {
                 $select->where('tItem.type = ?', $itemType);
@@ -276,11 +264,9 @@ class JBModelValues extends JBModel
 
     /**
      * Get min/max range by field in catalog
-     *
      * @param string $identifier
      * @param string $itemType
      * @param int    $applicationId
-     *
      * @return array|JObject
      */
     public function getRangeByField($identifier, $itemType, $applicationId)
@@ -292,11 +278,11 @@ class JBModelValues extends JBModel
             $tableName  = $this->_jbtables->getIndexTable($itemType);
 
             $select = $this->_getItemSelect($itemType, $applicationId)
-                           ->innerJoin($tableName . ' AS tIndex ON tIndex.item_id = tItem.id')
-                           ->clear('select')
-                           ->select('MAX(tIndex.' . $identifier . ') AS max, MIN(tIndex.' . $identifier . ') AS min')
-                           ->where('tIndex.' . $identifier . ' <> ""')
-                           ->where('tIndex.' . $identifier . ' IS NOT NULL');
+                ->innerJoin($tableName . ' AS tIndex ON tIndex.item_id = tItem.id')
+                ->clear('select')
+                ->select('MAX(tIndex.' . $identifier . ') AS max, MIN(tIndex.' . $identifier . ') AS min')
+                ->where('tIndex.' . $identifier . ' <> ""')
+                ->where('tIndex.' . $identifier . ' IS NOT NULL');
 
             $result = $this->fetchRow($select);
 
@@ -310,12 +296,10 @@ class JBModelValues extends JBModel
 
     /**
      * Get range for price field
-     *
      * @param $identifier
      * @param $itemType
      * @param $applicationId
      * @param $categoryId
-     *
      * @return JObject
      */
     public function getRangeByPrice($identifier, $itemType, $applicationId, $categoryId = null)
@@ -326,15 +310,15 @@ class JBModelValues extends JBModel
         if (!($result = $this->_jbcache->get(func_get_args(), 'get-range-by-price'))) {
 
             $select = $this->_getItemSelect($itemType, $applicationId)
-                           ->clear('select')
-                           ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
-                           ->innerJoin(JBModelSku::JBZOO_TABLE_SKU_VALUES . ' AS tValues ON tValues.id = tSku.value_id')
-                           ->select(array(
-                               'MAX(tValues.value_n) AS total_max',
-                               'MIN(tValues.value_n) AS total_min'
-                           ))
-                           ->where('tSku.element_id = ?', $identifier)
-                           ->where('tSku.param_id = ?', JBModelSku::$ids['_value']);
+                ->clear('select')
+                ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
+                ->innerJoin(JBModelSku::JBZOO_TABLE_SKU_VALUES . ' AS tValues ON tValues.id = tSku.value_id')
+                ->select(array(
+                    'MAX(tValues.value_n) AS total_max',
+                    'MIN(tValues.value_n) AS total_min'
+                ))
+                ->where('tSku.element_id = ?', $identifier)
+                ->where('tSku.param_id = ?', JBModelSku::$ids['_value']);
 
             if ($categoryId) {
                 $select->leftJoin(ZOO_TABLE_CATEGORY_ITEM . ' AS tCategoryItem ON tCategoryItem.item_id = tItem.id');
