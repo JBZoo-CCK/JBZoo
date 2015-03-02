@@ -270,6 +270,14 @@ class ElementJBAdvert extends Element implements iSubmittable
     }
 
     /**
+     * @param int $key
+     */
+    public function setDefault($key)
+    {
+        $this->set('default_variant', $key);
+    }
+
+    /**
      * Get services with prices
      * @param array $data Array of services
      * @return array
