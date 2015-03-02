@@ -32,6 +32,8 @@ class JBAssetsHelper extends AppHelper
             self::GROUP_DEFAULT => array()
         ),
         'css' => array(
+            self::GROUP_CORE    => array(),
+            self::GROUP_LIBRARY => array(),
             self::GROUP_DEFAULT => array()
         )
     );
@@ -110,12 +112,13 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include CSS in document
-     * @param array $files
+     * @param array  $files
+     * @param string $group
      * @return bool
      */
-    public function css($files)
+    public function css($files, $group = self::GROUP_DEFAULT)
     {
-        return $this->_include((array)$files, 'css');
+        return $this->_include((array)$files, 'css', $group);
     }
 
     /**
