@@ -233,7 +233,7 @@ class JBAssetsHelper extends AppHelper
 
             $this->css(array(
                 'jbassets:css/libs/sweet-alert.css'
-            ));
+            ), self::GROUP_LIBRARY);
 
             $this->addVar('currencyList', $this->app->jbmoney->getData());
             if ($this->app->jbenv->isSite()) {
@@ -254,7 +254,7 @@ class JBAssetsHelper extends AppHelper
             $this->js('jbassets:js/libs/uikit.min.js', self::GROUP_CORE);
         }
 
-        $this->css('jbassets:css/uikit.min.css');
+        $this->css('jbassets:css/uikit.min.css', self::GROUP_LIBRARY);
     }
 
     /**
@@ -306,7 +306,7 @@ class JBAssetsHelper extends AppHelper
 
         if (!$isAdded) {
             $isAdded = true;
-            $this->css('libraries:jquery/jquery-ui.custom.css');
+            $this->css('libraries:jquery/jquery-ui.custom.css', self::GROUP_LIBRARY);
             $this->js('libraries:jquery/jquery-ui.custom.min.js', self::GROUP_CORE);
         }
     }
@@ -320,7 +320,7 @@ class JBAssetsHelper extends AppHelper
 
         $this->css(array(
             'jbassets:css/libs/fancybox.css'
-        ));
+        ), self::GROUP_LIBRARY);
 
         $this->js(array(
             'jbassets:js/libs/fancybox/core.js',
@@ -336,7 +336,7 @@ class JBAssetsHelper extends AppHelper
     public function tablesorter()
     {
         $this->jQuery();
-        $this->css('jbassets:css/libs/tablesorter.css');
+        $this->css('jbassets:css/libs/tablesorter.css', self::GROUP_LIBRARY);
         $this->js('jbassets:js/libs/tablesorter.js', self::GROUP_LIBRARY);
     }
 
@@ -346,7 +346,7 @@ class JBAssetsHelper extends AppHelper
     public function chosen()
     {
         $this->jQuery();
-        $this->css('jbassets:css/libs/chosen.css');
+        $this->css('jbassets:css/libs/chosen.css', self::GROUP_LIBRARY);
         $this->js('jbassets:js/libs/chosen.js', self::GROUP_LIBRARY);
     }
 
@@ -356,7 +356,7 @@ class JBAssetsHelper extends AppHelper
     public function datepicker()
     {
         $this->jQueryUI();
-        $this->css('libraries:jquery/plugins/timepicker/timepicker.css');
+        $this->css('libraries:jquery/plugins/timepicker/timepicker.css', self::GROUP_LIBRARY);
         $this->js('libraries:jquery/plugins/timepicker/timepicker.js', self::GROUP_LIBRARY);
     }
 
@@ -366,7 +366,7 @@ class JBAssetsHelper extends AppHelper
     public function nivoslider()
     {
         $this->jQuery();
-        $this->css('jbassets:css/libs/nivolider.css');
+        $this->css('jbassets:css/libs/nivolider.css', self::GROUP_LIBRARY);
         $this->js('jbassets:js/libs/nivoslider.js', self::GROUP_LIBRARY);
     }
 
@@ -775,7 +775,7 @@ class JBAssetsHelper extends AppHelper
         $this->jQuery();
 
         if ($queryElement) {
-            $this->css('media:jui/css/jquery.minicolors.css');
+            $this->css('media:jui/css/jquery.minicolors.css', self::GROUP_LIBRARY);
             $this->js('media:jui/js/jquery.minicolors.min.js', self::GROUP_LIBRARY);
             $this->widget($queryElement, 'JBColorElement', array('message' => $text));
         }
