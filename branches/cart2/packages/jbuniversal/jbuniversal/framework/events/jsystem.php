@@ -120,7 +120,10 @@ class JBZooSystemPlugin
         foreach ($typeList as $type => $groupList) {
             foreach ($groupList as $group => $files) {
 
-                if ($mode == 'debug' || $group == JBAssetsHelper::GROUP_CORE) {
+                if ($mode == 'debug'
+                    || $group == JBAssetsHelper::GROUP_CORE
+                    || ($group == JBAssetsHelper::GROUP_LIBRARY && $type == 'css')
+                ) {
                     foreach ($files as $file) {
                         $jbassets->includeFile($file, $type);
                     }
