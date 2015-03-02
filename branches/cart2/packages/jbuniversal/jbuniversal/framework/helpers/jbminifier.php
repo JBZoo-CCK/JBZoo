@@ -59,7 +59,13 @@ class JBMinifierHelper extends AppHelper
 
             $content = '';
             foreach ($files as $orig => $file) {
-                $content .= $this->_jbfile->read(JPATH_ROOT . '/' . $file) . ';' . PHP_EOL;
+
+                $fileContent = $this->_jbfile->read(JPATH_ROOT . '/' . $file);
+                if ($type == 'js') {
+                    $content .= $fileContent . ';' . PHP_EOL;
+                } else {
+                    $content .= $fileContent . PHP_EOL;
+                }
             }
 
             $content =
