@@ -45,6 +45,8 @@ if ($count) : ?>
 
     <?php
     if ($params->get('delete') && $params->get('mode') == 'viewed') {
+
+        $zoo->jbassets->js('mod_jbzoo_item:assets/js/viewed.js');
         echo $zoo->jbassets->widget('#' . $unique, 'JBZooViewed', array(
             'message' => JText::_('JBZOO_MODITEM_RECENTLY_VIEWED_DELETE_HISTORY'),
             'app_id'  => $app_id,

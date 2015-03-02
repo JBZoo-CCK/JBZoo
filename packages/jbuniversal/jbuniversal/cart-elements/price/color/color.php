@@ -118,8 +118,7 @@ class JBCartElementPriceColor extends JBCartElementPrice
     public function getOptions($label = true)
     {
         $colors = $this->parseOptions();
-
-        if (!$this->hasOptions() || (int)$this->options('selected')) {
+        if (!$this->showAll) {
             $selected = $this->_jbprice->elementOptions($this->identifier);
             $colors   = array_intersect_key($colors, $selected);
         }

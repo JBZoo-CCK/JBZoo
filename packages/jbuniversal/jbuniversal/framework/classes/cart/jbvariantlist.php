@@ -22,12 +22,12 @@ class JBCartVariantList extends ArrayObject
      * Default variant key
      * @var string
      */
-    protected $default = 0;
+    public $default = 0;
 
     /**
      * @type string
      */
-    protected $session_key;
+    public $session_key;
 
     /**
      * Array of options when user add to cart
@@ -123,7 +123,7 @@ class JBCartVariantList extends ArrayObject
      * @return $this
      * @throws Exception
      */
-    public function add($list = array())
+    public function add(array $list = array())
     {
         foreach ($list as $key => $variant)
         {
@@ -396,7 +396,7 @@ class JBCartVariantList extends ArrayObject
         $values = (array)$this->values;
         if (!empty($values)) {
             foreach ($values as $key => $value) {
-                if ($element = $this->_jbprice->getElement($key, $this->default)) {
+                if ($element = $this->_jbprice->getElement($key)) {
                     $element->bindData($value);
                     //TODO Need to check value, method - issetOption
                     $result[$element->getName()] = $element->getValue();
@@ -478,10 +478,9 @@ class JBCartVariantList extends ArrayObject
      */
     public function defaultVariantCartData()
     {
-        $elements = $this->byDefault()->getElements();
         $data = array();
-        if (!empty($elements)) {
-            foreach ($elements as $key => $element) {
+        if ($this->byDefault()->count()) {
+            foreach ($this->byDefault()->getElements() as $key => $element) {
                 if ($element->isCore()) {
                     $value = $element->getValue();
 
@@ -533,7 +532,6 @@ class JBCartVariantList extends ArrayObject
     protected function _plainCartData()
     {
         $jbPrice = $this->_jbprice;
-
         $data = array(
             'key'        => $this->getSessionKey(),
             'item_id'    => $this->item_id,

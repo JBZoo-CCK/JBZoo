@@ -74,7 +74,6 @@ class JBCartElementPriceButtons extends JBCartElementPrice
     public function interfaceParams($params = array())
     {
         $_interface = $this->_interfaceParams();
-
         return array(
             'item_id'         => $_interface['item_id'],
             'element_id'      => $_interface['element_id'],
@@ -83,7 +82,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
             'isInCart'        => $_interface['isInCart'],
             'isInCartVariant' => $_interface['isInCartVariant'],
             'add'             => $this->app->jbrouter->element($_interface['element_id'], $_interface['item_id'], 'ajaxAddToCart', array(
-                'template' => $this->options('template')
+                'template' => $this->template
             )),
             'remove'          => $this->app->jbrouter->element($_interface['element_id'], $_interface['item_id'], 'ajaxRemoveFromCart'),
             'modal'           => $this->app->jbrouter->element($_interface['element_id'], $_interface['item_id'], 'ajaxModalWindow')
@@ -118,14 +117,15 @@ class JBCartElementPriceButtons extends JBCartElementPrice
     protected function _interfaceParams()
     {
         $cart = JBCart::getInstance();
+        $key  = $this->_jbprice->getList()->session_key;
 
         return array(
-            'item_id'         => $this->options('item_id'),
-            'element_id'      => $this->options('element_id'),
-            'key'             => $this->options('session_key'),
+            'item_id'         => $this->item_id,
+            'element_id'      => $this->element_id,
+            'key'             => $key,
             'basket'          => $this->getBasketUrl(),
-            'isInCart'        => (int)$cart->inCart($this->options('item_id'), $this->options('element_id')),
-            'isInCartVariant' => (int)$cart->inCartVariant($this->options('session_key')),
+            'isInCart'        => (int)$cart->inCart($this->item_id, $this->element_id),
+            'isInCartVariant' => (int)$cart->inCartVariant($key),
         );
     }
 

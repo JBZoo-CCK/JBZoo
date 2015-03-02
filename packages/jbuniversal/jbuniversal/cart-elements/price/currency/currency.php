@@ -93,7 +93,7 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
      */
     public function parentSelector()
     {
-        return '.' . $this->options('hash');
+        return '.' . $this->hash;
     }
 
     /**

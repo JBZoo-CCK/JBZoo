@@ -77,16 +77,18 @@ class JBStorageHelper extends AppHelper
     }
 
     /**
-     * @param $id
+     * @param string     $id
+     * @param mixed $default
      * @return mixed
      */
-    public function getElement($id)
+    public function getElement($id, $default = null)
     {
-        if ($this->elements->has($id)) {
+        if ($this->elements->has($id))
+        {
             return $this->elements->get($id);
         }
 
-        return false;
+        return $default;
     }
 
     /**
@@ -175,36 +177,10 @@ class JBStorageHelper extends AppHelper
     public function create($route = 'elements', $args = array())
     {
         if (method_exists($this, 'create' . $route)) {
-            return call_user_func_array(array($this, 'create' . $route), $args);
+            return call_user_func_array(array($this, 'create' . $route), array('args' => $args));
         }
 
-        $class = strtolower($args['class']);
-        $path  = $this->get('paths', $class);
-
-        unset($args['class']);
-        if (!$class || !file_exists($path))
-        {
-            return false;
-        }
-        if (!class_exists($class, false))
-        {
-            require($path);
-        }
-
-        if (count($args) > 0)
-        {
-            $reflection = new ReflectionClass($class);
-            $object     = $reflection->newInstanceArgs($args);
-        }
-        else
-        {
-            $object = new $class();
-        }
-
-        $this->configure($object, $args);
-        $this->set($route, $object, $args['identifier']);
-
-        return $object;
+        return $this->createObject($args['class'], $args);
     }
 
     /**
@@ -222,13 +198,70 @@ class JBStorageHelper extends AppHelper
     }
 
     /**
-     * @param array $elements
-     * @param array $options
+     * @param       $class
+     * @param array $args
+     * @param array $properties
+     * @return object
+     */
+    protected function createObject($class, $args = array(), $properties = array())
+    {
+        if (count($args) > 0)
+        {
+            $reflection = new ReflectionClass($class);
+            $object     = $reflection->newInstanceArgs($args);
+        }
+        else
+        {
+            $object = new $class();
+        }
+        if (count($properties)) {
+            $this->configure($object, $properties);
+        }
+
+        return $object;
+    }
+
+    /**
+     * @param array $args
+     * @return JBCartElementPrice
+     */
+    protected function createElement($args = array())
+    {
+        $class = strtolower($args['class']);
+        $path  = $this->get('paths', $class);
+        if (!$class || !file_exists($path))
+        {
+            return false;
+        }
+        if (!class_exists($class, false))
+        {
+            require($path);
+        }
+
+        $object = $this->createObject($class, array(
+            'app'   => $args['app'],
+            'type'  => $args['type'],
+            'group' => $args['group']
+        ), array(
+            'identifier' => $args['identifier'],
+            'config'     => $args['config']
+        ));
+        $this->set('elements', $object, $args['identifier']);
+
+        return $object;
+    }
+
+    /**
+     * @param array $args key elements - Array of JBCartPriceElement objects
+     *                    key options  - options for set properties
      * @return JBCartVariant
      */
-    protected function createVariant($elements, $options = array())
+    protected function createVariant($args = array())
     {
-        $variant = new JBCartVariant($elements, $options);
+        $variant = $this->createObject('JBCartVariant', array(
+            'elements' => $args['elements'],
+            'options'  => $args['options']
+        ));
 
         return $variant;
     }

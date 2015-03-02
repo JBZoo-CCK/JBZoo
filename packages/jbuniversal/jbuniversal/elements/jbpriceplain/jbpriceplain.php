@@ -21,6 +21,16 @@ App::getInstance('zoo')->loader->register('ElementJBPrice', 'elements:jbprice/jb
 class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
 {
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->isOverlay = false;
+    }
+
+    /**
      * Get variant from $this->data() by values
      * MODE: DEFAULT
      * @param  array $values values from front end

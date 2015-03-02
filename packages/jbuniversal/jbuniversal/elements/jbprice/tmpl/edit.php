@@ -87,7 +87,7 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
                                     'variant'    => $i,
                                     'element_id' => $this->identifier,
                                     '_variant'   => $variant
-                                )); ?>
+                                ));?>
                             </div>
                         </fieldset>
                     <?php endif; endfor; ?>
@@ -107,7 +107,7 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
             'isAdvance': <?php echo $mode; ?>,
             'text_show': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?>",
             'text_hide': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_HIDE'); ?>",
-            'isOverlay': "<?php echo $this->isOverlay(); ?>"
+            'isOverlay': "<?php echo (bool)$this->isOverlay; ?>"
         });
 
     });

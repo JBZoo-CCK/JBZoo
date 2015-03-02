@@ -102,7 +102,7 @@ class JBCartElementPriceImage extends JBCartElementPrice
     public function unique()
     {
         $image  = $this->config->get('image');
-        $unique = $this->options('layout') . '_' . $this->options('item_id');
+        $unique = $this->layout . '_' . $this->item_id;
 
         if (empty($image)) {
             return $unique;

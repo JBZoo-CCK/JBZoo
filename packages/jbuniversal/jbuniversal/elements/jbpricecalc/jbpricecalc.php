@@ -21,6 +21,16 @@ App::getInstance('zoo')->loader->register('ElementJBPrice', 'elements:jbprice/jb
 class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
 {
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->isOverlay = true;
+    }
+
+    /**
      * Get variant from $this->data() by values
      * MODE: OVERLAY
      * @param  array $values
@@ -62,9 +72,14 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         $key  = (int)end($keys);
 
         $this->setDefault($key);
-
         $this->_template = $template;
+
+        if($this->_list instanceof JBCartVariantList) {
+            $this->_list->clear();
+        }
+
         $this->getList($list, array(
+            'default'  => $key,
             'values'   => $values,
             'template' => $template,
             'currency' => !empty($currency) ? $currency : $this->currency()
@@ -191,6 +206,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
             return $options;
         }
         $result = array();
+
         foreach ($options as $key => $option) {
             $parts = explode('.', $key);
             if ($value = $this->getData($parts[1] . '._value.value')) {
@@ -256,7 +272,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
             }
         }
 
-        return parent::bindData($result);
+        parent::bindData($result);
     }
 
     /**
