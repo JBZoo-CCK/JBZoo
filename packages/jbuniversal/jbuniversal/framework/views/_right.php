@@ -15,10 +15,12 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 
-<div class="jbinfo uk-panel uk-panel-box">
-    <h3 class="jbinfo-header"><?php echo JText::_('JBZOO_CART_HELP_RIGHT') ?></h3>
+<?php if ($helpMsg = $this->app->jbhelp->hook('cart', 'right')) : ?>
+    <div class="jbinfo uk-panel uk-panel-box">
+        <h3 class="jbinfo-header"><?php echo JText::_('JBZOO_CART_HELP_RIGHT') ?></h3>
 
-    <div class="jbinfo-block-right">
-        <?php echo $this->app->jbhelp->hook('cart', 'right'); ?>
+        <div class="jbinfo-block-right">
+            <?php echo $helpMsg; ?>
+        </div>
     </div>
-</div>
+<?php endif;
