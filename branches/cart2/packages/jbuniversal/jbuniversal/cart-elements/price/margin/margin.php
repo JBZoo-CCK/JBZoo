@@ -28,7 +28,7 @@ class JBCartElementPriceMargin extends JBCartElementPrice
     public function hasValue($params = array())
     {
         $value = $this->getValue();
-        if ($value->isEmpty() || $this->options('isOverlay')) {
+        if ($value->isEmpty() || $this->isOverlay) {
             return false;
         }
 
@@ -51,8 +51,7 @@ class JBCartElementPriceMargin extends JBCartElementPrice
     public function edit($params = array())
     {
         $layout    = 'edit';
-        $isOverlay = $this->options('isOverlay');
-        if ($isOverlay) {
+        if ($this->isOverlay) {
             $layout = 'disabled';
         }
 

@@ -22,7 +22,13 @@ class JBCartVariant extends ArrayObject
      * Id of variant
      * @type integer
      */
-    protected $id;
+    public $id;
+
+    /**
+     * Array of objects elements
+     * @type array
+     */
+    public $elements = array();
 
     /**
      * @type JBCartValue
@@ -33,12 +39,6 @@ class JBCartVariant extends ArrayObject
      * @type JBCartValue
      */
     protected $price = null;
-
-    /**
-     * Array of objects elements
-     * @type array
-     */
-    protected $_elements = array();
 
     /**
      * @type JBCartVariantList
@@ -59,7 +59,7 @@ class JBCartVariant extends ArrayObject
      */
     public function __construct($elements = array(), $options = array(), JBCartVariantList $list = null)
     {
-        $this->value    = JBCart::val();
+        $this->value = JBCart::val();
 
         // set variant id
         if(isset($options['id']))
@@ -82,7 +82,6 @@ class JBCartVariant extends ArrayObject
             {
                 $data->exchangeArray($options['elements']);
             }
-
             $this->add($elements, $data);
 
             unset($elements);
@@ -120,7 +119,7 @@ class JBCartVariant extends ArrayObject
      */
     public function has($key)
     {
-        return isset($this->_elements[$key]) || array_key_exists($key, $this->_elements);
+        return isset($this->elements[$key]) || array_key_exists($key, $this->elements);
     }
 
     /**
@@ -128,7 +127,7 @@ class JBCartVariant extends ArrayObject
      */
     public function count()
     {
-        return count($this->_elements);
+        return count($this->elements);
     }
 
     /**
@@ -150,7 +149,7 @@ class JBCartVariant extends ArrayObject
     public function add($elements, $options = array())
     {
         foreach($elements as $key => $element) {
-            $this->_elements[$key] = $this->_setElement($element, $options->get($key));
+            $this->elements[$key] = $this->_setElement($element, $options->get($key));
         }
         unset($options);
     }
@@ -198,7 +197,7 @@ class JBCartVariant extends ArrayObject
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->_elements);
+        return new ArrayIterator($this->elements);
     }
 
     /**
@@ -207,7 +206,7 @@ class JBCartVariant extends ArrayObject
      */
     public function isBasic()
     {
-        return $this->getId() === 0;
+        return $this->id === 0;
     }
 
     /**
@@ -234,7 +233,7 @@ class JBCartVariant extends ArrayObject
      */
     public function getElement($key)
     {
-        return isset($this->_elements[$key]) ? $this->_elements[$key] : null;
+        return isset($this->elements[$key]) ? $this->elements[$key] : null;
     }
 
     /**
@@ -243,7 +242,7 @@ class JBCartVariant extends ArrayObject
      */
     public function getElements()
     {
-        return $this->_elements;
+        return $this->elements;
     }
 
     /**
@@ -346,9 +345,13 @@ class JBCartVariant extends ArrayObject
      */
     public function setData(array $options)
     {
-        foreach($this->_elements as $key => $element)
+        if (isset($options['elements']))
         {
-            $this->_elements[$key] = $this->_setElement($element, $options);
+            $elements = new AppData($options['elements']);
+            foreach ($this->elements as $key => $element)
+            {
+                $this->elements[$key] = $this->_setElement($element, $elements->get($key, array()));
+            }
         }
 
         return $this;
@@ -359,14 +362,12 @@ class JBCartVariant extends ArrayObject
      * @param array|string       elements data
      * @return mixed
      */
-    protected function _setElement(&$element, $data = array())
+    protected function _setElement($element, $data = array())
     {
-        $id = $element->identifier;
-        $element->config->set('_variant', $this->id);
-
+        $element->setVariant($this->id);
         if ($this->list instanceof JBCartVariantList) {
             if (!$this->isBasic()) {
-                $data['_basic'] = $this->list->first()->get($id);
+                $data['_basic'] = $this->list->first()->get($element->identifier);
             }
         }
 

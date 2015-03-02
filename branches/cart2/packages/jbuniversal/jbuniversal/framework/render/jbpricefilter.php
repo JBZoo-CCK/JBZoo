@@ -20,15 +20,6 @@ defined('_JEXEC') or die('Restricted access');
 class JBPriceFilterRenderer extends PositionRenderer
 {
     /**
-     * @var JBCartElementHelper
-     */
-    protected $_jbcartelement;
-    /**
-     * @var JBCartPositionHelper
-     */
-    protected $_jbposition;
-
-    /**
      * @var JBModelConfig
      */
     protected $_jbconfig;
@@ -56,9 +47,7 @@ class JBPriceFilterRenderer extends PositionRenderer
     {
         parent::__construct($app, $path);
 
-        $this->_jbposition  = $app->jbcartposition;
-        $this->_cartelement = $app->jbcartelement;
-        $this->_jbconfig    = JBModelConfig::model();
+        $this->_jbconfig = JBModelConfig::model();
 
         JBModelSku::model();
     }
@@ -71,7 +60,6 @@ class JBPriceFilterRenderer extends PositionRenderer
     public function checkPosition($position)
     {
         foreach ($this->_getConfigPosition($position) as $key => $data) {
-
             if ($element = $this->_jbprice->getElement($key)) {
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;

@@ -70,15 +70,14 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $prices = $this->getPrices();
-
+        $prices   = $this->getPrices();
         $discount = JBCart::val();
         if ($prices['save'] < 0) {
             $discount = $prices['save'];
         };
 
         if ($layout = $this->getLayout()) {
-            return self::renderLayout($layout, array(
+            return $this->renderLayout($layout, array(
                 'mode'     => (int)$params->get('only_price_mode', 1),
                 'total'    => JBCart::val($prices['total']),
                 'price'    => JBCart::val($prices['price']),
@@ -134,9 +133,10 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function loadAssets()
     {
+        parent::loadAssets();
         $this->js('cart-elements:price/value/assets/js/value.js');
 
-        return parent::loadAssets();
+        return $this;
     }
 
 }

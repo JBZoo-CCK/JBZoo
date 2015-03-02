@@ -59,7 +59,7 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
     public function edit($params = array())
     {
         $layout = 'edit';
-        if ($this->options('isOverlay', 0)) {
+        if ($this->isOverlay) {
             $layout = 'disabled';
         }
 

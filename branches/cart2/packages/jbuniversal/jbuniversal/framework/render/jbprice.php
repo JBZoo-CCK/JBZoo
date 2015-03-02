@@ -19,14 +19,14 @@ defined('_JEXEC') or die('Restricted access');
 class JBPriceRenderer extends PositionRenderer
 {
     /**
+     * @var int
+     */
+    public $variant = 0;
+
+    /**
      * @var string
      */
     protected $element_id;
-
-    /**
-     * @var int
-     */
-    protected $variant = 0;
 
     /**
      * @var JBCartVariant
@@ -87,10 +87,10 @@ class JBPriceRenderer extends PositionRenderer
      */
     public function render($layout, $args = array())
     {
-        $this->_variant = isset($args['_variant']) ? $args['_variant'] : null;
-
         $this->element_id   = isset($args['element_id']) ? $args['element_id'] : null;
         $this->variant      = isset($args['variant']) ? $args['variant'] : null;
+
+        $this->_variant = isset($args['_variant']) ? $args['_variant'] : null;
         $this->_priceLayout = isset($args['layout']) ? $args['layout'] : null;
 
         $result = '';
@@ -190,10 +190,11 @@ class JBPriceRenderer extends PositionRenderer
         }
 
         if (!empty($elements)) {
+            $count = count($elements);
             foreach ($elements as $i => $data) {
                 $params = array_merge(array(
                     'first' => ($i == 0),
-                    'last'  => ($i == count($elements) - 1)
+                    'last'  => ($i == $count - 1)
                 ), $data['params']);
 
                 $output[$i] = parent::render('element.' . $style, array(

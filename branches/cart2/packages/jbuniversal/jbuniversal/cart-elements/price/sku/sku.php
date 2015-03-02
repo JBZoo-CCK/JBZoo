@@ -70,7 +70,7 @@ class JBCartElementPriceSku extends JBCartElementPrice
             $value = $this->getValue();
 
             return self::renderLayout($layout, array(
-                'sku'    => !empty($value) ? $value : $this->options('_options.item_id'),
+                'sku'    => !empty($value) ? $value : $this->item_id,
                 'unique' => $this->htmlId(true)
             ));
         }
