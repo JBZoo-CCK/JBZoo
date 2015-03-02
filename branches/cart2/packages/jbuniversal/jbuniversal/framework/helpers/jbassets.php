@@ -153,7 +153,8 @@ class JBAssetsHelper extends AppHelper
      */
     public function toJSON($vars)
     {
-        $vars = $this->app->jbarray->cleanJson($vars);
+        //$vars = $this->app->jbarray->cleanJson($vars);
+        $vars = (array)$vars;
         if (!empty($vars)) {
             return json_encode($vars);
         }
