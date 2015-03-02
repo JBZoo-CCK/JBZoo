@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -36,6 +35,8 @@ class JBOrderJBuniversalController extends JBUniversalController
      */
     public function index()
     {
+        $this->app->toolbar->deleteList();
+
         $this->filter = $this->app->data->create($this->_jbrequest->getArray('filter', array()));
 
         // limit
@@ -90,5 +91,38 @@ class JBOrderJBuniversalController extends JBUniversalController
         $this->renderView();
     }
 
+    /**
+     * Remove orders
+     */
+    public function remove()
+    {
+        //$this->app->session->checkToken() or jexit('Invalid Token'); // TODO fix token
+        $cid = $this->app->request->get('cid', 'array', array());
 
+        if (count($cid) < 1) {
+            $this->app->jbnotify->error('JBZOO_ADMIN_ORDER_NO_SELECTED');
+        }
+
+        try {
+            // delete items
+            foreach ($cid as $id) {
+                JBModelOrder::model()->removeById($id);
+            }
+
+            $msg = JText::_('JBZOO_ADMIN_ORDER_REMOVED');
+
+        } catch (AppException $e) {
+
+            // raise notice on exception
+            $this->app->jbnotify->warning(JText::_('JBZOO_ADMIN_ORDER_DELET_ERROR') . ' (' . $e . ')');
+            $msg = null;
+        }
+
+        $redirectUrl = $this->app->jbrouter->admin(array(
+            'controller' => 'jborder',
+            'task'       => 'index',
+        ));
+
+        $this->setRedirect($redirectUrl, $msg);
+    }
 }

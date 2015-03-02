@@ -57,6 +57,20 @@ class JBModelOrder extends JBModel
         return $order;
     }
 
+
+    /**
+     * @param $orderId
+     * @return Bool
+     */
+    public function removeById($orderId)
+    {
+        $delete = $this->_getSelect()
+            ->delete(ZOO_TABLE_JBZOO_ORDER)
+            ->where('id = ?', (int)$orderId);
+
+        $this->_dbHelper->query((string)$delete);
+    }
+
     /**
      * @param JBCartOrder $order
      * @return mixed

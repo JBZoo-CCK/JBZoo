@@ -13,7 +13,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
-
     <form class="items-default" action="<?php echo $this->app->jbrouter->admin(); ?>" method="get" name="adminForm"
           id="adminForm" accept-charset="utf-8">
 
@@ -38,14 +37,15 @@ defined('_JEXEC') or die('Restricted access');
 
         ?>
 
-        <?php echo $this->app->html->_('form.token'); ?>
-
         <input type="hidden" name="option" value="<?php echo $this->app->jbrequest->get('option'); ?>" />
         <input type="hidden" name="controller" value="<?php echo $this->app->jbrequest->getCtrl(); ?>" />
         <input type="hidden" name="task" value="" />
+        <input type="hidden" name="boxchecked" value="0" />
         <input type="hidden" name="filter_order" value="<?php echo $this->filter->get('filter_order', 'id'); ?>" />
         <input type="hidden" name="filter_order_Dir"
                value="<?php echo $this->filter->get('filter_order_Dir', 'desc'); ?>" />
+        <?php echo $this->app->html->_('form.token'); ?>
+
     </form>
 
 <?php echo $this->partial('footer'); ?>
