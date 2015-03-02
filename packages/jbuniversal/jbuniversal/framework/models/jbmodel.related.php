@@ -40,7 +40,7 @@ class JBModelRelated extends JBModel
     {
         $this->app->jbdebug->mark('model::getRelated::start');
 
-        $cacheHash = sha1(serialize((array)$params) . '||' . serialize((array)$config) . '||itemid-' . $item->id);
+        $cacheHash = md5(serialize((array)$params) . '||' . serialize((array)$config) . '||itemid-' . $item->id);
         $cacheKey  = 'related-items';
 
         if (!($result = $this->app->jbcache->get($cacheHash, $cacheKey))) {
