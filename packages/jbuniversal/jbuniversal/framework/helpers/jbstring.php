@@ -128,7 +128,7 @@ class JBStringHelper extends AppHelper
     public function getId($prefix = 'unique')
     {
         $prefix = rtrim(trim($prefix), '-');
-        $random = mt_rand(1000, 9999);
+        $random = mt_rand(100000, 999999);
 
         $result = $random;
         if ($prefix) {
