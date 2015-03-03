@@ -20,64 +20,79 @@ $itemsHtml = $order->renderItems();
 $items     = $order->getItems();
 $orderUrl  = $order->getUrl();
 $created   = $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
+
+echo $this->partial('clientarea_orders', 'default.styles');
 ?>
 
-<table class="jbclientarea-order">
-    <?php foreach ($items as $item) :
-        $itemHtml = $itemsHtml[$item->get('key')];
-        ?>
-        <tr class="item-row">
-            <td rowspan="<?php echo $rowspan; ?>"><?php echo $itemHtml['image']; ?></td>
-            <td>
-                <?php echo $itemHtml['itemid']; ?>
-                <?php echo $itemHtml['sku']; ?>
-                <?php echo $itemHtml['name']; ?>
-                <?php echo $itemHtml['params']; ?>
-                <?php echo $itemHtml['description']; ?>
-            </td>
-            <td class="item-price4one"><?php echo $itemHtml['price4one']; ?></td>
-            <td class="item-quantity"><?php echo $itemHtml['quantity']; ?></td>
-            <td class="align-right"><?php echo $itemHtml['totalsum']; ?></td>
-        </tr>
-    <?php endforeach; ?>
-
-    <?php
-    $modifiers = $order->getModifiersOrderPrice();
-
-    if (!empty($modifiers)) {
-        $i = 0;
-        foreach ($modifiers as $modifier) {
-            $i++;
-            $rate = $order->val($modifier->get('rate'));
-            ?>
-            <tr>
-                <td><?php echo $modifier->getName(); ?></td>
-                <td class="align-right"><?php echo $rate->html(); ?></td>
-            </tr>
+<div class="jbclientarea uk-panel uk-panel-box">
+    <table class="jbclientarea-order jbclientarea-table uk-table">
         <?php
+
+        $j = 0;
+        $itemCount = count($items);
+
+        foreach ($items as $item) :
+            $itemHtml = $itemsHtml[$item->get('key')];
+            $first    = ($j == 0) ? ' first' : '';
+            $last     = ($j == $itemCount - 1) ? ' last' : '';
+            $class    = ($j%2) ? ' jbrow-even' : ' jbrow-odd';
+            $j++;
+            ?>
+            <tr class="item-row item-<?php echo $item->item_id . $class . $first . $last; ?>">
+                <td class="item-image"><?php echo $itemHtml['image']; ?></td>
+                <td class="item-info">
+                    <?php echo $itemHtml['itemid']; ?>
+                    <?php echo $itemHtml['sku']; ?>
+                    <?php echo $itemHtml['name']; ?>
+                    <?php echo $itemHtml['params']; ?>
+                    <?php echo $itemHtml['description']; ?>
+                </td>
+                <td class="item-price4one"><?php echo $itemHtml['price4one']; ?></td>
+                <td class="item-quantity"><?php echo $itemHtml['quantity']; ?></td>
+                <td class="item-total-sum uk-text-right"><?php echo $itemHtml['totalsum']; ?></td>
+            </tr>
+        <?php endforeach; ?>
+
+        <?php
+        $modifiers = $order->getModifiersOrderPrice();
+
+        if (!empty($modifiers)) {
+            $i = 0;
+            foreach ($modifiers as $modifier) {
+                $i++;
+                $rate = $order->val($modifier->get('rate'));
+                ?>
+                <tr class="jbtable-row jbmodifier">
+                    <td class="item-cell-empty"></td>
+                    <td colspan="3" class="item-cell-label"><?php echo $modifier->getName(); ?></td>
+                    <td class="uk-text-right item-cell-value"><?php echo $rate->html(); ?></td>
+                </tr>
+            <?php
+            }
         }
-    }
-    ?>
+        ?>
 
-    <?php if ($shipping = $order->getShipping()) : ?>
-        <tr>
-            <td><?php echo $shipping->getName(); ?></td>
-            <td class="align-right"><?php echo $shipping->getRate()->html(); ?></td>
+        <?php if ($shipping = $order->getShipping()) : ?>
+            <tr class="jbtable-row jbshipping">
+                <td class="item-cell-empty"></td>
+                <td colspan="3" class="item-cell-label"><?php echo $shipping->getName(); ?></td>
+                <td class="uk-text-right item-cell-value"><?php echo $shipping->getRate()->html(); ?></td>
+            </tr>
+        <?php endif; ?>
+
+        <?php if ($payment = $order->getPayment()) : ?>
+            <tr class="jbtable-row jbpayment">
+                <td class="item-cell-empty"></td>
+                <td colspan="3" class="item-cell-label"><?php echo $payment->getName(); ?></td>
+                <td class="uk-text-right item-cell-value"><?php echo $payment->getRate()->html(); ?></td>
+            </tr>
+        <?php endif; ?>
+
+        <tr class="jbtable-row jbtotal-sum">
+            <td class="item-cell-empty"></td>
+            <td colspan="3" class="item-cell-label">Итого:</td>
+            <td class="uk-text-right item-cell-value"><?php echo $order->getTotalSum()->html(); ?></td>
         </tr>
-    <?php endif; ?>
 
-    <?php if ($payment = $order->getPayment()) : ?>
-        <tr>
-            <td><?php echo $payment->getName(); ?></td>
-            <td class="align-right"><?php echo $payment->getRate()->html(); ?></td>
-        </tr>
-    <?php endif; ?>
-
-    <tr>
-        <td>Итого:</td>
-        <td class="align-right"><?php echo $order->getTotalSum()->html(); ?></td>
-    </tr>
-
-</table>
-
-
+    </table>
+</div>
