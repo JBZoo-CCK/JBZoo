@@ -90,7 +90,7 @@ echo $this->partial('clientarea_orders', 'default.styles');
 
         <tr class="jbtable-row jbtotal-sum">
             <td class="item-cell-empty"></td>
-            <td colspan="3" class="item-cell-label">Итого:</td>
+            <td colspan="3" class="item-cell-label"><?php echo JText::_('JBZOO_ORDER_ITEM_TOTAL') ?>:</td>
             <td class="uk-text-right item-cell-value"><?php echo $order->getTotalSum()->html(); ?></td>
         </tr>
 

@@ -84,7 +84,7 @@ echo $this->partial('clientarea_orders', 'default.styles');
                                 <td colspan="3" class="item-cell-label"><?php echo $shipping->getName(); ?></td>
                                 <td class="uk-text-right item-cell-value"><?php echo $shipping->getRate()->html(); ?></td>
                             </tr>
-                        <?php endif;?>
+                        <?php endif; ?>
 
                         <?php if ($payment = $order->getPayment()) : ?>
                             <tr class="jbtable-row jbpayment">
@@ -92,11 +92,11 @@ echo $this->partial('clientarea_orders', 'default.styles');
                                 <td colspan="3" class="item-cell-label"><?php echo $payment->getName(); ?></td>
                                 <td class="uk-text-right item-cell-value"><?php echo $payment->getRate()->html(); ?></td>
                             </tr>
-                        <?php endif;?>
+                        <?php endif; ?>
 
                         <tr class="jbtable-row jbtotal-sum">
                             <td class="item-cell-empty"></td>
-                            <td colspan="3" class="item-cell-label">Итого:</td>
+                            <td colspan="3" class="item-cell-label"><?php echo JText::_('JBZOO_ORDER_ITEM_TOTAL') ?>:</td>
                             <td class="uk-text-right item-cell-value"><?php echo $order->getTotalSum()->html();?></td>
                         </tr>
 
