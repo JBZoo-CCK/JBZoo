@@ -196,6 +196,124 @@
 
         }
 
+        .order-title {
+            text-align: center;
+        }
+
+        .jbclientarea-table {
+            display: block;
+
+            tbody {
+                display: block;
+
+                .jbmodifier,
+                .jbmodifier,
+                .jbshipping,
+                .jbpayment,
+                .jbtotal-sum {
+                    display: block;
+                    overflow: hidden;
+                    border-bottom: 1px solid #ddd;
+                    background: #EFEFEF;
+
+                    td {
+                        display: block;
+                        border-bottom: none;
+
+                        &.item-cell-empty {
+                            display: none;
+                        }
+
+                        &.item-cell-label {
+                            float: left;
+                            width: 34%;
+                            text-align: right;
+                        }
+
+                        &.item-cell-value {
+                            float: none;
+                            padding-left: 12%;
+                        }
+
+                        &.uk-text-right {
+                            text-align: left !important;
+                        }
+
+                    }
+
+                }
+
+                .item-row {
+                    display: block;
+                    overflow: hidden;
+                    border: 1px solid #ddd;
+                    border-bottom: none;
+                    margin-bottom: @base-indent;
+                    border-radius: 4px;
+
+                    .item-image,
+                    .item-info,
+                    .item-price4one,
+                    .item-quantity {
+                        border-bottom: none !important;
+                    }
+
+                    &.last {
+
+                        .item-total-sum {
+                            border-bottom: 1px solid #ddd;
+                        }
+
+                    }
+
+                    td {
+                        display: block;
+                        padding-left: 48%;
+                        text-align: left;
+
+                        &:before {
+                            position: absolute;
+                            display: block;
+                            top: 6px;
+                            left: 6px;
+                            width: 34%;
+                            padding-right: 10px;
+                            white-space: nowrap;
+                            text-align: right;
+                            font-weight: bold;
+                        }
+
+                        &.item-image {
+                            padding-left: 0;
+                            text-align: center;
+
+                            .jbcart-item-image {
+                                width: 25%;
+                            }
+
+                        }
+
+                    }
+
+                    .uk-text-right {
+                        text-align: left !important;
+                    }
+
+                }
+
+                td {
+                    overflow: hidden;
+                    position: relative;
+                }
+
+            }
+
+            .item-cell-empty {
+                display: none;
+            }
+
+        }
+
         .jbcart-form {
             .jbcart-form-label {
                 width: 100%;

@@ -9,6 +9,65 @@
 //
 @import "jbzoo";
 
-.jbzoo .jbclientarea-order {
+@price-color: #C51919;
+
+.jbzoo .jbclientarea {
+
+    .jbcartvalue {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    &-table {
+
+        .jbtotal-sum {
+            font-weight: bold;
+
+            .jbcartvalue {
+                color: @price-color;
+                font-size: 24px;
+            }
+
+        }
+
+        .jbtable-row {
+
+            td {
+                background: #EFEFEF;
+            }
+
+        }
+
+        .jbrow-even {
+
+            td {
+                background: #F5F5F5;
+            }
+
+        }
+
+        .item-row {
+
+            &:hover {
+
+                td {
+                    background: #EBF0F2;
+                }
+
+            }
+
+            &.last {
+
+                td {
+                    border-bottom: 6px solid #E2E2E2;
+                }
+
+            }
+
+        }
+
+    }
+
+
 
 }
