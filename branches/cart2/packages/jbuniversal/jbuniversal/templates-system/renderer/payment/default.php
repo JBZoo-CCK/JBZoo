@@ -13,13 +13,13 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-if ($this->checkPosition('list')) : ?>
+if ($this->checkPosition(JBCart::DEFAULT_POSITION)) : ?>
 
     <div class="jbcart-payment clearfix">
 
         <p class="jbcart-title"><?php echo JText::_('JBZOO_CART_PAYPMENT_TITLE'); ?></p>
 
-        <?php echo $this->renderPosition('list', array('style' => 'order.payment')); ?>
+        <?php echo $this->renderPosition(JBCart::DEFAULT_POSITION, array('style' => 'order.payment')); ?>
 
     </div>
 

@@ -13,12 +13,12 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-if ($this->checkPosition('list')) : ?>
+if ($this->checkPosition(JBCart::DEFAULT_POSITION)) : ?>
 
     <p class="jbcart-title"><?php echo JText::_('JBZOO_CART_SHIPPING_TITLE'); ?></p>
 
     <div class="jsJBCartShipping">
-        <?php echo $this->renderPosition('list', array('style' => 'order.shipping')); ?>
+        <?php echo $this->renderPosition(JBCart::DEFAULT_POSITION, array('style' => 'order.shipping')); ?>
     </div>
 
     <?php echo $this->app->jbassets->widget('.jsJBCartShipping', 'JBZooShipping', array(
