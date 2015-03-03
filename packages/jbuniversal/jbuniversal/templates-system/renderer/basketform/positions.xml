@@ -11,7 +11,7 @@
 <renderer>
 
     <positions layout="default">
-        <position name="fields">Fields</position>
+        <position name="list">List</position>
     </positions>
 
 </renderer>

@@ -13,10 +13,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-if ($this->checkPosition('fields')) : ?>
+if ($this->checkPosition(JBCart::DEFAULT_POSITION)) : ?>
 
     <div class="jbcart-form clearfix">
-        <?php echo $this->renderPosition('fields', array('style' => 'order.block')); ?>
+        <?php echo $this->renderPosition(JBCart::DEFAULT_POSITION, array('style' => 'order.block')); ?>
     </div>
 
 <?php endif;
