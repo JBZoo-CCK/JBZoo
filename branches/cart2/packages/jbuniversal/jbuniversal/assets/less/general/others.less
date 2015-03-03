@@ -14,17 +14,16 @@
     .jbzoo-rborder .rborder {
         border: 1px solid #ccc;
         .border-radius(6px);
-        //background: #fbfbfb;
     }
 
     .jbzoo-item-teaser .item-title {
         margin-bottom: 1em;
     }
 
-
     .frontpage,
     .category,
-    .subcategory {
+    .subcategory,
+    .jbbox {
         padding: 1em;
         margin-bottom: 1em;
     }
@@ -52,9 +51,11 @@
     .jbzoo-item {
         margin: 0 0 1em 0;
         padding: 0;
+
         .title {
             margin-bottom: 1em;
         }
+
     }
 
     .category .description-teaser {
@@ -70,13 +71,16 @@
     }
 
     .jbcurrency {
+
         &-value {
             font-size: 1.2em;
         }
+
         &-symbol {
             .opacity(.7);
             font-size: 0.9em;
         }
+
     }
 
     .required-dot {
@@ -84,4 +88,5 @@
         font-weight: bold;
         font-size: 16px;
     }
+
 }
