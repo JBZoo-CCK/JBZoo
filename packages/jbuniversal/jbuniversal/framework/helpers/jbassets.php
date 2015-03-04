@@ -222,8 +222,8 @@ class JBAssetsHelper extends AppHelper
             )), false);
 
             $this->js(array(
-                'jbassets:js/libs/cookie.js',
-                'jbassets:js/libs/sweet-alert.js',
+                'jbassets:js/libs/cookie.min.js',
+                'jbassets:js/libs/sweet-alert.min.js',
                 'jbassets:js/helper.js',
                 'jbassets:js/widget.js',
                 'jbassets:js/jbzoo.js',
@@ -327,10 +327,10 @@ class JBAssetsHelper extends AppHelper
         ), self::GROUP_LIBRARY);
 
         $this->js(array(
-            'jbassets:js/libs/fancybox/core.js',
-            'jbassets:js/libs/fancybox/buttons.js',
-            'jbassets:js/libs/fancybox/media.js',
-            'jbassets:js/libs/fancybox/thumbnail.js',
+            'jbassets:js/libs/fancybox/core.min.js',
+            'jbassets:js/libs/fancybox/buttons.min.js',
+            'jbassets:js/libs/fancybox/media.min.js',
+            'jbassets:js/libs/fancybox/thumbnail.min.js',
         ), self::GROUP_LIBRARY);
     }
 
@@ -341,7 +341,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->jQuery();
         $this->css('jbassets:css/libs/tablesorter.css', self::GROUP_LIBRARY);
-        $this->js('jbassets:js/libs/tablesorter.js', self::GROUP_LIBRARY);
+        $this->js('jbassets:js/libs/tablesorter.min.js', self::GROUP_LIBRARY);
     }
 
     /**
@@ -351,7 +351,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->jQuery();
         $this->css('jbassets:css/libs/chosen.css', self::GROUP_LIBRARY);
-        $this->js('jbassets:js/libs/chosen.js', self::GROUP_LIBRARY);
+        $this->js('jbassets:js/libs/chosen.min.js', self::GROUP_LIBRARY);
     }
 
     /**
@@ -361,7 +361,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->jQueryUI();
         $this->css('libraries:jquery/plugins/timepicker/timepicker.css', self::GROUP_LIBRARY);
-        $this->js('libraries:jquery/plugins/timepicker/timepicker.js', self::GROUP_LIBRARY);
+        $this->js('libraries:jquery/plugins/timepicker/timepicker.js', self::GROUP_CORE);
     }
 
     /**
@@ -371,7 +371,7 @@ class JBAssetsHelper extends AppHelper
     {
         $this->jQuery();
         $this->css('jbassets:css/libs/nivolider.css', self::GROUP_LIBRARY);
-        $this->js('jbassets:js/libs/nivoslider.js', self::GROUP_LIBRARY);
+        $this->js('jbassets:js/libs/nivoslider.min.js', self::GROUP_LIBRARY);
     }
 
     /**
@@ -914,21 +914,67 @@ class JBAssetsHelper extends AppHelper
     }
 
     /**
-     * @param string $filePath
+     * @param string $relativePath
      * @param string $type
      */
-    public function includeFile($filePath, $type = 'css')
+    /**
+     * @param string $relativePath
+     * @param string $type
+     * @return bool
+     */
+    public function includeFile($relativePath, $type = 'css')
     {
-        if (strpos($filePath, 'http') === false) { // if not external
-            $mtime    = substr(filemtime(JPATH_ROOT . '/' . $filePath), -2);
-            $filePath = JUri::root() . $filePath . '?' . $mtime;
+        if (strpos($relativePath, 'http') === false) { // if not external
+
+            $fullPath = JPATH_ROOT . '/' . $relativePath;
+
+            if (JFile::exists($fullPath)) {
+                $mtime        = substr(filemtime($fullPath), -3);
+                $relativePath = JUri::root() . $relativePath . '?' . $mtime;
+            } else {
+                return false;
+            }
         }
 
         if ($type == 'css') {
-            JFactory::getDocument()->addStylesheet($filePath);
+            JFactory::getDocument()->addStylesheet($relativePath);
         } elseif ($type == 'js') {
-            JFactory::getDocument()->addScript($filePath);
+            JFactory::getDocument()->addScript($relativePath);
         }
     }
 
+    /**
+     * Load all assets files (js and css)
+     */
+    public function loadAll()
+    {
+        $assetsConfig = JBModelConfig::model()->getGroup('config.assets');
+        $splitMode    = $assetsConfig->get('split_mode', 'group');
+        $jbminifier   = $this->app->jbminifier;
+
+        foreach ($this->_list as $type => $groupList) {
+            $allFiles = array();
+
+            foreach ($groupList as $group => $files) {
+
+                if ($splitMode == 'none' || $group == self::GROUP_CORE) {
+
+                    foreach ($files as $file) {
+                        $this->includeFile($file, $type);
+                    }
+
+                } else if ($splitMode == 'group') {
+                    $this->includeFile($jbminifier->split($files, $type, $group), $type);
+
+                } else if ($splitMode == 'all') {
+                    $allFiles = array_merge($allFiles, $files);
+                }
+
+            }
+
+            if ($splitMode == 'all') {
+                $this->includeFile($jbminifier->split($allFiles, $type, 'all'), $type);
+            }
+        }
+    }
 }
