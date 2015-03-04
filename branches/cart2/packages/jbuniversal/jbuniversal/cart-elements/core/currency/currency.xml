@@ -59,8 +59,15 @@
         <param name="thousands_sep" type="text" default=" " label="JBZOO_ELEMENT_CURRENCY_THOUSANDS_SEP"
                description="JBZOO_ELEMENT_CURRENCY_THOUSANDS_SEP_DESC"/>
 
+        <param name="fallback_rate" type="text" default="1" label="JBZOO_ELEMENT_CURRENCY_FALLBACK_RATE"
+               description="JBZOO_ELEMENT_CURRENCY_FALLBACK_RATE_DESC"/>
+
         <param name="rate" type="text" default="1" label="JBZOO_ELEMENT_CURRENCY_RATE"
                description="JBZOO_ELEMENT_CURRENCY_RATE_DESC"/>
+
+        <param name="current_rate" type="jbcurrentrate" label="JBZOO_ELEMENT_CURRENCY_CURRENT_RATE"
+               description="JBZOO_ELEMENT_CURRENCY_CURRENT_RATE_DESC"/>
+
 
     </params>
 
