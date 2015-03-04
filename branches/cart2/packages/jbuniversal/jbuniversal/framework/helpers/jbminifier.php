@@ -18,6 +18,14 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBMinifierHelper extends AppHelper
 {
+    /**
+     * @var array
+     */
+    private $_simlinks = array(
+        // for developers only!
+        //'//templates/jblank' => 'D:\\git\\smetdenis\\jblank'
+    );
+
 
     const JS_LVL_WHITESPACE = 'WHITESPACE_ONLY';
     const JS_LVL_SIMPLE     = 'SIMPLE_OPTIMIZATIONS';
@@ -101,7 +109,13 @@ class JBMinifierHelper extends AppHelper
 
             foreach ($files as $orig => $file) {
                 $fileContent = $this->_getContent($file, $type, $mode);
-                $filepath    = '/* ' . $file . ' */' . PHP_EOL;
+
+                if ($type == 'css') { // rewrite all paths (url, fornts, etc)
+                    $fileDir     = pathinfo($file, PATHINFO_DIRNAME);
+                    $fileContent = JBMinifierCssRewriter::rewrite($fileContent, $fileDir, JPATH_ROOT, $this->_simlinks);
+                }
+
+                $filepath = '/* ' . $file . ' */' . PHP_EOL;
                 $content .= $filepath . $fileContent . PHP_EOL;
             }
 
