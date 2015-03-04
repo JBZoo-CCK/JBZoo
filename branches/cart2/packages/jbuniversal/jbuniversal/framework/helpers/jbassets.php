@@ -916,21 +916,24 @@ class JBAssetsHelper extends AppHelper
     /**
      * @param string $relativePath
      * @param string $type
-     */
-    /**
-     * @param string $relativePath
-     * @param string $type
+     * @param string $group
      * @return bool
      */
-    public function includeFile($relativePath, $type = 'css')
+    public function includeFile($relativePath, $type = 'css', $group = self::GROUP_DEFAULT)
     {
-        if (strpos($relativePath, 'http') === false) { // if not external
+        if (strpos($relativePath, 'http') === false) { // if not external and not core group
 
             $fullPath = JPATH_ROOT . '/' . $relativePath;
 
             if (JFile::exists($fullPath)) {
-                $mtime        = substr(filemtime($fullPath), -3);
-                $relativePath = JUri::root() . $relativePath . '?' . $mtime;
+
+                if ($group == self::GROUP_CORE) {
+                    $mtime        = substr(filemtime($fullPath), -3);
+                    $relativePath = JUri::root() . $relativePath . '?' . $mtime;
+                } else {
+                    $relativePath = JUri::root() . $relativePath;
+                }
+
             } else {
                 return false;
             }
@@ -941,6 +944,8 @@ class JBAssetsHelper extends AppHelper
         } elseif ($type == 'js') {
             JFactory::getDocument()->addScript($relativePath);
         }
+
+        return true;
     }
 
     /**
@@ -960,11 +965,11 @@ class JBAssetsHelper extends AppHelper
                 if ($splitMode == 'none' || $group == self::GROUP_CORE) {
 
                     foreach ($files as $file) {
-                        $this->includeFile($file, $type);
+                        $this->includeFile($file, $type, $group);
                     }
 
                 } else if ($splitMode == 'group') {
-                    $this->includeFile($jbminifier->split($files, $type, $group), $type);
+                    $this->includeFile($jbminifier->split($files, $type, $group), $type, $group);
 
                 } else if ($splitMode == 'all') {
                     $allFiles = array_merge($allFiles, $files);
@@ -973,7 +978,7 @@ class JBAssetsHelper extends AppHelper
             }
 
             if ($splitMode == 'all') {
-                $this->includeFile($jbminifier->split($allFiles, $type, 'all'), $type);
+                $this->includeFile($jbminifier->split($allFiles, $type, 'all'), $type, $group);
             }
         }
     }
