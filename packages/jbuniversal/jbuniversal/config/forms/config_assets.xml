@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<form>
+    <fields>
+        <fieldset name="others" label="" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
+            <field name="split_mode" type="list" default="group" label="JBZOO_CONFIG_ASSETS_SPLIT_MODE"
+                   description="JBZOO_CONFIG_ASSETS_SPLIT_MODE_DESC">
+                <option value="none">JBZOO_CONFIG_ASSETS_SPLIT_MODE_NONE</option>
+                <option value="group">JBZOO_CONFIG_ASSETS_SPLIT_MODE_GROUP</option>
+                <option value="all">JBZOO_CONFIG_ASSETS_SPLIT_MODE_ALL</option>
+            </field>
+
+            <field name="minifier_css" type="jbbool" default="1" label="JBZOO_CONFIG_ASSETS_MINIFIER_CSS"
+                   description="JBZOO_CONFIG_ASSETS_MINIFIER_CSS_DESC"/>
+
+            <field name="minifier_js" type="list" default="0" label="JBZOO_CONFIG_ASSETS_MINIFIER_JS"
+                   description="JBZOO_CONFIG_ASSETS_MINIFIER_JS_DESC">
+                <option value="none">JBZOO_CONFIG_ASSETS_MINIFIER_JS_NONE</option>
+                <option value="simple">JBZOO_CONFIG_ASSETS_MINIFIER_JS_SIMPLE</option>
+                <option value="google">JBZOO_CONFIG_ASSETS_MINIFIER_JS_GOOGLE</option>
+            </field>
+
+            <field name="less_mode" type="jbbool" default="0" label="JBZOO_CONFIG_ASSETS_LESS_MODE"
+                   description="JBZOO_CONFIG_ASSETS_LESS_MODE_DESC"/>
+
+        </fieldset>
+    </fields>
+</form>

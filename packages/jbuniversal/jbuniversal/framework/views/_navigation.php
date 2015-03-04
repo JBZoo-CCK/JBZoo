@@ -54,6 +54,7 @@ $allItems = array(
     'jbconfig' => array(
         'jbzoo' => array(
             'index'     => array('index'),
+            'assets'    => array('assets'),
             'yandexYml' => array('yandexYml'),
             'sef'       => array('sef'),
         )
@@ -69,7 +70,7 @@ $allItems = array(
             'currency' => array('currency', 'params' => array('icon' => 'eur')),
         ),
         'price'    => array(
-            'price'           => array('price', 'params' => array('icon' => 'money')),
+            'price'             => array('price', 'params' => array('icon' => 'money')),
             'jbpriceTmpl'       => array('priceTmpl', 'params' => array('icon' => 'columns')),
             'jbpriceFilterTmpl' => array('priceFilterTmpl', 'params' => array('icon' => 'filter')),
         ),

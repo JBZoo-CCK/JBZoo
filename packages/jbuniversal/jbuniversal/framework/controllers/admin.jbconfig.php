@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -47,6 +46,21 @@ class JBConfigJBuniversalController extends JBUniversalController
         }
 
         $this->configData = $this->_config->getGroup('config.yml', $this->app->jbconfig->getList());
+
+        $this->renderView();
+    }
+
+    /**
+     * Config for assets
+     */
+    public function assets()
+    {
+        if ($this->app->jbrequest->isPost()) {
+            $this->_config->setGroup('config.assets', $this->app->jbrequest->getAdminForm());
+            $this->setRedirect($this->app->jbrouter->admin(), JText::_('JBZOO_CONFIG_SAVED'));
+        }
+
+        $this->configData = $this->_config->getGroup('config.assets', $this->app->jbconfig->getList());
 
         $this->renderView();
     }
