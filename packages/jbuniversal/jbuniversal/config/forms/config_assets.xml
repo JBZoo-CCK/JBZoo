@@ -30,8 +30,11 @@
                 <option value="google">JBZOO_CONFIG_ASSETS_MINIFIER_JS_GOOGLE</option>
             </field>
 
-            <field name="less_mode" type="jbbool" default="0" label="JBZOO_CONFIG_ASSETS_LESS_MODE"
-                   description="JBZOO_CONFIG_ASSETS_LESS_MODE_DESC"/>
+            <field name="less_mode" type="list" default="0" label="JBZOO_CONFIG_ASSETS_LESS_MODE"
+                   description="JBZOO_CONFIG_ASSETS_LESS_MODE_DESC">
+                <option value="0">JBZOO_CONFIG_ASSETS_LESS_MODE_ONCE</option>
+                <option value="1">JBZOO_CONFIG_ASSETS_LESS_MODE_ALWAYS</option>
+            </field>
 
         </fieldset>
     </fields>
