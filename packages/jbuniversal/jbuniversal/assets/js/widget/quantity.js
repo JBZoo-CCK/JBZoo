@@ -13,13 +13,13 @@
 (function ($, window, document, undefined) {
 
     JBZoo.widget('JBZoo.Quantity', {
-            default : 1,
-            step    : 1,
-            min     : 1,
-            max     : 999999,
-            decimals: 0,
-            speed   : 200,
-            onChange: $.noop
+            'default' : 1,
+            'step'    : 1,
+            'min'     : 1,
+            'max'     : 999999,
+            'decimals': 0,
+            'speed'   : 200,
+            'onChange': $.noop
         }, {
             value: 0,
 
@@ -39,7 +39,7 @@
                 $this.$digits = $this.$('.item-count-digits dd');
 
                 // set starting state
-                $this.value = JBZoo.float($this.$input.val());
+                $this.value = JBZoo.toFloat($this.$input.val());
                 $this._setValue($this.$input.val());
                 $this._updateView();
             },
@@ -96,11 +96,11 @@
                 var $this = this;
 
                 $.extend($this.options, {
-                    default : JBZoo.float($this.options.default),
-                    step    : JBZoo.float($this.options.step),
-                    min     : JBZoo.float($this.options.min),
-                    max     : JBZoo.float($this.options.max),
-                    decimals: JBZoo.int($this.options.decimals)
+                    'default' : JBZoo.toFloat($this.options['default']),
+                    'step'    : JBZoo.toFloat($this.options.step),
+                    'min'     : JBZoo.toFloat($this.options.min),
+                    'max'     : JBZoo.toFloat($this.options.max),
+                    'decimals': JBZoo.toInt($this.options.decimals)
                 });
             },
 
@@ -113,7 +113,7 @@
             _validate: function (value) {
                 var $this = this;
 
-                value = JBZoo.float(value);
+                value = JBZoo.toFloat(value);
 
                 if (value < $this.options.min) {
                     value = $this.options.min;
@@ -143,7 +143,7 @@
             _updateView: function () {
 
                 var $this = this,
-                    max = this._validate($this.value) + 3 * JBZoo.float($this.options.step);
+                    max = this._validate($this.value) + 3 * JBZoo.toFloat($this.options.step);
 
                 for (var i = 0; i < 5; i++) {
                     max = max - $this.options.step;
@@ -163,7 +163,7 @@
              * @private
              */
             _isValid: function (value) {
-                value = JBZoo.float(value);
+                value = JBZoo.toFloat(value);
 
                 if (value < this.options.min) {
                     return false;
@@ -183,7 +183,7 @@
             _noScroll: function (newValue) {
 
                 var $this = this,
-                    top = JBZoo.int(this.$box.css('top')),
+                    top = JBZoo.toInt(this.$box.css('top')),
                     dir = newValue > $this.value > 0 ? 1 : -1;
 
                 $this._setValue(newValue);

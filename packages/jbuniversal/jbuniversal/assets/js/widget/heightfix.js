@@ -27,7 +27,7 @@
 
                 $this.$($this.options.element).each(function (n, obj) {
 
-                    var tmpHeight = JBZoo.int($(obj).height());
+                    var tmpHeight = JBZoo.toInt($(obj).height());
 
                     if (maxHeight < tmpHeight) {
                         maxHeight = tmpHeight;

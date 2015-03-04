@@ -258,7 +258,7 @@
          * @param mixed
          * @returns {Number}
          */
-        int: function (mixed, base) {
+        toInt: function (mixed, base) {
             var type = typeof mixed;
 
             if (type === 'boolean') {
@@ -291,7 +291,7 @@
          * @param mixed
          * @returns {Number}
          */
-        float: function (mixed) {
+        toFloat: function (mixed) {
             mixed = $.trim(mixed);
             mixed = mixed.replace(/\s/g, '');
             mixed = mixed.replace(',', '.');
@@ -359,8 +359,8 @@
                 $jbzoo.error('Warning: rand() expects exactly 2 parameters, 1 given');
 
             } else {
-                min = $jbzoo.int(min);
-                max = $jbzoo.int(max);
+                min = $jbzoo.toInt(min);
+                max = $jbzoo.toInt(max);
             }
 
             return Math.floor(Math.random() * (max - min + 1)) + min;
