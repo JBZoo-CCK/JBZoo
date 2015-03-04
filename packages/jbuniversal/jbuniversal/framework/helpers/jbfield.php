@@ -461,7 +461,7 @@ class JBFieldHelper extends AppHelper
             return current($cid);
         }
 
-        return '<em>undefined</em>';
+        return '<em>' . JText::_('JBZOO_UNDEFINED') . '</em>';
     }
 
     /**
@@ -479,7 +479,7 @@ class JBFieldHelper extends AppHelper
             return $application->id;
         }
 
-        return '<em>undefined</em>';
+        return '<em>' . JText::_('JBZOO_UNDEFINED') . '</em>';
     }
 
     /**
@@ -1083,6 +1083,29 @@ class JBFieldHelper extends AppHelper
         }
 
         return '';
+    }
+
+    /**
+     * Render element id
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
+     * @param SimpleXMLElement $node
+     * @param SimpleXMLElement $parent
+     * @return mixed
+     */
+    public function currentRate($name, $value, $controlName, SimpleXMLElement $node, $parent)
+    {
+        $code  = $parent->element->config->get('code');
+        $value = $parent->element->getValue($code);
+
+        if ($value == 0 || $code == '%') {
+            return '<em>' . JText::_('JBZOO_UNDEFINED') . '</em>';
+        }
+
+        $value = JBCart::val($value . ' ' . $code);
+
+        return $value->html() . ' (' . $value->noStyle() . ')';
     }
 
     /**

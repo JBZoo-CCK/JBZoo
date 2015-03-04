@@ -53,11 +53,11 @@ abstract class JBCartElementCurrency extends JBCartElement
     public function getData($currency = null)
     {
         $mode = strtolower(get_class($this));
-        $this->app->jbdebug->mark('jbmoney::getData::' . $mode . '-start');
+        $this->app->jbdebug->mark('JBMoney::getData::' . $mode . '-start / ' . $currency);
 
         $data = $this->_loadData($currency);
 
-        $this->app->jbdebug->mark('jbmoney::getData::' . $mode . '-finish');
+        $this->app->jbdebug->mark('JBMoney::getData::' . $mode . '-finish / ' . $currency);
 
         return $data;
     }
@@ -76,7 +76,10 @@ abstract class JBCartElementCurrency extends JBCartElement
      */
     protected function _loadUrl($url)
     {
-        return $this->app->jbhttp->request($url);
+        return $this->app->jbhttp->request($url, array(), array(
+            //'cache'     => 1,
+            //'cache_ttl' => (int)JBModelConfig::model()->get('currency_ttl', 1440, 'cart.config'),
+        ));
     }
 
     /**
@@ -124,7 +127,7 @@ abstract class JBCartElementCurrency extends JBCartElement
             return array();
         }
 
-        $baseCur = 'eur';
+        $baseCur = self::BASE_CURRENCY;
 
         $baseValue = 1;
         if (isset($data[$baseCur])) {
@@ -146,13 +149,19 @@ abstract class JBCartElementCurrency extends JBCartElement
      */
     public function getValue($currency)
     {
-        $data = $this->getData($currency);
+        $jbvars   = $this->app->jbvars;
+        $currency = $jbvars->lower($currency);
 
-        if (isset($data[$currency])) {
-            return $this->_jbmoney->clearValue($data[$currency]);
+        if ($currency == self::BASE_CURRENCY) {
+            return 1;
         }
 
-        return 0;
+        $data = $this->getData($currency);
+        if (isset($data[$currency])) {
+            return $jbvars->money($data[$currency]);
+        }
+
+        return $jbvars->money($this->config->get('fallback_rate', 1));
     }
 
     /**
