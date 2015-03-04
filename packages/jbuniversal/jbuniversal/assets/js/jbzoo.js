@@ -41,7 +41,7 @@
         /**
          * Widget fire on ajax end
          */
-        _onAjaxStop: function (options, arguments) {
+        _onAjaxStop: function (options, args) {
             var $target = (options.target) ? $(options.target) : this.el;
             $target.removeClass('jbloading');
         },
