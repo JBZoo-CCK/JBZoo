@@ -70,6 +70,10 @@ class JBMinifierHelper extends AppHelper
      */
     public function split($files = array(), $type, $filePrefix = null)
     {
+        if ($type == 'css') {
+            ksort($files);
+        }
+
         // build hash
         $hash = array(
             'type'     => $type,
