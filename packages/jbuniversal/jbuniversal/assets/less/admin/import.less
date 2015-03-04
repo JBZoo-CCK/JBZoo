@@ -1,0 +1,134 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Sergey Kalistratov <kalistratov.s.m@@gmail.com>
+//
+
+.jbzoo-import-fields {
+    max-width: 625px;
+
+    .type-select {
+        display: none;
+    }
+
+    .box-bottom {
+        border: none !important;
+
+        > div {
+            width: 600px;
+        }
+
+        fieldset {
+            margin-bottom: 15px;
+        }
+
+    }
+
+    .frontpage,
+    .categories {
+
+        > span,
+        > input {
+            vertical-align: middle;
+        }
+
+        > span {
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+    }
+
+    div.assign-group {
+        padding: 0px 10px 0px 5px;
+    }
+
+    .items {
+
+        div.info {
+            overflow: hidden;
+
+            label {
+                float: left;
+            }
+
+            select {
+                float: right;
+            }
+
+        }
+
+        li.assign {
+
+            span.type {
+                display: block;
+                width: 50%;
+                height: 12px;
+                margin-top: -6px;
+                line-height: 12px;
+                visibility: hidden;
+                color: #666;
+                font-size: 10px;
+            }
+
+            &:hover span.type {
+                visibility: visible;
+            }
+
+        }
+
+        select.type-select {
+            display: none;
+        }
+
+    }
+
+    .box-bottom ul {
+        list-style: none;
+        margin: 10px 0px 10px 0px;
+        padding: 0px;
+    }
+
+    li.assign {
+        padding: 5px 0px 5px 0px;
+        margin-bottom: 4px;
+        line-height: 25px;
+
+        &:first-child {
+            border-top: none;
+        }
+
+        &:hover {
+            background: #FFD;
+        }
+
+        span.name {
+            color: #323232;
+            font-size: 13px;
+            font-weight: normal;
+        }
+
+    }
+
+    select.type-select {
+        float: right;
+    }
+
+    .button-grey {
+        float: right;
+    }
+
+    #fields-assign {
+        padding: 0;
+
+        li {
+            list-style: none;
+        }
+
+    }
+
+}

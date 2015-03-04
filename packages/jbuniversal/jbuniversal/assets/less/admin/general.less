@@ -1,0 +1,267 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Sergey Kalistratov <kalistratov.s.m@@gmail.com>
+//
+
+.jbzoo {
+
+    #sidebar {
+        width: 280px;
+    }
+
+    .clr {
+        clear: both;
+        overflow: hidden;
+        line-height: 0 !important;
+        height: 0 !important;
+        font-size: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    .clearfix {
+        *zoom: 1;
+
+        &:before,
+        &:after {
+            display: table;
+            content: "";
+            line-height: 0;
+        }
+
+        &:after {
+            clear: both;
+        }
+
+    }
+
+    .uk-grid {
+        font-size: 13px;
+
+        .uk-width-4-6 {
+            width: 63%;
+        }
+
+        h2 {
+            margin-bottom: 16px;
+            border-bottom: 1px solid #DDD;
+            padding-bottom: 12px;
+        }
+
+        em {
+            color: #C51919;
+        }
+
+    }
+
+    .uk-table {
+
+        th, td {
+            padding: 8px;
+        }
+
+        tr {
+
+            &:hover,
+            &:hover td {
+                background: #f7f7f7;
+            }
+
+            &.uk-success {
+
+                td {
+                    background-color: rgba(223, 240, 216, 0.5);
+                }
+
+            }
+
+            &.uk-error {
+
+                td {
+                    background-color: rgba(242, 222, 222, 0.5);
+                }
+
+            }
+
+        }
+
+    }
+
+    .uk-nav.uk-nav-side {
+        padding-left: 0;
+    }
+
+    .uk-nav-side .uk-nav-header {
+        color: #a00;
+    }
+
+    .uk-form-horizontal {
+
+        .uk-form-label {
+            width: 350px !important;
+        }
+
+        .uk-form-controls {
+            margin-left: 365px !important;
+        }
+
+    }
+
+    .uk-button {
+        text-decoration: none;
+    }
+
+    .uk-button-danger,
+    .uk-button-success,
+    .uk-button-primary {
+        color: #FFF;
+    }
+
+    .uk-form {
+
+        legend {
+            border: none;
+            width: 70%;
+        }
+
+        .checkbox-lbl,
+        .radio-lbl {
+            clear: none;
+            display: inline;
+            cursor: pointer;
+            vertical-align: baseline;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        input[type=checkbox],
+        input[type=radio] {
+            margin-right: 6px;
+            margin-left: 0;
+            vertical-align: baseline;
+        }
+
+        input[type=text],
+        input[type=password],
+        select {
+            width: 250px;
+        }
+
+    }
+
+    .jbprogressbar {
+        margin-bottom: 12px;
+    }
+
+    .statistic {
+        margin-top: 24px;
+    }
+
+    .uk-button-primary:hover,
+    .uk-button-primary:focus {
+        background-color: #00AFF2;
+        color: #FFF;
+        background-image: none;
+    }
+
+    .uk-button-success:hover,
+    .uk-button-success:focus {
+        background-color: #8FCE48;
+        color: #FFF;
+        background-image: none;
+    }
+
+    .uk-button-danger:hover,
+    .uk-button-danger:focus {
+        background-color: #E33551;
+        color: #FFF;
+        background-image: none;
+    }
+
+    .filter {
+
+        li.filter-right {
+            margin-left: 25px;
+            margin-bottom: 8px;
+        }
+
+        li.filter-right.filter-total input {
+            width: 100px;
+        }
+
+        select {
+            height: 28px;
+        }
+
+    }
+
+    .select-list-form {
+        margin-right: 20px;
+        float: left;
+    }
+
+    .order-filter .zoo-calendar input {
+        width: 120px !important;
+    }
+
+    .pagination-list {
+        margin-top: 10px;
+    }
+
+    .jbdownload:hover .delete-file {
+        visibility: visible;
+    }
+
+    .email-preview {
+        position: relative;
+        display: inline-block;
+        top: 24px;
+    }
+
+    .paymenturl-area {
+        overflow-wrap: normal;
+        flex-direction: row;
+        display: block;
+        word-wrap: normal;
+        white-space: pre;
+        background: #F9F9B5;
+        border: solid 1px #808000;
+        padding: 4px 6px;
+        height: 42px;
+        width: 97%;
+        color: #333;
+        min-width: 250px;
+        max-width: 600px;
+        cursor: text;
+    }
+
+    .jbinfo {
+
+        &.uk-panel {
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+        }
+
+        &-header {
+            margin-top: 0;
+        }
+
+        &-block-top {
+            padding: 10px;
+            margin-bottom: 20px;
+            background: #EAF3FF;
+            border-left: 10px solid #A5E0FF;
+        }
+
+    }
+
+    #tab-comments {
+        margin-top: 24px;
+    }
+
+}

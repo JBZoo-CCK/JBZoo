@@ -182,7 +182,7 @@ class JBAssetsHelper extends AppHelper
 
         $this->tools();
         $this->less('jbassets:less/general.less');
-        $this->css('jbassets:css/admin.css');
+        $this->less('jbassets:less/admin.less');
         $this->js(array(
             'jbassets:js/admin/colors.js',
             'jbassets:js/admin/delimiter.js',
