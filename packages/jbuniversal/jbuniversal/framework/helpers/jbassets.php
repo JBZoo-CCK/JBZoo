@@ -258,7 +258,7 @@ class JBAssetsHelper extends AppHelper
             $this->js('jbassets:js/libs/uikit.min.js', self::GROUP_CORE);
         }
 
-        $this->css('jbassets:css/uikit.min.css', self::GROUP_LIBRARY);
+        $this->css('jbassets:css/uikit.min.css', self::GROUP_CORE);
     }
 
     /**
