@@ -1,0 +1,228 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Sergey Kalistratov <kalistratov.s.m@@gmail.com>
+//
+
+.jbprice-advance-fields {
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    padding: 15px;
+    width: 75%;
+
+    .hidden {
+        display: none;
+    }
+
+    .jbprice-addParam {
+        margin: 5px 0 0 0;
+        display: block;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .jbprice-fields-parameter {
+        padding: 5px;
+        border-bottom: 1px solid #CCC;
+        position: relative;
+
+        .jbprice-addOption {
+            position: absolute;
+            background: url('../../../../../../assets/images/add.png') no-repeat;
+            width: 16px;
+            height: 16px;
+            right: 10px;
+            bottom: 5px;
+        }
+
+        .jbprice-adv-delete-param {
+            font-size: 15px;
+            position: absolute;
+            right: 36px;
+            bottom: 5px;
+            background: url('/media/zoo/assets/images/delete.png') no-repeat;
+            width: 16px;
+            height: 16px;
+        }
+
+        .jbprice-adv-delete-option {
+            font-size: 14px;
+            margin: -5.5px 0 0 5px;
+            position: absolute;
+            top: 50%;
+            width: 11px;
+            height: 11px;
+            background: url(../../../img/icon/cancel.gif) no-repeat;
+        }
+
+        .jbprice-field-option {
+            margin: 7px 0;
+            padding: 4px;
+            position: relative;
+
+            &:hover {
+                background: #F0F0F0;
+            }
+
+        }
+
+    }
+
+}
+
+.jbzoo-assign-elements {
+
+    #add-element div.groups {
+        width: 300px;
+    }
+
+    ul.parameter-form li {
+
+        .field {
+
+            input[type='text'],
+            input[type='password'] {
+                padding: 3px;
+                width: 150px;
+            }
+
+            input[type='text'],
+            input[type='password'],
+            select {
+                font-size: 12px;
+            }
+
+            select {
+                min-width: 150px;
+                padding: 3px;
+            }
+
+        }
+
+        .label label {
+            font-size: 12px;
+        }
+
+    }
+
+}
+
+.jbzoo-price {
+
+    .variations {
+
+        .variations-list {
+            width: 600px;
+
+            .jbprice-variation-row > div {
+                margin: 5px 0;
+            }
+
+        }
+
+        .jbprice-variation-row {
+
+            .row-sku {
+                width: 80px;
+                min-width: 80px;
+                margin-right: 16px;
+                text-align: left;
+            }
+
+            .row-value {
+                width: 80px;
+            }
+
+            .row-currency {
+                width: 69px;
+                min-width: 69px;
+                margin-right: 16px;
+                height: 27px;
+            }
+
+            .row-balance {
+                width: 80px;
+                min-width: 80px;
+            }
+
+            .row-description {
+                width: 383px;
+                text-align: left;
+                margin-top: 12px;
+            }
+
+            .row-file {
+                width: 295px;
+                text-align: left;
+            }
+
+            .jbprice-img-button,
+            .jbprice-img-cancel {
+                position: absolute;
+                top: 50%;
+            }
+
+            .jbprice-img-cancel {
+                margin-top: -5px;
+                width: 10px;
+                height: 10px;
+                right: 125px;
+            }
+
+            .jbprice-img-button {
+                right: 10px;
+                width: 100px;
+                height: 25px;
+                margin-top: -12.5px;
+                top: 50%;
+            }
+
+        }
+
+    }
+
+    .jbprice-img-row-file {
+        position: relative;
+        margin-top: 10px;
+    }
+
+    .variant-balance-wrap {
+
+        .balance label,
+        .balance-variant label {
+            margin: 5px 0;
+        }
+
+        .balance .balance-input,
+        .balance-custom .balance-input {
+            width: 100px;
+            text-align: left;
+        }
+
+    }
+
+}
+
+
+ul.parameter-form {
+
+    li .field .jbprice-advance-fields .jbprice-fields-parameter > input {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    li .field .jbprice-advance-fields .jbprice-fields-parameter .jbprice-fields-options input {
+        padding: 6px;
+        font-size: 12px;
+    }
+
+}
+
+.jbprice-fields-options {
+    padding: 15px;
+    margin: 0px 10px;
+}

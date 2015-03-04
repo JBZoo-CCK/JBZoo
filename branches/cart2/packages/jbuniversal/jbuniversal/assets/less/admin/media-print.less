@@ -1,0 +1,165 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Sergey Kalistratov <kalistratov.s.m@@gmail.com>
+//
+
+@media print {
+
+    @page {
+        margin: 0.5cm;
+    }
+
+    .jbzoo-print {
+
+        * {
+            text-shadow: none !important;
+            color: #000 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        a, a:visited {
+            text-decoration: underline;
+        }
+
+        a[href]:after {
+            content: "" !important;
+        }
+
+        abbr[title]:after {
+            content: "" !important;
+        }
+
+        .ir a:after,
+        a[href^="javascript:"]:after,
+        a[href^="#"]:after {
+            content: "";
+        }
+
+        pre, blockquote {
+            border: 1px solid #999;
+            page-break-inside: avoid;
+        }
+
+        thead {
+            display: table-header-group;
+        }
+
+        tr, img {
+            page-break-inside: avoid;
+        }
+
+        img {
+            max-width: 100% !important;
+        }
+
+        p, h2, h3 {
+            orphans: 3;
+            widows: 3;
+        }
+
+        h2, h3 {
+            page-break-after: avoid;
+        }
+
+        nav.navbar,
+        header.header,
+        #nav,
+        .jbfooter,
+        footer.footer,
+        .subhead-collapse {
+            display: none !important;
+        }
+
+        .jbzoo.box-bottom {
+            padding: 0.5cm;
+            border: none;
+        }
+
+        textarea, select {
+            border: none;
+            padding: 0;
+        }
+
+        body {
+            padding-top: 0;
+        }
+
+        .order-system,
+        .order-table {
+            width: 100% !important;
+            padding: 0 1cm;
+
+            dt, dt {
+                width: 30%;
+                float: left;
+                clear: both;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                margin-left: 60px;
+            }
+
+        }
+
+        .order-system {
+
+            .uk-panel-box {
+                padding: 0;
+            }
+
+        }
+
+        .uk-panel-title, h2 {
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 18px;
+            line-height: 24px;
+            text-transform: none;
+            color: #444;
+            border: none;
+            padding-bottom: 0;
+        }
+
+        .uk-panel-box {
+            margin-top: 6px;
+
+            &.basic-info {
+                page-break-before: always;
+            }
+
+        }
+
+        textarea {
+            border-radius: 0 !important;
+            border: none !important;
+            resize: none !important;
+            padding: 0 !important;
+            display: none !important; /* for demo. TODO Remove me! */
+        }
+
+        textarea::-webkit-input-placeholder {
+            color: transparent !important;
+        }
+
+        textarea:-moz-placeholder {
+            color: transparent !important;
+        }
+
+        textarea::-moz-placeholder {
+            color: transparent !important;
+        }
+
+        textarea:-ms-input-placeholder {
+            color: transparent !important;
+        }
+
+    }
+
+}
