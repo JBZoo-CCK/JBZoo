@@ -17,7 +17,10 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBLessHelper extends AppHelper
 {
-    protected $_forceUpdate = false;
+    /**
+     * @type bool
+     */
+    protected $_force = false;
 
     /**
      * @var string
@@ -25,6 +28,11 @@ class JBLessHelper extends AppHelper
     protected $_lessFull = '';
     protected $_lessRel = '';
     protected $_minFull = '';
+
+    /**
+     * @type JBCacheHelper
+     */
+    protected $_jbcache = null;
 
     /**
      * Force import for each less file
@@ -46,8 +54,11 @@ class JBLessHelper extends AppHelper
         $this->_lessFull = JPath::clean($this->app->path->path('jbapp:assets/less'));
         $this->_lessRel  = JUri::root() . $this->app->path->relative($this->_lessFull);
 
-        $this->_minFull = JPath::clean($this->app->path->path('root:') . '/cache/jbzoo_css');
+        $this->_minFull = JPath::clean($this->app->path->path('root:') . '/cache/jbzoo_assets');
         $this->_minRel  = $this->app->path->relative($this->_minFull);
+
+        $this->_force   = (int)JBModelConfig::model()->get('less_mode', '0', 'config.assets');
+        $this->_jbcache = $this->app->jbcache;
     }
 
     /**
@@ -56,46 +67,28 @@ class JBLessHelper extends AppHelper
      */
     public function compile($virtPath)
     {
-        $origFull = $this->app->path->path($virtPath);
-        if (!$origFull) {
-            return null;
-        }
+        static $compiledList = array();
 
-        $origFull = JPath::clean($origFull);
-        $debug    = $this->_isDebug();
-        $hash     = $this->_getHash($origFull);
-        $filename = md5($virtPath) . ($debug ? '-debug' : '') . '.css';
+        if (!isset($compiledList[$virtPath])) {
 
-        $relPath   = $this->_minRel . '/' . $filename;
-        $cachePath = JPath::clean($this->_minFull . '/' . $filename);
-
-        $updateFile = false;
-        if (JFile::exists($cachePath)) {
-            $firstLine = $this->app->jbfile->firstLine($cachePath);
-
-            // check cacheid
-            if (!preg_match('#' . $hash . '#i', $firstLine)) {
-                $updateFile = true;
+            $origFull = $this->app->path->path($virtPath);
+            if (!$origFull) {
+                return null;
             }
 
-        } else {
-            $updateFile = true;
+            $hash      = $this->_getHash($origFull);
+            $filename  = $this->_jbcache->getFileName($origFull) . (JDEBUG ? '-debug' : '') . '.css';
+            $cachePath = JPath::clean($this->_minFull . '/' . $filename);
+
+            if (!$this->_jbcache->checkAsset($cachePath, $hash)) {
+                $cssContent = $this->_compile($origFull);
+                $this->_jbcache->saveAsset($cachePath, $cssContent, $hash);
+            }
+
+            $compiledList[$virtPath] = $this->_minRel . '/' . $filename;
         }
 
-        if ($updateFile || $this->_forceUpdate) {
-            $css =
-                '/* cacheid:' . $hash . " */" . PHP_EOL .
-                '/* path:' . $virtPath . " */" . PHP_EOL .
-                $this->_compile($origFull);
-
-            $this->app->jbfile->save($cachePath, $css);
-        }
-
-        if (filesize($cachePath)) {
-            return $relPath;
-        }
-
-        return null;
+        return $compiledList[$virtPath];
     }
 
     /**
@@ -109,10 +102,6 @@ class JBLessHelper extends AppHelper
             $precessor = $this->_getProcessor();
             $precessor->parseFile($lessPath, $relative);
             $resultCss = $precessor->getCss();
-
-            if (!$this->_isDebug()) {
-                $resultCss = $this->_forceCompress($resultCss);
-            }
 
             return $resultCss;
 
@@ -162,9 +151,9 @@ class JBLessHelper extends AppHelper
             'sourceMap'    => 0,
         );
 
-        if ($this->_isDebug()) {
-            $options['compress'] = 0;
+        if (JDEBUG) {
             // TODO add source map
+            $options['compress'] = 0;
         }
 
         $precessor = new Less_Parser($options);
@@ -177,48 +166,6 @@ class JBLessHelper extends AppHelper
         $precessor->SetImportDirs($paths);
 
         return $precessor;
-    }
-
-    /**
-     * @param $code
-     * @return mixed|string
-     */
-    public function _forceCompress($code)
-    {
-        $code = (string)$code;
-
-        // remove comments
-        // $code = preg_replace('#/\*[^*]*\*+([^/][^*]*\*+)*/#ius', '', $code); // exp
-
-        // remove tabs, spaces, newlines, etc.
-        $code = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $code);
-
-        $code = str_replace(' {', '{', $code); // spaces
-        $code = str_replace('{ ', '{', $code); // spaces
-        $code = str_replace(' }', '}', $code); // spaces
-        $code = str_replace('; ', ';', $code); // spaces
-        $code = str_replace(';;', ';', $code); // typos
-        $code = str_replace(';}', '}', $code); // last ";"
-
-        // remove space after colons
-        $code = preg_replace('#([a-z\-])(:\s*|\s*:\s*|\s*:)#ius', '$1:', $code);
-
-        // spaces before "!important"
-        $code = preg_replace('#(\s*\!important)#ius', '!important', $code);
-
-        // trim
-        $code = JString::trim($code);
-
-        return $code;
-    }
-
-    /**
-     * Check debug state
-     * @return bool
-     */
-    protected function _isDebug()
-    {
-        return defined('JDEBUG') && JDEBUG;
     }
 
 }

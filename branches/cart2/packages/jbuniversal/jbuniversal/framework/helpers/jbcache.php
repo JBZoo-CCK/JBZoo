@@ -19,11 +19,6 @@ defined('_JEXEC') or die('Restricted access');
 class JBCacheHelper extends AppHelper
 {
     /**
-     * @var JCache
-     */
-    protected $_cache = null;
-
-    /**
      * Check config, is enabled joomla caching
      * @return int
      */
@@ -105,6 +100,16 @@ class JBCacheHelper extends AppHelper
     }
 
     /**
+     * Create simple hash from var
+     * @param mixed $var
+     * @return string
+     */
+    public function hash($var)
+    {
+        return $this->_simpleHash($var);
+    }
+
+    /**
      * @deprecated
      */
     public function start()
@@ -118,5 +123,50 @@ class JBCacheHelper extends AppHelper
     public function stop()
     {
         return null; // disibled
+    }
+
+    /**
+     * @param $cachePath
+     * @param $hash
+     * @return bool
+     */
+    public function checkAsset($cachePath, $hash)
+    {
+        if (JFile::exists($cachePath)) {
+
+            $firstLine = $this->app->jbfile->firstLine($cachePath);
+            if (preg_match('#' . $this->_simpleHash($hash) . '#i', $firstLine)) {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $cachePath
+     * @param $data
+     * @param $hash
+     */
+    public function saveAsset($cachePath, $data, $hash)
+    {
+        $data = '/* cacheid:' . $this->_simpleHash($hash) . ' */' . PHP_EOL . $data;
+
+        $this->app->jbfile->save($cachePath, $data);
+    }
+
+    /**
+     * @param string $origFull
+     * @return string
+     */
+    public function getFileName($origFull)
+    {
+        $newPath = JPath::clean($origFull);
+        $newPath = str_replace(JPATH_ROOT, '', $newPath);
+        $newPath = str_replace(array('/', '\\', '.', ':'), '_', $newPath);
+        $newPath = trim($newPath, '_');
+
+        return $newPath;
     }
 }

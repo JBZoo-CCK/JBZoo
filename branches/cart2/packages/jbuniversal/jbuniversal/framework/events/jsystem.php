@@ -111,29 +111,8 @@ class JBZooSystemPlugin
             $this->app->jbsef->canonicalFix();
         }
 
-        // load assets
-        $assetsConfig = $this->_config->getGroup('config.assets');
-        $jbassets     = $this->app->jbassets;
-        $typeList     = $jbassets->getList();
-        $mode         = $assetsConfig->get('mode', 'split');
-
-        foreach ($typeList as $type => $groupList) {
-            foreach ($groupList as $group => $files) {
-
-                if ($mode == 'debug'
-                    || $group == JBAssetsHelper::GROUP_CORE
-                    || ($group == JBAssetsHelper::GROUP_LIBRARY && $type == 'css')
-                ) {
-                    foreach ($files as $file) {
-                        $jbassets->includeFile($file, $type);
-                    }
-                } else if ($mode == 'split') {
-                    $file = $this->app->jbminifier->split($files, $type);
-                    $jbassets->includeFile($file, $type);
-                }
-
-            }
-        }
+        // load all assets
+        $this->app->jbassets->loadAll();
     }
 
     /**

@@ -73,20 +73,13 @@ class JBStringHelper extends AppHelper
      */
     public function cutByWords($string, $maxlen = 255)
     {
-
-        $len    = (JString::strlen($string) > $maxlen) ? JString::strrpos(JString::substr($string, 0, $maxlen), ' ')
+        $len    = (JString::strlen($string) > $maxlen)
+            ? JString::strrpos(JString::substr($string, 0, $maxlen), ' ')
             : $maxlen;
+
         $cutStr = JString::substr($string, 0, $len);
 
         return (JString::strlen($string) > $maxlen) ? $cutStr . '...' : $cutStr;
-    }
-
-    /**
-     * TODO REMOVE ME!!! and use JText::plural !!!
-     */
-    function declension($n, $only, $dual, $plural)
-    {
-        die('use JText::plural, not jbstring->declension()');
     }
 
     /**
