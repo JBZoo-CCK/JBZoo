@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -15,9 +14,9 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 
 <div class="jbprice-buttons jsPriceButtons <?php echo $inCart; ?>">
-    <a rel="nofollow" href="#add-to-cart-goto" class="jsAddToCartGoto uk-button uk-button-success add-button"
-       title="<?php echo $addLabel; ?>"><?php echo $addLabel; ?></a>
+    <span class="jsAddToCartGoto uk-button uk-button-success add-button"
+          title="<?php echo $addLabel; ?>"><?php echo $addLabel; ?></span>
 
-    <a rel="nofollow" href="#remove-from-cart" class="jsRemoveFromCart uk-button uk-button-danger uk-button-small remove-button remove-button"
-       title="<?php echo $removeLabel; ?>"><?php echo $removeLabel; ?></a>
+    <span class="jsRemoveFromCart uk-button uk-button-danger uk-button-small remove-button remove-button"
+          title="<?php echo $removeLabel; ?>"><?php echo $removeLabel; ?></span>
 </div>

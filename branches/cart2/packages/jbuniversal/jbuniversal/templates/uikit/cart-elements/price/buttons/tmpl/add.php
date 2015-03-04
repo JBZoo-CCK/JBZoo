@@ -11,18 +11,16 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');?>
+defined('_JEXEC') or die('Restricted access'); ?>
 
 <div class="jbprice-buttons jsPriceButtons <?php echo $inCart; ?>">
-    <a rel="nofollow" href="#add-to-cart" class="jsAddToCart uk-button uk-button-success add-button"
-       title="<?php echo $addLabel; ?>">
-        <i class="uk-icon-shopping-cart"></i>
-        <?php echo $addLabel; ?>
-    </a>
+    <span class="jsAddToCart uk-button uk-button-success add-button" title="<?php echo $addLabel; ?>">
+        <i class="uk-icon-shopping-cart"></i> <?php echo $addLabel; ?>
+    </span>
 
-    <a rel="nofollow" href="#remove-from-cart" class="jsRemoveFromCart uk-button uk-button-danger uk-button-small remove-button"
-       title="<?php echo $removeLabel; ?>">
+    <span class="jsRemoveFromCart uk-button uk-button-danger uk-button-small remove-button"
+          title="<?php echo $removeLabel; ?>">
         <i class="uk-icon-trash-o"></i>
         <?php echo $removeLabel; ?>
-    </a>
+    </span>
 </div>
