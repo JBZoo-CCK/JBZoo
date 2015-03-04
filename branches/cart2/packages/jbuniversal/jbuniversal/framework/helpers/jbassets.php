@@ -310,7 +310,7 @@ class JBAssetsHelper extends AppHelper
 
         if (!$isAdded) {
             $isAdded = true;
-            $this->css('libraries:jquery/jquery-ui.custom.css', self::GROUP_LIBRARY);
+            $this->css('libraries:jquery/jquery-ui.custom.css', self::GROUP_CORE);
             $this->js('libraries:jquery/jquery-ui.custom.min.js', self::GROUP_CORE);
         }
     }
@@ -360,7 +360,7 @@ class JBAssetsHelper extends AppHelper
     public function datepicker()
     {
         $this->jQueryUI();
-        $this->css('libraries:jquery/plugins/timepicker/timepicker.css', self::GROUP_LIBRARY);
+        $this->css('libraries:jquery/plugins/timepicker/timepicker.css', self::GROUP_CORE);
         $this->js('libraries:jquery/plugins/timepicker/timepicker.js', self::GROUP_CORE);
     }
 
@@ -460,11 +460,11 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Load jquery calendar script
+     * @depricated
      */
     public function calendar()
     {
-        $this->jQueryUI();
-        $this->js('libraries:jquery/plugins/timepicker/timepicker.js', self::GROUP_LIBRARY);
+        $this->datepicker();
     }
 
     /**
@@ -779,8 +779,8 @@ class JBAssetsHelper extends AppHelper
         $this->jQuery();
 
         if ($queryElement) {
-            $this->css('media:jui/css/jquery.minicolors.css', self::GROUP_LIBRARY);
-            $this->js('media:jui/js/jquery.minicolors.min.js', self::GROUP_LIBRARY);
+            $this->css('media:jui/css/jquery.minicolors.css', self::GROUP_CORE);
+            $this->js('media:jui/js/jquery.minicolors.min.js', self::GROUP_CORE);
             $this->widget($queryElement, 'JBColorElement', array('message' => $text));
         }
     }
