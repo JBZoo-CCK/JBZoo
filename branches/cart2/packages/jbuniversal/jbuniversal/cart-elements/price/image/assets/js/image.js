@@ -31,7 +31,7 @@
                 this.image = $('.jbimage' + related, $jbzoo);
                 this.link = $('.jbimage-link' + related, $jbzoo);
 
-                this.options.default = {
+                this.options['default'] = {
                     'image' : this.image.attr('src'),
                     'pop_up': this.link.attr('href')
                 };
@@ -45,7 +45,7 @@
 
             rePlace: function (data, duration) {
                 if (JBZoo.empty(data)) {
-                    data = this.options.default;
+                    data = this.options['default'];
                 }
 
                 if (!JBZoo.empty(data) && data.image != this.image.attr('src')) {
