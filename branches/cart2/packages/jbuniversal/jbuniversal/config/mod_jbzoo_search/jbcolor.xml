@@ -41,6 +41,12 @@
                label="JBZOO_FILTER_AUTOCOMPLETE"
                description="JBZOO_FILTER_AUTOCOMPLETE_DESC"/>
 
+        <param name="jbzoo_filter_count"
+               type="jbbool"
+               default="1"
+               label="JBZOO_FILTER_COUNT"
+               description="JBZOO_FILTER_COUNT_DESC"/>
+
         <param name="jbzoo_filter_default"
                type="text"
                default=""
