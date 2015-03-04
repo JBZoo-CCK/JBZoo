@@ -18,17 +18,22 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBMinifierHelper extends AppHelper
 {
+    const JS_LVL_WHITESPACE = 'WHITESPACE_ONLY';
+    const JS_LVL_SIMPLE     = 'SIMPLE_OPTIMIZATIONS';
+
     /**
+     * For developers only!
      * @var array
      */
     private $_simlinks = array(
-        // for developers only!
-        //'//templates/jblank' => 'D:\\git\\smetdenis\\jblank'
+        '//media/zoo/applications/jbuniversal' => '/packages/jbuniversal/jbuniversal',
+        '//modules/mod_jbzoo_basket'           => '/packages/mod_jbzoo_basket',
+        '//modules/mod_jbzoo_category'         => '/packages/mod_jbzoo_category',
+        '//modules/mod_jbzoo_currency'         => '/packages/mod_jbzoo_currency',
+        '//modules/mod_jbzoo_item'             => '/packages/mod_jbzoo_item',
+        '//modules/mod_jbzoo_props'            => '/packages/mod_jbzoo_props',
+        '//modules/mod_jbzoo_search'           => '/packages/mod_jbzoo_search',
     );
-
-
-    const JS_LVL_WHITESPACE = 'WHITESPACE_ONLY';
-    const JS_LVL_SIMPLE     = 'SIMPLE_OPTIMIZATIONS';
 
     /**
      * @type string
@@ -68,6 +73,15 @@ class JBMinifierHelper extends AppHelper
 
         $this->_jbfile  = $this->app->jbfile;
         $this->_jbcache = $this->app->jbcache;
+
+        // for developers
+        if ($this->_repoPath = realpath($this->app->path->path('jbapp:') . '/../../../')) {
+            foreach ($this->_simlinks as $locPath => $repoPath) {
+                $this->_simlinks[$locPath] = JPath::clean($this->_repoPath . '/' . $repoPath);
+            }
+        } else {
+            $this->_simlinks = array();
+        }
     }
 
     /**
@@ -102,7 +116,7 @@ class JBMinifierHelper extends AppHelper
             . (JDEBUG ? '-debug' : '')
             . '.' . $type;
 
-        if (!$this->_jbcache->checkAsset($cachePath, $hash)) {
+        if (1 || !$this->_jbcache->checkAsset($cachePath, $hash)) {
 
             $mode    = $this->_config->get('minifier_' . $type);
             $content = '';
@@ -111,7 +125,7 @@ class JBMinifierHelper extends AppHelper
                 $fileContent = $this->_getContent($file, $type, $mode);
 
                 if ($type == 'css') { // rewrite all paths (url, fornts, etc)
-                    $fileDir     = pathinfo($file, PATHINFO_DIRNAME);
+                    $fileDir     = pathinfo(JPATH_ROOT . $file, PATHINFO_DIRNAME);
                     $fileContent = JBMinifierCssRewriter::rewrite($fileContent, $fileDir, JPATH_ROOT, $this->_simlinks);
                 }
 
