@@ -32,7 +32,7 @@
 
             init: function ($this) {
                 $this.currency = this._cleanCur(this.data('currency'));
-                $this.value = JBZoo.float(this.data('value'));
+                $this.value = JBZoo.toFloat(this.data('value'));
                 $this.showplus = this.data('showplus');
             },
 
@@ -67,7 +67,7 @@
             setValue: function (value, currency) {
 
                 var $this = this,
-                    value = JBZoo.float(value),
+                    value = JBZoo.toFloat(value),
                     currency = $this._cleanCur((currency || $this.currency));
 
                 $this.currency = currency;

@@ -24,7 +24,7 @@
             $this.$('.jsFilename').val(value);
 
             // validate size
-            var maxSize = JBZoo.int($this.options.max_size);
+            var maxSize = JBZoo.toInt($this.options.max_size);
             if (maxSize > 0 && inputEl.files[0].size > maxSize) {
                 $this.alert($this.options.text_size_reached);
 
