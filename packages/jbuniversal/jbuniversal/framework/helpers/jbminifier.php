@@ -116,7 +116,7 @@ class JBMinifierHelper extends AppHelper
             . (JDEBUG ? '-debug' : '')
             . '.' . $type;
 
-        if (1 || !$this->_jbcache->checkAsset($cachePath, $hash)) {
+        if (!$this->_jbcache->checkAsset($cachePath, $hash)) {
 
             $mode    = $this->_config->get('minifier_' . $type);
             $content = '';
