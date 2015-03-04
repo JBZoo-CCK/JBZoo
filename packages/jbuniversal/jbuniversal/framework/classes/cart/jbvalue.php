@@ -640,6 +640,7 @@ class JBCartValue
 
             $attrs = $this->app->jbhtml->buildAttrs(array(
                 'class'         => 'jsMoney jbcartvalue',
+                'data-moneyid'  => self::$_counter,
                 'data-value'    => $this->_value,
                 'data-currency' => $this->_currency,
                 'data-showplus' => (int)$showPlus,
