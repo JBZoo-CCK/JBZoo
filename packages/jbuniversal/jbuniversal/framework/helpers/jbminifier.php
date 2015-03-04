@@ -86,7 +86,7 @@ class JBMinifierHelper extends AppHelper
 
         $cachePath = $this->_cachePath . '/'
             . ($filePrefix ? $filePrefix . '-' : '')
-            . $hash
+            . $this->_jbcache->hash(array('files' => $files, (array)$this->_config))
             . (JDEBUG ? '-debug' : '')
             . '.' . $type;
 
