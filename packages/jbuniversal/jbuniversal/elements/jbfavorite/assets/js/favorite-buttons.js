@@ -12,7 +12,7 @@
 (function ($, window, document, undefined) {
 
     JBZoo.widget('JBZoo.FavoriteButtons', {
-        url_toggle: '',
+        url_toggle: ''
     }, {
 
         'click .jsFavoriteToggle': function (e, $this) {
