@@ -927,11 +927,9 @@ class JBAssetsHelper extends AppHelper
 
             if (JFile::exists($fullPath)) {
 
-                if ($group == self::GROUP_CORE) {
-                    $mtime        = substr(filemtime($fullPath), -3);
-                    $relativePath = JUri::root() . $relativePath . '?' . $mtime;
-                } else {
-                    $relativePath = JUri::root() . $relativePath;
+                $relativePath = JUri::root() . $relativePath;
+                if ($group != self::GROUP_CORE) {
+                    $relativePath = $relativePath . '?' . substr(filemtime($fullPath), -3); // no browser cache
                 }
 
             } else {
