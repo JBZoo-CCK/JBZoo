@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,6 +12,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
+App::getInstance('zoo')->jbassets->less('mod_jbzoo_search:assets/less/filter-inline.less');
 
 ?>
 <div class="filter-inline">
