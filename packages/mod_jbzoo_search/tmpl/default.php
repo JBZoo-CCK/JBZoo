@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $zoo = App::getInstance('zoo');
 // init assets
-$zoo->jbassets->filter($itemLayout);
+$zoo->jbassets->less('mod_jbzoo_search:assets/less/filter.less');
 
 $formId = 'jbzoo-filter-' . $itemLayout . '-' . $module->id;?>
 

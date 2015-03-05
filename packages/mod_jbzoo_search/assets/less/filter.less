@@ -1,0 +1,158 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Sergey Kalistratov <kalistratov.s.m@@gmail.com>
+//
+@import "jbzoo";
+
+@filterInputWidth: 95%;
+
+.jbzoo .jbzoo-filter {
+
+    margin-bottom: 1em;
+
+    .ui-slider,
+    .jbzootabs-accordion-content input[type=text] {
+        width: @filterInputWidth;
+    }
+
+    label,
+    .label {
+        cursor: pointer;
+        display: block;
+        font-weight: bold;
+        margin-bottom: 6px;
+    }
+
+    .filter-element {
+        margin-bottom: 1em;
+        select,
+        input[type=text] {
+            width: @filterInputWidth;
+        }
+    }
+
+    .field {
+        margin-bottom: 0.5em;
+        margin-top: 0.5em;
+        width: 98%;
+    }
+
+    input {
+        &[type=radio],
+        &[type=checkbox] {
+            float: left;
+            margin-right: 0.5em;
+        }
+
+        &.element-date-range {
+            width: 140px !important;
+        }
+
+        &[type=text] {
+            padding: 3px;
+        }
+    }
+
+    .radio-lbl,
+    .checkbox-lbl {
+        font-weight: normal;
+        margin-bottom: 0.5em;
+    }
+
+    .radio,
+    .checkbox {
+        input, label {
+            float: none;
+        }
+    }
+
+    label.ui-button {
+        display: inline-block;
+    }
+
+    select {
+        height: auto;
+        padding: 3px;
+    }
+
+    .element-checkbox {
+
+        input {
+            float: left;
+            margin-bottom: 0.5em;
+            margin-right: 0.5em;
+        }
+
+        .checkbox-lbl {
+            height: 2em;
+        }
+    }
+
+    .calendar-element {
+        background-image: none;
+    }
+
+    .jbzoofilter_row {
+
+        .pages select,
+        .ordering select {
+            width: @filterInputWidth;
+        }
+
+        .logic label {
+            display: inline-block;
+        }
+    }
+
+    // Slider input
+    .element-slider .field {
+        margin-left: 0.5em;
+
+        .slider-value-0 {
+            float: left;
+            margin-top: 0.5em;
+        }
+
+        .slider-value-1 {
+            float: right;
+            margin-top: 0.5em;
+        }
+    }
+
+    .element-date input,
+    .element-date-range input {
+        background: url('media/zoo/applications/jbuniversal/assets/img/icon/calendar.png') 98% 50% no-repeat transparent;
+    }
+
+}
+
+// hacks for 3d party libs
+.jbzoo .jbzoo-filter {
+
+    .ui-autocomplete-loading {
+        background: data-uri('media/zoo/applications/jbuniversal/assets/img/autocomplete/loader.gif') 98% 50% no-repeat;
+    }
+
+    .ui-widget {
+        font-size: 12px !important;
+    }
+
+    .ui-autocomplete {
+        text-align: left;
+        &.ui-menu {
+            z-index: 100 !important;
+        }
+    }
+
+    .ui-buttonset label {
+        display: block;
+        float: left;
+        margin-right: 0.5em;
+        width: auto;
+    }
+}

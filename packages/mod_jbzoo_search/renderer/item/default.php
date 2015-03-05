@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -14,5 +13,3 @@
 defined('_JEXEC') or die('Restricted access');
 
 echo $this->renderPosition('fields', array('style' => 'filter.block')); ?>
-<div class="clear clr"></div>
-

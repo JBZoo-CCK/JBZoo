@@ -287,7 +287,7 @@ class JBAssetsHelper extends AppHelper
     public function filter()
     {
         $this->tools();
-        $this->css('jbassets:css/jbzoo.filter.css');
+        $this->css('mod_jbzoo_search:assets/less/filter.less');
     }
 
     /**
@@ -296,7 +296,7 @@ class JBAssetsHelper extends AppHelper
     public function filterProps()
     {
         $this->tools();
-        $this->css('jbassets:css/jbzoo.filter.css');
+        $this->css('mod_jbzoo_props:assets/less/props.less');
     }
 
     /**

@@ -16,6 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $zoo = App::getInstance('zoo');
 $zoo->jbassets->jqueryAccordion();
+
 ?>
 
 
