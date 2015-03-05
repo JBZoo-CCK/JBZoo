@@ -121,6 +121,10 @@ class JBMoneyHelper extends AppHelper
                 }
             }
 
+            if (count(self::$curList) == 2) {
+                self::$curList['eur'] = self::$curList[JBCartValue::DEFAULT_CODE];
+            }
+
             $this->_jbcache->set($cacheKey, self::$curList, 'currency', true, array('ttl' => $ttl));
         }
 
