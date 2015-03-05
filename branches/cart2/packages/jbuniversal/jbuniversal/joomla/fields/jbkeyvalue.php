@@ -143,7 +143,7 @@ class JFormFieldJBKeyvalue extends JFormField
             $i++;
         }
 
-        $output = implode("\n ", $html);
+        $output = implode(PHP_EOL, $html);
         $output .= '<a href="#jbjkeyvalue-add" class="jsJKeyValueAdd">' . JText::_('JBZOO_JBKEYVALUE_ADD') . '</a>';
 
         return '<div class="jsJKeyValue">' . $output . '</div>';

@@ -127,7 +127,7 @@ class JBColorHelper extends AppHelper
             $result[] = $key . '#' . $value;
         }
 
-        return implode("\n", $result);
+        return implode(PHP_EOL, $result);
     }
 
     /**

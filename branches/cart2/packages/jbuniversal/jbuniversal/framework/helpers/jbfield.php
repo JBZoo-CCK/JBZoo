@@ -186,12 +186,12 @@ class JBFieldHelper extends AppHelper
 
         // create categories html
         if (!empty($cats)) {
-            $html[] = '<div class="categories">' . implode("\n", $cats) . '</div>';
+            $html[] = '<div class="categories">' . implode(PHP_EOL, $cats) . '</div>';
         }
 
         // create types html
         if (!empty($types)) {
-            $html[] = '<div class="types">' . implode("\n", $types) . '</div>';
+            $html[] = '<div class="types">' . implode(PHP_EOL, $types) . '</div>';
         }
 
         // create items html
@@ -229,7 +229,7 @@ class JBFieldHelper extends AppHelper
             'msgSelectItem' => JText::_('Select Item')
         ), true);
 
-        echo implode("\n", $html) . $javascript;
+        echo implode(PHP_EOL, $html) . $javascript;
     }
 
     /**
@@ -537,7 +537,7 @@ class JBFieldHelper extends AppHelper
             'msgDelete' => JText::_('Delete')
         ), true);
 
-        return implode("\n", $html);
+        return implode(PHP_EOL, $html);
     }
 
     /**
@@ -642,7 +642,7 @@ class JBFieldHelper extends AppHelper
         $html[] = $this->spacer($userName, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_ADVANCED_EMAIL'), $controlName, $node, $parent);
         $html[] = $jbHTML->text($advName, $value->get('advanced', ''));
 
-        return implode("\n", $html);
+        return implode(PHP_EOL, $html);
     }
 
     /**
@@ -869,15 +869,11 @@ class JBFieldHelper extends AppHelper
         $html[] = '<span title="' . JText::_('JBZOO_JBCOLOR_ADD_COLOR') . '" class="jsColorAdd"></span>';
         $html[] = '</div></div>';
 
-        $html[] = '<script type="text/javascript">';
-        $html[] = 'jQuery(document).ready(function ($) {';
-        $html[] = '$("#' . $divId . '").JBColorElement({
-                        text: "' . JText::_('JBZOO_JBCOLOR_COLOR_EXISTS') . '"
-                        });
-                   });';
-        $html[] = '</script>';
+        $html[] = $this->app->jbassets->widget('#' . $divId, 'JBColorElement', array(
+            'text' => JText::_('JBZOO_JBCOLOR_COLOR_EXISTS')
+        ), true);
 
-        return implode("\n", $html);
+        return implode(PHP_EOL, $html);
     }
 
     /**
@@ -1271,7 +1267,7 @@ class JBFieldHelper extends AppHelper
             $i++;
         }
 
-        $output = implode("\n ", $html);
+        $output = implode(PHP_EOL, $html);
         $output .= '<a href="#jbkeyvalue-add" class="jsKeyValueAdd">' . JText::_('JBZOO_JBKEYVALUE_ADD') . '</a>';
 
         return '<div class="jsKeyValue">' . $output . '</div>';
@@ -1548,7 +1544,7 @@ class JBFieldHelper extends AppHelper
         );
         $html[] = '</div></div>';
 
-        return implode("\n ", $html);
+        return implode(PHP_EOL, $html);
     }
 
     /**

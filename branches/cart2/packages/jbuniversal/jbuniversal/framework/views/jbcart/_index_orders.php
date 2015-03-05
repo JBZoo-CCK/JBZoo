@@ -34,7 +34,7 @@ if (!empty($this->orders)) {
     }
 
     $html[] = '</table>';
-    echo implode("\n", $html);
+    echo implode(PHP_EOL, $html);
 }
 
 

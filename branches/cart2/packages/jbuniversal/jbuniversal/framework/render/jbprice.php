@@ -150,7 +150,7 @@ class JBPriceRenderer extends PositionRenderer
 
         $this->_layout = $layout;
 
-        return implode("\n", $output);
+        return implode(PHP_EOL, $output);
     }
 
     /**
@@ -204,7 +204,7 @@ class JBPriceRenderer extends PositionRenderer
             }
         }
 
-        return implode("\n", $output);
+        return implode(PHP_EOL, $output);
     }
 
     /**

@@ -97,7 +97,7 @@ class JBCartElementOrderOption extends JBCartElementOrder
                 }
                 $html[] = '</ul>';
 
-                return implode("\n", $html);
+                return implode(PHP_EOL, $html);
 
             }
 

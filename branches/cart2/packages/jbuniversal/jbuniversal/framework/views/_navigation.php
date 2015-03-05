@@ -155,7 +155,7 @@ if (isset($allItems[$curMenu])) {
 
         }
 
-        echo implode("\n ", $html);
+        echo implode(PHP_EOL, $html);
         ?>
 
     </ul>

@@ -91,7 +91,7 @@ class JFormFieldJBAppCategoryList extends JFormField
             $app->jbassets->jQuery();
             $app->jbassets->js("jbapp:joomla/fields/jbappcategorylist.js");
 
-            return implode("\n ", $html);
+            return implode(PHP_EOL, $html);
         }
 
         return JText::_('JBZOO_MODCATEGORY_EMPTY_APP');

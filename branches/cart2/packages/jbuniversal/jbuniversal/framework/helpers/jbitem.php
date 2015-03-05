@@ -61,7 +61,7 @@ class JBItemHelper extends AppHelper
         if (is_array($elementId)) {
             $result = '';
             foreach ($elementId as $elementIdrow) {
-                $result .= "\n " . $this->renderImageFromItem($item, $elementIdrow, $isLink);
+                $result .= PHP_EOL . $this->renderImageFromItem($item, $elementIdrow, $isLink);
             }
 
             return $result;

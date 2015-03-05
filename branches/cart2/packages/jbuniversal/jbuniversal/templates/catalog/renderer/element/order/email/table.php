@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -30,7 +29,4 @@ if ($params->get('showlabel')) {
 $render = '<td align="left">' . $element->render($params) . '</td>';
 
 // render result
-echo
-    '<tr>
-    ' . $label . $render . '
-    </tr>', "\n";
+echo '<tr>' . $label . $render . '</tr>';

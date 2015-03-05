@@ -52,7 +52,7 @@ class JBCartElementOrderCheckbox extends JBCartElementOrderOption
             $html[] = '<input type="hidden" name="' . $this->getControlName('check') . '" value="1" />';
             $html[] = '</div>';
 
-            return implode("\n", $html);
+            return implode(PHP_EOL, $html);
         }
 
         return JText::_("There are no options to choose from.");

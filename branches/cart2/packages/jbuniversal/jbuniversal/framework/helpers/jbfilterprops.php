@@ -73,7 +73,7 @@ class JBFilterPropsHelper extends AppHelper
                     . '</li>';
             }
 
-            return '<!--noindex--><ul class="jbzoo-props-list">' . implode("\n", $html) . '</ul><!--/noindex-->';
+            return '<!--noindex--><ul class="jbzoo-props-list">' . implode(PHP_EOL, $html) . '</ul><!--/noindex-->';
         }
 
         return '';

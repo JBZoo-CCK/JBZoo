@@ -121,7 +121,7 @@ class FilterPropsRenderer extends AppRenderer
             }
         }
 
-        return implode("\n", $output);
+        return implode(PHP_EOL, $output);
     }
 
     /**

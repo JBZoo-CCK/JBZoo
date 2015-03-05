@@ -79,4 +79,4 @@ if ($params['wrapperTag']) {
 
 // render result
 echo '<' . $params['tag'] . ' class="' . implode(' ', $classes) . '">', $label,
-    ' ' . $render, '</' . $params['tag'] . '>', "\n" . $clear;
+    ' ' . $render, '</' . $params['tag'] . '>', PHP_EOL . $clear;

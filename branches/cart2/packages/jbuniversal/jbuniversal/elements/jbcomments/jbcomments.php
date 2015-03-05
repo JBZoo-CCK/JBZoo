@@ -54,7 +54,7 @@ class ElementJBComments extends Element implements iSubmittable
         if (count(array_filter($html)) > 1) {
             return $this->_renderComplex($html);
         } else {
-            return implode("\n ", $html);
+            return implode(PHP_EOL, $html);
         }
 
     }

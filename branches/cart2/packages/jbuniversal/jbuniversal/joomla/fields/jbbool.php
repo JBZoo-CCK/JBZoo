@@ -46,6 +46,6 @@ class JFormFieldJBBool extends JFormField
         $html[] = '</fieldset>';
         $html[] = '</div>';
 
-        return implode("\n ", $html);
+        return implode(PHP_EOL, $html);
     }
 }

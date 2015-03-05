@@ -239,7 +239,7 @@ class JBHTMLHelper extends AppHelper
 
         $html[] = $this->app->jbassets->initQuantity($id, $options, $return);
 
-        return implode("\n", $html);
+        return implode(PHP_EOL, $html);
     }
 
     /**
@@ -409,7 +409,7 @@ class JBHTMLHelper extends AppHelper
 
             );
 
-            $html = '<div ' . $this->buildAttrs($widgetAttrs) . '>' . implode("\n ", $html) . '</div>';
+            $html = '<div ' . $this->buildAttrs($widgetAttrs) . '>' . implode(PHP_EOL, $html) . '</div>';
 
             return $html;
         }
@@ -459,7 +459,7 @@ class JBHTMLHelper extends AppHelper
 
         return $this->text($name, $value, $attribs, $idtag);
     }
-    
+
     /**
      * Render jQueryUI slider
      * @param array  $params
@@ -495,10 +495,10 @@ class JBHTMLHelper extends AppHelper
             $("#' . $idtag . '-value").val(' . (float)$value['0'] . '+ "/" +' . (float)$value['1'] . ');'
         );
 
-        return '<div id="' . $idtag . '-wrapper"> </div>' . "\n"
-        . '<span id="' . $idtag . '-value-0" class="slider-value-0">' . $value['0'] . '</span>' . "\n"
-        . '<span id="' . $idtag . '-value-1" class="slider-value-1">' . $value['1'] . '</span>' . "\n"
-        . '<input type="hidden" id="' . $idtag . '-value" name="' . $name . '" />' . "\n";
+        return '<div id="' . $idtag . '-wrapper"> </div>' . PHP_EOL
+        . '<span id="' . $idtag . '-value-0" class="slider-value-0">' . $value['0'] . '</span>' . PHP_EOL
+        . '<span id="' . $idtag . '-value-1" class="slider-value-1">' . $value['1'] . '</span>' . PHP_EOL
+        . '<input type="hidden" id="' . $idtag . '-value" name="' . $name . '" />' . PHP_EOL;
     }
 
     /**
@@ -565,7 +565,7 @@ class JBHTMLHelper extends AppHelper
 
         $html[] = $this->select($data, $name, $attribs, $selected, $idtag, $translate);
         if ($return) {
-            $html[] = implode("\n", array(
+            $html[] = implode(PHP_EOL, array(
                 '<script type="text/javascript">',
                 "\tjQuery(function($){ " . $script . "});",
                 '</script>'
@@ -574,7 +574,7 @@ class JBHTMLHelper extends AppHelper
             $this->app->jbassets->addScript($script);
         }
 
-        return implode("\n", $html);
+        return implode(PHP_EOL, $html);
     }
 
     /**
@@ -739,7 +739,7 @@ class JBHTMLHelper extends AppHelper
 
         }
 
-        return implode("\n\t", $html);
+        return implode(PHP_EOL, $html);
     }
 
     /**

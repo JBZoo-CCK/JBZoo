@@ -115,7 +115,7 @@ if ($view->layoutType == 'v') {
 }
 
 
-echo implode("\n", $html);
+echo implode(PHP_EOL, $html);
 
 ?>
 

@@ -112,7 +112,7 @@ class JBConfigHelper extends AppHelper
 
         $fileTemplate[] = '';
 
-        $fileContent = implode("\n", $fileTemplate);
+        $fileContent = implode(PHP_EOL, $fileTemplate);
 
         if (JFile::exists($path)) {
             JFile::delete($path);

@@ -820,7 +820,7 @@ class JBCartOrder
 
                 'quantityEdit' => '',
 
-                'itemid'       => implode("\n ", array(
+                'itemid'       => implode(PHP_EOL, array(
                     '<div class="jbcart-item-itemid ' . $params->find('class.itemid') . '">',
                     '<span class="jbcart-item-itemid-key ' . $params->find('class.itemid-key') . '">' . JText::_('JBZOO_ORDER_ITEM_ID') . ':</span>',
                     '<span class="jbcart-item-itemid-value ' . $params->find('class.itemid-value') . '">' . $cartItem->find('item_id') . '</span>',
@@ -838,7 +838,7 @@ class JBCartOrder
             }
 
             if ($sku = $cartItem->get('sku', $cartItem->get('item_id'))) {
-                $itemHtml['sku'] = implode("\n ", array(
+                $itemHtml['sku'] = implode(PHP_EOL, array(
                     '<div class="jbcart-item-sku ' . $params->find('class.sku') . '">',
                     '<span class="jbcart-item-sku-key ' . $params->find('class.sku-key') . '">' . JText::_('JBZOO_CART_ITEM_SKU') . ':</span>',
                     '<span class="jbcart-item-sku-value ' . $params->find('class.sku-value') . '">' . $sku . '</span>',
@@ -890,7 +890,7 @@ class JBCartOrder
             // render param list
             if ($values = (array)$cartItem->get('values')) {
                 foreach ($values as $parName => $parValue) {
-                    $itemHtml['params'] .= implode("\n ", array(
+                    $itemHtml['params'] .= implode(PHP_EOL, array(
                         '<div class="jbcart-item-param ' . $params->find('class.param') . '">',
                         '<span class="jbcart-item-param-key ' . $params->find('class.param-key') . '">' . $parName . ':</span>',
                         '<span class="jbcart-item-param-value ' . $params->find('class.param-value') . '">' . $parValue . '</span>',

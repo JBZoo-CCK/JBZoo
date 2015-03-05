@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -20,7 +19,7 @@ if (isset($params['showlabel']) && $params['showlabel']) {
 }
 
 // render result HTML
-echo '<param name="'.$this->app->jbyml->replaceSpecial($label).'">'
+echo '<param name="' . $this->app->jbyml->replaceSpecial($label) . '">'
     . $this->app->jbyml->replaceSpecial($element->getSearchData())
     . '</param>'
-    . "\n";
+    . PHP_EOL;

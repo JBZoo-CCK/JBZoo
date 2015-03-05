@@ -85,7 +85,7 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
             $result[] = $this->_getSearchData();
         }
 
-        return (empty($result) ? null : implode("\n", $result));
+        return (empty($result) ? null : implode(PHP_EOL, $result));
     }
 
     /**

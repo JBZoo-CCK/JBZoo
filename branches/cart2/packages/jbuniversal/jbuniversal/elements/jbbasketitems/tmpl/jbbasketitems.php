@@ -55,7 +55,7 @@ if (!empty($items)) {
                     $itemLink = JUri::getInstance()->toString(array('scheme', 'host', 'port')) . $itemLink;
                 }
 
-                $html[] = '<tr class="row-' . $item->id . '" itemId="' . $item->id . '">' . "\n";
+                $html[] = '<tr class="row-' . $item->id . '" itemId="' . $item->id . '">' . PHP_EOL;
                 $html[] = '<td>' . ++$i . '</td>';
                 $html[] = '<td>' . $basketInfo['sku'] . '</td>';
                 $html[] = '<td>';
@@ -86,7 +86,7 @@ if (!empty($items)) {
                 $html[] = "</tr>\n";
             }
 
-            echo implode("\n ", $html);
+            echo implode(PHP_EOL, $html);
             ?>
             </tbody>
             <tfoot>

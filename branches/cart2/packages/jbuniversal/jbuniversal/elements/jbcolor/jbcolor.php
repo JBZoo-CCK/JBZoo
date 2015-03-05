@@ -61,7 +61,7 @@ class ElementJBColor extends Element implements iSubmittable
             return null;
         }
 
-        $result = implode("\n", $colorItems);
+        $result = implode(PHP_EOL, $colorItems);
 
         return (empty($result) ? null : $result);
     }

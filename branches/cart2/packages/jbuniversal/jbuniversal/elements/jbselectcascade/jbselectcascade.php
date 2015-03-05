@@ -63,7 +63,7 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
 
         $result = array_reverse($result);
 
-        return (empty($result) ? null : implode("\n", $result));
+        return (empty($result) ? null : implode(PHP_EOL, $result));
     }
 
     /**

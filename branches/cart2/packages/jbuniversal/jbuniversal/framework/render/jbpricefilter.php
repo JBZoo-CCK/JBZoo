@@ -158,7 +158,7 @@ class JBPriceFilterRenderer extends PositionRenderer
             }
         }
 
-        return implode("\n", $output);
+        return implode(PHP_EOL, $output);
     }
 
     /**

@@ -23,4 +23,4 @@ if (isset($params['showlabel']) && $params['showlabel']) {
 echo '<param name="'.$this->app->jbyml->replaceSpecial($label).'">'
     . $this->app->jbyml->replaceSpecial($element->getSearchData())
     . '</param>'
-    . "\n";
+    . PHP_EOL;

@@ -48,7 +48,7 @@ class ElementJBSocial extends Element implements iSubmittable
         $html['likes']     = $this->_renderLikes($params);
         $html['complex']   = $this->_renderComplex($params);
 
-        return implode("\n ", $html);
+        return implode(PHP_EOL, $html);
     }
 
     /**

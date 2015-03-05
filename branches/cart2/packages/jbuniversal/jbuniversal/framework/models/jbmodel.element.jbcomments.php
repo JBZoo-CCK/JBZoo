@@ -67,7 +67,7 @@ class JBModelElementJBComments extends JBModelElement
 
         $conditions = array();
         foreach ($values as $valueOne) {
-            $conditions[] = $this->_buildLikeBySpaces($valueOne, 'content') . "\n";
+            $conditions[] = $this->_buildLikeBySpaces($valueOne, 'content') . PHP_EOL;
         }
 
         $where = ' (' . implode(' OR ', $conditions) . ') ';

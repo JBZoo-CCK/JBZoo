@@ -41,7 +41,7 @@ class JBPriceFilterElementJBColor extends JBPriceFilterElement
             $this->_value = JArrayHelper::getColumn($this->_value, 'id');
         }
 
-        $colors = explode("\n", $this->_element->config->get('options'));
+        $colors = explode(PHP_EOL, $this->_element->config->get('options'));
         $path   = JString::trim($this->_element->config->get('path'));
         $colors = $this->app->jbcolor->getColors($colors, $path);
         $data   = array();

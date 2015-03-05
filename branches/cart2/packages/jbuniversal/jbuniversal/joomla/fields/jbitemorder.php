@@ -78,6 +78,6 @@ class JFormFieldJBItemOrder extends JFormField
         $html[] = '</div>';
         $html[] = $app->jbassets->widget('#' . $orderId, 'JBItemOrder', $value, true);
 
-        return implode("\n", $html);
+        return implode(PHP_EOL, $html);
     }
 }

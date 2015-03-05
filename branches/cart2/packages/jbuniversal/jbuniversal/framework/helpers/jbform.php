@@ -278,7 +278,7 @@ class JBFormHelper extends AppHelper
 
         $html[] = '<div class="clr"></div>';
 
-        return implode("\n", $html);
+        return implode(PHP_EOL, $html);
     }
 
 }

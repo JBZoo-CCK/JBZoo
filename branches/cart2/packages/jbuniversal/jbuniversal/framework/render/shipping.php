@@ -112,7 +112,7 @@ class ShippingRenderer extends PositionRenderer
         // restore layout
         $this->_layout = $layout;
 
-        return implode("\n", $output);
+        return implode(PHP_EOL, $output);
     }
 
     /**
