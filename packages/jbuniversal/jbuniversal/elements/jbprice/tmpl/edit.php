@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -100,17 +99,14 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
     <?php endif; ?>
 </div>
 
+<?php echo $this->app->jbassets->widget('#' . $unique, 'JBZoo.PriceEdit', array(
+    'isAdvance' => $mode,
+    'text_show' => JText::_('JBZOO_JBPRICE_VARIATION_SHOW'),
+    'text_hide' => JText::_('JBZOO_JBPRICE_VARIATION_HIDE'),
+    'isOverlay' => (bool)$this->isOverlay,
+), true); ?>
+
 <script type="text/javascript">
-
-    jQuery(function ($) {
-        $('#<?php echo $unique;?>').JBZooPriceEdit({
-            'isAdvance': <?php echo $mode; ?>,
-            'text_show': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?>",
-            'text_hide': "<?php echo JText::_('JBZOO_JBPRICE_VARIATION_HIDE'); ?>",
-            'isOverlay': "<?php echo (bool)$this->isOverlay; ?>"
-        });
-
-    });
 
     function submitbutton(pressbutton) {
 
