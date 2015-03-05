@@ -57,7 +57,7 @@ class JBFilterElementTextRange extends JBFilterElementText
             $this->_getId('2')
         );
 
-        return implode("\n\r", $html);
+        return implode(PHP_EOL, $html);
     }
 
     /**

@@ -54,7 +54,7 @@ class JBCartElementOrderSelect extends JBCartElementOrderOption
             // workaround: if nothing is selected, the element is still being transfered
             $html[] = '<input type="hidden" name="' . $this->getControlName('select') . '" value="1" />';
 
-            return implode("\n", $html);
+            return implode(PHP_EOL, $html);
         }
 
         return JText::_("There are no options to choose from.");

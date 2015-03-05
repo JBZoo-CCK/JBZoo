@@ -107,7 +107,7 @@ class JBTemplate
         $arrayAttrs = $this->wrapperAttrs();
         $wrapAttrs  = $this->app->jbhtml->buildAttrs($arrayAttrs);
 
-        return '<div ' . $wrapAttrs . '>' . "\n";
+        return '<div ' . $wrapAttrs . '>' . PHP_EOL;
     }
 
     /**
@@ -116,7 +116,7 @@ class JBTemplate
      */
     public function wrapEnd()
     {
-        return '</div>' . "\n";
+        return '</div>' . PHP_EOL;
     }
 
     /**

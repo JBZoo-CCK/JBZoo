@@ -51,7 +51,7 @@ class JBFilterElementHidden extends JBFilterElement
             );
         }
 
-        return implode("\n", $html);
+        return implode(PHP_EOL, $html);
     }
 
 }

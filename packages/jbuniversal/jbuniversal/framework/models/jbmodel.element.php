@@ -162,7 +162,7 @@ class JBModelElement extends JBModel
 
         $conditions = array();
         foreach ($values as $valueOne) {
-            $conditions[] = $this->_buildLikeBySpaces($valueOne, 'tIndex.' . $fieldName) . "\n";
+            $conditions[] = $this->_buildLikeBySpaces($valueOne, 'tIndex.' . $fieldName) . PHP_EOL;
         }
 
         $where = ' (' . implode(' OR ', $conditions) . ') ';

@@ -53,7 +53,7 @@ class JBFilterElementDateRange extends JBFilterElementDate
             $this->_getPickerParams()
         );
 
-        return implode("\n\r", $html);
+        return implode(PHP_EOL, $html);
     }
 
     /**

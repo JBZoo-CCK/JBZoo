@@ -145,7 +145,7 @@ class JBFilterElementJBPriceAdvance extends JBFilterElement
             $htmlRange[] = $this->_jbhtml->text($this->_getName('val_max'), $values['val_max'], 'class="val_max"',
                 $this->_getId('val_max'));
 
-            $html = '<div class="jbprice-ranges">' . implode("\n ", $htmlRange) . '</div>';
+            $html = '<div class="jbprice-ranges">' . implode(PHP_EOL, $htmlRange) . '</div>';
         }
 
         if ($valueTmpl == 3) {

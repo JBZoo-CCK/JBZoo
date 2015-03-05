@@ -28,4 +28,4 @@ if ($params->get('showlabel')) {
 $render = $element->render($params);
 
 // render result
-echo $label . $render . "\n";
+echo $label . $render . PHP_EOL;

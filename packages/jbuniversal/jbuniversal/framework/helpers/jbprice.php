@@ -228,7 +228,7 @@ class JBPriceHelper extends AppHelper
             $options[$value] = $value;
         }
 
-        return implode("\n", $options);
+        return implode(PHP_EOL, $options);
     }
 
     /**

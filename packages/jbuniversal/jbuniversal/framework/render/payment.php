@@ -137,7 +137,7 @@ class PaymentRenderer extends PositionRenderer
             return $rowOutput;
         }
 
-        return implode("\n", $output);
+        return implode(PHP_EOL, $output);
     }
 
     /**

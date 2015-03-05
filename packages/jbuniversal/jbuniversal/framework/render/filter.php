@@ -131,7 +131,7 @@ class FilterRenderer extends AppRenderer
 
         $this->app->jbdebug->mark('filter::position-' . $position . '::end');
 
-        return implode("\n", $output);
+        return implode(PHP_EOL, $output);
     }
 
     /**

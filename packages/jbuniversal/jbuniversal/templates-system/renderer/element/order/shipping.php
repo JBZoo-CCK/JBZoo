@@ -88,7 +88,7 @@ $uniqId = $element->htmlId();
 
             $html[] = '</div>';
 
-            echo implode("\n", $html);
+            echo implode(PHP_EOL, $html);
         } ?>
     </div>
 

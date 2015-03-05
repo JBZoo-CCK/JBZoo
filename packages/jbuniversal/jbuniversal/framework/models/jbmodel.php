@@ -485,7 +485,7 @@ Class JBModel
 
         $html[] = '</table>';
 
-        $result = implode("\n ", $html);
+        $result = implode(PHP_EOL, $html);
 
         jbdump::sql($select);
         dump($result, 0, 'Explain::html');

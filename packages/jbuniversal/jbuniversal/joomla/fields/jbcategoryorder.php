@@ -79,6 +79,6 @@ class JFormFieldJBCategoryOrder extends JFormField
 
         $html[] = $app->jbassets->widget('#' . $orderId, 'JBCategoryOrder', $value, true);
 
-        return implode("\n", $html);
+        return implode(PHP_EOL, $html);
     }
 }

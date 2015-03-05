@@ -17,4 +17,4 @@ defined('_JEXEC') or die('Restricted access');
 
 App::getInstance('zoo')->jbassets->jbimagePopup();
 
-echo '<a ' . $linkAttrs . '><img ' . $imageAttrs . ' /><div class="uk-overlay-area"></div></a> ' . "\n";
+echo '<a ' . $linkAttrs . '><img ' . $imageAttrs . ' /><div class="uk-overlay-area"></div></a> ' . PHP_EOL;

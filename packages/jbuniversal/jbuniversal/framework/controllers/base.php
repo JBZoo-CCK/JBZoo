@@ -172,7 +172,7 @@ class JBUniversalController extends AppController
             $html[] = '</div>';
         }
 
-        $this->app->system->application->JComponentTitle = implode("\n", $html);
+        $this->app->system->application->JComponentTitle = implode(PHP_EOL, $html);
     }
 
 }

@@ -596,7 +596,7 @@ class JBDatabaseQuery
         }
 
         $conditions = trim($conditions);
-        $conditions = preg_replace('#\?#', $value, $conditions) . "\n";
+        $conditions = preg_replace('#\?#', $value, $conditions) . PHP_EOL;
         return $conditions;
     }
 
@@ -619,7 +619,7 @@ class JBDatabaseQuery
 
                 if ($this->join) {
                     foreach ($this->join as $join) {
-                        $query .= (string)$join . "\n";
+                        $query .= (string)$join . PHP_EOL;
                     }
                 }
 

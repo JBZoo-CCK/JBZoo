@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 
 if ($link) {
-    echo '<a ' . $linkAttrs . '><img ' . $imageAttrs . ' /></a> ' . "\n";
+    echo '<a ' . $linkAttrs . '><img ' . $imageAttrs . ' /></a> ' . PHP_EOL;
 } else {
-    echo '<img ' . $imageAttrs . ' /> ' . "\n";
+    echo '<img ' . $imageAttrs . ' /> ' . PHP_EOL;
 }

@@ -18,7 +18,7 @@ if (!empty($fields)) {
             $name  = $element->config->get('name');
             $value = $element->get('value');
 
-            echo '<strong>' . $name . ': </strong>' . $value . "\n";
+            echo '<strong>' . $name . ': </strong>' . $value . PHP_EOL;
         }
     }
 }

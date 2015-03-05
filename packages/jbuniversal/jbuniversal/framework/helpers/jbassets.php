@@ -86,7 +86,7 @@ class JBAssetsHelper extends AppHelper
             $initScript = '$("' . $jquerySelector . '").' . $widgetName . '(' . $this->toJSON($params) . ');';
 
             if ($return) {
-                return implode("\n", array(
+                return implode(PHP_EOL, array(
                     '<script type="text/javascript">',
                     "\tjQuery(function($){ " . $initScript . "});",
                     '</script>'

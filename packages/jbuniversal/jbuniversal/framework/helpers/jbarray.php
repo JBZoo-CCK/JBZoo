@@ -207,7 +207,7 @@ class JBArrayHelper extends AppHelper
             $result[] = $key . ": \t " . $value;
         }
 
-        return implode("\n", $result);
+        return implode(PHP_EOL, $result);
     }
 
     /**
