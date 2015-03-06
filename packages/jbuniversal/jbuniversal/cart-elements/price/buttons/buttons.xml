@@ -10,7 +10,7 @@
     @coder       Alexander Oganov <t_tapak@yahoo.com>
 -->
 <element type="buttons" group="Core" hidden="true" core="true" system-tmpl="true">
-    <name>Buttons - Core</name>
+    <name>JBZOO_ELEMENT_PRICE_BUTTONS_NAME</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>

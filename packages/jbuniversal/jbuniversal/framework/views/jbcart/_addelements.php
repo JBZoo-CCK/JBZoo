@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -24,18 +23,33 @@ $groupList = isset($groupList) ? $groupList : array();
 
         <div class="groups">
             <?php foreach ($groupList as $groupKey => $groupItems) : ?>
+
                 <div class="elements-group-name">
                     <?php echo JText::_('JBZOO_ADMIN_POSITIONS_' . $groupKey); ?>
                 </div>
 
                 <ul class="elements jsElementsGroup" data-group="<?php echo $groupKey; ?>">
-                    <?php foreach ($groupItems as $itemKey => $element) :
+
+                    <?php foreach ($groupItems as $itemKey => $element) {
                         $element->loadConfigAssets();
-                        ?>
-                        <li data-type="<?php echo $itemKey; ?>" class="jsAddNewElement">
-                            <?php echo JText::_($element->getMetaData('name')); ?>
-                        </li>
-                    <?php endforeach; ?>
+
+                        $attrs = array(
+                            'data-type' => $itemKey,
+                            'class'     => array('jsAddNewElement'),
+                        );
+
+                        if ($description = $element->getMetaData('description')) {
+                            $attrs['class'][] = 'hasTip';
+                            $attrs['title']   = $description;
+                        }
+
+                        echo '<li ' . $this->app->jbhtml->buildAttrs($attrs) . '>'
+                            . $element->getMetaData('name')
+                            . ($element->isCore() ? ' <em>(' . JText::_('JBZOO_ELEMENT_CORE') . ')</em>' : '')
+                            . '</li>'
+                            . PHP_EOL;
+                    }
+                    ?>
                 </ul>
 
             <?php endforeach; ?>

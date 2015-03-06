@@ -10,7 +10,7 @@
     @coder       Alexander Oganov <t_tapak@yahoo.com>
 -->
 <element type="sku" group="Core" core="true">
-    <name>Sku - Core</name>
+    <name>JBZOO_ELEMENT_PRICE_SKU_NAME</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>

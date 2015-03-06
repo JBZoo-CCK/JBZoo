@@ -437,14 +437,14 @@ abstract class JBCartElement
             $data['system-tmpl']  = $xml->attributes()->{'system-tmpl'} ? (string)$xml->attributes()->{'system-tmpl'} : 'false';
             $data['trusted']      = $xml->attributes()->trusted ? (string)$xml->attributes()->trusted : 'false';
             $data['orderable']    = $xml->attributes()->orderable ? (string)$xml->attributes()->orderable : 'false';
-            $data['name']         = (string)$xml->name;
+            $data['name']         = JText::_((string)$xml->name);
             $data['creationdate'] = $xml->creationDate ? (string)$xml->creationDate : 'Unknown';
             $data['author']       = $xml->author ? (string)$xml->author : 'Unknown';
             $data['copyright']    = (string)$xml->copyright;
             $data['authorEmail']  = (string)$xml->authorEmail;
             $data['authorUrl']    = (string)$xml->authorUrl;
             $data['version']      = (string)$xml->version;
-            $data['description']  = (string)$xml->description;
+            $data['description']  = JText::_((string)$xml->description);
 
             $this->_metaData = $this->app->data->create($data);
         }

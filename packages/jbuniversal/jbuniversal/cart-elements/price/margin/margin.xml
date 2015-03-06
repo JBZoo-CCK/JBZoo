@@ -10,7 +10,7 @@
     @coder       Alexander Oganov <t_tapak@yahoo.com>
 -->
 <element type="element" group="Core" hidden="false" core="true">
-    <name>Margin - Unique</name>
+    <name>JBZOO_ELEMENT_PRICE_MARGIN_NAME</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>

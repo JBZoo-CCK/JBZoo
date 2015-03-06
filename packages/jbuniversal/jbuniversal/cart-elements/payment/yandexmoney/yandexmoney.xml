@@ -10,7 +10,7 @@
     @coder       Sergey Kalistratov <kalistratov.s.m@gmail.com>
 -->
 <element type="element" group="Core" hidden="false">
-    <name>Yandex Money</name>
+    <name>JBZOO_PAYMENT_ELEMENT_YANDEXMONEY_NAME</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>
