@@ -96,7 +96,7 @@ class JBCacheHelper extends AppHelper
      */
     protected function _simpleHash($var)
     {
-        return md5(serialize($var));
+        return md5(serialize($var)) . (int)JDEBUG;
     }
 
     /**
