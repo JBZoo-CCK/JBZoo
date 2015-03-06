@@ -10,18 +10,21 @@
     @coder       Denis Smetannikov <denis@jbzoo.com>
 -->
 <element type="element" group="Core" hidden="false">
-    <name>BZOO_ELEMENT_MODIFIERORDERPRICE_DISCOUNTCODE_NAME</name>
+    <name>JBZOO_ELEMENT_MODIFIERORDERPRICE_DISCOUNTCODE_NAME</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>BZOO_ELEMENT_MODIFIERORDERPRICE_DISCOUNTCODE_DESC</description>
+    <description>JBZOO_ELEMENT_MODIFIERORDERPRICE_DISCOUNTCODE_DESC</description>
 
     <params>
-        <param name="codelist" type="textarea" default="" label="CODELIST" description="CODELIST_DESC"/>
-        <param name="rate" type="text" default="" label="RATE" description="RATE_DESC"/>
+        <param name="codelist" type="textarea" default="" label="JBZOO_ELEMENT_MODIFIERORDERPRICE_DISCOUNTCODE_CODELIST"
+               description="JBZOO_ELEMENT_MODIFIERORDERPRICE_DISCOUNTCODE_CODELIST_DESC"/>
+
+        <param name="rate" type="text" default="" label="JBZOO_ELEMENT_MODIFIERORDERPRICE_DISCOUNTCODE_RATE"
+               description="JBZOO_ELEMENT_MODIFIERORDERPRICE_DISCOUNTCODE_RATE_DESC"/>
     </params>
 
 </element>

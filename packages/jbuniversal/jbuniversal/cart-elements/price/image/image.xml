@@ -20,9 +20,7 @@
     <description>JBZOO_ELEMENT_PRICE_IMAGE_DESC</description>
 
     <params>
-
-        <param name="image" type="jbelementlist" types="jbimage" label="JBZOO_ELEMENT_PRICE_IMAGE_DESC_IMAGEChoose image element"/>
-
+        <param name="image" type="jbelementlist" types="jbimage" label="JBZOO_ELEMENT_PRICE_IMAGE_IMAGE" description="JBZOO_ELEMENT_PRICE_IMAGE_IMAGE_DESC"/>
     </params>
 
     <params group="render">
@@ -44,7 +42,7 @@
     <params group="filter">
 
         <param name="jbzoo_filter_render" type="list" label="JBZOO_ELEMENT_TEMPLATE"
-               description="JBZOO_ELEMENT_TEMPLATE_DESC" default="_auto_" >
+               description="JBZOO_ELEMENT_TEMPLATE_DESC" default="_auto_">
 
             <option value="imageexists-jqueryui">JBZOO_ELEMENT_TEMPLATE_IMAGEEXISTS_JQUERYUI</option>
             <option value="imageexists">JBZOO_ELEMENT_TEMPLATE_IMAGEEXISTS</option>
@@ -53,7 +51,7 @@
         </param>
 
         <param name="jbzoo_filter_default" type="text" label="JBZOO_FILTER_DEFAULT"
-               description="JBZOO_FILTER_DEFAULT_DESC" />
+               description="JBZOO_FILTER_DEFAULT_DESC"/>
 
     </params>
 
