@@ -23,7 +23,6 @@
 
     <files>
         <filename plugin="jbzoo">jbzoo.php</filename>
-        <filename>index.html</filename>
     </files>
 
 </extension>

@@ -22,11 +22,10 @@
     <description>JBZOO_CART_MODULE_DESCRIPTION</description>
 
     <files>
+        <folder>assets</folder>
+        <folder>tmpl</folder>
         <filename module="mod_jbzoo_basket">mod_jbzoo_basket.php</filename>
         <filename>helper.php</filename>
-        <filename>index.html</filename>
-        <folder>tmpl</folder>
-        <folder>assets</folder>
     </files>
 
     <config>
