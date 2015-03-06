@@ -32,12 +32,18 @@ class JBAjaxHelper extends AppHelper
             $data['message'] = false;
         }
 
-        $app = JFactory::getApplication();
-
-        $app->allowCache(false);
-        $app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s', time()) . ' GMT', true);
-        $app->setHeader('Content-Type', 'application/json; charset=utf-8', true);
-        $app->sendHeaders();
+        if ($this->app->jbversion->joomla('3')) {
+            $app = JFactory::getApplication();
+            $app->allowCache(false);
+            $app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s', time()) . ' GMT', true);
+            $app->setHeader('Content-Type', 'application/json; charset=utf-8', true);
+            $app->sendHeaders();
+        } else {
+            JResponse::allowCache(false);
+            JResponse::setHeader('Last-Modified', gmdate('D, d M Y H:i:s', time()) . ' GMT', true);
+            JResponse::setHeader('Content-Type', 'application/json; charset=utf-8', true);
+            JResponse::sendHeaders();
+        }
 
         jexit(json_encode($data));
     }
