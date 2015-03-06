@@ -100,17 +100,22 @@ class JBCartElementHelper extends AppHelper
 
     /**
      * User compare function for element grouping
-     * @param JBCartElement $elem1
-     * @param JBCartElement $elem2
+     * @param JBCartElement $element1
+     * @param JBCartElement $element2
      * @return int
      */
-    protected function _sortGroup($elem1, $elem2)
+    protected function _sortGroup($element1, $element2)
     {
-        if ($elem1->isCore() == $elem2->isCore()) {
-            return 0;
+        $core1 = $element1->isCore();
+        $core2 = $element2->isCore();
+        $name1 = $element1->getMetaData('name');
+        $name2 = $element2->getMetaData('name');
+
+        if ($core1 == $core2) {
+            return strcasecmp($name1, $name2);
         }
 
-        return ($elem1->isCore() && !$elem2->isCore()) ? -1 : 1;
+        return ($core1 && !$core2) ? -1 : 1;
     }
 
 

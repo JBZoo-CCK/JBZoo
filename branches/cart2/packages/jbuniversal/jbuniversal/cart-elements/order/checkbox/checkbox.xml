@@ -10,7 +10,7 @@
     @coder       Andrey Voytsehovsky <kess@jbzoo.com>
 -->
 <element type="checkbox" group="Form" orderable="true">
-    <name>Checkbox</name>
+    <name>JBZOO_ELEMENT_ORDER_CHECKBOX_NAME</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>

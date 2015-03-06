@@ -10,7 +10,7 @@
     @coder       Denis Smetannikov <denis@jbzoo.com>
 -->
 <element type="element" group="Core" hidden="false">
-    <name>Text</name>
+    <name>JBZOO_ELEMENT_ORDER_TEXT_NAME</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>

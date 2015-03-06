@@ -10,7 +10,7 @@
     @coder       Denis Smetannikov <denis@jbzoo.com>
 -->
 <element type="element" group="Core" hidden="false" core="true">
-    <name>Percent (core)</name>
+    <name>JBZOO_ELEMENT_CURRENCY_PERCENT_NAME</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>

@@ -10,7 +10,7 @@
     @coder       Andrey Voytsehovsky <kess@jbzoo.com>
 -->
 <element type="element" group="Core" hidden="false">
-    <name>Email</name>
+    <name>JBZOO_ELEMENT_ORDER_EMAIL_NAME</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>

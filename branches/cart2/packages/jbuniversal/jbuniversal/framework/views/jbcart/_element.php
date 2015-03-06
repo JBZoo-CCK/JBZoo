@@ -35,7 +35,7 @@ $varName = 'tmp[' . $positionKey . '][' . $this->app->jbstring->getId($element->
 
     <div class="name jsSort" title="<?php echo JText::_('JBZOO_ADMIN_ELEMENT_SORT'); ?>">
         <?php echo $name; ?>
-        <span>(<?php echo trim($element->getMetaData('name')); ?>)</span>
+        <span><?php echo trim($element->getMetaData('name')); ?></span>
     </div>
 
     <div class="config jsConfig">
