@@ -23,12 +23,12 @@
     <description>JBZOO_ITEM_MODULE_DESCRIPTION</description>
 
     <files>
-        <filename module="mod_jbzoo_item">mod_jbzoo_item.php</filename>
-        <filename>helper.php</filename>
-        <filename>index.html</filename>
-        <folder>types</folder>
+        <folder>assets</folder>
         <folder>renderer</folder>
         <folder>tmpl</folder>
+        <folder>types</folder>
+        <filename module="mod_jbzoo_item">mod_jbzoo_item.php</filename>
+        <filename>helper.php</filename>
     </files>
 
     <config>
