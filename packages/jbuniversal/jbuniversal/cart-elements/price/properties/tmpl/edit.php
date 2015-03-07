@@ -25,7 +25,7 @@ $width  = array(
 
 <div class="jbprice-properties">
     <?php echo
-    $this->_jbhtml->text($this->getControlName('height'), $this->getValue('height'), $this->_jbhtml->buildAttrs($height))
-    , $this->_jbhtml->text($this->getControlName('length'), $this->getValue('length'), $this->_jbhtml->buildAttrs($length))
-    , $this->_jbhtml->text($this->getControlName('width'), $this->getValue('width'), $this->_jbhtml->buildAttrs($width)); ?>
+    $this->_jbhtml->text($this->getControlName('height'), $this->getValue(true, 'height'), $this->_jbhtml->buildAttrs($height))
+    , $this->_jbhtml->text($this->getControlName('length'), $this->getValue(true, 'length'), $this->_jbhtml->buildAttrs($length))
+    , $this->_jbhtml->text($this->getControlName('width'), $this->getValue(true, 'width'), $this->_jbhtml->buildAttrs($width)); ?>
 </div>

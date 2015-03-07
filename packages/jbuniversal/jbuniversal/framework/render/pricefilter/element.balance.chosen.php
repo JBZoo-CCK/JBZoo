@@ -28,7 +28,7 @@ class JBPriceFilterElementBalanceChosen extends JBPriceFilterElementBalance
         $options = $this->_getValues();
 
         return $this->html->selectChosen(
-            $this->_createOptionsList($options),
+            $options,
             $this->_getName(null, 'id'),
             $this->_attrs,
             $this->_value,

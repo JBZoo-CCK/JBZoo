@@ -64,7 +64,7 @@ class JBPriceRenderer extends PositionRenderer
     public function checkPosition($position)
     {
         foreach ($this->getConfigPosition($position) as $key => $data) {
-            if (($element = $this->_variant->getElement($key))
+            if (($element = $this->_variant->get($key))
             ) {
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
@@ -117,7 +117,7 @@ class JBPriceRenderer extends PositionRenderer
         // store layout
         $layout = $this->_layout;
         foreach ($this->getConfigPosition($position) as $key => $data) {
-            if (($element = $this->_variant->getElement($key))) {
+            if ($element = $this->_variant->get($key)) {
                 if (!$element->canAccess()) {
                     continue;
                 }
@@ -136,7 +136,6 @@ class JBPriceRenderer extends PositionRenderer
                 }
             }
         }
-
         $count = count($elements);
         foreach ($elements as $i => $data) {
             $params = array_merge(array('first' => ($i == 0), 'last' => ($i == $count - 1)), $data['params']);
@@ -170,7 +169,7 @@ class JBPriceRenderer extends PositionRenderer
 
         if (!empty($config)) {
             foreach ($config as $key => $data) {
-                if (($element = $this->_variant->getElement($key))
+                if (($element = $this->_variant->get($key))
                 ) {
                     if ($this->_variant->isBasic() && !$element->isCore()) {
                         continue;

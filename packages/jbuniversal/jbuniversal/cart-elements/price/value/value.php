@@ -106,13 +106,18 @@ class JBCartElementPriceValue extends JBCartElementPrice
 
     /**
      * Get elements value
-     * @param string $key
-     * @param null   $default
-     * @return mixed|JBCartValue|null
+     * @param string $key      Array key.
+     * @param mixed  $default  Default value if data is empty.
+     * @param bool   $toString A string representation of the value.
+     * @return mixed|string
      */
-    public function getValue($key = 'value', $default = null)
+    public function getValue($toString = false, $key = 'value', $default = null)
     {
-        $value = parent::getValue($key, $default);
+        $value = parent::getValue($toString, $key, $default);
+
+        if ($toString) {
+            return $value;
+        }
 
         return JBCart::val($value);
     }

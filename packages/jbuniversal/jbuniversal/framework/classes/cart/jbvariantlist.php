@@ -127,7 +127,7 @@ class JBCartVariantList extends ArrayObject
     {
         foreach ($list as $key => $variant)
         {
-            $variant->setList($this);
+            $variant->setList($this)->bindData();
             $this->set($key, $variant);
         }
 
@@ -283,7 +283,8 @@ class JBCartVariantList extends ArrayObject
      */
     public function getPrice()
     {
-        if ($this->isOverlay) {
+        if ($this->isOverlay)
+        {
             return $this->_calcPrice();
         }
 
@@ -459,7 +460,7 @@ class JBCartVariantList extends ArrayObject
         $variant = $this->byDefault();
         $result  = array();
 
-        foreach ($variant->getElements() as $key => $element) {
+        foreach ($variant->all() as $key => $element) {
             if ($element->isCore() &&  $params = $this->_jbprice->getElementRenderParams($key)) {
                 $data = $element->renderAjax(new AppData($params));
                 //return data if not null
@@ -480,7 +481,7 @@ class JBCartVariantList extends ArrayObject
     {
         $data = array();
         if ($this->byDefault()->count()) {
-            foreach ($this->byDefault()->getElements() as $key => $element) {
+            foreach ($this->byDefault()->all() as $key => $element) {
                 if ($element->isCore()) {
                     $value = $element->getValue();
 
@@ -625,14 +626,13 @@ class JBCartVariantList extends ArrayObject
         return $this->addModifiers($price, true);
     }
 
-
     /**
      *  Clear all variants
      */
     public function clear()
     {
         $this->variants = array();
-        $this->options = array();
+        $this->options  = array();
     }
 
     /**

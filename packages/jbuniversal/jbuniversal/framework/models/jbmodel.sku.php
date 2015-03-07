@@ -149,8 +149,6 @@ class JBModelSku extends JBModel
     public function updateItemSku(Item $item)
     {
         if ($item) {
-            $this->checkColumns();
-
             $elements = $this->app->jbprice->getItemPrices($item);
             if (!empty($elements)) {
                 foreach ($elements as $key => $element) {
@@ -174,7 +172,7 @@ class JBModelSku extends JBModel
 
     /**
      * Remove rows by item
-     * @param \Item $item
+     * @param Item $item
      * @param       $identifier
      * @return bool
      */
@@ -259,7 +257,6 @@ class JBModelSku extends JBModel
                 );
 
                 $this->_insert($eav, ZOO_TABLE_JBZOO_SKU);
-
             }
 
             return true;

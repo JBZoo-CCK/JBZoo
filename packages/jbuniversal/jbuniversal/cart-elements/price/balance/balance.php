@@ -71,7 +71,7 @@ class JBCartElementPriceBalance extends JBCartElementPrice
 
         if ($layout = $this->getLayout($template . '.php')) {
             return $this->renderLayout($layout, array(
-                'balance'   => $this->getValue('value'),
+                'balance'   => $this->getValue(),
                 'textNo'    => '<span class="not-available">' . JText::_('JBZOO_JBPRICE_NOT_AVAILABLE') . '</span>',
                 'textYes'   => '<span class="available">' . JText::_('JBZOO_JBPRICE_AVAILABLE') . '</span>',
                 'textOrder' => '<span class="under-order">' . JText::_('JBZOO_JBPRICE_BALANCE_UNDER_ORDER') . '</span>',

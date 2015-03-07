@@ -15,6 +15,6 @@ defined('_JEXEC') or die('Restricted access');
 
 if (count($options)) {
     echo '<div class="controls">';
-    echo $this->app->jbhtml->radio($options, $this->getControlName('value'), null, $this->getValue());
+    echo $this->_jbhtml->radio($options, $this->getControlName('value'), null, $this->getValue());
     echo '</div>';
 }

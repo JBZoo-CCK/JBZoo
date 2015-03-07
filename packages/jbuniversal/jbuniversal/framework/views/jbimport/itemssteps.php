@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $this->app->jbassets->progressBar();
 
-$urlAjax = $this->app->jbrouter->admin(array('task' => 'oneStep', 'import-type' => 'items'));
+$urlAjax     = $this->app->jbrouter->admin(array('task' => 'oneStep', 'import-type' => 'items'));
 $urlPostAjax = $this->app->jbrouter->admin(array('task' => 'postImport', 'import-type' => 'items'));
 ?>
 
@@ -47,7 +47,7 @@ $urlPostAjax = $this->app->jbrouter->admin(array('task' => 'postImport', 'import
         </div>
 
         <div class="error-block jsErrorBlockWrapper" style="display: none;">
-            <hr />
+            <hr/>
             <h3><em><?php echo JText::_('JBZOO_PROGRESSBAR_ERROR_REPORTING'); ?></em></h3>
 
             <div class="jsErrorBlock"></div>
@@ -92,6 +92,14 @@ $urlPostAjax = $this->app->jbrouter->admin(array('task' => 'postImport', 'import
                 }, function () {
                     callback();
                     $('.jsLoader').hide();
+                    JBZoo.confirm("<?php echo JText::_('JBZOO_IMPORT_ITEMS_NEED_REINDEX'); ?>",
+                        function () {
+                            window.location.href = "<?php echo $this->app->jbrouter->admin(array(
+                                 'controller' => 'jbtools',
+                                 'task'       => 'reIndex',
+                                 'autostart'  => 1
+                                 )); ?>";
+                        });
                 });
             },
 

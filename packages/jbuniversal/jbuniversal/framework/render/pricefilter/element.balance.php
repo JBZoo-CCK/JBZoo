@@ -27,7 +27,7 @@ class JBPriceFilterElementBalance extends JBPriceFilterElement
         $options = $this->_getValues();
 
         return $this->html->buttonsJQueryUI(
-            $this->_createOptionsList($options),
+            $options,
             $this->_getName(null, 'id'),
             $this->_attrs,
             $this->_value,
@@ -44,29 +44,13 @@ class JBPriceFilterElementBalance extends JBPriceFilterElement
      */
     protected function _getValues($type = null)
     {
-        $values  = (array)$this->_getDbValues();
         $default = array(
-            '-2' => array(
-                'text'  => JText::_('JBZOO_JBPRICE_BALANCE_UNDER_ORDER'),
-                'value' => -2
-            ),
-            '-1' => array(
-                'text'  => JText::_('JBZOO_JBPRICE_AVAILABLE'),
-                'value' => -1
-            ),
-            '0'  => array(
-                'text'  => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE'),
-                'value' => 0
-            ),
+            '-2' => JText::_('JBZOO_JBPRICE_BALANCE_UNDER_ORDER'),
+            '-1' => JText::_('JBZOO_JBPRICE_AVAILABLE'),
+            '0'  => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE')
         );
 
-        foreach ($values as $key => $value) {
-            if (isset($default[$value['text']])) {
-                $values[$key]['text'] = $default[$value['text']]['text'];
-            }
-        }
-
-        return $values;
+        return $default;
     }
 
 }

@@ -27,7 +27,7 @@ class JBCartElementPriceSku extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $value = $this->get('value', 0);
+        $value = $this->getValue();
         if (!isset($value) || empty($value)) {
             return false;
         }

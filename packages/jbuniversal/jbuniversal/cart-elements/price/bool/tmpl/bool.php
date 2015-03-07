@@ -21,7 +21,7 @@ $array = array(
     JText::_('JBZOO_YES') => JText::_('JBZOO_YES')
 );
 
-$value = (int)$this->getValue('value', 0);
+$value = (int)$this->getValue();
 ?>
 
 <div class="jbprice-bool" id="<?php echo $unique; ?>">

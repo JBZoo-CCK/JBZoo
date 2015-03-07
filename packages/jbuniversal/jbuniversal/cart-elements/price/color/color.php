@@ -19,6 +19,23 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceColor extends JBCartElementPrice
 {
     /**
+     * @type JBColorHelper
+     */
+    protected $helper;
+
+    /**
+     * Constructor
+     * @param App    $app
+     * @param string $type
+     * @param string $group
+     */
+    public function __construct($app, $type, $group)
+    {
+        parent::__construct($app, $type, $group);
+
+        $this->helper = $this->app->jbcolor;
+    }
+    /**
      * Check if element has value
      * @param array|JSONData $params
      * @return bool
@@ -105,7 +122,7 @@ class JBCartElementPriceColor extends JBCartElementPrice
     public function parseOptions($label = false)
     {
         $options = explode("\n", $this->config->get('options'));
-        $colors  = $this->app->jbcolor->getColors($options, $this->config->get('path', 'images'));
+        $colors  = $this->helper->getColors($options, $this->config->get('path', 'images'));
 
         return $colors;
     }
@@ -136,17 +153,17 @@ class JBCartElementPriceColor extends JBCartElementPrice
             $colors = explode("\n", $this->config->get('options'));
         }
 
-        return $this->app->jbcolor->getColors($colors, $this->config->get('path', 'images'));
+        return $this->helper->getColors($colors, $this->config->get('path', 'images'));
     }
 
     /**
      * Get elements value
-     * @param string $key
-     * @param null   $default
-     *
-     * @return mixed|null
+     * @param string $key      Array key.
+     * @param mixed  $default  Default value if data is empty.
+     * @param bool   $toString A string representation of the value.
+     * @return mixed|string
      */
-    public function getValue($key = 'value', $default = null)
+    public function getValue($toString = false, $key = 'value', $default = null)
     {
         return $this->get($key, $default);
     }
@@ -190,5 +207,20 @@ class JBCartElementPriceColor extends JBCartElementPrice
         JHtml::_('behavior.colorpicker');
 
         return parent::loadConfigAssets();
+    }
+
+    /**
+     * Clean data before bind into element
+     * @param array  $data
+     * @param string $key
+     * @return void
+     */
+    public function bindData($data = array(), $key = 'value')
+    {
+        if (isset($data['value'])) {
+            $data['value'] = $this->helper->clean($data['value']);
+
+            parent::bindData($data);
+        }
     }
 }

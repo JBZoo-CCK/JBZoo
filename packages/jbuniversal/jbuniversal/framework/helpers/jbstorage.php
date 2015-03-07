@@ -50,6 +50,7 @@ class JBStorageHelper extends AppHelper
             'jbcartelementpricebalance'     => $elements . 'price/balance/balance.php',
             'jbcartelementpricebool'        => $elements . 'price/bool/bool.php',
             'jbcartelementpricebuttons'     => $elements . 'price/buttons/buttons.php',
+            'jbcartelementpricecheckbox'    => $elements . 'price/checkbox/checkbox.php',
             'jbcartelementpricecolor'       => $elements . 'price/color/color.php',
             'jbcartelementpricecurrency'    => $elements . 'price/currency/currency.php',
             'jbcartelementpricedate'        => $elements . 'price/date/date.php',
@@ -74,35 +75,6 @@ class JBStorageHelper extends AppHelper
         if (!class_exists('JBCartElementPrice', false)) {
             require($elements . 'core/price/price.php');
         }
-    }
-
-    /**
-     * @param string     $id
-     * @param mixed $default
-     * @return mixed
-     */
-    public function getElement($id, $default = null)
-    {
-        if ($this->elements->has($id))
-        {
-            return $this->elements->get($id);
-        }
-
-        return $default;
-    }
-
-    /**
-     * @param $id
-     * @param $element
-     * @return $this
-     */
-    public function setElement($id, $element)
-    {
-        if (!$this->elements->has($id)) {
-            $this->elements->set($id, $element);
-        }
-
-        return $element;
     }
 
     /**
@@ -184,20 +156,6 @@ class JBStorageHelper extends AppHelper
     }
 
     /**
-     * @param mixed  $object
-     * @param  array $properties
-     * @return mixed
-     */
-    public function configure($object, $properties)
-    {
-        foreach ($properties as $name => $value) {
-            $object->$name = $value;
-        }
-
-        return $object;
-    }
-
-    /**
      * @param       $class
      * @param array $args
      * @param array $properties
@@ -219,6 +177,44 @@ class JBStorageHelper extends AppHelper
         }
 
         return $object;
+    }
+
+    /**
+     * @param mixed  $object
+     * @param  array $properties
+     * @return mixed
+     */
+    public function configure($object, $properties)
+    {
+        foreach ($properties as $name => $value) {
+            $object->$name = $value;
+        }
+
+        return $object;
+    }
+
+    /**
+     * @param string     $id
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getElement($id, $default = null)
+    {
+        return $this->elements->get($id, $default);
+    }
+
+    /**
+     * @param $id
+     * @param $element
+     * @return $this
+     */
+    public function setElement($id, $element)
+    {
+        if (!$this->elements->has($id)) {
+            $this->elements->set($id, $element);
+        }
+
+        return $element;
     }
 
     /**

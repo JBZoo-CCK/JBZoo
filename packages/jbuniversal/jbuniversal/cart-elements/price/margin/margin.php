@@ -27,8 +27,7 @@ class JBCartElementPriceMargin extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $value = $this->getValue();
-        if ($value->isEmpty() || $this->isOverlay) {
+        if ($this->getValue()->isEmpty() || $this->isOverlay) {
             return false;
         }
 
@@ -82,22 +81,6 @@ class JBCartElementPriceMargin extends JBCartElementPrice
     }
 
     /**
-     * Get elements value
-     *
-     * @param string $key
-     * @param null   $default
-     *
-     * @internal param string $key
-     * @return mixed|null
-     */
-    public function getValue($key = 'value', $default = null)
-    {
-        $value = parent::getValue($key, $default);
-
-        return JBCart::val($value)->abs();
-    }
-
-    /**
      * Returns data when variant changes
      * @param array $params
      * @return null
@@ -107,4 +90,21 @@ class JBCartElementPriceMargin extends JBCartElementPrice
         return $this->render($params);
     }
 
+    /**
+     * Get elements value
+     * @param string $key      Array key.
+     * @param mixed  $default  Default value if data is empty.
+     * @param bool   $toString A string representation of the value.
+     * @return mixed|string
+     */
+    public function getValue($toString = false, $key = 'value', $default = null)
+    {
+        $value = parent::getValue($toString, $key, $default);
+
+        if ($toString) {
+            return $value;
+        }
+
+        return JBCart::val($value);
+    }
 }
