@@ -57,7 +57,7 @@ class JBCSVCellHelper extends AppHelper
             $this->app->loader->register($class, 'jbelements:' . $group . '/' . strtolower($type) . '.php');
         }
 
-        if (class_exists($class, false)) {
+        if (class_exists($class)) {
             $instance = new $class($element, $item, $options);
         } else {
             $instance = new JBCSVItem($element, $item, $options);

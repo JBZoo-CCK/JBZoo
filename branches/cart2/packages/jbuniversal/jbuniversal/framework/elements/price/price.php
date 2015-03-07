@@ -32,6 +32,7 @@ class JBCSVItemPrice extends JBCSVItem
     public function __construct($element, $jbPrice, $options = array())
     {
         parent::__construct($jbPrice, $jbPrice->getItem(), $options);
+
         $this->_core = $element;
     }
 
@@ -40,7 +41,7 @@ class JBCSVItemPrice extends JBCSVItem
      */
     public function toCSV()
     {
-        return $this->_core->getValue();
+        return $this->_core->get('value', null);
     }
 
     /**

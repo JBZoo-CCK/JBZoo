@@ -189,25 +189,29 @@ class JBPriceHelper extends AppHelper
         if (JString::strlen($id) === ElementJBPrice::SIMPLE_PARAM_LENGTH) {
             $option = $value;
 
-            $element    = $position[$id];
-            $oldOptions = $element['options'];
+            if(isset($position[$id])) {
+                $element    = $position[$id];
+                $oldOptions = $element['options'];
 
-            if ($element['type'] == 'color') {
-                $options = $this->app->jbcolor->parse($oldOptions);
-                $new     = $this->app->jbcolor->build($option, $options);
-            } else {
-                $options = $this->parse($oldOptions);
-                $new     = $this->build($option, $options);
-            }
+                if ($element['type'] == 'color') {
+                    $options = $this->app->jbcolor->parse($oldOptions);
+                    $new     = $this->app->jbcolor->build($option, $options);
 
-            if ($new != $oldOptions && !empty($new)) {
-                $element['options'] = $new;
-                $position[$id]      = $element;
+                } else {
+                    $options = $this->parse($oldOptions);
+                    $new     = $this->build($option, $options);
+                }
 
-                $positions->set(JBCart::DEFAULT_POSITION, $position);
-                $helper->savePrice(JBCart::CONFIG_PRICE, (array)$positions, $jbPrice->identifier);
+                if ($new != $oldOptions && !empty($new)) {
+                    $element['options'] = $new;
+                    $position[$id]      = $element;
+
+                    $positions->set(JBCart::DEFAULT_POSITION, $position);
+                    $helper->savePrice(JBCart::CONFIG_PRICE, (array)$positions, $jbPrice->identifier);
+                }
             }
         }
+        unset($positions, $position);
 
         return false;
     }
@@ -221,7 +225,7 @@ class JBPriceHelper extends AppHelper
      */
     public function build($value, $options)
     {
-        $value = $this->_clean($value);
+        $value = JString::trim($value);
         $keys  = array_keys($options);
 
         if (!in_array($value, $keys)) {
@@ -237,11 +241,11 @@ class JBPriceHelper extends AppHelper
      */
     public function parse($options)
     {
-        $data   = explode("\n", $options);
+        $data   = explode(PHP_EOL, $options);
         $result = array();
 
         foreach ($data as $option) {
-            $option = $this->_clean($option);
+            $option = JString::trim($option);
 
             if (JString::strlen($option) !== 0) {
                 $result[$option] = $option;
@@ -289,11 +293,15 @@ class JBPriceHelper extends AppHelper
         // load table class
         $class = 'JBCSVItemPrice' . $type;
 
-        if (!class_exists($class, false)) {
+        if(!class_exists('JBCSVItemPrice', false)) {
+            $this->app->loader->register('JBCSVItemPrice', 'jbelements:price/price.php');
+        }
+
+        if (!class_exists($class)) {
             $this->app->loader->register($class, 'jbelements:' . self::ELEMENTS_CSV_GROUP . '/' . strtolower($type) . '.php');
         }
 
-        if (class_exists($class, false)) {
+        if (class_exists($class)) {
             $instance = new $class($element, $jbPrice, $options);
         } else {
             $instance = new JBCSVItemPrice($element, $jbPrice, $options);

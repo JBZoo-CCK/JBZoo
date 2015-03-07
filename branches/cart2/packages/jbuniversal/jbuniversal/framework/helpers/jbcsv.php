@@ -61,7 +61,7 @@ class JBCSVHelper extends AppHelper
         if (!empty($maxima)) {
             foreach ($maxima as $key => $num) {
                 foreach (array_keys($data) as $i) {
-                    $data[$i][$key] = array_pad($data[$i][$key], $num, '');
+                    $data[$i][$key] = array_pad((array)$data[$i][$key], $num, '');
                 }
             }
         }

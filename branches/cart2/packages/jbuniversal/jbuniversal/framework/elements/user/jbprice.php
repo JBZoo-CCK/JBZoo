@@ -22,6 +22,11 @@ class JBCSVItemUserJBPrice extends JBCSVItem
     protected $_element = null;
 
     /**
+     * @type string
+     */
+    protected $_param_id;
+
+    /**
      * Link to the same protected property in ElementJBPrice
      * @type JBCartVariantList
      */
@@ -38,11 +43,6 @@ class JBCSVItemUserJBPrice extends JBCSVItem
     protected $_cell;
 
     /**
-     * @type array
-     */
-    protected $_options = array();
-
-    /**
      * @param ElementJBPrice|String $element
      * @param Item                  $item
      * @param array                 $options
@@ -51,11 +51,9 @@ class JBCSVItemUserJBPrice extends JBCSVItem
     {
         parent::__construct($element, $item, $options);
 
-        $this->_options = $options;
-        $this->_helper  = $this->app->jbprice;
-        $this->_cell    = $this->app->jbcsvcell;
-
-        $this->app->loader->register('JBCSVItemPrice', 'jbelements:price/price.php');
+        $this->_param_id = isset($options['paramId']) ? $options['paramId'] : null;;
+        $this->_helper = $this->app->jbprice;
+        $this->_cell   = $this->app->jbcsvcell;
     }
 
     /**
@@ -64,47 +62,29 @@ class JBCSVItemUserJBPrice extends JBCSVItem
     public function toCSV()
     {
         $result = array();
+        if (count($this->_value['variations'])) {
+            foreach ($this->_value['variations'] as $key => $elements) {
+                foreach ($elements as $id => $data) {
+                    if ($element = $this->_element->getElement($id, $key)) {
+                        $element->bindData($data);
 
-        if (!empty($this->_value['variations'])) {
-            $list = $this->_element->getList($this->_value['variations']);
+                        $csv   = $this->create($element);
+                        $toCSV = $csv->toCSV();
+                        if (!empty($toCSV)) {
+                            $element_name = JString::strtolower($element->getName());
+                            if ($element->isCore()) {
+                                $element_name = JString::strtolower($element->identifier);
+                            }
 
-            foreach ($list->all() as $key => $variant) {
-                $line = $this->_packToLine($variant);
-
-                if (!empty($line)) {
-                    $result[$key] = $line;
+                            $result[$key][] = $element_name . ':' . $toCSV;
+                        }
+                    }
                 }
+                $result[$key] = implode(';', $result[$key]);
             }
         }
 
         return $result;
-    }
-
-    /**
-     * @param  JBCartVariant $variant
-     * @param  bool          $nullElement
-     * @return string
-     */
-    protected function _packToLine($variant, $nullElement = false)
-    {
-        $from = array(':', ';');
-        $to   = array('%col%', '%sem%');
-        $line = array();
-
-        foreach ($variant->getElements() as $id => $element) {
-            $value = $element->getValue();
-
-            if ($element->isCore()) {
-                $instance = $this->create($element);
-                $value    = $instance->toCSV();
-            }
-
-            if ($value = $this->_helper->getValue($value, true)) {
-                $line[] = $id . ':' . JString::str_ireplace($from, $to, $value);
-            }
-        }
-
-        return implode(';', $line);
     }
 
     /**
@@ -117,53 +97,60 @@ class JBCSVItemUserJBPrice extends JBCSVItem
         if (is_null($values) || JString::strlen($values) === 0) {
             return $this->_item;
         }
-
-        $options = $this->_options;
         $configs = array();
+        $params  = $this->_lastImportParams->get('previousparams');
 
-        $params = $this->_lastImportParams->get('previousparams');
-        $data   = $this->_element->get('variations');
-
-        if (JString::strpos($values, ':') !== false) {
+        $values = $this->_getAutoClean($values);
+        if (JString::strpos($values, ':') !== false)
+        {
             --$position;
 
+            $variant = (array)$this->_element->getData($position, array());
             $values = $this->_unpackFromLine($values);
             $values = $this->isOldFormat($values);
 
             if (!empty($values)) {
                 foreach ($values as $id => $value) {
+                    $value = JString::trim($value);
 
-                    $configs[$id] = (array)$this->getElementConfig($id);
+                    if (strpos($id, '_') !== 0) {
+                        $_id = $this->getIdByName($id);
 
+                        $values[$_id] = $value;
+                        unset($values[$id]);
+                        $id = $_id;
+                    }
+
+                    $configs[$id] = (array)$this->getConfig($id);
                     if (!empty($configs[$id])) {
                         $instance = $this->create($configs[$id]['type']);
 
-                        $data[$position][$id] = $instance->fromCSV($value, $position);
+                        $value = $instance->fromCSV($value, $position);
+                        $variant[$id] = $value;
                     }
                 }
             }
-
-        } else {
-
+        }
+        else
+        {
             $values = JString::trim($values);
             if (JSTring::strlen($values) === 0) {
                 return $this->_item;
             }
-
-            $id = $options['paramId'];
+            $id = $this->_param_id;
 
             $position     = ElementJBPrice::BASIC_VARIANT;
-            $configs[$id] = (array)$this->getElementConfig($id);
+            $configs[$id] = (array)$this->getConfig($id);
             $instance     = $this->create($configs[$id]['type']);
 
-            $data[$position][$id] = $instance->fromCSV($values, $position);
+            $variant[$id] = $instance->fromCSV($values, $position);
         }
 
         if (isset($params['checkOptions']) && (int)$params['checkOptions'] == JBImportHelper::OPTIONS_YES) {
             if (!empty($values)) {
                 if (is_string($values)) {
                     $values = array(
-                        $options['paramId'] => $values
+                        $this->_param_id => $values
                     );
                 }
 
@@ -172,8 +159,7 @@ class JBCSVItemUserJBPrice extends JBCSVItem
                 }
             }
         }
-
-        $this->_element->bindData(array('variations' => $data));
+        $this->_element->bindData(array('variations' => array($position => $variant)));
 
         return $this->_item;
     }
@@ -190,16 +176,16 @@ class JBCSVItemUserJBPrice extends JBCSVItem
 
         $old    = false;
         $format = array();
+        $files  = JFolder::files($this->app->path->path('jbelements:price'));
         foreach ($values as $key => $value) {
-            if (JString::strlen($key) !== ElementJBPrice::SIMPLE_PARAM_LENGTH &&
-                strpos($key, '_') === false
-            ) {
+            if (in_array('price_' . $key . '.php', $files)) {
                 $format['_' . $key] = $value;
 
                 $old = true;
             }
         }
 
+        unset($files);
         if (isset($format['_currency'])) {
             $format['_value'] .= $format['_currency'];
             unset($format['_currency']);
@@ -218,16 +204,16 @@ class JBCSVItemUserJBPrice extends JBCSVItem
             $configs = $this->_element->params;
 
             $i = 1;
-            foreach ($configs as $key => $value) {
-
-                if (JString::strlen($key) !== ElementJBPrice::SIMPLE_PARAM_LENGTH ||
+            foreach ($configs as $id => $value) {
+                if (JString::strlen($id) !== ElementJBPrice::SIMPLE_PARAM_LENGTH ||
                     $i > 3 || !isset($values['param' . $i])
                 ) {
                     continue;
                 }
+                $key = JString::strtolower(JString::trim($value['name']));
 
-                $format[$key] = $format['_param' . $i];
-                unset($format['_param' . $i]);
+                $format[$key] = $values['param' . $i];
+                unset($values['param' . $i]);
                 $i++;
             }
         }
@@ -238,7 +224,7 @@ class JBCSVItemUserJBPrice extends JBCSVItem
     /**
      * Get core price element
      * @param $element
-     * @return bool|\JBCSVItemPrice
+     * @return bool|JBCSVItemPrice
      */
     public function create($element)
     {
@@ -249,11 +235,39 @@ class JBCSVItemUserJBPrice extends JBCSVItem
      * @param $id
      * @return array
      */
-    public function getElementConfig($id)
+    public function getConfig($id)
     {
-        $config = (array)$this->_config->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $this->_element->identifier)
-                                       ->get('list', array());
+        $configs = (array)$this->_config
+            ->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $this->_element->identifier)
+            ->get(JBCart::DEFAULT_POSITION, array());
 
-        return isset($config[$id]) ? $config[$id] : array();
+        $config = isset($configs[$id]) ? $configs[$id] : array();
+
+        return $config;
+    }
+
+    /**
+     * @param $name
+     * @return mixed|null
+     */
+    public function getIdByName($name)
+    {
+        $configs = (array)$this->_config
+            ->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $this->_element->identifier)
+            ->get(JBCart::DEFAULT_POSITION, array());
+
+        $config = array_filter(array_map(function ($data) use ($name) {
+            $_name = JString::strtolower(JString::trim($data['name']));
+            if ($name == $_name) {
+                return $data;
+            }
+
+            return null;
+
+        }, $configs));
+        $config = array_filter($config);
+        $key    = key($config);
+
+        return isset($key) ? $key : null;
     }
 }

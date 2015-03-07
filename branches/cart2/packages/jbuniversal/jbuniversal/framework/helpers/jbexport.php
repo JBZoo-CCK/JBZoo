@@ -19,8 +19,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBExportHelper extends AppHelper
 {
-
-    const STEP_SIZE = 500;
+    const STEP_SIZE = 20;
 
     /**
      * @var JBCSVMapperHelper
@@ -86,7 +85,6 @@ class JBExportHelper extends AppHelper
         $options['limit'] = array($offset, self::STEP_SIZE);
 
         while ($items = $this->_getItemList($appId, $catId, $typeId, $options)) {
-
             $itemsByTypes = $this->app->jbarray->groupByKey($items, 'type');
 
             // clean memory
@@ -118,20 +116,27 @@ class JBExportHelper extends AppHelper
      */
     protected function _exportTypeToFile(array $items, $typeId, $options)
     {
+        //jbdump::mark(get_class() . '::' . __FUNCTION__ . '::start');
         $maxima = $data = array();
         foreach ($items as $item) {
+            //jbdump::mark(get_class() . '::' . __FUNCTION__ . '::getItemBasic::start');
             $data[$item->id] = $this->_mapper->getItemBasic($item);
+            //jbdump::mark(get_class() . '::' . __FUNCTION__ . '::getItemBasic::end');
 
             if ((int)$options->get('fields_core')) {
                 $data[$item->id] = array_merge($data[$item->id], $this->_mapper->getItemCore($item));
             }
 
             if ((int)$options->get('fields_user')) {
+                //jbdump::mark(get_class() . '::' . __FUNCTION__ . '::getItemUser::start');
                 $data[$item->id] = array_merge($data[$item->id], $this->_mapper->getItemUser($item));
+                //jbdump::mark(get_class() . '::' . __FUNCTION__ . '::getItemUser::end');
             }
 
             if ((int)$options->get('fields_price')) {
+                //jbdump::mark(get_class() . '::' . __FUNCTION__ . '::getItemPrice::start');
                 $data[$item->id] = array_merge($data[$item->id], $this->_mapper->getItemPrice($item));
+                //jbdump::mark(get_class() . '::' . __FUNCTION__ . '::getItemPrice::end');
             }
 
             if ((int)$options->get('fields_config')) {
@@ -149,7 +154,7 @@ class JBExportHelper extends AppHelper
                 }
             }
         }
-
+        //jbdump::mark(get_class() . '::' . __FUNCTION__ . '::end');
         return $this->app->jbcsv->toFile($data, 'items_' . $typeId, $maxima);
     }
 

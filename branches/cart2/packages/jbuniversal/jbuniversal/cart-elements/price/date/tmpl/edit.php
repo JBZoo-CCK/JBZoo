@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 $string = $this->app->jbstring;
 $unique = $string->getId('calendar-');
 
-if ($value = $this->getValue('value', '')) {
+if ($value = $this->getValue()) {
     try {
 
         $value = $this->app->html->_('date', $value, $this->app->date->format(JBCartElementPriceDate::EDIT_DATE_FORMAT),

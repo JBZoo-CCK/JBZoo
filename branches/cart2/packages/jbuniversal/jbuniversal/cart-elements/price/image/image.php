@@ -83,19 +83,6 @@ class JBCartElementPriceImage extends JBCartElementPrice
     }
 
     /**
-     * Get elements value
-     * @param string $key
-     * @param null   $default
-     * @return mixed|null
-     */
-    public function getValue($key = 'value', $default = null)
-    {
-        $value = parent::getValue($key, $default);
-
-        return $value;
-    }
-
-    /**
      * Get unique class
      * @return string
      */

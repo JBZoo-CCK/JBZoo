@@ -13,4 +13,4 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $this->app->jbhtml->radio($data, $this->getRenderName('value'), null, $this->getValue('value'));
+echo $this->app->jbhtml->radio($data, $this->getRenderName('value'), null, $this->getValue());

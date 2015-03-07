@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Class JBPriceFilterElementBalanceRadio
  */
-class JBPriceFilterElementBalanceRadio extends JBPriceFilterElement
+class JBPriceFilterElementBalanceRadio extends JBPriceFilterElementBalance
 {
     /**
      * Render HTML
@@ -27,7 +27,7 @@ class JBPriceFilterElementBalanceRadio extends JBPriceFilterElement
         $options = $this->_getValues();
 
         return $this->html->radio(
-            $this->_createOptionsList($options),
+            $options,
             $this->_getName(null, 'id'),
             $this->_attrs,
             $this->_value,

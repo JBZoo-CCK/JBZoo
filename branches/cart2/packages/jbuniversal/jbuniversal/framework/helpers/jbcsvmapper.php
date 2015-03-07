@@ -132,13 +132,12 @@ class JBCSVMapperHelper extends AppHelper
             /** @type ElementJBPrice $jbPrice */
             foreach ($prices as $identifier => $jbPrice) {
                 $i++;
-                $list = $jbPrice->getList();
+                $list    = $jbPrice->getList();
+                $variant = $list->first();
 
-                $variant  = $list->shift();
-                $elements = $variant->getElements();
-                if (!empty($elements)) {
+                if ($variant->count()) {
                     /** @type JBCartElementPrice $element */
-                    foreach ($elements as $key => $element) {
+                    foreach ($variant->all() as $key => $element) {
 
                         $instance = $helper->csvItem($element, $jbPrice);
                         $value    = $instance->toCSV();
@@ -146,10 +145,15 @@ class JBCSVMapperHelper extends AppHelper
                         if ($value = $helper->getValue($value)) {
                             $result[$helper::ELEMENTS_CSV_GROUP . $key . '_' . $i] = $value;
                         }
+
+                        unset($element);
                     }
                 }
+
+                unset($jbPrice, $list, $variant);
             }
         }
+        unset($prices);
 
         return $result;
     }
@@ -167,13 +171,14 @@ class JBCSVMapperHelper extends AppHelper
 
         $i = 0;
         foreach ($type->getElements() as $identifier => $element) {
-            $csvItem = $this->_csvcell->createItem($element, $item, 'user');
 
             if (!(int)$params->get('fields_full_price') && $element instanceof ElementJBPrice) {
                 continue;
             }
+            $element->setItem($item);
 
-            $data = $csvItem->toCSV();
+            $csvItem = $this->_csvcell->createItem($element, $item, 'user');
+            $data    = $csvItem->toCSV();
             if ($data != JBCSVMapperHelper::FIELD_CONTINUE) {
                 $name = $element->config->get('name');
                 $name = $name ? $name : $element->getElementType();

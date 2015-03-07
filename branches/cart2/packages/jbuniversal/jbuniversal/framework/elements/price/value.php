@@ -21,14 +21,6 @@ require_once dirname(__FILE__) . '/price.php';
 class JBCSVItemPriceValue extends JBCSVItemPrice
 {
     /**
-     * @return string|void
-     */
-    public function toCSV()
-    {
-        return parent::toCSV()->data(true);
-    }
-
-    /**
      * @param           $value
      * @param  int|null $variant
      * @return Item|void

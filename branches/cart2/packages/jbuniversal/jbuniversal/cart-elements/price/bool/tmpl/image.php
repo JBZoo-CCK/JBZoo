@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $unique = $this->app->jbstring->getId('bool-');
 
-if ((int)$this->getValue('value')) : ?>
+if ((int)$this->getValue()) : ?>
     <div class="jbprice-bool" id="<?php echo $unique; ?>">
         <img src="<?php echo $this->app->jbimage->getUrl($params->get('image')); ?>"/>
     </div>

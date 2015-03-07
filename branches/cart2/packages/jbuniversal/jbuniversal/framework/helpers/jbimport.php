@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBImportHelper extends AppHelper
 {
-    const STEP_SIZE = 5;
+    const STEP_SIZE = 50;
 
     const LOSE_NONE    = 0;
     const LOSE_DISABLE = 1;
@@ -354,15 +354,14 @@ class JBImportHelper extends AppHelper
 
         $positions = array();
         // bind import data from CSV
+
         foreach ($this->_data->assign as $colKey => $itemField) {
             $itemField = JString::trim($itemField);
             if (!empty($itemField)) {
-
                 $value = isset($row[$colKey]) ? $row[$colKey] : null;
 
                 $fieldInfo   = $this->app->jbcsvmapper->itemFieldToMeta($itemField);
                 $positionKey = implode('__', $fieldInfo);
-
                 if (!isset($positions[$positionKey])) {
                     $positions[$positionKey] = 0;
                 }
@@ -372,12 +371,12 @@ class JBImportHelper extends AppHelper
                 $cellElem->fromCSV($value, $positions[$positionKey]);
             }
         }
-
         $id   = $item->id;
         $item = $this->_checkItemAlias($item);
 
         // save all changes
         $item->getParams()->set('jbzoo.no_index', 0);
+
         $this->app->table->item->save($item);
 
         // clean memory
@@ -469,7 +468,6 @@ class JBImportHelper extends AppHelper
     protected function _getItemByKey($row, $lineKey = null)
     {
         $item = null;
-
         if ($this->_data->key != self::KEY_NONE) {
 
             $itemModel = JBModelItem::model();
@@ -488,13 +486,12 @@ class JBImportHelper extends AppHelper
                     $item = $itemModel->getByAlias(JString::trim($row[$csvKey]), $this->_data->appid);
                     break;
 
-                } else if ($this->_data->key == self::KEY_SKU && strpos($fieldName, 'rice_sku__') == 1) {
+                } else if ($this->_data->key == self::KEY_SKU && strpos($fieldName, 'price_sku__') == 1) {
                     $item = $itemModel->getBySku(JString::trim($row[$csvKey]), $this->_data->appid);
                     break;
                 }
             }
         }
-
         $isCreateNew = (int)$this->_data->get('create', 0);
         if (!empty($item)) {
 
@@ -583,7 +580,7 @@ class JBImportHelper extends AppHelper
                 $addedIds[] = $this->_processItemRow($row, $lineKey);
             }
         }
-        
+
         $this->app->jbsession->set('ids', $addedIds, 'import-ids');
 
         return array('progress' => round(($lineKey / $this->_data->count) * 100, 2));

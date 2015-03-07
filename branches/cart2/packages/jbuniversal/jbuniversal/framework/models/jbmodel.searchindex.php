@@ -122,6 +122,8 @@ class JBModelSearchindex extends JBModel
             $itemData = $this->updateByItem($item, true);
             $itemType = $item->getType()->id;
 
+            JBModelSku::model()->updateItemSku($item);
+
             // compact data
             if (!isset($dataPack[$itemType])) {
                 $dataPack[$itemType] = array();
@@ -172,7 +174,6 @@ class JBModelSearchindex extends JBModel
         }
 
         $this->removeById($item);
-        JBModelSku::model()->updateItemSku($item);
 
         $itemPack = array(
             'item_id'  => $item->id,

@@ -27,7 +27,6 @@ class JBCSVItemPriceProperties extends JBCSVItemPrice
     {
         $values = (array)$this->_core->data();
         $result = array();
-
         foreach ($values as $key => $value) {
             $value = JString::trim($value);
 

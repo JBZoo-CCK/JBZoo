@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 if (count($currencyList) == 1) {
     reset($currencyList);
     $currency = current($currencyList);
-    echo $currency, $this->app->jbhtml->hidden($this->getControlName('value'), $currency, 'class="basic-currency"');
+    echo $currency, $this->_jbhtml->hidden($this->getControlName('value'), $currency, 'class="basic-currency"');
 } else {
-    echo $this->app->jbhtml->select($currencyList, $this->getControlName('value'), 'class="basic-currency"', $this->getValue('value'));
+    echo $this->_jbhtml->select($currencyList, $this->getControlName('value'), 'class="basic-currency"', $this->getValue());
 }

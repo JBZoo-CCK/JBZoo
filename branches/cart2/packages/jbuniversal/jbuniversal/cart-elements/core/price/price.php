@@ -24,7 +24,9 @@ abstract class JBCartElementPrice extends JBCartElement
     public $variant = 0;
 
     /**
-     * Unique hash
+     * Unique hash. Generated in price element.
+     * Hash based on element render params, price elements params, item_id, price data etc.
+     * @see ElementJBPrice
      * @type string
      */
     public $hash;
@@ -198,16 +200,16 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * Get elements value
-     * @param string $key
-     * @param null   $default
-     * @return mixed|null
+     * @param string $key      Array key.
+     * @param mixed  $default  Default value if data is empty.
+     * @param bool   $toString A string representation of the value.
+     * @return mixed|string
      */
-    public function getValue($key = 'value', $default = null)
+    public function getValue($toString = false, $key = 'value', $default = null)
     {
         $value = $this->get($key);
-
         if ((JString::strlen($value) === 0) && ($this->isCore()) && (!$this->isBasic())) {
-            $value = $this->_jbprice->getList()->first()->get($this->identifier, $default);
+            $value = $this->get('_basic', $default);
         }
 
         return $value;
@@ -495,11 +497,12 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * @param  string $name
+     * @param bool    $array
      * @return string
      */
-    public function getRenderName($name)
+    public function getRenderName($name, $array = false)
     {
-        return "params[{$this->item_id}{$this->layout}{$this->template}][{$this->identifier}][{$name}]";
+        return "{$this->hash}[{$this->identifier}][{$name}]" . ($array ? "[]" : "");
     }
 
     /**
@@ -509,8 +512,8 @@ abstract class JBCartElementPrice extends JBCartElement
     public function loadAssets()
     {
         $this->js('cart-elements:core/price/assets/js/price.js');
-
         parent::loadAssets();
+
         return $this;
     }
 
@@ -562,25 +565,6 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
-     * @param $asset
-     * @return $this
-     */
-    protected function _addToStorage($asset)
-    {
-        $this->_jbprice->toStorage($asset);
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function renderOrderEdit()
-    {
-        return $this->getValue();
-    }
-
-    /**
      * @param $name
      * @param $value
      * @return bool
@@ -607,12 +591,24 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     * @param $asset
+     * @return $this
+     */
+    protected function _addToStorage($asset)
+    {
+        $this->_jbprice->toStorage($asset);
+
+        return $this;
+    }
+
+    /**
      * Clone data
      */
     public function __clone()
     {
         $this->_data  = clone($this->_data);
         $this->config = clone($this->config);
+        $this->prices = null;
     }
 }
 

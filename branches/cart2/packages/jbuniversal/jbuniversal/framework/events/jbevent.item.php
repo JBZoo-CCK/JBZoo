@@ -46,8 +46,11 @@ class JBEventItem extends JBEvent
             return null;
         }
 
-        // update index data
-        $app->jbtables->checkSku(true);
+        if (!$app->jbrequest->isAjax()) {
+            // update index data
+            $app->jbtables->checkSku(true);
+            JBModelSku::model()->updateItemSku($item);
+        }
 
         $indexTableName = $app->jbtables->getIndexTable($itemType);
         if ($app->jbtables->isTableExists($indexTableName, true)) {

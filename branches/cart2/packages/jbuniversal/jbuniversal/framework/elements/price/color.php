@@ -21,14 +21,6 @@ require_once dirname(__FILE__) . '/price.php';
 class JBCSVItemPriceColor extends JBCSVItemPrice
 {
     /**
-     * @return string|void
-     */
-    public function toCSV()
-    {
-        return parent::toCSV();
-    }
-
-    /**
      * @param           $value
      * @param  int|null $variant
      * @return Item|void
@@ -36,7 +28,7 @@ class JBCSVItemPriceColor extends JBCSVItemPrice
     public function fromCSV($value, $variant = 0)
     {
         $value = key($this->app->jbcolor->parse($value));
-        
+
         return array('value' => $value);
     }
 

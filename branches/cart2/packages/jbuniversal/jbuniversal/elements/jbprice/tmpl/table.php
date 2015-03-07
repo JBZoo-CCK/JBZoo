@@ -12,14 +12,13 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$class  = 'jsJBPrice-' . $this->identifier . '-' . $this->getItem()->id;
+$class  = 'jsJBPrice-' . $this->identifier . '-' . $this->_item->id;
 $unique = $this->app->jbstring->getId('jbprice-'); ?>
 <tr class="jsPrice jsJBPrice jbprice <?php echo $class . ' ' . $hash; ?>" id="<?php echo $unique; ?>">
     <?php echo $data,
-
     $this->app->jbassets->widget('#' . $unique, 'JBZoo.Price', array(
         'elements'   => $elements,
-        'itemId'     => $this->getItem()->id,
+        'itemId'     => $this->_item->id,
         'identifier' => $this->identifier,
         'variantUrl' => $variantUrl,
     ), true); ?>

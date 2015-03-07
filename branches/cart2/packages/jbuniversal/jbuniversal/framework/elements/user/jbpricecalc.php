@@ -20,5 +20,4 @@ require_once dirname(__FILE__) . '/jbprice.php';
  */
 class JBCSVItemUserJBPriceCalc extends JBCSVItemUserJBPrice
 {
-
 }

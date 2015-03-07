@@ -21,14 +21,6 @@ require_once dirname(__FILE__) . '/price.php';
 class JBCSVItemPriceMargin extends JBCSVItemPrice
 {
     /**
-     * @return string|JBCartValue
-     */
-    public function toCSV()
-    {
-        return parent::toCSV()->data(true);
-    }
-
-    /**
      * @param           $value
      * @param  int|null $variant
      * @return Item|void

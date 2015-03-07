@@ -47,9 +47,7 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
      */
     public function getSearchData()
     {
-        $value = $this->getValue();
-
-        return (int)$value->isEmpty();
+        return ((int)$this->get('value', 0) === 0);
     }
 
     /**
@@ -98,19 +96,6 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
     }
 
     /**
-     * Get elements value
-     * @param string $key
-     * @param null   $default
-     * @return mixed|JBCartValue|null
-     */
-    public function getValue($key = 'value', $default = null)
-    {
-        $value = parent::getValue($key, $default);
-
-        return JBCart::val($value);
-    }
-
-    /**
      * Returns data when variant changes
      * @param array $params
      * @return null
@@ -118,6 +103,24 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
     public function renderAjax($params = array())
     {
         return $this->render($params);
+    }
+
+    /**
+     * Get elements value
+     * @param string $key      Array key.
+     * @param mixed  $default  Default value if data is empty.
+     * @param bool   $toString A string representation of the value.
+     * @return mixed|string
+     */
+    public function getValue($toString = false, $key = 'value', $default = null)
+    {
+        $value = parent::getValue($toString, $key, $default);
+
+        if ($toString) {
+            return $value;
+        }
+
+        return JBCart::val($value);
     }
 
 }
