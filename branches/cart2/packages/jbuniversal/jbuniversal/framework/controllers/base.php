@@ -127,7 +127,7 @@ class JBUniversalController extends AppController
 
         // warpper hack
         if (!$isJoomlaTmpl) {
-            $jVersion = $this->app->jbversion->joomla('2.7.0') ? '2' : '3';
+            $jVersion = $this->app->jbversion->joomla('2.7.0') ? '3': '2';
 
             echo $view->partial('menu');
             echo '<div class="jbzoo box-bottom joomla-' . $jVersion . '">';
