@@ -416,6 +416,7 @@
             if ($.isFunction(swal)) {
                 swal({
                     title            : message,
+                    animation        : false,
                     //type             : 'info',
                     allowOutsideClick: true
                 });
@@ -439,6 +440,7 @@
             if ($.isFunction(swal)) {
                 swal({
                         title            : message,
+                        animation        : false,
                         //type             : "warning",
                         showCancelButton : true,
                         closeOnConfirm   : true,
