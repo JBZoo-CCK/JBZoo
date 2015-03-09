@@ -42,18 +42,17 @@ class JBEventBasket extends JBEvent
                     if ($element instanceof ElementJBPrice) {
                         try {
                             $default = $element->data()->get('default_variant');
-
-                            // Create variant list object
-                            $element->getList($orderData->get('variations'), array('quantity' => $orderData->get('quantity')));
-                            $key = $orderData->get('variant');
+                            $key     = $orderData->get('variant');
 
                             $element->setProp('_template', $orderData->get('template'))
                                     ->setDefault($key);
 
-                            $variant = $element->getVariant($key);
+                            // Create variant list object
+                            $element->getList($orderData->get('variations'), array('quantity' => $orderData->get('quantity')));
 
+                            $variant = $element->getVariant($key);
                             /** @type JBCartElementPriceBalance $balance */
-                            if (!$balance = $variant->getElement('_balance')) {
+                            if (!$balance = $variant->get('_balance')) {
                                 continue;
                             }
 
