@@ -1418,18 +1418,20 @@ class JBFieldHelper extends AppHelper
             $typeData    = json_decode($fileContent, true);
 
             $elements = array();
-            foreach ($typeData['elements'] as $elementId => $element) {
+            if (!empty($typeData['elements'])) {
+                foreach ($typeData['elements'] as $elementId => $element) {
 
-                if (strpos($elementId, '_') === 0 || in_array($element['type'], $excludeType, true)) {
-                    continue;
+                    if (strpos($elementId, '_') === 0 || in_array($element['type'], $excludeType, true)) {
+                        continue;
+                    }
+
+                    if ($element['type'] == 'jbpriceadvance') {
+                        $elements = array_merge($elements, $this->_getSortJBPriceOptionList($element, $elementId, $prefix));
+                    } else {
+                        $elements[] = $this->_createOption($prefix . $elementId, $element['name'], false);
+                    }
+
                 }
-
-                if ($element['type'] == 'jbpriceadvance') {
-                    $elements = array_merge($elements, $this->_getSortJBPriceOptionList($element, $elementId, $prefix));
-                } else {
-                    $elements[] = $this->_createOption($prefix . $elementId, $element['name'], false);
-                }
-
             }
 
             $options[$typeData['name']] = $elements;
