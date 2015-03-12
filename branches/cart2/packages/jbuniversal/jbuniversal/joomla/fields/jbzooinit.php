@@ -39,6 +39,7 @@ class JFormFieldJBZooInit extends JFormField
         $zoo = App::getInstance('zoo');
         $zoo->system->language->load('com_jbzoo', $zoo->path->path('applications:jbuniversal'), null, true);
         $zoo->system->language->load('com_jbzoostd', $zoo->path->path('applications:jbuniversal'), null, true);
+        $zoo->jbassets->admin();
 
         return null;
     }

@@ -34,6 +34,8 @@
     <config>
         <fields name="params">
             <fieldset name="basic" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+                
+                <field name="@spacer" type="jbzooinit"/>
 
                 <field name="moduleclass_sfx"
                        type="text"
