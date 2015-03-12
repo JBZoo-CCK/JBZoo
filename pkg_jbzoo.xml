@@ -28,6 +28,7 @@
         <file type="plugin" id="jbzoo" group="system">plg_sys_jbzoo</file>
         <file type="module" id="mod_jbzoo_basket" client="site">mod_jbzoo_basket</file>
         <file type="module" id="mod_jbzoo_category" client="site">mod_jbzoo_category</file>
+        <file type="module" id="mod_jbzoo_currency" client="site">mod_jbzoo_currency</file>
         <file type="module" id="mod_jbzoo_props" client="site">mod_jbzoo_props</file>
         <file type="module" id="mod_jbzoo_search" client="site">mod_jbzoo_search</file>
         <file type="module" id="mod_jbzoo_item" client="site">mod_jbzoo_item</file>
