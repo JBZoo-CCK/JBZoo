@@ -34,7 +34,7 @@
         $('#menu').JBZooAdminMenu(JBZoo.getVar('JBAdminItems', {'items': {}}));
 
         $('.jbzoo .uk-grid').closest('html').addClass('jbzoo-print');
-
+        $('#module-form').addClass('jbzoo');
 
         if ($("#nav [data-jbzooversion].active").length) {
             $('<span class="version" />')
