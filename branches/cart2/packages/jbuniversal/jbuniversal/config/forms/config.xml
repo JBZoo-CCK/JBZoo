@@ -16,14 +16,6 @@
             <field type="jbbool" default="1" name="update_show" label="JBZOO_CONFIG_SHOWUPDATE"
                    description="JBZOO_CONFIG_SHOWUPDATE_DESCRIPTION"/>
 
-            <field type="list" default="cbr" name="currency_mode" label="JBZOO_SERVICE_LABEL">
-                <option value="manual">JBZOO_SERVICE_MANUAL</option>
-                <option value="cbr">JBZOO_SERVICE_CBR</option>
-                <option value="privatbank">JBZOO_SERVICE_PRIVATBANK</option>
-                <option value="europecb">JBZOO_SERVICE_EUROPECB</option>
-                <option value="google">JBZOO_SERVICE_GOOGLE</option>
-            </field>
-
             <field type="jbbool" default="1" name="adminmenu_show" label="JBZOO_CONFIG_ADMINMENU"
                    description="JBZOO_CONFIG_ADMINMENU_DESC"/>
 
