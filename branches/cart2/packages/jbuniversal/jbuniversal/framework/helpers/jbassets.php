@@ -136,7 +136,7 @@ class JBAssetsHelper extends AppHelper
             $resultFiles[] = $this->app->jbless->compile($file);
         }
 
-        return $this->_include((array)$resultFiles, 'css', $group);
+        return $this->_include($resultFiles, 'css', $group);
     }
 
     /**
@@ -154,7 +154,10 @@ class JBAssetsHelper extends AppHelper
     public function toJSON($vars)
     {
         //$vars = $this->app->jbarray->cleanJson($vars);
-        $vars = (array)$vars;
+        if (is_object($vars)) { // for scalar vars
+            $vars = (array)$vars;
+        }
+
         if (!empty($vars)) {
             return json_encode($vars);
         }
@@ -180,9 +183,13 @@ class JBAssetsHelper extends AppHelper
             return;
         }
 
+        $jVersion = $this->app->jbversion->joomla('2.7.0') ? '3' : '2';
+
         $this->tools();
         $this->less('jbassets:less/general.less');
         $this->less('jbassets:less/admin.less');
+        $this->less('jbassets:less/admin/joomla-' . $jVersion . '.less');
+
         $this->js(array(
             'jbassets:js/admin/colors.js',
             'jbassets:js/admin/delimiter.js',
@@ -193,6 +200,8 @@ class JBAssetsHelper extends AppHelper
             'jbassets:js/admin/menu.js',
             'jbassets:js/back-end.js',
         ));
+
+        $this->addVar('joomlaVersion', $jVersion);
     }
 
     /**

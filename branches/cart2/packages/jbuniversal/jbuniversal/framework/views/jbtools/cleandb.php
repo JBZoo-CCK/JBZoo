@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -39,8 +38,9 @@ defined('_JEXEC') or die('Restricted access');
         </ul>
 
         <?php echo $this->app->jbform->render('cleandb', array(
-            'action' => $this->app->jbrouter->admin(),
-            'submit' => JText::_('JBZOO_FORM_CHECK')
+            'action'     => $this->app->jbrouter->admin(),
+            'submit'     => JText::_('JBZOO_FORM_CHECK'),
+            'showSubmit' => true,
         ));
         ?>
 

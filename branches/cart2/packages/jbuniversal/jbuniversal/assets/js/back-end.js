@@ -16,9 +16,10 @@
 (function ($, window, document, undefined) {
 
     jQuery(function ($) {
-        /**
-         * Menu tabs hack
-         */
+
+        var joomlaVersion = JBZoo.getVar('joomlaVersion', '3');
+
+        // Menu tabs hack
         $('li[data-href-replace]').each(function (n, obj) {
             var $obj = $(obj),
                 replace = $(obj).data('href-replace'),
@@ -33,8 +34,14 @@
         // init Joomla CP Scripts
         $('#menu').JBZooAdminMenu(JBZoo.getVar('JBAdminItems', {'items': {}}));
 
+        // fix for print version
         $('.jbzoo .uk-grid').closest('html').addClass('jbzoo-print');
+
+        // fix for modules
         $('#module-form').addClass('jbzoo');
+
+        // hack add parent class for admin panel
+        $('body').addClass('jbzoo-joomla-' + joomlaVersion);
 
         if ($("#nav [data-jbzooversion].active").length) {
             $('<span class="version" />')
