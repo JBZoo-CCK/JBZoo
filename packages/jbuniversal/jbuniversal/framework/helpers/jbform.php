@@ -28,6 +28,9 @@ class JBFormHelper extends AppHelper
      */
     public function render($formName, $options = array(), $data = array())
     {
+        $options = array_merge($this->getDefaultFormOptions(), $options);
+        $options = $this->app->data->create($options);
+
         $formPath = null;
         $xmlPaths = $this->_getXmlFormPaths();
 
@@ -78,22 +81,20 @@ class JBFormHelper extends AppHelper
 
         JHtml::_('behavior.tooltip');
         JHtml::_('behavior.formvalidation');
-        $this->app->jbtoolbar->save();
 
-        $options = array_merge($this->getDefaultFormOptions(), $options);
+        $html = '<form ' . $this->app->jbhtml->buildAttrs($options) . ' >' . implode(PHP_EOL, $html);
 
-        $submitLabel = isset($options['submit']) ? $options['submit'] : JText::_('JBZOO_FORM_SAVE');
-        unset($options['submit']);
+        if ($this->app->jbenv->isSite() || $options->get('showSubmit', 0)) {
 
-        $html = '<form ' . $this->app->jbhtml->buildAttrs($options) . ' >' . implode(" \n", $html);
-
-        if ($submitLabel) {
-            $html .= '<div class="jbzoo-submit">'
-                . '<input type="submit" class="jbzoo-button" name="send" value="' . $submitLabel . '" />'
-                . '</div>';
+            $submitLabel = $options->get('submit', JText::_('JBZOO_FORM_SAVE'));
+            $html .= '<div class="jbzoo-submit">';
+            $html .= '<input type="submit" class="jbzoo-button uk-button uk-button-success" name="send" value="' . $submitLabel . '" />';
+            $html .= '</div>';
+        } else {
+            $this->app->jbtoolbar->save();
         }
 
-        $html .= '</form>' . '<div class="clr"></div>';
+        $html .= '</form><div class="clr"></div>';
 
         return $html;
     }
@@ -126,7 +127,7 @@ class JBFormHelper extends AppHelper
      * @param array $options
      * @return JForm
      */
-    protected function _createJoomlaForm($name, $xmlPath, array $options = array())
+    protected function _createJoomlaForm($name, $xmlPath, $options = array())
     {
         jimport('joomla.form.form');
         $options = $this->app->data->create($options);
@@ -158,7 +159,7 @@ class JBFormHelper extends AppHelper
             $html[] = '<div class="uk-form-row">';
             $html[] = '<div class="' . $className . '-label uk-form-label">';
             $html[] = $label;
-            $html[] = '<span class="description-label">' . JText::_($field->description) . '</span>';
+            $html[] = '<div class="description-label">' . JText::_($field->description) . '</div>';
             $html[] = '</div>';
             $html[] = '<div class="uk-form-controls">' . $field->input . '</div>';
             $html[] = '</div>';
