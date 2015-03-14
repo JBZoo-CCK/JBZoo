@@ -44,16 +44,16 @@ $jbstring = $this->app->jbstring;
                     $positionName  = $jbstring->_($positionName, $statusElement->getName());
 
                     $positionDesc = $statusElement->getDescription();
+                    if (!$positionDesc) {
+                        $positionDesc = JText::_('JBZOO_ADMIN_POSITION_EVENTCODE') . ': <em>' . $positionKey . '</em>';
+                    }
 
                 } else {
                     $positionName = $jbstring->_($positionName, $positionKey);
                 }
 
                 echo '<span class="position-name">' . $positionName . '</span>';
-
-                if ($positionDesc) {
-                    echo ' <span class="position-desc">( ' . $positionDesc . ' )</span>';
-                }
+                echo ' <span class="position-desc">( ' . $positionDesc . ' )</span>';
 
                 ?>
             </div>
