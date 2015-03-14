@@ -10,5 +10,8 @@
     @coder       Denis Smetannikov <denis@jbzoo.com>
 -->
 <config>
-
+    <name>JBZOO_CART_NEW_CONFIG</name>
+    <params>
+        <param name="jbnewcart" type="jbnewcart" />
+    </params>
 </config>
