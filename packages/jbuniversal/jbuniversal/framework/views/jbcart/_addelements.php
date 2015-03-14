@@ -45,6 +45,7 @@ $groupList = isset($groupList) ? $groupList : array();
 
                         echo '<li ' . $this->app->jbhtml->buildAttrs($attrs) . '>'
                             . $element->getMetaData('name')
+                            . ' <span class="element-type">(' . $element->getElementType() . ')</span>'
                             . ($element->isCore() ? ' <em>(' . JText::_('JBZOO_ELEMENT_CORE') . ')</em>' : '')
                             . '</li>'
                             . PHP_EOL;

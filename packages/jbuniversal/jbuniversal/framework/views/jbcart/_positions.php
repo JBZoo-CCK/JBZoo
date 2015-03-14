@@ -15,6 +15,8 @@ defined('_JEXEC') or die('Restricted access');
 $elementGroup   = isset($elementGroup) ? $elementGroup : JBCartElement::DEFAULT_GROUP;
 $elementsParams = isset($elementsParams) ? $elementsParams : array();
 
+$jbstring = $this->app->jbstring;
+
 ?>
 <fieldset>
 
@@ -27,19 +29,15 @@ $elementsParams = isset($elementsParams) ? $elementsParams : array();
             <div class="position">
                 <?php
 
-                $positionName = 'JBZOO_ADMIN_EVENT_POSITION_' . $this->task . '_' . str_replace('-', '_', $positionKey);
-                $positionDesc = 'JBZOO_ADMIN_EVENT_POSITION_' . $this->task . '_' . str_replace('-', '_', $positionKey) . '_DESC';
+                $postFix      = $this->task . '_' . str_replace('-', '_', $positionKey);
+                $positionName = 'JBZOO_ADMIN_POSITION_' . $postFix;
+                $positionDesc = 'JBZOO_ADMIN_POSITION_' . $postFix . '_DESC';
 
-                $language = JFactory::getLanguage();
-                if ($language->hasKey($positionName)) {
-                    echo '<span class="position-name">' . JText::_($positionName) . '</span>';
-                } else {
-                    echo '<span class="position-name">' . $positionKey . '</span>';
-                }
+                $positionName = $jbstring->_($positionName, $positionKey);
+                $positionDesc = $jbstring->_($positionDesc, JText::_('JBZOO_ADMIN_POSITION') . ': <em>' . $positionKey . '</em>');
 
-                if ($language->hasKey($positionName)) {
-                    echo ' <span class="position-desc">(' . JText::_($positionName) . ')</span>';
-                }
+                echo '<span class="position-name">' . $positionName . '</span>';
+                echo ' <span class="position-desc">( ' . $positionDesc . ' )</span>';
 
                 ?>
             </div>

@@ -73,7 +73,7 @@ class JBStringHelper extends AppHelper
      */
     public function cutByWords($string, $maxlen = 255)
     {
-        $len    = (JString::strlen($string) > $maxlen)
+        $len = (JString::strlen($string) > $maxlen)
             ? JString::strrpos(JString::substr($string, 0, $maxlen), ' ')
             : $maxlen;
 
@@ -101,7 +101,7 @@ class JBStringHelper extends AppHelper
 
             foreach ($lines as $line) {
 
-                $line     = JString::trim($line);
+                $line          = JString::trim($line);
                 $result[$line] = $line;
 
             }
@@ -143,6 +143,27 @@ class JBStringHelper extends AppHelper
         $value = strip_tags($value);
 
         return htmlentities($value, ENT_COMPAT, $encoding);
+    }
+
+    /**
+     * @param string $key
+     * @param null   $default
+     * @return null|string
+     */
+    public function _($key, $default = null)
+    {
+        $key    = trim(strtoupper($key));
+        $result = JText::_($key);
+
+        if (!JFactory::getLanguage()->hasKey($key) || !$result) {
+            $result = $key;
+
+            if ($default) {
+                $result = $default;
+            }
+        }
+
+        return $result;
     }
 
 }
