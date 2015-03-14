@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -32,16 +31,14 @@ class JBEventManagerHelper extends AppHelper
      * Array of events
      * Keys   - name of event
      * Values - name of positions
-     *
      * @var array
      */
     protected $_events = array(
-        'basket:saved'      => self::NOTIFY_ORDER_CREATE,
         'basket:beforesave' => self::NOTIFY_ORDER_BEFORESAVE,
+        'basket:saved'      => self::NOTIFY_ORDER_CREATE,
         'order:edit'        => self::NOTIFY_ORDER_EDIT,
         'order:status'      => self::NOTIFY_ORDER_STATUS,
         'order:payment'     => self::NOTIFY_ORDER_PAYMENT,
-        'comment:saved'     => self::NOTIFY_NEW_COMMENT
     );
 
     const NOTIFY_ORDER_CREATE     = 'order_create';
@@ -49,11 +46,9 @@ class JBEventManagerHelper extends AppHelper
     const NOTIFY_ORDER_EDIT       = 'order_edit';
     const NOTIFY_ORDER_STATUS     = 'order_status';
     const NOTIFY_ORDER_PAYMENT    = 'order_payment';
-    const NOTIFY_NEW_COMMENT      = 'new_comment';
 
     /**
      * Class constructor
-     *
      * @param App $app
      */
     public function __construct($app)
@@ -89,9 +84,7 @@ class JBEventManagerHelper extends AppHelper
     /**
      * Check event name with position name and call element
      * if they are equal.
-     *
      * @param AppEventDispatcher $event
-     *
      * @return bool
      */
     public function notify($event)
