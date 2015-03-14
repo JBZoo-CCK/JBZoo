@@ -20,7 +20,6 @@ class JBStringHelper extends AppHelper
 {
 
     const MAX_LENGTH = 30;
-    const ENCODING   = 'UTF-8';
 
     /**
      * Get sub string (by words)
@@ -137,7 +136,7 @@ class JBStringHelper extends AppHelper
      * @param  string $encoding
      * @return string
      */
-    public function clean($value, $encoding = self::ENCODING)
+    public function clean($value, $encoding = 'UTF-8')
     {
         $value = JString::trim($value);
         $value = strip_tags($value);
