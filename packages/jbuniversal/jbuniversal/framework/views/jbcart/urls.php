@@ -26,7 +26,7 @@ defined('_JEXEC') or die('Restricted access');
 
         <?php echo $this->partial('cartdesc'); ?>
 
-        <?php echo $this->app->jbform->render('config_urls'); ?>
+        <?php echo $this->app->jbform->render('config_urls', array('hideSubmit' => 1)); ?>
 
         <?php echo $this->partial('footer'); ?>
     </div>
