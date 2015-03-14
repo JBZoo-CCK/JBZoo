@@ -41,9 +41,9 @@ $jbstring = $this->app->jbstring;
 
                     list($statusType, $statusCode) = explode('__', $positionKey);
                     $statusElement = $this->app->jbcartstatus->getByCode($statusCode, $statusType);
-                    $positionName  = $jbstring->_($positionName, $statusElement->getName());
+                    $positionName  = $jbstring->_($positionName, ($statusElement ? $statusElement->getName() : null));
 
-                    $positionDesc = $statusElement->getDescription();
+                    $positionDesc = $statusElement ? $statusElement->getDescription() : '';
                     if (!$positionDesc) {
                         $positionDesc = JText::_('JBZOO_ADMIN_POSITION_EVENTCODE') . ': <em>' . $positionKey . '</em>';
                     }
@@ -80,7 +80,12 @@ $jbstring = $this->app->jbstring;
 
     <?php else: ?>
 
-        <p class="positions-empty"><?php echo JText::_('JBZOO_ADMIN_EVENT_POSITIONS_EMPTY'); ?></p>
+        <p class="positions-empty">
+            <?php
+            $emptyText = 'JBZOO_ADMIN_EVENT_POSITIONS_EMPTY_' . $this->task;
+            echo $jbstring->_($emptyText, JText::_('JBZOO_ADMIN_EVENT_POSITIONS_EMPTY'));
+            ?>
+        </p>
 
     <?php endif; ?>
 

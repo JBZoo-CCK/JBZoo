@@ -36,6 +36,18 @@
 
     }
 
+    select {
+        display: inline-block;
+        height: 18px;
+        padding: 4px 6px;
+        margin-bottom: 9px;
+        font-size: 13px;
+        line-height: 18px;
+        color: #555;
+        border-radius: 3px;
+        vertical-align: middle;
+    }
+
     .uk-grid {
         font-size: 13px;
 
@@ -185,8 +197,23 @@
     }
 
     .select-list-form {
-        margin-right: 20px;
+        margin-right: 24px;
+        margin-bottom: 24px;
         float: left;
+
+        select {
+            width: 220px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            height: 28px;
+            line-height: 28px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
     }
 
     .order-filter .zoo-calendar input {
@@ -262,7 +289,7 @@
         border-radius: 4px;
     }
 
-    .assign-elements {
+    .jbzoo-assign-elements {
 
         .position-name {
             font-weight: bold;
@@ -275,6 +302,54 @@
             color: #aaa;
             font-weight: normal;
             font-size: 12px;
+        }
+
+        legend {
+            margin-bottom: 14px;
+            font-size: 20px;
+        }
+
+        .elements-group-name {
+            margin: 5px 0px 5px 0px;
+            padding: 5px;
+            background: #f6f6f6;
+            color: #666;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        #add-element div.groups {
+            width: 95%;
+            padding: 0;
+        }
+
+        ul.parameter-form li {
+
+            .field {
+
+                input[type='text'],
+                input[type='password'] {
+                    padding: 3px;
+                    width: 150px;
+                }
+
+                input[type='text'],
+                input[type='password'],
+                select {
+                    font-size: 12px;
+                }
+
+                select {
+                    min-width: 150px;
+                    padding: 3px;
+                }
+
+            }
+
+            .label label {
+                font-size: 12px;
+            }
+
         }
 
     }

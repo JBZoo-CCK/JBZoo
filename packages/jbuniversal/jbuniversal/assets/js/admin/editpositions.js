@@ -14,7 +14,7 @@
     JBZoo.widget('JBZoo.EditPositions', {
         'urlAddElement'    : "index.php?option=com_zoo",
         'textNoElements'   : "No elements",
-        'textElementRemove': "Are you sure you want to delete the element?"
+        'textElementRemove': "Are you sure want to delete the element?"
     }, {
 
         _isAjaxLocking: false,
