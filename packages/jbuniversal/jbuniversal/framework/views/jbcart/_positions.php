@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,7 +12,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$elementGroup = isset($elementGroup) ? $elementGroup : JBCartElement::DEFAULT_GROUP;
+$elementGroup   = isset($elementGroup) ? $elementGroup : JBCartElement::DEFAULT_GROUP;
 $elementsParams = isset($elementsParams) ? $elementsParams : array();
 
 ?>
@@ -29,12 +28,17 @@ $elementsParams = isset($elementsParams) ? $elementsParams : array();
                 <?php
 
                 $positionName = 'JBZOO_ADMIN_EVENT_POSITION_' . $this->task . '_' . str_replace('-', '_', $positionKey);
+                $positionDesc = 'JBZOO_ADMIN_EVENT_POSITION_' . $this->task . '_' . str_replace('-', '_', $positionKey) . '_DESC';
 
                 $language = JFactory::getLanguage();
                 if ($language->hasKey($positionName)) {
-                    echo JText::_($positionName);
+                    echo '<span class="position-name">' . JText::_($positionName) . '</span>';
                 } else {
-                    echo $positionKey;
+                    echo '<span class="position-name">' . $positionKey . '</span>';
+                }
+
+                if ($language->hasKey($positionName)) {
+                    echo ' <span class="position-desc">(' . JText::_($positionName) . ')</span>';
                 }
 
                 ?>
