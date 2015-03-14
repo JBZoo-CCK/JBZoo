@@ -91,7 +91,10 @@ class JBFormHelper extends AppHelper
             $html .= '<input type="submit" class="jbzoo-button uk-button uk-button-success" name="send" value="' . $submitLabel . '" />';
             $html .= '</div>';
         } else {
-            $this->app->jbtoolbar->save();
+
+            if (!$options->get('hideSubmit', 0)) {
+                $this->app->jbtoolbar->save();
+            }
         }
 
         $html .= '</form><div class="clr"></div>';
@@ -155,6 +158,7 @@ class JBFormHelper extends AppHelper
         } else {
 
             $label = preg_replace("#title=\".*?\"#ius", '', $field->label);
+            $label = str_replace('hasTip', '', $label);
 
             $html[] = '<div class="uk-form-row">';
             $html[] = '<div class="' . $className . '-label uk-form-label">';
@@ -226,7 +230,12 @@ class JBFormHelper extends AppHelper
         return $paths;
     }
 
-
+    /**
+     * @param string $formName
+     * @param array  $data
+     * @return string
+     * @throws AppException
+     */
     public function renderFields($formName, $data = array())
     {
         $formPath = null;
