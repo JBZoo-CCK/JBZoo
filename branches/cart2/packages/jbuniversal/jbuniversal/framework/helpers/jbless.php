@@ -80,7 +80,7 @@ class JBLessHelper extends AppHelper
             $filename  = $this->_jbcache->getFileName($origFull) . (JDEBUG ? '-debug' : '') . '.css';
             $cachePath = JPath::clean($this->_minFull . '/' . $filename);
 
-            if (!$this->_jbcache->checkAsset($cachePath, $hash)) {
+            if (!$this->_jbcache->checkAsset($cachePath, $hash) || $this->_force) {
                 $cssContent = $this->_compile($origFull);
                 $this->_jbcache->saveAsset($cachePath, $cssContent, $hash);
             }
