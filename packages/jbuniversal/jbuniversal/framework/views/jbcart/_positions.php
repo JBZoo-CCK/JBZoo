@@ -31,6 +31,10 @@ $jbstring = $this->app->jbstring;
 
                 $postFix = $this->task . '_' . str_replace('-', '_', $positionKey);
 
+                // get position description
+                $positionDesc = 'JBZOO_ADMIN_POSITION_' . $postFix . '_DESC';
+                $positionDesc = $jbstring->_($positionDesc, JText::_('JBZOO_ADMIN_POSITION') . ': <em>' . $positionKey . '</em>');
+
                 // get position name
                 $positionName = 'JBZOO_ADMIN_POSITION_' . $postFix;
                 if ($this->app->jbrequest->is('task', 'statusevents')) {
@@ -39,16 +43,17 @@ $jbstring = $this->app->jbstring;
                     $statusElement = $this->app->jbcartstatus->getByCode($statusCode, $statusType);
                     $positionName  = $jbstring->_($positionName, $statusElement->getName());
 
+                    $positionDesc = $statusElement->getDescription();
+
                 } else {
                     $positionName = $jbstring->_($positionName, $positionKey);
                 }
 
-                // get position description
-                $positionDesc = 'JBZOO_ADMIN_POSITION_' . $postFix . '_DESC';
-                $positionDesc = $jbstring->_($positionDesc, JText::_('JBZOO_ADMIN_POSITION') . ': <em>' . $positionKey . '</em>');
-
                 echo '<span class="position-name">' . $positionName . '</span>';
-                echo ' <span class="position-desc">( ' . $positionDesc . ' )</span>';
+
+                if ($positionDesc) {
+                    echo ' <span class="position-desc">( ' . $positionDesc . ' )</span>';
+                }
 
                 ?>
             </div>
