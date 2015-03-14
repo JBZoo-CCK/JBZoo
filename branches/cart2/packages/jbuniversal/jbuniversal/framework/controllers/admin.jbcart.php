@@ -120,7 +120,6 @@ class JBCartJBUniversalController extends JBUniversalController
     {
         $this->groupList = $this->_element->getGroups(array(
             JBCart::ELEMENT_TYPE_NOTIFICATION,
-            JBCart::ELEMENT_TYPE_MODIFIER_ITEM
         ));
 
         $this->positions =
@@ -224,8 +223,6 @@ class JBCartJBUniversalController extends JBUniversalController
     {
         $this->groupList = $this->_element->getGroups(array(
             JBCart::ELEMENT_TYPE_NOTIFICATION,
-            JBCart::ELEMENT_TYPE_MODIFIER_ITEM_PRICE,
-            JBCart::ELEMENT_TYPE_MODIFIER_ITEM
         ));
 
         $jbstatus = $this->app->jbcartstatus;
