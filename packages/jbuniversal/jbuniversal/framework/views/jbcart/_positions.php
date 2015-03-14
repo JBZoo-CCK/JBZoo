@@ -29,11 +29,22 @@ $jbstring = $this->app->jbstring;
             <div class="position">
                 <?php
 
-                $postFix      = $this->task . '_' . str_replace('-', '_', $positionKey);
-                $positionName = 'JBZOO_ADMIN_POSITION_' . $postFix;
-                $positionDesc = 'JBZOO_ADMIN_POSITION_' . $postFix . '_DESC';
+                $postFix = $this->task . '_' . str_replace('-', '_', $positionKey);
 
-                $positionName = $jbstring->_($positionName, $positionKey);
+                // get position name
+                $positionName = 'JBZOO_ADMIN_POSITION_' . $postFix;
+                if ($this->app->jbrequest->is('task', 'statusevents')) {
+
+                    list($statusType, $statusCode) = explode('__', $positionKey);
+                    $statusElement = $this->app->jbcartstatus->getByCode($statusCode, $statusType);
+                    $positionName  = $jbstring->_($positionName, $statusElement->getName());
+
+                } else {
+                    $positionName = $jbstring->_($positionName, $positionKey);
+                }
+
+                // get position description
+                $positionDesc = 'JBZOO_ADMIN_POSITION_' . $postFix . '_DESC';
                 $positionDesc = $jbstring->_($positionDesc, JText::_('JBZOO_ADMIN_POSITION') . ': <em>' . $positionKey . '</em>');
 
                 echo '<span class="position-name">' . $positionName . '</span>';

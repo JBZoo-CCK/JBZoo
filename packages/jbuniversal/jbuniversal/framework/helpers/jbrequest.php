@@ -182,7 +182,7 @@ class JBRequestHelper extends AppHelper
      */
     public function is($requestKey, $value)
     {
-        return $this->get($requestKey, null) == $value;
+        return strtolower($this->get($requestKey, null)) == strtolower($value);
     }
 
     /**
