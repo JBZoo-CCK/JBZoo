@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -22,7 +21,7 @@ class JBMenuHelper extends AppHelper
     /**
      * Create new item
      * @param AppMenuItem $parentItem
-     * @param array $options
+     * @param array       $options
      * @return AppTreeItem
      */
     public function addItem(AppMenuItem $parentItem, array $options)
@@ -43,16 +42,19 @@ class JBMenuHelper extends AppHelper
 
     /**
      * Add new tab
-     * @param $name
-     * @param $ctrlName
+     * @param string $name
+     * @param string $ctrlName
      * @param string $class
-     * @return AppMenuItem
+     * @param string $text
+     * @return mixed
      */
-    public function addTab($name, $ctrlName, $class = null)
+    public function addTab($name, $ctrlName, $class = null, $text = null)
     {
+        $text = $text ? '<span class="icon"> </span>' . $text : '<span class="icon"> </span>';
+
         $tab = $this->app->object->create('AppMenuItem', array(
             $name . '-index',
-            '<span class="icon"> </span>',
+            $text,
             $this->app->link(array('controller' => $ctrlName, 'task' => 'index')),
             array('class' => $class)
         ));

@@ -11,7 +11,7 @@
 #nav {
 
     li.jbzoo span.icon {
-        background: url('../../img/toolbar/navicon.png') 0 0 no-repeat !important;
+        background: data-uri('../../img/toolbar/navicon.png') 0 0 no-repeat !important;
         width: 22px;
         height: 22px;
         margin-top: 4px;
@@ -23,17 +23,28 @@
         opacity: 1;
     }
 
-    li.jbzoo-orders span.icon {
-        background: url('../../img/toolbar/cart.png') 0 0 no-repeat !important;
-        width: 22px;
-        height: 22px;
-        margin-top: 4px;
-        opacity: .7;
-    }
+    li.jbzoo-orders {
 
-    .jbzoo-orders.active .level1 > span,
-    .jbzoo.active .level1 > span {
-        padding: 0 5px !important;
+        span.icon {
+            background: data-uri('../../img/toolbar/cart.png') 0 0 no-repeat !important;
+            margin-top: 4px;
+            width: 22px;
+            height: 22px;
+            margin-right: 8px;
+        }
+
+        a > span {
+            height: 30px;
+            padding: 0 10px 0 0;
+
+            line-height: 30px;
+            font-size: 15px;
+            color: #969696;
+            text-shadow: 0px 1px 0px rgba(255, 255, 255, 1.0);
+            white-space: nowrap;
+            min-width: 5px;
+            overflow: hidden;
+        }
     }
 
     .jbzoo > a > span {
