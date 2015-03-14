@@ -86,5 +86,6 @@ echo $this->partial('orderlist'); ?>
 <?php echo $this->app->jbassets->widget('.jsAssignElements', 'JBZooEditPositions', array(
     'urlAddElement'     => $this->app->jbrouter->admin(array('task' => 'addElement')),
     'textEmptyPosition' => JText::_('JBZOO_ADMIN_POSITIONS_EMPTY_POSITION'),
-    'textRemove'        => JText::_('JBZOO_ADMIN_POSITIONS_REMOVE'),
+    'textNoElements'    => JText::_('JBZOO_ADMIN_POSITIONS_NO_ELEMENTS'),
+    'textElementRemove' => JText::_('JBZOO_ADMIN_POSITIONS_REMOVE'),
 ), true); ?>
