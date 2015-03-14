@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -410,10 +409,15 @@ class JBTablesHelper extends AppHelper
      */
     public function checkTypeBeforeSave($itemType)
     {
-        $elements = $this->_getCurrentTypeElements($itemType->id);
-        $elements = is_null($elements) ? array() : $elements;
+        self::$_elementsBeforeSave = array();
 
-        self::$_elementsBeforeSave = array_keys($elements);
+        if ($itemType->id) {
+            $elements = $this->_getCurrentTypeElements($itemType->id);
+            $elements = is_null($elements) ? array() : $elements;
+
+            self::$_elementsBeforeSave = array_keys($elements);
+        }
+
     }
 
     /**
@@ -421,6 +425,10 @@ class JBTablesHelper extends AppHelper
      */
     public function checkTypeAfterSave($itemType)
     {
+        if (empty($itemType->id)) {
+            return;
+        }
+
         $elements = $this->_getCurrentTypeElements($itemType->id);
         $elements = is_null($elements) ? array() : $elements;
 
@@ -471,7 +479,7 @@ class JBTablesHelper extends AppHelper
 
         $types          = array('s', 'n', 'd');
         $currentIndexes = $this->getIndexes($tableName);
-        $currentFields  = $this->getFields($tableName);
+        $currentFields  = $this->getFields($tableName, true);
 
         $drop = array();
         foreach ($fields as $field) {
@@ -514,7 +522,7 @@ class JBTablesHelper extends AppHelper
 
         $types          = array('s', 'n', 'd');
         $currentIndexes = $this->getIndexes($tableName);
-        $currentFields  = $this->getFields($tableName);
+        $currentFields  = $this->getFields($tableName, true);
 
         $indexCount = count($currentIndexes);
 
@@ -587,7 +595,7 @@ class JBTablesHelper extends AppHelper
      * @param $table
      * @return array
      */
-    public function getFields($table)
+    public function getFields($table, $noCache = false)
     {
         static $result;
 
@@ -595,7 +603,11 @@ class JBTablesHelper extends AppHelper
             $result = array();
         }
 
-        if (!isset($result[$table])) {
+        if ($noCache && isset($result[$table])) {
+            unset($result[$table]);
+        }
+
+        if (!isset($result[$table]) && $this->isTableExists($table, true)) {
             $indexes = $this->app->database->queryAssocList('DESCRIBE ' . $table);
 
             $result[$table] = array();
@@ -633,7 +645,7 @@ class JBTablesHelper extends AppHelper
     public function dropAllSku()
     {
         return $this->dropTable(ZOO_TABLE_JBZOO_SKU)
-                    ->dropTable(JBModelSku::JBZOO_TABLE_SKU_VALUES)
-                    ->dropTable(JBModelSku::JBZOO_TABLE_SKU_PARAMS);
+            ->dropTable(JBModelSku::JBZOO_TABLE_SKU_VALUES)
+            ->dropTable(JBModelSku::JBZOO_TABLE_SKU_PARAMS);
     }
 }

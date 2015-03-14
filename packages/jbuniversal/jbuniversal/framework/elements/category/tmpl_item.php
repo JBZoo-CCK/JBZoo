@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -23,7 +22,7 @@ class JBCSVCategoryTmpl_item extends JBCSVCategory
      */
     public function toCSV()
     {
-        $settings = $this->app->jbuser->getParam('export-categories', array());
+        $settings = JBModelConfig::model()->getGroup('export.categories');
 
         if ($settings->category_item_settings) {
 

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -285,7 +284,7 @@ class JBYmlHelper extends AppHelper
     {
         // Init vars
         $this->_appParams = $this->app->jbconfig->getList('config.yml');
-        $appList = $this->_appParams->get('app_list');
+        $appList          = $this->_appParams->get('app_list');
 
         if (!empty($appList)) {
             $this->_apps = $this->app->table->application->all(array(
@@ -419,14 +418,14 @@ class JBYmlHelper extends AppHelper
                 $data = $element->getElementData();
 
                 if ($element->config->type == 'jbpriceadvance') {
-                    // get price
-                    $price[$key] = $this->replaceSpecial($data->basic['value']);
 
-                    // get currency id
-                    $currencyId[$key] = $this->replaceSpecial($data->basic['currency']);
+                    $indexData        = $element->getIndexData();
+                    $price[$key]      = $this->replaceSpecial($indexData[$item->id]['total']);
+                    $currencyId[$key] = $this->replaceSpecial($indexData[$item->id]['currency']);
 
                     // get available
-                    if ((int)$data->basic['balance'] > 0 || (int)$data->basic['balance'] == -1) {
+                    $balance = $indexData[$item->id]['balance'];
+                    if ((int)$balance > 0 || $balance == -1) {
                         $available[$key] = 'true';
                     } else {
                         $available[$key] = 'false';
@@ -551,7 +550,7 @@ class JBYmlHelper extends AppHelper
 
 
     /**
-     * @param $resource
+     * @param      $resource
      * @param bool $start
      * @throws AppException
      */
@@ -589,11 +588,11 @@ class JBYmlHelper extends AppHelper
     {
         if ($path) {
             $tmpPath  = $this->_appParams->get('file_path', 'images');
-            $tmpPath  = JPath::clean(JPATH_ROOT . DS . $tmpPath);
+            $tmpPath  = JPATH_ROOT . DS . $tmpPath;
             $fileName = $this->_appParams->get('file_name', 'yml');
-            $filePath = $tmpPath . DS . $fileName . '.xml';
+            $filePath = JPath::clean($tmpPath . DS . $fileName . '.xml');
         } else {
-            $tmpPath  = $this->_appParams->get('file_path', 'images');
+            $tmpPath  = trim($this->_appParams->get('file_path', 'images'), '/');
             $filePath = JUri::root() . $tmpPath . '/' . $this->_appParams->get('file_name', 'yml') . '.xml';
         }
 
@@ -618,7 +617,7 @@ class JBYmlHelper extends AppHelper
         $types = $this->_appParams->get('type_list');
         $appId = $this->_appParams->get('app_list');
 
-        if(empty($types) || empty($appId)) {
+        if (empty($types) || empty($appId)) {
             return false;
         }
 

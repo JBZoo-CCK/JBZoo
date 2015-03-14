@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -26,7 +25,7 @@ class JBItemHelper extends AppHelper
 
     /**
      * Get align for media position for item
-     * @param Item $item
+     * @param Item   $item
      * @param string $layout
      * @return string
      */
@@ -48,7 +47,7 @@ class JBItemHelper extends AppHelper
     /**
      * Render HTML image form item by elementId
      * @param Item $item
-     * @param $elementId
+     * @param      $elementId
      * @param bool $isLink
      * @return string|null
      */
@@ -82,6 +81,13 @@ class JBItemHelper extends AppHelper
             return $element->render(array(
                 'width'  => 75,
                 'height' => 75,
+            ));
+
+        } else if (JString::strtolower(get_class($element)) == 'elementimagepro') {
+
+            return $element->render(array(
+                'specific._width'  => 75,
+                'specific._height' => 75,
             ));
         }
 

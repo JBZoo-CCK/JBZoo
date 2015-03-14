@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -24,7 +23,9 @@ class JBCSVItemCoreTags extends JBCSVItem
      */
     public function toCSV()
     {
-        if ((int)$this->_exportParams->merge_repeatable) {
+        $params = JBModelConfig::model()->getGroup('export.items');
+
+        if ((int)$params->merge_repeatable) {
             return implode(JBCSVItem::SEP_ROWS, $this->_item->getTags());
         } else {
             return $this->_item->getTags();
@@ -32,7 +33,7 @@ class JBCSVItemCoreTags extends JBCSVItem
     }
 
     /**
-     * @param $value
+     * @param      $value
      * @param null $position
      * @return Item|null
      */

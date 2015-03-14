@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -47,9 +46,9 @@ class JBTypeHelper extends AppHelper
 
     /**
      * @param string|array $newOption
-     * @param string $elementId
-     * @param string $typeId
-     * @param int $appId
+     * @param string       $elementId
+     * @param string       $typeId
+     * @param int          $appId
      * @return bool
      */
     public function checkOption($newOption, $elementId, $typeId, $appId)
@@ -96,10 +95,10 @@ class JBTypeHelper extends AppHelper
     }
 
     /**
-     * @param string
+     * @param        string
      * @param string $elementId
      * @param string $typeId
-     * @param int $appId
+     * @param int    $appId
      * @return bool
      */
     public function checkOptionColor($newOption, $elementId, $typeId, $appId)
@@ -199,8 +198,8 @@ class JBTypeHelper extends AppHelper
     }
 
     /**
-     * @param $options
-     * @param $items
+     * @param     $options
+     * @param     $items
      * @param int $level
      * @return bool
      */
@@ -223,8 +222,8 @@ class JBTypeHelper extends AppHelper
 
 
     /**
-     * @param $items
-     * @param $level
+     * @param       $items
+     * @param       $level
      * @param array $newItems
      * @return array
      */

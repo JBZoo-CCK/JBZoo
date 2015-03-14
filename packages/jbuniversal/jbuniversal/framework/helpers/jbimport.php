@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -395,6 +394,9 @@ class JBImportHelper extends AppHelper
     {
         // create item
         $category = $this->_getCategoryByKey($row, $lineKey);
+        if (empty($category)) {
+            return 0;
+        }
 
         // bind import data from CSV
         foreach ($this->_data->assign as $colKey => $itemField) {
@@ -552,7 +554,8 @@ class JBImportHelper extends AppHelper
             }
         }
 
-        if (!$category) {
+        $isCreateNew = (int)$this->_data->get('create', 0);
+        if (!$category && $isCreateNew) {
             $category = JBModelCategory::model()->createEmpty($this->_data->appid, $lineKey);
         }
 
@@ -582,6 +585,10 @@ class JBImportHelper extends AppHelper
         }
 
         $this->app->jbsession->set('ids', $addedIds, 'import-ids');
+
+        if (!(int)$this->_data->header) {
+            $lineKey++;
+        }
 
         return array('progress' => round(($lineKey / $this->_data->count) * 100, 2));
     }

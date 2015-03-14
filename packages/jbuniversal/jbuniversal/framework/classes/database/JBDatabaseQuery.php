@@ -618,6 +618,7 @@ class JBDatabaseQuery
                 $query .= (string)$this->from;
 
                 if ($this->join) {
+                    $this->join = array_unique($this->join);
                     foreach ($this->join as $join) {
                         $query .= (string)$join . PHP_EOL;
                     }
@@ -646,6 +647,7 @@ class JBDatabaseQuery
                 $query .= (string)$this->from;
 
                 if ($this->join) {
+                    $this->join = array_unique($this->join);
                     foreach ($this->join as $join) {
                         $query .= (string)$join;
                     }

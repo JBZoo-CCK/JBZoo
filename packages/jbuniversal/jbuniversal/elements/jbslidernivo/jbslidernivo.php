@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -61,8 +60,8 @@ class ElementJBSliderNivo extends Element implements iSubmittable
 
         // set params
         $parameter = $this->app->parameter->create()
-                ->loadArray((array)$this->config)
-                ->loadArray($params);
+            ->loadArray((array)$this->config)
+            ->loadArray($params);
 
         // get thumbnails
         $thumbs = $this->_getThumbnails($parameter);
@@ -231,7 +230,7 @@ class ElementJBSliderNivo extends Element implements iSubmittable
         }
 
         return array(
-            'value' => $value
+            'value' => $value->get('value')
         );
     }
 

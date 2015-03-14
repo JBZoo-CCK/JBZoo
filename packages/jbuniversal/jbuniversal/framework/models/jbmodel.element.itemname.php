@@ -79,20 +79,6 @@ class JBModelElementItemname extends JBModelElement
      */
     protected function _prepareValue($value, $exact = false)
     {
-        if (is_numeric($value)) {
-
-            $select = $this->_getSelect()
-                ->select('tItem.name AS name')
-                ->from(ZOO_TABLE_ITEM . ' AS tItem')
-                ->where('id = ?', (int)$value);
-
-            $row = $this->fetchRow($select);
-
-            if ($row) {
-                return $row->name;
-            }
-        }
-
         return $value;
     }
 
