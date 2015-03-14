@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -27,6 +26,22 @@ jimport('joomla.filesystem.file');
 class plgSystemJBZoo extends JPlugin
 {
     /**
+     * When these components use, JBZoo doesn't init (backend only)
+     * @var array
+     */
+    protected $_disableInitBackEnd = array(
+        'com_seoboss'
+    );
+
+    /**
+     * When these components use, JBZoo doesn't init (frontend only)
+     * @var array
+     */
+    protected $_disableInitFrontEnd = array(
+        'com_seoboss'
+    );
+
+    /**
      * @var JBZooSystemPlugin
      */
     protected $_jbzooSystemPlg = null;
@@ -47,6 +62,10 @@ class plgSystemJBZoo extends JPlugin
     {
         if (!isset($_SERVER['REQUEST_TIME_FLOAT'])) { // hack for performance test
             $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
+        }
+
+        if (!$this->_getExtCompatibility()) {
+            return false;
         }
 
         $compEnabled = JComponentHelper::getComponent('com_zoo', true)->enabled;
@@ -107,6 +126,26 @@ class plgSystemJBZoo extends JPlugin
             }
         }
 
+    }
+
+    /**
+     * Check campatibility with external componetns
+     */
+    protected function _getExtCompatibility()
+    {
+        $joomlaApp = JFactory::getApplication();
+        $jInput    = $joomlaApp->input;
+        $isSite    = $joomlaApp->isSite();
+        $compName  = $jInput->getCmd('option');
+
+        if (
+            ($isSite && in_array($compName, $this->_disableInitFrontEnd, true)) ||
+            (!$isSite && in_array($compName, $this->_disableInitBackEnd, true))
+        ) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
