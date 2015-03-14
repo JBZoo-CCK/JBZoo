@@ -9,7 +9,7 @@
     @license     http://jbzoo.com/license-pro.php JBZoo Licence
     @coder       Alexander Oganov <t_tapak@yahoo.com>
 -->
-<element type="element" group="Core" core="true" hidden="false">
+<element type="element" group="Core" core="false" hidden="false">
     <name>JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_NAME</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
