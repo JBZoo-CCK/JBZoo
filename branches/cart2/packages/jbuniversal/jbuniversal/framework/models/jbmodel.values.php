@@ -133,6 +133,7 @@ class JBModelValues extends JBModel
         if (isset($elements[$identifier])
             && in_array($elements[$identifier]['type'], array('radio', 'checkbox', 'select'))
         ) {
+
             $optionList = array();
             foreach ($elements[$identifier]['option'] as $item) {
                 $optionList[] = $item['name'];
@@ -140,10 +141,17 @@ class JBModelValues extends JBModel
 
             // order data by $optionList
             $ordered = array();
-            foreach ($optionList as $key) {
-                $index = $this->app->jbarray->recursiveSearch($key, $data);
+            foreach ($optionList as $newIndex => $key) {
+
+                $index = false;
+                foreach ($data as $oldIndex => $dataItem) {
+                    if (strtolower(trim($dataItem['value'])) == strtolower(trim($key))) {
+                        $index = $oldIndex;
+                    }
+                }
+
                 if ($index !== false) {
-                    $ordered[$key] = $data[$index];
+                    $ordered[$newIndex] = $data[$index];
                 }
             }
 

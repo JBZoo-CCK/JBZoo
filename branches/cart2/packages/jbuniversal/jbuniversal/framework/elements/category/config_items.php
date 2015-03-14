@@ -23,7 +23,7 @@ class JBCSVCategoryConfig_items extends JBCSVCategory
      */
     public function toCSV()
     {
-        $settings = $this->app->jbuser->getParam('export-categories', array());
+        $settings = JBModelConfig::model()->getGroup('export.categories');
 
         if($settings->config_category_settings){
             $result      = '';

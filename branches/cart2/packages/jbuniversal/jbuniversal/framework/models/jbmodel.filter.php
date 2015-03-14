@@ -292,6 +292,7 @@ class JBModelFilter extends JBModel
                         $select
                             ->leftJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
                             ->order('tSku.' . $priceField . ' ' . $dir)
+                            ->where('tSku.element_id = ?', $elementId)
                             ->where('tSku.type = ?', 1);
                     }
 

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -23,10 +22,10 @@ class JBCSVCategoryConfig_others extends JBCSVCategory
      */
     public function toCSV()
     {
-        $settings = $this->app->jbuser->getParam('export-categories', array());
+        $settings = JBModelConfig::model()->getGroup('export.categories');
 
         if ($settings->config_others_settings) {
-            $result         = '';
+
             $arrayParams    = array();
             $paramsConfig   = $this->_category->getParams()->get('config.');
             $paramsTemplate = $this->_category->getParams()->get('template.');
@@ -60,11 +59,11 @@ class JBCSVCategoryConfig_others extends JBCSVCategory
             $params = $this->_unpackFromLine($value);
         }
 
-        foreach($params as $key => $value){
-            if($key == 'show_alpha_index'){
+        foreach ($params as $key => $value) {
+            if ($key == 'show_alpha_index') {
                 $paramsTemplate[$key] = $value;
                 $this->_category->getParams()->set('template.', $paramsTemplate);
-            }else{
+            } else {
                 $paramsConfig[$key] = $value;
                 $this->_category->getParams()->set('config.', $paramsConfig);
             }

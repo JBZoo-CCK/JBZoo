@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -60,6 +59,9 @@ class JBEventType extends JBEvent
 
         $elements = $app->jbprice->getTypePrices($type);
 
+        $tableName = $app->jbtables->getIndexTable($type->id);
+        $app->jbtables->dropTable($tableName);
+
         if (!empty($elements)) {
             foreach ($elements as $id => $element) {
                 $config->removeGroup('cart.' . JBCart::ELEMENT_TYPE_PRICE . '.' . $id);
@@ -67,7 +69,6 @@ class JBEventType extends JBEvent
                 $config->removeGroup('cart.' . JBCart::CONFIG_PRICE_TMPL_FILTER . '.' . $id);
             }
         }
-
     }
 
     /**

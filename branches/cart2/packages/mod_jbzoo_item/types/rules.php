@@ -42,6 +42,26 @@ class JBZooModItemRuleText
 }
 
 /**
+ * Class JBZooModItemRuleRating
+ */
+class JBZooModItemRuleRating
+{
+    /**
+     * @param $key
+     * @param $value
+     * @return array
+     */
+    public function validateValues($key, $value)
+    {
+        if (!empty($value)) {
+            return array($key => $value);
+        }
+
+        return false;
+    }
+}
+
+/**
  * Class JBZooModItemRuleItemCategory
  */
 class JBZooModItemRuleItemCategory extends JBZooModItemRuleText

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -22,8 +21,8 @@ class JBCSVItemUserJBColor extends JBCSVItem
 
     /**
      * @param Element|String $element
-     * @param Item $item
-     * @param array $options
+     * @param Item           $item
+     * @param array          $options
      */
     public function __construct($element, Item $item = null, $options = array())
     {
@@ -52,7 +51,7 @@ class JBCSVItemUserJBColor extends JBCSVItem
     }
 
     /**
-     * @param $value
+     * @param      $value
      * @param null $position
      * @return Item
      */
@@ -65,7 +64,7 @@ class JBCSVItemUserJBColor extends JBCSVItem
             }
 
         } else {
-            $data = ($position == 1) ? array() : $this->_element->data();
+            $data             = ($position == 1) ? array() : $this->_element->data();
             $data['option'][] = $this->_getValuesData($value);
         }
 
@@ -81,7 +80,7 @@ class JBCSVItemUserJBColor extends JBCSVItem
     private function _getValuesData($elementData)
     {
         $elementData = $this->_jbcolor->clean($elementData);
-        $options = $this->_getColors();
+        $options     = $this->_getColors();
 
         if (strpos($elementData, '#') === 0) {
 
@@ -106,7 +105,7 @@ class JBCSVItemUserJBColor extends JBCSVItem
             $value = $this->_jbcolor->clean($elementData);
         }
 
-        return !empty($value) ? $value : NULL;
+        return !empty($value) ? $value : null;
     }
 
     /**

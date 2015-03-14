@@ -137,7 +137,9 @@ class JBModelSearchindex extends JBModel
         }
 
         // insert all data
-        $totalLines = $this->_multiInsertData($dataPack);
+        if (!empty($dataPack)) {
+            $totalLines = $this->_multiInsertData($dataPack);
+        }
 
         return $totalLines;
     }
@@ -268,7 +270,7 @@ class JBModelSearchindex extends JBModel
 
         // check is number
         $strings = explode("\n", $value);
-        if (!empty($strings)) {
+        if (!empty($value) && !empty($strings)) {
             foreach ($strings as $string) {
 
                 $string = JString::trim($string);
@@ -284,6 +286,9 @@ class JBModelSearchindex extends JBModel
                     $multiInsert[] = array('s' => $string);
                 }
             }
+        } else {
+            //$multiInsert[] = array('n' => 0);
+            //$multiInsert[] = array('s' => '');
         }
 
         // check date
