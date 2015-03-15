@@ -300,8 +300,7 @@ class JBCartJBUniversalController extends JBUniversalController
 
         $this->positionList = $renderer->getPositions(JBCart::ELEMENT_TYPE_EMAIL . '.' . $this->layout);
         $this->groupList    = $this->_element->getGroups(array(JBCart::ELEMENT_TYPE_EMAIL));
-        $this->positions    = $this->_position->loadPositionsTmpl(JBCart::CONFIG_EMAIL_TMPL . '.' . $this->layout,
-            JBCart::CONFIG_EMAIL_TMPL, $this->positionList);
+        $this->positions    = $this->_position->loadPositionsTmpl(JBCart::CONFIG_EMAIL_TMPL . '.' . $this->layout, JBCart::CONFIG_EMAIL_TMPL, $this->positionList);
         $this->ordersList   = $this->_getOrdersList();
 
         $this->groupKey = JBCart::CONFIG_EMAIL_TMPL;
@@ -323,9 +322,9 @@ class JBCartJBUniversalController extends JBUniversalController
         $this->positionList   = $renderer->getPositions('order.' . $this->layout);
         $this->dragElements   = $this->_position->loadElements(JBCart::CONFIG_FIELDS);
         $this->elementsParams = $this->_position->loadParams(JBCart::CONFIG_FIELDS_TMPL . '.' . $this->layout);
-        $this->positions      =
-            $this->_position->loadPositionsTmpl(JBCart::CONFIG_FIELDS_TMPL . '.' . $this->layout, JBCart::CONFIG_FIELDS,
-                $this->positionList);
+        $this->positions      = $this->_position->loadPositionsTmpl(JBCart::CONFIG_FIELDS_TMPL . '.' . $this->layout, JBCart::CONFIG_FIELDS, $this->positionList);
+
+        $this->positions = $this->_position->filter($this->positions, $this->dragElements);
 
         $this->groupKey = JBCart::CONFIG_FIELDS_TMPL;
 
@@ -354,8 +353,9 @@ class JBCartJBUniversalController extends JBUniversalController
         $confName             = JBCart::CONFIG_PRICE_TMPL_FILTER . '.' . $this->element . '.' . $this->layout;
         $this->elementsParams = $this->_position->loadParams($confName);
 
-        $this->positions =
-            $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE, $this->positionList);
+        $this->positions = $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE, $this->positionList);
+
+        $this->positions = $this->_position->filter($this->positions, $this->dragElements);
 
         $this->saveTask = 'savePricePositions';
         $this->groupKey = JBCart::CONFIG_PRICE_TMPL_FILTER;
@@ -383,8 +383,7 @@ class JBCartJBUniversalController extends JBUniversalController
 
         $confName             = JBCart::CONFIG_PRICE_TMPL . '.' . $this->element . '.' . $this->layout;
         $this->elementsParams = $this->_position->loadParams($confName);
-        $this->positions      =
-            $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE, $this->positionList);
+        $this->positions      = $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE, $this->positionList);
 
         $this->saveTask = 'savePricePositions';
         $this->groupKey = JBCart::CONFIG_PRICE_TMPL;

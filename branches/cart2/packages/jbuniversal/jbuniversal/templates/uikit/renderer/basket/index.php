@@ -48,7 +48,6 @@ $this->app->jbassets->widget('.jbzoo .jsJBZooCart', 'JBZoo.Cart', array(
 
         <?php if (!$isFormEmpty) : ?>
 
-            <p class="jbcart-title jbcart-title-main"><?php echo JText::_('JBZOO_CART_CREATE_ORDER_TITLE'); ?></p>
             <?php echo $this->partial('basket', 'form'); ?>
             <?php echo $this->partial('basket', 'shipping'); ?>
             <?php echo $this->partial('basket', 'payment'); ?>
