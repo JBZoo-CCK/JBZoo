@@ -47,7 +47,7 @@ $editUrl = $this->app->jbrouter->admin(array('cid' => array($order->id)));
                     'order'     => $order,
                     'shipping'  => $shipping,
                     'payment'   => $payment,
-                    //'modifiers' => $modifiers,
+                    'modifiers' => $modifiers,
                 )); ?>
 
                 <?php echo $this->partial('edit_orderinfo', array(
