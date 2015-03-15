@@ -291,7 +291,12 @@ class JBHtmlHelper extends AppHelper
             $labelAttr = array(
                 'for'   => $inputId,
                 'title' => isset($titles[$value]) ? $titles[$value] : $value,
-                'class' => 'jbcolor-label hasTip ' . $inputType . ' value-' . $stringHelper->sluggify($value),
+                'class' => array(
+                    $inputType,
+                    'jbcolor-label',
+                    'value-' . $stringHelper->sluggify($value),
+                    'hasTip'
+                ),
                 'style' => 'width:' . $width . ';height:' . $height . ';'
             );
 
@@ -314,7 +319,7 @@ class JBHtmlHelper extends AppHelper
         $html[] = '</div>';
         $html[] = $this->app->jbassets->initJBColorHelper($unique, $inputType == 'checkbox' ? 1 : 0, true);
 
-        return implode("\t\n", $html);
+        return implode(PHP_EOL, $html);
     }
 
     /**
@@ -652,7 +657,7 @@ class JBHtmlHelper extends AppHelper
 
         return '<div class="jbcascadeselect-wrapper jbcascadeselect-' . $uniqId . '">'
         . '<div ' . $this->app->jbhtml->buildAttrs($attribs) . '>'
-        . implode(" ", $html)
+        . implode(PHP_EOL, $html)
         . '</div></div>';
     }
 
