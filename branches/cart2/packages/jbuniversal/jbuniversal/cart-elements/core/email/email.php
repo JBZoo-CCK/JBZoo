@@ -96,7 +96,7 @@ abstract class JBCartElementEmail extends JBCartElement
         $file = JString::trim($this->config->get('file', ''));
 
         if (!empty($file)) {
-            $name = $this->config->get('name');
+            $name = $this->getName();
             $this->_attach($file, ucfirst($name) . ' - ' . self::filename($file));
         }
 

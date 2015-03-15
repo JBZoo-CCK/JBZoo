@@ -113,11 +113,11 @@ abstract class JBCartElementPayment extends JBCartElement
         $currentPayment = $config->get('default_payment', null, 'cart.config');
 
         $paymentList = $config->get(JBCart::DEFAULT_POSITION, array(), 'cart.' . JBCart::CONFIG_PAYMENTS);
-        if (empty($currentPayment) || !in_array($currentPayment, $paymentList)) {
+        if (empty($currentPayment) || !isset($paymentList[$currentPayment])) {
             reset($paymentList);
             $currentPayment = key($paymentList);
         }
-
+        
         return $this->identifier == $currentPayment;
     }
 

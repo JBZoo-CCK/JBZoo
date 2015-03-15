@@ -106,18 +106,6 @@ abstract class JBCartElementCurrency extends JBCartElement
     }
 
     /**
-     * @return string
-     */
-    public function getCurrencyName()
-    {
-        $name = $this->config->get('name');
-        $name = trim($name);
-        $name = JText::_($name);
-
-        return $name;
-    }
-
-    /**
      * @param $data
      * @return mixed
      */

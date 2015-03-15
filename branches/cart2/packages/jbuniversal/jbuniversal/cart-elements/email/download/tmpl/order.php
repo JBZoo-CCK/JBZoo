@@ -30,7 +30,7 @@ if (!empty($items)) : ?>
         <tr>
             <td>
                 <strong>
-                    <?php echo $this->config->get('name'); ?>
+                    <?php echo $this->getName(); ?>
                 </strong>
             </td>
         </tr>

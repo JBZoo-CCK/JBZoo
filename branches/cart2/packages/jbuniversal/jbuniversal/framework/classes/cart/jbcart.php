@@ -414,22 +414,24 @@ class JBCart
     {
         $session = $this->_getSession();
 
-        $currentShipping = $this->_config->get('default_shipping');
-
         if (isset($session['shipping']) && isset($session['shipping']['_current'])) {
-            $cur = $session['shipping']['_current'];
-            if (isset($session['shipping'][$cur])) {
-                $currentShipping = $session['shipping'][$cur];
-            }
+            $currentId = $session['shipping']['_current'];
+        } else {
+            $currentId = $this->_config->get('default_shipping');
         }
 
         $shippingList = JBModelConfig::model()->get(JBCart::DEFAULT_POSITION, array(), 'cart.' . JBCart::CONFIG_SHIPPINGS);
-        if (empty($currentShipping) || !in_array($currentShipping, $shippingList)) {
+        if (empty($currentId) || !isset($shippingList[$currentId])) {
             reset($shippingList);
-            $currentShipping = key($shippingList);
+            $currentId = key($shippingList);
         }
 
-        return array('_shipping_id' => $currentShipping);
+        $shipping = array('_shipping_id' => $currentId);
+        if (isset($session['shipping'][$currentId])) {
+            $shipping = $session['shipping'][$currentId];
+        }
+
+        return $shipping;
     }
 
     /**
@@ -697,12 +699,15 @@ class JBCart
         $shippingRes = array();
         if (isset($session['shipping'])) {
             foreach ($session['shipping'] as $elemId => $shipping) {
+
                 if ($elemId == '_current') {
                     continue;
                 }
-                $element = $order->getShippingElement($elemId);
-                $element->bindData($shipping);
-                $shippingRes['Price-' . $elemId] = $element->getRate()->convert($cookieCur)->data();
+
+                if ($element = $order->getShippingElement($elemId)) {
+                    $element->bindData($shipping);
+                    $shippingRes['Price-' . $elemId] = $element->getRate()->convert($cookieCur)->data();
+                }
             }
         }
 

@@ -580,7 +580,17 @@ abstract class JBCartElement
      */
     public function getName()
     {
-        return $this->config->get('name');
+        $name = $this->config->get('name');
+
+        if (empty($name)) {
+            $retult = $this->getMetaData('name');
+        } else {
+            $retult = JText::_($name);
+        }
+
+        $retult = JString::trim($retult);
+
+        return $retult;
     }
 
     /**

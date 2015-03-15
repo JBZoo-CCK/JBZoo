@@ -40,7 +40,7 @@ $classes = array_filter(array(
 
 $element->loadAssets();
 
-$label = $params->get('altlabel') ? $params->get('altlabel') : $element->config->get('name');
+$label = $params->get('altlabel') ? $params->get('altlabel') : $element->getName();
 $label = $params->get('required') ? ($label . ' <span class="required-dot">*</span>') : $label;
 
 ?>

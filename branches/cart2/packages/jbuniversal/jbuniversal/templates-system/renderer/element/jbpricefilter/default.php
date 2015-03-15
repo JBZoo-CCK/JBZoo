@@ -18,7 +18,7 @@ $label = '';
 if (isset($params['showlabel']) && $params['showlabel']) {
 
     // check label
-    $labelText = ($params['altlabel']) ? $params['altlabel'] : $element->config->get('name');
+    $labelText = ($params['altlabel']) ? $params['altlabel'] : $element->getName();
 
     $label = '<div class="label param-label"> ' . $labelText . '</div>';
 }
