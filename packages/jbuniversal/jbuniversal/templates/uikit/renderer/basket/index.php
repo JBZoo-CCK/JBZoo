@@ -37,8 +37,8 @@ $this->app->jbassets->widget('.jbzoo .jsJBZooCart', 'JBZoo.Cart', array(
     <?php
     $isFormEmpty = empty($view->shipping)
         && empty($view->payment)
-        && empty($view->shippingFields);
-    //&& !$view->formRenderer->checkPosition('fields');
+        && empty($view->shippingFields)
+        && !$view->formRenderer->checkPosition(JBCart::DEFAULT_POSITION);
     ?>
 
     <form action="<?php echo $this->app->jbrouter->cartOrderCreate(); ?>" class="jbcart jsJBZooCart uk-form" method="post"

@@ -20,30 +20,33 @@ $classes = array(
 
 ?>
 
-<div class="<?php echo implode(' ', $classes); ?>">
+<?php if (!empty($view->shipping) && !empty($view->shippingFields)) : ?>
 
-    <?php
-    $this->app->jbassets->less('jbassets:less/cart/shipping.less');
-    $this->app->jbassets->less('jbassets:less/cart/shippingfield.less');
-    $this->app->jbassets->js('jbassets:js/cart/shipping.js');
-    $this->app->jbassets->js('jbassets:js/cart/shipping-service.js');
-    ?>
+    <div class="<?php echo implode(' ', $classes); ?>">
 
-    <?php if (!empty($view->shipping)) : ?>
-        <div class="jbcart-shipping-col">
-            <?php echo $view->shippingRenderer->render('shipping.default', array(
-                'order' => $view->order
-            ));?>
-        </div>
-    <?php endif; ?>
+        <?php
+        $this->app->jbassets->less('jbassets:less/cart/shipping.less');
+        $this->app->jbassets->less('jbassets:less/cart/shippingfield.less');
+        $this->app->jbassets->js('jbassets:js/cart/shipping.js');
+        $this->app->jbassets->js('jbassets:js/cart/shipping-service.js');
+        ?>
+
+        <?php if (!empty($view->shipping)) : ?>
+            <div class="jbcart-shipping-col">
+                <?php echo $view->shippingRenderer->render('shipping.default', array(
+                    'order' => $view->order
+                )); ?>
+            </div>
+        <?php endif; ?>
 
 
-    <?php if (!empty($view->shippingFields)) : ?>
-        <div class="jbcart-shippingfield-col">
-            <?php echo $view->shippingFieldRenderer->render('shippingfield.default', array(
-                'order' => $view->order
-            )); ?>
-        </div>
-    <?php endif; ?>
+        <?php if (!empty($view->shippingFields)) : ?>
+            <div class="jbcart-shippingfield-col">
+                <?php echo $view->shippingFieldRenderer->render('shippingfield.default', array(
+                    'order' => $view->order
+                )); ?>
+            </div>
+        <?php endif; ?>
 
-</div>
+    </div>
+<?php endif; ?>
