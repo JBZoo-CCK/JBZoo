@@ -414,14 +414,22 @@ class JBCart
     {
         $session = $this->_getSession();
 
-        if (isset($session['shipping']) && isset($session['shipping']['_current']) && isset($session['shipping']['_current'])) {
+        $currentShipping = $this->_config->get('default_shipping');
+
+        if (isset($session['shipping']) && isset($session['shipping']['_current'])) {
             $cur = $session['shipping']['_current'];
             if (isset($session['shipping'][$cur])) {
-                return $session['shipping'][$cur];
+                $currentShipping = $session['shipping'][$cur];
             }
         }
 
-        return array('_shipping_id' => $this->_config->get('default_shipping'));
+        $shippingList = JBModelConfig::model()->get(JBCart::DEFAULT_POSITION, array(), 'cart.' . JBCart::CONFIG_SHIPPINGS);
+        if (empty($currentShipping) || !in_array($currentShipping, $shippingList)) {
+            reset($shippingList);
+            $currentShipping = key($shippingList);
+        }
+
+        return array('_shipping_id' => $currentShipping);
     }
 
     /**

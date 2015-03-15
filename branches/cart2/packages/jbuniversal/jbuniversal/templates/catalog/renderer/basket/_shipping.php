@@ -20,7 +20,7 @@ $classes = array(
 
 ?>
 
-<?php if (!empty($view->shipping) && !empty($view->shippingFields)) : ?>
+<?php if (!empty($view->shipping) || !empty($view->shippingFields)) : ?>
 
     <div class="<?php echo implode(' ', $classes); ?>">
 

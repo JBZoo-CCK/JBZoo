@@ -108,9 +108,17 @@ abstract class JBCartElementPayment extends JBCartElement
      */
     public function isDefault()
     {
-        $shipping = JBModelConfig::model()->get('default_payment', null, 'cart.config');
+        $config = JBModelConfig::model();
 
-        return $this->identifier == $shipping;
+        $currentPayment = $config->get('default_payment', null, 'cart.config');
+
+        $paymentList = $config->get(JBCart::DEFAULT_POSITION, array(), 'cart.' . JBCart::CONFIG_PAYMENTS);
+        if (empty($currentPayment) || !in_array($currentPayment, $paymentList)) {
+            reset($paymentList);
+            $currentPayment = key($paymentList);
+        }
+
+        return $this->identifier == $currentPayment;
     }
 
     /**
@@ -347,7 +355,7 @@ abstract class JBCartElementPayment extends JBCartElement
     /**
      * @return string
      */
-    public function getORderDescription()
+    public function getOrderDescription()
     {
         return 'Order #' . $this->getOrderId() . ' from ' . JUri::getInstance()->getHost();
     }
