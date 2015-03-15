@@ -237,8 +237,7 @@ class OrderRenderer extends PositionRenderer
         // render elements
         foreach ($fields as $identifier => $data) {
 
-            $element = $this->_order->getFieldElement($identifier);
-            if ($element) {
+            if ($element = $this->_order->getFieldElement($identifier)) {
 
                 $element->bindData($data);
 

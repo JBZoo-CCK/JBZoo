@@ -430,6 +430,32 @@ class JBHtmlHelper extends AppHelper
     }
 
     /**
+     * @param $data
+     * @return string
+     */
+    public function dataList($data)
+    {
+        $html = array();
+        $data = array_filter($data);
+
+        if (!empty($data)) {
+
+            $html[] = '<ul class="param-list">';
+
+            foreach ($data as $label => $text) {
+                $html[] = '<li>';
+                $html[] = '<strong>' . JText::_($label) . ':</strong>';
+                $html[] = $text;
+                $html[] = '</li>';
+            }
+
+            $html[] = '</ul>';
+        }
+
+        return implode(PHP_EOL, $html);
+    }
+
+    /**
      * Render hidden field
      * @param      $name
      * @param null $value

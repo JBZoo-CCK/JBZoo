@@ -24,6 +24,24 @@
         <param name="cost" type="text" default="0" label="JBZOO_ELEMENT_SHIPPING_COURIER_COST"
                description="JBZOO_ELEMENT_SHIPPING_COURIER_COST_DESC"/>
 
+        <param name="fulldate" type="jbbool" default="0" label="JBZOO_ELEMENT_SHIPPING_COURIER_FULLDATE"
+               description="JBZOO_ELEMENT_SHIPPING_COURIER_FULLDATE_DESC"/>
+
+        <param name="weekday" type="list" default="all" label="JBZOO_ELEMENT_SHIPPING_COURIER_WEEKDAY"
+               description="JBZOO_ELEMENT_SHIPPING_COURIER_WEEKDAY_DESC">
+            <option value="none">JBZOO_ELEMENT_SHIPPING_COURIER_WEEKDAY_NONE</option>
+            <option value="weekdays">JBZOO_ELEMENT_SHIPPING_COURIER_WEEKDAY_WEEKDAYS</option>
+            <option value="weekend">JBZOO_ELEMENT_SHIPPING_COURIER_WEEKDAY_WEEKEND</option>
+            <option value="all">JBZOO_ELEMENT_SHIPPING_COURIER_WEEKDAY_ALL</option>
+        </param>
+
+        <param name="hour" type="list" default="daytime" label="JBZOO_ELEMENT_SHIPPING_COURIER_HOUR"
+               description="JBZOO_ELEMENT_SHIPPING_COURIER_HOUR_DESC">
+            <option value="none">JBZOO_ELEMENT_SHIPPING_COURIER_HOUR_NONE</option>
+            <option value="daytime">JBZOO_ELEMENT_SHIPPING_COURIER_HOUR_DAYTIME</option>
+            <option value="all">JBZOO_ELEMENT_SHIPPING_COURIER_HOUR_ALL</option>
+        </param>
+
     </params>
 
 </element>

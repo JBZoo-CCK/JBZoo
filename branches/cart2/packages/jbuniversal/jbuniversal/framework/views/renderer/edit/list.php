@@ -14,7 +14,5 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 <dl class="uk-description-list-horizontal">
-    <?php echo $this->renderAdminPosition(array(
-        'style' => 'adminedit'
-    )); ?>
+    <?php echo $this->renderAdminPosition(array('style' => 'adminedit')); ?>
 </dl>
