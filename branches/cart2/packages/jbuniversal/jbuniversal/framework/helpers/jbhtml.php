@@ -43,11 +43,7 @@ class JBHtmlHelper extends AppHelper
             return null;
         }
 
-        jbdump::markStart();
-        $result = $this->_list('radio', $data, $name, $attribs, $selected, $idtag, $translate, $isLabelWrap);
-        jbdump::markStop();
-
-        return $result;
+        return $this->_list('radio', $data, $name, $attribs, $selected, $idtag, $translate, $isLabelWrap);
     }
 
     /**
@@ -270,7 +266,9 @@ class JBHtmlHelper extends AppHelper
     )
     {
         $html   = array();
-        $unique = $this->app->jbstring->getId('jbcolor-');
+        $stringHelper = $this->app->jbstring;
+
+        $unique = $stringHelper->getId('jbcolor-');
 
         $html[] = '<div id="' . $unique . '" class="jbzoo-colors">';
         foreach ($data as $value => $color) {
@@ -279,20 +277,20 @@ class JBHtmlHelper extends AppHelper
                 $isFile = $color;
             }
 
-            $input_id   = $this->app->jbstring->getId('jbcolor-input-');
-            $input_attr = array(
+            $inputId   = $stringHelper->getId('jbcolor-input-');
+            $inputAttr = array(
                 'type'  => $inputType,
                 'name'  => $name,
-                'id'    => $input_id,
+                'id'    => $inputId,
                 'title' => isset($titles[$value]) ? $titles[$value] : $value,
                 'value' => $value,
                 'class' => 'jbcolor-input',
             );
 
-            $label_attr = array(
-                'for'   => $input_id,
+            $labelAttr = array(
+                'for'   => $inputId,
                 'title' => isset($titles[$value]) ? $titles[$value] : $value,
-                'class' => 'jbcolor-label hasTip ' . $inputType . ' value-' . $value,
+                'class' => 'jbcolor-label hasTip ' . $inputType . ' value-' . $stringHelper->sluggify($value),
                 'style' => 'width:' . $width . ';height:' . $height . ';'
             );
 
@@ -301,12 +299,12 @@ class JBHtmlHelper extends AppHelper
             );
 
             if ($selected != null && ($selected == $value || is_array($selected) && in_array($value, $selected))) {
-                $input_attr['checked'] = 'checked';
-                $input_attr['class'] .= ' checked';
+                $inputAttr['checked'] = 'checked';
+                $inputAttr['class'] .= ' checked';
             }
 
-            $html[] = '<input ' . $this->_buildAttrs($input_attr) . '/>
-                        <label ' . $this->_buildAttrs($label_attr) . '>';
+            $html[] = '<input ' . $this->_buildAttrs($inputAttr) . '/>';
+            $html[] = '<label ' . $this->_buildAttrs($labelAttr) . '>';
             $html[] = ($isFile ? '<div class="checkIn" style="background: url(\'' . $isFile . '\') center; ' : '');
             $html[] = '<div ' . $this->_buildAttrs($attr) . '></div>';
             $html[] = ($isFile ? '</div>' : '') . '</label>';
