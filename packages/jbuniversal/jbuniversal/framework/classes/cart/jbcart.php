@@ -116,11 +116,6 @@ class JBCart
 
         $this->_config  = JBModelConfig::model()->getGroup('cart.config');
         $this->_jbmoney = $this->app->jbmoney;
-
-        if (!$this->_config->get('enable', 1)) {
-            $this->app->jbnotify->error('JBZOO_CART_DISABLED');
-        }
-
     }
 
     /**

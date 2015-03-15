@@ -15,8 +15,9 @@ defined('_JEXEC') or die('Restricted access');
 $order   = $this->order;
 $jbmoney = $this->app->jbmoney;
 
-$payment  = $order->getPayment();
-$shipping = $order->getShipping();
+$payment   = $order->getPayment();
+$shipping  = $order->getShipping();
+$modifiers = $order->getModifiersOrderPrice();
 
 $created  = $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
 $modified = $this->app->html->_('date', $order->modified, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
@@ -43,9 +44,10 @@ $editUrl = $this->app->jbrouter->admin(array('cid' => array($order->id)));
             <div class="uk-width-7-10 order-table">
 
                 <?php echo $this->partial('edit_table', array(
-                    'order'    => $order,
-                    'shipping' => $shipping,
-                    'payment'  => $payment
+                    'order'     => $order,
+                    'shipping'  => $shipping,
+                    'payment'   => $payment,
+                    //'modifiers' => $modifiers,
                 )); ?>
 
                 <?php echo $this->partial('edit_orderinfo', array(
@@ -84,10 +86,10 @@ $editUrl = $this->app->jbrouter->admin(array('cid' => array($order->id)));
 
         </div>
 
-        <input type="hidden" name="option" value="<?php echo $this->app->jbrequest->get('option'); ?>"/>
-        <input type="hidden" name="cid[0]" value="<?php echo $order->id; ?>"/>
-        <input type="hidden" name="controller" value="<?php echo $this->app->jbrequest->getCtrl(); ?>"/>
-        <input type="hidden" name="task" value="edit"/>
+        <input type="hidden" name="option" value="<?php echo $this->app->jbrequest->get('option'); ?>" />
+        <input type="hidden" name="cid[0]" value="<?php echo $order->id; ?>" />
+        <input type="hidden" name="controller" value="<?php echo $this->app->jbrequest->getCtrl(); ?>" />
+        <input type="hidden" name="task" value="edit" />
         <?php echo $this->app->html->_('form.token'); ?>
     </form>
 

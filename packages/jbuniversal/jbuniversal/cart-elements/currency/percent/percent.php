@@ -37,7 +37,7 @@ class JBCartElementCurrencyPercent extends JBCartElementCurrency
     /**
      * @return string
      */
-    public function getCurrencyName()
+    public function getName()
     {
         return JText::_('JBZOO_CART_CURRENCY_PERCENT');
     }

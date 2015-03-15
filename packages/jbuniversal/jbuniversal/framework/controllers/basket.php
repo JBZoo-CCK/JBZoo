@@ -67,6 +67,10 @@ class BasketJBUniversalController extends JBUniversalController
             $this->template = $templates[$tmplName];
         }
 
+        if (!$this->_config->get('enable', 1)) {
+            $this->app->jbnotify->error('JBZOO_CART_DISABLED');
+        }
+
         if (!$this->cart->canAccess($this->app->user->get())) {
             $this->app->jbnotify->error('JBZOO_CART_UNABLE_ACCESS');
         }
