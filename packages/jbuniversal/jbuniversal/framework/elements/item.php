@@ -388,10 +388,10 @@ class JBCSVItem
             $dataCurr  = JString::trim($data['_currency']);
 
             if (!empty($dataValue)) {
-                $result['_value'] = '_value:' . JString::str_ireplace($from, $to, $data['_value']);
+                $result['_value'] = '_value:' . str_replace($from, $to, $data['_value']);
             }
             if (!empty($dataCurr)) {
-                $result['_currency'] = '_currency:' . JString::str_ireplace($from, $to, $data['_currency']);
+                $result['_currency'] = '_currency:' . str_replace($from, $to, $data['_currency']);
             }
 
             unset($data['_value']);
@@ -401,13 +401,13 @@ class JBCSVItem
 
                     $key = JString::strtolower($key);
                     if ($nullElement) {
-                        $result[] = $key . ':' . JString::str_ireplace($from, $to, $value);
+                        $result[] = $key . ':' . str_replace($from, $to, $value);
                     }
 
                     if (is_string($value)) {
                         $value = JString::trim($value);
                         if (JString::strlen($value) > 0 && !empty($value) && $key) {
-                            $result[] = $key . ':' . JString::str_ireplace($from, $to, $value);
+                            $result[] = $key . ':' . str_replace($from, $to, $value);
                         }
                     } else if (!empty($value) && is_array($value)) {
 
@@ -416,13 +416,13 @@ class JBCSVItem
                             if (is_string($val)) {
                                 $val = JString::trim($val);
                                 if (JString::strlen($val) > 0 && !empty($val) && $i) {
-                                    $result[$i] = $i . ':' . JString::str_ireplace($from, $to, $val);
+                                    $result[$i] = $i . ':' . str_replace($from, $to, $val);
                                 }
                             } else if (is_array($val)) {
                                 $val = $val[key($val)];
                                 $val = JString::trim($val);
                                 if (JString::strlen($val) > 0 && !empty($val) && $i) {
-                                    $result[$i] = $i . ':' . JString::str_ireplace($from, $to, $val);
+                                    $result[$i] = $i . ':' . str_replace($from, $to, $val);
                                 }
                             }
                         }
@@ -450,9 +450,9 @@ class JBCSVItem
             $list = explode(';', $string);
             foreach ($list as $item) {
                 list($key, $value) = explode(':', $item);
-                $key = JString::strtolower($key);
+                $key = strtolower($key);
 
-                $result[$key] = JString::str_ireplace($from, $to, $value);
+                $result[$key] = str_replace($from, $to, $value);
             }
         }
 

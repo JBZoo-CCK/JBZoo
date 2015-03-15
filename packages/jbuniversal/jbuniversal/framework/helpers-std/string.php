@@ -11,9 +11,8 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * The general String Helper.
- *
  * @package Component.Helpers
- * @since 2.0
+ * @since   2.0
  */
 class StringHelper extends AppHelper
 {
@@ -26,10 +25,8 @@ class StringHelper extends AppHelper
 
     /**
      * Map all functions to JString class
-     *
      * @param string $method Method name
-     * @param array $args Method arguments
-     *
+     * @param array  $args   Method arguments
      * @return mixed
      */
     public function __call($method, $args)
@@ -39,11 +36,9 @@ class StringHelper extends AppHelper
 
     /**
      * Truncates the input string.
-     *
-     * @param string $text input string
-     * @param int $length the length of the output string
+     * @param string $text            input string
+     * @param int    $length          the length of the output string
      * @param string $truncate_string the truncate string
-     *
      * @return string The truncated string
      * @since 2.0
      */
@@ -113,28 +108,35 @@ class StringHelper extends AppHelper
 
     /**
      * Sluggifies the input string.
-     *
-     * @param string $string input string
-     * @param bool $force_safe Do we have to enforce ASCII instead of UTF8 (default: false)
-     *
+     * @param string $origString input string
+     * @param bool   $forceSafe  Do we have to enforce ASCII instead of UTF8 (default: false)
      * @return string sluggified string
      * @since 2.0
      */
-    public function sluggify($string, $force_safe = false)
+    public function sluggify($origString, $forceSafe = false)
     {
-        $string = $this->strtolower((string)$string);
+        static $cache = array();
 
-        foreach ($this->getTransliteration() as $replace => $keys) {
-            foreach ($keys as $search) {
-                $string = JString::str_ireplace($search, $replace, $string);
+        if (!isset($cache[$origString])) { // performance bug
+
+            $string = $this->strtolower((string)$origString);
+
+            foreach ($this->getTransliteration() as $replace => $keys) {
+                foreach ($keys as $search) {
+                    $string = str_ireplace($search, $replace, $string);
+                }
             }
+
+            $replace = array('#\s+#', '#[^\x{00C0}-\x{00D6}x{00D8}-\x{00F6}\x{00F8}-\x{00FF}\x{0370}-\x{1FFF}\x{4E00}-\x{9FAF}a-z0-9\-]#ui');
+            $string  = preg_replace($replace, array('-', ''), $string);
+            $string  = preg_replace('#[-]+#u', '-', $string);
+            $string  = trim($string, '-');
+            $string  = trim($string);
+
+            $cache[$origString] = $string;
         }
 
-        $string = preg_replace(array('#\s+#', '#[^\x{00C0}-\x{00D6}x{00D8}-\x{00F6}\x{00F8}-\x{00FF}\x{0370}-\x{1FFF}\x{4E00}-\x{9FAF}a-z0-9\-]#ui'), array('-', ''), $string);
-        $string = preg_replace('#[-]+#u', '-', $string);
-        $string = trim($string, '-');
-
-        return JString::trim($string);
+        return $cache[$origString];
     }
 
     /**
@@ -145,7 +147,7 @@ class StringHelper extends AppHelper
     public function applyTextFilters($string)
     {
         // Apply the textfilters (let's reuse Joomla's ContentHelper class)
-        if (!class_exists('ContentHelper', false)) {
+        if (!class_exists('ContentHelper')) {
             require_once JPATH_SITE . '/administrator/components/com_content/helpers/content.php';
         }
 

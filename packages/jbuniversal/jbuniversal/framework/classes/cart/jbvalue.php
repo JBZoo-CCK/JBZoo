@@ -627,13 +627,13 @@ class JBCartValue
             }
 
         } elseif (self::STYLE_TEXT == $style) {
-            $result = JString::str_ireplace(array('%s', '%v'), array($format['symbol'], $valueStr), $moneyFormat);
+            $result = str_replace(array('%s', '%v'), array($format['symbol'], $valueStr), $moneyFormat);
             if ($isPositive && $showPlus) {
                 $result = '+' . $result;
             }
 
         } elseif (self::STYLE_HTML == $style) {
-            $result = JString::str_ireplace(array('%s', '%v'), array(
+            $result = str_replace(array('%s', '%v'), array(
                 '<span class="jbcurrency-symbol">' . $format['symbol'] . "</span>",
                 '<span class="jbcurrency-value">' . $valueStr . "</span>"
             ), $moneyFormat);

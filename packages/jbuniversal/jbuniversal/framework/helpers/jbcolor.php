@@ -29,7 +29,7 @@ class JBColorHelper extends AppHelper
         $default = true;
 
         if (strpos($path, JUri::root()) === 0) {
-            $path = JString::str_ireplace(JUri::root(), '', $path);
+            $path = str_ireplace(JUri::root(), '', $path);
         } elseif (strpos($path, 'http') === 0) {
             $default = false;
         }
@@ -49,7 +49,7 @@ class JBColorHelper extends AppHelper
                 }
 
                 if ($this->isFile($value)) {
-                    $url     = JString::str_ireplace('\\', '/', $path);
+                    $url     = str_ireplace('\\', '/', $path);
                     $newPath = JPath::clean($path);
 
                     if (!JFile::exists(JPATH_ROOT . DS . $newPath . DS . $value) && $default) {
