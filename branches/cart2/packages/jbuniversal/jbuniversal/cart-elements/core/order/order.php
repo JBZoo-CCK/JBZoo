@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -22,7 +21,6 @@ abstract class JBCartElementOrder extends JBCartElement
 
     /**
      * Render shipping in order
-     *
      * @param  array
      * @return bool|string
      */
@@ -65,7 +63,7 @@ abstract class JBCartElementOrder extends JBCartElement
     {
         $user = JFactory::getUser();
         if (empty($default)) {
-            $default = $this->config->get('default', ' ');
+            $default = $this->config->get('default');
         }
 
         if ($user->guest) {
