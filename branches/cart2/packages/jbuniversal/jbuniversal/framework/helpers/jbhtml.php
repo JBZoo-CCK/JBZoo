@@ -265,10 +265,11 @@ class JBHtmlHelper extends AppHelper
         $titles = array()
     )
     {
-        $html   = array();
-        $stringHelper = $this->app->jbstring;
+        $html         = array();
+        $stringHelper = $this->app->string;
+        $jbstring     = $this->app->jbstring;
 
-        $unique = $stringHelper->getId('jbcolor-');
+        $unique = $jbstring->getId('jbcolor-');
 
         $html[] = '<div id="' . $unique . '" class="jbzoo-colors">';
         foreach ($data as $value => $color) {
@@ -277,7 +278,7 @@ class JBHtmlHelper extends AppHelper
                 $isFile = $color;
             }
 
-            $inputId   = $stringHelper->getId('jbcolor-input-');
+            $inputId   = $jbstring->getId('jbcolor-input-');
             $inputAttr = array(
                 'type'  => $inputType,
                 'name'  => $name,
