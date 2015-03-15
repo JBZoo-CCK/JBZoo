@@ -115,7 +115,7 @@ class JBMoneyHelper extends AppHelper
                     self::$curList[$code] = array(
                         'code'   => $code,
                         'value'  => $value,
-                        'name'   => $element->getCurrencyName(),
+                        'name'   => $element->getName(),
                         'format' => $element->getFormat(),
                     );
                 }
