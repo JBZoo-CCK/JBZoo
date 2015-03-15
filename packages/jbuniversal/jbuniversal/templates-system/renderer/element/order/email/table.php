@@ -17,7 +17,7 @@ $label  = '';
 if ($params->get('showlabel')) {
 
     // check label
-    $labelText = $element->config->get('name');
+    $labelText = $element->getName();
 
     $label =
         '<td align="left">

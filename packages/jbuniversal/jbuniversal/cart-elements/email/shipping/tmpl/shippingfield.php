@@ -31,7 +31,7 @@ if (!empty($data)) : ?>
             <tr>
                 <td align="left">
                     <strong>
-                        <?php echo $element->config->get('name'); ?>
+                        <?php echo $element->getName(); ?>
                     </strong>
                 </td>
 

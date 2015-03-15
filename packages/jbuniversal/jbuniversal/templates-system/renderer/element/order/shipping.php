@@ -34,7 +34,7 @@ $classes = array_filter(array(
 ));
 
 $element->loadAssets();
-$label  = $params->get('altlabel') ? $params->get('altlabel') : $element->config->get('name');
+$label  = $params->get('altlabel') ? $params->get('altlabel') : $element->getName();
 $uniqId = $element->htmlId();
 
 ?>
@@ -52,7 +52,7 @@ $uniqId = $element->htmlId();
         ),
         'name'    => $element->getControlName('_shipping_id'),
         'checked' => $element->isDefault() ? 'checked' : '',
-    ));?> />
+    )); ?> />
 
     <div class="jbcart-radio-label jbcart-shipping-wrapper">
 
