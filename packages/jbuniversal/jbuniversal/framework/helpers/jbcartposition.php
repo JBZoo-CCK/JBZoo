@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -26,11 +25,9 @@ class JBCartPositionHelper extends AppHelper
 
     /**
      * Load positions group with elements
-     *
      * @param       $group
      * @param array $mustHave
      * @param array $forceElements
-     *
      * @return array
      */
     public function loadPositions($group, $mustHave = array(), $forceElements = array())
@@ -103,7 +100,6 @@ class JBCartPositionHelper extends AppHelper
      * @param       $tmplGroup
      * @param       $configGroup
      * @param array $tmplPoitions
-     *
      * @return array
      */
     public function loadPositionsTmpl($tmplGroup, $configGroup, $tmplPoitions = array())
@@ -122,7 +118,6 @@ class JBCartPositionHelper extends AppHelper
 
     /**
      * @param $tmplGroup
-     *
      * @return array
      */
     public function loadParams($tmplGroup)
@@ -139,7 +134,6 @@ class JBCartPositionHelper extends AppHelper
 
     /**
      * @param $group
-     *
      * @return array
      */
     public function loadElements($group)
@@ -198,7 +192,6 @@ class JBCartPositionHelper extends AppHelper
 
     /**
      * @param ElementJBPrice $element
-     *
      * @return array
      */
     public function loadForPrice($element)
@@ -218,8 +211,27 @@ class JBCartPositionHelper extends AppHelper
     }
 
     /**
+     * @param array $positions
+     * @param array $needleElements
+     * @return mixed
+     */
+    public function filter($positions, $needleElements)
+    {
+        $needleList = array_keys($needleElements);
+
+        foreach ($positions as $position => $elements) {
+            foreach ($elements as $elementId => $element) {
+                if (!in_array($elementId, $needleList)) {
+                    unset($positions[$position][$elementId]);
+                }
+            }
+        }
+
+        return $positions;
+    }
+
+    /**
      * @param string $group
-     *
      * @return JSONData
      */
     protected function _getConfig($group)
@@ -231,5 +243,6 @@ class JBCartPositionHelper extends AppHelper
 
         return $configs;
     }
+
 
 }
