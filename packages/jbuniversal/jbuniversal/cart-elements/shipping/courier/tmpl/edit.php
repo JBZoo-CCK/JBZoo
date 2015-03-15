@@ -12,12 +12,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
-$uiqueId = $this->app->jbstring->getId('courier-');
-
-echo '<div id="' . $uiqueId . '">';
-echo '<div class="courier-calendar">' . $this->_renderCalendar($params) . '</div>';
-echo '<div class="courier-daytime">' . $this->_renderWeekdays($params) . ' ' . $this->_renderHours($params) . '</div>';
-echo '</div>';
-
-echo $this->app->jbassets->widget('#' . $uiqueId, 'JBZoo.ShippingType.Courier');
+echo $this->app->jbhtml->dataList(array(
+    'JBZOO_ELEMENT_SHIPPING_COURIER_FULLDATE_VALUE' => $this->get('fulldate', ' - '),
+    'JBZOO_ELEMENT_SHIPPING_COURIER_WEEKDAY_VALUE' => $this->get('weekday', ' - '),
+    'JBZOO_ELEMENT_SHIPPING_COURIER_HOUR_VALUE' => $this->get('hour', ' - '),
+));

@@ -17,5 +17,5 @@ if ($element) {
     $element->loadAssets();
 
     echo '<dt>' . $element->getName() . '</dt>';
-    echo '<dd><p>' . $element->edit($params) . '</p></dd>';
+    echo '<dd>' . $element->edit($params) . '</dd>';
 }
