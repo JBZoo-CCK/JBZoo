@@ -36,8 +36,8 @@ $this->app->jbassets->widget('.jbzoo .jsJBZooCart', 'JBZoo.Cart', array(
 <?php else: ?>
 
     <?php
-    $isFormEmpty = empty($view->shipping)
-        && empty($view->payment)
+    $isFormEmpty = empty($view->payment)
+        && empty($view->shipping)
         && empty($view->shippingFields)
         && !$view->formRenderer->checkPosition(JBCart::DEFAULT_POSITION);
     ?>
