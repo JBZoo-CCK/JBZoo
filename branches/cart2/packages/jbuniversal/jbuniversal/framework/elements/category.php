@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -35,7 +34,7 @@ class JBCSVCategory
      */
     function __construct(Category $category)
     {
-        $this->app = App::getInstance('zoo');
+        $this->app       = App::getInstance('zoo');
         $this->_category = $category;
     }
 
@@ -112,7 +111,7 @@ class JBCSVCategory
     /**
      * Get date from string
      * @param string $value
-     * @param null $default
+     * @param null   $default
      * @return string
      */
     protected function _getDate($value, $default = null)
@@ -127,7 +126,7 @@ class JBCSVCategory
 
     /**
      * Pack data from string
-     * @param $data
+     * @param      $data
      * @param bool $nullElement
      * @return string
      */
@@ -137,15 +136,15 @@ class JBCSVCategory
 
         if (!empty($data)) {
             $from = array(':', ';');
-            $to = array('%col%', '%sem%');
+            $to   = array('%col%', '%sem%');
 
             foreach ($data as $key => $value) {
-                $key = JString::strtolower($key);
+                $key = strtolower($key);
                 if ($nullElement) {
-                    $result[] = $key . ':' . JString::str_ireplace($from, $to, $value);
+                    $result[] = $key . ':' . str_replace($from, $to, $value);
                 } else {
-                    if (JString::strlen($value) > 0 && $key) {
-                        $result[] = $key . ':' . JString::str_ireplace($from, $to, $value);
+                    if (strlen($value) > 0 && $key) {
+                        $result[] = $key . ':' . str_replace($from, $to, $value);
                     }
                 }
             }
@@ -165,13 +164,13 @@ class JBCSVCategory
 
         if (!empty($string)) {
             $from = array('%col%', '%sem%');
-            $to = array(':', ';');
+            $to   = array(':', ';');
 
             $list = explode(';', $string);
             foreach ($list as $item) {
                 list($key, $value) = explode(':', $item);
-                $key = JString::strtolower($key);
-                $result[$key] = JString::str_ireplace($from, $to, $value);
+                $key          = strtolower($key);
+                $result[$key] = str_replace($from, $to, $value);
             }
         }
 

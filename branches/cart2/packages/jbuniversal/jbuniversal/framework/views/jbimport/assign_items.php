@@ -58,7 +58,7 @@ $jbform = $this->app->jbform;
                             <li class="assign">
                                 <?php
                                 foreach ($this->controls['fields_types'] as $control) {
-                                    echo JString::str_ireplace('__name_placeholder__', $key, $control);
+                                    echo str_ireplace('__name_placeholder__', $key, $control);
                                 }
                                 ?>
 

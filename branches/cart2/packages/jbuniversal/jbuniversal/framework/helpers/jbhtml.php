@@ -14,9 +14,9 @@ defined('_JEXEC') or die('Restricted access');
 
 
 /**
- * Class JBHTMLHelper
+ * Class JBHtmlHelper
  */
-class JBHTMLHelper extends AppHelper
+class JBHtmlHelper extends AppHelper
 {
     /**
      * Render option list
@@ -43,7 +43,11 @@ class JBHTMLHelper extends AppHelper
             return null;
         }
 
-        return $this->_list('radio', $data, $name, $attribs, $selected, $idtag, $translate, $isLabelWrap);
+        jbdump::markStart();
+        $result = $this->_list('radio', $data, $name, $attribs, $selected, $idtag, $translate, $isLabelWrap);
+        jbdump::markStop();
+
+        return $result;
     }
 
     /**
@@ -669,6 +673,9 @@ class JBHTMLHelper extends AppHelper
                            $translate = false, $isLabelWrap = false
     )
     {
+        $jbstring     = $this->app->jbstring;
+        $stringHelper = $this->app->string;
+
         reset($data);
 
         if (!is_array($attribs)) {
@@ -688,13 +695,13 @@ class JBHTMLHelper extends AppHelper
                 $id    = isset($obj['id']) ? $obj['id'] : null;
             }
 
-            $valueSlug = $this->app->string->sluggify($value);
+            $valueSlug = $stringHelper->sluggify($value);
 
             $extra = array_merge($attribs, array(
                 'value' => $value,
                 'name'  => $name,
                 'type'  => $inputType,
-                'id'    => 'id' . $valueSlug . '-' . $this->app->jbstring->getId(),
+                'id'    => 'id' . $valueSlug . '-' . $jbstring->getId(),
                 'class' => 'value-' . $valueSlug
             ));
 
@@ -722,7 +729,7 @@ class JBHTMLHelper extends AppHelper
                 'for'   => $extra['id'],
                 'class' => array(
                     $inputType . '-lbl',
-                    'lbl-' . $this->app->string->sluggify($value),
+                    'lbl-' . $valueSlug,
                 ),
             );
 

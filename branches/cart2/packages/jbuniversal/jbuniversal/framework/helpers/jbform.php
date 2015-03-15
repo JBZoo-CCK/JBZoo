@@ -158,7 +158,7 @@ class JBFormHelper extends AppHelper
         } else {
 
             $label = preg_replace("#title=\".*?\"#ius", '', $field->label);
-            $label = JString::str_ireplace('hasTip', '', $label);
+            $label = str_ireplace('hasTip', '', $label);
 
             $html[] = '<div class="uk-form-row">';
             $html[] = '<div class="' . $className . '-label uk-form-label">';
