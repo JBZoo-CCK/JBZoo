@@ -385,6 +385,8 @@ class JBCartJBUniversalController extends JBUniversalController
         $this->elementsParams = $this->_position->loadParams($confName);
         $this->positions      = $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE, $this->positionList);
 
+        $this->positions = $this->_position->filter($this->positions, $this->dragElements);
+
         $this->saveTask = 'savePricePositions';
         $this->groupKey = JBCart::CONFIG_PRICE_TMPL;
         $this->renderView();
