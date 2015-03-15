@@ -265,16 +265,20 @@ class JBHtmlHelper extends AppHelper
         $titles = array()
     )
     {
-        $html         = array();
         $stringHelper = $this->app->string;
         $jbstring     = $this->app->jbstring;
+        $jbcolor      = $this->app->jbcolor;
 
         $unique = $jbstring->getId('jbcolor-');
 
-        $html[] = '<div id="' . $unique . '" class="jbzoo-colors">';
+        $attrs['id']    = $attrs;
+        $attrs['class'] = 'jbzoo-colors';
+
+        $html   = array();
+        $html[] = '<div ' . $this->_buildAttrs($attrs) . '>';
         foreach ($data as $value => $color) {
             $isFile = false;
-            if ($this->app->jbcolor->isFile($color)) {
+            if ($jbcolor->isFile($color)) {
                 $isFile = $color;
             }
 
