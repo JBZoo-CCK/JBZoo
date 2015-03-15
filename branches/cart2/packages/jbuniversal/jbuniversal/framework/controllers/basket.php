@@ -104,6 +104,8 @@ class BasketJBUniversalController extends JBUniversalController
             'edit'         => true,
         ));
 
+        $jbnotify = $this->app->jbnotify;
+
         $errors     = 0;
         $orderSaved = false;
 
@@ -124,7 +126,8 @@ class BasketJBUniversalController extends JBUniversalController
                     $this->app->system->application->setUserState('JBZOO_ORDDER_SUBMISSION_FORM', serialize($formData));
 
                     // show custom error messages
-                    $this->app->jbnotify->warning($errorMessages);
+                    $jbnotify->warning('JBZOO_CART_ORDER_SOME_ERROR');
+                    $jbnotify->warning($errorMessages);
 
                 } else {
                     // saving order
@@ -145,12 +148,15 @@ class BasketJBUniversalController extends JBUniversalController
 
                         $this->setRedirect($paymentUrl, JText::_($message));
                     } else {
-                        $this->app->jbnotify->notice(JText::_('JBZOO_CART_ORDER_SUCCESS_CREATED'));
+                        $jbnotify->notice('JBZOO_CART_ORDER_SUCCESS_CREATED');
                     }
                 }
 
             } catch (JBCartOrderException $e) {
-                $this->app->jbnotify->warning(JText::_($e->getMessage()));
+                $jbnotify->warning(JText::_($e->getMessage()));
+
+            } catch (AppException $e) {
+                $jbnotify->warning(JText::_($e->getMessage()));
             }
         }
 
