@@ -1107,7 +1107,7 @@ class JBFieldHelper extends AppHelper
     }
 
     /**
-     * Render element id
+     * Render spacer text
      * @param string           $name
      * @param string|array     $value
      * @param string           $controlName
@@ -1120,8 +1120,22 @@ class JBFieldHelper extends AppHelper
         if ($value) {
             return '<div class="field-jbspacer"><b> -= ' . JText::_($value) . ' =- </b></div>';
         }
+    }
 
-        return null;
+    /**
+     * Render important notice
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
+     * @param SimpleXMLElement $node
+     * @param SimpleXMLElement $parent
+     * @return mixed
+     */
+    public function important($name, $value, $controlName, SimpleXMLElement $node, $parent)
+    {
+        if ($value) {
+            return '<div class="field-jbimportant"><b>' . JText::_($value) . '</b></div>';
+        }
     }
 
     /**
