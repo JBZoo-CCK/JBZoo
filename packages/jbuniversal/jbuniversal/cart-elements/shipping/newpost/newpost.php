@@ -101,15 +101,6 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     }
 
     /**
-     * @return $this|void
-     */
-    public function loadAssets()
-    {
-        parent::loadAssets();
-        $this->app->jbassets->js('cart-elements:shipping/newpost/assets/js/newpost.js');
-    }
-
-    /**
      * @param array  $data
      * @param string $method
      * @return mixed
