@@ -246,7 +246,7 @@ abstract class JBCartElementPrice extends JBCartElement
     public function bindData($data = array(), $key = 'value')
     {
         if (!is_array($data)) {
-            $data = array($key => $data);
+            $this->set($key, $data);
         }
 
         foreach ($data as $key => $value) {
