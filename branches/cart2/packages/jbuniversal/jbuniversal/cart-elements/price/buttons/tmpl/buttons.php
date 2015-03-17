@@ -13,10 +13,37 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 
 <div class="jbprice-buttons jsPriceButtons <?php echo $inCart; ?>">
+    <?php $add_btn = $one_btn = $popup_btn = $goto_btn = '';
 
-    <?php echo $add_html, $oneClick_html, $popup_html, $goto_html; ?>
+    if ($add) {
+        $add_btn = '<span class="jsAddToCart jbbutton green add-button" title="' . $addLabel . '">'
+            . $addLabel
+            . '</span>';
+    }
 
-    <span class="jsRemoveFromCart jsRemoveElement jbbutton small orange remove-button" title="<?php echo $removeLabel; ?>">
+    if ($oneClick) {
+        $one_btn = '<span class="jsAddToCart jsAddToCartGoTo jbbutton green" title="' . $oneClickLabel . '">'
+            . $oneClickLabel
+            . '</span>';
+    }
+
+    if ($popup) {
+        $this->app->jbassets->fancybox();
+        $popup_btn = '<span class="jsAddToCartModal jbbutton green" title="' . $popupLabel . '">'
+            . $popupLabel
+            . '</span>';
+    }
+
+    if ($goto) {
+        $goto_btn = '<a class="jbbutton goto-button" title="' . $goToLabel . '" href="' . $basketUrl . '">'
+            . $goToLabel
+            . '</a>';
+    }
+
+    echo $add_btn, $one_btn, $popup_btn, $goto_btn; ?>
+
+    <span class="jsRemoveFromCart jsRemoveElement jbbutton small orange remove-button"
+          title="<?php echo $removeLabel; ?>">
         <?php echo $removeLabel; ?>
     </span>
 
