@@ -16,5 +16,5 @@ defined('_JEXEC') or die('Restricted access');
 $this->js('libraries:jquery/jquery-ui.custom.min.js')
      ->css('libraries:jquery/jquery-ui.custom.css');
 
-echo $this->_jbhtml->buttonsJqueryUI($data, $this->getRenderName('value'), null, $this->getValue('value'), $this->htmlId(true));
+echo $this->_jbhtml->buttonsJqueryUI($data, $this->getRenderName('value'), null, $this->getValue(), $this->htmlId(true));
 
