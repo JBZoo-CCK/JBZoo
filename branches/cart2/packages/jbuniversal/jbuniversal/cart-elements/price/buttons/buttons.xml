@@ -33,18 +33,33 @@
 
     <params group="render">
 
-        <param name="template" type="list" default="normal" label="JBZOO_JBPRICE_BUTTON_MODE"
-               description="JBZOO_JBPRICE_BUTTON_MODE_DESC">
-            <option value="add">JBZOO_JBPRICE_BUTTON_MODE_NORMAL</option>
-            <option value="popup">JBZOO_JBPRICE_BUTTON_MODE_POPUP</option>
-            <option value="oneclick">JBZOO_JBPRICE_BUTTON_MODE_ONECLICK</option>
-        </param>
+        <param name="template_add" type="jbbool" default="1" label="JBZOO_JBPRICE_BUTTONS_TEMPLATE_ADD"
+               description="JBZOO_JBPRICE_BUTTONS_TEMPLATE_DESC"/>
 
-        <param name="add_label" type="text" default="JBZOO_JBPRICE_ADD_TO_CART" label="JBZOO_JBPRICE_BUTTONS_ADD_LABEL"
-               description="JBZOO_JBPRICE_ELEMENT_BUTTONS_ADD_DESC" />
+        <param name="template_popup" type="jbbool" default="0" label="JBZOO_JBPRICE_BUTTONS_TEMPLATE_POPUP"
+               description="JBZOO_JBPRICE_BUTTONS_TEMPLATE_DESC"/>
 
-        <param name="remove_label" type="text" default="JBZOO_JBPRICE_REMOVE_FROM_CART" label="JBZOO_JBPRICE_BUTTONS_REMOVE_LABEL"
-               description="JBZOO_JBPRICE_ELEMENT_BUTTONS_REMOVE_DESC" />
+        <param name="template_oneclick" type="jbbool" default="0" label="JBZOO_JBPRICE_BUTTONS_TEMPLATE_ONECLICK"
+               description="JBZOO_JBPRICE_BUTTONS_TEMPLATE_DESC"/>
+
+        <param name="template_goto" type="jbbool" default="1" label="JBZOO_JBPRICE_BUTTONS_TEMPLATE_GOTO"
+               description="JBZOO_JBPRICE_BUTTONS_TEMPLATE_DESC"/>
+
+
+        <param name="add_label" type="text" default="JBZOO_JBPRICE_BUTTONS_ADD_TO_CART"
+               label="JBZOO_JBPRICE_BUTTONS_ADD_LABEL" description="JBZOO_JBPRICE_BUTTONS_ADD_DESC"/>
+
+        <param name="popup_label" type="text" default="JBZOO_JBPRICE_BUTTONS_ADD_TO_CART_POPUP"
+               label="JBZOO_JBPRICE_BUTTONS_POPUP_LABEL" description="JBZOO_JBPRICE_BUTTONS_POPUP_DESC"/>
+
+        <param name="oneclick_label" type="text" default="JBZOO_JBPRICE_BUTTONS_ADD_TO_CART_GOTO"
+               label="JBZOO_JBPRICE_BUTTONS_ONECLICK_LABEL" description="JBZOO_JBPRICE_BUTTONS_ONECLICK_DESC"/>
+
+        <param name="goto_label" type="text" default="JBZOO_JBPRICE_BUTTONS_GOTO_CART"
+               label="JBZOO_JBPRICE_BUTTONS_GOTO_LABEL" description="JBZOO_JBPRICE_BUTTONS_GOTO_DESC"/>
+
+        <param name="remove_label" type="text" default="JBZOO_JBPRICE_BUTTONS_REMOVE_FROM_CART"
+               label="JBZOO_JBPRICE_BUTTONS_REMOVE_LABEL" description="JBZOO_JBPRICE_BUTTONS_REMOVE_DESC"/>
 
     </params>
 

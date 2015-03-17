@@ -59,7 +59,10 @@ class JBCartElementPriceImage extends JBCartElementPrice
         if ($layout = $this->getLayout('edit.php')) {
             $this->app->jbassets->media();
 
-            return self::renderEditLayout($layout);
+            return self::renderEditLayout($layout, array(
+                'value'  => $this->get('value', ''),
+                'unique' => $this->htmlId(true)
+            ));
         }
 
         return null;

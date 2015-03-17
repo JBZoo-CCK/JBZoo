@@ -28,6 +28,7 @@ class JBCartElementPriceSku extends JBCartElementPrice
     public function hasValue($params = array())
     {
         $value = $this->getValue();
+
         if (!isset($value) || empty($value)) {
             return false;
         }
@@ -41,7 +42,7 @@ class JBCartElementPriceSku extends JBCartElementPrice
      */
     public function getSearchData()
     {
-        $value = $this->getValue();
+        $value = $this->getValue(true);
 
         return $value;
     }
@@ -53,7 +54,9 @@ class JBCartElementPriceSku extends JBCartElementPrice
     public function edit($params = array())
     {
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderEditLayout($layout);
+            return self::renderEditLayout($layout, array(
+                'value' => $this->get('value', '')
+            ));
         }
 
         return null;
@@ -86,5 +89,23 @@ class JBCartElementPriceSku extends JBCartElementPrice
     public function renderAjax($params = array())
     {
         return $this->render($params);
+    }
+
+    /**
+     * Get elements value
+     * @param string $key      Array key.
+     * @param mixed  $default  Default value if data is empty.
+     * @param bool   $toString A string representation of the value.
+     * @return mixed|string
+     */
+    public function getValue($toString = false, $key = 'value', $default = null)
+    {
+        $value = parent::getValue($toString, $key, $default);
+        if (!isset($value{0})&& $item = $this->_jbprice->getItem())
+        {
+            $value = $item->id;
+        }
+
+        return $value;
     }
 }

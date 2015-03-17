@@ -7,7 +7,7 @@
     @author      JBZoo App http://jbzoo.com
     @copyright   Copyright (C) JBZoo.com,  All rights reserved.
     @license     http://jbzoo.com/license-pro.php JBZoo Licence
-    @coder       Denis Smetannikov <denis@jbzoo.com>
+    @coder       Alexander Oganov <t_tapak@yahoo.com>
 -->
 <element type="jbprice" group="JBZoo" hidden="true" orderable="true">
     <name>JBPrice Core</name>
@@ -18,23 +18,6 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>2.0</version>
-    <params>
-        <param name="mode" type="radio" default="1" label="JBZOO_JBPRICE_MODE" description="JBZOO_JBPRICE_MODE_DESC">
-            <option value="0">JBZOO_JBPRICE_MODE_SIMPLE</option>
-            <option value="1">JBZOO_JBPRICE_MODE_ADV</option>
-        </param>
-
-        <param name="only_selected" type="jbbool" default="1" label="JBZOO_JBPRICE_PLAIN_ONLYSELECTED"
-               description="JBZOO_JBPRICE_PLAIN_ONLYSELECTED_DESC"/>
-
-        <param name="cache" type="jbbool" default="0" label="JBZOO_JBPRICE_ELEMENT_CACHE"
-               description="JBZOO_JBPRICE_ELEMENT_CACHE_DESC"/>
-
-        <param name="@basket_label" type="jbspacer" default="JBZOO_JBPRICE_BASKET_RELATION"/>
-
-        <param name="basket_menuitem" type="jbmenuitems" default="" label="JBZOO_JBPRICE_BASKET_MENUITEM"
-               description="JBZOO_JBPRICE_BASKET_MENUITEM_DESC"/>
-    </params>
     <params group="render">
         <param name="separated_by" type="zoolist" default="Space" label="Separated by"
                description="CHOOSE_SEPARATOR_REPEATED_ELEMENTS">

@@ -63,7 +63,7 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
 
         if ($layout = $this->getLayout($layout . '.php')) {
             return self::renderEditLayout($layout, array(
-                'discount' => $this->getValue(),
+                'value' => $this->get('value', ''),
                 'message'  => JText::sprintf('JBZOO_JBPRICE_CALC_PARAM_CANT_USE', '<strong>' . $this->getElementType() . '</strong>')
             ));
         }
@@ -116,7 +116,13 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
     {
         $value = parent::getValue($toString, $key, $default);
 
-        if ($toString) {
+        if($this->isBasic())
+        {
+            $value = $this->clearSymbols($value);
+        }
+
+        if ($toString)
+        {
             return $value;
         }
 

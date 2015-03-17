@@ -20,7 +20,6 @@
     <description>JBZoo Cart Element Core System</description>
 
     <params>
-
         <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME" description="JBZOO_ELEMENT_NAME_DESC"/>
 
         <param name="description" type="text" default="" label="JBZOO_ELEMENT_DESCRIPTION"
@@ -28,19 +27,14 @@
 
         <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
                description="JBZOO_ELEMENT_ACCESS_DESC"/>
-
-        <param name="default" type="text" label="JBZOO_ELEMENT_DEFAULT" />
-
     </params>
 
     <params group="filter">
-
         <param name="showlabel" type="jbbool" default="0" label="JBZOO_ELEMENT_SHOWLABEL"
                description="JBZOO_ELEMENT_SHOWLABEL_DESC"/>
 
         <param name="altlabel" type="text" default="" label="JBZOO_ELEMENT_LABEL_ALTERNATIVE"
                description="JBZOO_ELEMENT_LABEL_ALTERNATIVE_DESC"/>
-
     </params>
 
 </element>

@@ -166,6 +166,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function hasValue($params = array())
     {
+        $params = $this->app->data->create($params);
         $this->_template = $params->get('template', 'default');
 
         $data   = (array)$this->data();
@@ -197,25 +198,17 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
                 $list = $this->getList($variations);
                 return parent::renderLayout($layout, array(
-                    'variations' => $list->all(),
-                    'default'    => $this->defaultKey(),
-                    'renderer'   => $renderer,
-                    'mode'       => (int)$this->config->get('mode', 1)
+                    'variations'  => $list->all(),
+                    'default'     => $this->defaultKey(),
+                    'renderer'    => $renderer,
+                    'countSimple' => count($this->getSimpleElements())
                 ));
             }
 
             return null;
         }
 
-        $link = '<a target="_blank" href="'
-            . $this->app->jbrouter->admin(array(
-                'controller' => 'jbcart',
-                'task'       => 'price',
-                'element'    => $this->identifier
-            ))
-            . '">' . JText::_('JBZOO_PRICE_EDIT_ERROR_ADD_ELEMENTS') . '</a>';
-
-        return JText::sprintf('JBZOO_PRICE_EDIT_ERROR_NO_ELEMENTS', $link);
+        return $this->renderWarning();
     }
 
     /**
@@ -297,6 +290,24 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         }
 
         return $html;
+    }
+
+    /**
+     * @param string $layout
+     * @return string
+     */
+    public function renderWarning($layout = '_warning.php')
+    {
+        $link = $this->app->jbrouter->admin(array(
+            'controller' => 'jbcart',
+            'task'       => 'price',
+            'element'    => $this->identifier
+        ));
+
+        return parent::renderLayout($this->getLayout($layout), array(
+            'link'    => $link,
+            'message' => JText::_('JBZOO_PRICE_EDIT_ERROR_ADD_ELEMENTS')
+        ));
     }
 
     /**
@@ -592,7 +603,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * @param $identifier
-     * @return array|void
+     * @return array
      */
     public function elementOptions($identifier)
     {
@@ -876,6 +887,15 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     /**
      * @return array
      */
+    public function getSimpleElements()
+    {
+        return array_filter($this->getElements(),
+            create_function('$element', 'return $element->isCore() == false;'));
+    }
+
+    /**
+     * @return array
+     */
     public function getSystemElementsParams()
     {
         return array_filter($this->_getRenderParams(),
@@ -963,7 +983,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function getBalance($key)
     {
-        return $this->getVariant($key)->getValue('_balance');
+        return $this->getVariant($key)->getValue(true, '_balance');
     }
 
     /**
@@ -1021,6 +1041,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 $this->_item->elements->set($this->identifier, $result);
             }
         }
+
     }
 
     /**
@@ -1037,6 +1058,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             $variations = (array)$this->_item->elements->find($this->identifier . '.variations', array());
 
             $variations[$variant->getId()] = $variant->data();
+
             if(!$variant->isBasic()) {
                 $values[$variant->getId()] = array_filter(array_map(create_function('$element',
                         'return JString::strlen($element->getValue(true)) > 0 ? (array)$element->data() : null;'), $simple)
@@ -1054,7 +1076,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             }
             $variations = array_values($variations);
             $values     = array_values($values);
-
+            eva($variations);
             $this->_item->elements->set($this->identifier, array(
                 'variations' => $variations,
                 'values'     => $variant->isBasic() ? array(self::BASIC_VARIANT => array()) : $values,

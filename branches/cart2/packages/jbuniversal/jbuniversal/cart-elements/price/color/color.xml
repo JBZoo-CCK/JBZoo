@@ -26,9 +26,6 @@
         <param name="path" type="text" default="images/jbcolor" label="JBZOO_ELEMENT_PRICE_COLOR_PATH"
                description="JBZOO_ELEMENT_PRICE_COLOR_PATH_DESC"/>
 
-        <param name="required" type="jbbool" default="0" label="JBZOO_ELEMENT_PRICE_COLOR_REQUIRED"
-               description="JBZOO_ELEMENT_PRICE_COLOR_REQUIRED_DESC"/>
-
     </params>
 
     <params group="render">

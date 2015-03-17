@@ -246,7 +246,7 @@ abstract class JBCartElementPrice extends JBCartElement
     public function bindData($data = array(), $key = 'value')
     {
         if (!is_array($data)) {
-            $this->set($key, $data);
+            $data = array($key => $data);
         }
 
         foreach ($data as $key => $value) {
@@ -426,13 +426,10 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function getOptions($label = true)
     {
-        $options = array();
-
+        $options = $this->parseOptions(false);
         if (!$this->hasOptions() || !$this->showAll) {
-            $options = $this->_jbprice->elementOptions($this->identifier);
-
-        } else if ($this->showAll) {
-            $options = $this->parseOptions();
+            $selected = $this->_jbprice->elementOptions($this->identifier);
+            $options  = array_intersect_key($selected, $options);
         }
 
         if (!empty($options) && $label) {
@@ -562,6 +559,18 @@ abstract class JBCartElementPrice extends JBCartElement
         }
 
         return $this;
+    }
+
+    /**
+     * @param string $value
+     * @param array $symbols
+     * @return mixed
+     */
+    public function clearSymbols($value, $symbols = array('%', '+', '-'))
+    {
+        $symbols = array_map(array('JString', 'trim'), (array)$symbols);
+
+        return JString::str_ireplace($symbols, '', $value);
     }
 
     /**

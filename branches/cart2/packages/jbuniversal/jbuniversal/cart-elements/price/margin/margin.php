@@ -56,7 +56,7 @@ class JBCartElementPriceMargin extends JBCartElementPrice
 
         if ($layout = $this->getLayout($layout . '.php')) {
             return self::renderEditLayout($layout, array(
-                'margin'  => $this->getValue(),
+                'value' => $this->get('value', ''),
                 'message' => JText::sprintf('JBZOO_JBPRICE_CALC_PARAM_CANT_USE', '<strong>' . $this->getElementType() . '</strong>')
             ));
         }
@@ -100,6 +100,7 @@ class JBCartElementPriceMargin extends JBCartElementPrice
     public function getValue($toString = false, $key = 'value', $default = null)
     {
         $value = parent::getValue($toString, $key, $default);
+        $value = $this->clearSymbols($value, '+, -');
 
         if ($toString) {
             return $value;

@@ -31,7 +31,7 @@
                 this.image = $('.jbimage' + related, $jbzoo);
                 this.link = $('.jbimage-link' + related, $jbzoo);
 
-                this.options['default'] = {
+                this.options.default = {
                     'image' : this.image.attr('src'),
                     'pop_up': this.link.attr('href')
                 };

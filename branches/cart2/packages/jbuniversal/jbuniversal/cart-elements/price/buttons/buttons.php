@@ -51,15 +51,57 @@ class JBCartElementPriceButtons extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $template  = $params->get('template', 'add');
+        $add_html  = $popup_html = $oneClick_html = $goto_html = '';
         $interface = $this->_interfaceParams();
 
-        if ($layout = $this->getLayout($template . '.php')) {
+        $tpl_add      = (int)$params->get('template_add', 1);
+        $tpl_popup    = (int)$params->get('template_popup', 0);
+        $tpl_oneClick = (int)$params->get('template_oneclick', 0);
+        $tpl_goto     = (int)$params->get('template_goto', 1);
+
+        $_params = array(
+            'addLabel'      => JText::_($this->config->get('add_label', 'JBZOO_JBPRICE_BUTTONS_ADD_TO_CART')),
+            'popupLabel'    => JText::_($this->config->get('popup_label', 'JBZOO_JBPRICE_BUTTONS_ADD_TO_CART_POPUP')),
+            'oneClickLabel' => JText::_($this->config->get('oneclick_label', 'JBZOO_JBPRICE_BUTTONS_ADD_TO_CART_GOTO')),
+            'goToLabel'     => JText::_($this->config->get('goto_label', 'JBZOO_JBPRICE_BUTTONS_ADD_TO_CART_GOTO')),
+            'basketUrl'     => $interface['basket'],
+            'inCart'        => ((int)$interface['isInCart'] ? 'in-cart' : null),
+            'inCartVariant' => ((int)$interface['isInCartVariant'] ? 'in-cart-variant' : null)
+        );
+
+        // Render simple add template
+        if($tpl_add && $add_layout = $this->getLayout('add.php'))
+        {
+            $add_html = $this->renderLayout($add_layout, $_params);
+        }
+
+        // Render popup template
+        if($tpl_popup && $popup_layout = $this->getLayout('popup.php'))
+        {
+            $popup_html = $this->renderLayout($popup_layout, $_params);
+        }
+
+        // Render oneclick template
+        if($tpl_oneClick && $oneClick_layout = $this->getLayout('oneclick.php'))
+        {
+            $oneClick_html = $this->renderLayout($oneClick_layout, $_params);
+        }
+
+        // Render goto template
+        if($tpl_goto && $goto_layout = $this->getLayout('goto.php'))
+        {
+            $goto_html = $this->renderLayout($goto_layout, $_params);
+        }
+
+        if (($add_html || $popup_html || $oneClick_html || $goto_html) &&
+            $layout = $this->getLayout('buttons.php')
+        ) {
             return self::renderLayout($layout, array(
-                'addLabel'      => JText::_($this->config->get('add_label', 'JBZOO_JBPRICE_ADD_TO_CART')),
-                'removeLabel'   => JText::_($this->config->get('remove_label', 'JBZOO_JBPRICE_REMOVE_FROM_CART')),
-                'inCart'        => ((int)$interface['isInCart'] ? 'in-cart' : null),
-                'inCartVariant' => ((int)$interface['isInCartVariant'] ? 'in-cart-variant' : null)
+                'add_html'      => $add_html,
+                'popup_html'    => $popup_html,
+                'oneClick_html' => $oneClick_html,
+                'goto_html'     => $goto_html,
+                'removeLabel'   => JText::_($this->config->get('remove_label', 'JBZOO_JBPRICE_REMOVE_FROM_CART'))
             ));
         }
 
