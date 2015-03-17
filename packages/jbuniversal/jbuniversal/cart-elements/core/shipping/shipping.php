@@ -32,6 +32,9 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     protected $_jbmoney;
 
+
+    protected $_currency = 'eur';
+
     /**
      * Class constructor
      * @param App    $app
@@ -52,7 +55,11 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     public function hasValue($params = array())
     {
-        return true;
+        if ($this->_currency) {
+            return (bool)$this->app->jbvars->currency($this->_currency);
+        }
+
+        return false;
     }
 
     /**
