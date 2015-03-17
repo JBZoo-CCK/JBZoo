@@ -379,7 +379,6 @@ abstract class JBCartElement
         while ($class !== false) {
             $xmlPath = preg_replace('#\.php$#i', '.xml', $class->getFileName());
             if (file_exists($xmlPath)) {
-                $form->addElementPath(dirname($xmlPath));
                 $params[] = $xmlPath;
             }
 
