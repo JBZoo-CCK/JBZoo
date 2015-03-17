@@ -101,6 +101,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
                 'popup_html'    => $popup_html,
                 'oneClick_html' => $oneClick_html,
                 'goto_html'     => $goto_html,
+                'inCart'        => $_params['inCart'],
                 'removeLabel'   => JText::_($this->config->get('remove_label', 'JBZOO_JBPRICE_REMOVE_FROM_CART'))
             ));
         }

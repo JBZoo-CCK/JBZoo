@@ -18,4 +18,4 @@ $this->app->jbassets->fancybox(); ?>
 <span class="jsAddToCartModal uk-button uk-button-success add-button"
       title="<?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART_MODAL'); ?>">
         <?php echo $addLabel; ?>
-    </span>
+</span>
