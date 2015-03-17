@@ -153,7 +153,6 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
     }
 
     /**
-     * //TODO Hard function
      * Get all options for element.
      * Used in element like select, color, radio etc.
      * @param string $id
@@ -184,15 +183,15 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
      */
     public function elementOptions($identifier)
     {
-        $modifiers = (int)$this->config->get('show_modifiers', 1);
+        $modifiers = (int)$this->config->get('show_modifiers', 0);
+        $options   = $this->findOptions($identifier);
 
         if ($modifiers) {
-            $options = $this->findOptions($identifier);
 
             return $this->addModifiers($options);
         }
 
-        return $this->selectedOptions($identifier);
+        return $options;
     }
 
     /**
@@ -272,8 +271,8 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
                         );
 
                         foreach ($variant->getSimpleElements() as $id => $element) {
-                            $value                 = $this->_helper->clean($element->getValue(true));
-                            $selected[$id][$value] = $value;
+                            $value                              = $element->getValue(true);
+                            $selected[$id][$value . '.' . $key] = $value;
                         }
                     }
                 }

@@ -13,10 +13,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$variant = $this->config->get('_variant') ? '' : '-variant';
-
-echo $this->_jbhtml->text($this->getControlName('value'), JBCart::val($this->get('value'))->data(true), array(
-    'class'       => 'discount' . $variant . '-input',
+echo $this->_jbhtml->text($this->getControlName('value'), $value, array(
+    'class'       => 'discount' . $this->variant . '-input',
     'size'        => "60",
     'maxlength'   => "255",
     'placeholder' => 'скидка'

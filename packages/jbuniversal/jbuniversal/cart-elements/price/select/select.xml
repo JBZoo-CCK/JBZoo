@@ -29,10 +29,6 @@
         <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
                description="JBZOO_ELEMENT_ACCESS_DESC"/>
 
-        <param name="default" type="text" label="Default" />
-
-        <param name="required" type="jbbool" default="0" label="Required" description="Required Field"/>
-
         <param name="options" type="textarea" default="" label="Options"/>
 
     </params>

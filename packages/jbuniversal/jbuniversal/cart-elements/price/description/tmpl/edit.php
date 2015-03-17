@@ -24,4 +24,4 @@ $attrs = $this->_jbhtml->buildAttrs(array(
 
 echo '<textarea name="' . $this->getControlName('value') . '"
                 ' . $attrs . '
-                >' . $this->get('value') . '</textarea>';
+                >' . $value . '</textarea>';

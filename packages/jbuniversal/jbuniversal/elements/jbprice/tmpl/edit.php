@@ -16,14 +16,16 @@ $html = $this->app->jbhtml;
 
 $string     = $this->app->jbstring;
 $unique     = $string->getId('jsJBPrice-');
+
+$isAdvance  = $countSimple >= 1 ? 1 : 0;
 $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
 
-<div class="jbzoo-price jbzoo" id="<?php echo $unique; ?>" data-mode="<?php echo $mode; ?>" data-valid="false">
+<div class="jbzoo-price jbzoo" id="<?php echo $unique; ?>" data-mode="<?php echo $isAdvance; ?>" data-valid="false">
 
     <div class="jbprice-row basic-variant-wrap">
 
         <div class="default_variant">
-            <?php if ($mode) {
+            <?php if ($countSimple) {
                 $data = array(0 => JText::_('JBZOO_JBPRICE_DEFAULT_VARIANT'));
                 echo $html->radio($data, $this->getControlName('default_variant'), array(
                     'id' => $string->getId('default-variant')
@@ -43,14 +45,18 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
         ));
     endfor;
 
-    if ($mode) : ?>
-        <span class="jsShowVariations jbbutton small"><?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?></span>
+    if (count($this->getSimpleElements())) :
+        $count = count($variations); ?>
+        <span class="jsShowVariations jbbutton small">
+            <?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?>
+        </span>
+
         <div class="variations" style="display: none;">
             <div class="variations-list">
 
-                <?php for ($i = 1; $i < count($variations); $i++) :
+                <?php for ($i = 1; $i < $count; $i++) :
                     if (isset($variations[$i])) :
-                        $variant = $variations[$i];?>
+                        $variant = $variations[$i]; ?>
 
                         <fieldset class="jbprice-variation-row fieldset-hidden">
 
@@ -89,18 +95,22 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
                                 ));?>
                             </div>
                         </fieldset>
-                    <?php endif; endfor; ?>
+                    <?php endif;
+                endfor; ?>
             </div>
 
             <a href="#new-price" class="jbajaxlink jsNewPrice">
                 <?php echo JText::_('JBZOO_JBPRICE_VARIATION_NEW'); ?>
             </a>
         </div>
-    <?php endif; ?>
+    <?php else :
+        echo $this->renderWarning();
+    endif; ?>
+
 </div>
 
 <?php echo $this->app->jbassets->widget('#' . $unique, 'JBZoo.PriceEdit', array(
-    'isAdvance' => $mode,
+    'isAdvance' => $isAdvance,
     'text_show' => JText::_('JBZOO_JBPRICE_VARIATION_SHOW'),
     'text_hide' => JText::_('JBZOO_JBPRICE_VARIATION_HIDE'),
     'isOverlay' => (bool)$this->isOverlay,

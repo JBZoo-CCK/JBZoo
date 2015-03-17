@@ -837,7 +837,7 @@ class JBCartOrder
                     . $cartItem->find('elements._description') . '</div>';
             }
 
-            if ($sku = $cartItem->get('sku', $cartItem->get('item_id'))) {
+            if ($sku = $cartItem->find('params._sku', $cartItem->get('item_id'))) {
                 $itemHtml['sku'] = implode(PHP_EOL, array(
                     '<div class="jbcart-item-sku ' . $params->find('class.sku') . '">',
                     '<span class="jbcart-item-sku-key ' . $params->find('class.sku-key') . '">' . JText::_('JBZOO_CART_ITEM_SKU') . ':</span>',

@@ -12,12 +12,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 
-<div class="jbprice-buttons jsPriceButtons <?php echo $inCart . ' ' . $inCartVariant; ?> ?>">
-    <span class="jsAddToCart jsAddToCartGoTo jbbutton green"
-          title="<?php echo $addLabel; ?>">
-        <?php echo $addLabel; ?></span>
-
-    <span class="jsRemoveFromCart jsRemoveElement jbbutton small remove-button"
-          title="<?php echo $removeLabel; ?>">
-        <?php echo $removeLabel; ?></span>
-</div>
+<span class="jsAddToCart jsAddToCartGoTo jbbutton green" title="<?php echo $oneClickLabel; ?>">
+        <?php echo $oneClickLabel; ?>
+</span>

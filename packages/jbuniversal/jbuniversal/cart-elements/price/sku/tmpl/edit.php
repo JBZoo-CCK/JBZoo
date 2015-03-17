@@ -13,7 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 $variant = $this->config->get('_variant') ? '' : '-variant';
 $attr    = array(
     'class'       => 'sku ' . $variant . '-input',
@@ -22,4 +21,4 @@ $attr    = array(
     'placeholder' => 'Sku'
 );
 
-echo $this->_jbhtml->text($this->getControlName('value'), $this->get('value'), $attr);
+echo $this->_jbhtml->text($this->getControlName('value'), $value, $attr);

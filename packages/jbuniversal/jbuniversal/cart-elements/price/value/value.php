@@ -57,7 +57,7 @@ class JBCartElementPriceValue extends JBCartElementPrice
     {
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderEditLayout($layout, array(
-                'value' => $this->getValue()
+                'value' => $this->get('value', '')
             ));
         }
 
@@ -115,7 +115,13 @@ class JBCartElementPriceValue extends JBCartElementPrice
     {
         $value = parent::getValue($toString, $key, $default);
 
-        if ($toString) {
+        if($this->isBasic())
+        {
+            $value = $this->clearSymbols($value);
+        }
+
+        if ($toString)
+        {
             return $value;
         }
 
@@ -144,4 +150,25 @@ class JBCartElementPriceValue extends JBCartElementPrice
         return $this;
     }
 
+    /**
+     * Set data through data array.
+     * @param  array  $data
+     * @param  string $key
+     * @return $this
+     */
+    public function bindData($data = array(), $key = 'value')
+    {
+        if (!is_array($data)) {
+            $data = array($key => $data);
+        }
+
+        foreach ($data as $key => $value) {
+            if ($this->isBasic()) {
+                $value = $this->clearSymbols($value);
+            }
+            $this->set($key, $value);
+        }
+
+        return $this;
+    }
 }
