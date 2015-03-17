@@ -94,9 +94,9 @@ class JBCartElementPriceButtons extends JBCartElementPrice
         }
 
         if (($add_html || $popup_html || $oneClick_html || $goto_html) &&
-            $layout = parent::getLayout('buttons.php')
+            $layout = $this->getLayout('buttons.php')
         ) {
-            return $this->renderLayout($layout, array(
+            return parent::renderLayout($layout, array(
                 'add_html'      => $add_html,
                 'popup_html'    => $popup_html,
                 'oneClick_html' => $oneClick_html,
