@@ -21,6 +21,14 @@ class JBCartElementShippingCourier extends JBCartElementShipping
     const FORMAT_WEEKDAYS  = 'l, j M';
     const FORMAT_HOURS     = 'H:i';
 
+    /**
+     * @param array $params
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        return true;
+    }
 
     /**
      * @param array $params

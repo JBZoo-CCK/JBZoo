@@ -25,6 +25,9 @@ class JBCartElementShippingRussianpost extends JBCartElementShipping
      */
     public $_url = 'http://www.russianpost.ru/autotarif/Autotarif.aspx';
 
+
+    protected $_currency = 'rub';
+
     /**
      * Validates the submitted element
      * @param  $value

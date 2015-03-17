@@ -23,6 +23,8 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     const TYPE_DOORS = 3;
     const TYPE_WARE  = 4;
 
+    protected $_currency = 'uah';
+
     /**
      * @var string
      */
@@ -52,10 +54,10 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
         $key = $this->config->get('api_key');
 
         if (!empty($key)) {
-            return true;
+            return parent::hasValue($params);
         }
 
-        return false;
+        return parent::hasValue($params);
     }
 
     /**
