@@ -51,13 +51,13 @@ class JBCartElementPriceButtons extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $add_html  = $popup_html = $oneClick_html = $goto_html = '';
+        $addHTML  = $popupHTML = $oneClickHTML = $gotoHTML = '';
         $interface = $this->_interfaceParams();
 
-        $tpl_add      = (int)$params->get('template_add', 1);
-        $tpl_popup    = (int)$params->get('template_popup', 0);
-        $tpl_oneClick = (int)$params->get('template_oneclick', 0);
-        $tpl_goto     = (int)$params->get('template_goto', 1);
+        $tplAdd      = (int)$params->get('template_add', 1);
+        $tplPopUp    = (int)$params->get('template_popup', 0);
+        $tplOneClick = (int)$params->get('template_oneclick', 0);
+        $tplGoTo     = (int)$params->get('template_goto', 1);
 
         $_params = array(
             'addLabel'      => JText::_($this->config->get('add_label', 'JBZOO_JBPRICE_BUTTONS_ADD_TO_CART')),
@@ -70,37 +70,37 @@ class JBCartElementPriceButtons extends JBCartElementPrice
         );
 
         // Render simple add template
-        if($tpl_add && $add_layout = $this->getLayout('add.php'))
+        if($tplAdd && $addLayout = $this->getLayout('add.php'))
         {
-            $add_html = self::renderLayout($add_layout, $_params);
+            $addHTML = self::renderLayout($addLayout, $_params);
         }
 
         // Render popup template
-        if($tpl_popup && $popup_layout = $this->getLayout('popup.php'))
+        if($tplPopUp && $popupLayout = $this->getLayout('popup.php'))
         {
-            $popup_html = self::renderLayout($popup_layout, $_params);
+            $popupHTML = self::renderLayout($popupLayout, $_params);
         }
 
         // Render oneclick template
-        if($tpl_oneClick && $oneClick_layout = $this->getLayout('oneclick.php'))
+        if($tplOneClick && $oneClickLayout = $this->getLayout('oneclick.php'))
         {
-            $oneClick_html = self::renderLayout($oneClick_layout, $_params);
+            $oneClickHTML = self::renderLayout($oneClickLayout, $_params);
         }
 
         // Render goto template
-        if($tpl_goto && $goto_layout = $this->getLayout('goto.php'))
+        if($tplGoTo && $gotoLayout = $this->getLayout('goto.php'))
         {
-            $goto_html = self::renderLayout($goto_layout, $_params);
+            $gotoHTML = self::renderLayout($gotoLayout, $_params);
         }
 
-        if (($add_html || $popup_html || $oneClick_html || $goto_html) &&
+        if (($addHTML || $popupHTML || $oneClickHTML || $gotoHTML) &&
             $layout = $this->getLayout('buttons.php')
         ) {
             return parent::renderLayout($layout, array(
-                'add_html'      => $add_html,
-                'popup_html'    => $popup_html,
-                'oneClick_html' => $oneClick_html,
-                'goto_html'     => $goto_html,
+                'add_html'      => $addHTML,
+                'popup_html'    => $popupHTML,
+                'oneClick_html' => $oneClickHTML,
+                'goto_html'     => $gotoHTML,
                 'inCart'        => $_params['inCart'],
                 'removeLabel'   => JText::_($this->config->get('remove_label', 'JBZOO_JBPRICE_REMOVE_FROM_CART'))
             ));
