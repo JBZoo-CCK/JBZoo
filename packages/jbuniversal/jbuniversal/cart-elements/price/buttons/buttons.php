@@ -72,29 +72,29 @@ class JBCartElementPriceButtons extends JBCartElementPrice
         // Render simple add template
         if($tpl_add && $add_layout = $this->getLayout('add.php'))
         {
-            $add_html = parent::renderLayout($add_layout, $_params);
+            $add_html = self::renderLayout($add_layout, $_params);
         }
 
         // Render popup template
         if($tpl_popup && $popup_layout = $this->getLayout('popup.php'))
         {
-            $popup_html = parent::renderLayout($popup_layout, $_params);
+            $popup_html = self::renderLayout($popup_layout, $_params);
         }
 
         // Render oneclick template
         if($tpl_oneClick && $oneClick_layout = $this->getLayout('oneclick.php'))
         {
-            $oneClick_html = parent::renderLayout($oneClick_layout, $_params);
+            $oneClick_html = self::renderLayout($oneClick_layout, $_params);
         }
 
         // Render goto template
         if($tpl_goto && $goto_layout = $this->getLayout('goto.php'))
         {
-            $goto_html = parent::renderLayout($goto_layout, $_params);
+            $goto_html = self::renderLayout($goto_layout, $_params);
         }
 
         if (($add_html || $popup_html || $oneClick_html || $goto_html) &&
-            $layout = $this->getLayout('buttons.php')
+            $layout = parent::getLayout('buttons.php')
         ) {
             return $this->renderLayout($layout, array(
                 'add_html'      => $add_html,
@@ -151,6 +151,31 @@ class JBCartElementPriceButtons extends JBCartElementPrice
         $this->js('cart-elements:price/buttons/assets/js/buttons.js');
 
         return parent::loadAssets();
+    }
+
+    /**
+     * Renders the element using template layout file
+     * @param string $__layout layouts template file
+     * @param array  $__args   layouts template file args
+     * @return string
+     */
+    protected function renderLayout($__layout, $__args = array())
+    {
+        // init vars
+        if (is_array($__args)) {
+            foreach ($__args as $__var => $__value) {
+                $$__var = $__value;
+            }
+        }
+
+        // render layout
+        $__html = '';
+        ob_start();
+        include($__layout);
+        $__html = ob_get_contents();
+        ob_end_clean();
+
+        return $__html;
     }
 
     /**
