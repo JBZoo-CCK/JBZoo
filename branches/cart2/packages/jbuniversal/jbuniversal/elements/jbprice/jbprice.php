@@ -221,6 +221,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $hash = $this->hash();
         $this->loadAssets();
         if (!$this->isCache || $this->isCache && !$cache = $this->_cache->get($hash, 'price_elements', true)) {
+
             $params          = new AppData($params);
             $this->_template = $params->get('template', 'default');
             $this->_layout   = $params->get('_layout');
@@ -1065,7 +1066,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 );
 
                 $_selected = array_filter(array_map(create_function('$element', 'return JString::strlen($element->getValue(true)) > 0
-                ? array(JString::strtolower(JString::trim($element->getValue(true))) => $element->getValue(true)) : null;'), $simple)
+                ? array(JString::trim($element->getValue(true)) => $element->getValue(true)) : null;'), $simple)
                 );
 
                 if ($_selected) {
@@ -1076,7 +1077,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             }
             $variations = array_values($variations);
             $values     = array_values($values);
-            
+
             $this->_item->elements->set($this->identifier, array(
                 'variations' => $variations,
                 'values'     => $variant->isBasic() ? array(self::BASIC_VARIANT => array()) : $values,
