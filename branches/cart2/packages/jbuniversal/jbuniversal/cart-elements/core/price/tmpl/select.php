@@ -13,4 +13,4 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $this->_jbhtml->select($data, $this->getRenderName('value'), null, $this->getValue('value'));
+echo $this->_jbhtml->select($data, $this->getRenderName('value'), null, $this->getValue());

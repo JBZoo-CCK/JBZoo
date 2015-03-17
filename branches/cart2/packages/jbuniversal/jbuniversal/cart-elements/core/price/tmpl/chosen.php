@@ -16,4 +16,4 @@ defined('_JEXEC') or die('Restricted access');
 $this->js('jbassets:js/libs/chosen.js')
      ->css('jbassets:css/libs/chosen.css');
 
-echo $this->_jbhtml->selectChosen($data, $this->getRenderName('value'), null, $this->getValue('value'), $this->htmlId(true));
+echo $this->_jbhtml->selectChosen($data, $this->getRenderName('value'), null, $this->getValue(), $this->htmlId(true));
