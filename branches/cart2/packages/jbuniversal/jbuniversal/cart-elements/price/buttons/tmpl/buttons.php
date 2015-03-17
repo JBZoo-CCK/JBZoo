@@ -13,38 +13,35 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 
 <div class="jbprice-buttons jsPriceButtons <?php echo $inCart; ?>">
-    <?php $add_btn = $one_btn = $popup_btn = $goto_btn = '';
 
-    if ($add) {
-        $add_btn = '<span class="jsAddToCart jbbutton green add-button" title="' . $addLabel . '">'
-            . $addLabel
-            . '</span>';
-    }
+    <?php if ($add) : ?>
+        <span class="jsAddToCart jbbutton green add-button" title="<?php echo $addLabel; ?>">
+            <?php echo $addLabel; ?>
+            </span>
+    <?php endif;
 
-    if ($oneClick) {
-        $one_btn = '<span class="jsAddToCart jsAddToCartGoTo jbbutton green" title="' . $oneClickLabel . '">'
-            . $oneClickLabel
-            . '</span>';
-    }
+    if ($oneClick) : ?>
+        <span class="jsAddToCart jsAddToCartGoTo jbbutton green" title="<?php echo $oneClickLabel; ?>">
+            <?php echo $oneClickLabel; ?>
+        </span>
+    <?php endif;
 
-    if ($popup) {
-        $this->app->jbassets->fancybox();
-        $popup_btn = '<span class="jsAddToCartModal jbbutton green" title="' . $popupLabel . '">'
-            . $popupLabel
-            . '</span>';
-    }
+    if ($popup)  :
+        $this->app->jbassets->fancybox(); ?>
 
-    if ($goto) {
-        $goto_btn = '<a class="jbbutton goto-button" title="' . $goToLabel . '" href="' . $basketUrl . '">'
-            . $goToLabel
-            . '</a>';
-    }
+        <span class="jsAddToCartModal jbbutton green" title="<?php echo $popupLabel; ?>">
+            <?php echo $popupLabel; ?>
+        </span>
+    <?php endif;
 
-    echo $add_btn, $one_btn, $popup_btn, $goto_btn; ?>
+    if ($goto) : ?>
+        <a class="jbbutton goto-button" title="<?php echo $goToLabel; ?>" href="<?php echo $basketUrl; ?>">
+            <?php echo $goToLabel; ?>
+        </a>
+    <?php endif; ?>
 
-    <span class="jsRemoveFromCart jsRemoveElement jbbutton small orange remove-button"
-          title="<?php echo $removeLabel; ?>">
+    <a class="jsRemoveFromCart jsRemoveElement jbbutton small orange remove-button"
+       title="<?php echo $removeLabel; ?>">
         <?php echo $removeLabel; ?>
-    </span>
-
+    </a>
 </div>
