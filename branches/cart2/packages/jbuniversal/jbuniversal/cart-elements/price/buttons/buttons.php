@@ -72,31 +72,31 @@ class JBCartElementPriceButtons extends JBCartElementPrice
         // Render simple add template
         if($tpl_add && $add_layout = $this->getLayout('add.php'))
         {
-            $add_html = $this->renderLayout($add_layout, $_params);
+            $add_html = parent::renderLayout($add_layout, $_params);
         }
 
         // Render popup template
         if($tpl_popup && $popup_layout = $this->getLayout('popup.php'))
         {
-            $popup_html = $this->renderLayout($popup_layout, $_params);
+            $popup_html = parent::renderLayout($popup_layout, $_params);
         }
 
         // Render oneclick template
         if($tpl_oneClick && $oneClick_layout = $this->getLayout('oneclick.php'))
         {
-            $oneClick_html = $this->renderLayout($oneClick_layout, $_params);
+            $oneClick_html = parent::renderLayout($oneClick_layout, $_params);
         }
 
         // Render goto template
         if($tpl_goto && $goto_layout = $this->getLayout('goto.php'))
         {
-            $goto_html = $this->renderLayout($goto_layout, $_params);
+            $goto_html = parent::renderLayout($goto_layout, $_params);
         }
 
         if (($add_html || $popup_html || $oneClick_html || $goto_html) &&
             $layout = $this->getLayout('buttons.php')
         ) {
-            return self::renderLayout($layout, array(
+            return $this->renderLayout($layout, array(
                 'add_html'      => $add_html,
                 'popup_html'    => $popup_html,
                 'oneClick_html' => $oneClick_html,
