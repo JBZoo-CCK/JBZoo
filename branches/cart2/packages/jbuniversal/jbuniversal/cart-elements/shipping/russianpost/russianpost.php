@@ -17,10 +17,10 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementShippingRussianpost extends JBCartElementShipping
 {
-    const CURRENCY  = 'rub';
     const CACHE_TTL = 1440;
 
     /**
+     * Page http://www.russianpost.ru/autotarif/
      * @var string
      */
     public $_url = 'http://www.russianpost.ru/autotarif/Autotarif.aspx';
@@ -29,31 +29,22 @@ class JBCartElementShippingRussianpost extends JBCartElementShipping
     protected $_currency = 'rub';
 
     /**
-     * Validates the submitted element
-     * @param  $value
-     * @param  $params
-     * @return array
-     */
-    public function validateSubmission($value, $params)
-    {
-        $this->bindData($value);
-        $value->set('rate', $this->getRate()->data(true));
-
-        return $value;
-    }
-
-    /**
      * @return int
      */
     public function getRate()
     {
+        $weight = $this->_order->getTotalWeight();
+        if ($weight == 0) {
+            $weight = 0.5;
+        }
+
         $resp = $this->app->jbhttp->request($this->_url, array(
             'countryCode'  => '643', // Russian code
-            'viewPost'     => $this->get('viewPost', 23),
+            'viewPost'     => 23,
             'typePost'     => $this->get('typePost', 1),
             'postOfficeId' => $this->get('postOfficeId'),
-            'weight'       => $this->_order->getTotalWeight() * 1000, // weight in gramm
-            'value1'       => ceil($this->_order->getTotalForItems()->plain()),
+            'weight'       => $weight * 1000, // weight in gramm
+            //'value1'       => ceil($this->_order->getTotalForItems()->plain($this->_currency)),
         ), array(
             'cache'     => true,
             'cache_ttl' => self::CACHE_TTL,
@@ -62,12 +53,13 @@ class JBCartElementShippingRussianpost extends JBCartElementShipping
         if ($resp) {
             preg_match('/<span id="TarifValue">([0-9\,\-]+)<\/span>/i', $resp, $result);
             if (isset($result[1])) {
-                $summ = $this->_order->val($result[1], self::CURRENCY);
+                $result[1] = $this->app->jbvars->money($result[1]);
+                $summ      = $this->_order->val($result[1], $this->_currency);
                 return $summ;
             }
         }
 
-        return $this->_order->val(0, self::CURRENCY);
+        return $this->_order->val(0, $this->_currency);
     }
 
     /**
@@ -80,9 +72,9 @@ class JBCartElementShippingRussianpost extends JBCartElementShipping
             '23' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_PARCEL'),
             '18' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_CARD'),
             '13' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_LETTER'),
-            '26' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_RICH_PARCEL'),
-            '36' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_RICH_PACKAGE'),
-            '16' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_RICH_LETTER')
+            //'26' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_RICH_PARCEL'),
+            //'36' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_RICH_PACKAGE'),
+            //'16' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_RICH_LETTER')
         );
     }
 
@@ -96,7 +88,7 @@ class JBCartElementShippingRussianpost extends JBCartElementShipping
             '1' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_GROUND'),
             '2' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_AIR'),
             '3' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_COMBINE'),
-            '4' => JText::_('JBZOO_SHIPPING_RUSSIANPOST_FAST')
+            '4' => JText::_('JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_FAST')
         );
     }
 
@@ -105,7 +97,7 @@ class JBCartElementShippingRussianpost extends JBCartElementShipping
      */
     public function loadAssets()
     {
-        $this->app->jbassets->js('cart-elements:shipping/russianpost/assets/js/russianpost.js');
+        parent::loadAssets();
         $this->app->jbassets->chosen();
     }
 }

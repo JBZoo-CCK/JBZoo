@@ -20,6 +20,7 @@ $uiqueId = $this->app->jbstring->getId('emspost-');
 
 
 <div id="<?php echo $uiqueId; ?>">
+    <!--
     <div class="russianpost-viewPost">
         <?php echo $jbhtml->select(
             $this->_getViewPostList(),
@@ -28,6 +29,7 @@ $uiqueId = $this->app->jbstring->getId('emspost-');
             $this->get('viewPost', 23)
         ); ?>
     </div>
+    -->
 
     <div class="russianpost-typePost">
         <?php echo $jbhtml->select(
