@@ -14,6 +14,6 @@ defined('_JEXEC') or die('Restricted access');
 
 echo $this->app->jbhtml->dataList(array(
     'JBZOO_ELEMENT_SHIPPING_COURIER_FULLDATE_VALUE' => $this->get('fulldate', ' - '),
-    'JBZOO_ELEMENT_SHIPPING_COURIER_WEEKDAY_VALUE' => $this->get('weekday', ' - '),
-    'JBZOO_ELEMENT_SHIPPING_COURIER_HOUR_VALUE' => $this->get('hour', ' - '),
+    'JBZOO_ELEMENT_SHIPPING_COURIER_WEEKDAY_VALUE'  => $this->get('weekday', ' - '),
+    'JBZOO_ELEMENT_SHIPPING_COURIER_HOUR_VALUE'     => $this->get('hour', ' - '),
 ));
