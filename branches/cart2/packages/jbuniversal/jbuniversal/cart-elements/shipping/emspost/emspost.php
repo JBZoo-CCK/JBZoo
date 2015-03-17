@@ -211,4 +211,11 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
         return App::getInstance('zoo')->jbhtml->select($list, $controlName . '[' . $name . ']', '', $value);
     }
 
+    /**
+     * @return AppParameterForm
+     */
+    public function getConfigForm()
+    {
+        return parent::getConfigForm()->addElementPath(dirname(__FILE__));
+    }
 }
