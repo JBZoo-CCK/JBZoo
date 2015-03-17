@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $this->app->jbassets->fancybox(); ?>
 
-<div class="jbprice-buttons jsPriceButtons <?php echo $inCart; ?>">
-    <span class="jsAddToCartModal uk-button uk-button-success add-button"
-          title="<?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART_MODAL'); ?>"><?php echo $addLabel; ?></span>
-</div>
+<span class="jsAddToCartModal uk-button uk-button-success add-button"
+      title="<?php echo JText::_('JBZOO_JBPRICE_ADD_TO_CART_MODAL'); ?>">
+        <?php echo $addLabel; ?>
+    </span>
