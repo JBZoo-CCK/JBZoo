@@ -12,6 +12,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 
-<a class="jbbutton add-button goto-button" title="<?php echo $goToLabel; ?>" href="<?php echo $basketUrl; ?>">
+<a class="jbbutton goto-button" title="<?php echo $goToLabel; ?>" href="<?php echo $basketUrl; ?>">
     <?php echo $goToLabel; ?>
 </a>
