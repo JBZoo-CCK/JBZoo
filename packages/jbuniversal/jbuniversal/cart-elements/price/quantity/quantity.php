@@ -60,7 +60,7 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
     {
         return array(
             'min'      => $params->get('min', 1),
-            'max'      => $params->get('max', 9),
+            'max'      => $params->get('max', 999),
             'step'     => $params->get('step', 1),
             'default'  => $params->get('default', 1),
             'decimals' => $params->get('decimals', 0)

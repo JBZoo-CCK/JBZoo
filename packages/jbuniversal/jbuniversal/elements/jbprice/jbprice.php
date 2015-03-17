@@ -574,7 +574,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
-     * //TODO Hard function
      * Get all options for element.
      * Used in element like select, color, radio etc.
      * @param $identifier
@@ -590,16 +589,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $result = $this->get('selected.' . $identifier, array());
 
         return $result;
-    }
-
-    /**
-     * Prepare element data to push into JBHtmlHelper - select, radio etc.
-     * @param $identifier
-     * @return array
-     */
-    public function selectedOptions($identifier)
-    {
-        return $this->findOptions($identifier);
     }
 
     /**
