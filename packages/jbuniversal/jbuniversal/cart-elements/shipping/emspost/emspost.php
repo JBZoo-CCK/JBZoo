@@ -19,12 +19,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
 {
     const CURRENCY  = 'rub';
     const CACHE_TTL = 1440;
-
-    /**
-     * Url to make request
-     * @var string
-     */
-    protected $_url = 'http://emspost.ru/api/rest';
+    const URL       = 'http://emspost.ru/api/rest';
 
     /**
      * @return $this
@@ -39,9 +34,11 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      * @param  string $locType - cities, regions, countries, russia
      * @return string
      */
-    protected function _getLocations($locType)
+    public static function getLocations($locType)
     {
-        $locations = $this->_apiRequest(array(
+        $zoo = App::getInstance('zoo');
+
+        $locations = self::apiRequest(array(
             'method' => 'ems.get.locations',
             'plain'  => 'true',
             'type'   => $locType,
@@ -53,7 +50,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
             return $result;
         }
 
-        $jbvars = $this->app->jbvars;
+        $jbvars = $zoo->jbvars;
         foreach ($locations['locations'] as $location) {
 
             $value = $jbvars->lower($location['value']);
@@ -77,7 +74,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
         $summ = $this->_order->val(0, self::CURRENCY);
 
         if ($location = $this->_getLocation($this->data())) {
-            $response = $this->_apiRequest(array(
+            $response = $this->apiRequest(array(
                 'method' => 'ems.calculate',
                 'weight' => $this->_getWeight(),
                 'from'   => $this->_getDefaultCity(),
@@ -120,28 +117,18 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      */
     protected function _getDefaultCity()
     {
-        $jbvars = $this->app->jbvars;
-
-        $defaultCity = $jbvars->lower(parent::_getDefaultCity());
-        $cityList    = $this->_getLocations('cities');
-
-        foreach ($cityList as $code => $city) {
-            $city = $jbvars->lower($city);
-            if ($defaultCity == $city) {
-                return $code;
-            }
-        }
+        return $this->config->get('from', 'city--moskva');
     }
 
     /**
      * @param $options
      * @return null
      */
-    protected function _apiRequest($options)
+    public static function apiRequest($options)
     {
         $options['plain'] = 'true'; // forced options for resolving bug with spaces
 
-        $response = $this->app->jbhttp->request($this->_url, $options, array(
+        $response = App::getInstance('zoo')->jbhttp->request(self::URL, $options, array(
             'cache'     => 1,
             'cache_ttl' => self::CACHE_TTL,
         ));
@@ -182,17 +169,45 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      */
     protected function _getWeight()
     {
-        $resp = $this->_apiRequest(array(
+        $resp = $this->apiRequest(array(
             'method' => 'ems.get.max.weight'
         ));
 
         $max = (float)$resp['max_weight'];
         $cur = $this->_order->getTotalWeight();
+
+        if ($cur == 0) {
+            $cur = 0.1;
+        }
+
         if ($cur <= $max) {
             return $cur;
         }
 
         return $max;
+    }
+
+    /**
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
+     * @param SimpleXMLElement $node
+     * @param SimpleXMLElement $parent
+     * @return mixed
+     */
+    public static function getLocationList($name, $value, $controlName, $node, $parent)
+    {
+        $list = array_merge(
+            self::getLocations('cities'),
+            self::getLocations('russia'),
+            self::getLocations('countries'),
+            self::getLocations('regions')
+        );
+
+        unset($list['']);
+        asort($list);
+
+        return App::getInstance('zoo')->jbhtml->select($list, $controlName . '[' . $name . ']', '', $value);
     }
 
 }

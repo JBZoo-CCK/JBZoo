@@ -549,9 +549,10 @@ class JBFieldHelper extends AppHelper
      */
     public function cartFields($name, $value, $controlName, SimpleXMLElement $node)
     {
-        $group    = $this->_getAttr($node, 'group');
-        $position = $this->_getAttr($node, 'position', 'list');
-        $multiple = (bool)$this->_getAttr($node, 'multiple', null);
+        $group     = $this->_getAttr($node, 'group');
+        $position  = $this->_getAttr($node, 'position', 'list');
+        $multiple  = (bool)$this->_getAttr($node, 'multiple', null);
+        $emptytext = '<i>' . JText::_($this->_getAttr($node, 'emptytext', 'JBZOO_ELEMENT_CARTFIELDS_EMPTYTEXT')) . '</i>';
 
         if (defined('JBCart::' . $group)) {
             $group = constant('JBCart::' . $group);
@@ -562,16 +563,17 @@ class JBFieldHelper extends AppHelper
         }
 
         if (empty($group)) {
-            return null;
+            return $emptytext;
         }
 
         $fields = $this->app->jbcartposition->loadPositions($group, array($position));
 
         if (empty($fields) || empty($fields[$position])) {
-            return null;
+            return $emptytext;
         }
-        $fields = $fields[$position];
 
+        $fields  = $fields[$position];
+        $options = array();
         foreach ($fields as $element) {
             $options[] = $this->app->html->_('select.option', $element->identifier, $element->getName());
         }
@@ -582,11 +584,11 @@ class JBFieldHelper extends AppHelper
 
         $style .= $multiple ? ' multiple="multiple"' : null;
 
-        $select =
-            $this->app->html->_('select.genericlist', $options, $name, $style,
-                'value', 'text', $value);
+        if (!empty($options)) {
+            return $this->app->html->_('select.genericlist', $options, $name, $style, 'value', 'text', $value);
+        }
 
-        return $select;
+        return $emptytext;
     }
 
     /**
