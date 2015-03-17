@@ -231,6 +231,7 @@ class JBAssetsHelper extends AppHelper
             )), false);
 
             $this->js(array(
+                'jbassets:js/libs/browser.min.js', // for compatible with old jQuery plugins
                 'jbassets:js/libs/cookie.min.js',
                 'jbassets:js/libs/sweet-alert.min.js',
                 'jbassets:js/helper.js',
