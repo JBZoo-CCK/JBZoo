@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <?php endif;
 
     if ($oneClick) : ?>
-        <span class="jsAddToCart jsAddToCartGoTo jbbutton green" title="<?php echo $oneClickLabel; ?>">
+        <span class="jsAddToCartGoTo jsAddToCart jbbutton green" title="<?php echo $oneClickLabel; ?>">
             <?php echo $oneClickLabel; ?>
         </span>
     <?php endif;

@@ -13,6 +13,7 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 
 <div class="jbprice-buttons jsPriceButtons <?php echo $inCart; ?>">
+
     <?php if ($add) : ?>
         <span class="jsAddToCart uk-button uk-button-success add-button" title="<?php echo $addLabel; ?>">
             <i class="uk-icon-shopping-cart"></i>
@@ -21,7 +22,8 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <?php endif;
 
     if ($oneClick) : ?>
-        <span class="jsAddToCartGoto uk-button uk-button-success" title="<?php echo $oneClickLabel; ?>">
+        <span class="jsAddToCartGoTo jsAddToCart uk-button uk-button-success" title="<?php echo $oneClickLabel; ?>">
+            <i class="uk-icon-external-link-square"></i>
             <?php echo $oneClickLabel; ?>
         </span>
     <?php endif;
@@ -30,13 +32,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
         $this->app->jbassets->fancybox(); ?>
 
         <span class="jsAddToCartModal uk-button uk-button-success" title="<?php echo $popupLabel; ?>">
+            <i class="uk-icon-picture-o"></i>
             <?php echo $popupLabel; ?>
         </span>
     <?php endif;
 
     if ($goto) : ?>
         <a class="uk-button goto-button" title="<?php echo $goToLabel; ?>" href="<?php echo $basketUrl; ?>">
-            <i class="uk-icon-external-link"></i>
+            <i class="uk-icon-level-up"></i>
             <?php echo $goToLabel; ?>
         </a>
     <?php endif; ?>
@@ -46,4 +49,5 @@ defined('_JEXEC') or die('Restricted access'); ?>
         <i class="uk-icon-trash-o"></i>
         <?php echo $removeLabel; ?>
     </a>
+
 </div>
