@@ -51,7 +51,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $addHTML  = $popupHTML = $oneClickHTML = $gotoHTML = '';
+        $addHTML   = $popupHTML = $oneClickHTML = $gotoHTML = '';
         $interface = $this->_interfaceParams();
 
         $tplAdd      = (int)$params->get('template_add', 1);
@@ -70,26 +70,22 @@ class JBCartElementPriceButtons extends JBCartElementPrice
         );
 
         // Render simple add template
-        if($tplAdd && $addLayout = $this->getLayout('add.php'))
-        {
+        if ($tplAdd && $addLayout = $this->getLayout('add.php')) {
             $addHTML = self::renderLayout($addLayout, $_params);
         }
 
         // Render popup template
-        if($tplPopUp && $popupLayout = $this->getLayout('popup.php'))
-        {
+        if ($tplPopUp && $popupLayout = $this->getLayout('popup.php')) {
             $popupHTML = self::renderLayout($popupLayout, $_params);
         }
 
         // Render oneclick template
-        if($tplOneClick && $oneClickLayout = $this->getLayout('oneclick.php'))
-        {
+        if ($tplOneClick && $oneClickLayout = $this->getLayout('oneclick.php')) {
             $oneClickHTML = self::renderLayout($oneClickLayout, $_params);
         }
 
         // Render goto template
-        if($tplGoTo && $gotoLayout = $this->getLayout('goto.php'))
-        {
+        if ($tplGoTo && $gotoLayout = $this->getLayout('goto.php')) {
             $gotoHTML = self::renderLayout($gotoLayout, $_params);
         }
 
@@ -117,6 +113,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
     public function interfaceParams($params = array())
     {
         $_interface = $this->_interfaceParams();
+
         return array(
             'item_id'         => $_interface['item_id'],
             'element_id'      => $_interface['element_id'],
