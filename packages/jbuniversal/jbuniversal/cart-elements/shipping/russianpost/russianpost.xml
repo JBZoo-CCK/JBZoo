@@ -18,4 +18,9 @@
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
     <description>JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_DESC</description>
+
+    <params>
+        <param name="important" type="jbimportant" default="JBZOO_ELEMENT_SHIPPING_RUSSIANPOST_IMPORTANT"/>
+    </params>
+
 </element>

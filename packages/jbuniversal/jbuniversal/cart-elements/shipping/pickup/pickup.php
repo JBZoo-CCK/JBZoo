@@ -17,6 +17,12 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementShippingPickup extends JBCartElementShipping
 {
+
+    public function hasValue($params = array())
+    {
+        return true;
+    }
+
     /**
      * @param array $params
      * @return mixed|string

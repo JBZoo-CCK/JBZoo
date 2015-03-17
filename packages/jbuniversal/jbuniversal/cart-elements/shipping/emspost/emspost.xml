@@ -36,6 +36,8 @@
         <param name="cities" type="jbbool" default="1" label="JBZOO_ELEMENT_SHIPPING_EMSPOST_CITIES"
                description="JBZOO_ELEMENT_SHIPPING_EMSPOST_CITIES_DESC"/>
 
+        <param name="important" type="jbimportant" default="JBZOO_ELEMENT_SHIPPING_EMSPOST_IMPORTANT"/>
+
     </params>
 
 </element>

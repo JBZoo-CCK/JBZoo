@@ -17,16 +17,17 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementShippingEmsPost extends JBCartElementShipping
 {
-    const CURRENCY  = 'rub';
     const CACHE_TTL = 1440;
     const URL       = 'http://emspost.ru/api/rest';
+
+    protected $_currency = 'rub';
 
     /**
      * @return $this
      */
     public function loadAssets()
     {
-        $this->app->jbassets->js('cart-elements:shipping/emspost/assets/js/emspost.js');
+        parent::loadAssets();
         $this->app->jbassets->chosen();
     }
 
@@ -71,7 +72,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      */
     public function getRate()
     {
-        $summ = $this->_order->val(0, self::CURRENCY);
+        $summ = $this->_order->val(0, $this->_currency);
 
         if ($location = $this->_getLocation($this->data())) {
             $response = $this->apiRequest(array(
@@ -82,7 +83,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
             ));
 
             if ($response) {
-                $summ->set($response['price'], self::CURRENCY);
+                $summ->set($response['price'], $this->_currency);
             }
         }
 
