@@ -13,42 +13,37 @@
 defined('_JEXEC') or die('Restricted access'); ?>
 
 <div class="jbprice-buttons jsPriceButtons <?php echo $inCart; ?>">
+    <?php if ($add) : ?>
+        <span class="jsAddToCart uk-button uk-button-success add-button" title="<?php echo $addLabel; ?>">
+            <i class="uk-icon-shopping-cart"></i>
+            <?php echo $addLabel; ?>
+            </span>
+    <?php endif;
 
-    <?php $add_btn = $one_btn = $popup_btn = $goto_btn = '';
+    if ($oneClick) : ?>
+        <span class="jsAddToCartGoto uk-button uk-button-success" title="<?php echo $oneClickLabel; ?>">
+            <?php echo $oneClickLabel; ?>
+        </span>
+    <?php endif;
 
-    if ($add) {
-        $add_btn = '<span class="jsAddToCart uk-button uk-button-success add-button" title="' . $addLabel . '">
-            <i class="uk-icon-shopping-cart"></i>'
-            . $addLabel
-            . '</span>';
-    }
+    if ($popup)  :
+        $this->app->jbassets->fancybox(); ?>
 
-    if ($oneClick) {
-        $one_btn = '<span class="jsAddToCartGoto uk-button uk-button-success" title="' . $oneClickLabel . '">'
-            . $oneClickLabel
-            . '</span>';
-    }
+        <span class="jsAddToCartModal uk-button uk-button-success" title="<?php echo $popupLabel; ?>">
+            <?php echo $popupLabel; ?>
+        </span>
+    <?php endif;
 
-    if ($popup) {
-        $this->app->jbassets->fancybox();
+    if ($goto) : ?>
+        <a class="uk-button goto-button" title="<?php echo $goToLabel; ?>" href="<?php echo $basketUrl; ?>">
+            <i class="uk-icon-external-link"></i>
+            <?php echo $goToLabel; ?>
+        </a>
+    <?php endif; ?>
 
-        $popup_btn = '<span class="jsAddToCartModal uk-button uk-button-success" title="' . $popupLabel . '">'
-            . $popupLabel
-            . '</span>';
-    }
-
-    if ($goto) {
-        $goto_btn = '<a class="uk-button goto-button" title="' . $goToLabel . '" href="' . $basketUrl . '">'
-            . '<i class="uk-icon-external-link"></i>'
-            . $goToLabel
-            . '</a>';
-    }
-
-    echo $add_btn, $one_btn, $popup_btn, $goto_btn; ?>
-
-    <span class="jsRemoveFromCart uk-button uk-button-danger uk-button-small remove-button"
+    <a class="jsRemoveFromCart uk-button uk-button-danger uk-button-small remove-button"
        title="<?php echo $removeLabel; ?>">
-        <i class="uk-icon-times"></i>
+        <i class="uk-icon-trash-o"></i>
         <?php echo $removeLabel; ?>
-    </span>
+    </a>
 </div>
