@@ -158,11 +158,8 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function bindData($data = array(), $key = 'value')
     {
-        if (!is_array($data)) {
-            if ($this->isBasic()) {
-                $data = $this->clearSymbols($data);
-            }
-            $this->set($key, $data);
+        if (is_string($data)) {
+            $data = array($key => $data);
         }
 
         foreach ($data as $key => $value) {
