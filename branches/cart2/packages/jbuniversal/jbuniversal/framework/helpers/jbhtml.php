@@ -271,7 +271,7 @@ class JBHtmlHelper extends AppHelper
 
         $unique = $jbstring->getId('jbcolor-');
 
-        $attrs['id']    = $attrs;
+        $attrs['id']    = $unique;
         $attrs['class'] = 'jbzoo-colors';
 
         $html   = array();
