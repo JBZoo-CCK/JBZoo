@@ -1076,7 +1076,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             }
             $variations = array_values($variations);
             $values     = array_values($values);
-            eva($variations);
+            
             $this->_item->elements->set($this->identifier, array(
                 'variations' => $variations,
                 'values'     => $variant->isBasic() ? array(self::BASIC_VARIANT => array()) : $values,
