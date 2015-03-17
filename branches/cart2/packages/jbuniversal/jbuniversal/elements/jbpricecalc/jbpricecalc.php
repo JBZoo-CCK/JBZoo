@@ -74,7 +74,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
         $this->setDefault($key);
         $this->_template = $template;
 
-        if($this->_list instanceof JBCartVariantList) {
+        if ($this->_list instanceof JBCartVariantList) {
             $this->_list->clear();
         }
 
@@ -168,30 +168,19 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
     }
 
     /**
-     * Prepare element data to push into JBHtmlHelper - select, radio etc.
-     * @param $identifier
-     * @return array
-     */
-    public function selectedOptions($identifier)
-    {
-        return $this->findOptions($identifier);
-    }
-
-    /**
      * @param $identifier
      * @return array|void
      */
     public function elementOptions($identifier)
     {
         $modifiers = (int)$this->config->get('show_modifiers', 0);
-        $options   = $this->findOptions($identifier);
+        $options   = (array)$this->findOptions($identifier);
 
-        if ($modifiers) {
-
-            return $this->addModifiers($options);
+        if (count($options) && !$modifiers) {
+            return array_combine($options, $options);
         }
 
-        return $options;
+        return $this->addModifiers($options);
     }
 
     /**

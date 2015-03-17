@@ -24,7 +24,7 @@
         <param name="min" type="text" default="1" label="JBZOO_JBPRICE_MIN_DEFAULT"
                description="JBZOO_JBPRICE_MIN_DEFAULT_DESC" />
 
-        <param name="max" type="text" default="9" label="JBZOO_JBPRICE_MAX_DEFAULT"
+        <param name="max" type="text" default="999" label="JBZOO_JBPRICE_MAX_DEFAULT"
                description="JBZOO_JBPRICE_MAX_DEFAULT_DESC" />
 
         <param name="step" type="text" default="1" label="JBZOO_ELEMENT_PRICE_QUANTITY_STEP"
