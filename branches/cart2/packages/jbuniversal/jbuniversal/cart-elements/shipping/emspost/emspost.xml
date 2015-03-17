@@ -21,6 +21,9 @@
 
     <params>
 
+        <param name="from" type="jbemscities" default="city--moskva" label="JBZOO_ELEMENT_SHIPPING_EMSPOST_FROM"
+               description="JBZOO_ELEMENT_SHIPPING_EMSPOST_FROM_DESC"/>
+
         <param name="russia" type="jbbool" default="0" label="JBZOO_ELEMENT_SHIPPING_EMSPOST_RUSSIA"
                description="JBZOO_ELEMENT_SHIPPING_EMSPOST_RUSSIA_DESC"/>
 

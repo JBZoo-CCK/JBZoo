@@ -29,14 +29,12 @@
         <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
                description="JBZOO_ELEMENT_ACCESS_DESC"/>
 
-        <param name="currency" type="jbcurrency" default="eur" label="JBZOO_ELEMENT_SHIPPING_CURRENCY"
-               description="JBZOO_ELEMENT_SHIPPING_CURRENCY_DESC"/>
-
         <param name="modifytotal" type="jbbool" default="0" label="JBZOO_ELEMENT_SHIPPING_MODIFYTOTAL"
                description="JBZOO_ELEMENT_SHIPPING_MODIFYTOTAL_DESC"/>
 
         <param name="shippingfields" type="jbcartfields" group="CONFIG_SHIPPINGFIELDS" position="DEFAULT_POSITION"
                multiple="true" label="JBZOO_ELEMENT_SHIPPING_SHIPPINGFIELDS_LABEL"
+               emptytext="JBZOO_ELEMENT_SHIPPING_SHIPPINGFIELDS_EMPTYTEXT"
                desc="JBZOO_ELEMENT_SHIPPING_SHIPPINGFIELDS_DESC"/>
 
     </params>

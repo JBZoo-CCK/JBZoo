@@ -23,9 +23,11 @@ $locTypes = array('russia', 'countries', 'regions', 'cities');
     foreach ($locTypes as $type) {
 
         if ($this->config->get($type)) {
+
+            $list = JBCartElementShippingEmsPost::getLocations($type);
+
             echo '<div class="emspost-' . $type . '">'
-                . $this->app->jbhtml->select($this->_getLocations($type), $this->getControlName($type),
-                    array('class' => 'jsEms-' . $type), $this->get($type))
+                . $this->app->jbhtml->select($list, $this->getControlName($type), array('class' => 'jsEms-' . $type), $this->get($type))
                 . '</div>';
         }
     }
