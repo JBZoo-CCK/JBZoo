@@ -13,9 +13,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBCartElementShippingCustom
+ * Class JBCartElementShippingManual
  */
-class JBCartElementShippingCustom extends JBCartElementShipping
+class JBCartElementShippingManual extends JBCartElementShipping
 {
 
     /**
