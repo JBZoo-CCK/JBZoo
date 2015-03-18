@@ -159,6 +159,11 @@
                         if (input.hasClass('jsGoTo') && $this.options.basket) {
                             parent.location.href = $this.options.basket;
                         }
+
+                        if (typeof parent.jQuery.fancybox != 'undefined') {
+                            parent.jQuery.fancybox.close();
+                        }
+
                         $this.basketReload();
                     },
                     'error'  : function (data) {
@@ -174,6 +179,10 @@
                 var $btn = $(this);
                 if ($btn.hasClass('jsGoTo') && $this.options.basket) {
                     parent.location.href = $this.options.basket;
+                }
+
+                if (typeof parent.jQuery.fancybox != 'undefined') {
+                    parent.jQuery.fancybox.close();
                 }
             },
 
@@ -191,6 +200,10 @@
 
                         $this.removeItem();
                         $this.toggleButtons();
+
+                        if (typeof parent.jQuery.fancybox != 'undefined') {
+                            parent.jQuery.fancybox.close();
+                        }
 
                         $this.basketReload();
                     },
