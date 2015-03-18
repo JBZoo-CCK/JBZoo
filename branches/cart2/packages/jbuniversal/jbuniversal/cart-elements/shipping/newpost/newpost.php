@@ -17,11 +17,14 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementShippingNewPost extends JBCartElementShipping
 {
-    const CURRENCY  = 'uah';
     const CACHE_TTL = 1440;
 
     const TYPE_DOORS = 3;
     const TYPE_WARE  = 4;
+
+    const DEFAULT_TYPE   = 4;
+    const DEFAULT_CITY   = 'Київ';
+    const DEFAULT_REGION = 'Київська';
 
     protected $_currency = 'uah';
 
@@ -65,7 +68,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
      */
     public function getRate()
     {
-        $summ = $this->_order->val(0, self::CURRENCY);
+        $summ = $this->_order->val(0, $this->_currency);
 
         $items = $this->_order->getItems();
         foreach ($items as $item) {
@@ -77,13 +80,13 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
             $data = array(
                 'senderCity'      => $this->_getDefaultCity(),
-                'recipientCity'   => $this->get('recipientCity'),
-                'mass'            => (float)$item->find('elements._weight', 0) * $quantity,
-                'height'          => (float)$item->find('elements._properties.height', 0) * $quantity, // TODO experimental
-                'width'           => (float)$item->find('elements._properties.width', 0) * $quantity, // TODO experimental
-                'depth'           => (float)$item->find('elements._properties.length', 0),
-                'publicPrice'     => $ItemPrice->val(self::CURRENCY),
-                'deliveryType_id' => $this->get('deliveryType_id'),
+                'recipientCity'   => $this->get('recipientCity', self::DEFAULT_CITY),
+                'mass'            => (float)$item->find('elements._weight', 0.1) * $quantity,
+                'height'          => (float)$item->find('elements._properties.height', 0.1) * $quantity,
+                'width'           => (float)$item->find('elements._properties.width', 0.1) * $quantity,
+                'depth'           => (float)$item->find('elements._properties.length', 0.1),
+                'publicPrice'     => $ItemPrice->val($this->_currency),
+                'deliveryType_id' => $this->get('deliveryType_id', self::DEFAULT_TYPE),
                 'loadType_id'     => '1',
                 'date'            => date('d.m.Y'),
                 'floor_count'     => $this->get('floor_count'),
@@ -92,12 +95,21 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
             $resp = $this->_apiRequest($data, 'countPrice', true);
             if ($resp && isset($resp['cost'])) {
-                $summ->add(array($resp['cost'], self::CURRENCY));
+                $resp['cost'] = $this->app->jbvars->money($resp['cost']);
+                $summ->add(array($resp['cost'], $this->_currency));
             }
 
         }
 
         return $summ;
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function _getDefaultCity()
+    {
+        return $this->config->get('sender_city', 'Київ');
     }
 
     /**
