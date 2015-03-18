@@ -220,7 +220,7 @@
             toggleButtons: function () {
 
                 var jsButtons = this.$('.{hash} .jsPriceButtons', this.isModal);
-                console.log(jsButtons);
+
                 if (this.getState()) {
                     jsButtons
                         .addClass('in-cart');
