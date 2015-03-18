@@ -12,4 +12,4 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo JBCartElementShippingEmsPost::getLocationList($name, $value, $control_name, $node, $parent);
+echo JBCartElementShippingEmsPost::getLocationSelect($name, $value, $control_name, $node, $parent);
