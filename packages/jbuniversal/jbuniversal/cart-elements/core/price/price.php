@@ -50,7 +50,7 @@ abstract class JBCartElementPrice extends JBCartElement
     public $isCache;
 
     /**
-     * Is overlay mode
+     * Is overlay mode. An instance of the class ElementJBPriceCalc.
      * @type bool
      */
     public $isOverlay;
@@ -476,6 +476,21 @@ abstract class JBCartElementPrice extends JBCartElement
     {
         $options = $this->parseOptions(false);
         if ((!empty($options)) && in_array($value, $options)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if option isset in element
+     * @param  string $value Option value
+     * @return bool
+     */
+    public function hasOption($value)
+    {
+        $options = $this->parseOptions(false);
+        if ((!empty($options)) && in_array($value, $options) || array_key_exists($value, $options)) {
             return true;
         }
 

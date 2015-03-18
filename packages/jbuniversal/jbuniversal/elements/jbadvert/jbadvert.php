@@ -182,7 +182,7 @@ class ElementJBAdvert extends Element implements iSubmittable
                         'decimals' => 0
                     )
                 ),
-                'variant'    => ElementJBPrice::BASIC_VARIANT
+                'variant'    => 0
             );
 
             $data = $this->app->data->create($data);

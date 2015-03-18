@@ -22,13 +22,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <?php endif;
 
     if ($oneClick) : ?>
-        <span class="jsAddToCartGoTo jsAddToCart uk-button uk-button-success" title="<?php echo $oneClickLabel; ?>">
+        <span class="jsAddToCart jsGoTo uk-button uk-button-success" title="<?php echo $oneClickLabel; ?>">
             <i class="uk-icon-external-link-square"></i>
             <?php echo $oneClickLabel; ?>
         </span>
     <?php endif;
 
-    if ($popup)  :
+    if ($popup && !$isModal)  :
         $this->app->jbassets->fancybox(); ?>
 
         <span class="jsAddToCartModal uk-button uk-button-success" title="<?php echo $popupLabel; ?>">
@@ -38,10 +38,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
     <?php endif;
 
     if ($goto) : ?>
-        <a class="uk-button goto-button" title="<?php echo $goToLabel; ?>" href="<?php echo $basketUrl; ?>">
+        <span class="jsPriceButton jsGoTo uk-button goto-button" title="<?php echo $goToLabel; ?>">
             <i class="uk-icon-level-up"></i>
             <?php echo $goToLabel; ?>
-        </a>
+        </span>
     <?php endif; ?>
 
     <a class="jsRemoveFromCart uk-button uk-button-danger uk-button-small remove-button"

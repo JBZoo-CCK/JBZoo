@@ -31,6 +31,8 @@
                         key: $item.data('key')
                     },
                     success: function () {
+
+                        $('.jsJBPrice-' + $item.data('jbprice')).trigger('removeItem');
                         $this.reload();
                     }
                 });

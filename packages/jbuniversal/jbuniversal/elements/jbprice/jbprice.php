@@ -92,7 +92,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * Price template that chosen in layout
      * @var null|string
      */
-    protected $_template = null;
+    public $_template = null;
 
     /**
      * Layout - full, teaser, submission etc.
@@ -233,12 +233,12 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 '_variant'   => $variant,
                 'element_id' => $this->identifier,
                 'variant'    => $variant->getId(),
-                'layout'     => $this->_layout
+                'layout'     => $this->_layout,
             ));
 
             //Must be after renderer
-            $elements = $this->elementsInterfaceParams();
-            if (!$layout = $this->getLayout($this->_template . '.php')) {
+            $elements = $this->elementsInterfaceParams($params);
+            if (!$layout = $this->getLayout($params->get('layout', $this->_template) . '.php')) {
                 $layout = $this->getLayout('render.php');
             }
             if ($layout) {
@@ -274,6 +274,24 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
+     * @param string $layout
+     * @return string
+     */
+    public function renderWarning($layout = '_warning.php')
+    {
+        $link = $this->app->jbrouter->admin(array(
+            'controller' => 'jbcart',
+            'task'       => 'price',
+            'element'    => $this->identifier
+        ));
+
+        return parent::renderLayout($this->getLayout($layout), array(
+            'link'    => $link,
+            'message' => JText::_('JBZOO_PRICE_EDIT_ERROR_ADD_ELEMENTS')
+        ));
+    }
+
+    /**
      * Renders the element using template layout file.
      * @param       $__layout
      * @param array $__args
@@ -294,24 +312,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
-     * @param string $layout
-     * @return string
-     */
-    public function renderWarning($layout = '_warning.php')
-    {
-        $link = $this->app->jbrouter->admin(array(
-            'controller' => 'jbcart',
-            'task'       => 'price',
-            'element'    => $this->identifier
-        ));
-
-        return parent::renderLayout($this->getLayout($layout), array(
-            'link'    => $link,
-            'message' => JText::_('JBZOO_PRICE_EDIT_ERROR_ADD_ELEMENTS')
-        ));
-    }
-
-    /**
      * Validate submission
      * @param $value
      * @param $params
@@ -324,9 +324,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             $basic = $value->get('basic');
             $this->app->validator->create('textfilter', array('required' => $params->get('required')))
                                  ->clean($basic['_value']);
-            //if (empty($basic['_value']) || $basic['_value'] == 0) {
-            //throw new AppValidatorException('This field is required');
-            //}
         }
 
         return $value;
@@ -404,7 +401,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
         ksort($variations);
         foreach ($variations as $id => $data) {
-
             $elements = array_merge((array)$this->params, (array)$this->_render_params, (array)$data);
             $elements = $this->_getElements(array_keys($elements), $id);
 
@@ -545,6 +541,13 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * @return
      */
     abstract public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array());
+
+    /**
+     * @param string $template Template to render
+     * @param string $layout   Current price layout
+     * @param string $hash     Hash string for communication between the elements in/out modal window
+     */
+    abstract public function ajaxModalWindow($template = 'default', $layout = 'default', $hash);
 
     /**
      * Remove from cart method
@@ -773,30 +776,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         }
 
         return $layoutPath;
-    }
-
-    /**
-     * Get required elements
-     * @return array
-     */
-    public function getRequired()
-    {
-        //$params   = $this->_getConfig(false);
-
-        $required = (array)$this->get('required');
-
-        $elements = $this->_getElements(array_flip($required));
-
-        $required = array();
-        if (!empty($params)) {
-            foreach ($params as $id => $param) {
-                if ((int)$param['required']) {
-                    $required[$id] = $id;
-                }
-            }
-        }
-
-        return $required;
     }
 
     /**

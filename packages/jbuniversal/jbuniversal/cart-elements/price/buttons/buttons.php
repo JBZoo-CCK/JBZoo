@@ -18,6 +18,25 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceButtons extends JBCartElementPrice
 {
     /**
+     * Displaying nn a modal window or not
+     * @type bool
+     */
+    public $isModal;
+
+    /**
+     * Constructor
+     * @param App    $app
+     * @param string $type
+     * @param string $group
+     */
+    public function __construct($app, $type, $group)
+    {
+        parent::__construct($app, $type, $group);
+
+        $this->isModal = (bool)$this->app->jbrequest->is('method', 'ajaxModalWindow');
+    }
+
+    /**
      * Check if element has value
      * @param array $params
      * @return bool
@@ -51,7 +70,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $interface = $this->_interfaceParams();
+        $interface = $this->_interfaceParams($params);
 
         $add      = (int)$params->get('template_add', 1);
         $goto     = (int)$params->get('template_goto', 1);
@@ -66,13 +85,13 @@ class JBCartElementPriceButtons extends JBCartElementPrice
                 'popup'         => $popUp,
                 'oneClick'      => $oneClick,
                 'goto'          => $goto,
+                'isModal'       => $this->isModal,
+                'basketUrl'     => $interface['basket'],
+                'inCart'        => ((int)$interface['isInCart'] ? 'in-cart' : null),
                 'addLabel'      => JText::_($this->config->get('add_label', 'JBZOO_JBPRICE_BUTTONS_ADD_TO_CART')),
                 'popupLabel'    => JText::_($this->config->get('popup_label', 'JBZOO_JBPRICE_BUTTONS_ADD_TO_CART_POPUP')),
                 'oneClickLabel' => JText::_($this->config->get('oneclick_label', 'JBZOO_JBPRICE_BUTTONS_ADD_TO_CART_GOTO')),
                 'goToLabel'     => JText::_($this->config->get('goto_label', 'JBZOO_JBPRICE_BUTTONS_ADD_TO_CART_GOTO')),
-                'basketUrl'     => $interface['basket'],
-                'inCart'        => ((int)$interface['isInCart'] ? 'in-cart' : null),
-                'inCartVariant' => ((int)$interface['isInCartVariant'] ? 'in-cart-variant' : null),
                 'removeLabel'   => JText::_($this->config->get('remove_label', 'JBZOO_JBPRICE_REMOVE_FROM_CART'))
             ));
         }
@@ -87,20 +106,24 @@ class JBCartElementPriceButtons extends JBCartElementPrice
      */
     public function interfaceParams($params = array())
     {
-        $_interface = $this->_interfaceParams();
+        $_interface = $this->_interfaceParams($params);
 
         return array(
-            'item_id'         => $_interface['item_id'],
-            'element_id'      => $_interface['element_id'],
-            'key'             => $_interface['key'],
-            'basket'          => $_interface['basket'],
-            'isInCart'        => $_interface['isInCart'],
-            'isInCartVariant' => $_interface['isInCartVariant'],
-            'add'             => $this->app->jbrouter->element($_interface['element_id'], $_interface['item_id'], 'ajaxAddToCart', array(
+            'item_id'    => $_interface['item_id'],
+            'element_id' => $_interface['element_id'],
+            'key'        => $_interface['key'],
+            'hash'       => $this->hash,
+            'basket'     => $_interface['basket'],
+            'isModal'    => $_interface['isModal'],
+            'isInCart'   => $_interface['isInCart'],
+            'add'        => $this->app->jbrouter->element($_interface['element_id'], $_interface['item_id'], 'ajaxAddToCart', array(
                 'template' => $this->template
             )),
-            'remove'          => $this->app->jbrouter->element($_interface['element_id'], $_interface['item_id'], 'ajaxRemoveFromCart'),
-            'modal'           => $this->app->jbrouter->element($_interface['element_id'], $_interface['item_id'], 'ajaxModalWindow')
+            'modal'      => $this->app->jbrouter->element($_interface['element_id'], $_interface['item_id'], 'ajaxModalWindow', array(
+                    'template' => $params->get('template_modal', 'default'),
+                    'layout'   => $this->getJBPrice()->layout()
+                )) . '&tmpl=component',
+            'remove'     => $this->app->jbrouter->element($_interface['element_id'], $_interface['item_id'], 'ajaxRemoveFromCart'),
         );
     }
 
@@ -111,7 +134,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
      */
     public function renderAjax($params = array())
     {
-        return $this->_interfaceParams();
+        return $this->_interfaceParams($params);
     }
 
     /**
@@ -127,20 +150,21 @@ class JBCartElementPriceButtons extends JBCartElementPrice
 
     /**
      * Get session key and check if variant is in cart
+     * @param AppData|array $params
      * @return array
      */
-    protected function _interfaceParams()
+    protected function _interfaceParams($params = array())
     {
         $cart = JBCart::getInstance();
-        $key  = $this->_jbprice->getList()->session_key;
+        $key  = $this->_jbprice->getList()->getSessionKey();
 
         return array(
-            'item_id'         => $this->item_id,
-            'element_id'      => $this->element_id,
-            'key'             => $key,
-            'basket'          => $this->getBasketUrl(),
-            'isInCart'        => (int)$cart->inCart($this->item_id, $this->element_id),
-            'isInCartVariant' => (int)$cart->inCartVariant($key),
+            'item_id'    => $this->item_id,
+            'element_id' => $this->element_id,
+            'key'        => $key,
+            'basket'     => $this->getBasketUrl(),
+            'isModal'    => $this->isModal,
+            'isInCart'   => (int)$cart->inCart($this->item_id, $this->element_id),
         );
     }
 
