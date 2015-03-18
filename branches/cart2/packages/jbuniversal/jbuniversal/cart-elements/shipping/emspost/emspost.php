@@ -127,8 +127,17 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
     protected function _getDefaultCityName()
     {
         $city = $this->_getDefaultCity();
-        $list = self::getLocationList();
-        return isset($list[$city]) ? $list[$city] : 'undefined';
+        return self::getLocationName($city);
+    }
+
+    /**
+     * @param $alias
+     * @return string
+     */
+    protected function getLocationName($alias)
+    {
+        $list = self::getLocationList($alias);
+        return isset($list[$alias]) ? $list[$alias] : false;
     }
 
     /**

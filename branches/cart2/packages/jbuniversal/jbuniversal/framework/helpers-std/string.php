@@ -123,7 +123,7 @@ class StringHelper extends AppHelper
 
             foreach ($this->getTransliteration() as $replace => $keys) {
                 foreach ($keys as $search) {
-                    $string = str_ireplace($search, $replace, $string);
+                    $string = JString::str_ireplace($search, $replace, $string);
                 }
             }
 

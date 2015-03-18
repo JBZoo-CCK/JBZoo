@@ -114,8 +114,9 @@ abstract class JBCartElementShipping extends JBCartElement
     public function isDefault()
     {
         $shipping = JBCart::getInstance()->getShipping();
+        $shipping = $this->app->data->create($shipping);
 
-        return $this->identifier == $shipping['_shipping_id'];
+        return $this->identifier == $shipping->get('_shipping_id') || $this->identifier == $shipping->get('element_id');
     }
 
     /**
@@ -155,7 +156,7 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     public function getControlName($name, $array = false)
     {
-        return $this->_namespace . '[' . $name . ']' . ($array ? '[]' : '');
+        return $this->_namespace . '[' . $this->identifier . '][' . $name . ']' . ($array ? '[]' : '');
     }
 
     /**

@@ -409,8 +409,8 @@ class JBCart
     {
         $session = $this->_getSession();
 
-        if (isset($session['shipping']) && isset($session['shipping']['_current'])) {
-            $currentId = $session['shipping']['_current'];
+        if (isset($session['shipping']) && isset($session['shipping']['_shipping_id'])) {
+            $currentId = $session['shipping']['_shipping_id'];
         } else {
             $currentId = $this->_config->get('default_shipping');
         }
@@ -438,12 +438,13 @@ class JBCart
             return;
         }
 
-        $id = $shipping['_shipping_id'];
+        $id   = $shipping['_shipping_id'];
+        $data = isset($shipping[$id]) ? $shipping[$id] : array();
 
         $session = $this->_getSession();
 
-        $session['shipping']['_current'] = $id;
-        $session['shipping'][$id]        = (array)$shipping;
+        $session['shipping']['_shipping_id'] = $id;
+        $session['shipping'][$id]            = (array)$data;
 
         $this->_setSession('shipping', $session['shipping']);
     }
@@ -695,7 +696,7 @@ class JBCart
         if (isset($session['shipping'])) {
             foreach ($session['shipping'] as $elemId => $shipping) {
 
-                if ($elemId == '_current') {
+                if ($elemId == '_shipping_id') {
                     continue;
                 }
 

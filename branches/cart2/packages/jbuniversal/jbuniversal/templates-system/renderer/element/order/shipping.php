@@ -42,16 +42,22 @@ $uniqId = $element->htmlId();
 <div class="<?php echo implode(' ', $classes); ?>" data-type="<?php echo $element->getElementType(); ?>">
 
     <input <?php echo $this->app->jbhtml->buildAttrs(array(
+        'type'  => 'hidden',
+        'value' => $element->identifier,
+        'name'  => $element->getControlName('element_id'),
+    )); ?> />
+
+    <input <?php echo $this->app->jbhtml->buildAttrs(array(
         'type'    => 'radio',
         'id'      => $uniqId,
         'value'   => $element->identifier,
+        'name'    => 'shipping[_shipping_id]',
+        'checked' => $element->isDefault() ? 'checked' : '',
         'class'   => array(
             'jsRadio',
             'jbcart-radio-input',
             'jbcart-shipping-radio',
         ),
-        'name'    => $element->getControlName('_shipping_id'),
-        'checked' => $element->isDefault() ? 'checked' : '',
     )); ?> />
 
     <div class="jbcart-radio-label jbcart-shipping-wrapper">
