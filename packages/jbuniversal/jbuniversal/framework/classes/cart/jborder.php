@@ -652,10 +652,9 @@ class JBCartOrder
         if (!$this->id) {
             if ($shippingData = JBCart::getInstance()->getShipping()) {
 
-                $shipping = $this->getShippingElement($shippingData['_shipping_id']);
+                $elemId = isset($shippingData['element_id']) ? $shippingData['element_id'] : '';
 
-                unset($shippingData['_shipping_id']);
-                if ($shipping) {
+                if ($shipping = $this->getShippingElement($elemId)) {
                     $shipping->bindData($shippingData);
 
                     return $shipping;
@@ -688,7 +687,13 @@ class JBCartOrder
 
         $elementId = $data['_shipping_id'];
         unset($data['_shipping_id']);
-        $value = $this->app->data->create($data);
+
+        $value = array();
+        if (isset($data[$elementId])) {
+            $value = $data[$elementId];
+        }
+
+        $value = $this->app->data->create($value);
 
         try {
 
