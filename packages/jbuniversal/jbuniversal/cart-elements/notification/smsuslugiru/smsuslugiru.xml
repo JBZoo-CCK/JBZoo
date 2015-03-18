@@ -29,10 +29,10 @@
         <param name="access" type="zooaccesslevel" label="JBZOO_ELEMENT_ACCESS"
                description="JBZOO_ELEMENT_ACCESS_DESC"/>
 
-        <param name="login" type="text" label="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_LOGIN"
+        <param name="sms_login" type="text" label="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_LOGIN"
                description="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_LOGIN_DESC"/>
 
-        <param name="password" type="jbpassword" label="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_PASSWORD"
+        <param name="sms_password" type="jbpassword" label="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_PASSWORD"
                description="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_DESC"/>
 
         <param name="https" type="jbbool" label="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_USEHTTP"

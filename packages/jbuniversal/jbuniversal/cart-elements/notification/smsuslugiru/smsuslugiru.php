@@ -143,7 +143,7 @@ class JBCartElementNotificationSmsuslugiru extends JBCartElementNotification
         $admPhone = $this->config->get('phones', array());
 
         if (!empty($admPhone)) {
-            $admPhones = explode("\n", $admPhone);
+            $admPhones = explode(PHP_EOL, $admPhone);
             foreach ($admPhones as $phone) {
                 $phones[] = $phone;
             }
@@ -151,8 +151,8 @@ class JBCartElementNotificationSmsuslugiru extends JBCartElementNotification
 
         $params = array(
             'params' => $this->app->data->create(array(
-                'login'    => $this->config->get('login'),
-                'password' => $this->config->get('password'),
+                'login'    => $this->config->get('sms_login'),
+                'password' => $this->config->get('sms_password'),
                 'text'     => $this->config->get('message')
             )),
             'phones' => $this->app->data->create($phones)
