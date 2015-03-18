@@ -107,7 +107,7 @@ $items    = $basketHelper->getBasketItems(array(
 
         <?php if ((int)$params->get('jbcart_button_empty', 1) && (int)$params->get('jbcart_button_gotocart', 1)) : ?>
 
-            <div class="jbcart-module-buttons">
+            <div class="jbcart-module-buttons uk-clearfix">
 
                 <?php if ((int)$params->get('jbcart_button_empty', 1)): ?>
                     <span class="uk-button uk-button-danger jbcart-module-empty jsEmptyCart">
