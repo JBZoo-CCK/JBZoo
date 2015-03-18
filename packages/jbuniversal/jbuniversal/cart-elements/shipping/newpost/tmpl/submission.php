@@ -15,27 +15,29 @@ defined('_JEXEC') or die('Restricted access');
 
 $jbhtml  = $this->app->jbhtml;
 $uiqueId = $this->app->jbstring->getId('newpost-');
+
 ?>
 
 <div id="<?php echo $uiqueId; ?>">
     <div class="newpost-deliveryType_id">
         <?php echo $jbhtml->select($this->_getTypeList(), $this->getControlName('deliveryType_id'),
-            'class="jsDeliveryType"', $this->get('deliveryType_id')); ?>
+            'class="jsDeliveryType"', $this->get('deliveryType_id', JBCartElementShippingNewPost::DEFAULT_TYPE)); ?>
     </div>
 
     <div class="newpost-region">
         <?php echo $jbhtml->select($this->_getRegionList(), $this->getControlName('region'),
-            'class="jsRegion"', $this->get('region')); ?>
+            'class="jsRegion"', $this->get('region', JBCartElementShippingNewPost::DEFAULT_REGION)); ?>
     </div>
 
     <div class="newpost-recipientCity">
-        <?php echo $jbhtml->select($this->_getCityList($this->get('region')), $this->getControlName('recipientCity'),
-            'class="jsRecipientCity"', $this->get('recipientCity')); ?>
+        <?php echo $jbhtml->select($this->_getCityList($this->get('region', JBCartElementShippingNewPost::DEFAULT_REGION)),
+            $this->getControlName('recipientCity'), 'class="jsRecipientCity"',
+            $this->get('recipientCity', JBCartElementShippingNewPost::DEFAULT_CITY)); ?>
     </div>
 
     <div class="newpost-warehouse jsWarehouseWrapper">
-        <?php echo $jbhtml->select($this->_getWarehouseList($this->get('recipientCity')), $this->getControlName('warehouse'),
-            'class="jsWarehouse"', $this->get('warehouse')); ?>
+        <?php echo $jbhtml->select($this->_getWarehouseList($this->get('recipientCity')),
+            $this->getControlName('warehouse'), 'class="jsWarehouse"', $this->get('warehouse')); ?>
     </div>
 
     <div class="newpost-doors jsDoorsWrapper">

@@ -36,7 +36,9 @@
         },
 
         'change .jsRecipientCity': function (e, $this) {
-            $this._loadList($(this).val(), 'warehouses', $this.$('.jsWarehouse'));
+            $this._loadList($(this).val(), 'warehouses', $this.$('.jsWarehouse'), function () {
+                $this._updatePrice();
+            });
         },
 
         'change .jsWarehouse': function (e, $this) {
@@ -47,7 +49,7 @@
             $this._delay('_updatePrice', $this.options.timeout);
         },
 
-        _loadList: function (value, listType, $targetSelect) {
+        _loadList: function (value, listType, $targetSelect, callback) {
             var $this = this;
 
             $this.ajax({
@@ -61,6 +63,9 @@
                 success: function (data) {
                     $targetSelect.JBZooSelect('newOptions', data.list);
                     $targetSelect.JBZooSelect('val', '');
+                    if ($.isFunction(callback)) {
+                        callback(arguments);
+                    }
                 }
 
             });

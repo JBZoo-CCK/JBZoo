@@ -20,8 +20,11 @@
     <description>JBZOO_ELEMENT_SHIPPING_NEWPOST_DESC</description>
 
     <params>
-        <param name="api_key" type="text" default="" label="JBZOO_ELEMENT_API_KEY"
-               description="JBZOO_ELEMENT_API_KEY_DESC"/>
+        <param name="sender_city" type="text" default="Київ" label="JBZOO_ELEMENT_SHIPPING_NEWPOST_SENDER_CITY"
+               description="JBZOO_ELEMENT_SHIPPING_NEWPOST_SENDER_CITY_DESC"/>
+
+        <param name="api_key" type="text" default="" label="JBZOO_ELEMENT_SHIPPING_NEWPOST_API_KEY"
+               description="JBZOO_ELEMENT_SHIPPING_NEWPOST_API_KEY_DESC"/>
 
         <param name="important" type="jbimportant" default="JBZOO_ELEMENT_SHIPPING_NEWPOST_IMPORTANT"/>
 
