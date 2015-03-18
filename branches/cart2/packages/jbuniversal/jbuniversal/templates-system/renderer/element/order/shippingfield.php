@@ -55,12 +55,14 @@ $uniqId = $element->htmlId();
     </label>
 
     <div class="jbcart-shippingfield-element">
+
+        <?php if ($description = $element->config->get('description')) : ?>
+            <p class="jbcart-shippingfield-desc"><?php echo JText::_($description); ?> </p>
+        <?php endif; ?>
+
         <?php echo $element->renderSubmission($params); ?>
+
         <?php echo $error; ?>
     </div>
-
-    <?php if ($description = $element->config->get('description')) : ?>
-        <p class="jbcart-shippingfield-desc"><?php echo JText::_($description); ?> </p>
-    <?php endif; ?>
 
 </div>
