@@ -170,15 +170,13 @@ class JBCartElementPriceColor extends JBCartElementPrice
 
     /**
      * Check if option isset in element
-     *
      * @param $value
-     *
      * @return bool
      */
-    public function issetOption($value)
+    public function hasOption($value)
     {
         $colors = $this->getColors();
-        if (array_key_exists($value, $colors)) {
+        if (isset($colors[$value]) || array_key_exists($value, $colors)) {
             return true;
         }
 
