@@ -207,7 +207,7 @@ class JBCartVariant extends ArrayObject
         }
 
         $this->hash = md5(serialize(array_filter(array_map(create_function('$element',
-                'return JString::strlen($element->getValue(true)) > 0 && $element->isCore() == false ? (array)$element->data() : null;'), $this->all())
+                'return JString::strlen($element->getValue(true)) > 0 && $element->isCore() == false ? $element->getValue(true) : null;'), $this->all())
         )));
 
         return $this->hash;
@@ -268,6 +268,23 @@ class JBCartVariant extends ArrayObject
         }
 
         return $default;
+    }
+
+    /**
+     * @param string $id    Element identifier
+     * @param mixed  $value Value to check
+     * @return bool
+     */
+    public function hasOption($id, $value)
+    {
+        $element = $this->get($id);
+
+        $element->bindData($value);
+        if ($element->hasOption($element->getValue(true))) {
+            return $value;
+        }
+
+        return false;
     }
 
     /**

@@ -444,7 +444,7 @@ class JBCartVariantList extends ArrayObject
         $element->bindData($value);
         $value = $element->getValue();
 
-        if ($element->issetOption($value)) {
+        if ($element->hasOption($value)) {
             return $value;
         }
 
@@ -639,7 +639,7 @@ class JBCartVariantList extends ArrayObject
      * @param int $id
      * @return $this
      */
-    protected function remove($id)
+    public function remove($id)
     {
         unset($this->variants[$id]);
 
