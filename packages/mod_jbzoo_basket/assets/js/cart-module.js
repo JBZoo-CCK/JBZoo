@@ -32,8 +32,8 @@
                     },
                     success: function () {
 
-                        $('.jsJBPrice-' + $item.data('jbprice')).trigger('removeItem');
                         $this.reload();
+                        $('.jsJBPrice-' + $item.data('jbprice')).trigger('removeItem');
                     }
                 });
             });
@@ -47,9 +47,8 @@
                     success: function () {
 
                         JBZoo.addVar('cartItems', {});
-                        $this._trigger('emptyCart');
-
                         $this.reload();
+                        $this._trigger('emptyCart');
                     }
                 });
             });

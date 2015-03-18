@@ -126,7 +126,6 @@
                     'helpers'   : {
                         'overlay': {
                             'locked': false,
-
                             'css'   : {
                                 'background': 'rgba(119, 119, 119, 0.4)'
                             }
@@ -155,6 +154,8 @@
                         $this.addItem();
                         $this.toggleButtons();
 
+                        $this.basketReload();
+
                         if (input.hasClass('jsGoTo') && $this.options.basket) {
                             parent.location.href = $this.options.basket;
                         }
@@ -162,8 +163,6 @@
                         if (typeof parent.jQuery.fancybox != 'undefined') {
                             parent.jQuery.fancybox.close();
                         }
-
-                        $this.basketReload();
                     },
                     'error'  : function (data) {
                         if (data.message) {
@@ -221,7 +220,7 @@
             toggleButtons: function () {
 
                 var jsButtons = this.$('.{hash} .jsPriceButtons', this.isModal);
-
+                console.log(jsButtons);
                 if (this.getState()) {
                     jsButtons
                         .addClass('in-cart');
