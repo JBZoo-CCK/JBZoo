@@ -122,6 +122,16 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
     }
 
     /**
+     * @return string
+     */
+    protected function _getDefaultCityName()
+    {
+        $city = $this->_getDefaultCity();
+        $list = self::getLocationList();
+        return isset($list[$city]) ? $list[$city] : 'undefined';
+    }
+
+    /**
      * @param $options
      * @return null
      */
@@ -196,7 +206,14 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
      * @param SimpleXMLElement $parent
      * @return mixed
      */
-    public static function getLocationList($name, $value, $controlName, $node, $parent)
+    public static function getLocationSelect($name, $value, $controlName, $node, $parent)
+    {
+        $list = self::getLocationList();
+        return App::getInstance('zoo')->jbhtml->select($list, $controlName . '[' . $name . ']', '', $value);
+    }
+
+
+    public static function getLocationList()
     {
         $list = array_merge(
             self::getLocations('cities'),
@@ -208,7 +225,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
         unset($list['']);
         asort($list);
 
-        return App::getInstance('zoo')->jbhtml->select($list, $controlName . '[' . $name . ']', '', $value);
+        return $list;
     }
 
     /**

@@ -18,6 +18,10 @@ $uiqueId = $this->app->jbstring->getId('newpost-');
 
 ?>
 
+<div class="newpost-sender-city">
+    <p><strong>Город-отправитель:</strong> <?php echo $this->_getDefaultCity(); ?></p>
+</div>
+
 <div id="<?php echo $uiqueId; ?>">
     <div class="newpost-deliveryType_id">
         <?php echo $jbhtml->select($this->_getTypeList(), $this->getControlName('deliveryType_id'),
