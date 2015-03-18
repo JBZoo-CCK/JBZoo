@@ -113,8 +113,7 @@
                 $.fancybox({
                     'type'      : 'iframe',
                     'href'      : $this.options.modal + '&args[hash]=' + $this.hash,
-                    'width'     : 1000,
-                    'height'    : 1000,
+                    'width'     : 400,
                     'fitToView' : true,
                     'autoHeight': true,
                     'autoResize': true,
