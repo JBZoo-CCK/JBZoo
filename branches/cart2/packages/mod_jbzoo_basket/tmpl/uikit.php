@@ -35,7 +35,8 @@ $items    = $basketHelper->getBasketItems(array(
 
                 <?php foreach ($items as $itemKey => $cartItem) : ?>
                     <div class="<?php echo $itemKey; ?> jsCartItem jbcart-module-item clearfix"
-                         data-key="<?php echo $itemKey; ?>">
+                         data-key="<?php echo $itemKey; ?>"
+                         data-jbprice="<?php echo $cart->get($itemKey . '.element_id') . '-' . $cart->get($itemKey . '.item_id'); ?>">
 
                         <?php if ((int)$params->get('jbcart_item_delete', 1)) : ?>
                             <span class="uk-button uk-button-danger uk-button-small round jsDelete jbcart-item-delete">

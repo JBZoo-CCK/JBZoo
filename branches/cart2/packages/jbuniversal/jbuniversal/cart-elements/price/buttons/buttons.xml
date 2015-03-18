@@ -45,6 +45,8 @@
         <param name="template_goto" type="jbbool" default="1" label="JBZOO_JBPRICE_BUTTONS_TEMPLATE_GOTO"
                description="JBZOO_JBPRICE_BUTTONS_TEMPLATE_DESC"/>
 
+        <param name="template_modal" type="jbpricetemplates" default="default" label="JBZOO_JBPRICE_TEMPLATE"
+               description="JBZOO_JBPRICE_TEMPLATE_DESC"/>
 
         <param name="add_label" type="text" default="JBZOO_JBPRICE_BUTTONS_ADD_TO_CART"
                label="JBZOO_JBPRICE_BUTTONS_ADD_LABEL" description="JBZOO_JBPRICE_BUTTONS_ADD_DESC"/>

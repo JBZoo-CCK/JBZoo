@@ -298,6 +298,18 @@ class JBCart
     }
 
     /**
+     * @param string $key Session key
+     * @param null   $default
+     * @return mixed
+     */
+    public function get($key, $default = null)
+    {
+        $items = $this->getItems(false);
+
+        return $items->find($key, array());
+    }
+
+    /**
      * @param $data
      * @return $this
      */

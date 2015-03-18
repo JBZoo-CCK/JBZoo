@@ -16,11 +16,13 @@
         {
             'item_id'   : '',
             'element_id': '',
+            'hash'      : '',
             'isInCart'  : false,
             'add'       : '',
             'remove'    : '',
             'basket'    : '',
-            'modal'     : ''
+            'modal'     : '',
+            'isModal'   : 0
         },
         {
             // default data
@@ -32,16 +34,19 @@
             'element_id': '',
             'isInCart'  : 0,
 
-            'isInCartVariant' : 0,
-            'canRemoveVariant': 0,
+            init: function ($this) {
 
-            init: function () {
-
-                this.price = this.el.closest('.jsJBPrice');
+                this.price = this.el.closest('.' + this.options.hash);
                 this.item_id = this.options.item_id;
                 this.element_id = this.options.element_id;
+                this.isModal = this.options.isModal;
+                this.hash = this.options.hash;
 
                 this.toggleButtons();
+                this.price.on('removeItem', function() {
+                    $this.removeItem();
+                    $this.toggleButtons();
+                })
             },
 
             getState: function () {
@@ -56,6 +61,23 @@
                 return this.isInCart;
             },
 
+
+            getItems: function() {
+                if(this.isModal) {
+                    return parent.JBZoo.getVar('cartItems', {}) || {};
+                }
+
+                return JBZoo.getVar('cartItems', {}) || {};
+            },
+
+            setItems: function(items) {
+                if(this.isModal) {
+                    return parent.JBZoo.addVar('cartItems', items);
+                }
+
+                return JBZoo.addVar('cartItems', items);
+            },
+
             removeItem: function () {
                 var items = JBZoo.getVar('cartItems', {}) || {};
 
@@ -65,7 +87,7 @@
                     delete items[this.item_id];
                 }
 
-                JBZoo.addVar('cartItems', items);
+                this.setItems(items);
             },
 
             addItem: function () {
@@ -79,12 +101,39 @@
                     items[this.item_id][this.element_id] = this.element_id;
                 }
 
-                JBZoo.addVar('cartItems', items);
+                this.setItems(items);
             },
 
             'emptyCart.JBZooCartModule {document} .jsJBZooCartModule': function (e, $this) {
-
                 $this.toggleButtons();
+            },
+
+            'click .jsAddToCartModal': function (e, $this) {
+
+                $.fancybox({
+                    'type'      : 'iframe',
+                    'href'      : $this.options.modal + '&args[hash]=' + $this.hash,
+                    'width'     : 1000,
+                    'height'    : 1000,
+                    'fitToView' : true,
+                    'autoHeight': true,
+                    'autoResize': true,
+
+                    'iframe'    : {
+                        'scrolling': 'no',
+
+                        'preload'  : true
+                    },
+                    'helpers'   : {
+                        'overlay': {
+                            'locked': false,
+
+                            'css'   : {
+                                'background': 'rgba(119, 119, 119, 0.4)'
+                            }
+                        }
+                    }
+                });
             },
 
             'click .jsAddToCart': function (e, $this) {
@@ -107,10 +156,8 @@
                         $this.addItem();
                         $this.toggleButtons();
 
-                        if (input.hasClass('jsAddToCartGoTo')) {
-                            if ($this.options.basket) {
-                                parent.location.href = $this.options.basket;
-                            }
+                        if (input.hasClass('jsGoTo') && $this.options.basket) {
+                            parent.location.href = $this.options.basket;
                         }
                         $this.basketReload();
                     },
@@ -122,7 +169,16 @@
                 });
             },
 
+            'click .jsPriceButton': function (e, $this) {
+
+                var $btn = $(this);
+                if ($btn.hasClass('jsGoTo') && $this.options.basket) {
+                    parent.location.href = $this.options.basket;
+                }
+            },
+
             'click .jsRemoveFromCart': function (e, $this) {
+
                 $this.ajax({
                     'target' : $(this),
                     'url'    : $this.options.remove,
@@ -151,7 +207,8 @@
             },
 
             toggleButtons: function () {
-                var jsButtons = this.$('.jsPriceButtons');
+
+                var jsButtons = this.$('.{hash} .jsPriceButtons', this.isModal);
 
                 if (this.getState()) {
                     jsButtons
@@ -159,6 +216,12 @@
                 } else {
                     jsButtons
                         .removeClass('in-cart');
+                }
+
+                if(this.isModal) {
+                    this.isModal = false;
+                    this.toggleButtons();
+                    this.isModal = true;
                 }
 
                 return this;
@@ -169,15 +232,46 @@
             },
 
             basketReload: function () {
-                if (JBZoo.isWidgetExists('JBZooCartModule')) {
-                    $('.jsJBZooCartModule').JBZooCartModule('reload');
+                if (this.isWidgetExists('JBZooCartModule')) {
+                    this.$('{document} .jsJBZooCartModule', this.isModal).JBZooCartModule('reload');
                 }
             },
 
             get: function (identifier, defValue) {
-                if (JBZoo.isWidgetExists('JBZooPrice')) {
-                    return this.el.closest('.jsJBPrice').JBZooPrice('get', identifier, defValue);
+                if (this.isWidgetExists('JBZooPrice')) {
+                    return this.price.JBZooPrice('get', identifier, defValue);
                 }
+            },
+
+            $: function(selector, _parent) {
+                if (selector == '{element}') {
+                    return this.el;
+                }
+                var _$ = $;
+
+                if (_parent === true) {
+                    _$ = parent.jQuery;
+                }
+
+                if (selector.indexOf('{document} ') === 0) {
+                    selector = selector.replace('{document} ', '');
+                    return _$(selector);
+                }
+
+                if (selector.indexOf('{hash}') === 1) {
+                    selector = selector.replace('{hash}', this.hash);
+                    return _$(selector);
+                }
+
+                return _$(selector, this.el);
+            },
+
+            isWidgetExists: function(name) {
+                if(this.isModal) {
+                    return parent.JBZoo.isWidgetExists(name);
+                }
+
+                return JBZoo.isWidgetExists(name);
             },
 
             /**

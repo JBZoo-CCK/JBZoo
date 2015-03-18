@@ -137,6 +137,28 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
     }
 
     /**
+     * @param string $template Template to render
+     * @param string $layout   Current price layout
+     * @param string $hash     Hash string for communication between the elements in/out modal window
+     */
+    public function ajaxModalWindow($template = 'default', $layout = 'default', $hash)
+    {
+        $this->_template = $template;
+        $this->_layout   = $layout;
+        $this->hash      = $hash;
+
+        $this->_getRenderParams();
+        $this->_getConfig();
+
+        echo $this->render(array(
+            'template'       => $template,
+            'layout'         => 'modal',
+            '_layout'        => $layout,
+            'modal_template' => null
+        ));
+    }
+
+    /**
      * Remove from cart method
      * @param string $key - Session key
      * @return mixed

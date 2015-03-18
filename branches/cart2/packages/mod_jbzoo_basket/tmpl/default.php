@@ -13,8 +13,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$zoo = App::getInstance('zoo');
-
+$zoo  = App::getInstance('zoo');
+$cart = JBCart::getInstance();
 $zoo->jbassets->widget('.jsJBZooCartModule', 'JBZoo.CartModule', $basketHelper->getWidgetParams());
 
 $order    = $basketHelper->getOrder();
@@ -33,7 +33,8 @@ $currency = $basketHelper->getCurrency();
 
                 <?php foreach ($items as $itemKey => $cartItem) : ?>
                     <div class="<?php echo $itemKey; ?> jsCartItem jbcart-module-item clearfix"
-                         data-key="<?php echo $itemKey; ?>">
+                         data-key="<?php echo $itemKey; ?>"
+                         data-jbprice="<?php echo $cart->get($itemKey . '.element_id') . '-' . $cart->get($itemKey . '.item_id'); ?>">
 
                         <?php if ((int)$params->get('jbcart_item_delete', 1)) : ?>
                             <span class="jbbutton orange round jsDelete jbcart-item-delete">x</span>

@@ -14,19 +14,22 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <div class="jbprice-buttons jsPriceButtons <?php echo $inCart; ?>">
 
-    <?php if ($add) : ?>
+    <?php /***** ADD BUTTON *****/
+    if ($add) : ?>
         <span class="jsAddToCart jbbutton green add-button" title="<?php echo $addLabel; ?>">
             <?php echo $addLabel; ?>
             </span>
     <?php endif;
 
+    /***** CLICK AND GO BUTTON *****/
     if ($oneClick) : ?>
-        <span class="jsAddToCartGoTo jsAddToCart jbbutton green" title="<?php echo $oneClickLabel; ?>">
+        <span class="jsAddToCart jsGoTo jbbutton green" title="<?php echo $oneClickLabel; ?>">
             <?php echo $oneClickLabel; ?>
         </span>
     <?php endif;
 
-    if ($popup)  :
+    /***** POP UP BUTTON *****/
+    if ($popup && !$isModal)  :
         $this->app->jbassets->fancybox(); ?>
 
         <span class="jsAddToCartModal jbbutton green" title="<?php echo $popupLabel; ?>">
@@ -34,12 +37,14 @@ defined('_JEXEC') or die('Restricted access'); ?>
         </span>
     <?php endif;
 
+    /***** REDIRECT TO BASKET BUTTON *****/
     if ($goto) : ?>
-        <a class="jbbutton goto-button" title="<?php echo $goToLabel; ?>" href="<?php echo $basketUrl; ?>">
+        <span class="jsPriceButton jsGoTo jbbutton goto-button" title="<?php echo $goToLabel; ?>">
             <?php echo $goToLabel; ?>
-        </a>
-    <?php endif; ?>
+        </span>
+    <?php endif;
 
+    /***** REMOVE BUTTON *****/ ?>
     <a class="jsRemoveFromCart jsRemoveElement jbbutton small orange remove-button"
        title="<?php echo $removeLabel; ?>">
         <?php echo $removeLabel; ?>

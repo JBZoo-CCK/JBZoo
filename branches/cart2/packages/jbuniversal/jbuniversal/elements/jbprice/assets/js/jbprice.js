@@ -19,7 +19,8 @@
             'isInCart'  : false,
             'itemId'    : 0,
             'identifier': '',
-            'elements'  : {}
+            'elements'  : {},
+            'hash'      : ''
         },
         {
             'elements'  : {},
@@ -35,7 +36,6 @@
                     var element = $('.jbprice-param' + key.replace('_', '-'), $this.el),
                         plugName = $this._namespace + key,
                         defaultName = $this._namespace + '_default';
-
                     if (JBZoo.empty(params)) {
                         params = {};
                     }
@@ -44,14 +44,12 @@
                         $this.elements[key] = element[plugName](params).data(plugName);
 
                     } else if ($.fn[plugName]) {
-
                         $this.elements[key] = element[plugName](params).data(plugName);
 
                     } else {
                         $this.elements[key] = element[defaultName](params).data(defaultName);
                     }
                 });
-
             },
 
             'change .jbprice-simple-param input, .jbprice-simple-param select, .jbprice-simple-param textarea': function (e, $this) {
@@ -103,7 +101,6 @@
 
             get: function (identifier, defValue) {
                 var element = this.elements[identifier];
-
                 if (!JBZoo.empty(element)) {
                     if ($.isFunction(element["getValue"])) {
                         return element.getValue();
@@ -147,7 +144,6 @@
             },
 
             _rePaint: function (data) {
-
                 var $this = this;
                 $.each(data, function (key, data) {
 

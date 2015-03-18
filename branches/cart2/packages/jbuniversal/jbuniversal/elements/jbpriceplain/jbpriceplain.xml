@@ -36,11 +36,6 @@
 
         <param name="template" type="jbpricetemplates" default="default" label="JBZOO_JBPRICE_TEMPLATE"
                description="JBZOO_JBPRICE_TEMPLATE_DESC"/>
-
-        <param name="@modal_label" type="jbspacer" default="JBZOO_JBPRICE_TEMPLATE_POPUP_PARAMS_SPACER"/>
-
-        <param name="modal_params_tmpl" type="jbpricetemplates" default="0" label="JBZOO_JBPRICE_TEMPLATE"
-               description="JBZOO_JBPRICE_TEMPLATE_DESC"/>
     </params>
 
     <params group="submission">
