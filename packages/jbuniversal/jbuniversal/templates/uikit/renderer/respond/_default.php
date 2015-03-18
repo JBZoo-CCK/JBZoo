@@ -111,9 +111,7 @@ $this->app->document->addScript('assets:js/placeholder.js');
         <?php if (!$registered || ($registered && !$active_author->isGuest())) : ?>
 
             <div class="content uk-form-row">
-                <textarea name="content" rows="5" cols="50">
-                    <?php echo $params->get('content'); ?>
-                </textarea>
+                <textarea name="content" rows="5" cols="50"><?php echo $params->get('content'); ?></textarea>
             </div>
 
             <?php if ($captcha): ?>
