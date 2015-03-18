@@ -79,7 +79,7 @@
             },
 
             removeItem: function () {
-                var items = JBZoo.getVar('cartItems', {}) || {};
+                var items = this.getItems();
 
                 delete items[this.item_id][this.element_id];
 
@@ -91,7 +91,7 @@
             },
 
             addItem: function () {
-                var items = JBZoo.getVar('cartItems', null) || {};
+                var items = this.getItems();
                 if (!items.hasOwnProperty(this.item_id)) {
                     var obj = {};
                     obj[this.element_id] = this.element_id;
