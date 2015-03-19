@@ -29,10 +29,7 @@ class JBCartElementModifierOrderPriceDiscountCode extends JBCartElementModifierO
      */
     public function getRate()
     {
-        $list = $this->config->get('codelist');
-        $list = $this->app->jbstring->parseLines($list);
-
-        if (in_array($this->get('code'), $list)) {
+        if ($this->_isInList()) {
             return $this->_order->val($this->config->get('rate'));
         }
 
@@ -60,8 +57,31 @@ class JBCartElementModifierOrderPriceDiscountCode extends JBCartElementModifierO
     public function ajaxSetCode($code = null)
     {
         $this->bindData(array('code' => $code));
+        $inList = $this->_isInList();
 
-        $result = array('cart' => JBCart::getInstance()->recount());
-        $this->app->jbajax->send($result);
+        $result = array(
+            'cart' => JBCart::getInstance()->recount()
+        );
+
+        if (!$inList) {
+            $result['message'] = JText::_('JBZOO_ELEMENT_MODIFIERORDERPRICE_DISCOUNTCODE_NOTFOUND');
+            $this->bindData(array('code' => ''));
+        }
+
+        $this->app->jbajax->send($result, $inList);
     }
+
+    /**
+     * @return bool
+     */
+    protected function _isInList()
+    {
+        $list = $this->config->get('codelist');
+        $list = $this->app->jbstring->parseLines($list);
+
+        $code = JString::trim($this->get('code'));
+
+        return in_array($code, $list);
+    }
+
 }
