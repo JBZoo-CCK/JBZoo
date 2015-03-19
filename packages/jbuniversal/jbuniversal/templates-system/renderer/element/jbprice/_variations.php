@@ -12,6 +12,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 $name  = JText::_($element->config->get('name'));
 $class = 'variant-param';
 
