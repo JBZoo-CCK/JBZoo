@@ -12,6 +12,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 if ($this->checkPosition(JBCart::DEFAULT_POSITION)) {
     echo $this->renderPosition(JBCart::DEFAULT_POSITION, array(
         'style' => 'order.modifier'

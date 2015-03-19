@@ -22,5 +22,5 @@ if (isset($params['showlabel']) && $params['showlabel']) {
 
 // render element
 echo '<div class="default-style">' .
-    $label . $element->render($params) .
-    '</div>';
+         $label . $element->render($params) .
+     '</div>';

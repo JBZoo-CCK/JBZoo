@@ -12,10 +12,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 if ($this->checkPosition(JBCart::DEFAULT_POSITION)) {
     $this->app->jbassets->less('jbassets:less/cart/validator.less');
 
-    echo '<div class="jbcart-validator">';
-    echo $this->renderPosition(JBCart::DEFAULT_POSITION, array('style' => 'order.validator'));
-    echo '</div>';
+    echo '<div class="jbcart-validator">' .
+             $this->renderPosition(JBCart::DEFAULT_POSITION, array('style' => 'order.validator')) .
+         '</div>';
 }

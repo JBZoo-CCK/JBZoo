@@ -13,14 +13,13 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 // create label
 $label = '';
 if (isset($params['showlabel']) && $params['showlabel']) {
-
     // check label
     $labelText = ($params['altlabel']) ? $params['altlabel'] : $element->getName();
-
-    $label = '<div class="label param-label"> ' . $labelText . '</div>';
+    $label     = '<div class="label param-label"> ' . $labelText . '</div>';
 }
 
 // create class attribute
@@ -28,11 +27,11 @@ $classes = array_filter(array(
     'filter-element-row',
     'element-' . $params['type'],
     'element-price-param ' . $element->isCore() ? 'core-param' : 'simple-param',
-    'jsPriceFilterParam'
-)); ?>
-
+    'jsPriceFilterParam',
+    'clearfix'
+));
+?>
 
 <div class="<?php echo implode(' ', $classes); ?>">
     <?php echo $label . $elementHTML; ?>
-    <div class="clear clr"></div>
 </div>

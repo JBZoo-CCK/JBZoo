@@ -13,6 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 $label = ($params['altlabel']) ? $params['altlabel'] : $element->config->get('name');
 $desc  = $element->getDescription();
 

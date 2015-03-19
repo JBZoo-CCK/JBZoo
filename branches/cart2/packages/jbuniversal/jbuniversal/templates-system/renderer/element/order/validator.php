@@ -12,6 +12,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 $description = $element->config->get('description');
 $params      = $this->app->data->create($params);
 
@@ -29,7 +30,6 @@ $element->loadAssets();
 ?>
 
 <div class="<?php echo implode(' ', $classes); ?>">
-
     <div class="jbcart-validator-message">
         <?php echo $element->render($params); ?>
     </div>

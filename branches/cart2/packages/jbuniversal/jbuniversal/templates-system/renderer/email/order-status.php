@@ -13,9 +13,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if ($this->checkPosition('title')) : ?>
-    <h1><?php echo $this->renderPosition('title'); ?></h1>
-<?php endif;
+
+if ($this->checkPosition('title')) {
+    echo '<h1>' . $this->renderPosition('title') . '</h1>';
+}
 
 if ($this->checkPosition('body')) {
     echo $this->renderPosition('body');
