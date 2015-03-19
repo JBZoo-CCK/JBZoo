@@ -12,6 +12,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 $jbform    = $this->app->jbform;
 $formAttrs = $jbform->getDefaultFormOptions();
 
@@ -27,7 +28,7 @@ $this->app->jbtoolbar->save();
 
     <div class="uk-width-4-6">
 
-        <h2>Основные настройки корзины</h2>
+        <h2><?php echo JText::_('JBZOO_CART_CONFIG_TITLE'); ?></h2>
 
         <?php echo $this->partial('cartdesc'); ?>
 

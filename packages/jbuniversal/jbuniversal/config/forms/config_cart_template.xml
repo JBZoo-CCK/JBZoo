@@ -10,10 +10,12 @@
     @coder       Denis Smetannikov <denis@jbzoo.com>
 -->
 <form>
+
     <fields>
+
         <fieldset name="others" label="" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
 
-            <field name="tmpl_name" type="jbtemplates" default="catalog" label="JBZOO_CART_CONFIG_TMPL_NAME"
+            <field name="tmpl_name" type="jbtemplates" default="uikit" label="JBZOO_CART_CONFIG_TMPL_NAME"
                    description="JBZOO_CART_CONFIG_TMPL_NAME_DESC"/>
 
             <field name="tmpl_item_link" type="jbbool" default="1" label="JBZOO_CART_CONFIG_TMPL_ITEM_LINK"
@@ -43,5 +45,7 @@
             <field name="tmpl_subtotal" type="jbbool" default="1" label="JBZOO_CART_CONFIG_TMPL_SUBTOTAL"
                    description="JBZOO_CART_CONFIG_TMPL_SUBTOTAL_DESC"/>
         </fieldset>
+
     </fields>
+
 </form>
