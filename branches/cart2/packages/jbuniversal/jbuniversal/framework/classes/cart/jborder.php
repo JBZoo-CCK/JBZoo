@@ -1047,13 +1047,14 @@ class JBCartOrder
 
         $config = current($payments);
 
-        $element = $this->app->jbcartelement->create($config['type'], JBCart::ELEMENT_TYPE_PAYMENT, $config);
-        $element->bindData($data);
-        $element->setOrder($this);
-        $element->setStatus($status);
-        $element->identifier = $config['identifier'];
+        if ($element = $this->app->jbcartelement->create($config['type'], JBCart::ELEMENT_TYPE_PAYMENT, $config)) {
+            $element->bindData($data);
+            $element->setOrder($this);
+            $element->setStatus($status);
+            $element->identifier = $config['identifier'];
 
-        $this->_elements[JBCart::ELEMENT_TYPE_PAYMENT][$element->identifier] = $this->_payment = $element;
+            $this->_elements[JBCart::ELEMENT_TYPE_PAYMENT][$element->identifier] = $this->_payment = $element;
+        }
     }
 
     /**
