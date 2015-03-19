@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -92,13 +91,13 @@ class JBUikitHelper extends AppHelper
      */
     public function cssVariation($addCss = 'no')
     {
-        switch($addCss) {
+        switch ($addCss) {
             case 'yes':
-                $this->app->jbassets->css('jbassets:css/uikit.min.css');
+                $this->app->jbassets->css('jbassets:css/uikit.min.css', JBAssetsHelper::GROUP_CORE);
                 break;
 
             case 'yes_gradient':
-                $this->app->jbassets->css('jbassets:css/uikit.gradient.min.css');
+                $this->app->jbassets->css('jbassets:css/uikit.gradient.min.css', JBAssetsHelper::GROUP_CORE);
                 break;
         }
     }
@@ -110,7 +109,7 @@ class JBUikitHelper extends AppHelper
     public function js($isTrue = false)
     {
         if ($isTrue) {
-            $this->app->jbassets->js('jbassets:js/uikit.min.js');
+            $this->app->jbassets->js('jbassets:js/uikit.min.js', JBAssetsHelper::GROUP_CORE);
         }
     }
 
