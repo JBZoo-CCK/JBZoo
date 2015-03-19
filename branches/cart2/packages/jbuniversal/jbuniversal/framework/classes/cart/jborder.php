@@ -389,7 +389,7 @@ class JBCartOrder
 
         if (isset($fieldsConfig[$identifier])) {
 
-            $config  = $fieldsConfig[$identifier];
+            $config = $fieldsConfig[$identifier];
             if ($element = $this->app->jbcartelement->create($config['type'], $config['group'], $config)) {
                 $element->setOrder($this);
 
@@ -1072,13 +1072,15 @@ class JBCartOrder
 
         $config = current($shippings);
 
-        $element = $this->app->jbcartelement->create($config['type'], JBCart::ELEMENT_TYPE_SHIPPING, $config);
-        $element->bindData($data);
-        $element->setOrder($this);
-        $element->setStatus($status);
-        $element->identifier = $config['identifier'];
+        if ($element = $this->app->jbcartelement->create($config['type'], JBCart::ELEMENT_TYPE_SHIPPING, $config)) {
+            $element->bindData($data);
+            $element->setOrder($this);
+            $element->setStatus($status);
+            $element->identifier = $config['identifier'];
 
-        $this->_elements[JBCart::ELEMENT_TYPE_SHIPPING][$element->identifier] = $this->_shipping = $element;
+            $this->_elements[JBCart::ELEMENT_TYPE_SHIPPING][$element->identifier] = $this->_shipping = $element;
+        }
+
     }
 
     /**
