@@ -18,10 +18,7 @@ $classes = array(
     'clearfix'
 );
 
-?>
-
-<?php if (!empty($view->shipping) || !empty($view->shippingFields)) : ?>
-
+if (!empty($view->shipping) && !empty($view->shippingFields)) : ?>
     <div class="<?php echo implode(' ', $classes); ?>">
 
         <?php
@@ -38,7 +35,6 @@ $classes = array(
                 )); ?>
             </div>
         <?php endif; ?>
-
 
         <?php if (!empty($view->shippingFields)) : ?>
             <div class="jbcart-shippingfield-col">
