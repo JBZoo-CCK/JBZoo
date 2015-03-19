@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -65,7 +64,7 @@ class FilterPropsRenderer extends AppRenderer
     /**
      * Render position
      * @param string $position
-     * @param array $args
+     * @param array  $args
      * @return string
      */
     public function renderPosition($position, $args = array())

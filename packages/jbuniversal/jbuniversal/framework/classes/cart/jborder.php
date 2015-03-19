@@ -390,14 +390,15 @@ class JBCartOrder
         if (isset($fieldsConfig[$identifier])) {
 
             $config  = $fieldsConfig[$identifier];
-            $element = $this->app->jbcartelement->create($config['type'], $config['group'], $config);
-            $element->setOrder($this);
+            if ($element = $this->app->jbcartelement->create($config['type'], $config['group'], $config)) {
+                $element->setOrder($this);
 
-            if (!isset($this->_elements[$type])) {
-                $this->_elements[$type] = array();
+                if (!isset($this->_elements[$type])) {
+                    $this->_elements[$type] = array();
+                }
+
+                $this->_elements[$type][$identifier] = $element;
             }
-
-            $this->_elements[$type][$identifier] = $element;
 
             return $this->_elements[$type][$identifier];
         }

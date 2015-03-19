@@ -45,20 +45,16 @@ $this->app->jbassets->widget('.jbzoo .jsJBZooCart', 'JBZoo.Cart', array(
     <form action="<?php echo $this->app->jbrouter->cartOrderCreate(); ?>" class="jbcart jsJBZooCart" method="post"
           name="jbcartForm" accept-charset="utf-8" enctype="multipart/form-data">
 
+        <?php echo $this->partial('basket', 'validators'); ?>
         <?php echo $this->partial('basket', 'table'); ?>
 
         <?php if (!$isFormEmpty) : ?>
-
             <?php echo $this->partial('basket', 'form'); ?>
             <?php echo $this->partial('basket', 'shipping'); ?>
             <?php echo $this->partial('basket', 'payment'); ?>
-            <?php echo $this->partial('basket', 'buttons'); ?>
-
-        <?php else : ?>
-
-            <?php echo $this->partial('basket', 'buttons'); ?>
-
         <?php endif; ?>
+
+        <?php echo $this->partial('basket', 'buttons'); ?>
 
         <input type="hidden" name="option" value="com_zoo" />
         <input type="hidden" name="controller" value="basket" />

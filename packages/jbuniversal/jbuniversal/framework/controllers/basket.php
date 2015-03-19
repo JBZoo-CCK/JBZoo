@@ -84,6 +84,7 @@ class BasketJBUniversalController extends JBUniversalController
         $this->formRenderer               = $this->app->jbrenderer->create('Order');
         $this->shippingRenderer           = $this->app->jbrenderer->create('Shipping');
         $this->paymentRenderer            = $this->app->jbrenderer->create('Payment');
+        $this->validatorRenderer          = $this->app->jbrenderer->create('Validator');
         $this->shippingFieldRenderer      = $this->app->jbrenderer->create('ShippingFields');
         $this->modifierOrderPriceRenderer = $this->app->jbrenderer->create('ModifierOrderPrice');
 

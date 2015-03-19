@@ -13,25 +13,27 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBCartElementValidatorMinsum
+ * Class JBCartElementValidatorMaxQuantity
  */
-class JBCartElementValidatorMinsum extends JBCartElementValidator
+class JBCartElementValidatorMaxQuantity extends JBCartElementValidator
 {
-
     /**
      * @return mixed|void
      * @throws JBCartElementValidatorException
      */
     public function isValid()
     {
-        $summa = $this->_order->getTotalSum();
+        $items = $this->_order->getItems();
         $value = $this->_getValue();
 
-        if ($value->isPositive() && $value->compare($summa, '>')) {
-            $message = JText::sprintf('JBZOO_ELEMENT_VALIDATOR_MINSUM_ERROR', $value->html());
-            throw new JBCartElementValidatorException($message);
-        }
+        foreach ($items as $item) {
 
+            if ($value > 0 && $item->get('quantity') > $value) {
+                $message = JText::sprintf('JBZOO_ELEMENT_VALIDATOR_MAXQUANTITY_ERROR', $value);
+                throw new JBCartElementValidatorException($message);
+            }
+
+        }
     }
 
     /**
@@ -40,7 +42,7 @@ class JBCartElementValidatorMinsum extends JBCartElementValidator
      */
     public function render($params = array())
     {
-        $message = JText::sprintf('JBZOO_ELEMENT_VALIDATOR_MINSUM_MESSAGE', $this->_getValue()->html());
+        $message = JText::sprintf('JBZOO_ELEMENT_VALIDATOR_MAXQUANTITY_MESSAGE', $this->_getValue());
         return $message;
     }
 
@@ -49,7 +51,7 @@ class JBCartElementValidatorMinsum extends JBCartElementValidator
      */
     protected function _getValue()
     {
-        $value = $this->_order->val($this->config->get('value'));
+        $value = $this->app->jbvars->number($this->config->get('value'));
         return $value;
     }
 

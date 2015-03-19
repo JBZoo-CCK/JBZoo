@@ -24,12 +24,32 @@ class JBCartElementValidatorMaxsum extends JBCartElementValidator
     public function isValid()
     {
         $summa = $this->_order->getTotalSum();
-        $value = $this->_order->val($this->config->get('value'));
+        $value = $this->_getValue();
 
         if ($value->isPositive() && $value->compare($summa, '<')) {
-            $message = JText::sprintf('JBZOO_ELEMENT_MAXSUM_ERROR', $value->text());
+            $message = JText::sprintf('JBZOO_ELEMENT_VALIDATOR_MAXSUM_ERROR', $value->html());
             throw new JBCartElementValidatorException($message);
         }
 
     }
+
+    /**
+     * @param array $params
+     * @return string
+     */
+    public function render($params = array())
+    {
+        $message = JText::sprintf('JBZOO_ELEMENT_VALIDATOR_MAXSUM_MESSAGE', $this->_getValue()->html());
+        return $message;
+    }
+
+    /**
+     * @return JBCartValue
+     */
+    protected function _getValue()
+    {
+        $value = $this->_order->val($this->config->get('value'));
+        return $value;
+    }
+
 }
