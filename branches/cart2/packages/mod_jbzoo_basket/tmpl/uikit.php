@@ -119,7 +119,9 @@ $items    = $basketHelper->getBasketItems(array(
                 <?php if ((int)$params->get('jbcart_button_gotocart', 1)): ?>
                     <a rel="nofollow" class="uk-button uk-button-success jbcart-module-gotocart"
                        href="<?php echo $basketHelper->getBasketUrl(); ?>">
-                        <?php echo JText::_('JBZOO_CART_MODULE_CART_BUTTON'); ?></a>
+                        <i class="uk-icon-level-up"></i>
+                        <?php echo JText::_('JBZOO_CART_MODULE_CART_BUTTON'); ?>
+                    </a>
                 <?php endif ?>
 
             </div>
