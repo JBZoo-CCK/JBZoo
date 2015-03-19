@@ -10,18 +10,19 @@
     @coder       Denis Smetannikov <denis@jbzoo.com>
 -->
 <element type="element" group="Core" hidden="false">
-    <name>JBZOO_ELEMENT_VALIDATOR_MINSUM_NAME</name>
+    <name>JBZOO_ELEMENT_VALIDATOR_MAXQUANTITY_NAME</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZOO_ELEMENT_VALIDATOR_MINSUM_DESC</description>
+    <description>JBZOO_ELEMENT_VALIDATOR_MAXQUANTITY_DESC</description>
 
     <params>
-        <param name="value" type="text" default="" label="JBZOO_ELEMENT_VALIDATOR_MINSUM_VALUE"
-               description="JBZOO_ELEMENT_VALIDATOR_MINSUM_VALUE_DESC"/>
+        <param name="value" type="text" default="" label="JBZOO_ELEMENT_VALIDATOR_MAXQUANTITY_VALUE"
+               description="JBZOO_ELEMENT_VALIDATOR_MAXQUANTITY_VALUE_DESC"/>
     </params>
+
 
 </element>

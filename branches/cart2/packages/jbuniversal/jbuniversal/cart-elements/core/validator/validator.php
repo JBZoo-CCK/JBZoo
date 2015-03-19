@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -24,6 +23,16 @@ abstract class JBCartElementValidator extends JBCartElement
      * @return mixed
      */
     abstract public function isValid();
+
+    /**
+     * @param array $params
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        return true;
+    }
+
 }
 
 /**

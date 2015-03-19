@@ -22,7 +22,6 @@
     <params>
         <param name="rate" type="text" default="0" label="JBZOO_ELEMENT_SHIPPING_MANUAL_RATE"
                description="JBZOO_ELEMENT_SHIPPING_MANUAL_DESC"/>
-
     </params>
 
 </element>

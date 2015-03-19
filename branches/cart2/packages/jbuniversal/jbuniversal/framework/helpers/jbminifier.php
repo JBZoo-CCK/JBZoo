@@ -266,11 +266,8 @@ class JBMinifierHelper extends AppHelper
         }
 
         if (preg_match('/^Error\(\d\d?\):/', $result)) {
-            if (JDEBUG) {
-                throw new Exception('Google JS Minify: ' . $result);
-            } else {
-                return $origCode;
-            }
+            return $origCode;
+            //throw new Exception('Google JS Minify: ' . $result);
         }
 
         return $result;
