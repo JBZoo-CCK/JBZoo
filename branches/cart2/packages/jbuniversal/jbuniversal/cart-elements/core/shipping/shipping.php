@@ -179,15 +179,6 @@ abstract class JBCartElementShipping extends JBCartElement
     }
 
     /**
-     * Try to get currency from order or cart config
-     * @return mixed
-     */
-    public function getCurrency()
-    {
-        return $this->config->get('currency', 'eur');
-    }
-
-    /**
      * Save data in the order.
      * Data comes from method - validateSubmission
      * return JSONData

@@ -76,8 +76,7 @@ class JBCartElementShippingCourier extends JBCartElementShipping
      */
     public function getRate()
     {
-        $cost = $this->config->get('cost', 0);
-        return $this->_order->val($cost, $this->getCurrency());
+        return $this->_order->val($this->config->get('cost', 0));
     }
 
     /**
