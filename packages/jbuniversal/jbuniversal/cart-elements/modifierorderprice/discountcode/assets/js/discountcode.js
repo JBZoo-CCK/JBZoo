@@ -20,14 +20,22 @@
 
         'click .jsSendCode': function (e, $this) {
             $this.ajax({
-                url    : $this.options.url,
-                data   : {
+                url: $this.options.url,
+
+                data: {
                     'args': {
                         'code': $this.$('.jsCode').val()
                     }
                 },
+
                 success: function (data) {
                     $('.jsJBZooCart').JBZooCart('updatePrices', data.cart);
+                },
+
+                error: function (data) {
+                    $('.jsJBZooCart').JBZooCart('updatePrices', data.cart);
+                    $this.alert(data.message);
+                    $this.$('.jsCode').val('');
                 }
             });
         }
