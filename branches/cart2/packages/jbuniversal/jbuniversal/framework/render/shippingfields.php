@@ -222,7 +222,7 @@ class ShippingFieldsRenderer extends PositionRenderer
         $layout   = $this->_layout;
         $style    = isset($args['style']) ? $args['style'] : 'adminedit';
 
-        $this->_order = isset($args['order']) ? $args['order'] : 'adminedit';
+        $this->_order = isset($args['order']) ? $args['order'] : $this->_order;
 
         // render elements
         $shippingFields = $this->_order->getShippingFields();
