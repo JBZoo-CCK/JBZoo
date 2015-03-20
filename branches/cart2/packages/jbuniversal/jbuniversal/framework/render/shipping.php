@@ -220,17 +220,20 @@ class ShippingRenderer extends PositionRenderer
         $layout = $this->_layout;
         $style  = isset($args['style']) ? $args['style'] : 'adminedit';
 
-        $shipping = $this->_order->getShipping();
+        $this->_order = isset($args['order']) ? $args['order'] : null;
 
-        $output = parent::render('element.' . $style, array(
-            'element' => $shipping,
-            'params'  => $args,
-        ));
+        if ($shipping = $this->_order->getShipping()) {
 
-        // restore layout
-        $this->_layout = $layout;
+            $output = parent::render('element.' . $style, array(
+                'element' => $shipping,
+                'params'  => $args,
+            ));
 
-        return $output;
+            // restore layout
+            $this->_layout = $layout;
+
+            return $output;
+        }
     }
 
     /**
@@ -241,9 +244,10 @@ class ShippingRenderer extends PositionRenderer
     {
         $shippingList = JBCart::getInstance()->getShippingList();
 
-        $shipping = $this->_order->getShippingElement($identifier);
-        if (isset($shippingList[$identifier])) {
-            $shipping->bindData($shippingList[$identifier]);
+        if ($shipping = $this->_order->getShippingElement($identifier)) {
+            if (isset($shippingList[$identifier])) {
+                $shipping->bindData($shippingList[$identifier]);
+            }
         }
 
         return $shipping;

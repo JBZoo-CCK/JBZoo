@@ -78,6 +78,10 @@ class ClientareaJBUniversalController extends JBUniversalController
         $orderId     = $this->app->jbrequest->get('order_id');
         $this->order = JBModelOrder::model()->getById($orderId);
 
+        $this->formRenderer           = $this->app->jbrenderer->create('Order');
+        $this->shippingRenderer       = $this->app->jbrenderer->create('Shipping');
+        $this->shippingFieldsRenderer = $this->app->jbrenderer->create('ShippingFields');
+
         if (!$this->order || ($this->_user->id != $this->order->created_by)) {
             $this->app->jbnotify->error('JBZOO_CLIENTAREA_ORDER_NOT_FOUND');
         }

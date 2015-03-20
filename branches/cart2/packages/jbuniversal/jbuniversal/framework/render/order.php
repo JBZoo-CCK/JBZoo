@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -31,7 +30,7 @@ class OrderRenderer extends PositionRenderer
     protected $_jbconfig = null;
 
     /**
-     * @param App $app
+     * @param App  $app
      * @param null $path
      */
     public function __construct($app, $path = null)
@@ -65,7 +64,7 @@ class OrderRenderer extends PositionRenderer
 
     /**
      * @param string $position
-     * @param array $args
+     * @param array  $args
      * @return string|void
      */
     public function renderPosition($position, $args = array())
@@ -156,7 +155,7 @@ class OrderRenderer extends PositionRenderer
 
     /**
      * @param string $layout
-     * @param array $args
+     * @param array  $args
      * @return string|void
      */
     public function render($layout, $args = array())
@@ -231,6 +230,8 @@ class OrderRenderer extends PositionRenderer
         $output   = array();
         $style    = isset($args['style']) ? $args['style'] : 'adminedit';
         $layout   = $this->_layout;
+
+        $this->_order = isset($args['order']) ? $args['order'] : null;
 
         $fields = $this->_order->getFields();
 
