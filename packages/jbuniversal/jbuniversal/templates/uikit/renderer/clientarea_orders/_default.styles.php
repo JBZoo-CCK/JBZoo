@@ -17,20 +17,20 @@ defined('_JEXEC') or die('Restricted access');
 <style type="text/css">
     @media (max-width: 767px) {
 
-        .jbclientarea-table tbody .item-row .item-info:before {
-            content: "<?php echo JText::_('JBZOO_CART_ITEM_NAME'); ?>";
+        .jbclientarea-table .jbclientarea-name:before {
+            content: "<?php echo JText::_('JBZOO_CLIENTAREA_NAME'); ?>";
         }
 
-        .jbclientarea-table tbody .item-row .item-price4one:before {
-            content: "<?php echo JText::_('JBZOO_CART_ITEM_PRICE'); ?>";
+        .jbclientarea-table .jbclientarea-date:before {
+            content: "<?php echo JText::_('JBZOO_CLIENTAREA_DATE'); ?>";
         }
 
-        .jbclientarea-table tbody .item-row .item-quantity:before {
-            content: "<?php echo JText::_('JBZOO_CART_ITEM_QUANTITY'); ?>";
+        .jbclientarea-table .jbclientarea-price:before {
+            content: "<?php echo JText::_('JBZOO_CLIENTAREA_PRICE'); ?>";
         }
 
-        .jbclientarea-table tbody .item-row .item-total-sum:before {
-            content: "<?php echo JText::_('JBZOO_CART_ITEM_SUBTOTAL'); ?>";
+        .jbclientarea-table .jbclientarea-status:before {
+            content: "<?php echo JText::_('JBZOO_CLIENTAREA _STATUS'); ?>";
         }
 
     }

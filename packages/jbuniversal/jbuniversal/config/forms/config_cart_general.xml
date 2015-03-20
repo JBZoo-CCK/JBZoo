@@ -27,12 +27,12 @@
 
             <field name="currency_ttl" type="list" default="1440"
                    label="JBZOO_CART_CONFIG_CURRENCY_TTL" description="JBZOO_CART_CONFIG_CURRENCY_TTL_DESC">
-                <option value="15">JBZOO_CART_CONFIG_CURRENCY_TTL_15MIN</option>
-                <option value="60">JBZOO_CART_CONFIG_CURRENCY_TTL_1HOUR</option>
-                <option value="360">JBZOO_CART_CONFIG_CURRENCY_TTL_6HOUR</option>
-                <option value="720">JBZOO_CART_CONFIG_CURRENCY_TTL_12HOUR</option>
-                <option value="1080">JBZOO_CART_CONFIG_CURRENCY_TTL_18HOUR</option>
                 <option value="1440">JBZOO_CART_CONFIG_CURRENCY_TTL_24HOUR</option>
+                <option value="1080">JBZOO_CART_CONFIG_CURRENCY_TTL_18HOUR</option>
+                <option value="720">JBZOO_CART_CONFIG_CURRENCY_TTL_12HOUR</option>
+                <option value="360">JBZOO_CART_CONFIG_CURRENCY_TTL_6HOUR</option>
+                <option value="60">JBZOO_CART_CONFIG_CURRENCY_TTL_1HOUR</option>
+                <option value="15">JBZOO_CART_CONFIG_CURRENCY_TTL_15MIN</option>
             </field>
 
         </fieldset>
