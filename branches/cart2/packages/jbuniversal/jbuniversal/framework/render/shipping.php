@@ -36,6 +36,7 @@ class ShippingRenderer extends PositionRenderer
     public function __construct($app, $path = null)
     {
         parent::__construct($app, $path);
+        $this->app = $app;
 
         $this->_jbconfig = JBModelConfig::model();
 
