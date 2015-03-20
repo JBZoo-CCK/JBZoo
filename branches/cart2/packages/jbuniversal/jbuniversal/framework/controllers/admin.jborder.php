@@ -88,6 +88,8 @@ class JBOrderJBuniversalController extends JBUniversalController
             return;
         }
 
+        $this->app->jbassets->addVar('currencyList', $this->order->getCurrencyList());
+
         $this->renderView();
     }
 
