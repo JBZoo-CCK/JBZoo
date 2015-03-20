@@ -26,8 +26,8 @@ class JBUikitHelper extends AppHelper
     public function assets($params)
     {
         if ($params) {
-            $isAddJs  = (int)$params->get('global.template.add_js', 0);
-            $isAddCss = $params->get('global.template.add_css', 'no');
+            $isAddJs  = (int)$params->get('global.template.add_js', true);
+            $isAddCss = $params->get('global.template.add_css', 'yes_gradient');
 
             $this->js($isAddJs);
             $this->cssVariation($isAddCss);
