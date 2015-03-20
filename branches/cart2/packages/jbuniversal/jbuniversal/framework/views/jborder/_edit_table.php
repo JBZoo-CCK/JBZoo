@@ -26,11 +26,11 @@ $currency    = $this->sum->cur();
 <table class="uk-table uk-table-condensed jborder-details-table">
     <thead>
     <tr>
-        <th class="col-image">      <?php echo JText::_('JBZOO_ORDER_ITEM_IMAGE'); ?>      </th>
-        <th class="col-name">       <?php echo JText::_('JBZOO_ORDER_ITEM_NAME'); ?>       </th>
-        <th class="col-item">       <?php echo JText::_('JBZOO_ORDER_PRICE_PER_ITEM'); ?>  </th>
-        <th class="col-quantity">   <?php echo JText::_('JBZOO_ORDER_ITEM_QUANTITY'); ?>   </th>
-        <th class="col-total">      <?php echo JText::_('JBZOO_ORDER_ITEM_TOTAL'); ?>      </th>
+        <th class="col-image"><?php echo JText::_('JBZOO_ORDER_ITEM_IMAGE'); ?></th>
+        <th class="col-name"><?php echo JText::_('JBZOO_ORDER_ITEM_NAME'); ?></th>
+        <th class="col-item"><?php echo JText::_('JBZOO_ORDER_PRICE_PER_ITEM'); ?></th>
+        <th class="col-quantity"><?php echo JText::_('JBZOO_ORDER_ITEM_QUANTITY'); ?></th>
+        <th class="col-total"><?php echo JText::_('JBZOO_ORDER_ITEM_TOTAL'); ?></th>
     </tr>
     </thead>
 
@@ -39,7 +39,11 @@ $currency    = $this->sum->cur();
         'order'    => $order,
         'items'    => $order->getItems(),
         'currency' => $currency
-    )); ?>
+    ));
+
+    $this->sum = $order->getTotalForItems(false);
+
+    ?>
     </tbody>
 
     <tfoot>
@@ -50,36 +54,35 @@ $currency    = $this->sum->cur();
             <td class="align-right"><p><?php echo $this->count; ?></p></td>
             <td class="align-right subtotal-money"><?php echo $this->sum->html(); ?>
         </tr>
-        <?php echo $emptyRow;
-    endif;
+        <?php echo $emptyRow; ?>
+    <?php endif; ?>
 
-    echo $this->partial('edit_table_payment', array(
+    <?php echo $this->partial('edit_table_payment', array(
         'order'    => $order,
         'payment'  => $payment,
         'currency' => $currency
-    ));
+    )); ?>
 
-    echo $this->partial('edit_table_shipping', array(
+    <?php echo $this->partial('edit_table_shipping', array(
         'order'    => $order,
         'shipping' => $shipping,
         'currency' => $currency
-    ));
+    )); ?>
 
-    if ($shipping || $payment) : ?>
+    <?php if ($shipping || $payment) : ?>
         <tr>
             <td class="noborder-btm"></td>
             <td colspan="3"><p><?php echo JText::_('JBZOO_ORDER_SUBTOTAL'); ?></p></td>
             <td class="align-right subtotal-money"><?php echo $this->sum->html(); ?></td>
         </tr>
-        <?php echo $emptyRow;
-    endif;
+        <?php echo $emptyRow; ?>
+    <?php endif; ?>
 
-    echo $this->partial('edit_table_modifiers', array(
+    <?php echo $this->partial('edit_table_modifiers', array(
         'order'    => $order,
         'currency' => $currency
-    ));
+    )); ?>
 
-    ?>
     <tr>
         <td colspan="2" class="noborder-btm"></td>
         <td class="total-name" colspan="2"><?php echo JText::_('JBZOO_ORDER_TOTALPRICE'); ?></td>
@@ -88,3 +91,5 @@ $currency    = $this->sum->cur();
     </tfoot>
 
 </table>
+
+<?php // dump($this->sum->logs()); ?>
