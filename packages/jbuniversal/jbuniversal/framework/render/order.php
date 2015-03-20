@@ -231,7 +231,7 @@ class OrderRenderer extends PositionRenderer
         $style    = isset($args['style']) ? $args['style'] : 'adminedit';
         $layout   = $this->_layout;
 
-        $this->_order = isset($args['order']) ? $args['order'] : null;
+        $this->_order = isset($args['order']) ? $args['order'] : $this->_order;
 
         $fields = $this->_order->getFields();
 

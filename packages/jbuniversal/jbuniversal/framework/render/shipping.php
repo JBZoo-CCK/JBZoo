@@ -225,7 +225,7 @@ class ShippingRenderer extends PositionRenderer
         $layout = $this->_layout;
         $style  = isset($args['style']) ? $args['style'] : 'adminedit';
 
-        $this->_order = isset($args['order']) ? $args['order'] : null;
+        $this->_order = isset($args['order']) ? $args['order'] : $this->_order;
 
         if ($shipping = $this->_order->getShipping()) {
 
