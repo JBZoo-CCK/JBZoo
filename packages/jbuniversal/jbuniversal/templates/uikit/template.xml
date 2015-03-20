@@ -122,7 +122,7 @@
     <params group="item">
         <param name="@spacer" type="jbspacer" default="JBZOO_UIKIT_PARAMS"/>
 
-        <param name="add_css" type="radio" default="yes" label="JBZOO_UIKIT_ADD_CSS"
+        <param name="add_css" type="radio" default="yes_gradient" label="JBZOO_UIKIT_ADD_CSS"
                description="JBZOO_CATEGORY_IMAGE_ALIGN_DESC">
             <option value="no">JBZOO_NO</option>
             <option value="yes">JBZOO_YES</option>

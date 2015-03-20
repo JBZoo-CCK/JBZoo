@@ -43,7 +43,7 @@ class JBTemplateUikit extends JBTemplate
     {
         $attrs        = array();
         $defaultAttrs = parent::wrapperAttrs();
-        $isAddCss     = $this->params->get('global.template.add_css', 'no');
+        $isAddCss     = $this->params->get('global.template.add_css', 'yes_gradient');
         $isGradient   = ($isAddCss == 'yes_gradient') ? 'yes' : 'no';
 
         if ($this->application) {
