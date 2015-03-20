@@ -15,114 +15,46 @@ defined('_JEXEC') or die('Restricted access');
 
 $this->app->jbassets->less('jbassets:less/cart/clientarea.less');
 
+$this->app->document->setTitle(JText::_('JBZOO_CLIENTAREA_ORDERS_TITLE'));
 
+echo $this->partial('clientarea_orders', 'default.styles');
 ?>
 
-<div class="myorders">
-    <h1><?php echo JText::_('JBZOO_MYORDERS_TITLE'); ?></h1>
+<div class="jbclientarea">
 
-    <p><?php echo JText::_('JBZOO_MYORDERS_DESCRIPTION'); ?>:</p>
+    <p><?php echo JText::_('JBZOO_CLIENTAREA_DESCRIPTION'); ?>:</p>
 
-    <?php foreach ($vars['objects'] as $order) :
-        $orderUrl  = $order->getUrl();
-        $created   = $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
-        $orderName = '<a href="' . $orderUrl . '">Заказ #' . $order->id . ' ' . JText::_('JBZOO_BY') . ' ' . $created . '</a>';
-        echo $orderName.'<br>';
-    endforeach; ?>
+    <?php if (!empty($vars['objects'])) : ?>
+
+        <table class="jbclientarea-orderlist uk-table uk-table-hover uk-table-striped">
+            <thead>
+            <tr>
+                <th><?php echo JText::_('JBZOO_CLIENTAREA_ID'); ?></th>
+                <th><?php echo JText::_('JBZOO_CLIENTAREA_DATE'); ?></th>
+                <th><?php echo JText::_('JBZOO_CLIENTAREA_PRICE'); ?></th>
+                <th><?php echo JText::_('JBZOO_CLIENTAREA_STATUS'); ?></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <?php foreach ($vars['objects'] as $order) :
+                $created   = $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
+                $orderName = '<a href="' . $order->getUrl() . '">' . JText::sprintf('JBZOO_CLIENTAREA_ORDERNAME', $order->getName()) . '</a>';
+                ?>
+
+                <tr class="jbclientarea-order jbclientarea-order-<?php echo $order->id; ?>">
+                    <td><p class="jbclientarea-name"><?php echo $orderName; ?></p></td>
+                    <td><p class="jbclientarea-date"><?php echo $created; ?></p></td>
+                    <td><p class="jbclientarea-price"><?php echo $order->getTotalSum(); ?></p></td>
+                    <td><p class="jbclientarea-status"><?php echo $order->getStatus()->getName();?></p></td>
+                </tr>
+
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+
+    <?php else: ?>
+        <p class="jbclientarea-empty"><?php echo JText::_('JBZOO_CLIENTAREA_EMPTY'); ?></p>
+    <?php endif; ?>
 
 </div>
-
-<?php if (0) : ?>
-
-    <div class="jbclientarea jb-orders">
-        <?php foreach ($vars['objects'] as $order) :
-            $itemsHtml = $order->renderItems();
-            $items     = $order->getItems();
-            $orderUrl  = $order->getUrl();
-            $created   = $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
-            ?>
-
-            <div class="jbclientarea items order-<?php echo $order->id; ?>">
-                <div class="column rborder width100">
-                    <div class="jbzoo-item">
-                        <h3 class="order-title">
-                            <a href="<?php echo $orderUrl;?>">Заказ #<?php echo $order->id;?><?php echo JText::_('JBZOO_BY');?><?php echo $created;?></a>
-                        </h3>
-
-                        <table class="jbclientarea-table">
-                            <?php
-                            $j         = 0;
-                            $itemCount = count($items);
-                            foreach ($items as $item) :
-                                $itemHtml = $itemsHtml[$item->get('key')];
-                                $first    = ($j == 0) ? ' first' : '';
-                                $last     = ($j == $itemCount - 1) ? ' last' : '';
-                                $class    = ($j % 2) ? ' jbrow-even' : ' jbrow-odd';
-                                $j++;
-                                ?>
-                                <tr class="item-row item-<?php echo $item->item_id . $class . $first . $last; ?>">
-                                    <td class="item-image"><?php echo $itemHtml['image']; ?></td>
-                                    <td class="item-info">
-                                        <?php echo $itemHtml['itemid']; ?>
-                                        <?php echo $itemHtml['sku']; ?>
-                                        <?php echo $itemHtml['name']; ?>
-                                        <?php echo $itemHtml['params']; ?>
-                                        <?php echo $itemHtml['description']; ?>
-                                    </td>
-                                    <td class="item-price4one"><?php echo $itemHtml['price4one']; ?></td>
-                                    <td class="item-quantity"><?php echo $itemHtml['quantity']; ?></td>
-                                    <td class="align-right"><?php echo $itemHtml['totalsum']; ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-
-                            <?php
-                            $modifiers = $order->getModifiersOrderPrice();
-
-                            if (!empty($modifiers)) {
-                                $i = 0;
-                                foreach ($modifiers as $modifier) {
-                                    $i++;
-                                    $rate = $order->val($modifier->get('rate'));
-                                    ?>
-                                    <tr class="jbtable-row jbshipping">
-                                        <td class="item-cell-empty"></td>
-                                        <td colspan="3" class="item-cell-label"><?php echo $modifier->getName(); ?></td>
-                                        <td class="item-cell-value align-right"><?php echo $rate->html(); ?></td>
-                                    </tr>
-                                <?php
-                                }
-                            }
-                            ?>
-
-                            <?php if ($shipping = $order->getShipping()) : ?>
-                                <tr class="jbtable-row jbshipping">
-                                    <td class="item-cell-empty"></td>
-                                    <td colspan="3" class="item-cell-label"><?php echo $shipping->getName(); ?></td>
-                                    <td class="item-cell-value align-right"><?php echo $shipping->getRate()->html(); ?></td>
-                                </tr>
-                            <?php endif;?>
-
-                            <?php if ($payment = $order->getPayment()) : ?>
-                                <tr class="jbtable-row jbpayment">
-                                    <td class="item-cell-empty"></td>
-                                    <td colspan="3" class="item-cell-label"><?php echo $payment->getName(); ?></td>
-                                    <td class="item-cell-value align-right"><?php echo $payment->getRate()->html(); ?></td>
-                                </tr>
-                            <?php endif;?>
-
-                            <tr class="jbtable-row jbtotal-sum">
-                                <td class="item-cell-empty"></td>
-                                <td colspan="3"
-                                    class="item-cell-label"><?php echo JText::_('JBZOO_ORDER_ITEM_TOTAL') ?>:
-                                </td>
-                                <td class="item-cell-value align-right"><?php echo $order->getTotalSum()->html();?></td>
-                            </tr>
-
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
