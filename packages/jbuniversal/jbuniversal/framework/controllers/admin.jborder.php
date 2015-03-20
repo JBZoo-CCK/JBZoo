@@ -44,8 +44,10 @@ class JBOrderJBuniversalController extends JBUniversalController
         $this->filter['offset'] = $this->app->system->application->getUserStateFromRequest('jborder.limitstart', 'limitstart', 0, 'int');
 
         // order
-        $this->filter['filter_order']     = $this->_jbrequest->get('filter_order', 'id');
-        $this->filter['filter_order_Dir'] = $this->_jbrequest->get('filter_order_Dir', 'desc');
+        $this->filter['order'] = $this->_jbrequest->get('filter_order', 'id');
+        $this->filter['order_dir']   = $this->_jbrequest->get('filter_order_Dir', 'desc');
+
+        dumP($this->filter, 0);
 
         $orderModel       = JBModelOrder::model();
         $this->orderList  = $orderModel->getList($this->filter);

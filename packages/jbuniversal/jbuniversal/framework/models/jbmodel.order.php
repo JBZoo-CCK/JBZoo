@@ -290,7 +290,8 @@ class JBModelOrder extends JBModel
         }
 
         // set order
-        $select->order('tOrder.' . $filter->get('field', 'id') . ' ' . $filter->get('dir', 'DESC'));
+        $select->order('tOrder.' . $filter->get('order', 'id') . ' ' . $filter->get('order_dir', 'DESC'));
+
 
         return $select;
     }

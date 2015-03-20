@@ -1,8 +1,8 @@
 <?php
 
 
-$order    = $this->filter->get('filter_order', 'id');
-$orderDir = $this->filter->get('filter_order_Dir', 'desc');
+$order    = $this->filter->get('order', 'id');
+$orderDir = $this->filter->get('order_dir', 'desc');
 ?>
 <table class="list stripe order-list">
 
