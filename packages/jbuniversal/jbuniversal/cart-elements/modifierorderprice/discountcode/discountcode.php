@@ -30,7 +30,9 @@ class JBCartElementModifierOrderPriceDiscountCode extends JBCartElementModifierO
     public function getRate()
     {
         if ($this->_isInList()) {
-            return $this->_order->val($this->config->get('rate'));
+            $rate = $this->_order->val($this->config->get('rate'));
+            $rate->negative();
+            return $rate;
         }
 
         return $this->_order->val(0);
