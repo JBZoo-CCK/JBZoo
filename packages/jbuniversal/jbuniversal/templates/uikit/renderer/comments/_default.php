@@ -62,6 +62,9 @@ $this->app->document->addScript('assets:js/comment.js');
             );
         }
 
+        if ($vars['item']->canManageComments()) {
+            echo $this->app->jblayout->render('comment_edit');
+        }
         ?>
 
     </div>
