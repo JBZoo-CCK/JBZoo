@@ -54,15 +54,17 @@ $paymentId = $element->htmlId();
 
     <label class="jbcart-radio-label jbcart-payment-label" for="<?php echo $paymentId; ?>">
 
-        <div class="jbcart-radio"></div>
+        <div class="jbcart-payment-brand clearfix">
+            <div class="jbcart-radio"></div>
 
-        <div class="jbcart-payment-element">
-            <?php
-            if (!($html = $element->renderSubmission($params))) {
-                $html = $element->getName();
-            }
-            echo $html;
-            ?>
+            <div class="jbcart-payment-element">
+                <?php
+                if (!($html = $element->renderSubmission($params))) {
+                    $html = '<p class="jbcart-payment-element-name">' . $element->getName() . '</p>';
+                }
+                echo $html;
+                ?>
+            </div>
         </div>
 
         <?php if ($description = $element->config->get('description')) : ?>
