@@ -22,42 +22,36 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
 
 <div class="jbzoo-price jbzoo" id="<?php echo $unique; ?>" data-mode="<?php echo $isAdvance; ?>" data-valid="false">
 
-    <div class="jbprice-row basic-variant-wrap">
-
-        <div class="default_variant">
-            <?php if ($countSimple) {
-                $data = array(0 => JText::_('JBZOO_JBPRICE_DEFAULT_VARIANT'));
-                echo $html->radio($data, $this->getControlName('default_variant'), array(
-                    'id' => $string->getId('default-variant')
-                ), $default, $string->getId('default-variant'));
-            } else {
-                echo $html->hidden($this->getControlName('default_variant'), ElementJBPrice::BASIC_VARIANT);
-            } ?>
-        </div>
-
+    <div class="default_variant basic-variant-wrap">
+        <?php if ($countSimple) {
+            $data = array(0 => JText::_('JBZOO_JBPRICE_DEFAULT_VARIANT'));
+            echo $html->radio($data, $this->getControlName('default_variant'), array(
+                'id' => $string->getId('default-variant')
+            ), $default, $string->getId('default-variant'));
+        } else {
+            echo $html->hidden($this->getControlName('default_variant'), ElementJBPrice::BASIC_VARIANT);
+        } ?>
     </div>
+
     <?php for ($i = 0; $i < 1; $i++) :
         $variant = $variations[$i];
         echo $renderer->render('_edit', array(
-            'variant'    => $i,
             'element_id' => $this->identifier,
             '_variant'   => $variant
         ));
     endfor;
 
-    if (count($this->getSimpleElements())) :
-        $count = count($variations); ?>
+    $count = count($variations);
+    if ($countSimple) : ?>
         <span class="jsShowVariations jbbutton small">
             <?php echo JText::_('JBZOO_JBPRICE_VARIATION_SHOW'); ?>
         </span>
 
         <div class="variations" style="display: none;">
             <div class="variations-list">
-
-                <?php for ($i = 1; $i < $count; $i++) :
-                    if (isset($variations[$i])) :
+                <?php
+                for ($i = 1; $i < $count; $i++) :
                         $variant = $variations[$i]; ?>
-
                         <fieldset class="jbprice-variation-row fieldset-hidden">
 
                             <span class="jbedit jsToggleVariation"></span>
@@ -89,14 +83,12 @@ $price_mode = (get_class($this) == 'ElementJBPriceCalc' ? 2 : 1); ?>
 
                             <div class="jbprice-params">
                                 <?php echo $renderer->render('_edit', array(
-                                    'variant'    => $i,
                                     'element_id' => $this->identifier,
                                     '_variant'   => $variant
                                 ));?>
                             </div>
                         </fieldset>
-                    <?php endif;
-                endfor; ?>
+                    <?php endfor; ?>
             </div>
 
             <a href="#new-price" class="jbajaxlink jsNewPrice">

@@ -20,7 +20,8 @@
     <description>JBZOO_ELEMENT_PRICE_IMAGE_DESC</description>
 
     <params>
-        <param name="image" type="jbelementlist" types="jbimage" label="JBZOO_ELEMENT_PRICE_IMAGE_IMAGE" description="JBZOO_ELEMENT_PRICE_IMAGE_IMAGE_DESC"/>
+        <param name="image" type="jbelementlist" types="jbimage" label="JBZOO_ELEMENT_PRICE_IMAGE_IMAGE"
+               description="JBZOO_ELEMENT_PRICE_IMAGE_IMAGE_DESC" empty="JBZOO_ELEMENT_PRICE_IMAGE_IMAGE_NOT_FOUND" />
     </params>
 
     <params group="render">

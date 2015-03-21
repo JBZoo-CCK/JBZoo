@@ -56,11 +56,7 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
      */
     public function edit($params = array())
     {
-        $layout = 'edit';
-        if ($this->isOverlay) {
-            $layout = 'disabled';
-        }
-
+        $layout = $this->isOverlay ? 'disabled' : 'edit';
         if ($layout = $this->getLayout($layout . '.php')) {
             return self::renderEditLayout($layout, array(
                 'value' => $this->get('value', ''),

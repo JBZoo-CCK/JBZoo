@@ -13,12 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$variant = $this->config->get('_variant') ? '' : '-variant';
-$attr    = array(
-    'class'       => 'sku ' . $variant . '-input',
-    'size'        => '60',
-    'maxlength'   => '255',
-    'placeholder' => 'Sku'
-);
-
-echo $this->_jbhtml->text($this->getControlName('value'), $value, $attr);
+echo $this->_jbhtml->text($this->getControlName('value'), $value,  array(
+    'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_SKU_NAME')
+));

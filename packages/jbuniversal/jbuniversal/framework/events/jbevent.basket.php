@@ -41,32 +41,19 @@ class JBEventBasket extends JBEvent
                 if ($element = $item->getElement($orderData->get('element_id'))) {
                     if ($element instanceof ElementJBPrice) {
                         try {
-                            $default = $element->data()->get('default_variant');
-                            $key     = $orderData->get('variant');
+                            $element->setProp('_template', $orderData->get('template'));
+                            $key = $orderData->get('variant');
 
-                            $element->setProp('_template', $orderData->get('template'))
-                                    ->setDefault($key);
-
-                            // Create variant list object
-                            $element->getList($orderData->get('variations'), array('quantity' => $orderData->get('quantity')));
-
-                            $variant = $element->getVariant($key);
+                            // Create variant object
+                            $variant = $element->buildVariant($element->getData($key), $key);
                             /** @type JBCartElementPriceBalance $balance */
                             if (!$balance = $variant->get('_balance')) {
                                 continue;
                             }
 
                             if ($balance->reduce((float)$orderData->get('quantity'))) {
-                                $data       = $element->data();
-                                $variations = $data->get('variations');
 
-                                $variations[$key]['_balance'] = (array)$balance->data();
-
-                                $data->set('variations', $variations)
-                                     ->set('default_variant', $default);
-
-                                $element->setDefault($default);
-                                $element->bindData((array)$data);
+                                $element->bindVariant($variant);
 
                                 $app->table->item->save($item);
 

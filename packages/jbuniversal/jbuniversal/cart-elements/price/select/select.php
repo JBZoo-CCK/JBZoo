@@ -20,9 +20,7 @@ class JBCartElementPriceSelect extends JBCartElementPrice
 {
     /**
      * Check if element has value
-     *
      * @param array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())

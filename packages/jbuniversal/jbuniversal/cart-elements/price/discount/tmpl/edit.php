@@ -14,8 +14,5 @@
 defined('_JEXEC') or die('Restricted access');
 
 echo $this->_jbhtml->text($this->getControlName('value'), $value, array(
-    'class'       => 'discount' . $this->variant . '-input',
-    'size'        => "60",
-    'maxlength'   => "255",
-    'placeholder' => 'скидка'
+    'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_DISCOUNT_NAME')
 ));

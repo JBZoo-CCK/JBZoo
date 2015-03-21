@@ -6,43 +6,40 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 ;
 (function ($, window, document, undefined) {
 
-    $.fn.JBZooPriceAdvanceBalanceHelper = function () {
+    JBZoo.widget('JBZoo.PriceBalance',
+        {},
+        {
+            init: function () {
+                this.change(this.value());
+            },
 
-        return $(this).each(function () {
+            'change .jsBalanceRadio': function(e, $this){
 
-            var $this = $(this),
-                init = false;
+                var value = $(this).val();
 
-            if (init == true) {
-                return $this;
-            }
+                $this.change(value);
+            },
 
-            var $input = $('.jsBalanceInput', $this);
+            value: function() {
+                return this.$('input[type="radio"]:checked').val();
+            },
 
-            function change(val) {
-                $input.removeAttr('disabled');
+            change: function(value) {
+                if(value == 1) {
+                    this.$('.jsBalanceInput').removeAttr('disabled').focus();
 
-                if (val != 1) {
-                    $input.attr('disabled', true);
-                    $input.val('');
+                } else {
+                    this.$('.jsBalanceInput').val('').attr('disabled', 'disabled');
+
                 }
             }
-
-            $('input[type="radio"]', $this).on('change', function () {
-                var $radio = $(this);
-
-                change($radio.val());
-            });
-
-            change($('input[type="radio"]:checked', $this).val());
-
-            init = true;
-        });
-    };
+        }
+    );
 
 })(jQuery, window, document);

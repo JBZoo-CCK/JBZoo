@@ -14,6 +14,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 echo $this->_jbhtml->text($this->getControlName('value'), $value, array(
-    'placeholder' => JText::_('JBZOO_JBPRICE_BASIC_VALUE')
+    'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_VALUE_NAME')
 ));
 

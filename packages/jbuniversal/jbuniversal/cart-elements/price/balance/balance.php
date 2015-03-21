@@ -118,7 +118,7 @@ class JBCartElementPriceBalance extends JBCartElementPrice
      */
     public function reduce($quantity)
     {
-        $value = (float)$this->getValue();
+        $value = $this->getValue();
         if (!(int)$this->config->get('balance_mode', 1) || $value == self::AVAILABLE) {
             return true;
         }
@@ -141,5 +141,24 @@ class JBCartElementPriceBalance extends JBCartElementPrice
     public function renderAjax($params = array())
     {
         return $this->render($params);
+    }
+
+    /**
+     * Set data through data array.
+     * @param  array  $data
+     * @param  string $key
+     * @return $this
+     */
+    public function bindData($data = array(), $key = 'value')
+    {
+        if (!is_array($data)) {
+            $this->set($key, $this->app->jbvars->number($data));
+        }
+
+        foreach ($data as $key => $value) {
+            $this->set($key, $this->app->jbvars->number($value));
+        }
+
+        return $this;
     }
 }

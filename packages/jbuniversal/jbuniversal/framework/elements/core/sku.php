@@ -24,19 +24,19 @@ class JBCSVItemCoreSku extends JBCSVItem
     public function toCSV()
     {
         $elements = $this->app->jbprice->getItemPrices($this->_item);
-        if (!empty($elements)) {
+        if (empty($elements)) {
             return $this->_item->id;
         }
 
         reset($elements);
         $current = current($elements);
 
-        $variant = $current->getVariantList()->byDefault();
+        $variant = $current->getList()->byDefault();
         if ($variant) {
-            $sku = $variant->get('_sku');
+            return $variant->getValue(true, '_sku', $this->_item->id);
         }
 
-        return isset($sku) ? $sku : $this->_item->id;
+        return $this->_item->id;
     }
 
     /**

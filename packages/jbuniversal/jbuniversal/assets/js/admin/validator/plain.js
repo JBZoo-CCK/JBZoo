@@ -69,12 +69,13 @@
                     variations = this.$('.jbprice-variation-row');
                 $.each(this.errors, function (key, error) {
                     var variants = $(variations.get(error.variant)),
-                        params = $('.variant-param', variants),
+                        params = $('.simple-param', variants),
                         label = $('.jsVariantLabel', variants);
 
                     $this.message(label, $this.options.message_variant_invalid);
                     $.each(error.index, function (index) {
                         var param = params.get(index);
+
                         $this.message(param, $this.options.message_duplicate_values);
                     });
                 });

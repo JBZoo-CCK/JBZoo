@@ -25,6 +25,10 @@ class JBCartElementPriceWeight extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
+        if($this->count()) {
+            return true;
+        }
+
         return false;
     }
 
@@ -46,7 +50,9 @@ class JBCartElementPriceWeight extends JBCartElementPrice
     public function edit($params = array())
     {
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderEditLayout($layout);
+            return self::renderEditLayout($layout, array(
+                'value' => $this->get('value')
+            ));
         }
 
         return null;
@@ -54,14 +60,14 @@ class JBCartElementPriceWeight extends JBCartElementPrice
 
     /**
      * @param array $params
-     *
      * @return array|mixed|null|string|void
      */
     public function render($params = array())
     {
-        $template = $params->get('template', 'radio');
-        if ($layout = $this->getLayout($template . '.php')) {
-            return self::renderLayout($layout);
+        if ($layout = $this->getLayout()) {
+            return self::renderLayout($layout, array(
+                'value' => $this->getValue()
+            ));
         }
 
         return null;

@@ -13,6 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $this->_jbhtml->text($this->getControlName('value'), $value, $this->_jbhtml->buildAttrs(array(
-    'placeholder' => JText::_('JBZOO_PRICE_WEIGHT_WEIGHT')
-)));
+echo
+'<div class="jbprice-height jsPriceHeight">', JText::_('JBZOO_PRICE_PROPERTIES_HEIGHT'), ': ', $height, '</div>',
+'<div class="jbprice-length jsPriceLength">', JText::_('JBZOO_PRICE_PROPERTIES_LENGTH'), ': ', $length, '</div>',
+'<div class="jbprice-width jsPriceWidth">', JText::_('JBZOO_PRICE_PROPERTIES_WIDTH'), ': ', $width, '</div>';

@@ -12,15 +12,18 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$jbPrice = $element->getJBPrice();
 
-$name  = JText::_($element->config->get('name'));
-$class = 'variant-param';
+$name = JText::_($element->getName());
+$type = JString::strtolower($element->getElementType());
+$desc = JString::trim($element->getDescription());
+
+$class = 'variant-param jbprice-' . $jbPrice->getElementType();
 
 $isRequired = (int)$element->config->get('required', 0);
 $isCore     = $element->isCore();
 
 $attention = '<span class="attention jsMessage"></span>';
-$type      = JString::strtolower($element->getElementType());
 
 $class .= ($isCore ? ' core' : ' simple') . '-param';
 $class .= ' variant-' . $type . '-wrap';
@@ -36,9 +39,11 @@ if ($isRequired) {
 
 // create label
 //if (isset($params['showlabel']) && $params['showlabel']) {
-$name  = (isset($params['altlabel'])) ? $params['altlabel'] : $element->config->get('name');
+$name = (isset($params['altlabel'])) ? $params['altlabel'] : $name;
+$desc = (!empty($desc) ? $desc : JText::_('JBZOO_ELEMENT_PRICE_' . $type . '_DESC'));
+
 $label = '<strong class="label row-field"><span class="hasTip jbparam-label" title="'
-    . $name . '">'
+    . $desc . '">'
     . ucfirst($name) . '</span>'
     . $required . '</strong>';
 //}

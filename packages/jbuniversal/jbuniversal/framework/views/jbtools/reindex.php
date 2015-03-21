@@ -106,7 +106,7 @@ $this->app->jbassets->progressBar();
             'text_stop'         : "<?php echo JText::_('JBZOO_PROGRESSBAR_STOP');?>",
             'text_ready'        : "<?php echo JText::_('JBZOO_PROGRESSBAR_READY');?>",
             'url'               : "<?php echo $urlAction;?>",
-            'autoStart'         : "<?php echo (int)$this->app->jbrequest->get('autostart', 0); ?>",
+            'autoStart'         : "<?php echo (bool)$this->app->jbrequest->get('autostart', 0); ?>",
 
             'onRequest': function (data) {
                 totalLines = totalLines + data.lines;

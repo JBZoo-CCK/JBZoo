@@ -8,14 +8,290 @@
 // @coder       Alexander Oganov <t_tapak@yahoo.com>
 //
 
-.jbzoo {
-    .jbparam-required {
-        .jbrequired-note {
-            color: #a00;
-            font-size: 22px;
+.jbzoo-price {
+    position: relative;
+
+    .row-field {
+        display: block !important;
+        float: left !important;
+        width: 160px !important;
+    }
+
+    .jbpriceadv-row,
+    .jbprice-row {
+        margin-bottom: 12px;
+    }
+
+    input[type=text], select {
+        text-align: left;
+        width: auto;
+    }
+    textarea {
+        width: 300px;
+        height: 200px;
+    }
+    .jbpriceadv-row-radio label.radio-lbl,
+    .jbpriceadv-row-radio label.radiobtn {
+        float: left;
+        font-size: 12px;
+        margin-right: 10px;
+    }
+    .balance .radio-lbl {
+        margin: 5px 0;
+    }
+
+    .balance-variant,
+    .balance {
+        display: inline-block;
+    }
+
+    .balance .balance-custom label {
+        display: inline-block;
+    }
+
+    .variant-properties-wrap input {
+        display: inline-block;
+        width: 30%;
+    }
+
+    .basic-properties-wrap input {
+        width: 20%;
+    }
+
+    .jbprice-img-row-file input {
+        text-align: left;
+    }
+
+    .basic-discount-wrap select,
+    .basic-discount-wrap input {
+        display: inline-block;
+        text-align: left;
+    }
+
+    .basic-balance-wrap input,
+    .basic-sku-wrap input {
+        text-align: left;
+    }
+
+    .basic-value-wrap select,
+    .variant-value-wrap select {
+        width: auto;
+    }
+
+    .basic-variant-wrap {
+        margin: 10px 0;
+        float: right;
+    }
+
+    .jbprice-fieldset-moving {
+        border: 1px dotted #808080;
+    }
+
+    .variations {
+        fieldset {
+            background: #F6F6F6;
+            position: relative;
+            margin: 5px 0;
+            padding: 0 5px;
+            border: 1px solid #CCC;
+            box-sizing: border-box;
         }
-        .jbparam-label, .jbrequired-note {
-            cursor: help;
+
+        .variations-list {
+            width: 600px;
+        }
+        .jbprice-variation-row .variation-label {
+            margin: 0 5px;
+            font-weight: bold;
+            padding: 2px 0;
+            height: 40px;
+            max-height: 40px;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .jbprice-variation-row {
+            input, select, textarea {
+                background: #FFF;
+            }
+
+            input[type="text"], select {
+                height: 35px !important;
+                box-sizing: border-box;
+            }
+
+            .jbprice-params {
+                display: table;
+                width: 100%;
+                -moz-box-sizing: border-box;
+                -webkit-box-sizing: border-box;
+                -ms-box-sizing: border-box;
+                box-sizing: border-box;
+                margin: 5px 0px 0px 0px;
+                padding: 5px 0px 0px 0px;
+                border: 1px solid #CCC;
+                -moz-border-radius: 3px;
+                -webkit-border-radius: 3px;
+                border-radius: 3px;
+                background: #EBEBEB;
+                background: -moz-linear-gradient(50% 0%, #FFF, #F5F5F5);
+                background: -webkit-gradient(linear, 50% 0%, 50% 100%, from(#FFF), to(#F5F5F5), color-stop(70%, #F5F5F5));
+            }
+
+            .variant-param {
+                box-sizing: border-box;
+                border-bottom: 1px solid #E9E9E9;
+                position: relative;
+
+                .field {
+                    overflow: hidden;
+                    background: #FFF;
+                    padding: 10px 10px 10px 20px;
+                    border-left: 1px solid #E9E9E9;
+                }
+
+                .attention.lock {
+                    background: data-uri('../../../../assets/img/icon/attention_grey.png') no-repeat;
+                }
+
+                .attention.error {
+                    background: data-uri('../../../../assets/img/icon/attention_red.png') no-repeat;
+                    width: 20px;
+                    height: 20px;
+                }
+
+                .attention {
+                    top: 5px;
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    left: 120px;
+                }
+
+                .label {
+                    padding: 6px 25px 0 13px;
+                    font-size: 12px;
+                    background: none;
+                    text-shadow: none;
+                    font-weight: bold;
+                    color: #666;
+                    white-space: normal;
+                    width: 19% !important;
+                    display: block;
+                    vertical-align: middle;
+                    float: left;
+                    position: relative;
+                }
+
+            }
+
+            .variation-label {
+                .attention {
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                }
+
+                .attention.error {
+                    background: data-uri('../../../../assets/img/icon/attention_red.png') no-repeat;
+                    width: 20px;
+                    height: 20px;
+                }
+
+                .default_variant {
+                    position: absolute;
+                    right: 70px;
+                    top: 10px;
+                    width: 135px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                }
+
+                .options {
+                    font-size: 11px;
+                    font-style: italic;
+                    color: #B7B2B2;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    position: absolute;
+                    font-weight: bold;
+                    width: 250px;
+                    top: 2px;
+                    left: 120px;
+
+                    .variant-price {
+                        display: inline-block;
+                        overflow: hidden;
+                        font-size: 12px;
+                        margin-right: 8px;
+                        color: #900;
+                        cursor: help;
+                    }
+
+                }
+
+                .description {
+                    font-size: 13px;
+                    font-style: italic;
+                    color: #B7B2B2;
+                    font-weight: normal;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    width: 360px;
+                }
+
+                .jbmove.empty {
+                    color: red;
+                }
+
+                .options {
+
+                    .overflow {
+                        font-size: 11px;
+                        font-style: italic;
+                        color: #B7B2B2;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        display: inline-block;
+                        font-weight: bold;
+                        width: 210px;
+                    }
+
+                    .option {
+                        display: inline-block;
+                        margin-right: 10px;
+                        white-space: nowrap;
+                        cursor: help;
+
+                        .key {
+                            display: block;
+
+                            &:hover {
+                                text-decoration: underline;
+                            }
+
+                        }
+
+                    }
+
+                }
+            }
+
+            &.fieldset-hidden > div {
+                display: none;
+            }
+
+            &.fieldset-hidden > .visible {
+                display: block;
+            }
+
+            .default_variant label {
+                padding: 0;
+                margin: 0;
+                width: auto;
+            }
         }
     }
 }

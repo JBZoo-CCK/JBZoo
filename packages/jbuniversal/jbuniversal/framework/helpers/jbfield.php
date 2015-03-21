@@ -890,6 +890,7 @@ class JBFieldHelper extends AppHelper
     public function elementList($name, $value, $controlName, SimpleXMLElement $node, $parent)
     {
         $types = $this->_getAttr($node, 'types', '');
+        $empty = $this->_getAttr($node, 'empty', 'JBZOO_ELEMENTLIST_NOT_FOUND');
 
         if ($types) {
             $types = explode(',', $types);
@@ -911,9 +912,9 @@ class JBFieldHelper extends AppHelper
                 }
             }
         }
-
+        $default = empty($optionList) ? JText::_($empty) : '';
         if (!empty($optionList) && !(int)$this->_getAttr($node, 'multiple', '0')) {
-            $optionList = $this->app->jbarray->unshiftAssoc($optionList, '', '----');
+            $optionList = $this->app->jbarray->unshiftAssoc($optionList, '', $default);
         }
 
         return $this->_renderList($optionList, $value, $this->_getName($controlName, $name), $node);
