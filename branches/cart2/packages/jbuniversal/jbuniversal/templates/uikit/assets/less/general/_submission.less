@@ -9,11 +9,23 @@
 //
 
 
-//  JBZoo core styles
-@import "jbzoo.less";
-@import "general/buttons.less";
-@import "general/system.less";
+.jbzoo {
 
-//  Hacks for uikit styles
-@import "uikit.vars.less";
-@import "general/hacks";
+    .submission {
+
+        legend {
+            padding-bottom: 0;
+
+            &:after {
+                border: none;
+            }
+
+        }
+
+    }
+
+    .hidden {
+        display: none;
+    }
+
+}

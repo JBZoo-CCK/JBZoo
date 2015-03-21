@@ -25,7 +25,7 @@ $class = array('zoo', 'jbzoo', 'yoo-zoo', $css_class, $css_class . '-' . $this->
 
 $this->app->jbassets->less(array(
     'jbassets:less/general/submission.less',
-    'jbassets:less/_submission.less',
+    'jbassets:less/general/_submission.less',
 ));
 
 ?>
