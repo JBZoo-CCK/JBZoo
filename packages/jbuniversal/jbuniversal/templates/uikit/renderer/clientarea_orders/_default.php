@@ -26,7 +26,7 @@ echo $this->partial('clientarea_orders', 'default.styles');
 
     <?php if (!empty($vars['objects'])) : ?>
 
-        <table class="jbclientarea-orderlist uk-table uk-table-hover uk-table-striped">
+        <table class="jbclientarea-orderlist">
             <thead>
             <tr>
                 <th><?php echo JText::_('JBZOO_CLIENTAREA_ID'); ?></th>
@@ -37,12 +37,16 @@ echo $this->partial('clientarea_orders', 'default.styles');
             </thead>
 
             <tbody>
-            <?php foreach ($vars['objects'] as $order) :
+            <?php
+            $i = 0;
+            foreach ($vars['objects'] as $order) :
+                $i++;
                 $created   = $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
                 $orderName = '<a href="' . $order->getUrl() . '">' . JText::sprintf('JBZOO_CLIENTAREA_ORDERNAME', $order->getName()) . '</a>';
+                $rowClass  = ($i % 2 == 0) ? 'even' : 'odd';
                 ?>
 
-                <tr class="jbclientarea-order jbclientarea-order-<?php echo $order->id; ?>">
+                <tr class="jbclientarea-order jbclientarea-order-<?php echo $order->id; ?> row-<?php echo $rowClass; ?>">
                     <td><p class="jbclientarea-name"><?php echo $orderName; ?></p></td>
                     <td><p class="jbclientarea-date"><?php echo $created; ?></p></td>
                     <td><p class="jbclientarea-price"><?php echo $order->getTotalSum(); ?></p></td>

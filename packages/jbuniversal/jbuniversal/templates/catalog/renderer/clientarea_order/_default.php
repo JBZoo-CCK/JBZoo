@@ -54,7 +54,7 @@ $this->app->document->setTitle(JText::sprintf('JBZOO_CLIENTAREA_ORDERNAME_DATE',
             $last     = ($j == $itemCount - 1) ? ' last' : '';
             $j++;
             ?>
-            <tr class="jbclientarea-item jbclientarea-item-<?php echo $item->item_id . $class . $first . $last; ?>">
+            <tr class="jbclientarea-item jbclientarea-item-<?php echo $item->item_id . $first . $last; ?>">
                 <td class="jbclientarea-item-image"><?php echo $itemHtml['image']; ?></td>
                 <td class="jbclientarea-item-info">
                     <?php echo $itemHtml['itemid']; ?>
