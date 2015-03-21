@@ -2,7 +2,10 @@
     <li class="filter-right">
         <input type="text" name="filter[search]" value="<?php echo $filter->get('search'); ?>" class="rounded"
                style="width:280px;" placeholder="<?php echo JText::_('JBZOO_ADMIN_ORDER_SEARCH_FIELD'); ?>">
-        <button onclick="this.form.submit();"><?php echo Jtext::_('JBZOO_ADMIN_SEARCH'); ?></button>
+        <button onclick="this.form.submit();" class="uk-button uk-button-primary">
+            <i class="uk-icon-search"></i>
+            <?php echo Jtext::_('JBZOO_ADMIN_SEARCH'); ?>
+        </button>
     </li>
 
     <?php if ($this->app->joomla->version->isCompatible('3.0')) : ?>
