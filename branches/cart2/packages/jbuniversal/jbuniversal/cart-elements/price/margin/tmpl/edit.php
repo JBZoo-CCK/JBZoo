@@ -13,4 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $this->_jbhtml->text($this->getControlName('value'), $value);
+echo $this->_jbhtml->text($this->getControlName('value'), $value, array(
+    'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_MARGIN_NAME')
+));

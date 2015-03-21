@@ -26,7 +26,6 @@
                     $this.addOptions($(row));
                 });
             },
-
             'change .simple-param .jsElementData input, .simple-param .jsElementData select, .simple-param .jsElementData textarea': function (e, $this) {
 
                 var $row = $(this).closest('.jbprice-variation-row');
@@ -47,7 +46,7 @@
 
                         var value = $this._simpleData(param);
                         if (!JBZoo.empty(value)) {
-                            value.index = $(param).index();
+                            value.index = j;
                             data[j] = value;
                         }
                     });

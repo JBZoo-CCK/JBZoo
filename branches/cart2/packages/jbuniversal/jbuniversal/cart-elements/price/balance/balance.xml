@@ -20,7 +20,7 @@
     <description>JBZOO_ELEMENT_PRICE_BALANCE_DECS</description>
 
     <params>
-        <param name="balance_mode" type="jbbool" default="0" label="JBZOO_ELEMENT_PRICE_BALANCE_BALANCE_MODE"
+        <param name="balance_mode" type="jbbool" default="1" label="JBZOO_ELEMENT_PRICE_BALANCE_BALANCE_MODE"
                description="JBZOO_ELEMENT_PRICE_BALANCE_BALANCE_MODE_DESC"/>
     </params>
 

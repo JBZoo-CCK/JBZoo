@@ -195,7 +195,7 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function count()
     {
-        return count((array)$this->_data);
+        return count((array)$this->data());
     }
 
     /**
@@ -389,14 +389,11 @@ abstract class JBCartElementPrice extends JBCartElement
     protected function renderEditLayout($__layout, $__args = array())
     {
         $html = parent::renderLayout($__layout, $__args);
-        if ($html && $this->isBasic()) {
-            $system = $this->getLayout('basic.php');
-
-            $html = parent::renderLayout($system, array(
+        if ($layout = $this->getLayout('_edit.php')) {
+            $html = parent::renderLayout($layout, array(
                 'html' => $html
             ));
         }
-
         return $html;
     }
 

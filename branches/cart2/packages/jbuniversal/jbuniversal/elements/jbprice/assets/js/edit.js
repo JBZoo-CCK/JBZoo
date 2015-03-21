@@ -78,8 +78,7 @@
                     clone = row.clone().hide();
 
                 $('*', clone)
-                    .removeAttr('id checked selected')
-                    .unbind();
+                    .removeAttr('id checked selected');
 
                 $('input[type="text"], textarea', clone).val("");
 
@@ -89,6 +88,7 @@
                     var oldColor = $('.jbzoo-colors', colors).data('JBZooColors'),
                         newColor = $('.variant-color-wrap .jbzoo-colors', clone);
 
+                    $('.jbcolor-label, .jbcolor-input', newColor).removeClass('checked')
                     newColor.JBZooColors(oldColor.options);
                 }
                 //Init JBZooMedia
@@ -100,13 +100,20 @@
 
                     newMedia.JBZooMedia(oldMedia.options);
                 }
+                //Init JBZooBalance. Helper for radio input
+                var balance = $('.variant-balance-wrap', row);
+                if (balance.length > 0) {
+                    var oldBalance = $('.jsBalance', balance).data('JBZooPriceBalance'),
+                        newBalance = $('.variant-balance-wrap .jsBalance', clone);
 
-                $('label', clone).removeAttr('for');
+                    newBalance.JBZooPriceBalance(oldBalance.options);
+                }
+
                 $('.variant-param', clone).each(function (i, param) {
                     var $param = $(param),
                         id = parseInt(new Date().getTime() + i);
 
-                    $(' > * label', $param).each(function (n, label) {
+                    $('.jsElementData label', $param).each(function (n, label) {
 
                         var $label = $(label),
                             random = Math.floor((Math.random() * 999999) + 1);
@@ -193,7 +200,7 @@
 
                         var field = $(this),
                             name = field.attr('name');
-                        field.attr('name', field.attr('name').replace(/\[variations\-\d*\]\[\d\]/i, '[variations][' + i + ']'));
+                        field.attr('name', field.attr('name').replace(/(\[variations-\d*\]\[\d*\])/i, '[variations][' + i + ']'));
 
                         if (field.is(':checked') == true) {
                             field.attr('checked', 'checked');

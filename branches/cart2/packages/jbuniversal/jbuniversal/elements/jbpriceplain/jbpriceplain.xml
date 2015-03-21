@@ -37,11 +37,4 @@
         <param name="template" type="jbpricetemplates" default="default" label="JBZOO_JBPRICE_TEMPLATE"
                description="JBZOO_JBPRICE_TEMPLATE_DESC"/>
     </params>
-
-    <params group="submission">
-        <param name="mode" type="radio" default="0" label="JBZOO_JBPRICE_MODE" description="JBZOO_JBPRICE_MODE_DESC">
-            <option value="0">JBZOO_JBPRICE_MODE_SIMPLE</option>
-            <option value="1">JBZOO_JBPRICE_MODE_ADV</option>
-        </param>
-    </params>
 </element>

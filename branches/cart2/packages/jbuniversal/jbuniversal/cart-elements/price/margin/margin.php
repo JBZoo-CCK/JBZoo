@@ -49,11 +49,7 @@ class JBCartElementPriceMargin extends JBCartElementPrice
      */
     public function edit($params = array())
     {
-        $layout    = 'edit';
-        if ($this->isOverlay) {
-            $layout = 'disabled';
-        }
-
+        $layout = $this->isOverlay ? 'disabled' : 'edit';
         if ($layout = $this->getLayout($layout . '.php')) {
             return self::renderEditLayout($layout, array(
                 'value' => $this->get('value', ''),
@@ -66,11 +62,11 @@ class JBCartElementPriceMargin extends JBCartElementPrice
 
     /**
      * @param  array $params
-     *
      * @return array|mixed|null|string
      */
     public function render($params = array())
     {
+        return false;
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'margin' => $this->getValue()

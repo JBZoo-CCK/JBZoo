@@ -275,9 +275,11 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * @param string $layout
+     * @param string $link
+     * @param string $message
      * @return string
      */
-    public function renderWarning($layout = '_warning.php')
+    public function renderWarning($layout = '_warning.php', $link = '', $message = '')
     {
         $link = $this->app->jbrouter->admin(array(
             'controller' => 'jbcart',
@@ -388,6 +390,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
+     * Build array of JBCartVariant instances from item data
      * @param array $variations
      * @param array $options
      * @return array
@@ -401,19 +404,33 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
         ksort($variations);
         foreach ($variations as $id => $data) {
-            $elements = array_merge((array)$this->params, (array)$this->_render_params, (array)$data);
-            $elements = $this->_getElements(array_keys($elements), $id);
-
-            $list[$id] = $this->_storage->create('variant', array(
-                'elements' => $elements,
-                'options'  => array(
-                    'id'       => $id,
-                    'elements' => $data
-                )
-            ));
+            $list[$id] = $this->buildVariant($data, $id);
         }
 
         return $list;
+    }
+
+    /**
+     * Build JBCartVariant instance from items data
+     *
+     * @param array $data Array of price elements data.
+     * @param int   $id   Variant id
+     * @return JBCartVariant
+     */
+    public function buildVariant($data = array(), $id = self::BASIC_VARIANT)
+    {
+        $elements = array_merge((array)$this->params, (array)$this->_render_params, (array)$data);
+        $elements = $this->_getElements(array_keys($elements), $id);
+
+        $variant  = $this->_storage->create('variant', array(
+            'elements' => $elements,
+            'options'  => array(
+                'id'       => $id,
+                'elements' => $data
+            )
+        ));
+
+        return $variant;
     }
 
     /**
@@ -430,6 +447,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             , (array)$this->_item->elements->get($this->identifier)
             , (array)$this->_getConfig()
             , (array)$this->_getRenderParams()
+            , (array)JFactory::getUser()->groups
         )));
 
         return $this->hash;
@@ -800,7 +818,9 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                     'class'      => 'JBCartElement' . $group . $type,
                 ))
                 ) {
-
+                    if (!$element->canAccess()) {
+                        return false;
+                    }
                 } else {
                     return false;
                 }
@@ -1020,18 +1040,17 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public function bindVariant(JBCartVariant $variant)
     {
         if(isset($this->_item)) {
-            $simple   = $variant->getSimpleElements();
+            $simple   = $variant->simple();
 
             $values     = (array)$this->_item->elements->find($this->identifier . '.values', array());
             $selected   = (array)$this->_item->elements->find($this->identifier . '.selected', array());
             $variations = (array)$this->_item->elements->find($this->identifier . '.variations', array());
 
             $variations[$variant->getId()] = $variant->data();
-
             if(!$variant->isBasic()) {
                 $values[$variant->getId()] = array_filter(array_map(create_function('$element',
-                        'return JString::strlen($element->getValue(true)) > 0 ? (array)$element->data() : null;'), $simple)
-                );
+                    'return JString::strlen($element->getValue(true)) > 0 ? (array)$element->data() : null;'), $simple
+                ));
 
                 $_selected = array_filter(array_map(create_function('$element', 'return JString::strlen($element->getValue(true)) > 0
                 ? array(JString::trim($element->getValue(true)) => $element->getValue(true)) : null;'), $simple)

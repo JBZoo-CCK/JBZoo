@@ -13,10 +13,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access'); ?>
 
-<div class="jsMedia jbprice-img-row-file" id="<?php echo $unique; ?>">
-    <?php
-    echo $this->_jbhtml->text($this->getControlName('value'), $value, 'class="jsJBPriceImage jsMediaValue row-file" placeholder="Image"');
-    ?>
-</div>
-
-<?php echo $this->app->jbassets->widget('#' . $unique, 'JBZooMedia', array(), true); ?>
+    <div class="jsMedia jbprice-img-row-file" id="<?php echo $unique; ?>">
+        <?php
+        echo $this->_jbhtml->text($this->getControlName('value'), $value, array(
+            'class'       => 'jsJBPriceImage jsMediaValue row-file',
+            'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_IMAGE_NAME')
+        )); ?>
+    </div>
+<?php echo $this->app->jbassets->widget('#' . $unique, 'JBZooMedia', array(), true);

@@ -19,28 +19,12 @@
     <version>1.0</version>
     <description>JBZOO_ELEMENT_PRICE_PROPERTIES_DESC</description>
 
-    <params group="render">
-
-        <param name="template" type="list" label="JBZOO_ELEMENT_TEMPLATE"
-               description="JBZOO_ELEMENT_TEMPLATE_DESC" default="_auto_" >
-
-            <option value="radio">JBZOO_ELEMENT_TEMPLATE_RADIO</option>
-            <option value="select">JBZOO_ELEMENT_TEMPLATE_SELECT</option>
-            <option value="chosen">JBZOO_ELEMENT_TEMPLATE_SELECT_CHOSEN</option>
-            <option value="buttons">JBZOO_ELEMENT_TEMPLATE_JQUERYUI</option>
-
-        </param>
-
-    </params>
-
     <params group="filter">
-
         <param name="jbzoo_filter_default" type="text" label="JBZOO_FILTER_DEFAULT"
                description="JBZOO_FILTER_DEFAULT_DESC" />
 
         <param name="jbzoo_filter_placeholder" type="text" label="JBZOO_FILTER_PLACEHOLDER"
                description="JBZOO_FILTER_PLACEHOLDER_DESC" />
-
     </params>
 
 </element>

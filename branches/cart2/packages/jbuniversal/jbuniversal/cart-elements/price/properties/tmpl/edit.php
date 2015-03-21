@@ -13,19 +13,19 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$height = array(
+$_height = array(
     'placeholder' => JText::_('JBZOO_PRICE_PROPERTIES_HEIGHT')
 );
-$length = array(
+$_length = array(
     'placeholder' => JText::_('JBZOO_PRICE_PROPERTIES_LENGTH')
 );
-$width  = array(
+$_width  = array(
     'placeholder' => JText::_('JBZOO_PRICE_PROPERTIES_WIDTH')
 ); ?>
 
 <div class="jbprice-properties">
     <?php echo
-    $this->_jbhtml->text($this->getControlName('height'), $this->getValue(true, 'height'), $this->_jbhtml->buildAttrs($height))
-    , $this->_jbhtml->text($this->getControlName('length'), $this->getValue(true, 'length'), $this->_jbhtml->buildAttrs($length))
-    , $this->_jbhtml->text($this->getControlName('width'), $this->getValue(true, 'width'), $this->_jbhtml->buildAttrs($width)); ?>
+    $this->_jbhtml->text($this->getControlName('height'), $height, $this->_jbhtml->buildAttrs($_height)),
+    $this->_jbhtml->text($this->getControlName('length'), $length, $this->_jbhtml->buildAttrs($_length)),
+    $this->_jbhtml->text($this->getControlName('width'), $width, $this->_jbhtml->buildAttrs($_width)); ?>
 </div>

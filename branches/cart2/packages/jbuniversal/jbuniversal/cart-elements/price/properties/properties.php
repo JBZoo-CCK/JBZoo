@@ -24,6 +24,10 @@ class JBCartElementPriceProperties extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
+        if ($this->count()) {
+            return true;
+        }
+
         return false;
     }
 
@@ -35,7 +39,11 @@ class JBCartElementPriceProperties extends JBCartElementPrice
     public function edit($params = array())
     {
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderEditLayout($layout);
+            return self::renderEditLayout($layout, array(
+                'height' => $this->get('height', ''),
+                'length' => $this->get('length', ''),
+                'width'  => $this->get('width', ''),
+            ));
         }
 
         return false;
@@ -47,12 +55,35 @@ class JBCartElementPriceProperties extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $template = $params->get('template', 'radio');
-
-        if ($layout = $this->getLayout($template . '.php')) {
-            return self::renderLayout($layout);
+        if ($layout = $this->getLayout('properties.php')) {
+            return self::renderLayout($layout, array(
+                'height' => $this->getValue(true, 'height'),
+                'length' => $this->getValue(true, 'length'),
+                'width'  => $this->getValue(true, 'width')
+            ));
         }
 
         return null;
+    }
+
+    /**
+     * Get elements value
+     * @param array $key      Array key.
+     * @param mixed  $default  Default value if data is empty.
+     * @param bool   $toString A string representation of the value.
+     * @return mixed|string
+     */
+    public function getValue($toString = false, $key = array('height', 'length', 'width'), $default = null)
+    {
+        if($toString && is_string($key))
+        {
+            $value = parent::getValue($toString, $key, $default);
+        }
+        else
+        {
+            $value = call_user_func_array('parent::getValue', $key);
+        }
+        //093 661 8937
+        return $value;
     }
 }

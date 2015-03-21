@@ -46,11 +46,11 @@
                 this.price.on('removeItem', function() {
                     $this.removeItem();
                     $this.toggleButtons();
-                })
+                });
             },
 
             getState: function () {
-                var items = JBZoo.getVar('cartItems', {}) || {};
+                var items = this.getItems();
                 if (items.hasOwnProperty(this.item_id) && items[this.item_id].hasOwnProperty(this.element_id)) {
                     this.isInCart = 1;
 
@@ -64,7 +64,7 @@
 
             getItems: function() {
                 if(this.isModal) {
-                    return parent.JBZoo.getVar('cartItems', {}) || {};
+                    return window.parent.JBZoo.getVar('cartItems', {}) || {};
                 }
 
                 return JBZoo.getVar('cartItems', {}) || {};
@@ -72,7 +72,7 @@
 
             setItems: function(items) {
                 if(this.isModal) {
-                    return parent.JBZoo.addVar('cartItems', items);
+                    return window.parent.JBZoo.addVar('cartItems', items);
                 }
 
                 return JBZoo.addVar('cartItems', items);
@@ -157,11 +157,11 @@
                         $this.basketReload();
 
                         if (input.hasClass('jsGoTo') && $this.options.basket) {
-                            parent.location.href = $this.options.basket;
+                            window.parent.location.href = $this.options.basket;
                         }
 
                         if (typeof parent.jQuery.fancybox != 'undefined') {
-                            parent.jQuery.fancybox.close();
+                            window.parent.jQuery.fancybox.close();
                         }
                     },
                     'error'  : function (data) {
@@ -180,7 +180,7 @@
                 }
 
                 if (typeof parent.jQuery.fancybox != 'undefined') {
-                    parent.jQuery.fancybox.close();
+                    window.parent.jQuery.fancybox.close();
                 }
             },
 
@@ -255,13 +255,14 @@
             },
 
             $: function(selector, _parent) {
+
                 if (selector == '{element}') {
                     return this.el;
                 }
                 var _$ = $;
 
                 if (_parent === true) {
-                    _$ = parent.jQuery;
+                    _$ = window.parent.jQuery;
                 }
 
                 if (selector.indexOf('{document} ') === 0) {
@@ -279,7 +280,7 @@
 
             isWidgetExists: function(name) {
                 if(this.isModal) {
-                    return parent.JBZoo.isWidgetExists(name);
+                    return window.parent.JBZoo.isWidgetExists(name);
                 }
 
                 return JBZoo.isWidgetExists(name);

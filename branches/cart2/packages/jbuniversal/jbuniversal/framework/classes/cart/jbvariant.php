@@ -163,11 +163,11 @@ class JBCartVariant extends ArrayObject
         }
         elseif($group == 'core')
         {
-            $count = count($this->getCoreElements());
+            $count = count($this->core());
         }
         else
         {
-            $count = count($this->getSimpleElements());
+            $count = count($this->simple());
         }
 
         return $count;
@@ -290,7 +290,7 @@ class JBCartVariant extends ArrayObject
     /**
      * @return array
      */
-    public function getCoreElements()
+    public function core()
     {
         return array_filter($this->all(),
             create_function('$element', 'return ($element->isCore() == true && JString::strlen($element->getValue(true)) > 0);'));
@@ -299,7 +299,7 @@ class JBCartVariant extends ArrayObject
     /**
      * @return array
      */
-    public function getSimpleElements()
+    public function simple()
     {
         return array_filter($this->all(),
             create_function('$element', 'return ($element->isCore() == false && JString::strlen($element->getValue(true)) > 0);'));
@@ -312,8 +312,8 @@ class JBCartVariant extends ArrayObject
     public function data()
     {
         return array_filter(array_map(create_function('$element',
-                'return JString::strlen($element->getValue(true)) > 0 ? (array)$element->data() : null;'), $this->isBasic() ? $this->getCoreElements() : $this->all())
-        );
+            'return JString::strlen($element->getValue(true)) > 0 ? (array)$element->data() : null;'), $this->isBasic() ? $this->core() : $this->all()
+        ));
     }
 
     /**
@@ -374,7 +374,7 @@ class JBCartVariant extends ArrayObject
         $price = JBCart::val();
         if ($element = $this->get('_value')) {
             $price->set($element->getValue(true));
-            if ($element->isModifier() && !$this->isBasic()) {
+            if ($element->isModifier() && !$this->isBasic() && $this->list->isOverlay === false) {
                 $price = $this->list->first()->getValue(false, '_value')->add($price);
             }
         }

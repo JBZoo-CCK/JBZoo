@@ -12,8 +12,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$unique  = $this->app->jbstring->getId('balance-custom-');
-$html    = $this->app->jbhtml;
+$unique  = $this->htmlId(true);
 $variant = (int)$this->config->get('_variant') ? '' : '-variant';
 
 $text = array(
@@ -25,21 +24,16 @@ $list = array(
     '-2' => JText::_('JBZOO_JBPRICE_BALANCE_UNDER_ORDER')
 );
 $attr = array(
-    'class' => 'balance' . $variant . '-input',
-    'id'    => $this->app->jbstring->getId()
+    'class' => 'balance-' . $this->variant . '-input jsBalanceRadio',
 );
 
 $radioAttr = array(
-    'class' => 'balance' . $variant . '-input jsBalanceRadio',
-    'id'    => $this->app->jbstring->getId()
+    'class' => 'balance-' . $this->variant . '-input jsBalanceRadio',
 );
 
-$inputAttr = $html->buildAttrs(array(
-    'class'       => 'balance' . $variant . '-input jsBalanceInput',
-    'size'        => '60',
-    'maxlength'   => '255',
+$inputAttr = $this->_jbhtml->buildAttrs(array(
+    'class'       => 'balance-' . $this->variant . '-input jsBalanceInput',
     'placeholder' => JText::_('JBZOO_JBPRICE_VARIATION_BALANCE'),
-    'style'       => 'width:100px; text-align:left;'
 ));
 
 $selected = null;
@@ -47,21 +41,16 @@ $value    = $this->get('value', -1);
 
 if ($value > 0) {
     $selected = 1;
-}
+    $value    = $this->app->jbvars->number($value);
+} ?>
+    <div class="balance balance-<?php echo $this->variant; ?> jsBalance" id="<?php echo $unique; ?>">
+        <?php echo $this->_jbhtml->radio($list, $this->getControlName('value'), $attr, $value, $selected); ?>
 
-?>
-
-<div class="balance balance<?php echo $variant; ?>" id="<?php echo $unique; ?>">
-
-    <?php echo $html->radio($list, $this->getControlName('value'), $attr, $value, $selected); ?>
-
-    <div class="balance-custom">
-        <?php
-        echo $html->radio($text, $this->getControlName('value'), $radioAttr, $selected);
-        echo $html->text($this->getControlName('value'), $value, $inputAttr);
-        ?>
+        <div class="balance-custom">
+            <?php echo
+            $this->_jbhtml->radio($text, $this->getControlName('value'), $radioAttr, $selected),
+            $this->_jbhtml->text($this->getControlName('value'), $value, $inputAttr); ?>
+        </div>
     </div>
 
-</div>
-
-<?php echo $this->app->jbassets->widget('#' . $unique, 'JBZooPriceAdvanceBalanceHelper', array(), true); ?>
+<?php echo $this->app->jbassets->widget('.jsBalance', 'JBZooPriceBalance', array(), true);

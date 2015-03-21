@@ -119,7 +119,8 @@ class ElementJBQuickView extends Element
 
         return $this->app->jbrouter->addParamsToUrl($itemLink, array(
             'tmpl'        => 'component',
-            'jbquickview' => $layout
+            'jbquickview' => $layout,
+            'modal'       => 1
         ));
     }
 

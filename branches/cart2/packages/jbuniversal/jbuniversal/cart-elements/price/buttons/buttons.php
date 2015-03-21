@@ -33,7 +33,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
     {
         parent::__construct($app, $type, $group);
 
-        $this->isModal = (bool)$this->app->jbrequest->is('method', 'ajaxModalWindow');
+        $this->isModal = (bool)$this->app->jbrequest->is('modal', '1');
     }
 
     /**
@@ -122,7 +122,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
             'modal'      => $this->app->jbrouter->element($_interface['element_id'], $_interface['item_id'], 'ajaxModalWindow', array(
                     'template' => $params->get('template_modal', 'default'),
                     'layout'   => $this->getJBPrice()->layout()
-                )) . '&tmpl=component',
+                )) . '&tmpl=component&modal=1',
             'remove'     => $this->app->jbrouter->element($_interface['element_id'], $_interface['item_id'], 'ajaxRemoveFromCart'),
         );
     }
