@@ -62,10 +62,11 @@ $vars['author']->name = $vars['author']->name ? $vars['author']->name : JText::_
                 <?php if ($comment->getItem()->isCommentsEnabled()) : ?>
                     <p><a class="reply uk-button uk-button-primary uk-button-mini" href="#" rel="nofollow"><?php echo JText::_('Reply'); ?></a>
                         <?php if ($comment->canManageComments()) : ?>
-                            <?php echo ' | '; ?>
-                            <a class="edit" href="#" rel="nofollow"><?php echo JText::_('Edit'); ?></a>
 
                             <?php echo ' | '; ?>
+                            <a class="edit" href="#" rel="nofollow"><?php echo JText::_('Edit'); ?></a>
+                            <?php echo ' | '; ?>
+
                             <?php if ($comment->state != Comment::STATE_APPROVED) : ?>
                                 <a href="<?php echo 'index.php?option=com_zoo&controller=comment&task=approve&comment_id=' . $comment->id; ?>"
                                    rel="nofollow"><?php echo JText::_('Approve'); ?></a>
