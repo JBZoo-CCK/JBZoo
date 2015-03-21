@@ -55,4 +55,9 @@
         <description>Layout for element favorite</description>
     </layout>
 
+    <layout name="edit" type="edit">
+        <name>Edit</name>
+        <description>An item is rendered with the edit layout in the item edit view.</description>
+    </layout>
+
 </metadata>
