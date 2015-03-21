@@ -82,6 +82,50 @@
             border: 0;
         }
 
+        textarea,
+        select,
+        input:not([type]),
+        input[type="text"],
+        input[type="password"],
+        input[type="datetime"],
+        input[type="datetime-local"],
+        input[type="date"],
+        input[type="month"],
+        input[type="time"],
+        input[type="week"],
+        input[type="number"],
+        input[type="email"],
+        input[type="url"],
+        input[type="search"],
+        input[type="tel"],
+        input[type="color"] {
+            height: 30px;
+            font-size: 12px;
+            line-height: 24px;
+            width: 100%;
+            padding: 4px 6px;
+            border: 1px solid #dddddd;
+            background: #ffffff;
+            color: #444444;
+        }
+
+        select {
+            height: 28px;
+        }
+
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+            color: inherit;
+            font: inherit;
+            margin: 0;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
     }
 
 }
