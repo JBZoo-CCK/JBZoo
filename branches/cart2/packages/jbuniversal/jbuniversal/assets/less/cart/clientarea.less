@@ -19,8 +19,36 @@
         tr, td {
             border: none;
             vertical-align: top;
-            padding: 12px 0;
+            padding: 8px 8px;
             border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            text-align: left;
+            padding: 8px 8px;
+        }
+
+        thead {
+
+            tr,
+            tr:hover {
+                background: #E7E7E7;
+            }
+
+        }
+
+        .row-odd {
+            background: #f5f5f5;
+        }
+
+        tr {
+            .transition(0.3s);
+
+            &:hover {
+                background: #eeeeee;
+                .transition(0.3s);
+            }
+
         }
 
     }
