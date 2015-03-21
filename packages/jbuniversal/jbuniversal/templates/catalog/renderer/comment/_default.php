@@ -59,7 +59,27 @@ $vars['author']->name = $vars['author']->name ? $vars['author']->name : JText::_
                 <div class="content"><?php echo $this->app->comment->filterContentOutput($comment->content); ?></div>
 
                 <?php if ($comment->getItem()->isCommentsEnabled()) : ?>
-                    <div class="reply"><a href="#" rel="nofollow"><?php echo JText::_('Reply'); ?></a></div>
+                    <p><a class="reply jbbutton small green" href="#" rel="nofollow"><?php echo JText::_('Reply'); ?></a>
+                        <?php if ($comment->canManageComments()) : ?>
+
+                            <a class="edit jbbutton small" href="#" rel="nofollow"><?php echo JText::_('Edit'); ?></a>
+
+                            <?php if ($comment->state != Comment::STATE_APPROVED) : ?>
+                                <a href="<?php echo 'index.php?option=com_zoo&controller=comment&task=approve&comment_id=' . $comment->id; ?>"
+                                   class="jbbutton small" rel="nofollow"><?php echo JText::_('Approve'); ?></a>
+                            <?php else: ?>
+                                <a href="<?php echo 'index.php?option=com_zoo&controller=comment&task=unapprove&comment_id=' . $comment->id; ?>"
+                                   class="jbbutton small" rel="nofollow"><?php echo JText::_('Unapprove'); ?></a>
+                            <?php endif; ?>
+
+                            <a href="<?php echo 'index.php?option=com_zoo&controller=comment&task=spam&comment_id=' . $comment->id; ?>"
+                               class="jbbutton small yellow" rel="nofollow"><?php echo JText::_('Spam'); ?></a>
+
+                            <a href="<?php echo 'index.php?option=com_zoo&controller=comment&task=delete&comment_id=' . $comment->id; ?>"
+                               class="jbbutton small orange" rel="nofollow"><?php echo JText::_('Delete'); ?></a>
+
+                        <?php endif; ?>
+                    </p>
                 <?php endif; ?>
 
                 <?php if ($comment->state != Comment::STATE_APPROVED) : ?>
