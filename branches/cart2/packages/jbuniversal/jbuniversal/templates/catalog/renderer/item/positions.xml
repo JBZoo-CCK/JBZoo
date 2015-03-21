@@ -74,4 +74,11 @@
         <position name="country_of_origin">Country of origin</position>
     </positions>
 
+    <positions layout="edit">
+        <position name="content">Content</position>
+        <position name="media">Media</position>
+        <position name="meta">Meta</position>
+        <position name="administration">Administration</position>
+    </positions>
+
 </renderer>
