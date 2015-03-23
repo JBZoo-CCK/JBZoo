@@ -14,6 +14,10 @@
         <position name="fields">Fields</position>
     </positions>
 
+    <positions layout="uikit">
+        <position name="fields">Fields</position>
+    </positions>
+
     <positions layout="inline">
         <position name="fields">Fields</position>
     </positions>

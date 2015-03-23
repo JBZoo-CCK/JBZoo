@@ -18,4 +18,8 @@
         <name>Example</name>
         <description>This is the example layout to render jbcategory list module themes</description>
     </layout>
+    <layout name="uikit">
+        <name>Uikit</name>
+        <description>This is uikit layout to render jbcategory list module themes</description>
+    </layout>
 </metadata>

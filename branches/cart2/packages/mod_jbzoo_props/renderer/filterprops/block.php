@@ -27,6 +27,7 @@ if (!empty($elementHTML)) {
     // create class attribute
     $classes = array_filter(array(
         'props-element',
+        'clearfix',
         ($params['first']) ? 'first' : '',
         ($params['last']) ? 'last' : '',
     ));
@@ -34,7 +35,6 @@ if (!empty($elementHTML)) {
     ?>
     <div class="<?php echo implode(' ', $classes); ?>">
         <?php echo $label . '<div class="field">' . $elementHTML . '</div>'; ?>
-        <div class="clear clr"></div>
     </div>
 <?php
 }
