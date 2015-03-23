@@ -17,15 +17,23 @@ defined('_JEXEC') or die('Restricted access');
 <style type="text/css">
     @media (max-width: 767px) {
 
-        .jbclientarea-orderlist .jbclientarea-date:before {
+        .jbclientarea-order-table .jbclientarea-item-info:before {
+            content: "<?php echo JText::_('JBZOO_CART_ITEM_NAME'); ?>";
+        }
+
+        .jbclientarea-order-table .jbclientarea-date:before {
             content: "<?php echo JText::_('JBZOO_CLIENTAREA_DATE'); ?>";
         }
 
-        .jbclientarea-orderlist .jbclientarea-price:before {
+        .jbclientarea-order-table .jbclientarea-item-price4one:before {
             content: "<?php echo JText::_('JBZOO_CLIENTAREA_PRICE'); ?>";
         }
 
-        .jbclientarea-orderlist .jbclientarea-status:before {
+        .jbclientarea-order-table .jbclientarea-item-quantity:before {
+            content: "<?php echo JText::_('JBZOO_CART_ITEM_QUANTITY'); ?>";
+        }
+
+        .jbclientarea-order-table .jbclientarea-item-totalsum:before {
             content: "<?php echo JText::_('JBZOO_CLIENTAREA_STATUS'); ?>";
         }
 
