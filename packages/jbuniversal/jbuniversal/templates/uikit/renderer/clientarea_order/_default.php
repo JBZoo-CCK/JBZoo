@@ -138,7 +138,7 @@ $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredi
         <li>
             <div class="jbclientarea-basicinfo">
                 <h3><?php echo JText::_('JBZOO_CLIENTAREA_ORDERINFO'); ?></h3>
-                <dl>
+                <dl class="uk-description-list-horizontal">
                     <dt><?php echo JText::_('JBZOO_CLIENTAREA_STATUS'); ?></dt>
                     <dd><p><?php echo $order->getStatus()->getName(); ?></p></dd>
 
@@ -158,7 +158,7 @@ $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredi
             <li>
                 <div class="jbclientarea-payment">
                     <h3><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT'); ?></h3>
-                    <dl>
+                    <dl class="uk-description-list-horizontal">
                         <dt><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT_NAME'); ?></dt>
                         <dd><p><?php echo $payment->getName(); ?></p></dd>
 
@@ -179,7 +179,7 @@ $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredi
             <li>
                 <div class="jbclientarea-shipping">
                     <h3><?php echo JText::_('JBZOO_CLIENTAREA_SHIPPING'); ?></h3>
-                    <dl>
+                    <dl class="uk-description-list-horizontal">
                         <?php echo $view->shippingRenderer->renderAdminPosition(array('style' => 'order.useredit', 'order' => $order)); ?>
 
                         <dt><?php echo JText::_('JBZOO_CLIENTAREA_SHIPPING_RATE'); ?></dt>
@@ -202,7 +202,7 @@ $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredi
             <li>
                 <div class="jbclientarea-formfields">
                     <h3><?php echo JText::_('JBZOO_CLIENTAREA_USERINFO'); ?></h3>
-                    <dl>
+                    <dl class="uk-description-list-horizontal">
                         <?php echo $html; ?>
                     </dl>
                 </div>
