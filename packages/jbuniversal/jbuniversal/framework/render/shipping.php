@@ -39,10 +39,6 @@ class ShippingRenderer extends PositionRenderer
         $this->app = $app;
 
         $this->_jbconfig = JBModelConfig::model();
-
-        // important parent classes
-        $this->app->jbassets->js('jbassets:js/cart/shipping.js');
-        $this->app->jbassets->js('jbassets:js/cart/shipping-service.js');
     }
 
     /**
