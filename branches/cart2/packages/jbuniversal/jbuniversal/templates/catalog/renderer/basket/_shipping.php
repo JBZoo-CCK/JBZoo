@@ -28,7 +28,7 @@ $classes = array(
         $this->app->jbassets->less('jbassets:less/cart/shipping.less');
         $this->app->jbassets->less('jbassets:less/cart/shippingfield.less');
         $this->app->jbassets->js('jbassets:js/cart/shipping.js');
-        $this->app->jbassets->js('jbassets:js/cart/shipping-service.js');
+        $this->app->jbassets->js('jbassets:js/cart/shipping-type.js');
         ?>
 
         <?php if (!empty($view->shipping)) : ?>

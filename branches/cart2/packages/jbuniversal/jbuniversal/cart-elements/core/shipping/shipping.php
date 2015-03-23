@@ -275,7 +275,7 @@ abstract class JBCartElementShipping extends JBCartElement
     public function loadAssets()
     {
         $this->app->jbassets->js('jbassets:js/cart/shipping.js');
-        $this->app->jbassets->js('jbassets:js/cart/shipping-service.js');
+        $this->app->jbassets->js('jbassets:js/cart/shipping-type.js');
         return parent::loadAssets();
     }
 
