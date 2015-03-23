@@ -109,7 +109,7 @@ class JBUikitHelper extends AppHelper
     public function js($isTrue = false)
     {
         if ($isTrue) {
-            $this->app->jbassets->js('jbassets:js/uikit.min.js', JBAssetsHelper::GROUP_CORE);
+            $this->app->jbassets->js('jbassets:js/libs/uikit.min.js', JBAssetsHelper::GROUP_CORE);
         }
     }
 

@@ -134,15 +134,6 @@
         z-index: 1;
     }
 
-    //  Price styles
-    .jbprice {
-
-        .default-style {
-            margin-bottom: @base-indent;
-        }
-
-    }
-
     .jbprice-quantity {
 
         .quantity-wrapper {
@@ -159,7 +150,10 @@
     }
 
     .jbprice {
-        position: relative;
+
+        .default-style {
+            margin-bottom: @base-indent;
+        }
 
         [class*=sale-icon] {
             position: relative;
@@ -304,6 +298,24 @@
 
         .author {
             margin: 5px 0 0 !important;
+        }
+
+    }
+
+    .jbclientarea {
+
+        &-tab-headers {
+
+            ul {
+                margin: 0 !important;
+                padding: 0 !important;
+
+                li {
+                    list-style: none !important;
+                }
+
+            }
+
         }
 
     }
