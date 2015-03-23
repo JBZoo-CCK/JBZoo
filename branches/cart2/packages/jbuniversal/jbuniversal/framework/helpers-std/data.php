@@ -40,7 +40,7 @@ class DataHelper extends AppHelper
 
         // load data class
         $class = $format . 'Data';
-        if (!class_exists($class, false)) {
+        if (!class_exists($class)) {
             $this->app->loader->register($class, 'data:' . strtolower($format) . '.php');
         }
 

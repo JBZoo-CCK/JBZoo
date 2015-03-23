@@ -19,17 +19,6 @@ defined('_JEXEC') or die('Restricted access');
 class JBFieldHelper extends AppHelper
 {
     /**
-     * @param App $app
-     */
-    public function __construct($app)
-    {
-        parent::__construct($app);
-
-        // hack
-        $this->app->path->register($this->app->path->path('helpers:fields'), 'fields');
-    }
-
-    /**
      * Render currency list
      * @param string           $name
      * @param string|array     $value

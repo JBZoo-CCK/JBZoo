@@ -137,7 +137,7 @@ class JBLessHelper extends AppHelper
      */
     protected function _getProcessor($addPath = array())
     {
-        if (!class_exists('Less_Parser', false)) {
+        if (!class_exists('Less_Parser')) {
             require_once JPATH_ROOT . '/media/zoo/applications/jbuniversal/framework/libs/less.gpeasy.php';
         }
 
