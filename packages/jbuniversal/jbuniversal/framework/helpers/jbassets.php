@@ -593,7 +593,7 @@ class JBAssetsHelper extends AppHelper
             '.jbzoo .jbcart-payment',
         );
 
-        $this->widget(implode(',', $jsQuery), 'JBZoo.HeightFix', array('element' => $element));
+        $this->widget(implode(', ', $jsQuery), 'JBZoo.HeightFix', array('element' => $element));
     }
 
     /**
