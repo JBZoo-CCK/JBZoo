@@ -147,10 +147,12 @@ class JBModelOrder extends JBModel
         $rows = $this->fetchAll($select, true);
 
         $result = array();
-        foreach ($rows as $row) {
-            $order = JBCart::getInstance()->newOrder();
-            $order->setData($row);
-            $result[$order->id] = $order;
+        if (!empty($rows)) {
+            foreach ($rows as $row) {
+                $order = JBCart::getInstance()->newOrder();
+                $order->setData($row);
+                $result[$order->id] = $order;
+            }
         }
 
         return $result;
@@ -267,11 +269,11 @@ class JBModelOrder extends JBModel
         }
 
         if ($filter->get('created_from') && $date = $this->app->jbdate->toMysql($filter->get('created_from'))) {
-            $select->where('tOrder.created <= ?', $date);
+            $select->where('tOrder.created >= STR_TO_DATE(?, \'%Y-%m-%d %H:%i:%s\')', $date);
         }
 
         if ($filter->get('created_to') && $date = $this->app->jbdate->toMysql($filter->get('created_to'))) {
-            $select->where('tOrder.created <= ?', $date);
+            $select->where('tOrder.created <= STR_TO_DATE(?, \'%Y-%m-%d %H:%i:%s\')', $date);
         }
 
         if ($search = $filter->get('search')) {
@@ -291,7 +293,6 @@ class JBModelOrder extends JBModel
 
         // set order
         $select->order('tOrder.' . $filter->get('order', 'id') . ' ' . $filter->get('order_dir', 'DESC'));
-
 
         return $select;
     }
