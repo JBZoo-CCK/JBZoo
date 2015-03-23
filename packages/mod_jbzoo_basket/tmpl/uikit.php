@@ -23,10 +23,10 @@ $items    = $basketHelper->getBasketItems(array(
 ));
 
 ?><!--noindex-->
-<div class="jbzoo jbcart-module clearfix jsJBZooCartModule" id="jbzooCartModule-'<?php echo $module->id; ?>">
+<div class="jbzoo jbcart-module jsJBZooCartModule" id="jbzooCartModule-'<?php echo $module->id; ?>">
 
     <?php if (empty($items)) : ?>
-        <div class="jbcart-module-empty"><?php echo JText::_('JBZOO_CART_MODULE_EMPTY'); ?></div>
+        <div class="jbcart-module-empty clearfix"><?php echo JText::_('JBZOO_CART_MODULE_EMPTY'); ?></div>
     <?php else: ?>
 
         <?php if ((int)$params->get('jbcart_items', 1)) : ?>
@@ -39,8 +39,8 @@ $items    = $basketHelper->getBasketItems(array(
 
                         <?php if ((int)$params->get('jbcart_item_delete', 1)) : ?>
                             <span class="uk-button uk-button-danger uk-button-small round jsDelete jbcart-item-delete">
-                                <i class="uk-icon-trash-o"></i>
-                            </span>
+                            <i class="uk-icon-trash-o"></i>
+                        </span>
                         <?php endif; ?>
 
                         <?php if ((int)$params->get('jbcart_item_image', 1)) {
@@ -107,7 +107,7 @@ $items    = $basketHelper->getBasketItems(array(
 
         <?php if ((int)$params->get('jbcart_button_empty', 1) && (int)$params->get('jbcart_button_gotocart', 1)) : ?>
 
-            <div class="jbcart-module-buttons uk-clearfix">
+            <div class="jbcart-module-buttons clearfix">
 
                 <?php if ((int)$params->get('jbcart_button_empty', 1)): ?>
                     <span class="uk-button uk-button-danger jbcart-module-empty jsEmptyCart">
@@ -128,4 +128,5 @@ $items    = $basketHelper->getBasketItems(array(
         <?php endif ?>
 
     <?php endif; ?>
+
 </div><!--/noindex-->

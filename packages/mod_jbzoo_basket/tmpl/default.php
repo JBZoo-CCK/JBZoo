@@ -21,10 +21,10 @@ $items    = $basketHelper->getBasketItems();
 $currency = $basketHelper->getCurrency();
 
 ?><!--noindex-->
-<div class="jbzoo jbcart-module clearfix jsJBZooCartModule" id="jbzooCartModule-'<?php echo $module->id; ?>">
+<div class="jbzoo jbcart-module jsJBZooCartModule" id="jbzooCartModule-'<?php echo $module->id; ?>">
 
     <?php if (empty($items)) : ?>
-        <div class="jbcart-module-empty"><?php echo JText::_('JBZOO_CART_MODULE_EMPTY'); ?></div>
+        <div class="jbcart-module-empty clearfix"><?php echo JText::_('JBZOO_CART_MODULE_EMPTY'); ?></div>
     <?php else: ?>
 
         <?php if ((int)$params->get('jbcart_items', 1)) : ?>
@@ -107,7 +107,7 @@ $currency = $basketHelper->getCurrency();
 
                 <?php if ((int)$params->get('jbcart_button_empty', 1)): ?>
                     <span class="jbbutton small jbcart-module-empty jsEmptyCart">
-                        <?php echo JText::_('JBZOO_CART_MODULE_EMPTY_BUTTON'); ?></span>
+                    <?php echo JText::_('JBZOO_CART_MODULE_EMPTY_BUTTON'); ?></span>
                 <?php endif ?>
 
                 <?php if ((int)$params->get('jbcart_button_gotocart', 1)): ?>
@@ -120,4 +120,5 @@ $currency = $basketHelper->getCurrency();
         <?php endif ?>
 
     <?php endif; ?>
+
 </div><!--/noindex-->
