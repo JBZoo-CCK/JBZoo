@@ -267,6 +267,18 @@ abstract class JBCartElementShipping extends JBCartElement
     {
         return $this->_order->getTotalWeight();
     }
+
+    /**
+     * Important libs
+     * @return $this
+     */
+    public function loadAssets()
+    {
+        $this->app->jbassets->js('jbassets:js/cart/shipping.js');
+        $this->app->jbassets->js('jbassets:js/cart/shipping-service.js');
+        return parent::loadAssets();
+    }
+
 }
 
 /**
