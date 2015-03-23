@@ -105,103 +105,110 @@ $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredi
 
 </div>
 
-<ul class="jbclientarea-tab-headers uk-tab" data-uk-tab="{connect:'#<?php echo $tabsId; ?>'}">
+<div class="jbclientarea-tab-headers">
 
-    <li class="uk-active">
-        <a href="#"><?php echo JText::_('JBZOO_CLIENTAREA_ORDERINFO'); ?></a>
-    </li>
+    <ul class="uk-tab" data-uk-tab="{connect:'#<?php echo $tabsId; ?>'}">
 
-    <?php if ($payment = $order->getPayment()) : ?>
-        <li>
-            <a href="#"><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT'); ?></a>
+        <li class="uk-active">
+            <a href="#"><?php echo JText::_('JBZOO_CLIENTAREA_ORDERINFO'); ?></a>
         </li>
-    <?php endif; ?>
 
-    <?php if ($shipping = $order->getShipping()) : ?>
+        <?php if ($payment = $order->getPayment()) : ?>
+            <li>
+                <a href="#"><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT'); ?></a>
+            </li>
+        <?php endif; ?>
+
+        <?php if ($shipping = $order->getShipping()) : ?>
+            <li>
+                <a href="#"><?php echo JText::_('JBZOO_CLIENTAREA_SHIPPING'); ?></a>
+            </li>
+        <?php endif; ?>
+
+        <?php if (JString::trim(strip_tags($html))) : ?>
+            <li>
+                <a href="#"><?php echo JText::_('JBZOO_CLIENTAREA_USERINFO'); ?></a>
+            </li>
+        <?php endif; ?>
+
+    </ul>
+
+    <ul id="<?php echo $tabsId; ?>" class="uk-switcher uk-margin">
+
         <li>
-            <a href="#"><?php echo JText::_('JBZOO_CLIENTAREA_SHIPPING'); ?></a>
-        </li>
-    <?php endif; ?>
-
-    <?php if (JString::trim(strip_tags($html))) : ?>
-        <li>
-            <a href="#"><?php echo JText::_('JBZOO_CLIENTAREA_USERINFO'); ?></a>
-        </li>
-    <?php endif; ?>
-
-</ul>
-
-<ul id="<?php echo $tabsId; ?>" class="uk-switcher uk-margin">
-
-    <li>
-        <div class="jbclientarea-basicinfo">
-            <dl>
-                <dt><?php echo JText::_('JBZOO_CLIENTAREA_STATUS'); ?></dt>
-                <dd><p><?php echo $order->getStatus()->getName(); ?></p></dd>
-
-                <dt><?php echo JText::_('JBZOO_CLIENTAREA_ORDERNO'); ?></dt>
-                <dd><p><?php echo $order->getName(); ?></p></dd>
-
-                <dt><?php echo JText::_('JBZOO_CLIENTAREA_CREATED'); ?></dt>
-                <dd><p><?php echo $created; ?></p></dd>
-
-                <dt><?php echo JText::_('JBZOO_CLIENTAREA_MODIFIED'); ?></dt>
-                <dd><p><?php echo $modified; ?></p></dd>
-            </dl>
-        </div>
-    </li>
-
-    <?php if ($payment = $order->getPayment()) : ?>
-       <li>
-           <div class="jbclientarea-payment">
-               <dl>
-                   <dt><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT_NAME'); ?></dt>
-                   <dd><p><?php echo $payment->getName(); ?></p></dd>
-
-                   <dt><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT_RATE'); ?></dt>
-                   <dd><p><?php echo $payment->getRate()->html(); ?></p></dd>
-
-                   <dt><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT_SUMMA'); ?></dt>
-                   <dd><p><?php echo $order->getTotalSum(true)->html(); ?></p></dd>
-
-                   <dt><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT_STATUS'); ?></dt>
-                   <dd><?php echo $payment->getStatus()->getName(); ?></dd>
-               </dl>
-           </div>
-       </li>
-    <?php endif; ?>
-
-    <?php if ($shipping = $order->getShipping()) : ?>
-        <li>
-            <div class="jbclientarea-shipping">
+            <div class="jbclientarea-basicinfo">
+                <h3><?php echo JText::_('JBZOO_CLIENTAREA_ORDERINFO'); ?></h3>
                 <dl>
-                    <?php echo $view->shippingRenderer->renderAdminPosition(array('style' => 'order.useredit', 'order' => $order)); ?>
+                    <dt><?php echo JText::_('JBZOO_CLIENTAREA_STATUS'); ?></dt>
+                    <dd><p><?php echo $order->getStatus()->getName(); ?></p></dd>
 
-                    <dt><?php echo JText::_('JBZOO_CLIENTAREA_SHIPPING_RATE'); ?></dt>
-                    <dd>
-                        <p><?php echo $shipping->getRate()->html(); ?></p>
-                    </dd>
+                    <dt><?php echo JText::_('JBZOO_CLIENTAREA_ORDERNO'); ?></dt>
+                    <dd><p><?php echo $order->getName(); ?></p></dd>
 
-                    <dt><?php echo JText::_('JBZOO_CLIENTAREA_SHIPPING_STATUS'); ?></dt>
-                    <dd>
-                        <p><?php echo $shipping->getStatus()->getName(); ?></p>
-                    </dd>
+                    <dt><?php echo JText::_('JBZOO_CLIENTAREA_CREATED'); ?></dt>
+                    <dd><p><?php echo $created; ?></p></dd>
 
-                    <?php echo $view->shippingFieldsRenderer->renderAdminPosition(array('style' => 'order.useredit', 'order' => $order)); ?>
+                    <dt><?php echo JText::_('JBZOO_CLIENTAREA_MODIFIED'); ?></dt>
+                    <dd><p><?php echo $modified; ?></p></dd>
                 </dl>
             </div>
         </li>
-    <?php endif; ?>
 
-    <?php if (JString::trim(strip_tags($html))) : ?>
-        <li>
-            <div class="jbclientarea-formfields">
-                <dl>
-                    <?php echo $html; ?>
-                </dl>
-            </div>
-        </li>
-    <?php endif; ?>
+        <?php if ($payment = $order->getPayment()) : ?>
+            <li>
+                <div class="jbclientarea-payment">
+                    <h3><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT'); ?></h3>
+                    <dl>
+                        <dt><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT_NAME'); ?></dt>
+                        <dd><p><?php echo $payment->getName(); ?></p></dd>
 
-</ul>
+                        <dt><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT_RATE'); ?></dt>
+                        <dd><p><?php echo $payment->getRate()->html(); ?></p></dd>
 
+                        <dt><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT_SUMMA'); ?></dt>
+                        <dd><p><?php echo $order->getTotalSum(true)->html(); ?></p></dd>
+
+                        <dt><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT_STATUS'); ?></dt>
+                        <dd><?php echo $payment->getStatus()->getName(); ?></dd>
+                    </dl>
+                </div>
+            </li>
+        <?php endif; ?>
+
+        <?php if ($shipping = $order->getShipping()) : ?>
+            <li>
+                <div class="jbclientarea-shipping">
+                    <h3><?php echo JText::_('JBZOO_CLIENTAREA_SHIPPING'); ?></h3>
+                    <dl>
+                        <?php echo $view->shippingRenderer->renderAdminPosition(array('style' => 'order.useredit', 'order' => $order)); ?>
+
+                        <dt><?php echo JText::_('JBZOO_CLIENTAREA_SHIPPING_RATE'); ?></dt>
+                        <dd>
+                            <p><?php echo $shipping->getRate()->html(); ?></p>
+                        </dd>
+
+                        <dt><?php echo JText::_('JBZOO_CLIENTAREA_SHIPPING_STATUS'); ?></dt>
+                        <dd>
+                            <p><?php echo $shipping->getStatus()->getName(); ?></p>
+                        </dd>
+
+                        <?php echo $view->shippingFieldsRenderer->renderAdminPosition(array('style' => 'order.useredit', 'order' => $order)); ?>
+                    </dl>
+                </div>
+            </li>
+        <?php endif; ?>
+
+        <?php if (JString::trim(strip_tags($html))) : ?>
+            <li>
+                <div class="jbclientarea-formfields">
+                    <h3><?php echo JText::_('JBZOO_CLIENTAREA_USERINFO'); ?></h3>
+                    <dl>
+                        <?php echo $html; ?>
+                    </dl>
+                </div>
+            </li>
+        <?php endif; ?>
+
+    </ul>
+
+</div>
