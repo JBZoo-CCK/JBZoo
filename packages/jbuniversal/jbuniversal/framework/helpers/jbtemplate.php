@@ -113,7 +113,7 @@ class JBTemplateHelper extends AppHelper
      */
     protected function _initMethod($event, $className = 'JBTemplate', $method = 'onInit')
     {
-        if (class_exists($className, false) && $event) {
+        if (class_exists($className) && $event) {
             $templateObj = new $className($event);
             if (method_exists($templateObj, $method)) {
                 $templateObj->{$method}();

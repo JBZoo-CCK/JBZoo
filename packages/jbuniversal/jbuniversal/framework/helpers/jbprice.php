@@ -293,7 +293,7 @@ class JBPriceHelper extends AppHelper
         // load table class
         $class = 'JBCSVItemPrice' . $type;
 
-        if(!class_exists('JBCSVItemPrice', false)) {
+        if(!class_exists('JBCSVItemPrice')) {
             $this->app->loader->register('JBCSVItemPrice', 'jbelements:price/price.php');
         }
 

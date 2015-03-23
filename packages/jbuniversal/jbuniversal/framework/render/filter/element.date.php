@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -14,11 +13,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-if (!class_exists('JBFilterElementDate', false)){
-    /**
-     * Class JBFilterElementDate
-     */
-
+/**
+ * Class JBFilterElementDate
+ */
 class JBFilterElementDate extends JBFilterElement
 {
     /**
@@ -90,5 +87,4 @@ class JBFilterElementDate extends JBFilterElement
         $attrs['class'][] = 'element-datepicker';
         return $attrs;
     }
-}
 }

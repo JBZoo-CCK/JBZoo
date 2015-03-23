@@ -68,11 +68,11 @@ class JBStorageHelper extends AppHelper
             'jbcartelementpriceweight'      => $elements . 'price/weight/weight.php'
         ));
 
-        if (!class_exists('JBCartElement', false)) {
+        if (!class_exists('JBCartElement')) {
             require($elements . 'core/element/element.php');
         }
 
-        if (!class_exists('JBCartElementPrice', false)) {
+        if (!class_exists('JBCartElementPrice')) {
             require($elements . 'core/price/price.php');
         }
     }
@@ -229,7 +229,7 @@ class JBStorageHelper extends AppHelper
         {
             return false;
         }
-        if (!class_exists($class, false))
+        if (!class_exists($class))
         {
             require($path);
         }
