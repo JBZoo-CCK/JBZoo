@@ -261,14 +261,20 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include UIkit files
+     * @param bool $addJS
+     * @param bool $isGradient
      */
-    public function uikit($addJS = false)
+    public function uikit($addJS = false, $isGradient = false)
     {
         if ($addJS) {
             $this->js('jbassets:js/libs/uikit.min.js', self::GROUP_CORE);
         }
 
-        $this->css('jbassets:css/uikit.min.css', self::GROUP_CORE);
+        if ($isGradient) {
+            $this->css('jbassets:css/uikit.gradient.min.css', self::GROUP_CORE);
+        } else {
+            $this->css('jbassets:css/uikit.min.css', self::GROUP_CORE);
+        }
     }
 
     /**

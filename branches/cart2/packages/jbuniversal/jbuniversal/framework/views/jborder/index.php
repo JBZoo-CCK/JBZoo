@@ -17,7 +17,7 @@ $order    = $this->filter->get('filter_order', 'id');
 $orderDir = $this->filter->get('filter_order_Dir', 'desc');
 ?>
 
-<form class="items-default" action="<?php echo $this->app->jbrouter->admin(); ?>" method="get" name="adminForm"
+<form class="items-default uk-form" action="<?php echo $this->app->jbrouter->admin(); ?>" method="get" name="adminForm"
       id="adminForm" accept-charset="utf-8">
 
     <?php echo $this->partial('index_filter', array(

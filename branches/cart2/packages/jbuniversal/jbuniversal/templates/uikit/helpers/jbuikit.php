@@ -93,11 +93,11 @@ class JBUikitHelper extends AppHelper
     {
         switch ($addCss) {
             case 'yes':
-                $this->app->jbassets->css('jbassets:css/uikit.min.css', JBAssetsHelper::GROUP_CORE);
+                $this->app->jbassets->uikit(false, false);
                 break;
 
             case 'yes_gradient':
-                $this->app->jbassets->css('jbassets:css/uikit.gradient.min.css', JBAssetsHelper::GROUP_CORE);
+                $this->app->jbassets->uikit(false, true);
                 break;
         }
     }

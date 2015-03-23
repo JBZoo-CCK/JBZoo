@@ -82,7 +82,7 @@ class JBUniversalController extends AppController
 
         if (!$isSite) {
             $this->app->document->addStylesheet("root:administrator/templates/system/css/system.css");
-            $this->app->jbassets->uikit(true);
+            $this->app->jbassets->uikit(true, true);
             $this->_setToolbarTitle();
 
         } else {
