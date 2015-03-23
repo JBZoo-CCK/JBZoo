@@ -22,7 +22,7 @@ echo $this->partial('clientarea_orders', 'default.styles');
 
 <div class="jbclientarea">
 
-    <p><?php echo JText::_('JBZOO_CLIENTAREA_DESCRIPTION'); ?>:</p>
+    <p class="jbclientarea-page-desc"><?php echo JText::_('JBZOO_CLIENTAREA_DESCRIPTION'); ?>:</p>
 
     <?php if (!empty($vars['objects'])) : ?>
 
@@ -47,10 +47,10 @@ echo $this->partial('clientarea_orders', 'default.styles');
                 ?>
 
                 <tr class="jbclientarea-order jbclientarea-order-<?php echo $order->id; ?> row-<?php echo $rowClass; ?>">
-                    <td><p class="jbclientarea-name"><?php echo $orderName; ?></p></td>
-                    <td><p class="jbclientarea-date"><?php echo $created; ?></p></td>
-                    <td><p class="jbclientarea-price"><?php echo $order->getTotalSum(); ?></p></td>
-                    <td><p class="jbclientarea-status"><?php echo $order->getStatus()->getName();?></p></td>
+                    <td class="jbclientarea-name"><p><?php echo $orderName; ?></p></td>
+                    <td class="jbclientarea-date"><p><?php echo $created; ?></p></td>
+                    <td class="jbclientarea-price"><p><?php echo $order->getTotalSum(); ?></p></td>
+                    <td class="jbclientarea-status"><p><?php echo $order->getStatus()->getName();?></p></td>
                 </tr>
 
             <?php endforeach; ?>
