@@ -34,4 +34,9 @@
         <name>Accordion</name>
         <description>jQuery Accordion</description>
     </layout>
+
+    <layout name="uikit">
+        <name>Uikit</name>
+        <description>Uikit template</description>
+    </layout>
 </metadata>
