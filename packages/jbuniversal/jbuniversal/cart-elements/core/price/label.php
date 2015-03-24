@@ -13,18 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$unique = $this->app->jbstring->getId('bool-');
+// set attributes
+$attributes = array('type' => 'text', 'name' => "{$control_name}[{$name}]", 'value' => JText::_($value), 'class' => isset($class) ? $class : '');
 
-$array = array(
-    ''                    => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - ',
-    JText::_('JBZOO_NO')  => JText::_('JBZOO_NO'),
-    JText::_('JBZOO_YES') => JText::_('JBZOO_YES')
-);
-
-$value = (int)$this->getValue();
-?>
-
-<div class="jbprice-bool" id="<?php echo $unique; ?>">
-    <span class="bool"><?php echo $array[$value]; ?></span>
-</div>
-
+printf('<input %s />', $this->app->field->attributes($attributes, array('label', 'description')));

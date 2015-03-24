@@ -235,73 +235,55 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
      */
     public function bindData($data = array())
     {
-        $result = array();
-        $hashes = array();
+        if (isset($this->_item)) {
+            $hashes = array();
 
-        if (isset($data['variations'])) {
-            $list       = $this->build($data['variations']);
-            $variations = array();
-            $selected   = array();
-            $values     = array();
+            if (isset($data['variations'])) {
+                $list = $this->build($data['variations']);
+                unset($data['variations']);
 
-            unset($data['variations']);
-            /** @type JBCartVariant $variant */
-            foreach ($list as $key => $variant) {
-
-                /** @type JBCartElementPrice $element */
-                if ($variant->count('simple') || $variant->isBasic()) {
-
-                    //add variant hash to array based on elements values
-                    $hashes[$key]     = $variant->hash();
-                    $variations[$key] = $variant->data();
+                // generate hashes
+                $values = (array)$this->get('values', array());
+                if (count($values)) {
+                    $hashes = array_map(create_function('$data', ' return md5(serialize($data));'), $values);
                 }
-            }
-            //leave only unique hashes. The array keys are the keys of valid variants.
-            $hashes = array_unique($hashes);
 
-            //get valid variants
-            $list       = array_intersect_key($list, $hashes);
-            $variations = array_intersect_key($variations, $hashes);
-
-            //reset the array keys
-            if (isset($variations)) {
-                $variations = array_values($variations);
-                $list       = array_values($list);
-            }
-
-            //unset basic variant. He has no simple elements.
-            unset($list[self::BASIC_VARIANT]);
-
-            //generate array values and selected
-            if (count($list)) {
+                /** @type JBCartVariant $variant */
                 foreach ($list as $key => $variant) {
-                    if (!$variant->isBasic()) {
-                        $values[$key] = array_filter(array_map(create_function('$element',
-                                'return JString::strlen($element->getValue(true)) > 0 && $element->isCore() == false
-                                ? (array)$element->data() : null;'), $variant->all())
-                        );
+                    /** @type JBCartElementPrice $element */
+                    if (($variant->count('simple') === 1 && !in_array($variant->hash(), $hashes)) || ($variant->isBasic())) {
 
-                        foreach ($variant->simple() as $id => $element) {
-                            $value                              = $element->getValue(true);
-                            $selected[$id][$value . '.' . $key] = $value;
-                        }
+                        //add variant hash to array based on simple elements values
+                        $hashes[$key] = $variant->hash();
+                    }
+                }
+
+                //leave only unique hashes. The array keys are the keys of valid variants.
+                $hashes = array_unique($hashes);
+
+                //get valid variants
+                $list = array_intersect_key($list, $hashes);
+
+                //generate array values and selected
+                if (count($list)) {
+                    foreach ($list as $key => $variant) {
+                        $variant->setId($key)->bindData();
+
+                        $this->bindVariant($variant);
+                        $variant->clear();
                     }
                 }
             }
 
-            $result['values']     = $values;
-            $result['selected']   = $selected;
-            $result['variations'] = $variations;
-            unset($values, $selected, $variations);
-        }
+            if (!empty($data)) {
+                $result = $this->_item->elements->get($this->identifier);
 
-        if (!empty($data)) {
-            foreach ($data as $_id => $unknown) {
-                $result[$_id] = is_string($unknown) ? JString::trim($unknown) : $unknown;
+                foreach ($data as $_id => $unknown) {
+                    $result[$_id] = is_string($unknown) ? JString::trim($unknown) : $unknown;
+                }
+                $this->_item->elements->set($this->identifier, $result);
             }
         }
-
-        parent::bindData($result);
     }
 
     /**

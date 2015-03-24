@@ -14,27 +14,34 @@
 
     JBZoo.widget('JBZoo.PriceEdit', {
             // options
-            'isAdvance': true,
-            'isOverlay': false,
-            'isValid'  : false,
-            'text_hide': 'Hide variations',
-            'text_show': 'Show variations',
-            'duration' : 300
+            'isAdvance'                 : true,
+            'isOverlay'                 : false,
+            'isValid'                   : false,
+            'text_hide'                 : 'Hide variations',
+            'text_show'                 : 'Show variations',
+            'validator_variant_invalid' : 'The variant is invalid',
+            'validator_duplicate_values': 'Values duplicates in other variant',
+            'validator_choice_limiting' : 'In this mode you can choose only one parameter',
+            'duration'                  : 300
         },
         {
             'validator': {},
 
             init: function () {
-
+                var _options = {
+                    'message_variant_invalid' : this.options.validator_variant_invalid,
+                    'message_duplicate_values': this.options.validator_duplicate_values,
+                    'message_choice_limiting' : this.options.validator_choice_limiting
+                };
                 this.$('.jbprice-variation-row:first .jsJBRemove').hide();
                 this.sortable();
 
                 //create validator if variations is on
                 if (this.options.isAdvance) {
                     if (!!this.options.isOverlay) {
-                        this.validator = this.el.JBZooPriceValidatorCalc().data('JBZooPriceValidatorCalc');
+                        this.validator = this.el.JBZooPriceValidatorCalc(_options).data('JBZooPriceValidatorCalc');
                     } else {
-                        this.validator = this.el.JBZooPriceValidatorPlain().data('JBZooPriceValidatorPlain');
+                        this.validator = this.el.JBZooPriceValidatorPlain(_options).data('JBZooPriceValidatorPlain');
                     }
                 }
             },
@@ -82,7 +89,7 @@
 
                 $('input[type="text"], textarea', clone).val("");
 
-                //Init JBZooColors
+                //Init JBZooColors.
                 var colors = $('.variant-color-wrap', row);
                 if (colors.length > 0) {
                     var oldColor = $('.jbzoo-colors', colors).data('JBZooColors'),
@@ -91,7 +98,7 @@
                     $('.jbcolor-label, .jbcolor-input', newColor).removeClass('checked')
                     newColor.JBZooColors(oldColor.options);
                 }
-                //Init JBZooMedia
+                //Init JBZooMedia.
                 var image = $('.variant-image-wrap', row);
                 if (image.length > 0) {
                     var oldMedia = $('.jsMedia', image).data('JBZooMedia'),
@@ -100,7 +107,7 @@
 
                     newMedia.JBZooMedia(oldMedia.options);
                 }
-                //Init JBZooBalance. Helper for radio input
+                //Init JBZooBalance. Helper for radio input.
                 var balance = $('.variant-balance-wrap', row);
                 if (balance.length > 0) {
                     var oldBalance = $('.jsBalance', balance).data('JBZooPriceBalance'),
@@ -108,12 +115,18 @@
 
                     newBalance.JBZooPriceBalance(oldBalance.options);
                 }
+                //Init JBZooPriceEditElement_descriptionEdit.
+                var description = $('.jsDescription', row);
+                if (description.length > 0) {
+                    var newDesc = $('.jsDescription .jsField', clone);
+                    newDesc.JBZooPriceEditElement_descriptionEdit();
+                }
 
                 $('.variant-param', clone).each(function (i, param) {
                     var $param = $(param),
                         id = parseInt(new Date().getTime() + i);
 
-                    $('.jsElementData label', $param).each(function (n, label) {
+                    $('.jsElement label', $param).each(function (n, label) {
 
                         var $label = $(label),
                             random = Math.floor((Math.random() * 999999) + 1);

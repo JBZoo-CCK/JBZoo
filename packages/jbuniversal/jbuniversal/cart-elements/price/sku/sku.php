@@ -101,7 +101,7 @@ class JBCartElementPriceSku extends JBCartElementPrice
     public function getValue($toString = false, $key = 'value', $default = null)
     {
         $value = parent::getValue($toString, $key, $default);
-        if (!isset($value{0})&& $item = $this->_jbprice->getItem())
+        if (!isset($value{0}) && $item = $this->_jbprice->getItem())
         {
             $value = $item->id;
         }

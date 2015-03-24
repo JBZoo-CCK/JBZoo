@@ -196,8 +196,10 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                     $variations[count($variations)] = array();
                 }
 
+                $hash = $this->hash();
                 $list = $this->getList($variations);
                 return parent::renderLayout($layout, array(
+                    'hash'        => $hash,
                     'variations'  => $list->all(),
                     'default'     => $this->defaultKey(),
                     'renderer'    => $renderer,
@@ -1030,7 +1032,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 $this->_item->elements->set($this->identifier, $result);
             }
         }
-
     }
 
     /**

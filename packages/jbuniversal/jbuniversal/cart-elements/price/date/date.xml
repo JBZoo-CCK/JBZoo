@@ -20,17 +20,17 @@
     <description>JBZOO_ELEMENT_PRICE_DATE_DESC</description>
 
     <params group="render">
-
-        <param name="template" type="list" label="JBZOO_ELEMENT_TEMPLATE"
-               description="JBZOO_ELEMENT_TEMPLATE_DESC" default="_auto_" >
+        <param name="template" type="list" label="JBZOO_JBPRICE_ELEMENT_TEMPLATE"
+               description="JBZOO_JBPRICE_ELEMENT_TEMPLATE_DESC" default="select">
 
             <option value="radio">JBZOO_ELEMENT_TEMPLATE_RADIO</option>
             <option value="select">JBZOO_ELEMENT_TEMPLATE_SELECT</option>
             <option value="chosen">JBZOO_ELEMENT_TEMPLATE_SELECT_CHOSEN</option>
             <option value="buttons">JBZOO_ELEMENT_TEMPLATE_JQUERYUI</option>
-
         </param>
 
+        <param name="label" type="label" default="JBZOO_CORE_PRICE_OPTIONS_DEFAULT" label="JBZOO_JBPRICE_OPTIONS_LABEL"
+               description="JBZOO_JBPRICE_OPTIONS_LABEL_DESC"/>
     </params>
 
     <params group="filter">
