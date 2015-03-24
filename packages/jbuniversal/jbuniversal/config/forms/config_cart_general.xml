@@ -22,8 +22,17 @@
             <field name="default_order_status" type="jbstatus" default="new" label="JBZOO_CART_CONFIG_ORDER_STATUS"
                    status_type="STATUS_ORDER" description="JBZOO_CART_CONFIG_ORDER_STATUS_DESC"/>
 
+            <field name="spacer_currency" type="jbspacer" default="JBZOO_CART_CONFIG_SPACER_CURRENCY"/>
+
             <field name="default_currency" type="jbcurrency" defaultCode="0" default="EUR"
                    label="JBZOO_CART_CONFIG_CURRENCY" description="JBZOO_CART_CONFIG_CURRENCY_DESC"/>
+
+            <field name="undefined_currency" type="list" default="default"
+                   label="JBZOO_CART_CONFIG_UNDEFINED_CURRENCY" description="JBZOO_CART_CONFIG_UNDEFINED_CURRENCY_DESC">
+                <option value="default">JBZOO_CART_CONFIG_UNDEFINED_CURRENCY_DEFAULT</option>
+                <option value="notice">JBZOO_CART_CONFIG_UNDEFINED_CURRENCY_NOTICE</option>
+                <option value="fatal">JBZOO_CART_CONFIG_UNDEFINED_CURRENCY_FATAL</option>
+            </field>
 
             <field name="currency_ttl" type="list" default="1440"
                    label="JBZOO_CART_CONFIG_CURRENCY_TTL" description="JBZOO_CART_CONFIG_CURRENCY_TTL_DESC">

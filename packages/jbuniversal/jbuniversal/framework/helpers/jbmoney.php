@@ -38,6 +38,11 @@ class JBMoneyHelper extends AppHelper
     protected $_defaultCur = '';
 
     /**
+     * @var string
+     */
+    protected $_currencyMode = 'default';
+
+    /**
      * @var array
      */
     protected $_defaultFormat = array(
@@ -60,6 +65,11 @@ class JBMoneyHelper extends AppHelper
 
         $this->_config     = JBModelConfig::model();
         $this->_defaultCur = $this->_config->get('default_currency', 'eur', 'cart.config');
+
+        $this->_currencyMode = $this->_config->get('undefined_currency', 'default', 'cart.config');
+        if (empty($this->_currencyMode)) {
+            $this->_currencyMode = 'default';
+        }
 
         $this->_jbcache = $this->app->jbcache;
     }
@@ -135,6 +145,7 @@ class JBMoneyHelper extends AppHelper
 
     /**
      * Clear price string
+     * @deprecated plz, use app->jbvars->money
      * @param $value
      * @return float
      */
@@ -152,6 +163,7 @@ class JBMoneyHelper extends AppHelper
      */
     public function convert($from, $to, $value)
     {
+        $this->init();
         return JBCart::val($value, $from)->val($to);
     }
 
@@ -202,19 +214,7 @@ class JBMoneyHelper extends AppHelper
      */
     public function clearCurrency($currency, $default = null)
     {
-        $this->init();
-
-        $currency = $this->app->jbvars->lower($currency, true);
-
-        if ($currency == self::PERCENT) {
-            return self::PERCENT;
-        }
-
-        if (isset(self::$curList[$currency])) {
-            return $currency;
-        }
-
-        return $default;
+        return $this->app->jbvars->currency($currency, $default);
     }
 
     /**
@@ -233,6 +233,7 @@ class JBMoneyHelper extends AppHelper
      */
     public function checkCurrency($currency)
     {
+        $this->init();
 
         $currency = trim(strtolower($currency));
         if (isset(self::$curList[$currency])) {
@@ -266,6 +267,14 @@ class JBMoneyHelper extends AppHelper
         }
 
         return $result;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrencyMode()
+    {
+        return $this->_currencyMode;
     }
 
 }

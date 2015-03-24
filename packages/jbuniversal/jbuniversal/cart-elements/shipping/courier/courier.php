@@ -120,7 +120,10 @@ class JBCartElementShippingCourier extends JBCartElementShipping
             }
         }
 
-        return $this->app->jbhtml->select($list, $this->getControlName('weekday'), 'class="jsWeekday"', $this->get('weekday'));
+        $tomorrow = new JDate($now + 86400);
+        $weekday  = $this->get('weekday', $tomorrow->format(self::FORMAT_WEEKDAYS));
+
+        return $this->app->jbhtml->select($list, $this->getControlName('weekday'), 'class="jsWeekday"', $weekday);
     }
 
     /**

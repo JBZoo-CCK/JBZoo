@@ -82,10 +82,11 @@ class JBVarsHelper extends AppHelper
     }
 
     /**
-     * @param $currency
+     * @param string $currency
+     * @param bool   $default
      * @return bool|mixed|string
      */
-    public function currency($currency)
+    public function currency($currency, $default = false)
     {
         $currency = $this->lower($currency, true);
         $rates    = $this->app->jbmoney->getData();
@@ -93,7 +94,7 @@ class JBVarsHelper extends AppHelper
             return $currency;
         }
 
-        return false;
+        return $default;
     }
 
 }
