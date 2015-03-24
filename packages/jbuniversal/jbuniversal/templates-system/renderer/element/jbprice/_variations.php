@@ -38,7 +38,6 @@ if ($isRequired) {
 }
 
 // create label
-//if (isset($params['showlabel']) && $params['showlabel']) {
 $name = (isset($params['altlabel'])) ? $params['altlabel'] : $name;
 $desc = (!empty($desc) ? $desc : JText::_('JBZOO_ELEMENT_PRICE_' . $type . '_DESC'));
 
@@ -46,13 +45,6 @@ $label = '<strong class="label row-field"><span class="hasTip jbparam-label" tit
     . $desc . '">'
     . ucfirst($name) . '</span>'
     . $required . '</strong>';
-//}
-
-// render element
-$element_html =
-    '<div class="field jsElementData">'
-    . $element->edit($params) .
-    '</div>';
 
 //create attributes for main div
 $attributes = array(
@@ -63,5 +55,5 @@ $attributes = array(
 echo '<div ' . $this->app->jbhtml->buildAttrs($attributes) . '>'
     . $label
     . $attention
-    . $element_html
+    . $element->edit($params)
     . '</div>';
