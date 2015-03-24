@@ -857,7 +857,14 @@ class JBCartValue
             return $this->_parse($value, $currency);
 
         } else {
-            $reg = '#(.*)(' . implode('|', $this->getCodeList()) . ')$#i';
+            $data = trim($data);
+
+            if ($this->_currencyMode == 'default') {
+                $reg = '#(.*)(' . implode('|', $this->getCodeList()) . ')$#i';
+            } else {
+                $reg = '#(.*)([a-z]{3}|%)$#i';
+            }
+
             if (preg_match($reg, $data, $matches)) {
                 $value    = $matches[1];
                 $currency = $matches[2];
