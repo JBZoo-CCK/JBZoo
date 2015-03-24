@@ -85,6 +85,11 @@ class JBCartValue
     protected $_logs = array();
 
     /**
+     * @type string
+     */
+    protected $_currencyMode = 'default';
+
+    /**
      * @type bool
      */
     protected $_isDebug = false;
@@ -124,7 +129,9 @@ class JBCartValue
         $this->_jbmoney = $this->app->jbmoney;
         $this->_jbvars  = $this->app->jbvars;
 
-        $this->_isDebug = defined('JDEBUG') && JDEBUG;
+        $this->_currencyMode = $this->app->jbmoney->getCurrencyMode();
+
+        $this->_isDebug = JDEBUG;
         $this->_rates   = (array)($rates ? $rates : $this->_jbmoney->getData());
         $this->_baseCur = $baseCur ? $baseCur : $this->_jbmoney->getDefaultCur();
 
@@ -850,8 +857,7 @@ class JBCartValue
             return $this->_parse($value, $currency);
 
         } else {
-            $reg = '#(.*)(' . implode('|', $this->getCodeList()) . ')$#i';
-            if (preg_match($reg, $data, $matches)) {
+            if (preg_match('#(.*)(.{3})$#i', $data, $matches)) {
                 $value    = $matches[1];
                 $currency = $matches[2];
             }
@@ -908,7 +914,15 @@ class JBCartValue
         }
 
         if ($currency) {
-            $this->_error('Undefined currency: ' . $currency);
+
+            if ($this->_currencyMode == 'fatal') {
+                $this->_error('Undefined currency: ' . $currency);
+
+            } else if ($this->_currencyMode == 'notice') {
+                trigger_error('Undefined currency: ' . $currency, E_USER_NOTICE);
+            }
+
+            return $this->_baseCur;
         }
 
         return false;

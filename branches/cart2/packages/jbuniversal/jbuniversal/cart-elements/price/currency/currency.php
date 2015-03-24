@@ -69,7 +69,7 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
             return self::renderLayout($layout, array(
                 'list'    => $list,
                 'default' => $default,
-                'rates'   => array_intersect_key((array)$this->_jbmoney->getData(), array_flip($list))
+                'rates'   => array_intersect_key((array)$this->app->jbmoney->getData(), array_flip($list))
             ));
         }
 
