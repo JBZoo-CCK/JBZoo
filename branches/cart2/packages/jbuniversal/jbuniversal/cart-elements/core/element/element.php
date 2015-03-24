@@ -103,13 +103,14 @@ abstract class JBCartElement
         $this->_jbcartelement = $this->app->jbcartelement;
 
         $this->_data = $this->app->data->create($this->_data);
+    }
 
-        // load langs
-        $joomlLang = JFactory::getLanguage();
-        $joomlLang->load('elem_' . $this->getElementType(), $this->getPath(), null, true);
-
-        // init helpers
-        $this->_jbmoney = $this->app->jbmoney;
+    /**
+     * Load custom languages
+     */
+    protected function _loadLangs()
+    {
+        JFactory::getLanguage()->load('elem_' . $this->getElementType(), $this->getPath(), null, true);
     }
 
     /**
