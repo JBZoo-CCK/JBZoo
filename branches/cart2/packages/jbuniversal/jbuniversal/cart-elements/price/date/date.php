@@ -80,7 +80,7 @@ class JBCartElementPriceDate extends JBCartElementPrice
 
         if ($layout = $this->getLayout($template . '.php')) {
             return self::renderLayout($layout, array(
-                'data' => $this->getOptions()
+                'data' => $this->getOptions($params->get('label', true))
             ));
         }
 

@@ -23,4 +23,16 @@ if (!$this->isCore() && empty($html)) {
     $link = '<a target="_blank" href="' . $link . '">' . JText::_('JBZOO_ELEMENT_PRICE_ADD_OPTIONS') . '</a>';
     $html = JText::sprintf('JBZOO_ELEMENT_PRICE_NO_OPTIONS', $link);
 }
-echo $html;
+
+$type   = $this->getElementType();
+$isCore = ($this->isCore() ? 'core' : 'simple');
+$attr   = array(
+    'class' => array(
+        'jbprice-element',
+        'jsElement',
+        'js' . ucfirst($type),
+        'js' . ucfirst($isCore)
+    )
+);
+
+echo '<div ' . $this->_attrs($attr) . '>' . $html . '</div>';

@@ -13,13 +13,18 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$unique     = $this->htmlId(true);
 $attributes = $this->_jbhtml->buildAttrs(array(
     'rows'        => '5',
     'style'       => 'resize: vertical;',
-    'class'       => 'description',
+    'class'       => 'jsField description',
     'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_DESCRIPTION_NAME')
 ));
 
 echo '<textarea name="' . $this->getControlName('value') . '"
                 ' . $attributes . '
                 >' . $value . '</textarea>';
+
+if (!$this->isBasic()) {
+    $this->app->jbassets->widget('.jsDescription .jsField', 'JBZoo.PriceEditElement_descriptionEdit');
+}

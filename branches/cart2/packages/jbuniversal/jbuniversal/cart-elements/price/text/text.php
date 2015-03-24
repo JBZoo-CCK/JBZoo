@@ -20,9 +20,7 @@ class JBCartElementPriceText extends JBCartElementPrice
 {
     /**
      * Check if element has value
-     *
      * @param array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
@@ -70,7 +68,7 @@ class JBCartElementPriceText extends JBCartElementPrice
 
         if ($layout = $this->getLayout($template . '.php')) {
             return self::renderLayout($layout, array(
-                'data' => $this->getOptions()
+                'data' => $this->getOptions($params->get('label', true))
             ));
         }
 

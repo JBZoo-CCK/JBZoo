@@ -160,6 +160,15 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     *  Get parameter form object to render input form
+     * @return Object
+     */
+    public function getConfigForm()
+    {
+        return parent::getConfigForm()->addElementPath(dirname(__FILE__));
+    }
+
+    /**
      * @param string $identifier
      * @return JBCartElement|mixed|null
      */
@@ -424,13 +433,18 @@ abstract class JBCartElementPrice extends JBCartElement
     public function getOptions($label = true)
     {
         $options = $this->parseOptions(false);
-        if (!$this->hasOptions() || !$this->showAll) {
+        if (!$this->hasOptions())
+        {
+            $options = $this->_jbprice->elementOptions($this->identifier);
+        }
+        elseif ($this->hasOptions() && !$this->showAll)
+        {
             $selected = $this->_jbprice->elementOptions($this->identifier);
             $options  = array_intersect_key($selected, $options);
         }
 
-        if (!empty($options) && $label) {
-            $options = array('' => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - ') + $options;
+        if (!empty($options) && isset($label)) {
+            $options = array('' => $this->getLabel($label)) + $options;
         }
 
         return $options;
@@ -448,7 +462,7 @@ abstract class JBCartElementPrice extends JBCartElement
             $options = $this->parseLines($options);
 
             if ($label) {
-                $options = array('' => ' - ' . JText::_('JBZOO_CORE_PRICE_OPTIONS_DEFAULT') . ' - ') + $options;
+                $options = array('' => $this->getLabel()) + $options;
             }
         }
 
@@ -495,6 +509,21 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     * Get label for element template
+     * @param string $label
+     * @return string
+     */
+    public function getLabel($label = '')
+    {
+        $label  = JString::trim($label);
+        if (!isset($label{1}) || $label == 'ELEMENT_NAME') {
+            $label = '- ' . $this->getName() . ' -';
+        }
+
+        return JText::_($label);
+    }
+
+    /**
      * @param  string  $name
      * @param  boolean $array
      * @return string
@@ -512,6 +541,20 @@ abstract class JBCartElementPrice extends JBCartElement
     public function getRenderName($name, $array = false)
     {
         return "{$this->hash}[{$this->identifier}][{$name}]" . ($array ? "[]" : "");
+    }
+
+    /**
+     * Load elements css/js assets
+     * @return $this
+     */
+    public function loadEditAssets()
+    {
+        $group = $this->getElementGroup();
+        $type  = $this->getElementType();
+
+        $this->app->jbassets->js('cart-elements:' . $group . '/' . $type . '/assets/js/edit.js');
+
+        return $this;
     }
 
     /**

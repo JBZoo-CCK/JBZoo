@@ -26,7 +26,7 @@
                 this.fill();
             },
 
-            'change .simple-param .jsElementData input, .simple-param .jsElementData select, .simple-param .jsElementData textarea': function (e, $this) {
+            'change .simple-param .jsElement input, .simple-param .jsElement select, .simple-param .jsElement textarea': function (e, $this) {
 
                 var $param = $(this).closest('.simple-param'),
                     $row = $param.closest('.jbprice-variation-row');

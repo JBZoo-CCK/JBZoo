@@ -87,10 +87,9 @@ class JBPriceRenderer extends PositionRenderer
      */
     public function render($layout, $args = array())
     {
-        $this->element_id   = isset($args['element_id']) ? $args['element_id'] : null;
-        $this->variant      = isset($args['variant']) ? $args['variant'] : null;
+        $this->element_id = isset($args['element_id']) ? $args['element_id'] : null;
 
-        $this->_variant = isset($args['_variant']) ? $args['_variant'] : null;
+        $this->_variant     = isset($args['_variant']) ? $args['_variant'] : null;
         $this->_priceLayout = isset($args['layout']) ? $args['layout'] : null;
 
         $result = '';
@@ -196,6 +195,7 @@ class JBPriceRenderer extends PositionRenderer
                     'last'  => ($i == $count - 1)
                 ), $data['params']);
 
+                $data['element']->loadEditAssets();
                 $output[$i] = parent::render('element.' . $style, array(
                     'element' => $data['element'],
                     'params'  => new AppData($params)

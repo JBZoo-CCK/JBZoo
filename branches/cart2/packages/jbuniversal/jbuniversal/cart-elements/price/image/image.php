@@ -171,6 +171,25 @@ class JBCartElementPriceImage extends JBCartElementPrice
     }
 
     /**
+     * Get elements value
+     * @param string $key      Array key.
+     * @param mixed  $default  Default value if data is empty.
+     * @param bool   $toString A string representation of the value.
+     * @return mixed|string
+     */
+    public function getValue($toString = false, $key = 'value', $default = null)
+    {
+        $value = parent::getValue($toString, $key, '');
+
+        if(!isset($value{0}) && $element = $this->_getElement())
+        {
+            $value = $element->get('file', $default);
+        }
+
+        return $value;
+    }
+
+    /**
      * Load elements css/js assets
      * @return $this
      */
@@ -182,6 +201,24 @@ class JBCartElementPriceImage extends JBCartElementPrice
         ));
 
         return parent::loadAssets();
+    }
+
+    /**
+     * Get related image element
+     * @return ElementJBImage|bool
+     */
+    protected function _getElement()
+    {
+        $id = $this->config->get('image', false);
+        if ($id && $jbPrice = $this->getJBPrice())
+        {
+            if ($item = $jbPrice->getItem())
+            {
+                return $item->getElement($id, false);
+            }
+        }
+
+        return false;
     }
 
 }

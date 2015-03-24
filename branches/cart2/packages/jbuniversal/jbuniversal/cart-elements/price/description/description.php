@@ -20,9 +20,7 @@ class JBCartElementPriceDescription extends JBCartElementPrice
 {
     /**
      * Check if element has value
-     *
      * @param array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
@@ -88,5 +86,4 @@ class JBCartElementPriceDescription extends JBCartElementPrice
     {
         return $this->render($params);
     }
-
 }

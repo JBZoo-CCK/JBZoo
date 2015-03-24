@@ -69,7 +69,7 @@ class JBCartElementPriceSelect extends JBCartElementPrice
         $template = $params->get('template', 'radio');
         if ($layout = $this->getLayout($template . '.php')) {
             return self::renderLayout($layout, array(
-                'data' => $this->getOptions()
+                'data' => $this->getOptions((string)$params->get('label', true))
             ));
         }
 

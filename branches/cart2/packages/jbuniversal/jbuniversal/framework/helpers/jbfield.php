@@ -103,7 +103,6 @@ class JBFieldHelper extends AppHelper
     public function jbApplication($name, $value, $control_name, SimpleXMLElement $node, $parent)
     {
         // init vars
-        //$params = $this->app->parameterform->convertParams($parent);
         $table = $this->app->table->application;
 
         // set modes
