@@ -45,7 +45,8 @@ class JBPriceFilterElementBalance extends JBPriceFilterElement
     protected function _getValues($type = null)
     {
         $default = array(
-            1 => JText::_('JBZOO_JBPRICE_AVAILABLE'),
+            '' => JText::_('JBZOO_ALL'),
+            1  => JText::_('JBZOO_JBPRICE_AVAILABLE'),
         );
 
         return $default;
