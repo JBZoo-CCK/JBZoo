@@ -440,7 +440,10 @@ class JBCartVariant extends ArrayObject
         $_data = (array)$element->data();
         if ($this->list instanceof JBCartVariantList && !$this->isBasic())
         {
-            $data['_basic'] = $this->list->first()->getValue(true, $element->identifier);
+            $basic = $this->list->first()->getValue(true, $element->identifier);
+            if (!empty($basic)) {
+                $data['_basic'] = $basic;
+            }
         }
 
         if (!empty($data))
