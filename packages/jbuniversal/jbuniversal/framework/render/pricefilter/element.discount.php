@@ -25,6 +25,7 @@ class JBPriceFilterElementDiscount extends JBPriceFilterElement
     public function html()
     {
         $options = $this->_getValues();
+        unset($this->_attrs['id']);
 
         return $this->html->buttonsJQueryUI(
             $this->_createOptionsList($options),

@@ -351,32 +351,29 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
             foreach ($_list->first()->all() as $id => $element) {
                 $value = $element->getSearchData();
 
-                if (!empty($value)) {
-                    $d = $s = $n = null;
-                    if ($value instanceof JBCartValue) {
-                        $s = $value->data(true);
-                        $n = $value->val();
-                    } elseif (isset($value{0})) {
-                        $s = $value;
-                        $n = $this->isNumeric($value) ? $value : null;
-                        $d = $this->isDate($value) ? $value : null;
-                    }
+                $d = $s = $n = null;
+                if ($value instanceof JBCartValue) {
+                    $s = $value->data(true);
+                    $n = $value->val();
+                } else {
+                    $s = $value;
+                    $n = $this->isNumeric($value) ? $value : null;
+                    $d = $this->isDate($value) ? $value : null;
+                }
 
-                    if (isset($s) || isset($n) || isset($d)) {
-                        $data[self::BASIC_VARIANT . $id] = array(
-                            'item_id'    => $item_id,
-                            'element_id' => $this->identifier,
-                            'param_id'   => $id,
-                            'value_s'    => $s,
-                            'value_n'    => $n,
-                            'value_d'    => $d,
-                            'variant'    => self::BASIC_VARIANT
-                        );
-                    }
+                if (isset($s{1}) || is_int($n) || isset($d{1})) {
+                    $data[self::BASIC_VARIANT . $id] = array(
+                        'item_id'    => $item_id,
+                        'element_id' => $this->identifier,
+                        'param_id'   => $id,
+                        'value_s'    => $s,
+                        'value_n'    => $n,
+                        'value_d'    => $d,
+                        'variant'    => self::BASIC_VARIANT
+                    );
                 }
             }
         }
-        $this->_list = $this->_params = $this->params = null;
 
         return $data;
     }
