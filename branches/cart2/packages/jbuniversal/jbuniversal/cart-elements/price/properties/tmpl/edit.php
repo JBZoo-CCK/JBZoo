@@ -14,13 +14,13 @@
 defined('_JEXEC') or die('Restricted access');
 
 $_height = array(
-    'placeholder' => JText::_('JBZOO_PRICE_PROPERTIES_HEIGHT')
+    'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_HEIGHT_UNIT')
 );
 $_length = array(
-    'placeholder' => JText::_('JBZOO_PRICE_PROPERTIES_LENGTH')
+    'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_LENGTH_UNIT')
 );
 $_width  = array(
-    'placeholder' => JText::_('JBZOO_PRICE_PROPERTIES_WIDTH')
+    'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_WIDTH_UNIT')
 ); ?>
 
 <div class="jbprice-properties">

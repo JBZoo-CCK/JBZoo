@@ -14,6 +14,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 echo
-'<div class="jbprice-height jsPriceHeight">', JText::_('JBZOO_PRICE_PROPERTIES_HEIGHT'), ': ', $height, '</div>',
-'<div class="jbprice-length jsPriceLength">', JText::_('JBZOO_PRICE_PROPERTIES_LENGTH'), ': ', $length, '</div>',
-'<div class="jbprice-width jsPriceWidth">', JText::_('JBZOO_PRICE_PROPERTIES_WIDTH'), ': ', $width, '</div>';
+'<div class="jbprice-height jsPriceHeight">', JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_HEIGHT_UNIT'), ': ', $height, '</div>',
+'<div class="jbprice-length jsPriceLength">', JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_LENGTH_UNIT'), ': ', $length, '</div>',
+'<div class="jbprice-width jsPriceWidth">', JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_WIDTH_UNIT'), ': ', $width, '</div>';

@@ -14,5 +14,5 @@
 defined('_JEXEC') or die('Restricted access');
 
 echo $this->_jbhtml->text($this->getControlName('value'), $value, $this->_jbhtml->buildAttrs(array(
-    'placeholder' => JText::_('JBZOO_PRICE_WEIGHT_WEIGHT')
+    'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_WEIGHT_UNIT')
 )));
