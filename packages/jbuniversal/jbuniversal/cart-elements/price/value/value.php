@@ -30,12 +30,9 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $value = $this->get('value', 0);
-        if (!isset($value) || empty($value)) {
-            return false;
-        }
+        $value = $this->get('value', '');
 
-        return true;
+        return (!empty($value)) || ((int)$params->get('show_empty', 1) && $value === '0');
     }
 
     /**
@@ -46,7 +43,7 @@ class JBCartElementPriceValue extends JBCartElementPrice
     {
         $prices = $this->getPrices();
 
-        return $prices['total'];
+        return JBCart::val($prices['total']);
     }
 
     /**
@@ -83,7 +80,8 @@ class JBCartElementPriceValue extends JBCartElementPrice
                 'price'    => JBCart::val($prices['price']),
                 'save'     => JBCart::val($prices['save'])->abs(),
                 'discount' => JBCart::val($discount)->abs(),
-                'currency' => $this->currency()
+                'currency' => $this->currency(),
+                'message'  => JString::trim($params->get('empty_text', ''))
             ));
         }
 
@@ -115,13 +113,11 @@ class JBCartElementPriceValue extends JBCartElementPrice
     {
         $value = parent::getValue($toString, $key, $default);
 
-        if($this->isBasic())
-        {
+        if ($this->isBasic()) {
             $value = $this->clearSymbols($value);
         }
 
-        if ($toString)
-        {
+        if ($toString) {
             return $value;
         }
 

@@ -722,22 +722,8 @@ class JBAssetsHelper extends AppHelper
                         );
                     },
                     change: function(event, ui) {
-                        var element = $(".jsPriceAutoCompleteValue", $(this).parent());
-
-                        if(ui.item) {
-                            element.val(ui.item.id).removeAttr("disabled");
-                        } else {
-                            element.val(null).attr("disabled", true);
-                        }
                     },
                     select: function(event, ui) {
-                        var element = $(".jsPriceAutoCompleteValue", $(this).parent());
-
-                        if(ui.item) {
-                            element.val(ui.item.id).removeAttr("disabled");
-                        } else {
-                            element.val(null).attr("disabled", true);
-                        }
                     }
                 });
             })');

@@ -23,14 +23,18 @@
 
         <param name="only_price_mode" type="list" default="1" label="JBZOO_JBPRICE_ONLY_PRICE_MODE"
                description="JBZOO_JBPRICE_ONLY_PRICE_MODE_DESC">
-
             <option value="1">JBZOO_JBPRICE_ONLY_PRICE_MODE_FULL</option>
             <option value="2">JBZOO_JBPRICE_ONLY_PRICE_MODE_PRICE</option>
             <option value="3">JBZOO_JBPRICE_ONLY_PRICE_MODE_TOTAL</option>
             <option value="4">JBZOO_JBPRICE_ONLY_PRICE_MODE_DISCOUNT</option>
             <option value="5">JBZOO_JBPRICE_ONLY_PRICE_MODE_SAVE</option>
-
         </param>
+
+        <param name="show_empty" type="jbbool" default="1" label="JBZOO_JBPRICE_SHOW_EMPTY_VALUE"
+               description="JBZOO_JBPRICE_SHOW_EMPTY_VALUE_DESC"/>
+
+        <param name="empty_text" type="text" default="" label="JBZOO_JBPRICE_EMPTY_VALUE_TEXT"
+               description="JBZOO_JBPRICE_EMPTY_VALUE_TEXT_DESC"/>
 
     </params>
 
@@ -69,10 +73,10 @@
                description="JBZOO_FILTER_SLIDER_STEP_DESC"/>
 
         <param name="jbzoo_filter_default" type="text" label="JBZOO_FILTER_DEFAULT"
-               description="JBZOO_FILTER_DEFAULT_DESC" />
+               description="JBZOO_FILTER_DEFAULT_DESC"/>
 
         <param name="jbzoo_filter_placeholder" type="text" label="JBZOO_FILTER_PLACEHOLDER"
-               description="JBZOO_FILTER_PLACEHOLDER_DESC" />
+               description="JBZOO_FILTER_PLACEHOLDER_DESC"/>
 
     </params>
 

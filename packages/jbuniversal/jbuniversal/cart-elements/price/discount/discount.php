@@ -26,19 +26,12 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
 
     /**
      * Check if element has value
-     *
      * @param array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
     {
-        $value = $this->get('value', 0);
-        if (!isset($value) || empty($value)) {
-            return false;
-        }
-
-        return true;
+        return (!$this->getValue()->isEmpty()) || ((int)$params->get('show_empty', 1));
     }
 
     /**
@@ -47,7 +40,7 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
      */
     public function getSearchData()
     {
-        return ((int)$this->get('value', 0) === 0);
+        return (int)(!JBCart::val($this->get('value', 0))->isEmpty());
     }
 
     /**
@@ -59,8 +52,8 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
         $layout = $this->isOverlay ? 'disabled' : 'edit';
         if ($layout = $this->getLayout($layout . '.php')) {
             return self::renderEditLayout($layout, array(
-                'value' => $this->get('value', ''),
-                'message'  => JText::sprintf('JBZOO_JBPRICE_CALC_PARAM_CANT_USE', '<strong>' . $this->getElementType() . '</strong>')
+                'value'   => $this->get('value', ''),
+                'message' => JText::sprintf('JBZOO_JBPRICE_CALC_PARAM_CANT_USE', '<strong>' . $this->getElementType() . '</strong>')
             ));
         }
 
@@ -68,23 +61,22 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
     }
 
     /**
-     * @param  array $params
-     *
-     * @return array|mixed|null|string
+     * Renders the element
+     * @param array $params
+     * @return mixed|string
      */
     public function render($params = array())
     {
-        $prices = $this->getPrices();
-        if (!$prices['save'] < 0) {
-            $prices['save'] = 0;
-        }
+        $prices   = $this->getPrices();
+        $discount = JBCart::val($prices['save']);
 
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
-                'price'    => $prices['price'],
-                'discount' => JBCart::val($prices['save'])->positive(),
+                'price'    => JBCart::val($prices['price']),
+                'discount' => $discount->positive(),
                 'mode'     => $params->get('sale_show', self::SALE_VIEW_ICON_VALUE),
-                'currency' => $this->currency()
+                'currency' => $this->currency(),
+                'message'  => JString::trim($params->get('empty_text', ''))
             ));
         }
 
@@ -112,13 +104,11 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
     {
         $value = parent::getValue($toString, $key, $default);
 
-        if($this->isBasic())
-        {
+        if ($this->isBasic()) {
             $value = $this->clearSymbols($value);
         }
 
-        if ($toString)
-        {
+        if ($toString) {
             return $value;
         }
 

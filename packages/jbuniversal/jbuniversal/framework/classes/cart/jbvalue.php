@@ -815,7 +815,10 @@ class JBCartValue
             }
 
         } else if (self::ACT_PERCENT == $action) {
-            $percent = ($this->_value / $value->val($this->_currency)) * 100;
+            $percent = 0.0;
+            if (!$this->isEmpty() && !$value->isEmpty()) {
+                $percent = ($this->_value / $value->val($this->_currency)) * 100;
+            }
             return JBCart::val($percent, self::PERCENT);
 
         } else {

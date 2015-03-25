@@ -13,24 +13,22 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if ($mode == JBCartElementPriceDiscount::SALE_VIEW_ICON_SIMPLE) : ?>
+if ($discount->isEmpty() && isset($message{1})) {
+    echo $message;
+} elseif ($mode == JBCartElementPriceDiscount::SALE_VIEW_ICON_SIMPLE) { ?>
     <span class="sale-icon-simple"> </span>
-<?php endif;
-
-if ($mode == JBCartElementPriceDiscount::SALE_VIEW_ICON_VALUE) : ?>
+<?php } elseif ($mode == JBCartElementPriceDiscount::SALE_VIEW_ICON_VALUE) { ?>
     <span class="sale-icon-empty"><?php echo $discount->html($currency); ?></span>
-<?php endif;
-
-if ($mode == JBCartElementPriceDiscount::SALE_VIEW_TEXT_SIMPLE) :
+<?php } elseif ($mode == JBCartElementPriceDiscount::SALE_VIEW_TEXT_SIMPLE) {
     echo
     '<span class="jbprice-price">
          <span class="save discount-less">
              <span class="jsSave">'
-                , $discount->html($currency),
-            '</span>
+    , $discount->html($currency),
+    '</span>
             <span class="discount">('
-            , $discount->percent($price)->html($currency),
-            ')</span>
+    , $discount->percent($price)->html($currency),
+    ')</span>
         </span>
     </span>';
-endif;
+}

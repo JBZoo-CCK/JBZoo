@@ -23,13 +23,16 @@
 
         <param name="sale_show" type="list" default="4" label="JBZOO_ELEMENT_PRICE_DISCOUNT_SALE_SHOW"
                description="JBZOO_ELEMENT_PRICE_DISCOUNT_SALE_SHOW_DESC">
-
             <option value="2">JBZOO_JBPRICE_SALE_TEXT_SIMPLE</option>
             <option value="3">JBZOO_JBPRICE_SALE_ICON_SIMPLE</option>
             <option value="4">JBZOO_JBPRICE_SALE_ICON_VALUE</option>
-
         </param>
 
+        <param name="show_empty" type="jbbool" default="1" label="JBZOO_JBPRICE_SHOW_EMPTY_VALUE"
+               description="JBZOO_JBPRICE_SHOW_EMPTY_VALUE_DESC"/>
+
+        <param name="empty_text" type="text" default="" label="JBZOO_JBPRICE_EMPTY_VALUE_TEXT"
+               description="JBZOO_JBPRICE_EMPTY_VALUE_TEXT_DESC"/>
     </params>
 
     <params group="filter">

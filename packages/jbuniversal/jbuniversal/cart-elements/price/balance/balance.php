@@ -40,8 +40,11 @@ class JBCartElementPriceBalance extends JBCartElementPrice
     public function getSearchData()
     {
         $value = $this->getValue();
+        if ($value == self::AVAILABLE || $value > 0) {
+            return 1;
+        }
 
-        return $value;
+        return 0;
     }
 
     /**

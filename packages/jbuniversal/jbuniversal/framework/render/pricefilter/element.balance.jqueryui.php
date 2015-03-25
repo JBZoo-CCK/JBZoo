@@ -18,5 +18,14 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBPriceFilterElementBalanceJQueryUI extends JBPriceFilterElementBalance
 {
+    /**
+     * Render HTML code for element
+     * @return string|null
+     */
+    public function html()
+    {
+         unset($this->_attrs['id']);
 
+        return parent::html();
+    }
 }

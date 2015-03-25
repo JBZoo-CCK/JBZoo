@@ -80,7 +80,6 @@ class JBModelElementJBPrice extends JBModelElement
         if (empty($data)) {
             return null;
         }
-
         $isFirst  = 0;
         $logic    = 'AND';
         $all      = array();
@@ -125,6 +124,9 @@ class JBModelElementJBPrice extends JBModelElement
                         $string = $this->_date($string);
                         $where->where($string, null, $inParams);
 
+                    } elseif($this->isNumeric($string)) {
+                        $where->where('tValues.value_n = ?', $string, $inParams);
+
                     } elseif ($exact) {
                         $where->where('tValues.value_s = ?', $string, $inParams);
 
@@ -137,12 +139,12 @@ class JBModelElementJBPrice extends JBModelElement
             $all[] = '(' . $where->__toString() . ')';
         }
 
-        $query  = $this->_getSelect()
-                       ->clear()
-                       ->select('tAll.id')
-                       ->from('(' . implode('UNION ALL', $all) . ') as tAll')
-                       ->group('tAll.id')
-                       ->having('COUNT(tAll.id) = ?', count($all));
+        $query = $this->_getSelect()
+                      ->clear()
+                      ->select('tAll.id')
+                      ->from('(' . implode('UNION ALL', $all) . ') as tAll')
+                      ->group('tAll.id')
+                      ->having('COUNT(tAll.id) = ?', count($all));
         $idList = $this->_groupBy($this->fetchAll($query), 'id');
 
         if (!empty($idList)) {
@@ -183,7 +185,6 @@ class JBModelElementJBPrice extends JBModelElement
 
         $iterator  = new RecursiveArrayIterator($values);
         $recursive = new RecursiveIteratorIterator($iterator);
-
         foreach ($recursive as $key => $value) {
 
             $value = JString::trim($value);
@@ -288,8 +289,8 @@ class JBModelElementJBPrice extends JBModelElement
     protected function _date($date)
     {
         return array("tValues.value_d BETWEEN"
-            . " STR_TO_DATE('" . $date[0] . "', ' % Y -%m -%d % H:%i:%s') AND"
-            . " STR_TO_DATE('" . $date[1] . "', ' % Y -%m -%d % H:%i:%s')"
+                     . " STR_TO_DATE('" . $date[0] . "', ' % Y -%m -%d % H:%i:%s') AND"
+                     . " STR_TO_DATE('" . $date[1] . "', ' % Y -%m -%d % H:%i:%s')"
         );
     }
 
@@ -334,6 +335,15 @@ class JBModelElementJBPrice extends JBModelElement
         $d = DateTime::createFromFormat($format, $date);
 
         return $d && $d->format($format) == $date;
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    protected function isNumeric($value)
+    {
+        return $this->app->jbprice->isNumeric($value);
     }
 
     /**
