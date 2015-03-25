@@ -15,7 +15,10 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 <div class="jbPriceElementValue">
 
-    <?php if ($mode == JBCartElementPriceValue::PRICE_VIEW_FULL) : ?>
+    <?php if ($total->isEmpty() && isset($message{1})) {
+        echo $message;
+
+    } elseif ($mode == JBCartElementPriceValue::PRICE_VIEW_FULL) { ?>
         <div class="jbprice-price">
 
             <?php if ($discount->isEmpty()) : ?>
@@ -59,32 +62,24 @@ defined('_JEXEC') or die('Restricted access'); ?>
             <?php endif; ?>
 
         </div>
-    <?php endif;
-
-    if ($mode == JBCartElementPriceValue::PRICE_VIEW_PRICE) : ?>
+    <?php } elseif ($mode == JBCartElementPriceValue::PRICE_VIEW_PRICE) { ?>
         <span class="jsPrice price"><?php echo $price->html($currency); ?></span>
-    <?php endif;
-
-    if ($mode == JBCartElementPriceValue::PRICE_VIEW_TOTAL) : ?>
+    <?php } elseif ($mode == JBCartElementPriceValue::PRICE_VIEW_TOTAL) { ?>
         <span class="jbprice-price">
             <span class="jsTotal total">
                 <?php echo $total->html($currency); ?>
             </span>
         </span>
-    <?php endif;
-
-    if ($mode == JBCartElementPriceValue::PRICE_VIEW_DISCOUNT && !$discount->isEmpty()) :
+    <?php } elseif ($mode == JBCartElementPriceValue::PRICE_VIEW_DISCOUNT && !$discount->isEmpty()) {
 
         if ($discount->isPositive() > 0) : ?>
             <span class="price">+<?php echo $discount->html($currency); ?></span>
         <?php else : ?>
             <span class="price">+<?php echo $discount->html($currency); ?></span>
         <?php endif;
-    endif;
-
-    if ($mode == JBCartElementPriceValue::PRICE_VIEW_SAVE && $save->isPositive()) : ?>
+    } elseif ($mode == JBCartElementPriceValue::PRICE_VIEW_SAVE && $save->isPositive()) { ?>
         <span class="jsSave discount">
             <?php echo $save->html($currency); ?>
         </span>
-    <?php endif; ?>
+    <?php } ?>
 </div>

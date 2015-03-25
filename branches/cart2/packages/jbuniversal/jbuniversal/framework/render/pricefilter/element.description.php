@@ -44,18 +44,12 @@ class JBPriceFilterElementDescription extends JBPriceFilterElement
     public function html()
     {
         $value = (array)$this->_value;
-        $html  = array($this->html->text(
+        $html  = $this->html->text(
             $this->_getName(),
             $value[0],
             $this->_attrs,
-            $this->_getId('description-')
-        ));
+            $this->_getId('description-'));
 
-        $isAuto = (int)$this->_params->get('jbzoo_filter_autocomplete', 0);
-        if ($isAuto) {
-            $html[] = parent::autoCompleteInput();
-        }
-
-        return implode($html);
+        return $html;
     }
 }

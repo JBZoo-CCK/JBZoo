@@ -28,10 +28,10 @@ class JBPriceFilterElementBalance extends JBPriceFilterElement
 
         return $this->html->buttonsJQueryUI(
             $options,
-            $this->_getName(null, 'id'),
+            $this->_getName(),
             $this->_attrs,
             $this->_value,
-            $this->_getId('balance')
+            $this->_getId('balance', true)
         );
     }
 
@@ -45,9 +45,7 @@ class JBPriceFilterElementBalance extends JBPriceFilterElement
     protected function _getValues($type = null)
     {
         $default = array(
-            '-2' => JText::_('JBZOO_JBPRICE_BALANCE_UNDER_ORDER'),
-            '-1' => JText::_('JBZOO_JBPRICE_AVAILABLE'),
-            '0'  => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE')
+            1 => JText::_('JBZOO_JBPRICE_AVAILABLE'),
         );
 
         return $default;

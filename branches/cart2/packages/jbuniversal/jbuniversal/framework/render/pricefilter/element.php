@@ -336,18 +336,6 @@ class JBPriceFilterElement
     }
 
     /**
-     * @return string
-     */
-    public function autoCompleteInput()
-    {
-        $value = (array)$this->_value;
-
-        return $this->html->hidden($this->_getName(null, 'id'), isset($value['id']) ? $value['id'] : $value[0],
-            array('class' => 'jsPriceAutoCompleteValue'), $this->_getId('sku-value')
-        );
-    }
-
-    /**
      * Get placeholder text
      * @return string
      */
@@ -394,7 +382,7 @@ class JBPriceFilterElement
         }
 
         if ($isAutocomplete) {
-            $this->app->jbassets->initPriceAutocomplete();
+            $this->app->jbassets->initPriceAutoComplete();
 
             $attrs['class'][]     = 'jsPriceAutoComplete';
             $attrs['placeholder'] = $this->_getPlaceholder();

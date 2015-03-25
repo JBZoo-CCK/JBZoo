@@ -33,15 +33,12 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
         $html     = null;
 
         if ($template == self::TEMPLATE_SLIDER) {
-
-            $html = $this->renderSlider($value);
+            $html = $this->renderSlider();
 
         } else if ($template == self::TEMPLATE_RANGE) {
-
             $html = $this->renderRange($value);
 
         } else if ($template == self::TEMPLATE_SIMPLE) {
-
             $html = $this->renderText($value);
         }
 
@@ -54,14 +51,12 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
 
     /**
      * Render slider template
-     *
-     * @param $value
-     *
      * @return string
      */
-    public function renderSlider($value)
+    public function renderSlider()
     {
-        $categoryId = null;
+        /*
+         *         $categoryId = null;
         $params     = array(
             'auto' => (int)$this->_params->get('jbzoo_filter_slider_auto', 0),
             'min'  => $this->_params->get('jbzoo_filter_slider_min', 0),
@@ -106,6 +101,48 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
         $html = '<div class="jbslider">' .
             $this->html->slider($params, $value['range'], $this->_getName('range'),
                 $this->_getId('range', true)) .
+            '</div>';
+
+        return $html;
+         */
+        $categoryId = $min = $max = null;
+        $params     = array(
+            'auto' => (int)$this->_params->get('jbzoo_filter_slider_auto', 0),
+            'min'  => $this->_params->get('jbzoo_filter_slider_min', 0),
+            'max'  => $this->_params->get('jbzoo_filter_slider_max', 10000),
+            'step' => $this->_params->get('jbzoo_filter_slider_step', 100),
+        );
+        $cur = JBCart::val();
+        if ($params['auto']) {
+            $applicationId = (int)$this->_params->get('item_application_id', 0);
+            $isCatDepend   = (int)$this->_params->moduleParams->get('depend_category');
+
+            $itemType = $this->_params->get('item_type', null);
+            if ($isCatDepend) {
+                $categoryId = $this->app->jbrequest->getSystem('category');
+            }
+
+            $rangesData = (array)JBModelValues::model()->getRangeByPrice(
+                $this->_jbprice->identifier,
+                $itemType,
+                $applicationId,
+                $categoryId
+            );
+            $to  = $this->_params->get('jbzoo_filter_currency_default', 'EUR');
+
+            $min = JBCart::val($rangesData['total_min'] . $cur->cur());
+            $max = JBCart::val($rangesData['total_max'] . $cur->cur());
+
+            $min_str = floor($min->convert($to)->val());
+            $max_str = ceil($max->convert($to)->val());
+            $params  = array_merge($params, array(
+                'min' => $min_str,
+                'max' => $max_str
+            ));
+        }
+        $id   = $this->_getId('range', true);
+        $html = '<div class="' . $id . '-jbslider">' .
+            $this->html->slider($params, array($min, $max), $this->_getName(null, 'range'), $id, $cur->cur()) .
             '</div>';
 
         return $html;

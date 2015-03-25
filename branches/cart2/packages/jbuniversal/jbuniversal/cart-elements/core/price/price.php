@@ -145,8 +145,9 @@ abstract class JBCartElementPrice extends JBCartElement
     abstract public function edit();
 
     /**
-     * @param  array $params
-     * @return array|mixed|null|string
+     * Renders the element
+     * @param array $params
+     * @return mixed|string
      */
     public function render($params = array())
     {
@@ -673,6 +674,7 @@ abstract class JBCartElementPrice extends JBCartElement
         $this->_data  = clone($this->_data);
         $this->config = clone($this->config);
         $this->prices = null;
+        $this->variant = null;
     }
 }
 

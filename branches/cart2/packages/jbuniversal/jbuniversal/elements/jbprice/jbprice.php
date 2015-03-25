@@ -222,9 +222,10 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     {
         $hash = $this->hash();
         $this->loadAssets();
-        if (!$this->isCache || $this->isCache && !$cache = $this->_cache->get($hash, 'price_elements', true)) {
 
-            $params          = new AppData($params);
+        if (!$this->isCache || $this->isCache && !$cache = $this->_cache->get($hash, 'price_elements', true)) {
+            $params = new AppData($params);
+
             $this->_template = $params->get('template', 'default');
             $this->_layout   = $params->get('_layout');
 
@@ -691,7 +692,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public function getIndexData()
     {
         $variations = (array)$this->get('variations', array());
-        $data = array();
+        $data       = array();
         if (!empty($variations)) {
 
             $list = $this->getList($variations);
@@ -702,35 +703,34 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             unset($_config, $_tmpl);*/
 
             /** @type JBCartVariant $variant */
-            foreach ($list as $key => $variant) {
+            foreach ($list->all() as $key => $variant) {
+                $this->setDefault($key);
                 foreach ($variant->all() as $id => $element) {
                     $value = $element->getSearchData();
 
-                    if (!empty($value)) {
-                        $d = $s = $n = null;
-                        if ($value instanceof JBCartValue) {
-                            $s = $value->data(true);
-                            $n = $value->val();
+                    $d = $s = $n = null;
+                    if ($value instanceof JBCartValue) {
+                        $s = $value->data(true);
+                        $n = $value->val();
+                    } else {
+                        $s = (string)$value;
+                        $n = $this->isNumeric($value) ? $value : null;
+                        $d = $this->isDate($value) ? $value : null;
+                    }
 
-                        } elseif (isset($value{0})) {
-                            $s = $value;
-                            $n = $this->isNumeric($value) ? $value : null;
-                            $d = $this->isDate($value) ? $value : null;
-                        }
-
-                        if (isset($s) || isset($n) || isset($d)) {
-                            $data[$key . $id] = array(
-                                'item_id'    => $this->_item->id,
-                                'element_id' => $this->identifier,
-                                'param_id'   => $id,
-                                'value_s'    => $s,
-                                'value_n'    => $n,
-                                'value_d'    => $d,
-                                'variant'    => $key
-                            );
-                        }
+                    if (isset($s{1}) || is_int($n) || isset($d{1})) {
+                        $data[$variant->getId() . $id] = array(
+                            'item_id'    => $this->_item->id,
+                            'element_id' => $this->identifier,
+                            'param_id'   => $id,
+                            'value_s'    => $s,
+                            'value_n'    => $n,
+                            'value_d'    => $d,
+                            'variant'    => $variant->getId()
+                        );
                     }
                 }
+
             }
         }
 
@@ -818,6 +818,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                     'identifier' => $identifier,
                     'config'     => $config,
                     'class'      => 'JBCartElement' . $group . $type,
+                    'variant'    => $variant
                 ))
                 ) {
                     if (!$element->canAccess()) {

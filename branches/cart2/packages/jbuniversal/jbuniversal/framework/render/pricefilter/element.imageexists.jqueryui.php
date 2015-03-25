@@ -25,13 +25,14 @@ class JBPRiceFilterElementImageExistsJqueryUI extends JBPriceFilterElement
     public function html()
     {
         $options = $this->_getValues();
+        unset($this->_attrs['id']);
 
         return $this->html->buttonsJQueryUI(
             $this->_createOptionsList($options),
             $this->_getName(null, 'id'),
             $this->_attrs,
             $this->_value,
-            $this->_getId()
+            $this->_getId(null, true)
         );
     }
 
@@ -44,14 +45,14 @@ class JBPRiceFilterElementImageExistsJqueryUI extends JBPriceFilterElement
     {
         $values  = (array)$this->_getDbValues();
         $default = array(
-            JBCartElementPriceImage::IMAGE_EXISTS    => array(
+            1    => array(
                 'text'  => JText::_('JBZOO_YES'),
-                'value' => JBCartElementPriceImage::IMAGE_EXISTS,
+                'value' => 1,
                 'count' => null
             ),
-            JBCartElementPriceImage::IMAGE_NO_EXISTS => array(
+            0 => array(
                 'text'  => JText::_('JBZOO_NO'),
-                'value' => JBCartElementPriceImage::IMAGE_NO_EXISTS,
+                'value' => 0,
                 'count' => null
             )
         );

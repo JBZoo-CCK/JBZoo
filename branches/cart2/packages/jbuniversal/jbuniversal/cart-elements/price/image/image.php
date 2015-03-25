@@ -214,7 +214,7 @@ class JBCartElementPriceImage extends JBCartElementPrice
         {
             if ($item = $jbPrice->getItem())
             {
-                return $item->getElement($id, false);
+                return $item->getElement($id);
             }
         }
 

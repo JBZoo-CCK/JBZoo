@@ -207,8 +207,8 @@ class JBCartVariant extends ArrayObject
         }
 
         $this->hash = md5(serialize(array_filter(array_map(create_function('$element',
-                'return JString::strlen($element->getValue(true)) > 0 && $element->isCore() == false ? $element->getValue(true) : null;'), $this->all())
-        )));
+            'return JString::strlen($element->getValue(true)) > 0 && $element->isCore() == false ? $element->getValue(true) : null;'), $this->all()
+        ))));
 
         return $this->hash;
     }
