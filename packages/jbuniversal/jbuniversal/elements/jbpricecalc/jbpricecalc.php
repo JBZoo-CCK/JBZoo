@@ -292,8 +292,8 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
      */
     public function bindVariant(JBCartVariant $variant)
     {
-        if(isset($this->_item)) {
-            $simple   = $variant->simple();
+        if (isset($this->_item)) {
+            $simple = $variant->simple();
 
             $values     = (array)$this->_item->elements->find($this->identifier . '.values', array());
             $selected   = (array)$this->_item->elements->find($this->identifier . '.selected', array());
@@ -301,18 +301,18 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
 
             $variations[$variant->getId()] = $variant->data();
 
-            if(!$variant->isBasic()) {
+            if (!$variant->isBasic()) {
                 $values[$variant->getId()] = array_filter(array_map(create_function('$element',
-                        'return JString::strlen($element->getValue(true)) > 0 ? (array)$element->data() : null;'), $simple)
-                );
+                    'return JString::strlen($element->getValue(true)) > 0 ? (array)$element->data() : null;'), $simple
+                ));
 
                 $_selected = array_filter(array_map(create_function('$element', 'return JString::strlen($element->getValue(true)) > 0
-                ? array(JString::trim($element->getValue(true)) => $element->getValue(true)) : null;'), $simple)
+                ? array(JString::trim($element->getValue(true)) . \'.\' . $element->variant => JString::trim($element->getValue(true))) : null;'), $simple)
                 );
 
                 if ($_selected) {
                     foreach ($_selected as $key => $value) {
-                        $selected[$key . '.' . $variant->getId()] = array_merge(isset($selected[$key]) ? $selected[$key] : array(), (array)$value);
+                        $selected[$key] = array_merge(isset($selected[$key]) ? $selected[$key] : array(), (array)$value);
                     }
                 }
             }
