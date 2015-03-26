@@ -432,7 +432,7 @@ class JBCart
         }
 
         $shipping = array('_shipping_id' => $currentId);
-        if (isset($session['shipping'][$currentId])) {
+        if (isset($session['shipping']) && isset($session['shipping'][$currentId])) {
             $shipping = $session['shipping'][$currentId];
         }
 
