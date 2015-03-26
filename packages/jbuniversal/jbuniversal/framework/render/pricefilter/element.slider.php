@@ -42,7 +42,7 @@ class JBPriceFilterElementSlider extends JBPriceFilterElement
             $params = array_merge($params, $ranges);
         }
 
-        return $this->app->jbhtml->slider(
+        return $this->html->slider(
             $params,
             $value,
             $this->_getName(),

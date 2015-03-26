@@ -24,7 +24,7 @@ class JBPriceFilterElementJBColor extends JBPriceFilterElement
      */
     public function html()
     {
-        if ((int)$this->_params->get('jbzoo_filter_multiple', 1)) {
+        if ((int)$this->_params->get('multiple', 1)) {
             $type    = 'checkbox';
             $postfix = null;
             $id      = 'id';
