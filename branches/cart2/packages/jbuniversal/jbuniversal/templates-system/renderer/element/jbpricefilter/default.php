@@ -13,7 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 // create label
 $label = '';
 if (isset($params['showlabel']) && $params['showlabel']) {
@@ -23,15 +22,18 @@ if (isset($params['showlabel']) && $params['showlabel']) {
 }
 
 // create class attribute
-$classes = array_filter(array(
-    'filter-element-row',
-    'element-' . $params['type'],
-    'element-price-param ' . $element->isCore() ? 'core-param' : 'simple-param',
-    'jsPriceFilterParam',
-    'clearfix'
-));
-?>
+$attrs = array(
+    'class' => array(
+        'filter-element',
+        'filter-element-row',
+        'element-' . $params['type'],
+        'element-price-param ' . $element->isCore() ? 'core-param' : 'simple-param',
+        'jsElement',
+        'clear clr'
+    ));
 
-<div class="<?php echo implode(' ', $classes); ?>">
-    <?php echo $label . $elementHTML; ?>
-</div>
+echo '<div ' . $this->app->jbhtml->buildAttrs($attrs) . '/>'
+, $label
+, $elementHTML
+, '</div>';
+

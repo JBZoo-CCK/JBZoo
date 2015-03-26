@@ -14,7 +14,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 if ($discount->isEmpty() && isset($message{1})) {
-    echo $message;
+    echo JText::_($message);
 } elseif ($mode == JBCartElementPriceDiscount::SALE_VIEW_ICON_SIMPLE) { ?>
     <span class="sale-icon-simple"> </span>
 <?php } elseif ($mode == JBCartElementPriceDiscount::SALE_VIEW_ICON_VALUE) { ?>
