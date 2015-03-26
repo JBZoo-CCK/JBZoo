@@ -24,7 +24,10 @@ class JBCartElementPriceProperties extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        if ($this->count()) {
+        $length = $this->getValue(true, 'length');
+        $height = $this->getValue(true, 'height');
+        $width  = $this->getValue(true, 'width');
+        if (!empty($length) || !empty($height) || !empty($width)) {
             return true;
         }
 
@@ -69,20 +72,18 @@ class JBCartElementPriceProperties extends JBCartElementPrice
     /**
      * Get elements value
      * @param array $key      Array key.
-     * @param mixed  $default  Default value if data is empty.
-     * @param bool   $toString A string representation of the value.
+     * @param mixed $default  Default value if data is empty.
+     * @param bool  $toString A string representation of the value.
      * @return mixed|string
      */
     public function getValue($toString = false, $key = array('height', 'length', 'width'), $default = null)
     {
-        if($toString && is_string($key))
-        {
+        if ($toString && is_string($key)) {
             $value = parent::getValue($toString, $key, $default);
-        }
-        else
-        {
+        } else {
             $value = call_user_func_array('parent::getValue', $key);
         }
+
         //093 661 8937
         return $value;
     }

@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <div class="jbPriceElementValue">
 
     <?php if ($total->isEmpty() && isset($message{1})) {
-        echo $message;
+        echo JText::_($message);
 
     } elseif ($mode == JBCartElementPriceValue::PRICE_VIEW_FULL) { ?>
         <div class="jbprice-price">
