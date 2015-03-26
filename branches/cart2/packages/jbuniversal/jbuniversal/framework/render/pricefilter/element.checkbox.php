@@ -27,10 +27,13 @@ class JBPriceFilterElementCheckbox extends JBPriceFilterElement
         $this->_isMultiple = true;
 
         $values = $this->_getValues();
+        if (is_array($this->_value) && count($this->_value) > 1) {
+            $this->_value = JArrayHelper::getColumn($this->_value, 'id');
+        }
 
         return $this->html->checkbox(
             $this->_createOptionsList($values),
-            $this->_getName(),
+            $this->_getName('id', ''),
             $this->_attrs,
             $this->_value,
             $this->_getId()
@@ -46,5 +49,4 @@ class JBPriceFilterElementCheckbox extends JBPriceFilterElement
     {
         return $this->_getDbValues();
     }
-
 }
