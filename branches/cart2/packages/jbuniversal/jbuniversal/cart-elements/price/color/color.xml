@@ -38,7 +38,7 @@
     <params group="filter">
 
         <param name="jbzoo_filter_render" type="list" label="JBZOO_ELEMENT_TEMPLATE"
-               description="JBZOO_ELEMENT_TEMPLATE_DESC" default="_auto_" >
+               description="JBZOO_ELEMENT_TEMPLATE_DESC" default="_auto_">
 
             <option value="_auto_">JBZOO_ELEMENT_TEMPLATE_AUTO</option>
             <option value="text">JBZOO_ELEMENT_TEMPLATE_TEXT</option>
@@ -52,10 +52,13 @@
 
         </param>
 
-        <param name="jbzoo_filter_default" type="text" abel="JBZOO_FILTER_DEFAULT"
-               description="JBZOO_FILTER_DEFAULT_DESC" />
+        <param name="multiple" type="jbbool" default="0" label="JBZOO_FILTER_MULTIPLE"
+               description="JBZOO_FILTER_MULTIPLE_DESC"/>
 
-        <param name="jbzoo_filter_count"  type="jbbool" default="1"
+        <param name="jbzoo_filter_default" type="text" abel="JBZOO_FILTER_DEFAULT"
+               description="JBZOO_FILTER_DEFAULT_DESC"/>
+
+        <param name="jbzoo_filter_count" type="jbbool" default="1"
                label="JBZOO_FILTER_COUNT" description="JBZOO_FILTER_COUNT_DESC"/>
 
         <!-- jquery.ui autocomplete -->
