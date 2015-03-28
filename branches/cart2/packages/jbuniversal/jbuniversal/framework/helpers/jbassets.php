@@ -53,6 +53,24 @@ class JBAssetsHelper extends AppHelper
     );
 
     /**
+     * @type bool
+     */
+    protected $_isAjax = false;
+
+    /**
+     * @param App $app
+     */
+    public function __construct($app)
+    {
+        parent::__construct($app);
+
+        $this->_isAjax = !(empty($files) &&
+            $this->app->jbrequest->isAjax() &&
+            $this->app->jbrequest->is('format', 'feed') &&
+            $this->app->jbrequest->is('format', 'raw'));
+    }
+
+    /**
      * @param string $jquerySelector
      * @param string $widgetName
      * @param array  $params
@@ -129,6 +147,10 @@ class JBAssetsHelper extends AppHelper
      */
     public function less($files, $group = self::GROUP_DEFAULT)
     {
+        if (!$this->_isAjax) {
+            return false;
+        }
+
         $files = (array)$files;
 
         $resultFiles = array();
@@ -194,6 +216,7 @@ class JBAssetsHelper extends AppHelper
             'jbassets:js/admin/colors.js',
             'jbassets:js/admin/delimiter.js',
             'jbassets:js/admin/editpositions.js',
+            'jbassets:js/admin/ordermacroslist.js',
             'jbassets:js/admin/itemorder.js',
             'jbassets:js/admin/keyvalue.js',
             'jbassets:js/admin/jkeyvalue.js',
@@ -245,9 +268,7 @@ class JBAssetsHelper extends AppHelper
                 'jbassets:js/widget/money.js',
             ));
 
-            $this->css(array(
-                'jbassets:css/libs/sweet-alert.css'
-            ), self::GROUP_LIBRARY);
+            $this->css(array('jbassets:css/libs/sweet-alert.css'), self::GROUP_LIBRARY);
 
             if ($this->app->jbenv->isSite()) {
                 $this->addVar('currencyList', $this->app->jbmoney->getData());
@@ -856,11 +877,7 @@ class JBAssetsHelper extends AppHelper
      */
     protected function _include(array $files, $type, $group = self::GROUP_DEFAULT)
     {
-        if (
-            empty($files)
-            || $this->app->jbrequest->isAjax()
-            || $this->app->jbrequest->is('format', 'feed')
-        ) {
+        if (!$this->_isAjax) {
             return false;
         }
 
