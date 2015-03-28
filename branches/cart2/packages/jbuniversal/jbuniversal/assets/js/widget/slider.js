@@ -13,14 +13,14 @@
 (function ($, window, document, undefined) {
 
     JBZoo.widget('JBZoo.Slider', {
-            ui: {
+            ui        : {
                 'range' : true,
                 'min'   : 1,
                 'max'   : 10000,
                 'step'  : 100,
                 'values': []
             },
-            'currency'  : ''
+            'currency': ''
         }, {
 
             init: function ($this) {
@@ -31,8 +31,8 @@
 
             ui: function () {
 
-                var options  = this.options.ui,
-                    $this    = this;
+                var options = this.options.ui,
+                    $this = this;
 
                 this.$('.jsSliderWrapper').slider({
                     'range' : options.range,
@@ -44,14 +44,14 @@
                         $this.setHidden(ui.values);
                         $this.setLabelValue(ui.values);
                     },
-                    'stop': function(event, ui) {
+                    'stop'  : function (event, ui) {
                         $this.setHidden(ui.values);
                         $this.setLabelValue(ui.values);
                     }
                 });
             },
 
-            'change .jsSliderInput': function(e, $this) {
+            'change .jsSliderInput': function (e, $this) {
 
                 var values = $this.$('.jsSliderWrapper').slider('values'),
                     _index = $(this).hasClass('jsSlider-0') ? 0 : 1;
@@ -64,7 +64,7 @@
                 $this.$('.jsSliderWrapper').slider('values', values);
             },
 
-            setHidden: function(values) {
+            setHidden: function (values) {
                 this.$('.jsSliderValue').val(values[0] + "/" + values[1]);
                 this.$('.jsSlider-0').val(values[0]);
                 this.$('.jsSlider-1').val(values[1]);
@@ -74,16 +74,16 @@
                 this.$('.jsSliderValue').val();
             },
 
-            setLabelValue: function(values) {
+            setLabelValue: function (values) {
                 this._getMoney('.jsSliderLabel-0 ').JBZooMoney('setValue', [values[0]]);
                 this._getMoney('.jsSliderLabel-1 ').JBZooMoney('setValue', [values[1]]);
             },
 
-            hideInputs: function() {
+            hideInputs: function () {
                 this.$('.jsSliderInput').hide();
             },
 
-            showInputs: function() {
+            showInputs: function () {
                 this.$('.jsSliderInput').show();
             },
 
@@ -110,14 +110,23 @@
 
                 var $input = $(this);
                 if ($input.is(':focus')) {
-                    var value = $input.val();
+                    var value = JBZoo.toFloat($input.val());
                     if (e.originalEvent.wheelDelta > 0) {
-                        value += $this.ui.options.step;
+                        value += JBZoo.toFloat($this.options.ui.step);
                     } else {
-                        value -= $this.ui.options.step;
+                        value -= JBZoo.toFloat($this.options.ui.step);
                     }
 
-                    $this._setValue(value);
+                    value = JBZoo.toFloat(value);
+                    var values = $this.$('.jsSliderWrapper').slider('values'),
+                        _index = $input.hasClass('jsSlider-0') ? 0 : 1;
+
+                    values[_index] = value;
+                    values = $this._validate(values);
+
+                    $this.setLabelValue(values);
+                    $this.setHidden(values);
+                    $this.$('.jsSliderWrapper').slider('values', values);
                 }
 
                 return false;
@@ -140,11 +149,11 @@
                 values[0] = JBZoo.toFloat(values[0]);
                 values[1] = JBZoo.toFloat(values[1]);
 
-                if(values[0] > values[1]) {
+                if (values[0] > values[1]) {
                     values[0] = values[1];
                 }
 
-                if(values[1] < values[0]) {
+                if (values[1] < values[0]) {
                     values[1] = values[0];
                 }
 
