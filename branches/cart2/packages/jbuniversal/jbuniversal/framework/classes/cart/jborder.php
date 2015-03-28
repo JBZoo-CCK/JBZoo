@@ -108,10 +108,22 @@ class JBCartOrder
 
     /**
      * Get formated order name
+     * @param string $format
+     * @return string
      */
-    public function getName()
+    public function getName($format = 'short')
     {
-        return sprintf('%06d', $this->id);
+        if ($format == 'short') {
+            return sprintf('%06d', $this->id);
+
+        } else if ($format == 'full') {
+            $created = $this->app->html->_('date', $this->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
+            $name    = JText::sprintf('JBZOO_ORDER_NAME_DATE', $this->getName('short'), $created);
+
+            return $name;
+        }
+
+        return $this->getName('short');
     }
 
     /**
@@ -642,7 +654,7 @@ class JBCartOrder
             return $payment->getStatus();
         }
 
-        return null;
+        return $this->app->jbcartstatus->getUndefined();
     }
 
     /**
@@ -675,7 +687,7 @@ class JBCartOrder
             return $shipping->getStatus();
         }
 
-        return null;
+        return $this->app->jbcartstatus->getUndefined();
     }
 
     /**
@@ -790,10 +802,11 @@ class JBCartOrder
      */
     public function renderItems($params = array())
     {
-        $params   = $this->app->data->create($params);
-        $items    = $this->getItems(true);
-        $editMode = $params->get('edit', false);
-        $currency = $params->get('currency', $this->app->jbrequest->getCurrency());
+        $params    = $this->app->data->create($params);
+        $items     = $this->getItems(true);
+        $editMode  = $params->get('edit', false);
+        $emailMode = $params->get('email', false);
+        $currency  = $params->get('currency', $this->app->jbrequest->getCurrency());
 
         $html = array();
         foreach ($items as $cartItem) {
@@ -807,6 +820,7 @@ class JBCartOrder
             $itemHtml = array(
                 'sku'          => '',
                 'image'        => '',
+                'imageEmail'   => null,
                 'params'       => '',
                 'description'  => '',
                 // TODO 'margin' => '',
@@ -843,7 +857,7 @@ class JBCartOrder
                     . $cartItem->find('elements._description') . '</div>';
             }
 
-            if ($sku = $cartItem->find('params._sku', $cartItem->get('item_id'))) {
+            if ($sku = $cartItem->find('elements._sku', $cartItem->get('item_id'))) {
                 $itemHtml['sku'] = implode(PHP_EOL, array(
                     '<div class="jbcart-item-sku ' . $params->find('class.sku') . '">',
                     '<span class="jbcart-item-sku-key ' . $params->find('class.sku-key') . '">' . JText::_('JBZOO_CART_ITEM_SKU') . ':</span>',
@@ -852,30 +866,13 @@ class JBCartOrder
                 ));
             }
 
-            // render image
-            if ($cartItem->find('elements._image')) {
-                $image = $this->app->jbimage->resize(
-                    $cartItem->find('elements._image'),
-                    $params->get('image_width', 75),
-                    $params->get('image_height', 75)
-                );
-
-                if ($image) {
-                    $itemHtml['image'] = '<img  ' . $this->app->jbhtml->buildAttrs(array(
-                            'src'   => $image->url,
-                            'class' => 'jbcart-item-image ' . $params->find('class.image') . '',
-                            'alt'   => $cartItem->get('item_name'),
-                            'title' => $cartItem->get('item_name'),
-                        )) . ' />';
-                }
-            }
-
             // render links to item
             if ($item) {
-                if ((bool)$params->get('admin_url', false)) {
+
+                if ((bool)$params->get('admin_url', false) && !$emailMode) {
                     $itemUrl = $this->app->jbrouter->adminItem($item);
                 } else {
-                    $itemUrl = JRoute::_($this->app->route->item($item, false), false, 2);
+                    $itemUrl = $this->app->jbrouter->externalItem($item);
                 }
 
                 $urlTmpl = '<a ' . $this->app->jbhtml->buildAttrs(array(
@@ -890,6 +887,35 @@ class JBCartOrder
 
                 if ((int)$params->get('image_link', 1)) {
                     $itemHtml['image'] = str_replace(array('%class%', '%obj%'), array('jbcart-item-image-url', $itemHtml['image']), $urlTmpl);
+                }
+            }
+
+            // render image
+            if ($cartItem->find('elements._image')) {
+                $image = $this->app->jbimage->resize(
+                    $cartItem->find('elements._image'),
+                    $params->get('image_width', 75),
+                    $params->get('image_height', 75)
+                );
+
+                if ($image) {
+
+                    if ($emailMode) {
+                        $cid = md5($image->path);
+                        if (!$this->app->jbrequest->is('task', 'emailPreview')) {
+                            $image->url = 'cid:' . $cid;
+                        }
+
+                        $itemHtml['imageEmail'] = array('path' => $image->path, 'cid' => $cid);
+                    }
+
+                    $itemHtml['image'] = '<img  ' . $this->app->jbhtml->buildAttrs(array(
+                            'src'   => $image->url,
+                            'class' => 'jbcart-item-image ' . $params->find('class.image') . '',
+                            'alt'   => $cartItem->get('item_name'),
+                            'title' => $cartItem->get('item_name'),
+                        )) . ' />';
+
                 }
             }
 
