@@ -279,13 +279,35 @@ abstract class JBCartElement
      */
     public function render($params = array())
     {
-        // render layout
-        if ($layout = $this->getLayout()) {
-            return $this->renderLayout($layout, array('value' => $this->get('value')));
+        $paramLayout = $params->get('layout') ? $params->get('layout') . '.php' : null;
+
+        if ($layout = $this->getLayout($paramLayout)) {
+            return $this->renderLayout($layout, array(
+                'params' => $params,
+                'value'  => $this->get('value'),
+                'order'  => $this->getOrder(),
+            ));
         }
 
-        return $this->get('value');
+        return null;
     }
+
+    /**
+     * @param  string $layout
+     * @param  array  $vars
+     * @return null|string
+     */
+    protected function _partial($layout, $vars = array())
+    {
+        $vars['order'] = $this->getOrder();
+
+        if ($layout = $this->getLayout($layout . '.php')) {
+            return self::renderLayout($layout, $vars);
+        }
+
+        return null;
+    }
+
 
     /**
      * Renders the element using template layout file
@@ -541,7 +563,7 @@ abstract class JBCartElement
     public function isHidden()
     {
         $hidden = strtolower($this->getMetaData('hidden'));
-        if ($hidden == 'true') {
+        if ($hidden == 'true' || $hidden == '1') {
             return true;
         }
 
@@ -558,6 +580,8 @@ abstract class JBCartElement
         if ($layout = $this->getLayout('submission.php')) {
             return self::renderLayout($layout, array(
                 'params' => $params,
+                'value'  => $this->get('value'),
+                'order'  => $this->getOrder(),
             ));
         }
 
@@ -617,7 +641,7 @@ abstract class JBCartElement
      */
     public function getDescription($default = null)
     {
-        return $this->config->get('description', $default);
+        return JText::_($this->config->get('description', $default));
     }
 
     /**
