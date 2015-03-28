@@ -30,7 +30,7 @@ class JBCartJBUniversalController extends JBUniversalController
     protected $_position = null;
 
     /**
-     * @type \JBSessionHelper
+     * @type JBSessionHelper
      */
     protected $_session;
 
@@ -118,12 +118,8 @@ class JBCartJBUniversalController extends JBUniversalController
      */
     public function notification()
     {
-        $this->groupList = $this->_element->getGroups(array(
-            JBCart::ELEMENT_TYPE_NOTIFICATION,
-        ));
-
-        $this->positions =
-            $this->_position->loadPositions(JBCart::CONFIG_NOTIFICATION, $this->app->jbeventmanager->getEventsName());
+        $this->groupList = $this->_element->getGroups(array(JBCart::ELEMENT_TYPE_NOTIFICATION));
+        $this->positions = $this->_position->loadPositions(JBCart::CONFIG_NOTIFICATION, $this->app->jbeventmanager->getEventsName());
         $this->groupKey  = JBCart::CONFIG_NOTIFICATION;
         $this->renderView();
     }
@@ -304,9 +300,8 @@ class JBCartJBUniversalController extends JBUniversalController
         $this->ordersList   = $this->_getOrdersList();
 
         $this->groupKey = JBCart::CONFIG_EMAIL_TMPL;
-        $this->app->jbassets->admin();
-        $this->renderView();
 
+        $this->renderView();
     }
 
     /**
@@ -347,7 +342,7 @@ class JBCartJBUniversalController extends JBUniversalController
 
         $this->positionList = $renderer->getPositions('jbpricefilter.' . $this->layout);
 
-        $this->dragElements   = $this->_position->loadElements(JBCart::ELEMENT_TYPE_PRICE . '.' . $this->element);
+        $this->dragElements = $this->_position->loadElements(JBCart::ELEMENT_TYPE_PRICE . '.' . $this->element);
 
         $confName             = JBCart::CONFIG_PRICE_TMPL_FILTER . '.' . $this->element . '.' . $this->layout;
         $this->elementsParams = $this->_position->loadParams($confName);
@@ -487,40 +482,28 @@ class JBCartJBUniversalController extends JBUniversalController
     }
 
     /**
-     * @return mixed
-     * @throws Exception
-     */
-    public function loadEmailElement()
-    {
-        $elements = $this->_position->loadElements(JBCart::ELEMENT_TYPE_NOTIFICATION);
-
-        if (empty($elements['_sendemail'])) {
-
-            die('You need to create Sendemail element in Notification group');
-        }
-
-        return $elements['_sendemail'];
-    }
-
-    /**
      * Preview order's email
      */
-    public function getPreview()
+    public function emailPreview()
     {
-        $id = $this->app->request->getCmd('id');
+        $id = $this->app->request->getInt('id');
 
-        $model = JBModelOrder::model();
-        $order = $model->getById($id);
+        $order = JBModelOrder::model()->getById($id);
+        if (!$order) {
+            throw new Exception('Order #' . $id . ' not forund');
+        }
 
-        $element = $this->loadEmailElement();
-        $layout  = $this->request->get('layout', 'string');
+        $emailElement = $this->_element->create('sendemail', JBCart::ELEMENT_TYPE_NOTIFICATION, array());
+        if (is_null($emailElement)) {
+            throw new Exception('Sendemail element is not forund');
+        }
 
-        $element->setSubject($order);
-        $element->config->set('layout_email', $layout);
+        $emailElement->setOrder($order);
+        $emailElement->config->set('layout_email', $this->app->jbrequest->get('layout', 'string'));
 
-        $html = $element->getHTML();
+        $html = $emailElement->renderBody();
 
-        echo $html;
+        jexit($html);
     }
 
     /**
@@ -531,9 +514,11 @@ class JBCartJBUniversalController extends JBUniversalController
         $files = array();
         $path  = ltrim($this->app->request->get('path', 'string'), '/');
         $path  = empty($path) ? '' : $path . '/';
+
         foreach ($this->app->path->dirs('root:' . $path) as $dir) {
             $files[] = array('name' => basename($dir), 'path' => $path . $dir, 'type' => 'folder');
         }
+
         foreach ($this->app->path->files('root:' . $path, false, '/^.*(' . $this->_extensions . ')$/i') as $file) {
             $files[] = array('name' => basename($file), 'path' => $path . $file, 'type' => 'file');
         }
