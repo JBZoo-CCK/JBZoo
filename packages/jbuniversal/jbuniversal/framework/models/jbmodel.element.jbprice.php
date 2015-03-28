@@ -124,7 +124,6 @@ class JBModelElementJBPrice extends JBModelElement
                        ->from('(' . implode('UNION ALL', $all) . ') as tAll')
                        ->group('tAll.id')
                        ->having('COUNT(tAll.id) = ?', count($all));
-        jbdump::sql($query);
         $idList = $this->_groupBy($this->fetchAll($query), 'id');
 
         if (!empty($idList)) {
