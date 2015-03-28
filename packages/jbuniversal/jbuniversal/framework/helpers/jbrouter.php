@@ -111,7 +111,7 @@ class JBRouterHelper extends AppHelper
             'option'     => 'com_zoo',
             'controller' => 'default',
             'task'       => 'callelement',
-            //'format'     => 'raw', TODO attention mb bugs
+            'format'     => 'raw',
             'element'    => $identifier,
             'method'     => $method,
             'item_id'    => $itemId,
@@ -121,7 +121,7 @@ class JBRouterHelper extends AppHelper
             $linkParams['args'] = $params;
         }
 
-        return $this->_url($linkParams, true);
+        return $this->_url($linkParams, false, JURI::root());
     }
 
     /**
@@ -148,7 +148,7 @@ class JBRouterHelper extends AppHelper
             $linkParams['args'] = $params;
         }
 
-        return $this->_url($linkParams, true);
+        return $this->_url($linkParams, false, JURI::root());
     }
 
     /**
@@ -232,7 +232,7 @@ class JBRouterHelper extends AppHelper
             'Itemid'     => (int)$menuItemid,
         );
 
-        return $this->_url($linkParams, true);
+        return $this->_url($linkParams, false, JURI::root());
     }
 
     /**
@@ -253,7 +253,7 @@ class JBRouterHelper extends AppHelper
             'Itemid'     => (int)$menuItemid,
         );
 
-        return $this->_url($linkParams, true);
+        return $this->_url($linkParams, false, JURI::root());
     }
 
     /**
@@ -273,7 +273,7 @@ class JBRouterHelper extends AppHelper
             'Itemid'     => (int)$Itemid,
         );
 
-        return $this->_url($linkParams, true);
+        return $this->_url($linkParams, false, JURI::root());
     }
 
     /**
@@ -294,7 +294,7 @@ class JBRouterHelper extends AppHelper
             'item_id'    => (int)$itemId,
         );
 
-        return $this->_url($linkParams, true);
+        return $this->_url($linkParams, false, JURI::root());
     }
 
     /**
@@ -319,7 +319,7 @@ class JBRouterHelper extends AppHelper
             'back_itemid' => (int)$menuItemid,
         );
 
-        return $this->_url($linkParams, true);
+        return $this->_url($linkParams, false, JURI::root());
     }
 
     /**
@@ -351,7 +351,7 @@ class JBRouterHelper extends AppHelper
             'task'       => 'clear',
         );
 
-        return $this->_url($linkParams, true);
+        return $this->_url($linkParams, false, JURI::root());
     }
 
     /**
@@ -367,7 +367,7 @@ class JBRouterHelper extends AppHelper
             'moduleId'   => $moduleId,
         );
 
-        return $this->_url($linkParams, true);
+        return $this->_url($linkParams, false, JURI::root());
     }
 
     /**
@@ -388,7 +388,7 @@ class JBRouterHelper extends AppHelper
             'Itemid'     => (int)$menuItemid,
         );
 
-        return $this->_url($linkParams, true);
+        return $this->_url($linkParams, false, JURI::root());
     }
 
     /**
@@ -418,10 +418,9 @@ class JBRouterHelper extends AppHelper
 
     /**
      * Get url to basket
-     * @param int $appId
      * @return string
      */
-    public function basketDelete($appId = null)
+    public function basketDelete()
     {
         $linkParams = array(
             'option'     => 'com_zoo',
@@ -429,15 +428,14 @@ class JBRouterHelper extends AppHelper
             'task'       => 'delete',
         );
 
-        return $this->_url($linkParams, true);
+        return $this->_url($linkParams, false, JURI::root());
     }
 
     /**
      * Get url to basket clear action
-     * @param int $appId
      * @return string
      */
-    public function basketClear($appId = null)
+    public function basketClear()
     {
         $linkParams = array(
             'option'     => 'com_zoo',
@@ -445,7 +443,7 @@ class JBRouterHelper extends AppHelper
             'task'       => 'clear',
         );
 
-        return $this->_url($linkParams, true);
+        return $this->_url($linkParams, false, JURI::root());
     }
 
     /**
@@ -460,7 +458,7 @@ class JBRouterHelper extends AppHelper
             'task'       => 'quantity',
         );
 
-        return $this->_url($linkParams, true);
+        return $this->_url($linkParams, false, JURI::root());
     }
 
     /**
@@ -475,7 +473,7 @@ class JBRouterHelper extends AppHelper
             'task'       => 'shipping',
         );
 
-        return $this->_url($linkParams, true);
+        return $this->_url($linkParams, false, JURI::root());
     }
 
     /**
@@ -611,7 +609,7 @@ class JBRouterHelper extends AppHelper
      */
     public function orderAdmin($order)
     {
-        return $this->app->jbrouter->admin(array(
+        return $this->admin(array(
             'controller' => 'jborder',
             'task'       => 'edit',
             'cid[]'      => $order->id
@@ -619,6 +617,7 @@ class JBRouterHelper extends AppHelper
     }
 
     /**
+     * @param $menuItemid
      * @return string
      */
     public function orders($menuItemid)
@@ -661,12 +660,17 @@ class JBRouterHelper extends AppHelper
      */
     public function externalItem(Item $item)
     {
-        $root        = JUri::root();
-        $application = JApplication::getInstance('site');
-        $router      = $application->getRouter();
-        $link        = $router->build($this->app->route->item($item, false));
+        if ($this->app->jbenv->isSite()) {
+            return JRoute::_($this->app->route->item($item, false), false, 2);
 
-        return $root . preg_replace('/^.*administrator\//', '', $link, 1);
+        } else {
+            $root        = JUri::root();
+            $application = JApplication::getInstance('site');
+            $router      = $application->getRouter();
+            $link        = $router->build($this->app->route->item($item, false));
+
+            return $root . preg_replace('/^.*administrator\//', '', $link, 1);
+        }
     }
 
     /**
