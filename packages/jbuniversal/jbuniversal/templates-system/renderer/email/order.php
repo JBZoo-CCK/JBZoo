@@ -13,61 +13,44 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
     <table <?php echo $this->getAttrs(array(
-            'cellpadding' => 0,
-            'width'       => '800px;'
+            'cellpadding' => 8,
+            'width'       => '100%'
         )) .
         $this->getStyles(array(
             'border-collapse' => 'collapse',
-            'font-size'       => '14px'
-        )); ?>
-        >
+            'font-size'       => '14px',
+            'width'           => '100%'
+        )); ?>>
 
         <?php if ($this->checkPosition('title')) : ?>
             <tr>
-                <td><h1><?php echo $this->renderPosition('title'); ?></h1></td>
+                <td colspan="2">
+                    <h2><?php echo $this->renderPosition('title'); ?></h2>
+                    <hr>
+                </td>
             </tr>
         <?php endif; ?>
 
         <tr>
-            <td <?php echo $this->getAttrs(array(
-                    'valign' => 'top'
-                )) .
-                $this->getStyles(array(
-                    'padding' => '0 40px 0 0'
-                )); ?>
-                >
-                <?php echo $this->renderPosition('items'); ?>
+            <td colspan="2" valign="top">
+                <?php echo $this->renderPosition('items', array('style' => 'block')); ?>
             </td>
         </tr>
 
         <tr>
-            <td <?php echo $this->getAttrs(array(
-                'valign' => 'top'
-            )); ?>>
-                <?php if ($this->checkPosition('info')) :
-                    echo $this->renderPosition('info');
-                endif; ?>
+            <td valign="top" width="50%">
+                <?php echo $this->renderPosition('info', array('style' => 'block')); ?>
+                <?php echo $this->renderPosition('payment', array('style' => 'block')); ?>
             </td>
-        </tr>
-
-        <tr>
-            <td <?php echo $this->getAttrs(array(
-                'valign' => 'top'
-            )); ?>>
-                <?php if ($this->checkPosition('main')) {
-                    echo $this->partial('main');
-                }
-                echo $this->renderPosition('payment');
-                echo $this->renderPosition('shipping');
-                echo $this->renderPosition('shippingfield');
-                echo $this->renderPosition('downloads'); ?>
+            <td valign="top">
+                <?php echo $this->renderPosition('shipping', array('style' => 'block')); ?>
             </td>
         </tr>
 
     </table>
 
-<?php if ($this->checkPosition('advertise')) : ?>
+<?php if ($this->checkPosition('other')) : ?>
     <table>
-        <?php echo $this->renderPosition('advertise', array('style' => 'table')); ?>
+        <?php echo $this->renderPosition('other', array('style' => 'table-row')); ?>
     </table>
 <?php endif;
