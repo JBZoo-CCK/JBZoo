@@ -440,16 +440,14 @@ class JBHtmlHelper extends AppHelper
 
         if (!empty($data)) {
 
-            $html[] = '<ul class="param-list">';
+            $html[] = '<dl class="uk-description-list-horizontal param-list">';
 
             foreach ($data as $label => $text) {
-                $html[] = '<li>';
-                $html[] = '<strong>' . JText::_($label) . ':</strong>';
-                $html[] = $text;
-                $html[] = '</li>';
+                $html[] = '<dt>' . JText::_($label) . '</dt>';
+                $html[] = '<dd>' . $text . '</dd>';
             }
 
-            $html[] = '</ul>';
+            $html[] = '</dl>';
         }
 
         return implode(PHP_EOL, $html);
