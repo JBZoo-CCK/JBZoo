@@ -19,7 +19,10 @@ $uiqueId = $this->app->jbstring->getId('newpost-');
 ?>
 
 <div class="newpost-sender-city">
-    <p><strong>Город-отправитель:</strong> <?php echo $this->_getDefaultCity(); ?></p>
+    <p>
+        <strong><?php echo JText::_('JBZOO_ELEMENT_SHIPPING_NEWPOST_SENDER'); ?>:</strong>
+        <?php echo $this->_getDefaultCity(); ?>
+    </p>
 </div>
 
 <div id="<?php echo $uiqueId; ?>">

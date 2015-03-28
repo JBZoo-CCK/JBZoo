@@ -19,7 +19,10 @@ $locTypes = array('russia', 'countries', 'regions', 'cities');
 ?>
 
 <div class="emspost-sender-city">
-    <p><strong>Город-отправитель:</strong> <?php echo $this->_getDefaultCityName(); ?></p>
+    <p>
+        <strong><?php echo JText::_('JBZOO_ELEMENT_SHIPPING_EMSPOST_SENDER'); ?>:</strong>
+        <?php echo $this->_getDefaultCityName(); ?>
+    </p>
 </div>
 
 <div id="<?php echo $uiqueId; ?>">
