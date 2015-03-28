@@ -15,8 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 if ($this->get('ordersList')) :
 
     $url = $this->app->jbrouter->admin(array(
-            'task'   => 'getPreview',
-            'format' => 'raw',
+            'task'   => 'emailPreview',
             'layout' => $this->layout
         )
     ); ?>
