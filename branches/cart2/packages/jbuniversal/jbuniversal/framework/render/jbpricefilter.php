@@ -132,9 +132,7 @@ class JBPriceFilterRenderer extends PositionRenderer
                     )
                 );
 
-                $skuId = JBModelSku::$ids[$key];
-                $value = $this->_getRequest($skuId);
-
+                $value       = $this->_getRequest($key);
                 $elementHTML = $this->elementRender($element, $value, $params, $attrs);
 
                 if (empty($elementHTML)) {
@@ -318,11 +316,12 @@ class JBPriceFilterRenderer extends PositionRenderer
 
         if (isset($value[$id])) {
             $element = $value[$id];
-
             if (isset($element[$identifier])) {
-                $value = $element[$identifier];
-
-                return count($value) === 1 ? reset($value) : $value;
+                return $element[$identifier];
+            }
+            $identifier = JBModelSku::model()->getId($identifier);
+            if (isset($element[$identifier])) {
+                return isset($element[$identifier]['id']) ? $element[$identifier]['id'] : $element[$identifier];
             }
 
             return null;

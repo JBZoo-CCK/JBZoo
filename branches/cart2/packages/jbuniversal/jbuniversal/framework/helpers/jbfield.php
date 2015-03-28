@@ -1410,6 +1410,7 @@ class JBFieldHelper extends AppHelper
 
         $typesPath = $this->app->path->path('jbtypes:');
         $files     = JFolder::files($typesPath, '.config');
+        $app       = $this->app->zoo->getApplication();
 
         // add std fields
         $coreGrp = JText::_('JBZOO_FIELDS_CORE');
@@ -1433,9 +1434,12 @@ class JBFieldHelper extends AppHelper
                     if (strpos($elementId, '_') === 0 || in_array($element['type'], $excludeType, true)) {
                         continue;
                     }
+                    $type = $app->getType(JFile::stripExt($file));
 
-                    if ($element['type'] == 'jbpriceadvance') {
-                        $elements = array_merge($elements, $this->_getSortJBPriceOptionList($element, $elementId, $prefix));
+                    $_element = $type->getElement($elementId);
+
+                    if ($_element instanceof ElementJBPrice) {
+                        $elements = array_merge($elements, $this->_getSortJBPriceOptionList($_element, $prefix));
                     } else {
                         $elements[] = $this->_createOption($prefix . $elementId, $element['name'], false);
                     }
@@ -1450,20 +1454,22 @@ class JBFieldHelper extends AppHelper
     }
 
     /**
-     * @param array  $element
-     * @param string $elementId
-     * @param string $prefix
+     * @param ElementJBPrice $element
+     * @param string         $prefix
      * @return array
      */
-    protected function _getSortJBPriceOptionList($element, $elementId, $prefix)
+    protected function _getSortJBPriceOptionList($element, $prefix)
     {
         $list = array();
 
-        $keyPrefix = $prefix . $elementId;
-
-        $list[] = $this->_createOption($keyPrefix . '__sku', $element['name'] . ' - Sku', false);
-        $list[] = $this->_createOption($keyPrefix . '__price', $element['name'] . ' - Basic', false);
-        $list[] = $this->_createOption($keyPrefix . '__total', $element['name'] . ' - Total', false);
+        $keyPrefix = $prefix . $element->identifier;
+        $elements  = $element->getElements();
+        if (count($elements)) {
+            foreach ($elements as $element) {
+                $type   = ucfirst($element->getElementType());
+                $list[] = $this->_createOption($keyPrefix . '__' . $element->identifier, $element->getName() . ' - ' . $type, false);
+            }
+        }
 
         return $list;
     }

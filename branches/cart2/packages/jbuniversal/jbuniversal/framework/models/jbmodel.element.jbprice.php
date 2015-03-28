@@ -67,26 +67,26 @@ class JBModelElementJBPrice extends JBModelElement
     /**
      * @param JBDatabaseQuery $select
      * @param                 $elementId
-     * @param                 $values
+     * @param                 $data
      * @param string          $logic
      * @param bool            $exact
      * @internal param $value
      * @return array
      */
-    protected function _getWhere(JBDatabaseQuery $select, $elementId, $values, $logic = 'AND', $exact = false)
+    protected function _getWhere(JBDatabaseQuery $select, $elementId, $data, $logic = 'AND', $exact = false)
     {
-        JBModelSku::model();
-        $data = $this->_prepareValue($values, $exact);
+        $model = JBModelSku::model();
+        $data  = $this->_prepareValue($data, $exact);
         if (empty($data)) {
             return null;
         }
+
         $isFirst  = 0;
         $logic    = 'AND';
         $all      = array();
         $iterator = new RecursiveArrayIterator($data);
         $where    = $this->_getSelect();
-
-        foreach ($iterator as $key => $value) {
+        foreach ($iterator as $identifier => $_value) {
             $where
                 ->clear()
                 ->select('tSku.item_id as id')
@@ -94,57 +94,37 @@ class JBModelElementJBPrice extends JBModelElement
                 ->where('tSku.element_id = ?', $elementId)
                 ->innerJoin(JBModelSku::JBZOO_TABLE_SKU_VALUES . ' AS tValues ON tValues.id = tSku.value_id');
 
-            $id = array_search($iterator->key(), JBModelSku::$ids);
+            $id = $model->getId($iterator->key());
+            if (!$id) {
+                $id         = $iterator->key();
+                $identifier = array_search($iterator->key(), JBModelSku::$ids);
+            }
             if ($isFirst !== 0) {
                 $logic = ' OR ';
             }
-
-            $where->where('tSku.param_id = ?', $iterator->key(), $logic);
-            if ($iterator->hasChildren()) {
-                $children = (array)$iterator->getChildren();
+            $where->where('tSku.param_id = ?', $id, $logic);
+            if (!empty($_value)) {
+                $_value   = (array)$_value;
                 $inParams = 'AND';
-                $first    = key($children);
-
-                foreach ($children as $param_id => $string) {
-                    if ($first != $param_id) {
+                $first    = key($_value);
+                foreach ($_value as $key => $val) {
+                    if ($first != $key) {
                         $inParams = 'OR';
                     }
-
-                    if ($id == '_value') {
-                        $where->where($string, null, $inParams);
-
-                    } elseif ((int)($param_id === 'id')) {
-                        $where->where('tSku.value_id = ?', $string, $inParams);
-
-                    } elseif (is_array($string) && (isset($string['id']) && !empty($string['id']))) {
-
-                        $where->where('tSku.value_id = ?', $string['id'], $inParams);
-
-                    } elseif ($this->isDate($string)) {
-                        $string = $this->_date($string);
-                        $where->where($string, null, $inParams);
-
-                    } elseif($this->isNumeric($string)) {
-                        $where->where('tValues.value_n = ?', $string, $inParams);
-
-                    } elseif ($exact) {
-                        $where->where('tValues.value_s = ?', $string, $inParams);
-
-                    } else {
-                        $where->where($this->_buildLikeBySpaces($string, 'tValues.value_s'), null, $inParams);
-                    }
+                    $this->_where($val, $where, $identifier, $key, $inParams, $exact);
                 }
             }
             $where->group('tSku.item_id');
             $all[] = '(' . $where->__toString() . ')';
         }
 
-        $query = $this->_getSelect()
-                      ->clear()
-                      ->select('tAll.id')
-                      ->from('(' . implode('UNION ALL', $all) . ') as tAll')
-                      ->group('tAll.id')
-                      ->having('COUNT(tAll.id) = ?', count($all));
+        $query  = $this->_getSelect()
+                       ->clear()
+                       ->select('tAll.id')
+                       ->from('(' . implode('UNION ALL', $all) . ') as tAll')
+                       ->group('tAll.id')
+                       ->having('COUNT(tAll.id) = ?', count($all));
+        jbdump::sql($query);
         $idList = $this->_groupBy($this->fetchAll($query), 'id');
 
         if (!empty($idList)) {
@@ -155,6 +135,44 @@ class JBModelElementJBPrice extends JBModelElement
     }
 
     /**
+     * @param        $value
+     * @param        $where
+     * @param        $identifier
+     * @param        $key
+     * @param string $logic
+     * @param bool   $exact
+     */
+    protected function _where($value, &$where, $identifier, $key, $logic = 'AND', $exact = false)
+    {
+        if ($identifier == '_value') {
+            $where->where($value, null, $logic);
+
+        } elseif ((int)($key === 'id')) {
+            $value = (array)$value;
+
+            array_walk($value, function ($v) use (&$where, &$logic) {
+                $where->where('tSku.value_id = ?', $v, $logic);
+                $logic = 'OR';
+            });
+        } elseif (is_array($value) && (isset($value['id']) && !empty($value['id']))) {
+            $where->where('tSku.value_id = ?', $value['id'], $logic);
+
+        } elseif ($this->isDate($value)) {
+            $value = $this->_date($value);
+            $where->where($value, null, $logic);
+
+        } elseif ($this->isNumeric($value)) {
+            $where->where('tValues.value_n = ?', $value, $logic);
+
+        } elseif ($exact) {
+            $where->where('tValues.value_s = ?', $value, $logic);
+
+        } else {
+            $where->where($this->_buildLikeBySpaces($value, 'tValues.value_s'), null, $logic);
+        }
+    }
+
+    /**
      * @param array|string $values
      * @param bool         $exact
      * @return mixed|void
@@ -162,10 +180,11 @@ class JBModelElementJBPrice extends JBModelElement
     protected function _prepareValue($values, $exact = false)
     {
         $values   = $this->unsetEmpty($values);
-        $value_id = isset(JBModelSku::$ids['_value']) ? JBModelSku::$ids['_value'] : false;
+        $value_id = JBModelSku::model()->getId('_value');
+        $value_id = isset($values['_value']) ? '_value' : (isset($values[$value_id]) ? $value_id : null);
 
-        if (isset($values[$value_id]) && !empty($values[$value_id])) {
-            $values[$value_id] = $this->_processValue($values[$value_id]);
+        if (isset($value_id)) {
+            $values[$value_id] = $this->_processValue((array)$values[$value_id]);
         }
 
         return $values;
@@ -181,21 +200,31 @@ class JBModelElementJBPrice extends JBModelElement
         if (empty($values)) {
             return $values;
         }
+        $values = array_filter($values);
         $result = array();
 
         $iterator  = new RecursiveArrayIterator($values);
         $recursive = new RecursiveIteratorIterator($iterator);
         foreach ($recursive as $key => $value) {
-
             $value = JString::trim($value);
             if (!empty($value)) {
-                $depth  = $recursive->getDepth();
-                $subKey = $recursive->getSubIterator(--$depth)->key();
+                $depth = $recursive->getDepth();
+                $depth--;
 
-                if ($subKey != $iterator->key()) {
+                $subKey      = null;
+                $subIterator = $recursive->getSubIterator($depth);
+                if ($subIterator) {
+                    $subKey = $subIterator->key();
+                }
+
+                if ($subKey && $subKey != $iterator->key()) {
                     $result[$iterator->key()][$subKey][$key] = $value;
-                } else {
+
+                } elseif ($iterator->key() != $key) {
                     $result[$iterator->key()][$key] = $value;
+
+                } else {
+                    $result[$key] = $value;
                 }
             }
         }
@@ -210,26 +239,26 @@ class JBModelElementJBPrice extends JBModelElement
     protected function _processValue($values = array())
     {
         if (count($values)) {
+            if (is_string($values) && $this->isRange($values)) {
+                $range  = $this->_setMinMax($values);
+                $values = $this->_value($range);
 
-            foreach ($values as $key => $value) {
+            } elseif ((is_array($values) && (isset($values['range']) && !empty($values['range'])))) {
+                $range  = $this->_setMinMax($values['range']);
+                $values = $this->_value($range);
 
-                if (is_string($value) && $this->isRange($value)) {
-                    $range        = $this->_setMinMax($value);
-                    $values[$key] = $this->_value($range);
+            } elseif ((is_array($values)) && (!empty($values['min']) || !empty($values['max']))) {
+                $values = $this->_value($values);
 
-                } elseif ((is_array($value) && (isset($value['range']) && !empty($value['range'])))) {
-                    $range        = $this->_setMinMax($value['range']);
-                    $values[$key] = $this->_value($range);
+            } elseif (is_string($values)) {
+                $values = $this->toSql('tValues.value_n', $values);
 
-                } elseif ((is_array($value)) && (!empty($value['min']) || !empty($value['max']))) {
-                    $values[$key] = $this->_value($value);
-
-                } elseif (is_string($value)) {
-                    $values[$key] = $this->toSql('tValues.value_n', $value);
-
-                } else {
-                    unset($value[$key]);
+            } elseif (is_array($values)) {
+                foreach ($values as $key => $value) {
+                    $values[$key] = $this->_processValue($value);
                 }
+            } else {
+                $values = null;
             }
         }
 

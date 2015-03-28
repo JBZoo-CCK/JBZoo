@@ -82,9 +82,9 @@ class JBOrderHelper extends AppHelper
 
     /**
      * Get order
-     * @param string $order
+     * @param string      $order
      * @param null|string $context
-     * @param bool $category
+     * @param bool        $category
      * @return string
      */
     function get($order, $context = null, $category = false)
@@ -157,6 +157,7 @@ class JBOrderHelper extends AppHelper
             $result[$key] = JText::_('JBZOO_ORDER_' . trim(preg_replace('#[^a-z]#ius', '_', $order), '_'));
 
         }
+
         return $result;
     }
 
@@ -194,12 +195,89 @@ class JBOrderHelper extends AppHelper
      */
     public function setItemOrder($order, $prevResult)
     {
-        $curApp = $this->app->zoo->getApplication();
-        if (method_exists($curApp, 'setItemOrder')) {
-            return $curApp->setItemOrder($order, $prevResult);
+        $jbtables = $this->app->jbtables;
+
+        $orders = $this->convert($order);
+
+        $joinList = array();
+        $ol       = array();
+        $columns  = array();
+
+        $ran = $this->app->jbarray->recursiveSearch('random', $orders);
+        if ($ran !== false) {
+            return array('', ' RAND() ');
         }
 
-        return null;
+        foreach ($orders as $orderParams) {
+
+            $order = $this->getOrderDirection($orderParams['order']);
+
+            if ($orderParams['field'] == 'corename') {
+                $ol[] = 'a.name ' . $order;
+
+            } elseif ($orderParams['field'] == 'corealias') {
+                $ol[] = 'a.alias ' . $order;
+
+            } elseif ($orderParams['field'] == 'corecreated') {
+                $ol[] = 'a.created ' . $order;
+
+            } elseif ($orderParams['field'] == 'corehits') {
+                $ol[] = 'a.hits ' . $order;
+
+            } elseif ($orderParams['field'] == 'coremodified') {
+                $ol[] = 'a.modified ' . $order;
+
+            } elseif ($orderParams['field'] == 'corepublish_down') {
+                $ol[] = 'a.publish_down ' . $order;
+
+            } elseif ($orderParams['field'] == 'corepublish_up') {
+                $ol[] = 'a.publish_up ' . $order;
+
+            } elseif ($orderParams['field'] == 'coreauthor') {
+                $ol[]                     = 'tJoomlaUsers.name ' . $order;
+                $joinList['tJoomlaUsers'] = 'LEFT JOIN #__users AS tJoomlaUsers ON a.created_by = tJoomlaUsers.id';
+
+            } elseif (strpos($orderParams['field'], '__')) {
+                list ($elementId, $priceField) = explode('__', $orderParams['field']);
+                $id = JBModelSku::model()->getId($priceField);
+
+                $joinList['tSku']    = 'LEFT JOIN ' . ZOO_TABLE_JBZOO_SKU
+                    . ' AS tSku ON tSku.item_id = a.id'
+                    . ' AND tSku.element_id = \'' . $elementId . '\'';
+                $joinList['tValues'] = 'LEFT JOIN ' . JBModelSku::JBZOO_TABLE_SKU_VALUES
+                    . ' AS tValues ON tSku.param_id = tValues.param_id AND tSku.value_id = tValues.id'
+                    . ' AND tValues.param_id = \'' . $id . '\''
+                    . ' AND tValues.variant = \'0\'';
+                $ol[] = 'tValues.value_' . $orderParams['mode'] . ' ' . $order;
+
+            } else {
+                $itemType = $this->app->jbentity->getItemTypeByElementId($orderParams['field']);
+
+                if (!empty($itemType)) {
+
+                    $tableName          = $jbtables->getIndexTable($itemType);
+                    $tableSqlName       = 'tIndex' . str_replace('#__', '', $tableName);
+                    $columns[$itemType] = $jbtables->getFields($tableName);
+
+                    $elementId = $this->app->jbtables->getFieldName($orderParams['field'], $orderParams['mode']);
+                    if (in_array($elementId, $columns[$itemType], true)) {
+                        $joinList[$itemType] = ' LEFT JOIN ' . $tableName
+                            . ' AS ' . $tableSqlName . ' ON a.id = ' . $tableSqlName . '.item_id'
+                            . ' AND ' . $tableSqlName . '.' . $elementId . ' IS NOT NULL';
+
+                        $ol[] = JFactory::getDbo()->quoteName($tableSqlName . '.' . $elementId) . $order;
+                    }
+                }
+            }
+        }
+        if (!empty($ol)) {
+            return array(' ' . implode(' ', $joinList) . ' ', implode(', ', $ol));
+
+        } else if (!empty($prevResult)) {
+            return $prevResult;
+        }
+
+        return array('', ' a.id ASC ');
     }
 
     /**

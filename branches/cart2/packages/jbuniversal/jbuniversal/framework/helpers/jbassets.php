@@ -402,6 +402,25 @@ class JBAssetsHelper extends AppHelper
     }
 
     /**
+     * Include slider js
+     * @param string $id
+     * @param array  $params
+     * @param bool   $return
+     * @return string
+     */
+    public function slider($id, $params = array(), $return = false)
+    {
+        $this->tools();
+        $this->js('jbassets:js/widget/slider.js');
+        $this->less('jbassets:less/widget/slider.less');
+
+        $script = $this->widget('#' . $id, 'JBZoo.Slider', $params, $return);
+        if ($return && $script) {
+            return $script;
+        }
+    }
+
+    /**
      * Include datepicker lib
      */
     public function nivoslider()

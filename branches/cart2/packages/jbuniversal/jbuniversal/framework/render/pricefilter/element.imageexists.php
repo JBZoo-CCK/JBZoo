@@ -29,7 +29,7 @@ class JBPRiceFilterElementImageExists extends JBPriceFilterElement
 
         return $this->html->radio(
             $this->_createOptionsList($options),
-            $this->_getName(null, 'id'),
+            $this->_getName(),
             $this->_attrs,
             $this->_value,
             $this->_getId(null, true)

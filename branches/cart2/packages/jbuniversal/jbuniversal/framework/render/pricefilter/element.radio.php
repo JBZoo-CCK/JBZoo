@@ -27,10 +27,9 @@ class JBPriceFilterElementRadio extends JBPriceFilterElement
         $this->_isMultiple = false;
 
         $values = $this->_getValues();
-
         return $this->html->radio(
             $this->_createOptionsList($values),
-            $this->_getName(null, 'id'),
+            $this->_getName(true),
             $this->_attrs,
             $this->_value,
             $this->_getId()

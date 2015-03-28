@@ -18,7 +18,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBPriceFilterElementSelect extends JBPriceFilterElement
 {
-
     /**
      * Render HTML
      * @return string|null
@@ -29,7 +28,7 @@ class JBPriceFilterElementSelect extends JBPriceFilterElement
 
         return $this->html->select(
             $this->_createOptionsList($values),
-            $this->_getName(null, 'id'),
+            $this->_getName(true, $this->_isMultiple),
             $this->_attrs,
             $this->_value,
             $this->_getId()
@@ -45,5 +44,4 @@ class JBPriceFilterElementSelect extends JBPriceFilterElement
     {
         return $this->_getDbValues();
     }
-
 }

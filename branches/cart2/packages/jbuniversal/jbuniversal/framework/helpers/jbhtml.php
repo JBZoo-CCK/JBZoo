@@ -499,6 +499,67 @@ class JBHtmlHelper extends AppHelper
     /**
      * Render jQueryUI slider
      * @param array  $params
+     * @param string $jbValue
+     * @param string $name
+     * @param string $idTag
+     * @param string $currency
+     * @return string
+     */
+    public function slider_v2($params, $jbValue = '', $name = '', $idTag = '', $currency = '')
+    {
+        if (!empty($jbValue) && is_string($jbValue)) {
+            $value = explode('/', $jbValue);
+        } else {
+            $value = array($params['min'], $params['max']);
+        }
+
+        if(empty($idTag)) {
+            $idTag = $this->app->jbstring->getId('jsSlider-');
+        }
+
+        $html   = array();
+        $html[] = '<div id="' . $idTag . '" class="jsSlider jbzoo-slider">';
+        $html[] = '<div class="jsSliderWrapper jbzoo-slider-wrapper"></div>';
+
+        $html[] = '<div class="jsSliderBox jbslider-box">';
+        $html[] = '<span class="jsSliderLabel jsSliderLabel-0 jbslider-label">' . JBCart::val($value[0])->html() . '</span>'
+            . $this->text(null, $value['0'], array(
+                'class' => 'jsSlider-0 jsSliderMin jsSliderInput jbslider-min jbslider-input',
+            ));
+        $html[] = '</div>';
+
+        $html[] = '<div class="jsSliderBox jbslider-box">';
+        $html[] = '<span class="jsSliderLabel jsSliderLabel-1 jbslider-label"/>' . JBCart::val($value[1])->html() . '</span>'
+            . $this->text(null, $value['1'], array(
+                'class' => 'jsSlider-1 jsSliderMax jsSliderInput jbslider-max jbslider-input',
+            ));
+        $html[] = '</div>';
+
+        $html[] = $this->hidden($name, $value[0] . '/' . $value[1], array(
+            'class' => 'jsSliderValue'
+        ));
+
+        $html[] = $this->app->jbassets->slider($idTag, array(
+            'ui'       => array(
+                'range'  => true,
+                'min'    => (float)$params['min']  ? floor((float)$params['min'])     : 0,
+                'max'    => (float)$params['max']  ? ceil((float)$params['max'])      : 10000,
+                'step'   => (float)$params['step'] ? round((float)$params['step'], 2) : 100,
+                'values' => array(
+                    round((float)$value[0], 2),
+                    round((float)$value[1], 2)
+                )
+            ),
+            'currency' => $currency
+        ), true);
+        $html[]   = '</div>';
+
+        return implode(PHP_EOL, $html);
+    }
+
+    /**
+     * Render jQueryUI slider
+     * @param array  $params
      * @param string $value
      * @param string $name
      * @param string $idtag
@@ -728,14 +789,13 @@ class JBHtmlHelper extends AppHelper
             }
 
             $valueSlug = $stringHelper->sluggify($value);
-
-            $extra = array_merge($attribs, array(
+            $extra = array_merge(array(
                 'value' => $value,
                 'name'  => $name,
                 'type'  => $inputType,
                 'id'    => 'id' . $valueSlug . '-' . $jbstring->getId(),
                 'class' => 'value-' . $valueSlug
-            ));
+            ), $attribs);
 
             if (is_array($selected)) {
 
