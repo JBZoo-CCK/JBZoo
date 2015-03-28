@@ -34,7 +34,7 @@ class JBEventManagerHelper extends AppHelper
      * @var array
      */
     protected $_events = array(
-        'basket:beforesave' => self::NOTIFY_ORDER_BEFORESAVE,
+        //'basket:beforesave' => self::NOTIFY_ORDER_BEFORESAVE, // TODO, order is not create yet
         'basket:saved'      => self::NOTIFY_ORDER_CREATE,
         'order:edit'        => self::NOTIFY_ORDER_EDIT,
         'order:status'      => self::NOTIFY_ORDER_STATUS,
@@ -90,17 +90,21 @@ class JBEventManagerHelper extends AppHelper
     public function notify($event)
     {
         $name = $event->getName();
+
         if (array_key_exists($name, $this->_events)) {
+
             if ($positions = $this->_position->loadPositions(JBcart::CONFIG_NOTIFICATION)) {
+
                 $key = $this->_events[$name];
                 if (array_key_exists($key, $positions)) {
-                    $subject = $event->getSubject();
-                    if (!$subject->id) {
+
+                    $order = $event->getSubject();
+                    if (!$order || !$order->id) {
                         return false;
                     }
 
                     foreach ($positions[$key] as $element) {
-                        $element->setSubject($subject);
+                        $element->setOrder($order);
                         $element->notify();
                     }
                 }
