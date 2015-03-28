@@ -222,7 +222,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     {
         $hash = $this->hash();
         $this->loadAssets();
-
         if (!$this->isCache || $this->isCache && !$cache = $this->_cache->get($hash, 'price_elements', true)) {
             $params = new AppData($params);
 
@@ -610,9 +609,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             return $result;
         }
 
-        $result = $this->get('selected.' . $identifier, array());
-
-        return $result;
+        return $this->get('selected.' . $identifier, array());
     }
 
     /**
@@ -855,7 +852,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function getElements()
     {
-        return $this->_getElements(array_keys(array_diff_key((array)$this->params, (array)$this->_getRenderParams())));
+        return $this->_getElements(array_keys(array_diff_key((array)$this->_getConfig(), (array)$this->_getRenderParams())));
     }
 
     /**

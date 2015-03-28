@@ -28,7 +28,7 @@ class JBPriceFilterElementJQueryUI extends JBPriceFilterElement
 
         return $this->html->buttonsJqueryUI(
             $this->_createOptionsList($values),
-            $this->_getName(),
+            $this->_getName(true, $this->_isMultiple),
             $this->_attrs,
             $this->_value,
             $this->_getId()
@@ -43,5 +43,4 @@ class JBPriceFilterElementJQueryUI extends JBPriceFilterElement
     {
         return $this->_getDbValues();
     }
-
 }

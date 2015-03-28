@@ -32,8 +32,10 @@
             <option value="select">JBZOO_ELEMENT_TEMPLATE_SELECT</option>
             <option value="select-chosen">JBZOO_ELEMENT_TEMPLATE_SELECT_CHOSEN</option>
             <option value="hidden">JBZOO_ELEMENT_TEMPLATE_HIDDEN</option>
-
         </param>
+
+        <param name="multiple" type="jbbool" default="0" label="JBZOO_FILTER_MULTIPLE"
+               description="JBZOO_FILTER_MULTIPLE_DESC"/>
 
         <param name="jbzoo_filter_default" type="text" label="JBZOO_FILTER_DEFAULT"
                description="JBZOO_FILTER_DEFAULT_DESC"/>

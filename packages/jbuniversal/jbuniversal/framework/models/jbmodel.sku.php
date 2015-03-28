@@ -82,8 +82,19 @@ class JBModelSku extends JBModel
      *
      * @param  string $id
      * @return int
+     * @deprecated Use JBModelSku::getId
      */
     public function getElementKey($id)
+    {
+        return isset(self::$ids[$id]) ? self::$ids[$id] : false;
+    }
+
+    /**
+     * Get the unique id(primary key) for element
+     * @param string $id Identifier of price element
+     * @return int|bool
+     */
+    public function getId($id)
     {
         return isset(self::$ids[$id]) ? self::$ids[$id] : false;
     }
@@ -172,7 +183,7 @@ class JBModelSku extends JBModel
 
     /**
      * Remove rows by item
-     * @param Item $item
+     * @param Item  $item
      * @param       $identifier
      * @return bool
      */

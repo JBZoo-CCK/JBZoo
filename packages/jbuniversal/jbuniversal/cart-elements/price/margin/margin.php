@@ -20,18 +20,12 @@ class JBCartElementPriceMargin extends JBCartElementPrice
 {
     /**
      * Check if element has value
-     *
-     * @param array $params
-     *
+     * @param AppData|array $params
      * @return bool
      */
     public function hasValue($params = array())
     {
-        if ($this->getValue()->isEmpty() || $this->isOverlay) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**

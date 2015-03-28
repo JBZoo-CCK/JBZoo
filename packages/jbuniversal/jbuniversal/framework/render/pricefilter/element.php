@@ -92,7 +92,7 @@ class JBPriceFilterElement
         $this->_value      = $this->_getElementValue($value);
 
         $this->_isOrigTmpl  = (int)$this->_params->get('jbzoo_original_type', 1);
-        $this->_isMultiple  = (int)$this->_params->get('jbzoo_filter_multiple', 0);
+        $this->_isMultiple  = (int)$this->_params->get('multiple', 0);
         $this->_isCountShow = (int)$this->_params->get('jbzoo_filter_count', 1);
 
         $this->_attrs  = $this->_getAttrs($attrs);
@@ -295,21 +295,24 @@ class JBPriceFilterElement
 
     /**
      * Get element name
-     *
-     * @param string|null $postFix
-     * @param string|null $key
+     * @param bool $id Use element identifier or his id from sku table
+     * @param bool $array
      * @return string
      */
-    protected function _getName($postFix = null, $key = null)
+    protected function _getName($id = false, $array = false)
     {
-        $name = 'e[' . $this->_jbprice->identifier . '][' . $this->_getSkuId() . '][' . $key . ']';
+        $name = 'e[' . $this->_jbprice->identifier . ']';
 
-        if ($postFix !== null) {
-            $name .= '[' . $postFix . ']';
+        $name .= '[' . ($id === true ? $this->_getSkuId() : $this->_identifier) . ']';
+
+        if ($id) {
+            $name .= '[id]';
         }
+        $name .= ($array ? '[]' : null);
 
         return $name;
     }
+
 
     /**
      * Get id from elements table
@@ -318,7 +321,7 @@ class JBPriceFilterElement
      */
     protected function _getSkuId()
     {
-        return JBModelSku::$ids[$this->_identifier];
+        return JBModelSku::model()->getId($this->_identifier);
     }
 
     /**

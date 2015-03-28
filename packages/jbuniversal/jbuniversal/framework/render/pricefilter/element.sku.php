@@ -45,7 +45,7 @@ class JBPriceFilterElementSku extends JBPriceFilterElement
     {
         $value = (array)$this->_value;
         $html  = $this->html->text(
-            $this->_getName(null, 0),
+            $this->_getName(),
             $value['0'],
             $this->_attrs,
             $this->_getId('sku-')

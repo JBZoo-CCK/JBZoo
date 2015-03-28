@@ -29,7 +29,7 @@ class JBPriceFilterElementDiscountSelect extends JBPriceFilterElementDiscount
 
         return $this->html->select(
             $this->_createOptionsList($options),
-            $this->_getName(null, 'id'),
+            $this->_getName(),
             $this->_attrs,
             $this->_value,
             $this->_getId('discount')

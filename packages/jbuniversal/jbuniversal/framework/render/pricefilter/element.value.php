@@ -33,7 +33,7 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
         $html     = null;
 
         if ($template == self::TEMPLATE_SLIDER) {
-            $html = $this->renderSlider();
+            $html = $this->renderSlider($value);
 
         } else if ($template == self::TEMPLATE_RANGE) {
             $html = $this->renderRange($value);
@@ -51,60 +51,11 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
 
     /**
      * Render slider template
+     * @param $value
      * @return string
      */
-    public function renderSlider()
+    public function renderSlider($value)
     {
-        /*
-         *         $categoryId = null;
-        $params     = array(
-            'auto' => (int)$this->_params->get('jbzoo_filter_slider_auto', 0),
-            'min'  => $this->_params->get('jbzoo_filter_slider_min', 0),
-            'max'  => $this->_params->get('jbzoo_filter_slider_max', 10000),
-            'step' => $this->_params->get('jbzoo_filter_slider_step', 100),
-        );
-
-        if ($params['auto']) {
-
-            $applicationId = (int)$this->_params->get('item_application_id', 0);
-            $itemType      = $this->_params->get('item_type', null);
-
-            $isCatDepend = (int)$this->_params->moduleParams->get('depend_category');
-            if ($isCatDepend) {
-                $categoryId = $this->app->jbrequest->getSystem('category');
-            }
-
-            $rangesData = (array)JBModelValues::model()->getRangeByPrice(
-                $this->_jbprice->identifier,
-                $itemType,
-                $applicationId,
-                $categoryId
-            );
-
-            $ranges = array(
-                'min' => (float)$rangesData['total_min'],
-                'max' => (float)$rangesData['total_max'],
-            );
-
-            $from = $this->money->getDefaultCur();
-            $to   = $this->_params->get('jbzoo_filter_currency_default', 'EUR');
-
-            $ranges['min'] = floor($this->money->convert($from, $to, $ranges['min']));
-            $ranges['max'] = ceil($this->money->convert($from, $to, $ranges['max']));
-
-            $params = array_merge($params, array(
-                'min' => $ranges['min'],
-                'max' => $ranges['max']
-            ));
-        }
-
-        $html = '<div class="jbslider">' .
-            $this->html->slider($params, $value['range'], $this->_getName('range'),
-                $this->_getId('range', true)) .
-            '</div>';
-
-        return $html;
-         */
         $categoryId = $min = $max = null;
         $params     = array(
             'auto' => (int)$this->_params->get('jbzoo_filter_slider_auto', 0),
@@ -112,7 +63,7 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
             'max'  => $this->_params->get('jbzoo_filter_slider_max', 10000),
             'step' => $this->_params->get('jbzoo_filter_slider_step', 100),
         );
-        $cur = JBCart::val();
+        $to         = $this->_params->get('jbzoo_filter_currency_default', 'EUR');
         if ($params['auto']) {
             $applicationId = (int)$this->_params->get('item_application_id', 0);
             $isCatDepend   = (int)$this->_params->moduleParams->get('depend_category');
@@ -128,22 +79,17 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
                 $applicationId,
                 $categoryId
             );
-            $to  = $this->_params->get('jbzoo_filter_currency_default', 'EUR');
 
-            $min = JBCart::val($rangesData['total_min'] . $cur->cur());
-            $max = JBCart::val($rangesData['total_max'] . $cur->cur());
+            $min = JBCart::val($rangesData['total_min'])->convert($to);
+            $max = JBCart::val($rangesData['total_max'])->convert($to);
 
-            $min_str = floor($min->convert($to)->val());
-            $max_str = ceil($max->convert($to)->val());
-            $params  = array_merge($params, array(
-                'min' => $min_str,
-                'max' => $max_str
+            $params = array_merge($params, array(
+                'min' => $min->val(),
+                'max' => $max->val()
             ));
         }
-        $id   = $this->_getId('range', true);
-        $html = '<div class="' . $id . '-jbslider">' .
-            $this->html->slider($params, array($min, $max), $this->_getName(null, 'range'), $id, $cur->cur()) .
-            '</div>';
+
+        $html = $this->html->slider_v2($params, $value['range'], $this->_getName('range'), $this->app->jbstring->getId('jsSlider-'), $to);
 
         return $html;
     }
@@ -159,12 +105,12 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
     {
         $html = '<label for="' . $this->_getId('min') . '">' . JText::_('JBZOO_FROM') . '</label>';
 
-        $html .= $this->html->text($this->_getName('min', 0), $value['min'], 'class="val_min"',
+        $html .= $this->html->text($this->_getName('min'), $value['min'], 'class="val_min"',
             $this->_getId('min'));
 
         $html .= '<label for="' . $this->_getId('max') . '">' . JText::_('JBZOO_TO') . '</label>';
 
-        $html .= $this->html->text($this->_getName('max', 0), $value['max'], 'class="val_max"',
+        $html .= $this->html->text($this->_getName('max'), $value['max'], 'class="val_max"',
             $this->_getId('max'));
 
         return '<div class="jbprice-ranges">' . $html . '</div>';
@@ -179,8 +125,18 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
      */
     public function renderText($value)
     {
-        return '<label for="' . $this->_getId('val') . '">' . JText::_('JBZOO_FILTER_JBPRICE_VALUE') . '</label>' .
-        $this->html->text($this->_getName('value'), $value['value'], 'class="val"', $this->_getId('val'));
+        return $this->html->text($this->_getName('value'), $value['value'], 'class="val"', $this->_getId('val'));
+    }
+
+    /**
+     * Get name
+     * @param string $key
+     * @param  bool  $postFix
+     * @return string
+     */
+    protected function _getName($key = null, $postFix = null)
+    {
+        return parent::_getName() . '[' . $key . ']' . ($postFix !== null ? '[' . $postFix . ']' : null);
     }
 
     /**

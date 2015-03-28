@@ -27,7 +27,7 @@ class JBCartElementPriceRadio extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $value = $this->getOptions();
+        $value = $this->getOptions(false);
         if (!empty($value)) {
             return true;
         }
