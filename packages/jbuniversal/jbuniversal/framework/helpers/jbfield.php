@@ -253,13 +253,14 @@ class JBFieldHelper extends AppHelper
     {
         $layoutName = str_replace('layout_', '', $this->_getAttr($node, 'name', ''));
 
-        $auto   = $this->_getAttr($node, 'auto', 'true');
-        $path   = JPath::clean(
+        $auto = $this->_getAttr($node, 'auto', 'true');
+        $path = JPath::clean(
             $this->app->path->path('jbtmpl:') . '/' .
             $this->app->jbenv->getTemplateName()
             . '/renderer'
             . '/' . $layoutName
         );
+
         $system = $this->app->path->path("jbapp:templates-system/renderer/{$layoutName}");
 
         if ($auto == 'true') {
@@ -283,6 +284,89 @@ class JBFieldHelper extends AppHelper
         }
 
         return $this->_renderList($options, $value, $this->_getName($controlName, $name), $node);
+    }
+
+    /**
+     * Render layout list
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
+     * @param SimpleXMLElement $node
+     * @param SimpleXMLElement $parent
+     * @return mixed
+     */
+    public function orderMacros($name, $value, $controlName, SimpleXMLElement $node, $parent)
+    {
+        $isTextarea = $this->_getAttr($node, 'textarea', 'true') == 'true';
+        $inputName  = $this->_getName($controlName, $name);
+
+        $html = array();
+        if ($isTextarea) {
+            $attrs = array(
+                'cols'  => $this->_getAttr($node, 'cols', '25'),
+                'rows'  => $this->_getAttr($node, 'rows', '3'),
+                'name'  => $inputName,
+                'class' => 'jbmacroslist-textarea',
+            );
+
+            $html[] = '<textarea ' . $this->app->jbhtml->buildAttrs($attrs) . '>' . $value . '</textarea>';
+        } else {
+            $attrs = array(
+                'value'     => $value,
+                'name'      => $inputName,
+                'maxlength' => 255,
+                'type'      => 'text',
+                'class'     => 'jbmacroslist-text',
+            );
+
+            $html[] = '<input ' . $this->app->jbhtml->buildAttrs($attrs) . ' />';
+        }
+
+        $html[] = '<input type="button" class="uk-button uk-button-mini jbmacroslist-button jsShow" '
+            . 'value="?" title="' . JText::_('JBZOO_ORDER_MACROS_LIST') . '" />';
+
+        $list   = $this->app->jbordermacros->getList();
+        $html[] = '<div class="clear"></div><ul class="jsMacrosList macros-list clear">';
+        foreach ($list as $key => $macros) {
+            $html[] = '<li><span class="jbmacroslist-row">' . $key . '</span> ' . $macros . '</li>';
+        }
+        $html[] = '</ul>';
+
+        $html[] = $this->app->jbassets->widget('.jsOrderMacros', 'JBZooOrderMacrosList', array(), true);
+
+        return '<div class="jsOrderMacros jbmacroslist">' . implode(PHP_EOL, $html) . '</div>';
+    }
+
+    /**
+     * Render layout list
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
+     * @param SimpleXMLElement $node
+     * @param SimpleXMLElement $parent
+     * @return mixed
+     */
+    public function elementLayouts($name, $value, $controlName, SimpleXMLElement $node, $parent)
+    {
+        $path  = $this->_getAttr($node, 'path', '');
+        $lPath = $this->app->path->path($path);
+
+        if (!$lPath) {
+            return '<i>Undefined path: ' . $path . '</i>';
+        }
+
+        $options = array();
+        if ($this->_getAttr($node, 'auto', 'true') == 'true') {
+            $options = array('__auto__' => JText::_('JBZOO_LAYOUT_AUTOSELECT'));
+        }
+
+        $files = JFolder::files($lPath, '^([-_A-Za-z0-9\.]*)\.php$', false, false, array('.svn', 'CVS'));
+        foreach ($files as $tmpl) {
+            $tmpl           = basename($tmpl, '.php');
+            $options[$tmpl] = $tmpl;
+        }
+
+        return $this->_renderList($options, $value, $this->_getName($controlName, $name), $node, false);
     }
 
     /**
@@ -529,17 +613,18 @@ class JBFieldHelper extends AppHelper
     }
 
     /**
-     * @param                  $name
-     * @param                  $value
-     * @param                  $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
-     * @return string
+     * @param SimpleXMLElement $parent
+     * @return mixed
      */
     public function cartFields($name, $value, $controlName, SimpleXMLElement $node)
     {
         $group     = $this->_getAttr($node, 'group');
         $position  = $this->_getAttr($node, 'position', 'list');
-        $multiple  = (bool)$this->_getAttr($node, 'multiple', null);
+        $multiple  = (bool)$this->_getAttr($node, 'multiple', 0);
         $emptytext = '<i>' . JText::_($this->_getAttr($node, 'emptytext', 'JBZOO_ELEMENT_CARTFIELDS_EMPTYTEXT')) . '</i>';
 
         if (defined('JBCart::' . $group)) {
@@ -566,71 +651,60 @@ class JBFieldHelper extends AppHelper
             $options[] = $this->app->html->_('select.option', $element->identifier, $element->getName());
         }
 
-        $style = 'size="5"';
         $name  = $this->_getName($controlName, $name);
         $name  = $multiple ? $name . '[]' : $name;
-
-        $style .= $multiple ? ' multiple="multiple"' : null;
+        $attrs = $multiple ? ' multiple="multiple" size="5"' : null;
 
         if (!empty($options)) {
-            return $this->app->html->_('select.genericlist', $options, $name, $style, 'value', 'text', $value);
+            return $this->app->html->_('select.genericlist', $options, $name, $attrs, 'value', 'text', $value);
         }
 
         return $emptytext;
     }
 
     /**
-     * @param                  $name
-     * @param                  $value
-     * @param                  $controlName
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
      * @param SimpleXMLElement $node
-     * @param                  $parent
-     * @return string
+     * @param SimpleXMLElement $parent
+     * @return mixed
      */
     public function notificationRecipients($name, $value, $controlName, SimpleXMLElement $node, $parent)
     {
-        $jbHTML = $this->app->jbhtml;
+        $jbhtml = $this->app->jbhtml;
 
         $value = $this->app->data->create($value);
+        $name  = $this->_getName($controlName, $name);
 
         $html = array();
-        $name = $this->_getName($controlName, $name);
 
-        $adminName = $name . '[admin][]';
-        $userName  = $name . '[user][]';
-        $advName   = $name . '[advanced]';
+        // build select for user groups
+        $html[] = $this->spacer('', JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_GROUPS'), $controlName, $node, $parent);
+        $html[] = JHtml::_('access.usergroup', $name . '[groups][]', $value->get('groups', array()), $jbhtml->buildAttrs(array(
+            'multiple' => 'multiple', 'size' => '5')), false);
 
-        $adminAttrs = array(
-            'multiple' => 'true',
-            'style'    => 'height: 150px;'
+
+        // build select for custom fields
+        $userOptions = array(
+            'usermail' => JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_USERMAIL'),
+            'sitemail' => JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_SITEMAIL'),
         );
-
-        $fields = $this->app->jbcartposition->loadPositions(JBCart::CONFIG_FIELDS, array(JBCart::DEFAULT_POSITION));
-        $fields = $fields['list'];
-        $forms  = array();
-
-        if (!empty($fields)) {
-            foreach ($fields as $key => $field) {
-                $forms[$key] = $field->getName();
+        $elements    = $this->app->jbcartposition->loadPositions(JBCart::CONFIG_FIELDS, array(JBCart::DEFAULT_POSITION));
+        $elements    = $elements['list'];
+        if (!empty($elements)) {
+            foreach ($elements as $key => $element) {
+                $userOptions[$element->identifier] = $element->getName();
             }
-        }
+        };
+        $html[] = $this->spacer('', JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_ORDERFORM'), $controlName, $node, $parent);
+        $html[] = $this->app->html->_('select.genericlist', $userOptions, $name . '[orderform][]',
+            $jbhtml->buildAttrs(array('multiple' => 'multiple', 'size' => '5')), 'value', 'text', $value->get('orderform', array()));
 
-        $userOptions = array_merge(array(
-            'profile' => JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_USER_EMAIL'),
-        ), $forms);
 
-        $userAttrs = array(
-            'multiple' => true
-        );
-
-        $html[] = $this->spacer($name, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_ADMIN_GROUPS'), $controlName, $node, $parent);
-        $html[] = JHtml::_('access.usergroup', $adminName, $value->get('admin', array()), $jbHTML->buildAttrs($adminAttrs), false);
-
-        $html[] = $this->spacer($userName, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_USER'), $controlName, $node, $parent);
-        $html[] = $this->app->html->_('select.genericlist', $userOptions, $userName, $jbHTML->buildAttrs($userAttrs), 'value', 'text', $value->get('user', array()));
-
-        $html[] = $this->spacer($userName, JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_ADVANCED_EMAIL'), $controlName, $node, $parent);
-        $html[] = $jbHTML->text($advName, $value->get('advanced', ''));
+        // text field
+        $html[] = $this->spacer('', JText::_('JBZOO_NOTIFICATION_SENDEMAIL_RECIPIENT_CUSTOM'), $controlName, $node, $parent);
+        $html[] = $jbhtml->text($name . '[custom]', $value->get('custom', ''));
 
         return implode(PHP_EOL, $html);
     }
@@ -900,9 +974,9 @@ class JBFieldHelper extends AppHelper
                 }
             }
         }
-        $default = empty($optionList) ? JText::_($empty) : '';
-        if (!empty($optionList) && !(int)$this->_getAttr($node, 'multiple', '0')) {
-            $optionList = $this->app->jbarray->unshiftAssoc($optionList, '', $default);
+
+        if (empty($optionList)) {
+            return JText::_($empty);
         }
 
         return $this->_renderList($optionList, $value, $this->_getName($controlName, $name), $node);
@@ -953,90 +1027,6 @@ class JBFieldHelper extends AppHelper
     }
 
     /**
-     * Render element list
-     * @param string           $name
-     * @param string|array     $value
-     * @param string           $controlName
-     * @param SimpleXMLElement $node
-     * @param SimpleXMLElement $parent
-     * @return mixed
-     */
-    public function JBElementListByType($name, $value, $controlName, SimpleXMLElement $node, $parent)
-    {
-        $elTypes = $this->_getAttr($node, 'types', '');
-        $layout  = $this->_getAttr($node, 'layout', 'teaser');
-
-        if ($elTypes) {
-            $elTypes = explode(',', $elTypes);
-        }
-
-        $optionList = array();
-        $result     = array();
-
-        // TODO remove paths hardcode
-        $paths = array(
-            $this->app->path->path('jbapp:templates/catalog/renderer/item/positions.config'),
-            JPATH_BASE . '/modules/mod_zooitem/renderer/item/positions.config',
-            JPATH_BASE . '/plugins/system/widgetkit_zoo/widgets/slideset/renderer/item/positions.config',
-            $this->app->path->path('mod_jbzoo_item:renderer/item/positions.config')
-        );
-        $files = JFolder::files($this->app->path->path('jbtypes:'), '\.config');
-
-        $types = $this->app->zoo->getApplication()->getTypes();
-        $types = $this->app->data->create($types);
-
-
-        foreach ($types as $type) {
-            foreach ($paths as $path) {
-
-                $config = $this->app->parameter->create($this->app->jbfile->read($path));
-                $param  = $config->get(JBZOO_APP_GROUP . '.' . $type->id . '.' . $layout);
-                if (empty($param)) {
-                    continue;
-                }
-
-                $result[] = $param;
-            }
-        }
-
-        foreach ($files as $file) {
-
-            $json = $this->app->jbfile->read($this->app->path->path('jbtypes:' . $file));
-            $data = @json_decode($json, true);
-
-            if (!$data) {
-                continue;
-            }
-
-            foreach ($data['elements'] as $key => $element) {
-
-                if (in_array($element['type'], $elTypes)) {
-
-                    if (!empty($result)) {
-                        foreach ($result as $elem) {
-
-                            $elem = $this->app->data->create($elem);
-                            $kee  = $elem->searchRecursive($key);
-
-                            $position = $this->app->data->create($elem->get($kee));
-                            for ($i = 0; $i < count($position); $i++) {
-                                if ($position[$i]['element'] == $key) {
-                                    $optionList[json_encode($position[$i])] = $data['name'] . ' - ' . $element['name'];
-                                }
-                            }
-
-                        }
-                    }
-                }
-            }
-        }
-
-        $optionList = array_unique($optionList);
-
-        return $this->_renderList($optionList, $value, $this->_getName($controlName, $name), $node);
-    }
-
-    /**
      * @param                  $name
      * @param                  $value
      * @param                  $controlName
@@ -1068,8 +1058,22 @@ class JBFieldHelper extends AppHelper
         if (isset($parent->element->identifier)) {
             return $parent->element->identifier;
         }
+    }
 
-        return '';
+    /**
+     * Render element id
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
+     * @param SimpleXMLElement $node
+     * @param SimpleXMLElement $parent
+     * @return mixed
+     */
+    public function elementDesc($name, $value, $controlName, SimpleXMLElement $node, $parent)
+    {
+        if ($desc = $parent->element->getMetaData('description')) {
+            return '<span class="field-jbelement-desc">' . $desc . '</span>';
+        }
     }
 
     /**
@@ -1560,9 +1564,10 @@ class JBFieldHelper extends AppHelper
      * @param string           $value
      * @param string           $controlName
      * @param SimpleXMLElement $node
+     * @param bool             $translate
      * @return mixed
      */
-    protected function _renderList($optionsList, $value, $controlName, SimpleXMLElement $node)
+    protected function _renderList($optionsList, $value, $controlName, SimpleXMLElement $node, $translate = true)
     {
         $attributes = array();
         if ($this->_getAttr($node, 'multiple', '0') == '1') {
@@ -1575,7 +1580,7 @@ class JBFieldHelper extends AppHelper
 
         $options = $this->app->html->listOptions($optionsList);
 
-        return $this->app->html->genericList($options, $controlName, $attributes, 'value', 'text', $value, false, true);
+        return $this->app->html->genericList($options, $controlName, $attributes, 'value', 'text', $value, false, $translate);
     }
 
     /**
