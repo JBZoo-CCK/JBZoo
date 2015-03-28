@@ -25,7 +25,7 @@ $modified  = $this->app->html->_('date', $order->modified, JText::_('DATE_FORMAT
 
 echo $this->partial('clientarea_order', 'default.styles');
 
-$this->app->document->setTitle(JText::sprintf('JBZOO_CLIENTAREA_ORDERNAME_DATE', $order->getName(), $created));
+$this->app->document->setTitle($order->getName('full'));
 
 $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredit', 'order' => $order));
 
