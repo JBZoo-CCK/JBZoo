@@ -35,6 +35,18 @@ class JBVarsHelper extends AppHelper
     }
 
     /**
+     * @param $value
+     * @return mixed|string
+     */
+    public function phone($value)
+    {
+        $value = preg_replace('#[^0-9]#ius', '', $value);
+        $value = JString::trim((string)$value);
+
+        return $value;
+    }
+
+    /**
      * Convert string to lower chars
      * @param string $string
      * @param bool   $joomla
@@ -95,6 +107,24 @@ class JBVarsHelper extends AppHelper
         }
 
         return $default;
+    }
+
+    /**
+     * @param $email
+     * @return bool|string
+     */
+    public function email($email)
+    {
+        $email = JString::trim($email);
+
+        // like in JFormRuleEmail
+        $regex = chr(1) . '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$' . chr(1) . 'u';
+
+        if (preg_match($regex, $email)) {
+            return $email;
+        }
+
+        return false;
     }
 
 }
