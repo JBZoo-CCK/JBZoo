@@ -46,7 +46,7 @@ class JBDebugHelper extends AppHelper
 
         if (self::$_jbdump === null) {
             // Joomla standart profiler
-            if (defined('JDEBUG') && JDEBUG) {
+            if (JDEBUG) {
                 self::$_jbdump = JProfiler::getInstance('Application');
             }
 
