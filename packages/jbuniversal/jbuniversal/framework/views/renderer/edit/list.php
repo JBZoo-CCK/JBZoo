@@ -12,7 +12,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$style = isset($style) ? $style : 'adminedit';
+
 ?>
 <dl class="uk-description-list-horizontal">
-    <?php echo $this->renderAdminPosition(array('style' => 'adminedit')); ?>
+    <?php echo $this->renderAdminPosition(array('style' => $style)); ?>
 </dl>
