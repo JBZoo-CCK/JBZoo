@@ -20,6 +20,8 @@
     <description>JBZoo Cart Element Core System</description>
 
     <params>
+        <param name="jbelementdesc" type="jbelementdesc"/>
+
         <param name="jbelementid" type="jbelementid" label="JBZOO_ELEMENT_ID" description="JBZOO_ELEMENT_ID_DESC"/>
 
         <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME" description="JBZOO_ELEMENT_NAME_DESC"/>
@@ -30,6 +32,7 @@
     </params>
 
     <params group="render">
+        <param name="jbelementdesc" type="jbelementdesc"/>
 
         <param name="jbelementid" type="jbelementid" label="JBZOO_ELEMENT_ID" description="JBZOO_ELEMENT_ID_DESC"/>
 
