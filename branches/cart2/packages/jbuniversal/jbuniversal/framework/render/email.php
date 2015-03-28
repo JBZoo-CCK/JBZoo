@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -18,15 +17,18 @@ defined('_JEXEC') or die('Restricted access');
  */
 class EmailRenderer extends PositionRenderer
 {
+    const POSITION_ATTACH = 'attachments';
+
     /**
-     * Unique JMail index
-     * @type string
+     * @type JMail
      */
-    public $hash;
+    protected $_mailer;
+
     /**
      * @type JBCartElementHelper
      */
-    protected $_cartelement;
+    protected $_element;
+
     /**
      * @type JBCartPositionHelper
      */
@@ -38,25 +40,12 @@ class EmailRenderer extends PositionRenderer
     protected $_config;
 
     /**
-     * @type JBCartOrder|Comment
+     * @type JBCartOrder
      */
-    protected $_subject;
-
-    /**
-     * @var array
-     */
-    protected $_systemPositions = array(
-        self::POSITION_TITLE  => 'Title',
-        self::POSITION_ATTACH => 'Attach'
-    );
-
-    const MAIN_GROUP      = 'cart.';
-    const POSITION_ATTACH = 'attach';
-    const POSITION_TITLE  = 'title';
+    protected $_order;
 
     /**
      * Class constructor
-     *
      * @param App  $app
      * @param null $path
      */
@@ -64,41 +53,55 @@ class EmailRenderer extends PositionRenderer
     {
         parent::__construct($app, $path);
 
-        $this->_position    = $app->jbcartposition;
-        $this->_cartelement = $app->jbcartelement;
-        $this->_config      = JBModelConfig::model();
+        $this->_position = $app->jbcartposition;
+        $this->_element  = $app->jbcartelement;
+        $this->_config   = JBModelConfig::model();
+    }
+
+    /**
+     * @param string $layout
+     * @param array  $args
+     * @return string
+     */
+    public function render($layout, $args = array())
+    {
+        // set subject
+        $this->_order  = isset($args['order']) ? $args['order'] : null;
+        $this->_mailer = isset($args['mailer']) ? $args['mailer'] : null;
+        $this->_layout = $layout;
+
+        // render layout
+        $result = parent::render(JBCart::ELEMENT_TYPE_EMAIL . '.' . $layout, $args);
+
+        $this->renderPosition(self::POSITION_ATTACH);
+
+        return $result;
     }
 
     /**
      * Check if user can access position
-     *
      * @param  string $position
-     *
      * @return bool
      */
     public function checkPosition($position)
     {
-        if ($position == self::POSITION_ATTACH) {
-            return false;
-        }
-
         foreach ($this->_getConfigPosition($position) as $index => $config) {
-            if ($element = $this->_cartelement->create($config['type'], $config['group'], $config)) {
-                //set hash
-                $element->set('_hash', $this->hash);
-                //set subject
-                $element->setSubject($this->_subject);
+            if ($element = $this->_element->create($config['type'], $config['group'], $config)) {
 
                 //set config
                 $element->setConfig($config);
+                $element->setOrder($this->_order);
+                $element->setMailer($this->_mailer);
+
+                // set params
                 $args['_layout']   = $this->_layout;
                 $args['_position'] = $position;
                 $args['_index']    = $index;
 
-                // set params
                 $params = array_merge((array)$config, $args);
 
-                if ($element->hasValue($this->app->data->create($params))) {
+                $params = $this->app->data->create($params);
+                if ($element->canAccess() && $element->hasValue($params)) {
                     return true;
                 }
             }
@@ -108,56 +111,26 @@ class EmailRenderer extends PositionRenderer
     }
 
     /**
-     * @param string $layout
-     * @param array  $args
-     *
-     * @return string
-     */
-    public function render($layout, $args = array())
-    {
-        // set subject
-        $this->_subject = isset($args['subject']) ? $args['subject'] : null;
-        //set hash
-        $this->hash    = isset($args['hash']) ? $args['hash'] : null;
-        $this->_layout = $layout;
-        unset($args['subject']);
-
-        $result = '';
-
-        // render layout
-        $result .= parent::render(JBCart::ELEMENT_TYPE_EMAIL . '.' . $layout, $args);
-
-        return $result;
-    }
-
-    /**
      * @param  string $position
      * @param  array  $args
-     *
      * @return bool|string
      */
     public function renderPosition($position, $args = array())
     {
-        if ($position == self::POSITION_ATTACH) {
-            return false;
-        }
-
         // init vars
         $elements = array();
         $output   = array();
-        $style    = isset($args['style']) ? 'order.email.' . $args['style'] : 'order.email.simple';
+        $style    = isset($args['style']) ? 'email.' . $args['style'] : 'email.default';
         $layout   = $this->_layout;
 
         // render elements
         foreach ($this->_getConfigPosition($position) as $index => $config) {
-            if ($element = $this->_cartelement->create($config['type'], $config['group'], $config)) {
-                //set hash
-                $element->set('_hash', $this->hash);
-                //set subject
-                $element->setSubject($this->_subject);
+            if ($element = $this->_element->create($config['type'], $config['group'], $config)) {
 
-                //set config
                 $element->setConfig($config);
+                $element->setOrder($this->_order);
+                $element->setMailer($this->_mailer);
+
                 $args['_layout']   = $this->_layout;
                 $args['_position'] = $position;
                 $args['_index']    = $index;
@@ -165,7 +138,8 @@ class EmailRenderer extends PositionRenderer
                 // set params
                 $params = array_merge((array)$config, $args);
 
-                if (!$element->hasValue($this->app->data->create($params))) {
+                $params = $this->app->data->create($params);
+                if (!$element->canAccess() || !$element->hasValue()) {
                     continue;
                 }
 
@@ -196,7 +170,6 @@ class EmailRenderer extends PositionRenderer
 
     /**
      * @param $position
-     *
      * @return mixed
      */
     public function _getConfigPosition($position)
@@ -209,7 +182,6 @@ class EmailRenderer extends PositionRenderer
 
     /**
      * @param string $dir
-     *
      * @return array
      */
     public function getLayouts($dir)
@@ -236,9 +208,7 @@ class EmailRenderer extends PositionRenderer
 
     /**
      * Retrieve positions of a layout and add system positions if not exists - Title, Attach.
-     *
      * @param string $dir point separated path to layout, last part is layout
-     *
      * @return array The positions array
      * @since 2.0
      */
@@ -246,7 +216,9 @@ class EmailRenderer extends PositionRenderer
     {
         $positions = parent::getPositions($dir);
 
-        $positions['positions'] = array_merge($positions['positions'], $this->_systemPositions);
+        $positions['positions'] = array_merge($positions['positions'], array(
+            self::POSITION_ATTACH => 'Attachments'
+        ));
 
         return $positions;
     }
@@ -257,14 +229,13 @@ class EmailRenderer extends PositionRenderer
     public function addAttachment()
     {
         foreach ($this->_getConfigPosition(self::POSITION_ATTACH) as $index => $config) {
-            if ($element = $this->_cartelement->create($config['type'], $config['group'], $config)) {
-                //set hash
-                $element->set('_hash', $this->hash);
-                //set subject
-                $element->setSubject($this->_subject);
+            if ($element = $this->_element->create($config['type'], $config['group'], $config)) {
 
-                //set config
                 $element->setConfig($config);
+                $element->setOrder($this->_order);
+
+                $element->setMailer($this->_mailer);
+
                 $args['_layout']   = $this->_layout;
                 $args['_position'] = self::POSITION_ATTACH;
                 $args['_index']    = $index;
@@ -272,7 +243,8 @@ class EmailRenderer extends PositionRenderer
                 // set params
                 $params = array_merge((array)$config, $args);
 
-                if (method_exists($element, 'addAttachment') && $element->hasValue($this->app->data->create($params))) {
+                $params = $this->app->data->create($params);
+                if (method_exists($element, 'addAttachment') && $element->hasValue($params)) {
                     $element->addAttachment();
                 }
             }
@@ -284,7 +256,6 @@ class EmailRenderer extends PositionRenderer
     /**
      * @param  string $__layout
      * @param  array  $__args
-     *
      * @return string
      */
     public function partial($__layout, $__args = array())
@@ -298,7 +269,6 @@ class EmailRenderer extends PositionRenderer
         $layout = $this->_getLayout($__layout);
 
         // render layout
-        $__html = '';
         ob_start();
         include($layout);
         $__html = ob_get_contents();
@@ -309,9 +279,7 @@ class EmailRenderer extends PositionRenderer
 
     /**
      * Build default attributes or merge with needed
-     *
      * @param  array $attrs
-     *
      * @return mixed
      */
     public function getAttrs($attrs = array())
@@ -331,10 +299,8 @@ class EmailRenderer extends PositionRenderer
 
     /**
      * Build default styles or merge with needed
-     *
      * @param  bool  $merge
      * @param  array $styles
-     *
      * @return mixed
      */
     public function getStyles($styles = array(), $merge = false)
@@ -360,9 +326,7 @@ class EmailRenderer extends PositionRenderer
 
     /**
      * Build styles from array
-     *
      * @param  $styles
-     *
      * @return string
      */
     public function buildStyles($styles)
@@ -390,7 +354,6 @@ class EmailRenderer extends PositionRenderer
      * @param         $text
      * @param  string $color - name|hex|rgb
      * @param  int    $size  - from 1 to 7
-     *
      * @return string
      */
     public function fontColor($text, $color = '#000', $size = 2)
@@ -403,19 +366,18 @@ class EmailRenderer extends PositionRenderer
      */
     protected function _getConfig()
     {
-        $params = $this->_config->getGroup(self::MAIN_GROUP . JBCart::CONFIG_EMAIL_TMPL . '.' . $this->_layout);
+        $params = $this->_config->getGroup('cart.' . JBCart::CONFIG_EMAIL_TMPL . '.' . $this->_layout);
 
         return $params;
     }
 
     /**
      * @param null $layout
-     *
      * @return string
      */
     protected function _getLayout($layout = null)
     {
-        if ($layout == null) {
+        if (empty($layout)) {
             return false;
         }
 
