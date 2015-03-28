@@ -19,11 +19,4 @@
     <version>1.0</version>
     <description>JBZOO_ELEMENT_EMAIL_SHIPPINGFIELD_DESC</description>
 
-    <params>
-
-        <param name="title" type="text" default="" label="JBZOO_ELEMENT_EMAIL_SHIPPINGFIELD_TITLE"
-               description="JBZOO_ELEMENT_EMAIL_SHIPPINGFIELD_TITLE_DESC" />
-
-    </params>
-
 </element>

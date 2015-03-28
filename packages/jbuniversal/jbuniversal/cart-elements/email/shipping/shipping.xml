@@ -20,16 +20,8 @@
     <description>JBZOO_ELEMENT_EMAIL_SHIPPING_DESC</description>
 
     <params>
-
-        <param name="title" type="text" default="" label="JBZOO_ELEMENT_EMAIL_SHIPPING_TITLE"
-               description="JBZOO_ELEMENT_EMAIL_SHIPPING_DESC" />
-
-        <param name="shippingfield" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_SHIPPING_SHIPPINGFIELD"
-               description="JBZOO_ELEMENT_EMAIL_SHIPPING_SHIPPINGFIELD_DESC" />
-
-        <param name="shippingfieldtitle" type="text" default="" label="JBZOO_ELEMENT_EMAIL_SHIPPING_SHIPPINGFIELDTITLE"
-               description="JBZOO_ELEMENT_EMAIL_SHIPPING_SHIPPINGFIELDTITLE_DESC" />
-
+        <param name="fields" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_SHIPPING_FIELDS"
+               description="JBZOO_ELEMENT_EMAIL_SHIPPING_FIELDS_DESC"/>
     </params>
 
 </element>

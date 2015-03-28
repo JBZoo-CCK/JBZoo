@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -19,37 +18,21 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementEmailShopName extends JBCartElementEmail
 {
     /**
-     * Check elements value.
-     * Output element or no.
-     *
      * @param  array $params
      * @return bool
      */
     public function hasValue($params = array())
     {
-        $shopname = JString::trim($this->_cartConfig->get('shop_name'));
-
-        if (!empty($shopname)) {
-            return true;
-        }
-
-        return false;
+        return $this->_getShopName();
     }
 
     /**
-     * Render elements data
-     *
-     * @param  array $params
-     * @return null|string
+     * @return mixed|string
      */
-    public function render($params = array())
+    protected function _getShopName()
     {
-        if ($layout = $this->getLayout('order.php')) {
-            return self::renderLayout($layout, array(
-                'shopname' => $this->_cartConfig->get('shop_name')
-            ));
-        }
-
-        return false;
+        $shopName = JBModelConfig::model()->get('shop_name', '', 'cart.config');
+        $shopName = JString::trim($shopName);
+        return $shopName;
     }
 }

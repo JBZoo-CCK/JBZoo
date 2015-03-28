@@ -18,15 +18,4 @@
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
     <description>JBZOO_ELEMENT_EMAIL_SITENAME_DESC</description>
-
-    <params>
-
-        <param name="showlabel" type="jbbool" default="1" label="JBZOO_ELEMENT_SHOWLABEL"
-               description="JBZOO_ELEMENT_SHOWLABEL_DESC" />
-
-        <param name="more_text" type="text" label="JBZOO_EMAIL_SITENAME_MORETEXT_MORE_TEXT"
-               description="JBZOO_EMAIL_SITENAME_MORETEXT_MORE_TEXT_DESC" />
-
-    </params>
-
 </element>

@@ -12,13 +12,14 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (!empty($fields)) {
-    foreach ($fields as $id) {
-        if ($element = $this->_order->getFieldElement($id)) {
-            $name  = $element->getName();
-            $value = $element->get('value');
 
-            echo '<strong>' . $name . ': </strong>' . $value . PHP_EOL;
-        }
-    }
-}
+$files = $this->_getFiles();
+
+?>
+<dl>
+    <?php foreach ($files as $file) {
+        echo $this->_partial('download_item', array(
+            'file' => $file,
+        ));
+    } ?>
+</dl>

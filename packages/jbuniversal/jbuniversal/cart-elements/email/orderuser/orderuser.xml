@@ -10,18 +10,13 @@
     @coder       Alexander Oganov <t_tapak@yahoo.com>
 -->
 <element type="element" group="Core" hidden="false">
-    <name>JBZOO_ELEMENT_EMAIL_NO_NAME</name>
+    <name>JBZOO_ELEMENT_EMAIL_ORDERUSER_NAME</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZOO_ELEMENT_EMAIL_NO_DESC</description>
-
-    <params>
-        <param name="showlabel" type="jbbool" default="1" label="JBZOO_ELEMENT_SHOWLABEL"
-               description="JBZOO_ELEMENT_SHOWLABEL_DESC" />
-    </params>
+    <description>JBZOO_ELEMENT_EMAIL_ORDERUSER_DESC</description>
 
 </element>

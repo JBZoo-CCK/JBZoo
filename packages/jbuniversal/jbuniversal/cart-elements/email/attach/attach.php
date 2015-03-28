@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -18,22 +17,15 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementEmailAttach extends JBCartElementEmail
 {
+
     /**
      * Check elements value.
-     * Output element or no.
-     *
      * @param  array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
     {
-        $file = $this->config->get('file');
-        if (!empty($file)) {
-            return true;
-        }
-
-        return false;
+        return $this->_getFile();
     }
 
     /**
@@ -43,14 +35,23 @@ class JBCartElementEmailAttach extends JBCartElementEmail
      */
     public function render($params = array())
     {
-        if ($layout = $this->getLayout('order.php')) {
-            return self::renderLayout($layout, array(
-                'params' => $params,
-                'order'  => $this->getOrder()
-            ));
-        }
+        $file = $this->_getFile();
+        $name = $this->getName() . '.' . JFile::getExt($file);
 
-        return false;
+        $this->_mailer->addAttachment($file, $name);
+    }
+
+    /**
+     * @return string|null
+     */
+    protected function _getFile()
+    {
+        $file = $this->config->get('file');
+        $file = JString::trim($file);
+
+        if (JFile::exists($file)) {
+            return $file;
+        }
     }
 
     /**
@@ -62,9 +63,10 @@ class JBCartElementEmailAttach extends JBCartElementEmail
         parent::loadConfigAssets();
 
         $this->app->jbassets->js('assets:js/finder.js');
-        $this->app->jbassets->js('cart-elements:email/attach/js/finder.js');
+        $this->app->jbassets->js('cart-elements:email/attach/assets/js/attach.js');
         $this->app->jbassets->css('assets:css/ui.css');
 
         return $this;
     }
+
 }

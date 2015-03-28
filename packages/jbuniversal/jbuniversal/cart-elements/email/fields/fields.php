@@ -13,42 +13,36 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBCartElementEmailFields
+ * Class JBCartElementEmailOrderFields
  */
 class JBCartElementEmailFields extends JBCartElementEmail
 {
     /**
-     * Check elements value.
-     * Output element or no.
      * @param  array $params
      * @return bool
      */
     public function hasValue($params = array())
     {
-        $order = $this->getOrder();
-        if ($order->id && $order->created) {
-            return true;
-        }
-
-        return false;
+        $fields = $this->_getFields();
+        return !empty($fields);
     }
 
     /**
-     * Render elements data
-     * @param  array $params
-     * @return null|string
+     * @return array
      */
-    public function render($params = array())
+    protected function _getFields()
     {
-        if ($layout = $this->getLayout('order.php')) {
-            return self::renderLayout($layout, array(
-                'params' => $params,
-                'order'  => $this->getOrder(),
-                'fields' => (array)$this->config->get('fields', array()),
-                'data'   => $this->_order->getFields()
-            ));
+        $orderFields = $this->_order->getFields();
+        $selected    = $this->config->get('fields', array());
+
+        $result = array();
+        foreach ($selected as $elementId) {
+            if ($element = $orderFields->get($elementId)) {
+                $result[$elementId] = $element;
+            }
         }
 
-        return false;
+        return $result;
     }
+
 }

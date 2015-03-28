@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -18,108 +17,63 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementEmailUser extends JBCartElementEmail
 {
+    /**
+     * @param array $params
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        return true;
+    }
 
     /**
-     * User formats of name
-     *
-     * @var array
+     * @return JUser
      */
-    protected $_formats = array(
-        'id'         => 'id',
-        'name'       => 'name',
-        'username'   => 'username',
-        'full'       => array(
-            'username', 'name'
-        ),
-        'full_id'    => 'id',
-        'full_group' => 'group'
-    );
-
-    const USERNAME_FORMAT_FULL       = 'full';
-    const USERNAME_FORMAT_FULL_GROUP = 'full_group';
-    const USERNAME_FORMAT_FULL_ID    = 'full_id';
+    protected function _getUser()
+    {
+        return JFactory::getUser();
+    }
 
     /**
      * Render elements data
-     *
      * @param  array $params
      * @return null|string
      */
     public function render($params = array())
     {
-        if ($layout = $this->getLayout('order.php')) {
-            return self::renderLayout($layout, array(
-                'params' => $params,
-                'order'  => $this->getOrder(),
-                'name'   => $this->toFormat()
-            ));
+        $juser    = $this->_getUser();
+        $infotype = $params->get('infotype', 'name');
+
+        $result = null;
+
+        if ($infotype == 'username') {
+            $result = JText::_('JBZOO_ELEMENT_EMAIL_USER_GUEST');
+            if (!empty($juser->username)) {
+                $result = $juser->username;
+            }
+
+        } else if ($infotype == 'name') {
+            $result = JText::_('JBZOO_ELEMENT_EMAIL_USER_GUEST');
+            if (!empty($juser->name)) {
+                $result = $juser->name;
+            }
+
+        } else if ($infotype == 'userid') {
+            $result = (int)$juser->id;
+
+        } else if ($infotype == 'groupname') {
+            $result = $this->_getGroupName(key($juser->groups));
         }
 
-        return false;
-    }
-
-    /**
-     * Get user formated name
-     *
-     * @param  null $format
-     * @return mixed|string
-     */
-    public function toFormat($format = null)
-    {
-        if ($format === null) {
-            $format = $this->config->get('format', 'name');
-        }
-
-        $userId = $this->getOrder()->created_by;
-        $user   = JFactory::getUser($userId);
-        $full   = $this->_toFullFormat();
-
-        if ($userId === 0) {
-            return JText::_('JBZOO_ORDER_CREATED_BY_GUEST');
-
-        } else if ($format === self::USERNAME_FORMAT_FULL) {
-            return $full;
-
-        } else if ($format === self::USERNAME_FORMAT_FULL_GROUP) {
-
-            $groupId = key($user->groups);
-            $title   = $this->_getGroupTitle($groupId);
-
-            return $full . ' (' . $title . ')';
-
-        } else if ($format === self::USERNAME_FORMAT_FULL_ID) {
-            return $full . ' (' . $user->get('id') . ')';
-        }
-
-        return $user->get($this->_formats[$format]);
-    }
-
-    /**
-     * Get full format user name. USERNAME - NAME
-     *
-     * @return string
-     */
-    protected function _toFullFormat()
-    {
-        $created_by = $this->getOrder()->created_by;
-
-        if ($created_by === 0) {
-            return JText::_('JBZOO_ORDER_CREATED_BY_GUEST');
-        }
-
-        $user = JFactory::getUser($created_by);
-        $name = $user->get('username') . ' - ' . $user->get('name');
-
-        return $name;
+        return $result;
     }
 
     /**
      * Get group title by id
-     *
      * @param  $id
      * @return mixed
      */
-    protected function _getGroupTitle($id)
+    protected function _getGroupName($id)
     {
         $db = JFactory::getDbo();
 

@@ -21,15 +21,7 @@
 
     <params>
         <param name="file" type="jbfinder" default="" label="JBZOO_ELEMENT_EMAIL_ATTACH_FILE"
-               description="JBZOO_ELEMENT_EMAIL_ATTACH_FILE_DESC" />
-
-        <param name="nameformat" type="list" default="" label="JBZOO_ELEMENT_EMAIL_ATTACH_NAMEFORMAT"
-               description="JBZOO_ELEMENT_EMAIL_ATTACH_DESC">
-            <option value="0">JBZOO_ELEMENT_EMAIL_ATTACH_NAMEFORMAT_0_OPTIONNAME</option>
-            <option value="1">JBZOO_ELEMENT_EMAIL_ATTACH_NAMEFORMAT_1_OPTIONNAME</option>
-            <option value="2">JBZOO_ELEMENT_EMAIL_ATTACH_NAMEFORMAT_2_OPTIONNAME</option>
-        </param>
-
+               description="JBZOO_ELEMENT_EMAIL_ATTACH_FILE_DESC"/>
     </params>
 
 </element>

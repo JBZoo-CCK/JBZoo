@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,4 +12,19 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $order->id;
+App::getInstance('zoo')->loader->register('JBCartElementEmailUser', 'cart-elements:email/user/user.php');
+
+/**
+ * Class JBCartElementEmailOrderUser
+ */
+class JBCartElementEmailOrderUser extends JBCartElementEmailUser
+{
+    /**
+     * @return JUser
+     */
+    protected function _getUser()
+    {
+        $createdBy = $this->getOrder()->created_by;
+        return JFactory::getUser($createdBy);
+    }
+}

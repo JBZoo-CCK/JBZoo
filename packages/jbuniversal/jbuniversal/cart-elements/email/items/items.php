@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -18,20 +17,15 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementEmailItems extends JBCartElementEmail
 {
-    const DEFAULT_TITLE = 'JBZOO_ORDER_ITEMS_TITLE';
-
     /**
-     * Check elements value.
-     * Output element or no.
-     *
+     * Check elements value
      * @param  array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
     {
-        $order = $this->getOrder();
-        if (!empty($order->id) && $order->getItems(false)) {
+        $items = $this->getOrder()->getItems(false);
+        if (!empty($items)) {
             return true;
         }
 
@@ -39,27 +33,22 @@ class JBCartElementEmailItems extends JBCartElementEmail
     }
 
     /**
-     * Render elements data
-     *
-     * @param  array $params
-     *
-     * @return null|string
+     * Add image width CID to attach. Use for Order Items.
+     * @param string $path Path to image
+     * @param string $cid  Conten-ID
      */
-    public function render($params = array())
+    protected function _addEmailImage($path, $cid)
     {
-        $order = $this->getOrder();
-        $items = (array)$order->getItems(false);
-
-        if ($layout = $this->getLayout('order.php')) {
-            return self::renderLayout($layout, array(
-                    'title'    => $this->getTitle(self::DEFAULT_TITLE),
-                    'items'    => $items,
-                    'order'    => $order,
-                    'currency' => $order->getCurrency()
-                )
-            );
-        }
-
-        return false;
+        $name = $cid . '.' . JFile::getExt($path);
+        $this->_mailer->AddEmbeddedImage($path, $cid, $name);
     }
+
+    /**
+     * @return mixed
+     */
+    protected function _getCurrency()
+    {
+        return $this->config->get('currency');
+    }
+
 }
