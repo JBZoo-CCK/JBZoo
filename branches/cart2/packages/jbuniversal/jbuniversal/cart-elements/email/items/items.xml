@@ -21,20 +21,53 @@
 
     <params>
 
-        <param name="title" type="text" default="" label="JBZOO_ELEMENT_EMAIL_ITEMS_TITLE"
-               description="JBZOO_ELEMENT_EMAIL_ITEMS_TITLE_DESC" />
+        <param name="currency" type="jbcurrency" label="JBZOO_ELEMENT_EMAIL_ITEMS_CURRENCY"
+               description="JBZOO_ELEMENT_EMAIL_ITEMS_CURRENCY_DESC"/>
 
         <param name="subtotal" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_ITEMS_SUBTOTAL"
-               description="JBZOO_ELEMENT_EMAIL_ITEMS_SUBTOTAL_DESC" />
+               description="JBZOO_ELEMENT_EMAIL_ITEMS_SUBTOTAL_DESC"/>
 
-        <param name="subtotal_items" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_ITEMS_SUBTOTAL_ITEMS"
-               description="JBZOO_ELEMENT_EMAIL_ITEMS_SUBTOTAL_ITEMS_DESC" />
+        <param name="payment" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_ITEMS_PAYMENT"
+               description="JBZOO_ELEMENT_EMAIL_ITEMS_PAYMENT_DESC"/>
 
-        <param name="subtotal_services" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_ITEMS_SUBTOTAL_SERVICES"
-               description="JBZOO_ELEMENT_EMAIL_ITEMS_SUBTOTAL_SERVICES_DESC" />
+        <param name="shipping" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_ITEMS_SHIPPING"
+               description="JBZOO_ELEMENT_EMAIL_ITEMS_SHIPPING_DESC"/>
 
-        <param name="subtotal_modifiers" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_ITEMS_SUBTOTAL_MODIFIERS"
-               description="JBZOO_ELEMENT_EMAIL_ITEMS_SUBTOTAL_MODIFIERS_DESC" />
+        <param name="modifiers" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_ITEMS_MODIFIERS"
+               description="JBZOO_ELEMENT_EMAIL_ITEMS_MODIFIERS_DESC"/>
+
+        <param name="total" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_ITEMS_TOTAL"
+               description="JBZOO_ELEMENT_EMAIL_ITEMS_TOTAL_DESC"/>
+
+        <param name="items_spacer" type="jbspacer" default="JBZOO_ELEMENT_EMAIL_ITEMS_ITEMS_SPACER"/>
+
+        <param name="tmpl_item_link" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_ITEM_LINK"
+               description="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_ITEM_LINK_DESC"/>
+
+        <param name="tmpl_image_show" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_IMAGE_SHOW"
+               description="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_IMAGE_SHOW_DESC"/>
+
+        <param name="tmpl_image_link" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_IMAGE_LINK"
+               description="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_IMAGE_LINK_DESC"/>
+
+        <param name="tmpl_image_width" type="text" default="75" label="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_IMAGE_WIDTH"
+               description="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_IMAGE_WIDTH_DESC"/>
+
+        <param name="tmpl_image_height" type="text" default="75"
+               label="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_IMAGE_HEIGHT"
+               description="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_IMAGE_HEIGHT_DESC"/>
+
+        <param name="tmpl_sku_show" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_SKU_SHOW"
+               description="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_SKU_SHOW_DESC"/>
+
+        <param name="tmpl_price4one" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_PRICE4ONE"
+               description="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_PRICE4ONE_DESC"/>
+
+        <param name="tmpl_quntity" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_QUNTITY"
+               description="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_QUNTITY_DESC"/>
+
+        <param name="tmpl_subtotal" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_SUBTOTAL"
+               description="JBZOO_ELEMENT_EMAIL_ITEMS_TMPL_SUBTOTAL_DESC"/>
 
     </params>
 

@@ -13,6 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $shopname;
+echo $this->_getSitename();
 
 

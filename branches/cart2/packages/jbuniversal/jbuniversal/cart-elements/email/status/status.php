@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -20,41 +19,34 @@ class JBCartElementEmailStatus extends JBCartElementEmail
 {
 
     /**
-     * Check elements value.
-     * Output element or no.
-     *
      * @param  array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
     {
-        $order = $this->getOrder();
-
-        if ($order->id && $order->getStatus()) {
-            return true;
-        }
-
-        return false;
+        $status = $this->_getStatus();
+        return !empty($status);
     }
 
     /**
-     * Render elements data
-     *
-     * @param  array $params
-     *
-     * @return null|string
+     * @return JBCartElementStatus
      */
-    public function render($params = array())
+    protected function _getStatus()
     {
-        if ($layout = $this->getLayout('order.php')) {
-            return self::renderLayout($layout, array(
-                'params' => $params,
-                'order'  => $this->getOrder()
-            ));
+        $ordertype = $this->config->get('ordertype', 'main');
+        $order     = $this->getOrder();
+
+        if ($ordertype == 'main') {
+            return $order->getStatus();
+
+        } else if ($ordertype == 'payment') {
+            return $order->getStatus();
+
+        } else if ($ordertype == 'shipping') {
+            return $order->getStatus();
         }
 
-        return false;
+        return null;
     }
 
 }

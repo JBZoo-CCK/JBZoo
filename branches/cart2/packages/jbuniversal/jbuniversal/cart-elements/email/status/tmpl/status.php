@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,5 +12,4 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $order->getStatus()->getCode();
-
+echo $this->_getStatus()->getName();

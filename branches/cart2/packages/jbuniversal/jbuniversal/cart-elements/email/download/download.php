@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -18,26 +17,53 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementEmailDownload extends JBCartElementEmail
 {
-    const MODE_ATTACH = 'attach';
-
     /**
-     * Check elements value.
-     * Output element or no.
-     *
      * @param  array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
     {
-        $order = $this->getOrder();
-        $field = $params->get('element', false);
+        $files = $this->_getFiles();
+        return !empty($files);
+    }
 
-        if ($order->id && $field) {
-            return true;
+    /**
+     * @return array
+     */
+    protected function _getFiles()
+    {
+        $result = array();
+
+        if ($downloadId = $this->config->get('download_element')) {
+
+            $items = $this->getOrder()->getItems(true);
+
+            foreach ($items as $item) {
+
+                if (!$item['item']) { // Item no exists
+                    continue;
+                }
+
+                if ($element = $item['item']->getElement($downloadId)) {
+
+                    $file     = JString::trim($element->get('file'));
+                    $fullPath = JPath::clean(JPATH_ROOT . '/' . $file);
+
+                    if ($file && JFile::exists($fullPath)) {
+                        $result[] = array(
+                            'full'    => $fullPath,
+                            'url'     => JUri::root() . $this->app->path->relative($fullPath),
+                            'element' => $this->app->jbrouter->element($downloadId, $item['item']->id, 'download'),
+                            'name'    => JString::trim($item->item_name),
+                            'size'    => $this->app->filesystem->formatFilesize(filesize($fullPath)),
+                        );
+                    }
+
+                }
+            }
         }
 
-        return false;
+        return $result;
     }
 
     /**
@@ -47,70 +73,20 @@ class JBCartElementEmailDownload extends JBCartElementEmail
      */
     public function render($params = array())
     {
-        $order = $this->getSubject();
-        $items = $order->getItems(true);
+        $mode = $this->config->get('download_mode', 'link');
 
-        if ($layout = $this->getLayout('order.php')) {
-            return self::renderLayout($layout, array(
-                'items'         => $items,
-                'mode'          => (int)$params->get('mode', 1),
-                'size'          => (int)$params->get('file_size', 1),
-                'download_name' => $params->get('download_name', ''),
-                'identifier'    => $params->get('element', false)
-            ));
-        }
+        if ($mode == 'attach') {
+            $files = $this->_getFiles();
 
-        return false;
-    }
-
-    /**
-     * Add attachment to JMail
-     * @return $this
-     */
-    public function addAttachment()
-    {
-        $order = $this->getSubject();
-        $items = $order->getItems(true);
-
-        if (!empty($items)) {
-            foreach ($items as $key => $data) {
-                if ($file = $this->getFile($data)) {
-                    $this->_attach($file, ucfirst($data->get('item_name')) . ' - ' . self::filename($file));
-                }
+            foreach ($files as $file) {
+                $ext = JFile::getExt($file['full']);
+                $this->_mailer->addAttachment($file['full'], $file['name'] . '.' . $ext);
             }
+
+            return null; // no HTML
         }
 
-        return $this;
+        return parent::render($params);
     }
 
-    /**
-     * Get file from related element
-     * @param array $data Item data
-     * @return bool
-     */
-    public function getFile($data = array())
-    {
-        $file = false;
-        if ($element = $this->getElement($data)) {
-            $file = $element->get('file');
-        }
-
-        return $file;
-    }
-
-    /**
-     * Get related element
-     * @param array $data
-     * @return Element
-     */
-    public function getElement($data = array())
-    {
-        /** @type Item $item */
-        $item = $data->get('item');
-        if (!$item instanceof Item) {
-            $item = $this->app->table->item->get($data->get('item_id'));
-        }
-
-        return $item->getElement($this->config->get('element'));
-    }
 }

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -20,40 +19,22 @@ class JBCartElementEmailSiteName extends JBCartElementEmail
 {
 
     /**
-     * Check elements value.
-     * Output element or no.
-     *
      * @param  array $params
      * @return bool
      */
     public function hasValue($params = array())
     {
-        $config   = $config = JFactory::getConfig();
-        $sitename = JString::trim($config->get('sitename'));
-        if (!empty($sitename)) {
-            return true;
-        }
-
-        return false;
+        return $this->_getSitename();
     }
 
     /**
-     * Render elements data
-     *
-     * @param  array $params
-     * @return null|string
+     * @return string
      */
-    public function render($params = array())
+    protected function _getSitename()
     {
-        $config = JFactory::getConfig();
-        if ($layout = $this->getLayout('order.php')) {
-            return self::renderLayout($layout, array(
-                    'sitename' => $config->get('sitename')
-                )
-            );
-        }
-
-        return false;
+        $config   = $config = JFactory::getConfig();
+        $sitename = JString::trim($config->get('sitename'));
+        return $sitename;
     }
 
 }

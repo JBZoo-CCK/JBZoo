@@ -21,19 +21,12 @@
 
     <params>
 
-        <param name="showlabel" type="jbbool" default="1" label="JBZOO_ELEMENT_SHOWLABEL"
-               description="JBZOO_ELEMENT_SHOWLABEL_DESC" />
-
-        <param name="format" type="list" default="short" label="JBZOO_ELEMENT_EMAIL_USER_FORMAT"
-               description="JBZOO_ELEMENT_EMAIL_USER_DESC">
-
-            <option value="id">JBZOO_ELEMENT_EMAIL_USER_FORMAT_ID_OPTIONVALUE</option>
-            <option value="name">JBZOO_ELEMENT_EMAIL_USER_FORMAT_NAME_OPTIONVALUE</option>
-            <option value="username">JBZOO_ELEMENT_EMAIL_USER_FORMAT_USERNAME_OPTIONVALUE</option>
-            <option value="full">JBZOO_ELEMENT_EMAIL_USER_FORMAT_FULL_OPTIONVALUE</option>
-            <option value="full_id">JBZOO_ELEMENT_EMAIL_USER_FORMAT_FULL_ID_OPTIONVALUE</option>
-            <option value="full_group">JBZOO_ELEMENT_EMAIL_USER_FORMAT_FULL_GROUP_OPTIONVALUE</option>
-
+        <param name="infotype" type="list" default="name" label="JBZOO_ELEMENT_EMAIL_USER_INFOTYPE"
+               description="JBZOO_ELEMENT_EMAIL_USER_INFOTYPE_DESC">
+            <option value="name">JBZOO_ELEMENT_EMAIL_USER_INFOTYPE_NAME</option>
+            <option value="groupname">JBZOO_ELEMENT_EMAIL_USER_INFOTYPE_GROUPNAME</option>
+            <option value="username">JBZOO_ELEMENT_EMAIL_USER_INFOTYPE_USERNAME</option>
+            <option value="userid">JBZOO_ELEMENT_EMAIL_USER_INFOTYPE_USERID</option>
         </param>
 
     </params>

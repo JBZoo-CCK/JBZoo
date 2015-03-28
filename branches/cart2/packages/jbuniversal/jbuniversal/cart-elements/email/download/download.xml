@@ -21,23 +21,17 @@
 
     <params>
 
-        <param name="showlabel" type="jbbool" default="1" label="JBZOO_ELEMENT_LABEL"
-               description="JBZOO_ELEMENT_LABEL_DESC"/>
+        <param name="download_element" type="jbelementlist" types="download"
+               label="JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_ELEMENT"
+               empty="JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_ELEMENT_EMPTY"
+               description="JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_ELEMENT_DESC"/>
 
-        <param name="element" type="jbelementlist" types="download" label="JBZOO_ELEMENT_EMAIL_DOWNLOAD_ELEMENT"
-               desc="JBZOO_ELEMENT_EMAIL_DOWNLOAD_ELEMENT_DESC"/>
-
-        <param name="download_mode" type="list" default="1" label="JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_MODE"
+        <param name="download_mode" type="list" default="link" label="JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_MODE"
                description="JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_MODE_DESC">
-            <option value="1">JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_MODE_1_OPTIONNAME</option>
+            <option value="link">JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_MODE_LINK</option>
+            <option value="element">JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_MODE_ELEMENT</option>
+            <option value="attach">JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_MODE_ATTACH</option>
         </param>
-
-        <param name="file_size" type="jbbool" default="1" label="JBZOO_ELEMENT_EMAIL_DOWNLOAD_FILE_SIZE"
-               description="JBZOO_ELEMENT_EMAIL_DOWNLOAD_FILE_SIZE_DESC"/>
-
-        <param name="download_name" type="text" default="Download {filename}"
-               label="JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_NAME"
-               description="JBZOO_ELEMENT_EMAIL_DOWNLOAD_DOWNLOAD_NAME_DESC"/>
 
     </params>
 

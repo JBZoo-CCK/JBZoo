@@ -13,6 +13,5 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $sitename;
-
-
+$date = new JDate($order->created);
+echo $date->calendar($params->get('format', 'D, d M Y H:i'), false, true);

@@ -10,21 +10,13 @@
     @coder       Alexander Oganov <t_tapak@yahoo.com>
 -->
 <element type="element" group="Core" hidden="false">
-    <name>JBZOO_ELEMENT_EMAIL_ORDERFIELDS_NAME</name>
+    <name>JBZOO_ELEMENT_EMAIL_ORDERID_NAME</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZOO_ELEMENT_EMAIL_ORDERFIELDS_DESC</description>
-
-    <params>
-
-        <param name="fields" type="jbcartfields" group="CONFIG_FIELDS" position="DEFAULT_POSITION"
-               multiple="true" label="JBZOO_ELEMENT_EMAIL_ORDERFIELDS_FIELDS"
-               desc="JBZOO_ELEMENT_EMAIL_ORDERFIELDS_FIELDS_DESC"/>
-
-    </params>
+    <description>JBZOO_ELEMENT_EMAIL_ORDERID_DESC</description>
 
 </element>

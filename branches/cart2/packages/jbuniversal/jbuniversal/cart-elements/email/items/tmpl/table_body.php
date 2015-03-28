@@ -12,56 +12,63 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$order = $this->getOrder();
-$items = $order->getItems();
-$i     = 0; ?>
-<tbody>
-<?php foreach ($items as $key => $item) :
-    $image = null;
+$config    = $this->config;
+$items     = $order->getItems();
+$itemsHtml = $order->renderItems(array(
+    'image_width'  => $this->config->get('tmpl_image_width', 75),
+    'image_height' => $this->config->get('tmpl_image_height', 75),
+    'image_link'   => $this->config->get('tmpl_image_link', 1),
+    'item_link'    => $this->config->get('tmpl_item_link', 1),
+    'currency'     => $this->_getCurrency(),
+    'email'        => true,
+));
 
-    $modifiers = $order->getModifiersItemPrice(null, $item);
+$i = 0;
+?>
 
-    if ($path = $item->find('elements._image')) {
-        $path = $this->app->jbimage->getUrl($path);
-
-        $file = $this->clean(basename($path));
-        $name = $this->clean($item->get('name'));
-
-        $cid = $this->clean($key) . '-' . $file;
-        $cid = JString::str_ireplace(' ', '', $cid);
-        $src = 'cid:' . $cid;
-
-        $image = '<img width="50" src="' . $src . '" title="' . ucfirst($name) . '"/>';
-    }
+<?php
+foreach ($itemsHtml as $itemKey => $itemHtml) :
     $i++;
 
     $rowattr = 'style="border-bottom: 1px solid #dddddd;"';
     if ($i % 2 == 1) {
         $rowattr .= ' bgcolor="#fafafa"';
     }
-    $itemPrice = $order->val((float)$item->get('total')); ?>
+
+    ?>
     <tr <?php echo $rowattr; ?>>
-        <td><?php echo $i; ?></td>
-        <td><?php echo $image; ?></td>
+
+        <td><?php echo $i;?></td>
+
         <td>
-            <?php echo $item['item_name'];?>
+            <?php if ($config->get('tmpl_image_show', 1)) {
+                echo $itemHtml['image'];
+                $imageEmail = $itemHtml['imageEmail'];
 
-            <?php if (!empty($item['values'])) : ?>
-                <ul style="margin:6px 0 0 0;padding:0;">
-                    <?php foreach ($item['values'] as $label => $param) :
-                        echo '<li style="list-style-type: none;"><strong>' . $label . ':</strong> ' . $param . '</li>';
-                    endforeach; ?>
-                </ul>
-            <?php endif; ?>
+                if ($imageEmail['path']) { // attach as content-id image
+                    $this->_addEmailImage($imageEmail['path'], $imageEmail['cid']);
+                }
 
-            <?php if ($item->find('elements._description')) :
-                echo '<p><i>' . $item->find('elements._description') . '</i></p>';
-            endif; ?>
+            } ?>
         </td>
-        <td align="center"><?php echo $itemPrice->html(); ?></td>
-        <td align="center"><?php echo $item->get('quantity'); ?></td>
-        <td align="right"><?php echo $itemPrice->multiply($item->get('quantity'))->html();?></td>
-    </tr>
 
+        <td>
+            <?php echo $itemHtml['name']; ?>
+            <?php echo $config->get('tmpl_sku_show', 1) ? $itemHtml['sku'] : null;?>
+            <?php echo $itemHtml['params']; ?>
+        </td>
+
+        <td>
+            <?php echo $config->get('tmpl_price4one', 1) ? $itemHtml['price4one'] : null;?>
+        </td>
+
+        <td>
+            <?php echo $config->get('tmpl_quntity', 1) ? $itemHtml['quantity'] : null;?>
+        </td>
+
+        <td>
+            <?php echo $config->get('tmpl_subtotal', 1) ? $itemHtml['totalsum'] : null;?>
+        </td>
+
+    </tr>
 <?php endforeach; ?>
-</tbody>

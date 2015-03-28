@@ -20,13 +20,8 @@
     <description>JBZOO_ELEMENT_EMAIL_TEXTAREA_DESC</description>
 
     <params>
-
-        <param name="showlabel" type="jbbool" default="1" label="JBZOO_ELEMENT_SHOWLABEL"
-               description="JBZOO_ELEMENT_SHOWLABEL_DESC" />
-
-        <param name="text" type="jbtextarea" label="JBZOO_ELEMENT_EMAIL_TEXTAREA_TEXT"
-               description="JBZOO_ELEMENT_EMAIL_TEXTAREA_TEXT_DESC" editor="true" />
-
+        <param name="text" type="jbordermacros" label="JBZOO_ELEMENT_EMAIL_TEXTAREA_TEXT"
+               description="JBZOO_ELEMENT_EMAIL_TEXTAREA_TEXT_DESC"/>
     </params>
 
 </element>

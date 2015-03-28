@@ -20,10 +20,8 @@
     <description>JBZOO_ELEMENT_EMAIL_CREATED_DESC</description>
 
     <params>
-
-        <param name="showlabel" ype="jbbool" default="1" label="JBZOO_ELEMENT_LABEL"
-               description="JBZOO_ELEMENT_LABEL_DESC" />
-
+        <param name="format" type="text" default="D, d M Y H:i" label="JBZOO_ELEMENT_EMAIL_CREATED_FORMAT"
+               description="JBZOO_ELEMENT_EMAIL_CREATED_FORMAT_DESC"/>
     </params>
 
 </element>
