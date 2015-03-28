@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -14,26 +13,26 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Class JBCartElementNotificationSendEmail
+ * Class JBCartElementNotificationSendemail
  */
-class JBCartElementNotificationSendEmail extends JBCartElementNotification
+class JBCartElementNotificationSendemail extends JBCartElementNotification
 {
-    /**
-     * Unique id of JMail instance
-     * @type string
-     */
-    public $hash;
+
+    const FIELD_USERMAIL = 'usermail';
+    const FIELD_SITEMAIL = 'sitemail';
 
     /**
      * @var JMail
      */
     protected $_mailer;
 
-    const RECIPIENT_USER_PROFILE = 'profile';
+    /**
+     * @var EmailRenderer
+     */
+    protected $_renderer;
 
     /**
      * Class constructor
-     *
      * @param App    $app
      * @param string $type
      * @param string $group
@@ -42,9 +41,8 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
     {
         parent::__construct($app, $type, $group);
 
-        $this->hash     = $this->htmlId(true);
-        $this->_mailer  = JMail::getInstance($this->hash);
-        $this->renderer = $this->app->jbrenderer->create('email');
+        $this->_mailer   = JFactory::getMailer();
+        $this->_renderer = $this->app->jbrenderer->create('email');
     }
 
     /**
@@ -53,329 +51,173 @@ class JBCartElementNotificationSendEmail extends JBCartElementNotification
      */
     public function notify()
     {
-        $html = $this->getHTML();
-        $this
-            ->setHead()
-            ->setBody($html)
-            ->isHtml(true)
-            ->setSender()
-            ->addImageItems();
+        if ($recipients = $this->_getRecipients()) {
 
-        $this->send();
+            $body = JString::trim($this->renderBody());
+            if (empty($body)) {
+                return null;
+            }
 
-        return $html;
-    }
+            $this->_mailer->setSubject($this->_getMailSubject());
+            $this->_mailer->setSender($this->_getMailSender());
+            $this->_mailer->isHtml($this->_isHtml());
+            $this->_mailer->setBody($body);
 
-    /**
-     * @param $subject
-     * @return $this
-     */
-    public function setSubject($subject)
-    {
-        $this->_subject = $subject;
+            foreach ($recipients as $recEmail => $recName) {
 
-        if (get_class($subject) == 'JBCartOrder') {
-            $this->setOrder($subject);
+                // send message
+                $this->_mailer->addRecipient(array($recEmail, $recName));
+                $this->_mailer->send();
+                $this->_mailer->ClearAllRecipients();
+
+                if ($this->_isSleep()) { // simple antispam
+                    sleep(1);
+                }
+            }
         }
-
-        return $this->setMacrosValues();
-    }
-
-    /**
-     * Send notification message to each recipient
-     */
-    public function send()
-    {
-        $this->renderer->addAttachment();
-        $this
-            /** Send message to administrators */
-            ->sendToAdmins()
-            /** Send message to advance email's - user */
-            ->sendToAdvance()
-            /** Send message to order owner - user */
-            ->sendToUser();
     }
 
     /**
      * Get data from all elements
-     *
      * @return string
      */
-    public function getHTML()
+    public function renderBody()
     {
-        $layout = $this->config->get('layout_email', 'order');
-        $html   = '';
+        $emailBody = $this->_renderer->render(
+            $this->config->get('layout_email', 'default'),
+            array(
+                'order'  => $this->getOrder(),
+                'mailer' => $this->_mailer
+            )
+        );
 
-        $html .= $this->renderer->render($layout, array(
-            'subject' => $this->getSubject(),
-            'hash'    => $this->hash
-        ));
+        if (!$this->_isHtml()) {
+            $emailBody = JString::trim($emailBody);
 
-        //TODO В события смены статуса пеймента не вызывается setMacrosValues в setSubject
-        $this->setMacrosValues();
-        $html = $this->replace($html);
-
-        return $html;
-    }
-
-    /**
-     * Sets message type to HTML
-     *
-     * @param  bool $isHtml
-     *
-     * @return $this
-     */
-    public function isHtml($isHtml = true)
-    {
-        $this->_mailer->isHtml($isHtml);
-
-        return $this;
-    }
-
-    /**
-     * Set email subject
-     *
-     * @param  null $subject
-     *
-     * @return $this
-     */
-    public function setHead($subject = null)
-    {
-        $subject = !empty($subject) ? $subject : $this->config->get('subject');
-        $this->_mailer->setSubject($subject);
-
-        return $this;
-    }
-
-    /**
-     * Add file attachments to the email
-     * @param   mixed $data
-     * @return $this
-     * @deprecated
-     */
-    public function addAttachment($data)
-    {
-        if (!empty($data) && $this->getOrder()->id) {
-            $this->_mailer->addAttachment($data['files'], $data['names']);
+            // clean up text (experimental)
+            //$emailBody = strip_tags($emailBody, '<br><br/>');
+            //$emailBody = preg_replace('#<br[/\s]*>#ius', PHP_EOL, $emailBody);
+            //$emailBody = str_replace(array("\n", "\r", "\r\n", "\n\r", PHP_EOL), PHP_EOL, $emailBody);
         }
 
-        return $this;
+        return $emailBody;
     }
 
     /**
-     * @return $this
+     * @return int
      */
-    public function addImageItems()
+    protected function _isHtml()
     {
-        $order = $this->getOrder();
+        return (int)$this->config->get('ishtml', 1);
+    }
 
-        if ($order->id && (int)$this->config->get('images', 0)) {
-            $items = (array)$order->getItems(false);
-            if (!empty($items)) {
-                foreach ($items as $key => $params) {
-                    if ($path = $params->find('elements._image')) {
-                        $path = JPATH_ROOT . DS . $path;
+    /**
+     * @return int
+     */
+    protected function _isSleep()
+    {
+        return (int)$this->config->get('issleep', 0);
+    }
 
-                        $file = $this->clean(basename($path));
-                        $name = $this->clean($params->get('name'));
+    /**
+     * Get mail subject from config
+     * @return string
+     */
+    protected function _getMailSubject()
+    {
+        $subject = $this->config->get('subject');
+        $subject = $this->_macros->renderText($subject, $this->getOrder());
+        $subject = JString::trim($subject);
 
-                        $cid = $this->clean($key) . '-' . $file;
-                        $cid = JString::str_ireplace(' ', '', $cid);
-
-                        $this->addImage($path, $cid, $name);
-                    }
-                }
-            }
+        if (empty($subject)) {
+            $subject = $this->getName();
         }
 
-        return $this;
+        return $subject;
     }
 
     /**
-     * Add image width CID to attach. Use for Order Items.
-     *
-     * @param string $path Path to image
-     * @param string $cid  Unique
-     * @param string $name Name of image
-     *
-     * @return $this
+     * @return array
      */
-    public function addImage($path, $cid, $name = '')
+    protected function _getRecipients()
     {
-        $this->_mailer->AddEmbeddedImage($path, $cid, $name);
+        $recipients = $this->app->data->create($this->config->get('recipients'));
 
-        return $this;
-    }
+        $tmpResult = array();
 
-    /**
-     * Set the email body
-     *
-     * @param  string $body
-     *
-     * @return $this
-     */
-    public function setBody($body)
-    {
-        $this->_mailer->setBody($body);
-
-        return $this;
-    }
-
-    /**
-     * Set email sender
-     * @return $this
-     */
-    public function setSender()
-    {
-        $from     = $this->config->get('from');
-        $fromName = $this->config->get('fromname');
-
-        $this->_mailer->setSender(array($from, $fromName));
-
-        return $this;
-    }
-
-    /**
-     * Add recipients to the email
-     *
-     * @param  string|array $recipient - email address
-     * @param  string|array $name      - name of recipient
-     *
-     * @return $this
-     */
-    public function addRecipient($recipient, $name = '')
-    {
-        $this->_mailer->addRecipient($recipient, $name);
-
-        return $this;
-    }
-
-    /**
-     * Send notification email to administrators
-     *
-     * @return $this
-     */
-    public function sendToAdmins()
-    {
-        $to = $this->app->data->create($this->config->get('recipient'));
-        $to = $to->get('admin');
-
-        if (!empty($to)) {
-            foreach ($to as $id) {
-                $users = JAccess::getUsersByGroup($id);
-                if (!empty($users)) {
+        // get by groups
+        if ($groups = $recipients->get('groups')) {
+            foreach ($groups as $groupId) {
+                if ($users = JAccess::getUsersByGroup($groupId)) {
                     foreach ($users as $userId) {
-                        $user  = JFactory::getUser($userId);
-                        $email = JString::trim($user->get('email'));
-
-                        if (!empty($email)) {
-                            $this->addRecipient($user->get('email'), $user->get('name'));
-                            $this->_send();
-                        }
+                        $juser       = JFactory::getUser($userId);
+                        $tmpResult[] = array($juser->email, $juser->name);
                     }
                 }
             }
         }
 
-        return $this;
-    }
+        // get by orderform
+        $orderform = (array)$recipients->get('orderform', array());
+        foreach ($orderform as $field) {
 
-    /**
-     * Send notification email to user
-     *
-     * @return $this
-     */
-    public function sendToUser()
-    {
-        $to = $this->app->data->create($this->config->get('recipient'));
-        $to = $to->get('user');
+            if ($field == self::FIELD_SITEMAIL) {
+                $config      = JFactory::getConfig();
+                $tmpResult[] = array($config->get('mailfrom'), $config->get('sitename'));
 
-        //send notification to user
-        if (!empty($to)) {
-            foreach ($to as $type) {
-                //send to email from user profile
-                if ($type == self::RECIPIENT_USER_PROFILE) {
-                    $user  = JFactory::getUser();
-                    $email = JString::trim($user->get('email'));
-                    if (!empty($email)) {
-                        $this->addRecipient($user->get('email'), $user->get('name'));
+            } else if ($field == self::FIELD_USERMAIL) {
+                $juser       = JFactory::getUser();
+                $tmpResult[] = array($juser->email, $juser->name);
 
-                        $this->_send();
-                    }
-
-                    //send to email from order field email
-                } else {
-                    $order   = $this->getOrder();
-                    $element = $order->getFieldElement($type);
-                    if ($element) {
-                        $email = JString::trim($element->data()->get('value'));
-                        if (!empty($email)) {
-                            $this->addRecipient($email);
-                            $this->_send();
-                        }
-                    }
-
-                }
+            } else if ($element = $this->getOrder()->getFieldElement($field)) {
+                $value       = $element->data()->get('value');
+                $tmpResult[] = array($value, $value);
             }
+
         }
 
-        return $this;
-    }
-
-    /**
-     * Send notification email to advance email's
-     *
-     * @return $this
-     */
-    public function sendToAdvance()
-    {
-        $to = $this->app->data->create($this->config->get('recipient'));
-        $to = $to->get('advanced');
-
-        //advanced email's
-        if (!empty($to)) {
-            if (strpos($to, ',') === false) {
-                $this->addRecipient($to);
-                $this->_send();
-
-            } else {
-                $advRecipients = explode(',', $to);
-                foreach ($advRecipients as $recipient) {
-                    $recipient = JString::trim($recipient);
-                    if (!empty($recipient)) {
-                        $this->addRecipient($recipient);
-
-                        $this->_send();
-                    }
-                }
-            }
+        // get custom fields
+        $custom = explode(',', $recipients->get('custom'));
+        foreach ($custom as $email) {
+            $tmpResult[] = array($email, $email);
         }
 
-        return $this;
+        // check and clear all recipients
+        $result = array();
+        foreach ($tmpResult as $recipient) {
+
+            list($email, $name) = $recipient;
+
+            if ($email = $this->app->jbvars->email($email)) {
+                if (!isset($result[$email])) {
+                    $result[$email] = JString::trim($name);
+                }
+            }
+
+        }
+
+        return $result;
     }
 
     /**
-     * Send notification and clear recipient
-     *
-     * return $this
+     * Get email sender
+     * @return array
      */
-    protected function _send()
+    protected function _getMailSender()
     {
-        $this->_mailer->Send();
-        $this->_clear();
+        $jconfig = JFactory::getConfig();
+        $jbvars  = $this->app->jbvars;
 
-        return $this;
+        $joomlaSite = $jconfig->get('sitename');
+        $joomlaMail = $jbvars->email($jconfig->get('mailfrom'));
+
+        $fromEmail = $jbvars->email($this->config->get('fromemail', $joomlaMail));
+        $fromEmail = (!empty($fromEmail)) ? $fromEmail : $joomlaMail;
+
+        $fromName = JString::trim($this->config->get('fromname', $joomlaSite));
+        $fromName = (!empty($fromName)) ? $fromName : JString::trim($joomlaSite);
+
+        return array($fromEmail, $fromName);
     }
 
-    /**
-     * Clear all recipients
-     *
-     * @return $this
-     */
-    protected function _clear()
-    {
-        $this->_mailer->ClearAllRecipients();
-
-        return $this;
-    }
 }

@@ -21,36 +21,30 @@
 
     <params>
 
-        <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME" description="JBZOO_ELEMENT_NAME_DESC"/>
-
-        <param name="description" type="text" default="" label="JBZOO_ELEMENT_DESCRIPTION"
-               description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
-
-        <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
-               description="JBZOO_ELEMENT_ACCESS_DESC"/>
-
-        <param name="layout_email" type="jblayout" default="" auto="false"
+        <param name="layout_email" type="jbelementlayout" default="" auto="false"
+               path="jbapp:templates-system/renderer/email"
                label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_LAYOUY_LIST"
                description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_LAYOUY_LIST_DESC"/>
 
-        <param name="images" type="jbbool" default="0" label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_ITEM_IMAGES"
-               description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_ITEM_IMAGES_DESC"/>
+        <param name="subject" type="jbordermacros" default="" label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_SUBJECT"
+               description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_SUBJECT_DESC"/>
 
-        <param name="recipient" type="jbsendemailrecipients" multiple="1" default="admin"
-               label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_RECIPIENT" description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_RECIPIENT_DESC">
-        </param>
-
-        <param name="from" type="text" default="" label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_FROM"
-               description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_FROM_DESC"/>
+        <param name="fromemail" type="text" default="" label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_FROMEMAIL"
+               description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_FROMEMAIL_DESC"/>
 
         <param name="fromname" type="text" default="" label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_FROMNAME"
                description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_FROMNAME_DESC"/>
 
-        <param name="subject" type="textarea" default="" label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_SUBJECT"
-               description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_SUBJECT_DESC"/>
+        <param name="recipients" type="jbsendemailrecipients" default="admin"
+               label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_RECIPIENTS"
+               description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_RECIPIENTS_DESC">
+        </param>
 
-        <param name="macros" type="spacer" default="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_MACROS_DEFAULT"
-               label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_MACROS" description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_MACROS_DESC"/>
+        <param name="ishtml" type="jbbool" default="1" label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_ISHTML"
+               description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_ISHTML_DESC"/>
+
+        <param name="issleep" type="jbbool" default="0" label="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_ISSLEEP"
+               description="JBZOO_ELEMENT_NOTIFICATION_SENDEMAIL_ISSLEEP_DESC"/>
 
     </params>
 
