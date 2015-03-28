@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -39,9 +38,7 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
 
     /**
      * Checks if the repeatables element's value is set.
-     *
      * @param array $params render parameter
-     *
      * @return bool true, on success
      */
     public function _hasValue($params = array())
@@ -89,9 +86,7 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
 
     /**
      * Renders the element.
-     *
      * @param array $params render parameter
-     *
      * @return null|string HTML
      */
     public function _render($params = array())
@@ -123,7 +118,7 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
 
         } elseif ($template == 'itemlink') {
             if ($this->getItem()->getState()) {
-                $url   = JRoute::_($this->app->route->item($this->_item, false), false, 2);
+                $url   = $this->app->jbrouter->externalItem($this->_item);
                 $title = empty($title) ? $this->getItem()->name : $title;
             }
 
@@ -155,22 +150,22 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
 
             return $this->renderLayout($layout, array(
                     'imageAttrs' => $this->_buildAttrs(array(
-                            'class'         => 'jbimage ' . $unique,
-                            'alt'           => $alt,
-                            'title'         => $title,
-                            'src'           => $image->url,
-                            'width'         => $image->width,
-                            'height'        => $image->height,
-                            'data-template' => $template
-                        )),
+                        'class'         => 'jbimage ' . $unique,
+                        'alt'           => $alt,
+                        'title'         => $title,
+                        'src'           => $image->url,
+                        'width'         => $image->width,
+                        'height'        => $image->height,
+                        'data-template' => $template
+                    )),
                     'linkAttrs'  => $this->_buildAttrs(array(
-                            'class'  => 'jbimage-link ' . $appendClass . ' ' . $unique,
-                            'title'  => $title,
-                            'href'   => $url,
-                            'rel'    => $rel,
-                            'target' => $target,
-                            'id'     => uniqid('jbimage-link-'),
-                        )),
+                        'class'  => 'jbimage-link ' . $appendClass . ' ' . $unique,
+                        'title'  => $title,
+                        'href'   => $url,
+                        'rel'    => $rel,
+                        'target' => $target,
+                        'id'     => uniqid('jbimage-link-'),
+                    )),
                     'link'       => $url,
                     'image'      => $image
                 )
@@ -182,7 +177,6 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
 
     /**
      * Render
-     *
      * @param array $params
      */
     public function render($params = array())
@@ -215,7 +209,6 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
 
     /**
      * @param array $attrs
-     *
      * @return string
      */
     public function _buildAttrs(array $attrs)
@@ -240,9 +233,7 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
 
     /**
      * Renders the element in submission.
-     *
      * @param array $params submission parameters
-     *
      * @return null|string|void
      */
     public function _renderSubmission($params = array())
@@ -308,10 +299,8 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
 
     /**
      * Validates the submitted element
-     *
      * @param AppData $value  value
      * @param AppData $params submission parameters
-     *
      * @return array
      * @throws AppValidatorException
      */
@@ -404,9 +393,7 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
 
     /**
      * Check is in upload path
-     *
      * @param $image
-     *
      * @return bool
      */
     protected function _inUploadPath($image)
@@ -439,9 +426,7 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
 
     /**
      * Callback before item submission is saved
-     *
      * @param array $userfile
-     *
      * @return null
      * @throws AppException
      */
@@ -501,9 +486,7 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
 
     /**
      * Get default image
-     *
      * @param JSONData $params
-     *
      * @return null|object
      */
     protected function _getDefaultImage($params)
@@ -542,9 +525,7 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
 
     /**
      * Is file exists
-     *
      * @param string $imagePath
-     *
      * @return bool
      */
     protected function _isFileExists($imagePath)
