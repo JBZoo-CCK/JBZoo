@@ -517,27 +517,29 @@ class JBHtmlHelper extends AppHelper
             $idTag = $this->app->jbstring->getId('jsSlider-');
         }
 
-        $val_0 = JBCart::val($value[0]);
-        $val_1 = JBCart::val($value[1]);
+        $jbVal_0 = JBCart::val($value[0]);
+        $jbVal_1 = JBCart::val($value[1]);
+        $val_0 = $jbVal_0->val($currency);
+        $val_1 = $jbVal_1->val($currency);
         $html   = array();
         $html[] = '<div id="' . $idTag . '" class="jsSlider jbzoo-slider">';
         $html[] = '<div class="jsSliderWrapper jbzoo-slider-wrapper"></div>';
 
         $html[] = '<div class="jsSliderBox jbslider-box">';
-        $html[] = '<span class="jsSliderLabel jsSliderLabel-0 jbslider-label">' . $val_0->html() . '</span>'
-            . $this->text(null, $value['0'], array(
+        $html[] = '<span class="jsSliderLabel jsSliderLabel-0 jbslider-label">' . $jbVal_0->html($currency) . '</span>'
+            . $this->text(null, $val_0, array(
                 'class' => 'jsSlider-0 jsSliderMin jsSliderInput jbslider-min jbslider-input',
             ));
         $html[] = '</div>';
 
         $html[] = '<div class="jsSliderBox jbslider-box">';
-        $html[] = '<span class="jsSliderLabel jsSliderLabel-1 jbslider-label"/>' . $val_1->html() . '</span>'
-            . $this->text(null, $value['1'], array(
+        $html[] = '<span class="jsSliderLabel jsSliderLabel-1 jbslider-label"/>' . $jbVal_1->html($currency) . '</span>'
+            . $this->text(null, $val_1, array(
                 'class' => 'jsSlider-1 jsSliderMax jsSliderInput jbslider-max jbslider-input',
             ));
         $html[] = '</div>';
 
-        $html[] = $this->hidden($name, $val_0->val() . '/' . $val_1->val(), array(
+        $html[] = $this->hidden($name, $val_0 . '/' . $val_1, array(
             'class' => 'jsSliderValue'
         ));
 
@@ -548,8 +550,8 @@ class JBHtmlHelper extends AppHelper
                 'max'    => (float)$params['max']  ? ceil((float)$params['max'])      : 10000,
                 'step'   => (float)$params['step'] ? round((float)$params['step'], 2) : 100,
                 'values' => array(
-                    round((float)$val_0->val(), 2),
-                    round((float)$val_1->val(), 2)
+                    round((float)$val_0, 2),
+                    round((float)$val_1, 2)
                 )
             ),
             'currency' => $currency
