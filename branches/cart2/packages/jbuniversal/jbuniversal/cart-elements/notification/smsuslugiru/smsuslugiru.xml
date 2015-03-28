@@ -10,7 +10,7 @@
     @coder       Denis Smetannikov <denis@jbzoo.com>
 -->
 <element type="element" group="Core" hidden="false">
-    <name>SMS-Uslugi.ru</name>
+    <name>JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_NAME</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>
@@ -21,35 +21,25 @@
 
     <params>
 
-        <param name="name" type="text" label="JBZOO_ELEMENT_NAME" description="JBZOO_ELEMENT_NAME_DESC"/>
-
-        <param name="description" type="text" label="JBZOO_ELEMENT_DESCRIPTION"
-               description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
-
-        <param name="access" type="zooaccesslevel" label="JBZOO_ELEMENT_ACCESS"
-               description="JBZOO_ELEMENT_ACCESS_DESC"/>
-
         <param name="sms_login" type="text" label="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_LOGIN"
                description="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_LOGIN_DESC"/>
 
         <param name="sms_password" type="jbpassword" label="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_PASSWORD"
                description="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_DESC"/>
 
-        <param name="https" type="jbbool" label="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_USEHTTP"
-               description="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_DESC"/>
+        <param name="https" type="jbbool" default="0" label="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_HTTPS"
+               description="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_HTTPS_DESC"/>
 
-        <param name="message" type="jbtextarea" rows="15" cols="55" label="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_MESSAGE"
-               description="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_DESC"/>
+        <param name="message" type="jbordermacros" textarea="true"
+               label="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_MESSAGE"
+               description="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_MESSAGE_DESC"/>
 
         <param name="phones" type="textarea" label="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_PHONES"
                description="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_PHONES_DESC"/>
 
         <param name="userphone" type="jbcartfields" group="CONFIG_FIELDS" position="DEFAULT_POSITION"
-               label="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_USERPHONE" types="text"/>
-
-        <param name="element-username" type="jbcartfields" group="CONFIG_FIELDS" position="DEFAULT_POSITION"
-               label="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_ELEMENT_USERNAME" types="text"/>
-
+               label="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_USERPHONE" types="text"
+               description="JBZOO_ELEMENT_NOTIFICATION_SMSUSLUGIRU_USERPHONE_DESC" multiple="1"/>
     </params>
 
 </element>
