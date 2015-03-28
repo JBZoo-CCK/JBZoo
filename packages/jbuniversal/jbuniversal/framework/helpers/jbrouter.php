@@ -111,7 +111,7 @@ class JBRouterHelper extends AppHelper
             'option'     => 'com_zoo',
             'controller' => 'default',
             'task'       => 'callelement',
-            'format'     => 'raw',
+            //'format'     => 'raw',
             'element'    => $identifier,
             'method'     => $method,
             'item_id'    => $itemId,
