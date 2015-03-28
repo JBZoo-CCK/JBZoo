@@ -206,8 +206,11 @@ class ShippingRenderer extends PositionRenderer
      */
     public function renderAdminEdit($args = array())
     {
+        $style = isset($args['style']) ? $args['style'] : null;
+
         return $this->render('edit.list', array(
             'order' => $args['order'],
+            'style' => $style,
         ));
     }
 
