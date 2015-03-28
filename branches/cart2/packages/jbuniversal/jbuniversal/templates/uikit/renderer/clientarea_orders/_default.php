@@ -42,7 +42,7 @@ echo $this->partial('clientarea_orders', 'default.styles');
             foreach ($vars['objects'] as $order) :
                 $i++;
                 $created   = $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
-                $orderName = '<a href="' . $order->getUrl() . '">' . JText::sprintf('JBZOO_CLIENTAREA_ORDERNAME', $order->getName()) . '</a>';
+                $orderName = '<a href="' . $order->getUrl() . '">' . $order->getName('full') . '</a>';
                 $rowClass  = ($i % 2 == 0) ? 'even' : 'odd';
                 ?>
 

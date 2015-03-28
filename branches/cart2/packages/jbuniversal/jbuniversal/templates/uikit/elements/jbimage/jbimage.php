@@ -125,7 +125,7 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
             $appendClass = ' uk-thumbnail uk-overlay';
         } elseif ($template == 'itemlink') {
             if ($this->getItem()->getState()) {
-                $url   = JRoute::_($this->app->route->item($this->_item, false), false, 2);
+                $url   = $this->app->jbrouter->externalItem($this->_item);
                 $title = empty($title) ? $this->getItem()->name : $title;
             }
 

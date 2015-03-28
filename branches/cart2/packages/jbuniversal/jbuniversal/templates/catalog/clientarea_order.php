@@ -17,9 +17,8 @@ $this->app->jbdoc->noindex();
 $this->app->jbdebug->mark('template::order::start');
 $this->app->jblayout->setView($this);
 $this->app->jbwrapper->start();
-$created = $this->app->html->_('date', $this->order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
 
-echo '<h1 class="title">Заказ #' . $this->order->id . ' ' . JText::_('JBZOO_BY') . ' ' . $created . '</h1>';
+echo '<h1 class="title">' . $this->order->getName('full') . '</h1>';
 
 echo $this->app->jblayout->render('clientarea_order', $this->order);
 

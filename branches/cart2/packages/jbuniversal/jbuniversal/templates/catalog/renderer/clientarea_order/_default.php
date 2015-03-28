@@ -26,7 +26,7 @@ $created  = $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_L
 $modified = $this->app->html->_('date', $order->modified, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
 $html     = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredit', 'order' => $order));
 
-$this->app->document->setTitle(JText::sprintf('JBZOO_CLIENTAREA_ORDERNAME_DATE', $order->getName(), $created));
+$this->app->document->setTitle($order->getName('full'));
 $this->app->jbassets->widget('#' . $tabsId, 'JBZoo.Tabs');
 
 ?>

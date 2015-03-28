@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -16,8 +15,6 @@ defined('_JEXEC') or die('Restricted access');
 
 $view = $this->getView();
 $this->app->jbassets->basket();
-//$this->app->jbassets->initJBPrice();
 $actionUrl = $this->app->jbrouter->cartOrderCreate($view->application->id, null);
-?>
 
-Заказ успешно создан
+echo JText::_('JBZOO_CART_ORDER_SUCCESS_CREATED');
