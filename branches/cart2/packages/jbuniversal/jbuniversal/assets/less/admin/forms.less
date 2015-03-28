@@ -146,8 +146,45 @@
                 border-left: none;
                 border-radius: 0 3px 3px 0;
                 background-origin: border-box;
-                background-image: -webkit-linear-gradient(top,#fff,#eee);
-                background-image: linear-gradient(to bottom,#fff,#eee);
+                background-image: -webkit-linear-gradient(top, #fff, #eee);
+                background-image: linear-gradient(to bottom, #fff, #eee);
+            }
+        }
+
+    }
+
+    .jbmacroslist {
+
+        &-text,
+        &-textarea {
+            float: left;
+            margin-right: 8px !important;
+        }
+
+        &-row {
+            width: 120px;
+            display: inline-block;
+            color: #c51919;
+        }
+
+        &-button {
+            float: left;
+        }
+
+        &-list {
+            margin-top: 12px !important;
+        }
+
+        ul {
+            width: 350px;
+        }
+
+        li {
+            margin: 0;
+            padding: 4px 0 !important;
+
+            &:hover {
+                background: #eee;
             }
         }
 
