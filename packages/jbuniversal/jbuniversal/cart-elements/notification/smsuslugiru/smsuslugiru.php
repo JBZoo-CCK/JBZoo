@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,33 +12,14 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 /**
  * Class JBCartElementNotificationSmsuslugiru
  */
 class JBCartElementNotificationSmsuslugiru extends JBCartElementNotification
 {
-    /**
-     * Uri to make request
-     *
-     * @var string
-     */
-    public $httpURI = 'http://lcab.sms-uslugi.ru/';
-
-    /**
-     * Uri to make request
-     *
-     * @var string
-     */
-    public $httpsURI = 'https://lcab.sms-uslugi.ru/';
-
-    /**
-     * String encoding
-     *
-     * @var string
-     */
-    public $charset;
-
-    const HTTPS_CHARSET = 'utf-8';
+    const URL_HTTP  = 'http://lcab.sms-uslugi.ru/';
+    const URL_HTTPS = 'https://lcab.sms-uslugi.ru/';
 
     /**
      * Launch notification
@@ -47,118 +27,101 @@ class JBCartElementNotificationSmsuslugiru extends JBCartElementNotification
      */
     public function notify()
     {
-        $params = $this->_getParams();
+        $phones   = $this->_getPhones();
+        $login    = JString::trim($this->config->get('sms_login'));
+        $password = JString::trim($this->config->get('sms_password'));
+        $text     = $this->_macros->renderText($this->config->get('message'), $this->getOrder());
 
-        $this->sms($params->get('params'), $params->get('phones'));
-    }
+        if (
+            !empty($login) && !empty($password) &&
+            !empty($phones) && !empty($text)
+        ) {
 
-    /**
-     * Make URI for request
-     *
-     * @param $action
-     *
-     * @return string
-     */
-    public function getURI($action)
-    {
-        $https   = (int)$this->config->get('https', 1);
-        $address = $this->httpURI . "API/XML/" . $action . ".php";
-
-        if ($https) {
-            $address = $this->httpsURI . "API/XML/" . $action . ".php";
+            $this->_sendSMS($phones, array(
+                'login'    => $login,
+                'password' => $password,
+                'text'     => $text,
+            ));
         }
-
-        $address .= "?returnType=json";
-
-        return $address;
     }
 
     /**
      * Send sms
-     *
-     * @param string $action
-     * @param array $params
      * @param array $phones
-     *
+     * @param array $params
      * @return array|bool
      */
-    public function sms($params = array(), $phones = array(), $action = 'send')
+    protected function _sendSMS($phones, $params)
     {
-        $someXML = '';
+        $params['action'] = 'send';
 
-        if (!empty($phones)) {
-            foreach ($phones as $phone) {
-                $someXML .= '<to number="' . $phone . '">';
-                $someXML .= '</to>';
-            }
+        $dataXml = '';
+        foreach ($params as $key => $value) {
+            $dataXml .= "<$key>$value</$key>" . PHP_EOL;
         }
 
-        $xml = $this->makeXML($params, $someXML);
-        $xml = $this->replace($xml);
+        foreach ($phones as $phone) {
+            $dataXml .= '<to number="' . $phone . '"></to>';
+        }
 
-        $response = $this->_callService($this->getURI($action), "POST", $xml);
+        $xml = implode(PHP_EOL, array(
+            '<?xml version=\'1.0\' encoding=\'UTF-8\'?>',
+            '<data>',
+            $dataXml,
+            '</data>'
+        ));
+
+        $response = $this->app->jbhttp->request($this->_getURI(), $xml, array('method' => 'POST'));
+        $response = json_decode($response, true);
 
         return $response;
     }
 
     /**
-     * Make xml data for request
-     *
-     * @param        $params
-     * @param string $someXML
-     *
-     * @return string
-     */
-    public function makeXML($params, $someXML = "")
-    {
-        $xml = "<?xml version='1.0' encoding='UTF-8'?><data>";
-        foreach ($params as $key => $value) {
-            $xml .= "<$key>$value</$key>";
-        }
-        $xml .= "$someXML</data>";
-
-        return $xml;
-    }
-
-    /**
-     * Decoding the result of API call
-     *
-     * @param $responseBody
-     *
-     * @return mixed
-     */
-    public function processingData($responseBody)
-    {
-        return json_decode($responseBody, true);
-    }
-
-    /**
-     * Get prepared params from config
-     *
      * @return array
      */
-    protected function _getParams()
+    protected function _getPhones()
     {
-        $phones   = (array)$this->config->get('userphone', array());
-        $admPhone = $this->config->get('phones', array());
+        $result = array();
 
-        if (!empty($admPhone)) {
-            $admPhones = explode(PHP_EOL, $admPhone);
-            foreach ($admPhones as $phone) {
-                $phones[] = $phone;
+        // custom phones
+        $phones = $this->app->jbstring->parseLines($this->config->get('phones', ''));
+
+        // form field
+        $elements = $this->config->get('userphone', array());
+        if (!empty($elements)) {
+            foreach ($elements as $elementID) {
+
+                if ($element = $this->getOrder()->getFieldElement($elementID)) {
+                    $data     = $element->data();
+                    $phones[] = $data->get('value');
+                }
             }
         }
 
-        $params = array(
-            'params' => $this->app->data->create(array(
-                'login'    => $this->config->get('sms_login'),
-                'password' => $this->config->get('sms_password'),
-                'text'     => $this->config->get('message')
-            )),
-            'phones' => $this->app->data->create($phones)
-        );
+        // clean & check
+        foreach ($phones as $phone) {
+            $result[] = $this->app->jbvars->phone($phone);
+        }
+        $result = array_filter($result);
+        $result = array_unique($result);
 
-        return $this->app->data->create($params);
+        return $result;
+    }
+
+    /**
+     * Make URI for request
+     * @return string
+     */
+    private function _getURI()
+    {
+        if ((int)$this->config->get('https', 0)) {
+            $address = self::URL_HTTPS . "API/XML/send.php?returnType=json";
+        } else {
+            $address = self::URL_HTTP . "API/XML/send.php?returnType=json";
+        }
+
+        return $address;
     }
 
 }
