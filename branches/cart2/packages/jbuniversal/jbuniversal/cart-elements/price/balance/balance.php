@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -24,7 +23,6 @@ class JBCartElementPriceBalance extends JBCartElementPrice
 
     /**
      * Check if element has value
-     *
      * @param array $params
      * @return bool
      */
@@ -64,7 +62,6 @@ class JBCartElementPriceBalance extends JBCartElementPrice
 
     /**
      * @param array $params
-     *
      * @return array|mixed|null|string
      */
     public function render($params = array())
@@ -87,9 +84,7 @@ class JBCartElementPriceBalance extends JBCartElementPrice
 
     /**
      * Check if item in stock
-     *
      * @param $quantity
-     *
      * @return bool
      */
     public function inStock($quantity)
@@ -98,7 +93,7 @@ class JBCartElementPriceBalance extends JBCartElementPrice
             return true;
         }
 
-        $quantity = (float)$quantity;
+        $quantity = $this->app->jbvars->number($quantity);
         $inStock  = $this->getValue();
 
         if ($inStock == self::AVAILABLE) {
@@ -121,6 +116,8 @@ class JBCartElementPriceBalance extends JBCartElementPrice
      */
     public function reduce($quantity)
     {
+        $quantity = $this->app->jbvars->number($quantity);
+
         $value = $this->getValue();
         if (!(int)$this->config->get('balance_mode', 1) || $value == self::AVAILABLE) {
             return true;

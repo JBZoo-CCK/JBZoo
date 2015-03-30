@@ -18,7 +18,7 @@
         {
             getValue: function () {
                 var quantity = this.$(this.options.target).JBZooQuantity('getValue');
-                
+
                 return quantity;
             }
         }

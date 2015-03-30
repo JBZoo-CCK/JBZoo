@@ -58,12 +58,14 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
      */
     public function interfaceParams($params = array())
     {
+        $jbvars = $this->app->jbvars;
+
         return array(
-            'min'      => $params->get('min', 1),
-            'max'      => $params->get('max', 999),
-            'step'     => $params->get('step', 1),
-            'default'  => $params->get('default', 1),
-            'decimals' => $params->get('decimals', 0)
+            'min'      => $jbvars->number($params->get('min', 1)),
+            'max'      => $jbvars->number($params->get('max', 999999)),
+            'step'     => $jbvars->number($params->get('step', 1)),
+            'default'  => $jbvars->number($params->get('default', 1)),
+            'decimals' => $jbvars->number($params->get('decimals', 0))
         );
     }
 
@@ -74,13 +76,15 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
     public function loadAssets()
     {
         parent::loadAssets();
+
         $this->app->jbassets->quantity();
-        $this
-            ->less('jbassets:less/widget/quantity.less')
-            ->js(array(
-                'jbassets:js/widget/quantity.js',
-                'cart-elements:price/quantity/assets/js/quantity.js'
-            ));
+
+        $this->less('jbassets:less/widget/quantity.less');
+
+        $this->js(array(
+            'jbassets:js/widget/quantity.js',
+            'cart-elements:price/quantity/assets/js/quantity.js'
+        ));
 
         return $this;
     }
