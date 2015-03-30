@@ -96,6 +96,11 @@ class plgSystemJBZoo extends JPlugin
             JBZoo::init();
 
             $this->_jbzooSystemPlg = JBZooSystemPlugin::getInstance();
+
+            if ($zoo->jbrequest->isAjax()) {
+                //header('Content-Type: application/x-www-form-urlencoded; charset=utf-8'); // fix apache default charset
+            }
+
         }
     }
 
