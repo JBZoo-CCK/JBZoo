@@ -19,6 +19,39 @@ defined('_JEXEC') or die('Restricted access');
 class JBHtmlHelper extends AppHelper
 {
     /**
+     * @type JBVarsHelper
+     */
+    protected $_vars;
+
+    /**
+     * @type JString|StringHelper
+     */
+    protected $_string;
+
+    /**
+     * @type JBStringHelper
+     */
+    protected $_jbstring;
+
+    /**
+     * @type JBAssetsHelper
+     */
+    protected $_assets;
+
+    /**
+     * @param App $app
+     */
+    public function __construct($app)
+    {
+        parent::__construct($app);
+
+        $this->_vars     = $this->app->jbvars;
+        $this->_string   = $this->app->string;
+        $this->_jbstring = $this->app->jbstring;
+        $this->_assets   = $this->app->jbassets;
+    }
+
+    /**
      * Render option list
      * @param        $data
      * @param        $name
@@ -193,9 +226,8 @@ class JBHtmlHelper extends AppHelper
 
         $attribs = $this->_buildAttrs($attribs);
         if (strpos($attribs, 'jsAutocomplete') !== false) {
-
-            $this->app->jbassets->jqueryui();
-            $this->app->jbassets->initAutocomplete();
+            $this->_assets->jqueryui();
+            $this->_assets->initAutocomplete();
         }
 
         return $this->app->html->_('control.text', $name, $value, $attribs);
@@ -212,25 +244,21 @@ class JBHtmlHelper extends AppHelper
      */
     public function quantity($default = 1, $options = array(), $id = null, $name = 'quantity', $return = false)
     {
-        if (!$id) {
-            $id = $this->app->jbstring->getId('quantity');
-        }
-
-        $jbvars = $this->app->jbvars;
+        $id = $id ? $id : $this->_jbstring->getId('quantity-');
 
         $params = $this->app->data->create($options);
 
-        $step = $jbvars->number($params->get('step', 1));
+        $step = $this->_vars->number($params->get('step', 1));
         $step = $step > 0 ? $step : 1;
 
-        $decimals = $jbvars->number($params->get('decimals', 0));
+        $decimals = $this->_vars->number($params->get('decimals', 0));
         $decimals = $decimals >= 0 ? $decimals : 0;
 
         $params = array(
-            'min'      => $jbvars->number($params->get('min', 1)),
-            'max'      => $jbvars->number($params->get('max', 999999)),
+            'min'      => $this->_vars->number($params->get('min', 1)),
+            'max'      => $this->_vars->number($params->get('max', 999999)),
             'step'     => $step,
-            'default'  => $jbvars->number($default),
+            'default'  => $this->_vars->number($default),
             'decimals' => $decimals
         );
 
@@ -253,7 +281,7 @@ class JBHtmlHelper extends AppHelper
             '</table>',
         );
 
-        $html[] = $this->app->jbassets->initQuantity($id, $params, $return);
+        $html[] = $this->_assets->initQuantity($id, $params, $return);
 
         return implode(PHP_EOL, $html);
     }
@@ -281,8 +309,8 @@ class JBHtmlHelper extends AppHelper
         $titles = array()
     )
     {
-        $stringHelper = $this->app->string;
-        $jbstring     = $this->app->jbstring;
+        $stringHelper = $this->_string;
+        $jbstring     = $this->_jbstring;
         $jbcolor      = $this->app->jbcolor;
 
         $unique = $jbstring->getId('jbcolor-');
@@ -337,7 +365,7 @@ class JBHtmlHelper extends AppHelper
         }
 
         $html[] = '</div>';
-        $html[] = $this->app->jbassets->initJBColorHelper($unique, $inputType == 'checkbox' ? 1 : 0, true);
+        $html[] = $this->_assets->initJBColorHelper($unique, $inputType == 'checkbox' ? 1 : 0, true);
 
         return implode(PHP_EOL, $html);
     }
@@ -353,9 +381,9 @@ class JBHtmlHelper extends AppHelper
     {
         $rates = !empty($rates) ? $rates : $this->app->jbmoney->getData();
 
-        $defaultCur = $this->app->jbvars->lower($defaultCur);
+        $defaultCur = $this->_vars->lower($defaultCur);
         $moneyVal   = JBCart::val(1, $rates); // for calculating
-        $uniqId     = $this->app->jbstring->getId();
+        $uniqId     = $this->_jbstring->getId();
 
         if (isset($rates['%'])) {
             unset($rates['%']);
@@ -370,7 +398,7 @@ class JBHtmlHelper extends AppHelper
         $html  = array();
         foreach ($rates as $code => $currency) {
             $i++;
-            $id    = $this->app->jbstring->getId('unique-');
+            $id    = $this->_jbstring->getId('unique-');
             $title = JText::_('JBZOO_JBCURRENCY_' . $code);
 
             if ($code != JBCartValue::DEFAULT_CODE && !$moneyVal->isCur($code)) {
@@ -422,10 +450,10 @@ class JBHtmlHelper extends AppHelper
 
         if (!empty($html)) {
 
-            $id = $this->app->jbstring->getId('currency-toggle-');
+            $id = $this->_jbstring->getId('currency-toggle-');
 
-            $this->app->jbassets->initTooltip();
-            $html[] = $this->app->jbassets->currencyToggle($id, (array)$options, $return);
+            $this->_assets->initTooltip();
+            $html[] = $this->_assets->currencyToggle($id, (array)$options, $return);
 
             $widgetAttrs = array(
                 'data-default' => $moneyVal->cur(),
@@ -506,8 +534,8 @@ class JBHtmlHelper extends AppHelper
 
         $params['dateFormat'] = trim($params['dateFormat']);
 
-        $this->app->jbassets->jqueryui();
-        $this->app->jbassets->addScript('$("#' . $idtag . '").datepicker(' . $this->app->jbassets->toJSON($params) . ')');
+        $this->_assets->jqueryui();
+        $this->_assets->addScript('$("#' . $idtag . '").datepicker(' . $this->_assets->toJSON($params) . ')');
 
         return $this->text($name, $value, $attribs, $idtag);
     }
@@ -529,52 +557,52 @@ class JBHtmlHelper extends AppHelper
             $value = array($params['min'], $params['max']);
         }
 
-        if (empty($idTag)) {
-            $idTag = $this->app->jbstring->getId('jsSlider-');
-        }
+        // prepare vars
+        $idTag          = $idTag ? $idTag : $this->_jbstring->getId('jsSlider-');
+        $params['min']  = $this->_vars->number($params['min']);
+        $params['max']  = $this->_vars->number($params['max']);
+        $params['step'] = $this->_vars->number($params['step']);
 
-        $jbVal_0 = JBCart::val($value[0]);
-        $jbVal_1 = JBCart::val($value[1]);
-        $val_0   = $jbVal_0->val();
-        $val_1   = $jbVal_1->val();
-        $html    = array();
-        $html[]  = '<div id="' . $idTag . '" class="jsSlider jbzoo-slider jsNoCurrencyToggle">';
-        $html[]  = '<div class="jsSliderWrapper jbzoo-slider-wrapper"></div>';
+        $valueMin = JBCart::val($value[0]);
+        $valueMax = JBCart::val($value[1]);
 
+        $html = array();
+
+        $html[] = '<div class="jsSliderWrapper jbzoo-slider-wrapper"></div>';
+
+        // min box
         $html[] = '<div class="jsSliderBox jbslider-box">';
-        $html[] = '<span class="jsSliderLabel jsSliderLabel-0 jbslider-label">' . $jbVal_0->html() . '</span>'
-            . $this->text(null, $jbVal_0->val(), array(
-                'class' => 'jsSlider-0 jsSliderMin jsSliderInput jbslider-min jbslider-input',
-            ));
-        $html[] = '</div>';
-
-        $html[] = '<div class="jsSliderBox jbslider-box">';
-        $html[] = '<span class="jsSliderLabel jsSliderLabel-1 jbslider-label"/>' . $jbVal_1->html() . '</span>'
-            . $this->text(null, $jbVal_1->val(), array(
-                'class' => 'jsSlider-1 jsSliderMax jsSliderInput jbslider-max jbslider-input',
-            ));
-        $html[] = '</div>';
-
-        $html[] = $this->hidden($name, $jbVal_0->val() . '/' . $jbVal_1->val(), array(
-            'class' => 'jsSliderValue'
+        $html[] = '<span class="jsSliderLabel jsSliderLabel-0 jbslider-label">' . $valueMin->html() . '</span>';
+        $html[] = $this->text(null, $valueMin->val(), array(
+            'class' => 'jsSlider-0 jsSliderMin jsSliderInput jbslider-min jbslider-input',
         ));
+        $html[] = '</div>';
 
-        $html[] = $this->app->jbassets->slider($idTag, array(
+        // max box
+        $html[] = '<div class="jsSliderBox jbslider-box">';
+        $html[] = '<span class="jsSliderLabel jsSliderLabel-1 jbslider-label"/>' . $valueMax->html() . '</span>';
+        $html[] = $this->text(null, $valueMax->val(), array(
+            'class' => 'jsSlider-1 jsSliderMax jsSliderInput jbslider-max jbslider-input',
+        ));
+        $html[] = '</div>';
+
+        $html[] = $this->hidden($name, $valueMin->val() . '/' . $valueMax->val(), array('class' => 'jsSliderValue'));
+
+        $html[] = $this->_assets->slider($idTag, array(
             'ui'       => array(
                 'range'  => true,
-                'min'    => (float)$params['min'] ? floor((float)$params['min']) : 0,
-                'max'    => (float)$params['max'] ? ceil((float)$params['max']) : 10000,
-                'step'   => (float)$params['step'] ? round((float)$params['step'], 2) : 100,
+                'min'    => $params['min'] ? floor($params['min']) : 0,
+                'max'    => $params['max'] ? ceil($params['max']) : 10000,
+                'step'   => $params['step'] ? round($params['step'], 2) : 100,
                 'values' => array(
-                    round((float)$val_0, 2),
-                    round((float)$val_1, 2)
+                    round($valueMin->val(), 2),
+                    round($valueMax->val(), 2)
                 )
             ),
             'currency' => $currency
         ), true);
-        $html[] = '</div>';
 
-        return implode(PHP_EOL, $html);
+        return '<div id="' . $idTag . '" class="jsSlider jbzoo-slider jsNoCurrencyToggle">' . implode(PHP_EOL, $html) . '</div>';
     }
 
     /**
@@ -593,15 +621,19 @@ class JBHtmlHelper extends AppHelper
             $value = array($params['min'], $params['max']);
         }
 
-        $this->app->jbassets->jqueryui();
-        $this->app->jbassets->addScript(
+        $params['min']  = $this->_vars->number($params['min']);
+        $params['max']  = $this->_vars->number($params['max']);
+        $params['step'] = $this->_vars->number($params['step']);
+
+        $this->_assets->jqueryui();
+        $this->_assets->addScript(
             '$("#' . $idtag . '-wrapper").removeAttr("slide");
             $("#' . $idtag . '-wrapper")[0].slide = null;
             $("#' . $idtag . '-wrapper").slider({
                 "range" : true,
-                "min"   : ' . ((float)$params['min'] ? floor((float)$params['min']) : 0) . ',
-                "max"   : ' . ((float)$params['max'] ? ceil((float)$params['max']) : 10000) . ',
-                "step"  : ' . ((float)$params['step'] ? round((float)$params['step'], 2) : 100) . ',
+                "min"   : ' . ($params['min'] ? floor($params['min']) : 0) . ',
+                "max"   : ' . ($params['max'] ? ceil($params['max']) : 10000) . ',
+                "step"  : ' . ($params['step'] ? round($params['step'], 2) : 100) . ',
                 "values": [' . round((float)$value['0'], 2) . ', ' . round((float)$value['1'], 2) . '],
                 "slide" : function(event,ui) {
                     $("#' . $idtag . '-value").val(ui.values[0] + "/" + ui.values[1]);
@@ -644,8 +676,8 @@ class JBHtmlHelper extends AppHelper
             $html = $this->radio($data, $name, $attribs, $selected, $idtag, $translate, false);
         }
 
-        $this->app->jbassets->jqueryui();
-        $this->app->jbassets->addScript('$("#' . $idtag . '-wrapper' . '").buttonset()');
+        $this->_assets->jqueryui();
+        $this->_assets->addScript('$("#' . $idtag . '-wrapper' . '").buttonset()');
 
         return '<div id="' . $idtag . '-wrapper">' . $html . '</div>';
     }
@@ -673,7 +705,7 @@ class JBHtmlHelper extends AppHelper
         $return = true
     )
     {
-        $this->app->jbassets->chosen();
+        $this->_assets->chosen();
         $html   = array();
         $script = '$("#' . $idtag . '").chosen();';
 
@@ -688,7 +720,7 @@ class JBHtmlHelper extends AppHelper
                 '</script>'
             ));
         } else {
-            $this->app->jbassets->addScript($script);
+            $this->_assets->addScript($script);
         }
 
         return implode(PHP_EOL, $html);
@@ -714,7 +746,7 @@ class JBHtmlHelper extends AppHelper
         $maxLevel  = $selectInfo['maxLevel'];
         $listNames = $selectInfo['names'];
 
-        $uniqId         = $this->app->jbstring->getId();
+        $uniqId         = $this->_jbstring->getId();
         $deepLevelCheck = $deepLevel = 0;
 
         $html = array();
@@ -760,7 +792,7 @@ class JBHtmlHelper extends AppHelper
             $html[] = '</select></div>';
         }
 
-        $this->app->jbassets->initJBCascadeSelect($uniqId, $selectInfo['items']);
+        $this->_assets->initJBCascadeSelect($uniqId, $selectInfo['items']);
 
         $attribs['class'][] = 'jbcascadeselect';
 
@@ -786,8 +818,8 @@ class JBHtmlHelper extends AppHelper
                            $translate = false, $isLabelWrap = false
     )
     {
-        $jbstring     = $this->app->jbstring;
-        $stringHelper = $this->app->string;
+        $jbstring     = $this->_jbstring;
+        $stringHelper = $this->_string;
 
         reset($data);
 
