@@ -216,7 +216,23 @@ class JBHtmlHelper extends AppHelper
             $id = $this->app->jbstring->getId('quantity');
         }
 
-        $options['default'] = (float)$default;
+        $jbvars = $this->app->jbvars;
+
+        $params = $this->app->data->create($options);
+
+        $step = $jbvars->number($params->get('step', 1));
+        $step = $step > 0 ? $step : 1;
+
+        $decimals = $jbvars->number($params->get('decimals', 0));
+        $decimals = $decimals >= 0 ? $decimals : 0;
+
+        $params = array(
+            'min'      => $jbvars->number($params->get('min', 1)),
+            'max'      => $jbvars->number($params->get('max', 999999)),
+            'step'     => $step,
+            'default'  => $jbvars->number($default),
+            'decimals' => $decimals
+        );
 
         $html = array(
             '<table cellpadding="0" cellspacing="0" border="0" class="quantity-wrapper jsQuantity" id="' . $id . '">',
@@ -237,7 +253,7 @@ class JBHtmlHelper extends AppHelper
             '</table>',
         );
 
-        $html[] = $this->app->jbassets->initQuantity($id, $options, $return);
+        $html[] = $this->app->jbassets->initQuantity($id, $params, $return);
 
         return implode(PHP_EOL, $html);
     }
@@ -513,17 +529,17 @@ class JBHtmlHelper extends AppHelper
             $value = array($params['min'], $params['max']);
         }
 
-        if(empty($idTag)) {
+        if (empty($idTag)) {
             $idTag = $this->app->jbstring->getId('jsSlider-');
         }
 
         $jbVal_0 = JBCart::val($value[0]);
         $jbVal_1 = JBCart::val($value[1]);
-        $val_0 = $jbVal_0->val();
-        $val_1 = $jbVal_1->val();
-        $html   = array();
-        $html[] = '<div id="' . $idTag . '" class="jsSlider jbzoo-slider jsNoCurrencyToggle">';
-        $html[] = '<div class="jsSliderWrapper jbzoo-slider-wrapper"></div>';
+        $val_0   = $jbVal_0->val();
+        $val_1   = $jbVal_1->val();
+        $html    = array();
+        $html[]  = '<div id="' . $idTag . '" class="jsSlider jbzoo-slider jsNoCurrencyToggle">';
+        $html[]  = '<div class="jsSliderWrapper jbzoo-slider-wrapper"></div>';
 
         $html[] = '<div class="jsSliderBox jbslider-box">';
         $html[] = '<span class="jsSliderLabel jsSliderLabel-0 jbslider-label">' . $jbVal_0->html() . '</span>'
@@ -546,8 +562,8 @@ class JBHtmlHelper extends AppHelper
         $html[] = $this->app->jbassets->slider($idTag, array(
             'ui'       => array(
                 'range'  => true,
-                'min'    => (float)$params['min']  ? floor((float)$params['min'])     : 0,
-                'max'    => (float)$params['max']  ? ceil((float)$params['max'])      : 10000,
+                'min'    => (float)$params['min'] ? floor((float)$params['min']) : 0,
+                'max'    => (float)$params['max'] ? ceil((float)$params['max']) : 10000,
                 'step'   => (float)$params['step'] ? round((float)$params['step'], 2) : 100,
                 'values' => array(
                     round((float)$val_0, 2),
@@ -556,7 +572,7 @@ class JBHtmlHelper extends AppHelper
             ),
             'currency' => $currency
         ), true);
-        $html[]   = '</div>';
+        $html[] = '</div>';
 
         return implode(PHP_EOL, $html);
     }
@@ -793,7 +809,7 @@ class JBHtmlHelper extends AppHelper
             }
 
             $valueSlug = $stringHelper->sluggify($value);
-            $extra = array_merge(array(
+            $extra     = array_merge(array(
                 'value' => $value,
                 'name'  => $name,
                 'type'  => $inputType,

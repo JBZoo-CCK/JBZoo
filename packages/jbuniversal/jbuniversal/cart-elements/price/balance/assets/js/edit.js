@@ -19,19 +19,19 @@
                 this.change(this.value());
             },
 
-            'change .jsBalanceRadio': function(e, $this){
+            'change .jsBalanceRadio': function (e, $this) {
 
                 var value = $(this).val();
 
                 $this.change(value);
             },
 
-            value: function() {
+            value: function () {
                 return this.$('input[type="radio"]:checked').val();
             },
 
-            change: function(value) {
-                if(value == 1) {
+            change: function (value) {
+                if (value == 1) {
                     this.$('.jsBalanceInput').removeAttr('disabled').focus();
 
                 } else {
