@@ -187,7 +187,8 @@ class JBMoneyHelper extends AppHelper
             if ($isShort) {
                 $result[$code] = $code;
             } else {
-                $result[$code] = $currency['name'] . ' (' . $code . ')';
+                $codeName      = $code == JBCartValue::DEFAULT_CODE ? '' : ' (' . $code . ')';
+                $result[$code] = $currency['name'] . $codeName;
             }
         }
 
@@ -202,6 +203,7 @@ class JBMoneyHelper extends AppHelper
      */
     public function toFormat($value, $code = null)
     {
+        $this->init();
         return JBCart::val($value, $code)->text();
     }
 
@@ -214,6 +216,7 @@ class JBMoneyHelper extends AppHelper
      */
     public function clearCurrency($currency, $default = null)
     {
+        $this->init();
         return $this->app->jbvars->currency($currency, $default);
     }
 
@@ -249,6 +252,7 @@ class JBMoneyHelper extends AppHelper
      */
     public function format($value)
     {
+        $this->init();
         return JBCart::val($value)->text();
     }
 
