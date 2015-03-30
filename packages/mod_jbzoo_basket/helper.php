@@ -73,8 +73,8 @@ class JBZooBasketHelper
         $_params = array(
             // TODO config from module
             'currency'     => $this->getCurrency(),
-            'image_width'  => $this->_params->get('jbcart_item_width', 75),
-            'image_height' => $this->_params->get('jbcart_item_height', 75),
+            'image_width'  => $this->_params->get('jbcart_item_image_width', 75),
+            'image_height' => $this->_params->get('jbcart_item_image_height', 75),
         );
 
         $params = array_replace_recursive($_params, $params);
