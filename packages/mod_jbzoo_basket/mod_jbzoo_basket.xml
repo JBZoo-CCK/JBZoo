@@ -50,7 +50,7 @@
             <fieldset name="template">
 
                 <field name="jbcart_items" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEMS"
-                       description="BZOO_CART_MODULE_JBCART_ITEMS_DESC"/>
+                       description="JBZOO_CART_MODULE_JBCART_ITEMS_DESC"/>
 
                 <field name="jbcart_item_delete" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_DELETE"
                        description="JBZOO_CART_MODULE_ITEM_DELETE_DESC"/>
@@ -60,7 +60,7 @@
 
                 <field name="jbcart_item_image_width" type="text" default="75"
                        label="JBZOO_CART_MODULE_ITEM_IMAGE_WIDTH"
-                       description="BZOO_CART_MODULE_ITEM_IMAGE_WIDTH_DESC"/>
+                       description="JBZOO_CART_MODULE_ITEM_IMAGE_WIDTH_DESC"/>
 
                 <field name="jbcart_item_image_height" type="text" default="75"
                        label="JBZOO_CART_MODULE_ITEM_IMAGE_HEIGHT"
