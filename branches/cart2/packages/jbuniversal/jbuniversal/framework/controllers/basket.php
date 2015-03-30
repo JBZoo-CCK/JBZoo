@@ -292,8 +292,6 @@ class BasketJBUniversalController extends JBUniversalController
     {
         $moduleId = $this->_jbrequest->get('moduleId');
         $html     = $this->app->jbjoomla->renderModuleById($moduleId);
-
-        header('Content-Type: text/html; charset=utf-8'); // fix apache default charset
         jexit($html);
     }
 
