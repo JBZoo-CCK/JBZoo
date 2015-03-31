@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -46,10 +45,10 @@ class JBModelItem extends JBModel
 
     /**
      * Get Zoo items
-     * @param int $appId
+     * @param int       $appId
      * @param int|array $catId
-     * @param string $typeId
-     * @param array $options
+     * @param string    $typeId
+     * @param array     $options
      * @return array
      */
     public function getList($appId = null, $catId = null, $typeId = null, $options = array())
@@ -88,7 +87,7 @@ class JBModelItem extends JBModel
 
             $catId += $subcatId;
 
-            if(!empty($catId)){
+            if (!empty($catId)) {
                 $select->where('tCategoryItem.category_id IN ("' . implode('", "', $catId) . '")');
             }
 
@@ -103,6 +102,11 @@ class JBModelItem extends JBModel
             } else {
                 $select->limit($limit);
             }
+        }
+
+        if ($options->get('id')) {
+            $idList = (array)$options->get('id');
+            $select->where('tItem.id IN (' . implode(',', $idList) . ')');
         }
 
         // check access
@@ -272,7 +276,7 @@ class JBModelItem extends JBModel
 
     /**
      * Create new empty item in DB
-     * @param int $appId
+     * @param int    $appId
      * @param string $type
      * @param string $nameSuf
      * @return Item
@@ -319,9 +323,9 @@ class JBModelItem extends JBModel
 
     /**
      * Disable all items in app
-     * @param int $appId
+     * @param int    $appId
      * @param string $typeid
-     * @param array $exclude
+     * @param array  $exclude
      * @return bool
      */
     public function disableAll($appId, $typeid, $exclude = array())
@@ -347,9 +351,9 @@ class JBModelItem extends JBModel
 
     /**
      * Remove all items in app
-     * @param int $appId
+     * @param int    $appId
      * @param string $typeid
-     * @param array $exclude
+     * @param array  $exclude
      * @return bool
      */
     public function removeAll($appId, $typeid, $exclude = array())
