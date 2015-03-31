@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -66,6 +65,8 @@ class JFormFieldJBKeyvalue extends JFormField
             }
         }
 
+        $clr = '<div class="clear clr"></div>';
+
         foreach ($elementsList as $type => $tmpElements) {
             if (array_key_exists($type, $typesList)) {
 
@@ -124,8 +125,6 @@ class JFormFieldJBKeyvalue extends JFormField
                 'list.select' => isset($value['key']) ? $value['key'] : '',
             ));
 
-            $html[] = '<strong>&nbsp;=&nbsp;</strong>';
-
             $html[] = '<input ' . $app->jbhtml->buildAttrs(array(
                     'placeholder' => JText::_('JBZOO_JBKEYVALUE_VALUE'),
                     'type'        => 'text',
@@ -138,14 +137,15 @@ class JFormFieldJBKeyvalue extends JFormField
                 $html[] = '<a href="#jbjkeyvalue-rem" class="jsJKeyValueRemove" title="' . JText::_('JBZOO_JBKEYVALUE_ADD') . '"></a>';
             }
 
+            $html[] = $clr;
             $html[] = '</div>';
 
             $i++;
         }
 
-        $output = implode(PHP_EOL, $html);
-        $output .= '<a href="#jbjkeyvalue-add" class="jsJKeyValueAdd">' . JText::_('JBZOO_JBKEYVALUE_ADD') . '</a>';
+        $html[] = '<a href="#jbjkeyvalue-add" class="jsJKeyValueAdd">' . JText::_('JBZOO_JBKEYVALUE_ADD') . '</a>';
+        $html[] = $clr;
 
-        return '<div class="jsJKeyValue">' . $output . '</div>';
+        return '<div class="jsJKeyValue">' . implode(PHP_EOL, $html) . '</div>' . $clr;
     }
 }
