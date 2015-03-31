@@ -39,7 +39,6 @@
                 $this.$digits = $this.$('.item-count-digits dd');
 
                 // set starting state
-                $this.value = JBZoo.toFloat($this.$input.val());
                 $this._setValue($this.$input.val());
                 $this._updateView();
             },
@@ -122,6 +121,8 @@
                 if (value > $this.options.max) {
                     value = $this.options.max;
                 }
+
+                value = JBZoo.round(value, $this.options.decimals);
 
                 return value;
             },
