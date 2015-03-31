@@ -266,17 +266,13 @@ class JBCart
         $items = $this->getItems();
         if (!empty($items)) {
             foreach ($items as $key => $data) {
+
                 if (!$this->inStock($data['quantity'], $key)) {
                     $element = $this->getItemElement($data);
                     $balance = $element->getBalance($data['variant']);
 
-                    $this->setError(JText::sprintf('JBZOO_CART_VALIDATOR_ITEM_NOBALANCE',
-                        $data['item_name'] .
-                        (!empty($data['values'])
-                            ? ' (' . JArrayHelper::toString($data['values'], ': ', '; ', false) . ')'
-                            : null),
-                        $balance
-                    ));
+                    $itemName = $data['item_name'] . (!empty($data['values']) ? ' (' . JArrayHelper::toString($data['values'], ': ', '; ', false) . ')' : null);
+                    $this->setError(JText::sprintf('JBZOO_CART_VALIDATOR_ITEM_NOBALANCE', $itemName, $balance));
                 }
             }
         }
