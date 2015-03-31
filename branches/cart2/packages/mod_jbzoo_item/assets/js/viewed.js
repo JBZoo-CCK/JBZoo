@@ -11,42 +11,25 @@
 ;
 (function ($, window, document, undefined) {
 
-    /**
-     * @param options
-     */
-    $.fn.JBZooViewed = function (options) {
+    JBZoo.widget('JBZoo.Viewed', {
+        'url_clear': '',
+        'message'  : 'Do you really want to delete the history?',
+    }, {
 
-        var options = $.extend({}, {
-            'message': 'Do you really want to delete the history?',
-            'app_id' : ''
-        }, options);
-        var $this = $(this);
+        'click .jsRecentlyViewedClear': function (e, $this) {
 
-        if ($this.hasClass('module-items-init')) {
-            return $this;
-        } else {
-            $this.addClass('module-items-init');
-        }
-
-        return $this.find('.jsRecentlyViewedClear').on('click', function () {
-            var ok = confirm(options.message);
-
-            if (ok) {
-                JBZoo.ajax({
-                    'data'    : {
-                        'controller': 'viewed',
-                        'task'      : 'clear',
-                        'app_id'    : options.app_id
-                    },
+            $this.confirm($this.options.message, function () {
+                $this.ajax({
+                    'url'     : $this.options.url_clear,
                     'dataType': 'html',
-                    'success' : function () {
-                        $this.slideUp('slow');
+                    'success' : function (data) {
+                        $this.el.slideUp('slow');
                     }
                 });
-            }
+            });
 
             return false;
-        });
-    };
+        }
+    });
 
 })(jQuery, window, document);

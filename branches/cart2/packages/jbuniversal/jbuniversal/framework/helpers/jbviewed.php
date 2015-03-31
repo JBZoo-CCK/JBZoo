@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -73,7 +72,6 @@ class JBViewedHelper extends AppHelper
         ));
 
         $this->setItems($newGroup);
-        unset($newGroup);
 
         return true;
     }
@@ -82,7 +80,7 @@ class JBViewedHelper extends AppHelper
      * Making request in model
      * @param  array $types
      * @param  array $ordered
-     * @param  int $limit
+     * @param  int   $limit
      * @return array
      */
     public function getList($types = array(), $ordered = array(), $limit = 20)
@@ -148,7 +146,7 @@ class JBViewedHelper extends AppHelper
 
     /**
      * Set new data for recently viewed
-     * @param  $data
+     * @param         $data
      * @param  string $group
      * @return mixed
      */
