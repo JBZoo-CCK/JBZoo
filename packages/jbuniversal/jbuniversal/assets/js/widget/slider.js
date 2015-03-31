@@ -29,6 +29,19 @@
                 this._getMoney('.jsSliderLabel ');
             },
 
+            'change .jsSliderInput': function (e, $this) {
+
+                var values = $this.$('.jsSliderWrapper').slider('values'),
+                    _index = $(this).hasClass('jsSlider-0') ? 0 : 1;
+
+                values[_index] = $(this).val();
+                values = $this._validate(values);
+
+                $this.setLabelValue(values);
+                $this.setHidden(values);
+                $this.$('.jsSliderWrapper').slider('values', values);
+            },
+
             ui: function () {
 
                 var options = this.options.ui,
@@ -51,17 +64,8 @@
                 });
             },
 
-            'change .jsSliderInput': function (e, $this) {
-
-                var values = $this.$('.jsSliderWrapper').slider('values'),
-                    _index = $(this).hasClass('jsSlider-0') ? 0 : 1;
-
-                values[_index] = $(this).val();
-                values = $this._validate(values);
-
-                $this.setLabelValue(values);
-                $this.setHidden(values);
-                $this.$('.jsSliderWrapper').slider('values', values);
+            getValue: function () {
+                this.$('.jsSliderValue').val();
             },
 
             setHidden: function (values) {
@@ -70,29 +74,20 @@
                 this.$('.jsSlider-1').val(values[1]);
             },
 
-            getValue: function () {
-                this.$('.jsSliderValue').val();
-            },
-
             setLabelValue: function (values) {
                 this._getMoney('.jsSliderLabel-0 ').JBZooMoney('setValue', [values[0]]);
                 this._getMoney('.jsSliderLabel-1 ').JBZooMoney('setValue', [values[1]]);
             },
 
-            hideInputs: function () {
-                this.$('.jsSliderInput').hide();
+            _getMoney: function (filter) {
+
+                return this.$(filter + '.jsMoney').JBZooMoney({
+                    'rates': JBZoo.getVar('currencyList')
+                });
             },
 
-            showInputs: function () {
-                this.$('.jsSliderInput').show();
-            },
-
-            'mouseenter .jsSliderBox': function (e, $this) {
-                $('.jsSliderInput', $(this)).focus();
-            },
-
-            'mouseleave .jsSliderBox': function (e, $this) {
-                $('.jsSliderInput', $(this)).blur();
+            _setValue: function (value) {
+                this.$('.jsSliderValue').val(value);
             },
 
             'focus .jsSliderInput': function (e, $this) {
@@ -104,6 +99,14 @@
             'blur .jsSliderInput': function (e, $this) {
                 $(this).css('opacity', '0');
                 $(this).closest('.jsSliderLabel').css('opacity', '1');
+            },
+
+            'mouseenter .jsSliderBox': function (e, $this) {
+                $('.jsSliderInput', $(this)).focus();
+            },
+
+            'mouseleave .jsSliderBox': function (e, $this) {
+                $('.jsSliderInput', $(this)).blur();
             },
 
             'mousewheel .jsSliderInput': function (e, $this) {
@@ -132,29 +135,18 @@
                 return false;
             },
 
-            _setValue: function (value) {
-                this.$('.jsSliderValue').val(value);
-            },
-
-            _getMoney: function (filter) {
-
-                return this.$(filter + '.jsMoney').JBZooMoney({
-                    'rates': JBZoo.getVar('currencyList')
-                });
-            },
-
             _validate: function (values) {
                 var options = this.options.ui;
 
                 values[0] = JBZoo.toFloat(values[0]);
                 values[1] = JBZoo.toFloat(values[1]);
 
-                if (values[0] > values[1]) {
-                    values[0] = values[1];
-                }
-
                 if (values[1] < values[0]) {
                     values[1] = values[0];
+                }
+
+                if (values[0] > values[1]) {
+                    values[0] = values[1];
                 }
 
                 if (values[0] < options.min) {
@@ -167,7 +159,6 @@
 
                 return values;
             }
-
         }
     );
 
