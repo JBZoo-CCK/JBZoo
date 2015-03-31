@@ -143,6 +143,7 @@ class JFormFieldJBKeyvalue extends JFormField
             $i++;
         }
 
+        $html[] = $clr;
         $html[] = '<a href="#jbjkeyvalue-add" class="jsJKeyValueAdd">' . JText::_('JBZOO_JBKEYVALUE_ADD') . '</a>';
         $html[] = $clr;
 
