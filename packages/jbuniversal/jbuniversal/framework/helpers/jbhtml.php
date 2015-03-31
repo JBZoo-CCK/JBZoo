@@ -254,11 +254,13 @@ class JBHtmlHelper extends AppHelper
         $decimals = $this->_vars->number($params->get('decimals', 0));
         $decimals = $decimals >= 0 ? $decimals : 0;
 
+        $default = $this->_vars->number($default);
+
         $params = array(
             'min'      => $this->_vars->number($params->get('min', 1)),
             'max'      => $this->_vars->number($params->get('max', 999999)),
             'step'     => $step,
-            'default'  => $this->_vars->number($default),
+            'default'  => $default,
             'decimals' => $decimals
         );
 
@@ -269,7 +271,7 @@ class JBHtmlHelper extends AppHelper
             '      <div class="jsCountBox item-count-wrapper">',
             '        <div class="item-count">',
             '          <dl class="item-count-digits">' . str_repeat('<dd></dd>', 5) . '</dl>',
-            '          <input type="text" class="input-quantity jsInput" maxlength="6" name="' . $name . '" value="' . $options['default'] . '">',
+            '          <input type="text" class="input-quantity jsInput" maxlength="6" name="' . $name . '" value="' . $default . '">',
             '        </div>',
             '      </div>',
             '    </td>',

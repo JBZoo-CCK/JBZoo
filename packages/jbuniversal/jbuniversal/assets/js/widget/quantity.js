@@ -57,7 +57,7 @@
              * @returns {number}
              */
             getValue: function () {
-                return this.value;
+                return this._validate(this.value);
             },
 
             /**
@@ -113,6 +113,7 @@
                 var $this = this;
 
                 value = JBZoo.toFloat(value);
+                value = JBZoo.round(value, $this.options.decimals);
 
                 if (value < $this.options.min) {
                     value = $this.options.min;
@@ -121,8 +122,6 @@
                 if (value > $this.options.max) {
                     value = $this.options.max;
                 }
-
-                value = JBZoo.round(value, $this.options.decimals);
 
                 return value;
             },
@@ -134,7 +133,8 @@
              * @private
              */
             _toFormat: function (value) {
-                return value.toFixed(this.options.decimals);
+                value = JBZoo.round(value, this.options.decimals);
+                return value;
             },
 
             /**
