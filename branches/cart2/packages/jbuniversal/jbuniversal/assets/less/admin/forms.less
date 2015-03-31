@@ -102,8 +102,6 @@
     }
 
     .jsJKeyValueRemove {
-        position: relative;
-        top: 4px;
         left: 10px;
         display: inline-block;
         width: 15px;
@@ -112,20 +110,27 @@
     }
 
     .jsJKeyValueAdd {
-        position: absolute;
         left: 0;
         bottom: 8px;
     }
 
     .jsJKeyValue {
-        position: relative;
         padding-bottom: 20px;
-
+        width: 65%;
+        float: left;
     }
 
     .jbjkeyvalue-row {
         margin-bottom: 8px;
-        height: 25px;
+        width: 400px;
+        select {
+            float: left;
+        }
+    }
+
+    // J2.5 hack
+    #jform_params_conditions-lbl {
+        float: left;
     }
 
     .items-default {
