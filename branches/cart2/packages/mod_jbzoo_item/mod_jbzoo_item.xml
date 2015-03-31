@@ -34,26 +34,17 @@
     <config>
         <fields name="params">
             <fieldset name="basic" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
-                
                 <field name="@spacer" type="jbzooinit"/>
 
-                <field name="moduleclass_sfx"
-                       type="text"
-                       default=""
-                       label="JBZOO_MODULE_SFX"
+                <field name="moduleclass_sfx" type="text" default="" label="JBZOO_MODULE_SFX"
                        description="JBZOO_MODULE_SFX_DESC"/>
 
-                <field name="layout"
-                       type="modulelayout"
-                       label="JFIELD_ALT_LAYOUT_LABEL"
+                <field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL"
                        description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
 
-                <field name="item_layout"
-                       type="jbfilename"
-                       default="default"
-                       label="JBZOO_MODITEM_LAYOUT_ITEM"
-                       description="JBZOO_MODITEM_LAYOUT_ITEM_DESC"
-                       path="/modules/mod_jbzoo_item/renderer/item/" ext="php"/>
+                <field name="item_layout" type="jbfilename" default="default" label="JBZOO_MODITEM_LAYOUT_ITEM"
+                       ext="php" description="JBZOO_MODITEM_LAYOUT_ITEM_DESC"
+                       path="/modules/mod_jbzoo_item/renderer/item/"/>
 
                 <field name="cache" type="hidden" default="0"/>
                 <field name="owncache" type="hidden" default="0"/>
@@ -63,112 +54,64 @@
 
             <fieldset name="base" label="JBZOO_MODITEM_BASE">
 
-                <field name="mode"
-                       type="list"
-                       default="conditions"
-                       label="JBZOO_MODITEM_MODE"
+                <field name="mode" type="list" default="conditions" label="JBZOO_MODITEM_MODE"
                        description="JBZOO_MODITEM_MODE_DESC">
-
                     <option value="conditions">JBZOO_MODITEM_FILTER</option>
                     <option value="viewed">JBZOO_MODITEM_RECENTLY_VIEWED</option>
                 </field>
 
-                <field name="@group-conditions"
-                       type="jbdelimiter"
-                       default="JBZOO_MODITEM_FILTER_LABEL"
-                        group="conditions" />
 
-                <field name="condition_app"
-                       type="jbapplist"
-                       default=""
-                       label="JBZOO_MODITEM_APPLICATIONS"
-                       description="JBZOO_MODITEM_APPLICATIONS_DESC"
-                       multiple="0"
-                       headhide="1"/>
+                <field name="@group-conditions" type="jbdelimiter" default="JBZOO_MODITEM_FILTER_LABEL"
+                       group="conditions"/>
 
-                <field name="condition_type"
-                       type="jbtype"
-                       default=""
-                       label="JBZOO_MODITEM_TYPES"
-                       description="JBZOO_MODITEM_TYPES_DESC"
-                       multiple="0"
-                       headhide="1"/>
+                <field name="condition_app" type="jbapplist" default="" label="JBZOO_MODITEM_APPLICATIONS"
+                       description="JBZOO_MODITEM_APPLICATIONS_DESC" multiple="0" headhide="1"/>
 
-                <field name="logic"
-                       type="radio"
-                       default="and"
-                       label="JBZOO_MODITEM_LOGIC"
+                <field name="condition_type" type="jbtype" default="" label="JBZOO_MODITEM_TYPES"
+                       description="JBZOO_MODITEM_TYPES_DESC" multiple="0" headhide="1"/>
+
+
+                <field name="logic" type="radio" default="and" label="JBZOO_MODITEM_LOGIC"
                        description="JBZOO_MODITEM_LOGIC_DESC">
-
                     <option value="or">JBZOO_MODITEM_LOGIC_OR</option>
                     <option value="and">JBZOO_MODITEM_LOGIC_AND</option>
                 </field>
 
-                <field name="type_search"
-                       type="radio"
-                       default="1"
-                       label="JBZOO_MODITEM_TYPE_SEARCH"
+                <field name="type_search" type="radio" default="1" label="JBZOO_MODITEM_TYPE_SEARCH"
                        description="JBZOO_MODITEM_TYPE_SEARCH_DESC">
-
                     <option value="0">JBZOO_MODITEM_TYPE_SEARCH_FULL</option>
                     <option value="1">JBZOO_MODITEM_TYPE_SEARCH_DOTTED</option>
                 </field>
 
-                <field name="conditions"
-                       type="jbkeyvalue"
-                       default=""
-                       label="JBZOO_MODITEM_CONDITIONS"
+
+                <field name="conditions" type="jbkeyvalue" default="" label="JBZOO_MODITEM_CONDITIONS"
                        description="JBZOO_MODITEM_CONDITIONS_DESC"/>
 
-                <field name="@group-viewed"
-                       type="jbdelimiter"
-                       default="JBZOO_MODITEM_RECENTLY_VIEWED"
-                       group="viewed" />
+                <field name="@group-viewed" type="jbdelimiter" default="JBZOO_MODITEM_RECENTLY_VIEWED" group="viewed"/>
 
-                <field type="jbtype"
-                       name="recently_type"
-                       description="JBZOO_MODITEM_TYPES_DESC"
-                       label="JBZOO_MODITEM_TYPES"
-                       default=""
-                       headhide="1"
-                       multiple="1"/>
+                <field type="jbtype" name="recently_type" description="JBZOO_MODITEM_TYPES_DESC"
+                       label="JBZOO_MODITEM_TYPES" default="" headhide="1" multiple="1"/>
 
-                <field name="delete"
-                       type="radio"
-                       default="1"
-                       label="JBZOO_MODITEM_RECENTLY_VIEWED_DELETE_LABEL"
+                <field name="delete" type="radio" default="1" label="JBZOO_MODITEM_RECENTLY_VIEWED_DELETE_LABEL"
                        description="JBZOO_MODITEM_RECENTLY_VIEWED_DELETE_DESC">
-
                     <option value="0">JBZOO_NO</option>
                     <option value="1">JBZOO_YES</option>
                 </field>
 
-                <field name="@group-close"
-                       type="jbdelimiter"
-                       default="JBZOO_MODITEM_BASIC_OPTIONS"
-                       group="close" />
+                <field name="@group-close" type="jbdelimiter" default="JBZOO_MODITEM_BASIC_OPTIONS" group="close"/>
 
-                <field name="order_default"
-                       type="jbitemorderadv"
-                       default=""
-                       label="JBZOO_MODITEM_ORDER_DEFAULT"
+                <field name="order_default" type="jbitemorderadv" default="" label="JBZOO_MODITEM_ORDER_DEFAULT"
                        description="JBZOO_MODITEM_ORDER_DEFAULT_DESC"/>
 
-                <field name="pages"
-                       type="text"
-                       default="20"
-                       label="JBZOO_MODITEM_PAGES"
+                <field name="pages" type="text" default="20" label="JBZOO_MODITEM_PAGES"
                        description="JBZOO_MODITEM_PAGES_DESC"/>
+
             </fieldset>
 
             <fieldset name="template" label="JBZOO_MODITEM_TEMPLATE">
 
-                <field name="item_cols"
-                       type="list"
-                       default="1"
-                       label="JBZOO_MODITEM_COLS"
+                <field name="item_cols" type="list" default="1" label="JBZOO_MODITEM_COLS"
                        description="JBZOO_MODITEM_COLS_DESC">
-
                     <option value="0">JBZOO_MODITEM_NO_TEMPLATE</option>
                     <option value="1">JBZOO_NUMBERS_1</option>
                     <option value="2">JBZOO_NUMBERS_2</option>
@@ -178,28 +121,18 @@
                     <option value="6">JBZOO_NUMBERS_6</option>
                 </field>
 
-                <field name="display_border"
-                       type="jbbool"
-                       default="1"
-                       label="JBZOO_MODITEM_DISPLAY_BORDER"
+                <field name="display_border" type="jbbool" default="1" label="JBZOO_MODITEM_DISPLAY_BORDER"
                        description="JBZOO_MODITEM_DISPLAY_BORDER_DESC"/>
 
-                <field name="items_image_align"
-                       type="list"
-                       default="left"
-                       label="JBZOO_MODITEM_ITEMS_IMAGE_ALIGN"
+                <field name="items_image_align" type="list" default="left" label="JBZOO_MODITEM_ITEMS_IMAGE_ALIGN"
                        description="JBZOO_MODITEM_ITEMS_IMAGE_ALIGN_DESC">
-
                     <option value="none">JBZOO_MODITEM_IMAGE_ALIGN_NONE</option>
                     <option value="left">JBZOO_MODITEM_IMAGE_ALIGN_LEFT</option>
                     <option value="right">JBZOO_MODITEM_IMAGE_ALIGN_RIGHT</option>
                     <option value="center">JBZOO_MODITEM_IMAGE_ALIGN_CENTER</option>
                 </field>
 
-                <field name="column_heightfix"
-                       type="jbbool"
-                       default="0"
-                       label="JBZOO_MODITEM_COLUMN_HEIGHTFIX"
+                <field name="column_heightfix" type="jbbool" default="0" label="JBZOO_MODITEM_COLUMN_HEIGHTFIX"
                        description="JBZOO_MODITEM_COLUMN_HEIGHTFIX_DESC"/>
             </fieldset>
         </fields>
