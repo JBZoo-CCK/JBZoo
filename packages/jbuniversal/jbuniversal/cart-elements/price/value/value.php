@@ -42,8 +42,9 @@ class JBCartElementPriceValue extends JBCartElementPrice
     public function getSearchData()
     {
         $prices = $this->getPrices();
+        $total  = JBCart::val($prices['total']);
 
-        return JBCart::val($prices['total']);
+        return $total->convert('eur');
     }
 
     /**

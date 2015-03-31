@@ -20,78 +20,132 @@
                 'step'  : 100,
                 'values': []
             },
-            'currency': ''
+            'currency': '',
+            'wrapper'  : {}
         }, {
 
-            init: function ($this) {
+            init: function () {
+                this.wrapper    = this.$('.jsSliderWrapper');
+                this.rangeInput = this.$('.jsSliderValue');
 
                 this.ui();
-                this._getMoney('.jsSliderLabel ');
-            },
-
-            'change .jsSliderInput': function (e, $this) {
-
-                var values = $this.$('.jsSliderWrapper').slider('values'),
-                    _index = $(this).hasClass('jsSlider-0') ? 0 : 1;
-
-                values[_index] = $(this).val();
-                values = $this._validate(values);
-
-                $this.setLabelValue(values);
-                $this.setHidden(values);
-                $this.$('.jsSliderWrapper').slider('values', values);
             },
 
             ui: function () {
-
                 var options = this.options.ui,
-                    $this = this;
+                    $this   = this;
 
-                this.$('.jsSliderWrapper').slider({
+                this.wrapper.slider({
                     'range' : options.range,
-                    'min'   : options.min,
-                    'max'   : options.max,
-                    'step'  : options.step,
+                    'min'   : JBZoo.toFloat(options.min),
+                    'max'   : JBZoo.toFloat(options.max),
+                    'step'  : JBZoo.toFloat(options.step),
                     'values': [options.values[0], options.values[1]],
                     'slide' : function (event, ui) {
-                        $this.setHidden(ui.values);
-                        $this.setLabelValue(ui.values);
+                        $this.setValues(ui.values);
                     },
                     'stop'  : function (event, ui) {
-                        $this.setHidden(ui.values);
-                        $this.setLabelValue(ui.values);
+                        $this.setValues(ui.values);
                     }
                 });
             },
 
-            getValue: function () {
-                this.$('.jsSliderValue').val();
+            setValues: function (values) {
+                var $this = this;
+                $.map(this._validate(values), function (value, i) {
+                    $this._setValue(value, i);
+                });
             },
 
-            setHidden: function (values) {
-                this.$('.jsSliderValue').val(values[0] + "/" + values[1]);
-                this.$('.jsSlider-0').val(values[0]);
-                this.$('.jsSlider-1').val(values[1]);
+            _setValue: function(value, index) {
+                var range;
+
+                if (index == 0) {
+                    value = this._validateMin(value);
+                    range = value + "/" + this._getSliderValue[1];
+
+                } else {
+                    value = this._validateMax(value);
+                    range = this._getSliderValue[0] + "/" + value;
+                }
+                this._getMoney(index).JBZooMoney('setValue', [value]);
+
+                this.wrapper.slider('values', index, value);
+                this.rangeInput.val(range);
+
+                this.$('.jsSlider-' + index).val(value);
             },
 
-            setLabelValue: function (values) {
-                this._getMoney('.jsSliderLabel-0 ').JBZooMoney('setValue', [values[0]]);
-                this._getMoney('.jsSliderLabel-1 ').JBZooMoney('setValue', [values[1]]);
+            _getSliderValue: function(index) {
+                return this.wrapper.slider('values', index);
             },
 
-            _getMoney: function (filter) {
-
-                return this.$(filter + '.jsMoney').JBZooMoney({
+            _getMoney: function (index) {
+                return this.$('.jsSliderLabel-' + index + ' .jsMoney').JBZooMoney({
                     'rates': JBZoo.getVar('currencyList')
                 });
             },
 
-            _setValue: function (value) {
-                this.$('.jsSliderValue').val(value);
+            _validate: function (values) {
+                var $this = this;
+                values = $.map(values, function (value, i) {
+
+                    value = JBZoo.toFloat(value);
+                    if (i == 0) {
+                        value = $this._validateMin(value);
+
+                    } else {
+                        value = $this._validateMax(value);
+                    }
+
+                    return value;
+                });
+
+                return values;
+            },
+
+            _validateMin: function(min) {
+                var max     = this._getSliderValue(1),
+                    options = this.options.ui;
+
+                min = JBZoo.toFloat(min);
+                if (min > max) {
+                    min = max;
+                }
+                if (min < options.min) {
+                    min = options.min;
+                }
+                if (min > options.max) {
+                    min = options.max;
+                }
+
+                return min;
+            },
+
+            _validateMax: function(max) {
+                var min     = this._getSliderValue(0),
+                    options = this.options.ui;
+
+                max = JBZoo.toFloat(max);
+                if (max < min) {
+                    max = min;
+                }
+                if (max < options.min) {
+                    max = options.min;
+                }
+                if (max > options.max) {
+                    max = options.max;
+                }
+
+                return max;
+            },
+
+            'change .jsSliderInput': function (e, $this) {
+                var _index = $(this).hasClass('jsSlider-0') ? 0 : 1;
+                $this._setValue($(this).val(), _index);
             },
 
             'focus .jsSliderInput': function (e, $this) {
-
                 $(this).css('opacity', '1');
                 $(this).closest('.jsSliderLabel').css('opacity', '0');
             },
@@ -113,51 +167,18 @@
 
                 var $input = $(this);
                 if ($input.is(':focus')) {
+
                     var value = JBZoo.toFloat($input.val());
                     if (e.originalEvent.wheelDelta > 0) {
-                        value += JBZoo.toFloat($this.options.ui.step);
+                        value += $this.options.ui.step;
                     } else {
-                        value -= JBZoo.toFloat($this.options.ui.step);
+                        value -= $this.options.ui.step;
                     }
 
-                    value = JBZoo.toFloat(value);
-                    var values = $this.$('.jsSliderWrapper').slider('values'),
-                        _index = $input.hasClass('jsSlider-0') ? 0 : 1;
-
-                    values[_index] = value;
-                    values = $this._validate(values);
-
-                    $this.setLabelValue(values);
-                    $this.setHidden(values);
-                    $this.$('.jsSliderWrapper').slider('values', values);
+                    $this._setValue(value, $input.hasClass('jsSlider-0') ? 0 : 1);
                 }
 
                 return false;
-            },
-
-            _validate: function (values) {
-                var options = this.options.ui;
-
-                values[0] = JBZoo.toFloat(values[0]);
-                values[1] = JBZoo.toFloat(values[1]);
-
-                if (values[1] < values[0]) {
-                    values[1] = values[0];
-                }
-
-                if (values[0] > values[1]) {
-                    values[0] = values[1];
-                }
-
-                if (values[0] < options.min) {
-                    values[0] = options.min;
-                }
-
-                if (values[1] > options.max) {
-                    values[1] = options.max;
-                }
-
-                return values;
             }
         }
     );
