@@ -56,7 +56,8 @@ class JBPriceFilterElementDiscount extends JBPriceFilterElement
 
         foreach ($values as $key => $value) {
             if (isset($default[$value['text']])) {
-                $values[$key]['text'] = $default[$value['text']]['text'];
+                $values[$key]['text']  = $default[$value['text']]['text'];
+                $values[$key]['value'] = $default[$value['text']]['value'];
             }
         }
 

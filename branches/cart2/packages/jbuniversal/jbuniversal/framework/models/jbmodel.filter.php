@@ -286,15 +286,13 @@ class JBModelFilter extends JBModel
                     $select->order('RAND()');
 
                 } elseif (strpos($field, '__')) {
-                    list ($elementId, $priceField) = explode('__', $field);
-                    $id = JBModelSku::model()->getId($priceField);
+                    list ($elementId, $id) = explode('__', $field);
 
                     $select
-                        ->leftJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
-                        ->leftJoin(JBModelSku::JBZOO_TABLE_SKU_VALUES . ' AS tValues ON tSku.param_id = tValues.param_id')
+                        ->leftJoin(ZOO_TABLE_JBZOO_SKU . '  AS tSku ON tSku.item_id = tItem.id')
                         ->where('tSku.element_id = ?', $elementId)
                         ->where('tSku.param_id = ?', $id)
-                        ->order('tValues.value_' . $order->get('mode') . ' ' . $dir);
+                        ->order('tSku.value_' . $order->get('mode') . ' ' . $dir);
                 } else {
 
                     $fieldName = $this->_jbtables->getFieldName($field, $order->get('mode'));

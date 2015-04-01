@@ -1,6 +1,7 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -65,12 +66,12 @@ class JBPriceFilterElement
     /**
      * @var JBHTMLHelper
      */
-    protected $_html = null;
+    public $html = null;
 
     /**
      * @var JBMoneyHelper
      */
-    protected $_money = null;
+    public $money = null;
 
     /**
      * @param       $element
@@ -97,19 +98,20 @@ class JBPriceFilterElement
         $this->_attrs  = $this->_getAttrs($attrs);
         $this->_config = $element->config;
 
-        $this->_html  = $this->app->jbhtml;
-        $this->_money = $this->app->jbmoney;
+        $this->html  = $this->app->jbhtml;
+        $this->money = $this->app->jbmoney;
     }
 
     /**
      * Get element value
+     *
      * @param $value
+     *
      * @return mixed
      */
     protected function _getElementValue($value)
     {
         if ($this->_isValueEmpty($value) && $value = $this->_params->get('jbzoo_filter_default', null)) {
-
             $value = JString::trim($value);
 
             if (strpos($value, '{') !== false && strpos($value, '}') !== false) {
@@ -122,12 +124,14 @@ class JBPriceFilterElement
 
     /**
      * Check is variable empty
+     *
      * @param $value
+     *
      * @return bool
      */
     protected function _isValueEmpty($value)
     {
-        return (empty($value) && ($value !== 0 || $value !== "0"));
+        return (empty($value) && $value != '0');
     }
 
     /**
@@ -167,7 +171,7 @@ class JBPriceFilterElement
     {
         return JBModelValues::model()->getParamsValues(
             $this->_jbprice->identifier,
-            $this->_getSkuId(),
+            $this->_identifier,
             $this->_params->get('item_type', null),
             $this->_params->get('item_application_id', null)
         );
@@ -212,7 +216,9 @@ class JBPriceFilterElement
 
     /**
      * Get html attributs
+     *
      * @param $attrs
+     *
      * @return array
      */
     protected function _getAttrs(array $attrs)
@@ -231,6 +237,7 @@ class JBPriceFilterElement
     /**
      * @param array $values
      * @param bool  $showAll
+     *
      * @return array
      */
     protected function _createOptionsList($values, $showAll = true)
@@ -256,8 +263,10 @@ class JBPriceFilterElement
 
     /**
      * Get element ID attribute
+     *
      * @param string $postFix
      * @param bool   $addUniq
+     *
      * @return string
      */
     protected function _getId($postFix = null, $addUniq = false)
@@ -291,9 +300,7 @@ class JBPriceFilterElement
      */
     protected function _getName($id = false, $array = false)
     {
-        $name = 'e[' . $this->_jbprice->identifier . ']';
-
-        $name .= '[' . ($id === true ? $this->_getSkuId() : $this->_identifier) . ']';
+        $name = 'e[' . $this->_jbprice->identifier . '][' . $this->_identifier . ']';
 
         if ($id) {
             $name .= '[id]';
@@ -303,23 +310,13 @@ class JBPriceFilterElement
         return $name;
     }
 
-
-    /**
-     * Get id from elements table
-     * @return int
-     */
-    protected function _getSkuId()
-    {
-        return JBModelSku::model()->getId($this->_identifier);
-    }
-
     /**
      * Render HTML code for element
      * @return string|null
      */
     public function html()
     {
-        return $this->_html->text(
+        return $this->html->text(
             $this->_getName(),
             $this->_value,
             $this->_attrs,
@@ -359,7 +356,9 @@ class JBPriceFilterElement
 
     /**
      * Init placeholder
+     *
      * @param $attrs
+     *
      * @return mixed
      */
     protected function _addPlaceholder($attrs)

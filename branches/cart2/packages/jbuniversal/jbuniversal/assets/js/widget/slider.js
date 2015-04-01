@@ -34,7 +34,6 @@
                 this.ui();
             },
 
-
             ui: function () {
                 var options = this.options.ui,
                     $this   = this;
@@ -44,7 +43,7 @@
                     'min'   : options.min,
                     'max'   : options.max,
                     'step'  : options.step,
-                    'values': [options.values[0], options.values[1]],
+                    'values': options.values,
                     'slide' : function (event, ui) {
                         $this.setValues(ui.values);
                     },
@@ -104,9 +103,10 @@
                 var $this = this;
 
                 $.extend($this.options.ui, {
-                    'step'    : JBZoo.toFloat($this.options.ui.step),
-                    'min'     : JBZoo.toFloat($this.options.ui.min),
-                    'max'     : JBZoo.toFloat($this.options.ui.max)
+                    'step'  : JBZoo.toFloat($this.options.ui.step),
+                    'min'   : JBZoo.toFloat($this.options.ui.min),
+                    'max'   : JBZoo.toFloat($this.options.ui.max),
+                    'values': [JBZoo.toFloat($this.options.ui.values[0]), JBZoo.toFloat($this.options.ui.values[1])]
                 });
             },
 

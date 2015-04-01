@@ -411,6 +411,7 @@ class JBAssetsHelper extends AppHelper
     public function slider($id, $params = array(), $return = false)
     {
         $this->tools();
+        $this->jqueryui();
         $this->js('jbassets:js/widget/slider.js');
         $this->less('jbassets:less/widget/slider.less');
 

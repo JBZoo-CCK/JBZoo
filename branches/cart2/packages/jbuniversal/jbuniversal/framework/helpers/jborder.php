@@ -243,12 +243,11 @@ class JBOrderHelper extends AppHelper
 
                 $joinList['tSku']    = 'LEFT JOIN ' . ZOO_TABLE_JBZOO_SKU
                     . ' AS tSku ON tSku.item_id = a.id'
-                    . ' AND tSku.element_id = \'' . $elementId . '\'';
-                $joinList['tValues'] = 'LEFT JOIN ' . JBModelSku::JBZOO_TABLE_SKU_VALUES
-                    . ' AS tValues ON tSku.param_id = tValues.param_id AND tSku.value_id = tValues.id'
-                    . ' AND tValues.param_id = \'' . $id . '\''
-                    . ' AND tValues.variant = \'0\'';
-                $ol[] = 'tValues.value_' . $orderParams['mode'] . ' ' . $order;
+                    . ' AND tSku.element_id = \'' . $elementId . '\'
+                        AND tSku.param_id = \'' . $id . '\'
+                        AND `variant` = \'0\'';
+
+                $ol[] = 'tSku.value_' . $orderParams['mode'] . ' ' . $order;
 
             } else {
                 $itemType = $this->app->jbentity->getItemTypeByElementId($orderParams['field']);
