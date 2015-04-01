@@ -66,12 +66,12 @@ class JBPriceFilterElement
     /**
      * @var JBHTMLHelper
      */
-    public $html = null;
+    protected $_html = null;
 
     /**
      * @var JBMoneyHelper
      */
-    public $money = null;
+    protected $_money = null;
 
     /**
      * @param       $element
@@ -98,8 +98,8 @@ class JBPriceFilterElement
         $this->_attrs  = $this->_getAttrs($attrs);
         $this->_config = $element->config;
 
-        $this->html  = $this->app->jbhtml;
-        $this->money = $this->app->jbmoney;
+        $this->_html  = $this->app->jbhtml;
+        $this->_money = $this->app->jbmoney;
     }
 
     /**

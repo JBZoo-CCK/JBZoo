@@ -17,5 +17,4 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBPriceFilterElementSkuText extends JBPriceFilterElementSku
 {
-
 }

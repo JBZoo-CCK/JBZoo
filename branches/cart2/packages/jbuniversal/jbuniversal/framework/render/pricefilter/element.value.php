@@ -82,7 +82,7 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
             $params['min'] = JBCart::val($rangesData['total_min'], 'eur')->val($to);
             $params['max'] = JBCart::val($rangesData['total_max'], 'eur')->val($to);
         }
-        $html = $this->html->slider_v2($params, $value['range'], $this->_getName('range'), $this->app->jbstring->getId('jsSlider-'), $to);
+        $html = $this->_html->sliderInput($params, $value['range'], $this->_getName('range'), $this->app->jbstring->getId('jsSlider-'), $to);
 
         return $html;
     }

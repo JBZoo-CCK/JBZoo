@@ -43,7 +43,7 @@ class JBPriceFilterElementSku extends JBPriceFilterElement
      */
     public function html()
     {
-        return $this->html->text(
+        return $this->_html->text(
             $this->_getName(),
             $this->_value,
             $this->_attrs,
