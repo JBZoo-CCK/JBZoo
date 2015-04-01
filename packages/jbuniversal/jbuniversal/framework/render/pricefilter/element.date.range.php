@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -34,7 +33,7 @@ class JBPriceFilterElementDateRange extends JBPriceFilterElementDate
         }
 
         $html[] = '<label for="' . $this->_getId('1') . '">' . JText::_('JBZOO_FROM') . '</label>';
-        $html[] = $this->html->calendar(
+        $html[] = $this->_html->calendar(
             $this->_getName('0', '0'),
             $value[0],
             $this->_attrs,
@@ -45,7 +44,7 @@ class JBPriceFilterElementDateRange extends JBPriceFilterElementDate
         $html[] = '<br />';
 
         $html[] = '<label for="' . $this->_getId('2') . '">' . JText::_('JBZOO_TO') . '</label>';
-        $html[] = $this->html->calendar(
+        $html[] = $this->_html->calendar(
             $this->_getName('1', '0'),
             $value[1],
             $this->_attrs,

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -20,9 +19,7 @@ class JBPriceFilterElementSku extends JBPriceFilterElement
 {
     /**
      * Get main attrs
-     *
      * @param array $attrs
-     *
      * @return array
      */
     protected function _getAttrs(array $attrs)
@@ -44,7 +41,7 @@ class JBPriceFilterElementSku extends JBPriceFilterElement
     public function html()
     {
         $value = (array)$this->_value;
-        $html  = $this->html->text(
+        $html  = $this->_html->text(
             $this->_getName(),
             $value['0'],
             $this->_attrs,

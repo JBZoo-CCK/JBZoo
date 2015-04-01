@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -33,13 +32,13 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
         $html     = null;
 
         if ($template == self::TEMPLATE_SLIDER) {
-            $html = $this->renderSlider($value);
+            $html = $this->_renderSlider($value);
 
         } else if ($template == self::TEMPLATE_RANGE) {
-            $html = $this->renderRange($value);
+            $html = $this->_renderRange($value);
 
         } else if ($template == self::TEMPLATE_SIMPLE) {
-            $html = $this->renderText($value);
+            $html = $this->_renderText($value);
         }
 
         if ($html) {
@@ -54,7 +53,7 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
      * @param $value
      * @return string
      */
-    public function renderSlider($value)
+    protected function _renderSlider($value)
     {
         $categoryId = $min = $max = null;
         $params     = array(
@@ -63,7 +62,9 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
             'max'  => $this->_params->get('jbzoo_filter_slider_max', 10000),
             'step' => $this->_params->get('jbzoo_filter_slider_step', 100),
         );
-        $to         = $this->_params->get('jbzoo_filter_currency_default', 'EUR');
+
+        $to = $this->_params->get('jbzoo_filter_currency_default', 'EUR');
+
         if ($params['auto']) {
             $applicationId = (int)$this->_params->get('item_application_id', 0);
             $isCatDepend   = (int)$this->_params->moduleParams->get('depend_category');
@@ -89,28 +90,23 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
             ));
         }
 
-        $html = $this->html->slider_v2($params, $value['range'], $this->_getName('range'), $this->app->jbstring->getId('jsSlider-'), $to);
+        $html = $this->_html->sliderInput($params, $value['range'], $this->_getName('range'), $this->app->jbstring->getId('jsSlider-'), $to);
 
         return $html;
     }
 
     /**
      * Render range template
-     *
      * @param $value
-     *
      * @return string
      */
-    public function renderRange($value)
+    protected function _renderRange($value)
     {
         $html = '<label for="' . $this->_getId('min') . '">' . JText::_('JBZOO_FROM') . '</label>';
-
-        $html .= $this->html->text($this->_getName('min'), $value['min'], 'class="val_min"',
-            $this->_getId('min'));
+        $html .= $this->_html->text($this->_getName('min'), $value['min'], 'class="val_min"', $this->_getId('min'));
 
         $html .= '<label for="' . $this->_getId('max') . '">' . JText::_('JBZOO_TO') . '</label>';
-
-        $html .= $this->html->text($this->_getName('max'), $value['max'], 'class="val_max"',
+        $html .= $this->_html->text($this->_getName('max'), $value['max'], 'class="val_max"',
             $this->_getId('max'));
 
         return '<div class="jbprice-ranges">' . $html . '</div>';
@@ -118,14 +114,12 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
 
     /**
      * Render simple template
-     *
      * @param $value
-     *
      * @return string
      */
-    public function renderText($value)
+    protected function _renderText($value)
     {
-        return $this->html->text($this->_getName('value'), $value['value'], 'class="val"', $this->_getId('val'));
+        return $this->_html->text($this->_getName('value'), $value['value'], 'class="val"', $this->_getId('val'));
     }
 
     /**
@@ -141,7 +135,6 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
 
     /**
      * Render hidden input width currency value from config.
-     *
      * @return null|string
      */
     protected function _renderCurrency()

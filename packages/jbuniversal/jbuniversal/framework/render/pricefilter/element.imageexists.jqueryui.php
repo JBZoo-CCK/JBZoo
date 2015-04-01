@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -27,7 +26,7 @@ class JBPRiceFilterElementImageExistsJqueryUI extends JBPriceFilterElement
         $options = $this->_getValues();
         unset($this->_attrs['id']);
 
-        return $this->html->buttonsJQueryUI(
+        return $this->_html->buttonsJQueryUI(
             $this->_createOptionsList($options),
             $this->_getName(),
             $this->_attrs,
@@ -45,7 +44,7 @@ class JBPRiceFilterElementImageExistsJqueryUI extends JBPriceFilterElement
     {
         $values  = (array)$this->_getDbValues();
         $default = array(
-            1    => array(
+            1 => array(
                 'text'  => JText::_('JBZOO_YES'),
                 'value' => 1,
                 'count' => null

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -26,7 +25,7 @@ class JBPriceFilterElementSelect extends JBPriceFilterElement
     {
         $values = $this->_getValues();
 
-        return $this->html->select(
+        return $this->_html->select(
             $this->_createOptionsList($values),
             $this->_getName(true, $this->_isMultiple),
             $this->_attrs,

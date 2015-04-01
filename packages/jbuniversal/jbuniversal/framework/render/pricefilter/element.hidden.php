@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -33,7 +32,7 @@ class JBPriceFilterElementHidden extends JBPriceFilterElement
             unset($this->_attrs['size']);
 
             foreach ($this->_value as $key => $value) {
-                $html[] = $this->html->hidden(
+                $html[] = $this->_html->hidden(
                     $this->_getName(),
                     $value,
                     $this->_attrs,
@@ -42,7 +41,7 @@ class JBPriceFilterElementHidden extends JBPriceFilterElement
             }
 
         } else {
-            $html[] = $this->html->hidden(
+            $html[] = $this->_html->hidden(
                 $this->_getName(),
                 $this->_value,
                 $this->_attrs,
