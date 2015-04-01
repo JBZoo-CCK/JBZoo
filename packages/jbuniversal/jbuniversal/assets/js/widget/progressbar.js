@@ -155,8 +155,14 @@
                     }
                 },
                 'onFatal': function (responce) {
-                    dump(responce);
-                    $('.jsErrorBlock').html(responce[0].responseText);
+
+                    if (!JBZoo.empty(responce.responseText)) {
+                        $('.jsErrorBlock').html(responce.responseText);
+
+                    } else if (!JBZoo.empty(responce[0].responseText)) {
+                        $('.jsErrorBlock').html(responce[0].responseText);
+                    }
+
                     $('.jsErrorBlockWrapper').fadeIn();
                     triggerStop();
                 }
