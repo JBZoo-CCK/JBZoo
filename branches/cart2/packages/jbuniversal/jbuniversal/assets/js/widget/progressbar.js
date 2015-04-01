@@ -155,7 +155,8 @@
                     }
                 },
                 'onFatal': function (responce) {
-                    $('.jsErrorBlock').html(responce.responseText);
+                    dump(responce);
+                    $('.jsErrorBlock').html(responce[0].responseText);
                     $('.jsErrorBlockWrapper').fadeIn();
                     triggerStop();
                 }
