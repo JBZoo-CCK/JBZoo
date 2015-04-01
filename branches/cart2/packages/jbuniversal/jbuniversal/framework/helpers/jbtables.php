@@ -124,18 +124,14 @@ class JBTablesHelper extends AppHelper
 
         if (!isset($checked) || $force) {
             $this->createTable(ZOO_TABLE_JBZOO_SKU, array(
-                '`id` INT(11) UNSIGNED AUTO_INCREMENT NOT NULL',
-                '`value_s` VARCHAR(150) NOT NULL',
-                '`value_n` DOUBLE',
-                '`value_d` DATETIME',
                 '`item_id` INT(11) UNSIGNED NOT NULL',
                 '`element_id` VARCHAR(36) NOT NULL',
                 '`param_id` VARCHAR(36) NOT NULL',
+                '`value_s` VARCHAR(150) NOT NULL',
+                '`value_n` DOUBLE',
+                '`value_d` DATETIME',
                 '`variant` INT(11) NOT NULL',
             ), array(
-                'PRIMARY KEY (`id`)',
-                'INDEX `item_id_element_id_param_id` (`item_id`, `element_id`, `param_id`)',
-                'INDEX `element_id_param_id` (`element_id`, `param_id`)',
                 'INDEX `item_id` (`item_id`)',
                 'INDEX `element_id` (`element_id`)',
                 'INDEX `param_id` (`param_id`)',
@@ -633,6 +629,7 @@ class JBTablesHelper extends AppHelper
      */
     public function dropAllSku()
     {
-        return $this->dropTable(ZOO_TABLE_JBZOO_SKU);
+        $this->dropTable(ZOO_TABLE_JBZOO_SKU);
+        return $this;
     }
 }

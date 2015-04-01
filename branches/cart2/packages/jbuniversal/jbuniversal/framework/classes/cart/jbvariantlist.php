@@ -56,8 +56,8 @@ class JBCartVariantList extends ArrayObject
     /**
      * Class constructor.
      * @help Create JBCartVariantList object after JBPrice template is set.
-     * @param array          $list
-     * @param array          $options
+     * @param array $list
+     * @param array $options
      */
     public function __construct($list, $options = array())
     {
@@ -67,20 +67,17 @@ class JBCartVariantList extends ArrayObject
         ksort($list);
 
         // set default variant key
-        if(isset($options['default']))
-        {
+        if (isset($options['default'])) {
             $this->setDefault($options['default']);
         }
 
         // set ElementJBPrice if exists
-        if(isset($options['element']))
-        {
+        if (isset($options['element'])) {
             $this->setJBPrice($options['element']);
             unset($options['element']);
         }
         // set options
-        if(!empty($options) && isset($options))
-        {
+        if (!empty($options) && isset($options)) {
             $this->setOptions($options);
             unset($options);
         }
@@ -110,8 +107,7 @@ class JBCartVariantList extends ArrayObject
      */
     public function set($key, $variant)
     {
-        if(!$variant instanceof JBCartVariant)
-        {
+        if (!$variant instanceof JBCartVariant) {
             throw new Exception('In Method: ' . __FUNCTION__ . ' values of array must be an instance of JBCartVariant.');
         }
 
@@ -125,8 +121,7 @@ class JBCartVariantList extends ArrayObject
      */
     public function add(array $list = array())
     {
-        foreach ($list as $key => $variant)
-        {
+        foreach ($list as $key => $variant) {
             $variant->setList($this)->bindData();
             $this->set($key, $variant);
         }
@@ -223,7 +218,7 @@ class JBCartVariantList extends ArrayObject
      */
     public function setDefault($key)
     {
-        if($this->default != $key) {
+        if ($this->default != $key) {
             $this->default = $key;
         }
     }
@@ -234,14 +229,12 @@ class JBCartVariantList extends ArrayObject
      */
     public function setOptions($options = array())
     {
-        if(!empty($this->options))
-        {
+        if (!empty($this->options)) {
             $options = array_merge((array)$this->options, $options);
         }
 
-        if(!empty($options))
-        {
-        $this->options = new AppData($options);
+        if (!empty($options)) {
+            $this->options = new AppData($options);
         }
 
         return $this->options;
@@ -269,8 +262,7 @@ class JBCartVariantList extends ArrayObject
      */
     public function setJBPrice($element)
     {
-        if(!$element instanceof ElementJBPrice)
-        {
+        if (!$element instanceof ElementJBPrice) {
             throw new Exception('In Method: ' . get_class() . ' - ' . __FUNCTION__ . ' first argument must be instance of ElementJBPrice.');
         }
 
@@ -283,8 +275,7 @@ class JBCartVariantList extends ArrayObject
      */
     public function getPrice()
     {
-        if ($this->isOverlay)
-        {
+        if ($this->isOverlay) {
             return $this->_calcPrice();
         }
 
@@ -297,12 +288,9 @@ class JBCartVariantList extends ArrayObject
      */
     public function getTotal()
     {
-        if ($this->isOverlay)
-        {
+        if ($this->isOverlay) {
             $total = $this->_calcTotal();
-        }
-        else
-        {
+        } else {
             $total = $this->_plainTotal();
         }
 
@@ -366,7 +354,7 @@ class JBCartVariantList extends ArrayObject
      */
     public function getSessionKey()
     {
-        if(!empty($this->session_key)) {
+        if (!empty($this->session_key)) {
             return $this->session_key;
         }
 
@@ -529,7 +517,7 @@ class JBCartVariantList extends ArrayObject
     protected function _plainCartData()
     {
         $jbPrice = $this->_jbprice;
-        $data = array(
+        $data    = array(
             'key'        => $this->getSessionKey(),
             'item_id'    => $this->item_id,
             'item_name'  => $this->item_name,
@@ -591,9 +579,9 @@ class JBCartVariantList extends ArrayObject
     protected function _calcPrice()
     {
         $price = $this->first()->getPrice();
-        if($this->count() > 1) {
-            foreach($this->all() as $variant) {
-                if(!$variant->isBasic()) {
+        if ($this->count() > 1) {
+            foreach ($this->all() as $variant) {
+                if (!$variant->isBasic()) {
                     $price->add($variant->getPrice());
                 }
             }

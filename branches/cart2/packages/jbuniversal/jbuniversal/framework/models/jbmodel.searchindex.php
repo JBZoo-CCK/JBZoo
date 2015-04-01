@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -80,7 +79,6 @@ class JBModelSearchindex extends JBModel
     public function reIndex($limit = 100, $offset = 0)
     {
         $this->app->jbenv->maxPerformance();
-
         if ($offset == 0) {
             $this->_jbtables
                 ->dropAllIndex()
@@ -97,7 +95,7 @@ class JBModelSearchindex extends JBModel
             ->from(ZOO_TABLE_ITEM . ' AS tItem')
             ->innerJoin(ZOO_TABLE_APPLICATION . ' AS tApp ON tItem.application_id = tApp.id')
             ->order('tItem.id')
-            ->where('tItem.searchable = 1') // only searchable items
+            ->where('tItem.searchable = 1')// only searchable items
             ->where('tApp.application_group = ?', JBZOO_APP_GROUP)
             ->limit($limit, $offset);
 
@@ -107,7 +105,9 @@ class JBModelSearchindex extends JBModel
             return 0;
         }
 
-        $dataPack = array();
+        $dataPack   = array();
+        $totalLines = 0;
+        $skuPack    = array();
 
         $ids = $this->_groupBy($rows);
 
@@ -119,10 +119,9 @@ class JBModelSearchindex extends JBModel
                 continue;
             }
 
+            $skuPack += $this->_getSkuData($item);
             $itemData = $this->updateByItem($item, true);
             $itemType = $item->getType()->id;
-
-            JBModelSku::model()->updateItemSku($item);
 
             // compact data
             if (!isset($dataPack[$itemType])) {
@@ -139,6 +138,10 @@ class JBModelSearchindex extends JBModel
         // insert all data
         if (!empty($dataPack)) {
             $totalLines = $this->_multiInsertData($dataPack);
+        }
+
+        if (!empty($skuPack)) {
+            $this->_multiInsert($skuPack, ZOO_TABLE_JBZOO_SKU);
         }
 
         return $totalLines;
@@ -220,6 +223,24 @@ class JBModelSearchindex extends JBModel
         $result   = array($itemType => array($itemPack));
 
         return $this->_multiInsertData($result);
+    }
+
+    /**
+     * @param Item $item
+     * @return array
+     */
+    protected function _getSkuData(Item $item)
+    {
+        $elements = $this->app->jbprice->getItemPrices($item);
+        $result   = array();
+
+        if (!empty($elements)) {
+            foreach ($elements as $key => $element) {
+                $result += $element->getIndexData();
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -402,6 +423,7 @@ class JBModelSearchindex extends JBModel
     {
         $tbl = $this->_jbtables->getIndexTable($item->getType()->id);
 
+        // remove form general index tables
         if ($tbl && $this->_jbtables->isTableExists($tbl)) {
             $delete = $this->_getSelect()
                 ->delete($this->app->jbtables->getIndexTable($item->getType()->id))
@@ -409,6 +431,10 @@ class JBModelSearchindex extends JBModel
 
             $this->_dbHelper->query((string)$delete);
         }
+
+        // remove from sku index table
+        $delete = $this->_getSelect()->delete(ZOO_TABLE_JBZOO_SKU)->where('item_id = ?', (int)$item->id);
+        $this->_dbHelper->query((string)$delete);
     }
 
 
@@ -459,7 +485,7 @@ class JBModelSearchindex extends JBModel
 
     /**
      * Get related category id list
-     * @param int $itemId
+     * @param int  $itemId
      * @param bool $getName
      * @return array
      */
