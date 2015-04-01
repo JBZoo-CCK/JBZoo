@@ -191,17 +191,16 @@ Class JBModelAutoComplete extends JBModel
         $select = $this
             ->_getSelect()
             ->clear()
-            ->select('tValues.value_s as value, tValues.value_s as value, tValues.id as id')
-            ->from(JBModelSku::JBZOO_TABLE_SKU_VALUES . ' AS tValues')
-            ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.param_id = tSku.param_id')
-            ->innerJoin(ZOO_TABLE_ITEM . ' AS tItem ON tItem.id = tSku.item_id')
+            ->select('tSku.value_s as value, tSku.value_s as value, tSku.id as id')
+            ->from(ZOO_TABLE_JBZOO_SKU  . ' AS tSku')
+            ->innerJoin(ZOO_TABLE_ITEM . ' AS tItem ON tSku.item_id = tItem.id')
             ->where('tItem.application_id = ?', (int)$applicationId)
             ->where('tItem.type = ?', $type)
-            ->where($this->_buildLikeBySpaces($query, 'tValues.value_s'))
+            ->where($this->_buildLikeBySpaces($query, 'tSku.value_s'))
             ->where('tSku.element_id = ?', $element_id)
-            ->where('tValues.param_id = ?', $param_id)
-            ->group('tValues.value_s')
-            ->order('tValues.value_s ASC')
+            ->where('tSku.param_id = ?', $param_id)
+            ->group('tSku.value_s')
+            ->order('tSku.value_s ASC')
             ->limit($limit);
 
         return $this->fetchAll($select);

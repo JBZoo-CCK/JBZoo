@@ -75,7 +75,6 @@ class JBModelElementJBPrice extends JBModelElement
      */
     protected function _getWhere(JBDatabaseQuery $select, $elementId, $data, $logic = 'AND', $exact = false)
     {
-        $model = JBModelSku::model();
         $data  = $this->_prepareValue($data, $exact);
         if (empty($data)) {
             return null;
@@ -91,22 +90,17 @@ class JBModelElementJBPrice extends JBModelElement
                 ->clear()
                 ->select('tSku.item_id as id')
                 ->from(ZOO_TABLE_JBZOO_SKU . ' AS tSku')
-                ->where('tSku.element_id = ?', $elementId)
-                ->innerJoin(JBModelSku::JBZOO_TABLE_SKU_VALUES . ' AS tValues ON tValues.id = tSku.value_id');
+                ->where('tSku.element_id = ?', $elementId);
 
-            $id = $model->getId($iterator->key());
-            if (!$id) {
-                $id         = $iterator->key();
-                $identifier = array_search($iterator->key(), JBModelSku::$ids);
-            }
             if ($isFirst !== 0) {
                 $logic = ' OR ';
             }
-            $where->where('tSku.param_id = ?', $id, $logic);
+            $where->where('tSku.param_id = ?', $iterator->key(), $logic);
             if (!empty($_value)) {
                 $_value   = (array)$_value;
                 $inParams = 'AND';
                 $first    = key($_value);
+
                 foreach ($_value as $key => $val) {
                     if ($first != $key) {
                         $inParams = 'OR';
@@ -118,12 +112,13 @@ class JBModelElementJBPrice extends JBModelElement
             $all[] = '(' . $where->__toString() . ')';
         }
 
-        $query  = $this->_getSelect()
-                       ->clear()
-                       ->select('tAll.id')
-                       ->from('(' . implode('UNION ALL', $all) . ') as tAll')
-                       ->group('tAll.id')
-                       ->having('COUNT(tAll.id) = ?', count($all));
+        $query  = $this
+            ->_getSelect()
+            ->clear()
+            ->select('tAll.id')
+            ->from('(' . implode('UNION ALL', $all) . ') as tAll')
+            ->group('tAll.id')
+            ->having('COUNT(tAll.id) = ?', count($all));
         $idList = $this->_groupBy($this->fetchAll($query), 'id');
 
         if (!empty($idList)) {
@@ -150,24 +145,24 @@ class JBModelElementJBPrice extends JBModelElement
             $value = (array)$value;
 
             array_walk($value, function ($v) use (&$where, &$logic) {
-                $where->where('tSku.value_id = ?', $v, $logic);
+                $where->where('tSku.id = ?', $v, $logic);
                 $logic = 'OR';
             });
         } elseif (is_array($value) && (isset($value['id']) && !empty($value['id']))) {
-            $where->where('tSku.value_id = ?', $value['id'], $logic);
+            $where->where('tSku.id = ?', $value['id'], $logic);
 
         } elseif ($this->isDate($value)) {
             $value = $this->_date($value);
             $where->where($value, null, $logic);
 
         } elseif ($this->isNumeric($value)) {
-            $where->where('tValues.value_n = ?', $value, $logic);
+            $where->where('tSku.value_n = ?', $value, $logic);
 
         } elseif ($exact) {
-            $where->where('tValues.value_s = ?', $value, $logic);
+            $where->where('tSku.value_s = ?', $value, $logic);
 
         } else {
-            $where->where($this->_buildLikeBySpaces($value, 'tValues.value_s'), null, $logic);
+            $where->where($this->_buildLikeBySpaces($value, 'tSku.value_s'), null, $logic);
         }
     }
 
@@ -179,11 +174,9 @@ class JBModelElementJBPrice extends JBModelElement
     protected function _prepareValue($values, $exact = false)
     {
         $values   = $this->unsetEmpty($values);
-        $value_id = JBModelSku::model()->getId('_value');
-        $value_id = isset($values['_value']) ? '_value' : (isset($values[$value_id]) ? $value_id : null);
 
-        if (isset($value_id)) {
-            $values[$value_id] = $this->_processValue((array)$values[$value_id]);
+        if (isset($values['_value'])) {
+            $values['_value'] = $this->_processValue((array)$values['_value']);
         }
 
         return $values;
@@ -250,7 +243,7 @@ class JBModelElementJBPrice extends JBModelElement
                 $values = $this->_value($values);
 
             } elseif (is_string($values)) {
-                $values = $this->toSql('tValues.value_n', $values);
+                $values = $this->toSql('tSku.value_n', $values);
 
             } elseif (is_array($values)) {
                 foreach ($values as $key => $value) {
@@ -300,11 +293,11 @@ class JBModelElementJBPrice extends JBModelElement
     {
         $range = array();
         if (isset($values['min'])) {
-            $range[] = 'tValues.value_n >= ' . $this->_quote(floor($values['min']));
+            $range[] = 'tSku.value_n >= ' . $this->_quote(floor($values['min']));
         }
 
         if (isset($values['max'])) {
-            $range[] = ' tValues.value_n <= ' . $this->_quote(ceil($values['max']));
+            $range[] = ' tSku.value_n <= ' . $this->_quote(ceil($values['max']));
         }
 
         return implode(' AND ', $range);
@@ -316,7 +309,7 @@ class JBModelElementJBPrice extends JBModelElement
      */
     protected function _date($date)
     {
-        return array("tValues.value_d BETWEEN"
+        return array("tSku.value_d BETWEEN"
                      . " STR_TO_DATE('" . $date[0] . "', ' % Y -%m -%d % H:%i:%s') AND"
                      . " STR_TO_DATE('" . $date[1] . "', ' % Y -%m -%d % H:%i:%s')"
         );

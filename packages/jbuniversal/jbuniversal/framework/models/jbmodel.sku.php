@@ -19,26 +19,6 @@ defined('_JEXEC') or die('Restricted access');
 class JBModelSku extends JBModel
 {
     /**
-     * Return array of id - primary key and elements identifier
-     * @type array
-     */
-    public static $ids = array();
-
-    //TODO Move to other place
-    const JBZOO_TABLE_SKU_PARAMS = '#__zoo_jbzoo_sku_params';
-    const JBZOO_TABLE_SKU_VALUES = '#__zoo_jbzoo_sku_values';
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        self::$ids = $this->getElementsKeys(true);
-    }
-
-    /**
      * Create and return self instance
      * @return JBModelSku
      */
@@ -58,59 +38,29 @@ class JBModelSku extends JBModel
     }
 
     /**
-     * @param bool $byForce
-     * @return array|mixed
-     */
-    public function getElementsKeys($byForce = false)
-    {
-        static $loaded;
-        if (!isset($loaded) || $byForce === true) {
-            $query = $this->_getSelect()
-                          ->select('id, element_id')
-                          ->from(self::JBZOO_TABLE_SKU_PARAMS);
-
-            $this->_db->setQuery($query);
-            self::$ids = $this->_db->loadAssocList('element_id', 'id');
-            $loaded    = true;
-        }
-
-        return self::$ids;
-    }
-
-    /**
-     * Get primary key by element_id
-     *
-     * @param  string $id
-     * @return int
-     * @deprecated Use JBModelSku::getId
-     */
-    public function getElementKey($id)
-    {
-        return isset(self::$ids[$id]) ? self::$ids[$id] : false;
-    }
-
-    /**
      * Get the unique id(primary key) for element
      * @param string $id Identifier of price element
      * @return int|bool
      */
     public function getId($id)
     {
-        return isset(self::$ids[$id]) ? self::$ids[$id] : false;
+        return $id;
     }
 
     /**
      * Get id of value by value and param_id
      * @param $value
      * @param $param_id
+     * @param $element_id
      * @return mixed
      */
-    public function getValueId($value, $param_id)
+    public function getValueId($value, $element_id, $param_id)
     {
         $select = $this->_getSelect()
                        ->select('id')
-                       ->from(self::JBZOO_TABLE_SKU_VALUES)
+                       ->from(ZOO_TABLE_JBZOO_SKU)
                        ->where('value_s = ?', $value)
+                       ->where('element_id = ?', $element_id)
                        ->where('param_id = ?', $param_id)
                        ->limit(1);
 
@@ -135,7 +85,7 @@ class JBModelSku extends JBModel
                            ->select('tItem.id')
                            ->from(ZOO_TABLE_ITEM . ' AS tItem')
                            ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
-                           ->where('tSku.param_id = ?', self::$ids['_sku'])
+                           ->where('tSku.param_id = _sku')
                            ->where('tSku.value = ?', $sku)
                            ->limit(1);
 
@@ -163,7 +113,7 @@ class JBModelSku extends JBModel
             $elements = $this->app->jbprice->getItemPrices($item);
             if (!empty($elements)) {
                 foreach ($elements as $key => $element) {
-                    $this->removeByItem($item, $key);
+                    //$this->removeByItem($item, $key);
                     $this->_indexPrice($element->getIndexData());
                 }
             }
@@ -189,90 +139,6 @@ class JBModelSku extends JBModel
      */
     public function removeByItem(Item $item, $identifier)
     {
-        $select = $this->_getSelect()
-                       ->select('value_id')
-                       ->from(ZOO_TABLE_JBZOO_SKU)
-                       ->where('item_id = ?', $item->id)
-                       ->where('element_id = ?', $identifier)
-                       ->group('value_id');
-
-        $this->_db->setQuery($select);
-        $rows = $this->_db->loadAssocList('value_id', 'value_id');
-
-        $select = $this->_getSelect()
-                       ->select('value_id')
-                       ->from(ZOO_TABLE_JBZOO_SKU)
-                       ->group('value_id');
-
-        if (!empty($rows)) {
-            foreach ($rows as $id) {
-                $select
-                    ->clear('where')
-                    ->where('value_id = ?', $id)
-                    ->where('element_id = ?', $identifier)
-                    ->where('item_id <> ?', $item->id);
-
-                $this->_db->setQuery($select);
-                $inUse = $this->_db->loadResult();
-
-                unset($rows[$inUse]);
-            }
-
-            if (!empty($rows)) {
-                if (count($rows) > 0) {
-                    $select = $this->_getSelect()
-                                   ->delete(self::JBZOO_TABLE_SKU_VALUES)
-                                   ->where('id IN(' . implode(',', $rows) . ')');
-
-                    $this->sqlQuery($select);
-                }
-            }
-        }
-
-        $select = $this->_getSelect()
-                       ->delete(ZOO_TABLE_JBZOO_SKU)
-                       ->where('item_id = ?', $item->id);
-
-        $this->sqlQuery($select);
-    }
-
-    /**
-     * Save to index table
-     *
-     * @param array $data
-     *
-     * @return bool
-     */
-    public function _indexPrice(array $data)
-    {
-        if (!empty($data)) {
-            foreach ($data as $values) {
-                $value_id = $this->getValueId($values['value_s'], self::$ids[$values['param_id']]);
-
-                if (!$value_id) {
-                    $value_id = $this->_insert(array(
-                        'value_s'  => $values['value_s'],
-                        'value_n'  => $values['value_n'],
-                        'value_d'  => $values['value_d'],
-                        'param_id' => self::$ids[$values['param_id']],
-                        'variant'  => $values['variant']
-                    ), self::JBZOO_TABLE_SKU_VALUES);
-                }
-
-                $eav = array(
-                    'item_id'    => $values['item_id'],
-                    'element_id' => $values['element_id'],
-                    'param_id'   => self::$ids[$values['param_id']],
-                    'value_id'   => $value_id,
-                    'variant'    => $values['variant']
-                );
-
-                $this->_insert($eav, ZOO_TABLE_JBZOO_SKU);
-            }
-
-            return true;
-        }
-
         return false;
     }
 
@@ -282,23 +148,6 @@ class JBModelSku extends JBModel
      */
     public function updateParams()
     {
-        $elements = array_merge(
-            $this->app->jbcartelement->getPriceCore(),
-            (array)$this->app->jbcartposition->loadParams(JBCart::CONFIG_PRICE),
-            (array)$this->app->jbcartposition->loadParams(JBCart::CONFIG_PRICE_TMPL)
-        );
-
-        if (!empty($elements)) {
-            foreach ($elements as $id => $element) {
-                if (!isset(self::$ids[$id])) {
-                    $this->_insert(array(
-                        'element_id' => $id
-                    ), self::JBZOO_TABLE_SKU_PARAMS);
-                }
-            }
-        }
-        $this->getElementsKeys(true);
-
         return $this;
     }
 }

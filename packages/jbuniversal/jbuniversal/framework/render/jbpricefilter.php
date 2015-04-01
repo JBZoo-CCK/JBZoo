@@ -48,8 +48,6 @@ class JBPriceFilterRenderer extends PositionRenderer
         parent::__construct($app, $path);
 
         $this->_jbconfig = JBModelConfig::model();
-
-        JBModelSku::model();
     }
 
     /**
@@ -315,13 +313,11 @@ class JBPriceFilterRenderer extends PositionRenderer
         $id    = $this->_jbprice->identifier;
 
         if (isset($value[$id])) {
-            $element = $value[$id];
-            if (isset($element[$identifier])) {
-                return $element[$identifier];
-            }
-            $identifier = JBModelSku::model()->getId($identifier);
-            if (isset($element[$identifier])) {
-                return isset($element[$identifier]['id']) ? $element[$identifier]['id'] : $element[$identifier];
+            $elements = $value[$id];
+            if (isset($elements[$identifier])) {
+                $element = $elements[$identifier];
+
+                return (is_array($element) && isset($element['id']) ? $element['id'] : $element);
             }
 
             return null;

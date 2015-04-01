@@ -125,35 +125,24 @@ class JBTablesHelper extends AppHelper
         if (!isset($checked) || $force) {
             $this->createTable(ZOO_TABLE_JBZOO_SKU, array(
                 '`id` INT(11) UNSIGNED AUTO_INCREMENT NOT NULL',
-                '`item_id` INT(11) NOT NULL',
-                '`element_id` VARCHAR(50) NOT NULL',
-                '`param_id` INT(11) NOT NULL',
-                '`value_id` INT(11) NOT NULL',
-                '`variant` INT(11) NOT NULL'
-            ), array(
-                'PRIMARY KEY (`id`)'
-            ));
-
-            $this->createTable(JBModelSku::JBZOO_TABLE_SKU_VALUES, array(
-                '`id` INT(11) UNSIGNED AUTO_INCREMENT NOT NULL',
                 '`value_s` VARCHAR(150) NOT NULL',
                 '`value_n` DOUBLE',
                 '`value_d` DATETIME',
-                '`param_id` INT(11) NOT NULL',
+                '`item_id` INT(11) UNSIGNED NOT NULL',
+                '`element_id` VARCHAR(36) NOT NULL',
+                '`param_id` VARCHAR(36) NOT NULL',
                 '`variant` INT(11) NOT NULL',
             ), array(
                 'PRIMARY KEY (`id`)',
-                'UNIQUE INDEX `UNIQUE_VALUES_VARIANT_INDEX` (`value_s`, `param_id`)'
+                'INDEX `item_id_element_id_param_id` (`item_id`, `element_id`, `param_id`)',
+                'INDEX `element_id_param_id` (`element_id`, `param_id`)',
+                'INDEX `item_id` (`item_id`)',
+                'INDEX `element_id` (`element_id`)',
+                'INDEX `param_id` (`param_id`)',
+                'INDEX `value_s` (`value_s`)',
+                'INDEX `value_n` (`value_n`)',
+                'INDEX `value_d` (`value_d`)',
             ));
-
-            $this->createTable(JBModelSku::JBZOO_TABLE_SKU_PARAMS, array(
-                '`id` INT(11) UNSIGNED AUTO_INCREMENT NOT NULL',
-                '`element_id` VARCHAR(50) NOT NULL',
-            ), array(
-                'PRIMARY KEY (`id`)'
-            ));
-
-            JBModelSku::model()->updateParams();
         }
 
         $checked = true;
@@ -644,8 +633,6 @@ class JBTablesHelper extends AppHelper
      */
     public function dropAllSku()
     {
-        return $this->dropTable(ZOO_TABLE_JBZOO_SKU)
-            ->dropTable(JBModelSku::JBZOO_TABLE_SKU_VALUES)
-            ->dropTable(JBModelSku::JBZOO_TABLE_SKU_PARAMS);
+        return $this->dropTable(ZOO_TABLE_JBZOO_SKU);
     }
 }

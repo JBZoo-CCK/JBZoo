@@ -53,7 +53,8 @@ class AutocompleteJBUniversalController extends JBUniversalController
                     $rows = $db->author($query, $type, $appId);
 
                 } else if ($element instanceof ElementJBPrice) {
-                    $rows = $db->priceElement($query, $element_id, $param_id, $type, $appId);
+                    $param_id = JBModelSku::model()->getId($param_id);
+                    $rows     = $db->priceElement($query, $element_id, $param_id, $type, $appId);
 
                 } else if ($elementType == 'textarea') {
                     $rows = $db->textarea($query, $element_id, $type, $appId);

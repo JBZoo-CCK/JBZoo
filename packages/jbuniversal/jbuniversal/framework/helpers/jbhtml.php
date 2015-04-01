@@ -565,11 +565,11 @@ class JBHtmlHelper extends AppHelper
         $params['max']  = $this->_vars->number($params['max']);
         $params['step'] = $this->_vars->number($params['step']);
 
-        $valueMin = JBCart::val($this->_vars->money(floor($value[0]), 2));
-        $valueMax = JBCart::val($this->_vars->money(ceil($value[1]), 2));
+        $valueMin = JBCart::val($this->_vars->number($value[0]));
+        $valueMax = JBCart::val($this->_vars->number($value[1]));
 
-        $paramMin = round(floor($params['min']), 2);
-        $paramMax = round(ceil($params['max']), 2);
+        $paramMin = round($params['min'], 2);
+        $paramMax = round($params['max'], 2);
 
         $html = array();
 
@@ -596,9 +596,9 @@ class JBHtmlHelper extends AppHelper
         $html[] = $this->_assets->slider($idTag, array(
             'ui'       => array(
                 'range'  => true,
-                'min'    => $paramMin  ? $paramMin : 0,
-                'max'    => $paramMax  ? $paramMax : 10000,
-                'step'   => $params['step'] ? round($params['step'], 2) : 100,
+                'min'    => $paramMin ? floor($paramMin) : 0,
+                'max'    => $paramMax ? ceil($paramMax)  : 10000,
+                'step'   => $params['step'] ? $params['step'] : 100,
                 'values' => array($valueMin->val(), $valueMax->val())
             ),
             'currency' => $currency

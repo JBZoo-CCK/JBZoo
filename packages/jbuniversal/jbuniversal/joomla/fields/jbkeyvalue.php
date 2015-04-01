@@ -89,7 +89,7 @@ class JFormFieldJBKeyvalue extends JFormField
                                 foreach ($params as $id => $param) {
                                     if ($param->hasFilterValue()) {
                                         $newEls[] = array(
-                                            'value' => $key . '__' . JBModelSku::$ids[$id],
+                                            'value' => $key . '__' . $id,
                                             'text'  => '-- ' . $name . ' - ' . $param->getName()
                                         );
                                     }
