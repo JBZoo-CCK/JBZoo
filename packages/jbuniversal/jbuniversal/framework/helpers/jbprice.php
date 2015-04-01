@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -19,20 +18,17 @@ class JBPriceHelper extends AppHelper
 
     /**
      * Check if value seems as numeric
-     *
      * @param $value
      * @return bool|int|string
      */
     public function isNumeric($value)
     {
         $value = str_replace(',', '.', $value);
-
         return is_numeric($value) ? true : false;
     }
 
     /**
      * Check if value seems as date
-     *
      * @param $date
      * @return null|string
      */
@@ -107,7 +103,6 @@ class JBPriceHelper extends AppHelper
 
     /**
      * Get field type by value
-     *
      * @param $value
      * @return string
      */
@@ -189,7 +184,7 @@ class JBPriceHelper extends AppHelper
         if (JString::strlen($id) === ElementJBPrice::SIMPLE_PARAM_LENGTH) {
             $option = $value;
 
-            if(isset($position[$id])) {
+            if (isset($position[$id])) {
                 $element    = $position[$id];
                 $oldOptions = $element['options'];
 
@@ -218,7 +213,6 @@ class JBPriceHelper extends AppHelper
 
     /**
      * Build new options with new value
-     *
      * @param $value
      * @param $options
      * @return string
@@ -293,7 +287,7 @@ class JBPriceHelper extends AppHelper
         // load table class
         $class = 'JBCSVItemPrice' . $type;
 
-        if(!class_exists('JBCSVItemPrice')) {
+        if (!class_exists('JBCSVItemPrice')) {
             $this->app->loader->register('JBCSVItemPrice', 'jbelements:price/price.php');
         }
 

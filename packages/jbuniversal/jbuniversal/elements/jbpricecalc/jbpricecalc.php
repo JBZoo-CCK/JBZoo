@@ -335,40 +335,38 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
      */
     public function getIndexData()
     {
-        $list    = $this->get('variations');
-        $item_id = $this->getItem()->id;
+        $list   = $this->get('variations');
+        $itemId = $this->getItem()->id;
+
+        $jbvars = $this->app->jbvars;
 
         $data = array();
         if (!empty($list)) {
-            /*$elements = array_merge(
-                (array)$this->_position->loadElements(JBCart::CONFIG_PRICE),
-                (array)$this->_position->loadElements(JBCart::CONFIG_PRICE_TMPL)
-            );
-            */
+
             $this->setDefault(self::BASIC_VARIANT);
 
             $_list = $this->getList($list);
             foreach ($_list->first()->all() as $id => $element) {
                 $value = $element->getSearchData();
 
-                $d = $s = $n = null;
+                $valDate = $valString = $valNum = null;
                 if ($value instanceof JBCartValue) {
-                    $s = $value->data(true);
-                    $n = $value->val();
+                    $valNum = $value->val();
                 } else {
-                    $s = $value;
-                    $n = $this->isNumeric($value) ? $value : null;
-                    $d = $this->isDate($value) ? $value : null;
+                    $value     = JString::trim((string)$value);
+                    $valString = $value;
+                    $valNum    = $this->isNumeric($value) ? $jbvars->number($value) : null;
+                    $valDate   = $this->isDate($value);
                 }
 
-                if (isset($s{1}) || is_int($n) || isset($d{1})) {
+                if (isset($valString{1}) || (is_int($valNum) || is_float($valNum)) || isset($valDate{1})) {
                     $data[self::BASIC_VARIANT . $id] = array(
-                        'item_id'    => $item_id,
+                        'item_id'    => $itemId,
                         'element_id' => $this->identifier,
                         'param_id'   => $id,
-                        'value_s'    => $s,
-                        'value_n'    => $n,
-                        'value_d'    => $d,
+                        'value_s'    => $valString,
+                        'value_n'    => $valNum,
+                        'value_d'    => $valDate,
                         'variant'    => self::BASIC_VARIANT
                     );
                 }
