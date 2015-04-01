@@ -107,7 +107,7 @@ class JBModelValues extends JBModel
         $select = $this->_getItemSelect($itemType, $applicationId)
                        ->clear('select')
                        ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
-                       ->select('tSku.id as value, tSku.value_s as text')
+                       ->select('tSku.value_s as value, tSku.value_s as text')
                        ->select('COUNT(DISTINCT tSku.item_id) AS count')
                        ->where('tSku.element_id = ?', $element_id)
                        ->where('tSku.param_id = ? ', $param_id)
