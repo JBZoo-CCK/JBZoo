@@ -965,11 +965,8 @@ class JBAssetsHelper extends AppHelper
             $fullPath = JPATH_ROOT . '/' . $relativePath;
 
             if (JFile::exists($fullPath)) {
-
                 $relativePath = JUri::root() . $relativePath;
-                if ($group != self::GROUP_CORE) {
-                    $relativePath = $relativePath . '?' . substr(filemtime($fullPath), -3); // no browser cache
-                }
+                $relativePath = $relativePath . '?' . substr(filemtime($fullPath), -3); // no browser cache
 
             } else {
                 return false;
