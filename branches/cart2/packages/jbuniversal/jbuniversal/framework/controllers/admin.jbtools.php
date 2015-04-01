@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBToolsJBUniversalController extends JBUniversalController
 {
-    const INDEX_STEP = 50;
+    const INDEX_STEP = 5;
 
     /**
      * Index page
