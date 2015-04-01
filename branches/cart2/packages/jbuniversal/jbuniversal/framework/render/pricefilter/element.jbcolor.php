@@ -46,7 +46,7 @@ class JBPriceFilterElementJBColor extends JBPriceFilterElement
             }
         }
 
-        return $this->html->colors(
+        return $this->_html->colors(
             $type,
             $data,
             $this->_getName(true, $this->_isMultiple),

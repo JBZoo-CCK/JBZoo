@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -27,7 +26,7 @@ class JBPriceFilterElementCheckbox extends JBPriceFilterElement
         $this->_isMultiple = true;
 
         $values = $this->_getValues();
-        return $this->html->checkbox(
+        return $this->_html->checkbox(
             $this->_createOptionsList($values),
             $this->_getName(true, true),
             $this->_attrs,

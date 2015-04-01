@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -21,9 +20,7 @@ class JBPriceFilterElementCurrency extends JBPriceFilterElement
 {
     /**
      * Get main attrs
-     *
      * @param array $attrs
-     *
      * @return array
      */
     protected function _getAttrs(array $attrs)
@@ -46,7 +43,7 @@ class JBPriceFilterElementCurrency extends JBPriceFilterElement
     {
         $options = $this->_getValues();
 
-        return $this->html->buttonsJqueryUI(
+        return $this->_html->buttonsJqueryUI(
             $this->_createOptionsList($options),
             $this->_getName(),
             $this->_attrs,
@@ -57,9 +54,7 @@ class JBPriceFilterElementCurrency extends JBPriceFilterElement
 
     /**
      * Get DB values
-     *
      * @param null $type
-     *
      * @return array
      */
     protected function _getValues($type = null)

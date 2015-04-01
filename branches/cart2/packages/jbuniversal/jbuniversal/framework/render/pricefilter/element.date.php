@@ -31,7 +31,7 @@ class JBPriceFilterElementDate extends JBPriceFilterElement
      */
     function html()
     {
-        return $this->html->calendar(
+        return $this->_html->calendar(
             $this->_getName(),
             $this->_value,
             $this->_attrs,

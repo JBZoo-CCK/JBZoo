@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -27,7 +26,8 @@ class JBPriceFilterElementRadio extends JBPriceFilterElement
         $this->_isMultiple = false;
 
         $values = $this->_getValues();
-        return $this->html->radio(
+
+        return $this->_html->radio(
             $this->_createOptionsList($values),
             $this->_getName(true),
             $this->_attrs,

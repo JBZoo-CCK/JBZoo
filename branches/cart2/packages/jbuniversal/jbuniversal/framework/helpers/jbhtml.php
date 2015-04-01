@@ -551,7 +551,7 @@ class JBHtmlHelper extends AppHelper
      * @param string $currency
      * @return string
      */
-    public function slider_v2($params, $jbValue = '', $name = '', $idTag = '', $currency = '')
+    public function sliderInput($params, $jbValue = '', $name = '', $idTag = '', $currency = '')
     {
         if (!empty($jbValue) && is_string($jbValue)) {
             $value = explode('/', $jbValue);
@@ -577,7 +577,7 @@ class JBHtmlHelper extends AppHelper
 
         // min box
         $html[] = '<div class="jsSliderBox jbslider-box">';
-        $html[] = '<span class="jsSliderLabel jsSliderLabel-0 jbslider-label">' . $valueMin->html() . '</span>';
+        $html[] = '<span class="jsSliderLabel jsSliderLabel-0 jbslider-label jbslider-label-min">' . $valueMin->html() . '</span>';
         $html[] = $this->text(null, $valueMin->val(), array(
             'class' => 'jsSlider-0 jsSliderMin jsSliderInput jbslider-min jbslider-input',
         ));
@@ -585,7 +585,7 @@ class JBHtmlHelper extends AppHelper
 
         // max box
         $html[] = '<div class="jsSliderBox jbslider-box">';
-        $html[] = '<span class="jsSliderLabel jsSliderLabel-1 jbslider-label"/>' . $valueMax->html() . '</span>';
+        $html[] = '<span class="jsSliderLabel jsSliderLabel-1 jbslider-label jbslider-label-max"/>' . $valueMax->html() . '</span>';
         $html[] = $this->text(null, $valueMax->val(), array(
             'class' => 'jsSlider-1 jsSliderMax jsSliderInput jbslider-max jbslider-input',
         ));

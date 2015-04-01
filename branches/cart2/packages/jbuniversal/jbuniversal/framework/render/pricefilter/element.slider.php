@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -42,7 +41,7 @@ class JBPriceFilterElementSlider extends JBPriceFilterElement
             $params = array_merge($params, $ranges);
         }
 
-        return $this->html->slider(
+        return $this->_html->slider(
             $params,
             $value,
             $this->_getName(),
