@@ -101,6 +101,37 @@ class JBModelSku extends JBModel
     }
 
     /**
+     * Save to index table
+     *
+     * @param array $data
+     *
+     * @return bool
+     */
+    public function _indexPrice(array $data)
+    {
+        if (!empty($data)) {
+            foreach ($data as $values) {
+
+                $eav = array(
+                    'value_s'    => $values['value_s'],
+                    'value_n'    => $values['value_n'],
+                    'value_d'    => $values['value_d'],
+                    'item_id'    => $values['item_id'],
+                    'element_id' => $values['element_id'],
+                    'param_id'   => $values['param_id'],
+                    'variant'    => $values['variant']
+                );
+
+                $this->_insert($eav, ZOO_TABLE_JBZOO_SKU);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Update SKU by item
      *
      * @param Item $item
