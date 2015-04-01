@@ -145,11 +145,11 @@ class JBModelElementJBPrice extends JBModelElement
             $value = (array)$value;
 
             array_walk($value, function ($v) use (&$where, &$logic) {
-                $where->where('tSku.id = ?', $v, $logic);
+                $where->where('tSku.values_s = ?', $v, $logic);
                 $logic = 'OR';
             });
         } elseif (is_array($value) && (isset($value['id']) && !empty($value['id']))) {
-            $where->where('tSku.id = ?', $value['id'], $logic);
+            $where->where('tSku.value_s = ?', $value['id'], $logic);
 
         } elseif ($this->isDate($value)) {
             $value = $this->_date($value);
