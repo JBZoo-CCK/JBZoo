@@ -159,7 +159,9 @@ class JBCartOrder
      */
     public function getCurrency()
     {
-        return $this->_config->get('config.default_currency', $this->app->jbmoney->getDefaultCur());
+        $default = $this->_config->get('config.default_currency', $this->app->jbmoney->getDefaultCur());
+
+        return $this->params->find('config.default_currency', $default);
     }
 
     /**
