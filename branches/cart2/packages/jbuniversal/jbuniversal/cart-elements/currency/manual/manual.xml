@@ -20,10 +20,11 @@
     <description>JBZOO_ELEMENT_CURRENCY_MANUAL_DESC</description>
 
     <params>
-
         <param name="rate" type="text" default="1" label="JBZOO_ELEMENT_CURRENCY_MANUAL_RATE"
                description="JBZOO_ELEMENT_CURRENCY_MANUAL_RATE_DESC"/>
 
+        <param name="fallback_rate" type="hidden" default="1"/>
+        <param name="current_rate" type="hidden" default="1"/>
     </params>
 
 </element>

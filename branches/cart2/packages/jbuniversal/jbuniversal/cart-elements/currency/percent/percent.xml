@@ -25,6 +25,8 @@
         <param name="code" type="hidden" default="%"/>
         <param name="symbol" type="hidden" default="%"/>
         <param name="rate" type="hidden" default="1"/>
+        <param name="fallback_rate" type="hidden" default="1"/>
+        <param name="current_rate" type="hidden" default="1"/>
     </params>
 
 </element>
