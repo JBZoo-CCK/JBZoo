@@ -151,8 +151,10 @@ abstract class JBCartElement
      */
     public function bindData($data = array())
     {
-        foreach ($data as $key => $value) {
-            $this->set($key, $value);
+        if (!empty($data)) {
+            foreach ($data as $key => $value) {
+                $this->set($key, $value);
+            }
         }
 
         return $this;
