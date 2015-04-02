@@ -94,7 +94,7 @@ abstract class JBCartElementCurrency extends JBCartElement
             $message = JText::sprintf('JBZOO_ELEMENT_CURRENCY_NO_CONNECT', $elemName, $fallback);
 
             if (JDEBUG) {
-                $message .= '<br>' . JText::sprintf('JBZOO_ELEMENT_CURRENCY_NO_CONNECT_REASON', JString::substr($result, 0, 200));
+                $message .= '<br>' . JText::sprintf('JBZOO_ELEMENT_CURRENCY_NO_CONNECT_REASON', JString::substr($result->body, 0, 200));
             }
 
             throw new JBCartElementCurrencyException($message);
