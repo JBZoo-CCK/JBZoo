@@ -568,8 +568,8 @@ class JBHtmlHelper extends AppHelper
         $valueMin = JBCart::val($this->_vars->number($value[0]));
         $valueMax = JBCart::val($this->_vars->number($value[1]));
 
-        $paramMin = round($params['min'], 2);
-        $paramMax = round($params['max'], 2);
+        $paramMin = round($value['0'], 2);
+        $paramMax = round($value['1'], 2);
 
         $html = array();
 

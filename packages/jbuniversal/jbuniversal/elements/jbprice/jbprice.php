@@ -243,6 +243,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             if (!$layout = $this->getLayout($params->get('layout', $this->_template) . '.php')) {
                 $layout = $this->getLayout('render.php');
             }
+
             if ($layout) {
                 return $this->renderLayout($layout, array(
                     'hash'       => $hash,
@@ -704,7 +705,8 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
                     $valDate = $valString = $valNum = null;
                     if ($value instanceof JBCartValue) {
-                        $valNum = $value->val();
+                        $valString = $value->data(true);
+                        $valNum    = $value->val();
                     } else {
                         $value     = JString::trim((string)$value);
                         $valString = $value;
