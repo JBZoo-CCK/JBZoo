@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -27,8 +26,9 @@ defined('_JEXEC') or die('Restricted access');
         <p><?php echo JText::_('JBZOO_ADMIN_PAGE_EXPORT_TYPES'); ?></p>
 
         <?php echo $this->app->jbform->render('export_types', array(
-            'action' => $this->app->jbrouter->admin(),
-            'submit' => JText::_('JBZOO_FORM_DOWNLOAD')
+            'action'     => $this->app->jbrouter->admin(),
+            'showSubmit' => true,
+            'submit'     => JText::_('JBZOO_FORM_DOWNLOAD')
         ));
         ?>
 
