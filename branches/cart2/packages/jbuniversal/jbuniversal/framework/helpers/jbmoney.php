@@ -116,10 +116,31 @@ class JBMoneyHelper extends AppHelper
                 )
             );
 
+            $noCache = null; // fallback flag
+
+            /** @type JBCartElementCurrency $element */
             foreach ($elements as $element) {
 
-                $code  = $element->getCode();
-                $value = $element->getValue($code);
+                $code = $element->getCode();
+                if (empty($code)) {
+                    continue;
+                }
+
+                try {
+
+                    if ($noCache) { // speedup if fatal errors have appeared
+                        $value = $element->getFallbackValue();
+                    } else {
+                        $value = $element->getValue($code);
+                    }
+
+                } catch (JBCartElementCurrencyException $e) {
+                    $noCache = time();
+                    $value   = $element->getFallbackValue();
+                    if (JDEBUG || !$this->app->jbenv->isSite()) {
+                        $this->app->jbnotify->warning($e->getMessage());
+                    }
+                }
 
                 if ($code && $value > 0) {
                     self::$curList[$code] = array(
@@ -129,13 +150,14 @@ class JBMoneyHelper extends AppHelper
                         'format' => $element->getFormat(),
                     );
                 }
+
             }
 
-            if (count(self::$curList) == 2) {
+            if (count(self::$curList) == 2 || !isset(self::$curList['eur'])) {
                 self::$curList['eur'] = self::$curList[JBCartValue::DEFAULT_CODE];
             }
 
-            $this->_jbcache->set($cacheKey, self::$curList, 'currency', true, array('ttl' => $ttl));
+            $this->_jbcache->set($cacheKey . $noCache, self::$curList, 'currency', true, array('ttl' => $ttl));
         }
 
         $this->app->jbdebug->mark('jbmoney::init::finish');

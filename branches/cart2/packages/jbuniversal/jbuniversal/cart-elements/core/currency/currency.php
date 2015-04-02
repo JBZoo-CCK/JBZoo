@@ -71,15 +71,36 @@ abstract class JBCartElementCurrency extends JBCartElement
 
     /**
      * Simple load URL with Joomla API
-     * @param $url
-     * @return null|string
+     * @param string $url
+     * @param array  $data
+     * @param array  $params
+     * @return mixed
+     * @throws JBCartElementCurrencyException
      */
-    protected function _loadUrl($url)
+    protected function _loadUrl($url, $data = array(), $params = array())
     {
-        return $this->app->jbhttp->request($url, array(), array(
-            //'cache'     => 1,
-            //'cache_ttl' => (int)JBModelConfig::model()->get('currency_ttl', 1440, 'cart.config'),
-        ));
+        $params['response'] = 'full';
+        $params['timeout']  = 5;
+        $params['debug']    = JDEBUG;
+
+        $result = $this->app->jbhttp->request($url, $data, $params);
+
+        if (empty($result) || !isset($result->code) || $result->code != 200) {
+
+            $code     = $this->getCode();
+            $elemName = $this->getName() . ' (' . $this->getElementType() . ', ' . $code . ')';
+            $fallback = '1 eur = ' . $this->getFallbackValue() . ' ' . $code;
+
+            $message = JText::sprintf('JBZOO_ELEMENT_CURRENCY_NO_CONNECT', $elemName, $fallback);
+
+            if (JDEBUG) {
+                $message .= '<br>' . JText::sprintf('JBZOO_ELEMENT_CURRENCY_NO_CONNECT_REASON', JString::substr($result, 0, 200));
+            }
+
+            throw new JBCartElementCurrencyException($message);
+        }
+
+        return $result->body;
     }
 
     /**
@@ -149,7 +170,15 @@ abstract class JBCartElementCurrency extends JBCartElement
             return $jbvars->money($data[$currency]);
         }
 
-        return $jbvars->money($this->config->get('fallback_rate', 1));
+        return $this->getFallbackValue();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFallbackValue()
+    {
+        return $this->app->jbvars->money($this->config->get('fallback_rate', 1));
     }
 
     /**
