@@ -35,11 +35,12 @@ class JBCartElementCurrencyCBR extends JBCartElementCurrency
             $this->_curList = array();
 
             $url = $this->_apiUrl;
+            $params = array();
             if ((int)$this->config->get('force_date', 1)) {
-                $url .= '?date_req=' . date("d/m/Y");
+                $params = array('date_req' => date("d/m/Y"));
             }
 
-            $xmlString = $this->_loadUrl($url);
+            $xmlString = $this->_loadUrl($url, $params);
             if (empty($xmlString)) {
                 $this->_curList = array();
 
