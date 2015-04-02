@@ -615,8 +615,8 @@ class JBCartVariantList extends ArrayObject
      */
     public function clear()
     {
-        $this->variants = array();
-        $this->options  = array();
+        $this->variants = null;
+        $this->options  = null;
     }
 
     /**

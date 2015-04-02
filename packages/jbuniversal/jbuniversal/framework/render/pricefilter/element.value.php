@@ -98,12 +98,12 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
     {
         $html = '<label for="' . $this->_getId('min') . '">' . JText::_('JBZOO_FROM') . '</label>';
 
-        $html .= $this->html->text($this->_getName('min'), $value['min'], 'class="val_min"',
+        $html .= $this->_html->text($this->_getName('min'), $value['min'], 'class="val_min"',
             $this->_getId('min'));
 
         $html .= '<label for="' . $this->_getId('max') . '">' . JText::_('JBZOO_TO') . '</label>';
 
-        $html .= $this->html->text($this->_getName('max'), $value['max'], 'class="val_max"',
+        $html .= $this->_html->text($this->_getName('max'), $value['max'], 'class="val_max"',
             $this->_getId('max'));
 
         return '<div class="jbprice-ranges">' . $html . '</div>';
@@ -118,7 +118,7 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
      */
     public function renderText($value)
     {
-        return $this->html->text($this->_getName('value'), $value['value'], 'class="val"', $this->_getId('val'));
+        return $this->_html->text($this->_getName('value'), $value['value'], 'class="val"', $this->_getId('val'));
     }
 
     /**

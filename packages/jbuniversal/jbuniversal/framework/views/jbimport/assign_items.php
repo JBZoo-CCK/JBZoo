@@ -133,8 +133,8 @@ $jbform = $this->app->jbform;
                 if ($(this).val() == value) {
                     result = true;
                     return false;
-                } else if (value == 'jbpriceadvance' && $(this).val().indexOf(value) != -1 ||
-                    value == 'jbpriceadvance' && $(this).val().indexOf('price_sku') != -1) {
+                } else if (value == 'jbprice' && $(this).val().indexOf(value) != -1 ||
+                    value == 'jbprice' && $(this).val().indexOf('price_sku') != -1) {
                     result = true;
                     return false;
                 }
@@ -177,7 +177,7 @@ $jbform = $this->app->jbform;
                     return false;
                 }
             } else if (selectedParam == <?php echo JBImportHelper::KEY_SKU ?>) {
-                var value = 'jbpriceadvance';
+                var value = 'jbprice';
                 var result = checkKey(value);
                 if (!result) {
                     alert('<?php echo JText::_('JBZOO_IMPORT_NO_SELECT_KEY');?>');

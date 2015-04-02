@@ -347,6 +347,7 @@ class JBImportHelper extends AppHelper
     {
         // create item
         $item = $this->_getItemByKey($row, $lineKey);
+
         if (empty($item)) {
             return false;
         }
@@ -488,12 +489,13 @@ class JBImportHelper extends AppHelper
                     $item = $itemModel->getByAlias(JString::trim($row[$csvKey]), $this->_data->appid);
                     break;
 
-                } else if ($this->_data->key == self::KEY_SKU && strpos($fieldName, 'price_sku__') == 1) {
+                } else if ($this->_data->key == self::KEY_SKU && strpos($fieldName, '__sku') !== false) {
                     $item = $itemModel->getBySku(JString::trim($row[$csvKey]), $this->_data->appid);
                     break;
                 }
             }
         }
+
         $isCreateNew = (int)$this->_data->get('create', 0);
         if (!empty($item)) {
 
