@@ -191,7 +191,7 @@ Class JBModelAutoComplete extends JBModel
         $select = $this
             ->_getSelect()
             ->clear()
-            ->select('tSku.value_s as value, tSku.value_s as value, tSku.values_s as id')
+            ->select('tSku.value_s as value, tSku.value_s as value, tSku.value_s as id')
             ->from(ZOO_TABLE_JBZOO_SKU  . ' AS tSku')
             ->innerJoin(ZOO_TABLE_ITEM . ' AS tItem ON tSku.item_id = tItem.id')
             ->where('tItem.application_id = ?', (int)$applicationId)
