@@ -87,6 +87,17 @@ class JBTemplate
     public function init()
     {
         $templateName = $this->getTemplateName();
+        $templates    = $this->application->getTemplates();
+
+        if (isset($this->application->basketTmpl)) {
+            $templateName = $this->application->basketTmpl;
+        }
+
+        $this->application->template = $this->application->getTemplate();
+        if (isset($templates[$templateName])) {
+            $this->application->template = $templates[$templateName];
+        }
+
         $this->_registerPaths($templateName);
     }
 

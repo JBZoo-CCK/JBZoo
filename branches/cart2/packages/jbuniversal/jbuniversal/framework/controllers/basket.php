@@ -60,9 +60,10 @@ class BasketJBUniversalController extends JBUniversalController
         $this->application = $this->app->zoo->getApplication();
 
         // load template
-        $tmplName       = $this->_config->get('tmpl_name', 'catalog');
+        $tmplName       = $this->_config->get('tmpl_name', 'uikit');
         $templates      = $this->application->getTemplates();
         $this->template = $this->application->getTemplate();
+
         if (isset($templates[$tmplName])) {
             $this->template = $templates[$tmplName];
         }
