@@ -84,6 +84,9 @@ class JBModelOrder extends JBModel
         $params     = $order->getParams();
         $params->set(JBCart::CONFIG_CURRENCIES, $currencies);
 
+        $cartConfig = JBModelConfig::model()->getGroup('cart.config');
+        $params->set('config', $cartConfig->getArrayCopy());
+
         $total = $order->getTotalSum()->data();
 
         $data = array(
