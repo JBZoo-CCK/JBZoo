@@ -103,16 +103,16 @@ class JBZooFilterHelper
      */
     public function getOrderings()
     {
+        $appId     = $this->_params->get('application');
+        $type      = $this->_params->get('type');
         $default   = $this->_params->get('order_default', array());
         $default   = $this->app->data->create($default);
         $orderList = $this->getOrderList();
-
         $request = $this->app->jbrequest->getArray('order');
         $value   = (!empty($request)) ? $request : $default;
         $values  = $this->app->data->create($value);
 
         $html = array();
-
         if ((int)$this->_params->get('order_show', 1) && !empty($orderList)) {
 
             if (empty($request)) {
@@ -123,7 +123,7 @@ class JBZooFilterHelper
 
             $options = array();
             foreach ($orderList as $fieldId) {
-                $name      = $this->app->jborder->getNameById($fieldId);
+                $name      = $this->app->jborder->getNameById($fieldId, $type, $appId);
                 $options[] = $this->app->html->_('select.option', $fieldId, $name);
             }
 
