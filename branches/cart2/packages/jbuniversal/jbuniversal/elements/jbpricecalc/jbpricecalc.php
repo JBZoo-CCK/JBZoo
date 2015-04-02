@@ -351,6 +351,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
 
                 $valDate = $valString = $valNum = null;
                 if ($value instanceof JBCartValue) {
+                    $valString = $value->data(true);
                     $valNum = $value->val();
                 } else {
                     $value     = JString::trim((string)$value);
