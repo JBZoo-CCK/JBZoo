@@ -36,6 +36,9 @@ class JBHttpHelper extends AppHelper
         'cache_ttl' => 60, // in minutes!
         'cache_id'  => '',
         'encoding'  => 'UTF-8', // source encoding. For example, WINDOWS-1251
+        'debug'     => 0, // show exceptions
+        'certpath'  => null,
+        'driver'    => null, // force using driver (curl, socket, stream)
     );
 
     /**
@@ -88,8 +91,21 @@ class JBHttpHelper extends AppHelper
             }
         }
 
-        $httpClient = JHttpFactory::getHttp();
-        $result     = null;
+        $clientParams = null;
+
+        if ($options->get('certpath')) {
+            $params = array('curl' => array('certpath' => $options->get('certpath')));
+
+            if (class_exists('JRegistry')) { // Old Joomla (2.5.x)
+                $clientParams = new JRegistry($params);
+            } else if (class_exists('Joomla\Registry\Registry')) { // Joomla 3.x
+                $clientParams = new Joomla\Registry\Registry($params);
+            }
+        }
+
+        $httpClient = JHttpFactory::getHttp($clientParams, $options->get('driver'));
+
+        $result = null;
 
         try {
             // prepare data
@@ -140,7 +156,11 @@ class JBHttpHelper extends AppHelper
             }
 
         } catch (RuntimeException $e) {
-            // return $e->getMessage();
+            if ($options->get('debug')) {
+                return $e->getMessage();
+            }
+
+            return null;
         }
 
         if ($isCache) {
