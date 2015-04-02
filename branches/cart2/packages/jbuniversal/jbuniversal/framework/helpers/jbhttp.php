@@ -28,7 +28,7 @@ class JBHttpHelper extends AppHelper
      * @type array
      */
     protected $_defaultOptions = array(
-        'timeout'   => 10,
+        'timeout'   => 5,
         'method'    => self::METHOD_GET,
         'headers'   => array(),
         'response'  => 'body', // full, headers, body, code
