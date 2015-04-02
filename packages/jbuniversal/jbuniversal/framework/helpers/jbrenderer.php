@@ -26,9 +26,14 @@ class JBRendererHelper extends AppHelper
      */
     public function create($rendererType, $paths = null)
     {
+        $application  = $this->app->zoo->getApplication();
         $rendererType = trim(strtolower($rendererType));
         $renderer     = $this->app->renderer->create($rendererType);
-        $tmplName     = $this->app->zoo->getApplication()->getTemplate()->name;
+        $tmplName     = $application->getTemplate()->name;
+
+        if (isset($application->basketTmpl)) {
+            $tmplName = $application->basketTmpl;
+        }
 
         $renderer->addPath(array(
             $this->app->path->path('jbtmpl:' . $tmplName),

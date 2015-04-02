@@ -41,6 +41,14 @@ class JBTemplateHelper extends AppHelper
         $isSite      = $this->app->jbenv->isSite();
         $appGroup    = $application->application_group;
         $template    = $application->params->get('template');
+        $controller  = $this->app->jbrequest->get('controller');
+        $task        = $this->app->jbrequest->get('task');
+
+        $application->cartConfig = JBModelConfig::model()->getGroup('cart.config');
+
+        if ($controller == 'basket' && $task == 'index') {
+            $application->basketTmpl = $template = $application->cartConfig->get('tmpl_name', 'uikit');
+        }
 
         if ($isSite && $appGroup == JBZOO_APP_GROUP) {
             $classPath     = $this->_getClassPath();
