@@ -145,7 +145,7 @@ class JBModelElementJBPrice extends JBModelElement
             $value = (array)$value;
 
             array_walk($value, function ($v) use (&$where, &$logic) {
-                $where->where('tSku.values_s = ?', $v, $logic);
+                $where->where('tSku.value_s = ?', $v, $logic);
                 $logic = 'OR';
             });
         } elseif (is_array($value) && (isset($value['id']) && !empty($value['id']))) {
