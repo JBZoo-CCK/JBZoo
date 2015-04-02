@@ -303,13 +303,24 @@ class JBOrderHelper extends AppHelper
     }
 
     /**
-     * @param $elementId
+     * @param string $elementId
+     * @param string $type
+     * @param string $appId
      * @return string
      */
-    public function getNameById($elementId)
+    public function getNameById($elementId, $type = null, $appId = null)
     {
         if (strpos($elementId, '__')) {
-            list($elementId, $params) = explode('__', $elementId);
+            list($elementId, $paramId) = explode('__', $elementId);
+        }
+
+        if (isset($paramId)) {
+            /** @type ElementJBPrice $element */
+            if ($element = $this->app->jbentity->getElement($elementId, $type, $appId)) {
+                if ($param = $element->getElementConfig($paramId)) {
+                    return (isset($param['name']) ? $param['name'] : null);
+                }
+            }
         }
 
         return $this->app->jbentity->getFieldNameById($elementId);
