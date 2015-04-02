@@ -13,6 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $itemsHtml = $order->renderItems(array(
+    'currency'     => $order->getCurrency(),
     'admin_url'    => true,
     'image_width'  => 75,
     'image_height' => 75,
