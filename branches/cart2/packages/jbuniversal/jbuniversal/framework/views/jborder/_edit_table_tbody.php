@@ -55,7 +55,7 @@ if (!empty($items)) :
             $itemPrice = $itemValue->getClone()->add($margin)->minus($discount);
         }
 
-        $rowspan = count($modifiers) + 2;
+        $rowspan = count($modifiers) + 1;
         $this->count += $quantity; ?>
 
         <tr class="item-row">
