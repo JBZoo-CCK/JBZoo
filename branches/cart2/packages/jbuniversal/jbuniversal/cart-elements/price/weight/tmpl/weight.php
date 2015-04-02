@@ -11,8 +11,6 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
 
-<span class="jbprice-weight jsPriceWeight">
-    <?php echo $value; ?>
-</span>
+echo $value;
