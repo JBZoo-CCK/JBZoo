@@ -1087,16 +1087,27 @@ class JBFieldHelper extends AppHelper
      */
     public function currentRate($name, $value, $controlName, SimpleXMLElement $node, $parent)
     {
-        $code  = $parent->element->config->get('code');
-        $value = $parent->element->getValue($code);
+        /** @type JBCartElementCurrency $element */
+        $element = @$parent->element;
+        if ($element) {
 
-        if ($value == 0 || $code == '%') {
-            return '<em>' . JText::_('JBZOO_UNDEFINED') . '</em>';
+            $code = $element->getCode();
+            try {
+                $value = $element->getValue($code);
+            } catch (JBCartElementCurrencyException $e) {
+                $value = $element->getFallbackValue();
+            }
+
+            if ($value == 0 || $code == '%') {
+                return '<em>' . JText::_('JBZOO_UNDEFINED') . '</em>';
+            }
+
+            $value = JBCart::val($value . ' ' . $code);
+
+            return $value->html() . ' (' . $value->noStyle() . ')';
         }
 
-        $value = JBCart::val($value . ' ' . $code);
-
-        return $value->html() . ' (' . $value->noStyle() . ')';
+        return JText::_('JBZOO_UNDEFINED');
     }
 
     /**
