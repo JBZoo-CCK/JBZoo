@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -30,7 +29,10 @@ class JBCartElementCurrencyPrivat extends JBCartElementCurrency
      */
     public function _loadData($currency = null)
     {
-        $xmlString = $this->_loadUrl($this->_apiUrl);
+        $xmlString = $this->_loadUrl($this->_apiUrl, array(), array(
+            'driver' => 'socket' // curl can't check ssl cert
+        ));
+
         if (empty($xmlString)) {
             return array();
         }
@@ -47,7 +49,7 @@ class JBCartElementCurrencyPrivat extends JBCartElementCurrency
                 }
 
                 $unit  = trim($row['unit']) * 100;
-                $value = $this->_jbmoney->clearValue($row['buy']) / $unit;
+                $value = $this->app->jbvars->money($row['buy']) / $unit;
                 $code  = strtolower(trim($row['ccy']));
 
                 $result[$code] = $value;
