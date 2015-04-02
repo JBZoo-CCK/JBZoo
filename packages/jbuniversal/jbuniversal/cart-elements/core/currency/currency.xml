@@ -67,8 +67,6 @@
 
         <param name="current_rate" type="jbcurrentrate" label="JBZOO_ELEMENT_CURRENCY_CURRENT_RATE"
                description="JBZOO_ELEMENT_CURRENCY_CURRENT_RATE_DESC"/>
-
-
     </params>
 
 </element>
