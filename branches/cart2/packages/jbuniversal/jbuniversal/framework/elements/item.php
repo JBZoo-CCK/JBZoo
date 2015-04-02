@@ -442,7 +442,6 @@ class JBCSVItem
     protected function _unpackFromLine($string)
     {
         $result = array();
-
         if (!empty($string)) {
             $from = array('%col%', '%sem%');
             $to   = array(':', ';');
@@ -450,7 +449,7 @@ class JBCSVItem
             $list = explode(';', $string);
             foreach ($list as $item) {
                 list($key, $value) = explode(':', $item);
-                $key = strtolower($key);
+                $key = JString::strtolower($key);
 
                 $result[$key] = str_replace($from, $to, $value);
             }

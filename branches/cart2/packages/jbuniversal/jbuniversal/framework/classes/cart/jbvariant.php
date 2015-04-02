@@ -258,7 +258,7 @@ class JBCartVariant extends ArrayObject
      * @param string $key - element identifier
      * @param mixed  $default
      * @param bool   $toString
-     * @return JBCartElementPrice|mixed
+     * @return JBCartElementPrice|JBCartValue
      */
     public function getValue($toString = false, $key, $default = null)
     {
@@ -351,7 +351,7 @@ class JBCartVariant extends ArrayObject
             $total = $this->getPrice()->minus($this->getValue(true, '_discount'), true);
 
             if ($this->list instanceof JBCartVariantList) {
-                $total = $this->list->addModifiers($total, true);
+                //$total = $this->list->addModifiers($total, true);
             }
             $this->total = $total;
 

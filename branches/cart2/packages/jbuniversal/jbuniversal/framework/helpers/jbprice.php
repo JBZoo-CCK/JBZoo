@@ -88,12 +88,14 @@ class JBPriceHelper extends AppHelper
     public function getPricesList()
     {
         $types = $this->getAppPrices();
+        $app   = $this->app->zoo->getApplication();
         $list  = array();
 
         if (!empty($types)) {
             foreach ($types as $id => $elements) {
+                $name = $app->getType($id)->config->get('name');
                 foreach ($elements as $identifier => $element) {
-                    $list[$identifier] = ucfirst($id) . ' - ' . ucfirst($element->config->get('name'));
+                    $list[$identifier] = ucfirst($name) . ' - ' . ucfirst($element->config->get('name'));
                 }
             }
         }

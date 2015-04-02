@@ -1,6 +1,7 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -56,12 +57,12 @@ class JBModelSku extends JBModel
     public function getValueId($value, $element_id, $param_id)
     {
         $select = $this->_getSelect()
-            ->select('id')
-            ->from(ZOO_TABLE_JBZOO_SKU)
-            ->where('value_s = ?', $value)
-            ->where('element_id = ?', $element_id)
-            ->where('param_id = ?', $param_id)
-            ->limit(1);
+                       ->select('id')
+                       ->from(ZOO_TABLE_JBZOO_SKU)
+                       ->where('value_s = ?', $value)
+                       ->where('element_id = ?', $element_id)
+                       ->where('param_id = ?', $param_id)
+                       ->limit(1);
 
         $this->_db->setQuery($select);
 
@@ -70,20 +71,24 @@ class JBModelSku extends JBModel
 
     /**
      * Get item by sku
+     *
      * @param $sku
+     *
      * @return mixed|null
      */
     public function getItemIdBySku($sku)
     {
         $sku = JString::trim($sku);
 
-        if (!empty($sku) && isset(self::$ids['_sku'])) {
-            $select = $this->_getSelect()
+        if (!empty($sku)) {
+            $select = $this
+                ->_getSelect()
+                ->clear('select')
                 ->select('tItem.id')
                 ->from(ZOO_TABLE_ITEM . ' AS tItem')
                 ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
-                ->where('tSku.param_id = _sku')
-                ->where('tSku.value = ?', $sku)
+                ->where('tSku.param_id = \'_sku\'')
+                ->where('tSku.value_s = ?', $sku)
                 ->limit(1);
 
             if ($row = $this->fetchRow($select)) {
@@ -99,7 +104,9 @@ class JBModelSku extends JBModel
 
     /**
      * Save to index table
+     *
      * @param array $data
+     *
      * @return bool
      */
     public function _indexPrice(array $data)
@@ -128,26 +135,28 @@ class JBModelSku extends JBModel
 
     /**
      * Update SKU by item
+     *
      * @param Item $item
+     *
      * @return bool
      */
     public function updateItemSku(Item $item)
     {
-        if (!$item) {
-			return false;
-        }
-
-        $elements = $this->app->jbprice->getItemPrices($item);
-        if (!empty($elements)) {
-            foreach ($elements as $key => $element) {
-                //$this->removeByItem($item, $key);
-                $this->_indexPrice($element->getIndexData());
+        if ($item) {
+            $elements = $this->app->jbprice->getItemPrices($item);
+            if (!empty($elements)) {
+                foreach ($elements as $key => $element) {
+                    //$this->removeByItem($item, $key);
+                    $this->_indexPrice($element->getIndexData());
+                }
             }
         }
+
+        return false;
     }
 
     /**
-     * TODO Remove columns from #__jbzoo_config when element deleted
+     * Remove columns from #__jbzoo_config when element deleted
      * @param $identifier
      */
     public function removeByElement($identifier)
@@ -156,7 +165,7 @@ class JBModelSku extends JBModel
     }
 
     /**
-     * TODO Remove rows by item
+     * Remove rows by item
      * @param Item  $item
      * @param       $identifier
      * @return bool
@@ -167,7 +176,7 @@ class JBModelSku extends JBModel
     }
 
     /**
-     * TODO Insert elements if they are not exists
+     * Insert elements if they are not exists
      * @return $this
      */
     public function updateParams()
