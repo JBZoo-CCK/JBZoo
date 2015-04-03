@@ -23,6 +23,8 @@ class JBPriceFilterElementDiscountRadio extends JBPriceFilterElementDiscount
      */
     public function html()
     {
+        $this->_isMultiple = false;
+
         $options = $this->_getValues();
 
         return $this->_html->radio(

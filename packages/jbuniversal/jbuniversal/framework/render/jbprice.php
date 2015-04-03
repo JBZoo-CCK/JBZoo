@@ -115,18 +115,18 @@ class JBPriceRenderer extends PositionRenderer
 
         // store layout
         $layout = $this->_layout;
+        $index  = 0;
         foreach ($this->getConfigPosition($position) as $key => $data) {
-            if ($element = $this->_variant->get($key)) {
+            if ($element = $this->_variant->get($data['identifier'])) {
                 if (!$element->canAccess()) {
                     continue;
                 }
-
+                $index++;
                 $data['_price_layout'] = $this->_priceLayout;
 
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
-                $data['_index']    = $key;
-
+                $data['_index']    = $index;
                 // set params
                 $params = array_merge($data, $args);
 

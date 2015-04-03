@@ -235,7 +235,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 '_variant'   => $variant,
                 'element_id' => $this->identifier,
                 'variant'    => $variant->getId(),
-                'layout'     => $this->_layout,
+                'layout'     => $this->_layout
             ));
 
             //Must be after renderer
@@ -251,7 +251,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                     'elements'   => $elements,
                     'variantUrl' => $this->app->jbrouter->element($this->identifier, $this->_item->id, 'ajaxChangeVariant', array(
                         'template' => $this->_template
-                    )),
+                    ))
                 ));
             }
 
@@ -351,15 +351,15 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public function getList($variations = array(), $options = array())
     {
         if (!$this->_list instanceof JBCartVariantList) {
-            if (empty($variations)) {
+            if (!count($variations)) {
                 $variations = $this->defaultList();
             }
 
-            if (!isset($variations[0])) {
+           if (!array_key_exists(0, $variations)) {
                 $variations[0] = $this->getData(0);
             }
             $list = $this->build($variations);
-            unset($variations);
+
             $options = array_merge(array(
                 'element'    => $this,
                 'element_id' => $this->identifier,
@@ -380,11 +380,11 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
             return $this->_list;
         }
-        if (!empty($variations)) {
+        if (count($variations)) {
             $variations = $this->build($variations);
             $this->_list->add($variations);
 
-            if (!empty($options)) {
+            if (count($options)) {
                 $this->_list->setOptions((array)$options);
             }
         }
@@ -400,7 +400,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function build($variations = array(), $options = array())
     {
-        if (empty($variations)) {
+        if (count($variations) === 0) {
             return $variations;
         }
         $list = array();
@@ -440,7 +440,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function hash()
     {
-        if (isset($this->hash)) {
+        if ($this->hash !== null) {
             return $this->hash;
         }
 
@@ -450,7 +450,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             (array)$this->_item->elements->get($this->identifier),
             (array)$this->_getConfig(),
             (array)$this->_getRenderParams(),
-            (array)JFactory::getUser()->groups,
+            (array)JFactory::getUser()->groups
         )));
 
         return $this->hash;
@@ -979,10 +979,10 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function bindData($data = array())
     {
-        if (isset($this->_item)) {
+        if (null !== $this->_item) {
             $hashes = array();
 
-            if (isset($data['variations'])) {
+            if (array_key_exists('variations', $data)) {
                 $list = $this->build($data['variations']);
                 unset($data['variations']);
 
@@ -995,7 +995,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 /** @type JBCartVariant $variant */
                 foreach ($list as $key => $variant) {
                     /** @type JBCartElementPrice $element */
-                    if (($variant->count('simple') && !in_array($variant->hash(), $hashes)) || ($variant->isBasic())) {
+                    if (($variant->isBasic()) || ($variant->count('simple') && !in_array($variant->hash(), $hashes, true))) {
 
                         //add variant hash to array based on simple elements values
                         $hashes[$key] = $variant->hash();
@@ -1019,7 +1019,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 }
             }
 
-            if (!empty($data)) {
+            if (count($data)) {
                 $result = $this->_item->elements->get($this->identifier);
 
                 foreach ($data as $_id => $unknown) {
@@ -1036,7 +1036,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function bindVariant(JBCartVariant $variant)
     {
-        if (isset($this->_item)) {
+        if (null !== $this->_item) {
             $simple = $variant->simple();
 
             $values     = (array)$this->_item->elements->find($this->identifier . '.values', array());

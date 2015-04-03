@@ -832,11 +832,13 @@ class JBHtmlHelper extends AppHelper
             }
 
             $valueSlug = $stringHelper->sluggify($value);
+
+
+            $attribs['id'] = 'id' . $valueSlug . '-' . $jbstring->getId();
             $extra     = array_merge(array(
                 'value' => $value,
                 'name'  => $name,
                 'type'  => $inputType,
-                'id'    => 'id' . $valueSlug . '-' . $jbstring->getId(),
                 'class' => 'value-' . $valueSlug
             ), $attribs);
 
