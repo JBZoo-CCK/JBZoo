@@ -14,7 +14,8 @@
     var instanceId = 0,
         widgetId = 0,
         widgets = {},
-        parentSelector = '{element}';
+        parentSelector = '{element}',
+        documentSelector = '{document}';
 
     /**
      * JBZoo widget factory
@@ -197,8 +198,8 @@
                             return this.el;
                         }
 
-                        if (selector.indexOf('{document} ') === 0) {
-                            selector = selector.replace('{document} ', '');
+                        if (selector.indexOf(documentSelector + ' ') === 0) {
+                            selector = selector.replace(documentSelector + ' ', '');
                             return $(selector);
                         }
 
@@ -238,8 +239,8 @@
                             return $(this.el).on(eventName, eventCallback);
 
                         }
-                        if (selector.indexOf('{document} ') == 0) {
-                            selector = selector.replace('{document} ', '');
+                        if (selector.indexOf(documentSelector + ' ') == 0) {
+                            selector = selector.replace(documentSelector + ' ', '');
                             return $(selector).on(eventName, eventCallback);
 
                         } else {
@@ -418,7 +419,6 @@
                 swal({
                     title            : message,
                     animation        : false,
-                    //type             : 'info',
                     allowOutsideClick: true
                 }, closeCallback);
 
@@ -444,7 +444,6 @@
                 swal({
                         title            : message,
                         animation        : false,
-                        //type             : "warning",
                         showCancelButton : true,
                         closeOnConfirm   : true,
                         closeOnCancel    : true,
