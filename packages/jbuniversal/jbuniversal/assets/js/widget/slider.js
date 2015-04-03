@@ -81,11 +81,14 @@
             _cleanupOptions: function () {
                 var $this = this;
 
-                $.extend($this.options.ui, {
-                    'step'  : JBZoo.toFloat($this.options.ui.step),
-                    'min'   : JBZoo.toFloat($this.options.ui.min),
-                    'max'   : JBZoo.toFloat($this.options.ui.max),
-                    'values': [JBZoo.toFloat($this.options.ui.values[0]), JBZoo.toFloat($this.options.ui.values[1])]
+                $.extend(true, {}, $this.options, {
+                    'step'  : JBZoo.toFloat($this.options.step),
+                    'min'   : JBZoo.toFloat($this.options.min),
+                    'max'   : JBZoo.toFloat($this.options.max),
+                    'values': [
+                        JBZoo.toFloat($this.options.values[0]),
+                        JBZoo.toFloat($this.options.values[1])
+                    ]
                 });
             },
 
@@ -103,7 +106,7 @@
 
             _validateMin: function (min) {
                 var max = JBZoo.toFloat(this._getSliderValue(1)),
-                    opt = this.options.ui;
+                    opt = this.options;
 
                 min = JBZoo.toFloat(min);
                 min = (min > max) ? max : min;
@@ -115,7 +118,7 @@
 
             _validateMax: function (max) {
                 var min = JBZoo.toFloat(this._getSliderValue(0)),
-                    opt = this.options.ui;
+                    opt = this.options;
 
                 max = JBZoo.toFloat(max);
                 max = (max < min) ? min : max;
@@ -141,9 +144,9 @@
 
                     var oldValue = JBZoo.toFloat($input.val());
                     if (e.originalEvent.wheelDelta > 0) {
-                        var newValue = $this._validateMax(oldValue + $this.options.ui.step);
+                        var newValue = $this._validateMax(oldValue + $this.options.step);
                     } else {
-                        var newValue = $this._validateMin(oldValue - $this.options.ui.step);
+                        var newValue = $this._validateMin(oldValue - $this.options.step);
                     }
 
                     if (oldValue != newValue) {
