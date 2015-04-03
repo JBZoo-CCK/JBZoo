@@ -17,7 +17,11 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementModifierOrderPriceDiscountCode extends JBCartElementModifierOrderPrice
 {
-
+    /**
+     * @param App    $app
+     * @param string $type
+     * @param string $group
+     */
     public function __construct($app, $type, $group)
     {
         parent::__construct($app, $type, $group);
