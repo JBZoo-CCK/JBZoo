@@ -16,7 +16,6 @@ defined('_JEXEC') or die('Restricted access');
 
 class JBFilterElementJBColor extends JBFilterElement
 {
-
     /**
      * Elements object
      * @var
@@ -42,11 +41,7 @@ class JBFilterElementJBColor extends JBFilterElement
      */
     public function html()
     {
-        if ((int)$this->_params->get('jbzoo_filter_multiple', 1)) {
-            $type = 'checkbox';
-        } else {
-            $type = 'radio';
-        }
+        $type = $this->_isMultiple ? 'checkbox' : 'radio';
 
         if (is_string($this->_value)) {
             $this->_value = $this->app->jbcolor->clean(explode(',', $this->_value));

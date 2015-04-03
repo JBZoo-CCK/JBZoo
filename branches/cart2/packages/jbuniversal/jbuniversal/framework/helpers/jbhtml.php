@@ -841,10 +841,8 @@ class JBHtmlHelper extends AppHelper
             ), $attribs);
 
             if (is_array($selected)) {
-
                 foreach ($selected as $val) {
-
-                    if ($value == $val) {
+                    if ($value === $val) {
                         $extra['checked'] = 'checked';
                         break;
                     }
@@ -852,11 +850,8 @@ class JBHtmlHelper extends AppHelper
 
             } else {
                 $value = JString::trim($value);
-                if (isset($value)) {
-                    if ((string)$value == (string)$selected) {
-                        $extra['checked'] = 'checked';
-                    }
-
+                if (($value !== null && $value !== '') && ($value === $selected)) {
+                    $extra['checked'] = 'checked';
                 }
             }
 
@@ -864,8 +859,8 @@ class JBHtmlHelper extends AppHelper
                 'for'   => $extra['id'],
                 'class' => array(
                     $inputType . '-lbl',
-                    'lbl-' . $valueSlug,
-                ),
+                    'lbl-' . $valueSlug
+                )
             );
 
             if ($isLabelWrap) {

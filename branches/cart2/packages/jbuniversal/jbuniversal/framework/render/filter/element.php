@@ -297,6 +297,10 @@ class JBFilterElement
     {
         $name = 'e[' . $this->_identifier . ']';
 
+        if($this->_isMultiple && $postFix === null) {
+            $postFix = '';
+        }
+
         if ($postFix !== null) {
             $name .= '[' . $postFix . ']';
         }
