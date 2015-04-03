@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -46,15 +45,16 @@ class JBEventItem extends JBEvent
             return null;
         }
 
-        if (!$app->jbrequest->isAjax()) {
+        if (!$app->jbrequest->is('controller', 'jbimport')) {
+
             // update index data
             $app->jbtables->checkSku(true);
-            JBModelSku::model()->updateItemSku($item);
-        }
+            $indexTableName = $app->jbtables->getIndexTable($itemType);
 
-        $indexTableName = $app->jbtables->getIndexTable($itemType);
-        if ($app->jbtables->isTableExists($indexTableName, true)) {
-            JBModelSearchindex::model()->updateByItem($item);
+            if ($app->jbtables->isTableExists($indexTableName, true)) {
+                JBModelSearchindex::model()->updateByItem($item);
+            }
+
         }
     }
 
