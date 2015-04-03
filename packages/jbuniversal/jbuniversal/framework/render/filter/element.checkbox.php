@@ -31,7 +31,7 @@ class JBFilterElementCheckbox extends JBFilterElement
 
         return $this->app->jbhtml->checkbox(
             $this->_createOptionsList($values),
-            $this->_getName(),
+            $this->_getName(''),
             $this->_attrs,
             $this->_value,
             $this->_getId()
