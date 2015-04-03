@@ -31,7 +31,7 @@
 
             init: function ($this) {
                 // force validate numeric options
-                $this._prepareOptions();
+                $this._cleanupOptions();
 
                 // get links to DOM
                 $this.$input = $this.$('.jsInput');
@@ -91,10 +91,10 @@
              * Cleanup option list
              * @private
              */
-            _prepareOptions: function () {
+            _cleanupOptions: function () {
                 var $this = this;
 
-                $.extend($this.options, {
+                $.extend(true, {}, $this.options, {
                     'default' : JBZoo.toFloat($this.options['default']),
                     'step'    : JBZoo.toFloat($this.options.step),
                     'min'     : JBZoo.toFloat($this.options.min),
