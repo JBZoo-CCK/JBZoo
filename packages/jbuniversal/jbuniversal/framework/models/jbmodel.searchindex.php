@@ -222,6 +222,11 @@ class JBModelSearchindex extends JBModel
         $itemType = $item->getType()->id;
         $result   = array($itemType => array($itemPack));
 
+        $skuPack = $this->_getSkuData($item);
+        if (!empty($skuPack)) {
+            $this->_multiInsert($skuPack, ZOO_TABLE_JBZOO_SKU);
+        }
+
         return $this->_multiInsertData($result);
     }
 
