@@ -75,20 +75,9 @@ class JBEventItem extends JBEvent
         if (!$app->jbtables->isTableExists($tableName)) {
             $app->jbtables->createIndexTable($itemType);
         }
-        $sku = JBModelSku::model();
+
         // update index data
         JBModelSearchindex::model()->removeById($item);
-
-        // execute item trigger
-        $jbimageElements = $item->getElements();
-        foreach ($jbimageElements as $element) {
-            if ($element instanceof ElementJBPrice) {
-                $sku->removeByItem($item, $element->identifier);
-            }
-            if (method_exists($element, 'triggerItemDeleted')) {
-                $element->triggerItemDeleted();
-            }
-        }
     }
 
     /**
