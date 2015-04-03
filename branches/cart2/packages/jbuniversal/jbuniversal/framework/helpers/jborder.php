@@ -239,12 +239,11 @@ class JBOrderHelper extends AppHelper
 
             } elseif (strpos($orderParams['field'], '__')) {
                 list ($elementId, $priceField) = explode('__', $orderParams['field']);
-                $id = JBModelSku::model()->getId($priceField);
 
                 $joinList['tSku']    = 'LEFT JOIN ' . ZOO_TABLE_JBZOO_SKU
                     . ' AS tSku ON tSku.item_id = a.id'
                     . ' AND tSku.element_id = \'' . $elementId . '\'
-                        AND tSku.param_id = \'' . $id . '\'
+                        AND tSku.param_id = \'' . $priceField . '\'
                         AND `variant` = \'0\'';
 
                 $ol[] = 'tSku.value_' . $orderParams['mode'] . ' ' . $order;

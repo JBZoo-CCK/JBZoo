@@ -34,7 +34,7 @@ class JBPriceFilterRenderer extends PositionRenderer
      */
     protected $_moduleParams = null;
 
-    protected $_template = null;
+    protected $_template    = null;
     protected $_application = null;
 
     /**
@@ -97,54 +97,61 @@ class JBPriceFilterRenderer extends PositionRenderer
 
         // get style
         $style = isset($args['style']) ? $args['style'] : 'default';
-        $i     = 0;
+        $index = 0;
 
-        foreach ($this->_getConfigPosition($position) as $key => $data) {
-            if ($element = $this->_jbprice->getElement($key)) {
+        $elementsConfig = $this->_getConfigPosition($position);
+        foreach ($elementsConfig as $key => $data) {
+            $element = $this->_jbprice->getElement($data['identifier']);
 
-                $i++;
+            if ($element && $element->canAccess()) {
+                $index++;
+
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
-                $data['_index']    = $key;
+                $data['_index']    = $index;
 
                 // set params
                 $params = array_merge(
-                    array('item_template'       => $this->_template,
-                          'item_application_id' => $this->_application,
-                          'moduleParams'        => $this->_moduleParams
-                    ), $data, $args);
-
-                if (!$element->canAccess() && !$element->hasFilterValue($this->app->data->create($params))) {
-                    continue;
-                }
-
-                $attrs = array(
-                    'id'    => 'filterEl_' . $key,
-                    'class' => array(
-                        'element-' . strtolower($element->getElementType())
-                    )
+                    array(
+                        'first'               => ($index == 1),
+                        'last'                => ($index == count($elementsConfig) - 1),
+                        'item_template'       => $this->_template,
+                        'item_application_id' => $this->_application,
+                        'moduleParams'        => $this->_moduleParams
+                    ),
+                    $data, $args
                 );
 
-                $value       = $this->_getRequest($key);
-                $elementHTML = $this->elementRender($element, $value, $params, $attrs);
-
-                if (empty($elementHTML)) {
-                    continue;
-                }
-
-                if ($style) {
-
-                    $output[$i] = parent::render('element.jbpricefilter.' . $style, array(
-                            'element'     => $element,
-                            'params'      => $params,
-                            'attrs'       => $attrs,
-                            'value'       => $value,
-                            'config'      => $element->config,
-                            'elementHTML' => $elementHTML
+                if ($element->hasFilterValue(new AppData($params))) {
+                    $attrs = array(
+                        'id'    => 'filterEl_' . $this->_jbprice->identifier . '_' . $data['identifier'],
+                        'class' => array(
+                            'element-' . strtolower($element->getElementType()),
+                            'element-tmpl-' . $params['jbzoo_filter_render']
                         )
                     );
-                } else {
-                    $output[$i] = $elementHTML;
+
+                    $value       = $this->_getRequest($data['identifier']);
+                    $elementHTML = $this->elementRender($element, $value, $params, $attrs);
+
+                    if (empty($elementHTML)) {
+                        continue;
+                    }
+
+                    if ($style) {
+
+                        $output[$index] = parent::render('element.jbpricefilter.' . $style, array(
+                                'element'     => $element,
+                                'params'      => $params,
+                                'attrs'       => $attrs,
+                                'value'       => $value,
+                                'config'      => $element->config,
+                                'elementHTML' => $elementHTML
+                            )
+                        );
+                    } else {
+                        $output[$index] = $elementHTML;
+                    }
                 }
             }
         }
