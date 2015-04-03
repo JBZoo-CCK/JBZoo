@@ -85,12 +85,13 @@ class JBVarsHelper extends AppHelper
     }
 
     /**
-     * @param $value
+     * @param string $value
+     * @param int    $round
      * @return float
      */
-    public function number($value)
+    public function number($value, $round = 10)
     {
-        return $this->money($value);
+        return $this->money($value, $round);
     }
 
     /**
