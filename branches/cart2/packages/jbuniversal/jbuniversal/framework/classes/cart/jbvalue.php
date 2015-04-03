@@ -21,10 +21,11 @@ class JBCartValue
     const PERCENT      = '%';
     const DEFAULT_CODE = 'default_cur';
 
-    const STYLE_NONE  = 'none';
-    const STYLE_PLAIN = 'plain';
-    const STYLE_TEXT  = 'text';
-    const STYLE_HTML  = 'html';
+    const STYLE_NONE       = 'none';
+    const STYLE_PLAIN      = 'plain';
+    const STYLE_TEXT       = 'text';
+    const STYLE_HTML       = 'html';
+    const STYLE_HTML_INPUT = 'html_input';
 
     const ROUND_DEFAULT      = 9;
     const ROUND_TYPE_NONE    = 'none';
@@ -243,6 +244,16 @@ class JBCartValue
     public function html($currecny = null, $showPlus = false)
     {
         return $this->_format($currecny, self::STYLE_HTML, $showPlus);
+    }
+
+    /**
+     * @param null  $currecny
+     * @param array $params
+     * @return null|string
+     */
+    public function htmlInput($currecny = null, $params = array())
+    {
+        return $this->_format($currecny, self::STYLE_HTML_INPUT, false, $params);
     }
 
     /**
@@ -593,9 +604,10 @@ class JBCartValue
      * @param null   $currecny
      * @param string $style
      * @param bool   $showPlus
+     * @param bool   $params
      * @return float|int|null|string
      */
-    protected function _format($currecny = null, $style = self::STYLE_PLAIN, $showPlus = false)
+    protected function _format($currecny = null, $style = self::STYLE_PLAIN, $showPlus = false, $params = array())
     {
         if (empty($currecny)) {
             $currecny = $this->_currency;
@@ -622,6 +634,16 @@ class JBCartValue
         $valueStr     = number_format(abs($roundedValue), $format['num_decimals'], $format['decimal_sep'], $format['thousands_sep']);
         $moneyFormat  = ($isPositive) ? $format['format_positive'] : $format['format_negative'];
 
+        $attrs = null;
+        if (strpos($style, 'html') !== false) {
+            $attrs = array(
+                'data-moneyid'  => self::$_counter,
+                'data-value'    => $this->_value,
+                'data-currency' => $this->_currency,
+                'data-showplus' => (int)$showPlus,
+            );
+        }
+
         // output with styles
         $result = null;
         if (self::STYLE_NONE == $style) {
@@ -645,19 +667,24 @@ class JBCartValue
                 '<span class="jbcurrency-value">' . $valueStr . "</span>"
             ), $moneyFormat);
 
-            $attrs = $this->app->jbhtml->buildAttrs(array(
-                'class'         => 'jsMoney jbcartvalue',
-                'data-moneyid'  => self::$_counter,
-                'data-value'    => $this->_value,
-                'data-currency' => $this->_currency,
-                'data-showplus' => (int)$showPlus,
-            ), false);
-
             if ($isPositive && $showPlus) {
                 $result = '+' . $result;
             }
 
-            $result = '<span ' . $attrs . ">\n" . $result . '</span>';
+            $attrs['class'] = 'jsMoney jbcartvalue';
+
+            $result = '<span ' . $this->app->jbhtml->buildAttrs($attrs, false) . ">\n" . $result . '</span>';
+
+        } elseif (self::STYLE_HTML_INPUT == $style) {
+
+            $class = 'jsMoney jsMoneyInput jbcartvalue-input';
+
+            $attrs['class'] = (isset($params['class'])) ? ($class . ' ' . $params['class']) : $class;
+            $attrs['name']  = isset($params['name']) ? $params['name'] : '';
+            $attrs['value'] = $this->text();
+            $attrs['type']  = 'text';
+
+            $result = '<input ' . $this->app->jbhtml->buildAttrs($attrs, false) . ' />';
         }
 
         $this->_log('Formated output in "' . $currecny . '" as "' . $style . '"');

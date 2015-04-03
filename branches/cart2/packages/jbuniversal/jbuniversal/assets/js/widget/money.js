@@ -120,7 +120,11 @@
                 }
 
                 //$this.currency = currency;
-                $this.el.html(formated);
+                if ($this.el.is('input')) {
+                    $this.el.val(JBZoo.stripTags(formated));
+                } else {
+                    $this.el.html(formated);
+                }
             },
 
             /**
@@ -194,8 +198,23 @@
                     currency = $this._cleanCur(currency);
 
                 return rates[currency];
-            }
+            },
 
+            'change {element}': function (e, $this) {
+                $this.setInputValue($(this).val());
+            },
+
+            'keypress {element}': function (e, $this) {
+                if (e.which == 13) {
+                    $this.setInputValue($(this).val());
+                    return false;
+                }
+            },
+
+            setInputValue: function (newValue) {
+                newValue = JBZoo.toFloat(newValue);
+                this._update(newValue, this.currency);
+            }
         }
     );
 
