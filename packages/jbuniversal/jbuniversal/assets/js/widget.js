@@ -411,17 +411,20 @@
         /**
          * Simple system message like alert
          * @param message
+         * @param closeCallback
          */
-        alert: function (message) {
+        alert: function (message, closeCallback) {
             if ($.isFunction(swal)) {
                 swal({
                     title            : message,
                     animation        : false,
                     //type             : 'info',
                     allowOutsideClick: true
-                });
+                }, closeCallback);
+
             } else {
                 alert(message);
+                closeCallback()
             }
         },
 
