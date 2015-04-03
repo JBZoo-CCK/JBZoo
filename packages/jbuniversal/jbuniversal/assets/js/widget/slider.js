@@ -35,7 +35,7 @@
             _initUI: function () {
                 var $this = this;
 
-                this.wrapper.slider($.extend(true, {}, this.options, {
+                this.wrapper.slider($.extend({}, $this.options, {
                     'range': true,
                     'slide': function (event, ui) {
                         $this.setValues(ui.values);
@@ -81,7 +81,7 @@
             _cleanupOptions: function () {
                 var $this = this;
 
-                $.extend(true, {}, $this.options, {
+                $this.options = $.extend(true, {}, $this.options, {
                     'step'  : JBZoo.toFloat($this.options.step),
                     'min'   : JBZoo.toFloat($this.options.min),
                     'max'   : JBZoo.toFloat($this.options.max),
@@ -111,7 +111,7 @@
                 min = JBZoo.toFloat(min);
                 min = (min > max) ? max : min;
                 min = (min < opt.min) ? opt.min : min;
-                min = (min < opt.max) ? opt.max : min;
+                min = (min > opt.max) ? opt.max : min;
 
                 return min;
             },
@@ -126,6 +126,15 @@
                 max = (max > opt.max) ? opt.max : max;
 
                 return max;
+            },
+
+
+            'change .jsInput-0': function (e, $this) {
+                //$(this).val($this._validateMin($(this).val()));return false; // TODO fix format an events order
+            },
+
+            'change .jsInput-1': function (e, $this) {
+                //$(this).val($this._validateMax($(this).val()));return false; // TODO fix format an events order
             },
 
             'mouseenter .jsInput': function (e, $this) {
@@ -150,7 +159,7 @@
                     }
 
                     if (oldValue != newValue) {
-                        $this._setValue(newValue, $input.hasClass('jsInput-0') ? 0 : 1);
+                        $this._setValue(newValue, $input.is('.jsInput-0') ? 0 : 1);
                         $input.trigger('change');
                     }
                 }
