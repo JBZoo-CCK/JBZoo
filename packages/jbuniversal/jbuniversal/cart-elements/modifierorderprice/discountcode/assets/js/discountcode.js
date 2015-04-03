@@ -19,6 +19,21 @@
     }, {
 
         'click .jsSendCode': function (e, $this) {
+            $this._update();
+            return false;
+        },
+
+        'keypress .jsCode': function (e, $this) {
+            if (e.which == 13) {
+                $this._update();
+            }
+            return false;
+        },
+
+        _update: function () {
+
+            var $this = this;
+
             $this.ajax({
                 url: $this.options.url,
 
