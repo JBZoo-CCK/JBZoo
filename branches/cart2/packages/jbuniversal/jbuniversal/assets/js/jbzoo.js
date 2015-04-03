@@ -186,9 +186,11 @@
         /**
          * Simple system message like alert
          * @param message
+         * @param closeCallback
+         * @returns {*}
          */
-        alert: function (message) {
-            return JBZoo.alert(message);
+        alert: function (message, closeCallback) {
+            return JBZoo.alert(message, closeCallback);
         },
 
         /**

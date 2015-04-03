@@ -26,8 +26,8 @@
         'keypress .jsCode': function (e, $this) {
             if (e.which == 13) {
                 $this._update();
+                return false;
             }
-            return false;
         },
 
         _update: function () {
@@ -35,8 +35,7 @@
             var $this = this;
 
             $this.ajax({
-                url: $this.options.url,
-
+                url : $this.options.url,
                 data: {
                     'args': {
                         'code': $this.$('.jsCode').val()
@@ -48,9 +47,13 @@
                 },
 
                 error: function (data) {
+
                     $('.jsJBZooCart').JBZooCart('updatePrices', data.cart);
-                    $this.alert(data.message);
-                    $this.$('.jsCode').val('');
+
+                    $this.alert(data.message, function () {
+                        $this.$('.jsCode').focus().val('');
+                    });
+
                 }
             });
         }
