@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -33,15 +32,15 @@ class JBCSVCellHelper extends AppHelper
     /**
      * Create a JBElement object
      * @param String|Element $element
-     * @param mixed $item
-     * @param String $group
-     * @param array $options
+     * @param mixed          $item
+     * @param String         $group
+     * @param array          $options
      * @return JBCSVItem
      * @throws AppException
      */
     public function createItem($element, $item, $group, $options = array())
     {
-        if(empty($item)) {
+        if (empty($item)) {
             return false;
         }
 
@@ -67,7 +66,7 @@ class JBCSVCellHelper extends AppHelper
     }
 
     /**
-     * @param $type
+     * @param          $type
      * @param Category $category
      * @return mixed
      * @throws AppException

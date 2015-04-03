@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -52,7 +51,7 @@ class JBEntityHelper extends AppHelper
 
     /**
      * Get element by id
-     * @param string $elementId
+     * @param string      $elementId
      * @param string|null $type
      * @param string|null $applicationId
      * @return mixed
@@ -61,7 +60,7 @@ class JBEntityHelper extends AppHelper
     public function getElement($elementId, $type = null, $applicationId = null)
     {
         if (!isset($this->_elements[$elementId])) {
-            $zooType = $this->getType($type, $applicationId);
+            $zooType                     = $this->getType($type, $applicationId);
             $this->_elements[$elementId] = $zooType->getElement($elementId);
         }
 
@@ -75,13 +74,13 @@ class JBEntityHelper extends AppHelper
     /**
      * Get type
      * @param string $type
-     * @param int $applicationId
+     * @param int    $applicationId
      * @return Type
      */
     public function getType($type, $applicationId)
     {
         if (!isset($this->_types[$type])) {
-            $application = $this->getApplication($applicationId);
+            $application         = $this->getApplication($applicationId);
             $this->_types[$type] = new Type($type, $application);
         }
 
@@ -106,9 +105,9 @@ class JBEntityHelper extends AppHelper
 
     /**
      * Get element model
-     * @param string $elementId
-     * @param string $type
-     * @param int $applicationId
+     * @param string  $elementId
+     * @param string  $type
+     * @param int     $applicationId
      * @param boolean $isRange
      * @return JBModelElement
      */
@@ -160,13 +159,13 @@ class JBEntityHelper extends AppHelper
             $result[$groupByType] = array();
 
             $typesPath = $this->app->path->path('jbtypes:');
-            $files = JFolder::files($typesPath, '.config');
+            $files     = JFolder::files($typesPath, '.config');
 
             $result[$groupByType] = array();
             foreach ($files as $file) {
                 $fileContent = $this->app->jbfile->read($typesPath . '/' . $file);
-                $typeData = json_decode($fileContent, true);
-                $typeAlias = str_replace('.config', '', $file);
+                $typeData    = json_decode($fileContent, true);
+                $typeAlias   = str_replace('.config', '', $file);
 
                 if (isset($typeData['elements']) && !empty($typeData['elements'])) {
                     if ($groupByType) {

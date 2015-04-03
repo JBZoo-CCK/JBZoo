@@ -9,7 +9,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
- 
+
 if (!class_exists('JViewLegacy', false)) {
     jimport('cms.view.legacy');
     jimport('legacy.view.legacy');
@@ -17,18 +17,14 @@ if (!class_exists('JViewLegacy', false)) {
 
 /**
  * Base View class
- *
  * @package Framework.Classes
  */
 class AppView extends JViewLegacy
 {
     /**
      * Set the layout for the view
-     *
      * @param string $layout The layout to set
-     *
      * @return AppView The view itself to allow chaining
-     *
      * @since 1.0.0
      */
     public function setLayout($layout)
@@ -39,11 +35,8 @@ class AppView extends JViewLegacy
 
     /**
      * Adds a path to the template search path list
-     *
      * @param string $path The path to add
-     *
      * @return AppView The view itself to allow chaining
-     *
      * @since 1.0.0
      */
     public function addTemplatePath($path)
@@ -54,15 +47,11 @@ class AppView extends JViewLegacy
 
     /**
      * Render a partial view template file
-     *
      * The partial view template filename starts with an underscore (_)
      * and is meant to render a reusable part of a bigger view
-     *
      * @param string $name The name of the partial (without the underscore)
-     * @param array $args The list of arguments to pass on to the template
-     *
+     * @param array  $args The list of arguments to pass on to the template
      * @return string The output of the rendering
-     *
      * @since 1.0.0
      */
     public function partial($name, $args = array())
@@ -98,7 +87,6 @@ class AppView extends JViewLegacy
 
 /**
  * Dedicated Exception for the AppView class
- *
  * @see AppView
  */
 class AppViewException extends AppException

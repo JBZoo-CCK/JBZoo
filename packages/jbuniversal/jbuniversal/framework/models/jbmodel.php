@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -87,7 +86,7 @@ Class JBModel
     /**
      * Fetch one row
      * @param JBDatabaseQuery $select
-     * @param bool $toArray
+     * @param bool            $toArray
      * @return JObject
      */
     public function fetchRow(JBDatabaseQuery $select, $toArray = false)
@@ -98,7 +97,7 @@ Class JBModel
     /**
      * Fetch all query result
      * @param JBDatabaseQuery $select
-     * @param bool $toArray
+     * @param bool            $toArray
      * @return array|JObject
      */
     public function fetchAll(JBDatabaseQuery $select, $toArray = false)
@@ -135,8 +134,8 @@ Class JBModel
     /**
      * Query to database
      * @param JBDatabaseQuery $select
-     * @param bool $isOne
-     * @param bool $toArray
+     * @param bool            $isOne
+     * @param bool            $toArray
      * @return mixed
      */
     protected function _query(JBDatabaseQuery $select, $isOne = false, $toArray = false)
@@ -168,9 +167,9 @@ Class JBModel
 
     /**
      * Get database query object for item
-     * @param null|string $type
+     * @param null|string     $type
      * @param null|string|int $applicationId
-     * @param bool $isSearchable
+     * @param bool            $isSearchable
      * @return JBDatabaseQuery
      */
     protected function _getItemSelect($type = null, $applicationId = null, $isSearchable = true)
@@ -203,7 +202,7 @@ Class JBModel
 
     /**
      * Get zoo items by IDs
-     * @param array $ids
+     * @param array  $ids
      * @param string $order
      * @return array
      */
@@ -237,7 +236,7 @@ Class JBModel
 
     /**
      * Group array by key
-     * @param array $rows
+     * @param array  $rows
      * @param string $key
      * @return array
      */
@@ -293,7 +292,7 @@ Class JBModel
 
     /**
      * Multi insert
-     * @param array $data
+     * @param array  $data
      * @param string $table
      * @return mixed
      */
@@ -345,9 +344,9 @@ Class JBModel
     }
 
     /**
-     * @param $data
-     * @param $table
-     * @param null $keyId
+     * @param        $data
+     * @param        $table
+     * @param null   $keyId
      * @param string $keyField
      * @return bool|mixed
      */
