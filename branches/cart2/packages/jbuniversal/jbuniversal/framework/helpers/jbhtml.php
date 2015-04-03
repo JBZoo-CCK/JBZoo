@@ -545,16 +545,16 @@ class JBHtmlHelper extends AppHelper
     /**
      * Render jQueryUI slider
      * @param array  $params
-     * @param string $jbValue
+     * @param string $value
      * @param string $name
      * @param string $idTag
      * @param string $currency
      * @return string
      */
-    public function sliderInput($params, $jbValue = '', $name = '', $idTag = '', $currency = '')
+    public function sliderInput($params, $value = '', $name = '', $idTag = '', $currency = '')
     {
-        if (!empty($jbValue) && is_string($jbValue)) {
-            $value = explode('/', $jbValue);
+        if (!empty($value) && is_string($value)) {
+            $value = explode('/', $value);
         } else {
             $value = array($params['min'], $params['max']);
         }
@@ -565,46 +565,35 @@ class JBHtmlHelper extends AppHelper
         $params['max']  = $this->_vars->number($params['max']);
         $params['step'] = $this->_vars->number($params['step']);
 
-        $valueMin = JBCart::val($this->_vars->money($value[0], 2));
-        $valueMax = JBCart::val($this->_vars->money($value[1], 2));
+        $paramMin = floor($this->_vars->money($value[0], 0));
+        $paramMax = ceil($this->_vars->money($value[1], 0));
 
-        $paramMin = round($params['min'], 2);
-        $paramMax = round($params['max'], 2);
+        $valueMin = JBCart::val($paramMin);
+        $valueMax = JBCart::val($paramMax);
 
-        $html = array();
-
-        $html[] = '<div class="jsSliderWrapper jbzoo-slider-wrapper"></div>';
+        $html   = array();
+        $html[] = '<div class="jbslider-ui jsUI"></div>';
 
         // min box
-        $html[] = '<div class="jsSliderBox jbslider-box">';
-        $html[] = '<span class="jsSliderLabel jsSliderLabel-0 jbslider-label jbslider-label-min">' . $valueMin->html() . '</span>';
-        $html[] = $this->text(null, $valueMin->val(), array(
-            'class' => 'jsSlider-0 jsSliderMin jsSliderInput jbslider-min jbslider-input',
-        ));
+        $html[] = '<div class="jbslider-input-box">';
+        $html[] = $valueMin->htmlInput($currency, array('class' => 'jsInput-0 jsInput jbslider-input jbslider-input-min'));
         $html[] = '</div>';
 
         // max box
-        $html[] = '<div class="jsSliderBox jbslider-box">';
-        $html[] = '<span class="jsSliderLabel jsSliderLabel-1 jbslider-label jbslider-label-max"/>' . $valueMax->html() . '</span>';
-        $html[] = $this->text(null, $valueMax->val(), array(
-            'class' => 'jsSlider-1 jsSliderMax jsSliderInput jbslider-max jbslider-input',
-        ));
+        $html[] = '<div class="jbslider-input-box">';
+        $html[] = $valueMax->htmlInput($currency, array('class' => 'jsInput-1 jsInput jbslider-input jbslider-input-max'));
         $html[] = '</div>';
 
-        $html[] = $this->hidden($name, $valueMin->val() . '/' . $valueMax->val(), array('class' => 'jsSliderValue'));
+        $html[] = $this->hidden($name, $valueMin->val() . '/' . $valueMax->val(), array('class' => 'jsValue'));
 
         $html[] = $this->_assets->slider($idTag, array(
-            'ui'       => array(
-                'range'  => true,
-                'min'    => $paramMin ? floor($paramMin) : 0,
-                'max'    => $paramMax ? ceil($paramMax)  : 10000,
-                'step'   => $params['step'] ? $params['step'] : 100,
-                'values' => array($valueMin->val(), $valueMax->val())
-            ),
-            'currency' => $currency
+            'min'    => $paramMin,
+            'max'    => $paramMax,
+            'step'   => $params['step'],
+            'values' => array($valueMin->val(), $valueMax->val())
         ), true);
 
-        return '<div id="' . $idTag . '" class="jsSlider jbzoo-slider jsNoCurrencyToggle">' . implode(PHP_EOL, $html) . '</div>';
+        return '<div id="' . $idTag . '" class="jbslider jsSlider jsNoCurrencyToggle">' . implode(PHP_EOL, $html) . '</div>';
     }
 
     /**

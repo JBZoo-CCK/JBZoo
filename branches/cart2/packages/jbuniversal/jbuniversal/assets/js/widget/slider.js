@@ -12,45 +12,42 @@
 ;
 (function ($, window, document, undefined) {
 
-    JBZoo.widget('JBZoo.Slider', {
-            ui        : {
-                'range' : true,
-                'min'   : 1,
-                'max'   : 10000,
-                'step'  : 100,
-                'values': []
-            },
-            'currency': '',
-            'wrapper' : {},
-            'range'   : {}
-        }, {
+    JBZoo.widget('JBZoo.Slider',
+        {
+            'min'   : 0,
+            'max'   : 10000,
+            'step'  : 100,
+            'values': [0, 10000]
+        },
+        {
+            'wrapper': {},
+            'range'  : {},
 
             init: function () {
-                this._prepareOptions();
+                this.wrapper = this.$('.jsUI');
+                this.range = this.$('.jsValue');
 
-                this.wrapper = this.$('.jsSliderWrapper');
-                this.range   = this.$('.jsSliderValue');
-
-                this.ui();
+                this._cleanupOptions();
+                this._initUI();
+                this._initMoney();
             },
 
-            ui: function () {
-                var options = this.options.ui,
-                    $this   = this;
+            _initUI: function () {
+                var $this = this;
 
-                this.wrapper.slider({
-                    'range' : options.range,
-                    'min'   : options.min,
-                    'max'   : options.max,
-                    'step'  : options.step,
-                    'values': options.values,
-                    'slide' : function (event, ui) {
+                this.wrapper.slider($.extend(true, {}, this.options, {
+                    'range': true,
+                    'slide': function (event, ui) {
                         $this.setValues(ui.values);
                     },
-                    'stop'  : function (event, ui) {
+                    'stop' : function (event, ui) {
                         $this.setValues(ui.values);
                     }
-                });
+                }));
+            },
+
+            _initMoney: function () {
+                return this.$('.jsMoney').JBZooMoney();
             },
 
             setValues: function (values) {
@@ -60,46 +57,28 @@
                 });
             },
 
-            _setValue: function(value, index) {
-                var range,
-                    _values = this.wrapper.slider('values');
+            _setValue: function (value, index) {
+                var sliderValues = this.wrapper.slider('values');
 
-                value = JBZoo.toFloat(value);
                 if (index == 0) {
-                    value = this._validateMin(value);
-
-                    _values[0] = value;
-                    range = value + "/" + _values[1];
-
+                    sliderValues[0] = this._validateMin(value);
                 } else {
-                    value = this._validateMax(value);
-
-                    _values[1] = value;
-                    range = _values[0] + "/" + value;
+                    sliderValues[1] = this._validateMax(value);
                 }
-                this._getMoney(index).JBZooMoney('setValue', [value]);
 
-                this.wrapper.slider('values', _values);
-                this.$('.jsSlider-' + index).val(value);
-
-                this.range.val(range);
+                this.$('.jsInput-' + index).JBZooMoney('setInputValue', [value]);
+                this.wrapper.slider('values', sliderValues);
+                this.range.val(sliderValues[0] + "/" + sliderValues[1]);
             },
 
-            _getSliderValue: function(index) {
+            _getSliderValue: function (index) {
                 return this.wrapper.slider('values', index);
-            },
-
-            _getMoney: function (index) {
-                return this.$('.jsSliderLabel-' + index + ' .jsMoney').JBZooMoney({
-                    'rates': JBZoo.getVar('currencyList')
-                });
             },
 
             /**
              * Cleanup option list
-             * @private
              */
-            _prepareOptions: function () {
+            _cleanupOptions: function () {
                 var $this = this;
 
                 $.extend($this.options.ui, {
@@ -110,94 +89,67 @@
                 });
             },
 
+            /**
+             * Validate all values
+             * @param values
+             * @returns {*}
+             * @private
+             */
             _validate: function (values) {
-                var $this = this;
-                values = $.map(values, function (value, i) {
-
-                    if (i == 0) {
-                        value = $this._validateMin(value);
-
-                    } else {
-                        value = $this._validateMax(value);
-                    }
-
-                    return value;
-                });
-
+                values[0] = this._validateMin(values[0]);
+                values[1] = this._validateMax(values[1]);
                 return values;
             },
 
-            _validateMin: function(min) {
-                var max     = JBZoo.toFloat(this._getSliderValue(1)),
-                    options = this.options.ui;
+            _validateMin: function (min) {
+                var max = JBZoo.toFloat(this._getSliderValue(1)),
+                    opt = this.options.ui;
 
                 min = JBZoo.toFloat(min);
-                if (min > max) {
-                    min = max;
-                }
-                if (min < options.min) {
-                    min = options.min;
-                }
-                if (min > options.max) {
-                    min = options.max;
-                }
+                min = (min > max) ? max : min;
+                min = (min < opt.min) ? opt.min : min;
+                min = (min < opt.max) ? opt.max : min;
 
                 return min;
             },
 
-            _validateMax: function(max) {
-                var min     = JBZoo.toFloat(this._getSliderValue(0)),
-                    options = this.options.ui;
+            _validateMax: function (max) {
+                var min = JBZoo.toFloat(this._getSliderValue(0)),
+                    opt = this.options.ui;
 
                 max = JBZoo.toFloat(max);
-                if (max < min) {
-                    max = min;
-                }
-                if (max < options.min) {
-                    max = options.min;
-                }
-                if (max > options.max) {
-                    max = options.max;
-                }
+                max = (max < min) ? min : max;
+                max = (max < opt.min) ? opt.min : max;
+                max = (max > opt.max) ? opt.max : max;
 
                 return max;
             },
 
-            'change .jsSliderInput': function (e, $this) {
-                $this._setValue($(this).val(), $(this).hasClass('jsSlider-0') ? 0 : 1);
+            'mouseenter .jsInput': function (e, $this) {
+                $(this).select();
             },
 
-            'focus .jsSliderInput': function (e, $this) {
-                $(this).css('opacity', '1');
-                $(this).closest('.jsSliderLabel').css('opacity', '0');
+            'mouseleave .jsInput': function (e, $this) {
+                $(this).blur();
             },
 
-            'blur .jsSliderInput': function (e, $this) {
-                $(this).css('opacity', '0');
-                $(this).closest('.jsSliderLabel').css('opacity', '1');
-            },
-
-            'mouseenter .jsSliderBox': function (e, $this) {
-                $('.jsSliderInput', $(this)).focus();
-            },
-
-            'mouseleave .jsSliderBox': function (e, $this) {
-                $('.jsSliderInput', $(this)).blur();
-            },
-
-            'mousewheel .jsSliderInput': function (e, $this) {
+            'mousewheel .jsInput': function (e, $this) {
 
                 var $input = $(this);
+
                 if ($input.is(':focus')) {
 
-                    var value = JBZoo.toFloat($input.val());
+                    var oldValue = JBZoo.toFloat($input.val());
                     if (e.originalEvent.wheelDelta > 0) {
-                        value += $this.options.ui.step;
+                        var newValue = $this._validateMax(oldValue + $this.options.ui.step);
                     } else {
-                        value -= $this.options.ui.step;
+                        var newValue = $this._validateMin(oldValue - $this.options.ui.step);
                     }
 
-                    $this._setValue(value, $input.hasClass('jsSlider-0') ? 0 : 1);
+                    if (oldValue != newValue) {
+                        $this._setValue(newValue, $input.hasClass('jsInput-0') ? 0 : 1);
+                        $input.trigger('change');
+                    }
                 }
 
                 return false;
