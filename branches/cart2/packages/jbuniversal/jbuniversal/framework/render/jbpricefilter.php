@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -31,12 +30,11 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * Joomla module params
-     *
      * @var null
      */
     protected $_moduleParams = null;
 
-    protected $_template    = null;
+    protected $_template = null;
     protected $_application = null;
 
     /**
@@ -52,7 +50,6 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * @param string $position
-     *
      * @return bool|void
      */
     public function checkPosition($position)
@@ -75,7 +72,6 @@ class JBPriceFilterRenderer extends PositionRenderer
     /**
      * @param string $layout
      * @param array  $args
-     *
      * @return string
      */
     public function render($layout, $args = array())
@@ -93,7 +89,6 @@ class JBPriceFilterRenderer extends PositionRenderer
     /**
      * @param string $position
      * @param array  $args
-     *
      * @return string|void
      */
     public function renderPosition($position = null, $args = array())
@@ -159,7 +154,6 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * @param $position
-     *
      * @return mixed
      */
     public function _getConfigPosition($position)
@@ -172,12 +166,10 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * Element render
-     *
      * @param string $element
      * @param bool   $value
      * @param array  $params
      * @param array  $attrs
-     *
      * @return mixed
      * @throws Exception
      */
@@ -217,10 +209,8 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * Mapper elementType to render method
-     *
      * @param array  $params
      * @param string $elementType
-     *
      * @return string
      */
     private function _getRender(array $params, $elementType)
@@ -302,9 +292,7 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * Get element request
-     *
      * @param $identifier
-     *
      * @return null|array|string
      */
     private function _getRequest($identifier)
@@ -328,9 +316,7 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * Set Joomla module params
-     *
      * @param $params
-     *
      * @return $this
      */
     public function setModuleParams($params)
@@ -342,7 +328,6 @@ class JBPriceFilterRenderer extends PositionRenderer
 
     /**
      * @param string $dir
-     *
      * @return array
      */
     public function getLayouts($dir)

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -46,7 +45,7 @@ class JBFilterHelper extends AppHelper
     /**
      * Set filter info before helper use
      * @param string $type
-     * @param int $application
+     * @param int    $application
      * @return void
      */
     public function set($type, $application)
@@ -88,9 +87,9 @@ class JBFilterHelper extends AppHelper
     /**
      * Element render
      * @param string $identifier
-     * @param bool $value
-     * @param array $params
-     * @param array $attrs
+     * @param bool   $value
+     * @param array  $params
+     * @param array  $attrs
      * @return mixed
      * @throws Exception
      */
@@ -129,7 +128,7 @@ class JBFilterHelper extends AppHelper
 
     /**
      * Mapper elementType to render method
-     * @param array $params
+     * @param array  $params
      * @param string $elementType
      * @return string
      */
