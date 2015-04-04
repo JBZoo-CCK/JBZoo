@@ -12,6 +12,7 @@
 ;
 (function ($, window, document, undefined) {
 
+
     JBZoo.widget('JBZoo.Slider',
         {
             'min'   : 0,
@@ -20,22 +21,28 @@
             'values': [0, 10000]
         },
         {
-            'wrapper': {},
-            'range'  : {},
+            "UI"    : {},
+            'range' : {},
+            'inputs': [],
 
             init: function () {
-                this.wrapper = this.$('.jsUI');
-                this.range = this.$('.jsValue');
-
                 this._cleanupOptions();
+
+                this.UI = this.$('.jsUI');
+                this.range = this.$('.jsValue');
+                this.inputs = this._initMoney();
+
                 this._initUI();
-                this._initMoney();
+
+                $('form').submit(function () {
+                    return false;
+                });
             },
 
             _initUI: function () {
                 var $this = this;
 
-                this.wrapper.slider($.extend({}, $this.options, {
+                this.UI.slider($.extend({}, $this.options, {
                     'range': true,
                     'slide': function (event, ui) {
                         $this.setValues(ui.values);
@@ -47,32 +54,39 @@
             },
 
             _initMoney: function () {
-                return this.$('.jsMoney').JBZooMoney();
+                var $this = this;
+
+                this.$('.jsMoney').JBZooMoney({
+                    onBeforeUpdate: function (newValue) {
+                        return this.el.is('.jsInput-min') ? $this._validateMin(newValue) : $this._validateMax(newValue);
+                    },
+                    onAfterUpdate : function (currentValue) {
+                        return this.el.is('.jsInput-min') ? $this._setValue(currentValue, 0, false) : $this._setValue(currentValue, 1, false);
+                    }
+                });
+
+                return [this.$('.jsInput-min'), this.$('.jsInput-max')]
             },
 
             setValues: function (values) {
-                var $this = this;
-                $.map(this._validate(values), function (value, i) {
-                    $this._setValue(value, i);
-                });
+                this._setValue(values[0], 0);
+                this._setValue(values[1], 1);
             },
 
-            _setValue: function (value, index) {
-                var sliderValues = this.wrapper.slider('values');
+            _setValue: function (value, index, updateMoney) {
+                var sliderValues = this.UI.slider('values');
 
-                if (index == 0) {
-                    sliderValues[0] = this._validateMin(value);
-                } else {
-                    sliderValues[1] = this._validateMax(value);
+                sliderValues[index] = (index == 0) ? this._validateMin(value) : this._validateMax(value);
+
+                if (this._def(updateMoney, true)) {
+                    this.inputs[index].JBZooMoney('setInputValue', [value]);
                 }
-
-                this.$('.jsInput-' + index).JBZooMoney('setInputValue', [value]);
-                this.wrapper.slider('values', sliderValues);
+                this.UI.slider('values', sliderValues);
                 this.range.val(sliderValues[0] + "/" + sliderValues[1]);
             },
 
             _getSliderValue: function (index) {
-                return this.wrapper.slider('values', index);
+                return this.UI.slider('values', index);
             },
 
             /**
@@ -128,40 +142,49 @@
                 return max;
             },
 
+            _changeInput: function ($input, direction) {
+                var oldValue = JBZoo.toFloat($input.val());
 
-            'change .jsInput-0': function (e, $this) {
-                //$(this).val($this._validateMin($(this).val()));return false; // TODO fix format an events order
+                if (direction < 0) {
+                    newValue = this._validateMin(oldValue - this.options.step);
+                } else {
+                    newValue = this._validateMax(oldValue + this.options.step);
+                }
+
+                if (oldValue != newValue) {
+                    this._setValue(newValue, $input.is('.jsInput-min') ? 0 : 1);
+                }
             },
 
-            'change .jsInput-1': function (e, $this) {
-                //$(this).val($this._validateMax($(this).val()));return false; // TODO fix format an events order
+            _increment: function ($input) {
+                this._changeInput($input, 1);
+            },
+
+            _decrement: function ($input) {
+                this._changeInput($input, -1);
+            },
+
+            'keydown .jsInput': function (e, $this) {
+
+                if ($this._key(e, 'arrow-top')) {
+                    $this._increment($(this), 1);
+                    return false;
+                }
+
+                if ($this._key(e, 'arrow-down')) {
+                    $this._decrement($(this), -1);
+                    return false;
+                }
             },
 
             'mouseenter .jsInput': function (e, $this) {
                 $(this).select();
             },
 
-            'mouseleave .jsInput': function (e, $this) {
-                $(this).blur();
-            },
-
             'mousewheel .jsInput': function (e, $this) {
-
                 var $input = $(this);
-
                 if ($input.is(':focus')) {
-
-                    var oldValue = JBZoo.toFloat($input.val());
-                    if (e.originalEvent.wheelDelta > 0) {
-                        var newValue = $this._validateMax(oldValue + $this.options.step);
-                    } else {
-                        var newValue = $this._validateMin(oldValue - $this.options.step);
-                    }
-
-                    if (oldValue != newValue) {
-                        $this._setValue(newValue, $input.is('.jsInput-0') ? 0 : 1);
-                        $input.trigger('change');
-                    }
+                    $this._changeInput($input, e.originalEvent.wheelDelta);
                 }
 
                 return false;
