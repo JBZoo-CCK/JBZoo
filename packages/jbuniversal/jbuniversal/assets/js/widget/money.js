@@ -17,8 +17,12 @@
      */
     JBZoo.widget('JBZoo.Money',
         {
-            duration: 400,
-            easing  : 'swing'
+            duration      : 400,
+            easing        : 'swing',
+            onAfterUpdate : $.noop,
+            onBeforeUpdate: function (value) {
+                return value;
+            }
         },
         {
             // default data
@@ -108,6 +112,10 @@
 
                 value = $this._round(currency, value);
 
+                if ($.isFunction($this.options.onBeforeUpdate)) {
+                    value = $this.options.onBeforeUpdate.apply($this, [value]);
+                }
+
                 var formated = JBZoo.numberFormat(Math.abs(value), format.num_decimals, format.decimal_sep, format.thousands_sep),
                     template = isPositive ? format.format_positive : format.format_negative;
 
@@ -124,6 +132,10 @@
                     $this.el.val(JBZoo.stripTags(formated));
                 } else {
                     $this.el.html(formated);
+                }
+
+                if ($.isFunction($this.options.onAfterUpdate)) {
+                    $this.options.onAfterUpdate.apply($this, [value]);
                 }
             },
 
@@ -192,12 +204,10 @@
              * @private
              */
             _getCurInfo: function (currency) {
-
                 var $this = this,
-                    rates = JBZoo.getVar('currencyList'),
-                    currency = $this._cleanCur(currency);
+                    rates = JBZoo.getVar('currencyList');
 
-                return rates[currency];
+                return rates[$this._cleanCur(currency)];
             },
 
             'change {element}': function (e, $this) {
@@ -205,7 +215,7 @@
             },
 
             'keypress {element}': function (e, $this) {
-                if (e.which == 13) {
+                if ($this._key(e, 'enter')) {
                     $this.setInputValue($(this).val());
                     return false;
                 }
@@ -219,4 +229,3 @@
     );
 
 })(jQuery, window, document);
-
