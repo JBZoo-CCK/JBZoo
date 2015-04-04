@@ -10,7 +10,7 @@
     @coder       Denis Smetannikov <denis@jbzoo.com>
 -->
 <element type="jbadvert" group="JBZoo" hidden="false" orderable="true">
-    <name>JBAdvert(эксп.)</name>
+    <name>JBZoo Advert (beta)</name>
     <description>Price element for catalog</description>
     <author>JBZoo.com</author>
     <creationDate>2013 07</creationDate>
