@@ -576,12 +576,12 @@ class JBHtmlHelper extends AppHelper
 
         // min box
         $html[] = '<div class="jbslider-input-box">';
-        $html[] = $valueMin->htmlInput($currency, array('class' => 'jsInput-0 jsInput jbslider-input jbslider-input-min'));
+        $html[] = $valueMin->htmlInput($currency, array('class' => 'jsInput jsInput-min jbslider-input jbslider-input-min'));
         $html[] = '</div>';
 
         // max box
         $html[] = '<div class="jbslider-input-box">';
-        $html[] = $valueMax->htmlInput($currency, array('class' => 'jsInput-1 jsInput jbslider-input jbslider-input-max'));
+        $html[] = $valueMax->htmlInput($currency, array('class' => 'jsInput jsInput-max jbslider-input jbslider-input-max'));
         $html[] = '</div>';
 
         $html[] = $this->hidden($name, $valueMin->val() . '/' . $valueMax->val(), array('class' => 'jsValue'));
@@ -835,7 +835,7 @@ class JBHtmlHelper extends AppHelper
 
 
             $attribs['id'] = 'id' . $valueSlug . '-' . $jbstring->getId();
-            $extra     = array_merge(array(
+            $extra         = array_merge(array(
                 'value' => $value,
                 'name'  => $name,
                 'type'  => $inputType,

@@ -678,11 +678,13 @@ class JBCartValue
         } elseif (self::STYLE_HTML_INPUT == $style) {
 
             $class = 'jsMoney jsMoneyInput jbcartvalue-input';
+            $attrs = array_merge($attrs, $params, array(
+                'value' => $this->text(),
+                'type'  => 'text',
+            ));
 
+            $attrs['name']  = isset($attrs['name']) ? $attrs['name'] : '';
             $attrs['class'] = (isset($params['class'])) ? ($class . ' ' . $params['class']) : $class;
-            $attrs['name']  = isset($params['name']) ? $params['name'] : '';
-            $attrs['value'] = $this->text();
-            $attrs['type']  = 'text';
 
             $result = '<input ' . $this->app->jbhtml->buildAttrs($attrs, false) . ' />';
         }
