@@ -277,12 +277,23 @@
                 $this._updateView();
             },
 
-            'mouseenter .jsCountBox': function (e, $this) {
-                $this.$input.focus();
+            'keydown .jsInput': function (e, $this) {
+
+                if ($this._key(e, 'arrow-top')) {
+                    $this._setValue($this.value + $this.options.step);
+                    $this._updateView();
+                    return false;
+                }
+
+                if ($this._key(e, 'arrow-down')) {
+                    $this._setValue($this.value - $this.options.step);
+                    $this._updateView();
+                    return false;
+                }
             },
 
-            'mouseleave .jsCountBox': function (e, $this) {
-                $this.$input.blur();
+            'mouseenter .jsCountBox': function (e, $this) {
+                $this.$input.focus();
             },
 
             'mousewheel .jsInput': function (e, $this) {
