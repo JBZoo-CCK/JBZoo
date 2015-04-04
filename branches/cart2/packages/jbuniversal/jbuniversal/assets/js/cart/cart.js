@@ -26,7 +26,7 @@
     }, {
         shipping      : {},
         shippingFields: {},
-        changeDelay   : 400,
+        changeDelay   : 600,
 
         init: function ($this) {
             $this.shipping = $this.$('.jsShipping');
