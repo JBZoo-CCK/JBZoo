@@ -119,7 +119,7 @@ class JBLessHelper extends AppHelper
         static $importHash;
 
         if (!isset($importHash)) {
-            $result = array();
+            $result = array(md5(JURI::root())); // for paths in CSS
             foreach ($this->_import as $import) {
                 $path     = JPath::clean($this->app->path->path('jbassets:less/' . $import));
                 $result[] = md5_file($path);
