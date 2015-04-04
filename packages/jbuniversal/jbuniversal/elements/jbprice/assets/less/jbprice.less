@@ -7,72 +7,64 @@
 // @license     http://jbzoo.com/license-pro.php JBZoo Licence
 // @coder       Denis Smetannikov <denis@jbzoo.com>
 //
-
 @import "jbzoo";
 
-@color: #900;
+.jbzoo .jbprice {
 
-.jbzoo {
-    .jbprice {
-
-        // Balance
-        .jbprice-balance {
-            .available {
-                font-weight: bold;
-                color: #6AB635;
-            }
-            .not-available {
-                font-weight: bold;
-                color: #F97A2E;
-            }
+    // Balance
+    .jbprice-balance {
+        .available {
+            font-weight: bold;
+            color: #6AB635;
         }
-        // Quantity
-        .jbprice-quantity .quantity-wrapper {
-            width: auto;
-            td {
-                padding: 0 2px;
-            }
-        }
-
-        // Prices
-        .jbprice-price {
-            // Total
-            .total {
-                color: @color;
-                font-size: 1.5em;
-                letter-spacing: 1px;
-                font-weight: bold;
-            }
-
-            // Price
-            .price {
-                text-decoration: line-through;
-            }
-
-            // Save
-            .save {
-                color: @color;
-                letter-spacing: 0;
-                font-weight: normal;
-            }
-        }
-
-        // Description
-        .jbprice-description {
-            font-style: italic;
-            color: #777;
-        }
-
-        //Hide remove buttons
-        .remove-button, .goto-button {
-            display: none;
+        .not-available {
+            font-weight: bold;
+            color: #F97A2E;
         }
     }
 
-    //Show remove buttons
-    .in-cart {
-        .remove-button, .goto-button {
-            display: inline-block;
+    .jbprice-quantity .quantity-wrapper {
+        width: auto;
+        td {
+            padding: 0 2px;
         }
+    }
+
+    .jbprice-price {
+
+        .total {
+            font-size: 1.5em;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .price {
+            text-decoration: line-through;
+        }
+
+        .save {
+            letter-spacing: 0;
+            font-weight: normal;
+        }
+    }
+
+    .jbprice-description {
+        font-style: italic;
+        color: #777;
+    }
+
+    //Hide remove buttons
+    .remove-button,
+    .goto-button {
+        display: none;
+    }
+}
+
+//Show remove buttons
+.jbzoo .in-cart {
+
+    .goto-button,
+    .remove-button {
+        display: inline-block;
     }
 }
