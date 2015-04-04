@@ -33,10 +33,6 @@
                 this.inputs = this._initMoney();
 
                 this._initUI();
-
-                $('form').submit(function () {
-                    return false;
-                });
             },
 
             _initUI: function () {
