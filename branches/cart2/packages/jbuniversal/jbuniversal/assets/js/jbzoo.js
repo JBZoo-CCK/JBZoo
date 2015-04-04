@@ -186,11 +186,11 @@
         /**
          * Simple system message like alert
          * @param message
-         * @param closeCallback
+         * @param callback
          * @returns {*}
          */
-        alert: function (message, closeCallback) {
-            return JBZoo.alert(message, closeCallback);
+        alert: function (message, callback) {
+            return JBZoo.alert(message, callback);
         },
 
         /**
@@ -302,8 +302,29 @@
                 cookieKey = $.cookie(ns + '_' + key);
 
             return this._def(cookieKey, defaultVal);
-        }
+        },
 
+        /**
+         * Check key name for events
+         * @param event
+         * @param keyName
+         * @returns {Boolean}
+         * @private
+         */
+        _key: function (event, keyName) {
+            var key = event.which,
+                map = {
+                    'enter'      : [13],
+                    'arrow-left' : [37],
+                    'arrow-top'  : [38],
+                    'arrow-right': [39],
+                    'arrow-down' : [40]
+                };
+
+            keyName = $.trim(keyName.toLowerCase());
+
+            return JBZoo.in_array(key, map[keyName]);
+        }
 
     });
 
