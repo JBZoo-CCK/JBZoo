@@ -844,7 +844,7 @@ class JBHtmlHelper extends AppHelper
 
             if (is_array($selected)) {
                 foreach ($selected as $val) {
-                    if ($value === $val) {
+                    if ($value == $val) {
                         $extra['checked'] = 'checked';
                         break;
                     }
@@ -852,7 +852,7 @@ class JBHtmlHelper extends AppHelper
 
             } else {
                 $value = JString::trim($value);
-                if (($value !== null && $value !== '') && ($value === $selected)) {
+                if (($value !== null && $value !== '') && ($value == $selected)) {
                     $extra['checked'] = 'checked';
                 }
             }
