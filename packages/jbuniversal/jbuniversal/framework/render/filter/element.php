@@ -314,6 +314,8 @@ class JBFilterElement
      */
     public function html()
     {
+        $this->_isMultiple = false;
+
         return $this->app->jbhtml->text(
             $this->_getName(),
             $this->_value,
