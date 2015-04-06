@@ -39,12 +39,12 @@ class JBCartVariant extends ArrayObject
     /**
      * @type float
      */
-    protected $total = null;
+    protected $total;
 
     /**
      * @type float
      */
-    protected $price = null;
+    protected $price;
 
     /**
      * @type JBCartVariantList
@@ -57,8 +57,10 @@ class JBCartVariant extends ArrayObject
      * @param array             $elements
      * @param array             $options
      */
-    public function __construct($elements = array(), $options = array(), JBCartVariantList $list = null)
+    public function __construct(array $elements = array(), array $options = array(), JBCartVariantList $list = null)
     {
+        parent::__construct($elements, ArrayObject::STD_PROP_LIST);
+
         // set variant id
         if(isset($options['id']))
         {
@@ -69,7 +71,6 @@ class JBCartVariant extends ArrayObject
         if ($list instanceof JBCartVariantList)
         {
             $this->setList($list);
-            unset($list);
         }
 
         //Bind elements
@@ -82,7 +83,7 @@ class JBCartVariant extends ArrayObject
             }
             $this->add($elements, $data);
 
-            unset($elements);
+            unset($options['elements']);
         }
 
         //set elements data
@@ -90,12 +91,10 @@ class JBCartVariant extends ArrayObject
         {
             $this->bindData($options);
         }
-
-        unset($options);
     }
 
     /**
-     * Get elements value
+     * Get element by identifier
      * @param string $key
      * @param mixed $default
      * @return JBCartElementPrice|mixed
@@ -123,13 +122,11 @@ class JBCartVariant extends ArrayObject
      * @param array          $elements
      * @param AppData|array $options
      */
-    public function add(array $elements, $options = array())
+    public function add(array $elements, AppData $options)
     {
         foreach($elements as $key => $element) {
-            $this->set($key, $this->_setElement($element, $options->get($key)));
+            $this->set($key, $this->setElement($element, (array)$options->get($key)));
         }
-
-        unset($options);
     }
 
     /**
@@ -157,11 +154,11 @@ class JBCartVariant extends ArrayObject
      */
     public function count($group = 'all')
     {
-        if($group == 'all')
+        if($group === 'all')
         {
             $count = count($this->elements);
         }
-        elseif($group == 'core')
+        elseif($group === 'core')
         {
             $count = count($this->core());
         }
@@ -188,7 +185,7 @@ class JBCartVariant extends ArrayObject
      */
     public function setId($id)
     {
-        if ($this->id != $id)
+        if ($this->id !== (int)$id)
         {
             $this->id = (int)$id;
         }
@@ -202,7 +199,7 @@ class JBCartVariant extends ArrayObject
      */
     public function hash()
     {
-        if (isset($this->hash)) {
+        if ($this->hash !== null) {
             return $this->hash;
         }
 
@@ -255,9 +252,9 @@ class JBCartVariant extends ArrayObject
     }
 
     /**
+     * @param bool   $toString
      * @param string $key - element identifier
      * @param mixed  $default
-     * @param bool   $toString
      * @return JBCartElementPrice|JBCartValue
      */
     public function getValue($toString = false, $key, $default = null)
@@ -330,7 +327,7 @@ class JBCartVariant extends ArrayObject
 
         foreach ($this->elements as $key => $element)
         {
-            $this->set($key, $this->_setElement($element, $elements->get($key)));
+            $this->set($key, $this->setElement($element, $elements->get($key)));
         }
 
         return $this;
@@ -343,7 +340,7 @@ class JBCartVariant extends ArrayObject
      */
     public function getTotal()
     {
-        if (!is_null($this->total)) {
+        if (null !== $this->total) {
             return $this->total;
         }
 
@@ -351,7 +348,7 @@ class JBCartVariant extends ArrayObject
             $total = $this->getPrice()->minus($this->getValue(true, '_discount'), true);
 
             if ($this->list instanceof JBCartVariantList) {
-                //$total = $this->list->addModifiers($total, true);
+                $total = $this->list->addModifiers($total, true);
             }
             $this->total = $total;
 
@@ -367,14 +364,14 @@ class JBCartVariant extends ArrayObject
      */
     public function getPrice()
     {
-        if (!is_null($this->price)) {
+        if (null !== $this->price) {
             return $this->price;
         }
 
         $price = JBCart::val();
         if ($element = $this->get('_value')) {
             $price->set($element->getValue(true));
-            if ($element->isModifier() && !$this->isBasic() && $this->list->isOverlay === false) {
+            if ($this->list->isOverlay === false && $element->isModifier() && !$this->isBasic()) {
                 $price = $this->list->first()->getValue(false, '_value')->add($price);
             }
         }
@@ -419,29 +416,19 @@ class JBCartVariant extends ArrayObject
     }
 
     /**
-     * @param      $name
-     * @param bool $checkVars
-     * @return bool
-     */
-    public function canSetProperty($name, $checkVars = true)
-    {
-        return method_exists($this, 'set' . $name) || $checkVars && property_exists($this, $name);
-    }
-
-    /**
      * @param JBCartElementPrice $element
      * @param array|string       elements data
      * @return mixed
      */
-    protected function _setElement($element, $data = array())
+    protected function setElement($element, $data)
     {
         $element->setVariant($this->id);
 
         $_data = (array)$element->data();
-        if ($this->list instanceof JBCartVariantList && !$this->isBasic())
-        {
+        if ($this->list instanceof JBCartVariantList && !$this->isBasic()) {
             $basic = $this->list->first()->getValue(true, $element->identifier);
-            if (!empty($basic)) {
+
+            if (null !== $basic && $basic !== '') {
                 $data['_basic'] = $basic;
             }
         }
@@ -461,5 +448,4 @@ class JBCartVariant extends ArrayObject
  */
 class JBCartVariantException extends AppException
 {
-
 }

@@ -169,7 +169,7 @@ abstract class JBCartElement
     public function get($key, $default = null)
     {
         $result = $this->_data->get($key, $default);
-        if (is_null($result)) {
+        if ($result === null) {
             $result = $default;
         }
 

@@ -66,7 +66,7 @@ class JBCartElementPriceWeight extends JBCartElementPrice
     {
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
-                'value' => $this->getValue()
+                'value' => $this->getValue(true)
             ));
         }
 

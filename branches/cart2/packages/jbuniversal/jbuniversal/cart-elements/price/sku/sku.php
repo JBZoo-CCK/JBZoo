@@ -20,20 +20,14 @@ class JBCartElementPriceSku extends JBCartElementPrice
 {
     /**
      * Check if element has value
-     *
      * @param array $params
-     *
      * @return bool
      */
     public function hasValue($params = array())
     {
-        $value = $this->getValue();
+        $value = JString::trim($this->getValue(true));
 
-        if (!isset($value) || empty($value)) {
-            return false;
-        }
-
-        return true;
+        return ($value !== '' && $value !== null);
     }
 
     /**
@@ -70,7 +64,7 @@ class JBCartElementPriceSku extends JBCartElementPrice
     public function render($params = array())
     {
         if ($layout = $this->getLayout()) {
-            $value = $this->getValue();
+            $value = $this->getValue(true);
 
             return self::renderLayout($layout, array(
                 'sku'    => !empty($value) ? $value : $this->item_id,
@@ -101,7 +95,7 @@ class JBCartElementPriceSku extends JBCartElementPrice
     public function getValue($toString = false, $key = 'value', $default = null)
     {
         $value = parent::getValue($toString, $key, $default);
-        if (!isset($value{0}) && $item = $this->_jbprice->getItem())
+        if ($value === '' && $item = $this->_jbprice->getItem())
         {
             $value = $item->id;
         }
