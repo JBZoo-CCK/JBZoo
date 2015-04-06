@@ -42,9 +42,9 @@ class JBCartElementCurrencyCBR extends JBCartElementCurrency
                 $params['date_req'] = date("d/m/Y");
             }
 
-            $xmlString = $this->app->jbhttp->url($this->_apiUrl, $params);
+            $xmlString = $this->_loadUrl($this->_apiUrl, $params);
             if (empty($xmlString)) {
-                $xmlString = $this->_loadUrl($this->_apiUrl, $params);
+                $xmlString = $this->app->jbhttp->url($this->_apiUrl, $params); // anti ban
             }
 
             if (empty($xmlString)) {

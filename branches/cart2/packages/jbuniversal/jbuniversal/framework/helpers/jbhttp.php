@@ -74,7 +74,9 @@ class JBHttpHelper extends AppHelper
                 'timeout' => $this->_defaultOptions['timeout']
             )));
 
-            return @file_get_contents($url, false, $context);
+            $result = @file_get_contents($url, false, $context);
+
+            return $result;
         }
 
         return null;
