@@ -35,15 +35,11 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
         if ($template == self::TEMPLATE_SLIDER) {
             $html = $this->renderSlider($value);
 
-        } else if ($template == self::TEMPLATE_RANGE) {
+        } elseif ($template == self::TEMPLATE_RANGE) {
             $html = $this->renderRange($value);
 
-        } else if ($template == self::TEMPLATE_SIMPLE) {
+        } elseif ($template == self::TEMPLATE_SIMPLE) {
             $html = $this->renderText($value);
-        }
-
-        if ($html) {
-            $html .= $this->_renderCurrency();
         }
 
         return $html;
@@ -61,7 +57,7 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
             'auto' => (int)$this->_params->get('jbzoo_filter_slider_auto', 0),
             'min'  => $this->_params->get('jbzoo_filter_slider_min', 0),
             'max'  => $this->_params->get('jbzoo_filter_slider_max', 10000),
-            'step' => $this->_params->get('jbzoo_filter_slider_step', 100),
+            'step' => $this->_params->get('jbzoo_filter_slider_step', 100)
         );
         $to         = $this->_params->get('jbzoo_filter_currency_default', 'eur');
         if ($params['auto']) {
@@ -133,21 +129,6 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
     }
 
     /**
-     * Render hidden input width currency value from config.
-     *
-     * @return null|string
-     */
-    protected function _renderCurrency()
-    {
-        $html = null;
-
-        if ($currency = $this->_params->get('jbzoo_filter_currency_default', 'EUR')) {
-        }
-
-        return $html;
-    }
-
-    /**
      * Prepare values
      * @return array
      */
@@ -166,7 +147,7 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
             'value'   => null,
             'min'     => null,
             'max'     => null,
-            'range'   => null,
+            'range'   => null
         ), $this->_value);
     }
 

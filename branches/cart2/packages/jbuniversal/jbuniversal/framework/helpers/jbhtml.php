@@ -335,7 +335,7 @@ class JBHtmlHelper extends AppHelper
                 'id'    => $inputId,
                 'title' => isset($titles[$value]) ? $titles[$value] : $value,
                 'value' => $value,
-                'class' => 'jbcolor-input',
+                'class' => 'jbcolor-input'
             );
 
             $labelAttr = array(
@@ -361,7 +361,7 @@ class JBHtmlHelper extends AppHelper
 
             $html[] = '<input ' . $this->_buildAttrs($inputAttr) . '/>';
             $html[] = '<label ' . $this->_buildAttrs($labelAttr) . '>';
-            $html[] = ($isFile ? '<div class="checkIn" style="background: url(\'' . $isFile . '\') center; ' : '');
+            $html[] = ($isFile ? '<div class="checkIn" style="background: url(\'' . $isFile . '\') center;">' : '');
             $html[] = '<div ' . $this->_buildAttrs($attr) . '></div>';
             $html[] = ($isFile ? '</div>' : '') . '</label>';
         }
@@ -545,7 +545,7 @@ class JBHtmlHelper extends AppHelper
     /**
      * Render jQueryUI slider
      * @param array  $params
-     * @param string $value
+     * @param string|array $value
      * @param string $name
      * @param string $idTag
      * @param string $currency
@@ -553,23 +553,19 @@ class JBHtmlHelper extends AppHelper
      */
     public function sliderInput($params, $value = '', $name = '', $idTag = '', $currency = '')
     {
-        if (!empty($value) && is_string($value)) {
-            $value = explode('/', $value);
-        } else {
-            $value = array($params['min'], $params['max']);
-        }
+        $value = ($value !== '' && is_string($value) ? explode('/', $value) : array($params['min'], $params['max']));
 
         // prepare vars
-        $idTag          = $idTag ? $idTag : $this->_jbstring->getId('jsSlider-');
+        $idTag          = ($idTag !== '' && $idTag !== null ? $idTag : $this->_jbstring->getId('jsSlider-'));
         $params['min']  = $this->_vars->number($params['min']);
         $params['max']  = $this->_vars->number($params['max']);
         $params['step'] = $this->_vars->number($params['step']);
 
-        $paramMin = floor($this->_vars->money($value[0], 0));
-        $paramMax = ceil($this->_vars->money($value[1], 0));
+        $paramMin = floor($this->_vars->money($params['min'], 0));
+        $paramMax = ceil($this->_vars->money($params['max'], 0));
 
-        $valueMin = JBCart::val($paramMin);
-        $valueMax = JBCart::val($paramMax);
+        $valueMin = JBCart::val($value[0]);
+        $valueMax = JBCart::val($value[1]);
 
         $html   = array();
         $html[] = '<div class="jbslider-ui jsUI"></div>';
@@ -852,7 +848,7 @@ class JBHtmlHelper extends AppHelper
 
             } else {
                 $value = JString::trim($value);
-                if (($value !== null && $value !== '') && ($value == $selected)) {
+                if ($value == $selected) {
                     $extra['checked'] = 'checked';
                 }
             }

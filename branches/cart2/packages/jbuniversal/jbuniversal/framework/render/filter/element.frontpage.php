@@ -25,6 +25,8 @@ class JBFilterElementFrontpage extends JBFilterElement
      */
     function html()
     {
+        $this->_isMultiple = false;
+
         $options = $this->_getValues('bool');
 
         return $this->app->jbhtml->radio(

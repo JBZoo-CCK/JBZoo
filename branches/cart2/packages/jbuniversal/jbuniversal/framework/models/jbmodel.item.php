@@ -256,19 +256,13 @@ class JBModelItem extends JBModel
     public function getBySku($sku, $appId = null)
     {
         $itemId = (int)JBModelSku::model()->getItemIdBySku($sku);
-        if (!empty($itemId)) {
+        if ($itemId > 0 && $item = $this->getById($itemId)) {
+            if ($appId === null) {
+                return $item;
 
-            if ($item = $this->getById($itemId)) {
-
-                if ($appId) {
-                    if ($item->application_id == $appId) {
-                        return $item;
-                    }
-                } else {
-                    return $item;
-                }
+            } elseif ($item->application_id === (int)$appId) {
+                return $item;
             }
-
         }
 
         return null;

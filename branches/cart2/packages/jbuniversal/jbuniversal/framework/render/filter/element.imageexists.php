@@ -25,6 +25,8 @@ class JBFilterElementImageexists extends JBFilterElement
      */
     public function html()
     {
+        $this->_isMultiple = false;
+
         $options = array(
             array(
                 'text'  => JText::_('JBZOO_YES'),

@@ -127,13 +127,13 @@ class JBCSVMapperHelper extends AppHelper
         $prices = $helper->getItemPrices($item);
         $result = array();
 
-        if (!empty($prices)) {
+        if (count($prices)) {
             $i = 0;
             /** @type ElementJBPrice $jbPrice */
             foreach ($prices as $identifier => $jbPrice) {
                 $i++;
-                $list    = $jbPrice->getList();
-                $variant = $list->first();
+                $data    = $jbPrice->getData(0);
+                $variant = $jbPrice->buildVariant($data);
 
                 if ($variant->count()) {
                     /** @type JBCartElementPrice $element */
@@ -145,12 +145,11 @@ class JBCSVMapperHelper extends AppHelper
                         if ($value = $helper->getValue($value)) {
                             $result[$helper::ELEMENTS_CSV_GROUP . $key . '_' . $i] = $value;
                         }
-
-                        unset($element);
                     }
+                    $variant->clear();
                 }
 
-                unset($jbPrice, $list, $variant);
+                unset($jbPrice, $variant);
             }
         }
         unset($prices);
@@ -172,7 +171,7 @@ class JBCSVMapperHelper extends AppHelper
         $i = 0;
         foreach ($type->getElements() as $identifier => $element) {
 
-            if (!(int)$params->get('fields_full_price') && $element instanceof ElementJBPrice) {
+            if ($element instanceof ElementJBPrice && !(int)$params->get('fields_full_price')) {
                 continue;
             }
             $element->setItem($item);
@@ -283,7 +282,7 @@ class JBCSVMapperHelper extends AppHelper
         $result = array(
             'basic'  => array(
                 'id'    => JText::_('JBZOO_ITEM_ID'),
-                'sku'   => JText::_('JBZOO_ITEM_SKU'), // TODO replace to price.price_id value
+                //'sku'   => JText::_('JBZOO_ITEM_SKU'), // TODO replace to price.price_id value
                 'name'  => JText::_('JBZOO_ITEM_NAME'),
                 'alias' => JText::_('JBZOO_ITEM_ALIAS'),
             ),
