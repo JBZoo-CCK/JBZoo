@@ -25,11 +25,8 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
     public function hasValue($params = array())
     {
         $list = $params->get('currency_list', array());
-        if (!empty($list)) {
-            return true;
-        }
 
-        return false;
+        return !empty($list);
     }
 
     /**
@@ -60,16 +57,15 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $template = $params->get('template', 'currency');
-
         $list    = (array)$params->get('currency_list', array());
         $default = $params->get('currency_default', 'EUR');
 
-        if ($layout = $this->getLayout($template . '.php')) {
+        if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
-                'list'    => $list,
-                'default' => $default,
-                'rates'   => array_intersect_key((array)$this->app->jbmoney->getData(), array_flip($list))
+                'list'        => $list,
+                'default'     => $default,
+                'showDefault' => in_array(JBCartValue::DEFAULT_CODE, $list, true),
+                'rates'       => array_intersect_key((array)$this->app->jbmoney->getData(), array_flip($list))
             ));
         }
 
@@ -117,7 +113,7 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
     {
         $this->js(array(
             'jbassets:js/widget/money.js',
-            'jbassets:js/widget/currencytoggle.js',
+            'jbassets:js/widget/currencytoggle.js'
         ));
 
         $this->less('jbassets:less/widget/currencytoggle.less');
