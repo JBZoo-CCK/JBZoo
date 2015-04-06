@@ -44,10 +44,6 @@ class JBCartElementCurrencyCBR extends JBCartElementCurrency
 
             $xmlString = $this->_loadUrl($this->_apiUrl, $params);
             if (empty($xmlString)) {
-                $xmlString = $this->app->jbhttp->url($this->_apiUrl, $params); // anti ban
-            }
-
-            if (empty($xmlString)) {
                 return $this->_curList;
             }
 
@@ -88,18 +84,27 @@ class JBCartElementCurrencyCBR extends JBCartElementCurrency
     protected function _loadUrl($url, $data = array(), $params = array())
     {
         $result = $this->app->jbhttp->request($url, $data, array('response' => 'full'));
-        if ($result->code == 200) {
+
+        if (is_object($result) && $result->code == 200) {
             return $result->body;
         }
 
         if (isset($result->headers['Set-Cookie'])) {
 
+            $cookie = array();
+
             if (preg_match_all('#(.*?)=(.*?)(\n|;)#i', $result->headers['Set-Cookie'], $matches)) {
                 if (!empty($matches)) {
                     foreach ($matches[1] as $key => $value) {
                         $data[$value] = $matches[2][$key];
+                        $cookie[]     = $value . '=' . $matches[2][$key];
                     }
                 }
+                $cookie = implode('; ', $cookie);
+            }
+
+            if ($cookie) {
+                $params['headers'] = array('cookie' => $cookie);
             }
 
             return parent::_loadUrl($url, $data, $params);
