@@ -157,7 +157,9 @@ class JBMoneyHelper extends AppHelper
                 self::$curList['eur'] = self::$curList[JBCartValue::DEFAULT_CODE];
             }
 
-            $this->_jbcache->set($cacheKey . $noCache, self::$curList, 'currency', true, array('ttl' => $ttl));
+            if (!$noCache) {
+                $this->_jbcache->set($cacheKey, self::$curList, 'currency', true, array('ttl' => $ttl));
+            }
         }
 
         $this->app->jbdebug->mark('jbmoney::init::finish');
