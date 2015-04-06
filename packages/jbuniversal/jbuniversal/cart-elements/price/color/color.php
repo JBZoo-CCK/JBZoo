@@ -42,12 +42,9 @@ class JBCartElementPriceColor extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $selected = $this->_jbprice->elementOptions($this->identifier);
-        if (!empty($selected)) {
-            return true;
-        }
+        $selected = $this->getOptions(false);
 
-        return false;
+        return !empty($selected);
     }
 
     /**
@@ -78,7 +75,6 @@ class JBCartElementPriceColor extends JBCartElementPrice
 
     /**
      * @param array $params
-     *
      * @return array|mixed|null|string
      */
     public function render($params = array())
@@ -89,7 +85,7 @@ class JBCartElementPriceColor extends JBCartElementPrice
         if ($layout = $this->getLayout('color.php')) {
             return $this->renderLayout($layout, array(
                 'type'       => $this->getInputType(),
-                'width'      => $width . 'px',
+                'width'      => $width  . 'px',
                 'height'     => $height . 'px',
                 'value'      => $this->getValue(),
                 'name'       => $this->getRenderName('value'),
@@ -107,11 +103,8 @@ class JBCartElementPriceColor extends JBCartElementPrice
     public function getInputType()
     {
         $type = (boolean)$this->config->get('multiplicity', 1);
-        if (!$type) {
-            return 'radio';
-        }
 
-        return 'checkbox';
+        return !($type ? 'radio' : 'checkbox');
     }
 
     /**
@@ -130,7 +123,7 @@ class JBCartElementPriceColor extends JBCartElementPrice
     /**
      * Get options for simple element
      * @param  bool $label - add option with no value
-     * @return mixed
+     * @return array
      */
     public function getOptions($label = true)
     {
@@ -176,11 +169,8 @@ class JBCartElementPriceColor extends JBCartElementPrice
     public function hasOption($value)
     {
         $colors = $this->getColors();
-        if (isset($colors[$value]) || array_key_exists($value, $colors)) {
-            return true;
-        }
 
-        return false;
+        return (array_key_exists($value, $colors));
     }
 
     /**
@@ -211,14 +201,16 @@ class JBCartElementPriceColor extends JBCartElementPrice
      * Clean data before bind into element
      * @param array  $data
      * @param string $key
-     * @return void
+     * @return $this
      */
     public function bindData($data = array(), $key = 'value')
     {
-        if (isset($data['value'])) {
+        if (array_key_exists('value', $data)) {
             $data['value'] = $this->helper->clean($data['value']);
 
             parent::bindData($data);
         }
+
+        return $this;
     }
 }

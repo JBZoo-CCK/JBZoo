@@ -32,7 +32,7 @@ class JBCartElementPriceValue extends JBCartElementPrice
     {
         $value = $this->get('value', '');
 
-        return (!empty($value)) || ((int)$params->get('show_empty', 1) && $value === '0');
+        return ($value !== '') || ((int)$params->get('show_empty', 1) && $value === '0');
     }
 
     /**
@@ -72,7 +72,7 @@ class JBCartElementPriceValue extends JBCartElementPrice
         $discount = JBCart::val();
         if ($prices['save'] < 0) {
             $discount = $prices['save'];
-        };
+        }
 
         if ($layout = $this->getLayout()) {
             return $this->renderLayout($layout, array(
