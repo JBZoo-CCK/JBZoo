@@ -76,4 +76,36 @@ class JBCartElementCurrencyCBR extends JBCartElementCurrency
 
         return $this->_curList;
     }
+
+    /**
+     * Load URL with antiban system
+     * @param string $url
+     * @param array  $data
+     * @param array  $params
+     * @return mixed
+     * @throws JBCartElementCurrencyException
+     */
+    protected function _loadUrl($url, $data = array(), $params = array())
+    {
+        $result = $this->app->jbhttp->request($url, $data, array('response' => 'full'));
+        if ($result->code == 200) {
+            return $result->body;
+        }
+
+        if (isset($result->headers['Set-Cookie'])) {
+
+            if (preg_match_all('#(.*?)=(.*?)(\n|;)#i', $result->headers['Set-Cookie'], $matches)) {
+                if (!empty($matches)) {
+                    foreach ($matches[1] as $key => $value) {
+                        $data[$value] = $matches[2][$key];
+                    }
+                }
+            }
+
+            return parent::_loadUrl($url, $data, $params);
+        }
+
+        return null;
+    }
+
 }
