@@ -82,6 +82,7 @@ abstract class JBCartElementCurrency extends JBCartElement
         $params['response'] = 'full';
         $params['timeout']  = 5;
         $params['debug']    = JDEBUG;
+        $params['driver']   = isset($params['socket']) ? $params['socket'] : 'socket';
 
         $result = $this->app->jbhttp->request($url, $data, $params);
 
