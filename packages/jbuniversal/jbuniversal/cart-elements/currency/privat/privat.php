@@ -29,9 +29,7 @@ class JBCartElementCurrencyPrivat extends JBCartElementCurrency
      */
     public function _loadData($currency = null)
     {
-        $xmlString = $this->_loadUrl($this->_apiUrl, array(), array(
-            'driver' => 'socket' // curl can't check ssl cert
-        ));
+        $xmlString = $this->_loadUrl($this->_apiUrl);
 
         if (empty($xmlString)) {
             return array();
