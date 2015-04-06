@@ -29,28 +29,30 @@ class JBCSVItemPricePrice_sku extends JBCSVItem
             if (!empty($data)) {
                 $basic = $data['basic'];
             }
+
             return isset($basic['sku']) ? $basic['sku'] : $this->_item->id;
         }
+
         return $this->_item->id;
     }
 
     /**
-     * @param  $value
-     * @param  int|null $variant
+     * @param      $value
+     * @param  int $variant
      * @return Item|void
      */
-    public function fromCSV($value, $variant = null)
+    public function fromCSV($value, $variant = 0)
     {
-        // save data
-        $data = $this->_element->data();
+        /** @type JBCartVariant $var */
+        $data = array(
+            'value' => (null !== $value && $value !== '' ? $value : $this->_item->id)
+        );
+        $var  = $this->_element->getVariant($variant);
 
-        if (!isset($variant)) {
-            $data['basic']['params']['_sku'] = isset($value) ? $value : $this->_item->id;
-        } elseif ($variant >= 0) {
-            $data['variations'][$variant]['params']['_sku'] = isset($value) ? $value : $this->_item->id;
+        if ($var && $var->has('_sku')) {
+            $var->get('_sku')->bindData($data);
+            $this->_element->bindVariant($var);
         }
-
-        $this->_element->bindData($data);
 
         return $this->_item;
     }

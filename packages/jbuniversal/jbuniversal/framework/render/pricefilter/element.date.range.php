@@ -34,7 +34,7 @@ class JBPriceFilterElementDateRange extends JBPriceFilterElementDate
 
         $html[] = '<label for="' . $this->_getId('1') . '">' . JText::_('JBZOO_FROM') . '</label>';
         $html[] = $this->_html->calendar(
-            $this->_getName('0', '0'),
+            $this->_getName(),
             $value[0],
             $this->_attrs,
             $this->_getId('1', true),
@@ -45,7 +45,7 @@ class JBPriceFilterElementDateRange extends JBPriceFilterElementDate
 
         $html[] = '<label for="' . $this->_getId('2') . '">' . JText::_('JBZOO_TO') . '</label>';
         $html[] = $this->_html->calendar(
-            $this->_getName('1', '0'),
+            $this->_getName(),
             $value[1],
             $this->_attrs,
             $this->_getId('2', true),

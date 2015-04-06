@@ -26,6 +26,7 @@ class JBFilterElementCategoryHidden extends JBFilterElementCategory
      */
     public function html()
     {
+        $this->_isMultiple = false;
         return $this->app->jbhtml->hidden(
             $this->_getName(),
             $this->app->jbrequest->getSystem('category', ''),

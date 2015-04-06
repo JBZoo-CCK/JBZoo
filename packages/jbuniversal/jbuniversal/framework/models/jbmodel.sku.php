@@ -37,6 +37,16 @@ class JBModelSku extends JBModel
     }
 
     /**
+     * Get the unique id(primary key) for element
+     * @param string $id Identifier of price element
+     * @return int|bool
+     */
+    public function getId($id)
+    {
+        return $id;
+    }
+
+    /**
      * Get id of value by value and param_id
      * @param $value
      * @param $param_id
@@ -46,12 +56,12 @@ class JBModelSku extends JBModel
     public function getValueId($value, $element_id, $param_id)
     {
         $select = $this->_getSelect()
-            ->select('id')
-            ->from(ZOO_TABLE_JBZOO_SKU)
-            ->where('value_s = ?', $value)
-            ->where('element_id = ?', $element_id)
-            ->where('param_id = ?', $param_id)
-            ->limit(1);
+                       ->select('id')
+                       ->from(ZOO_TABLE_JBZOO_SKU)
+                       ->where('value_s = ?', $value)
+                       ->where('element_id = ?', $element_id)
+                       ->where('param_id = ?', $param_id)
+                       ->limit(1);
 
         $this->_db->setQuery($select);
 
@@ -59,15 +69,14 @@ class JBModelSku extends JBModel
     }
 
     /**
-     * Get item by sku
-     * @param $sku
+     * Get item id by sku
+     * @param string $sku
      * @return mixed|null
      */
     public function getItemIdBySku($sku)
     {
         $sku = JString::trim($sku);
-
-        if (!empty($sku)) {
+        if ($sku !== '') {
             $select = $this
                 ->_getSelect()
                 ->clear('select')
@@ -79,7 +88,7 @@ class JBModelSku extends JBModel
                 ->limit(1);
 
             if ($row = $this->fetchRow($select)) {
-                $row = $this->_groupBy($row, 'item_id');
+                $row = $this->_groupBy((array)$row, 'item_id');
                 reset($row);
 
                 return current($row);
@@ -89,4 +98,83 @@ class JBModelSku extends JBModel
         return null;
     }
 
+    /**
+     * Save to index table
+     * @param array $data
+     * @return bool
+     */
+    public function _indexPrice(array $data)
+    {
+        if (count($data)) {
+            foreach ($data as $values) {
+
+                $eav = array(
+                    'value_s'    => $values['value_s'],
+                    'value_n'    => $values['value_n'],
+                    'value_d'    => $values['value_d'],
+                    'item_id'    => $values['item_id'],
+                    'element_id' => $values['element_id'],
+                    'param_id'   => $values['param_id'],
+                    'variant'    => $values['variant']
+                );
+
+                $this->_insert($eav, ZOO_TABLE_JBZOO_SKU);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Update SKU by item
+     *
+     * @param Item $item
+     *
+     * @return bool
+     */
+    public function updateItemSku(Item $item)
+    {
+        if ($item) {
+            $elements = $this->app->jbprice->getItemPrices($item);
+            if (!empty($elements)) {
+                foreach ($elements as $key => $element) {
+                    //$this->removeByItem($item, $key);
+                    $this->_indexPrice($element->getIndexData());
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Remove columns from #__jbzoo_config when element deleted
+     * @param $identifier
+     */
+    public function removeByElement($identifier)
+    {
+
+    }
+
+    /**
+     * Remove rows by item
+     * @param Item  $item
+     * @param       $identifier
+     * @return bool
+     */
+    public function removeByItem(Item $item, $identifier)
+    {
+        return false;
+    }
+
+    /**
+     * Insert elements if they are not exists
+     * @return $this
+     */
+    public function updateParams()
+    {
+        return $this;
+    }
 }

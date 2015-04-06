@@ -12,9 +12,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (count($list) > 1) {
-    echo $this->_jbhtml->currencyToggle($default, $rates, array(
-        'target'      => $this->parentSelector(),
-        'showDefault' => (in_array(JBCartValue::DEFAULT_CODE, $list) ? true : false),
-    ), true);
-}
+echo $this->_jbhtml->currencyToggle($default, $rates, array(
+    'target'      => $this->parentSelector(),
+    'showDefault' => $showDefault
+), true);
