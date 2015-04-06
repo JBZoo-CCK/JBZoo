@@ -38,6 +38,7 @@ class JBHttpHelper extends AppHelper
         'encoding'  => 'UTF-8', // source encoding. For example, WINDOWS-1251
         'debug'     => 0, // show exceptions
         'certpath'  => null,
+        'follow'    => null,
         'driver'    => null, // force using driver (curl, socket, stream)
     );
 
@@ -54,6 +55,29 @@ class JBHttpHelper extends AppHelper
         parent::__construct($app);
 
         $this->_jbcache = $this->app->jbcache;
+    }
+
+    /**
+     * Simple loading url (if requst doesn't work)
+     * @param string $url
+     * @param array  $getParams
+     * @return string
+     */
+    public function url($url, $getParams = array())
+    {
+        if (
+            @ini_get('allow_url_fopen')
+            && (function_exists('file_get_contents') && is_callable('file_get_contents'))
+        ) {
+            $url     = $this->app->jbrouter->addParamsToUrl($url, $getParams);
+            $context = stream_context_create(array('http' => array(
+                'timeout' => $this->_defaultOptions['timeout']
+            )));
+
+            return @file_get_contents($url, false, $context);
+        }
+
+        return null;
     }
 
     /**
@@ -91,19 +115,7 @@ class JBHttpHelper extends AppHelper
             }
         }
 
-        $clientParams = null;
-
-        if ($options->get('certpath')) {
-            $params = array('curl' => array('certpath' => $options->get('certpath')));
-
-            if (class_exists('JRegistry')) { // Old Joomla (2.5.x)
-                $clientParams = new JRegistry($params);
-            } else if (class_exists('Joomla\Registry\Registry')) { // Joomla 3.x
-                $clientParams = new Joomla\Registry\Registry($params);
-            }
-        }
-
-        $httpClient = JHttpFactory::getHttp($clientParams, $options->get('driver'));
+        $httpClient = $this->_getClient($options);
 
         $result = null;
 
@@ -168,6 +180,33 @@ class JBHttpHelper extends AppHelper
         }
 
         return $result;
+    }
+
+    /**
+     * @param JSONData $options
+     * @return JHttp
+     */
+    protected function _getClient($options)
+    {
+        $clientParams = array();
+
+        if ($options->get('certpath')) {
+            $clientParams['curl'] = array('certpath' => $options->get('certpath'));
+        }
+
+        if ($options->get('follow') !== null) {
+            $clientParams['follow_location'] = (bool)$options->get('follow');
+        }
+
+        if (class_exists('JRegistry')) { // Old Joomla (2.5.x)
+            $clientParams = new JRegistry($clientParams);
+        } else if (class_exists('Joomla\Registry\Registry')) { // Joomla 3.x
+            $clientParams = new Joomla\Registry\Registry($clientParams);
+        }
+
+        $httpClient = JHttpFactory::getHttp($clientParams, $options->get('driver'));
+
+        return $httpClient;
     }
 
 }
