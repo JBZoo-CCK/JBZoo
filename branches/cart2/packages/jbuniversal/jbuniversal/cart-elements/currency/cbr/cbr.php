@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -22,28 +21,33 @@ class JBCartElementCurrencyCBR extends JBCartElementCurrency
     protected $_apiUrl = 'http://www.cbr.ru/scripts/XML_daily.asp';
 
     /**
+     * Simple cache
+     * @type array
+     */
+    protected $_curList = null;
+
+    /**
      * Parse CBR XML
      * TODO: Sometimes SimpleXML doesn't work, so we used preg_matches
-     *
      * @param null $currency
      * @return array|void
      */
     public function _loadData($currency = null)
     {
         if (is_null($this->_curList)) {
-
             $this->_curList = array();
 
-            $url = $this->_apiUrl;
             $params = array();
             if ((int)$this->config->get('force_date', 1)) {
-                $params = array('date_req' => date("d/m/Y"));
+                $params['date_req'] = date("d/m/Y");
             }
 
-            $xmlString = $this->_loadUrl($url, $params);
+            $xmlString = $this->app->jbhttp->url($this->_apiUrl, $params);
             if (empty($xmlString)) {
-                $this->_curList = array();
+                $xmlString = $this->_loadUrl($this->_apiUrl, $params);
+            }
 
+            if (empty($xmlString)) {
                 return $this->_curList;
             }
 
