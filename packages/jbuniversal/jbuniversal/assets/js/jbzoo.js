@@ -186,11 +186,21 @@
         /**
          * Simple system message like alert
          * @param message
-         * @param callback
-         * @returns {*}
+         * @param closeCallback
          */
-        alert: function (message, callback) {
-            return JBZoo.alert(message, callback);
+        alert: function (message, closeCallback) {
+            if ($.isFunction(swal)) {
+                swal({
+                    title            : message,
+                    animation        : false,
+                    allowOutsideClick: true,
+                    confirmButtonText: JBZoo.getVar('JBZOO_DIALOGBOX_OK', 'OK')
+                }, closeCallback);
+
+            } else {
+                alert(message);
+                closeCallback()
+            }
         },
 
         /**
@@ -198,9 +208,43 @@
          * @param message
          * @param yesCallback
          * @param noCallback
+         * @param context
          */
-        confirm: function (message, yesCallback, noCallback) {
-            return JBZoo.confirm(message, yesCallback, noCallback, this);
+        confirm: function (message, yesCallback, noCallback, context) {
+
+            noCallback = noCallback || $.noop;
+            yesCallback = yesCallback || $.noop;
+
+            if ($.isFunction(swal)) {
+                swal({
+                        title            : message,
+                        animation        : false,
+                        showCancelButton : true,
+                        closeOnConfirm   : true,
+                        closeOnCancel    : true,
+                        allowOutsideClick: false,
+                        confirmButtonText: JBZoo.getVar('JBZOO_DIALOGBOX_OK', 'OK'),
+                        cancelButtonText : JBZoo.getVar('JBZOO_DIALOGBOX_CANCEL', 'Cancel')
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            if ($.isFunction(yesCallback)) {
+                                yesCallback.apply(context)
+                            }
+                        } else {
+                            if ($.isFunction(noCallback)) {
+                                noCallback.apply(context)
+                            }
+                        }
+                    });
+
+            } else {
+                if (confirm(message)) {
+                    $.isFunction(yesCallback) && yesCallback.apply(context);
+                } else {
+                    $.isFunction(noCallback) && noCallback.apply(context);
+                }
+            }
         },
 
         /**

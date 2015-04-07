@@ -484,7 +484,6 @@
             $.error('JBZoo / ' + message);
         },
 
-
         /**
          * Deprecated! Create own JBZoo.widget() and call this.ajax()
          * @param options
@@ -529,6 +528,26 @@
             }
 
             return defaultValue;
+        },
+
+        /**
+         * Simple system message like alert
+         * @param message
+         * @param closeCallback
+         */
+        alert: function (message, closeCallback) {
+            $('body').JBZoo().JBZoo('alert', message, closeCallback);
+        },
+
+        /**
+         * Confirm dialogbox
+         * @param message
+         * @param yesCallback
+         * @param noCallback
+         * @param context
+         */
+        confirm: function (message, yesCallback, noCallback, context) {
+            $('body').JBZoo().JBZoo('confirm', message, yesCallback, noCallback, context);
         }
 
     });
