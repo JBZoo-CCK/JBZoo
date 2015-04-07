@@ -20,45 +20,37 @@
     <description>JBZOO_ELEMENT_PRICE_VALUE_DESC</description>
 
     <params group="render">
-
-        <param name="only_price_mode" type="list" default="1" label="JBZOO_JBPRICE_ONLY_PRICE_MODE"
-               description="JBZOO_JBPRICE_ONLY_PRICE_MODE_DESC">
-            <option value="1">JBZOO_JBPRICE_ONLY_PRICE_MODE_FULL</option>
-            <option value="2">JBZOO_JBPRICE_ONLY_PRICE_MODE_PRICE</option>
-            <option value="3">JBZOO_JBPRICE_ONLY_PRICE_MODE_TOTAL</option>
-            <option value="4">JBZOO_JBPRICE_ONLY_PRICE_MODE_DISCOUNT</option>
-            <option value="5">JBZOO_JBPRICE_ONLY_PRICE_MODE_SAVE</option>
+        <param name="layout" type="list" default="full_div" label="JBZOO_ELEMENT_PRICE_VALUE_LAYOUT"
+               description="JBZOO_ELEMENT_PRICE_VALUE_LAYOUT_DESC">
+            <option value="full-div">JBZOO_ELEMENT_PRICE_VALUE_LAYOUT_FULL_DIV</option>
+            <option value="full-dl">JBZOO_ELEMENT_PRICE_VALUE_LAYOUT_FULL_DL</option>
+            <option value="full-table">JBZOO_ELEMENT_PRICE_VALUE_LAYOUT_FULL_TABLE</option>
+            <option value="price">JBZOO_ELEMENT_PRICE_VALUE_LAYOUT_PRICE</option>
+            <option value="total">JBZOO_ELEMENT_PRICE_VALUE_LAYOUT_TOTAL</option>
+            <option value="discount">JBZOO_ELEMENT_PRICE_VALUE_LAYOUT_DISCOUNT</option>
+            <option value="save">JBZOO_ELEMENT_PRICE_VALUE_LAYOUT_SAVE</option>
         </param>
 
-        <param name="show_empty" type="jbbool" default="1" label="JBZOO_JBPRICE_SHOW_EMPTY_VALUE"
-               description="JBZOO_JBPRICE_SHOW_EMPTY_VALUE_DESC"/>
+        <param name="empty_show" type="jbbool" default="1" label="JBZOO_ELEMENT_PRICE_VALUE_EMPTY_SHOW"
+               description="JBZOO_ELEMENT_PRICE_VALUE_EMPTY_SHOW_DESC"/>
 
-        <param name="empty_text" type="text" default="" label="JBZOO_JBPRICE_EMPTY_VALUE_TEXT"
-               description="JBZOO_JBPRICE_EMPTY_VALUE_TEXT_DESC"/>
-
+        <param name="empty_text" type="text" label="JBZOO_ELEMENT_PRICE_VALUE_EMPTY_TEXT"
+               description="JBZOO_ELEMENT_PRICE_VALUE_EMPTY_TEXT_DESC"/>
     </params>
 
     <params group="filter">
-
-        <param name="@spacer_value" type="jbspacer" default="JBZOO_FILTER_JBPRICE_VALUE"/>
-
-        <param name="jbzoo_filter_render" type="hidden" value="value" default="value"/>
-
-        <param name="jbzoo_filter_template" type="list" label="JBZOO_FILTER_JBPRICE_TEMPLATE_VALUE"
-               description="JBZOO_FILTER_JBPRICE_TEMPLATE_VALUE_DESC" default="slider">
-
-            <option value="0">JBZOO_FILTER_JBPRICE_TEMPLATE_NONE</option>
-            <option value="simple">JBZOO_FILTER_JBPRICE_TEMPLATE_SIMPLE</option>
-            <option value="range">JBZOO_ELEMENT_TEMPLATE_TEXT_RANGE</option>
-            <option value="slider">JBZOO_ELEMENT_TEMPLATE_SLIDER</option>
-
+        <param name="jbzoo_filter_render" type="list" label="JBZOO_FILTER_JBPRICE_TEMPLATE_VALUE"
+               description="JBZOO_FILTER_JBPRICE_TEMPLATE_VALUE_DESC" default="value-slider-input">
+            <option value="value-slider-input">JBZOO_FILTER_JBPRICE_TEMPLATE_SLIDER_INPUT</option>
+            <option value="value-slider">JBZOO_FILTER_JBPRICE_TEMPLATE_SLIDER</option>
+            <option value="value-range">JBZOO_FILTER_JBPRICE_TEMPLATE_RANGE</option>
+            <option value="text">JBZOO_FILTER_JBPRICE_TEMPLATE_SIMPLE</option>
+            <option value="hidden">JBZOO_FILTER_JBPRICE_TEMPLATE_HIDDEN</option>
         </param>
 
-        <param name="jbzoo_filter_currency_default" type="jbcurrency" default="EUR"
+        <param name="jbzoo_filter_currency_default" type="jbcurrency"
                label="JBZOO_FILTER_JBPRICE_CURRENCY_DEFAULT"
                description="JBZOO_FILTER_JBPRICE_CURRENCY_DEFAULT_DESC" multiple="0"/>
-
-        <param name="@spacer_slider" type="jbspacer" default="JBZOO_SLIDER_ONLY"/>
 
         <param name="jbzoo_filter_slider_auto" type="jbbool" default="0" label="JBZOO_FILTER_SLIDER_AUTO"
                description="JBZOO_FILTER_SLIDER_AUTO_DESC"/>
@@ -77,7 +69,6 @@
 
         <param name="jbzoo_filter_placeholder" type="text" label="JBZOO_FILTER_PLACEHOLDER"
                description="JBZOO_FILTER_PLACEHOLDER_DESC"/>
-
     </params>
 
 </element>

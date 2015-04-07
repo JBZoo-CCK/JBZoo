@@ -17,12 +17,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementPriceValue extends JBCartElementPrice
 {
-    const PRICE_VIEW_FULL     = 1;
-    const PRICE_VIEW_PRICE    = 2;
-    const PRICE_VIEW_TOTAL    = 3;
-    const PRICE_VIEW_DISCOUNT = 4;
-    const PRICE_VIEW_SAVE     = 5;
-
     /**
      * Check if element has value
      * @param array $params
@@ -32,8 +26,7 @@ class JBCartElementPriceValue extends JBCartElementPrice
     {
         $value = $this->get('value', '');
 
-        return ($value !== '') || ((int)$params->get('show_empty', 1) && $value === '0');
-    }
+        return ($value !== '') || ((int)$params->get('empty_show', 1) && $value === '0');    }
 
     /**
      * Get elements search data
@@ -74,9 +67,8 @@ class JBCartElementPriceValue extends JBCartElementPrice
             $discount = $prices['save'];
         }
 
-        if ($layout = $this->getLayout()) {
+        if ($layout = $this->getLayout($params->get('layout', 'full_div') . '.php')) {
             return $this->renderLayout($layout, array(
-                'mode'     => (int)$params->get('only_price_mode', 1),
                 'total'    => JBCart::val($prices['total']),
                 'price'    => JBCart::val($prices['price']),
                 'save'     => JBCart::val($prices['save'])->abs(),
@@ -133,18 +125,6 @@ class JBCartElementPriceValue extends JBCartElementPrice
     public function renderAjax($params = array())
     {
         return $this->render($params);
-    }
-
-    /**
-     * Load elements css/js assets
-     * @return $this
-     */
-    public function loadAssets()
-    {
-        parent::loadAssets();
-        $this->js('cart-elements:price/value/assets/js/value.js');
-
-        return $this;
     }
 
     /**

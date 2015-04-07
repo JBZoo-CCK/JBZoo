@@ -12,7 +12,18 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $this->_jbhtml->text($this->getControlName('value'), $value, array(
-    'JBZOO_ELEMENT_PRICE_VALUE_EDIT_PLACEHOLDER' => JText::_('JBZOO_ELEMENT_PRICE_VALUE_NAME')
-));
+/**
+ * Class JBPriceFilterElementValueHidden
+ */
+class JBPriceFilterElementValueHidden extends JBPriceFilterElementValue
+{
 
+    /**
+     * @return string
+     */
+    public function html()
+    {
+        $value = $this->_prepareValues();
+        return $this->_html->hidden($this->_getName('value'), $value['value'], 'class="jbprice-filter-value"', $this->_getId('val'));
+    }
+}
