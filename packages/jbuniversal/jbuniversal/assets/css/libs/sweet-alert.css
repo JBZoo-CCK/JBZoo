@@ -5,12 +5,6 @@
  */
 
 /* Sweet alert */
-
-body.stop-scrolling {
-    height: 100%;
-    overflow: hidden
-}
-
 .sweet-overlay {
     background-color: #000;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
