@@ -20,7 +20,7 @@
     <description>JBZOO_ELEMENT_PRICE_VALUE_DESC</description>
 
     <params group="render">
-        <param name="layout" type="list" default="full_div" label="JBZOO_ELEMENT_PRICE_VALUE_LAYOUT"
+        <param name="layout" type="list" default="full-div" label="JBZOO_ELEMENT_PRICE_VALUE_LAYOUT"
                description="JBZOO_ELEMENT_PRICE_VALUE_LAYOUT_DESC">
             <option value="full-div">JBZOO_ELEMENT_PRICE_VALUE_LAYOUT_FULL_DIV</option>
             <option value="full-dl">JBZOO_ELEMENT_PRICE_VALUE_LAYOUT_FULL_DL</option>
