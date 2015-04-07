@@ -12,7 +12,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $this->_jbhtml->text($this->getControlName('value'), $value, array(
-    'JBZOO_ELEMENT_PRICE_VALUE_EDIT_PLACEHOLDER' => JText::_('JBZOO_ELEMENT_PRICE_VALUE_NAME')
-));
+?>
+
+<span class="jbprice-value-price"><?php echo $price->html($currency); ?></span>
 

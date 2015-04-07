@@ -12,7 +12,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $this->_jbhtml->text($this->getControlName('value'), $value, array(
-    'JBZOO_ELEMENT_PRICE_VALUE_EDIT_PLACEHOLDER' => JText::_('JBZOO_ELEMENT_PRICE_VALUE_NAME')
-));
+?>
 
+<?php if (!$discount->isEmpty()) : ?>
+    <span class="jbprice-value-discount"><?php echo $save->percent($price)->text($currency); ?></span>
+<?php endif; ?>

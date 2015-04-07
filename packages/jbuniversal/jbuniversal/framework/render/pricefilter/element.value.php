@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -18,103 +17,14 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBPriceFilterElementValue extends JBPriceFilterElement
 {
-    const TEMPLATE_SLIDER = 'slider';
-    const TEMPLATE_RANGE  = 'range';
-    const TEMPLATE_SIMPLE = 'simple';
 
     /**
-     * Render HTML
      * @return string
      */
     public function html()
     {
-        $template = $this->_params->get('jbzoo_filter_template', self::TEMPLATE_SLIDER);
-        $value    = $this->_prepareValues();
-        $html     = null;
-
-        if ($template == self::TEMPLATE_SLIDER) {
-            $html = $this->renderSlider($value);
-
-        } elseif ($template == self::TEMPLATE_RANGE) {
-            $html = $this->renderRange($value);
-
-        } elseif ($template == self::TEMPLATE_SIMPLE) {
-            $html = $this->renderText($value);
-        }
-
-        return $html;
-    }
-
-    /**
-     * Render slider template
-     * @param $value
-     * @return string
-     */
-    public function renderSlider($value)
-    {
-        $categoryId = $min = $max = null;
-        $params     = array(
-            'auto' => (int)$this->_params->get('jbzoo_filter_slider_auto', 0),
-            'min'  => $this->_params->get('jbzoo_filter_slider_min', 0),
-            'max'  => $this->_params->get('jbzoo_filter_slider_max', 10000),
-            'step' => $this->_params->get('jbzoo_filter_slider_step', 100)
-        );
-        $to         = $this->_params->get('jbzoo_filter_currency_default', 'eur');
-        if ($params['auto']) {
-            $applicationId = (int)$this->_params->get('item_application_id', 0);
-            $isCatDepend   = (int)$this->_params->moduleParams->get('depend_category');
-
-            $itemType = $this->_params->get('item_type', null);
-            if ($isCatDepend) {
-                $categoryId = $this->app->jbrequest->getSystem('category');
-            }
-
-            $rangesData    = (array)JBModelValues::model()->getRangeByPrice(
-                $this->_jbprice->identifier,
-                $itemType,
-                $applicationId,
-                $categoryId
-            );
-            $params['min'] = JBCart::val($rangesData['total_min'], 'eur')->val($to);
-            $params['max'] = JBCart::val($rangesData['total_max'], 'eur')->val($to);
-        }
-        $html = $this->_html->sliderInput($params, $value['range'], $this->_getName('range'), $this->app->jbstring->getId('jsSlider-'), $to);
-
-        return $html;
-    }
-
-    /**
-     * Render range template
-     *
-     * @param $value
-     *
-     * @return string
-     */
-    public function renderRange($value)
-    {
-        $html = '<label for="' . $this->_getId('min') . '">' . JText::_('JBZOO_FROM') . '</label>';
-
-        $html .= $this->_html->text($this->_getName('min'), $value['min'], 'class="val_min"',
-            $this->_getId('min'));
-
-        $html .= '<label for="' . $this->_getId('max') . '">' . JText::_('JBZOO_TO') . '</label>';
-
-        $html .= $this->_html->text($this->_getName('max'), $value['max'], 'class="val_max"',
-            $this->_getId('max'));
-
-        return '<div class="jbprice-ranges">' . $html . '</div>';
-    }
-
-    /**
-     * Render simple template
-     *
-     * @param $value
-     *
-     * @return string
-     */
-    public function renderText($value)
-    {
-        return $this->_html->text($this->_getName('value'), $value['value'], 'class="val"', $this->_getId('val'));
+        $value = $this->_prepareValues();
+        return $this->_html->text($this->_getName('value'), $value['value'], 'class="jbprice-filter-value"', $this->_getId('val'));
     }
 
     /**
@@ -126,6 +36,14 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
     protected function _getName($key = null, $postFix = null)
     {
         return parent::_getName() . '[' . $key . ']' . ($postFix !== null ? '[' . $postFix . ']' : null);
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function _getCurrency()
+    {
+        return $this->_params->get('jbzoo_filter_currency_default', 'default_cur');
     }
 
     /**
