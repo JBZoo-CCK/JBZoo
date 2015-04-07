@@ -26,7 +26,8 @@ class JBCartElementPriceValue extends JBCartElementPrice
     {
         $value = $this->get('value', '');
 
-        return ($value !== '') || ((int)$params->get('empty_show', 1) && $value === '0');    }
+        return ($value !== '') || ((int)$params->get('empty_show', 1) && $value === '0');
+    }
 
     /**
      * Get elements search data
@@ -67,14 +68,22 @@ class JBCartElementPriceValue extends JBCartElementPrice
             $discount = $prices['save'];
         }
 
-        if ($layout = $this->getLayout($params->get('layout', 'full_div') . '.php')) {
+        $total   = JBCart::val($prices['total']);
+        $message = JText::_(JString::trim($params->get('empty_text', '')));
+
+        $layout = $params->get('layout', 'full-div');
+        if ($total->isEmpty() && !empty($message)) {
+            $layout = 'empty';
+        }
+
+        if ($layout = $this->getLayout($layout . '.php')) {
             return $this->renderLayout($layout, array(
-                'total'    => JBCart::val($prices['total']),
+                'total'    => $total,
                 'price'    => JBCart::val($prices['price']),
                 'save'     => JBCart::val($prices['save'])->abs(),
                 'discount' => JBCart::val($discount)->abs(),
                 'currency' => $this->currency(),
-                'message'  => JString::trim($params->get('empty_text', ''))
+                'message'  => $message,
             ));
         }
 
