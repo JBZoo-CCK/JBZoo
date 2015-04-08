@@ -64,12 +64,20 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
 
         $message = JString::trim($params->get('empty_text', ''));
 
-        if ((int)$params->get('ispercent', 1)) {
+        if ((int)$params->get('percent_show', 1)) {
             $price    = JBCart::val($prices['price']);
             $save     = JBCart::val($prices['save'])->abs();
             $discount = $save->percent($price);
         } else {
             $discount = JBCart::val($prices['save']);
+        }
+
+        if ((int)$params->get('percent_round', 1)) {
+            $discount->setFormat(array(
+                'round_value'  => 0,
+                'num_decimals' => 0,
+                'round_type'   => 'classic',
+            ));
         }
 
         $layout = $params->get('layout', 'icon-text');
