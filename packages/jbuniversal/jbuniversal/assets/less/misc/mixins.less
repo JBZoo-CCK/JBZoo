@@ -266,7 +266,7 @@
     }
 
     // Sizing shortcuts
-    .size(@width, @height) {
+    .size(@width, @height, @display : block) {
         height    : @height;
         min-height: @height;
         max-height: @height;
@@ -274,6 +274,8 @@
         width    : @width;
         min-width: @width;
         max-width: @width;
+
+        display: @display;
     }
 
     .square(@size) {
