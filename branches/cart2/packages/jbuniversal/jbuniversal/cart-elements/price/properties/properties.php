@@ -18,7 +18,6 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceProperties extends JBCartElementPrice
 {
     /**
-     * Check if element has value
      * @param array $params
      * @return bool
      */
@@ -27,6 +26,7 @@ class JBCartElementPriceProperties extends JBCartElementPrice
         $length = $this->getValue(true, 'length');
         $height = $this->getValue(true, 'height');
         $width  = $this->getValue(true, 'width');
+
         if (!empty($length) || !empty($height) || !empty($width)) {
             return true;
         }
@@ -43,13 +43,11 @@ class JBCartElementPriceProperties extends JBCartElementPrice
     {
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderEditLayout($layout, array(
-                'height' => $this->get('height', ''),
-                'length' => $this->get('length', ''),
-                'width'  => $this->get('width', ''),
+                'height' => $this->getValue(true, 'height'),
+                'length' => $this->getValue(true, 'length'),
+                'width'  => $this->getValue(true, 'width')
             ));
         }
-
-        return false;
     }
 
     /**
@@ -84,7 +82,6 @@ class JBCartElementPriceProperties extends JBCartElementPrice
             $value = call_user_func_array('parent::getValue', $key);
         }
 
-        //093 661 8937
         return $value;
     }
 }

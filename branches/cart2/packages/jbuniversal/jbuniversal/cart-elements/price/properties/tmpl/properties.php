@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,7 +12,16 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo
-'<div class="jbprice-height jsPriceHeight">', JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_HEIGHT_UNIT'), ': ', $height, '</div>',
-'<div class="jbprice-length jsPriceLength">', JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_LENGTH_UNIT'), ': ', $length, '</div>',
-'<div class="jbprice-width jsPriceWidth">', JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_WIDTH_UNIT'), ': ', $width, '</div>';
+?>
+
+<span class="jbprice-properties-height">
+    <?php echo JText::sprintf('JBZOO_ELEMENT_PRICE_PROPERTIES_HEIGHT_UNIT', $height); ?>
+</span>
+
+<span class="jbprice-properties-length">
+    <?php echo JText::sprintf('JBZOO_ELEMENT_PRICE_PROPERTIES_LENGTH_UNIT', $length); ?>
+</span>
+
+<span class="jbprice-properties-width">
+    <?php echo JText::sprintf('JBZOO_ELEMENT_PRICE_PROPERTIES_WIDTH_UNIT', $width); ?>
+</span>
