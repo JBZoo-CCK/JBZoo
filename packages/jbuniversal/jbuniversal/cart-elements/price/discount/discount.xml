@@ -21,27 +21,26 @@
 
     <params group="render">
 
-        <param name="sale_show" type="list" default="4" label="JBZOO_ELEMENT_PRICE_DISCOUNT_SALE_SHOW"
-               description="JBZOO_ELEMENT_PRICE_DISCOUNT_SALE_SHOW_DESC">
-            <option value="2">JBZOO_JBPRICE_SALE_TEXT_SIMPLE</option>
-            <option value="3">JBZOO_JBPRICE_SALE_ICON_SIMPLE</option>
-            <option value="4">JBZOO_JBPRICE_SALE_ICON_VALUE</option>
+        <param name="layout" type="list" default="icon-text" label="JBZOO_ELEMENT_PRICE_DISCOUNT_LAYOUT"
+               description="JBZOO_ELEMENT_PRICE_DISCOUNT_LAYOUT_DESC">
+            <option value="text">JBZOO_ELEMENT_PRICE_DISCOUNT_LAYOUT_TEXT</option>
+            <option value="icon">JBZOO_ELEMENT_PRICE_DISCOUNT_LAYOUT_ICON</option>
+            <option value="icon-text">JBZOO_ELEMENT_PRICE_DISCOUNT_LAYOUT_ICON_TEXT</option>
         </param>
 
-        <param name="show_empty" type="jbbool" default="1" label="JBZOO_JBPRICE_SHOW_EMPTY_VALUE"
-               description="JBZOO_JBPRICE_SHOW_EMPTY_VALUE_DESC"/>
+        <param name="ispercent" type="jbbool" default="1" label="JBZOO_ELEMENT_PRICE_DISCOUNT_ISPERCENT"
+               description="JBZOO_ELEMENT_PRICE_DISCOUNT_ISPERCENT_DESC"/>
 
-        <param name="empty_text" type="text" default="" label="JBZOO_JBPRICE_EMPTY_VALUE_TEXT"
-               description="JBZOO_JBPRICE_EMPTY_VALUE_TEXT_DESC"/>
+        <param name="empty_show" type="jbbool" default="1" label="JBZOO_ELEMENT_PRICE_DISCOUNT_EMPTY_SHOW"
+               description="JBZOO_ELEMENT_PRICE_DISCOUNT_EMPTY_SHOW_DESC"/>
+
+        <param name="empty_text" type="text" default="" label="JBZOO_ELEMENT_PRICE_DISCOUNT_EMPTY_TEXT"
+               description="JBZOO_ELEMENT_PRICE_DISCOUNT_EMPTY_TEXT_DESC"/>
     </params>
 
     <params group="filter">
-        <param name="jbzoo_filter_render"
-               type="list"
-               label="JBZOO_ELEMENT_TEMPLATE"
-               description="JBZOO_ELEMENT_TEMPLATE_DESC"
-               default="discount-jqueryui"
-                >
+        <param name="jbzoo_filter_render" type="list" label="JBZOO_ELEMENT_TEMPLATE"
+               description="JBZOO_ELEMENT_TEMPLATE_DESC" default="discount-jqueryui">
             <option value="discount-jqueryui">JBZOO_ELEMENT_TEMPLATE_JQUERYUI</option>
             <option value="discount-radio">JBZOO_ELEMENT_TEMPLATE_RADIO</option>
             <option value="discount-select">JBZOO_ELEMENT_TEMPLATE_SELECT</option>
@@ -49,7 +48,7 @@
         </param>
 
         <param name="jbzoo_filter_default" type="text" label="JBZOO_FILTER_DEFAULT"
-               description="JBZOO_FILTER_DEFAULT_DESC" />
+               description="JBZOO_FILTER_DEFAULT_DESC"/>
 
     </params>
 

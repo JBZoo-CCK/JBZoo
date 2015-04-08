@@ -17,5 +17,21 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBPriceFilterElementDiscountJQueryUI extends JBPriceFilterElementDiscount
 {
+    /**
+     * Render HTML code for element
+     * @return string|null
+     */
+    public function html()
+    {
+        $options = $this->_getValues();
+        unset($this->_attrs['id']);
 
+        return $this->_html->buttonsJQueryUI(
+            $this->_createOptionsList($options),
+            $this->_getName(),
+            $this->_attrs,
+            $this->_value,
+            $this->_getId('discount', true)
+        );
+    }
 }
