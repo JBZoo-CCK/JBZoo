@@ -20,9 +20,7 @@
             },
 
             'change .jsBalanceRadio': function (e, $this) {
-
                 var value = $(this).val();
-
                 $this.change(value);
             },
 
@@ -33,7 +31,6 @@
             change: function (value) {
                 if (value == 1) {
                     this.$('.jsBalanceInput').removeAttr('disabled').focus();
-
                 } else {
                     this.$('.jsBalanceInput').val('').attr('disabled', 'disabled');
 

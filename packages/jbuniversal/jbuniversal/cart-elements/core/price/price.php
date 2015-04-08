@@ -145,22 +145,6 @@ abstract class JBCartElementPrice extends JBCartElement
     abstract public function edit();
 
     /**
-     * Renders the element
-     * @param array $params
-     * @return mixed|string
-     */
-    public function render($params = array())
-    {
-        if ($layout = $this->getLayout()) {
-            return $this->renderLayout($layout, array(
-                'params' => $params,
-            ));
-        }
-
-        return false;
-    }
-
-    /**
      *  Get parameter form object to render input form
      * @return Object
      */
@@ -434,12 +418,9 @@ abstract class JBCartElementPrice extends JBCartElement
     public function getOptions($label = true)
     {
         $options = $this->parseOptions(false);
-        if (!$this->hasOptions())
-        {
+        if (!$this->hasOptions()) {
             $options = $this->_jbprice->elementOptions($this->identifier);
-        }
-        elseif ($this->hasOptions() && !$this->showAll)
-        {
+        } elseif ($this->hasOptions() && !$this->showAll) {
             $selected = $this->_jbprice->elementOptions($this->identifier);
             $options  = array_intersect_key($selected, $options);
         }
@@ -516,7 +497,7 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function getLabel($label = '')
     {
-        $label  = JString::trim($label);
+        $label = JString::trim($label);
         if (!isset($label{1}) || $label == 'ELEMENT_NAME') {
             $label = '- ' . $this->getName() . ' -';
         }
@@ -564,8 +545,16 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function loadAssets()
     {
+        // Important JBPrice JS
         $this->js('cart-elements:core/price/assets/js/price.js');
-        parent::loadAssets();
+
+        // parent was realoded for JBPrice caching
+        $group = $this->getElementGroup();
+        $type  = $this->getElementType();
+
+        $this->js('cart-elements:' . $group . '/' . $type . '/assets/js/' . $type . '.js');
+        $this->css('cart-elements:' . $group . '/' . $type . '/assets/css/' . $type . '.css');
+        $this->less('cart-elements:' . $group . '/' . $type . '/assets/less/' . $type . '.less');
 
         return $this;
     }
@@ -619,7 +608,7 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * @param string $value
-     * @param array $symbols
+     * @param array  $symbols
      * @return mixed
      */
     public function clearSymbols($value, $symbols = array('%', '+', '-'))
@@ -671,9 +660,9 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function __clone()
     {
-        $this->_data  = clone($this->_data);
-        $this->config = clone($this->config);
-        $this->prices = null;
+        $this->_data   = clone($this->_data);
+        $this->config  = clone($this->config);
+        $this->prices  = null;
         $this->variant = null;
     }
 }

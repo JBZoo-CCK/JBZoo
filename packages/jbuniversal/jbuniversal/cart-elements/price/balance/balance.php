@@ -17,9 +17,9 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementPriceBalance extends JBCartElementPrice
 {
-    const NOT_AVAILABLE = 0;
-    const AVAILABLE     = -1;
-    const UNDER_ORDER   = -2;
+    const COUNT_AVAILABLE_NO  = 0;
+    const COUNT_AVAILABLE_YES = -1;
+    const COUNT_REQUEST       = -2;
 
     /**
      * Check if element has value
@@ -38,7 +38,7 @@ class JBCartElementPriceBalance extends JBCartElementPrice
     public function getSearchData()
     {
         $value = $this->getValue();
-        if ($value == self::AVAILABLE || $value > 0) {
+        if ($value == self::COUNT_AVAILABLE_YES || $value > 0) {
             return 1;
         }
 
@@ -61,45 +61,23 @@ class JBCartElementPriceBalance extends JBCartElementPrice
     }
 
     /**
-     * @param array $params
-     * @return array|mixed|null|string
-     */
-    public function render($params = array())
-    {
-        $template = $params->get('template', 'simple');
-        $useStock = (int)$this->config->get('balance_mode', 1);
-
-        if ($layout = $this->getLayout($template . '.php')) {
-            return $this->renderLayout($layout, array(
-                'balance'   => $this->getValue(),
-                'textNo'    => '<span class="not-available">' . JText::_('JBZOO_JBPRICE_NOT_AVAILABLE') . '</span>',
-                'textYes'   => '<span class="available">' . JText::_('JBZOO_JBPRICE_AVAILABLE') . '</span>',
-                'textOrder' => '<span class="under-order">' . JText::_('JBZOO_JBPRICE_BALANCE_UNDER_ORDER') . '</span>',
-                'useStock'  => $useStock
-            ));
-        }
-
-        return null;
-    }
-
-    /**
      * Check if item in stock
      * @param $quantity
      * @return bool
      */
     public function inStock($quantity)
     {
-        if (!(int)$this->config->get('balance_mode', 1)) {
+        if (!$this->_isUseStock()) {
             return true;
         }
 
         $quantity = $this->app->jbvars->number($quantity);
         $inStock  = $this->getValue();
 
-        if ($inStock == self::AVAILABLE) {
+        if ($inStock == self::COUNT_AVAILABLE_YES) {
             return true;
 
-        } elseif (($inStock == self::NOT_AVAILABLE) || ($inStock == self::UNDER_ORDER)) {
+        } elseif (($inStock == self::COUNT_AVAILABLE_NO) || ($inStock == self::COUNT_REQUEST)) {
             return false;
 
         } elseif ($inStock >= $quantity) {
@@ -119,7 +97,7 @@ class JBCartElementPriceBalance extends JBCartElementPrice
         $quantity = $this->app->jbvars->number($quantity);
 
         $value = $this->getValue();
-        if (!(int)$this->config->get('balance_mode', 1) || $value == self::AVAILABLE) {
+        if (!$this->_isUseStock() || $value == self::COUNT_AVAILABLE_YES) {
             return true;
         }
 
@@ -160,5 +138,25 @@ class JBCartElementPriceBalance extends JBCartElementPrice
         }
 
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    protected function _isUseStock()
+    {
+        return (int)$this->config->get('use-stock', 1);
+    }
+
+    /**
+     * @return array
+     */
+    protected function _getList()
+    {
+        return array(
+            self::COUNT_AVAILABLE_NO  => JText::_('JBZOO_ELEMENT_PRICE_BALANCE_EDIT_AVAILABLE_NO'),
+            self::COUNT_AVAILABLE_YES => JText::_('JBZOO_ELEMENT_PRICE_BALANCE_EDIT_UNLIMITED'),
+            self::COUNT_REQUEST       => JText::_('JBZOO_ELEMENT_PRICE_BALANCE_EDIT_REQUEST')
+        );
     }
 }
