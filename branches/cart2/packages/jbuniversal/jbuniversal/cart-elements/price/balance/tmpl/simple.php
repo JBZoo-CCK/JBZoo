@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -11,20 +10,35 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
-<div class="jbprice-balance jsJBPriceBalance">
-    <span class="balance">
-        <?php if (!$useStock) {
-            echo $textYes;
+defined('_JEXEC') or die('Restricted access');
 
-        } elseif ($balance == 0) {
-            echo $textNo;
+$value      = $this->getValue();
+$isUseStock = $this->_isUseStock();
 
-        } elseif ($balance == -2) {
-            echo $textOrder;
+?>
 
-        } else {
-            echo $textYes;
-        } ?>
-    </span>
-</div>
+<span class="jbprice-balance">
+
+    <?php if (!$isUseStock) : ?>
+        <span class="jbprice-balance-available-yes">
+            <?php echo JText::_('JBZOO_ELEMENT_PRICE_BALANCE_AVAILABLE_YES'); ?>
+        </span>
+
+    <?php elseif ($value == JBCartElementPriceBalance::COUNT_REQUEST) : ?>
+        <span class="jbprice-balance-request">
+            <?php echo JText::_('JBZOO_ELEMENT_PRICE_BALANCE_REQUEST'); ?>
+        </span>
+
+    <?php elseif ($value == JBCartElementPriceBalance::COUNT_AVAILABLE_NO) : ?>
+        <span class="jbprice-balance-available-no">
+            <?php echo JText::_('JBZOO_ELEMENT_PRICE_BALANCE_AVAILABLE_NO'); ?>
+        </span>
+
+    <?php else : ?>
+        <span class="jbprice-balance-available-yes">
+            <?php echo JText::_('JBZOO_ELEMENT_PRICE_BALANCE_AVAILABLE_YES'); ?>
+        </span>
+
+    <?php endif; ?>
+
+</span>

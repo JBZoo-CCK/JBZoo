@@ -17,25 +17,22 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZOO_ELEMENT_PRICE_BALANCE_DECS</description>
+    <description>JBZOO_ELEMENT_PRICE_BALANCE_DESC</description>
 
     <params>
-        <param name="balance_mode" type="jbbool" default="1" label="JBZOO_ELEMENT_PRICE_BALANCE_BALANCE_MODE"
-               description="JBZOO_ELEMENT_PRICE_BALANCE_BALANCE_MODE_DESC"/>
+        <param name="usestock" type="jbbool" default="1" label="JBZOO_ELEMENT_PRICE_BALANCE_USESTOCK"
+               description="JBZOO_ELEMENT_PRICE_BALANCE_USESTOCK_DESC"/>
     </params>
 
     <params group="render">
-
-        <param name="template" type="radio" default="simple" label="JBZOO_ELEMENT_PRICE_BALANCE_TEMPLATE"
-               description="JBZOO_ELEMENT_PRICE_BALANCE_TEMPLATE_DESC">
-            <option value="simple">JBZOO_ELEMENT_PRICE_BALANCE_TEMPLATE_SIMPLE_OPTIONNAME</option>
-            <option value="full">JBZOO_ELEMENT_PRICE_BALANCE_TEMPLATE_FULL_OPTIONNAME</option>
+        <param name="layout" type="list" default="simple" label="JBZOO_ELEMENT_PRICE_BALANCE_LAYOUT"
+               description="JBZOO_ELEMENT_PRICE_BALANCE_LAYOUT_DESC">
+            <option value="simple">JBZOO_ELEMENT_PRICE_BALANCE_LAYOUT_SIMPLE</option>
+            <option value="full">JBZOO_ELEMENT_PRICE_BALANCE_LAYOUT_FULL</option>
         </param>
-
     </params>
 
     <params group="filter">
-
         <param name="jbzoo_filter_render" type="list" label="JBZOO_ELEMENT_TEMPLATE"
                description="JBZOO_ELEMENT_TEMPLATE_DESC" default="_auto_">
             <option value="balance-jqueryui">JBZOO_ELEMENT_TEMPLATE_JQUERYUI</option>
@@ -46,7 +43,6 @@
 
         <param name="jbzoo_filter_default" type="text" label="JBZOO_FILTER_DEFAULT"
                description="JBZOO_FILTER_DEFAULT_DESC"/>
-
     </params>
 
 </element>
