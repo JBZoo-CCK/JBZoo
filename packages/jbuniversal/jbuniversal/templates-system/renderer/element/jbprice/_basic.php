@@ -24,10 +24,7 @@ $name = (isset($params['altlabel'])) ? $params['altlabel'] : $name;
 $desc = (!empty($desc) ? $desc : JText::_('JBZOO_ELEMENT_PRICE_' . $type . '_DESC'));
 
 // create label
-$label = '<label class="hasTip row-field" title="'
-    . $desc . '" for="'
-    . $unique . '">'
-    . ucfirst($name) . '</label>';
+$label = '<label class="hasTip row-field" title="' . $desc . '" for="' . $unique . '">' . ucfirst($name) . '</label>';
 
 //create attributes for main div
 $attributes = array(
