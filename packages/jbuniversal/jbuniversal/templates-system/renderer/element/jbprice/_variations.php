@@ -41,9 +41,8 @@ if ($isRequired) {
 $name = (isset($params['altlabel'])) ? $params['altlabel'] : $name;
 $desc = (!empty($desc) ? $desc : JText::_('JBZOO_ELEMENT_PRICE_' . $type . '_DESC'));
 
-$label = '<strong class="label row-field"><span class="hasTip jbparam-label" title="'
-    . $desc . '">'
-    . ucfirst($name) . '</span>'
+$label = '<strong class="label row-field">'
+    . '<span class="hasTip jbparam-label" title="' . $desc . '">' . ucfirst($name) . '</span>'
     . $required . '</strong>';
 
 //create attributes for main div
