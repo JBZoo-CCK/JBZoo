@@ -22,6 +22,9 @@
             <field name="default_order_status" type="jbstatus" default="new" label="JBZOO_CART_CONFIG_ORDER_STATUS"
                    status_type="STATUS_ORDER" description="JBZOO_CART_CONFIG_ORDER_STATUS_DESC"/>
 
+            <field name="freeorder" type="jbbool" default="0" label="JBZOO_CART_CONFIG_FREEORDER"
+                   description="JBZOO_CART_CONFIG_FREEORDER_DESC"/>
+
             <field name="spacer_currency" type="jbspacer" default="JBZOO_CART_CONFIG_SPACER_CURRENCY"/>
 
             <field name="default_currency" type="jbcurrency" defaultCode="0" default="EUR"

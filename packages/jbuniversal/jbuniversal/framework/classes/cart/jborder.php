@@ -171,6 +171,10 @@ class JBCartOrder
     {
         $summa = $this->getTotalForSevices();
 
+        if ($summa->isNegative() || $summa->isEmpty()) {
+            $summa->setEmpty();
+        }
+
         return $summa;
     }
 
@@ -190,6 +194,10 @@ class JBCartOrder
 
             $itemPrice = $this->val($item['total']);
             $itemPrice->multiply($item['quantity']);
+
+            if ($itemPrice->isNegative() || $itemPrice->isEmpty()) {
+                $itemPrice->setEmpty();
+            }
 
             $summa->add($itemPrice);
 
@@ -627,7 +635,7 @@ class JBCartOrder
             $errorMessages[] = 'JBZOO_CART_VALIDATOR_EMPTY';
         }
 
-        if ($this->getTotalSum()->compare('0', '<=')) {
+        if (!$this->_config->get('config.freeorder', 0) && $this->getTotalSum()->isEmpty()) {
             $errorMessages[] = 'JBZOO_CART_VALIDATOR_ZERO_SUM';
         }
 
