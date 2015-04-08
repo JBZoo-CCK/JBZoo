@@ -1,0 +1,39 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Denis Smetannikov <denis@jbzoo.com>
+//
+@import "jbzoo";
+
+@iconSize: 64px;
+
+.jbzoo .jbprice-discount {
+
+    &-icon,
+    &-icon-text {
+        display: block;
+        .square(@iconSize);
+    }
+
+    &-icon {
+        background: data-uri("../img/icon.png") no-repeat;
+    }
+
+    &-icon-text {
+        background: data-uri("../img/icon-text.png") no-repeat;
+
+        .jbcartvalue {
+            color: #fff;
+            text-align: center;
+            display: block;
+            #font > .serif(bold, 10px, @iconSize);
+            text-shadow: 0 2px 2px rgba(0, 0, 0, 0.31);
+        }
+    }
+
+}
+

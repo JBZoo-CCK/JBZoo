@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -18,12 +17,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementPriceDiscount extends JBCartElementPrice
 {
-    const SALE_VIEW_NO          = 0;
-    const SALE_VIEW_TEXT        = 1;
-    const SALE_VIEW_TEXT_SIMPLE = 2;
-    const SALE_VIEW_ICON_SIMPLE = 3;
-    const SALE_VIEW_ICON_VALUE  = 4;
-
     /**
      * Check if element has value
      * @param array $params
@@ -62,21 +55,33 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
 
     /**
      * Renders the element
-     * @param array $params
+     * @param JSONData|array $params
      * @return mixed|string
      */
     public function render($params = array())
     {
-        $prices   = $this->getPrices();
-        $discount = JBCart::val($prices['save']);
+        $prices = $this->getPrices();
 
-        if ($layout = $this->getLayout()) {
+        $message = JString::trim($params->get('empty_text', ''));
+
+        if ((int)$params->get('ispercent', 1)) {
+            $price    = JBCart::val($prices['price']);
+            $save     = JBCart::val($prices['save'])->abs();
+            $discount = $save->percent($price);
+        } else {
+            $discount = JBCart::val($prices['save']);
+        }
+
+        $layout = $params->get('layout', 'icon-text');
+        if ($discount->isEmpty() && !empty($message)) {
+            $layout = 'empty';
+        }
+
+        if ($layout = $this->getLayout($layout . '.php')) {
             return self::renderLayout($layout, array(
-                'price'    => JBCart::val($prices['price']),
                 'discount' => $discount->positive(),
-                'mode'     => $params->get('sale_show', self::SALE_VIEW_ICON_VALUE),
                 'currency' => $this->currency(),
-                'message'  => JString::trim($params->get('empty_text', ''))
+                'message'  => $message,
             ));
         }
 
