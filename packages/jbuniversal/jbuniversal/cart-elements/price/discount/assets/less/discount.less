@@ -10,14 +10,14 @@
 @import "jbzoo";
 
 @iconSize: 64px;
+@fontSize: 16px;
 
 .jbzoo .jbprice-discount {
 
     &-icon,
     &-icon-text {
         display: block;
-        line-height: @iconSize;
-        .square(@iconSize);
+        .square(@iconSize);        
     }
 
     &-icon {
@@ -26,15 +26,14 @@
 
     &-icon-text {
         background: data-uri("../img/icon-text.png") no-repeat;
+        text-align: center;
 
         .jbcartvalue {
             color: #fff;
-            text-align: center;
-            display: block;
-            #font > .serif(bold, 10px, @iconSize);
+            #font > .serif(bold, @fontSize, @fontSize);
             text-shadow: 0 2px 2px rgba(0, 0, 0, 0.31);
+            line-height: @iconSize - ( @fontSize / 2 );
         }
     }
 
 }
-

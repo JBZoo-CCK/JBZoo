@@ -267,10 +267,13 @@
 
     // Sizing shortcuts
     .size(@width, @height) {
-        height: @height;
+        height    : @height;
         min-height: @height;
-        width: @width;
+        max-height: @height;
+
+        width    : @width;
         min-width: @width;
+        max-width: @width;
     }
 
     .square(@size) {
