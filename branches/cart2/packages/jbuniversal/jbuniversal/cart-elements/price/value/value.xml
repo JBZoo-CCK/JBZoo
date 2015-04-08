@@ -31,7 +31,7 @@
             <option value="save">JBZOO_ELEMENT_PRICE_VALUE_LAYOUT_SAVE</option>
         </param>
 
-        <param name="empty_show" type="jbbool" default="1" label="JBZOO_ELEMENT_PRICE_VALUE_EMPTY_SHOW"
+        <param name="empty_show" type="jbbool" default="0" label="JBZOO_ELEMENT_PRICE_VALUE_EMPTY_SHOW"
                description="JBZOO_ELEMENT_PRICE_VALUE_EMPTY_SHOW_DESC"/>
 
         <param name="empty_text" type="text" label="JBZOO_ELEMENT_PRICE_VALUE_EMPTY_TEXT"
