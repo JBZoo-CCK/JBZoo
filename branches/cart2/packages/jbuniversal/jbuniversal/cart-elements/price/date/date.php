@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementPriceDate extends JBCartElementPrice
 {
-    const EDIT_DATE_FORMAT = '%Y-%m-%d %H:%M:%S';
+    const EDIT_DATE_FORMAT = '%Y-%m-%d %H:%M';
 
     /**
      * Check if element has value
