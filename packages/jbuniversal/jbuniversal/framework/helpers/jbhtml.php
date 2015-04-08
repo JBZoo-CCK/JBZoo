@@ -664,7 +664,7 @@ class JBHtmlHelper extends AppHelper
         }
 
         $this->_assets->jqueryui();
-        $this->_assets->addScript('$("#' . $idtag . '-wrapper' . '").buttonset()');
+        $this->_assets->addScript('$("#' . $idtag . '-wrapper").buttonset();');
 
         return '<div id="' . $idtag . '-wrapper">' . $html . '</div>';
     }
@@ -828,7 +828,6 @@ class JBHtmlHelper extends AppHelper
             }
 
             $valueSlug = $stringHelper->sluggify($value);
-
 
             $attribs['id'] = 'id' . $valueSlug . '-' . $jbstring->getId();
             $extra         = array_merge(array(

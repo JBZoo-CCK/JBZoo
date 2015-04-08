@@ -21,5 +21,6 @@ $unique = $this->app->jbstring->getId('jbprice-'); ?>
         'itemId'     => $this->_item->id,
         'identifier' => $this->identifier,
         'variantUrl' => $variantUrl,
+        'hash'       => $hash
     ), true); ?>
 </tr>

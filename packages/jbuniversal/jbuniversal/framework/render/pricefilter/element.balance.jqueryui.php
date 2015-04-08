@@ -23,7 +23,7 @@ class JBPriceFilterElementBalanceJQueryUI extends JBPriceFilterElementBalance
      */
     public function html()
     {
-        unset($this->_attrs['id']);
+        $this->_attrs['id'] = $this->_getId(time(), true);
 
         return parent::html();
     }

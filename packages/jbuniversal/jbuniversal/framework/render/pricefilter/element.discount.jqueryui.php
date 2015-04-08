@@ -23,15 +23,8 @@ class JBPriceFilterElementDiscountJQueryUI extends JBPriceFilterElementDiscount
      */
     public function html()
     {
-        $options = $this->_getValues();
-        unset($this->_attrs['id']);
+        $this->_attrs['id'] = $this->_getId(time(), true);
 
-        return $this->_html->buttonsJQueryUI(
-            $this->_createOptionsList($options),
-            $this->_getName(),
-            $this->_attrs,
-            $this->_value,
-            $this->_getId('discount', true)
-        );
+        return parent::html();
     }
 }

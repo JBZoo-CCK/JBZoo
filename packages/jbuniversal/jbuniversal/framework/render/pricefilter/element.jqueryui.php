@@ -24,6 +24,7 @@ class JBPriceFilterElementJQueryUI extends JBPriceFilterElement
     public function html()
     {
         $values = $this->_getValues();
+        $this->_attrs['id'] = $this->_getId(time(), true);
 
         return $this->_html->buttonsJqueryUI(
             $this->_createOptionsList($values),

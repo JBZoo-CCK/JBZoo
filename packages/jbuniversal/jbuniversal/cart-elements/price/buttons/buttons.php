@@ -100,7 +100,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
             'element_id' => $this->element_id,
             'isModal'    => $this->_isModal(),
             'basket'     => $this->_getBasketUrl(),
-            'isInCart'   => (int)$cart->inCart($this->item_id, $this->element_id),
+            'isInCart'   => (int)$cart->inCart($this->item_id, $this->element_id)
         );
     }
 

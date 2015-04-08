@@ -43,7 +43,7 @@
                 this.hash = this.options.hash;
 
                 this.toggleButtons();
-                this.price.on('removeItem', function () {
+                this.price.on('removeItem', function() {
                     $this.removeItem();
                     $this.toggleButtons();
                 });
@@ -62,16 +62,16 @@
             },
 
 
-            getItems: function () {
-                if (this.isModal) {
+            getItems: function() {
+                if(this.isModal) {
                     return window.parent.JBZoo.getVar('cartItems', {}) || {};
                 }
 
                 return JBZoo.getVar('cartItems', {}) || {};
             },
 
-            setItems: function (items) {
-                if (this.isModal) {
+            setItems: function(items) {
+                if(this.isModal) {
                     return window.parent.JBZoo.addVar('cartItems', items);
                 }
 
@@ -113,17 +113,11 @@
                 $.fancybox({
                     'type'      : 'iframe',
                     'href'      : $this.options.modal + '&args[hash]=' + $this.hash,
-                    'width'     : 400,
                     'fitToView' : true,
-                    'autoHeight': true,
+                    'minWidth'  : 400,
+                    'autoSize'  : true,
                     'autoResize': true,
-
-                    'iframe' : {
-                        'scrolling': 'no',
-
-                        'preload': true
-                    },
-                    'helpers': {
+                    'helpers'   : {
                         'overlay': {
                             'locked': false,
                             'css'   : {
@@ -229,7 +223,7 @@
                         .removeClass('in-cart');
                 }
 
-                if (this.isModal) {
+                if(this.isModal) {
                     this.isModal = false;
                     this.toggleButtons();
                     this.isModal = true;
@@ -254,7 +248,7 @@
                 }
             },
 
-            $: function (selector, _parent) {
+            $: function(selector, _parent) {
 
                 if (selector == '{element}') {
                     return this.el;
@@ -278,8 +272,8 @@
                 return _$(selector, this.el);
             },
 
-            isWidgetExists: function (name) {
-                if (this.isModal) {
+            isWidgetExists: function(name) {
+                if(this.isModal) {
                     return window.parent.JBZoo.isWidgetExists(name);
                 }
 
