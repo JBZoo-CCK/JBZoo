@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -19,13 +18,12 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceDescription extends JBCartElementPrice
 {
     /**
-     * Check if element has value
      * @param array $params
      * @return bool
      */
     public function hasValue($params = array())
     {
-        $value = $this->get('value', 0);
+        $value = $this->getValue();
         if (!isset($value) || empty($value)) {
             return false;
         }
@@ -35,12 +33,12 @@ class JBCartElementPriceDescription extends JBCartElementPrice
 
     /**
      * Get elements search data
-     * @return null
+     * @return bool|string
      */
     public function getSearchData()
     {
         $value = JString::trim($this->getValue());
-        if (JString::strlen($value) > 0) {
+        if (!empty($value)) {
             return $value;
         }
 
@@ -48,33 +46,15 @@ class JBCartElementPriceDescription extends JBCartElementPrice
     }
 
     /**
-     * @return mixed|null|string
+     * @return string|null
      */
     public function edit()
     {
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderEditLayout($layout, array(
-                'value' => $this->get('value', '')
-            ));
-        }
-
-        return null;
-    }
-
-    /**
-     * @param  array $params
-     *
-     * @return array|mixed|null|string
-     */
-    public function render($params = array())
-    {
-        if ($layout = $this->getLayout()) {
-            return self::renderLayout($layout, array(
                 'value' => $this->getValue()
             ));
         }
-
-        return null;
     }
 
     /**
