@@ -10,44 +10,39 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
 
-<div class="jbprice-buttons jsPriceButtons <?php echo $inCart; ?>">
+$interface   = $this->_interfaceParams($params);
+$inCartClass = $interface['isInCart'] ? 'in-cart' : '';
 
-    <?php if ($add) : ?>
-        <span class="jsAddToCart uk-button uk-button-success add-button" title="<?php echo $addLabel; ?>">
-            <i class="uk-icon-shopping-cart"></i>
-            <?php echo $addLabel; ?>
-            </span>
-    <?php endif;
+$vars = array(
+    'interface' => $interface,
+    'params'    => $params,
+);
+?>
 
-    if ($oneClick) : ?>
-        <span class="jsAddToCart jsGoTo uk-button uk-button-success" title="<?php echo $oneClickLabel; ?>">
-            <i class="uk-icon-external-link-square"></i>
-            <?php echo $oneClickLabel; ?>
-        </span>
-    <?php endif;
+<div class="jbprice-buttons jsPriceButtons <?php echo $inCartClass; ?>">
 
-    if ($popup && !$isModal)  :
-        $this->app->jbassets->fancybox(); ?>
+    <?php
+    if ($params->get('add_show', 1)) {
+        echo $this->_partial('add', $vars);
+    }
 
-        <span class="jsAddToCartModal uk-button uk-button-success" title="<?php echo $popupLabel; ?>">
-            <i class="uk-icon-picture-o"></i>
-            <?php echo $popupLabel; ?>
-        </span>
-    <?php endif;
+    if ($params->get('oneclick_show', 0)) {
+        echo $this->_partial('oneclick', $vars);
+    }
 
-    if ($goto) : ?>
-        <span class="jsPriceButton jsGoTo uk-button goto-button" title="<?php echo $goToLabel; ?>">
-            <i class="uk-icon-level-up"></i>
-            <?php echo $goToLabel; ?>
-        </span>
-    <?php endif; ?>
+    if ($params->get('modal_show', 0)) {
+        echo $this->_partial('modal', $vars);
+    }
 
-    <a class="jsRemoveFromCart uk-button uk-button-danger uk-button-small remove-button"
-       title="<?php echo $removeLabel; ?>">
-        <i class="uk-icon-trash-o"></i>
-        <?php echo $removeLabel; ?>
-    </a>
+    if ($params->get('goto_show', 0)) {
+        echo $this->_partial('goto', $vars);
+    }
+
+    if ($params->get('remove_show', 1)) {
+        echo $this->_partial('remove', $vars);
+    }
+    ?>
 
 </div>

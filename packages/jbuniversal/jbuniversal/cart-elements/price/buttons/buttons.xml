@@ -19,50 +19,61 @@
     <version>1.0</version>
     <description>JBZOO_ELEMENT_PRICE_BUTTONS_DESC</description>
 
-    <params>
-
-        <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME" description="JBZOO_ELEMENT_NAME_DESC"/>
-
-        <param name="description" type="text" default="" label="JBZOO_ELEMENT_DESCRIPTION"
-               description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
-
-        <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
-               description="JBZOO_ELEMENT_ACCESS_DESC"/>
-
-    </params>
-
     <params group="render">
 
-        <param name="template_add" type="jbbool" default="1" label="JBZOO_JBPRICE_BUTTONS_TEMPLATE_ADD"
-               description="JBZOO_JBPRICE_BUTTONS_TEMPLATE_DESC"/>
+        <!-- add button -->
+        <param name="add_spacer" type="jbspacer" default="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_SPACER"/>
 
-        <param name="template_popup" type="jbbool" default="0" label="JBZOO_JBPRICE_BUTTONS_TEMPLATE_POPUP"
-               description="JBZOO_JBPRICE_BUTTONS_TEMPLATE_DESC"/>
+        <param name="add_show" type="jbbool" default="1" label="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_SHOW"
+               description="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_SHOW_DESC"/>
 
-        <param name="template_oneclick" type="jbbool" default="0" label="JBZOO_JBPRICE_BUTTONS_TEMPLATE_ONECLICK"
-               description="JBZOO_JBPRICE_BUTTONS_TEMPLATE_DESC"/>
+        <param name="add_label" type="jbtext" label="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_LABEL"
+               description="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_LABEL_DESC"
+               default="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_LABEL_DEFAULT"/>
 
-        <param name="template_goto" type="jbbool" default="1" label="JBZOO_JBPRICE_BUTTONS_TEMPLATE_GOTO"
-               description="JBZOO_JBPRICE_BUTTONS_TEMPLATE_DESC"/>
+        <!-- OneClick button -->
+        <param name="oneclick_spacer" type="jbspacer" default="JBZOO_ELEMENT_PRICE_BUTTONS_ONECLICK_SPACER"/>
 
-        <param name="template_modal" type="jbpricetemplates" default="default" label="JBZOO_JBPRICE_TEMPLATE"
-               description="JBZOO_JBPRICE_TEMPLATE_DESC"/>
+        <param name="oneclick_show" type="jbbool" default="0" label="JBZOO_ELEMENT_PRICE_BUTTONS_ONECLICK_SHOW"
+               description="JBZOO_ELEMENT_PRICE_BUTTONS_ONECLICK_SHOW_DESC"/>
 
-        <param name="add_label" type="text" default="JBZOO_JBPRICE_BUTTONS_ADD_TO_CART"
-               label="JBZOO_JBPRICE_BUTTONS_ADD_LABEL" description="JBZOO_JBPRICE_BUTTONS_ADD_DESC"/>
+        <param name="oneclick_label" type="jbtext" label="JBZOO_ELEMENT_PRICE_BUTTONS_ONECLICK_LABEL"
+               description="JBZOO_ELEMENT_PRICE_BUTTONS_ONECLICK_LABEL_DESC"
+               default="JBZOO_ELEMENT_PRICE_BUTTONS_ONECLICK_LABEL_DEFAULT"/>
 
-        <param name="popup_label" type="text" default="JBZOO_JBPRICE_BUTTONS_ADD_TO_CART_POPUP"
-               label="JBZOO_JBPRICE_BUTTONS_POPUP_LABEL" description="JBZOO_JBPRICE_BUTTONS_POPUP_DESC"/>
+        <!-- Modal button -->
+        <param name="modal_spacer" type="jbspacer" default="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_SPACER"/>
 
-        <param name="oneclick_label" type="text" default="JBZOO_JBPRICE_BUTTONS_ADD_TO_CART_GOTO"
-               label="JBZOO_JBPRICE_BUTTONS_ONECLICK_LABEL" description="JBZOO_JBPRICE_BUTTONS_ONECLICK_DESC"/>
+        <param name="modal_show" type="jbbool" default="0" label="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_SHOW"
+               description="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_SHOW_DESC"/>
 
-        <param name="goto_label" type="text" default="JBZOO_JBPRICE_BUTTONS_GOTO_CART"
-               label="JBZOO_JBPRICE_BUTTONS_GOTO_LABEL" description="JBZOO_JBPRICE_BUTTONS_GOTO_DESC"/>
+        <param name="modal_label" type="jbtext" label="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_LABEL"
+               description="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_LABEL_DESC"
+               default="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_LABEL_DEFAULT"/>
 
-        <param name="remove_label" type="text" default="JBZOO_JBPRICE_BUTTONS_REMOVE_FROM_CART"
-               label="JBZOO_JBPRICE_BUTTONS_REMOVE_LABEL" description="JBZOO_JBPRICE_BUTTONS_REMOVE_DESC"/>
+        <param name="modal_layout" type="jbpricetemplates" default="default"
+               label="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_LAYOUT"
+               description="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_LAYOUT_DESC"/>
 
+        <!-- Goto button -->
+        <param name="goto_spacer" type="jbspacer" default="JBZOO_ELEMENT_PRICE_BUTTONS_GOTO_SPACER"/>
+
+        <param name="goto_show" type="jbbool" default="0" label="JBZOO_ELEMENT_PRICE_BUTTONS_GOTO_SHOW"
+               description="JBZOO_ELEMENT_PRICE_BUTTONS_GOTO_SHOW_DESC"/>
+
+        <param name="goto_label" type="jbtext" label="JBZOO_ELEMENT_PRICE_BUTTONS_GOTO_LABEL"
+               description="JBZOO_ELEMENT_PRICE_BUTTONS_GOTO_LABEL_DESC"
+               default="JBZOO_ELEMENT_PRICE_BUTTONS_GOTO_LABEL_DEFAULT"/>
+
+        <!-- remove button -->
+        <param name="remove_spacer" type="jbspacer" default="JBZOO_ELEMENT_PRICE_BUTTONS_REMOVE_SPACER"/>
+
+        <param name="remove_show" type="jbbool" default="1" label="JBZOO_ELEMENT_PRICE_BUTTONS_REMOVE_SHOW"
+               description="JBZOO_ELEMENT_PRICE_BUTTONS_REMOVE_SHOW_DESC"/>
+
+        <param name="remove_label" type="jbtext" label="JBZOO_ELEMENT_PRICE_BUTTONS_REMOVE_LABEL"
+               description="JBZOO_ELEMENT_PRICE_BUTTONS_REMOVE_LABEL_DESC"
+               default="JBZOO_ELEMENT_PRICE_BUTTONS_REMOVE_LABEL_DEFAULT"/>
     </params>
 
 </element>

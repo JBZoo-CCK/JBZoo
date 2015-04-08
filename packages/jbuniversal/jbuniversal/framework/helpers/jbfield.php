@@ -1041,7 +1041,7 @@ class JBFieldHelper extends AppHelper
         $renderer   = $this->app->jbrenderer->create($class);
         $optionList = $renderer->getLayouts($class);
 
-        return $this->_renderList($optionList, $value, $this->_getName($controlName, $name), $node);
+        return $this->_renderList($optionList, $value, $this->_getName($controlName, $name), $node, false);
     }
 
     /**
@@ -1158,6 +1158,28 @@ class JBFieldHelper extends AppHelper
         }
 
         return null;
+    }
+
+    /**
+     * Render simple text field
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
+     * @param SimpleXMLElement $node
+     * @param SimpleXMLElement $parent
+     * @return mixed
+     */
+    public function text($name, $value, $controlName, SimpleXMLElement $node, $parent)
+    {
+        // set attributes
+        $attrs = array(
+            'type'  => 'text',
+            'value' => JText::_($value),
+            'name'  => $this->_getName($controlName, $name),
+            'class' => isset($class) ? $class : ''
+        );
+
+        return '<input ' . $this->app->jbhtml->buildAttrs($attrs) . '/>';
     }
 
     /**
