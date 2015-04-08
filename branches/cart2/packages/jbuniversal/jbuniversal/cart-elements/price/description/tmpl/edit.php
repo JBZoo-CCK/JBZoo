@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,18 +12,15 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$unique     = $this->htmlId(true);
-$attributes = $this->_jbhtml->buildAttrs(array(
+$unique = $this->htmlId(true);
+$attrs  = $this->_jbhtml->buildAttrs(array(
     'rows'        => '5',
     'style'       => 'resize: vertical;',
     'class'       => 'jsField description',
-    'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_DESCRIPTION_NAME')
+    'name'        => $this->getControlName('value'),
+    'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_DESCRIPTION_PLACEHOLDER')
 ));
 
-echo '<textarea name="' . $this->getControlName('value') . '"
-                ' . $attributes . '
-                >' . $value . '</textarea>';
+echo '<textarea ' . $attrs . '>' . $value . '</textarea>';
 
-if (!$this->isBasic()) {
-    $this->app->jbassets->widget('.jsDescription .jsField', 'JBZoo.PriceEditElement_descriptionEdit');
-}
+$this->app->jbassets->widget('.jsDescription .jsField', 'JBZoo.PriceEditElement_descriptionEdit');

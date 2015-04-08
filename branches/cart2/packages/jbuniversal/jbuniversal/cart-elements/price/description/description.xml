@@ -22,7 +22,7 @@
     <params group="filter">
 
         <param name="jbzoo_filter_render" type="list" label="JBZOO_ELEMENT_TEMPLATE"
-               description="JBZOO_ELEMENT_TEMPLATE_DESC" default="text" >
+               description="JBZOO_ELEMENT_TEMPLATE_DESC" default="text">
             <option value="description-text">JBZOO_ELEMENT_TEMPLATE_TEXT</option>
         </param>
 
@@ -33,10 +33,10 @@
                label="JBZOO_FILTER_AUTOCOMPLETE" description="JBZOO_FILTER_AUTOCOMPLETE_DESC"/>
 
         <param name="jbzoo_filter_default" type="text" label="JBZOO_FILTER_DEFAULT"
-               description="JBZOO_FILTER_DEFAULT_DESC" />
+               description="JBZOO_FILTER_DEFAULT_DESC"/>
 
         <param name="jbzoo_filter_placeholder" type="text" label="JBZOO_FILTER_PLACEHOLDER"
-               description="JBZOO_FILTER_PLACEHOLDER_DESC" />
+               description="JBZOO_FILTER_PLACEHOLDER_DESC"/>
 
     </params>
 
