@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -17,10 +16,8 @@ defined('_JEXEC') or die('Restricted access');
 $html  = $this->app->jbhtml;
 $label = '';
 if (isset($params['showlabel']) && $params['showlabel']) {
-    $label = ($params['altlabel']) ? $params['altlabel'] : $element->config->get('name');
+    $label = ($params['altlabel']) ? $params['altlabel'] : $element->getName();
 }
 
 // render element
-echo '<div class="default-style">' .
-         $label . $element->render($params) .
-     '</div>';
+echo '<span class="default-style">' . $label . $element->render($params) . '</span>';
