@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
         'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_EDIT_PLACEHOLDER_HEIGHT')
     ));
 
-    echo $this->_jbhtml->text($this->getControlName('length'), $legth, array(
+    echo $this->_jbhtml->text($this->getControlName('length'), $length, array(
         'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_EDIT_PLACEHOLDER_LENGTH')
     ));
 
