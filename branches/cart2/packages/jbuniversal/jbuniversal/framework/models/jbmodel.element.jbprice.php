@@ -29,7 +29,7 @@ class JBModelElementJBPrice extends JBModelElement
      * @param int     $applicationId
      * @param string  $itemType
      */
-    function __construct(Element $element, $applicationId, $itemType)
+    public function __construct(Element $element, $applicationId, $itemType)
     {
         parent::__construct($element, $applicationId, $itemType);
         $this->money  = $this->app->jbmoney;
@@ -140,6 +140,9 @@ class JBModelElementJBPrice extends JBModelElement
     {
         if ($identifier == '_value') {
             $where->where($value, null, $logic);
+
+        } elseif ($identifier == '_sku') {
+            $where->where($this->_buildLikeBySpaces($value, 'tSku.value_s'), null, $logic);
 
         } elseif ((int)($key === 'id')) {
             $value = (array)$value;

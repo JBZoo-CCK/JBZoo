@@ -31,7 +31,7 @@ class JBPRiceFilterElementImageExistsJqueryUI extends JBPriceFilterElement
             $this->_getName(),
             $this->_attrs,
             $this->_value,
-            $this->_getId(null, true)
+            $this->_getId(time(), true)
         );
     }
 
