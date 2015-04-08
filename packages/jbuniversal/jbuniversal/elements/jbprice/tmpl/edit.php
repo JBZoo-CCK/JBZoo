@@ -106,20 +106,15 @@ $price_mode = (get_class($this) === 'ElementJBPriceCalc' ? 2 : 1); ?>
 
 </div>
 
-<?php echo $this->app->jbassets->widget(
-    '#' . $unique,
-    'JBZoo.PriceEdit',
-    array(
-        'isAdvance'                  => $isAdvance,
-        'text_show'                  => JText::_('JBZOO_JBPRICE_VARIATION_SHOW'),
-        'text_hide'                  => JText::_('JBZOO_JBPRICE_VARIATION_HIDE'),
-        'isOverlay'                  => (bool)$this->isOverlay,
-        'validator_variant_invalid'  => JText::_('JBZOO_JBPRICE_VALIDATOR_VARIANT_INVALID'),
-        'validator_duplicate_values' => JText::_('JBZOO_JBPRICE_VALIDATOR_DUPLICATE_VALUES'),
-        'validator_choice_limiting'  => JText::_('JBZOO_JBPRICE_VALIDATOR_CHOOSE_LIMITING')
-    ),
-    true
-); ?>
+<?php echo $this->app->jbassets->widget('#' . $unique, 'JBZoo.PriceEdit', array(
+    'isAdvance'                  => $isAdvance,
+    'text_show'                  => JText::_('JBZOO_JBPRICE_VARIATION_SHOW'),
+    'text_hide'                  => JText::_('JBZOO_JBPRICE_VARIATION_HIDE'),
+    'isOverlay'                  => (bool)$this->isOverlay,
+    'validator_variant_invalid'  => JText::_('JBZOO_JBPRICE_VALIDATOR_VARIANT_INVALID'),
+    'validator_duplicate_values' => JText::_('JBZOO_JBPRICE_VALIDATOR_DUPLICATE_VALUES'),
+    'validator_choice_limiting'  => JText::_('JBZOO_JBPRICE_VALIDATOR_CHOOSE_LIMITING')
+), true); ?>
 
 <script type="text/javascript">
 
