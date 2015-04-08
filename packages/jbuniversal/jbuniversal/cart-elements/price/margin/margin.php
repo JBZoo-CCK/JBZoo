@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -46,7 +45,7 @@ class JBCartElementPriceMargin extends JBCartElementPrice
         $layout = $this->isOverlay ? 'disabled' : 'edit';
         if ($layout = $this->getLayout($layout . '.php')) {
             return self::renderEditLayout($layout, array(
-                'value' => $this->get('value', ''),
+                'value'   => $this->get('value', ''),
                 'message' => JText::sprintf('JBZOO_JBPRICE_CALC_PARAM_CANT_USE', '<strong>' . $this->getElementType() . '</strong>')
             ));
         }
@@ -60,13 +59,6 @@ class JBCartElementPriceMargin extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        return false;
-        if ($layout = $this->getLayout()) {
-            return self::renderLayout($layout, array(
-                'margin' => $this->getValue()
-            ));
-        }
-
         return null;
     }
 
