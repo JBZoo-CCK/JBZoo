@@ -14,8 +14,8 @@ defined('_JEXEC') or die('Restricted access');
 
 $class  = 'jsJBPrice-' . $this->identifier . '-' . $this->_item->id;
 $unique = $this->app->jbstring->getId('jbprice-'); ?>
-<div class="jbzoo">
-    <div class="jsPrice jsJBPrice jbprice <?php echo $class . ' ' . $hash; ?>" id="<?php echo $unique; ?>">
+<div class="jbzoo jbmodal">
+    <div class="jsPriceModal jsPrice jsJBPrice jbprice-modal jbprice <?php echo $class . ' ' . $hash; ?>" id="<?php echo $unique; ?>">
         <?php echo $data,
         $this->app->jbassets->widget('#' . $unique, 'JBZoo.Price', array(
             'elements'   => $elements,

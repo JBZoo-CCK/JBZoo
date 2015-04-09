@@ -109,14 +109,17 @@
             },
 
             'click .jsAddToCartModal': function (e, $this) {
-
                 $.fancybox({
                     'type'      : 'iframe',
                     'href'      : $this.options.modal + '&args[hash]=' + $this.hash,
-                    'fitToView' : true,
-                    'minWidth'  : 400,
                     'autoSize'  : true,
-                    'autoResize': true,
+                    'fitToView' : false,
+                    'beforeShow': function () {
+                        var content = $('.fancybox-iframe').contents().find('.jsPriceModal');
+
+                        this.width  = (content.width() + 100);
+                        this.height = (content.height() + 100);
+                    },
                     'helpers'   : {
                         'overlay': {
                             'locked': false,
