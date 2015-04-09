@@ -21,20 +21,20 @@
 
     <params group="render">
 
-        <param name="min" type="text" default="1" label="JBZOO_JBPRICE_MIN_DEFAULT"
-               description="JBZOO_JBPRICE_MIN_DEFAULT_DESC" />
+        <param name="min" type="text" default="1" label="JBZOO_ELEMENT_PRICE_QUANTITY_MIN"
+               description="JBZOO_ELEMENT_PRICE_QUANTITY_MIN_DESC"/>
 
-        <param name="max" type="text" default="999" label="JBZOO_JBPRICE_MAX_DEFAULT"
-               description="JBZOO_JBPRICE_MAX_DEFAULT_DESC" />
+        <param name="max" type="text" default="999" label="JBZOO_ELEMENT_PRICE_QUANTITY_MAX"
+               description="JBZOO_ELEMENT_PRICE_QUANTITY_MAX_DESC"/>
 
         <param name="step" type="text" default="1" label="JBZOO_ELEMENT_PRICE_QUANTITY_STEP"
-               description="JBZOO_ELEMENT_PRICE_QUANTITY_STEP_DESC" />
+               description="JBZOO_ELEMENT_PRICE_QUANTITY_STEP_DESC"/>
 
         <param name="default" type="text" default="1" label="JBZOO_ELEMENT_PRICE_QUANTITY_DEFAULT"
-               description="JBZOO_ELEMENT_PRICE_QUANTITY_DEFAULT_DESC" />
+               description="JBZOO_ELEMENT_PRICE_QUANTITY_DEFAULT_DESC"/>
 
         <param name="decimals" type="text" default="0" label="JBZOO_ELEMENT_PRICE_QUANTITY_DECIMALS"
-               description="JBZOO_ELEMENT_PRICE_QUANTITY_DECIMALS_DESC" />
+               description="JBZOO_ELEMENT_PRICE_QUANTITY_DECIMALS_DESC"/>
 
     </params>
 

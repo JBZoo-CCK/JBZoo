@@ -12,8 +12,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+?>
 
-echo $this->_jbhtml->currencyToggle($default, $rates, array(
-    'target'      => $this->parentSelector(),
-    'showDefault' => $showDefault
-), true);
+<span class="jbprice-currency">
+    <?php echo $this->_jbhtml->currencyToggle($default, $rates, array(
+        'target'      => $this->parentSelector(),
+        'showDefault' => $showDefault
+    ), true); ?>
+</span>
