@@ -278,8 +278,8 @@
         display: @display;
     }
 
-    .square(@size) {
-        #box > .size(@size, @size);
+    .square(@size, @display : block) {
+        #box > .size(@size, @size, @display);
     }
 
     // Drop shadows

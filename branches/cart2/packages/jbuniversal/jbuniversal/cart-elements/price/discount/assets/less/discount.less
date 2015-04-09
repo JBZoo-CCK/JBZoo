@@ -17,6 +17,7 @@
     &-icon,
     &-icon-text {
         .square(@iconSize);
+        clear: both;
     }
 
     &-icon {
@@ -28,10 +29,11 @@
         text-align: center;
 
         .jbcartvalue {
+            #rotate > .simple(20deg);
+            #font > .serif(bold, @fontSize, (@iconSize - ( @fontSize / 2 )));
+            .square(@iconSize);
             color: #fff;
-            #font > .serif(bold, @fontSize, @fontSize);
             text-shadow: 0 2px 2px rgba(0, 0, 0, 0.31);
-            line-height: @iconSize - ( @fontSize / 2 );
         }
     }
 
