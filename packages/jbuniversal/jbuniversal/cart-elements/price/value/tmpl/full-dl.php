@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 <?php if ($discount->isEmpty()) : ?>
 
-    <dl class="jbprice-value jbprice-value-dl no-border">
+    <dl class="jbprice-value jbprice-value-dl">
         <dt class="jbprice-value-label"><?php echo JText::_('JBZOO_ELEMENT_PRICE_VALUE_LABEL_TOTAL'); ?></dt>
         <dd class="jbprice-value-total"><?php echo $total->html($currency); ?></dd>
     </dl>
