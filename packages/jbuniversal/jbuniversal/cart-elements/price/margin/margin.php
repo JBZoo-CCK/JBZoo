@@ -82,7 +82,7 @@ class JBCartElementPriceMargin extends JBCartElementPrice
     public function getValue($toString = false, $key = 'value', $default = null)
     {
         $value = parent::getValue($toString, $key, $default);
-        $value = $this->clearSymbols($value, '+, -');
+        $value = $this->clearSymbols($value, array('-', '+'));
 
         if ($toString) {
             return $value;
