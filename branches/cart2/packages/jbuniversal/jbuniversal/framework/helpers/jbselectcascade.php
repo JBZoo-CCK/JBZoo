@@ -28,8 +28,8 @@ class JBSelectCascadeHelper extends AppHelper
      */
     public function getItemList($names, $items)
     {
-        $configNames = $this->app->jbstring->parseLines($names);
-        $configItems = $this->app->jbstring->parseLines($items);
+        $configNames = $this->parseLines($names);
+        $configItems = $this->parseLines($items);
 
         $maxLevel    = 0;
         $resultItems = array();
@@ -78,8 +78,32 @@ class JBSelectCascadeHelper extends AppHelper
         $result = array(
             'items'    => $resultItems,
             'names'    => $configNames,
-            'maxLevel' => $maxLevel,
+            'maxLevel' => $maxLevel
         );
+
+        return $result;
+    }
+
+    /**
+     * Parse text by lines
+     * @param string $text
+     * @return array
+     */
+    public function parseLines($text)
+    {
+        $text = JString::trim($text);
+        $text = htmlspecialchars_decode($text, ENT_COMPAT);
+        $text = strip_tags($text);
+
+        $lines = explode("\n", $text);
+
+        $result = array();
+        if (!empty($lines)) {
+            foreach ($lines as $line) {
+                $line     = JString::trim($line);
+                $result[] = strtr($line, "\"", "'");
+            }
+        }
 
         return $result;
     }

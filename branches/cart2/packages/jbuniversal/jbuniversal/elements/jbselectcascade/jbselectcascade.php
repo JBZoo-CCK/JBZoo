@@ -283,7 +283,7 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
     protected function _getValuesList()
     {
         // init internal vars
-        if (is_null($this->_maxLevel)) {
+        if ($this->_maxLevel === null) {
 
             $itemList = $this->app->jbselectcascade->getItemList(
                 $this->config->get('select_names', ''),
@@ -301,7 +301,7 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
         for ($i = 0; $i <= $this->_maxLevel; $i++) {
             $value = JString::trim($this->get('list-' . $i, ''));
             if (!empty($value)) {
-                $result[] = $value;
+                $result[] = strtr($value, "\"", "'");
             }
         }
 
