@@ -80,6 +80,8 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
             ));
         }
 
+        $discount->negative();
+
         $layout = $params->get('layout', 'icon-text');
         if ($discount->isEmpty() && !empty($message)) {
             $layout = 'empty';
