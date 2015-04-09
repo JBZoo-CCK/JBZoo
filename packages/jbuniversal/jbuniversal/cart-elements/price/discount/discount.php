@@ -63,26 +63,24 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
         $prices = $this->getPrices();
 
         $message = JString::trim($params->get('empty_text', ''));
-
+        $layout  = $params->get('layout', 'icon-text');
         if ((int)$params->get('percent_show', 1)) {
-            $price    = JBCart::val($prices['price']);
-            $save     = JBCart::val($prices['save'])->abs();
+            $price    = $prices['price'];
+            $save     = $prices['save']->abs();
             $discount = $save->percent($price);
         } else {
-            $discount = JBCart::val($prices['save']);
+            $discount = $prices['save'];
         }
 
         if ((int)$params->get('percent_round', 1)) {
             $discount->setFormat(array(
                 'round_value'  => 0,
                 'num_decimals' => 0,
-                'round_type'   => 'classic',
+                'round_type'   => 'classic'
             ));
         }
-
         $discount->negative();
 
-        $layout = $params->get('layout', 'icon-text');
         if ($discount->isEmpty() && !empty($message)) {
             $layout = 'empty';
         }
@@ -91,7 +89,7 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
             return self::renderLayout($layout, array(
                 'discount' => $discount->positive(),
                 'currency' => $this->currency(),
-                'message'  => $message,
+                'message'  => $message
             ));
         }
 

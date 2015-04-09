@@ -102,13 +102,12 @@ class JBPriceFilterRenderer extends PositionRenderer
         $elementsConfig = $this->_getConfigPosition($position);
         foreach ($elementsConfig as $key => $data) {
             $element = $this->_jbprice->getElement($data['identifier']);
-
             if ($element && $element->canAccess()) {
                 $index++;
 
                 $data['_layout']   = $this->_layout;
-                $data['_position'] = $position;
                 $data['_index']    = $index;
+                $data['_position'] = $position;
 
                 // set params
                 $params = array_merge(
@@ -119,41 +118,43 @@ class JBPriceFilterRenderer extends PositionRenderer
                         'item_application_id' => $this->_application,
                         'moduleParams'        => $this->_moduleParams
                     ),
-                    $data, $args
+                    $args,
+                    $data
+                );
+                if (!$element->hasFilterValue($params)) {
+                    continue;
+                }
+
+                $attrs = array(
+                    'id'    => 'filterEl_' . $this->_jbprice->identifier . '_' . $data['identifier'],
+                    'class' => array(
+                        'element-' . strtolower($element->getElementType()),
+                        'element-tmpl-' . (array_key_exists('jbzoo_filter_render', $params) ? $params['jbzoo_filter_render'] : '_auto_')
+                    )
                 );
 
-                if ($element->hasFilterValue(new AppData($params))) {
-                    $attrs = array(
-                        'id'    => 'filterEl_' . $this->_jbprice->identifier . '_' . $data['identifier'],
-                        'class' => array(
-                            'element-' . strtolower($element->getElementType()),
-                            'element-tmpl-' . $params['jbzoo_filter_render']
+                $value       = $this->_getRequest($data['identifier']);
+                $elementHTML = $this->elementRender($element, $value, $params, $attrs);
+
+                if (empty($elementHTML)) {
+                    continue;
+                }
+
+                if ($style) {
+                    $output[$index] = parent::render('element.jbpricefilter.' . $style, array(
+                            'element'     => $element,
+                            'params'      => $params,
+                            'attrs'       => $attrs,
+                            'value'       => $value,
+                            'config'      => $element->config,
+                            'elementHTML' => $elementHTML
                         )
                     );
-
-                    $value       = $this->_getRequest($data['identifier']);
-                    $elementHTML = $this->elementRender($element, $value, $params, $attrs);
-
-                    if (empty($elementHTML)) {
-                        continue;
-                    }
-
-                    if ($style) {
-
-                        $output[$index] = parent::render('element.jbpricefilter.' . $style, array(
-                                'element'     => $element,
-                                'params'      => $params,
-                                'attrs'       => $attrs,
-                                'value'       => $value,
-                                'config'      => $element->config,
-                                'elementHTML' => $elementHTML
-                            )
-                        );
-                    } else {
-                        $output[$index] = $elementHTML;
-                    }
+                } else {
+                    $output[$index] = $elementHTML;
                 }
             }
+
         }
 
         return implode(PHP_EOL, $output);
@@ -304,21 +305,19 @@ class JBPriceFilterRenderer extends PositionRenderer
      */
     private function _getRequest($identifier)
     {
-        $value = $this->app->jbrequest->get('e');
+        $value = (array)$this->app->jbrequest->get('e', array());
         $id    = $this->_jbprice->identifier;
 
-        if (isset($value[$id])) {
+        if (isset($value[$identifier]) && array_key_exists($identifier, $value)) {
             $elements = $value[$id];
-            if (isset($elements[$identifier])) {
+            if (array_key_exists($identifier, $elements)) {
                 $element = $elements[$identifier];
 
-                return (is_array($element) && isset($element['id']) ? $element['id'] : $element);
+                return (is_array($element) && array_key_exists('id', $element) ? $element['id'] : $element);
             }
-
-            return null;
         }
 
-        return $value;
+        return null;
     }
 
     /**
