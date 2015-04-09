@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -14,5 +13,5 @@
 defined('_JEXEC') or die('Restricted access');
 
 echo $this->_jbhtml->text($this->getControlName('value'), $value, $this->_jbhtml->buildAttrs(array(
-    'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_WEIGHT_UNIT')
+    'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_WEIGHT_EDIT_PLACEHOLDER')
 )));

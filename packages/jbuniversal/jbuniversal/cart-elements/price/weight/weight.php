@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -25,11 +24,7 @@ class JBCartElementPriceWeight extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        if($this->count()) {
-            return true;
-        }
-
-        return false;
+        return $this->getValue();
     }
 
     /**
@@ -38,9 +33,7 @@ class JBCartElementPriceWeight extends JBCartElementPrice
      */
     public function getSearchData()
     {
-        $value = $this->getValue();
-
-        return $value;
+        return $this->getValue();
     }
 
     /**
@@ -69,8 +62,6 @@ class JBCartElementPriceWeight extends JBCartElementPrice
                 'value' => $this->getValue(true)
             ));
         }
-
-        return null;
     }
 
 }
