@@ -21,22 +21,20 @@
 
     <params group="render">
 
-        <param name="template" type="list" label="JBZOO_ELEMENT_TEMPLATE" default="currency">
-            <option value="currency">JBZOO_ELEMENT_PRICE_CURRENCY_TEMPLATE_CURRENCY_OPTIONNAME</option>
-        </param>
+        <param name="currency_default" type="jbcurrency" default="default_cur"
+               label="JBZOO_ELEMENT_PRICE_CURRENCY_CURRENCY_DEFAULT"
+               description="JBZOO_ELEMENT_PRICE_CURRENCY_CURRENCY_DEFAULT_DESC" multiple="0"/>
 
-        <param name="currency_default" type="jbcurrency" default="EUR" label="JBZOO_ELEMENT_PRICE_CURRENCY_DEFAULT"
-               description="JBZOO_ELEMENT_PRICE_CURRENCY_DEFAULT_DESC" multiple="0"/>
-
-        <param name="currency_list" type="jbcurrency" default="" label="JBZOO_ELEMENT_PRICE_CURRENCY_LIST"
-               description="JBZOO_ELEMENT_PRICE_CURRENCY_DESC" multiple="1"/>
+        <param name="currency_list" type="jbcurrency" default="all" multiple="1" showall="1"
+               label="JBZOO_ELEMENT_PRICE_CURRENCY_CURRENCY_LIST"
+               description="JBZOO_ELEMENT_PRICE_CURRENCY_CURRENCY_LIST_DESC"/>
 
     </params>
 
     <params group="filter">
 
         <param name="jbzoo_filter_render" type="list" label="JBZOO_ELEMENT_TEMPLATE"
-               description="JBZOO_ELEMENT_TEMPLATE_DESC" default="currency" >
+               description="JBZOO_ELEMENT_TEMPLATE_DESC" default="currency">
             <option value="currency">JBZOO_ELEMENT_TEMPLATE_CURRENCY</option>
         </param>
 
