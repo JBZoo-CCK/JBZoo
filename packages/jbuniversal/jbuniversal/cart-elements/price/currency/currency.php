@@ -55,15 +55,14 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $list    = (array)$params->get('currency_list', array());
+        $rates   = $this->_getRates($params);
         $default = $params->get('currency_default', JBCartValue::DEFAULT_CODE);
 
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
-                'list'        => $list,
+                'rates'       => $rates,
                 'default'     => $default,
-                'showDefault' => in_array(JBCartValue::DEFAULT_CODE, $list, true),
-                'rates'       => $this->_getRates($params),
+                'showDefault' => in_array(JBCartValue::DEFAULT_CODE, $rates, true),
             ));
         }
 
