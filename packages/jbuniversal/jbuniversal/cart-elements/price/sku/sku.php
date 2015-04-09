@@ -24,9 +24,8 @@ class JBCartElementPriceSku extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $value = JString::trim($this->getValue(true));
-
-        return ($value !== '' && $value !== null);
+        $value = $this->getValue(true);
+        return !empty($value);
     }
 
     /**
@@ -35,9 +34,7 @@ class JBCartElementPriceSku extends JBCartElementPrice
      */
     public function getSearchData()
     {
-        $value = $this->getValue(true);
-
-        return $value;
+        return $this->getValue(true);
     }
 
     /**
@@ -49,24 +46,6 @@ class JBCartElementPriceSku extends JBCartElementPrice
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderEditLayout($layout, array(
                 'value' => $this->get('value', '')
-            ));
-        }
-
-        return null;
-    }
-
-    /**
-     * @param array $params
-     * @return array|mixed|null|string
-     */
-    public function render($params = array())
-    {
-        if ($layout = $this->getLayout()) {
-            $value = $this->getValue(true);
-
-            return self::renderLayout($layout, array(
-                'sku'    => !empty($value) ? $value : $this->item_id,
-                'unique' => $this->htmlId(true)
             ));
         }
 
@@ -93,10 +72,11 @@ class JBCartElementPriceSku extends JBCartElementPrice
     public function getValue($toString = false, $key = 'value', $default = null)
     {
         $value = parent::getValue($toString, $key, $default);
-        if ($value === '' && $item = $this->_jbprice->getItem())
-        {
+        if (empty($value) && $item = $this->_jbprice->getItem()) {
             $value = $item->id;
         }
+
+        $value = JString::trim($value);
 
         return $value;
     }

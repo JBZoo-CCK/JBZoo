@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,6 +12,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $this->_jbhtml->text($this->getControlName('value'), $value,  array(
-    'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_SKU_NAME')
+echo $this->_jbhtml->text($this->getControlName('value'), $value, array(
+    'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_SKU_EDIT_PLACEHOLDER')
 ));
