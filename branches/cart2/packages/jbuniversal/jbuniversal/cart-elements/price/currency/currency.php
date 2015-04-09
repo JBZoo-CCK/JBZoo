@@ -18,15 +18,13 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceCurrency extends JBCartElementPrice
 {
     /**
-     * Check if element has value
      * @param array $params
      * @return bool
      */
     public function hasValue($params = array())
     {
-        $list = $params->get('currency_list', array());
-
-        return !empty($list);
+        $list = $this->_getRates($params);
+        return count($list) >= 2;
     }
 
     /**
@@ -58,18 +56,34 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
     public function render($params = array())
     {
         $list    = (array)$params->get('currency_list', array());
-        $default = $params->get('currency_default', 'EUR');
+        $default = $params->get('currency_default', JBCartValue::DEFAULT_CODE);
 
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
                 'list'        => $list,
                 'default'     => $default,
                 'showDefault' => in_array(JBCartValue::DEFAULT_CODE, $list, true),
-                'rates'       => array_intersect_key((array)$this->app->jbmoney->getData(), array_flip($list))
+                'rates'       => $this->_getRates($params),
             ));
         }
 
         return null;
+    }
+
+    /**
+     * @param $params
+     * @return array
+     */
+    protected function _getRates($params)
+    {
+        $list     = (array)$params->get('currency_list', array());
+        $fullList = (array)$this->app->jbmoney->getData();
+
+        if (in_array('all', $list, true)) {
+            return $fullList;
+        }
+
+        return array_intersect_key($fullList, array_flip($list));
     }
 
     /**
@@ -106,18 +120,4 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
         );
     }
 
-    /**
-     * @return $this
-     */
-    public function loadAssets()
-    {
-        $this->js(array(
-            'jbassets:js/widget/money.js',
-            'jbassets:js/widget/currencytoggle.js'
-        ));
-
-        $this->less('jbassets:less/widget/currencytoggle.less');
-
-        return parent::loadAssets();
-    }
 }
