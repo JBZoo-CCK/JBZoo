@@ -58,6 +58,10 @@ class JBFieldHelper extends AppHelper
 
         unset($currencyList['%']);
 
+        if ((int)$this->_getAttr($node, 'showall', 0)) {
+            $currencyList = $this->app->jbarray->unshiftAssoc($currencyList, 'all', JText::_('JBZOO_ALL'));
+        }
+
         return $this->_renderList($currencyList, $value, $this->_getName($controlName, $name), $node);
     }
 
