@@ -14,6 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * Class JBCartElementPriceValue
+ * @since 2.2
  */
 class JBCartElementPriceValue extends JBCartElementPrice
 {
@@ -36,9 +37,8 @@ class JBCartElementPriceValue extends JBCartElementPrice
     public function getSearchData()
     {
         $prices = $this->getPrices();
-        $total  = JBCart::val($prices['total']);
 
-        return $total->convert('eur');
+        return $prices['total']->val('eur');
     }
 
     /**
@@ -62,29 +62,31 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $prices   = $this->getPrices();
-        $discount = JBCart::val();
-        if ($prices['save'] < 0) {
-            $discount = $prices['save'];
-        }
+        $prices = $this->getPrices();
+        if ($layout = $this->getLayout()) {
 
-        $total   = JBCart::val($prices['total']);
-        $message = JText::_(JString::trim($params->get('empty_text', '')));
+            $total    = $prices['total'];
+            $discount = JBCart::val($prices['save']->val(), $prices['save']->cur());
 
-        $layout = $params->get('layout', 'full-div');
-        if ($total->isEmpty() && !empty($message)) {
-            $layout = 'empty';
-        }
+            $discount->isNegative() ? $discount->setEmpty() : $discount->positive();
 
-        if ($layout = $this->getLayout($layout . '.php')) {
-            return $this->renderLayout($layout, array(
-                'total'    => $total,
-                'price'    => JBCart::val($prices['price']),
-                'save'     => JBCart::val($prices['save'])->abs(),
-                'discount' => JBCart::val($discount)->abs(),
-                'currency' => $this->currency(),
-                'message'  => $message,
-            ));
+            $message = JText::_(JString::trim($params->get('empty_text', '')));
+            $layout  = $params->get('layout', 'full-div');
+            if ($total->isEmpty() && !empty($message)) {
+                $layout = 'empty';
+            }
+
+            if ($layout = $this->getLayout($layout . '.php')) {
+                return $this->renderLayout($layout, array(
+                    'mode'     => (int)$params->get('only_price_mode', 1),
+                    'total'    => $total,
+                    'price'    => $prices['price'],
+                    'save'     => $prices['save']->positive(),
+                    'discount' => $discount,
+                    'currency' => $this->currency(),
+                    'message'  => $message
+                ));
+            }
         }
 
         return null;
@@ -144,8 +146,8 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function bindData($data = array(), $key = 'value')
     {
-        if (is_string($data)) {
-            $data = array($key => $data);
+        if (!is_array($data)) {
+            $data = array($key => (string)$data);
         }
 
         foreach ($data as $key => $value) {

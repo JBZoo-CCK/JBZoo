@@ -18,12 +18,14 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementPriceCurrency extends JBCartElementPrice
 {
     /**
+     * Check if element has value
      * @param array $params
      * @return bool
      */
     public function hasValue($params = array())
     {
         $list = $this->_getRates($params);
+
         return count($list) >= 2;
     }
 
@@ -62,7 +64,7 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
             return self::renderLayout($layout, array(
                 'rates'       => $rates,
                 'default'     => $default,
-                'showDefault' => in_array(JBCartValue::DEFAULT_CODE, $rates, true),
+                'showDefault' => in_array(JBCartValue::DEFAULT_CODE, $rates, true)
             ));
         }
 

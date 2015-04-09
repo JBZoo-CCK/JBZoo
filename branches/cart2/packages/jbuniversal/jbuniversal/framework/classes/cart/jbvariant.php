@@ -20,15 +20,15 @@ class JBCartVariant extends ArrayObject
 {
     /**
      * Id of variant
-     * @type integer
+     * @type int
      */
-    public $id = 0;
+    protected $id = 0;
 
     /**
      * Array of objects elements
      * @type array
      */
-    public $elements = array();
+    protected $elements = array();
 
     /**
      * Hash based on simple elements and their values.
@@ -49,7 +49,7 @@ class JBCartVariant extends ArrayObject
     /**
      * @type JBCartVariantList
      */
-    protected $list;
+    public $list;
 
     /**
      * Class constructor
@@ -225,10 +225,14 @@ class JBCartVariant extends ArrayObject
     /**
      * Set link to list of variations
      * @param JBCartVariantList $list
-     * @return JBCartVariant
+     * @return \JBCartVariant
+     * @throws \JBCartVariantException
      */
-    public function setList(JBCartVariantList $list)
+    public function setList($list)
     {
+        if(!$list instanceof JBCartVariantList) {
+            throw new JBCartVariantException('In Method: ' . __FUNCTION__ . ' first argument must be an instance of JBCartVariantList.');
+        }
         $this->list = $list;
 
         return $this;
@@ -340,11 +344,12 @@ class JBCartVariant extends ArrayObject
      */
     public function getTotal()
     {
-        if (null !== $this->total) {
+        if ($this->total !== null) {
             return $this->total;
         }
 
         if (!$this->list->isOverlay) {
+
             $total = $this->getPrice()->minus($this->getValue(true, '_discount'), true);
 
             if ($this->list instanceof JBCartVariantList) {
@@ -424,18 +429,16 @@ class JBCartVariant extends ArrayObject
     {
         $element->setVariant($this->id);
 
-        $_data = (array)$element->data();
         if ($this->list instanceof JBCartVariantList && !$this->isBasic()) {
-            $basic = $this->list->first()->getValue(true, $element->identifier);
 
-            if (null !== $basic && $basic !== '') {
+            $basic = $this->list->first()->getValue(true, $element->identifier);
+            if ($basic !== null && $basic !== '') {
                 $data['_basic'] = $basic;
             }
         }
 
         if (!empty($data))
         {
-            $data = $_data + $data;
             $element->bindData($data);
         }
 

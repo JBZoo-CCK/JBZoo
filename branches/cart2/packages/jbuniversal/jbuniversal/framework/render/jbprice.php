@@ -31,7 +31,7 @@ class JBPriceRenderer extends PositionRenderer
     /**
      * @var JBCartVariant
      */
-    protected $_variant = null;
+    protected $_variant;
 
     /**
      * @var JBModelConfig
@@ -64,11 +64,11 @@ class JBPriceRenderer extends PositionRenderer
     public function checkPosition($position)
     {
         foreach ($this->getConfigPosition($position) as $key => $data) {
-            if (($element = $this->_variant->get($key))
+            if (($element = $this->_variant->get($data['identifier']))
             ) {
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
-                $data['_index']    = $key;
+                $data['_index']    = $data['identifier'];
 
                 if ($element->canAccess() && $element->hasValue(new AppData($data))) {
                     return true;
@@ -92,8 +92,7 @@ class JBPriceRenderer extends PositionRenderer
         $this->_variant     = isset($args['_variant']) ? $args['_variant'] : null;
         $this->_priceLayout = isset($args['layout']) ? $args['layout'] : null;
 
-        $result = '';
-        $result .= parent::render('jbprice.' . $layout, $args);
+        $result = parent::render('jbprice.' . $layout, $args);
 
         return $result;
     }
@@ -137,7 +136,7 @@ class JBPriceRenderer extends PositionRenderer
         }
         $count = count($elements);
         foreach ($elements as $i => $data) {
-            $params = array_merge(array('first' => ($i == 0), 'last' => ($i == $count - 1)), $data['params']);
+            $params = array_merge(array('first' => ($i === 0), 'last' => ($i === $count - 1)), $data['params']);
 
             $data['element']->loadAssets();
             $output[$i] = parent::render('element.' . $style, array(
@@ -145,7 +144,6 @@ class JBPriceRenderer extends PositionRenderer
                 'params'  => new AppData($params)
             ));
         }
-
         $this->_layout = $layout;
 
         return implode(PHP_EOL, $output);

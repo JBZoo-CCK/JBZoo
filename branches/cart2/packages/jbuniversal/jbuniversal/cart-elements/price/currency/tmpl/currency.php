@@ -10,9 +10,7 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
-
-?>
+defined('_JEXEC') or die('Restricted access'); ?>
 
 <span class="jbprice-currency">
     <?php echo $this->_jbhtml->currencyToggle($default, $rates, array(
