@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,8 +12,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if ($sku) : ?>
-    <div class="jbprice-sku">
-        <span class="sku"><?php echo $sku; ?></span>
-    </div>
-<?php endif;
+?>
+
+<div class="jbprice-sku"><?php echo $this->getValue(true); ?></div>
