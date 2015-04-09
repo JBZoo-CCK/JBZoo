@@ -52,8 +52,8 @@ class JBMoneyHelper extends AppHelper
         'num_decimals'    => '2',
         'decimal_sep'     => '.',
         'thousands_sep'   => ' ',
-        'format_positive' => '%v %s',
-        'format_negative' => '-%v %s',
+        'format_positive' => '%v%s',
+        'format_negative' => '-%v%s',
     );
 
     /**
