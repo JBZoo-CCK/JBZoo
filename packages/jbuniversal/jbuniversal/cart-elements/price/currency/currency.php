@@ -119,4 +119,20 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
         );
     }
 
+    /**
+     * @return $this
+     */
+    public function loadAssets()
+    {
+        // for cache mode
+        $this->js(array(
+            'jbassets:js/widget/money.js',
+            'jbassets:js/widget/currencytoggle.js'
+        ));
+
+        $this->less('jbassets:less/widget/currencytoggle.less');
+
+        return parent::loadAssets();
+    }
+
 }

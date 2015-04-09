@@ -12,19 +12,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$unique    = $this->htmlId(true);
-$default   = $params['default'];
-$isEnabled = true;
+$unique  = $this->htmlId(true);
+$default = $params->get('default', 1);
+$name    = $this->getRenderName('value');
+?>
 
-if ($isEnabled) : ?>
-    <div class="jbprice-quantity jbprice-count">
-        <label for="<?php echo $unique; ?>">
-            <?php echo $this->_jbhtml->quantity($default, $params, $unique, $this->getRenderName('value'), true); ?>
-        </label>
-    </div>
-<?php else : ?>
-    <div class="count-value-wrapper">
-        <?php echo JText::_('JBZOO_ELEMENT_PRICE_QUANTITY_DEFAULT_VALUE'); ?>: <span class="jsCountValue">1</span>
-    </div>
-    <input type="hidden" class="jsCount" value="1" />
-<?php endif;
+<div class="jbprice-quantity">
+    <?php echo $this->_jbhtml->quantity($default, $params, $unique, $name, true); ?>
+</div>

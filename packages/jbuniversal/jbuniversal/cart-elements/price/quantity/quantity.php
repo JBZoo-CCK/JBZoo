@@ -44,11 +44,9 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
     {
         if ($layout = $this->getLayout()) {
             return self::renderLayout($layout, array(
-                'params' => $this->interfaceParams($params)
+                'params' => $this->app->data->create($this->interfaceParams($params))
             ));
         }
-
-        return null;
     }
 
     /**
@@ -77,10 +75,8 @@ class JBCartElementPriceQuantity extends JBCartElementPrice
     {
         parent::loadAssets();
 
-        $this->app->jbassets->quantity();
-
+        // for cache mode
         $this->less('jbassets:less/widget/quantity.less');
-
         $this->js(array(
             'jbassets:js/widget/quantity.js',
             'cart-elements:price/quantity/assets/js/quantity.js'
