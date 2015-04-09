@@ -328,9 +328,18 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function loadAssets()
     {
+        // Important JBPrice JS
         $this->js('cart-elements:core/price/assets/js/price.js');
 
-        return parent::loadAssets();
+        // parent was realoded for JBPrice caching
+        $group = $this->getElementGroup();
+        $type  = $this->getElementType();
+
+        $this->js('cart-elements:' . $group . '/' . $type . '/assets/js/' . $type . '.js');
+        $this->css('cart-elements:' . $group . '/' . $type . '/assets/css/' . $type . '.css');
+        $this->less('cart-elements:' . $group . '/' . $type . '/assets/less/' . $type . '.less');
+
+        return $this;
     }
 
     /**
