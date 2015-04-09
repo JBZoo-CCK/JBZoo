@@ -21,7 +21,7 @@
 
     <params>
         <param name="image" type="jbelementlist" types="jbimage" label="JBZOO_ELEMENT_PRICE_IMAGE_IMAGE"
-               description="JBZOO_ELEMENT_PRICE_IMAGE_IMAGE_DESC" empty="JBZOO_ELEMENT_PRICE_IMAGE_IMAGE_NOT_FOUND" />
+               description="JBZOO_ELEMENT_PRICE_IMAGE_IMAGE_DESC" empty="JBZOO_ELEMENT_PRICE_IMAGE_IMAGE_EMPTY"/>
     </params>
 
     <params group="render">
@@ -30,13 +30,13 @@
                description="JBZOO_RESIZE_WIDTH_DESC"/>
 
         <param name="height" type="text" default="300" label="JBZOO_RESIZE_HEIGHT"
-               description="JBZOO_RESIZE_WIDTH_DESC"/>
+               description="JBZOO_RESIZE_HEIGHT_DESC"/>
 
         <param name="width_popup" type="text" default="1280" label="JBZOO_RESIZE_POPUP_WIDTH"
                description="JBZOO_RESIZE_WIDTH_POPUP_DESC"/>
 
         <param name="height_popup" type="text" default="800" label="JBZOO_RESIZE_POPUP_HEIGHT"
-               description="JBZOO_RESIZE_WIDTH_POPUP_DESC"/>
+               description="JBZOO_RESIZE_HEIGHT_POPUP_DESC"/>
 
     </params>
 

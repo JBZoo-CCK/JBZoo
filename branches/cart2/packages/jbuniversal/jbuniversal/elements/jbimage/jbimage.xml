@@ -80,7 +80,7 @@
                description="JBZOO_RESIZE_WIDTH_POPUP_DESC"/>
 
         <param name="height_popup" type="text" default="800" label="JBZOO_RESIZE_POPUP_HEIGHT"
-               description="JBZOO_RESIZE_WIDTH_POPUP_DESC"/>
+               description="JBZOO_RESIZE_HEIGHT_POPUP_DESC"/>
 
     </params>
 </element>

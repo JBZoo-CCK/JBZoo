@@ -32,8 +32,8 @@
                 this.link = $('.jbimage-link' + related, $jbzoo);
 
                 this.options.default = {
-                    'image' : this.image.attr('src'),
-                    'pop_up': this.link.attr('href')
+                    'image': this.image.attr('src'),
+                    'popup': this.link.attr('href')
                 };
 
                 this.rePlace(this.options.image, null);
@@ -55,11 +55,11 @@
                             $(this).attr('src', data.image).fadeIn();
                         });
 
-                        return this.link.attr('href', data.pop_up);
+                        return this.link.attr('href', data.popup);
                     }
 
                     this.image.attr('src', data.image);
-                    this.link.attr('href', data.pop_up);
+                    this.link.attr('href', data.popup);
                 }
             }
         }
