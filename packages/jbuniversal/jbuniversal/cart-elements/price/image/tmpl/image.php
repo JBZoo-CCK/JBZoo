@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -11,6 +10,8 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
 
-<input type="hidden" class="jsImageRelated" data-element="<?php echo $element; ?>"/>
+?>
+
+<input type="hidden" class="jsImageRelated" data-element="<?php echo $element; ?>" />
