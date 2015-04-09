@@ -23,7 +23,6 @@
 
         <param name="jbzoo_filter_render" type="list" label="JBZOO_ELEMENT_TEMPLATE"
                description="JBZOO_ELEMENT_TEMPLATE_DESC" default="_auto_">
-
             <option value="_auto_">JBZOO_ELEMENT_TEMPLATE_AUTO</option>
             <option value="text">JBZOO_ELEMENT_TEMPLATE_TEXT</option>
             <option value="checkbox">JBZOO_ELEMENT_TEMPLATE_CHECKBOX</option>
