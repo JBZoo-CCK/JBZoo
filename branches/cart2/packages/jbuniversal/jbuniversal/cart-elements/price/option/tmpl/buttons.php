@@ -13,9 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $this->js('libraries:jquery/jquery-ui.custom.min.js');
-$this->css('libraries:jquery/jquery-ui.custom.css');
-
-?>
+$this->css('libraries:jquery/jquery-ui.custom.css'); ?>
 
 <span class="jbprice-option-buttons">
     <?php echo $this->_jbhtml->buttonsJqueryUI($data, $this->getRenderName('value'), null, $this->getValue(), $this->htmlId(true)); ?>

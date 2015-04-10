@@ -15,8 +15,7 @@
     JBZoo.widget('JBZoo.PriceElement_default', {},
         {
             rePaint: function (data) {
-
-                this.el.html(data);
+                this.el.empty().prepend($(data).contents());
             }
         }
     );

@@ -212,7 +212,7 @@ class JBCartElementPriceImage extends JBCartElementPrice
     {
         $this->js(array(
             'cart-elements:price/image/assets/js/image.js',
-            'jbassets:js/widget/media.js',
+            'jbassets:js/widget/media.js'
         ));
 
         return parent::loadAssets();
@@ -225,10 +225,8 @@ class JBCartElementPriceImage extends JBCartElementPrice
     protected function _getElement()
     {
         $id = $this->config->get('image', false);
-        if ($id && $jbPrice = $this->getJBPrice()) {
-            if ($item = $jbPrice->getItem()) {
-                return $item->getElement($id);
-            }
+        if ($id && ($this->getJBPrice() && $item = $this->getJBPrice()->getItem())) {
+            return $item->getElement($id);
         }
 
         return false;

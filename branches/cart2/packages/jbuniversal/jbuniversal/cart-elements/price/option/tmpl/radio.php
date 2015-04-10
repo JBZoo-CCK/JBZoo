@@ -10,9 +10,7 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
-
-?>
+defined('_JEXEC') or die('Restricted access'); ?>
 
 <span class="jbprice-option-radio">
     <?php echo $this->_jbhtml->radio($data, $this->getRenderName('value'), null, $this->getValue()); ?>

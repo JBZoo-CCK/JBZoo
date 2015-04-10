@@ -17,7 +17,7 @@ $inCartClass = $interface['isInCart'] ? 'in-cart' : '';
 
 $vars = array(
     'interface' => $interface,
-    'params'    => $params,
+    'params'    => $params
 );
 ?>
 

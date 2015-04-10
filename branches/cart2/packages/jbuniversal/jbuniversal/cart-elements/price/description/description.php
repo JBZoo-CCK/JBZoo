@@ -49,6 +49,8 @@ class JBCartElementPriceDescription extends JBCartElementPrice
                 'value' => $this->getValue()
             ));
         }
+
+        return false;
     }
 
     /**

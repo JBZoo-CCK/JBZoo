@@ -61,9 +61,8 @@
                 return this.isInCart;
             },
 
-
             getItems: function() {
-                if(this.isModal) {
+                if (this.isModal) {
                     return window.parent.JBZoo.getVar('cartItems', {}) || {};
                 }
 
@@ -81,10 +80,12 @@
             removeItem: function () {
                 var items = this.getItems();
 
-                delete items[this.item_id][this.element_id];
-
                 if (JBZoo.empty(items[this.item_id])) {
                     delete items[this.item_id];
+                }
+
+                if(!JBZoo.empty(items) && !JBZoo.empty(items[this.item_id]) && !JBZoo.empty(items[this.item_id])[this.element_id]) {
+                    delete items[this.item_id][this.element_id];
                 }
 
                 this.setItems(items);

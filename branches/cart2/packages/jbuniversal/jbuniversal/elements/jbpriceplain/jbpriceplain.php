@@ -18,7 +18,7 @@ App::getInstance('zoo')->loader->register('ElementJBPrice', 'elements:jbprice/jb
  * Class ElementJBPricePlain
  * The Price element for JBZoo
  */
-class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
+class ElementJBPricePlain extends ElementJBPrice
 {
     /**
      * Constructor
@@ -97,7 +97,7 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
             'default'  => $key,
             'values'   => $values,
             'template' => $template,
-            'currency' => !empty($currency) ? $currency : $this->currency()
+            'currency' => $this->currency()
         ));
 
         $this->app->jbajax->send($this->_list->renderVariant());
@@ -126,7 +126,7 @@ class ElementJBPricePlain extends ElementJBPrice implements iSubmittable
         $this->getList($list, array(
             'values'   => $values,
             'quantity' => $quantity,
-            'currency' => !empty($currency) ? $currency : $this->currency()
+            'currency' => $this->currency()
         ));
         $session_key = $this->_list->getSessionKey();
 
