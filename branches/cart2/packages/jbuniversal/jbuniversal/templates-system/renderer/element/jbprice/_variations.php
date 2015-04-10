@@ -18,23 +18,20 @@ $name = JText::_($element->getName());
 $type = JString::strtolower($element->getElementType());
 $desc = JString::trim($element->getDescription());
 
-$class = 'variant-param jbprice-' . $jbPrice->getElementType();
+$classes = array(
+    'variant-param',
+    'jbprice-' . $jbPrice->getElementType(),
+    ($element->isCore() ? 'core' : 'simple') . '-param',
+    'variant-' . $type . '-wrap'
+);
 
 $isRequired = (int)$element->config->get('required', 0);
-$isCore     = $element->isCore();
-
-$attention = '<span class="attention jsMessage"></span>';
-
-$class .= ($isCore ? ' core' : ' simple') . '-param';
-$class .= ' variant-' . $type . '-wrap';
-
-// init vars
-$label = $required = $required_class = '';
 
 // create required mark
+$required = '';
 if ($isRequired) {
-    $required = '<span class="hasTip jbrequired-note" title="Param is required">*</span>';
-    $class .= ' jbparam-required';
+    $required  = '<span class="hasTip jbrequired-note" title="Param is required">*</span>';
+    $classes[] = 'jbparam-required';
 }
 
 // create label
@@ -42,17 +39,17 @@ $name = (isset($params['altlabel'])) ? $params['altlabel'] : $name;
 $desc = (!empty($desc) ? $desc : JText::_('JBZOO_ELEMENT_PRICE_' . $type . '_DESC'));
 
 $label = '<strong class="label row-field">'
-    . '<span class="hasTip jbparam-label" title="' . $desc . '">' . ucfirst($name) . '</span>'
+    . '<span class="hasTip jbparam-label" title="' . $desc . '">' . JString::ucfirst($name) . '</span>'
     . $required . '</strong>';
 
 //create attributes for main div
 $attributes = array(
-    'class' => $class
+    'class' => $classes
 );
 
 // render element
 echo '<div ' . $this->app->jbhtml->buildAttrs($attributes) . '>'
     . $label
-    . $attention
+    . '<span class="attention jsMessage"></span>'
     . $element->edit($params)
     . '</div>';
