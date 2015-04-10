@@ -64,12 +64,12 @@ class JBCartElementPriceButtons extends JBCartElementPrice
             'isModal'    => $interface['isModal'],
             'isInCart'   => $interface['isInCart'],
             'remove'     => $jbrouter->element($interface['element_id'], $interface['item_id'], 'ajaxRemoveFromCart'),
-            'add' => $jbrouter->element($interface['element_id'], $interface['item_id'], 'ajaxAddToCart', array(
+            'add'        => $jbrouter->element($interface['element_id'], $interface['item_id'], 'ajaxAddToCart', array(
                     'template' => $this->template
                 )
             ),
             'modal'      => $jbrouter->element($interface['element_id'], $interface['item_id'], 'ajaxModalWindow', array(
-                    'template' => $params->get('modal_layout', 'default'),
+                    'template' => $params->get('modal_layout', 'modal'),
                     'layout'   => $this->layout
                 )) . '&tmpl=component&modal=1', // Joomla hack
 
