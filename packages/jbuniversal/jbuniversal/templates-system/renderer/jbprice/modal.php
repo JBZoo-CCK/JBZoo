@@ -12,12 +12,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// create label
-$label = '';
-if ((int)$params->get('showlabel')) {
-    $label = ($params['altlabel']) ? $params['altlabel'] : $element->getName();
-    $label = '<span class="element-label">' . $label . '</span>';
-}
 
-// render element
-echo $label . $element->render($params);
+if ($this->checkPosition(JBCart::DEFAULT_POSITION)) {
+    echo '<div class="jbprice-tmpl-modal">';
+    echo $this->renderPosition(JBCart::DEFAULT_POSITION);
+    echo '</div>';
+}

@@ -22,6 +22,10 @@
         <position name="list">List</position>
     </positions>
 
+    <positions layout="modal">
+        <position name="list">List</position>
+    </positions>
+
     <positions layout="table">
         <position name="list">List</position>
     </positions>

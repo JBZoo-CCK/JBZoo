@@ -51,7 +51,7 @@
                description="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_LABEL_DESC"
                default="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_LABEL_DEFAULT"/>
 
-        <param name="modal_layout" type="jbpricetemplates" default="default"
+        <param name="modal_layout" type="jbpricetemplates" default="modal"
                label="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_LAYOUT"
                description="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_LAYOUT_DESC"/>
 
