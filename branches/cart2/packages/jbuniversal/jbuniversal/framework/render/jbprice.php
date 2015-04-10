@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -38,8 +37,6 @@ class JBPriceRenderer extends PositionRenderer
      */
     protected $_jbconfig;
 
-    protected $_storage;
-
     /**
      * @var string
      */
@@ -58,7 +55,6 @@ class JBPriceRenderer extends PositionRenderer
 
     /**
      * @param string $position
-     *
      * @return bool|void
      */
     public function checkPosition($position)
@@ -82,7 +78,6 @@ class JBPriceRenderer extends PositionRenderer
     /**
      * @param string $layout
      * @param array  $args
-     *
      * @return string
      */
     public function render($layout, $args = array())
@@ -100,7 +95,6 @@ class JBPriceRenderer extends PositionRenderer
     /**
      * @param string $position
      * @param array  $args
-     *
      * @return string|void
      */
     public function renderPosition($position = null, $args = array())
@@ -151,7 +145,6 @@ class JBPriceRenderer extends PositionRenderer
 
     /**
      * @param array $args
-     *
      * @return string
      */
     public function renderEditPositions($args = array())
@@ -206,7 +199,6 @@ class JBPriceRenderer extends PositionRenderer
 
     /**
      * @param $position
-     *
      * @return mixed
      */
     public function getConfigPosition($position)
@@ -219,7 +211,6 @@ class JBPriceRenderer extends PositionRenderer
 
     /**
      * @param string $dir
-     *
      * @return array
      */
     public function getLayouts($dir)
