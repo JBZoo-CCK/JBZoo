@@ -6,17 +6,17 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-App::getInstance('zoo')->loader->register('JBCartElementPriceOption', 'cart-elements:price/option/option.php');
+$this->js('libraries:jquery/jquery-ui.custom.min.js');
+$this->css('libraries:jquery/jquery-ui.custom.css');
 
-/**
- * Class JBCartElementPriceSelect
- */
-class JBCartElementPriceSelect extends JBCartElementPriceOption
-{
-}
+?>
+
+<span class="jbprice-option-buttons">
+    <?php echo $this->_jbhtml->buttonsJqueryUI($data, $this->getRenderName('value'), null, $this->getValue(), $this->htmlId(true)); ?>
+</span>

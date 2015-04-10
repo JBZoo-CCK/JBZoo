@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,15 +12,18 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
+App::getInstance('zoo')->loader->register('JBCartElementPriceOption', 'cart-elements:price/option/option.php');
+
 /**
  * Class JBCartElementPriceColor
  */
-class JBCartElementPriceColor extends JBCartElementPrice
+class JBCartElementPriceColor extends JBCartElementPriceOption
 {
     /**
      * @type JBColorHelper
      */
-    protected $helper;
+    protected $_jbcolor;
 
     /**
      * Constructor
@@ -33,19 +35,7 @@ class JBCartElementPriceColor extends JBCartElementPrice
     {
         parent::__construct($app, $type, $group);
 
-        $this->helper = $this->app->jbcolor;
-    }
-
-    /**
-     * Check if element has value
-     * @param array|JSONData $params
-     * @return bool
-     */
-    public function hasValue($params = array())
-    {
-        $selected = $this->getOptions(false);
-
-        return !empty($selected);
+        $this->_jbcolor = $this->app->jbcolor;
     }
 
     /**
@@ -64,14 +54,11 @@ class JBCartElementPriceColor extends JBCartElementPrice
     {
         if ($layout = $this->getLayout('edit.php')) {
             return $this->renderEditLayout($layout, array(
-                'type'       => $this->getInputType(),
-                'colorItems' => $this->getColors(),
-                'name'       => $this->getControlName('value'),
-                'value'      => $this->getValue()
+                'data'  => $this->_getColors(),
+                'name'  => $this->getControlName('value'),
+                'value' => $this->getValue()
             ));
         }
-
-        return null;
     }
 
     /**
@@ -80,32 +67,16 @@ class JBCartElementPriceColor extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $height = (int)$params->get('height', 26);
-        $width  = (int)$params->get('width', 26);
-
-        if ($layout = $this->getLayout('color.php')) {
+        if ($layout = $this->getLayout($params->get('layout', 'color') . '.php')) {
             return $this->renderLayout($layout, array(
-                'type'       => $this->getInputType(),
-                'width'      => $width . 'px',
-                'height'     => $height . 'px',
-                'value'      => $this->getValue(),
-                'name'       => $this->getRenderName('value'),
-                'colorItems' => $this->getOptions()
+                'width'     => (int)$params->get('height', 26) . 'px',
+                'height'    => (int)$params->get('width', 26) . 'px',
+                'value'     => $this->getValue(),
+                'name'      => $this->getRenderName('value'),
+                'data'      => $this->_getOptions(true),
+                'dataColor' => $this->_getColors(),
             ));
         }
-
-        return null;
-    }
-
-    /**
-     * Get type for input
-     * @return string
-     */
-    public function getInputType()
-    {
-        $type = (boolean)$this->config->get('multiplicity', 1);
-
-        return !($type ? 'radio' : 'checkbox');
     }
 
     /**
@@ -113,10 +84,9 @@ class JBCartElementPriceColor extends JBCartElementPrice
      * @param  bool $label - add option with no value
      * @return array
      */
-    public function parseOptions($label = false)
+    protected function _parseOptions($label = false)
     {
-        $options = explode("\n", $this->config->get('options'));
-        $colors  = $this->helper->getColors($options, $this->config->get('path', 'images'));
+        $colors = $this->_jbcolor->getColors($this->config->get('options'), $this->config->get('path', 'images'));
 
         return $colors;
     }
@@ -126,40 +96,36 @@ class JBCartElementPriceColor extends JBCartElementPrice
      * @param  bool $label - add option with no value
      * @return array
      */
-    public function getOptions($label = true)
+    protected function _getOptions($label = true)
     {
-        $colors = $this->parseOptions();
+        $colors = $this->_parseOptions();
         if (!$this->showAll) {
             $selected = $this->_jbprice->elementOptions($this->identifier);
             $colors   = array_intersect_key($colors, $selected);
         }
 
-        return $colors;
+        // convert to custom view
+        $options = array();
+        foreach (array_keys($colors) as $color) {
+            $options[$color] = JString::ucfirst($color);
+        }
+
+        if ($label && count($options)) {
+            $options[''] = $this->getLabel();
+            ksort($options);
+        }
+
+        return $options;
     }
 
     /**
      * @param  array $colors
      * @return mixed
      */
-    public function getColors($colors = array())
+    protected function _getColors($colors = array())
     {
-        if (empty($colors)) {
-            $colors = explode("\n", $this->config->get('options'));
-        }
-
-        return $this->helper->getColors($colors, $this->config->get('path', 'images'));
-    }
-
-    /**
-     * Get elements value
-     * @param string $key      Array key.
-     * @param mixed  $default  Default value if data is empty.
-     * @param bool   $toString A string representation of the value.
-     * @return mixed|string
-     */
-    public function getValue($toString = false, $key = 'value', $default = null)
-    {
-        return $this->get($key, $default);
+        $colors = !empty($colors) ? $colors : $this->config->get('options');
+        return $this->_jbcolor->getColors($colors, $this->config->get('path', 'images'));
     }
 
     /**
@@ -169,8 +135,7 @@ class JBCartElementPriceColor extends JBCartElementPrice
      */
     public function hasOption($value)
     {
-        $colors = $this->getColors();
-
+        $colors = $this->_getColors();
         return (array_key_exists($value, $colors));
     }
 
@@ -181,8 +146,8 @@ class JBCartElementPriceColor extends JBCartElementPrice
     public function loadAssets()
     {
         $this->app->jbassets->colors();
-        $this->js('jbassets:js/widget/colors.js')
-             ->less('jbassets:less/widget/colors.less');
+        $this->js('jbassets:js/widget/colors.js');
+        $this->less('jbassets:less/widget/colors.less');
 
         return parent::loadAssets();
     }
@@ -194,7 +159,6 @@ class JBCartElementPriceColor extends JBCartElementPrice
     public function loadConfigAssets()
     {
         JHtml::_('behavior.colorpicker');
-
         return parent::loadConfigAssets();
     }
 
@@ -207,7 +171,7 @@ class JBCartElementPriceColor extends JBCartElementPrice
     public function bindData($data = array(), $key = 'value')
     {
         if (array_key_exists('value', $data)) {
-            $data['value'] = $this->helper->clean($data['value']);
+            $data['value'] = $this->_jbcolor->clean($data['value']);
 
             parent::bindData($data);
         }

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,8 +12,4 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (count($options)) {
-    echo '<div class="controls">';
-    echo $this->_jbhtml->radio($options, $this->getControlName('value'), null, $this->getValue());
-    echo '</div>';
-}
+echo $this->_jbhtml->radio($options, $this->getControlName('value'), null, $this->getValue());

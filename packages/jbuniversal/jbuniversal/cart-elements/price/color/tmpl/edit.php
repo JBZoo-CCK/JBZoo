@@ -13,4 +13,4 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $this->_jbhtml->colors('radio', $colorItems, $name, $value);
+echo $this->_jbhtml->colors('radio', $data, $name, $value);

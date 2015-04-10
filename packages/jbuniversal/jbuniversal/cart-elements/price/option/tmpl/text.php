@@ -12,12 +12,13 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
-App::getInstance('zoo')->loader->register('JBCartElementPriceOption', 'cart-elements:price/option/option.php');
-
-/**
- * Class JBCartElementPriceText
- */
-class JBCartElementPriceText extends JBCartElementPriceOption
-{
+$html = array();
+foreach ($data as $optionName => $optionVal) {
+    if ($optionName) {
+        $className  = $this->app->string->sluggify($optionName);
+        $optionName = JString::ucfirst($optionName);
+        $html[]     = '<span class="jbprice-option-' . $className . '">' . $optionName . '</span>';
+    }
 }
+
+echo '<span class="jbprice-option-text">' . implode(', ', $html) . '</span>';
