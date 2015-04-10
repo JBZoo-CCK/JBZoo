@@ -2,7 +2,6 @@
 
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -19,12 +18,16 @@ class JBColorHelper extends AppHelper
 
     /**
      * Get an array colors
-     * @param  array $colors
+     * @param  array  $colors
      * @param  string $path
      * @return array
      */
     public function getColors($colors, $path = '/images/jbcolor')
     {
+        if (is_string($colors)) {
+            $colors = explode("\n", $colors);
+        }
+
         $options = array();
         $default = true;
 
@@ -33,10 +36,12 @@ class JBColorHelper extends AppHelper
         } elseif (strpos($path, 'http') === 0) {
             $default = false;
         }
+
         $path = $this->_clean($path, '/\\');
         foreach ($colors as $color) {
             $color = $this->_clean($color);
             if (!empty($color)) {
+
                 if (!$hasSeparator = strpos($color, '#')) {
                     continue;
                 }
@@ -156,7 +161,7 @@ class JBColorHelper extends AppHelper
      */
     public function isFile($str)
     {
-        $result = preg_match("/\.(?:png|gif|jpg|bmp|ico|jpeg)$/i", $str);
+        $result = preg_match("#\.(?:png|gif|jpg|bmp|ico|jpeg)$#i", $str);
         return $result;
     }
 
@@ -167,28 +172,25 @@ class JBColorHelper extends AppHelper
      */
     public function clean($data)
     {
-        if (!is_array($data)) {
-            return $this->_clean($data);
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $data[$this->_clean($key)] = $this->_clean($value);
+            }
+
+            return $data;
         }
 
-        foreach ($data as $key => $value) {
-            $data[$this->_clean($key)] = $this->_clean($value);
-        }
-
-        return $data;
+        return $this->_clean($data);
     }
 
     /**
-     * @param  string $str
+     * @param  string      $str
      * @param  bool|string $charlist
      * @return mixed|string
      */
     private function _clean($str, $charlist = false)
     {
-        $str = JString::trim($str, $charlist);
-        $str = JString::strtolower($str);
-
-        return $str;
+        return $this->app->jbvars->lower($str, false, $charlist);
     }
 
 }
