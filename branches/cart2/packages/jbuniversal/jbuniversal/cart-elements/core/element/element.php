@@ -211,14 +211,25 @@ abstract class JBCartElement
 
         // set default
         if (empty($layout)) {
-            $layout = "{$type}.php";
+            $layout = $type . '.php';
+        } else if (strpos($layout, '.php') === false) {
+            $layout .= '.php';
         }
 
+        // own layout
         $layoutPath = $this->app->path->path("cart-elements:{$group}/{$type}/tmpl/{$layout}");
+
+        // parent option
+        if (empty($layoutPath)) {
+            $layoutPath = $this->app->path->path("cart-elements:{$group}/option/tmpl/{$layout}");
+        }
+
+        // parent group
         if (empty($layoutPath)) {
             $layoutPath = $this->app->path->path("cart-elements:core/{$group}/tmpl/{$layout}");
         }
 
+        // global
         if (empty($layoutPath)) {
             $layoutPath = $this->app->path->path("cart-elements:core/element/tmpl/{$layout}");
         }
