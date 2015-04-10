@@ -23,11 +23,6 @@ class JBCartElementPriceDescription extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $value = $this->getValue();
-        if (!isset($value) || empty($value)) {
-            return false;
-        }
-
         return true;
     }
 
@@ -37,8 +32,7 @@ class JBCartElementPriceDescription extends JBCartElementPrice
      */
     public function getSearchData()
     {
-        $value = JString::trim($this->getValue());
-        if (!empty($value)) {
+        if ($value = $this->getValue()) {
             return $value;
         }
 
