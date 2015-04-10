@@ -63,28 +63,31 @@ class JBCartElementPriceValue extends JBCartElementPrice
     public function render($params = array())
     {
         $prices   = $this->getPrices();
-        $total    = $prices['total'];
-        $discount = JBCart::val($prices['save']->val(), $prices['save']->cur());
+        $discount = JBCart::val();
+        if ($prices['save']->isNegative()) {
+            $discount->set($prices['save']->val(), $prices['save']->cur());
+        }
 
-        $discount->isNegative() ? $discount->setEmpty() : $discount->positive();
-
+        $total   = $prices['total'];
         $message = JText::_(JString::trim($params->get('empty_text', '')));
-        $layout  = $params->get('layout', 'full-div');
+
+        $layout = $params->get('layout', 'full-div');
         if ($total->isEmpty() && !empty($message)) {
             $layout = 'empty';
         }
 
         if ($layout = $this->getLayout($layout . '.php')) {
             return $this->renderLayout($layout, array(
-                'mode'     => (int)$params->get('only_price_mode', 1),
                 'total'    => $total,
                 'price'    => $prices['price'],
-                'save'     => $prices['save']->positive(),
-                'discount' => $discount,
+                'save'     => $prices['save']->abs(true),
+                'discount' => $discount->abs(),
                 'currency' => $this->currency(),
                 'message'  => $message
             ));
         }
+
+        return null;
     }
 
     /**
