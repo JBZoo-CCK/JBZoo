@@ -389,7 +389,7 @@ class JBCartVariantList extends ArrayObject
                 if ($element = $this->_jbprice->getElement($key)) {
                     $element->bindData($value);
                     //TODO Need to check value, method - issetOption
-                    $result[$element->getName()] = $element->getValue();
+                    $result[$element->getName()] = $element->getValue(true);
                 }
             }
         }
@@ -410,6 +410,7 @@ class JBCartVariantList extends ArrayObject
 
         // TODO remove hack
         if (array_key_exists('params', $data)) {
+
             if (array_key_exists('_currency', $data['params'])) {
                 unset($data['params']['_currency']);
             }
