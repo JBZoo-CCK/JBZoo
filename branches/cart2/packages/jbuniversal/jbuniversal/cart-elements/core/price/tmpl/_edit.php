@@ -20,6 +20,7 @@ if (!$this->isCore() && empty($html)) {
         'task'       => 'price',
         'element'    => $this->element_id
     ));
+
     $link = '<a target="_blank" href="' . $link . '">' . JText::_('JBZOO_ELEMENT_PRICE_ADD_OPTIONS') . '</a>';
     $html = JText::sprintf('JBZOO_ELEMENT_PRICE_NO_OPTIONS', $link);
 }

@@ -18,8 +18,9 @@ $isCore = ($this->isCore() ? 'core' : 'simple');
 $attr = array(
     'data-identifier' => $this->identifier,
     'class'           => array(
+        'jbprice-param',
         'jbprice-param-' . $type,
-        'jbprice-' . $isCore . '-param jbprice-param',
+        'jbprice-' . $isCore . '-param',
         'jsElement',
         'jsPriceElement',
         'js' . ucfirst($type),

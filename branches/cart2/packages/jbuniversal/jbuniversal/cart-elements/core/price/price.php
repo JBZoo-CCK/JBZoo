@@ -183,7 +183,6 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
-     *
      * Is element belong to basic variant.
      * Basic variant means that the variants key is 0.
      * @return bool
@@ -200,7 +199,7 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function isRequired()
     {
-        if($this->required === null) {
+        if ($this->required === null) {
             $this->required = (bool)((int)$this->config->get('required', 0) === 0);
         }
 
@@ -314,11 +313,9 @@ abstract class JBCartElementPrice extends JBCartElement
 
     /**
      * Get elements value. If value not set trying to get it from basic variant.
-     *
      * @param bool   $toString A string representation of the value.
      * @param string $key      Array key.
      * @param mixed  $default  Default value if data is empty.
-     *
      * @return mixed|string|JBCartValue
      */
     public function getValue($toString = false, $key = 'value', $default = null)
@@ -367,7 +364,10 @@ abstract class JBCartElementPrice extends JBCartElement
         $group = $this->getElementGroup();
         $type  = $this->getElementType();
 
-        $this->app->jbassets->js('cart-elements:' . $group . '/' . $type . '/assets/js/edit.js');
+        $jbassets = $this->app->jbassets;
+        $jbassets->js('cart-elements:' . $group . '/' . $type . '/assets/js/edit.js');
+        $jbassets->css('cart-elements:' . $group . '/' . $type . '/assets/js/edit.js');
+        $jbassets->less('cart-elements:' . $group . '/' . $type . '/assets/less/edit.less');
 
         return $this;
     }
@@ -390,89 +390,6 @@ abstract class JBCartElementPrice extends JBCartElement
     public function getRenderName($name, $array = false)
     {
         return "{$this->hash}[{$this->identifier}][{$name}]" . ($array ? '[]' : '');
-    }
-
-    /**
-     * Get options for simple element
-     * @param  bool $label - add option with no value
-     * @return mixed
-     */
-    public function getOptions($label = true)
-    {
-        $options = $this->parseOptions(false);
-        if (!$this->hasOptions())
-        {
-            $options = $this->getJBPrice()->elementOptions($this->identifier);
-        }
-        elseif (!$this->showAll)
-        {
-            $selected = $this->getJBPrice()->elementOptions($this->identifier);
-            $options  = array_intersect_key($selected, $options);
-        }
-
-        if (false !== $label && count($options)) {
-            $options[''] = $this->getLabel($label);
-
-            ksort($options);
-        }
-
-        return $options;
-    }
-
-    /**
-     * Parse options from config.
-     * @param  bool $label - add option with no value
-     * @return array
-     */
-    public function parseOptions($label = true)
-    {
-        $options = $this->config->get('options', '');
-        $options = $this->parseLines($options);
-
-        if ($label !== false && count($options))
-        {
-            $options[''] = $this->getLabel();
-        }
-        ksort($options);
-
-        return $options;
-    }
-
-    /**
-     * Check if element has options.
-     * @return bool
-     */
-    public function hasOptions()
-    {
-        return $this->config->has('options');
-    }
-
-    /**
-     * @todo Not completed
-     * Check if element has option.
-     * @param  string $value Option value
-     * @return bool
-     */
-    public function hasOption($value)
-    {
-        $options = $this->parseOptions(false);
-
-        return (in_array($value, $options, true) && count($options)) || array_key_exists($value, $options);
-    }
-
-    /**
-     * @todo Not completed
-     * Check if element has option.
-     * @param  string $value Option value
-     * @deprecated
-     * @see JBCartElementPrice::hasOption()
-     * @return bool
-     */
-    public function issetOption($value)
-    {
-        $options = $this->parseOptions(false);
-
-        return (count($options)) && in_array($value, $options, true);
     }
 
     /**
@@ -507,7 +424,7 @@ abstract class JBCartElementPrice extends JBCartElement
     protected function getLabel($label = '')
     {
         $label = JString::trim($label);
-        if ($label === 'ELEMENT_NAME' || $label === '') {
+        if (empty($label)) {
             $label = '- ' . $this->getName() . ' -';
         }
 
@@ -708,7 +625,7 @@ abstract class JBCartElementPrice extends JBCartElement
         }
         $reflect = new ReflectionProperty(get_class(), $name);
 
-        if($reflect->isPublic()) {
+        if ($reflect->isPublic()) {
             $this->{$name} = $value;
         }
     }
