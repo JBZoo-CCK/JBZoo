@@ -44,7 +44,7 @@ $element->loadAssets();
 $label = $params->get('altlabel') ? $params->get('altlabel') : $element->getName();
 $label = $params->get('required') ? ($label . ' <span class="required-dot">*</span>') : $label;
 
-$uniqId  = $element->htmlId();
+$uniqId = $element->htmlId();
 
 ?>
 <tr class="<?php echo implode(' ', $classes); ?>">

@@ -13,11 +13,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 // create label
-$html  = $this->app->jbhtml;
 $label = '';
-if (isset($params['showlabel']) && $params['showlabel']) {
+if ((int)$params->get('showlabel')) {
     $label = ($params['altlabel']) ? $params['altlabel'] : $element->getName();
 }
 
 // render element
-echo '<span class="default-style">' . $label . $element->render($params) . '</span>';
+echo $label . $element->render($params);

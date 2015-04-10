@@ -48,7 +48,7 @@ $paymentId = $element->htmlId();
         'class'   => 'jbcart-radio-input jbcart-payment-radio',
         'name'    => $element->getControlName('_payment_id'),
         'checked' => $element->isDefault() ? 'checked' : null,
-    ));?> />
+    )); ?> />
 
     <label class="jbcart-radio-label jbcart-payment-label" for="<?php echo $paymentId; ?>">
 

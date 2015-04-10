@@ -1,25 +1,20 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
 
-$this->app->jbassets->less('jbassets:less/general/table.less');
-
-$params['style']      = 'jbtable';
-$params['tag']        = 'tr';
-$params['labelTag']   = 'td';
-$params['wrapperTag'] = 'td';
-$params['clear']      = 0;
-
-include dirname(__FILE__) . '/jbblock.php';
+if ($this->checkPosition(JBCart::DEFAULT_POSITION)) {
+    echo '<div class="jbprice-tmpl-teaser">';
+    echo $this->renderPosition(JBCart::DEFAULT_POSITION);
+    echo '</div>';
+}
