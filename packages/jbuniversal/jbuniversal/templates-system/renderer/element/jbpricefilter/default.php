@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -16,7 +15,6 @@ defined('_JEXEC') or die('Restricted access');
 // create label
 $label = '';
 if (isset($params['showlabel']) && $params['showlabel']) {
-    // check label
     $labelText = ($params['altlabel']) ? $params['altlabel'] : $element->getName();
     $label     = '<div class="label param-label"> ' . $labelText . '</div>';
 }
@@ -27,13 +25,11 @@ $attrs = array(
         'filter-element',
         'filter-element-row',
         'element-' . $params['type'],
-        'element-price-param ' . $element->isCore() ? 'core-param' : 'simple-param',
+        'element-price-param',
+        $element->isCore() ? 'core-param' : 'simple-param',
         'jsElement',
         'clear clr'
     ));
 
-echo '<div ' . $this->app->jbhtml->buildAttrs($attrs) . '/>'
-, $label
-, $elementHTML
-, '</div>';
+echo '<div ' . $this->app->jbhtml->buildAttrs($attrs) . '/>' . $label . $elementHTML . '</div>';
 

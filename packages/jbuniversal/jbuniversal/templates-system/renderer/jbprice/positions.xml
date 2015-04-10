@@ -14,4 +14,20 @@
         <position name="list">List</position>
     </positions>
 
+    <positions layout="teaser">
+        <position name="list">List</position>
+    </positions>
+
+    <positions layout="full">
+        <position name="list">List</position>
+    </positions>
+
+    <positions layout="table">
+        <position name="list">List</position>
+    </positions>
+
+    <positions layout="list">
+        <position name="list">List</position>
+    </positions>
+
 </renderer>

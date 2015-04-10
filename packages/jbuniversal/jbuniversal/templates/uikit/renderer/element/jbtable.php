@@ -14,6 +14,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 
+$this->app->jbassets->less('jbassets:less/general/table.less');
+
 $params['style']      = 'jbtable';
 $params['tag']        = 'tr';
 $params['labelTag']   = 'td';
