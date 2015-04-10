@@ -12,11 +12,5 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$unique  = $this->htmlId(true);
-$default = $params->get('default', 1);
-$name    = $this->getRenderName('value');
-?>
 
-<div class="jbprice-quantity">
-    <?php echo $this->_jbhtml->quantity($default, $params, $unique, $name, true); ?>
-</div>
+echo $this->_jbhtml->quantity($params->get('default', 1), $params, $this->htmlId(true), $this->getRenderName('value'), true);
