@@ -1504,7 +1504,7 @@ class JBFieldHelper extends AppHelper
         $elements  = $element->getElements();
         if (count($elements)) {
             foreach ($elements as $element) {
-                $type   = ucfirst($element->getElementType());
+                $type   = JString::ucfirst($element->getElementType());
                 $list[] = $this->_createOption($keyPrefix . '__' . $element->identifier, $element->getName() . ' - ' . $type, false);
             }
         }

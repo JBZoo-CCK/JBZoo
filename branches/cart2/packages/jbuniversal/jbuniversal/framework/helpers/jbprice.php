@@ -95,7 +95,7 @@ class JBPriceHelper extends AppHelper
             foreach ($types as $id => $elements) {
                 $name = $app->getType($id)->config->get('name');
                 foreach ($elements as $identifier => $element) {
-                    $list[$identifier] = ucfirst($name) . ' - ' . ucfirst($element->config->get('name'));
+                    $list[$identifier] = JString::ucfirst($name) . ' - ' . JString::ucfirst($element->config->get('name'));
                 }
             }
         }
