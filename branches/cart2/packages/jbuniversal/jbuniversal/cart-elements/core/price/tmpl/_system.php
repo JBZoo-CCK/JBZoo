@@ -19,7 +19,7 @@ $attr = array(
     'data-identifier' => $this->identifier,
     'class'           => array(
         'jbprice-param',
-        'jbprice-param-' . $type,
+        'jbprice-' . $type, // very IMPORTANT class for element templates
         'jbprice-' . $isCore . '-param',
         'jsElement',
         'jsPriceElement',
