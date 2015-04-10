@@ -87,7 +87,7 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
 
         if ($layout = $this->getLayout($layout . '.php')) {
             return self::renderLayout($layout, array(
-                'discount' => $discount->positive(),
+                'discount' => $discount,
                 'currency' => $this->currency(),
                 'message'  => $message
             ));
