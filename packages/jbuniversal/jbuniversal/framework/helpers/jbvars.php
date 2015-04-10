@@ -55,6 +55,14 @@ class JBVarsHelper extends AppHelper
      */
     public function lower($string, $noJoomla = false, $trimList = false)
     {
+        if (is_array($string)) {
+            foreach ($string as $key => $value) {
+                $string[$key] = $this->lower($value, $noJoomla, $trimList);
+            }
+
+            return $string;
+        }
+
         if ($noJoomla) {
             $trimList = $trimList !== false ? $trimList : " \t\n\r\0\x0B"; // PHP system default
 
@@ -77,6 +85,14 @@ class JBVarsHelper extends AppHelper
      */
     public function upper($string, $noJoomla = false, $trimList = false)
     {
+        if (is_array($string)) {
+            foreach ($string as $key => $value) {
+                $string[$key] = $this->upper($value, $noJoomla, $trimList);
+            }
+
+            return $string;
+        }
+
         if ($noJoomla) {
             $trimList = $trimList !== false ? $trimList : " \t\n\r\0\x0B"; // PHP system default
 
