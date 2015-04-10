@@ -70,7 +70,7 @@
                                         $(this).attr("name", newAttrs);
                                     });
 
-                                    ui.item.append($newElem);
+                                    ui.item.prepend($newElem);
                                 }
                             });
 
@@ -213,7 +213,7 @@
                 type = $link.data('type'),
                 group = $link.closest('.jsElementsGroup').data('group'),
                 $elementList = $this.$('.jsElementList:first'),
-                $place = $("<li>").addClass("element loading").prependTo($elementList);
+                $place = $("<li>").addClass("element loading").appendTo($elementList);
 
             $elementList.removeClass('empty-list');
 
