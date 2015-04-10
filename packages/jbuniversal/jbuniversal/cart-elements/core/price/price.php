@@ -419,7 +419,7 @@ abstract class JBCartElementPrice extends JBCartElement
     /**
      * Get label for element template.
      * @param string $label
-     * @return mixed
+     * @return string
      */
     protected function getLabel($label = '')
     {
