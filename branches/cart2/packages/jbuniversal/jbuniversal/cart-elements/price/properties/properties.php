@@ -23,11 +23,11 @@ class JBCartElementPriceProperties extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
+        $width  = $this->getValue(true, 'width');
         $length = $this->getValue(true, 'length');
         $height = $this->getValue(true, 'height');
-        $width  = $this->getValue(true, 'width');
 
-        if (!empty($length) || !empty($height) || !empty($width)) {
+        if (!empty($width) || !empty($length) || !empty($height)) {
             return true;
         }
 
@@ -43,9 +43,9 @@ class JBCartElementPriceProperties extends JBCartElementPrice
     {
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderEditLayout($layout, array(
-                'height' => $this->getValue(true, 'height'),
-                'length' => $this->getValue(true, 'length'),
-                'width'  => $this->getValue(true, 'width')
+                'width'  => $this->get('width'),
+                'height' => $this->get('height'),
+                'length' => $this->get('length'),
             ));
         }
     }
@@ -58,9 +58,9 @@ class JBCartElementPriceProperties extends JBCartElementPrice
     {
         if ($layout = $this->getLayout('properties.php')) {
             return self::renderLayout($layout, array(
-                'height' => $this->getValue(true, 'height'),
-                'length' => $this->getValue(true, 'length'),
-                'width'  => $this->getValue(true, 'width')
+                'width'  => $this->get('width'),
+                'height' => $this->get('height'),
+                'length' => $this->get('length'),
             ));
         }
 
