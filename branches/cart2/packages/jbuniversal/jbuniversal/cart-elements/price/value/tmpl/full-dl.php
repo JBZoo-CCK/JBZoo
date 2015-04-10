@@ -16,14 +16,14 @@ defined('_JEXEC') or die('Restricted access');
 
 <?php if ($discount->isEmpty()) : ?>
 
-    <dl class="jbprice-value jbprice-value-dl">
+    <dl class="jbprice-value-dl">
         <dt class="jbprice-value-label"><?php echo JText::_('JBZOO_ELEMENT_PRICE_VALUE_LABEL_TOTAL'); ?></dt>
         <dd class="jbprice-value-total"><?php echo $total->html($currency); ?></dd>
     </dl>
 
-<?php elseif ($discount->isPositive()) : ?>
+<?php else: ?>
 
-    <dl class="jbprice-value jbprice-value-dl no-border">
+    <dl class="jbprice-value-dl">
         <dt class="jbprice-value-label"><?php echo JText::_('JBZOO_ELEMENT_PRICE_VALUE_LABEL_PRICE'); ?></dt>
         <dd class="jbprice-value-price"><?php echo $price->html($currency); ?></dd>
 
@@ -34,7 +34,7 @@ defined('_JEXEC') or die('Restricted access');
         <dd class="jbprice-value-save">
             <span class="jbprice-value-save-value"><?php echo $save->html($currency); ?></span>
             <span class="jbprice-value-save-percent">
-                ( <?php echo $save->percent($price)->text($currency); ?> )
+                ( <?php echo $save->percent($price)->negative()->text($currency); ?> )
             </span>
         </dd>
     </dl>

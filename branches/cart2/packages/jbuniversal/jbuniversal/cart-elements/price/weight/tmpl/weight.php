@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,4 +12,5 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $value;
+
+echo JText::sprintf('JBZOO_ELEMENT_PRICE_WEIGHT_UNIT', $value);

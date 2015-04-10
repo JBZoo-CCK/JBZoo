@@ -14,4 +14,4 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 
-<span class="jbprice-discount-value"><?php echo $discount->html($currency); ?></span>
+<span class="jbprice-discount-text"><?php echo $discount->html($currency); ?></span>

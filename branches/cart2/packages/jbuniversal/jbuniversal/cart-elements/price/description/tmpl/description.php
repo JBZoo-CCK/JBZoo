@@ -10,6 +10,6 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
 
-<span class="jbprice-description"><?php echo $this->getValue(); ?></span>
+echo JText::_($this->getValue());

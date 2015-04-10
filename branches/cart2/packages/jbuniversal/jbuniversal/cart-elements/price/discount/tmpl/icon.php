@@ -14,4 +14,4 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 
-<span class="jbprice-discount-icon"> </span>
+<span class="jbprice-discount-icon">&nbsp;</span>
