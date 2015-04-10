@@ -33,6 +33,9 @@
         <param name="percent_round" type="jbbool" default="1" label="JBZOO_ELEMENT_PRICE_DISCOUNT_PERCENT_ROUND"
                description="JBZOO_ELEMENT_PRICE_DISCOUNT_PERCENT_ROUND_DESC"/>
 
+        <param name="is_negative" type="jbbool" default="1" label="JBZOO_ELEMENT_PRICE_DISCOUNT_IS_NEGATIVE"
+               description="JBZOO_ELEMENT_PRICE_DISCOUNT_IS_NEGATIVE_DESC"/>
+
         <param name="empty_show" type="jbbool" default="0" label="JBZOO_ELEMENT_PRICE_DISCOUNT_EMPTY_SHOW"
                description="JBZOO_ELEMENT_PRICE_DISCOUNT_EMPTY_SHOW_DESC"/>
 
