@@ -167,6 +167,22 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     * @param $template
+     */
+    public function setTemplate($template)
+    {
+        $this->template = $template;
+    }
+
+    /**
+     * @param $layout
+     */
+    public function setLayout($layout)
+    {
+        $this->layout = $layout;
+    }
+
+    /**
      *
      * Is element belong to basic variant.
      * Basic variant means that the variants key is 0.
