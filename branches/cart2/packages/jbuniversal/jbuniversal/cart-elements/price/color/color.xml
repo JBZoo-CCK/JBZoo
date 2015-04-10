@@ -20,53 +20,32 @@
     <description>JBZOO_ELEMENT_PRICE_COLOR_DESC</description>
 
     <params>
-        <param name="options" type="jbcolor" cols="35" label="JBZOO_ELEMENT_PRICE_COLOR_OPTIONS"
+        <param name="options" type="jbcolor" cols="20" label="JBZOO_ELEMENT_PRICE_COLOR_OPTIONS"
                description="JBZOO_ELEMENT_PRICE_COLOR_OPTIONS_DESC"/>
 
         <param name="path" type="text" default="images/jbcolor" label="JBZOO_ELEMENT_PRICE_COLOR_PATH"
                description="JBZOO_ELEMENT_PRICE_COLOR_PATH_DESC"/>
-
     </params>
 
     <params group="render">
-
-        <param name="width" type="text" default="26" label="JBZOO_WIDTH" description="JBZOO_WIDTH"/>
-
-        <param name="height" type="text" default="26" label="JBZOO_HEIGHT" description="JBZOO_HEIGHT"/>
-    </params>
-
-    <params group="filter">
-
-        <param name="jbzoo_filter_render" type="list" label="JBZOO_ELEMENT_TEMPLATE"
-               description="JBZOO_ELEMENT_TEMPLATE_DESC" default="_auto_">
-
-            <option value="_auto_">JBZOO_ELEMENT_TEMPLATE_AUTO</option>
-            <option value="text">JBZOO_ELEMENT_TEMPLATE_TEXT</option>
-            <option value="checkbox">JBZOO_ELEMENT_TEMPLATE_CHECKBOX</option>
-            <option value="jqueryui">JBZOO_ELEMENT_TEMPLATE_JQUERYUI</option>
-            <option value="radio">JBZOO_ELEMENT_TEMPLATE_RADIO</option>
-            <option value="select">JBZOO_ELEMENT_TEMPLATE_SELECT</option>
-            <option value="select-chosen">JBZOO_ELEMENT_TEMPLATE_SELECT_CHOSEN</option>
-            <option value="jbcolor">JBZOO_ELEMENT_TEMPLATE_COLOR</option>
-            <option value="hidden">JBZOO_ELEMENT_TEMPLATE_HIDDEN</option>
-
+        <param name="layout" type="list" label="JBZOO_ELEMENT_PRICE_OPTION_LAYOUT"
+               description="JBZOO_ELEMENT_PRICE_OPTION_LAYOUT_DESC" default="select">
+            <option value="color">JBZOO_ELEMENT_PRICE_OPTION_LAYOUT_COLOR</option>
+            <option value="text">JBZOO_ELEMENT_PRICE_OPTION_LAYOUT_TEXT</option>
+            <option value="radio">JBZOO_ELEMENT_PRICE_OPTION_LAYOUT_RADIO</option>
+            <option value="select">JBZOO_ELEMENT_PRICE_OPTION_LAYOUT_SELECT</option>
+            <option value="select-chosen">JBZOO_ELEMENT_PRICE_OPTION_LAYOUT_SELECT_CHOSEN</option>
+            <option value="buttons">JBZOO_ELEMENT_PRICE_OPTION_LAYOUT_BUTTONS</option>
         </param>
 
-        <param name="multiple" type="jbbool" default="0" label="JBZOO_FILTER_MULTIPLE"
-               description="JBZOO_FILTER_MULTIPLE_DESC"/>
+        <param name="label" type="jbtext" default="" label="JBZOO_ELEMENT_PRICE_OPTION_LABEL"
+               description="JBZOO_ELEMENT_PRICE_OPTION_LABEL_DESC"/>
 
-        <param name="jbzoo_filter_default" type="text" abel="JBZOO_FILTER_DEFAULT"
-               description="JBZOO_FILTER_DEFAULT_DESC"/>
+        <param name="width" type="text" default="26" label="JBZOO_ELEMENT_PRICE_COLOR_WIDTH"
+               description="JBZOO_ELEMENT_PRICE_COLOR_WIDTH_DESC"/>
 
-        <param name="jbzoo_filter_count" type="jbbool" default="1"
-               label="JBZOO_FILTER_COUNT" description="JBZOO_FILTER_COUNT_DESC"/>
-
-        <!-- jquery.ui autocomplete -->
-        <param name="@spacer" type="jbspacer" default="JBZOO_AUTOCOMPLETE_TEXT_ONLY"/>
-
-        <param name="jbzoo_filter_autocomplete" type="jbbool" default="1"
-               label="JBZOO_FILTER_AUTOCOMPLETE" description="JBZOO_FILTER_AUTOCOMPLETE_DESC"/>
-
+        <param name="height" type="text" default="26" label="JBZOO_ELEMENT_PRICE_COLOR_HEIGHT"
+               description="JBZOO_ELEMENT_PRICE_COLOR_HEIGHT_DESC"/>
     </params>
 
 </element>

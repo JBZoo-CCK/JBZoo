@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -18,13 +17,15 @@ $unique = $string->getId('calendar-');
 
 if ($value = $this->getValue()) {
     try {
-
-        $value = $this->app->html->_('date', $value, $this->app->date->format(JBCartElementPriceDate::EDIT_DATE_FORMAT),
-            $this->app->date->getOffset());
-
+        $value = $this->app->html->_('date',
+            $value,
+            $this->app->date->format(JBCartElementPriceDate::EDIT_DATE_FORMAT),
+            $this->app->date->getOffset()
+        );
     } catch (Exception $e) {
     }
 }
+
 echo $this->app->html->_('zoo.calendar', $value, $this->getControlName('value'), $unique, array(
     'class' => $string->getId('calendar-element-')
 ), true);
