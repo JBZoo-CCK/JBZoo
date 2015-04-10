@@ -30,11 +30,11 @@
             init: function ($this) {
                 this.elements = {};
                 this.cache = {};
-
                 $.each($this.options.elements, function (key, params) {
 
-                    var element = $('.jbprice-param' + key.replace('_', '-'), $this.el),
-                        plugName = $this._namespace + key,
+                    var _class = key.charAt(0).toUpperCase() + key.substr(1),
+                        element = $('.js' + _class, $this.el),
+                        plugName = $this._namespace + '_' + key,
                         defaultName = $this._namespace + '_default';
                     if (JBZoo.empty(params)) {
                         params = {};
@@ -114,7 +114,7 @@
 
                 var values = {};
 
-                $('.jbprice-simple-param', this.el).each(function () {
+                $('.jsSimple', this.el).each(function () {
 
                     var $param = $(this);
 

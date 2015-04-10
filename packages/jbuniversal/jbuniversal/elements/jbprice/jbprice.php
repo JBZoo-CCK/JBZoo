@@ -584,10 +584,10 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $options = array();
         $variant = $this->_list->byDefault();
         if ($variant->count()) {
-            foreach ($variant->all() as $key => $element) {
+            foreach ($variant->all() as $element) {
                 if ($element->isCore()) {
-                    $params        = new AppData(isset($this->_render_params[$key]) ? $this->_render_params[$key] : array());
-                    $options[$key] = $element->interfaceParams($params);
+                    $params        = new AppData(isset($this->_render_params[$element->identifier]) ? $this->_render_params[$element->identifier] : array());
+                    $options[$element->getElementType()] = $element->interfaceParams($params);
                 }
             }
         }

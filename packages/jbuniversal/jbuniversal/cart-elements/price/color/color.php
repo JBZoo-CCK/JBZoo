@@ -12,7 +12,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 App::getInstance('zoo')->loader->register('JBCartElementPriceOption', 'cart-elements:price/option/option.php');
 
 /**
@@ -59,6 +58,8 @@ class JBCartElementPriceColor extends JBCartElementPriceOption
                 'value' => $this->getValue()
             ));
         }
+
+        return null;
     }
 
     /**
@@ -74,7 +75,7 @@ class JBCartElementPriceColor extends JBCartElementPriceOption
                 'value'     => $this->getValue(),
                 'name'      => $this->getRenderName('value'),
                 'data'      => $this->_getOptions(true),
-                'dataColor' => $this->_getColors(),
+                'dataColor' => $this->_getColors()
             ));
         }
     }
@@ -136,6 +137,7 @@ class JBCartElementPriceColor extends JBCartElementPriceOption
     public function hasOption($value)
     {
         $colors = $this->_getColors();
+
         return (array_key_exists($value, $colors));
     }
 

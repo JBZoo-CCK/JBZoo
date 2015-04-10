@@ -63,16 +63,6 @@ class JBCartElementPriceMargin extends JBCartElementPrice
     }
 
     /**
-     * Returns data when variant changes
-     * @param array $params
-     * @return null
-     */
-    public function renderAjax($params = array())
-    {
-        return $this->render($params);
-    }
-
-    /**
      * Get elements value
      * @param string $key      Array key.
      * @param mixed  $default  Default value if data is empty.

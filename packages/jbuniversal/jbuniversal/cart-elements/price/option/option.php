@@ -25,6 +25,7 @@ class JBCartElementPriceOption extends JBCartElementPrice
     public function hasValue($params = array())
     {
         $selected = $this->_getOptions(false);
+
         return !empty($selected);
     }
 
@@ -54,7 +55,7 @@ class JBCartElementPriceOption extends JBCartElementPrice
 
     /**
      * @param array $params
-     * @return array|mixed|null|string|void
+     * @return array|mixed|null|string
      */
     public function render($params = array())
     {
@@ -63,6 +64,8 @@ class JBCartElementPriceOption extends JBCartElementPrice
                 'data' => $this->_getOptions($params->get('label', ''))
             ));
         }
+
+        return false;
     }
 
     /**
@@ -122,17 +125,20 @@ class JBCartElementPriceOption extends JBCartElementPrice
     protected function _getOptions($label = true)
     {
         $options = $this->_parseOptions(false);
-
-        if (!$this->hasOptions()) {
+        if (!$this->hasOptions())
+        {
             $options = $this->getJBPrice()->elementOptions($this->identifier);
-
-        } elseif (!$this->showAll) {
+        }
+        elseif (!$this->showAll)
+        {
             $selected = $this->getJBPrice()->elementOptions($this->identifier);
             $options  = array_intersect_key($selected, $options);
         }
 
-        if (false !== $label && count($options)) {
+        if (false !== $label && count($options))
+        {
             $options[''] = $this->getLabel($label);
+
             ksort($options);
         }
 
@@ -149,7 +155,8 @@ class JBCartElementPriceOption extends JBCartElementPrice
         $options = $this->config->get('options', '');
         $options = $this->parseLines($options);
 
-        if ($label !== false && count($options)) {
+        if ($label !== false && count($options))
+        {
             $options[''] = $this->getLabel();
         }
         ksort($options);

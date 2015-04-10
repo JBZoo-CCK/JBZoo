@@ -16,7 +16,7 @@
         {
             rePaint: function (data) {
 
-                this.el.html(data);
+                this.el.empty().prepend($(data).contents());
                 var $jbPrice = this.el.closest('.jsPrice'),
                     toggle = $('.jsCurrencyToggle', $jbPrice);
 

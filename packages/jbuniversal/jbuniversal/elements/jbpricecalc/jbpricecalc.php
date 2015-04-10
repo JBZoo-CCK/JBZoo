@@ -17,8 +17,9 @@ App::getInstance('zoo')->loader->register('ElementJBPrice', 'elements:jbprice/jb
 /**
  * Class ElementJBPriceAdvance
  * The Price element for JBZoo
+ * @since 2.2
  */
-class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
+class ElementJBPriceCalc extends ElementJBPrice
 {
     /**
      * Constructor
@@ -251,7 +252,7 @@ class ElementJBPriceCalc extends ElementJBPrice implements iSubmittable
                 /** @type JBCartVariant $variant */
                 foreach ($list as $key => $variant) {
                     /** @type JBCartElementPrice $element */
-                    if (($variant->count('simple') === 1 && !in_array($variant->hash(), $hashes)) || ($variant->isBasic())) {
+                    if (($variant->isBasic()) || ($variant->count('simple') === 1 && !in_array($variant->hash(), $hashes, true))) {
 
                         //add variant hash to array based on simple elements values
                         $hashes[$key] = $variant->hash();
