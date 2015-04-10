@@ -14,5 +14,5 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 
-<span class="jbprice-value-total jbprice-value-emptytext"><?php echo $message; ?></span>
+<span class="jbprice-value-emptytext"><?php echo $message; ?></span>
 

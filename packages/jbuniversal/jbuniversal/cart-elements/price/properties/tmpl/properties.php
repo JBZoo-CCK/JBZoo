@@ -14,14 +14,20 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 
-<span class="jbprice-properties-height">
-    <?php echo JText::sprintf('JBZOO_ELEMENT_PRICE_PROPERTIES_HEIGHT_UNIT', $height); ?>
-</span>
+<?php if ($width): ?>
+    <span class="jbprice-properties-width">
+        <?php echo JText::sprintf('JBZOO_ELEMENT_PRICE_PROPERTIES_WIDTH_UNIT', $width); ?>
+    </span>
+<?php endif; ?>
 
-<span class="jbprice-properties-length">
-    <?php echo JText::sprintf('JBZOO_ELEMENT_PRICE_PROPERTIES_LENGTH_UNIT', $length); ?>
-</span>
+<?php if ($height): ?>
+    <span class="jbprice-properties-height">
+        <?php echo JText::sprintf('JBZOO_ELEMENT_PRICE_PROPERTIES_HEIGHT_UNIT', $height); ?>
+    </span>
+<?php endif; ?>
 
-<span class="jbprice-properties-width">
-    <?php echo JText::sprintf('JBZOO_ELEMENT_PRICE_PROPERTIES_WIDTH_UNIT', $width); ?>
-</span>
+<?php if ($length): ?>
+    <span class="jbprice-properties-length">
+        <?php echo JText::sprintf('JBZOO_ELEMENT_PRICE_PROPERTIES_LENGTH_UNIT', $length); ?>
+    </span>
+<?php endif; ?>

@@ -12,6 +12,5 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-?>
 
-<div class="jbprice-sku"><?php echo $this->getValue(true); ?></div>
+echo $this->getValue(true);

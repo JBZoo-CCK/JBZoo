@@ -21,7 +21,7 @@ $vars = array(
 );
 ?>
 
-<div class="jbprice-buttons jsPriceButtons <?php echo $inCartClass; ?>">
+<div class="jsPriceButtons <?php echo $inCartClass; ?>"> <!-- remove all classes but $inCartClass -->
 
     <?php
     if ($params->get('add_show', 1)) {
