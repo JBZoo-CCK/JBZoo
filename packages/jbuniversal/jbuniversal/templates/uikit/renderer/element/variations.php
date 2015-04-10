@@ -28,7 +28,7 @@ if ($element->isCore()) {
 <div class="variant-<?php echo strtolower($name); ?>-wrap <?php echo $class; ?> variant-param">
     <strong class="hasTip row-field label"
             title="<?php echo $lang; ?>">
-        <?php echo ucfirst($lang); ?>
+        <?php echo JString::ucfirst($lang); ?>
     </strong>
     <span class="attention jsJBpriceAttention"></span>
 
