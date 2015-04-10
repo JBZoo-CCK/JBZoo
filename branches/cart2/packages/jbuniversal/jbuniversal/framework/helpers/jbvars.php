@@ -48,17 +48,20 @@ class JBVarsHelper extends AppHelper
 
     /**
      * Convert string to lower chars
-     * @param string $string
-     * @param bool   $joomla
+     * @param string      $string
+     * @param bool        $noJoomla
+     * @param string|bool $trimList
      * @return mixed|string
      */
-    public function lower($string, $joomla = false)
+    public function lower($string, $noJoomla = false, $trimList = false)
     {
-        if ($joomla) {
-            $string = trim($string);
+        if ($noJoomla) {
+            $trimList = $trimList !== false ? $trimList : " \t\n\r\0\x0B"; // PHP system default
+
+            $string = trim($string, $trimList);
             $string = function_exists('mb_strtolower') ? mb_strtolower($string) : strtolower($string);
         } else {
-            $string = JString::trim($string);
+            $string = JString::trim($string, $trimList);
             $string = JString::strtolower($string);
         }
 
@@ -66,18 +69,21 @@ class JBVarsHelper extends AppHelper
     }
 
     /**
-     * Convert string to lower chars
-     * @param string $string
-     * @param bool   $joomla
+     * Convert string to upper chars
+     * @param string      $string
+     * @param bool        $noJoomla
+     * @param string|bool $trimList
      * @return mixed|string
      */
-    public function upper($string, $joomla = false)
+    public function upper($string, $noJoomla = false, $trimList = false)
     {
-        if ($joomla) {
-            $string = trim($string);
+        if ($noJoomla) {
+            $trimList = $trimList !== false ? $trimList : " \t\n\r\0\x0B"; // PHP system default
+
+            $string = trim($string, $trimList);
             $string = function_exists('mb_strtoupper') ? mb_strtoupper($string) : strtoupper($string);
         } else {
-            $string = JString::trim($string);
+            $string = JString::trim($string, $trimList);
             $string = JString::strtoupper($string);
         }
 
