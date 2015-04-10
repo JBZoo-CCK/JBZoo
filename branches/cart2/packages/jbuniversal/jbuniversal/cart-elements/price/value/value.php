@@ -62,34 +62,29 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $prices = $this->getPrices();
-        if ($layout = $this->getLayout()) {
+        $prices   = $this->getPrices();
+        $total    = $prices['total'];
+        $discount = JBCart::val($prices['save']->val(), $prices['save']->cur());
 
-            $total    = $prices['total'];
-            $discount = JBCart::val($prices['save']->val(), $prices['save']->cur());
+        $discount->isNegative() ? $discount->setEmpty() : $discount->positive();
 
-            $discount->isNegative() ? $discount->setEmpty() : $discount->positive();
-
-            $message = JText::_(JString::trim($params->get('empty_text', '')));
-            $layout  = $params->get('layout', 'full-div');
-            if ($total->isEmpty() && !empty($message)) {
-                $layout = 'empty';
-            }
-
-            if ($layout = $this->getLayout($layout . '.php')) {
-                return $this->renderLayout($layout, array(
-                    'mode'     => (int)$params->get('only_price_mode', 1),
-                    'total'    => $total,
-                    'price'    => $prices['price'],
-                    'save'     => $prices['save']->positive(),
-                    'discount' => $discount,
-                    'currency' => $this->currency(),
-                    'message'  => $message
-                ));
-            }
+        $message = JText::_(JString::trim($params->get('empty_text', '')));
+        $layout  = $params->get('layout', 'full-div');
+        if ($total->isEmpty() && !empty($message)) {
+            $layout = 'empty';
         }
 
-        return null;
+        if ($layout = $this->getLayout($layout . '.php')) {
+            return $this->renderLayout($layout, array(
+                'mode'     => (int)$params->get('only_price_mode', 1),
+                'total'    => $total,
+                'price'    => $prices['price'],
+                'save'     => $prices['save']->positive(),
+                'discount' => $discount,
+                'currency' => $this->currency(),
+                'message'  => $message
+            ));
+        }
     }
 
     /**
