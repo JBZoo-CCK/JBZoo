@@ -131,7 +131,7 @@ class JBCartElementPriceOption extends JBCartElementPrice
             $options  = array_intersect_key($selected, $options);
         }
 
-        if ($label && count($options)) {
+        if (false !== $label && count($options)) {
             $options[''] = $this->getLabel($label);
             ksort($options);
         }
