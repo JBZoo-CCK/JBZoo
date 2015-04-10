@@ -307,8 +307,8 @@ class JBPriceFilterRenderer extends PositionRenderer
     {
         $value = (array)$this->app->jbrequest->get('e', array());
         $id    = $this->_jbprice->identifier;
-
-        if (isset($value[$identifier]) && array_key_exists($identifier, $value)) {
+        
+        if (isset($value[$id]) && array_key_exists($id, $value)) {
             $elements = $value[$id];
             if (array_key_exists($identifier, $elements)) {
                 $element = $elements[$identifier];
