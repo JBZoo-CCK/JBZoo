@@ -55,6 +55,7 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
 
     /**
      * Renders the element
+     * TODO add protected method for preparing $discount variable
      * @param JSONData|array $params
      * @return mixed|string
      */
@@ -79,7 +80,12 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
                 'round_type'   => 'classic'
             ));
         }
-        $discount->negative();
+
+        if ((int)$params->get('is_negative', 1)) {
+            $discount->negative();
+        } else {
+            $discount->positive();
+        }
 
         if ($discount->isEmpty() && !empty($message)) {
             $layout = 'empty';
