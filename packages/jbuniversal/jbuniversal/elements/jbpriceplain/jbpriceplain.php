@@ -172,7 +172,7 @@ class ElementJBPricePlain extends ElementJBPrice
             'modal_template' => null
         ));
 
-        return parent::renderLayout($this->getLayout('modal.php'), array(
+        return parent::renderLayout($this->getLayout('_modal.php'), array(
             'html' => $html
         ));
     }
