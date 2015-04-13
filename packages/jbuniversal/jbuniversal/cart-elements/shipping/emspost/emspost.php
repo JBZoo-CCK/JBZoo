@@ -172,7 +172,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
     {
         $location = $this->_getLocation($value);
         if (!$location) {
-            throw new JBCartElementShippingException('empty location');
+            throw new JBCartElementShippingException('JBZOO_ELEMENT_SHIPPING_EMSPOST_EMPTY_LOCATION');
         }
 
         // for calculate rate

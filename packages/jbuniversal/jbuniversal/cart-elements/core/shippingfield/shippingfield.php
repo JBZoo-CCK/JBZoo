@@ -68,13 +68,13 @@ abstract class JBCartElementShippingField extends JBCartElement
      */
     public function validateSubmission($value, $params)
     {
-        $data = $this->app->validator->create('textfilter', array(
-            'required' => false,
-            'trim'     => true
-        ))->clean($value->get('value'));
+        $isShippingField = false;
+        if ($shipping = $this->getOrder()->getShipping()) {
+            $isShippingField = $shipping->hasShippingField($this->identifier);
+        }
 
-        if (!empty($data)) {
-            return array('value' => $data);
+        if ($isShippingField) {
+            return parent::validateSubmission($value, $params);
         }
 
         return array();

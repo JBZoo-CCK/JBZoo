@@ -19,17 +19,4 @@
     <version>1.0</version>
     <description>JBZOO_ELEMENT_SHIPPINGFIELD_TEXTAREA_DESC</description>
 
-    <params>
-
-        <param name="name" type="text" default="" label="JBZOO_ELEMENT_NAME" description="JBZOO_ELEMENT_NAME_DESC"/>
-
-        <param name="description" type="text" default="" label="JBZOO_ELEMENT_DESCRIPTION"
-               description="JBZOO_ELEMENT_DESCRIPTION_DESC"/>
-
-        <param name="access" type="zooaccesslevel" default="" label="JBZOO_ELEMENT_ACCESS"
-               description="JBZOO_ELEMENT_ACCESS_DESC"/>
-
-    </params>
-
-
 </element>

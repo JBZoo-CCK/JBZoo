@@ -18,4 +18,10 @@
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
+
+    <params>
+        <param name="required" type="jbbool" default="0" label="JBZOO_ELEMENT_REQUIRED"
+               description="JBZOO_ELEMENT_REQUIRED_DESC"/>
+    </params>
+
 </element>
