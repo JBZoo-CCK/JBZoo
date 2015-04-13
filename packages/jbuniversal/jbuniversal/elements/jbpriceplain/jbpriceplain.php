@@ -152,10 +152,11 @@ class ElementJBPricePlain extends ElementJBPrice
 
     /**
      * @param string $template Template to render
-     * @param string $layout   Current price layout
+     * @param string $layout   Current element price layout
      * @param string $hash     Hash string for communication between the elements in/out modal window
+     * @return string
      */
-    public function ajaxModalWindow($template = 'default', $layout = 'default', $hash)
+    public function ajaxModalWindow($template = 'default', $layout = 'default', $hash = '')
     {
         $this->_template = $template;
         $this->_layout   = $layout;
@@ -164,11 +165,15 @@ class ElementJBPricePlain extends ElementJBPrice
         $this->_getRenderParams();
         $this->_getConfig();
 
-        echo $this->render(array(
+        $html = $this->render(array(
             'template'       => $template,
             'layout'         => 'modal',
             '_layout'        => $layout,
             'modal_template' => null
+        ));
+
+        return parent::renderLayout($this->getLayout('modal.php'), array(
+            'html' => $html
         ));
     }
 

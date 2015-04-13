@@ -384,6 +384,7 @@ class JBCartVariantList extends ArrayObject
     {
         $result = array();
         $values = (array)$this->values;
+
         if (!empty($values)) {
             foreach ($values as $key => $value) {
                 if ($element = $this->_jbprice->getElement($key)) {
@@ -451,12 +452,12 @@ class JBCartVariantList extends ArrayObject
         $result  = array();
 
         /** @type JBCartElementPrice $element */
-        foreach ($variant->core() as $key => $element) {
-            if ($params = $this->_jbprice->getElementRenderParams($key)) {
+        foreach ($variant->core() as $element) {
+            if ($params = $this->_jbprice->getElementRenderParams($element->identifier)) {
                 $data = $element->renderAjax(new AppData($params));
                 //return data if not null
                 if ($data !== null) {
-                    $result[$key] = $data;
+                    $result[$element->getElementType()] = $data;
                 }
             }
         }
@@ -471,11 +472,11 @@ class JBCartVariantList extends ArrayObject
     public function defaultVariantCartData()
     {
         $data    = array();
-        $variant = $this->byDefault();
+        $variant = $this->current();
         if ($variant->count('core')) {
             foreach ($variant->core() as $key => $element) {
                 $value = $element->getValue(true);
-                if ($key === '_properties') { //TODO HACK for multiplicity in properties element
+                if ($element->is('_properties')) { //TODO HACK for multiplicity in properties element
                     $value = (array)$element->data();
                 }
                 $data[$key] = $value;

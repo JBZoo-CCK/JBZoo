@@ -116,7 +116,8 @@
                     'autoSize'  : true,
                     'fitToView' : false,
                     'beforeShow': function () {
-                        var content = $('.fancybox-iframe').contents().find('.jsPriceModal');
+                        var content = $('.fancybox-iframe').contents().find('.jsPrice');
+                        content.addClass('jsPriceModal jbprice-modal');
 
                         this.width  = (content.width() + 100);
                         this.height = (content.height() + 100);

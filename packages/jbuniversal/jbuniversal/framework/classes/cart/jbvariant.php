@@ -400,6 +400,7 @@ class JBCartVariant extends ArrayObject
      */
     public function inStock($quantity)
     {
+        /** @type JBCartElementPriceBalance $element */
         if ($element = $this->get('_balance')) {
             if ($element->inStock($quantity)) {
                 return true;
@@ -432,6 +433,7 @@ class JBCartVariant extends ArrayObject
         if ($this->list instanceof JBCartVariantList && !$this->isBasic()) {
 
             $basic = $this->list->first()->getValue(true, $element->identifier);
+
             if ($basic !== null && $basic !== '') {
                 $data['_basic'] = $basic;
             }

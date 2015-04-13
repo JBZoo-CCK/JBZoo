@@ -446,9 +446,9 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         }
 
         $this->hash = md5(serialize(array(
-            $params,
             $this->identifier,
             $this->_item->id,
+            (array)$params,
             (array)$this->_item->elements->get($this->identifier),
             (array)$this->_getConfig(),
             (array)$this->_getRenderParams(),
@@ -1036,7 +1036,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function bindVariant(JBCartVariant $variant)
     {
-        if (null !== $this->_item) {
+        if ($this->_item !== null) {
             $simple = $variant->simple();
 
             $values     = (array)$this->_item->elements->find($this->identifier . '.values', array());
@@ -1050,12 +1050,11 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 ));
 
                 $_selected = array_filter(array_map(create_function('$element', 'return JString::strlen($element->getValue(true)) > 0
-                    ? array(JString::trim($element->getValue(true)) => $element->getValue(true)) : null;'), $simple)
+                    ? JString::trim($element->getValue(true)) : null;'), $simple)
                 );
-
                 if ($_selected) {
                     foreach ($_selected as $key => $value) {
-                        $selected[$key] = array_merge(isset($selected[$key]) ? $selected[$key] : array(), (array)$value);
+                        $selected[$key][$value] = $value;
                     }
                 }
             }

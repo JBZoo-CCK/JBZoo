@@ -12,7 +12,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$this->js('jbassets:js/libs/chosen.js');
+$this->js('jbassets:js/libs/chosen.min.js');
 $this->css('jbassets:css/libs/chosen.css'); ?>
 
 <span class="jbprice-option-select-chosen">

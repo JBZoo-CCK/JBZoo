@@ -94,7 +94,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
     protected function _interfaceParams($params = array())
     {
         $cart = JBCart::getInstance();
-        $key  = $this->_jbprice->getList()->getSessionKey();
+        $key  = $this->getJBPrice()->getList()->getSessionKey();
 
         return array(
             'key'        => $key,
