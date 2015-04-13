@@ -99,12 +99,12 @@ abstract class JBCartElementPrice extends JBCartElement
     protected $prices;
 
     /**
-     * @var ElementJBPrice
+     * @type ElementJBPrice
      */
     protected $_jbprice;
 
     /**
-     * @var JBHtmlHelper
+     * @type JBHtmlHelper
      */
     protected $_jbhtml;
 
@@ -183,6 +183,14 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     * @param boolean $cache
+     */
+    public function setCache($cache)
+    {
+        $this->cache = $cache;
+    }
+
+    /**
      * Is element belong to basic variant.
      * Basic variant means that the variants key is 0.
      * @return bool
@@ -204,6 +212,14 @@ abstract class JBCartElementPrice extends JBCartElement
         }
 
         return $this->required;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isCache()
+    {
+        return $this->cache;
     }
 
     /**

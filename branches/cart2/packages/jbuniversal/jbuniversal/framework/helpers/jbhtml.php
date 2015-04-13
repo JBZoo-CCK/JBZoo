@@ -645,6 +645,7 @@ class JBHtmlHelper extends AppHelper
      * @param null   $selected
      * @param bool   $idtag
      * @param bool   $translate
+     * @param bool   $return
      * @return string
      */
     public function buttonsJqueryUI(
@@ -653,20 +654,31 @@ class JBHtmlHelper extends AppHelper
         $attribs = null,
         $selected = null,
         $idtag = false,
-        $translate = false
+        $translate = false,
+        $return = false
     )
     {
+        $html = array();
         if (isset($attribs['multiple'])) {
-            $html = $this->checkbox($data, $name, $attribs, $selected, $idtag, $translate, false);
+            $html[] = $this->checkbox($data, $name, $attribs, $selected, $idtag, $translate, false);
 
         } else {
-            $html = $this->radio($data, $name, $attribs, $selected, $idtag, $translate, false);
+            $html[] = $this->radio($data, $name, $attribs, $selected, $idtag, $translate, false);
         }
 
         $this->_assets->jqueryui();
-        $this->_assets->addScript('$("#' . $idtag . '-wrapper").buttonset();');
+        $script = '$("#' . $idtag . '-wrapper").buttonset();';
+        if ($return) {
+            $html[] = implode(PHP_EOL, array(
+                '<script type="text/javascript">',
+                "\tjQuery(function($){ " . $script . "});",
+                '</script>'
+            ));
+        } else {
+            $this->_assets->addScript($script);
+        }
 
-        return '<div id="' . $idtag . '-wrapper">' . $html . '</div>';
+        return '<div id="' . $idtag . '-wrapper">' . implode (PHP_EOL, $html) . '</div>';
     }
 
     /**

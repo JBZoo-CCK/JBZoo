@@ -16,5 +16,5 @@ $this->js('libraries:jquery/jquery-ui.custom.min.js');
 $this->css('libraries:jquery/jquery-ui.custom.css'); ?>
 
 <span class="jbprice-option-buttons">
-    <?php echo $this->_jbhtml->buttonsJqueryUI($data, $this->getRenderName('value'), null, $this->getValue(), $this->htmlId(true)); ?>
+    <?php echo $this->_jbhtml->buttonsJqueryUI($data, $this->getRenderName('value'), null, $this->getValue(), $this->htmlId(true), false, true); ?>
 </span>

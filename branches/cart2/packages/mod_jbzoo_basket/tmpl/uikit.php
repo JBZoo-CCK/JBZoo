@@ -23,7 +23,7 @@ $items    = $basketHelper->getBasketItems(array(
 ));
 
 ?><!--noindex-->
-<div class="jbzoo jbcart-module jsJBZooCartModule" id="jbzooCartModule-'<?php echo $module->id; ?>">
+<div class="jbzoo jbcart-module jsJBZooCartModule" id="jbzooCartModule-<?php echo $module->id; ?>">
 
     <?php if (empty($items)) : ?>
         <div class="jbcart-module-empty clearfix"><?php echo JText::_('JBZOO_CART_MODULE_EMPTY'); ?></div>

@@ -141,6 +141,7 @@ class ElementJBPriceCalc extends ElementJBPrice
      * @param string $template Template to render
      * @param string $layout   Current price layout
      * @param string $hash     Hash string for communication between the elements in/out modal window
+     * @return string
      */
     public function ajaxModalWindow($template = 'default', $layout = 'default', $hash)
     {
@@ -151,11 +152,15 @@ class ElementJBPriceCalc extends ElementJBPrice
         $this->_getRenderParams();
         $this->_getConfig();
 
-        echo $this->render(array(
+        $html = $this->render(array(
             'template'       => $template,
             'layout'         => 'modal',
             '_layout'        => $layout,
             'modal_template' => null
+        ));
+
+        return parent::renderLayout($this->getLayout('modal.php'), array(
+            'html' => $html
         ));
     }
 
@@ -293,7 +298,7 @@ class ElementJBPriceCalc extends ElementJBPrice
      */
     public function bindVariant(JBCartVariant $variant)
     {
-        if (isset($this->_item)) {
+        if ($this->_item !== null) {
             $simple = $variant->simple();
 
             $values     = (array)$this->_item->elements->find($this->identifier . '.values', array());
@@ -308,12 +313,12 @@ class ElementJBPriceCalc extends ElementJBPrice
                 ));
 
                 $_selected = array_filter(array_map(create_function('$element', 'return JString::strlen($element->getValue(true)) > 0
-                ? array(JString::trim($element->getValue(true)) . \'.\' . $element->variant => JString::trim($element->getValue(true))) : null;'), $simple)
+                ? JString::trim($element->getValue(true)) . \'.\' . $element->variant) : null;'), $simple)
                 );
 
                 if ($_selected) {
                     foreach ($_selected as $key => $value) {
-                        $selected[$key] = array_merge(isset($selected[$key]) ? $selected[$key] : array(), (array)$value);
+                        $selected[$key][$value] = $value;
                     }
                 }
             }

@@ -52,7 +52,7 @@
                 });
             },
 
-            'change .jbprice-simple-param input, .jbprice-simple-param select, .jbprice-simple-param textarea': function (e, $this) {
+            'change .jsSimple input, .jsSimple select, .jsSimple textarea': function (e, $this) {
                 $this.rePaint();
             },
 
