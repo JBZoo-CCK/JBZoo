@@ -136,7 +136,7 @@
             'click .jsAddToCart': function (e, $this) {
 
                 var jbPrice = $this.price.data('JBZooPrice'),
-                    quantity = $this.get('_quantity', 1),
+                    quantity = $this.get('quantity', 1),
                     input = $(this);
 
                 $this.ajax({
