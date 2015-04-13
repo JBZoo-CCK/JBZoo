@@ -27,7 +27,7 @@
         <param name="altlabel" type="text" default="" label="JBZOO_ELEMENT_LABEL_ALTERNATIVE"
                description="JBZOO_ELEMENT_LABEL_ALTERNATIVE_DESC"/>
 
-        <param name="required" type="jbbool" default="" label="JBZOO_ELEMENT_REQUIRED"
+        <param name="required" type="jbbool" default="0" label="JBZOO_ELEMENT_REQUIRED"
                description="JBZOO_ELEMENT_REQUIRED_DESC"/>
 
         <param name="user_field" type="jbuserdata" label="JBZOO_ELEMENT_ORDER_USER_FIELD" description=""/>

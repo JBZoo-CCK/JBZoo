@@ -614,7 +614,10 @@ abstract class JBCartElement
 
         return array(
             'value' => $this->app->validator
-                ->create('textfilter', array('required' => (int)$params->get('required')))
+                ->create('textfilter', array(
+                    'required' => (int)$params->get('required'),
+                    'trim'     => true,
+                ))
                 ->clean($value->get('value'))
         );
     }

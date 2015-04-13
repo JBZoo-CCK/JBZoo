@@ -281,6 +281,15 @@ abstract class JBCartElementShipping extends JBCartElement
         return parent::loadAssets();
     }
 
+    /**
+     * @param $elementId
+     * @return bool
+     */
+    public function hasShippingField($elementId)
+    {
+        $list = (array)$this->config->shippingfields;
+        return in_array($elementId, $list, true);
+    }
 }
 
 /**
