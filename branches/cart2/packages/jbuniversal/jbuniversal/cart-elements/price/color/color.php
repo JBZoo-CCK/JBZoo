@@ -125,8 +125,13 @@ class JBCartElementPriceColor extends JBCartElementPriceOption
      */
     protected function _getColors($colors = array())
     {
-        $colors = !empty($colors) ? $colors : $this->config->get('options');
-        return $this->_jbcolor->getColors($colors, $this->config->get('path', 'images'));
+        $colors = $this->_parseOptions();
+        if (!$this->showAll) {
+            $selected = $this->_jbprice->elementOptions($this->identifier);
+            $colors   = array_intersect_key($colors, $selected);
+        }
+
+        return $colors;
     }
 
     /**
