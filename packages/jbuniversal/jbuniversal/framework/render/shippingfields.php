@@ -224,10 +224,16 @@ class ShippingFieldsRenderer extends PositionRenderer
 
         $this->_order = isset($args['order']) ? $args['order'] : $this->_order;
 
+        $shipping = $this->_order->getShipping();
+
         // render elements
         $shippingFields = $this->_order->getShippingFields();
         foreach ($shippingFields as $identifier => $data) {
             if ($element = $this->_order->getShippingFieldElement($identifier)) {
+
+                if ($shipping && !$shipping->hasShippingField($identifier)) {
+                    continue;
+                }
 
                 $element->bindData($data);
 

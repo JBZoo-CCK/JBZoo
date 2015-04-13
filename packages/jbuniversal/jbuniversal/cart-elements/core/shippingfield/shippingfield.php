@@ -68,7 +68,7 @@ abstract class JBCartElementShippingField extends JBCartElement
      */
     public function validateSubmission($value, $params)
     {
-        $isShippingField = false;
+        $isShippingField = true; // if shipping doesn't exist = true!   
         if ($shipping = $this->getOrder()->getShipping()) {
             $isShippingField = $shipping->hasShippingField($this->identifier);
         }
