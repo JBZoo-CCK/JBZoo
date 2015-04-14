@@ -313,7 +313,7 @@ class ElementJBPriceCalc extends ElementJBPrice
                 ));
 
                 $_selected = array_filter(array_map(create_function('$element', 'return JString::strlen($element->getValue(true)) > 0
-                ? JString::trim($element->getValue(true)) . \'.\' . $element->variant) : null;'), $simple)
+                ? JString::trim($element->getValue(true) . \'.\' . $element->variant) : null;'), $simple)
                 );
 
                 if ($_selected) {
