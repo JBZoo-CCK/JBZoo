@@ -544,11 +544,11 @@ class JBHtmlHelper extends AppHelper
 
     /**
      * Render jQueryUI slider
-     * @param array  $params
+     * @param array        $params
      * @param string|array $value
-     * @param string $name
-     * @param string $idTag
-     * @param string $currency
+     * @param string       $name
+     * @param string       $idTag
+     * @param string       $currency
      * @return string
      */
     public function sliderInput($params, $value = '', $name = '', $idTag = '', $currency = '')
@@ -659,26 +659,19 @@ class JBHtmlHelper extends AppHelper
     )
     {
         $html = array();
+
         if (isset($attribs['multiple'])) {
             $html[] = $this->checkbox($data, $name, $attribs, $selected, $idtag, $translate, false);
-
         } else {
             $html[] = $this->radio($data, $name, $attribs, $selected, $idtag, $translate, false);
         }
 
-        $this->_assets->jqueryui();
-        $script = '$("#' . $idtag . '-wrapper").buttonset();';
-        if ($return) {
-            $html[] = implode(PHP_EOL, array(
-                '<script type="text/javascript">',
-                "\tjQuery(function($){ " . $script . "});",
-                '</script>'
-            ));
-        } else {
-            $this->_assets->addScript($script);
-        }
+        $idtag = $this->_jbstring->getId('jbuttonset-');
 
-        return '<div id="' . $idtag . '-wrapper">' . implode (PHP_EOL, $html) . '</div>';
+        $this->_assets->jqueryui();
+        $html[] = $this->_assets->widget('#' . $idtag, 'buttonset', array(), $return);
+
+        return '<div id="' . $idtag . '">' . implode(PHP_EOL, $html) . '</div>';
     }
 
     /**
@@ -705,22 +698,16 @@ class JBHtmlHelper extends AppHelper
     )
     {
         $this->_assets->chosen();
-        $html   = array();
-        $script = '$("#' . $idtag . '").chosen();';
+        if (empty($idtag)) {
+            $idtag = $this->_jbstring->getId('chosen-');
+        }
 
         $attribs['data-no_results_text'] = JText::_('JBZOO_CHOSEN_NORESULT');
         $attribs['data-placeholder']     = (isset($params['placeholder'])) ? $params['placeholder'] : JText::_('JBZOO_CHOSEN_SELECT');
 
+        $html   = array();
         $html[] = $this->select($data, $name, $attribs, $selected, $idtag, $translate);
-        if ($return) {
-            $html[] = implode(PHP_EOL, array(
-                '<script type="text/javascript">',
-                "\tjQuery(function($){ " . $script . "});",
-                '</script>'
-            ));
-        } else {
-            $this->_assets->addScript($script);
-        }
+        $html[] = $this->_assets->widget('#' . $idtag, 'chosen', array(), $return);
 
         return implode(PHP_EOL, $html);
     }
@@ -739,7 +726,8 @@ class JBHtmlHelper extends AppHelper
         $name,
         $selected = array(),
         $attribs = null,
-        $idtag = false)
+        $idtag = false
+    )
     {
         $itemList  = $selectInfo['items'];
         $maxLevel  = $selectInfo['maxLevel'];
@@ -817,9 +805,6 @@ class JBHtmlHelper extends AppHelper
                            $translate = false, $isLabelWrap = false
     )
     {
-        $jbstring     = $this->_jbstring;
-        $stringHelper = $this->_string;
-
         reset($data);
 
         if (!is_array($attribs)) {
@@ -832,22 +817,20 @@ class JBHtmlHelper extends AppHelper
             if (is_object($obj)) {
                 $value = $obj->value;
                 $text  = $translate ? JText::_($obj->text) : $obj->text;
-                $id    = (isset($obj->id) ? $obj->id : null);
             } else {
                 $value = $keyObj;
                 $text  = $translate ? JText::_($obj) : $obj;
-                $id    = isset($obj['id']) ? $obj['id'] : null;
             }
 
-            $valueSlug = $stringHelper->sluggify($value);
+            $valueSlug = $this->_string->sluggify($value);
+            $idTag     = $this->_jbstring->getId('id-' . $valueSlug);
 
-            $attribs['id'] = 'id' . $valueSlug . '-' . $jbstring->getId();
-            $extra         = array_merge(array(
+            $extra = array_merge(array(
                 'value' => $value,
                 'name'  => $name,
                 'type'  => $inputType,
                 'class' => 'value-' . $valueSlug
-            ), $attribs);
+            ), $attribs, array('id' => $idTag,));
 
             if (is_array($selected)) {
                 foreach ($selected as $val) {
@@ -865,7 +848,7 @@ class JBHtmlHelper extends AppHelper
             }
 
             $extraLabel = array(
-                'for'   => $extra['id'],
+                'for'   => $idTag,
                 'class' => array(
                     $inputType . '-lbl',
                     'lbl-' . $valueSlug
@@ -874,8 +857,7 @@ class JBHtmlHelper extends AppHelper
 
             if ($isLabelWrap) {
                 $html[] = '<label ' . $this->_buildAttrs($extraLabel) . '>'
-                    . ' <input ' . $this->_buildAttrs($extra) . ' /> '
-                    . $text . '</label>';
+                    . ' <input ' . $this->_buildAttrs($extra) . ' /> ' . $text . '</label>';
 
             } else {
                 $html[] = ' <input ' . $this->_buildAttrs($extra) . ' />'
