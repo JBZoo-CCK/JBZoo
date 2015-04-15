@@ -501,22 +501,49 @@ class JBHtmlHelper extends AppHelper
 
     /**
      * Render hidden field
-     * @param      $name
-     * @param null $value
-     * @param null $attribs
-     * @param null $idtag
+     * @param       $name
+     * @param null  $value
+     * @param array $attribs
+     * @param null  $idtag
      * @return string
      */
-    public function hidden($name, $value = null, $attribs = null, $idtag = null)
+    public function hidden($name, $value = null, $attribs = array(), $idtag = null)
     {
         if ($idtag) {
             $attribs['id'] = $idtag;
         }
 
-        $attribs = $this->_buildAttrs($attribs);
-        $value   = $this->cleanAttrValue($value);
+        $attribs['type']  = 'hidden';
+        $attribs['name']  = $name;
+        $attribs['value'] = $value;
 
-        return '<input type="hidden" name="' . $name . '" ' . $attribs . ' value="' . $value . '" />';
+        return '<input ' . $this->_buildAttrs($attribs) . ' />';
+    }
+
+    /**
+     * @param array $fields
+     * @return string
+     */
+    public function hiddens(array $fields)
+    {
+        $html = array();
+
+        foreach ($fields as $name => $data) {
+            if (is_array($data)) {
+
+                $value = '';
+                if (isset($data['value'])) {
+                    $value = $data['value'];
+                    unset($data['value']);
+                }
+
+                $html[] = $this->hidden($name, $value, $data);
+            } else {
+                $html[] = $this->hidden($name, $data);
+            }
+        }
+
+        return implode(PHP_EOL, $html);
     }
 
     /**
@@ -572,12 +599,12 @@ class JBHtmlHelper extends AppHelper
 
         // min box
         $html[] = '<div class="jbslider-input-box">';
-        $html[] = $valueMin->htmlInput($currency, array('class' => 'jsInput jsInput-min jbslider-input jbslider-input-min'));
+        $html[] = $valueMin->htmlInput($currency, array('class' => 'jsInput jsNoSubmit jsInput-min jbslider-input jbslider-input-min'));
         $html[] = '</div>';
 
         // max box
         $html[] = '<div class="jbslider-input-box">';
-        $html[] = $valueMax->htmlInput($currency, array('class' => 'jsInput jsInput-max jbslider-input jbslider-input-max'));
+        $html[] = $valueMax->htmlInput($currency, array('class' => 'jsInput jsNoSubmit jsInput-max jbslider-input jbslider-input-max'));
         $html[] = '</div>';
 
         $html[] = $this->hidden($name, $valueMin->val() . '/' . $valueMax->val(), array('class' => 'jsValue'));
@@ -588,6 +615,8 @@ class JBHtmlHelper extends AppHelper
             'step'   => $params['step'],
             'values' => array($valueMin->val(), $valueMax->val())
         ), true);
+
+        $html[] = JBZOO_CLR;
 
         return '<div id="' . $idTag . '" class="jbslider jsSlider jsNoCurrencyToggle">' . implode(PHP_EOL, $html) . '</div>';
     }
@@ -613,6 +642,7 @@ class JBHtmlHelper extends AppHelper
         $params['step'] = $this->_vars->number($params['step']);
 
         $this->_assets->jqueryui();
+        $this->_assets->less('jbassets:less/widget/slider.less');
         $this->_assets->addScript(
             '$("#' . $idtag . '-wrapper").removeAttr("slide");
             $("#' . $idtag . '-wrapper")[0].slide = null;
@@ -631,10 +661,17 @@ class JBHtmlHelper extends AppHelper
             $("#' . $idtag . '-value").val(' . (float)$value['0'] . '+ "/" +' . (float)$value['1'] . ');'
         );
 
-        return '<div id="' . $idtag . '-wrapper"> </div>' . PHP_EOL
-        . '<span id="' . $idtag . '-value-0" class="slider-value-0">' . $value['0'] . '</span>' . PHP_EOL
-        . '<span id="' . $idtag . '-value-1" class="slider-value-1">' . $value['1'] . '</span>' . PHP_EOL
-        . '<input type="hidden" id="' . $idtag . '-value" name="' . $name . '" />' . PHP_EOL;
+        $html = array(
+            '<div class="jsSlider jbslider">',
+            '<div id="' . $idtag . '-wrapper"> </div>',
+            '<span id="' . $idtag . '-value-0" class="slider-value-0">' . number_format($value['0'], 0, ".", " ") . '</span>',
+            '<span id="' . $idtag . '-value-1" class="slider-value-1">' . number_format($value['1'], 0, ".", " ") . '</span>',
+            '<input type="hidden" id="' . $idtag . '-value" name="' . $name . '" />',
+            JBZOO_CLR,
+            '</div>'
+        );
+
+        return implode(PHP_EOL, $html);
     }
 
     /**
@@ -671,7 +708,7 @@ class JBHtmlHelper extends AppHelper
         $this->_assets->jqueryui();
         $html[] = $this->_assets->widget('#' . $idtag, 'buttonset', array(), $return);
 
-        return '<div id="' . $idtag . '">' . implode(PHP_EOL, $html) . '</div>';
+        return '<div id="' . $idtag . '">' . implode(PHP_EOL, $html) . JBZOO_CLR . '</div>';
     }
 
     /**
