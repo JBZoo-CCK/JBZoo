@@ -14,14 +14,6 @@
         <position name="fields">Fields</position>
     </positions>
 
-    <positions layout="uikit">
-        <position name="fields">Fields</position>
-    </positions>
-
-    <positions layout="inline">
-        <position name="fields">Fields</position>
-    </positions>
-
     <positions layout="2colomns">
         <position name="left">Left fields</position>
         <position name="right">Right fields</position>

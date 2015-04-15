@@ -12,4 +12,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $this->renderPosition('fields', array('style' => 'filter.block'));
+echo $filterHelper->createRenderer()->render('item.' . $filterHelper->getItemLayout(), array(
+    'params'      => $params,
+    'type'        => $filterHelper->getType(),
+    'layout'      => $filterHelper->getItemLayout(),
+    'application' => $this->app->table->application->get($filterHelper->getAppId()),
+));

@@ -13,32 +13,36 @@
 defined('_JEXEC') or die('Restricted access');
 
 
+$params = $this->app->data->create($params);
+
 // create label
 $label = '';
-if (isset($params['showlabel']) && $params['showlabel']) {
-    if (isset($params['jbzoo_filter_render']) && $params['jbzoo_filter_render'] != 'jqueryui') {
-        $label .= '<label for="' . $attrs['id'] . '" class="label">';
-        $label .= ($params['altlabel']) ? $params['altlabel'] : $element->getConfig()->get('name');
-        $label .= '</label>';
+if ($params->get('showlabel', 1) && strpos($element->getElementType(), 'jbprice') !== 0) {
+
+    $labelText = $params->get('altlabel') ? $params->get('altlabel') : $element->getConfig()->get('name');
+
+    if ($params->get('jbzoo_filter_render') != 'jqueryui') {
+        $label = '<label class="jbfilter-label" for="' . $attrs['id'] . '">' . $labelText . '</label>';
     } else {
-        $label .= '<div class="label">';
-        $label .= ($params['altlabel']) ? $params['altlabel'] : $element->getConfig()->get('name');
-        $label .= '</div>';
+        $label = '<label class="jbfilter-label"' . $labelText . '</label>';
     }
 }
 
 
 // create class attribute
 $classes = array_filter(array(
-    'filter-element',
-    isset($params['jbzoo_filter_render']) ? 'element-' . $params['jbzoo_filter_render'] : '',
-    ($params['first']) ? 'first' : '',
-    ($params['last']) ? 'last' : '',
+    'jbfilter-row',
+    'jbfilter-' . trim($params->get('jbzoo_filter_render', 'default'), '_'),
+    $params->get('first') ? 'first' : '',
+    $params->get('last') ? 'last' : '',
 ));
 
 
 ?>
 <div class="<?php echo implode(' ', $classes); ?>">
-    <?php echo $label . '<div class="field">' . $elementHTML . '</div>'; ?>
-    <div class="clear clr"></div>
+    <?php
+    echo $label;
+    echo '<div class="jbfilter-element">' . $elementHTML . '</div>';
+    echo JBZOO_CLR;
+    ?>
 </div>

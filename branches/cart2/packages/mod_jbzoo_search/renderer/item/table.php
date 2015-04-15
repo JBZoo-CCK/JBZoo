@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -17,21 +16,17 @@ defined('_JEXEC') or die('Restricted access');
 App::getInstance('zoo')->jbassets->less('mod_jbzoo_search:assets/less/filter-table.less');
 
 ?>
-<table class="filter-table">
+<table class="jbfilter-table no-border">
     <tr>
-        <td style="width:25%;"><?php echo $this->renderPosition('cell_1_1', array('style' => 'filter.block')); ?></td>
-        <td style="width:25%;"><?php echo $this->renderPosition('cell_1_2', array('style' => 'filter.block')); ?></td>
-        <td style="width:25%;"><?php echo $this->renderPosition('cell_1_3', array('style' => 'filter.block')); ?></td>
-        <td style="width:25%;"><?php echo $this->renderPosition('cell_1_4', array('style' => 'filter.block')); ?></td>
+        <td><?php echo $this->renderPosition('cell_1_1', array('style' => 'filter.block')); ?></td>
+        <td><?php echo $this->renderPosition('cell_1_2', array('style' => 'filter.block')); ?></td>
+        <td><?php echo $this->renderPosition('cell_1_3', array('style' => 'filter.block')); ?></td>
+        <td><?php echo $this->renderPosition('cell_1_4', array('style' => 'filter.block')); ?></td>
     </tr>
     <tr>
-        <td style="width:25%;"><?php echo $this->renderPosition('cell_2_1', array('style' => 'filter.block')); ?></td>
-        <td style="width:25%;"><?php echo $this->renderPosition('cell_2_2', array('style' => 'filter.block')); ?></td>
-        <td style="width:25%;"><?php echo $this->renderPosition('cell_2_3', array('style' => 'filter.block')); ?></td>
-        <td style="width:25%;" class="controls">
-            <input type="submit" name="submit" value="<?php echo JText::_('JBZOO_BUTTON_SUBMIT'); ?>"
-                   class="jsSubmit button rborder"/>
-        </td>
+        <td><?php echo $this->renderPosition('cell_2_1', array('style' => 'filter.block')); ?></td>
+        <td><?php echo $this->renderPosition('cell_2_2', array('style' => 'filter.block')); ?></td>
+        <td><?php echo $this->renderPosition('cell_2_3', array('style' => 'filter.block')); ?></td>
+        <td><?php echo $this->renderPosition('cell_2_4', array('style' => 'filter.block')); ?></td>
     </tr>
 </table>
-

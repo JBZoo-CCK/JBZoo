@@ -13,18 +13,20 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-App::getInstance('zoo')->jbassets->less('mod_jbzoo_search:assets/less/filter-2columns.less');
-
+$pagesHTML = $filterHelper->renderPages();
 ?>
-<div class="jbfilter-cols">
 
-    <div class="jbfilter-col width50">
-        <?php echo $this->renderPosition('left', array('style' => 'filter.block')); ?>
+<?php if ((int)$params->get('pages_show', 1)) : ?>
+    <div class="jbfilter-row jbfilter-limit">
+        <label for="jbfilter-id-limit" class="jbfilter-label">
+            <?php echo JText::_('JBZOO_PAGES'); ?>
+        </label>
+
+        <div class="jbfilter-element">
+            <?php echo $pagesHTML; ?>
+        </div>
+        <?php echo JBZOO_CLR; ?>
     </div>
-
-    <div class="jbfilter-col width50">
-        <?php echo $this->renderPosition('right', array('style' => 'filter.block')); ?>
-    </div>
-
-    <?php echo JBZOO_CLR; ?>
-</div>
+<?php else :
+    echo $pagesHTML;
+endif;

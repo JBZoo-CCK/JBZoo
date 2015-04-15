@@ -13,9 +13,12 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-App::getInstance('zoo')->jbassets->less('mod_jbzoo_search:assets/less/filter-inline.less');
-
-?>
-<div class="filter-inline">
-    <?php echo $this->renderPosition('fields', array('style' => 'filter.block')); ?>
-</div>
+echo $filterHelper->renderHidden(array(
+    'exact'      => $params->get('exact', 0),
+    'controller' => 'search',
+    'option'     => 'com_zoo',
+    'task'       => 'filter',
+    'type'       => array('value' => $filterHelper->getType(), 'class' => 'jsItemType'),
+    'app_id'     => array('value' => $filterHelper->getAppId(), 'class' => 'jsApplicationId'),
+    'Itemid'     => $filterHelper->getMenuId(),
+));

@@ -13,23 +13,16 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-if (!empty($elementHTML)) {
+// create label
+$labelText = ($params['altlabel']) ? $params['altlabel'] : $element->getConfig()->get('name');
+$label     = '<h3>' . $labelText . '</h3>';
 
-    // create label
-    $label = '';
-    if (isset($params['showlabel']) && $params['showlabel']) {
-        $label .= '<h3>';
-        $label .= ($params['altlabel']) ? $params['altlabel'] : $element->getConfig()->get('name');
-        $label .= '</h3>';
-    }
+// create class attribute
+$classes = array_filter(array(
+    'tab-body',
+    isset($params['jbzoo_filter_render']) ? 'element-' . $params['jbzoo_filter_render'] : '',
+    ($params['first']) ? 'first' : '',
+    ($params['last']) ? 'last' : '',
+));
 
-    // create class attribute
-    $classes = array_filter(array(
-        'props-element',
-        isset($params['jbzoo_filter_render']) ? 'element-' . $params['jbzoo_filter_render'] : '',
-        ($params['first']) ? 'first' : '',
-        ($params['last']) ? 'last' : '',
-    ));
-
-    echo $label . '<div class="tab-body ' . implode(' ', $classes) . '">' . $elementHTML . '</div>';
-}
+echo $label . '<div class="' . implode(' ', $classes) . '">' . $elementHTML . '</div>';
