@@ -39,12 +39,18 @@
                 var $this = this;
 
                 this.UI.slider($.extend({}, $this.options, {
-                    'range': true,
-                    'slide': function (event, ui) {
+                    'range' : true,
+                    'slide' : function (event, ui) {
                         $this.setValues(ui.values);
                     },
-                    'stop' : function (event, ui) {
+                    'stop'  : function (event, ui) {
                         $this.setValues(ui.values);
+                    },
+                    'change': function (event, ui) {
+
+                        $this._delay(function () { // hack, multiple calls
+                            $this._trigger('change', [ui.values])
+                        }, 200, 'sliderChange');
                     }
                 }));
             },
@@ -69,6 +75,13 @@
                 this._setValue(values[1], 1);
             },
 
+            reset: function () {
+                this.setValues([
+                    this.options.min,
+                    this.options.max
+                ]);
+            },
+
             _setValue: function (value, index, updateMoney) {
                 var sliderValues = this.UI.slider('values');
 
@@ -77,6 +90,7 @@
                 if (this._def(updateMoney, true)) {
                     this.inputs[index].JBZooMoney('setInputValue', [value]);
                 }
+
                 this.UI.slider('values', sliderValues);
                 this.range.val(sliderValues[0] + "/" + sliderValues[1]);
             },
