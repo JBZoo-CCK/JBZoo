@@ -24,7 +24,12 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
     public function html()
     {
         $value = $this->_prepareValues();
-        return $this->_html->text($this->_getName('value'), $value['value'], 'class="jbprice-filter-value"', $this->_getId('val'));
+        return $this->_html->text(
+            $this->_getName('value'),
+            $value['value'],
+            'class="jbprice-filter-value"',
+            $this->_getId()
+        );
     }
 
     /**

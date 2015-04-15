@@ -34,7 +34,7 @@ class JBPriceFilterRenderer extends PositionRenderer
      */
     protected $_moduleParams = null;
 
-    protected $_template    = null;
+    protected $_template = null;
     protected $_application = null;
 
     /**
@@ -126,7 +126,7 @@ class JBPriceFilterRenderer extends PositionRenderer
                 }
 
                 $attrs = array(
-                    'id'    => 'filterEl_' . $this->_jbprice->identifier . '_' . $data['identifier'],
+                    'id'    => 'jbfilter-id-' . $this->_jbprice->identifier . '-' . trim($data['identifier'], '_'),
                     'class' => array(
                         'element-' . strtolower($element->getElementType()),
                         'element-tmpl-' . (array_key_exists('jbzoo_filter_render', $params) ? $params['jbzoo_filter_render'] : '_auto_')
@@ -307,7 +307,7 @@ class JBPriceFilterRenderer extends PositionRenderer
     {
         $value = (array)$this->app->jbrequest->get('e', array());
         $id    = $this->_jbprice->identifier;
-        
+
         if (isset($value[$id]) && array_key_exists($id, $value)) {
             $elements = $value[$id];
             if (array_key_exists($identifier, $elements)) {

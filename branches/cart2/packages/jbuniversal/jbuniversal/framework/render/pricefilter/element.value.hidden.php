@@ -24,6 +24,11 @@ class JBPriceFilterElementValueHidden extends JBPriceFilterElementValue
     public function html()
     {
         $value = $this->_prepareValues();
-        return $this->_html->hidden($this->_getName('value'), $value['value'], 'class="jbprice-filter-value"', $this->_getId('val'));
+        return $this->_html->hidden(
+            $this->_getName('value'),
+            $value['value'],
+            'class="jbprice-filter-value"',
+            $this->_getId()
+        );
     }
 }

@@ -47,7 +47,7 @@ class JBPriceFilterElementSku extends JBPriceFilterElement
             $this->_getName(),
             $this->_value,
             $this->_attrs,
-            $this->_getId('sku-')
+            $this->_getId()
         );
     }
 }
