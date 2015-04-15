@@ -235,11 +235,13 @@
                             eventName = eventName + '.' + $this._name;
                         }
 
-                        if (selector == parentSelector) {
+                        if (selector instanceof jQuery) {
+                            return $(selector).on(eventName, eventCallback);
+
+                        } else if (selector == parentSelector) {
                             return $(this.el).on(eventName, eventCallback);
 
-                        }
-                        if (selector.indexOf(documentSelector + ' ') == 0) {
+                        } else if (selector.indexOf(documentSelector + ' ') == 0) {
                             selector = selector.replace(documentSelector + ' ', '');
                             return $(selector).on(eventName, eventCallback);
 
