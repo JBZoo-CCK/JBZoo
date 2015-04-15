@@ -32,7 +32,7 @@ class JBPriceFilterElementDiscount extends JBPriceFilterElement
             $this->_getName(),
             $this->_attrs,
             $this->_value,
-            $this->_getId('discount')
+            $this->_getId()
         );
     }
     

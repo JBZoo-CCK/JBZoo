@@ -35,7 +35,7 @@ class JBPriceFilterElementDate extends JBPriceFilterElement
             $this->_getName(),
             $this->_value,
             $this->_attrs,
-            $this->_getId(null, true),
+            $this->_getId(),
             $this->_getPickerParams()
         );
     }

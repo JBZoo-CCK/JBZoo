@@ -44,7 +44,7 @@ class JBPriceFilterElementText extends JBPriceFilterElement
             $this->_getName(),
             $value['0'],
             $this->_attrs,
-            $this->_getId('element-text-', true)
+            $this->_getId()
         );
 
         return $html;

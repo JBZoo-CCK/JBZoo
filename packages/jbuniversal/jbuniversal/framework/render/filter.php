@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -64,7 +63,7 @@ class FilterRenderer extends AppRenderer
     /**
      * Render position
      * @param string $position
-     * @param array $args
+     * @param array  $args
      * @return string
      */
     public function renderPosition($position, $args = array())
@@ -99,15 +98,16 @@ class FilterRenderer extends AppRenderer
                 );
 
                 $attrs = array(
-                    'id'    => 'filterEl_' . $element->identifier,
+                    'id'    => 'jbfilter-id-' . trim($element->identifier, '_'),
                     'class' => array(
-                        'element-' . strtolower($element->getElementType()),
-                        'element-tmpl-' . $params['jbzoo_filter_render']
+                        'jbfilter-element-' . strtolower($element->getElementType()),
+                        'jbfilter-element-tmpl-' . trim($params['jbzoo_filter_render'], '_')
                     )
                 );
 
                 $value       = $this->_getRequest($element->identifier);
                 $elementHTML = $this->app->jbfilter->elementRender($element->identifier, $value, $params, $attrs);
+                $elementHTML = JString::trim($elementHTML);
                 if (empty($elementHTML)) {
                     continue;
                 }

@@ -30,7 +30,7 @@ class JBPriceFilterElementBalance extends JBPriceFilterElement
             $this->_getName(),
             $this->_attrs,
             $this->_value,
-            $this->_getId('balance', true)
+            $this->_getId()
         );
     }
 

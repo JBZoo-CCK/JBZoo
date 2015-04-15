@@ -48,7 +48,7 @@ class JBPriceFilterElementCurrency extends JBPriceFilterElement
             $this->_getName(),
             $this->_attrs,
             $this->_value,
-            $this->_getId('currency')
+            $this->_getId()
         );
     }
 

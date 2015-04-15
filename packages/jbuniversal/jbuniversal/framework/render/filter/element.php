@@ -273,7 +273,7 @@ class JBFilterElement
             $uniqNumber = 0;
         }
 
-        $id = isset($this->_attrs['id']) ? $this->app->jbstring->getId($this->_attrs['id']) : '';
+        $id = isset($this->_attrs['id']) ? $this->_attrs['id'] : $this->app->jbstring->getId('jbfilter-');
 
         if ($postFix !== null) {
             $id .= '-' . $postFix;

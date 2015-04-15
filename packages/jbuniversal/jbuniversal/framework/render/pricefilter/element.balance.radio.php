@@ -30,7 +30,7 @@ class JBPriceFilterElementBalanceRadio extends JBPriceFilterElementBalance
             $this->_getName(),
             $this->_attrs,
             $this->_value,
-            $this->_getId('balance')
+            $this->_getId()
         );
     }
 

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -104,9 +103,7 @@ class JBPriceFilterElement
 
     /**
      * Get element value
-     *
      * @param $value
-     *
      * @return mixed
      */
     protected function _getElementValue($value)
@@ -124,9 +121,7 @@ class JBPriceFilterElement
 
     /**
      * Check is variable empty
-     *
      * @param $value
-     *
      * @return bool
      */
     protected function _isValueEmpty($value)
@@ -216,9 +211,7 @@ class JBPriceFilterElement
 
     /**
      * Get html attributs
-     *
      * @param $attrs
-     *
      * @return array
      */
     protected function _getAttrs(array $attrs)
@@ -237,7 +230,6 @@ class JBPriceFilterElement
     /**
      * @param array $values
      * @param bool  $showAll
-     *
      * @return array
      */
     protected function _createOptionsList($values, $showAll = true)
@@ -263,10 +255,8 @@ class JBPriceFilterElement
 
     /**
      * Get element ID attribute
-     *
      * @param string $postFix
      * @param bool   $addUniq
-     *
      * @return string
      */
     protected function _getId($postFix = null, $addUniq = false)
@@ -277,7 +267,7 @@ class JBPriceFilterElement
             $uniqNumber = 0;
         }
 
-        $id = isset($this->_attrs['id']) ? $this->app->jbstring->getId($this->_attrs['id']) : '';
+        $id = isset($this->_attrs['id']) ? $this->_attrs['id'] : $this->app->jbstring->getId('jbfilter-jbprice-');
 
         if ($postFix !== null) {
             $id .= '-' . $postFix;
@@ -356,9 +346,7 @@ class JBPriceFilterElement
 
     /**
      * Init placeholder
-     *
      * @param $attrs
-     *
      * @return mixed
      */
     protected function _addPlaceholder($attrs)
