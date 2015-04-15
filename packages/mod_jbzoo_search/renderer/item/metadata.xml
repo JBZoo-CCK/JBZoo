@@ -15,13 +15,8 @@
         <description>This is the default layout to render an item in the module themes</description>
     </layout>
 
-    <layout name="inline">
-        <name>Inline</name>
-        <description>As default template</description>
-    </layout>
-
     <layout name="2colomns">
-        <name>2 Colomns</name>
+        <name>2colomns</name>
         <description>2 columns filter template</description>
     </layout>
 

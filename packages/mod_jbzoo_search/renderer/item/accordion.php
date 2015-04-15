@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -17,17 +16,20 @@ defined('_JEXEC') or die('Restricted access');
 $zoo = App::getInstance('zoo');
 $zoo->jbassets->jqueryAccordion();
 
+App::getInstance('zoo')->jbassets->less('mod_jbzoo_search:assets/less/filter-accordion.less');
+
 ?>
 
 
-<div class="filter-element jsAccordion">
+<div class="jbfilter-accordion jsAccordion">
     <?php
     for ($i = 1; $i <= 10; $i++) {
-        echo $this->renderPosition('tab-' . $i, array(
+        if ($this->checkPosition('tab-' . $i)) {
+            echo $this->renderPosition('tab-' . $i, array(
                 'moduleParams' => $params,
                 'style'        => 'filter.tab',
-            )
-        );
-    }
-    ?>
+            ));
+        }
+    } ?>
+
 </div>

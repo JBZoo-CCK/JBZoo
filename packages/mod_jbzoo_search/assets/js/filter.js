@@ -1,0 +1,170 @@
+/**
+ * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ *
+ * @package     jbzoo
+ * @version     2.x Pro
+ * @author      JBZoo App http://jbzoo.com
+ * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+ * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @coder       Alexander Oganov <t_tapak@yahoo.com>
+ */
+
+;
+(function ($, window, document, undefined) {
+
+
+    var autoSubmitExclude = [
+            '.jsMoney',
+            '.jsNoSubmit'
+        ].join(', '),
+
+        // field list for auto submit
+        autoSubmitFileds = [
+            'select',
+            'input',
+            'input[type=text]',
+            'input[type=radio]',
+            'input[type=checkbox]',
+            '.jsSlider'
+        ].join(', '),
+
+        // filed list that mustn't reset
+        resetExclude = [
+            ':reset',
+            ':submit',
+            ':button',
+            'input[type="hidden"]',
+            '.jsMoney'
+        ].join(', ');
+
+    // global hack for reset button in filter forms
+    jQuery(function ($) {
+        $('.jsFilter .jsReset').unbind();
+    });
+
+    /**
+     * Filter form handler
+     */
+    JBZoo.widget('JBZoo.Filter', {
+            'autosubmit'   : 0,
+            'submitTimeOut': 100
+        },
+        {
+            init: function ($this) {
+                $this._initAutoSubmit();
+            },
+
+            /**
+             * Listen change event
+             * @returns {boolean}
+             * @private
+             */
+            _initAutoSubmit: function () {
+                var $this = this,
+                    $fields = $this.$(autoSubmitFileds).not(autoSubmitExclude);
+
+                if (!$this.options.autosubmit) {
+                    return false;
+                }
+
+                $this.on('change', $fields, function () {
+                    $this._submitForm();
+                });
+
+                $this.on('change.JBZooSlider', $fields, function () {
+                    $this._submitForm();
+                });
+            },
+
+            /**
+             * Hack for submit (widgets, browsers, etc)
+             * @returns {boolean}
+             * @private
+             */
+            _submitForm: function () {
+                var $this = this,
+                    $form = $this.el.is('form') ? $this.el : $this.$('form');
+
+                if (!$this.options.autosubmit) {
+                    return false;
+                }
+
+                $this._delay(function () {
+                    $form.trigger('submit').submit();
+                }, $this.options.submitTimeOut, 'submitForm');
+
+                return true;
+            },
+
+            /**
+             * Reset button
+             * @param e
+             * @param $this
+             * @returns {boolean}
+             */
+            'click .jsReset': function (e, $this) {
+
+                var $inputList = $this.el.find(':input, .jsSlider').not(resetExclude);
+
+                $inputList.each(function (n, input) {
+
+                    var $input = $(input);
+
+                    if ($input.is('select') && $input.attr('multiple') != 'multiple') {
+                        // simple select
+                        $('option:eq(0)', $input).attr('selected', 'selected');
+                        $input.trigger("liszt:updated"); // hello, chosen =)
+
+
+                    } else if ($input.is('select')) {
+                        // multiple select
+                        $('option', $input).removeAttr('selected');
+                        $input
+                            .val('')
+                            .trigger("liszt:updated"); // hello, chosen =)
+
+
+                    } else if ($input.is('.jbcolor-input')) {
+                        // JBColor Widget
+                        var $colors = $input.closest('.jbzoo-colors');
+                        $colors.JBZooColors('reset');
+
+
+                    } else if ($input.is('[type=radio]')) {
+                        // radio buttons
+                        var $group = $input.closest('.jbfilter-row');
+                        $('input[type=radio]:eq(0)', $group).attr('checked', 'checked');
+
+
+                    } else if ($input.is('.jsSlider') && $input.data('JBZooSlider')) {
+                        // advanced slider
+                        $input.JBZooSlider('reset');
+
+
+                    } else if ($input.is('.jsSlider')) {
+                        // simple slider
+                        var slider = $input.find('.ui-slider').data('slider');
+                        slider.values([
+                            slider.options.min,
+                            slider.options.max
+                        ]);
+
+                        $('.slider-value-0', $input).html(JBZoo.numberFormat(slider.options.min, 0, ".", " "));
+                        $('.slider-value-1', $input).html(JBZoo.numberFormat(slider.options.max, 0, ".", " "));
+                        $('[type=hidden][name*="range"]', $input).val(slider.options.min + '/' + slider.options.max);
+
+                    } else {
+                        // default like text input
+                        $input.val('');
+                    }
+
+                });
+
+                $this._submitForm();
+
+                return false;
+            }
+
+        });
+
+})(jQuery, window, document);

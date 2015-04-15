@@ -12,24 +12,28 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
+$params = $this->app->data->create($params);
+
 // create label
 $label = '';
 if (isset($params['showlabel']) && $params['showlabel']) {
     $labelText = ($params['altlabel']) ? $params['altlabel'] : $element->getName();
-    $label     = '<div class="label param-label"> ' . $labelText . '</div>';
+    $label     = '<label class="jbfilter-label" for="' . $attrs['id'] . '">' . $labelText . '</label>';
 }
 
 // create class attribute
 $attrs = array(
     'class' => array(
-        'filter-element',
-        'filter-element-row',
-        'element-' . $params['type'],
-        'element-price-param',
-        $element->isCore() ? 'core-param' : 'simple-param',
-        'jsElement',
-        'clear clr'
+        'jbfilter-row',
+        'jbfilter-jbprice',
+        'jbfilter-jbprice-' . ($element->isCore() ? 'core' : 'simple'),
+        'jbfilter-' . trim($params->get('jbzoo_filter_render', 'default'), '_'),
     ));
 
-echo '<div ' . $this->app->jbhtml->buildAttrs($attrs) . '/>' . $label . $elementHTML . '</div>';
+echo '<div ' . $this->app->jbhtml->buildAttrs($attrs) . '/>'
+    . $label
+    . '<div class="jbfilter-element">'.$elementHTML .'</div>'
+    . JBZOO_CLR
+    . '</div>';
 
