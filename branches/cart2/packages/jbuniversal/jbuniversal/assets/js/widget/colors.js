@@ -22,6 +22,18 @@
                 this.el.find('input[type=' + this.options.type + ']:checked').next().addClass('checked');
             },
 
+            reset: function () {
+
+                var $this = this;
+
+                $this.$('.jbcolor-input')
+                    .removeAttr('checked')
+                    .addClass('unchecked')
+                    .removeClass('checked')
+                    .next()
+                    .removeClass('checked');
+            },
+
             'click .jbcolor-input': function (e, $this) {
 
                 var $field = $(this);
