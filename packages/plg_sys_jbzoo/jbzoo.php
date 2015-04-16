@@ -19,7 +19,7 @@ jimport('joomla.filesystem.file');
 !defined('JBZOO_APP_GROUP') && define('JBZOO_APP_GROUP', 'jbuniversal');
 !defined('DIRECTORY_SEPERATOR') && define('DIRECTORY_SEPERATOR', '/');
 !defined('DS') && define('DS', DIRECTORY_SEPARATOR);
-!defined('JBZOO_CLR') && define('JBZOO_CLR', '<span class="clr"></span>'); // TODO plz, kill me
+!defined('JBZOO_CLR') && define('JBZOO_CLR', '<i class="clr"></i>'); // TODO plz, kill me
 
 /**
  * Class plgSystemJBZoo
@@ -58,6 +58,7 @@ class plgSystemJBZoo extends JPlugin
 
     /**
      * Init Zoo && JBZoo Framework
+     * @return bool|null
      */
     protected function _initFramework()
     {
@@ -71,17 +72,17 @@ class plgSystemJBZoo extends JPlugin
 
         $compEnabled = JComponentHelper::getComponent('com_zoo', true)->enabled;
         if (!$compEnabled) {
-            return;
+            return null;
         }
 
         $mainConfig = JPATH_ADMINISTRATOR . '/components/com_zoo/config.php';
         if (!JFile::exists($mainConfig)) {
-            return;
+            return null;
         }
 
         require_once($mainConfig);
         if (!class_exists('App')) {
-            return;
+            return null;
         }
 
         $zoo = App::getInstance('zoo');
@@ -142,7 +143,7 @@ class plgSystemJBZoo extends JPlugin
         $joomlaApp = JFactory::getApplication();
         $jInput    = $joomlaApp->input;
         $isSite    = $joomlaApp->isSite();
-        $compName  = $jInput->getCmd('option');
+        $compName  = $jInput->getCmd('option', '');
 
         if (
             ($isSite && in_array($compName, $this->_disableInitFrontEnd, true)) ||
