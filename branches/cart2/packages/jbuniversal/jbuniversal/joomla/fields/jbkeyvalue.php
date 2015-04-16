@@ -65,8 +65,6 @@ class JFormFieldJBKeyvalue extends JFormField
             }
         }
 
-        $clr = '<div class="clear clr"></div>';
-
         foreach ($elementsList as $type => $tmpElements) {
             if (array_key_exists($type, $typesList)) {
 
@@ -137,16 +135,16 @@ class JFormFieldJBKeyvalue extends JFormField
                 $html[] = '<a href="#jbjkeyvalue-rem" class="jsJKeyValueRemove" title="' . JText::_('JBZOO_JBKEYVALUE_ADD') . '"></a>';
             }
 
-            $html[] = $clr;
+            $html[] = JBZOO_CLR;
             $html[] = '</div>';
 
             $i++;
         }
 
-        $html[] = $clr;
+        $html[] = JBZOO_CLR;
         $html[] = '<a href="#jbjkeyvalue-add" class="jsJKeyValueAdd">' . JText::_('JBZOO_JBKEYVALUE_ADD') . '</a>';
-        $html[] = $clr;
+        $html[] = JBZOO_CLR;
 
-        return '<div class="jsJKeyValue">' . implode(PHP_EOL, $html) . '</div>' . $clr;
+        return '<div class="jsJKeyValue">' . implode(PHP_EOL, $html) . '</div>' . JBZOO_CLR;
     }
 }

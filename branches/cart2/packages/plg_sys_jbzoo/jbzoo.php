@@ -19,7 +19,7 @@ jimport('joomla.filesystem.file');
 !defined('JBZOO_APP_GROUP') && define('JBZOO_APP_GROUP', 'jbuniversal');
 !defined('DIRECTORY_SEPERATOR') && define('DIRECTORY_SEPERATOR', '/');
 !defined('DS') && define('DS', DIRECTORY_SEPARATOR);
-!defined('JBZOO_CLR') && define('JBZOO_CLR', '<span class="clear clr"></span>'); // TODO plz, kill me
+!defined('JBZOO_CLR') && define('JBZOO_CLR', '<span class="clr"></span>'); // TODO plz, kill me
 
 /**
  * Class plgSystemJBZoo

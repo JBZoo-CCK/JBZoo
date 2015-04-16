@@ -51,7 +51,7 @@ defined('_JEXEC') or die('Restricted access');
             </div>
         </div>
 
-        <div class="clear"></div>
+        <?php echo JBZOO_CLR; ?>
         <hr>
 
         <?php echo $this->partial('icons', array('items' => array(

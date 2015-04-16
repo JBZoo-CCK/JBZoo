@@ -97,7 +97,7 @@ class JBFormHelper extends AppHelper
             }
         }
 
-        $html .= '</form><div class="clr"></div>';
+        $html .= '</form>' . JBZOO_CLR;
 
         return $html;
     }
@@ -286,7 +286,7 @@ class JBFormHelper extends AppHelper
             $html[] = '</div>';
         }
 
-        $html[] = '<div class="clr"></div>';
+        $html[] = JBZOO_CLR;
 
         return implode(PHP_EOL, $html);
     }

@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -28,7 +27,7 @@ $label .= $params->get('altlabel') ? $params->get('altlabel') : $element->config
 $label .= '</strong>';
 
 // create error
-$error = '';
+$error   = '';
 $isError = isset($element->error) && !empty($element->error);
 if ($isError) {
     $error = '<p class="error-message">' . (string)$element->error . '</p>';

@@ -54,7 +54,7 @@ if ($count) {
             echo '</div>';
 
             if ($isLast) {
-                echo '<div class="clear clr"></div>';
+                echo JBZOO_CLR;
             }
         }
 

@@ -57,7 +57,7 @@ if ((int)$vars['params']->get('template.category_show', 1)) : ?>
         <?php endif; ?>
 
 
-        <div class="clr clear"></div>
+        <?php echo JBZOO_CLR; ?>
     </div>
 
 <?php else: ?>

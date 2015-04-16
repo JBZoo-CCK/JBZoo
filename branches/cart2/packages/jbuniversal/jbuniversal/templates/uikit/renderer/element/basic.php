@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -25,5 +24,5 @@ $elId = $this->app->jbstring->getId('basic-');
 
     <?php echo $element->edit(); ?>
 
-    <div class="clear clr"></div>
+    <?php echo JBZOO_CLR; ?>
 </div>

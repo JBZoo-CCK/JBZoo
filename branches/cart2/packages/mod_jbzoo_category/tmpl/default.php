@@ -46,7 +46,7 @@ $classes = array('yoo-zoo', 'jbzoo', 'jbzoo-category-module', 'jbcategory-layout
                         <p class="jbcategory-desc"><?php echo $category['desc'] ?></p>
                     <?php endif; ?>
 
-                    <div class="clear"></div>
+                    <?php echo JBZOO_CLR; ?>
                 </div>
 
                 <?php if (!empty($category['items'])) {
@@ -64,7 +64,7 @@ $classes = array('yoo-zoo', 'jbzoo', 'jbzoo-category-module', 'jbcategory-layout
                         ?>
                         <div class="<?php echo implode(' ', $itemClasses); ?>">
                             <?php echo $renderer->render('item.' . $layout, array('item' => $item, 'params' => $params)); ?>
-                            <div class="clear"></div>
+                            <?php echo JBZOO_CLR; ?>
                         </div>
                     <?php
                     }
@@ -73,6 +73,6 @@ $classes = array('yoo-zoo', 'jbzoo', 'jbzoo-category-module', 'jbcategory-layout
             </div>
         <?php endforeach; ?>
 
-        <div class="clear"></div>
+        <?php echo JBZOO_CLR; ?>
     </div>
 <?php endif; ?>

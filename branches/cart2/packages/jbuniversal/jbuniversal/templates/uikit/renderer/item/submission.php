@@ -47,4 +47,4 @@ defined('_JEXEC') or die('Restricted access');
     </fieldset>
 <?php endif; ?>
 
-<div class="clear clr"></div>
+<?php echo JBZOO_CLR; ?>
