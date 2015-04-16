@@ -56,7 +56,8 @@ $align = $this->app->jbitem->getMediaAlign($item, $layout);
         </div>
     <?php endif; ?>
 
-    <div class="clear clr"></div>
+    <?php echo JBZOO_CLR; ?>
+
     <?php if ($this->checkPosition('bottom')) : ?>
         <div class="item-bottom">
             <?php echo $this->renderPosition('bottom', array('style' => 'block')); ?>

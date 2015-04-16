@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -58,17 +57,19 @@ if ($params['showlabel']) {
 }
 
 // collect html classes
-$classes = array_filter(array(
-    'index-' . (int)$params['_index'],
-    $params['class'],
-    'element-' . $element->identifier,
-    'element-' . $element->getElementType(),
-    $params['first'] ? 'first' : '',
-    $params['last'] ? 'last' : '',
-));
+$attrs = array(
+    'class' => array(
+        $params['class'],
+        'index-' . (int)$params['_index'],
+        'element-' . $element->identifier,
+        'element-' . $element->getElementType(),
+        $params['first'] ? 'first' : '',
+        $params['last'] ? 'last' : '',
+    )
+);
 
 // add clear after html
-$clear = $params['clear'] ? '<div class="clear clr clearfix"></div>' : '';
+$clear = $params['clear'] ? JBZOO_CLR : '';
 
 // render HTML for  current element
 $render = $element->render($params);
@@ -79,5 +80,10 @@ if ($params['wrapperTag']) {
 }
 
 // render result
-echo '<' . $params['tag'] . ' class="' . implode(' ', $classes) . '">', $label,
-    ' ' . $render, '</' . $params['tag'] . '>', PHP_EOL . $clear;
+echo '<' . $params['tag'] . ' ' . $this->app->jbhtml->buildAttrs($attrs) . '">'
+    . $label
+    . ' '
+    . $render
+    . '</' . $params['tag'] . '>'
+    . PHP_EOL
+    . $clear;

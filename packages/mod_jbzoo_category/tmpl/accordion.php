@@ -44,9 +44,8 @@ if (!empty($categories)) {
             . ((!empty($category['item_count'])) ? ' (' . $category['item_count'] . ')' : '')
             . '</div>';
 
-        $html[] = '<div class="clear"></div></div>';
+        $html[] = JBZOO_CLR . '</div>';
         // output category - finish
-
 
         // output items - start
         $html[] = '<div class="jbcategory-items">';
@@ -67,7 +66,7 @@ if (!empty($categories)) {
 
             $html[] = '<div class="' . implode(' ', $itemClasses) . '">';
             $html[] = $renderer->render('item.' . $layout, array('item' => $item, 'params' => $params));
-            $html[] = '<div class="clear"></div>';
+            $html[] = JBZOO_CLR;
             $html[] = '</div>';
         }
 

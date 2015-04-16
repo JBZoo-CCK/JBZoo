@@ -43,4 +43,4 @@ defined('_JEXEC') or die('Restricted access');
 
 <div class="item-links"><?php echo $this->renderPosition('links', array('style' => 'pipe')); ?></div>
 
-<div class="clear clr"></div>
+<?php echo JBZOO_CLR; ?>

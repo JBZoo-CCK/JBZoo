@@ -61,7 +61,7 @@ if (!$this->app->jbcache->start($this->params->get('config.lastmodified'))) {
                 echo '<a class="rsslink" target="_blank" href="' . $link . '" title="' . JText::_('RSS feed') . '">' .
                     JText::_('RSS feed') . '</a>';
 
-                echo '<div class="clear clr"></div>';
+                echo JBZOO_CLR;
             }
         }
 

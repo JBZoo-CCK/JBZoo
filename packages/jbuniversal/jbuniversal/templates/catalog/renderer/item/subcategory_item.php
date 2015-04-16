@@ -47,4 +47,4 @@ $align = $this->app->jbitem->getMediaAlign($item, $layout);
     </ul>
 <?php endif; ?>
 
-<div class="clear clr"></div>
+<?php echo JBZOO_CLR; ?>

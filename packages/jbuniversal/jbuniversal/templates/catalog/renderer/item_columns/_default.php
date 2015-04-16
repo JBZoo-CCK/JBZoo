@@ -39,7 +39,7 @@ if ($vars['count']) {
             . '</div>';
 
         if ($isLast) {
-            echo '<div class="clearfix"></div>';
+            echo JBZOO_CLR;
         }
 
     }

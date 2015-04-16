@@ -330,7 +330,7 @@ class JBFieldHelper extends AppHelper
             . 'value="?" title="' . JText::_('JBZOO_ORDER_MACROS_LIST') . '" />';
 
         $list   = $this->app->jbordermacros->getList();
-        $html[] = '<div class="clear"></div><ul class="jsMacrosList macros-list clear">';
+        $html[] = JBZOO_CLR . '<ul class="jsMacrosList macros-list clear">';
         foreach ($list as $key => $macros) {
             $html[] = '<li><span class="jbmacroslist-row">' . $key . '</span> ' . $macros . '</li>';
         }

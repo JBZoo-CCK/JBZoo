@@ -32,8 +32,10 @@ $redirectUrl = $this->app->jbrouter->admin(array('element' => $this->element, 'l
 
 echo $this->partial('elementlist');
 echo $this->partial('layoutlist');
-echo $this->partial('orderlist'); ?>
-<div class="clear clr"></div>
+echo $this->partial('orderlist');
+echo JBZOO_CLR;
+
+?>
 
 <form class="jbzoo-assign-elements assign-elements jsAssignElements" action="index.php" method="post" name="adminForm"
       id="adminForm" accept-charset="utf-8">
