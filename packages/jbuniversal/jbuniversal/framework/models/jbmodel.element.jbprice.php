@@ -18,9 +18,19 @@ defined('_JEXEC') or die('Restricted access');
 class JBModelElementJBPrice extends JBModelElement
 {
     /**
-     * @type \JBPriceHelper
+     * @type JBPriceHelper
      */
     protected $helper;
+
+    /**
+     * @type JBMoneyHelper
+     */
+    protected $money;
+
+    /**
+     * @type string
+     */
+    protected $_currency;
 
     const DATE_FORMAT = 'Y-m-d';
 
@@ -32,8 +42,11 @@ class JBModelElementJBPrice extends JBModelElement
     public function __construct(Element $element, $applicationId, $itemType)
     {
         parent::__construct($element, $applicationId, $itemType);
+
         $this->money  = $this->app->jbmoney;
         $this->helper = $this->app->jbprice;
+
+        $this->_currency = 'eur';
     }
 
     /**
@@ -75,7 +88,7 @@ class JBModelElementJBPrice extends JBModelElement
      */
     protected function _getWhere(JBDatabaseQuery $select, $elementId, $data, $logic = 'AND', $exact = false)
     {
-        $data  = $this->_prepareValue($data, $exact);
+        $data = $this->_prepareValue($data, $exact);
         if (empty($data)) {
             return null;
         }
@@ -176,9 +189,9 @@ class JBModelElementJBPrice extends JBModelElement
      */
     protected function _prepareValue($values, $exact = false)
     {
-        $values   = $this->unsetEmpty($values);
+        $values = $this->unsetEmpty($values);
 
-        if (isset($values['_value'])) {
+        if (array_key_exists('_value', $values)) {
             $values['_value'] = $this->_processValue((array)$values['_value']);
         }
 
@@ -228,26 +241,34 @@ class JBModelElementJBPrice extends JBModelElement
     }
 
     /**
-     * @param array $values
+     * @param array|string $values
      * @return array|mixed
      */
     protected function _processValue($values = array())
     {
         if (count($values)) {
+            $currency = null;
+            if (is_array($values) && array_key_exists('currency', $values)) {
+                $currency = $values['currency'];
+                unset($values['currency']);
+            }
+
             if (is_string($values) && $this->isRange($values)) {
                 $range  = $this->_setMinMax($values);
-                $values = $this->_value($range);
+                $values = $this->_value($range, $currency);
 
             } elseif ((is_array($values) && (isset($values['range']) && !empty($values['range'])))) {
                 $range  = $this->_setMinMax($values['range']);
-                $values = $this->_value($range);
+                $values = $this->_value($range, $currency);
 
             } elseif ((is_array($values)) && (!empty($values['min']) || !empty($values['max']))) {
-                $values = $this->_value($values);
+                $values = $this->_value($values, $currency);
 
-            } elseif (is_string($values)) {
-                $values = $this->toSql('tSku.value_n', $values);
-
+            } elseif (is_string($values) && $values !== '') {
+                $values = $this->_value(array(
+                    'min' => $values,
+                    'max' => $values
+                ), $currency);
             } elseif (is_array($values)) {
                 foreach ($values as $key => $value) {
                     $values[$key] = $this->_processValue($value);
@@ -289,18 +310,22 @@ class JBModelElementJBPrice extends JBModelElement
     }
 
     /**
-     * @param $values
+     * @param  array  $values
+     * @param  string $currency
      * @return array
      */
-    protected function _value($values)
+    protected function _value($values, $currency = null)
     {
         $range = array();
+
         if (isset($values['min'])) {
-            $range[] = 'tSku.value_n >= ' . $this->_quote(floor($values['min']));
+            $min     = JBCart::val($values['min'], $currency)->val($this->_currency);
+            $range[] = 'tSku.value_n >= ' . $this->_quote(floor($min));
         }
 
         if (isset($values['max'])) {
-            $range[] = ' tSku.value_n <= ' . $this->_quote(ceil($values['max']));
+            $max     = JBCart::val($values['max'], $currency)->val($this->_currency);
+            $range[] = ' tSku.value_n <= ' . $this->_quote(ceil($max));
         }
 
         return implode(' AND ', $range);
@@ -341,11 +366,7 @@ class JBModelElementJBPrice extends JBModelElement
      */
     protected function isRange($value)
     {
-        if (strpos($value, '/') !== false) {
-            return true;
-        }
-
-        return false;
+        return strpos($value, '/') !== false;
     }
 
     /**

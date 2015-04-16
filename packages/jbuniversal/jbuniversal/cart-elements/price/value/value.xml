@@ -44,7 +44,7 @@
             <option value="value-slider-input">JBZOO_FILTER_JBPRICE_TEMPLATE_SLIDER_INPUT</option>
             <option value="value-slider">JBZOO_FILTER_JBPRICE_TEMPLATE_SLIDER</option>
             <option value="value-range">JBZOO_FILTER_JBPRICE_TEMPLATE_RANGE</option>
-            <option value="text">JBZOO_FILTER_JBPRICE_TEMPLATE_SIMPLE</option>
+            <option value="value">JBZOO_FILTER_JBPRICE_TEMPLATE_SIMPLE</option>
             <option value="hidden">JBZOO_FILTER_JBPRICE_TEMPLATE_HIDDEN</option>
         </param>
 

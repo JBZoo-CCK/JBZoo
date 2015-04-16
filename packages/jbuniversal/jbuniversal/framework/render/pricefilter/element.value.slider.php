@@ -23,16 +23,18 @@ class JBPriceFilterElementValueSlider extends JBPriceFilterElementValue
      */
     public function html()
     {
+        $html  = array();
         $value = $this->_prepareValues();
 
-        $html = $this->_html->slider(
+        $html[] = $this->_html->slider(
             $this->_getSliderParams(),
             $value['range'],
             $this->_getName('range'),
             $this->app->jbstring->getId('jsSlider-')
         );
+        $html[] = $this->renderCurrency();
 
-        return $html;
+        return implode(PHP_EOL, $html);
     }
 
     /**

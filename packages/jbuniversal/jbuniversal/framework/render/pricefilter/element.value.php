@@ -17,19 +17,26 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBPriceFilterElementValue extends JBPriceFilterElement
 {
-
     /**
      * @return string
      */
     public function html()
     {
         $value = $this->_prepareValues();
-        return $this->_html->text(
-            $this->_getName('value'),
-            $value['value'],
-            'class="jbprice-filter-value"',
-            $this->_getId()
-        );
+
+        $html = $this->_html->text($this->_getName('value'), $value['value'], 'class="jbprice-filter-value"', $this->_getId('val'));
+
+        $html .= $this->renderCurrency();
+
+        return $html;
+    }
+
+    /**
+     * @return string
+     */
+    public function renderCurrency()
+    {
+        return $this->_html->hidden($this->_getName('currency'), $this->_getCurrency());
     }
 
     /**
@@ -73,5 +80,4 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
             'range'   => null
         ), $this->_value);
     }
-
 }
