@@ -13,4 +13,4 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-echo '<div class="jbzoo">' . $currencyHelper->renderRadio() . '</div>';
+echo '<div class="jbzoo">' . $modHelper->renderRadio() . '</div>';

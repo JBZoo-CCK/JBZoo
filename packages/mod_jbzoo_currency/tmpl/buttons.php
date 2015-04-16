@@ -13,4 +13,4 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-echo '<div class="jbzoo">', $currencyHelper->renderButtons(), '</div>';
+echo '<div class="jbzoo">' . $modHelper->renderButtons() . '</div>';

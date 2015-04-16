@@ -12,10 +12,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$zoo = App::getInstance('zoo');
-$zoo->jbassets->less('modules:mod_jbzoo_currency/assets/less/rates.less');
 
-$curList = $currencyHelper->getCurrencyList();
+$curList = $modHelper->getCurrencyList();
 ?>
 
 <?php if (!empty($curList['list'])) : ?>

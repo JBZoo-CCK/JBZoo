@@ -13,4 +13,4 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-echo '<div class="jbzoo">' . $currencyHelper->renderSelect() . '</div>';
+echo '<div class="jbzoo">' . $modHelper->renderSelect() . '</div>';

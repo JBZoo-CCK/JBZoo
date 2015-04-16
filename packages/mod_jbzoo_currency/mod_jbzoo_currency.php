@@ -19,9 +19,7 @@ $zoo = App::getInstance('zoo');
 
 $zoo->jbdebug->mark('mod_jbzoo_currency::start-' . $module->id);
 
-$currencyHelper = new JBZooCurrencyModuleHelper($params, $module);
-
-// render module
-include(JModuleHelper::getLayoutPath('mod_jbzoo_currency', $params->get('layout', 'buttons')));
+$modHelper = new JBModuleHelperCurrency($params, $module);
+echo $modHelper->render(true);
 
 $zoo->jbdebug->mark('mod_jbzoo_currency::finish-' . $module->id);
