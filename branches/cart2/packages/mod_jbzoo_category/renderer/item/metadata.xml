@@ -10,16 +10,15 @@
     @coder       Vitaliy Yanovskiy <joejoker@jbzoo.com>
 -->
 <metadata>
+
     <layout name="default">
         <name>Default</name>
         <description>This is the default layout to render jbcategory list module themes</description>
     </layout>
-    <layout name="example">
-        <name>Example</name>
-        <description>This is the example layout to render jbcategory list module themes</description>
-    </layout>
+
     <layout name="uikit">
         <name>Uikit</name>
         <description>This is uikit layout to render jbcategory list module themes</description>
     </layout>
+
 </metadata>

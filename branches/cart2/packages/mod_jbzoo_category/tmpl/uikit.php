@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,21 +12,35 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$zoo = App::getInstance('zoo');
+$zoo->jbassets->uikit(false, true);
 
-$borderClass = (int)$params->get('category_display_border', 0) ? 'jbzoo-rborder' : 'jbzoo-no-border';
-$uniqId = uniqid('jbzoo-');
-$classes = array('yoo-zoo', 'jbzoo', 'jbzoo-category-module', 'jbcategory-layout-tab', $borderClass);
+$categories = $modHelper->getCategories();
+
+$attrs = array(
+    'id'    => $modHelper->getModuleId(),
+    'class' => array(
+        'yoo-zoo', // for Zoo widgets
+        'jbzoo',
+        'jbcategory-module',
+        'jbcategory-module-uikit',
+        (int)$params->get('category_display_border', 0) ? 'jbzoo-rborder' : '',
+        'uk-clearfix'
+    ),
+);
 
 ?>
 <?php if (!empty($categories)): ?>
-    <div id="<?php echo $uniqId ?>" class='<?php echo implode(' ', $classes); ?> uk-clearfix'>
+    <div <?php echo $modHelper->attrs($attrs) ?>>
 
         <?php foreach ($categories as $catId => $category): ?>
-            <div class="category-wrapper uk-panel uk-panel-box uk-article-divider <?php echo $category['active_class']; ?>">
+            <div
+                class="category-wrapper uk-panel uk-panel-box uk-article-divider <?php echo $category['active_class']; ?>">
 
                 <div class="jbcategory uk-clearfix">
                     <?php if (!empty($category['image'])): ?>
-                        <div class="jbcategory-image uk-align-<?php echo $params->get('category_image_align', 'left') ?>">
+                        <div
+                            class="jbcategory-image uk-align-<?php echo $params->get('category_image_align', 'left') ?>">
                             <a href="<?php echo $category['cat_link'] ?>" class="uk-thumbnail"
                                title="<?php echo $category['category_name'] ?>"><?php echo $category['image'] ?></a>
                         </div>
@@ -61,6 +74,8 @@ $classes = array('yoo-zoo', 'jbzoo', 'jbzoo-category-module', 'jbcategory-layout
                             'uk-panel uk-panel-box',
                             'uk-article-divider uk-clearfix',
                         );
+
+                        $renderer = $modHelper->createRenderer('item');
                         ?>
                         <div class="<?php echo implode(' ', $itemClasses); ?>">
                             <?php echo $renderer->render('item.' . $layout, array('item' => $item, 'params' => $params)); ?>

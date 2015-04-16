@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,13 +12,24 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$zoo = App::getInstance('zoo');
+$zoo->jbassets->tabs();
 
-$borderClass = (int)$params->get('category_display_border', 0) ? 'jbzoo-rborder' : '';
-$uniqId = uniqid('jbzoo-tabs-');
-$classes = array('yoo-zoo', 'jbzoo', 'jbzoo-category-module', 'jbcategory-layout-tab', $borderClass);
+$categories = $modHelper->getCategories();
+
+$attrs = array(
+    'id'    => $modHelper->getModuleId(),
+    'class' => array(
+        'yoo-zoo', // for Zoo widgets
+        'jbzoo',
+        'jbcategory-module',
+        'jbcategory-module-tab',
+        (int)$params->get('category_display_border', 0) ? 'jbzoo-rborder' : ''
+    ),
+);
 
 if (!empty($categories)): ?>
-    <div id="<?php echo $uniqId ?>" class="<?php echo implode(' ', $classes); ?>">
+    <div <?php echo $modHelper->attrs($attrs) ?>>
 
         <ul>
             <?php foreach ($categories as $catId => $category): ?>
@@ -67,6 +77,8 @@ if (!empty($categories)): ?>
                             'jbzoo-item-' . $item->id,
                             'rborder',
                         );
+
+                        $renderer = $modHelper->createRenderer('item');
                         ?>
                         <div class="<?php echo implode(' ', $itemClasses); ?>">
                             <?php echo $renderer->render('item.' . $layout, array('item' => $item, 'params' => $params)); ?>
@@ -84,7 +96,7 @@ if (!empty($categories)): ?>
 
     <script type="text/javascript">
         jQuery(function ($) {
-            $('#<?php echo $uniqId ?>').JBZooTabs({
+            $('#<?php echo $modHelper->getModuleId() ?>').JBZooTabs({
                 onTabShow: function (index) {
                     var map = $('.googlemaps > div:first');
                     if (map.length) {

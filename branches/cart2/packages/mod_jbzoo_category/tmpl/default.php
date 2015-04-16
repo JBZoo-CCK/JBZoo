@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -13,14 +12,23 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$categories = $modHelper->getCategories();
 
-$borderClass = (int)$params->get('category_display_border', 0) ? 'jbzoo-rborder' : '';
-$uniqId = uniqid('jbzoo-');
-$classes = array('yoo-zoo', 'jbzoo', 'jbzoo-category-module', 'jbcategory-layout-tab', $borderClass);
+$attrs = array(
+    'id'    => $modHelper->getModuleId(),
+    'class' => array(
+        'yoo-zoo', // for Zoo widgets
+        'jbzoo',
+        'jbcategory-module',
+        'jbcategory-module-default',
+        (int)$params->get('category_display_border', 0) ? 'jbzoo-rborder' : ''
+    ),
+);
 
 ?>
+
 <?php if (!empty($categories)): ?>
-    <div id="<?php echo $uniqId ?>" class='<?php echo implode(' ', $classes); ?>'>
+    <div <?php echo $modHelper->attrs($attrs) ?>>
 
         <?php foreach ($categories as $catId => $category): ?>
             <div class="category-wrapper <?php echo $category['active_class']; ?>">
@@ -61,6 +69,8 @@ $classes = array('yoo-zoo', 'jbzoo', 'jbzoo-category-module', 'jbcategory-layout
                             'jbzoo-item-' . $item->id,
                             'rborder',
                         );
+                        $renderer    = $modHelper->createRenderer('item');
+
                         ?>
                         <div class="<?php echo implode(' ', $itemClasses); ?>">
                             <?php echo $renderer->render('item.' . $layout, array('item' => $item, 'params' => $params)); ?>
