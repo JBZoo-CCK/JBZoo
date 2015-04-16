@@ -13,8 +13,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-App::getInstance('zoo')->jbassets->less('mod_jbzoo_search:assets/less/filter-table.less');
-
 ?>
 <table class="jbfilter-table no-border">
     <tr>

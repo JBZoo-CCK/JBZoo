@@ -12,13 +12,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$zoo = App::getInstance('zoo');
-
 $formAttrs = array(
-    'id'     => $filterHelper->getFormId(),
+    'id'     => $modHelper->getModuleId(),
+    'name'   => $modHelper->getModuleId(),
     'method' => 'get',
-    'action' => JRoute::_('index.php?Itemid=' . $filterHelper->getMenuId()),
-    'name'   => $filterHelper->getFormId(),
+    'action' => JRoute::_('index.php?Itemid=' . $modHelper->getMenuId()),
     'class'  => array(
         'jsFilter',
         'jbfilter',
@@ -28,21 +26,23 @@ $formAttrs = array(
 
 ?>
 
+<!--noindex-->
 <div class="jbzoo jbfilter-wrapper">
 
-    <form <?php echo $zoo->jbhtml->buildAttrs($formAttrs); ?>>
+    <form <?php echo $modHelper->attrs($formAttrs); ?>>
         <?php
-        echo $filterHelper->partial('_fields');
+        echo $modHelper->partial('_fields');
 
         echo '<div class="jbfilter-static">';
-        echo $filterHelper->partial('_pages');
-        echo $filterHelper->partial('_order');
-        echo $filterHelper->partial('_logic');
+        echo $modHelper->partial('_pages');
+        echo $modHelper->partial('_order');
+        echo $modHelper->partial('_logic');
         echo '</div>';
 
-        echo $filterHelper->partial('_buttons');
-        echo $filterHelper->partial('_hidden')
+        echo $modHelper->partial('_buttons');
+        echo $modHelper->partial('_hidden')
         ?>
     </form>
 
 </div>
+<!--/noindex-->

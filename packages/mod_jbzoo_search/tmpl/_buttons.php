@@ -32,7 +32,7 @@ if ($submitShow || $resetShow) {
             ),
         );
 
-        echo '<input ' . $this->app->jbhtml->buildAttrs($attrs) . ' /> ';
+        echo '<input ' . $modHelper->attrs($attrs) . ' /> ';
     }
 
     if ($resetShow) {
@@ -46,7 +46,7 @@ if ($submitShow || $resetShow) {
             ),
         );
 
-        echo '<input ' . $this->app->jbhtml->buildAttrs($attrs) . ' /> ';
+        echo '<input ' . $modHelper->attrs($attrs) . ' /> ';
     }
 
     echo JBZOO_CLR;

@@ -13,7 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$logicHTML = $filterHelper->renderLogic();
+$logicHTML = $modHelper->renderLogic();
 ?>
 
 <?php if ((int)$params->get('logic_show', 1)) : ?>

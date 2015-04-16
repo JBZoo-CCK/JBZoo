@@ -13,8 +13,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-App::getInstance('zoo')->jbassets->less('mod_jbzoo_search:assets/less/filter-2columns.less');
-
 ?>
 <div class="jbfilter-cols">
 
