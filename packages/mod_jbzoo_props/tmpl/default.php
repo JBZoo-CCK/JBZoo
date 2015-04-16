@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -14,15 +13,14 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$zoo = App::getInstance('zoo');
-
-// init assets
-$zoo->jbassets->filterprops($itemLayout);
+$application = $this->app->table->application->get($modHelper->getAppId());
+$itemLayout  = $modHelper->getItemLayout();
+$renderer    = $modHelper->createRenderer('filterProps');
 ?>
 
 <div class="jbzoo jbzoo-props props-list-<?php echo $itemLayout; ?>">
     <?php echo $renderer->render('item.' . $itemLayout, array(
-        'type'        => $type,
+        'type'        => $modHelper->getType(),
         'layout'      => $itemLayout,
         'application' => $application,
         'params'      => $params,
