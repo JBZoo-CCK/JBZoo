@@ -12,15 +12,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$zoo  = App::getInstance('zoo');
-$cart = JBCart::getInstance();
-$zoo->jbassets->widget('.jsJBZooCartModule', 'JBZoo.CartModule', $basketHelper->getWidgetParams());
+$cart     = JBCart::getInstance();
+$order    = $modHelper->getOrder();
+$items    = $modHelper->getBasketItems();
+$currency = $modHelper->getCurrency();
 
-$order    = $basketHelper->getOrder();
-$items    = $basketHelper->getBasketItems();
-$currency = $basketHelper->getCurrency();
-
-?><!--noindex-->
+?>
 <div class="jbzoo jbcart-module jsJBZooCartModule" id="jbzooCartModule-<?php echo $module->id; ?>">
 
     <?php if (empty($items)) : ?>
@@ -30,10 +27,20 @@ $currency = $basketHelper->getCurrency();
         <?php if ((int)$params->get('jbcart_items', 1)) : ?>
             <div class="jbcart-module-items">
 
-                <?php foreach ($items as $itemKey => $cartItem) : ?>
-                    <div class="<?php echo $itemKey; ?> jsCartItem jbcart-module-item clearfix"
-                         data-key="<?php echo $itemKey; ?>"
-                         data-jbprice="<?php echo $cart->get($itemKey . '.element_id') . '-' . $cart->get($itemKey . '.item_id'); ?>">
+                <?php foreach ($items as $itemKey => $cartItem) :
+                    $attrs = array(
+                        'data-key'     => $itemKey,
+                        'data-jbprice' => $cart->get($itemKey . '.element_id') . '-' . $cart->get($itemKey . '.item_id'),
+                        'class'        => array(
+                            $itemKey,
+                            'jsCartItem',
+                            'jbcart-module-item',
+                            'clearfix'
+                        ),
+                    );
+                    ?>
+
+                    <div <?php echo $modHelper->attrs($attrs);?>>
 
                         <?php if ((int)$params->get('jbcart_item_delete', 1)) : ?>
                             <span class="jbbutton orange round jsDelete jbcart-item-delete">x</span>
@@ -112,7 +119,7 @@ $currency = $basketHelper->getCurrency();
 
                 <?php if ((int)$params->get('jbcart_button_gotocart', 1)): ?>
                     <a rel="nofollow" class="jbbutton green small jbcart-module-gotocart"
-                       href="<?php echo $basketHelper->getBasketUrl(); ?>">
+                       href="<?php echo $modHelper->getBasketUrl(); ?>">
                         <?php echo JText::_('JBZOO_CART_MODULE_CART_BUTTON'); ?></a>
                 <?php endif ?>
 
@@ -121,4 +128,4 @@ $currency = $basketHelper->getCurrency();
 
     <?php endif; ?>
 
-</div><!--/noindex-->
+</div>

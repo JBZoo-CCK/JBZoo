@@ -12,18 +12,17 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$zoo  = App::getInstance('zoo');
-$cart = JBCart::getInstance();
-$zoo->jbassets->widget('.jsJBZooCartModule', 'JBZoo.CartModule', $basketHelper->getWidgetParams());
-
-$order    = $basketHelper->getOrder();
-$currency = $basketHelper->getCurrency();
-$items    = $basketHelper->getBasketItems(array(
-    'class' => array('image' => 'uk-thumbnail')
+$cart     = JBCart::getInstance();
+$order    = $modHelper->getOrder();
+$currency = $modHelper->getCurrency();
+$items    = $modHelper->getBasketItems(array(
+    'class' => array(
+        'image' => 'uk-thumbnail'
+    )
 ));
 
-?><!--noindex-->
-<div class="jbzoo jbcart-module jsJBZooCartModule" id="jbzooCartModule-<?php echo $module->id; ?>">
+?>
+<div class="jbzoo jbcart-module jsJBZooCartModule" id="<?php echo $modHelper->getModuleId(); ?>">
 
     <?php if (empty($items)) : ?>
         <div class="jbcart-module-empty clearfix"><?php echo JText::_('JBZOO_CART_MODULE_EMPTY'); ?></div>
@@ -32,10 +31,20 @@ $items    = $basketHelper->getBasketItems(array(
         <?php if ((int)$params->get('jbcart_items', 1)) : ?>
             <div class="jbcart-module-items">
 
-                <?php foreach ($items as $itemKey => $cartItem) : ?>
-                    <div class="<?php echo $itemKey; ?> jsCartItem jbcart-module-item clearfix"
-                         data-key="<?php echo $itemKey; ?>"
-                         data-jbprice="<?php echo $cart->get($itemKey . '.element_id') . '-' . $cart->get($itemKey . '.item_id'); ?>">
+                <?php foreach ($items as $itemKey => $cartItem) :
+                    $attrs = array(
+                        'data-key'     => $itemKey,
+                        'data-jbprice' => $cart->get($itemKey . '.element_id') . '-' . $cart->get($itemKey . '.item_id'),
+                        'class'        => array(
+                            $itemKey,
+                            'jsCartItem',
+                            'jbcart-module-item',
+                            'clearfix'
+                        ),
+                    );
+                    ?>
+
+                    <div <?php echo $modHelper->attrs($attrs);?>>
 
                         <?php if ((int)$params->get('jbcart_item_delete', 1)) : ?>
                             <span class="uk-button uk-button-danger uk-button-small round jsDelete jbcart-item-delete">
@@ -118,7 +127,7 @@ $items    = $basketHelper->getBasketItems(array(
 
                 <?php if ((int)$params->get('jbcart_button_gotocart', 1)): ?>
                     <a rel="nofollow" class="uk-button uk-button-success jbcart-module-gotocart"
-                       href="<?php echo $basketHelper->getBasketUrl(); ?>">
+                       href="<?php echo $modHelper->getBasketUrl(); ?>">
                         <i class="uk-icon-level-up"></i>
                         <?php echo JText::_('JBZOO_CART_MODULE_CART_BUTTON'); ?>
                     </a>
@@ -129,4 +138,4 @@ $items    = $basketHelper->getBasketItems(array(
 
     <?php endif; ?>
 
-</div><!--/noindex-->
+</div>
