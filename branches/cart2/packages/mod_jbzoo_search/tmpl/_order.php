@@ -13,8 +13,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$orderList     = $filterHelper->getOrderList();
-$orderingsHTML = $filterHelper->getOrderings();
+$orderList     = $modHelper->getOrderList();
+$orderingsHTML = $modHelper->getOrderings();
 
 ?>
 

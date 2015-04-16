@@ -13,112 +13,49 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-require_once(JPATH_ADMINISTRATOR . '/components/com_zoo/config.php');
-require_once(JPATH_BASE . '/media/zoo/applications/jbuniversal/framework/jbzoo.php');
+require_once JPATH_ADMINISTRATOR . '/components/com_zoo/config.php';
+require_once JPATH_BASE . '/media/zoo/applications/jbuniversal/framework/jbzoo.php';
+require_once JPATH_BASE . '/media/zoo/applications/jbuniversal/framework/classes/jbmodulehelper.php'; // TODO move to bootstrap
+
 
 /**
- * Class JBZooFilterHelper
+ * Class JBModuleHelperFilter
  */
-class JBZooFilterHelper
+class JBModuleHelperFilter extends JBModuleHelper
 {
-    /**
-     * @var JRegistry
-     */
-    protected $_params = null;
-
-    /**
-     * @var stdClass
-     */
-    protected $_module = null;
-
-    /**
-     * @var App
-     */
-    protected $app = null;
-
-    /**
-     * @var string
-     */
-    protected $_itemLayout = 'default';
-
-    /**
-     * @type string
-     */
-    protected $_moduleLayout = 'default';
-
-    /**
-     * @type JBHtmlHelper
-     */
-    protected $_jbhtml = null;
-
-    /**
-     * @type JBRequestHelper
-     */
-    protected $_jbrequest = null;
-
     /**
      * @param JRegistry $params
      * @param stdClass  $module
      */
-    public function __construct(JRegistry $params, $module)
+    public function __construct($params, $module)
     {
-        JBZoo::init();
+        parent::__construct($params, $module);
 
-        $this->app = App::getInstance('zoo');
-
-        $this->_params    = $params;
-        $this->_module    = $module;
-        $this->_jbhtml    = $this->app->jbhtml;
-        $this->_jbrequest = $this->app->jbrequest;
-
-        if ($params->get('item_layout')) {
-            $this->_itemLayout   = $params->get('item_layout', 'default');
-            $this->_moduleLayout = $params->get('layout', 'default');
-        } else {
-            $this->_itemLayout   = $params->get('layout', 'default');
-            $this->_moduleLayout = $params->get('module-layout', 'default');
-        }
+        // prepeare helper
+        $this->app->jbfilter->set($this->getType(), $this->getAppId()); // TODO kill me
     }
 
     /**
-     * @param bool $onlyName
-     * @return string
+     * Load filters important asstes
      */
-    public function getModuleLayout($onlyName = false)
+    protected function _loadAssets()
     {
-        $layout = $this->_moduleLayout;
-        if ($onlyName && strpos($this->_moduleLayout, ':') !== false) {
-            list($tmpl, $layout) = explode(':', $this->_moduleLayout);
-            return $layout;
-        }
+        parent::_loadAssets();
 
-        return $layout;
+        $this->_jbassets->js('mod_jbzoo_search:assets/js/filter.js');
 
+        $this->_jbassets->less('mod_jbzoo_search:assets/less/filter.less');
+        $this->_jbassets->less('mod_jbzoo_search:assets/less/filter-' . $this->getItemLayout() . '.less');
     }
 
     /**
-     * @return string
+     *  init filter widget
      */
-    public function getItemLayout()
+    protected function _initWidget()
     {
-        return $this->_itemLayout;
-    }
-
-    /**
-     * @return FilterRenderer
-     */
-    public function createRenderer()
-    {
-        // set renderer
-        $renderer = $this->app->renderer->create('filter')
-            ->addPath(array(
-                $this->app->path->path('component.site:'),
-                dirname(__FILE__),
-                $this->app->path->path('applications:' . JBZOO_APP_GROUP . '/catalog/renderer')
-            ))
-            ->setModuleParams($this->_params);
-
-        return $renderer;
+        $this->_jbassets->widget('#' . $this->getModuleId(), 'JBZoo.Filter', array(
+            'autosubmit' => (int)$this->_params->get('autosubmit', 0)
+        ));
     }
 
     /**
@@ -214,81 +151,12 @@ class JBZooFilterHelper
     }
 
     /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->_params->get('type');
-    }
-
-    /**
-     * @return int
-     */
-    public function getAppId()
-    {
-        return (int)$this->_params->get('application', 0);
-    }
-
-    /**
-     * @return int
-     */
-    public function getMenuId()
-    {
-        return (int)$this->_params->get('menuitem', $this->_jbrequest->get('Itemid'));
-    }
-
-    /**
-     * @return int
-     */
-    public function getFormId()
-    {
-        return 'jbfilter-' . $this->getItemLayout(true) . '-' . $this->_module->id;
-    }
-
-    /**
      * @param array $fields
      * @return mixed
      */
     public function renderHidden($fields)
     {
         return $this->app->jbhtml->hiddens($fields);
-    }
-
-    /**
-     * @param string $layout
-     * @param array  $vars
-     * @return string
-     */
-    public function partial($layout, $vars = array())
-    {
-        $layout = !empty($layout) ? $layout : 'default';
-
-        $__layout = JPath::clean((string)JModuleHelper::getLayoutPath($this->_module->module, $layout));
-
-        if (JFile::exists($__layout)) {
-
-            $vars['zoo']          = $this->app;
-            $vars['params']       = $this->_params;
-            $vars['module']       = $this->_module;
-            $vars['filterHelper'] = $this;
-            $vars['itemLayout']   = $this->_itemLayout;
-            $vars['moduleLayout'] = $this->_moduleLayout;
-
-            if (is_array($vars)) {
-                foreach ($vars as $_var => $_value) {
-                    $$_var = $_value;
-                }
-            }
-
-            ob_start();
-            include($__layout);
-            $__html = ob_get_contents();
-            ob_end_clean();
-
-            return $__html;
-        }
-
-        return null;
     }
 
 }

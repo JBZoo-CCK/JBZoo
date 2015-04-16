@@ -13,10 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$zoo = App::getInstance('zoo');
-$zoo->jbassets->jqueryAccordion();
-
-App::getInstance('zoo')->jbassets->less('mod_jbzoo_search:assets/less/filter-accordion.less');
+$this->app->jbassets->jqueryAccordion();
 
 ?>
 

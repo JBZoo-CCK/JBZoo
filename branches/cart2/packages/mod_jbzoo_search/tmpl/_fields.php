@@ -12,9 +12,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $filterHelper->createRenderer()->render('item.' . $filterHelper->getItemLayout(), array(
+echo $modHelper->createRenderer('filter')->render('item.' . $modHelper->getItemLayout(), array(
     'params'      => $params,
-    'type'        => $filterHelper->getType(),
-    'layout'      => $filterHelper->getItemLayout(),
-    'application' => $this->app->table->application->get($filterHelper->getAppId()),
+    'type'        => $modHelper->getType(),
+    'layout'      => $modHelper->getItemLayout(),
+    'application' => $this->app->table->application->get($modHelper->getAppId()),
 ));

@@ -13,7 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$pagesHTML = $filterHelper->renderPages();
+$pagesHTML = $modHelper->renderPages();
 ?>
 
 <?php if ((int)$params->get('pages_show', 1)) : ?>

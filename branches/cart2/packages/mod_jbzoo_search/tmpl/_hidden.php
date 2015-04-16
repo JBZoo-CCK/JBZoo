@@ -13,12 +13,12 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-echo $filterHelper->renderHidden(array(
+echo $modHelper->renderHidden(array(
     'exact'      => $params->get('exact', 0),
     'controller' => 'search',
     'option'     => 'com_zoo',
     'task'       => 'filter',
-    'type'       => array('value' => $filterHelper->getType(), 'class' => 'jsItemType'),
-    'app_id'     => array('value' => $filterHelper->getAppId(), 'class' => 'jsApplicationId'),
-    'Itemid'     => $filterHelper->getMenuId(),
+    'type'       => array('value' => $modHelper->getType(), 'class' => 'jsItemType'),
+    'app_id'     => array('value' => $modHelper->getAppId(), 'class' => 'jsApplicationId'),
+    'Itemid'     => $modHelper->getMenuId(),
 ));
