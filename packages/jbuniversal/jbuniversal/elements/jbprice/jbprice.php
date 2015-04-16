@@ -195,6 +195,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
                 $hash = $this->hash($params);
                 $list = $this->getList($variations);
+
                 return parent::renderLayout($layout, array(
                     'hash'        => $hash,
                     'variations'  => $list->all(),
@@ -325,7 +326,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         if ((int)$params->get('required', 0)) {
             $basic = $value->get('basic');
             $this->app->validator->create('textfilter', array('required' => $params->get('required')))
-                ->clean($basic['_value']);
+                                 ->clean($basic['_value']);
         }
 
         return $value;
@@ -352,7 +353,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 $variations = $this->defaultList();
             }
 
-           if (!array_key_exists(0, $variations)) {
+            if (!array_key_exists(0, $variations)) {
                 $variations[0] = $this->getData(0);
             }
             $list = $this->build($variations);
@@ -506,6 +507,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public function defaultList()
     {
         $key = $this->defaultKey();
+
         return array(
             self::BASIC_VARIANT => $this->getData(self::BASIC_VARIANT),
             $key                => $this->getData($key)
@@ -583,7 +585,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         if ($variant->count()) {
             foreach ($variant->all() as $element) {
                 if ($element->isCore()) {
-                    $params        = new AppData(isset($this->_render_params[$element->identifier]) ? $this->_render_params[$element->identifier] : array());
+                    $params                              = new AppData(isset($this->_render_params[$element->identifier]) ? $this->_render_params[$element->identifier] : array());
                     $options[$element->getElementType()] = $element->interfaceParams($params);
                 }
             }
@@ -752,6 +754,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public function isDate($date)
     {
         $result = $this->app->jbdate->convertToStamp($date);
+
         return isset($result[0]) ? $result[0] : null;
     }
 
