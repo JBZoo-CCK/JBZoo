@@ -12,27 +12,20 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$items   = $modHelper->getItems();
 $count   = count($items);
 $columns = (int)$params->get('item_cols', 1);
 $border  = (int)$params->get('display_border', 1) ? 'rborder' : 'no-border';
-$zoo     = App::getInstance('zoo');
 
 if ($count) {
 
-    echo '<div id="' . $unique . '" class="jbzoo yoo-zoo">';
+    echo '<div id="' . $modHelper->getModuleId() . '" class="jbzoo yoo-zoo">';
     echo '<div class="module-items jbzoo-' . $border . ' module-items-col-' . $columns . '">';
-
-    if ($params->get('delete') && $params->get('mode') == 'viewed') {
-        echo '<a href="index.php?option=com_zoo&controller=viewed&task=clear&format=raw" class="jsRecentlyViewedClear recently-viewed-clear uk-button uk-button-danger">' .
-            '<i class="uk-icon-trash"></i>&nbsp;' .
-            JText::_('JBZOO_MODITEM_DELETE') .
-            '</a>';
-    }
+    echo $modHelper->renderRemoveButton();
 
     if ($columns) {
 
-        $i = 0;
-        $j = 0;
+        $j = $i = 0;
 
         $rowItem = array_chunk($items, $columns);
 
@@ -54,16 +47,16 @@ if ($count) {
                     $last .= ' last';
                 }
 
-                echo '<div class="item-column uk-width-medium-1-' . $columns . $first . $last . '">' .
-                    '<div class="uk-panel uk-panel-box">' .
-                    $renderer->render('item.' . $params->get('item_layout', 'default'),
-                        array(
-                            'item'   => $item,
-                            'params' => $params
-                        )
-                    ) .
-                    '</div>' .
-                    '</div>';
+                $renderer = $modHelper->createRenderer('item');
+
+                echo '<div class="item-column uk-width-medium-1-' . $columns . $first . $last . '">'
+                    . '<div class="uk-panel uk-panel-box">'
+                    . $renderer->render('item.' . $modHelper->getItemLayout(), array(
+                        'item'   => $item,
+                        'params' => $params
+                    ))
+                    . '</div>'
+                    . '</div>';
             }
 
             $i++;
@@ -77,29 +70,13 @@ if ($count) {
     } else {
 
         foreach ($items as $item) {
-            $app_id = $item->application_id;
-            echo $renderer->render('item.' . $params->get('item_layout', 'default'),
-                array(
-                    'item'   => $item,
-                    'params' => $params
-                )
-            );
+            echo $renderer->render('item.' . $modHelper->getItemLayout(), array(
+                'item'   => $item,
+                'params' => $params
+            ));
         }
     }
 
     echo '</div></div>';
-
-    if ($params->get('delete') && $params->get('mode') == 'viewed') {
-
-        $zoo->jbassets->js('mod_jbzoo_item:assets/js/viewed.js');
-        echo $zoo->jbassets->widget('#' . $unique, 'JBZooViewed', array(
-            'message'   => JText::_('JBZOO_MODITEM_RECENTLY_VIEWED_DELETE_HISTORY'),
-            'url_clear' => $zoo->link(array('controller' => 'viewed', 'task' => 'clear', 'app_id' => $app_id), true, 2),
-        ), true);
-    }
-
-    if ($params->get('column_heightfix')) {
-        echo $zoo->jbassets->widget('.module-items', 'JBZooHeightFix', array(), true);
-    }
-
 }
+

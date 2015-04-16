@@ -12,45 +12,28 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$items = $modHelper->getItems();
 $count = count($items);
-$zoo   = App::getInstance('zoo');
 
 if ($count) : ?>
 
-    <div id="<?php echo $unique; ?>" class="jbzoo yoo-zoo">
+    <div id="<?php echo $modHelper->getModuleId(); ?>" class="jbzoo yoo-zoo">
         <div class="module-items">
 
-            <?php if ($params->get('delete') && $params->get('mode') == 'viewed') : ?>
-                <a href="index.php?option=com_zoo&controller=viewed&task=clear&format=raw"
-                   class="jsRecentlyViewedClear recently-viewed-clear">
-                    <?php echo JText::_('JBZOO_MODITEM_DELETE'); ?>
-                </a>
-            <?php endif; ?>
+            <?php echo $modHelper->renderRemoveButton(); ?>
 
             <table class="wrapper-item-desc">
                 <?php
+                $renderer = $modHelper->createRenderer('item');
                 foreach ($items as $item) {
-                    $app_id = $item->application_id;
-                    echo $renderer->render('item.' . $params->get('item_layout', 'table'),
-                        array(
-                            'item'   => $item,
-                            'params' => $params
-                        )
-                    );
+                    echo $renderer->render('item.' . $modHelper->getItemLayout(), array(
+                        'item'   => $item,
+                        'params' => $params
+                    ));
                 }
                 ?>
             </table>
         </div>
     </div>
-
-    <?php
-    if ($params->get('delete') && $params->get('mode') == 'viewed') {
-
-        $zoo->jbassets->js('mod_jbzoo_item:assets/js/viewed.js');
-        echo $zoo->jbassets->widget('#' . $unique, 'JBZooViewed', array(
-            'message'   => JText::_('JBZOO_MODITEM_RECENTLY_VIEWED_DELETE_HISTORY'),
-            'url_clear' => $zoo->link(array('controller' => 'viewed', 'task' => 'clear', 'app_id' => $app_id), true, 2),
-        ), true);
-    } ?>
 
 <?php endif;
