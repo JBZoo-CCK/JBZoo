@@ -12,7 +12,8 @@
 ;
 (function ($, window, document, undefined) {
 
-    JBZoo.widget('JBZoo.CurrencyModuleSwitcher', {
+    JBZoo.widget('JBZoo.CurrencyModuleSwitcher',
+        {
             'target': '.jbzoo'
         },
         {
@@ -45,6 +46,7 @@
                     return $(this).closest('.jsNoCurrencyToggle').length == 0;
                 }).JBZooMoney();
             }
-        });
+        }
+    );
 
 })(jQuery, window, document);
