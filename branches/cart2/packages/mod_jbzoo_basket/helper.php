@@ -13,48 +13,61 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-require_once(JPATH_ADMINISTRATOR . '/components/com_zoo/config.php');
-require_once(JPATH_BASE . '/media/zoo/applications/jbuniversal/framework/jbzoo.php');
+require_once JPATH_ADMINISTRATOR . '/components/com_zoo/config.php';
+require_once JPATH_BASE . '/media/zoo/applications/jbuniversal/framework/jbzoo.php';
+require_once JPATH_BASE . '/media/zoo/applications/jbuniversal/framework/classes/jbmodulehelper.php'; // TODO move to bootstrap
 
 /**
- * Class JBZooBasketHelper
+ * Class JBModuleHelperBasket
  */
-class JBZooBasketHelper
+class JBModuleHelperBasket extends JBModuleHelper
 {
     /**
-     * @var JRegistry
-     */
-    protected $_params = null;
-
-    /**
-     * @var Object
-     */
-    protected $_module = null;
-
-    /**
-     * @var JBCartOrder
+     * @type JBCartOrder
      */
     protected $_order = null;
-
-    /**
-     * @var App
-     */
-    public $app = null;
 
     /**
      * Init Zoo
      * @param JRegistry $params
      * @param object    $module
      */
-    public function __construct($params, $module)
+    public function __construct(JRegistry $params, $module)
     {
-        $this->app     = App::getInstance('zoo');
-        $this->_params = $params;
-        $this->_module = $module;
-
-        JBZoo::init();
+        parent::__construct($params, $module);
 
         $this->_order = JBCart::getInstance()->newOrder();
+    }
+
+    /**
+     * Load important assets files
+     */
+    protected function _loadAssets()
+    {
+        parent::_loadAssets();
+        $this->_jbassets->js('mod_jbzoo_basket:assets/js/cart-module.js');
+        $this->_jbassets->less('mod_jbzoo_basket:assets/less/cart-module.less');
+    }
+
+    /**
+     * Init cart widget
+     */
+    protected function _initWidget()
+    {
+        $this->_jbassets->widget('#' . $this->getModuleId(), 'JBZoo.CartModule', $this->getWidgetParams());
+    }
+
+    /**
+     * @param bool $addNoindex
+     * @return string
+     */
+    public function render($addNoindex = true)
+    {
+        if (!JBCart::getInstance()->canAccess($this->app->user->get())) {
+            return JText::_('JBZOO_CART_UNABLE_ACCESS');
+        }
+
+        return parent::render($addNoindex);
     }
 
     /**
