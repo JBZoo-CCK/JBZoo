@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -29,7 +28,7 @@ class JBZooModItemViewed extends JBZooItemType
         $order = $this->_params->get('order_default', array());
         $limit = $this->_params->get('pages', 20);
 
-        $items = $this->_app->jbviewed->getList($types, $order, $limit);
+        $items = $this->app->jbviewed->getList($types, $order, $limit);
 
         return $items;
     }

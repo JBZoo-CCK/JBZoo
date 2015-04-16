@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -25,16 +24,22 @@ class JBZooModItemConditions extends JBZooItemType
      */
     protected $_elements = array();
 
+    /**
+     * @type int
+     */
     protected $_app_id = 0;
 
+    /**
+     * @type string
+     */
     protected $_type = null;
 
     /**
-     *
+     * Init vars
      */
     public function init()
     {
-        $this->_elements = $this->_app->jbentity->getItemTypesData(false);
+        $this->_elements = $this->app->jbentity->getItemTypesData(false);
     }
 
     /**
@@ -62,7 +67,7 @@ class JBZooModItemConditions extends JBZooItemType
 
                 if (strpos($fieldKey, '_') === false) {
 
-                    $table      = $this->_app->jbtables;
+                    $table      = $this->app->jbtables;
                     $tableIndex = $table->getIndexTable($this->_type);
                     $fields     = $table->getFields($tableIndex);
                     $myFiled    = $table->getFieldName($fieldKey);
@@ -87,7 +92,6 @@ class JBZooModItemConditions extends JBZooItemType
 
         return $items;
     }
-
 
     /**
      * @param array $conditions
@@ -183,7 +187,6 @@ class JBZooModItemConditions extends JBZooItemType
         }
     }
 
-
     /**
      * @param $key
      * @param $value
@@ -216,13 +219,11 @@ class JBZooModItemConditions extends JBZooItemType
         if (is_subclass_of($className, 'JBZooModItemRuleJBPrice')) {
 
             $objField = new $className;
-
             return $objField->validateElements($key, $param_id, $value);
 
         } elseif (class_exists($className) && !in_array($element['type'], $similarTypes)) {
 
             $objField = new $className;
-
             return $objField->validateValues($key, $value);
 
         } elseif (in_array($element['type'], $similarTypes)) {
@@ -234,15 +235,13 @@ class JBZooModItemConditions extends JBZooItemType
             }
 
             return $objField->validateValues($key, $value);
-
-        } else {
-
-            return false;
         }
+
+        return false;
     }
 
     /**
-     * @param        $date
+     * @param string $date
      * @param string $format
      * @return bool
      */

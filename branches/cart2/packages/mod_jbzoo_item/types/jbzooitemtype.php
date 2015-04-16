@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -19,6 +18,10 @@ defined('_JEXEC') or die('Restricted access');
  */
 abstract class JBZooItemType
 {
+    /**
+     * @var App
+     */
+    public $app = null;
 
     /**
      * @var JRegistry
@@ -26,20 +29,12 @@ abstract class JBZooItemType
     protected $_params = null;
 
     /**
-     * @var App|null
-     */
-    protected $_app = null;
-
-
-    /**
      * Init Zoo
      * @param JRegistry $params
      */
     public function __construct(JRegistry $params)
     {
-        JBZoo::init();
-
-        $this->_app    = App::getInstance('zoo');
+        $this->app     = App::getInstance('zoo');
         $this->_params = $params;
     }
 

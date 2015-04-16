@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -270,15 +269,15 @@ class JBZooModItemRuleJBPrice extends JBZooModItemRuleText
 
     /**
      * Check if value seems like date
-     * @param        $date
+     * @param string $date
      * @param string $format
      * @return bool
      */
     protected function _isDate($date, $format = 'Y-m-d')
     {
-        $d = DateTime::createFromFormat($format, $date);
+        $dateObj = DateTime::createFromFormat($format, $date);
 
-        return $d && $d->format($format) == $date;
+        return $dateObj && $dateObj->format($format) == $date;
     }
 
     /**

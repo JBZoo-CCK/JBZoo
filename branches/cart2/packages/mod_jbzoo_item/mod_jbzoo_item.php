@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -17,21 +16,11 @@ defined('_JEXEC') or die('Restricted access');
 // load config
 require_once dirname(__FILE__) . '/helper.php';
 
-$itemHelper = new JBZooItemHelper();
-$zoo        = App::getInstance('zoo');
-$unique     = $zoo->jbstring->getId('module-items-');
-$itemHelper->loadType($params);
+$zoo = App::getInstance('zoo');
 
-$zoo->jbdebug->mark('mod_jbzoo_item::start');
-$items = $itemHelper->getItems();
+$zoo->jbdebug->mark('mod_jbzoo_item::start-' . $module->id);
 
-// renderer module
-$renderer = $zoo->renderer->create('item')->addPath(array(
-    $zoo->path->path('component.site:'),
-    dirname(__FILE__)
-));
+$modHelper = new JBModuleHelperItem($params, $module);
+echo $modHelper->render(false);
 
-// render module
-include(JModuleHelper::getLayoutPath('mod_jbzoo_item', $params->get('layout', 'default')));
-
-$zoo->jbdebug->mark('mod_jbzoo_item::finish');
+$zoo->jbdebug->mark('mod_jbzoo_item::finish-' . $module->id);
