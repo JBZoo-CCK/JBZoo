@@ -331,15 +331,6 @@ class JBAssetsHelper extends AppHelper
     }
 
     /**
-     * Init filter assets
-     */
-    public function filterProps()
-    {
-        $this->tools();
-        $this->css('mod_jbzoo_props:assets/less/props.less');
-    }
-
-    /**
      * Include jQuery UI lib
      */
     public function jQueryUI()
