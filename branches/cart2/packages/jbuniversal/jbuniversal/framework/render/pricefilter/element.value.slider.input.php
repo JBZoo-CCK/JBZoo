@@ -23,6 +23,7 @@ class JBPriceFilterElementValueSliderInput extends JBPriceFilterElementValueSlid
      */
     public function html()
     {
+        $html       = array();
         $value      = $this->_prepareValues();
         $categoryId = $min = $max = null;
 
@@ -55,9 +56,9 @@ class JBPriceFilterElementValueSliderInput extends JBPriceFilterElementValueSlid
             $params['max'] = JBCart::val($rangesData['total_max'], 'eur')->val($to);
         }
 
-        $html = $this->_html->sliderInput($params, $value['range'], $this->_getName('range'), $this->app->jbstring->getId('jsSlider-'), $to);
+        $html[] = $this->_html->sliderInput($params, $value['range'], $this->_getName('range'), $this->app->jbstring->getId('jsSlider-'), $to);
+        $html[] = $this->renderCurrency();
 
-        return $html;
+        return implode(PHP_EOL, $html);
     }
-
 }

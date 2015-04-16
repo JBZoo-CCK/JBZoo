@@ -591,8 +591,8 @@ class JBHtmlHelper extends AppHelper
         $paramMin = floor($this->_vars->money($params['min'], 0));
         $paramMax = ceil($this->_vars->money($params['max'], 0));
 
-        $valueMin = JBCart::val($value[0]);
-        $valueMax = JBCart::val($value[1]);
+        $valueMin = JBCart::val($value[0], $currency);
+        $valueMax = JBCart::val($value[1], $currency);
 
         $html   = array();
         $html[] = '<div class="jbslider-ui jsUI"></div>';
@@ -610,10 +610,10 @@ class JBHtmlHelper extends AppHelper
         $html[] = $this->hidden($name, $valueMin->val() . '/' . $valueMax->val(), array('class' => 'jsValue'));
 
         $html[] = $this->_assets->slider($idTag, array(
-            'min'    => $paramMin,
-            'max'    => $paramMax,
-            'step'   => $params['step'],
-            'values' => array($valueMin->val(), $valueMax->val())
+            'min'      => $paramMin,
+            'max'      => $paramMax,
+            'step'     => $params['step'],
+            'values'   => array($valueMin->val(), $valueMax->val())
         ), true);
 
         $html[] = JBZOO_CLR;
@@ -637,9 +637,12 @@ class JBHtmlHelper extends AppHelper
             $value = array($params['min'], $params['max']);
         }
 
-        $params['min']  = $this->_vars->number($params['min']);
-        $params['max']  = $this->_vars->number($params['max']);
+        $params['min']  = floor($this->_vars->number($params['min'], 0));
+        $params['max']  = ceil($this->_vars->number($params['max'], 0));
         $params['step'] = $this->_vars->number($params['step']);
+
+        $valueMin = $this->_vars->money(floor($value['0']), 2);
+        $valueMax = $this->_vars->money(ceil($value['1']), 2);
 
         $this->_assets->jqueryui();
         $this->_assets->less('jbassets:less/widget/slider.less');
@@ -648,17 +651,17 @@ class JBHtmlHelper extends AppHelper
             $("#' . $idtag . '-wrapper")[0].slide = null;
             $("#' . $idtag . '-wrapper").slider({
                 "range" : true,
-                "min"   : ' . ($params['min'] ? floor($params['min']) : 0) . ',
-                "max"   : ' . ($params['max'] ? ceil($params['max']) : 10000) . ',
+                "min"   : ' . ($params['min'] ? $params['min'] : 0) . ',
+                "max"   : ' . ($params['max'] ? $params['max'] : 10000) . ',
                 "step"  : ' . ($params['step'] ? round($params['step'], 2) : 100) . ',
-                "values": [' . round((float)$value['0'], 2) . ', ' . round((float)$value['1'], 2) . '],
+                "values": [' . $valueMin . ', ' . $valueMax . '],
                 "slide" : function(event,ui) {
                     $("#' . $idtag . '-value").val(ui.values[0] + "/" + ui.values[1]);
                     $("#' . $idtag . '-value-0").html(JBZoo.numberFormat(ui.values[0], 0, ".", " "));
                     $("#' . $idtag . '-value-1").html(JBZoo.numberFormat(ui.values[1], 0, ".", " "));
                 }
             });
-            $("#' . $idtag . '-value").val(' . (float)$value['0'] . '+ "/" +' . (float)$value['1'] . ');'
+            $("#' . $idtag . '-value").val(' . $valueMin . '+ "/" +' . $valueMax . ');'
         );
 
         $html = array(

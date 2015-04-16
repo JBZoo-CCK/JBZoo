@@ -300,10 +300,11 @@ class ElementJBPriceCalc extends ElementJBPrice
     {
         if ($this->_item !== null) {
             $simple = $variant->simple();
+            $data   = $this->data();
 
-            $values     = (array)$this->_item->elements->find($this->identifier . '.values', array());
-            $selected   = (array)$this->_item->elements->find($this->identifier . '.selected', array());
-            $variations = (array)$this->_item->elements->find($this->identifier . '.variations', array());
+            $values     = (array)$data->get('values', array());
+            $selected   = (array)$data->get('selected', array());
+            $variations = (array)$data->get('variations', array());
 
             $variations[$variant->getId()] = $variant->data();
 
@@ -325,11 +326,11 @@ class ElementJBPriceCalc extends ElementJBPrice
             $variations = array_values($variations);
             $values     = array_values($values);
 
-            $this->_item->elements->set($this->identifier, array(
-                'variations' => $variations,
-                'values'     => $variant->isBasic() ? array(self::BASIC_VARIANT => array()) : $values,
-                'selected'   => $selected
-            ));
+            $data->set('variations', $variations);
+            $data->set('selected', $selected);
+            $data->set('values', $variant->isBasic() ? array(self::BASIC_VARIANT => array()) : $values);
+
+            $this->_item->elements->set($this->identifier, (array)$data);
         }
 
         return $this;
@@ -352,7 +353,7 @@ class ElementJBPriceCalc extends ElementJBPrice
             $this->setDefault(self::BASIC_VARIANT);
 
             $_list = $this->getList($list);
-            foreach ($_list->first()->all() as $id => $element) {
+            foreach ($_list->first()->all() as $paramId => $element) {
                 $value = $element->getSearchData();
 
                 $valDate = $valString = $valNum = null;
@@ -367,10 +368,12 @@ class ElementJBPriceCalc extends ElementJBPrice
                 }
 
                 if (isset($valString{1}) || (is_int($valNum) || is_float($valNum)) || isset($valDate{1})) {
-                    $data[self::BASIC_VARIANT . $id] = array(
+                    $key = $itemId . '__' . $this->identifier . '__' . self::BASIC_VARIANT . '__' . $paramId;
+
+                    $data[$key] = array(
                         'item_id'    => $itemId,
                         'element_id' => $this->identifier,
-                        'param_id'   => $id,
+                        'param_id'   => $paramId,
                         'value_s'    => $valString,
                         'value_n'    => $valNum,
                         'value_d'    => $valDate,
