@@ -16,22 +16,12 @@ defined('_JEXEC') or die('Restricted access');
 // load config
 require_once dirname(__FILE__) . '/helper.php';
 
-$categoryHelper = new JBZooCategoryHelper($params);
-$zoo            = App::getInstance('zoo');
+$zoo = App::getInstance('zoo');
 
 $zoo->jbdebug->mark('mod_jbzoo_category::start-' . $module->id);
 
-$zoo->jbassets->less('mod_jbzoo_category:assets/styles.less');
-
-$categories = $categoryHelper->getCategories();
-
-// renderer module
-$renderer = $zoo->renderer->create('item')->addPath(array(
-    $zoo->path->path('component.site:'),
-    dirname(__FILE__)
-));
-
-// render module
-include(JModuleHelper::getLayoutPath('mod_jbzoo_category', $params->get('layout', 'default')));
+// init & render module
+$modHelper = new JBModuleHelperCategory($params, $module);
+echo $modHelper->render(false);
 
 $zoo->jbdebug->mark('mod_jbzoo_category::finish-' . $module->id);

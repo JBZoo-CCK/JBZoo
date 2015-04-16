@@ -12,15 +12,27 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$uniqId      = uniqid('jbzoo-accordion-');
-$borderClass = (int)$params->get('category_display_border', 0) ? 'jbzoo-rborder' : '';
-$classes     = array('yoo-zoo', 'jbzoo', 'jbzoo-category-module', 'jbcategory-layout-accordion', $borderClass);
-$zoo         = App::getInstance('zoo');
+
+$zoo = App::getInstance('zoo');
+$zoo->jbassets->accordion();
+
+$categories = $modHelper->getCategories();
+
+$attrs = array(
+    'id'    => $modHelper->getModuleId(),
+    'class' => array(
+        'yoo-zoo', // for Zoo widgets
+        'jbzoo',
+        'jbcategory-module',
+        'jbcategory-module-accordion',
+        (int)$params->get('category_display_border', 0) ? 'jbzoo-rborder' : ''
+    ),
+);
 
 $html = array();
-
 if (!empty($categories)) {
-    $html[] = '<div id="' . $uniqId . '" class="' . implode(' ', $classes) . '">';
+
+    $html[] = '<div ' . $modHelper->attrs($attrs) . '>';
 
     foreach ($categories as $catId => $category) {
 
@@ -29,8 +41,7 @@ if (!empty($categories)) {
             continue;
         }
 
-        // output category - start
-        // check image
+        // output category
         if (!empty($category['image'])) {
             $html[] = '<div class="jbaccordion-header ' . $category['active_class'] . '" style="line-height: ' . $category['attr']['height'] . 'px">';
             $html[] = '<div class="align-' . $params->get('category_image_align', 'left') . '">' . $category['image'] . '</div>';
@@ -45,15 +56,13 @@ if (!empty($categories)) {
             . '</div>';
 
         $html[] = JBZOO_CLR . '</div>';
-        // output category - finish
 
-        // output items - start
         $html[] = '<div class="jbcategory-items">';
         if (!empty($category['desc'])) {
             $html[] = '<p class="jbcategory-desc">' . $category['desc'] . '</p>';
         }
 
-        // render item
+        // output items
         $layout = $params->get('item_layout', 'default');
         foreach ($category['items'] as $itemId => $item) {
             $itemClasses = array(
@@ -64,6 +73,8 @@ if (!empty($categories)) {
                 'jbzoo-item-' . $item->id,
             );
 
+            $renderer = $modHelper->createRenderer('item');
+
             $html[] = '<div class="' . implode(' ', $itemClasses) . '">';
             $html[] = $renderer->render('item.' . $layout, array('item' => $item, 'params' => $params));
             $html[] = JBZOO_CLR;
@@ -71,16 +82,16 @@ if (!empty($categories)) {
         }
 
         $html[] = '</div>';
-        // output items - finish
-
     }
+
     $html[] = '</div>';
 }
 
 if (!empty($html)) {
-    echo implode("\n ", $html);
 
-    echo $zoo->jbassets->widget('#' . $uniqId, 'JBZooAccordion', array(
+    $html[] = $zoo->jbassets->widget('#' . $modHelper->getModuleId(), 'JBZoo.Accordion', array(
         'headerWidget' => '.jbaccordion-header'
     ), true);
+
+    echo implode(PHP_EOL, $html);
 }
