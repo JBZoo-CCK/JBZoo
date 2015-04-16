@@ -24,6 +24,7 @@ class JBModelSearchindex extends JBModel
         '_itemcategory',
         '_itemfrontpage',
         '_itemtag',
+        '_itemname',
     );
 
     /**
