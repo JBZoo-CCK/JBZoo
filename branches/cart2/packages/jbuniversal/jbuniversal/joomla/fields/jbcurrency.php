@@ -50,20 +50,16 @@ class JFormFieldJBCurrency extends JFormField
         }
 
         foreach ($currencyList as $key => $currency) {
-            $options[] = $app->html->_('select.option', $key, $currency);
+            $options[$key] = $currency;
         }
 
-        $attrs = $isMultiply ? 'multiple="multiple" size="5"' : '';
+        $attrs = array();
+        if ($isMultiply) {
+            $attrs['multiple'] = 'multiple';
+            $attrs['size']     = '5';
+        }
 
-        return $app->html->_(
-            'select.genericlist',
-            $options,
-            $this->getName($this->fieldname),
-            $attrs,
-            'value',
-            'text',
-            $this->value
-        );
+        return $app->jbhtml->select($options, $this->getName($this->fieldname), $attrs, $this->value);
     }
 
 }
