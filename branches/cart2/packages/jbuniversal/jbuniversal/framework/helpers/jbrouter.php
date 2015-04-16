@@ -633,6 +633,22 @@ class JBRouterHelper extends AppHelper
     }
 
     /**
+     * @return string
+     */
+    public function removeViewed()
+    {
+        $params = array(
+            'option'     => 'com_zoo',
+            'controller' => 'viewed',
+            'task'       => 'clear',
+            'format'     => 'raw',
+            'app_id'     => $this->app->zoo->getApplication()->id,
+        );
+
+        return JURI::root() . 'index.php?' . $this->query($params);
+    }
+
+    /**
      * Get url by params
      * @param array  $params
      * @param bool   $zooRoute
