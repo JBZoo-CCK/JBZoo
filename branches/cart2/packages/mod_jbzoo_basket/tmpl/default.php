@@ -18,7 +18,7 @@ $items    = $modHelper->getBasketItems();
 $currency = $modHelper->getCurrency();
 
 ?>
-<div class="jbzoo jbcart-module jsJBZooCartModule" id="jbzooCartModule-<?php echo $module->id; ?>">
+<div class="jbzoo jbcart-module jsJBZooCartModule" id="<?php echo $modHelper->getModuleId(); ?>">
 
     <?php if (empty($items)) : ?>
         <div class="jbcart-module-empty clearfix"><?php echo JText::_('JBZOO_CART_MODULE_EMPTY'); ?></div>

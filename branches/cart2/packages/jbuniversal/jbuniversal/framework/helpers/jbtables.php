@@ -377,7 +377,7 @@ class JBTablesHelper extends AppHelper
             $tblFields[] = '`' . $this->getFieldName($field, 'd') . '` DATETIME NULL DEFAULT NULL';
 
             // add indexes
-            if (count($tblIndex) < 63) {
+            if (count($tblIndex) < 60) {
                 $tblIndex[] = 'INDEX `' . $this->getFieldName($field, 's') . '` (`' . $this->getFieldName($field, 's') . '`)';
                 $tblIndex[] = 'INDEX `' . $this->getFieldName($field, 'n') . '` (`' . $this->getFieldName($field, 'n') . '`)';
                 if (!in_array($field, $stdIndexFields, true)) {
