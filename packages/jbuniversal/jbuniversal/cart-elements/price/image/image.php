@@ -74,11 +74,9 @@ class JBCartElementPriceImage extends JBCartElementPrice
     public function edit()
     {
         if ($layout = $this->getLayout('edit.php')) {
-            $unique = $this->htmlId(true);
-            !$this->app->jbenv->isSite() ? $this->app->jbassets->widget('#' . $unique, 'JBZooMedia') : null;
             return self::renderEditLayout($layout, array(
                 'value'  => $this->get('value', ''),
-                'unique' => $unique
+                'unique' => $this->htmlId(true)
             ));
         }
 

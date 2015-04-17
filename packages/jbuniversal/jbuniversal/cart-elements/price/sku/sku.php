@@ -25,6 +25,7 @@ class JBCartElementPriceSku extends JBCartElementPrice
     public function hasValue($params = array())
     {
         $value = $this->getValue(true);
+
         return !empty($value);
     }
 
@@ -72,6 +73,7 @@ class JBCartElementPriceSku extends JBCartElementPrice
     public function getValue($toString = false, $key = 'value', $default = null)
     {
         $value = parent::getValue($toString, $key, $default);
+
         if (empty($value) && $item = $this->_jbprice->getItem()) {
             $value = $item->id;
         }

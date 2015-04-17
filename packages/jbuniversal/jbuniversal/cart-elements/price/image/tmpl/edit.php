@@ -10,7 +10,12 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
+
+if (!$this->app->jbenv->isSite()) {
+    $this->app->jbassets->widget('#' . $unique, 'JBZooMedia');
+}
+?>
 
 <div class="jsMedia jbprice-img-row-file" id="<?php echo $unique; ?>">
     <?php
