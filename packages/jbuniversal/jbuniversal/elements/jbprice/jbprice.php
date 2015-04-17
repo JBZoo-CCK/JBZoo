@@ -792,7 +792,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
         $layoutPath = $this->app->path->path('elements:' . $class . '/tmpl/' . $layout);
         if (empty($layoutPath)) {
-            $layoutPath = $this->app->path->path('elements:' . $parent . ' /tmpl/' . $layout);
+            $layoutPath = $this->app->path->path('elements:' . $parent . '/tmpl/' . $layout);
         }
 
         return $layoutPath;
