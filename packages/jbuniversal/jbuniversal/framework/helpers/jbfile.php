@@ -20,15 +20,25 @@ class JBFileHelper extends AppHelper
 {
     /**
      * Read custom data from file
-     * @param $path
+     * @param string $path
+     * @param bool   $safeMode
      * @return null|string
      */
-    public function read($path)
+    public function read($path, $safeMode = false)
     {
         $path = JPath::clean($path);
 
         if (JFile::exists($path)) {
-            return file_get_contents($path);
+
+            if ($safeMode) {
+                $handle   = fopen($path, "rb");
+                $contents = fread($handle, filesize($path));
+                fclose($handle);
+            } else {
+                $contents = file_get_contents($path);
+            }
+
+            return $contents;
         }
 
         return null;
