@@ -37,6 +37,7 @@ class JBCheckFilesHelper extends AppHelper
      */
     protected $_exclude = array(
         '\.config$',
+        'positions\.xml',
         'config[/\\\]licence\.php',
         'config[/\\\]config\.php',
         'config[/\\\]licence\..*\.php',
