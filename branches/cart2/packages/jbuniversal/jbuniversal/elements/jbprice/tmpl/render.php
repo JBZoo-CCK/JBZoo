@@ -12,15 +12,34 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$class  = 'jsJBPrice-' . $this->identifier . '-' . $this->_item->id;
-$unique = $this->app->jbstring->getId('jbprice-'); ?>
-<div class="jsPrice jsJBPrice jbprice <?php echo "{$class} {$hash} {$this->getElementType()}" ; ?>" id="<?php echo $unique; ?>">
-    <?php echo $data,
-    $this->app->jbassets->widget('#' . $unique, 'JBZoo.Price', array(
-        'elements'   => $elements,
+
+$attrs = array(
+    'id'    => $this->app->jbstring->getId('jbprice-'),
+    'class' => array(
+        // for JS
+        'jsPrice',                                                  // is correct class for JS
+        'jsJBPrice',                                                // TODO kill me (but JS bugs!)
+        'jsJBPrice-' . $this->identifier . '-' . $this->_item->id,  // to group elements
+        $hash,                                                      // TODO add prefix "jsPrice-" (but JS bugs!)
+
+        // for design
+        'jbprice',
+        'jbprice-tmpl-' . $this->_template,
+        str_replace('jbprice', 'jbprice-type-', $this->getElementType()),    // TODO replace to "jbprice-type-<plain|calc>"
+    )
+);
+
+$html = array(
+    '<div ' . $this->app->jbhtml->buildAttrs($attrs) . '>',
+    $data,
+    $this->app->jbassets->widget('#' . $attrs['id'], 'JBZoo.Price', array(
+        'hash'       => $hash,
         'itemId'     => $this->_item->id,
         'identifier' => $this->identifier,
         'variantUrl' => $variantUrl,
-        'hash'       => $hash
-    ), true); ?>
-</div>
+        'elements'   => $elements,
+    ), true),
+    '</div>'
+);
+
+echo implode(PHP_EOL, $html);
