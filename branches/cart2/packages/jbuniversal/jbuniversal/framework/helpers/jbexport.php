@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBExportHelper extends AppHelper
 {
-    const STEP_SIZE = 20;
+    const STEP_SIZE = 500;
 
     /**
      * @var JBCSVMapperHelper
@@ -103,7 +103,6 @@ class JBExportHelper extends AppHelper
             $offset += self::STEP_SIZE;
             $options['limit'] = array($offset, self::STEP_SIZE);
         }
-
         return $files;
     }
 
