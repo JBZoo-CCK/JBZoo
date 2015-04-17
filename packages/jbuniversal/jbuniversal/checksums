@@ -712,7 +712,7 @@ b235d1636f0eaeac0166630899980462 jbapp/framework/helpers/jbcartposition.php
 8278c1b574569710a26a01705b9b878b jbapp/framework/helpers/jbcartstatus.php
 8f53f669bcbe3cc7331490a9503b8389 jbapp/framework/helpers/jbcartvalidator.php
 458e40ad05ae044a93d8e892e01b489c jbapp/framework/helpers/jbcheckfiles.php
-9719c33a307b2f0f8de508a2aa91152a jbapp/framework/helpers/jbchecksum.php
+7bfa3f8a62ec7ed43207f8dc860012b5 jbapp/framework/helpers/jbchecksum.php
 8747a06d77ce808084094a9f29d09a3e jbapp/framework/helpers/jbcolor.php
 a79e6c0bf2cb8bed145aaa183ea4bec5 jbapp/framework/helpers/jbcompare.php
 f302d596544a3978c968664d35dbccfa jbapp/framework/helpers/jbconfig.php
