@@ -45,9 +45,11 @@ class JBCartElementPriceProperties extends JBCartElementPrice
             return self::renderEditLayout($layout, array(
                 'width'  => $this->get('width'),
                 'height' => $this->get('height'),
-                'length' => $this->get('length'),
+                'length' => $this->get('length')
             ));
         }
+
+        return null;
     }
 
     /**
@@ -60,7 +62,7 @@ class JBCartElementPriceProperties extends JBCartElementPrice
             return self::renderLayout($layout, array(
                 'width'  => $this->get('width'),
                 'height' => $this->get('height'),
-                'length' => $this->get('length'),
+                'length' => $this->get('length')
             ));
         }
 
@@ -69,17 +71,24 @@ class JBCartElementPriceProperties extends JBCartElementPrice
 
     /**
      * Get elements value
-     * @param array $key      Array key.
-     * @param mixed $default  Default value if data is empty.
-     * @param bool  $toString A string representation of the value.
+     * @param array|string $key      Array key.
+     * @param mixed        $default  Default value if data is empty.
+     * @param bool         $toString A string representation of the value.
      * @return mixed|string
      */
     public function getValue($toString = false, $key = array('height', 'length', 'width'), $default = null)
     {
-        if ($toString && is_string($key)) {
+        if (is_string($key) && $toString) {
             $value = parent::getValue($toString, $key, $default);
-        } else {
+
+        } elseif ($toString) {
             $value = call_user_func_array('parent::getValue', $key);
+
+        } else {
+            $callable = array($this, 'getValue');
+            array_walk($key, function ($_val) use (&$value, $callable) {
+                $value[$_val] = call_user_func($callable, array(true, $_val));
+            });
         }
 
         return $value;

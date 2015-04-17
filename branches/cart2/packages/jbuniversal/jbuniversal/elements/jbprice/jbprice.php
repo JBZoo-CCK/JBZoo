@@ -266,10 +266,9 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function renderSubmission($params = array())
     {
-        $key  = strtolower(get_called_class());
-        $less = 'elements:jbprice/assets/less/submission.less';
-        $this->app->jbassets->less($less);
-        $this->_storage->set('assets', $less, md5($key . $less));
+        $submission = 'elements:jbprice/assets/less/submission.less';
+        $this->toStorage($submission);
+        $this->app->jbassets->less($submission);
 
         return $this->edit((array)$params);
     }
@@ -691,14 +690,11 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     {
         $variations = (array)$this->get('variations', array());
         $data       = array();
-
         if (count($variations)) {
-
             $list = $this->getList($variations);
             unset($variations);
 
             $_default = $this->defaultKey();
-
             /** @type JBCartVariant $variant */
             foreach ($list->all() as $key => $variant) {
                 $this->setDefault($key);
@@ -722,33 +718,34 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     protected function getVariantData(JBCartVariant $variant)
     {
-        $jbvars = $this->app->jbvars;
-        $data   = array();
+        $vars = $this->app->jbvars;
+        $data = array();
         foreach ($variant->all() as $paramId => $element) {
             $value = $element->getSearchData();
+            $id    = $element->identifier;
 
-            $valDate = $valString = $valNum = null;
+            $date = $string = $num = null;
             if ($value instanceof JBCartValue) {
                 $value->convert('eur');
-                $valString = $value->data(true);
-                $valNum    = $value->val();
+                $string = $value->data(true);
+                $num    = $value->val();
             } else {
-                $value     = JString::trim((string)$value);
-                $valString = $value;
-                $valNum    = $this->isNumeric($value) ? $jbvars->number($value) : null;
-                $valDate   = $this->isDate($value);
+                $value  = JString::trim((string)$value);
+                $string = $value;
+                $num    = $this->isNumeric($value) ? $vars->number($value) : null;
+                $date   = $this->isDate($value);
             }
 
-            if (isset($valString{1}) || (is_int($valNum) || is_float($valNum)) || isset($valDate{1})) {
-                $key = $this->_item->id . '__' . $this->identifier . '__' . $variant->getId() . '__' . $paramId;
+            if (($string !== '' && $string !== null) || (is_float($num) || is_int($num)) || ($date !== '' && $date !== null)) {
+                $key = $this->_item->id . '__' . $this->identifier . '__' . $variant->getId() . '__' . $id;
 
                 $data[$key] = array(
                     'item_id'    => $this->_item->id,
                     'element_id' => $this->identifier,
-                    'param_id'   => $paramId,
-                    'value_s'    => $valString,
-                    'value_n'    => $valNum,
-                    'value_d'    => $valDate,
+                    'param_id'   => $id,
+                    'value_s'    => $string,
+                    'value_n'    => $num,
+                    'value_d'    => $date,
                     'variant'    => $variant->getId()
                 );
             }
