@@ -325,8 +325,11 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     {
         if ((int)$params->get('required', 0)) {
             $basic = $value->get('basic');
-            $this->app->validator->create('textfilter', array('required' => $params->get('required')))
-                                 ->clean($basic['_value']);
+            $this->app->validator
+                ->create('textfilter', array(
+                    'required' => $params->get('required')
+                ))
+                ->clean($basic['_value']);
         }
 
         return $value;
@@ -338,7 +341,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function defaultKey()
     {
-        return (int)$this->_item->elements->find("$this->identifier.default_variant", self::BASIC_VARIANT);
+        return (int)$this->_item->elements->find($this->identifier . '.default_variant', self::BASIC_VARIANT);
     }
 
     /**
@@ -490,7 +493,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function getData($key, $default = null)
     {
-        return $this->_item->elements->find("{$this->identifier}.variations.{$key}", $default);
+        return $this->_item->elements->find($this->identifier . '.variations.' . $key, $default);
     }
 
     /**
@@ -498,7 +501,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function defaultData()
     {
-        return $this->_item->elements->find("{$this->identifier}.variations.0");
+        return $this->_item->elements->find($this->identifier . '.variations.0');
     }
 
     /**
@@ -766,7 +769,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function getControlName($id, $array = false)
     {
-        return "elements[{$this->identifier}][{$id}]" . ($array ? "[]" : "");
+        return 'elements[' . $this->identifier . '][' . $id . ']' . ($array ? '[]' : '');
     }
 
     /**
@@ -781,15 +784,15 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
         // set default
         if (empty($layout)) {
-            $layout = "{$type}.php";
+            $layout = $type . '.php';
         }
 
         $parent = strtolower(str_replace('Element', '', get_parent_class($this)));
         $class  = $this->getElementType();
 
-        $layoutPath = $this->app->path->path("elements:{$class}/tmpl/{$layout}");
+        $layoutPath = $this->app->path->path('elements:' . $class . '/tmpl/' . $layout);
         if (empty($layoutPath)) {
-            $layoutPath = $this->app->path->path("elements:{$parent}/tmpl/{$layout}");
+            $layoutPath = $this->app->path->path('elements:' . $parent . ' /tmpl/' . $layout);
         }
 
         return $layoutPath;
