@@ -90,18 +90,23 @@ class JBCartVariantList extends ArrayObject
     /**
      * Get variant by id if exists.
      * @param int $key
-     * @return JBCartVariant| null
+     * @return JBCartVariant
+     * @throws JBCartVariantListException
      */
     public function get($key = ElementJBPrice::BASIC_VARIANT)
     {
-        return isset($this->variants[$key]) ? $this->variants[$key] : null;
+        if(!$this->has($key)) {
+            throw new JBCartVariantListException('Variant - ' . $this->default . ' doesn\'t exists');
+        }
+
+        return $this->variants[$key];
     }
 
     /**
      * @param  integer       $key
      * @param  JBCartVariant $variant
      * @return bool
-     * @throws JBCartVariantListException
+     * @throws JBCartVariantListException Get error when $variant is not an instance of JBCartVariant.
      */
     public function set($key, $variant)
     {
@@ -187,7 +192,8 @@ class JBCartVariantList extends ArrayObject
     }
 
     /**
-     * @return JBCartVariant|null
+     * @return JBCartVariant
+     * @throws JBCartVariantListException If try to get unknown variant
      */
     public function current()
     {

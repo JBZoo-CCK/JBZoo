@@ -154,6 +154,8 @@ class JBModelElementJBPrice extends JBModelElement
         if ($identifier == '_value') {
             $where->where($value, null, $logic);
 
+            $where->where('tSku.variant = ?', -1);
+
         } elseif ($identifier == '_sku') {
             $where->where($this->_buildLikeBySpaces($value, 'tSku.value_s'), null, $logic);
 
@@ -320,12 +322,12 @@ class JBModelElementJBPrice extends JBModelElement
 
         if (isset($values['min'])) {
             $min     = JBCart::val($values['min'], $currency)->val($this->_currency);
-            $range[] = 'tSku.value_n >= ' . $this->_quote(floor($min));
+            $range[] = 'tSku.value_n >= ' . $this->_quote(round($min, 2, PHP_ROUND_HALF_DOWN));
         }
 
         if (isset($values['max'])) {
             $max     = JBCart::val($values['max'], $currency)->val($this->_currency);
-            $range[] = ' tSku.value_n <= ' . $this->_quote(ceil($max));
+            $range[] = ' tSku.value_n <= ' . $this->_quote(round($max, 2, PHP_ROUND_HALF_UP));
         }
 
         return implode(' AND ', $range);
