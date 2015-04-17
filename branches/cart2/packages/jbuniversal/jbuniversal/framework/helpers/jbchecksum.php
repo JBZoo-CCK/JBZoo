@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -20,16 +19,16 @@ defined('_JEXEC') or die('Restricted access');
 class JBChecksumHelper extends AppHelper
 {
 
+    const HASH_MODE = 1;
+
     /**
      * Verify a file checksum
-     *
-     * @param string $path The path to the files
+     * @param string $path     The path to the files
      * @param string $checksum The checksum file
-     * @param array $log Log Array
-     * @param array $filter An array of filter functions
-     * @param string $prefix A prefix for the file
-     * @param array $exclude patterns for no check
-     *
+     * @param array  $log      Log Array
+     * @param array  $filter   An array of filter functions
+     * @param string $prefix   A prefix for the file
+     * @param array  $exclude  patterns for no check
      * @return boolean If the checksum was valid
      */
     public function verify($path, $checksum, &$log = null, array $filter = array(), $prefix = '', $exclude = array())
@@ -40,7 +39,7 @@ class JBChecksumHelper extends AppHelper
 
             $checksum_files = array();
             foreach ($rows as $row) {
-                list($md5, $file) = explode(' ', trim($row), 2);
+                list($hash, $file) = explode(' ', trim($row), 2);
 
                 foreach ($filter as $callback) {
                     if ($callback && !($file = call_user_func($callback, $file))) {
@@ -57,7 +56,7 @@ class JBChecksumHelper extends AppHelper
 
                 if (!file_exists($path . $file)) {
                     $log['missing'][] = str_replace('//', '/', $prefix . '/' . $file);
-                } elseif (md5_file($path . $file) != $md5) {
+                } elseif ($this->_hash($path . $file) != $hash) {
                     $log['modified'][] = str_replace('//', '/', $prefix . '/' . $file);
                 }
             }
@@ -79,7 +78,7 @@ class JBChecksumHelper extends AppHelper
 
     /**
      * Check is path is ignore
-     * @param $filename
+     * @param       $filename
      * @param array $exclude
      * @return bool
      */
@@ -97,13 +96,10 @@ class JBChecksumHelper extends AppHelper
 
     /**
      * Read the files from a directory
-     *
-     * @param string $path The path in which to search
-     * @param string $prefix File prefix
+     * @param string  $path      The path in which to search
+     * @param string  $prefix    File prefix
      * @param boolean $recursive If the scan should be recursive (default: true)
-     *
      * @return array The file list
-     *
      * @since 1.0.0
      */
     protected function _readDirectory($path, $prefix = '', $recursive = true)
@@ -128,6 +124,23 @@ class JBChecksumHelper extends AppHelper
         }
 
         return $files;
+    }
+
+    /**
+     * @param $filePath
+     * @return string
+     */
+    protected function _hash($filePath)
+    {
+        if (self::HASH_MODE) {
+            $code = $this->app->jbfile->read($filePath);
+            $code = str_replace(array(PHP_EOL, "\r", "\n"), "\n", $code);
+            $hash = md5($code);
+        } else {
+            $hash = md5_file($filePath);
+        }
+
+        return $hash;
     }
 
 }

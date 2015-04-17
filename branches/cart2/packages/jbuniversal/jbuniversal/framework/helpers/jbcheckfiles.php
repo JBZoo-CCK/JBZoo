@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -42,12 +41,16 @@ class JBCheckFilesHelper extends AppHelper
         'config[/\\\]config\.php',
         'config[/\\\]licence\..*\.php',
         'renderer[/\\\]item[/\\\]',
+
         'app_icons',
+        'tmp[/\\\]*',
+
         'css[/\\\]jbzoo\..*\.css',
         'js[/\\\]jbzoo\..*\.js',
         '\.jbsample',
         '\.jbsamplerepeatable',
-        'yml_config\.php'
+        'yml_config\.php',
+        'admin\.jbtest\.php'
     );
 
     /**
@@ -93,9 +96,9 @@ class JBCheckFilesHelper extends AppHelper
                     $checksum,
                     $result,
                     array(create_function(
-                        '$path',
-                        'if (preg_match("#^' . $vpath . '#", $path)) return preg_replace("#^' . $vpath . '/#", "", $path);'
-                    )),
+                              '$path',
+                              'if (preg_match("#^' . $vpath . '#", $path)) return preg_replace("#^' . $vpath . '/#", "", $path);'
+                          )),
                     $this->app->path->relative($path),
                     $this->_exclude
                 );
