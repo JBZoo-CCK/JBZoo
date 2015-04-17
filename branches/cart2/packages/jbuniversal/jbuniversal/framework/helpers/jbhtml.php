@@ -588,11 +588,11 @@ class JBHtmlHelper extends AppHelper
         $params['max']  = $this->_vars->number($params['max']);
         $params['step'] = $this->_vars->number($params['step']);
 
-        $paramMin = floor($this->_vars->money($params['min'], 2));
-        $paramMax = ceil($this->_vars->money($params['max'], 2));
+        $paramMin = $this->_vars->money($params['min'], 2);
+        $paramMax = $this->_vars->money($params['max'], 2);
 
-        $valueMin = JBCart::val(floor($value[0]), $currency);
-        $valueMax = JBCart::val(ceil($value[1]), $currency);
+        $valueMin = JBCart::val($value[0], $currency);
+        $valueMax = JBCart::val($value[1], $currency);
 
         $html   = array();
         $html[] = '<div class="jbslider-ui jsUI"></div>';
