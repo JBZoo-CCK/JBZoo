@@ -352,12 +352,7 @@ class ElementJBPriceCalc extends ElementJBPrice
             if ($this->_list instanceof JBCartVariantList) {
                 $this->_list->clear();
             }
-
-            $basic = array_shift($variations);
-            $list  = $this->getList(array(self::BASIC_VARIANT => $basic));
-
-            // Get basic variant index
-            $data = array_merge($data, $this->getVariantData($list->first()));
+            $list  = $this->getList();
 
             // Build list of variants
             $_variants = $this->build($variations);
@@ -367,13 +362,15 @@ class ElementJBPriceCalc extends ElementJBPrice
                 $list->add(array($defKey => $_variants[$defKey]));
             }
 
-            $current = $list->current();
-            $current->setId(-1);
-            $data = array_merge($data, $this->getVariantData($current));
+            $list->current()->setId(-1);
+            $data = array_merge($data, $this->getVariantData($list->current()));
+            $list->current()->setId($defKey);
 
-            $current->setId($defKey);
+            $first = $list->first();
+            // Get basic variant index
+            $data = array_merge($data, $this->getVariantData($first));
+
             $list->add($_variants);
-
             /** @type JBCartVariant $variant */
             foreach ($list->all() as $variant) {
                 if (!$variant->isBasic()) {
