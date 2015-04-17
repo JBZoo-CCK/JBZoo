@@ -10,10 +10,7 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
-
-$this->app->jbassets->widget('#' . $unique, 'JBZooMedia')
-?>
+defined('_JEXEC') or die('Restricted access'); ?>
 
 <div class="jsMedia jbprice-img-row-file" id="<?php echo $unique; ?>">
     <?php
