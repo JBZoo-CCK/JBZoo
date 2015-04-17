@@ -134,7 +134,7 @@ class JBChecksumHelper extends AppHelper
     {
         if (self::HASH_MODE) {
             $code = $this->app->jbfile->read($filePath, true);
-            $code = str_replace(array(PHP_EOL, "\r", "\n"), "_LE_", $code);
+            $code = str_replace(array("\r\n", "\r", "\n"), "_LE_", $code);
             $hash = md5($code);
         } else {
             $hash = md5_file($filePath);
