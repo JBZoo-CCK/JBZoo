@@ -222,10 +222,12 @@
 
                 if (this.getState()) {
                     jsButtons
-                        .addClass('in-cart');
+                        .addClass('in-cart')
+                        .removeClass('not-in-cart');
                 } else {
                     jsButtons
-                        .removeClass('in-cart');
+                        .removeClass('in-cart')
+                        .addClass('not-in-cart');
                 }
 
                 if(this.isModal) {

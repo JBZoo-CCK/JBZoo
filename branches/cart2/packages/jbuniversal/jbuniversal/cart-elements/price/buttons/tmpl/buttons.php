@@ -13,7 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $interface   = $this->_interfaceParams($params);
-$inCartClass = $interface['isInCart'] ? 'in-cart' : '';
+$inCartClass = $interface['isInCart'] ? 'in-cart' : 'not-in-cart';
 
 $vars = array(
     'interface' => $interface,

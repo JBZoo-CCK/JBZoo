@@ -256,6 +256,16 @@ class JBCartVariant extends ArrayObject
     }
 
     /**
+     * Check if variant key equals needle
+     * @param  int $id Needle id
+     * @return bool
+     */
+    public function is($id)
+    {
+        return $this->id === (int)$id;
+    }
+
+    /**
      * @param bool   $toString
      * @param string $key - element identifier
      * @param mixed  $default

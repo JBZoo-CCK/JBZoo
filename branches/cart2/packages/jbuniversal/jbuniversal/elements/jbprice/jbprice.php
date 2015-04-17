@@ -105,7 +105,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * Price template that chosen in layout
      * @var null
      */
-    protected $_filter_template = null;
+    protected $_filter_template;
 
     const BASIC_VARIANT       = 0;
     const SIMPLE_PARAM_LENGTH = 36;
@@ -689,50 +689,68 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function getIndexData()
     {
-        $jbvars = $this->app->jbvars;
-        $itemId = $this->getItem()->id;
-
         $variations = (array)$this->get('variations', array());
         $data       = array();
 
-        if (!empty($variations)) {
+        if (count($variations)) {
 
             $list = $this->getList($variations);
             unset($variations);
 
+            $_default = $this->defaultKey();
+
             /** @type JBCartVariant $variant */
             foreach ($list->all() as $key => $variant) {
-
                 $this->setDefault($key);
-                foreach ($variant->all() as $paramId => $element) {
-                    $value = $element->getSearchData();
 
-                    $valDate = $valString = $valNum = null;
-                    if ($value instanceof JBCartValue) {
-                        $valString = $value->data(true);
-                        $valNum    = $value->val();
-                    } else {
-                        $value     = JString::trim((string)$value);
-                        $valString = $value;
-                        $valNum    = $this->isNumeric($value) ? $jbvars->number($value) : null;
-                        $valDate   = $this->isDate($value);
-                    }
+                $data = array_merge($data, $this->getVariantData($variant));
+            }
+            $this->setDefault($_default);
 
-                    if (isset($valString{1}) || (is_int($valNum) || is_float($valNum)) || isset($valDate{1})) {
-                        $key = $itemId . '__' . $this->identifier . '__' . $variant->getId() . '__' . $paramId;
+            $default = $list->current();
+            $default->setId(-1);
 
-                        $data[$key] = array(
-                            'item_id'    => $itemId,
-                            'element_id' => $this->identifier,
-                            'param_id'   => $paramId,
-                            'value_s'    => $valString,
-                            'value_n'    => $valNum,
-                            'value_d'    => $valDate,
-                            'variant'    => $variant->getId()
-                        );
-                    }
-                }
+            $data = array_merge($data, $this->getVariantData($default));
+        }
 
+        return $data;
+    }
+
+    /**
+     * @param JBCartVariant $variant
+     * @return array
+     */
+    protected function getVariantData(JBCartVariant $variant)
+    {
+        $jbvars = $this->app->jbvars;
+        $data   = array();
+        foreach ($variant->all() as $paramId => $element) {
+            $value = $element->getSearchData();
+
+            $valDate = $valString = $valNum = null;
+            if ($value instanceof JBCartValue) {
+                $value->convert('eur');
+                $valString = $value->data(true);
+                $valNum    = $value->val();
+            } else {
+                $value     = JString::trim((string)$value);
+                $valString = $value;
+                $valNum    = $this->isNumeric($value) ? $jbvars->number($value) : null;
+                $valDate   = $this->isDate($value);
+            }
+
+            if (isset($valString{1}) || (is_int($valNum) || is_float($valNum)) || isset($valDate{1})) {
+                $key = $this->_item->id . '__' . $this->identifier . '__' . $variant->getId() . '__' . $paramId;
+
+                $data[$key] = array(
+                    'item_id'    => $this->_item->id,
+                    'element_id' => $this->identifier,
+                    'param_id'   => $paramId,
+                    'value_s'    => $valString,
+                    'value_n'    => $valNum,
+                    'value_d'    => $valDate,
+                    'variant'    => $variant->getId()
+                );
             }
         }
 

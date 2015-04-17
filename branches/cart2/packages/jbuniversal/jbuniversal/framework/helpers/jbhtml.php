@@ -588,8 +588,8 @@ class JBHtmlHelper extends AppHelper
         $params['max']  = $this->_vars->number($params['max']);
         $params['step'] = $this->_vars->number($params['step']);
 
-        $paramMin = floor($this->_vars->money($params['min'], 0));
-        $paramMax = ceil($this->_vars->money($params['max'], 0));
+        $paramMin = floor($this->_vars->money($params['min'], 2));
+        $paramMax = ceil($this->_vars->money($params['max'], 2));
 
         $valueMin = JBCart::val($value[0], $currency);
         $valueMax = JBCart::val($value[1], $currency);
@@ -637,12 +637,12 @@ class JBHtmlHelper extends AppHelper
             $value = array($params['min'], $params['max']);
         }
 
-        $params['min']  = floor($this->_vars->number($params['min'], 0));
-        $params['max']  = ceil($this->_vars->number($params['max'], 0));
+        $params['min']  = floor($this->_vars->number($params['min'], 2));
+        $params['max']  = ceil($this->_vars->number($params['max'], 2));
         $params['step'] = $this->_vars->number($params['step']);
 
-        $valueMin = $this->_vars->money(floor($value['0']), 2);
-        $valueMax = $this->_vars->money(ceil($value['1']), 2);
+        $valueMin = floor($this->_vars->money($value['0'], 2));
+        $valueMax = ceil($this->_vars->money($value['1'], 2));
 
         $this->_assets->jqueryui();
         $this->_assets->less('jbassets:less/widget/slider.less');
@@ -667,8 +667,8 @@ class JBHtmlHelper extends AppHelper
         $html = array(
             '<div class="jsSlider jbslider">',
             '<div id="' . $idtag . '-wrapper"> </div>',
-            '<span id="' . $idtag . '-value-0" class="slider-value-0">' . number_format($value['0'], 0, ".", " ") . '</span>',
-            '<span id="' . $idtag . '-value-1" class="slider-value-1">' . number_format($value['1'], 0, ".", " ") . '</span>',
+            '<span id="' . $idtag . '-value-0" class="slider-value-0">' . $valueMin . '</span>',
+            '<span id="' . $idtag . '-value-1" class="slider-value-1">' . $valueMax . '</span>',
             '<input type="hidden" id="' . $idtag . '-value" name="' . $name . '" />',
             JBZOO_CLR,
             '</div>'

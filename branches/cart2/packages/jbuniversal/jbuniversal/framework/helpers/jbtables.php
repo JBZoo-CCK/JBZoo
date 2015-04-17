@@ -124,20 +124,23 @@ class JBTablesHelper extends AppHelper
 
         if (!isset($checked) || $force) {
             $this->createTable(ZOO_TABLE_JBZOO_SKU, array(
+                '`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT',
                 '`item_id` INT(11) UNSIGNED NOT NULL',
                 '`element_id` VARCHAR(36) NOT NULL',
                 '`param_id` VARCHAR(36) NOT NULL',
                 '`value_s` VARCHAR(150) NOT NULL',
                 '`value_n` DOUBLE',
                 '`value_d` DATETIME',
-                '`variant` INT(11) NOT NULL',
+                '`variant` INT(11) NOT NULL'
             ), array(
+                'PRIMARY KEY (`id`)',
                 'INDEX `item_id` (`item_id`)',
                 'INDEX `element_id` (`element_id`)',
                 'INDEX `param_id` (`param_id`)',
                 'INDEX `value_s` (`value_s`)',
                 'INDEX `value_n` (`value_n`)',
                 'INDEX `value_d` (`value_d`)',
+                'INDEX `variant` (`variant`)'
             ));
         }
 
