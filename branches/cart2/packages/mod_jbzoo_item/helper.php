@@ -67,6 +67,7 @@ class JBModuleHelperItem extends JBModuleHelper
         }
 
         if ((int)$this->_params->get('column_heightfix', 0)) {
+            $this->_jbassets->js('jbassets:js/widget/heightfix.js');
             $this->_jbassets->widget('#' . $this->getModuleId(), 'JBZoo.HeightFix', array());
         }
     }
