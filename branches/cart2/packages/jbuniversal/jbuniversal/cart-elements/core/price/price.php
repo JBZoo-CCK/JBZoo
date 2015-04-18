@@ -382,7 +382,7 @@ abstract class JBCartElementPrice extends JBCartElement
 
         $jbassets = $this->app->jbassets;
         $jbassets->js('cart-elements:' . $group . '/' . $type . '/assets/js/edit.js');
-        $jbassets->css('cart-elements:' . $group . '/' . $type . '/assets/js/edit.js');
+        $jbassets->css('cart-elements:' . $group . '/' . $type . '/assets/js/edit.css');
         $jbassets->less('cart-elements:' . $group . '/' . $type . '/assets/less/edit.less');
 
         return $this;
