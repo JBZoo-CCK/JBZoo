@@ -72,13 +72,20 @@
         _toggleFields: function (elementId) {
 
             var $this = this,
-                fields = $this.options.fields_assign[elementId];
+                fields = $this.options.fields_assign[elementId],
+                $wrapper = $('.jbzoo .jsShippingFieldWrapper');
 
             $('.jsShippingField').stop().hide();
-            if (fields) {
+            if (!JBZoo.empty(fields)) {
+                $wrapper.find('.jsShippingFieldEmpty').hide();
                 $.each(fields, function (n, fieldId) {
                     $('.js' + fieldId).fadeIn();
                 });
+            } else {
+
+                dump($wrapper);
+
+                $wrapper.find('.jsShippingFieldEmpty').stop().fadeIn();
             }
         }
 
