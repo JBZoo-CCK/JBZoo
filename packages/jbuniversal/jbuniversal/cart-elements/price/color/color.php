@@ -53,7 +53,7 @@ class JBCartElementPriceColor extends JBCartElementPriceOption
     {
         if ($layout = $this->getLayout('edit.php')) {
             return $this->renderEditLayout($layout, array(
-                'data'  => $this->_getColors(),
+                'data'  => $this->_parseOptions(),
                 'name'  => $this->getControlName('value'),
                 'value' => $this->getValue()
             ));
