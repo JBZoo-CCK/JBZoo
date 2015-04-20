@@ -665,26 +665,15 @@ class JBAssetsHelper extends AppHelper
     /**
      * Init select cascade
      */
-    public function initSelectCascade()
-    {
-        $this->js('jbassets:js/widget/select-cascade.js');
-    }
-
-    /**
-     * Init script for JBCascadeSelect
-     * @param string $uniqid
-     * @param string $itemList
-     */
-    public function initJBCascadeSelect($uniqid, $itemList)
+    public function selectCascade()
     {
         $this->jQuery();
-        $this->initSelectCascade();
-
-        $this->widget('.jbcascadeselect-wrapper.jbcascadeselect-' . $uniqid, 'JBCascadeSelect', array(
-            'items'    => $itemList,
-            'uniqid'   => $uniqid,
-            'text_all' => ' - ' . JText::_('JBZOO_ALL') . ' - ',
+        $this->js(array(
+            'jbassets:js/widget/select.js', // parent class
+            'jbassets:js/widget/select-cascade.js'
         ));
+
+        $this->less('jbassets:less/widget/cascade.less');
     }
 
     /**

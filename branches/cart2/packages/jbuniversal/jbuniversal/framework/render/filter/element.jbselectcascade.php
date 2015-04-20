@@ -32,7 +32,7 @@ class JBFilterElementJBSelectcascade extends JBFilterElement
 
         return $this->app->jbhtml->selectCascade(
             $selectInfo,
-            $this->_getName(),
+            $this->_getName('%s'),
             $this->_value,
             $this->_attrs,
             $this->_getId()
