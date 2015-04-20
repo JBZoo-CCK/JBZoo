@@ -32,7 +32,7 @@ $classes = array(
         ?>
 
         <?php if (!empty($view->shipping)) : ?>
-            <div class="jbcart-shipping-col">
+            <div class="jbcart-shipping-col jsShippingWrapper">
                 <?php echo $view->shippingRenderer->render('shipping.default', array(
                     'order' => $view->order
                 )); ?>
@@ -40,10 +40,13 @@ $classes = array(
         <?php endif; ?>
 
         <?php if (!empty($view->shippingFields)) : ?>
-            <div class="jbcart-shippingfield-col">
+            <div class="jbcart-shippingfield-col jsShippingFieldWrapper">
                 <?php echo $view->shippingFieldRenderer->render('shippingfield.default', array(
                     'order' => $view->order
                 )); ?>
+                <p class="jsShippingFieldEmpty jbcart-shippingfield-empty">
+                    <?php echo JText::_('JBZOO_CART_SHIPPINGFIELDS_EMPTY'); ?>
+                </p>
             </div>
         <?php endif; ?>
 
