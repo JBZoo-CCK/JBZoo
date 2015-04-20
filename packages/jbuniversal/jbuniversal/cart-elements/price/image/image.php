@@ -217,6 +217,17 @@ class JBCartElementPriceImage extends JBCartElementPrice
     }
 
     /**
+     * Load elements css/js assets
+     * @return $this
+     */
+    public function loadEditAssets()
+    {
+        $this->app->jbassets->js('jbassets:js/widget/media.js');
+
+        return parent::loadAssets();
+    }
+
+    /**
      * Get related image element
      * @return ElementJBImage|bool
      */
