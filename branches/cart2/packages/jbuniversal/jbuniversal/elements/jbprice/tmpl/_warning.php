@@ -12,9 +12,4 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$link = null;
-if (!$this->app->jbenv->isSite()) {
-    $link = ' - <a target="_blank" href="' . $link . '">' . $message . '</a>';
-}
-
-echo '<em>' . JText::_('JBZOO_PRICE_EDIT_ERROR_NO_ELEMENTS') . $link . '</em>';
+echo '<em>' . $message . '</em>';

@@ -78,6 +78,8 @@ class JBCartElementPriceColor extends JBCartElementPriceOption
                 'dataColor' => $this->_getColors()
             ));
         }
+
+        return null;
     }
 
     /**
