@@ -208,7 +208,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             return null;
         }
 
-        return $this->renderWarning();
+        return $this->renderWarning('_warning.php', JText::_('JBZOO_PRICE_EDIT_ERROR_ADD_ELEMENTS'));
     }
 
     /**
@@ -274,23 +274,38 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
-     * @param string $layout
-     * @param string $link
+     * @param string $template
      * @param string $message
      * @return string
      */
-    public function renderWarning($layout = '_warning.php', $link = '', $message = '')
+    public function renderWarning($template = '_warning.php', $message = '')
     {
-        $link = $this->app->jbrouter->admin(array(
-            'controller' => 'jbcart',
-            'task'       => 'price',
-            'element'    => $this->identifier
-        ));
+        if (!$this->app->jbenv->isSite()) {
 
-        return parent::renderLayout($this->getLayout($layout), array(
-            'link'    => $link,
-            'message' => JText::_('JBZOO_PRICE_EDIT_ERROR_ADD_ELEMENTS')
-        ));
+            $link       = $this->app->jbrouter->admin(array(
+                'controller' => 'jbcart',
+                'task'       => 'price',
+                'element'    => $this->identifier
+            ));
+            $attributes = $this->app->jbhtml->buildAttrs(array(
+                'href'   => $link,
+                'target' => '_blank'
+            ));
+
+            $message = '<a '
+                . $attributes
+                . '>'
+                . $message
+                . '</a>';
+
+        }
+        if (($layout = $this->getLayout($template)) && ($message !== '' && $message !== null)) {
+            return parent::renderLayout($layout, array(
+                'message' => $message
+            ));
+        }
+
+        return null;
     }
 
     /**

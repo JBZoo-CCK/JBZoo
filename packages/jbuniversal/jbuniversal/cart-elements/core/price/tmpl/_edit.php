@@ -12,17 +12,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (!$this->isCore() && empty($html)) {
-
-    $html = $this->getJBPrice()->renderWarning();
-    $link = $this->app->jbrouter->admin(array(
-        'controller' => 'jbcart',
-        'task'       => 'price',
-        'element'    => $this->element_id
-    ));
-
-    $link = '<a target="_blank" href="' . $link . '">' . JText::_('JBZOO_ELEMENT_PRICE_ADD_OPTIONS') . '</a>';
-    $html = JText::sprintf('JBZOO_ELEMENT_PRICE_NO_OPTIONS', $link);
+if (($html === '' || $html === null) && !$this->isCore()) {
+    $html = $this->getJBPrice()->renderWarning('_warning.php', JText::_('JBZOO_PRICE_EDIT_ERROR_ADD_OPTIONS'));
 }
 
 $type   = $this->getElementType();
