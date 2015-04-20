@@ -76,7 +76,6 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
 
         $values      = $this->_getValuesList();
         $cascadeName = $this->getControlName('list-%s');
-        dump($selectInfo);
 
         return $this->app->jbhtml->selectCascade($selectInfo, $cascadeName, $values, array(), $this->_selGroup);
     }
