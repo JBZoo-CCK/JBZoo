@@ -610,10 +610,10 @@ class JBHtmlHelper extends AppHelper
         $html[] = $this->hidden($name, $valueMin->val() . '/' . $valueMax->val(), array('class' => 'jsValue'));
 
         $html[] = $this->_assets->slider($idTag, array(
-            'min'      => $paramMin,
-            'max'      => $paramMax,
-            'step'     => $params['step'],
-            'values'   => array($valueMin->val(), $valueMax->val())
+            'min'    => $paramMin,
+            'max'    => $paramMax,
+            'step'   => $params['step'],
+            'values' => array($valueMin->val(), $valueMax->val())
         ), true);
 
         $html[] = JBZOO_CLR;
@@ -754,79 +754,88 @@ class JBHtmlHelper extends AppHelper
 
     /**
      * Select cascade
-     * @param array  $selectInfo
+     * @param mixed  $selectInfo
      * @param string $name
      * @param array  $selected
      * @param array  $attribs
-     * @param bool   $idtag
+     * @param string $group
      * @return string
      */
     public function selectCascade(
         $selectInfo,
         $name,
         $selected = array(),
-        $attribs = null,
-        $idtag = false
+        $attribs = array(),
+        $group = ''
     )
     {
-        $itemList  = $selectInfo['items'];
-        $maxLevel  = $selectInfo['maxLevel'];
-        $listNames = $selectInfo['names'];
-
-        $uniqId         = $this->_jbstring->getId();
-        $deepLevelCheck = $deepLevel = 0;
-
-        $html = array();
-        for ($i = 0; $i <= $maxLevel; $i++) {
-
-            $value = isset($selected[$i]) ? $selected[$i] : null;
-
-            $attrs = array(
-                'class'      => 'jbselect-' . $i,
-                'name'       => $name . '[]',
-                'list-order' => $i,
-                'disabled'   => 'disabled',
-                'id'         => 'jbselect-' . $i . '-' . $uniqId,
-            );
-
-            $listName = isset($listNames[$i]) ? $listNames[$i] : ' ';
-
-            $html[] = '<div>';
-            $html[] = '<label for="' . $attrs['id'] . '">' . $listName . '</label>';
-            $html[] = '<select ' . $this->app->jbhtml->buildAttrs($attrs) . '>';
-            $html[] = '<option value=""> - ' . JText::_('JBZOO_ALL') . ' - </option>';
-
-            if ($deepLevelCheck == $deepLevel) {
-                $deepLevelCheck++;
-                foreach ($itemList as $key => $item) {
-                    if ($value == $key) {
-                        $html[] = '<option value="' . $key . '" selected="selected">' . $key . '</option>';
-                    } else {
-                        $html[] = '<option value="' . $key . '">' . $key . '</option>';
-                    }
-                }
-            }
-
-            if (isset($itemList[$value])) {
-                $itemList = $itemList[$value];
-                $deepLevel++;
-            }
-
-            if (isset($selectInfo['items'][$value]) && !empty($selectInfo['items'][$value])) {
-                $tmpItems = $selectInfo['items'][$value];
-            }
-
-            $html[] = '</select></div>';
+        if (is_string($selectInfo['items']) && is_string($selectInfo['names'])) {
+            $selectInfo = $this->app->jbselectcascade->getItemList($selectInfo['names'], $selectInfo['items']);
         }
 
-        $this->_assets->initJBCascadeSelect($uniqId, $selectInfo['items']);
+        $itemList = $selectInfo['items'];
+        $lvlCheck = $curLvl = 0;
+        $allText  = ' - ' . JText::_('JBZOO_ALL') . ' - ';
 
-        $attribs['class'][] = 'jbcascadeselect';
+        $html = array();
+        for ($i = 0; $i <= $selectInfo['maxLevel']; $i++) {
+            $listValue = isset($selected[$i]) ? $selected[$i] : null;
+            $listLabel = isset($selectInfo['names'][$i]) ? $selectInfo['names'][$i] : ' ';
+            $listName  = sprintf($name, $i);
+            $listId    = $this->_jbstring->getId('jbselect');
 
-        return '<div class="jbcascadeselect-wrapper jbcascadeselect-' . $uniqId . '">'
-        . '<div ' . $this->app->jbhtml->buildAttrs($attribs) . '>'
-        . implode(PHP_EOL, $html)
-        . '</div></div>';
+            $listAttrs = array(
+                'data-rowindex' => $i,
+                'class'         => array(
+                    'jsSelect',
+                    'jsSelect-' . $i
+                )
+            );
+
+            // create option list
+            $options = array();
+            if ($lvlCheck == $curLvl) {
+                $lvlCheck++;
+                $keys    = array_keys($itemList);
+                $options = array_combine($keys, $keys);
+            }
+            $options = $this->app->jbarray->unshiftAssoc($options, '', $allText);
+
+            $html[] = '<div class="jbcascade-row">';
+            $html[] = '<label class="jbcascade-label" for="' . $listId . '">' . $listLabel . '</label>';
+            $html[] = $this->select($options, $listName, $listAttrs, $listValue, $listId);
+            $html[] = '</div>';
+
+            if (isset($itemList[$listValue])) {
+                $itemList = $itemList[$listValue];
+                $curLvl++;
+            }
+        }
+
+        $attribs = array_merge($attribs, array(
+            'id'    => $this->_jbstring->getId('jbcascade'),
+            'class' => array(
+                'jbcascade',
+                'jsCascade',
+            )
+        ));
+
+        $widgetSelector = '#' . $attribs['id'];
+        if ($group) {
+            $groupClass         = 'jsCascade-' . $group;
+            $widgetSelector     = '.' . $groupClass;
+            $attribs['class'][] = $groupClass;
+        }
+
+        // init widget
+        $this->_assets->selectCascade();
+        $html[] = $this->_assets->widget($widgetSelector, 'JBZoo.CascadeSelect', array(
+            'text_all' => $allText,
+            'group'    => $widgetSelector,
+            'items'    => $selectInfo['items'],
+        ), true);
+
+        return '<div class="jbzoo"><div ' . $this->buildAttrs($attribs) . '>' . implode(PHP_EOL, $html) . '</div></div>';
     }
 
     /**
@@ -836,13 +845,20 @@ class JBHtmlHelper extends AppHelper
      * @param   string  $name        The value of the HTML name attribute
      * @param   array   $attribs     Additional HTML attributes for the <select> tag
      * @param   string  $selected    The name of the object variable for the option text
-     * @param   boolean $idtag       Value of the field id or null by default
+     * @param   boolean $idtag       Value of the field id or null by default TODO kill me
      * @param   boolean $translate   True if options will be translated
      * @param   boolean $isLabelWrap True if options wrappeed label tag
      * @return  string HTML for the select list
      */
-    private function _list($inputType, $data, $name, $attribs = array(), $selected = null, $idtag = false,
-                           $translate = false, $isLabelWrap = false
+    private function _list(
+        $inputType,
+        $data,
+        $name,
+        $attribs = array(),
+        $selected = null,
+        $idtag = false,
+        $translate = false,
+        $isLabelWrap = false
     )
     {
         reset($data);

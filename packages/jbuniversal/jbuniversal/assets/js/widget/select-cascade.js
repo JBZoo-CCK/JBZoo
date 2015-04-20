@@ -12,71 +12,123 @@
 (function ($, window, document, undefined) {
 
     /**
-     * Plugin constructor
-     * @param options
-     * @returns {*|HTMLElement}
-     * @constructor
+     * Height fix plugin
      */
-    $.fn.JBCascadeSelect = function (options) {
+    JBZoo.widget('JBZoo.CascadeSelect', {
+        'uniqid'  : '',
+        'items'   : null,
+        'text_all': 'All',
+        'group'   : ''
+    }, {
+
+        init: function ($this) {
+            $this._initZooRepeatable();
+            $this._initSelects();
+        },
+
+        _initSelects: function () {
+
+            var $this = this,
+                $selects = this.$('select');
+            $selects.JBZooSelect({});
+
+            $selects.each(function (n, obj) {
+                var $select = $(obj),
+                    value = $select.JBZooSelect('val');
+
+                $select.JBZooSelect('disable');
+                if (!$this._checkValue(value)) {
+                    $select.JBZooSelect('enable');
+                }
+
+                if ($select.find('option').length > 1) {
+                    $select.JBZooSelect('enable');
+                }
+            });
+        },
 
         /**
-         * Private methods and properties
+         * Init Zoo repeatable feature
          * @private
          */
-        var $this = $(this),
-        _options = {
-            'uniqid'  : '',
-            'items'   : null,
-            'text_all': 'All'
+        _initZooRepeatable: function () {
+            var $this = this,
+                $parent = $this.el.closest('.jsCascadeGroup');
+
+            if (!$parent.is('.jsCascadeRepeatable')) {
+
+                $parent
+                    .addClass('jsCascadeRepeatable')
+                    .find('p.add')
+                    .bind('click', function () {
+
+                        // init new selects (just added)
+                        var $newCascade = $parent.find($this.options.group + ':last');
+
+                        // clean up all selects
+                        $('select', $newCascade)
+                            .JBZooSelect() // init widget
+                            .JBZooSelect('replaceOptions', {'': $this.options.text_all})
+                            .JBZooSelect('disable')
+
+                            // load options to first
+                            .first()
+                            .JBZooSelect('replaceOptions', $this._convertOptions($this.options.items, true))
+                            .JBZooSelect('enable');
+
+                        // init cascade
+                        $newCascade.JBZooCascadeSelect($this.options);
+                    });
+            }
         },
-        _selects = {},
-        _init = function ($element, groupNum) {
 
-            _selects[groupNum] = $('select', $element);
-            _selects[groupNum]
-                .change(function () {
-                    var $select = $(this),
-                        listOrder = parseInt($select.attr('list-order'), 10),
-                        value = $select.val(),
-                        parentValues = _parentValues(listOrder, groupNum),
-                        $selectNext = $('.jbselect-' + (listOrder + 1), $element);
+        'change select': function (e, $this) {
+            var $select = $(this),
+                selectIndex = $select.data('rowindex'),
+                selectValue = $select.JBZooSelect('val'),
+                parentValues = $this._getParentValues(selectIndex),
+                $selectNext = $this.$('.jsSelect-' + (selectIndex + 1));
 
-                    _fill($selectNext, value, parentValues, listOrder, false);
-
-                    if ($selectNext.find('option').length > 1) {
-                        _enable($selectNext);
-                    }
-
-                    $selectNext.trigger('change');
-                })
-                .each(function (n, obj) {
-                    var $select = $(obj),
-                        listOrder = parseInt($select.attr('list-order'), 10),
-                        value = $select.val(),
-                        parentValues = _parentValues(listOrder, groupNum);
-
-                    _disable($select);
-                    if (!_checkValue(value)) {
-                        _enable($select);
-                    }
-
-                    if ($select.find('option').length > 1) {
-                        _enable($select);
-                    }
-                });
+            $this._fillSelect($selectNext, selectValue, parentValues, false);
+            $selectNext.trigger('change');
         },
-        _fill = function ($select, value, parentValues, listOrder, force) {
 
-            var tempList = _options.items;
+        /**
+         * Get parent select values
+         * @param selectIndex
+         * @returns {{}}
+         * @private
+         */
+        _getParentValues: function (selectIndex) {
+            var $this = this,
+                result = {};
 
-            _clear($select);
+            for (var i = 0; i <= selectIndex; i++) {
+                result[i] = $this.$('.jsSelect-' + i).JBZooSelect('val');
+            }
+
+            return result;
+        },
+
+        /**
+         * Add options in select
+         * @param $select
+         * @param value
+         * @param parentValues
+         * @param force
+         * @private
+         */
+        _fillSelect: function ($select, value, parentValues, force) {
+
+            var $this = this,
+                tempList = $this.options.items;
 
             if (!force) {
                 $.each(parentValues, function (n, obj) {
 
                     if (typeof tempList[obj] != 'undefined') {
                         tempList = tempList[obj];
-                    } else if (!_checkValue(obj)) {
+                    } else if (!$this._checkValue(obj)) {
                         return false;
                     } else {
                         tempList = {};
@@ -85,22 +137,23 @@
                 });
             }
 
-            $.each(tempList, function (n, obj) {
-                _addOption($select, n, n);
-            });
+            var newList = $this._convertOptions(tempList, true);
+            $select.JBZooSelect('replaceOptions', newList);
 
-        },
-        _parentValues = function (listOrder, n) {
-            var result = {};
-
-            for (var i = 0; i <= listOrder; i++) {
-                var val = $(_selects[n].get(i)).val();
-                result[i] = val;
+            if ($select.find('option').length > 1) {
+                $select.JBZooSelect('enable');
+            } else {
+                $select.JBZooSelect('disable');
             }
-
-            return result;
         },
-        _checkValue = function (value) {
+
+        /**
+         * Validate select value
+         * @param value
+         * @returns {boolean}
+         * @private
+         */
+        _checkValue: function (value) {
 
             if (typeof value == 'undefined') {
                 return false;
@@ -108,50 +161,30 @@
 
             return !$.inArray(value, ['', ' ', '0']);
         },
-        _clear = function ($select) {
-            $select.empty();
-            _disable($select);
-            return _addOption($select, '', _options.text_all);
-        },
-        _disable = function ($select) {
-            $select.attr('disabled', 'disabled');
-        },
-        _enable = function ($select) {
-            $select.removeAttr('disabled');
-        },
-        _addOption = function ($select, key, value) {
-            var $option = $('<option>').attr('value', key).html(value);
-            return $select.append($option);
-        };
 
-        ////// plugin init
-        if (!$this.length) {
-            return $this;
+        /**
+         * Convert options
+         * @param items
+         * @param addAll
+         * @returns {{}}
+         * @private
+         */
+        _convertOptions: function (items, addAll) {
+
+            var $this = this,
+                result = {};
+
+            if ($this._def(addAll, false)) {
+                result = {'': $this.options.text_all};
+            }
+
+            $.each(items, function (n, obj) {
+                result[n] = n;
+            });
+
+            return result;
         }
 
-        _options = $.extend({}, _options, options);
+    });
 
-        $('.jbcascadeselect', $this).each(function (n, obj) {
-            _init($(obj), n);
-        });
-
-        // init new dinamic add selects
-        var $parent = $('.repeat-elements', $this);
-        $parent.find('p.add').bind('click', function () {
-
-            var newIndex = $parent.find("li.repeatable-element").length - 1,
-                $newObj = $this.find('.jbcascadeselect:eq(' + newIndex + ')');
-
-            $('select', $newObj).each(function (n, obj) {
-                if (n != 0) {
-                    _clear($(obj));
-                } else {
-                    $(obj).val('');
-                }
-            });
-            _init($newObj, newIndex);
-        });
-
-        return $this;
-    };
 })(jQuery, window, document);

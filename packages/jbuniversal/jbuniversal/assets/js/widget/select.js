@@ -59,6 +59,18 @@
         },
 
         /**
+         * Remove & add new options in select
+         * @param newOptions
+         */
+        replaceOptions: function (newOptions) {
+            var $this = this;
+
+            $this.removeOptions();
+            $this.newOptions(newOptions);
+
+        },
+
+        /**
          * Update option list
          * @param list
          * @param notFirst

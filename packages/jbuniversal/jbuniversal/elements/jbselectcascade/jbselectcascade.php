@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -24,10 +23,10 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
 {
     const VALIDATE_MODE_ANY = 'any';
 
-    protected $_maxLevel = null;
-    protected $_uniqid = '';
-    protected $_itemList = array();
-    protected $_listNames = array();
+    /**
+     * @type string
+     */
+    protected $_selGroup = '';
 
     /**
      * Element constructor
@@ -35,9 +34,7 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
     public function __construct()
     {
         parent::__construct();
-        $this->_uniqid = uniqid();
-
-        $this->registerCallback('ajaxGetList');
+        $this->_selGroup = $this->app->jbstring->getId('group');
     }
 
     /**
@@ -63,7 +60,7 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
 
         $result = array_reverse($result);
 
-        return (empty($result) ? null : implode(PHP_EOL, $result));
+        return (empty($result) ? null : implode("\n", $result));
     }
 
     /**
@@ -71,61 +68,17 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
      */
     protected function _edit()
     {
-        $values = $this->_getValuesList();
+        static $selectInfo;
 
-        $itemList  = $this->_itemList;
-        $deepLevel = $deepLevelCheck = 0;
-
-        $html = array();
-        for ($i = 0; $i <= $this->_maxLevel; $i++) {
-
-            $value = isset($values[$i]) ? $values[$i] : null;
-
-            $attrs = array(
-                'class'      => 'jbselect-' . $i,
-                'name'       => $this->getControlName('list-' . $i),
-                'list-order' => $i,
-                'disabled'   => 'disabled',
-                'id'         => 'jbselect-' . $i . '-' . $this->_uniqid,
-            );
-
-            $html[] = '<div>';
-            $label  = isset($this->_listNames[$i]) ? $this->_listNames[$i] : '';
-            $html[] = '<label for="' . $attrs['id'] . '">' . $label . '</label><br/>';
-            $html[] = '<select ' . $this->app->jbhtml->buildAttrs($attrs) . '>';
-            $html[] = '<option value=""> - ' . JText::_('JBZOO_ALL') . ' - </option>';
-
-            if ($deepLevelCheck == $deepLevel) {
-                $deepLevelCheck++;
-                foreach ($itemList as $key => $item) {
-                    if ($value == $key) {
-                        $html[] = '<option value="' . $key . '" selected="selected">' . $key . '</option>';
-                    } else {
-                        $html[] = '<option value="' . $key . '">' . $key . '</option>';
-                    }
-                }
-            }
-
-            if (isset($itemList[$value])) {
-                $itemList = $itemList[$value];
-                $deepLevel++;
-            }
-
-            if (isset($this->_itemList[$value]) && !empty($this->_itemList[$value])) {
-                $tmpItems = $this->_itemList[$value];
-            }
-
-            $html[] = '</select></div>';
+        if (is_null($selectInfo)) {
+            $selectInfo = $this->_getSelectInfo();
         }
 
-        $wrapperAtts = array(
-            'uniqid' => $this->_uniqid,
-            'class'  => 'jbcascadeselect',
-        );
+        $values      = $this->_getValuesList();
+        $cascadeName = $this->getControlName('list-%s');
+        dump($selectInfo);
 
-        return '<div ' . $this->app->jbhtml->buildAttrs($wrapperAtts) . '>'
-        . implode(" ", $html)
-        . '</div>';
+        return $this->app->jbhtml->selectCascade($selectInfo, $cascadeName, $values, array(), $this->_selGroup);
     }
 
     /**
@@ -139,35 +92,21 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
     }
 
     /**
-     * Render submission
-     * @param array $params
-     * @return string
-     */
-    public function renderSubmission($params = array())
-    {
-        $html = parent::renderSubmission($params);
-        $this->app->jbassets->initSelectCascade();
-        $this->app->jbassets->initJBCascadeSelect($this->_uniqid, $this->_itemList);
-
-        return '<div class="jbcascadeselect-wrapper jbcascadeselect-' . $this->_uniqid . '">' . $html . '</div>';
-    }
-
-    /**
      * Validate submission
      * @param JSONData $value
-     * @param array $params
+     * @param array    $params
      * @return array
      * @throws AppValidatorException
      */
     public function _validateSubmission($value, $params)
     {
-        $this->_getValuesList();
+        $selectInfo = $this->_getSelectInfo();
 
         $result = array();
 
         if ($params->get('mode') == self::VALIDATE_MODE_ANY) {
 
-            for ($i = 0; $i <= $this->_maxLevel; $i++) {
+            for ($i = 0; $i <= $selectInfo['maxLevel']; $i++) {
                 $result['list-' . $i] = $value->get('list-' . $i);
             }
 
@@ -177,29 +116,18 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
             }
 
         } else {
-
             $val = $value->flattenRecursive();
-
             for ($i = 0; $i < count($val); $i++) {
-                $validator = $this->app->validator->create('string', array('required' => $params->get('required')));
-
-                $result['list-' . $i] = $validator->clean($value->get('list-' . $i));
+                $result['list-' . $i] = $this->app->validator
+                    ->create('string', array(
+                        'required' => $params->get('required')
+                    ))
+                    ->clean($value->get('list-' . $i));
             }
 
         }
 
         return $result;
-    }
-
-    /**
-     * Load item list from ajax request
-     * @param array $params
-     * @return int
-     */
-    public function ajaxGetList(array $params = array())
-    {
-        $this->_getValuesList();
-        jexit(json_encode($this->_itemList));
     }
 
     /**
@@ -209,8 +137,8 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
      */
     protected function _render($params = array())
     {
-        $valueList = $this->_getValuesList();
-        $result    = $valueList;
+        $selectInfo = $this->_getSelectInfo();
+        $valueList  = $this->_getValuesList();
 
         $template = $params->get('template', 'default');
 
@@ -220,13 +148,16 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
         } else if ('label' == $template) {
 
             $result = array();
-            foreach ($this->_listNames as $key => $title) {
+            foreach ($selectInfo['names'] as $key => $title) {
                 if (!empty($title) && !empty($valueList[$key])) {
-                    $result[] = '<span class="jbselect-label jbselect-label-' . $key . '">' . $title . ':<span> '
+                    $result[] =
+                        '<span class="jbselect-label jbselect-label-' . $key . '">' . $title . ':<span> '
                         . '<span class="jbselect-value jbselect-value-' . $key . '">' . $valueList[$key] . '</span>';
                 }
             }
 
+        } else {
+            $result = $valueList;
         }
 
         return $this->app->element->applySeparators($params->get('separated_values_by'), $result);
@@ -269,11 +200,18 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
      */
     public function edit($params = array())
     {
+        $this->app->jbassets->selectCascade();
         $html = parent::edit($params);
-        $this->app->jbassets->initSelectCascade();
-        $this->app->jbassets->initJBCascadeSelect($this->_uniqid, $this->_itemList);
+        return '<div class="jbcascade-group jsCascadeGroup">' . $html . '</div>';
+    }
 
-        return '<div class="jbcascadeselect-wrapper jbcascadeselect-' . $this->_uniqid . '">' . $html . '</div>';
+    /**
+     * @param array $params
+     * @return string
+     */
+    public function renderSubmission($params = array())
+    {
+        return $this->edit($params);
     }
 
     /**
@@ -282,30 +220,34 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
      */
     protected function _getValuesList()
     {
-        // init internal vars
-        if ($this->_maxLevel === null) {
-
-            $itemList = $this->app->jbselectcascade->getItemList(
-                $this->config->get('select_names', ''),
-                $this->config->get('items', '')
-            );
-
-            $this->_itemList  = $itemList['items'];
-            $this->_maxLevel  = $itemList['maxLevel'];
-            $this->_listNames = $itemList['names'];
-
-        }
-
         // get values
         $result = array();
-        for ($i = 0; $i <= $this->_maxLevel; $i++) {
-            $value = JString::trim($this->get('list-' . $i, ''));
-            if (!empty($value)) {
-                $result[] = strtr($value, "\"", "'");
+
+        $i = 0;
+        while (true) {
+            $value = $this->get('list-' . $i, '');
+            $value = JString::trim($value);
+
+            if (empty($value)) {
+                break;
             }
+
+            $result[] = strtr($value, "\"", "'");
+            $i++;
         }
 
         return $result;
+    }
+
+    /**
+     * @return array
+     */
+    protected function _getSelectInfo()
+    {
+        return $this->app->jbselectcascade->getItemList(
+            $this->config->get('select_names', ''),
+            $this->config->get('items', '')
+        );
     }
 
 }
