@@ -35,7 +35,7 @@ if ($vars['count']) {
             $last .= ' last';
         }
 
-        echo '<div class="rborder column width' . intval(100 / $vars['cols_num']) . $first . $last . '">' . $object
+        echo '<div class="jsHeightFixRow rborder column width' . intval(100 / $vars['cols_num']) . $first . $last . '">' . $object
             . '</div>';
 
         if ($isLast) {
