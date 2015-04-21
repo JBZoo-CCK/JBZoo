@@ -21,10 +21,7 @@
 
         init: function ($this) {
 
-            // first time with delay for page loading
-            $this._delay(function () {
-                $this.updateSizes();
-            }, 300);
+            $this.updateSizes();
 
             // lisen document changes
             if ($this.options.timeout > 0) {
