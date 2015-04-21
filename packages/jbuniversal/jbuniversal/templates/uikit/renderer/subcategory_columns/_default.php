@@ -26,7 +26,7 @@ if ($vars['count']) {
 
     foreach ($rowSubcategories as $row) {
 
-        echo '<div class="uk-grid subcategory-row-' . $i . '" data-uk-grid-margin>';
+        echo '<div class="jsHeightFixRow uk-grid subcategory-row-' . $i . '" data-uk-grid-margin>';
 
         $j = 0;
         $i++;
