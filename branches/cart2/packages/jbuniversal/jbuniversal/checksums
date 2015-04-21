@@ -119,7 +119,7 @@ d1fd4fb0eae157666bdc7fe57db10b32 jbapp/assets/js/widget/colors.js
 7105e19ded7cc8abe58c261d7dad7757 jbapp/assets/js/widget/currencytoggle.js
 4d8e77a4a3c06d4207982860d325f3dd jbapp/assets/js/widget/emailpreview.js
 f998b96eddeb5eb4759f860a2e535ce6 jbapp/assets/js/widget/goto.js
-1ad12e37c792fab7dc34882a3ee7e63d jbapp/assets/js/widget/heightfix.js
+35fbdd0e55e18c50146cb4478c25b854 jbapp/assets/js/widget/heightfix.js
 6c80d5d777b02fcf396abf8bb519f30e jbapp/assets/js/widget/image.js
 8bf5b68742df5b098c8921578c8317e3 jbapp/assets/js/widget/input.js
 97846c3b675dc37d1174a41a5a511f31 jbapp/assets/js/widget/media.js
@@ -1151,7 +1151,7 @@ f8a6efb8e66a1940561fbfe26e078e5c jbapp/templates/catalog/renderer/comment_edit/_
 e12c668d92d3377a32826d4b61e567ad jbapp/templates/catalog/renderer/favorite/_default.php
 b498c99465e39d0fece501f481baef0d jbapp/templates/catalog/renderer/filter/_default.php
 e64095a7973671af08acfd31d9adadff jbapp/templates/catalog/renderer/frontpage/_default.php
-ed3924a84486234f0cb53ad4285d0ee0 jbapp/templates/catalog/renderer/item_columns/_default.php
+72792b477f22c460f9f0077659083e28 jbapp/templates/catalog/renderer/item_columns/_default.php
 e6a285e7c02c711761c6f0ab2a9e0f07 jbapp/templates/catalog/renderer/items/_default.php
 19985a00c35eb951a58060e9a9026878 jbapp/templates/catalog/renderer/items_empty/_default.php
 52f8d43250932707a5073ea349012ca5 jbapp/templates/catalog/renderer/myorders/_default.php
@@ -1162,7 +1162,7 @@ b81c0c92a47089ceb6c0d6f8b81723ff jbapp/templates/catalog/renderer/payment_succes
 ea2cf32af52ac7227891b1cee384b1ac jbapp/templates/catalog/renderer/respond/_default.php
 62ff3bc495e5ea1498c526d85b645d7e jbapp/templates/catalog/renderer/subcategories/_default.php
 5e92e64130e31bb0ba0a878790afd2eb jbapp/templates/catalog/renderer/subcategory/_default.php
-01db71335730a8ecb147795c1ad859c4 jbapp/templates/catalog/renderer/subcategory_columns/_default.php
+45c9bc8c2dbcb99555a8ebe64494af51 jbapp/templates/catalog/renderer/subcategory_columns/_default.php
 724d96faf236f6e6e2bba13c39e6416b jbapp/templates/catalog/renderer/tag/_default.php
 90b98fe17018887af09ce55a4807f896 jbapp/templates/catalog/submission.php
 b6fbfda3489e51f42a2cf929cacae2ce jbapp/templates/catalog/tag.php
@@ -1244,7 +1244,7 @@ a4b9e883feb606e48cfdd6e8768328d1 jbapp/templates/uikit/renderer/element/variatio
 1790da4b0ce9a93720ddc58a68a2d35d jbapp/templates/uikit/renderer/favorite/_default.php
 b498c99465e39d0fece501f481baef0d jbapp/templates/uikit/renderer/filter/_default.php
 fc150723abf8f9dd8d2572d01fa114a7 jbapp/templates/uikit/renderer/frontpage/_default.php
-9a45e6384f53bdebd497322ee4233122 jbapp/templates/uikit/renderer/item_columns/_default.php
+364499dabda8746d1bc05fdaa773ef35 jbapp/templates/uikit/renderer/item_columns/_default.php
 e53848385e8510118337f9047996fed5 jbapp/templates/uikit/renderer/items/_default.php
 19985a00c35eb951a58060e9a9026878 jbapp/templates/uikit/renderer/items_empty/_default.php
 52f8d43250932707a5073ea349012ca5 jbapp/templates/uikit/renderer/myorders/_default.php
@@ -1255,7 +1255,7 @@ b81c0c92a47089ceb6c0d6f8b81723ff jbapp/templates/uikit/renderer/payment_success/
 1dad0e7270201174b307715ebb5f9e18 jbapp/templates/uikit/renderer/respond/_default.php
 243a0132b8469f3e7399882986d09736 jbapp/templates/uikit/renderer/subcategories/_default.php
 e013908ce0b104afc5919ca4e09aeb20 jbapp/templates/uikit/renderer/subcategory/_default.php
-a2d4fbb12d962cb7a7ad920eda999a4e jbapp/templates/uikit/renderer/subcategory_columns/_default.php
+77966ddd17e38e573262c0cc05961c71 jbapp/templates/uikit/renderer/subcategory_columns/_default.php
 724d96faf236f6e6e2bba13c39e6416b jbapp/templates/uikit/renderer/tag/_default.php
 260139c52d4f811eca6eb297937c7a44 jbapp/templates/uikit/submission.php
 0e91e3922ff858b3497f0806b36f3098 jbapp/templates/uikit/tag.php
