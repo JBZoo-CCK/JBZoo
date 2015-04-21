@@ -15,27 +15,41 @@
      * Height fix plugin
      */
     JBZoo.widget('JBZoo.HeightFix', {
-        timeout: 300,
+        timeout: 500,
         element: '.column'
     }, {
 
         init: function ($this) {
 
-            var maxHeight = 0;
-
+            // first time with delay for page loading
             $this._delay(function () {
+                $this.updateSizes();
+            }, 300);
 
-                $this.$($this.options.element).each(function (n, obj) {
+            // lisen document changes
+            if ($this.options.timeout > 0) {
+                setInterval(function () {
+                    $this.updateSizes();
+                }, $this.options.timeout);
+            }
+        },
 
+        /**
+         * Recalc all heights
+         */
+        updateSizes: function () {
+            var $this = this,
+                maxHeight = 0;
+
+            $this.$($this.options.element)
+                .css('height', 'auto')
+                .each(function (n, obj) {
                     var tmpHeight = JBZoo.toInt($(obj).height());
-
                     if (maxHeight < tmpHeight) {
                         maxHeight = tmpHeight;
                     }
-
-                }).css({height: maxHeight});
-
-            }, $this.options.timeout);
+                })
+                .css({height: maxHeight});
         }
 
     });
