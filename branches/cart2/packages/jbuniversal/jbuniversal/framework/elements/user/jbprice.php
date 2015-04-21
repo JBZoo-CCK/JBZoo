@@ -18,8 +18,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCSVItemUserJBPrice extends JBCSVItem
 {
-    /** @type ElementJBPrice $_element Instance of price */
-    protected $_element = null;
 
     /**
      * @type string
@@ -82,7 +80,9 @@ class JBCSVItemUserJBPrice extends JBCSVItem
                         unset($element);
                     }
                 }
-                $result[$key] = implode(';', $result[$key]);
+                if (!empty($result)) {
+                    $result[$key] = implode(';', $result[$key]);
+                }
             }
         }
 

@@ -79,7 +79,7 @@ class JBCartVariant extends ArrayObject
             $data = new AppData();
             if(isset($options['elements']))
             {
-                $data->exchangeArray($options['elements']);
+                $data->exchangeArray(array_filter($options['elements']));
             }
             $this->add($elements, $data);
 
@@ -336,7 +336,8 @@ class JBCartVariant extends ArrayObject
         $elements = new AppData();
         if (isset($options['elements']))
         {
-            $elements->exchangeArray($options['elements']);
+            $data = array_filter($options['elements']);
+            $elements->exchangeArray($data);
         }
 
         foreach ($this->elements as $key => $element)
@@ -438,10 +439,14 @@ class JBCartVariant extends ArrayObject
      */
     protected function setElement($element, $data)
     {
+        if(is_array($data))
+        {
+            $data = array_filter($data);
+        }
         $element->setVariant($this->id);
 
-        if ($this->list instanceof JBCartVariantList && !$this->isBasic()) {
-
+        if ($this->list instanceof JBCartVariantList && !$this->isBasic())
+        {
             $basic = $this->list->first()->getValue(true, $element->identifier);
 
             if ($basic !== null && $basic !== '') {

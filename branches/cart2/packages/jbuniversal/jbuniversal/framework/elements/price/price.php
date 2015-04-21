@@ -21,7 +21,7 @@ class JBCSVItemPrice extends JBCSVItem
     /**
      * @type JBCartElementPrice
      */
-    protected $_core;
+    protected $_param;
 
     /**
      * Constructor
@@ -33,7 +33,7 @@ class JBCSVItemPrice extends JBCSVItem
     {
         parent::__construct($jbPrice, $jbPrice->getItem(), $options);
 
-        $this->_core = $element;
+        $this->_param = $element;
     }
 
     /**
@@ -41,7 +41,7 @@ class JBCSVItemPrice extends JBCSVItem
      */
     public function toCSV()
     {
-        return $this->_core->get('value', null);
+        return $this->_param->get('value', null);
     }
 
     /**

@@ -129,8 +129,8 @@ class JBCartElementPriceBalance extends JBCartElementPrice
      */
     public function bindData($data = array(), $key = 'value')
     {
-        if (!is_array($data)) {
-            $this->set($key, $this->app->jbvars->number($data));
+        if (!is_array($data) && $data !== '' && $data !== null) {
+            $data = array($key => $this->app->jbvars->number($data));
         }
 
         foreach ($data as $key => $value) {
