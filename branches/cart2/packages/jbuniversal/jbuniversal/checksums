@@ -323,7 +323,7 @@ be3b2e0eefd711cbe1f345918ee86210 jbapp/cart-elements/price/buttons/assets/js/but
 7808c52ccde1007a38944476722e3ac7 jbapp/cart-elements/price/buttons/assets/less/buttons.less
 845667e7903179ef34008f1e10d8c56d jbapp/cart-elements/price/buttons/buttons.php
 1d0a323d0013130517fff856b7b0b208 jbapp/cart-elements/price/buttons/buttons.xml
-70451a90dd446d02ae0671df3e8132b5 jbapp/cart-elements/price/color/color.php
+a83cb4768acd7c59facb7d3c6ccc8e52 jbapp/cart-elements/price/color/color.php
 2c676a8eb8fd12a66e032c0562fb7421 jbapp/cart-elements/price/color/color.xml
 9fe20470ac2a9da69caaf2d7b3cb2a92 jbapp/cart-elements/price/currency/currency.php
 471c915b698f1d073440be140aab30e2 jbapp/cart-elements/price/currency/currency.xml
@@ -365,7 +365,7 @@ ea569651ac9e1405be319e8a2d941d53 jbapp/cart-elements/price/value/value.xml
 e02a7529a2405a6b78e7a3d10d34930a jbapp/cart-elements/price/weight/weight.php
 195d05cbaebd52b272742deabfd64e00 jbapp/cart-elements/price/weight/weight.xml
 c67a4bff73fb9872e149e60582a38cd6 jbapp/cart-elements/shipping/courier/assets/js/courier.js
-f19e8051d1b3fb67fed4aba7e1756a9d jbapp/cart-elements/shipping/courier/assets/less/courier.less
+009a738b2b6cfb73da0c05e1c0716503 jbapp/cart-elements/shipping/courier/assets/less/courier.less
 a38c8611d7d33c8db4ee776b2842f42f jbapp/cart-elements/shipping/courier/courier.php
 9f9d77398c473f2f7e92a0b05acb9387 jbapp/cart-elements/shipping/courier/courier.xml
 212ab8cd0b39efddb616acf5493bd390 jbapp/cart-elements/shipping/emspost/assets/js/emspost.js
@@ -518,7 +518,7 @@ dbfdfcab08409f834ab848dde7de0ce7 jbapp/elements/jbimage/assets/images/cancel.png
 4b691d23fa0373abc1a05476e2c72d60 jbapp/elements/jbprice/assets/less/edit.less
 f2a10521f88b093762154f9b84d4c629 jbapp/elements/jbprice/assets/less/jbprice.less
 95109a63f775b83142f814ba1b100b14 jbapp/elements/jbprice/assets/less/submission.less
-62d40bb8c8cec3a65790037a97817570 jbapp/elements/jbprice/jbprice.php
+4cd04520a997a111c6866f021b25f947 jbapp/elements/jbprice/jbprice.php
 93ed1729397f49def9eccb2f9d682d6a jbapp/elements/jbprice/jbprice.xml
 1d8de246f6b90efa2f97e6a73712a21d jbapp/elements/jbpricecalc/assets/less/jbpricecalc.less
 1aa39069bce484dfb54f988d14dc338b jbapp/elements/jbpricecalc/jbpricecalc.php
@@ -1094,7 +1094,7 @@ bfd956b846c1544113dabea6edb888b7 jbapp/joomla/fields/jbshipping.php
 c333cfa1c5e4bd37f1406e33640a57af jbapp/joomla/fields/jbtype.php
 9ab8c805f357bd31a02340e8d28ea9a5 jbapp/joomla/fields/jbzooinit.php
 cb8f35ac649a559948596fc86f785210 jbapp/language/en-GB/en-GB.com_jbzoo.ini
-1d9260e09a4b838019e92fa568c99ec1 jbapp/language/ru-RU/ru-RU.com_jbzoo.ini
+69109cf2bfe831db953943d6cbef7b3a jbapp/language/ru-RU/ru-RU.com_jbzoo.ini
 f4041d29b7090bec2a53660a719688b0 jbapp/language/uk-UA/uk-UA.com_jbzoo.ini
 0808631641f7fffb6cd893398f36e693 jbapp/templates/catalog/_comments.php
 3133263af7974d7d60d23bfad4528cfb jbapp/templates/catalog/alphaindex.php
