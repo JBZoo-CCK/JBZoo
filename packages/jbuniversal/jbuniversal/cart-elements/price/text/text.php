@@ -12,7 +12,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
 App::getInstance('zoo')->loader->register('JBCartElementPriceOption', 'cart-elements:price/option/option.php');
 
 /**
@@ -20,4 +19,12 @@ App::getInstance('zoo')->loader->register('JBCartElementPriceOption', 'cart-elem
  */
 class JBCartElementPriceText extends JBCartElementPriceOption
 {
+    /**
+     * Check if element has options.
+     * @return bool
+     */
+    public function hasOptions()
+    {
+        return false;
+    }
 }
