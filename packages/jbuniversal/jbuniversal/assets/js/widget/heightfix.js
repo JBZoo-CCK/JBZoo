@@ -35,10 +35,28 @@
          * Recalc all heights
          */
         updateSizes: function () {
+            var $this = this;
+
+            if ($this.$('.jsHeightFixRow').length > 0) {
+                $this.$('.jsHeightFixRow').each(function (n, row) {
+                    $this._updateColumnCollect($(row));
+                });
+            } else {
+                $this._updateColumnCollect($this.el);
+            }
+
+        },
+
+        /**
+         * Fix block height
+         * @param $row
+         * @private
+         */
+        _updateColumnCollect: function ($row) {
             var $this = this,
                 maxHeight = 0;
 
-            $this.$($this.options.element)
+            $row.find($this.options.element)
                 .css('height', 'auto')
                 .each(function (n, obj) {
                     var tmpHeight = JBZoo.toInt($(obj).height());
@@ -48,6 +66,7 @@
                 })
                 .css({height: maxHeight});
         }
+
 
     });
 
