@@ -25,7 +25,7 @@ $attrs = array(
         // for design
         'jbprice',
         'jbprice-tmpl-' . $this->_template,
-        str_replace('jbprice', 'jbprice-type-', $this->getElementType()),    // TODO replace to "jbprice-type-<plain|calc>"
+        str_replace('jbprice', 'jbprice-type-', $this->getElementType()),
     )
 );
 
