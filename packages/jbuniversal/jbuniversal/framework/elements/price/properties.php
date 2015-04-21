@@ -13,7 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once dirname(__FILE__) . '/price.php';
+require_once __DIR__ . '/price.php';
 
 /**
  * Class JBCSVItemPriceProperties
@@ -25,7 +25,7 @@ class JBCSVItemPriceProperties extends JBCSVItemPrice
      */
     public function toCSV()
     {
-        $values = (array)$this->_core->data();
+        $values = (array)$this->_param->data();
         $result = array();
         foreach ($values as $key => $value) {
             $value = JString::trim($value);

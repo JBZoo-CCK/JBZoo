@@ -223,7 +223,7 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
-     * Check element id
+     * Check element id.
      * @param  string $identifier
      * @return bool
      */

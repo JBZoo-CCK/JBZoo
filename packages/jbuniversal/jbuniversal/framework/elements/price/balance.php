@@ -13,7 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once dirname(__FILE__) . '/price.php';
+require_once __DIR__ . '/price.php';
 
 /**
  * Class JBCSVItemPriceBalance
@@ -31,5 +31,4 @@ class JBCSVItemPriceBalance extends JBCSVItemPrice
 
         return array('value' => $value);
     }
-
 }
