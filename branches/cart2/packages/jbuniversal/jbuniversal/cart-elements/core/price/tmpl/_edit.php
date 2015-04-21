@@ -12,7 +12,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (($html === '' || $html === null) && !$this->isCore()) {
+if (($html === '' || $html === null) && (!$this->isCore())) {
     $html = $this->getJBPrice()->renderWarning('_warning.php', JText::_('JBZOO_PRICE_EDIT_ERROR_ADD_OPTIONS'));
 }
 
@@ -22,8 +22,8 @@ $attr   = array(
     'class' => array(
         'jbprice-element',
         'jsElement',
-        'js' . ucfirst($type),
-        'js' . ucfirst($isCore)
+        'js' . JString::ucfirst($type),
+        'js' . JString::ucfirst($isCore)
     )
 );
 

@@ -22,6 +22,15 @@ class JBCartElementPriceDate extends JBCartElementPriceOption
     const EDIT_DATE_FORMAT = '%Y-%m-%d %H:%M';
 
     /**
+     * Check if element has options.
+     * @return bool
+     */
+    public function hasOptions()
+    {
+        return false;
+    }
+
+    /**
      * @param  array $params
      * @return bool
      */

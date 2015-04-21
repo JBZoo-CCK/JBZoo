@@ -18,9 +18,7 @@
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
     <description>JBZOO_ELEMENT_PRICE_DATE_DESC</description>
-
     <params>
         <param name="options" type="hidden" default=""/>
     </params>
-
 </element>
