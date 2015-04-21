@@ -25,7 +25,6 @@ if ($vars['count']) {
     foreach ($vars['objects'] as $object) {
 
         $classes = array(
-            'jsHeightFixRow',
             'column',
             'rborder',
             'width' . intval(100 / $vars['cols_num'])

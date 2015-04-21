@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -25,18 +24,23 @@ if ($vars['count']) {
     $j = 0;
     foreach ($vars['objects'] as $object) {
 
-        $first = ($j == 0) ? ' first' : '';
-        $last  = ($j == $count - 1) ? ' last' : '';
+        $classes = array(
+            'rborder',
+            'column',
+            'width' . intval(100 / $vars['cols_num'])
+        );
+
+        $first = ($j == 0) ? $classes[] = 'first' : '';
+        $last  = ($j == $count - 1) ? $classes[] = 'last' : '';
         $j++;
 
         $isLast = $j % $vars['cols_num'] == 0 && $vars['cols_order'] == 0;
 
         if ($isLast) {
-            $last .= ' last';
+            $classes[] = 'last';
         }
 
-        echo '<div class="jsHeightFixRow rborder column width' . intval(100 / $vars['cols_num']) . $first . $last . '">' . $object
-            . '</div>';
+        echo '<div class="' . implode(' ', $classes) . '">' . $object . '</div>';
 
         if ($isLast) {
             echo JBZOO_CLR;
