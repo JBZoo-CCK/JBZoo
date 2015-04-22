@@ -26,7 +26,6 @@ $formAttrs = array(
 
 ?>
 
-<!--noindex-->
 <div class="jbzoo jbfilter-wrapper">
 
     <form <?php echo $modHelper->attrs($formAttrs); ?>>
@@ -45,4 +44,3 @@ $formAttrs = array(
     </form>
 
 </div>
-<!--/noindex-->
