@@ -21,6 +21,7 @@ $vars = array(
 );
 ?>
 
+<!--noindex-->
 <div class="jbprice-buttons jsPriceButtons <?php echo $inCartClass; ?>">
 
     <?php
@@ -46,3 +47,4 @@ $vars = array(
     ?>
 
 </div>
+<!--/noindex-->

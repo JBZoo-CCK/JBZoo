@@ -20,6 +20,7 @@ $vars = array(
     'params'    => $params
 ); ?>
 
+<!--noindex-->
 <div class="jsPriceButtons <?php echo $inCartClass; ?>"> <!-- remove all classes but $inCartClass -->
 
     <?php
@@ -45,3 +46,4 @@ $vars = array(
     ?>
 
 </div>
+<!--/noindex-->
