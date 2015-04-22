@@ -17,6 +17,7 @@ $isUseStock = $this->_isUseStock();
 
 ?>
 
+<!--noindex-->
 <?php if ($value == JBCartElementPriceBalance::COUNT_AVAILABLE_NO) : ?>
     <span class="jbprice-balance-available-no">
         <?php echo JText::_('JBZOO_ELEMENT_PRICE_BALANCE_AVAILABLE_NO'); ?>
@@ -38,3 +39,4 @@ $isUseStock = $this->_isUseStock();
     </span>
 
 <?php endif; ?>
+<!--/noindex-->
