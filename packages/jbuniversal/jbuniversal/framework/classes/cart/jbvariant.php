@@ -49,7 +49,7 @@ class JBCartVariant extends ArrayObject
     /**
      * @type JBCartVariantList
      */
-    public $list;
+    protected $list;
 
     /**
      * Class constructor
@@ -59,8 +59,6 @@ class JBCartVariant extends ArrayObject
      */
     public function __construct(array $elements = array(), array $options = array(), JBCartVariantList $list = null)
     {
-        parent::__construct($elements, ArrayObject::STD_PROP_LIST);
-
         // set variant id
         if(isset($options['id']))
         {
@@ -79,7 +77,7 @@ class JBCartVariant extends ArrayObject
             $data = new AppData();
             if(isset($options['elements']))
             {
-                $data->exchangeArray(array_filter($options['elements']));
+                $data->exchangeArray($options['elements']);
             }
             $this->add($elements, $data);
 
@@ -91,6 +89,8 @@ class JBCartVariant extends ArrayObject
         {
             $this->bindData($options);
         }
+
+        parent::__construct($this->elements);
     }
 
     /**
@@ -336,7 +336,7 @@ class JBCartVariant extends ArrayObject
         $elements = new AppData();
         if (isset($options['elements']))
         {
-            $data = array_filter($options['elements']);
+            $data = $options['elements'];
             $elements->exchangeArray($data);
         }
 
@@ -441,8 +441,11 @@ class JBCartVariant extends ArrayObject
     {
         if(is_array($data))
         {
-            $data = array_filter($data);
+            $data = array_filter($data, function($value) {;
+                 return ($value !== '' && $value !== null);
+            });
         }
+
         $element->setVariant($this->id);
 
         if ($this->list instanceof JBCartVariantList && !$this->isBasic())
