@@ -249,7 +249,7 @@ class JBAssetsHelper extends AppHelper
 
             $this->jQuery();
             $this->addScript(implode("\n\t", array(
-                'JBZoo.DEBUG = 1;',
+                'JBZoo.DEBUG = ' . (int)JDEBUG . ';',
                 'jQuery.migrateMute = false;',
             )), false);
 
