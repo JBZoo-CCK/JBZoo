@@ -18,6 +18,9 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBTablesHelper extends AppHelper
 {
+    // IMPORTANT! not more then 63
+    const INDEX_LIMIT = '50';
+
     /**
      * @var DatabaseHelper
      */
@@ -343,6 +346,7 @@ class JBTablesHelper extends AppHelper
         $elements = array_merge(array(
             '_itemcategory'  => array('type' => '_itemcategory'),
             '_itemfrontpage' => array('type' => '_itemfrontpage'),
+            '_itemname'      => array('type' => '_itemname'),
             '_itemtag'       => array('type' => '_itemtag'),
         ), $elements);
 
@@ -380,7 +384,7 @@ class JBTablesHelper extends AppHelper
             $tblFields[] = '`' . $this->getFieldName($field, 'd') . '` DATETIME NULL DEFAULT NULL';
 
             // add indexes
-            if (count($tblIndex) < 60) {
+            if (count($tblIndex) < self::INDEX_LIMIT) {
                 $tblIndex[] = 'INDEX `' . $this->getFieldName($field, 's') . '` (`' . $this->getFieldName($field, 's') . '`)';
                 $tblIndex[] = 'INDEX `' . $this->getFieldName($field, 'n') . '` (`' . $this->getFieldName($field, 'n') . '`)';
                 if (!in_array($field, $stdIndexFields, true)) {
