@@ -322,12 +322,12 @@ class JBModelElementJBPrice extends JBModelElement
 
         if (isset($values['min'])) {
             $min     = JBCart::val($values['min'], $currency)->val($this->_currency);
-            $range[] = 'tSku.value_n >= ' . $this->_quote(round($min, 2, PHP_ROUND_HALF_DOWN));
+            $range[] = 'tSku.value_n >= ' . $this->_quote(round($min, 8, PHP_ROUND_HALF_DOWN));
         }
 
         if (isset($values['max'])) {
             $max     = JBCart::val($values['max'], $currency)->val($this->_currency);
-            $range[] = ' tSku.value_n <= ' . $this->_quote(round($max, 2, PHP_ROUND_HALF_UP));
+            $range[] = ' tSku.value_n <= ' . $this->_quote(round($max, 8, PHP_ROUND_HALF_UP));
         }
 
         return implode(' AND ', $range);
