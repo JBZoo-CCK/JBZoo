@@ -27,6 +27,7 @@ class JBCheckFilesHelper extends AppHelper
         'mod_jbzoo_basket',
         'mod_jbzoo_props',
         'mod_jbzoo_search',
+        'mod_jbzoo_currency',
         'mod_jbzoo_category',
         'plugin_jbzoo'
     );
@@ -37,6 +38,7 @@ class JBCheckFilesHelper extends AppHelper
      */
     protected $_exclude = array(
         '\.config$',
+        'index\.html$',
         'positions\.xml',
         'config[/\\\]licence\.php',
         'config[/\\\]config\.php',
