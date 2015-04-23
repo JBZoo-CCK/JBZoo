@@ -32,6 +32,11 @@ class JBModuleHelperItem extends JBModuleHelper
     protected $_itemType = null;
 
     /**
+     * @type array|null
+     */
+    protected $_items = null;
+
+    /**
      * @param JRegistry $params
      * @param stdClass  $module
      */
@@ -98,7 +103,11 @@ class JBModuleHelperItem extends JBModuleHelper
      */
     public function getItems()
     {
-        return $this->_itemType->getItems();
+        if (is_null($this->_items)) {
+            $this->_items = $this->_itemType->getItems();
+        }
+
+        return $this->_items;
     }
 
     /**
@@ -127,6 +136,17 @@ class JBModuleHelperItem extends JBModuleHelper
     protected function _isRemoveViewed()
     {
         return $this->_params->get('delete', 1) && $this->_params->get('mode') == 'viewed';
+    }
+
+    /**
+     * @param null  $layout
+     * @param array $vars
+     * @return string
+     */
+    public function partial($layout = null, $vars = array())
+    {
+        $vars['items'] = $this->getItems();
+        return parent::partial($layout, $vars);
     }
 
 }

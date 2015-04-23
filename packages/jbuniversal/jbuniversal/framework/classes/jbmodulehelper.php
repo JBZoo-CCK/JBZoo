@@ -233,6 +233,7 @@ class JBModuleHelper
         if (JFile::exists($__layout)) {
 
             $vars['modHelper']    = $this;
+            $vars['unique']       = $this->getModuleId(true);
             $vars['params']       = $this->_params;
             $vars['module']       = $this->_module;
             $vars['itemLayout']   = $this->getItemLayout();
