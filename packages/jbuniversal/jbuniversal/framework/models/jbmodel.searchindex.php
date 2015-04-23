@@ -24,7 +24,7 @@ class JBModelSearchindex extends JBModel
         '_itemcategory',
         '_itemfrontpage',
         '_itemtag',
-        //'_itemname', hack for item props
+        '_itemname',
     );
 
     /**
@@ -314,8 +314,8 @@ class JBModelSearchindex extends JBModel
                 }
             }
         } else {
-            //$multiInsert[] = array('n' => 0);
-            //$multiInsert[] = array('s' => '');
+            $multiInsert[] = array('n' => 0);
+            $multiInsert[] = array('s' => '');
         }
 
         // check date
