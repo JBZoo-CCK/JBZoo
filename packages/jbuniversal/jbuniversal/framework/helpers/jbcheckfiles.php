@@ -25,10 +25,11 @@ class JBCheckFilesHelper extends AppHelper
     protected $_checkVirtPaths = array(
         'jbapp',
         'mod_jbzoo_basket',
+        'mod_jbzoo_category',
+        'mod_jbzoo_currency',
+        'mod_jbzoo_item',
         'mod_jbzoo_props',
         'mod_jbzoo_search',
-        'mod_jbzoo_currency',
-        'mod_jbzoo_category',
         'plugin_jbzoo'
     );
 
