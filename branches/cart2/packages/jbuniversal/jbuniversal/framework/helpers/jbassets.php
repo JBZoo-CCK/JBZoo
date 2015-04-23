@@ -266,6 +266,7 @@ class JBAssetsHelper extends AppHelper
                 'jbassets:js/widget/goto.js',
                 'jbassets:js/widget/select.js',
                 'jbassets:js/widget/money.js',
+                'jbassets:js/widget/heightfix.js',
             ));
 
             $this->css(array('jbassets:css/libs/sweet-alert.css'), self::GROUP_LIBRARY);
@@ -619,8 +620,7 @@ class JBAssetsHelper extends AppHelper
      */
     public function heightFix($element = '.column')
     {
-        $this->jQuery();
-        $this->js('jbassets:js/widget/heightfix.js');
+        $this->tools();
 
         $jsQuery = array(
             '.jbzoo .items',
