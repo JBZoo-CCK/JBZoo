@@ -70,6 +70,7 @@ if ($count) {
     } else {
 
         foreach ($items as $item) {
+            $renderer = $modHelper->createRenderer('item');
             echo $renderer->render('item.' . $modHelper->getItemLayout(), array(
                 'item'   => $item,
                 'params' => $params
