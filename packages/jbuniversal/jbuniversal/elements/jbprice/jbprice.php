@@ -169,10 +169,9 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $params          = new AppData($params);
         $this->_template = $params->get('template', 'default');
 
-        $data   = (array)$this->data();
         $config = $this->_getRenderParams();
 
-        return (bool)(count($config) || count($data));
+        return (bool)(count($config));
     }
 
     /**
