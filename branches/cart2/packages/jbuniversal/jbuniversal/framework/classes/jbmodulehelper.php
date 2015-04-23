@@ -232,11 +232,12 @@ class JBModuleHelper
 
         if (JFile::exists($__layout)) {
 
+            $vars['modHelper']    = $this;
             $vars['params']       = $this->_params;
             $vars['module']       = $this->_module;
-            $vars['modHelper']    = $this;
             $vars['itemLayout']   = $this->getItemLayout();
             $vars['moduleLayout'] = $this->getModuleLayout();
+            $vars['renderer']     = $this->createRenderer('item'); // for compatible
 
             if (is_array($vars)) {
                 foreach ($vars as $_var => $_value) {

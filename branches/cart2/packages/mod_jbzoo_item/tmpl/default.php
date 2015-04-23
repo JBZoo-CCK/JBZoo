@@ -39,7 +39,6 @@ if ($count) {
             }
 
             $renderer = $modHelper->createRenderer('item');
-
             echo '<div class="' . $border . ' column width' . intval(100 / $columns) . $first . $last . '">'
                 . $renderer->render('item.' . $modHelper->getItemLayout(), array(
                     'item'   => $item,
@@ -55,6 +54,7 @@ if ($count) {
     } else {
 
         foreach ($items as $item) {
+            $renderer = $modHelper->createRenderer('item');
             echo $renderer->render('item.' . $modHelper->getItemLayout(), array(
                 'item'   => $item,
                 'params' => $params

@@ -24,8 +24,8 @@ if ($count) : ?>
 
             <table class="wrapper-item-desc">
                 <?php
-                $renderer = $modHelper->createRenderer('item');
                 foreach ($items as $item) {
+                    $renderer = $modHelper->createRenderer('item');
                     echo $renderer->render('item.' . $modHelper->getItemLayout(), array(
                         'item'   => $item,
                         'params' => $params
