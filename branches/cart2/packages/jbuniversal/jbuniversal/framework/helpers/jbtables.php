@@ -70,7 +70,7 @@ class JBTablesHelper extends AppHelper
      */
     public function dropTable($tableName)
     {
-        $this->app->database->query('DROP TABLE IF EXISTS `' . $tableName . '`');
+        $this->_query('DROP TABLE IF EXISTS `' . $tableName . '`');
 
         return $this;
     }
@@ -94,6 +94,7 @@ class JBTablesHelper extends AppHelper
     /**
      * Check and create favorite table
      * @param bool $force
+     * @return $this
      */
     public function checkFavorite($force = false)
     {
@@ -114,6 +115,8 @@ class JBTablesHelper extends AppHelper
         }
 
         $checked = true;
+
+        return $this;
     }
 
     /**
@@ -154,17 +157,23 @@ class JBTablesHelper extends AppHelper
 
     /**
      * Check and create config table
+     * @param bool $checkStructure
+     * @return $this
      */
-    public function checkConfig()
+    public function checkConfig($checkStructure = false)
     {
         static $checked;
 
+        $groupLength = 150;
+        $keyLength   = 100;
+        $tableName   = ZOO_TABLE_JBZOO_CONFIG;
+
         if (!isset($checked)) {
 
-            $this->createTable(ZOO_TABLE_JBZOO_CONFIG, array(
+            $this->createTable($tableName, array(
                 //'`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT',
-                '`group` VARCHAR(150) NULL DEFAULT NULL',
-                '`key` VARCHAR(100) NULL DEFAULT NULL',
+                '`group` VARCHAR(' . $groupLength . ') NULL DEFAULT NULL',
+                '`key` VARCHAR(' . $keyLength . ') NULL DEFAULT NULL',
                 '`value` TEXT NULL',
                 '`type` VARCHAR(10) NULL DEFAULT \'string\''
             ), array(
@@ -173,14 +182,36 @@ class JBTablesHelper extends AppHelper
                 'INDEX `group` (`group`)',
                 'INDEX `key` (`key`)'
             ));
+            $checked = true;
         }
 
-        $checked = true;
+        if ($checkStructure && $fields = $this->getTableInfo($tableName)) {
+
+            if (isset($fields['id'])) { // remove old field
+                $sql = 'ALTER TABLE `' . $tableName . '` DROP COLUMN `id`;';
+                $this->_query($sql);
+            }
+
+            // check group index length
+            if (isset($fields['group']) && strtolower($fields['group']['Type']) != 'varchar(' . $groupLength . ')') {
+                $sql = 'ALTER TABLE `' . $tableName . '` CHANGE COLUMN `group` `group` VARCHAR(' . $groupLength . ') NULL DEFAULT NULL FIRST;';
+                $this->_query($sql);
+            }
+
+            // check key index length
+            if (isset($fields['key']) && strtolower($fields['key']['Type']) != 'varchar(' . $keyLength . ')') {
+                $sql = 'ALTER TABLE `' . $tableName . '` CHANGE COLUMN `key` `key` VARCHAR(' . $keyLength . ') NULL DEFAULT NULL AFTER `group`;';
+                $this->_query($sql);
+            }
+        }
+
+        return $this;
     }
 
     /**
      * Check and create favorite table
      * @param bool $force
+     * @return $this
      */
     public function checkOrder($force = false)
     {
@@ -219,6 +250,8 @@ class JBTablesHelper extends AppHelper
         }
 
         $checked = true;
+
+        return $this;
     }
 
     /**
@@ -409,7 +442,6 @@ class JBTablesHelper extends AppHelper
 
             self::$_elementsBeforeSave = array_keys($elements);
         }
-
     }
 
     /**
@@ -491,7 +523,7 @@ class JBTablesHelper extends AppHelper
 
         if (!empty($drop)) {
             $sql = 'ALTER TABLE `' . $tableName . "`\n " . implode(",\n ", $drop);
-            $this->app->database->query($sql);
+            $this->_query($sql);
         }
     }
 
@@ -557,7 +589,7 @@ class JBTablesHelper extends AppHelper
 
         if (!empty($add)) {
             $sql = 'ALTER TABLE `' . $tableName . "`\n " . implode(",\n ", $add);
-            $this->app->database->query($sql);
+            $this->_query($sql);
         }
     }
 
@@ -638,5 +670,37 @@ class JBTablesHelper extends AppHelper
     {
         $this->dropTable(ZOO_TABLE_JBZOO_SKU);
         return $this;
+    }
+
+    /**
+     * @param $table
+     * @return null
+     */
+    public function getTableInfo($table)
+    {
+
+        if ($this->isTableExists($table, true)) {
+            if ($fields = $this->app->database->queryAssocList('DESCRIBE ' . $table)) {
+
+                $retult = array();
+                foreach ($fields as $field) {
+                    $retult[$field['Field']] = $field;
+                }
+
+                return $retult;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $sql
+     * @return mixed
+     */
+    protected function _query($sql)
+    {
+        $result = $this->app->database->query((string)$sql);
+        return $result;
     }
 }

@@ -86,7 +86,8 @@ class JBModelSearchindex extends JBModel
                 ->dropAllSku()
                 ->createIndexes()
                 ->checkSKU(true)
-                ->checkFavorite(true);
+                ->checkFavorite(true)
+                ->checkConfig(true);
         }
 
         $this->_jbtables->getTableList(true); // force memory cache update
