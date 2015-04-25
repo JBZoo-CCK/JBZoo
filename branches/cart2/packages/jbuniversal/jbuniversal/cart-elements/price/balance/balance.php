@@ -145,7 +145,7 @@ class JBCartElementPriceBalance extends JBCartElementPrice
      */
     protected function _isUseStock()
     {
-        return (int)$this->config->get('use-stock', 1);
+        return (int)$this->config->get('usestock', 1);
     }
 
     /**

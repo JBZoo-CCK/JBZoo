@@ -140,54 +140,72 @@ abstract class JBCartElementPrice extends JBCartElement
     /**
      * Set related price object.
      * @param ElementJBPrice $object
+     * @return $this
      */
     public function setJBPrice($object)
     {
         $this->_jbprice = $object;
+
+        return $this;
     }
 
     /**
      * Set the variant key to which element belongs.
      * @param int $key
+     * @return $this
      */
     public function setVariant($key)
     {
         $this->variant = (int)$key;
+
+        return $this;
     }
 
     /**
      * Unique string for related price elements and his elements.
      * @param string $hash
+     * @return $this
      */
     public function setHash($hash)
     {
         if ($this->hash === null) {
             $this->hash = $hash;
         }
+
+        return $this;
     }
 
     /**
      * @param $template
+     * @return $this
      */
     public function setTemplate($template)
     {
         $this->template = $template;
+
+        return $this;
     }
 
     /**
      * @param $layout
+     * @return $this
      */
     public function setLayout($layout)
     {
         $this->layout = $layout;
+
+        return $this;
     }
 
     /**
-     * @param boolean $cache
+     * @param boolean $enable
+     * @return $this
      */
-    public function setCache($cache)
+    public function setCache($enable)
     {
-        $this->cache = $cache;
+        $this->cache = $enable;
+
+        return $this;
     }
 
     /**
@@ -357,12 +375,9 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function loadAssets()
     {
-        // Important JBPrice JS
-        $this->js('cart-elements:core/price/assets/js/price.js');
-
         // parent was realoded for JBPrice caching
-        $group = $this->getElementGroup();
-        $type  = $this->getElementType();
+        $group = $this->_group;
+        $type  = $this->_type;
 
         $this->js('cart-elements:' . $group . '/' . $type . '/assets/js/' . $type . '.js');
         $this->css('cart-elements:' . $group . '/' . $type . '/assets/css/' . $type . '.css');
@@ -440,7 +455,7 @@ abstract class JBCartElementPrice extends JBCartElement
     protected function getLabel($label = '')
     {
         $label = JString::trim($label);
-        if (empty($label)) {
+        if ($label === '') {
             $label = '- ' . $this->getName() . ' -';
         }
 
@@ -457,6 +472,7 @@ abstract class JBCartElementPrice extends JBCartElement
         if ($this->prices !== null) {
             return $this->prices;
         }
+
         $list = $this->getJBPrice()->getList();
 
         $total = $list->getTotal();
@@ -498,26 +514,6 @@ abstract class JBCartElementPrice extends JBCartElement
     protected function getId($prefix = 'unique-')
     {
         return $prefix . '-' . mt_rand(1000, 9999);
-    }
-
-    /**
-     * @todo Use helper
-     * @param $text
-     * @return array
-     */
-    protected function parseLines($text)
-    {
-        $text   = JString::trim($text);
-        $result = array();
-        if ($text !== '' && $text !== null) {
-            $lines = explode("\n", $text);
-            foreach ($lines as $line) {
-                $line          = JString::trim($line);
-                $result[$line] = $line;
-            }
-        }
-
-        return $result;
     }
 
     /**
@@ -566,6 +562,7 @@ abstract class JBCartElementPrice extends JBCartElement
     {
         $assets = (array)$assets;
         $count  = count($assets);
+
         $this->app->jbassets->$method($assets);
         if ($this->cache && $count) {
             for ($i = 0; $i < $count; $i++) {
@@ -618,16 +615,26 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
-     * Clone data
+     * Clear elements data when element clone.
      */
     public function __clone()
     {
-        $this->_data  = clone($this->_data);
-        $this->config = clone($this->config);
+        $this->_data  = clone $this->_data;
+        $this->config = clone $this->config;
 
-        $this->prices  = null;
-        $this->variant = null;
-        $this->hash    = null;
+        if ($this->_jbprice instanceof ElementJBPrice) {
+            $this->_jbprice = clone $this->_jbprice;
+        }
+
+        $this->prices     = null;
+        $this->variant    = null;
+        $this->template   = null;
+        $this->element_id = null;
+        $this->hash       = null;
+        $this->showAll    = null;
+        $this->layout     = null;
+        $this->isOverlay  = null;
+        $this->cache      = null;
     }
 
     /**
@@ -636,8 +643,9 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     public function __set($name, $value)
     {
-        if (method_exists($this, 'set' . $name)) {
-            $this->{'set' . $name}($value);
+        $setter = 'set' . $name;
+        if (method_exists($this, $setter)) {
+            $this->$setter($value);
         }
         $reflect = new ReflectionProperty(get_class(), $name);
 
