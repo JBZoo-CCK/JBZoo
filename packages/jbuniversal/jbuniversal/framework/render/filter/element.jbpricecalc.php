@@ -28,11 +28,12 @@ class JBFilterElementJBPriceCalc extends JBFilterElement
         $template = $this->_params->get('jbprice_filter_template', 'default');
         $renderer = $this->app->jbrenderer->create('jbpricefilter');
         $jbPrice  = $this->app->jbfilter->getElement($this->_identifier);
+
         $renderer->setModuleParams($this->_params->moduleParams);
-        $jbPrice->setTemplate('_filter_layout', $template);
+        $jbPrice->setProp('_filter_template', $template);
 
         $html = $renderer->render($template, array(
-            'price'    => $this->app->jbfilter->getElement($this->_identifier),
+            'price'    => $jbPrice,
             'template' => $template,
             'app_id'   => $this->_params->get('item_application_id')
         ));

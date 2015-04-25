@@ -14,6 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * Class JBCartElementPriceOption
+ * @since 2.2
  */
 class JBCartElementPriceOption extends JBCartElementPrice
 {
@@ -55,7 +56,7 @@ class JBCartElementPriceOption extends JBCartElementPrice
 
     /**
      * @param array $params
-     * @return array|mixed|null|string
+     * @return array|mixed|string
      */
     public function render($params = array())
     {
@@ -153,7 +154,7 @@ class JBCartElementPriceOption extends JBCartElementPrice
     protected function _parseOptions($label = true)
     {
         $options = $this->config->get('options', '');
-        $options = $this->parseLines($options);
+        $options = $this->_parseLines($options);
 
         if ($label !== false && count($options))
         {
@@ -164,4 +165,23 @@ class JBCartElementPriceOption extends JBCartElementPrice
         return $options;
     }
 
+    /**
+     * @todo Use helper
+     * @param $text
+     * @return array
+     */
+    protected function _parseLines($text)
+    {
+        $text   = JString::trim($text);
+        $result = array();
+        if ($text !== '' && $text !== null) {
+            $lines = explode("\n", $text);
+            foreach ($lines as $line) {
+                $line          = JString::trim($line);
+                $result[$line] = $line;
+            }
+        }
+
+        return $result;
+    }
 }
