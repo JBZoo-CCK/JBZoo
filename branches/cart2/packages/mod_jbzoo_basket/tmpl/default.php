@@ -108,7 +108,7 @@ $currency = $modHelper->getCurrency();
         <?php endif ?>
 
 
-        <?php if ((int)$params->get('jbcart_button_empty', 1) && (int)$params->get('jbcart_button_gotocart', 1)) : ?>
+        <?php if ((int)$params->get('jbcart_button_empty', 1) || (int)$params->get('jbcart_button_gotocart', 1)) : ?>
 
             <div class="jbcart-module-buttons clearfix">
 
