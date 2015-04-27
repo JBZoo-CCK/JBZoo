@@ -46,7 +46,7 @@ class JBCartVariantList extends ArrayObject
     protected $_jbprice;
 
     /**
-     * List of variants Objects
+     * List of JBCartVariant objects
      * @var array
      */
     private $variants = array();
@@ -61,8 +61,6 @@ class JBCartVariantList extends ArrayObject
      */
     public function __construct($list, array $options = array())
     {
-        parent::__construct($list, ArrayObject::STD_PROP_LIST);
-
         //sort ascending
         ksort($list);
 
@@ -85,6 +83,8 @@ class JBCartVariantList extends ArrayObject
         if (!empty($list)) {
             $this->add($list);
         }
+
+        parent::__construct($this->variants);
     }
 
     /**
@@ -124,6 +124,7 @@ class JBCartVariantList extends ArrayObject
      */
     public function add(array $list = array())
     {
+        /** @type JBCartVariant $variant */
         foreach ($list as $key => $variant) {
             $variant->setList($this)->bindData();
             $this->set($key, $variant);
@@ -192,6 +193,7 @@ class JBCartVariantList extends ArrayObject
     }
 
     /**
+     * Get default variant.
      * @return JBCartVariant
      * @throws JBCartVariantListException If try to get unknown variant
      */
@@ -454,13 +456,13 @@ class JBCartVariantList extends ArrayObject
      */
     public function renderVariant()
     {
-        $variant = $this->byDefault();
+        $variant = $this->current();
         $result  = array();
 
         /** @type JBCartElementPrice $element */
         foreach ($variant->core() as $element) {
-            if ($params = $this->_jbprice->getElementRenderParams($element->identifier)) {
-                $data = $element->renderAjax(new AppData($params));
+            if ($params = $this->getJBPrice()->getParameter($element->id())) {
+                $data = $element->renderAjax($params);
                 //return data if not null
                 if ($data !== null) {
                     $result[$element->getElementType()] = $data;
@@ -511,7 +513,7 @@ class JBCartVariantList extends ArrayObject
      */
     public function __call($method, $args = array())
     {
-        $default = $this->byDefault();
+        $default = $this->current();
         if (method_exists($default, $method)) {
             return call_user_func(array($default, $method), $args);
         }
@@ -579,7 +581,7 @@ class JBCartVariantList extends ArrayObject
      */
     protected function _plainPrice()
     {
-        return $this->byDefault()->getPrice();
+        return $this->current()->getPrice();
     }
 
     /**
@@ -606,7 +608,7 @@ class JBCartVariantList extends ArrayObject
      */
     protected function _plainTotal()
     {
-        return $this->byDefault()->getTotal();
+        return $this->current()->getTotal();
     }
 
     /**
@@ -625,8 +627,13 @@ class JBCartVariantList extends ArrayObject
      */
     public function clear()
     {
-        $this->variants = null;
-        $this->options  = null;
+        $this->variants    = null;
+        $this->options->exchangeArray(array());
+
+        $this->session_key = null;
+        $this->default     = 0;
+
+        return $this;
     }
 
     /**

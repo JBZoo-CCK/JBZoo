@@ -70,7 +70,8 @@ class JBCartElementPriceButtons extends JBCartElementPrice
             ),
             'modal'      => $jbrouter->element($interface['element_id'], $interface['item_id'], 'ajaxModalWindow', array(
                     'template' => $params->get('modal_layout', 'modal'),
-                    'layout'   => $this->layout
+                    'layout'   => $this->layout,
+                    'hash'     => $this->hash
                 )) . '&tmpl=component&modal=1', // Joomla hack
 
         );

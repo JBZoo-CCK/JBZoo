@@ -90,8 +90,7 @@ class ElementJBPricePlain extends ElementJBPrice
         $list = $this->getVariantByValues($values);
         $key  = (int)(JString::strlen(key($list)) > 0 ? key($list) : self::BASIC_VARIANT);
 
-        $this->setDefault($key);
-        $this->_template = $template;
+        $this->setDefault($key)->setTemplate($template);
 
         $this->getList($list, array(
             'default'  => $key,
@@ -120,9 +119,8 @@ class ElementJBPricePlain extends ElementJBPrice
         $key  = (int)(JString::strlen(key($list)) > 0 ? key($list) : self::BASIC_VARIANT);
 
         //Set the default option, which we have received, not saved. For correct calculation.
-        $this->setDefault($key);
+        $this->setDefault($key)->setTemplate($template);
 
-        $this->_template = $template;
         $this->getList($list, array(
             'values'   => $values,
             'quantity' => $quantity,
@@ -158,11 +156,10 @@ class ElementJBPricePlain extends ElementJBPrice
      */
     public function ajaxModalWindow($template = 'default', $layout = 'default', $hash = '')
     {
-        $this->_template = $template;
-        $this->_layout   = $layout;
-        $this->hash      = $hash;
+        $this->setTemplate($template)->setLayout($layout);
+        $this->isCache = false;
 
-        $this->_getRenderParams();
+        $this->getParameters();
         $this->_getConfig();
 
         $html = $this->render(array(
