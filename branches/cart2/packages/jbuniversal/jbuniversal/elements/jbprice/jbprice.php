@@ -1182,18 +1182,17 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                         $this->app->jbassets->$ext($asset);
                     }
                 }
+
+                return true;
             }
-
-            return true;
         }
-        $assets   = 'elements:jbprice/assets/';
-
-        // Important. Default widget for price elements.
-        $this->toStorage('cart-elements:core/price/assets/js/price.js');
-
+        $assets = 'elements:jbprice/assets/';
         // Important. Main Price widget.
         $this->toStorage($assets . 'js/jbprice.js');
         $this->toStorage($assets . 'less/jbprice.less');
+
+        // Important. Default widget for price elements.
+        $this->toStorage('cart-elements:core/price/assets/js/price.js');
 
         return parent::loadAssets();
     }
