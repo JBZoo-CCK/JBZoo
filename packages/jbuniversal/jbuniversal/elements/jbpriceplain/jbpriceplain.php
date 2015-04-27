@@ -157,7 +157,7 @@ class ElementJBPricePlain extends ElementJBPrice
     public function ajaxModalWindow($template = 'default', $layout = 'default', $hash = '')
     {
         $this->setTemplate($template)->setLayout($layout);
-        $this->isCache = false;
+        $this->cache = false;
 
         $this->getParameters();
         $this->getConfigs();

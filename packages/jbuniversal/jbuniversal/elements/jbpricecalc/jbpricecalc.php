@@ -144,7 +144,7 @@ class ElementJBPriceCalc extends ElementJBPrice
     public function ajaxModalWindow($template = 'default', $layout = 'default', $hash)
     {
         $this->setTemplate($template)->setLayout($layout);
-        $this->isCache = false;
+        $this->cache = false;
 
         $this->getParameters();
         $this->getConfigs();
@@ -241,7 +241,7 @@ class ElementJBPriceCalc extends ElementJBPrice
         if (null !== $this->_item) {
             $hashes = array();
 
-            if (isset($data['variations'])) {
+            if (array_key_exists('variations', $data)) {
                 $list = $this->build($data['variations']);
                 unset($data['variations']);
 
@@ -412,7 +412,7 @@ class ElementJBPriceCalc extends ElementJBPrice
                 } else {
                     $value  = JString::trim((string)$value);
                     $string = $value;
-                    $num    = $this->isNumeric($value) ? $vars->number($value) : null;
+                    $num    = $this->_helper->isNumeric($value) ? $vars->number($value) : null;
                     $date   = $this->isDate($value);
                 }
 
