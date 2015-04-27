@@ -147,7 +147,7 @@ class ElementJBPriceCalc extends ElementJBPrice
         $this->isCache = false;
 
         $this->getParameters();
-        $this->_getConfig();
+        $this->getConfigs();
 
         $html = $this->render(array(
             'template'       => $template,

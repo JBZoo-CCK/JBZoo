@@ -153,7 +153,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function edit($params = array())
     {
-        $config = $this->_getConfig();
+        $config = $this->getConfigs();
         if (!empty($config)) {
             if ($layout = $this->getLayout('edit.php')) {
                 $this->loadEditAssets();
@@ -398,7 +398,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function buildVariant($data = array(), $id = self::BASIC_VARIANT)
     {
-        $elements = array_merge((array)$this->_getConfig(), (array)$this->getParameters(), (array)$data);
+        $elements = array_merge((array)$this->getConfigs(), (array)$this->getParameters(), (array)$data);
         $elements = $this->_getElements(array_keys($elements), $id);
 
         $variant = $this->_storage->create('variant', array(
@@ -427,7 +427,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             $this->getItem()->id,
             (array)$params,
             (array)$this->getItem()->elements->get($this->identifier),
-            (array)$this->_getConfig(),
+            (array)$this->getConfigs(),
             (array)$this->getParameters(),
             (array)JFactory::getUser()->groups
         ));
@@ -699,6 +699,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         if ($template !== '' && $template !== null && $this->_template !== $template) {
             if ($this->_template !== null) {
                 $this->_list = null;
+                $this->hash  = null;
             }
 
             $this->_template = $template;
@@ -913,7 +914,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function getElements()
     {
-        return $this->_getElements(array_keys(array_diff_key((array)$this->_getConfig(), (array)$this->getParameters())));
+        return $this->_getElements(array_keys(array_diff_key((array)$this->getConfigs(), (array)$this->getParameters())));
     }
 
     /**
@@ -967,20 +968,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         }
 
         return new AppData($this->getParameter($identifier));
-    }
-
-    /**
-     * Get render params for price param
-     * @param  string $id
-     * @return array
-     * @deprecated Use getParameter
-     * @see        ElementJBPrice::getParameter()
-     */
-    public function getElementRenderParams($id)
-    {
-        $params = $this->getParameter($id);
-
-        return !empty($params) ? new AppData($params) : null;
     }
 
     /**
@@ -1274,23 +1261,21 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
-     * Load all params
-     * @return array
+     * @param string $id Element id.
+     * @return AppData
      */
-    protected function _getConfig()
+    public function getParameter($id)
     {
-        return $this->_storage->get('configs', $this->key('public'), array());
+        return new AppData($this->_storage->get('parameter', $this->key('private'), $id, array()));
     }
 
     /**
-     * Load elements render params for item
+     * Load all params
      * @return array
-     * @deprecated
-     *
      */
-    public function _getRenderParams()
+    protected function getConfigs()
     {
-        return $this->getParameters();
+        return $this->_storage->get('configs', $this->key('public'), array());
     }
 
     /**
@@ -1308,15 +1293,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $access = ($access === '' ? $this->key('private') : $access);
 
         return $this->_storage->get('parameters', $access, array());
-    }
-
-    /**
-     * @param string $id Element id.
-     * @return AppData
-     */
-    public function getParameter($id)
-    {
-        return new AppData($this->_storage->get('parameter', $this->key('private'), $id, array()));
     }
 
     /**
