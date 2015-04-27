@@ -55,8 +55,14 @@
                 <field name="jbcart_item_delete" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_DELETE"
                        description="JBZOO_CART_MODULE_ITEM_DELETE_DESC"/>
 
+                <field name="jbcart_item_link" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_LINK"
+                       description="JBZOO_CART_MODULE_ITEM_LINK_DESC"/>
+
                 <field name="jbcart_item_image" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_IMAGE"
                        description="JBZOO_CART_MODULE_ITEM_IMAGE_DESC"/>
+
+                <field name="jbcart_item_image_link" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_IMAGE_LINK"
+                       description="JBZOO_CART_MODULE_ITEM_IMAGE_LINK_DESC"/>
 
                 <field name="jbcart_item_image_width" type="text" default="75"
                        label="JBZOO_CART_MODULE_ITEM_IMAGE_WIDTH"
@@ -92,23 +98,6 @@
 
                 <field name="jbcart_button_gotocart" type="jbbool" default="1" label="JBZOO_CART_MODULE_BUTTON_GOTOCART"
                        description="JBZOO_CART_MODULE_BUTTON_GOTOCART_DESC"/>
-
-                <!--
-                <field name="items_show" type="jbbool" default="1" label="JBZOO_BASKET_ITEMS_SHOW"
-                       description="JBZOO_BASKET_ITEMS_SHOW_DESC"/>
-
-                <field name="lots_show" type="jbbool" default="1" label="JBZOO_BASKET_LOTS_SHOW"
-                       description="JBZOO_BASKET_LOTS_SHOW_DESC"/>
-
-                <field name="summa_show" type="jbbool" default="1" label="JBZOO_BASKET_SUMMA_SHOW"
-                       description="JBZOO_BASKET_SUMMA_SHOW_DESC"/>
-
-                <field name="cancel_show" type="jbbool" default="1" label="JBZOO_BASKET_CANCEL_SHOW"
-                       description="JBZOO_BASKET_CANCEL_SHOW_DESC"/>
-
-                <field name="link_show" type="jbbool" default="1" label="JBZOO_BASKET_LINK_SHOW"
-                       description="JBZOO_BASKET_LINK_SHOW_DESC"/>
-                -->
 
             </fieldset>
 
