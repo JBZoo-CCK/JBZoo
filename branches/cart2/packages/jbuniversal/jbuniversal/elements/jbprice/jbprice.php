@@ -143,6 +143,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     {
         $params = new AppData($params);
         $config = $this->setTemplate($params->get('template', 'default'))->getParameters();
+        $this->hash($params);
 
         return !empty($config);
     }
@@ -189,12 +190,12 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function render($params = array())
     {
-        $hash = $this->hash($params);
+        $params   = new AppData($params);
+        $template = $this->setTemplate($params->get('template', 'default'))->getTemplate();
+        $hash     = $this->hash($params);
+
         $this->loadAssets();
         if (!$this->isCache || ($this->isCache && !$cache = $this->_cache->get($hash, 'price_elements', true))) {
-            $params = new AppData($params);
-
-            $template = $this->setTemplate($params->get('template', 'default'))->getTemplate();
             $_layout  = $this->setLayout($params->get('_layout'))->layout();
 
             $renderer = $this->app->jbrenderer->create('jbprice');
