@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -110,6 +109,26 @@ class JBToolsJBUniversalController extends JBUniversalController
             }
 
         }
+    }
+
+    /**
+     * Check files action
+     */
+    public function removeUnversionFiles()
+    {
+        $files = $this->app->jbcheckfiles->check();
+
+        $fileCount = 0;
+        if (isset($files['unknown']) && !empty($files['unknown'])) {
+            foreach ($files['unknown'] as $file) {
+                $filepath = JPATH_ROOT . '/' . $file;
+                if (JFile::exists($filepath) && JFile::delete($filepath)) {
+                    $fileCount++;
+                }
+            }
+        }
+
+        jexit('<pre>Files deleted = ' . $fileCount . '</pre>');
     }
 
     /**

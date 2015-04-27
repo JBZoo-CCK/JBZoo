@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -14,6 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $actionUrl = $this->app->jbrouter->admin(array('task' => 'checkFiles'));
+$removeUrl = $this->app->jbrouter->admin(array('task' => 'removeUnversionFiles'));
 ?>
 <div class="uk-grid">
     <div id="sidebar" class="uk-width-1-6">
@@ -34,11 +34,14 @@ $actionUrl = $this->app->jbrouter->admin(array('task' => 'checkFiles'));
         </ul>
 
         <a class="uk-button uk-button-primary jsCheckFilesReport"
-           href="<?php echo $actionUrl; ?>"><?php echo JText::_('JBZOO_CHECKFILES_CHECK'); ?></a>
+           href="#check"><?php echo JText::_('JBZOO_CHECKFILES_CHECK'); ?></a>
 
-    <span class="checkfiles-loader" style="display: none;">
-        <img src="<?php echo JUri::root(); ?>media/zoo/applications/jbuniversal/assets/img/misc/loader.gif" />
-    </span>
+        <a class="uk-button uk-button-small  uk-button-danger jsCheckFilesRemove"
+           href="#remove"><?php echo JText::_('JBZOO_CHECKFILES_REMOVE_UNVERSION'); ?></a>
+
+        <span class="checkfiles-loader" style="display: none;">
+            <img src="<?php echo JUri::root(); ?>media/zoo/applications/jbuniversal/assets/img/misc/loader.gif" />
+        </span>
 
         <div class="checkfiles-result"></div>
 
@@ -48,13 +51,20 @@ $actionUrl = $this->app->jbrouter->admin(array('task' => 'checkFiles'));
 
 <script type="text/javascript">
     jQuery(function ($) {
+
+        var date = new Date(),
+            alert1    = "<?php echo JText::_('JBZOO_CHECKFILES_REMOVE_UNVERSION_ALERT_1'); ?>",
+            alert2    = "<?php echo JText::_('JBZOO_CHECKFILES_REMOVE_UNVERSION_ALERT_2'); ?>",
+            alert3    = "<?php echo JText::_('JBZOO_CHECKFILES_REMOVE_UNVERSION_ALERT_3'); ?>",
+            actionUrl = "<?php echo $actionUrl; ?>",
+            removeUrl = "<?php echo $removeUrl; ?>";
+
         $('.jsCheckFilesReport').click(function () {
 
             $('.checkfiles-loader').show();
             $('.checkfiles-result').empty();
 
-            var date = new Date();
-            $.get($(this).attr('href'), {
+            $.get(actionUrl, {
                 'nocache': date.getMilliseconds()
             }, function (data) {
                 $('.checkfiles-result').empty().html(data);
@@ -63,5 +73,35 @@ $actionUrl = $this->app->jbrouter->admin(array('task' => 'checkFiles'));
 
             return false;
         });
+
+        $('.jsCheckFilesRemove').click(function () {
+
+            JBZoo.confirm(alert1, function () {
+                setTimeout(function () {
+
+                    JBZoo.confirm(alert2, function () {
+                        setTimeout(function () {
+
+                            JBZoo.confirm(alert3, function () {
+                                $('.checkfiles-loader').show();
+                                $('.checkfiles-result').empty();
+
+                                $.get(removeUrl, {
+                                    'nocache': date.getMilliseconds()
+                                }, function (data) {
+                                    $('.checkfiles-result').empty().html(data);
+                                    $('.checkfiles-loader').hide();
+                                });
+                            });
+
+                        }, 500);
+                    });
+
+                }, 500);
+            });
+
+            return false;
+        });
+
     });
 </script>
