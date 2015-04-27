@@ -33,7 +33,7 @@ $vars = array(
         echo $this->_partial('oneclick', $vars);
     }
 
-    if ($params->get('modal_show', 0)) {
+    if ($params->get('modal_show', 0) && !$this->_isModal()) {
         echo $this->_partial('modal', $vars);
     }
 

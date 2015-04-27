@@ -16,17 +16,22 @@
 class JBStorageHelper extends AppHelper
 {
     /**
-     * @type ArrayObject
+     * @type AppData
      */
     protected $paths = array();
 
     /**
-     * @type ArrayObject
+     * @type AppData
      */
     protected $configs = array();
 
     /**
-     * @type ArrayObject
+     * @type AppData
+     */
+    protected $parameters = array();
+
+    /**
+     * @type AppData
      */
     protected $elements = array();
 
@@ -44,9 +49,14 @@ class JBStorageHelper extends AppHelper
         parent::__construct($app);
 
         $elements       = JPATH_ROOT . '/media/zoo/applications/jbuniversal/cart-elements/';
-        $this->assets   = new AppData();
-        $this->elements = new AppData();
-        $this->paths    = new AppData(array(
+
+        $this->configs    = new AppData();
+        $this->assets     = new AppData();
+        $this->elements   = new AppData();
+        $this->parameters = new AppData();
+        $this->paths      = new AppData();
+
+        $this->paths->exchangeArray(array(
             'jbcartelementpricebalance'     => $elements . 'price/balance/balance.php',
             'jbcartelementpricebool'        => $elements . 'price/bool/bool.php',
             'jbcartelementpricebuttons'     => $elements . 'price/buttons/buttons.php',
@@ -78,14 +88,21 @@ class JBStorageHelper extends AppHelper
     }
 
     /**
-     * @param       $route
-     * @param       $key
-     * @param mixed $default
-     * @return null
+     * @param string $route
+     * @param string $key
+     * @param mixed  $default
+     * @return mixed
      */
     public function get($route, $key = null, $default = false)
     {
-        if (!$key) {
+        if (method_exists($this, 'get' . $route)) {
+            $args = array_slice(func_get_args(), 1);
+
+            return call_user_func_array(array($this, 'get' . $route), $args);
+        }
+
+        if (!$key)
+        {
             return $this->$route;
         }
 
@@ -100,7 +117,8 @@ class JBStorageHelper extends AppHelper
      */
     public function set($route, $value, $key)
     {
-        if (!$this->$route->has($key)) {
+        if (!$this->$route->has($key))
+        {
             $this->$route->set($key, $value);
         }
     }
@@ -113,7 +131,8 @@ class JBStorageHelper extends AppHelper
      */
     public function has($route, $key = null)
     {
-        if (isset($this->$route) && $key === null) {
+        if (isset($this->$route) && $key === null)
+        {
             return true;
         }
 
@@ -128,7 +147,8 @@ class JBStorageHelper extends AppHelper
      */
     public function add($route, $value, $key)
     {
-        if (!isset($key)) {
+        if ($key === null)
+        {
             return false;
         }
 
@@ -215,6 +235,76 @@ class JBStorageHelper extends AppHelper
         }
 
         return $element;
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function hasElement($id)
+    {
+        return $this->elements->has($id);
+    }
+
+    /**
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getConfigs($key, $default = null)
+    {
+        $key  = strtolower(trim($key));
+        if(!isset($this->configs[$key]))
+        {
+            $this->configs->set($key, JBModelConfig::model()->getGroup('cart.' . $key)->get(JBCart::DEFAULT_POSITION));
+        }
+
+        return $this->configs->get($key, $default);
+    }
+
+    /**
+     * @param      $key
+     * @param      $id
+     * @param null $default
+     * @return mixed
+     */
+    public function getConfig($key, $id, $default = null)
+    {
+        $key  = strtolower(trim($key));
+        $data = $this->getConfigs($key, array());
+
+        return isset($data[$id]) ? $data[$id] : $default;
+    }
+
+    /**
+     * @param string $key
+     * @param array  $default
+     * @return mixed
+     */
+    public function getParameters($key, $default = null)
+    {
+        $key = strtolower(trim($key));
+        if (!isset($this->parameters[$key]))
+        {
+            $this->parameters->set($key, (array)$this->app->jbcartposition->loadParams($key));
+        }
+
+
+        return $this->parameters->get($key, $default);
+    }
+
+    /**
+     * @param string $key
+     * @param string $id
+     * @param mixed|null   $default
+     * @return mixed
+     */
+    public function getParameter($key, $id, $default = null)
+    {
+        $key  = strtolower(trim($key));
+        $data = $this->getParameters($key, array());
+
+        return isset($data[$id]) ? $data[$id] : $default;
     }
 
     /**

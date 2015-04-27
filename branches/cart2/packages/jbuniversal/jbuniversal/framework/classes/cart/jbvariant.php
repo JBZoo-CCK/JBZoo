@@ -95,13 +95,13 @@ class JBCartVariant extends ArrayObject
 
     /**
      * Get element by identifier
-     * @param string $key
+     * @param string $id
      * @param mixed $default
      * @return JBCartElementPrice|mixed
      */
-    public function get($key, $default = null)
+    public function get($id, $default = null)
     {
-        return isset($this->elements[$key]) ? $this->elements[$key] : $default;
+        return isset($this->elements[$id]) ? $this->elements[$id] : $default;
     }
 
     /**

@@ -41,23 +41,21 @@ class JBEventBasket extends JBEvent
                 if ($element = $item->getElement($orderData->get('element_id'))) {
                     if ($element instanceof ElementJBPrice) {
                         try {
-                            $element->setProp('_template', $orderData->get('template'));
-                            $key = $orderData->get('variant');
+                            $element->setTemplate($orderData->get('template'));
 
                             // Create variant object
-                            $variant = $element->buildVariant($element->getData($key), $key);
+                            $list = $element->getList($orderData->get('variations'), array(
+                                'template' => $orderData->get('template')
+                            ));
+                            $variant = $list->current();
                             /** @type JBCartElementPriceBalance $balance */
                             if (!$balance = $variant->get('_balance')) {
                                 continue;
                             }
 
                             if ($balance->reduce((float)$orderData->get('quantity'))) {
-
                                 $element->bindVariant($variant);
-
                                 $app->table->item->save($item);
-
-                                continue;
                             }
 
                         } catch (JBCartOrderException $e) {
@@ -66,16 +64,13 @@ class JBEventBasket extends JBEvent
                     }
                 }
 
-                if ($item && is_a($element, 'ElementJBAdvert')) {
-                    if ($elements = $item->getElementsByType('jbadvert')) {
-                        foreach ($elements as $element) {
-                            if (method_exists($element, 'modify')) {
-                                $element->modify();
-                            }
+                if ($item && is_a($element, 'ElementJBAdvert') && $elements = $item->getElementsByType('jbadvert')) {
+                    foreach ($elements as $element) {
+                        if (method_exists($element, 'modify')) {
+                            $element->modify();
                         }
                     }
                 }
-
             }
         }
     }

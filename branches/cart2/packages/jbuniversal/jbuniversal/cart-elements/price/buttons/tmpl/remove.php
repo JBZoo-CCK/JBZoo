@@ -16,4 +16,5 @@ defined('_JEXEC') or die('Restricted access');
 
 <span class="jsRemoveFromCart jsRemoveElement jbbutton small orange jbprice-buttons-remove"><?php
     echo JText::_($params->get('remove_label', 'JBZOO_ELEMENT_PRICE_BUTTONS_REMOVE_LABEL_DEFAULT'));
-    ?></span>
+    ?>
+</span>

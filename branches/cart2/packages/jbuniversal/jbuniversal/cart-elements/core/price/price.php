@@ -251,6 +251,15 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
+     * Return elements identifier.
+     * @return string
+     */
+    public function id()
+    {
+        return $this->identifier;
+    }
+
+    /**
      * Get an element from the price.
      * Will be created new instance of JBCartElementPrice.
      * @param string $identifier Id of element
@@ -565,8 +574,8 @@ abstract class JBCartElementPrice extends JBCartElement
 
         $this->app->jbassets->$method($assets);
         if ($this->cache && $count) {
-            for ($i = 0; $i < $count; $i++) {
-                $this->_addToStorage($assets[$i]);
+            foreach ($assets as $path) {
+                $this->_addToStorage($path, $method);
             }
         }
 
@@ -606,6 +615,7 @@ abstract class JBCartElementPrice extends JBCartElement
     /**
      * @param string $asset
      * @return $this
+     * @throws JBCartElementPriceException
      */
     protected function _addToStorage($asset)
     {
@@ -621,10 +631,6 @@ abstract class JBCartElementPrice extends JBCartElement
     {
         $this->_data  = clone $this->_data;
         $this->config = clone $this->config;
-
-        if ($this->_jbprice instanceof ElementJBPrice) {
-            $this->_jbprice = clone $this->_jbprice;
-        }
 
         $this->prices     = null;
         $this->variant    = null;

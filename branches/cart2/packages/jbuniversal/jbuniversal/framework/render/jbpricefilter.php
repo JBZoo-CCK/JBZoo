@@ -60,7 +60,7 @@ class JBPriceFilterRenderer extends PositionRenderer
                 $data['_position'] = $position;
                 $data['_index']    = $key;
 
-                if ($element->canAccess() && $element->hasFilterValue($this->app->data->create($data))) {
+                if ($element->canAccess() && $element->hasFilterValue(new AppData($data))) {
                     return true;
                 }
             }

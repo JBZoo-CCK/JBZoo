@@ -72,8 +72,7 @@ class ElementJBPriceCalc extends ElementJBPrice
         $keys = array_keys($list);
         $key  = (int)end($keys);
 
-        $this->setDefault($key);
-        $this->_template = $template;
+        $this->setTemplate($template)->setDefault($key);
 
         if ($this->_list instanceof JBCartVariantList) {
             $this->_list->clear();
@@ -107,9 +106,8 @@ class ElementJBPriceCalc extends ElementJBPrice
         $key  = (int)end($keys);
 
         //Set the default option, which we have received, not saved. For correct calculation.
-        $this->setDefault($key);
+        $this->setTemplate($template)->setDefault($key);
 
-        $this->_template = $template;
         $this->getList($list, array(
             'values'   => $values,
             'quantity' => $quantity,
@@ -145,11 +143,10 @@ class ElementJBPriceCalc extends ElementJBPrice
      */
     public function ajaxModalWindow($template = 'default', $layout = 'default', $hash)
     {
-        $this->_template = $template;
-        $this->_layout   = $layout;
-        $this->hash      = $hash;
+        $this->setTemplate($template)->setLayout($layout);
+        $this->isCache = false;
 
-        $this->_getRenderParams();
+        $this->getParameters();
         $this->_getConfig();
 
         $html = $this->render(array(
@@ -241,7 +238,7 @@ class ElementJBPriceCalc extends ElementJBPrice
      */
     public function bindData($data = array())
     {
-        if (isset($this->_item)) {
+        if (null !== $this->_item) {
             $hashes = array();
 
             if (isset($data['variations'])) {
@@ -329,7 +326,7 @@ class ElementJBPriceCalc extends ElementJBPrice
 
             $data->set('variations', $variations);
             $data->set('selected', $selected);
-            $data->set('values', $variant->isBasic() ? array(self::BASIC_VARIANT => array()) : $values);
+            $data->set('values',  $values);
 
             $this->_item->elements->set($this->identifier, (array)$data);
         }

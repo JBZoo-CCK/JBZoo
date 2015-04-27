@@ -18,14 +18,16 @@ defined('_JEXEC') or die('Restricted access');
 class JBPriceRenderer extends PositionRenderer
 {
     /**
-     * @var int
-     */
-    public $variant = 0;
-
-    /**
+     * Price element id.
      * @var string
      */
     protected $element_id;
+
+    /**
+     * Item layout name.
+     * @var string
+     */
+    protected $itemLayout;
 
     /**
      * @var JBCartVariant
@@ -33,14 +35,9 @@ class JBPriceRenderer extends PositionRenderer
     protected $_variant;
 
     /**
-     * @var JBModelConfig
+     * @type JBModelConfig
      */
     protected $_jbconfig;
-
-    /**
-     * @var string
-     */
-    protected $_priceLayout;
 
     /**
      * @param App  $app
@@ -59,7 +56,7 @@ class JBPriceRenderer extends PositionRenderer
      */
     public function checkPosition($position)
     {
-        foreach ($this->getConfigPosition($position) as $key => $data) {
+        foreach ($this->getConfigPosition($position) as $data) {
             if (($element = $this->_variant->get($data['identifier']))
             ) {
                 $data['_layout']   = $this->_layout;
@@ -82,10 +79,10 @@ class JBPriceRenderer extends PositionRenderer
      */
     public function render($layout, $args = array())
     {
-        $this->element_id = isset($args['element_id']) ? $args['element_id'] : null;
+        $this->element_id = array_key_exists('element_id', $args) ? $args['element_id'] : null;
+        $this->itemLayout = array_key_exists('layout', $args) ? $args['layout'] : null;
 
-        $this->_variant     = isset($args['_variant']) ? $args['_variant'] : null;
-        $this->_priceLayout = isset($args['layout']) ? $args['layout'] : null;
+        $this->_variant = array_key_exists('_variant', $args) ? $args['_variant'] : null;
 
         $result = parent::render('jbprice.' . $layout, $args);
 
@@ -115,7 +112,7 @@ class JBPriceRenderer extends PositionRenderer
                     continue;
                 }
                 $index++;
-                $data['_price_layout'] = $this->_priceLayout;
+                $data['_price_layout'] = $this->itemLayout;
 
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
@@ -165,7 +162,7 @@ class JBPriceRenderer extends PositionRenderer
                         continue;
                     }
 
-                    $data['_price_layout'] = $this->_priceLayout;
+                    $data['_price_layout'] = $this->itemLayout;
 
                     $data['_layout'] = $this->_layout;
                     $data['_index']  = $key;
@@ -178,8 +175,8 @@ class JBPriceRenderer extends PositionRenderer
             }
         }
 
-        if (!empty($elements)) {
-            $count = count($elements);
+        $count = count($elements);
+        if ($count) {
             foreach ($elements as $i => $data) {
                 $params = array_merge(array(
                     'first' => ($i == 0),
@@ -204,9 +201,9 @@ class JBPriceRenderer extends PositionRenderer
     public function getConfigPosition($position)
     {
         $config   = $this->_getPositions();
-        $position = $config->get($this->element_id . '.' . $this->_layout . '.' . $position);
+        $position = (array)$config->get($this->element_id . '.' . $this->_layout . '.' . $position, array());
 
-        return !empty($position) ? $position : array();
+        return $position;
     }
 
     /**
@@ -237,13 +234,11 @@ class JBPriceRenderer extends PositionRenderer
     }
 
     /**
-     * @return JSONData
+     * @return AppData
      */
     public function _getPositions()
     {
-        $layouts = $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_PRICE_TMPL);
-
-        return $layouts;
+        return $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_PRICE_TMPL);
     }
 
     /**
@@ -251,9 +246,6 @@ class JBPriceRenderer extends PositionRenderer
      */
     protected function _getConfig()
     {
-        $params = $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $this->element_id);
-
-        return $params->get(JBCart::DEFAULT_POSITION);
+        return $this->_jbconfig->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $this->element_id)->get(JBCart::DEFAULT_POSITION);
     }
-
 }
