@@ -86,8 +86,10 @@ class JBModuleHelperBasket extends JBModuleHelper
         $_params = array(
             // TODO config from module
             'currency'     => $this->getCurrency(),
+            'item_link'    => (int)$this->_params->get('jbcart_item_link', 1),
             'image_width'  => $this->_params->get('jbcart_item_image_width', 75),
             'image_height' => $this->_params->get('jbcart_item_image_height', 75),
+            'image_link'   => (int)$this->_params->get('jbcart_item_image_link', 1),
         );
 
         $params = array_replace_recursive($_params, $params);
