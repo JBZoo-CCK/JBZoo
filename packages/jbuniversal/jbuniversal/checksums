@@ -518,12 +518,12 @@ dbfdfcab08409f834ab848dde7de0ce7 jbapp/elements/jbimage/assets/images/cancel.png
 4b691d23fa0373abc1a05476e2c72d60 jbapp/elements/jbprice/assets/less/edit.less
 f2a10521f88b093762154f9b84d4c629 jbapp/elements/jbprice/assets/less/jbprice.less
 95109a63f775b83142f814ba1b100b14 jbapp/elements/jbprice/assets/less/submission.less
-d476ecf4566357665b3196b054c234bd jbapp/elements/jbprice/jbprice.php
+cc701726ec1da8f1d0ac0e16a2e265dd jbapp/elements/jbprice/jbprice.php
 93ed1729397f49def9eccb2f9d682d6a jbapp/elements/jbprice/jbprice.xml
 1d8de246f6b90efa2f97e6a73712a21d jbapp/elements/jbpricecalc/assets/less/jbpricecalc.less
-d94fd611bd9c39e7e683bf97c595045c jbapp/elements/jbpricecalc/jbpricecalc.php
+93078a9b02b1352f60ed9b7cdac0fc0f jbapp/elements/jbpricecalc/jbpricecalc.php
 db8bdb581f19d8bbb6beb98a74a0077c jbapp/elements/jbpricecalc/jbpricecalc.xml
-4f2e3fa02b250ab190ac8a86879c3a73 jbapp/elements/jbpriceplain/jbpriceplain.php
+ddbbfe289cfa34d43eb22a4d248be1fc jbapp/elements/jbpriceplain/jbpriceplain.php
 021e481919ef9c36c924889d9e8adab5 jbapp/elements/jbpriceplain/jbpriceplain.xml
 3bc02e6a144fd6e22186e8a079238315 jbapp/elements/jbquickview/jbquickview.php
 7f0f33b68693a0e8f49391007bd18e5f jbapp/elements/jbquickview/jbquickview.xml
