@@ -132,6 +132,14 @@
         },
 
         /**
+         * Reset select value(s)
+         */
+        reset: function () {
+            this.val('');
+            return this;
+        },
+
+        /**
          * Add chosen widget
          * @returns {jQuery}
          */
