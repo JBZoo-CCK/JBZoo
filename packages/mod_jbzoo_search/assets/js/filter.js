@@ -112,7 +112,7 @@
 
                     if ($input.is('select')) {
                         // any selects
-                        $input.JBZooSelect().JBZooSelect('val', '');
+                        $input.JBZooSelect().JBZooSelect('reset');
 
 
                     } else if ($input.is('.jbcolor-input')) {
