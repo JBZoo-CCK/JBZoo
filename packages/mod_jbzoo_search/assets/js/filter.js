@@ -110,18 +110,9 @@
 
                     var $input = $(input);
 
-                    if ($input.is('select') && $input.attr('multiple') != 'multiple') {
-                        // simple select
-                        $('option:eq(0)', $input).attr('selected', 'selected');
-                        $input.trigger("liszt:updated"); // hello, chosen =)
-
-
-                    } else if ($input.is('select')) {
-                        // multiple select
-                        $('option', $input).removeAttr('selected');
-                        $input
-                            .val('')
-                            .trigger("liszt:updated"); // hello, chosen =)
+                    if ($input.is('select')) {
+                        // any selects
+                        $input.JBZooSelect().JBZooSelect('val', '');
 
 
                     } else if ($input.is('.jbcolor-input')) {
