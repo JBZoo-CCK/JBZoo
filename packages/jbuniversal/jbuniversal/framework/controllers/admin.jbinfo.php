@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -180,19 +179,20 @@ class JBInfoJBUniversalController extends JBUniversalController
      */
     public function licenceSave()
     {
-        $app = $this->app->zoo->getApplication();
-
+        // define vars
+        $app     = $this->app->zoo->getApplication();
         $licData = $app->clearLData($_POST['jbzooform']);
         $host    = $app->getDomain(true);
 
+        // save new lic data
         $domainPath = $this->app->path->path('jbapp:config') . '/licence.' . $host . '.php';
-
         $this->app->jbconfig->saveToFile($licData, $domainPath);
 
+        // cleanup cache
         $this->app->jbcache->clear('data-' . $host);
-
-        if (JFile::exists(JPATH_ROOT . '/cache/jbzoo/data-' . $host)) {
-            JFile::delete(JPATH_ROOT . '/cache/jbzoo/data-' . $host);
+        $tmpPath = $this->app->path->path('jbapp:tmp') . '/data-' . $host;
+        if (JFile::exists($tmpPath)) {
+            JFile::delete($tmpPath);
         }
 
         $redirectUrl = $this->app->jbrouter->admin(array('task' => 'index'));
