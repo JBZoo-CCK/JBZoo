@@ -35,13 +35,13 @@ $wrapAttrs = array(
             <?php echo JText::_('JBZOO_COMPARE_REMOVE'); ?>
         </span>
         <a rel="nofollow" href="<?php echo $compareUrl; ?>" class="uk-button uk-button-mini uk-button-primary">
-            <i class="uk-icon-star"></i>
+            <i class="uk-icon-bar-chart"></i>
             <?php echo JText::_('JBZOO_COMPARE'); ?>
         </a>
     </div>
     <div class="jbcompare-unactive">
         <span class="uk-button uk-button-mini uk-button-success jsCompareToggle">
-            <i class="uk-icon-star-o"></i>
+            <i class="uk-icon-bar-chart-o"></i>
             <?php echo JText::_('JBZOO_COMPARE_ADD'); ?>
         </span>
     </div>
