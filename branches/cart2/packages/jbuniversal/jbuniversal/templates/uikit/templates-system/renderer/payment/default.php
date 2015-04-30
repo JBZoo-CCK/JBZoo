@@ -20,8 +20,11 @@ if ($this->checkPosition('list')) : ?>
         echo $this->renderPosition('list', array(
             'style' => 'order.payment',
             'rowAttrs' => array(
-                'class' => 'uk-grid',
-                'data-uk-grid-margin' => true
+                'data-uk-grid-margin' => true,
+                'class'               =>  array(
+                    'uk-grid',
+                    'jsHeightFixRow',
+                ),
             ),
             'column' => 3
         ));
