@@ -32,7 +32,8 @@ $attributes = array(
         'jbprice-row',
         'jbpriceadv-row',
         'basic-' . $type . '-wrap',
-        'jbprice-' . $jbPrice->getElementType()
+        'jbprice-' . $jbPrice->getElementType(),
+        'clearfix'
     )
 );
 
