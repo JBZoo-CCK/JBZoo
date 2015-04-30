@@ -52,10 +52,9 @@ $removeUrl = $this->app->jbrouter->admin(array('task' => 'removeUnversionFiles')
 <script type="text/javascript">
     jQuery(function ($) {
 
-        var date = new Date(),
-            alert1    = "<?php echo JText::_('JBZOO_CHECKFILES_REMOVE_UNVERSION_ALERT_1'); ?>",
-            alert2    = "<?php echo JText::_('JBZOO_CHECKFILES_REMOVE_UNVERSION_ALERT_2'); ?>",
-            alert3    = "<?php echo JText::_('JBZOO_CHECKFILES_REMOVE_UNVERSION_ALERT_3'); ?>",
+        var alert1 = "<?php echo JText::_('JBZOO_CHECKFILES_REMOVE_UNVERSION_ALERT_1'); ?>",
+            alert2 = "<?php echo JText::_('JBZOO_CHECKFILES_REMOVE_UNVERSION_ALERT_2'); ?>",
+            alert3 = "<?php echo JText::_('JBZOO_CHECKFILES_REMOVE_UNVERSION_ALERT_3'); ?>",
             actionUrl = "<?php echo $actionUrl; ?>",
             removeUrl = "<?php echo $removeUrl; ?>";
 
@@ -64,11 +63,13 @@ $removeUrl = $this->app->jbrouter->admin(array('task' => 'removeUnversionFiles')
             $('.checkfiles-loader').show();
             $('.checkfiles-result').empty();
 
-            $.get(actionUrl, {
-                'nocache': date.getMilliseconds()
-            }, function (data) {
-                $('.checkfiles-result').empty().html(data);
-                $('.checkfiles-loader').hide();
+            JBZoo.ajax({
+                'url'     : actionUrl,
+                'dataType': 'html',
+                'success' : function (data) {
+                    $('.checkfiles-result').empty().html(data);
+                    $('.checkfiles-loader').hide();
+                }
             });
 
             return false;
@@ -86,11 +87,13 @@ $removeUrl = $this->app->jbrouter->admin(array('task' => 'removeUnversionFiles')
                                 $('.checkfiles-loader').show();
                                 $('.checkfiles-result').empty();
 
-                                $.get(removeUrl, {
-                                    'nocache': date.getMilliseconds()
-                                }, function (data) {
-                                    $('.checkfiles-result').empty().html(data);
-                                    $('.checkfiles-loader').hide();
+                                JBZoo.ajax({
+                                    'url'     : removeUrl,
+                                    'dataType': 'html',
+                                    'success' : function (data) {
+                                        $('.checkfiles-result').empty().html(data);
+                                        $('.checkfiles-loader').hide();
+                                    }
                                 });
                             });
 
