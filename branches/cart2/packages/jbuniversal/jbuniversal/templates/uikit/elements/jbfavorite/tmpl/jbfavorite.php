@@ -36,14 +36,14 @@ $wrapAttrs = array(
         </span>
 
         <a rel="nofollow" href="<?php echo $favoriteUrl; ?>" class="uk-button uk-button-mini uk-button-primary">
-            <i class="uk-icon-heart-o"></i>
+            <i class="uk-icon-bar-chart"></i>
             <?php echo JText::_('JBZOO_FAVORITE'); ?>
         </a>
     </div>
 
     <div class="jbfavorite-unactive">
         <span class="uk-button uk-button-mini uk-button-primary jsFavoriteToggle">
-            <i class="uk-icon-heart"></i>
+            <i class="uk-icon-bar-chart"></i>
             <?php echo JText::_('JBZOO_FAVORITE_ADD'); ?>
         </span>
     </div>
