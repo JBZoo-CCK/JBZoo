@@ -192,7 +192,7 @@
             if ($.isFunction(swal)) {
                 swal({
                     title            : message,
-                    animation        : false,
+                    //animation        : false,
                     allowOutsideClick: true,
                     confirmButtonText: JBZoo.getVar('JBZOO_DIALOGBOX_OK', 'OK')
                 }, closeCallback);
@@ -218,7 +218,7 @@
             if ($.isFunction(swal)) {
                 swal({
                         title            : message,
-                        animation        : false,
+                        //animation        : false,
                         showCancelButton : true,
                         closeOnConfirm   : true,
                         closeOnCancel    : true,
