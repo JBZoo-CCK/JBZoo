@@ -12,22 +12,23 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 ?>
 
 <div class="jbprice-properties">
     <?php
+    $html = array(
+        $this->_jbhtml->text($this->getControlName('width'), $width, array(
+            'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_EDIT_PLACEHOLDER_WIDTH')
+        )),
+        $this->_jbhtml->text($this->getControlName('height'), $height, array(
+            'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_EDIT_PLACEHOLDER_HEIGHT')
+        )),
+        $this->_jbhtml->text($this->getControlName('length'), $length, array(
+            'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_EDIT_PLACEHOLDER_LENGTH')
+        ))
+    );
 
-    echo $this->_jbhtml->text($this->getControlName('width'), $width, array(
-        'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_EDIT_PLACEHOLDER_WIDTH')
-    ));
-
-    echo $this->_jbhtml->text($this->getControlName('height'), $height, array(
-        'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_EDIT_PLACEHOLDER_HEIGHT')
-    ));
-
-    echo $this->_jbhtml->text($this->getControlName('length'), $length, array(
-        'placeholder' => JText::_('JBZOO_ELEMENT_PRICE_PROPERTIES_EDIT_PLACEHOLDER_LENGTH')
-    ));
-
+    echo implode('&nbsp;X&nbsp;', $html);
     ?>
 </div>

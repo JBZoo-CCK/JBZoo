@@ -16,7 +16,7 @@ $elId = $this->app->jbstring->getId('basic-');
 
 ?>
 
-<div class="jbpriceadv-row basic-<?php echo strtolower($type); ?>-wrap">
+<div class="jbpriceadv-row basic-<?php echo strtolower($type); ?>-wrap clearfix">
     <label for="<?php echo $elId . '-' . $type; ?>" class="hasTip row-field"
            title="<?php echo JText::_('JBZOO_JBPRICE_BASIC_' . $type . '_DESC'); ?>">
         <?php echo JText::_('JBZOO_JBPRICE_BASIC_' . $type); ?>

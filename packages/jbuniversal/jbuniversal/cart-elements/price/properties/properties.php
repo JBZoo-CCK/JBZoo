@@ -41,6 +41,8 @@ class JBCartElementPriceProperties extends JBCartElementPrice
      */
     public function edit($params = array())
     {
+        $this->app->jbassets->less('cart-elements:price/properties/assets/less/edit.less');
+
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderEditLayout($layout, array(
                 'width'  => $this->get('width'),
