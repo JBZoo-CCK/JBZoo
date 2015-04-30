@@ -118,7 +118,7 @@ class PaymentRenderer extends PositionRenderer
 
         if (isset($args['rowAttrs']) && is_array($args['rowAttrs'])) {
             $rowOutput = '';
-            $_rowAttrs = array('class' => 'grid-row');
+            $_rowAttrs = array('class' => 'grid-row jsHeightFixRow');
             $rowAttrs  = array_replace_recursive($_rowAttrs, $args['rowAttrs']);
             $column    = (isset($args['column'])) ? (int)$args['column'] : 3;
 
