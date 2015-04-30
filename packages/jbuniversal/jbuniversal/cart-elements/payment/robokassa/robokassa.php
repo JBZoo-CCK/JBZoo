@@ -22,7 +22,7 @@ class JBCartElementPaymentRobokassa extends JBCartElementPayment
     /**
      * @var string
      */
-    private $_realUrl = 'https://merchant.roboxchange.com/Index.aspx';
+    private $_realUrl = 'https://auth.robokassa.ru/Merchant/Index.aspx';
 
     /**
      * @var string
