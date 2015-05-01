@@ -82,9 +82,6 @@
                     $('.js' + fieldId).fadeIn();
                 });
             } else {
-
-                dump($wrapper);
-
                 $wrapper.find('.jsShippingFieldEmpty').stop().fadeIn();
             }
         }
