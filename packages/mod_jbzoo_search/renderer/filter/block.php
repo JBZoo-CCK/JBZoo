@@ -24,7 +24,7 @@ if ($params->get('showlabel', 1) && strpos($element->getElementType(), 'jbprice'
     if ($params->get('jbzoo_filter_render') != 'jqueryui') {
         $label = '<label class="jbfilter-label" for="' . $attrs['id'] . '">' . $labelText . '</label>';
     } else {
-        $label = '<label class="jbfilter-label"' . $labelText . '</label>';
+        $label = '<label class="jbfilter-label">' . $labelText . '</label>';
     }
 }
 
