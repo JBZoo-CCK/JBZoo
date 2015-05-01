@@ -65,7 +65,7 @@ class JBChecksumHelper extends AppHelper
                 if (
                     !in_array($file, $checksum_files) &&
                     !preg_match('/' . preg_quote($file, '/') . '$/i', $checksum) &&
-                    !$this->_isIgnore($prefix . $file, $exclude)
+                    !$this->_isIgnore($file, $exclude)
                 ) {
                     $log['unknown'][] = str_replace('//', '/', $prefix . '/' . $file);
                 }
@@ -88,6 +88,7 @@ class JBChecksumHelper extends AppHelper
 
         foreach ($exclude as $pattern) {
             if (preg_match('#' . $pattern . '#ius', $filename)) {
+                //echo '#' . $pattern . '#ius', "&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;&nbsp;",  $filename . '<br>';
                 return true;
             }
         }

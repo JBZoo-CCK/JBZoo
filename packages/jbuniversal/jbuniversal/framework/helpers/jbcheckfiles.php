@@ -38,23 +38,35 @@ class JBCheckFilesHelper extends AppHelper
      * @var array
      */
     protected $_exclude = array(
-        '\.config$',
+        // old files 
         'index\.html$',
-        'positions\.xml',
-        'config[/\\\]licence\.php',
-        'config[/\\\]config\.php',
-        'config[/\\\]licence\..*\.php',
-        'renderer[/\\\]item[/\\\]',
-
+        
+        // any configs
+        '\.config$',
+        
+        // jbzoo version
+        'application\.xml$',
+        
+        // templates
+        'templates[/\\\].*[/\\\]assets',
+        'templates[/\\\].*[/\\\]cart-elements',
+        'templates[/\\\].*[/\\\]elements',
+        'templates[/\\\].*[/\\\]helpers',
+        'templates[/\\\].*[/\\\]language',
+        'templates[/\\\].*[/\\\]templates-system',
         'app_icons',
-        'tmp[/\\\]*',
 
-        'css[/\\\]jbzoo\..*\.css',
-        'js[/\\\]jbzoo\..*\.js',
-        '\.jbsample',
-        '\.jbsamplerepeatable',
-        'yml_config\.php',
-        'admin\.jbtest\.php'
+        // item templates
+        'positions\.xml$',
+        'metadata\.xml',
+        'renderer[/\\\]item',
+        
+        // configs
+        'config[/\\\]licence\.php$',
+        'config[/\\\]licence\..*\.php$',
+        
+        // temp files
+        'tmp[/\\\].*',
     );
 
     /**
@@ -99,10 +111,9 @@ class JBCheckFilesHelper extends AppHelper
                     $path,
                     $checksum,
                     $result,
-                    array(create_function(
-                              '$path',
-                              'if (preg_match("#^' . $vpath . '#", $path)) return preg_replace("#^' . $vpath . '/#", "", $path);'
-                          )),
+                    array(create_function('$path',
+                          'if (preg_match("#^' . $vpath . '#", $path)) return preg_replace("#^' . $vpath . '/#", "", $path);'
+                    )),
                     $this->app->path->relative($path),
                     $this->_exclude
                 );
