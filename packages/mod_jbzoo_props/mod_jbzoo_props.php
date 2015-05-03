@@ -18,9 +18,9 @@ require_once dirname(__FILE__) . '/helper.php';
 
 $zoo = App::getInstance('zoo');
 
-$zoo->jbdebug->mark('mod_jbzoo_props::start-' . $module->id);
+$zoo->jbdebug->mark($module->module . '::start-' . $module->id);
 
 $modHelper = new JBModuleHelperProps($params, $module);
 echo $modHelper->render(false);
 
-$zoo->jbdebug->mark('mod_jbzoo_props::finish-' . $module->id);
+$zoo->jbdebug->mark($module->module . '::finish-' . $module->id);

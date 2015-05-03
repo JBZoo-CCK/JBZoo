@@ -83,6 +83,8 @@ class JBModuleHelper
         $this->_jbhtml    = $this->app->jbhtml;
         $this->_jbrequest = $this->app->jbrequest;
         $this->_jbassets  = $this->app->jbassets;
+
+        $this->app->jbdebug->mark($this->_module->module . '::init');
     }
 
     /**

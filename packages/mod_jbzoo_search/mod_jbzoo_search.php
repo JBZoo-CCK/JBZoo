@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 require_once dirname(__FILE__) . '/helper.php';
 
 $zoo = App::getInstance('zoo');
-$zoo->jbdebug->mark('mod_jbzoo_search::start-' . $module->id);
+$zoo->jbdebug->mark($module->module . '::start-' . $module->id);
 
 $modHelper = new JBModuleHelperFilter($params, $module);
 
@@ -27,4 +27,4 @@ if ($modHelper->getType() && $modHelper->getAppId()) {
     echo $modHelper->render(true);
 }
 
-$zoo->jbdebug->mark('mod_jbzoo_search::finish-' . $module->id);
+$zoo->jbdebug->mark($module->module . '::finish-' . $module->id);

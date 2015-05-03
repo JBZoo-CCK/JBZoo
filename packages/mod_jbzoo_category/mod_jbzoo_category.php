@@ -18,10 +18,10 @@ require_once dirname(__FILE__) . '/helper.php';
 
 $zoo = App::getInstance('zoo');
 
-$zoo->jbdebug->mark('mod_jbzoo_category::start-' . $module->id);
+$zoo->jbdebug->mark($module->module . '::start-' . $module->id);
 
 // init & render module
 $modHelper = new JBModuleHelperCategory($params, $module);
 echo $modHelper->render(false);
 
-$zoo->jbdebug->mark('mod_jbzoo_category::finish-' . $module->id);
+$zoo->jbdebug->mark($module->module . '::finish-' . $module->id);

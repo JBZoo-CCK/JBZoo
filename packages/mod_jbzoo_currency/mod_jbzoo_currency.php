@@ -17,9 +17,9 @@ require_once dirname(__FILE__) . DS . 'helper.php';
 
 $zoo = App::getInstance('zoo');
 
-$zoo->jbdebug->mark('mod_jbzoo_currency::start-' . $module->id);
+$zoo->jbdebug->mark($module->module . '::start-' . $module->id);
 
 $modHelper = new JBModuleHelperCurrency($params, $module);
 echo $modHelper->render(true);
 
-$zoo->jbdebug->mark('mod_jbzoo_currency::finish-' . $module->id);
+$zoo->jbdebug->mark($module->module . '::finish-' . $module->id);
