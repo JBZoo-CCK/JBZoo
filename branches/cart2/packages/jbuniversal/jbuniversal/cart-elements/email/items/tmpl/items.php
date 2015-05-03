@@ -31,9 +31,9 @@ defined('_JEXEC') or die('Restricted access');
 
     <tfoot>
     <?php echo $this->_partial('table_foot_subtotal'); ?>
+    <?php echo $this->_partial('table_foot_modifiers'); ?>
     <?php echo $this->_partial('table_foot_payment'); ?>
     <?php echo $this->_partial('table_foot_shipping'); ?>
-    <?php echo $this->_partial('table_foot_modifiers'); ?>
     <?php echo $this->_partial('table_foot_total'); ?>
     </tfoot>
 
