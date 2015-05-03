@@ -68,9 +68,12 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     public function modify(JBCartValue $summa)
     {
-        $rate = $this->get('rate') ? $this->get('rate') : $this->getRate();
+        if ($this->isModify()) {
+            $rate = $this->get('rate') ? $this->get('rate') : $this->getRate();
+            $summa->add($rate);
+        }
 
-        return $summa->add($rate);
+        return $summa;
     }
 
     /**
@@ -289,6 +292,14 @@ abstract class JBCartElementShipping extends JBCartElement
     {
         $list = (array)$this->config->shippingfields;
         return in_array($elementId, $list, true);
+    }
+
+    /**
+     * @return int
+     */
+    public function isModify()
+    {
+        return (int)$this->config->get('modifytotal', 0);
     }
 }
 
