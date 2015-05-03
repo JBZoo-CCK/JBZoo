@@ -57,6 +57,11 @@ $currency    = $this->sum->cur();
         <?php echo $emptyRow; ?>
     <?php endif; ?>
 
+    <?php echo $this->partial('edit_table_modifiers', array(
+        'order'    => $order,
+        'currency' => $currency
+    )); ?>
+
     <?php echo $this->partial('edit_table_payment', array(
         'order'    => $order,
         'payment'  => $payment,
@@ -77,11 +82,6 @@ $currency    = $this->sum->cur();
         </tr>
         <?php echo $emptyRow; ?>
     <?php endif; ?>
-
-    <?php echo $this->partial('edit_table_modifiers', array(
-        'order'    => $order,
-        'currency' => $currency
-    )); ?>
 
     <tr>
         <td colspan="2" class="noborder-btm"></td>
