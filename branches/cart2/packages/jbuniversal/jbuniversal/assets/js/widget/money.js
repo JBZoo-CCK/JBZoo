@@ -58,7 +58,7 @@
                 !to && $this.error('Currency to "' + currency + '" is undefined');
 
                 var newValue = ($this.value / from.value) * to.value;
-                $this._update(newValue, currency);
+                $this.setValue(newValue, currency);
                 $this.currency = currency;
                 $this.value = newValue;
             },
