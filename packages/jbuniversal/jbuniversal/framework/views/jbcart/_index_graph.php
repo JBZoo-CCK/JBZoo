@@ -27,7 +27,7 @@ $graphRows = JBModelOrder::model()->countByDate();
         dataTable.addColumn({type: 'number', id: 'sales'});
         dataTable.addRows([
             <?php foreach($graphRows as $row) : ?>
-            [new Date(<?php echo $row->year;?>, <?php echo $row->month;?>, <?php echo $row->day;?>),
+            [new Date(<?php echo $row->year;?>, <?php echo $row->month - 1;?>, <?php echo $row->day;?>),
                 <?php echo $row->count;?>],
             <?php endforeach;?>
         ]);
