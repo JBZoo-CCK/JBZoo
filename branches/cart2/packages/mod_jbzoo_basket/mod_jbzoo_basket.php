@@ -17,10 +17,10 @@ defined('_JEXEC') or die('Restricted access');
 require_once dirname(__FILE__) . '/helper.php';
 
 $zoo = App::getInstance('zoo');
-$zoo->jbdebug->mark('mod_jbzoo_basket::start-' . $module->id);
+$zoo->jbdebug->mark($module->module . '::start-' . $module->id);
 
 // init & render module
 $modHelper = new JBModuleHelperBasket($params, $module);
 echo $modHelper->render(true);
 
-$zoo->jbdebug->mark('mod_jbzoo_basket::finish-' . $module->id);
+$zoo->jbdebug->mark($module->module . '::finish-' . $module->id);
