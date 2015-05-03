@@ -20,7 +20,7 @@ $target   = $params->get('switcher_target', '.jbzoo');
     jQuery(function ($) {
         $('.jsMoney', $('<?php echo $target;?>'))
             .filter(function () {
-                return $(this).closest('.jsNoCurrencyToggle').length == 0;
+                return $(this).closest('.jsNoCurrencyToggle').length == 0 || $(this).is('.jsNoCurrencyToggle');
             })
             .JBZooMoney({}).JBZooMoney('convert', '<?php echo $currency;?>');
     });

@@ -88,7 +88,7 @@
                 var $this = this;
 
                 return $(".jsMoney", $($this.options.target)).filter(function () {
-                    return $(this).closest('.jsNoCurrencyToggle').length == 0;
+                    return $(this).closest('.jsNoCurrencyToggle').length == 0 || $(this).is('.jsNoCurrencyToggle');
                 }).JBZooMoney({'rates': $this.options.rates});
             },
 
