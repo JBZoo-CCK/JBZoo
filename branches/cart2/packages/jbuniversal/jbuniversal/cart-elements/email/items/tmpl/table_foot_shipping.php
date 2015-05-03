@@ -32,6 +32,15 @@ if (!$this->config->get('shipping', 1)) {
 
         <td colspan="2" <?php echo $this->getStyles(); ?>>
             <?php echo $shipping->getName(); ?>
+            <em>(
+                <?php
+                if ($shipping->isModify()) {
+                    echo JText::_('JBZOO_ELEMENT_EMAIL_ITEMS_SHIPPING_RATE_INCLUDED');
+                } else {
+                    echo JText::_('JBZOO_ELEMENT_EMAIL_ITEMS_SHIPPING_RATE_NOT_INCLUDED');
+                }
+                ?>
+            )</em>
         </td>
 
         <td colspan="1" <?php echo $this->getStyles(array('border-bottom' => '1px solid #dddddd')); ?>>

@@ -32,7 +32,16 @@ if (!$this->config->get('payment', 1)) {
         </td>
 
         <td colspan="2" <?php echo $this->getStyles(); ?>>
-            <?php echo $order->getPayment()->getName(); ?>
+            <?php echo $payment->getName(); ?>
+            <em>(
+                <?php
+                if ($payment->isModify()) {
+                    echo JText::_('JBZOO_ELEMENT_EMAIL_ITEMS_PAYMENT_RATE_INCLUDED');
+                } else {
+                    echo JText::_('JBZOO_ELEMENT_EMAIL_ITEMS_PAYMENT_RATE_NOT_INCLUDED');
+                }
+                ?>
+            )</em>
         </td>
 
         <td colspan="1" <?php echo $this->getStyles(array('border-bottom' => '1px solid #dddddd')); ?>>

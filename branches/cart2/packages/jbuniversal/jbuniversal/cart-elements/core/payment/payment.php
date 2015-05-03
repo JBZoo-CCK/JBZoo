@@ -117,7 +117,7 @@ abstract class JBCartElementPayment extends JBCartElement
             reset($paymentList);
             $currentPayment = key($paymentList);
         }
-        
+
         return $this->identifier == $currentPayment;
     }
 
@@ -141,7 +141,12 @@ abstract class JBCartElementPayment extends JBCartElement
      */
     public function modify(JBCartValue $summa)
     {
-        return $summa->add($this->getRate());;
+        if ($this->isModify()) {
+            $rate = $this->get('rate') ? $this->get('rate') : $this->getRate();
+            $summa->add($rate);
+        }
+
+        return $summa;
     }
 
     /**
@@ -358,6 +363,14 @@ abstract class JBCartElementPayment extends JBCartElement
     public function getOrderDescription()
     {
         return 'Order #' . $this->getOrderId() . ' from ' . JUri::getInstance()->getHost();
+    }
+
+    /**
+     * @return int
+     */
+    public function isModify()
+    {
+        return (int)$this->config->get('modifytotal', 0);
     }
 
 }

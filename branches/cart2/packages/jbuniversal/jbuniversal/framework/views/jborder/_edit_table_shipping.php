@@ -24,6 +24,15 @@ $this->sum->addModify($shipping); ?>
     </th>
     <td>
         <?php echo $shipping->getName(); ?>
+        <em>(
+            <?php
+            if ($shipping->isModify()) {
+                echo JText::_('JBZOO_ORDER_SHIPPING_INCLUDED');
+            } else {
+                echo JText::_('JBZOO_ORDER_SHIPPING_NOT_INCLUDED');
+            }
+            ?>
+        )</em>
     </td>
     <td class="align-right">
         <?php echo $shipping->getRate()->htmlAdv($currency, true); ?>

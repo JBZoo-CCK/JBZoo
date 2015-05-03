@@ -264,16 +264,12 @@ class JBCartOrder
 
             // check payment rate
             if ($payment = $this->getPayment()) {
-                if ((int)$payment->config->get('modifytotal', 0)) {
-                    $summa = $payment->modify($summa);
-                }
+                $summa = $payment->modify($summa);
             }
 
             // check shipping rate
             if ($shipping = $this->getShipping()) {
-                if ((int)$shipping->config->get('modifytotal', 0)) {
-                    $summa = $shipping->modify($summa);
-                }
+                $summa = $shipping->modify($summa);
             }
         }
 

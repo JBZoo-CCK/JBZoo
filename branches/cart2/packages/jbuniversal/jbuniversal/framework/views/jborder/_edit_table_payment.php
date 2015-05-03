@@ -24,6 +24,15 @@ $this->sum->addModify($payment); ?>
     </th>
     <td>
         <?php echo $payment->getName(); ?>
+        <em>(
+            <?php
+            if ($payment->isModify()) {
+                echo JText::_('JBZOO_ORDER_PAYMENT_INCLUDED');
+            } else {
+                echo JText::_('JBZOO_ORDER_PAYMENT_NOT_INCLUDED');
+            }
+            ?>
+        )</em>
     </td>
     <td class="align-right">
         <?php echo $payment->getRate()->htmlAdv($currency, true); ?>
