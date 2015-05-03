@@ -142,7 +142,7 @@ class JBLessHelper extends AppHelper
         }
 
         $options = array(
-            'compress'     => 1, // option - whether to compress
+            'compress'     => 0, // option - whether to compress
             'strictUnits'  => 0, // whether units need to evaluate correctly
             'strictMath'   => 0, // whether math has to be within parenthesis
             'relativeUrls' => 1, // option - whether to adjust URL's to be relative
@@ -150,11 +150,6 @@ class JBLessHelper extends AppHelper
             'cache_method' => 0,
             'sourceMap'    => 0,
         );
-
-        if (JDEBUG) {
-            // TODO add source map
-            $options['compress'] = 0;
-        }
 
         $precessor = new Less_Parser($options);
 
