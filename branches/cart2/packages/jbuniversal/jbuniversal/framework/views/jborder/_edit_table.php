@@ -48,6 +48,13 @@ $currency    = $this->sum->cur();
 
     <tfoot>
 
+    <tr>
+        <td class="noborder-btm"></td>
+        <td colspan="3"><p><?php echo JText::_('JBZOO_ORDER_SUBTOTAL'); ?></p></td>
+        <td class="align-right subtotal-money"><?php echo $this->sum->html(); ?></td>
+    </tr>
+    <?php echo $emptyRow; ?>
+
     <?php echo $this->partial('edit_table_modifiers', array(
         'order'    => $order,
         'currency' => $currency
