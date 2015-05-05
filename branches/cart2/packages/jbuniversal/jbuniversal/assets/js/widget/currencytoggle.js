@@ -31,7 +31,7 @@
 
                 if ($this.options.setOnInit) {
                     var newCurrency = $this.getCurrent();
-                    $this._getMoney().JBZooMoney('convert', [newCurrency]);
+                    $this._getMoney().JBZooMoney('convert', newCurrency, false);
                     $this._trigger('change', [newCurrency]);
                 }
 

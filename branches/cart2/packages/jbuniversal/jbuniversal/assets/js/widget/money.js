@@ -43,9 +43,11 @@
             /**
              * Convert money to another format
              * @param currency
+             * @param isAnimate
              */
-            convert: function (currency) {
+            convert: function (currency, isAnimate) {
                 var $this = this,
+                    isAnimate = $this._def(isAnimate, true),
                     currency = $this._cleanCur(currency),
                     from = $this._getCurInfo($this.currency),
                     to = $this._getCurInfo(currency);
@@ -58,7 +60,11 @@
                 !to && $this.error('Currency to "' + currency + '" is undefined');
 
                 var newValue = ($this.value / from.value) * to.value;
-                $this.setValue(newValue, currency);
+                if (isAnimate) {
+                    $this.setValue(newValue, currency);
+                } else {
+                    $this._update(newValue, currency);
+                }
                 $this.currency = currency;
                 $this.value = newValue;
             },
