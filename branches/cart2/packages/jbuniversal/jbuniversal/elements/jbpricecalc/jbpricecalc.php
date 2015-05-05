@@ -326,7 +326,7 @@ class ElementJBPriceCalc extends ElementJBPrice
 
             $data->set('variations', $variations);
             $data->set('selected', $selected);
-            $data->set('values',  $values);
+            $data->set('values', $variant->isBasic() ? array(self::BASIC_VARIANT => array()) : $values);
 
             $this->_item->elements->set($this->identifier, (array)$data);
         }
