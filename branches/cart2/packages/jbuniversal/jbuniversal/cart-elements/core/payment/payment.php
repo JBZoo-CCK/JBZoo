@@ -310,7 +310,7 @@ abstract class JBCartElementPayment extends JBCartElement
     }
 
     /**
-     * @return float
+     * @return JBCartValue
      */
     public function getOrderSumm()
     {
@@ -350,7 +350,7 @@ abstract class JBCartElementPayment extends JBCartElement
 
     /**
      * Detect order id from merchant's robot request
-     * @return int
+     * @return JBCartValue
      */
     public function getRequestOrderSum()
     {

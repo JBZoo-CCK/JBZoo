@@ -85,35 +85,35 @@ class PaymentJBUniversalController extends JBUniversalController
 
         // check payment element
         if (empty($payment)) {
-            $this->_error('Order #' . $this->order->id . ': was saved without payment element');
+            $this->_error('Saved without payment element');
         }
 
         // payment is exists
         if (!$this->_orderInfo->get('type')) {
-            $this->_error('Order #' . $this->order->id . ': Undefined payment system');
+            $this->_error('Undefined payment system');
         }
 
         // check payment type
         if ($payment->getType() != $this->_orderInfo->get('type')) {
-            $this->_error('Order #' . $this->order->id . ': Payment type is not correct');
+            $this->_error('Payment type is not correct');
         }
 
         // current status is not complited
         if ($payment->getStatus() == $cart->getPaymentSuccess()) {
-            $this->_error('Order #' . $this->order->id . ': Status is success already');
+            $this->_error('Payment status is "' . $payment->getStatus()->getCode() . '" already');
         }
 
         // check summ
         $realSum    = $payment->getOrderSumm();
         $requestSum = $payment->getRequestOrderSum();
 
-        if ($realSum->compare($requestSum, '!=')) {
-            $this->_error('Order #' . $this->order->id . ': Not correct amount');
+        if ($realSum->compare($requestSum, '!=', 5)) {
+            $this->_error('Not correct amount');
         }
 
         // check if sum was empty
         if ($realSum->compare(0, '<=')) {
-            $this->_error('Order #' . $this->order->id . ': Amount less or equal zero');
+            $this->_error('Amount less or equal zero');
         }
 
         // checking of payment element
@@ -121,7 +121,7 @@ class PaymentJBUniversalController extends JBUniversalController
             $payment->setSuccess();
             $payment->renderResponse();
         } else {
-            $this->_error('Order #' . $this->order->id . ': No valid request');
+            $this->_error('No valid request');
         }
     }
 
@@ -152,6 +152,7 @@ class PaymentJBUniversalController extends JBUniversalController
      */
     protected function _error($message)
     {
+        $message = 'Order #' . $this->order->id . ': ' . $message;
         $this->app->jbdebug->log($message);
         header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
         die('' . $message);
