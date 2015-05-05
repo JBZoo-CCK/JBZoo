@@ -342,7 +342,7 @@ class JBCartValue
 
         $mode  = in_array($mode, array('=', '==', '===')) ? '==' : $mode;
         $round = (is_null($round)) ? self::ROUND_DEFAULT : ((int)$round);
-        $val1  = round((float)$this->_value, $round);
+        $val1  = round((float)$this->val($this->_currency), $round);
         $val2  = round((float)$value->val($this->_currency), $round);
 
         $this->_log("Compared \"{$this->dump()}\" {$mode} \"{$value->dump()}\" // $val1$mode$val2, r=$round, ");
