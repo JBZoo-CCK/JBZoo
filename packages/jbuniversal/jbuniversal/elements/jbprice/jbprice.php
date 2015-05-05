@@ -571,9 +571,9 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     {
         $options = array();
         $variant = $this->_list->current();
-        if ($variant->count()) {
-            foreach ($variant->all() as $element) {
-                if ($element->isCore() && $params = $this->getParameter($element->id())) {
+        if ($variant->count('core')) {
+            foreach ($variant->all('core') as $element) {
+                if ($params = $this->getParameter($element->id())) {
                     $options[$element->getElementType()] = $element->interfaceParams($params);
                 }
             }
@@ -1029,7 +1029,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
             $data->set('variations', $variations);
             $data->set('selected', $selected);
-            $data->set('values', $values);
+            $data->set('values', $variant->isBasic() ? array(self::BASIC_VARIANT => array()) : $values);
 
             $this->_item->elements->set($this->identifier, (array)$data);
         }
@@ -1186,8 +1186,12 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     {
         if ($this->getTemplate() === null)
         {
+            if(JDEBUG)
+            {
+                throw new ElementJBPriceException('Template is not set.');
+            }
+
             return array();
-            //throw new ElementJBPriceException('Template is not set.');
         }
         $access = ($access === '' ? $this->key('private') : $access);
 
