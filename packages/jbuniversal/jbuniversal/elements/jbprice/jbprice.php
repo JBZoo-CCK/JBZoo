@@ -799,7 +799,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $path = $this->app->path->path('elements:' . $type . '/tmpl/' . $layout);
         if (!$path) {
             $parent = strtolower(str_replace('Element', '', get_parent_class($this)));
-            $path = $this->app->path->path('elements:' . $parent . '/tmpl/' . $layout);
+            $path   = $this->app->path->path('elements:' . $parent . '/tmpl/' . $layout);
         }
 
         return $path;
@@ -1178,6 +1178,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
+     * @todo If template is not set && JDEBUG === 1  throw exception
      * @param string $access
      * @return array
      * @throws ElementJBPriceException
@@ -1186,11 +1187,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     {
         if ($this->getTemplate() === null)
         {
-            if(JDEBUG)
-            {
-                throw new ElementJBPriceException('Template is not set.');
-            }
-
+            //throw new ElementJBPriceException('Template is not set.');
             return array();
         }
         $access = ($access === '' ? $this->key('private') : $access);
