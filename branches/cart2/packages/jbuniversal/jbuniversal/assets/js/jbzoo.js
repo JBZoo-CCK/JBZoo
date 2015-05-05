@@ -190,7 +190,7 @@
          */
         alert: function (message, closeCallback) {
             if ($.isFunction(swal)) {
-                swal({
+                window.parent.swal({
                     title            : message,
                     //animation        : false,
                     allowOutsideClick: true,
@@ -216,7 +216,7 @@
             yesCallback = yesCallback || $.noop;
 
             if ($.isFunction(swal)) {
-                swal({
+                window.parent.swal({
                         title            : message,
                         //animation        : false,
                         showCancelButton : true,
