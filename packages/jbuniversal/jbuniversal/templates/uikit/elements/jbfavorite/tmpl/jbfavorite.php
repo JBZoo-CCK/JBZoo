@@ -30,7 +30,7 @@ $wrapAttrs = array(
 <!--noindex-->
 <div <?php echo $this->app->jbhtml->buildAttrs($wrapAttrs); ?>>
     <div class="jbfavorite-active">
-        <span class="uk-button uk-button-danger jsFavoriteToggle">
+        <span class="uk-button uk-button-mini uk-button-danger jsFavoriteToggle">
             <i class="uk-icon-trash"></i>
         </span>
 
@@ -40,7 +40,7 @@ $wrapAttrs = array(
     </div>
 
     <div class="jbfavorite-unactive">
-        <span class="uk-button uk-button-mini uk-button-primary jsFavoriteToggle">
+        <span class="uk-button uk-button-primary jsFavoriteToggle">
             <i class="uk-icon-heart"></i>
         </span>
     </div>

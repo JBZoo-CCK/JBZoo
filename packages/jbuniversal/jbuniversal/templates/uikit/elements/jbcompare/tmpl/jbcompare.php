@@ -30,7 +30,7 @@ $wrapAttrs = array(
 <!--noindex-->
 <div <?php echo $this->app->jbhtml->buildAttrs($wrapAttrs); ?>>
     <div class="jbcompare-active">
-        <span class="uk-button uk-button-danger jsCompareToggle">
+        <span class="uk-button uk-button-mini uk-button-danger jsCompareToggle">
             <i class="uk-icon-trash"></i>
         </span>
         <a rel="nofollow" href="<?php echo $compareUrl; ?>" class="uk-button uk-button-mini uk-button-success">
@@ -38,7 +38,7 @@ $wrapAttrs = array(
         </a>
     </div>
     <div class="jbcompare-unactive">
-        <span class="uk-button uk-button-mini uk-button-success jsCompareToggle">
+        <span class="uk-button uk-button-success jsCompareToggle">
             <i class="uk-icon-bar-chart-o"></i>
         </span>
     </div>
