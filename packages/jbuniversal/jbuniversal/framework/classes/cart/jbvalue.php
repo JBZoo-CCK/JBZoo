@@ -27,7 +27,7 @@ class JBCartValue
     const STYLE_HTML       = 'html';
     const STYLE_HTML_INPUT = 'html_input';
 
-    const ROUND_DEFAULT      = 9;
+    const ROUND_DEFAULT      = 8;
     const ROUND_TYPE_NONE    = 'none';
     const ROUND_TYPE_CEIL    = 'ceil';
     const ROUND_TYPE_FLOOR   = 'floor';
