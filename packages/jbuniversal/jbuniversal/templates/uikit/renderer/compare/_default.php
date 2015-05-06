@@ -56,13 +56,14 @@ $html[] = '</div>';
 if ($view->layoutType == 'v') {
 
     // header
-    $html[] = '<table class="uk-table uk-table-hover jsCompareTable">';
-    $html[] = '<thead><tr><td class="jbcompare-names">&nbsp;</td>';
+    $html[]   = '<table class="uk-table uk-table-hover jsCompareTable">';
+    $html[]   = '<thead><tr><td class="jbcompare-names">&nbsp;</td>';
+    $colWidth = 'width' . intval(100 / (count($renderedItems) + 1));
 
     foreach ($renderedItems as $itemId => $itemHtml) {
         $link   = $this->app->route->item($vars['objects'][$itemId]);
         $title  = $itemHtml['itemname'];
-        $html[] = '<th><a href="' . $link . '" title="' . $title . '">' . $title . '</a></th>';
+        $html[] = '<th class="' . $colWidth . '"><a href="' . $link . '" title="' . $title . '">' . $title . '</a></th>';
     }
     $html[] = '</tr></thead><tbody>';
 
@@ -76,7 +77,7 @@ if ($view->layoutType == 'v') {
 
             $html[] = '<tr class="jbcompare-row"><th>' . $label . $tooltip . '</th>';
             foreach ($renderedItems as $itemId => $itemElements) {
-                $html[] = '<td class="jbcompare-cell">' . $itemElements[$elementId] . '</td>';
+                $html[] = '<td class="jbcompare-cell ' . $colWidth . '">' . $itemElements[$elementId] . '</td>';
             }
             $html[] = '</tr>';
         }
