@@ -607,9 +607,9 @@ acc891733e3b6d7ad69e4ece8203c3df jbapp/elements/jbcomments/tmpl/_vkcomments.php
 689c06d80ca35f381b8c88ce167f6c59 jbapp/elements/jbcomments/tmpl/edit.php
 07350f073a70f33bc12a58b524be05c6 jbapp/elements/jbcompare/assets/js/compare-buttons.js
 688ba2ee11049bc45d72542767e2a23e jbapp/elements/jbcompare/assets/js/compare-table.js
-b1d61092a89520419550d0b3beec7ee1 jbapp/elements/jbcompare/assets/less/compare.less
-97a67f8da1a13429c11c6fd7e07a8e73 jbapp/elements/jbcompare/jbcompare.php
-84a528a0c5293725a997a7fd42db21b3 jbapp/elements/jbcompare/jbcompare.xml
+ad5e3892d5d5b3cbf1568b72c52fb5ea jbapp/elements/jbcompare/assets/less/compare.less
+9b0ebbc5a0eccb12b1821780248cc287 jbapp/elements/jbcompare/jbcompare.php
+4f85f6f230936a54b1263800e2815cb8 jbapp/elements/jbcompare/jbcompare.xml
 11cf9b4587da6a77a5277d2aa1dadb89 jbapp/elements/jbcompare/tmpl/jbcompare.php
 a2ddd79ca91edaebe909617524d6184f jbapp/elements/jbfavorite/assets/js/favorite-buttons.js
 6332f9ea2bc18a0e703c88b2467d7e56 jbapp/elements/jbfavorite/assets/js/favorite-list.js
@@ -1274,7 +1274,7 @@ ee0c9c4fe05130a3ef3e30f26e62ef39 jbapp/templates/catalog/renderer/basket/_shippi
 a4c1a6832fba7a479412d110828d5c7e jbapp/templates/catalog/renderer/comment/_default.php
 f8a6efb8e66a1940561fbfe26e078e5c jbapp/templates/catalog/renderer/comment_edit/_default.php
 1a28dacf21a6be9457b7994d514dc986 jbapp/templates/catalog/renderer/comments/_default.php
-806e899f1265fb95819faf361fb91f87 jbapp/templates/catalog/renderer/compare/_default.php
+10aaaec5d1c66557d5836f1262fe0a83 jbapp/templates/catalog/renderer/compare/_default.php
 e12c668d92d3377a32826d4b61e567ad jbapp/templates/catalog/renderer/favorite/_default.php
 b498c99465e39d0fece501f481baef0d jbapp/templates/catalog/renderer/filter/_default.php
 e64095a7973671af08acfd31d9adadff jbapp/templates/catalog/renderer/frontpage/_default.php
@@ -1333,7 +1333,7 @@ a2e6ac93edee1dd83f9cb6f6296b961c jbapp/templates/uikit/renderer/clientarea_order
 14e341b79e9ef77ca777ec81de53ff34 jbapp/templates/uikit/renderer/comment/_default.php
 e39cd785bed2e0f26a4b1aecfe321656 jbapp/templates/uikit/renderer/comment_edit/_default.php
 08668015585909b0a59fc1bd1eec152c jbapp/templates/uikit/renderer/comments/_default.php
-6d1acf75ba0416f800d4803913b4dedc jbapp/templates/uikit/renderer/compare/_default.php
+f28789ba381932a8438c91d5cf7d92c7 jbapp/templates/uikit/renderer/compare/_default.php
 1790da4b0ce9a93720ddc58a68a2d35d jbapp/templates/uikit/renderer/favorite/_default.php
 b498c99465e39d0fece501f481baef0d jbapp/templates/uikit/renderer/filter/_default.php
 fc150723abf8f9dd8d2572d01fa114a7 jbapp/templates/uikit/renderer/frontpage/_default.php
