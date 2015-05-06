@@ -107,45 +107,56 @@ class ElementJBPricePlain extends ElementJBPrice
      * @param string $template
      * @param int    $quantity
      * @param array  $values
+     * @throws ElementJBPriceException
      */
     public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array())
     {
         $jbAjax = $this->app->jbajax;
 
-        //Get variant by selected values
+        //Get variant by selected values.
         $list = $this->getVariantByValues($values);
 
         $cart = JBCart::getInstance();
         $key  = (int)(JString::strlen(key($list)) > 0 ? key($list) : self::BASIC_VARIANT);
 
-        //Set the default option, which we have received, not saved. For correct calculation.
+        // Set the default option, which we have received, not saved. For correct calculation.
         $this->setDefault($key)->setTemplate($template);
 
-        $this->getList($list, array(
+        $list = $this->getList($list, array(
             'values'   => $values,
             'quantity' => $quantity,
             'currency' => $this->currency()
         ));
-        $session_key = $this->_list->getSessionKey();
+        // Get default variant.
+        $variant = $list->current();
 
-        $data = $cart->getItem($session_key);
+        $session_key = $list->getSessionKey();
+        $data        = $cart->getItem($session_key);
         if (!empty($data)) {
             $quantity += $data['quantity'];
         }
 
-        //Check balance
-        if ($this->inStock($quantity, $key)) {
-            $cart
-                ->addItem($this->_list->getCartData())
-                ->updateItem($cart->getItem($session_key));
+        // Check if all required params is selected.
+        $diff = array_map(function ($element) {
+            return $element->getName();
+        },
+            array_filter(array_diff_key($variant->required(), $values))
+        );
 
-            $jbAjax->send(array(), true);
-
-        } else {
-            $jbAjax->send(array('message' => JText::_('JBZOO_JBPRICE_ITEM_NO_QUANTITY')), false);
+        // Check required.
+        if (count($diff) > 0) {
+            throw new ElementJBPriceException(JText::sprintf('JBZOO_JBPRICE_OPTIONS_IS_REQUIRED', implode('", "', $diff)));
         }
 
-        $jbAjax->send(array('added' => 0, 'message' => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE')));
+        // Check balance.
+        if (!$this->inStock($quantity, $key)) {
+            throw new ElementJBPriceException(JText::_('JBZOO_JBPRICE_ITEM_NO_QUANTITY'));
+        }
+
+        $cart->addItem($list->getCartData())
+             ->updateItem($cart->getItem($session_key));
+
+        $jbAjax->send(array(), true);
     }
 
     /**

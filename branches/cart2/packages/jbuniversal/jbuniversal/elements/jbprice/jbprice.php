@@ -1038,6 +1038,18 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
+     * @param  string $path
+     * @return bool
+     */
+    public function toStorage($path)
+    {
+        $ext = JFile::getExt($path);
+        $this->app->jbassets->$ext($path);
+
+        return $this->_storage->add('assets', $path, $this->hash);
+    }
+
+    /**
      * Load assets.
      * @return $this
      */
@@ -1057,18 +1069,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
-     * @param  string $path
-     * @return bool
-     */
-    public function toStorage($path)
-    {
-        $ext = JFile::getExt($path);
-        $this->app->jbassets->$ext($path);
-
-        return $this->_storage->add('assets', $path, $this->hash);
-    }
-
-    /**
      * Load assets
      * @return $this
      */
@@ -1079,7 +1079,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
         // Include libraries
         $jbAssets->tools();
-        $jbAssets->jqueryui();
+        $jbAssets->jQueryUI();
         $jbAssets->fancybox();
 
         //Add assets from cache
@@ -1215,18 +1215,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
-     * Get url to basket
-     * @return string
-     */
-    protected function _getBasketUrl()
-    {
-        $menu = (int)$this->config->get('basket_menuitem');
-        $url  = $this->app->jbrouter->basket($menu);
-
-        return $url;
-    }
-
-    /**
      * @param  array $data
      * @return string
      */
@@ -1236,7 +1224,51 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 }
 
-
+/**
+ * ElementJBPriceException identifies an Exception in the Element class
+ * @see ElementException
+ */
 class ElementJBPriceException extends ElementException
 {
+    /**
+     * A App object.
+     * @type App
+     */
+    public $app;
+
+    /**
+     * Detect ajax request.
+     * @type bool
+     */
+    protected $isAjax;
+
+    /**
+     * @param string     $message
+     * @param int        $code
+     * @param Exception $previous
+     */
+    public function __construct($message = '', $code = 0, Exception $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+
+        $this->app    = App::getInstance('zoo');
+        $this->isAjax = $this->app->jbrequest->isAjax();
+    }
+
+    /**
+     * Converts the exception to a human readable string
+     *
+     * @return string The error message
+     *
+     * @since 1.0.0
+     */
+    public function __toString()
+    {
+        $message = $this->getMessage();
+        if ($this->isAjax) {
+            $this->app->jbajax->send(array('message' => $message), false);
+        }
+
+        return $message;
+    }
 }

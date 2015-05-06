@@ -20,6 +20,9 @@
     <description>JBZOO_ELEMENT_PRICE_OPTION_DESC</description>
 
     <params>
+        <param name="required" type="jbbool" default="0" label="JBZOO_ELEMENT_PRICE_OPTION_REQUIRED"
+               description="JBZOO_ELEMENT_PRICE_OPTION_REQUIRED_DESC"/>
+
         <param name="options" type="textarea" default="" label="JBZOO_ELEMENT_PRICE_OPTION_OPTIONS"
                description="JBZOO_ELEMENT_PRICE_OPTION_OPTIONS_DESC"/>
     </params>

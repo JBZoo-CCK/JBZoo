@@ -31,6 +31,28 @@ class JBCartElementPriceOption extends JBCartElementPrice
     }
 
     /**
+     * Check if element has options.
+     * @return bool
+     */
+    public function hasOptions()
+    {
+        return $this->config->has('options');
+    }
+
+    /**
+     * @todo Not completed
+     * Check if element has option.
+     * @param  string $value Option value
+     * @return bool
+     */
+    public function hasOption($value)
+    {
+        $options = $this->_parseOptions(false);
+
+        return (in_array($value, $options, true) && !empty($options));
+    }
+
+    /**
      * Get elements search data
      * @return mixed|null
      */
@@ -82,25 +104,22 @@ class JBCartElementPriceOption extends JBCartElementPrice
     }
 
     /**
-     * Check if element has options.
-     * @return bool
+     * @todo Complete method
+     * Check if element is required.
+     * @return int
      */
-    public function hasOptions()
+    public function isRequired()
     {
-        return $this->config->has('options');
-    }
+        if ($this->required === null)
+        {
+            $parameter  = (array)$this->getJBPrice()->getParameter($this->identifier);
+            $hasOptions = ($this->hasOptions() && $this->_getOptions(false) || !$this->hasOptions());
+            $required   = ((int)$this->config->get('required', 0) === 1 && !$this->isOverlay);
 
-    /**
-     * @todo Not completed
-     * Check if element has option.
-     * @param  string $value Option value
-     * @return bool
-     */
-    public function hasOption($value)
-    {
-        $options = $this->_parseOptions(false);
+            $this->required = ($hasOptions && $required && count($parameter) !== 0);
+        }
 
-        return (in_array($value, $options, true) && count($options)) || array_key_exists($value, $options);
+        return $this->required;
     }
 
     /**
@@ -115,7 +134,7 @@ class JBCartElementPriceOption extends JBCartElementPrice
     {
         $options = $this->_parseOptions(false);
 
-        return (count($options)) && in_array($value, $options, true);
+        return (!empty($options) && in_array($value, $options, true));
     }
 
     /**
