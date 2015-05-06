@@ -140,7 +140,7 @@ class JBCartVariant extends ArrayObject
     }
 
     /**
-     * Get all elements
+     * Get all elements.
      * @return array
      */
     public function all()
@@ -223,10 +223,10 @@ class JBCartVariant extends ArrayObject
     }
 
     /**
-     * Set link to list of variations
+     * Set link to list of variations.
      * @param JBCartVariantList $list
-     * @return \JBCartVariant
-     * @throws \JBCartVariantException
+     * @return JBCartVariant
+     * @throws JBCartVariantException
      */
     public function setList($list)
     {
@@ -299,6 +299,7 @@ class JBCartVariant extends ArrayObject
     }
 
     /**
+     * Get all core elements from variant.
      * @return array
      */
     public function core()
@@ -308,12 +309,22 @@ class JBCartVariant extends ArrayObject
     }
 
     /**
+     * Get all simple elements from variant.
      * @return array
      */
     public function simple()
     {
         return array_filter($this->all(),
             create_function('$element', 'return ($element->isCore() == false && JString::strlen($element->getValue(true)) > 0);'));
+    }
+
+    /**
+     * Get all required elements.
+     * @return array
+     */
+    public function required()
+    {
+        return array_filter(array_map(create_function('$element', 'return ($element->isRequired() ? $element : null);'), $this->all()));
     }
 
     /**

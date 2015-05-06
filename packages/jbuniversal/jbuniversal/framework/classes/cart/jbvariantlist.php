@@ -527,7 +527,8 @@ class JBCartVariantList extends ArrayObject
      */
     protected function _plainCartData()
     {
-        $jbPrice = $this->_jbprice;
+        $jbPrice = $this->getJBPrice();
+
         $data    = array(
             'key'        => $this->getSessionKey(),
             'item_id'    => $this->item_id,
@@ -554,7 +555,7 @@ class JBCartVariantList extends ArrayObject
      */
     protected function _calcCartData()
     {
-        $jbPrice = $this->_jbprice;
+        $jbPrice = $this->getJBPrice();
 
         $data = array(
             'key'        => $this->getSessionKey(),
@@ -628,7 +629,7 @@ class JBCartVariantList extends ArrayObject
     public function clear()
     {
         $this->variants    = null;
-        $this->options->exchangeArray(array());
+        $this->options     = new AppData();
 
         $this->session_key = null;
         $this->default     = 0;

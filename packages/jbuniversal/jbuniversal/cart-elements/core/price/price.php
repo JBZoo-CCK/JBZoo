@@ -221,15 +221,11 @@ abstract class JBCartElementPrice extends JBCartElement
     /**
      * @todo Complete method
      * Check if element is required.
-     * @return int
+     * @return bool
      */
     public function isRequired()
     {
-        if ($this->required === null) {
-            $this->required = (bool)((int)$this->config->get('required', 0) === 0);
-        }
-
-        return $this->required;
+        return false;
     }
 
     /**
@@ -332,6 +328,15 @@ abstract class JBCartElementPrice extends JBCartElement
     public function hasFilterValue($params = array())
     {
         return true;
+    }
+
+    /**
+     * Check if element has options.
+     * @return bool
+     */
+    public function hasOptions()
+    {
+        return false;
     }
 
     /**
@@ -641,6 +646,7 @@ abstract class JBCartElementPrice extends JBCartElement
         $this->layout     = null;
         $this->isOverlay  = null;
         $this->cache      = null;
+        $this->required   = null;
     }
 
     /**
