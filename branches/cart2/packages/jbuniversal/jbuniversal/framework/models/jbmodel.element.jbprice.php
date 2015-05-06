@@ -109,7 +109,8 @@ class JBModelElementJBPrice extends JBModelElement
                 $logic = ' OR ';
             }
             $where->where('tSku.param_id = ?', $iterator->key(), $logic);
-            if (!empty($_value)) {
+
+            if ($_value !== null && $_value !== '') {
                 $_value   = (array)$_value;
                 $inParams = 'AND';
                 $first    = key($_value);
@@ -210,14 +211,14 @@ class JBModelElementJBPrice extends JBModelElement
         if (empty($values)) {
             return $values;
         }
-        $values = array_filter($values);
+        $values = array_filter($values, function($value) { return ($value !== null && $value !== '');});
         $result = array();
 
         $iterator  = new RecursiveArrayIterator($values);
         $recursive = new RecursiveIteratorIterator($iterator);
         foreach ($recursive as $key => $value) {
             $value = JString::trim($value);
-            if (!empty($value)) {
+            if ($value !== '' && $value !== null) {
                 $depth = $recursive->getDepth();
                 $depth--;
 
@@ -322,12 +323,12 @@ class JBModelElementJBPrice extends JBModelElement
 
         if (isset($values['min'])) {
             $min     = JBCart::val($values['min'], $currency)->val($this->_currency);
-            $range[] = 'tSku.value_n >= ' . $this->_quote(round($min, 8, PHP_ROUND_HALF_DOWN));
+            $range[] = 'tSku.value_n >= ' . $this->_quote($min);
         }
 
         if (isset($values['max'])) {
             $max     = JBCart::val($values['max'], $currency)->val($this->_currency);
-            $range[] = ' tSku.value_n <= ' . $this->_quote(round($max, 8, PHP_ROUND_HALF_UP));
+            $range[] = ' tSku.value_n <= ' . $this->_quote($max);
         }
 
         return implode(' AND ', $range);
@@ -339,9 +340,9 @@ class JBModelElementJBPrice extends JBModelElement
      */
     protected function _date($date)
     {
-        return array("tSku.value_d BETWEEN"
-                     . " STR_TO_DATE('" . $date[0] . "', ' % Y -%m -%d % H:%i:%s') AND"
-                     . " STR_TO_DATE('" . $date[1] . "', ' % Y -%m -%d % H:%i:%s')"
+        return array('tSku.value_d BETWEEN'
+                     . ' STR_TO_DATE(\'' . $date[0] . '\', \' % Y -%m -%d % H:%i:%s\') AND'
+                     . ' STR_TO_DATE(\'' . $date[1] . '\', \' % Y -%m -%d % H:%i:%s\')'
         );
     }
 
