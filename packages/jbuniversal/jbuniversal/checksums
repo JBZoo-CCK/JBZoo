@@ -1333,7 +1333,7 @@ a2e6ac93edee1dd83f9cb6f6296b961c jbapp/templates/uikit/renderer/clientarea_order
 14e341b79e9ef77ca777ec81de53ff34 jbapp/templates/uikit/renderer/comment/_default.php
 e39cd785bed2e0f26a4b1aecfe321656 jbapp/templates/uikit/renderer/comment_edit/_default.php
 08668015585909b0a59fc1bd1eec152c jbapp/templates/uikit/renderer/comments/_default.php
-f28789ba381932a8438c91d5cf7d92c7 jbapp/templates/uikit/renderer/compare/_default.php
+5b405647098b2090adcd1e8ceb1349c8 jbapp/templates/uikit/renderer/compare/_default.php
 1790da4b0ce9a93720ddc58a68a2d35d jbapp/templates/uikit/renderer/favorite/_default.php
 b498c99465e39d0fece501f481baef0d jbapp/templates/uikit/renderer/filter/_default.php
 fc150723abf8f9dd8d2572d01fa114a7 jbapp/templates/uikit/renderer/frontpage/_default.php
