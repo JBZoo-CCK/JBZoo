@@ -67,7 +67,6 @@ $image = $this->app->jbimage->get('category_teaser_image', $params);
 
         <?php if (in_array($task, array('category', 'frontpage'))) : ?>
             <?php if ($maxItems != 0 && count($items) > 0) : ?>
-                <hr />
                 <div class="subcategory-items clearfix">
                     <?php
                     foreach ($items as $item) {
