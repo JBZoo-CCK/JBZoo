@@ -23,7 +23,7 @@
         <param name="menuitem" type="jbmenuitems" default="" label="JBZOO_COMPARE_MENUITEM"
                description="JBZOO_COMPARE_MENUITEM_DESC"/>
 
-        <param name="limit" type="text" default="4" label="JBZOO_COMPARE_LIMIT" description="JBZOO_COMPARE_LIMIT_DESC"/>
+        <param name="limit" type="text" default="3" label="JBZOO_COMPARE_LIMIT" description="JBZOO_COMPARE_LIMIT_DESC"/>
     </params>
 
     <params group="render">

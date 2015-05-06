@@ -72,7 +72,7 @@ class ElementJBCompare extends Element
 
         $itemIds = $this->app->jbcompare->getItemsByType($this->getItem()->type);
         if (!isset($itemIds[$this->getItem()->id])) {
-            if (count($itemIds) >= $this->config->get('limit', 4)) {
+            if (count($itemIds) >= $this->config->get('limit', 3)) {
                 $result['status']  = false;
                 $result['message'] = JText::_('JBZOO_COMPARE_LIMIT_ERROR');
             }
