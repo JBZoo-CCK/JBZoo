@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -15,8 +14,4 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 
-<!--noindex-->
-<a href="https://money.yandex.ru/new/" target="_blank" rel="nofollow">
-    <img src="<?php echo JUri::root(); ?>media/zoo/applications/jbuniversal/cart-elements/payment/yandexmoney/assets/logo.png">
-</a>
-<!--/noindex-->
+<img src="<?php echo JUri::root(); ?>media/zoo/applications/jbuniversal/cart-elements/payment/yandexmoney/assets/logo.png">
