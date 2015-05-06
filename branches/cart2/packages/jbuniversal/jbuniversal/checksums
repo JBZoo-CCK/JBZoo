@@ -665,9 +665,9 @@ bc726922482e7f196afcfd914cc171aa jbapp/elements/jbslidernivo/tmpl/jbslidernivo.p
 8e77e52fc489ca77655533d1e565628a jbapp/elements/jbsocial/assets/styles.less
 adb007a0c2098bd137b66c013871c385 jbapp/elements/jbsocial/jbsocial.php
 73a8c3e3755a159646da4ebace588ef4 jbapp/elements/jbsocial/jbsocial.xml
-0b8cb5e8765d5a5a810013931aa879a3 jbapp/elements/jbsocial/tmpl/_bookmarks.php
-52968c58b134d5d522851266fe8c7793 jbapp/elements/jbsocial/tmpl/_complex.php
-96902edb7e26a7c3bd3b9f3dd8cb6ce5 jbapp/elements/jbsocial/tmpl/_likes.php
+d1b1e180244b1fe96efe727c6aefd5c0 jbapp/elements/jbsocial/tmpl/_bookmarks.php
+04e6389610ec9cab017414fa78a67ed9 jbapp/elements/jbsocial/tmpl/_complex.php
+a591233fc8009812607fef027b8eedba jbapp/elements/jbsocial/tmpl/_likes.php
 1e49a61d6dbed00d221419774a52ebac jbapp/elements/jbsocial/tmpl/edit.php
 8ffc2034e5a4b627fa1257144ece8ee7 jbapp/framework/classes/cart/jbcart.php
 c73f94bca50becae04838184f2742590 jbapp/framework/classes/cart/jborder.php
