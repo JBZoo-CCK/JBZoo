@@ -201,7 +201,7 @@ class ElementJBPriceCalc extends ElementJBPrice
         $modifiers = (int)$this->config->get('show_modifiers', 0);
         $options   = (array)$this->findOptions($identifier);
 
-        if (count($options) && !$modifiers) {
+        if (!$modifiers && count($options)) {
             return array_combine($options, $options);
         }
 
@@ -221,12 +221,13 @@ class ElementJBPriceCalc extends ElementJBPrice
         $result = array();
 
         foreach ($options as $key => $option) {
+            $total = JBCart::val();
             $parts = explode('__', $key);
             if ($value = $this->getData($parts[1] . '._value.value')) {
-                $total = JBCart::val($value);
-
-                $result[$option] = $option . ' <em>' . $total->html($this->currency()) . '</em>';
+                $total->set($value);
             }
+
+            $result[$option] = $option . ' <em>' . $total->html($this->currency()) . '</em>';
         }
 
         return $result;
