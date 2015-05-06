@@ -73,9 +73,9 @@ if ($view->layoutType == 'v') {
             $label       = $render->renderElementLabel($elementId, $view->itemType, $view->appId);
             $element     = $this->app->jbentity->getElement($elementId, $view->itemType, $view->appId);
             $tooltipText = $this->app->jbstring->clean($element->config->get('description'));
-            $tooltip     = $tooltipText ? ' <span class="jbtooltip" title="' . $tooltipText . '"></span>' : '';
+            $tooltip     = $tooltipText ? ' <span class="jbtooltip" title="' . $tooltipText . '"></span>&nbsp;&nbsp;' : '';
 
-            $html[] = '<tr class="jbcompare-row"><th>' . $label . $tooltip . '</th>';
+            $html[] = '<tr class="jbcompare-row"><th>' . $tooltip . $label . '</th>';
             foreach ($renderedItems as $itemId => $itemElements) {
                 $html[] = '<td class="jbcompare-cell ' . $colWidth . '">' . $itemElements[$elementId] . '</td>';
             }
