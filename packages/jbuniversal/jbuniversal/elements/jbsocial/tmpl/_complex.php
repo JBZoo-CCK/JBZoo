@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -23,7 +22,11 @@ if (isset($yaOption['yaEnabled'])) : ?>
         <div id="<?php echo $yaOption['element']; ?>"></div>
 
         <script type="text/javascript">
-            new Ya.share(<?php echo json_encode($yaOption); ?>);
+            jQuery(function ($) {
+                setTimeout(function () {
+                    new Ya.share(<?php echo json_encode($yaOption); ?>);
+                }, 3000);
+            });
         </script>
 
     </div>
