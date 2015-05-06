@@ -54,12 +54,13 @@ class JBCheckFilesHelper extends AppHelper
         'templates[/\\\].*[/\\\]helpers',
         'templates[/\\\].*[/\\\]language',
         'templates[/\\\].*[/\\\]templates-system',
+        'renderer[/\\\].*[/\\\][a-z0-9\-]*.php',
         'app_icons',
 
         // item templates
         'positions\.xml$',
         'metadata\.xml',
-        'renderer[/\\\]item',
+        'renderer[/\\\]item[/\\\].*',
         
         // configs
         'config[/\\\]licence\.php$',
@@ -112,7 +113,7 @@ class JBCheckFilesHelper extends AppHelper
                     $checksum,
                     $result,
                     array(create_function('$path',
-                          'if (preg_match("#^' . $vpath . '#", $path)) return preg_replace("#^' . $vpath . '/#", "", $path);'
+                          'if (preg_match("#^' . $vpath . '#i", $path)) return preg_replace("#^' . $vpath . '/#i", "", $path);'
                     )),
                     $this->app->path->relative($path),
                     $this->_exclude
