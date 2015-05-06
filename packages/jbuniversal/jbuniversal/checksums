@@ -1347,7 +1347,7 @@ fc60edb9d836a6ec47c5c1d261d1677e jbapp/templates/uikit/renderer/payment_form/_de
 b81c0c92a47089ceb6c0d6f8b81723ff jbapp/templates/uikit/renderer/payment_success/_default.php
 1dad0e7270201174b307715ebb5f9e18 jbapp/templates/uikit/renderer/respond/_default.php
 243a0132b8469f3e7399882986d09736 jbapp/templates/uikit/renderer/subcategories/_default.php
-e013908ce0b104afc5919ca4e09aeb20 jbapp/templates/uikit/renderer/subcategory/_default.php
+2b462ad7f27c4e0b25da59fc30a4085e jbapp/templates/uikit/renderer/subcategory/_default.php
 77966ddd17e38e573262c0cc05961c71 jbapp/templates/uikit/renderer/subcategory_columns/_default.php
 724d96faf236f6e6e2bba13c39e6416b jbapp/templates/uikit/renderer/tag/_default.php
 260139c52d4f811eca6eb297937c7a44 jbapp/templates/uikit/submission.php
