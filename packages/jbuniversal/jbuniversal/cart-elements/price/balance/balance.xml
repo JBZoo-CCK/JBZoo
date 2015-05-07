@@ -43,6 +43,9 @@
 
         <param name="jbzoo_filter_default" type="text" label="JBZOO_FILTER_DEFAULT"
                description="JBZOO_FILTER_DEFAULT_DESC"/>
+
+        <param name="jbzoo_filter_count" type="jbbool" default="1"
+               label="JBZOO_FILTER_COUNT" description="JBZOO_FILTER_COUNT_DESC"/>
     </params>
 
 </element>

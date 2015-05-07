@@ -588,8 +588,8 @@ class JBHtmlHelper extends AppHelper
         $params['max']  = $this->_vars->number($params['max']);
         $params['step'] = $this->_vars->number($params['step']);
 
-        $paramMin = $this->_vars->money($params['min'], 2);
-        $paramMax = $this->_vars->money($params['max'], 2);
+        $paramMin = $this->_vars->money($params['min'] ?: 0, 2);
+        $paramMax = $this->_vars->money($params['max'] ?: 10000, 2);
 
         $valueMin = JBCart::val($value[0], $currency);
         $valueMax = JBCart::val($value[1], $currency);

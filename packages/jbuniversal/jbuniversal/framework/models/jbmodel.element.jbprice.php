@@ -145,19 +145,21 @@ class JBModelElementJBPrice extends JBModelElement
     /**
      * @param        $value
      * @param        $where
-     * @param        $identifier
+     * @param        $id
      * @param        $key
      * @param string $logic
      * @param bool   $exact
      */
-    protected function _where($value, &$where, $identifier, $key, $logic = 'AND', $exact = false)
+    protected function _where($value, &$where, $id, $key, $logic = 'AND', $exact = false)
     {
-        if ($identifier == '_value') {
+        if ($id == '_value' || $id == '_balance' || $id == '_discount') {
+            $where->where('tSku.variant = ?', -1);
+        }
+
+        if ($id == '_value') {
             $where->where($value, null, $logic);
 
-            $where->where('tSku.variant = ?', -1);
-
-        } elseif ($identifier == '_sku') {
+        } elseif ($id == '_sku') {
             $where->where($this->_buildLikeBySpaces($value, 'tSku.value_s'), null, $logic);
 
         } elseif ((int)($key === 'id')) {

@@ -26,7 +26,7 @@ class JBPriceFilterElementBalanceRadio extends JBPriceFilterElementBalance
         $options = $this->_getValues();
 
         return $this->_html->radio(
-            $options,
+            $this->_createOptionsList($options),
             $this->_getName(),
             $this->_attrs,
             $this->_value,
