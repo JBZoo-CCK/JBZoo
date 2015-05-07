@@ -24,7 +24,6 @@ class JBPriceFilterElementDiscount extends JBPriceFilterElement
     public function html()
     {
         $this->_isMultiple = false;
-
         $options = $this->_getValues();
 
         return $this->_html->radio(
@@ -52,7 +51,7 @@ class JBPriceFilterElementDiscount extends JBPriceFilterElement
             '0' => array(
                 'text'  => JText::_('JBZOO_FILTER_JBPRICE_SALE_NO'),
                 'value' => 0
-            ),
+            )
         );
 
         foreach ($values as $key => $value) {
@@ -63,6 +62,21 @@ class JBPriceFilterElementDiscount extends JBPriceFilterElement
         }
 
         return $values;
+    }
+
+    /**
+     * Get data from db index table by element identifier
+     * @return array
+     */
+    protected function _getDbValues()
+    {
+        return JBModelValues::model()->getParamsValues(
+            $this->_jbprice->identifier,
+            $this->_identifier,
+            $this->_params->get('item_type', null),
+            $this->_params->get('item_application_id', null),
+            '-1'
+        );
     }
 
 }

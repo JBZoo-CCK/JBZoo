@@ -96,13 +96,14 @@ class JBModelValues extends JBModel
     }
 
     /**
-     * @param $element_id
-     * @param $param_id
-     * @param $itemType
-     * @param $applicationId
+     * @param      $element_id
+     * @param      $param_id
+     * @param      $itemType
+     * @param      $applicationId
+     * @param null $variant
      * @return array|JObject
      */
-    public function getParamsValues($element_id, $param_id, $itemType, $applicationId)
+    public function getParamsValues($element_id, $param_id, $itemType, $applicationId, $variant = null)
     {
         $select = $this->_getItemSelect($itemType, $applicationId)
                        ->clear('select')
@@ -112,7 +113,9 @@ class JBModelValues extends JBModel
                        ->where('tSku.element_id = ?', $element_id)
                        ->where('tSku.param_id = ? ', $param_id)
                        ->group('tSku.value_s');
-
+        if ($variant !== null) {
+            $select->where('tSku.variant = ?', $variant);
+        }
         $values = $this->fetchAll($select, true);
 
         return $values;
