@@ -100,10 +100,11 @@ class JBModelValues extends JBModel
      * @param      $param_id
      * @param      $itemType
      * @param      $applicationId
-     * @param null $variant
+     * @param int $variant
+     * @param int $catId
      * @return array|JObject
      */
-    public function getParamsValues($element_id, $param_id, $itemType, $applicationId, $variant = null)
+    public function getParamsValues($element_id, $param_id, $itemType, $applicationId, $catId = null, $variant = null)
     {
         $select = $this->_getItemSelect($itemType, $applicationId)
                        ->clear('select')
@@ -115,6 +116,12 @@ class JBModelValues extends JBModel
                        ->group('tSku.value_s');
         if ($variant !== null) {
             $select->where('tSku.variant = ?', $variant);
+        }
+
+        if ($catId) {
+            $ids = $this->getSubCategories($catId);
+            $select->leftJoin(ZOO_TABLE_CATEGORY_ITEM . ' AS tCategoryItem ON tCategoryItem.item_id = tItem.id');
+            $select->where('tCategoryItem.category_id IN (' . implode(',', $ids) . ')');
         }
         $values = $this->fetchAll($select, true);
 
@@ -306,10 +313,10 @@ class JBModelValues extends JBModel
      * @param     $identifier
      * @param     $itemType
      * @param     $applicationId
-     * @param     $categoryId
+     * @param     $catId
      * @return JObject
      */
-    public function getRangeByPrice($identifier, $itemType, $applicationId, $categoryId = null)
+    public function getRangeByPrice($identifier, $itemType, $applicationId, $catId = null)
     {
         $this->app->jbdebug->mark('model::filter::getRangeByPrice:start');
 
@@ -326,10 +333,13 @@ class JBModelValues extends JBModel
                 ->where('tSku.param_id = ?', '_value')
                 ->where('tSku.variant = ?', -1);
 
-            if ($categoryId) {
+            if ($catId) {
+
+                $ids = $this->getSubCategories($catId);
                 $select->leftJoin(ZOO_TABLE_CATEGORY_ITEM . ' AS tCategoryItem ON tCategoryItem.item_id = tItem.id');
-                $select->where('tCategoryItem.category_id = ?', $categoryId);
+                $select->where('tCategoryItem.category_id IN (' . implode(',', $ids) . ')');
             }
+
             $result = $this->fetchRow($select);
 
             $this->_jbcache->set(func_get_args(), $result, 'get-range-by-price');
@@ -340,4 +350,25 @@ class JBModelValues extends JBModel
         return $result;
     }
 
+    /**
+     * Method used for price elements. Return array of ids.
+     * @param int $id Category id used to find children's categories.
+     * @return array
+     */
+    protected function getSubCategories($id)
+    {
+        $cats = array($id => $id);
+        $select     = $this->_getSelect()
+                           ->select('tCategory.id')
+                           ->from(ZOO_TABLE_CATEGORY . ' AS tCategory')
+                           ->where('tCategory.parent = ?' . $id);
+        $subCats = $this->fetchAll($select);
+        $subCats = $this->_groupBy($subCats, 'id');
+        if ($subCats)
+        {
+            $cats = array_merge($cats, $subCats);
+        }
+
+        return $cats;
+    }
 }

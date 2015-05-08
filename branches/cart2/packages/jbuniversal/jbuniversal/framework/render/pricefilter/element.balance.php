@@ -64,12 +64,19 @@ class JBPriceFilterElementBalance extends JBPriceFilterElement
      */
     protected function _getDbValues()
     {
+        $isCatDepend = (int)$this->_params->moduleParams->get('depend_category');
+        $categoryId  = null;
+        if ($isCatDepend) {
+            $categoryId = $this->app->jbrequest->getSystem('category');
+        }
+
         return JBModelValues::model()->getParamsValues(
             $this->_jbprice->identifier,
             $this->_identifier,
             $this->_params->get('item_type', null),
             $this->_params->get('item_application_id', null),
-            '-1'
+            $categoryId,
+            -1
         );
     }
 }
