@@ -59,6 +59,16 @@ class JBPriceFilterElementJBColor extends JBPriceFilterElement
     }
 
     /**
+     * Check is has value
+     */
+    public function hasValue()
+    {
+        $values = $this->_getDbValues();
+
+        return !empty($values);
+    }
+
+    /**
      * @param $values
      * @return array
      */

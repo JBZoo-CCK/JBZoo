@@ -78,7 +78,7 @@ class JBPriceFilterElement
      * @param array $params
      * @param array $attrs
      */
-    function __construct($element, $value, array $params, array $attrs)
+    public function __construct($element, $value, array $params, array $attrs)
     {
         $this->app = App::getInstance('zoo');
 
@@ -164,11 +164,18 @@ class JBPriceFilterElement
      */
     protected function _getDbValues()
     {
+        $isCatDepend = (int)$this->_params->moduleParams->get('depend_category');
+        $categoryId  = null;
+        if ($isCatDepend) {
+            $categoryId = $this->app->jbrequest->getSystem('category');
+        }
+
         return JBModelValues::model()->getParamsValues(
             $this->_jbprice->identifier,
             $this->_identifier,
             $this->_params->get('item_type', null),
-            $this->_params->get('item_application_id', null)
+            $this->_params->get('item_application_id', null),
+            $categoryId
         );
     }
 
