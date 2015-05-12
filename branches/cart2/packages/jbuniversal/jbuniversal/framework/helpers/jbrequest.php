@@ -305,7 +305,12 @@ class JBRequestHelper extends AppHelper
             if ($this->is('task', 'filter')) {
                 $elements = $this->getElements();
                 if (isset($elements['_itemcategory'])) {
-                    return (int)$elements['_itemcategory'];
+                    if (is_array($elements['_itemcategory'])) {
+                        reset($elements['_itemcategory']);
+                        return (int)current($elements['_itemcategory']);
+                    } else {
+                        return (int)$elements['_itemcategory'];    
+                    }
                 }
             }
 
