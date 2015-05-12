@@ -20,7 +20,7 @@
         </description>
     </layout>
 
-    <layout name="quickview">
+    <layout name="quickview" type="related">
         <name>Quick view</name>
         <description>Quick view item layout.</description>
     </layout>
