@@ -27,6 +27,11 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
      * @type string
      */
     protected $_selGroup = '';
+    
+    /**
+     * @type array
+     */
+    protected $_selectInfo = null;
 
     /**
      * Element constructor
@@ -68,16 +73,14 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
      */
     protected function _edit()
     {
-        static $selectInfo;
-
-        if (is_null($selectInfo)) {
-            $selectInfo = $this->_getSelectInfo();
+        if (is_null($this->_selectInfo)) {
+            $this->_selectInfo = $this->_getSelectInfo();
         }
 
         $values      = $this->_getValuesList();
         $cascadeName = $this->getControlName('list-%s');
 
-        return $this->app->jbhtml->selectCascade($selectInfo, $cascadeName, $values, array(), $this->_selGroup);
+        return $this->app->jbhtml->selectCascade($this->_selectInfo, $cascadeName, $values, array(), $this->_selGroup);
     }
 
     /**
