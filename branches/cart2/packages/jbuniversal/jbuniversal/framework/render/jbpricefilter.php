@@ -55,7 +55,7 @@ class JBPriceFilterRenderer extends PositionRenderer
     public function checkPosition($position)
     {
         foreach ($this->_getConfigPosition($position) as $key => $data) {
-            if ($element = $this->_jbprice->getElement($key)) {
+            if ($element = $this->_jbprice->getElement($data['identifier'])) {
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
                 $data['_index']    = $key;

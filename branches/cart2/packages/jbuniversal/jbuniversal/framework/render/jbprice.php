@@ -106,7 +106,7 @@ class JBPriceRenderer extends PositionRenderer
         // store layout
         $layout = $this->_layout;
         $index  = 0;
-        foreach ($this->getConfigPosition($position) as $key => $data) {
+        foreach ($this->getConfigPosition($position) as $data) {
             if ($element = $this->_variant->get($data['identifier'])) {
                 if (!$element->canAccess()) {
                     continue;

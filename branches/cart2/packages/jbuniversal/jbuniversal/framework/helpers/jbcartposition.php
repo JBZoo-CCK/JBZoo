@@ -43,6 +43,7 @@ class JBCartPositionHelper extends AppHelper
             }
 
             $positions[$posName] = array();
+            $posIndex = 0;
 
             foreach ($elements as $elemConfig) {
 
@@ -73,7 +74,8 @@ class JBCartPositionHelper extends AppHelper
                 }
 
                 if ($element) {
-                    $positions[$posName][$identifier] = $element;
+                    $positions[$posName][$posIndex] = $element;
+                    $posIndex++;
                 }
             }
         }

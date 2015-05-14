@@ -54,7 +54,8 @@ class JBCartJBUniversalController extends JBUniversalController
         $this->element = $this->_jbrequest->take('jbcart.' . $task . '.element', 'element', null, 'string');
         $this->layout  = $this->_jbrequest->take('jbcart.' . $task . '.layout', 'layout', null, 'string');
 
-        $this->saveTask = 'savePositions';
+        $this->saveTask      = 'savePositions';
+        $this->isElementTmpl = false;
     }
 
     /**
@@ -299,7 +300,8 @@ class JBCartJBUniversalController extends JBUniversalController
         $this->positions    = $this->_position->loadPositionsTmpl(JBCart::CONFIG_EMAIL_TMPL . '.' . $this->layout, JBCart::CONFIG_EMAIL_TMPL, $this->positionList);
         $this->ordersList   = $this->_getOrdersList();
 
-        $this->groupKey = JBCart::CONFIG_EMAIL_TMPL;
+        $this->groupKey      = JBCart::CONFIG_EMAIL_TMPL;
+        $this->isElementTmpl = true;
 
         $this->renderView();
     }
@@ -321,7 +323,8 @@ class JBCartJBUniversalController extends JBUniversalController
 
         $this->positions = $this->_position->filter($this->positions, $this->dragElements);
 
-        $this->groupKey = JBCart::CONFIG_FIELDS_TMPL;
+        $this->groupKey      = JBCart::CONFIG_FIELDS_TMPL;
+        $this->isElementTmpl = true;
 
         $this->renderView();
     }
@@ -351,8 +354,10 @@ class JBCartJBUniversalController extends JBUniversalController
 
         $this->positions = $this->_position->filter($this->positions, $this->dragElements);
 
-        $this->saveTask = 'savePricePositions';
-        $this->groupKey = JBCart::CONFIG_PRICE_TMPL_FILTER;
+        $this->saveTask      = 'savePricePositions';
+        $this->groupKey      = JBCart::CONFIG_PRICE_TMPL_FILTER;
+        $this->isElementTmpl = true;
+
         $this->renderView();
     }
 
@@ -381,8 +386,10 @@ class JBCartJBUniversalController extends JBUniversalController
 
         $this->positions = $this->_position->filter($this->positions, array_merge($this->dragElements, $this->systemElements));
 
-        $this->saveTask = 'savePricePositions';
-        $this->groupKey = JBCart::CONFIG_PRICE_TMPL;
+        $this->saveTask      = 'savePricePositions';
+        $this->groupKey      = JBCart::CONFIG_PRICE_TMPL;
+        $this->isElementTmpl = true;
+
         $this->renderView();
     }
 
