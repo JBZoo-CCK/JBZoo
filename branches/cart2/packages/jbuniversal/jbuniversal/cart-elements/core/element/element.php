@@ -103,6 +103,8 @@ abstract class JBCartElement
         $this->_jbcartelement = $this->app->jbcartelement;
 
         $this->_data = $this->app->data->create($this->_data);
+
+        $this->_loadLangs();
     }
 
     /**
