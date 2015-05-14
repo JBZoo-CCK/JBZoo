@@ -14,7 +14,8 @@
     JBZoo.widget('JBZoo.EditPositions', {
         'urlAddElement'    : "index.php?option=com_zoo",
         'textNoElements'   : "No elements",
-        'textElementRemove': "Are you sure want to delete the element?"
+        'textElementRemove': "Are you sure want to delete the element?",
+        'isElementTmpl'    : false
     }, {
 
         _isAjaxLocking: false,
@@ -154,7 +155,7 @@
                 var $position = $(this),
                     positionName = "positions[" + $position.data("position") + "]";
 
-                $('.jsElement', this).each(function () {
+                $('.jsElement', this).each(function (positionIndex, elementBlock) {
 
                     var $element = $(this),
                         elementId = $('.jsElementId', $element).val();
@@ -163,9 +164,13 @@
 
                         var $input = $(this),
                             oldName = $input.attr("name"),
-                            newName = oldName.replace(regReplace, positionName + "[" + elementId + "]");
+                            replaceTo = positionName + "[" + elementId + "]";
 
-                        $input.attr("name", newName);
+                        if ($this.options.isElementTmpl) {
+                            replaceTo = positionName + "[" + positionIndex + "]";
+                        }
+
+                        $input.attr("name", oldName.replace(regReplace, replaceTo));
                     });
                 });
             });

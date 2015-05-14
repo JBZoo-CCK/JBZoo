@@ -538,6 +538,10 @@ class JBHtmlHelper extends AppHelper
                 }
 
                 $html[] = $this->hidden($name, $value, $data);
+
+            } else if ($name == '_token' && $data == '_token') {
+                $html[] = $this->app->html->_('form.token');
+
             } else {
                 $html[] = $this->hidden($name, $data);
             }

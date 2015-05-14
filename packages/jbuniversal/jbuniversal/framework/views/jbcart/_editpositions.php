@@ -42,7 +42,6 @@ echo JBZOO_CLR;
 
     <!-- left col -->
     <div class="col col-left width-65" style="margin-right: 24px;">
-
         <?php echo $this->partial('positions', array(
             'positions'      => $positions,
             'elementGroup'   => $elementGroup,
@@ -72,20 +71,24 @@ echo JBZOO_CLR;
         ?>
     </div>
 
-    <div class="clear clr"></div>
-
-    <input type="hidden" name="option" value="com_zoo" />
-    <input type="hidden" name="controller" value="jbcart" />
-    <input type="hidden" name="task" value="<?php echo $task; ?>" />
-    <input type="hidden" name="layout" value="<?php echo $this->layout; ?>" class="jsLayout" />
-    <input type="hidden" name="element" value="<?php echo $this->element; ?>" class="jsElement" />
-    <input type="hidden" name="group" value="<?php echo $groupKey; ?>" />
-    <input type="hidden" name="redirect" value="<?php echo $redirectUrl; ?>" />
-    <?php echo $this->app->html->_('form.token'); ?>
+    <?php
+    echo JBZOO_CLR;
+    echo $this->app->jbhtml->hiddens(array(
+        'option'     => 'com_zoo',
+        'controller' => 'jbcart',
+        'task'       => $task,
+        'layout'     => array('value' => $this->layout, 'class' => 'jsLayout'),
+        'element'    => array('value' => $this->element, 'class' => 'jsElement'),
+        'group'      => $groupKey,
+        'redirect'   => $redirectUrl,
+        '_token'     => '_token',
+    ));
+    ?>
 
 </form>
 
 <?php echo $this->app->jbassets->widget('.jsAssignElements', 'JBZooEditPositions', array(
+    'isElementTmpl'     => $this->isElementTmpl,
     'urlAddElement'     => $this->app->jbrouter->admin(array('task' => 'addElement')),
     'textEmptyPosition' => JText::_('JBZOO_ADMIN_POSITIONS_EMPTY_POSITION'),
     'textNoElements'    => JText::_('JBZOO_ADMIN_POSITIONS_NO_ELEMENTS'),
