@@ -137,8 +137,8 @@ class JBCSVItemUserJBPrice extends JBCSVItem
             }
             $id = $this->_param_id;
 
-            $variant      = (array)$this->_element->getData($position, array());
             $position     = ElementJBPrice::BASIC_VARIANT;
+            $variant      = (array)$this->_element->getData($position, array());
             $configs[$id] = (array)$this->getConfig($id);
 
             if (!empty($configs[$id])) {
