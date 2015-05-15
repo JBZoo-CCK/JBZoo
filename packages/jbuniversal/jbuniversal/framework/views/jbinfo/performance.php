@@ -160,6 +160,7 @@ $jbperform = $this->app->jbperform;
                         }
                     } else {
                         $value.text('FAIL!');
+                        alert(JBZoo.stripTags(data));
                         $obj.toggleClass('uk-error', true);
                     }
 
@@ -172,7 +173,8 @@ $jbperform = $this->app->jbperform;
                         }, 500);
                     }
                 },
-                'error'   : function () {
+                'error'   : function (data) {
+                    alert(JBZoo.stripTags(data.responseText));
                     $value.text('FATAL ERROR!');
                 }
             });
