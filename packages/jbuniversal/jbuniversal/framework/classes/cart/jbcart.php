@@ -211,7 +211,7 @@ class JBCart
         } else if ($type == JBCart::STATUS_PAYMENT) {
             $statusCode = $this->_config->get('default_payment_status');
 
-        } else if ($type == JBCart::STATUS_PAYMENT) {
+        } else if ($type == JBCart::STATUS_SHIPPING) {
             $statusCode = $this->_config->get('default_shipping_status');
         }
 
