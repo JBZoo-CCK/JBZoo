@@ -712,16 +712,12 @@ class JBCartValue
             $this->_error(__CLASS__ . ' convertor - Percent can\'t be converted (' . $logFormat . ')');
         }
 
-        if (empty($to)) {
-            $this->_error(__CLASS__ . ' convertor - undefined currency');
-        }
-
-        if (!isset($this->_rates[$to])) {
-            $this->_error(__CLASS__ . ' convertor - undefined currency: ' . $logFormat);
+        if (empty($to) || !isset($this->_rates[$to])) {
+            $this->_error(__CLASS__ . ' convertor - undefined target currency: ' . $logFormat);
         }
 
         if (!isset($this->_rates[$from])) {
-            $this->_error(__CLASS__ . ' convertor - undefined currency: ' . $logFormat);
+            $this->_error(__CLASS__ . ' convertor - undefined source currency: ' . $logFormat);
         }
 
         $result = $this->_value;
@@ -962,7 +958,7 @@ class JBCartValue
                 trigger_error('Undefined currency: ' . $currency, E_USER_NOTICE);
             }
 
-            return $this->_baseCur;
+            return isset($this->_rates[$this->_baseCur]) ? $this->_baseCur : 'eur';
         }
 
         return false;
