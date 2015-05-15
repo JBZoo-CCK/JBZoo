@@ -191,6 +191,7 @@
         alert: function (message, closeCallback) {
             if ($.isFunction(swal)) {
                 window.parent.swal({
+                    html             : true,
                     title            : message,
                     //animation        : false,
                     allowOutsideClick: true,
@@ -198,6 +199,7 @@
                 }, closeCallback);
 
             } else {
+                message = JBZoo.stripTags(message);
                 alert(message);
                 closeCallback()
             }
@@ -217,6 +219,7 @@
 
             if ($.isFunction(swal)) {
                 window.parent.swal({
+                        html             : true,
                         title            : message,
                         //animation        : false,
                         showCancelButton : true,
@@ -239,6 +242,7 @@
                     });
 
             } else {
+                message = JBZoo.stripTags(message);
                 if (confirm(message)) {
                     $.isFunction(yesCallback) && yesCallback.apply(context);
                 } else {
