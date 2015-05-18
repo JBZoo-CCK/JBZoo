@@ -72,7 +72,9 @@
                 });
 
                 $this.on('change.JBZooSlider', $fields, function () {
-                    $this._submitForm();
+                    $this._delay(function () {
+                        $this._submitForm();
+                    }, 1000, 'submitForm');
                 });
             },
 
