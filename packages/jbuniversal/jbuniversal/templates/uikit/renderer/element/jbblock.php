@@ -42,16 +42,15 @@ if ($params['showlabel']) {
         $tooltipText = $this->app->jbstring->clean($element->config->get('description'));
         $tooltip     = $tooltipText ?
             '<span class="jbtooltip" data-uk-tooltip="{pos:\'top-left\'}" title="' . $tooltipText . '">' .
-                '<i class="uk-icon-question-circle uk-text-primary"></i>' .
-            '</span>' : '';
+            '</span>&nbsp;&nbsp;' : '';
     }
 
     // check label
     $labelText = ($params['altlabel']) ? $params['altlabel'] : $element->getConfig()->get('name');
 
     $label = '<' . $params['labelTag'] . ' class="element-label"> '
-        . $labelText . '&nbsp;'
         . $tooltip
+        . $labelText
         . '</' . $params['labelTag'] . '>';
 
 }
