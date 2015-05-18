@@ -60,6 +60,7 @@ $view = $this->getView();
         <?php echo $this->partial('basket', 'shipping'); ?>
         <?php echo $this->partial('basket', 'payment'); ?>
         <?php echo $this->partial('basket', 'buttons'); ?>
+        <?php echo $this->partial('basket', 'mobile_tools'); ?>
 
         <?php
         // system fields
