@@ -44,17 +44,28 @@ class JBEventHelper extends AppHelper
     protected $_eventList = array(
 
         // model
-        'basket:beforesave'      => array(
-            'name' => 'order_beforesave',
-        ),
         'basket:saved'           => array(
             'name' => 'order_saved',
+        ),
+        'basket:beforesave'      => array(
+            'name' => 'order_beforesave',
         ),
         'basket:updated'         => array(
             'name' => 'order_updated',
         ),
         'basket:aftersave'       => array(
             'name' => 'order_aftersave',
+        ),
+
+        // payment
+        'basket:paymentsuccess'  => array(
+            'name' => 'order_paymentsuccess',
+        ),
+        'basket:paymentfail'     => array(
+            'name' => 'order_paymentfail',
+        ),
+        'basket:paymentcallback' => array(
+            'name' => 'order_paymentcallback',
         ),
 
         // statuses
@@ -71,17 +82,6 @@ class JBEventHelper extends AppHelper
             'status' => JBCart::STATUS_SHIPPING,
         ),
 
-        // payment
-        'basket:paymentsuccess'  => array(
-            'name' => 'order_paymentsuccess',
-        ),
-        'basket:paymentfail'     => array(
-            'name' => 'order_paymentfail',
-        ),
-        'basket:paymentcallback' => array(
-            'name' => 'order_paymentcallback',
-        ),
-
         // cart before save
         'basket:additem'         => array(
             'name' => 'order_additem',
@@ -92,7 +92,7 @@ class JBEventHelper extends AppHelper
         'basket:changequantity'  => array(
             'name' => 'order_changequantity',
         ),
-        'basket:recount'  => array(
+        'basket:recount'         => array(
             'name' => 'order_recount',
         ),
         'basket:removeitem'      => array(
