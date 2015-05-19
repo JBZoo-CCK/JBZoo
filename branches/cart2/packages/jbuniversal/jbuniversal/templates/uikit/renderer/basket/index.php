@@ -22,9 +22,7 @@ $view = $this->getView();
 
 <?php else:
 
-    if ((int)$view->application->params->get('global.config.column_heightfix', 0)) {
-        $this->app->jbassets->heightFix('.uk-panel');
-    }
+    $this->app->jbassets->heightFix('.uk-panel');
 
     $this->app->jbassets->less(array('jbassets:less/general/cart.less'));
 
