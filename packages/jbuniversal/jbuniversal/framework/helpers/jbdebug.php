@@ -89,4 +89,16 @@ class JBDebugHelper extends AppHelper
         }
     }
 
+    /**
+     * @param array  $array
+     * @param string $arrayName
+     */
+    public function logArray($array, $arrayName = 'data')
+    {
+        if (self::$_jbdump !== null && method_exists(self::$_jbdump, 'phpArray')) {
+            $arrayString = self::$_jbdump->phpArray($array, $arrayName);
+            $this->log($arrayString);
+        }
+    }
+
 }
