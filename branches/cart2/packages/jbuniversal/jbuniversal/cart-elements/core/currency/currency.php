@@ -102,7 +102,10 @@ abstract class JBCartElementCurrency extends JBCartElement
                 }
 
                 $reason = JString::trim(strip_tags($reason));
-                $message .= '<br>' . JText::sprintf('JBZOO_ELEMENT_CURRENCY_NO_CONNECT_REASON', JString::substr($reason, 0, 200));
+                if ($reason) {
+                    $reason = JString::substr($reason, 0, 200);
+                    $message .= '<br>' . JText::sprintf('JBZOO_ELEMENT_CURRENCY_NO_CONNECT_REASON', $reason);
+                }
             }
 
             throw new JBCartElementCurrencyException($message);
