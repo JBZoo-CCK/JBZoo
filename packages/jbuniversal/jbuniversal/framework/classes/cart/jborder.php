@@ -320,10 +320,11 @@ class JBCartOrder
 
                 $oldStatus     = $this->_status;
                 $this->_status = $newStatus;
-                $this->app->event->dispatcher->notify($this->app->event->create($this, 'basket:orderStatus', array(
+                $this->app->jbevent->fire($this, 'basket:orderStatus', array(
                     'oldStatus' => (string)$oldStatus,
                     'newStatus' => (string)$newCode,
-                )));
+                ));
+
             }
 
         } else if ($type == JBCart::STATUS_PAYMENT) {
@@ -1079,6 +1080,7 @@ class JBCartOrder
 
         $config = current($payments);
 
+        /** @type JBCartElementPayment $element */
         if ($element = $this->app->jbcartelement->create($config['type'], JBCart::ELEMENT_TYPE_PAYMENT, $config)) {
             $element->bindData($data);
             $element->setOrder($this);
@@ -1105,6 +1107,7 @@ class JBCartOrder
 
         $config = current($shippings);
 
+        /** @type JBCartElementShipping $element */
         if ($element = $this->app->jbcartelement->create($config['type'], JBCart::ELEMENT_TYPE_SHIPPING, $config)) {
             $element->bindData($data);
             $element->setOrder($this);
