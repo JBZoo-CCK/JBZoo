@@ -233,7 +233,9 @@
             }
 
             // dump var
-            console.log(name, vars);
+            if (window.parent && window.parent.console && window.parent.console.log) {
+                window.parent.console.log(name, vars);
+            }
 
             // show console
             if (showTrace && typeof console.trace != 'undefined') {
