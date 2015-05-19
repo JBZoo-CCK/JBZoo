@@ -169,10 +169,10 @@ class ShippingFieldsRenderer extends PositionRenderer
 
         // trigger beforedisplay event
         if ($this->_order) {
-            $this->app->event->dispatcher->notify($this->app->event->create($this->_order, 'shipping:beforedisplay', array(
+            $this->app->jbevent->fire($this->_order, 'shipping:beforedisplay', array(
                 'render' => &$render,
                 'html'   => &$result
-            )));
+            ));
         }
 
         // render layout
@@ -181,9 +181,9 @@ class ShippingFieldsRenderer extends PositionRenderer
 
             // trigger afterdisplay event
             if ($this->_order) {
-                $this->app->event->dispatcher->notify($this->app->event->create($this->_order, 'shipping:afterdisplay', array(
+                $this->app->jbevent->fire($this->_order, 'shipping:afterdisplay', array(
                     'html' => &$result
-                )));
+                ));
             }
         }
 

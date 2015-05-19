@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -43,7 +42,6 @@ class PaymentRenderer extends PositionRenderer
 
     /**
      * @param string $position
-     *
      * @return bool
      */
     public function checkPosition($position)
@@ -67,7 +65,6 @@ class PaymentRenderer extends PositionRenderer
     /**
      * @param string $position
      * @param array  $args
-     *
      * @return string|void
      */
     public function renderPosition($position, $args = array())
@@ -142,7 +139,6 @@ class PaymentRenderer extends PositionRenderer
 
     /**
      * @param string $dir
-     *
      * @return array
      */
     public function getLayouts($dir)
@@ -172,7 +168,6 @@ class PaymentRenderer extends PositionRenderer
 
     /**
      * @param $position
-     *
      * @return mixed
      */
     protected function _getConfigPosition($position)
@@ -183,7 +178,6 @@ class PaymentRenderer extends PositionRenderer
     /**
      * @param string $layout
      * @param array  $args
-     *
      * @return string|void
      */
     public function render($layout, $args = array())
@@ -197,11 +191,10 @@ class PaymentRenderer extends PositionRenderer
 
         // trigger beforedisplay event
         if ($this->_order) {
-            $this->app->event->dispatcher->notify($this->app->event->create($this->_order, 'payment:beforedisplay',
-                array(
-                    'render' => &$render,
-                    'html'   => &$result
-                )));
+            $this->app->jbevent->fire($this->_order, 'payment:beforedisplay', array(
+                'render' => &$render,
+                'html'   => &$result
+            ));
         }
 
         // render layout
@@ -210,10 +203,9 @@ class PaymentRenderer extends PositionRenderer
 
             // trigger afterdisplay event
             if ($this->_order) {
-                $this->app->event->dispatcher->notify($this->app->event->create($this->_order, 'payment:afterdisplay',
-                    array(
-                        'html' => &$result
-                    )));
+                $this->app->jbevent->fire($this->_order, 'payment:afterdisplay', array(
+                    'html' => &$result
+                ));
             }
         }
 
@@ -222,7 +214,6 @@ class PaymentRenderer extends PositionRenderer
 
     /**
      * @param string $layout
-     *
      * @return JSONData
      */
     public function getLayoutParams($layout = 'default')

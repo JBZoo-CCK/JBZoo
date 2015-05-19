@@ -142,10 +142,10 @@ class ModifierOrderPriceRenderer extends PositionRenderer
 
         // trigger beforedisplay event
         if ($this->_order) {
-            $this->app->event->dispatcher->notify($this->app->event->create($this->_order, 'modifier:beforedisplay', array(
+            $this->app->jbevent->fire($this->_order, 'modifier:beforedisplay', array(
                 'render' => &$render,
                 'html'   => &$result
-            )));
+            ));
         }
 
         // render layout
@@ -154,9 +154,9 @@ class ModifierOrderPriceRenderer extends PositionRenderer
 
             // trigger afterdisplay event
             if ($this->_order) {
-                $this->app->event->dispatcher->notify($this->app->event->create($this->_order, 'modifier:afterdisplay', array(
+                $this->app->jbevent->fire($this->_order, 'modifier:afterdisplay', array(
                     'html' => &$result
-                )));
+                ));
             }
         }
 

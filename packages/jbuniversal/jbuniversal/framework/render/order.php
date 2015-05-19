@@ -169,10 +169,10 @@ class OrderRenderer extends PositionRenderer
 
         // trigger beforedisplay event
         if ($this->_order) {
-            $this->app->event->dispatcher->notify($this->app->event->create($this->_order, 'ordersubmission:beforedisplay', array(
+            $this->app->jbevent->fire($this->_order, 'ordersubmission:beforedisplay', array(
                 'render' => &$render,
                 'html'   => &$result
-            )));
+            ));
         }
 
         // render layout
@@ -181,9 +181,9 @@ class OrderRenderer extends PositionRenderer
 
             // trigger afterdisplay event
             if ($this->_order) {
-                $this->app->event->dispatcher->notify($this->app->event->create($this->_order, 'ordersubmission:afterdisplay', array(
+                $this->app->jbevent->fire($this->_order, 'ordersubmission:afterdisplay', array(
                     'html' => &$result
-                )));
+                ));
             }
         }
 
