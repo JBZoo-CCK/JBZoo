@@ -38,6 +38,22 @@ abstract class JBCartElementNotification extends JBCartElement
     }
 
     /**
+     * Messages only for existing orders!
+     * @param array $params
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        $order = $this->getOrder();
+
+        if (!$order || !$order->id) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Launch notification
      * @return void
      */
