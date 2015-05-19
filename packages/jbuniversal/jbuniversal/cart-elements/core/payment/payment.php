@@ -198,19 +198,14 @@ abstract class JBCartElementPayment extends JBCartElement
 
         $isChanged = $oldStatus // is not first set on order creating
             && $oldStatus != JBCartStatusHelper::UNDEFINED // old is not empty
+            && $newStatus != JBCartStatusHelper::UNDEFINED // new is not empty
             && $oldStatus != $newStatus; // is really changed
 
         if ($isChanged) {
-
-            $this->app->event->dispatcher->notify($this->app->event->create(
-                $this->getOrder(),
-                'basket:paymentStatus',
-                array(
-                    'oldStatus' => $oldStatus,
-                    'newStatus' => $newStatus,
-                )
+            $this->app->jbevent->fire($this->getOrder(), 'basket:paymentStatus', array(
+                'oldStatus' => $oldStatus,
+                'newStatus' => $newStatus,
             ));
-
         }
 
         $this->set('status', $newStatus);
