@@ -57,6 +57,7 @@ class JBCart
     const ELEMENT_TYPE_MODIFIER_ORDER_PRICE = 'modifierorderprice';
     const ELEMENT_TYPE_MODIFIER_ITEM_PRICE  = 'modifieritemprice';
     const ELEMENT_TYPE_NOTIFICATION         = 'notification';
+    const ELEMENT_TYPE_HOOK                 = 'hook';
     const ELEMENT_TYPE_ORDER                = 'order';
     const ELEMENT_TYPE_EMAIL                = 'email';
     const ELEMENT_TYPE_PAYMENT              = 'payment';
@@ -309,6 +310,10 @@ class JBCart
      */
     public function addItem($data)
     {
+        $this->app->jbevent->fire($this, 'basket:addItem', array(
+            'itemData' => $data,
+        ));
+
         $items = $this->getItems(false);
 
         $key = $data->get('key');
@@ -333,10 +338,15 @@ class JBCart
     public function updateItem($data = array())
     {
         if (!empty($data)) {
+
+            $this->app->jbevent->fire($this, 'basket:updateItem', array(
+                'itemData' => $data,
+            ));
+
             /** @type ElementJBPrice $price * */
             if ($price = $this->getJBPrice($data)) {
                 $price->setDefault($data['variant']);
-                if(method_exists($price, 'setTemplate')) {
+                if (method_exists($price, 'setTemplate')) {
                     $price->setTemplate($data['template']);
                 }
 
@@ -519,7 +529,7 @@ class JBCart
     {
         $element = $this->getItemElement($data);
 
-        if(method_exists($element, 'setTemplate')) {
+        if (method_exists($element, 'setTemplate')) {
             $element->setTemplate($data['template']);
         }
 
@@ -535,6 +545,7 @@ class JBCart
      */
     public function removeItems()
     {
+        $this->app->jbevent->fire($this, 'basket:removeItems');
         $this->app->jbsession->set('items', array(), $this->_sessionNamespace);
     }
 
@@ -542,13 +553,19 @@ class JBCart
      * Remove all variations if key is null.
      * $key = md5({item_id}_{element_id}_{selected_values}).
      * Priority on $key.
-     * @param  int    $item_id
-     * @param  string $element_id
-     * @param  string $key
+     * @param int    $itemId
+     * @param string $elementId
+     * @param string $key
      * @return bool
      */
-    public function remove($item_id, $element_id, $key = null)
+    public function remove($itemId, $elementId, $key = null)
     {
+        $this->app->jbevent->fire($this, 'basket:removeItem', array(
+            'itemId'    => $itemId,
+            'elementId' => $elementId,
+            'key'       => $key,
+        ));
+
         $items = $this->getItems();
 
         if (!empty($items)) {
@@ -556,7 +573,7 @@ class JBCart
                 return $this->removeVariant($key);
             }
 
-            return $this->removeItem($item_id, $element_id);
+            return $this->removeItem($itemId, $elementId);
         }
 
         return false;
@@ -565,17 +582,22 @@ class JBCart
     /**
      * Remove item from cart by id.
      * Item_id-variant or item_id for basic.
-     * @param  int $item_id - Item_id
-     * @param null $element_id
+     * @param int  $itemId - Item_id
+     * @param null $elementId
      * @return bool
      */
-    public function removeItem($item_id, $element_id)
+    public function removeItem($itemId, $elementId)
     {
+        $this->app->jbevent->fire($this, 'basket:removeItem', array(
+            'itemId'    => $itemId,
+            'elementId' => $elementId,
+        ));
+
         $items = $this->getItems();
 
         if (!empty($items)) {
             foreach ($items as $key => $item) {
-                if ($item['item_id'] == $item_id && $item['element_id'] == $element_id) {
+                if ($item['item_id'] == $itemId && $item['element_id'] == $elementId) {
                     unset($items[$key]);
                 }
             }
@@ -614,6 +636,11 @@ class JBCart
      */
     public function changeQuantity($key, $quantity)
     {
+        $this->app->jbevent->fire($this, 'basket:changeQuantity', array(
+            'key'      => $key,
+            'quantity' => $quantity,
+        ));
+
         $items = $this->getItems();
 
         if ($this->inCartVariant($key)) {
@@ -687,6 +714,8 @@ class JBCart
      */
     public function recount()
     {
+        $this->app->jbevent->fire($this, 'basket:recount');
+
         $cookieCur = $this->app->jbrequest->getCurrency();
         $this->checkItems();
 
