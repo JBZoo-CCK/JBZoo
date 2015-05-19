@@ -119,8 +119,12 @@ class JBCartJBUniversalController extends JBUniversalController
      */
     public function notification()
     {
-        $this->groupList = $this->_element->getGroups(array(JBCart::ELEMENT_TYPE_NOTIFICATION));
-        $this->positions = $this->_position->loadPositions(JBCart::CONFIG_NOTIFICATION, $this->app->jbeventmanager->getEventsName());
+        $this->groupList = $this->_element->getGroups(array(
+            JBCart::ELEMENT_TYPE_NOTIFICATION,
+            JBCart::ELEMENT_TYPE_HOOK
+        ));
+
+        $this->positions = $this->_position->loadPositions(JBCart::CONFIG_NOTIFICATION, $this->app->jbevent->getEventsName());
         $this->groupKey  = JBCart::CONFIG_NOTIFICATION;
         $this->renderView();
     }
@@ -220,6 +224,7 @@ class JBCartJBUniversalController extends JBUniversalController
     {
         $this->groupList = $this->_element->getGroups(array(
             JBCart::ELEMENT_TYPE_NOTIFICATION,
+            JBCart::ELEMENT_TYPE_HOOK
         ));
 
         $jbstatus = $this->app->jbcartstatus;
