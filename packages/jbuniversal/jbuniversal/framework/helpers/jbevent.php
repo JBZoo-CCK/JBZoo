@@ -150,7 +150,6 @@ class JBEventHelper extends AppHelper
     public function fireElements(AppEvent $event)
     {
         $eventName = $this->app->jbvars->lower($event->getName(), true);
-        jbdump::log($eventName);
 
         // simple check
         if (!$eventName || !isset($this->_eventList[$eventName])) {
