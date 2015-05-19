@@ -78,7 +78,6 @@ class JBModelOrder extends JBModel
     public function save(JBCartOrder $order)
     {
         $this->app->jbtables->checkOrder();
-        $this->app->jbeventmanager->fireListeners();
 
         $currencies = $order->getCurrencyList();
         $params     = $order->getParams();
@@ -113,7 +112,7 @@ class JBModelOrder extends JBModel
             $data['payment'] = $payment->data();
         }
 
-        $this->app->event->dispatcher->notify($this->app->event->create($order, 'basket:beforesave', array()));
+        $this->app->jbevent->fire($order, 'basket:beforeSave');
 
         if (!$data['id']) {
 
@@ -121,18 +120,18 @@ class JBModelOrder extends JBModel
 
             //TODO hardcoded
             $order->setItemsData((string)$data['items']);
-            $this->app->event->dispatcher->notify($this->app->event->create($order, 'basket:saved', array()));
+            $this->app->jbevent->fire($order, 'basket:saved');
 
         } else {
 
             $data['modified'] = $this->app->jbdate->toMySql();
             $this->_update($data, ZOO_TABLE_JBZOO_ORDER);
-            $this->app->event->dispatcher->notify($this->app->event->create($order, 'basket:updated', array()));
+            $this->app->jbevent->fire($order, 'basket:updated');
 
         }
 
         if ($order->id) {
-            $this->app->event->dispatcher->notify($this->app->event->create($order, 'basket:aftersave', array()));
+            $this->app->jbevent->fire($order, 'basket:afterSave');
         }
 
         return $order->id;

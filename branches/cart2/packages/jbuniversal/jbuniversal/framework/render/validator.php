@@ -189,13 +189,10 @@ class ValidatorRenderer extends PositionRenderer
 
         // trigger beforedisplay event
         if ($this->_order) {
-            $this->app->event->dispatcher->notify(
-                $this->app->event->create($this->_order, 'validator:beforedisplay', array(
-                        'render' => &$render,
-                        'html'   => &$result
-                    )
-                )
-            );
+            $this->app->jbevent->fire($this->_order, 'validator:beforedisplay', array(
+                'render' => &$render,
+                'html'   => &$result
+            ));
         }
 
         // render layout
@@ -204,12 +201,9 @@ class ValidatorRenderer extends PositionRenderer
 
             // trigger afterdisplay event
             if ($this->_order) {
-                $this->app->event->dispatcher->notify(
-                    $this->app->event->create($this->_order, 'validator:afterdisplay', array(
-                            'html' => &$result
-                        )
-                    )
-                );
+                $this->app->jbevent->fire($this->_order, 'validator:afterdisplay', array(
+                    'html' => &$result
+                ));
             }
         }
 

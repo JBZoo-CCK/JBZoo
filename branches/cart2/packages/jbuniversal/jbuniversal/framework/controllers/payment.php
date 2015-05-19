@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 class PaymentJBUniversalController extends JBUniversalController
 {
     /**
-     * @var JBCartOrder
+     * @var JBCartOrder|null
      */
     public $order = null;
 
@@ -48,6 +48,14 @@ class PaymentJBUniversalController extends JBUniversalController
      */
     protected function _init()
     {
+        $_REQUEST = $_POST = array(
+            'OutSum'         => '30537.36',
+            'InvId'          => '79',
+            'SignatureValue' => 'F09F443754D5965DBDF8C79B23640CE1',
+            'controller'     => 'paymentjbuniversal',
+            'tmpl'           => 'raw',
+        );
+
         $this->app->jbdoc->noindex();
 
         $this->_orderModel = JBModelOrder::model();
@@ -59,7 +67,7 @@ class PaymentJBUniversalController extends JBUniversalController
         if ($orderId > 0) {
             $this->order = $this->_orderModel->getById($orderId);
         } else {
-            $this->_error('Order id not found');
+            $this->_error('Variable name with order ID was not found');
         }
 
         if (empty($this->order)) {
@@ -78,9 +86,13 @@ class PaymentJBUniversalController extends JBUniversalController
     public function paymentCallback()
     {
         $this->_init();
+
+        $this->app->jbevent->fire($this->order, 'basket:paymentCallback');
         $this->app->jbdoc->rawOutput();
 
-        $cart    = JBCart::getInstance();
+        $cart = JBCart::getInstance();
+
+        /** @type JBCartElementPayment $payment */
         $payment = $this->order->getPayment();
 
         // check payment element
@@ -98,12 +110,12 @@ class PaymentJBUniversalController extends JBUniversalController
             $this->_error('Payment type is not correct');
         }
 
-        // current status is not complited
+        // current status is not completed
         if ($payment->getStatus() == $cart->getPaymentSuccess()) {
             $this->_error('Payment status is "' . $payment->getStatus()->getCode() . '" already');
         }
 
-        // check summ
+        // check sum
         $realSum    = $payment->getOrderSumm();
         $requestSum = $payment->getRequestOrderSum();
 
@@ -118,6 +130,9 @@ class PaymentJBUniversalController extends JBUniversalController
 
         // checking of payment element
         if ($payment->isValid()) {
+
+            $this->app->event->dispatcher->notify($this->app->event->create($this->order, 'basket:paymentSuccess'));
+
             $payment->setSuccess();
             $payment->renderResponse();
         } else {
@@ -152,10 +167,25 @@ class PaymentJBUniversalController extends JBUniversalController
      */
     protected function _error($message)
     {
-        $message = 'Order #' . $this->order->id . ': ' . $message;
+        if ($this->order) {
+            $message = 'Order #' . $this->order->id . ': ' . $message;
+        } else {
+            $message = 'Undefined Order: ' . $message;
+        }
+
         $this->app->jbdebug->log($message);
-        header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
-        die('' . $message);
+        $this->app->jbdebug->log(@file_get_contents('php://input'), 'php://input');
+        $this->app->jbdebug->logArray($_REQUEST, '_REQUEST');
+
+        $this->app->event->dispatcher->notify($this->app->event->create($this->order, 'basket:paymentFail', array(
+            'message' => $message,
+        )));
+
+        if (!JDEBUG) {
+            header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+        }
+
+        jexit($message);
     }
 
 }
