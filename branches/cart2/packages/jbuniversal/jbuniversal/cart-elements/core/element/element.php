@@ -450,8 +450,7 @@ abstract class JBCartElement
         $form->element = $this;
 
         // trigger configform event
-        $event = $this->app->event->create($this, 'cart-element:configform', compact('form'));
-        $this->app->event->dispatcher->notify($event);
+        $this->app->jbevent->fire($this, 'cart-element:configform', compact('form'));
 
         return $form;
     }
