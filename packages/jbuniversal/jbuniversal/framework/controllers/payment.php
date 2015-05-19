@@ -48,14 +48,6 @@ class PaymentJBUniversalController extends JBUniversalController
      */
     protected function _init()
     {
-        $_REQUEST = $_POST = array(
-            'OutSum'         => '30537.36',
-            'InvId'          => '79',
-            'SignatureValue' => 'F09F443754D5965DBDF8C79B23640CE1',
-            'controller'     => 'paymentjbuniversal',
-            'tmpl'           => 'raw',
-        );
-
         $this->app->jbdoc->noindex();
 
         $this->_orderModel = JBModelOrder::model();
