@@ -32,6 +32,7 @@ class JBCartElementHelper extends AppHelper
         'JBCartElementModifierItemPrice'  => 'modifieritemprice',
         'JBCartElementModifierOrderPrice' => 'modifierorderprice',
         'JBCartElementNotification'       => 'notification',
+        'JBCartElementHook'               => 'hook',
         'JBCartElementOrder'              => 'order',
         'JBCartElementPayment'            => 'payment',
         'JBCartElementPrice'              => 'price',
@@ -61,13 +62,12 @@ class JBCartElementHelper extends AppHelper
      */
     public function getGroups($groups, $getHidden = false)
     {
-        $groups = (array)$groups;
-
+        $groups   = (array)$groups;
         $elements = array();
 
-        foreach ($this->app->path->dirs('cart-elements:') as $group) {
+        foreach ($groups as $group) {
 
-            if (!in_array($group, $groups) || $group == 'core') {
+            if ($group == 'core' || !$this->app->path->path('cart-elements:' . $group)) {
                 continue;
             }
 
