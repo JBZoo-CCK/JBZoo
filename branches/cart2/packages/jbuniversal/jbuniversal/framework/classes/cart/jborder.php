@@ -887,22 +887,6 @@ class JBCartOrder
                 }
             }
 
-            if ($item && $itemUrl) {
-                $urlTmpl = '<a ' . $jbhtml->buildAttrs(array(
-                        'href'  => $itemUrl,
-                        'class' => '%class% jbcart-item-url ' . $params->find('class.url') . '',
-                        'title' => $cartItem->get('item_name'),
-                    )) . '>%obj%</a>';
-
-                if ((int)$params->get('item_link', 1)) {
-                    $itemHtml['name'] = str_replace(array('%class%', '%obj%'), array('jbcart-item-name', $cartItem->get('item_name')), $urlTmpl);
-                }
-
-                if ((int)$params->get('image_link', 1)) {
-                    $itemHtml['image'] = str_replace(array('%class%', '%obj%'), array('jbcart-item-image-url', $itemHtml['image']), $urlTmpl);
-                }
-            }
-
             // render image
             if ($cartItem->find('elements._image')) {
                 $image = $this->app->jbimage->resize(
@@ -930,6 +914,23 @@ class JBCartOrder
                         )) . ' />';
 
                 }
+            }
+
+            if ($item && $itemUrl) {
+                $urlTmpl = '<a ' . $jbhtml->buildAttrs(array(
+                        'href'  => $itemUrl,
+                        'class' => '%class% jbcart-item-url ' . $params->find('class.url') . '',
+                        'title' => $cartItem->get('item_name'),
+                    )) . '>%obj%</a>';
+
+                if ((int)$params->get('item_link', 1)) {
+                    $itemHtml['name'] = str_replace(array('%class%', '%obj%'), array('jbcart-item-name', $cartItem->get('item_name')), $urlTmpl);
+                }
+
+                if ((int)$params->get('image_link', 1)) {
+                    $itemHtml['image'] = str_replace(array('%class%', '%obj%'), array('jbcart-item-image-url', $itemHtml['image']), $urlTmpl);
+                }
+
             }
 
             // render param list
