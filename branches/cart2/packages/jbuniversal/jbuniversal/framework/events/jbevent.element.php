@@ -34,7 +34,6 @@ class JBEventElement extends JBEvent
             $element = $event->getSubject();
             $params  = $event->getReturnValue();
 
-            $sxmlPaths = array();
 
             // get extranal vars
             $requestParams = array(
