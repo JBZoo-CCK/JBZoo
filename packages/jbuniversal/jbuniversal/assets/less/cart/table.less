@@ -19,7 +19,7 @@
         border-collapse: collapse;
 
         tr,
-        td{
+        td {
             border: none;
         }
 
@@ -124,9 +124,20 @@
         font-weight: bold;
     }
 
-    .jbcart-item-sku-key,
-    .jbcart-item-param-key,
-    .jbcart-item-itemid-key {
+    &-item-sku-key,
+    &-item-param-key,
+    &-item-itemid-key {
         font-weight: bold;
+    }
+
+    &-item-sku,
+    &-item-name,
+    &-item-params {
+        #text > .truncate(200px);
+    }
+
+    &-item-sku,
+    &-item-params {
+        font-size: 0.8em;
     }
 }
