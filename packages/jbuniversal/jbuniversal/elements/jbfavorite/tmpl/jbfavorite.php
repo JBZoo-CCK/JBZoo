@@ -30,11 +30,11 @@ $wrapAttrs = array(
 <div <?php echo $this->app->jbhtml->buildAttrs($wrapAttrs); ?>>
 
     <div class="jbfavorite-active">
-        <span class="jbbutton yellow small jsFavoriteToggle"><?php echo JText::_('JBZOO_FAVORITE_REMOVE'); ?></span>
-
         <a rel="nofollow" href="<?php echo $favoriteUrl; ?>" class="jbbutton yellow small">
             <?php echo JText::_('JBZOO_FAVORITE'); ?>
         </a>
+
+        <span class="jbbutton yellow small jsFavoriteToggle"><?php echo JText::_('JBZOO_FAVORITE_REMOVE'); ?></span>
     </div>
 
     <div class="jbfavorite-unactive">
