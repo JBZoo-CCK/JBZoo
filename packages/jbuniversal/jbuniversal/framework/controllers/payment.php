@@ -169,9 +169,9 @@ class PaymentJBUniversalController extends JBUniversalController
         $this->app->jbdebug->log(@file_get_contents('php://input'), 'php://input');
         $this->app->jbdebug->logArray($_REQUEST, '_REQUEST');
 
-        $this->app->event->dispatcher->notify($this->app->event->create($this->order, 'basket:paymentFail', array(
+        $this->app->jbevent->fire($this->order, 'basket:paymentFail', array(
             'message' => $message,
-        )));
+        ));
 
         if (!JDEBUG) {
             header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
