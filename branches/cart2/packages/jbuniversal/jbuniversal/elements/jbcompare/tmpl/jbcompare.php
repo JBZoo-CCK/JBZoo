@@ -30,11 +30,11 @@ $wrapAttrs = array(
 <div <?php echo $this->app->jbhtml->buildAttrs($wrapAttrs); ?>>
 
     <div class="jbcompare-active">
-        <span class="jbbutton small jsCompareToggle"><?php echo JText::_('JBZOO_COMPARE_REMOVE'); ?></span>
-
         <a rel="nofollow" href="<?php echo $compareUrl; ?>" class="jbbutton small">
             <?php echo JText::_('JBZOO_COMPARE'); ?>
         </a>
+
+        <span class="jbbutton small jsCompareToggle"><?php echo JText::_('JBZOO_COMPARE_REMOVE'); ?></span>
     </div>
 
     <div class="jbcompare-unactive">
