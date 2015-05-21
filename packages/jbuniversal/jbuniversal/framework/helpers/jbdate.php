@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -90,6 +89,24 @@ class JBDateHelper extends AppHelper
     {
         $time = strtotime($date);
         return $time > 0;
+    }
+
+    /**
+     * @param string|int $date
+     * @param string     $format
+     * @return string
+     */
+    public function toHuman($date, $format = 'DATE_FORMAT_LC2')
+    {
+        if (is_numeric($date) && $date > 0) {
+            $date = $this->toMysql($date);
+        }
+
+        if ($this->isDate($date)) {
+            $date = $this->app->html->_('date', $date, JText::_($format), $this->app->date->getOffset());
+        }
+
+        return $date;
     }
 
 }
