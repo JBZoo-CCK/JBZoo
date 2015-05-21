@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -38,15 +37,18 @@ class JBEventSubmission extends JBEvent
         $params = $event->getParameters();
         $item   = $params['item'];
 
-        if ($app->jbrequest->get('goTo', false) && $elements = $item->getElementsByType('jbadvert')) {
-            foreach ($elements as $element) {
-                /** @type ElementJBAdvert $element */
-                $element->addToCart();
-            }
-            $mod_params = $app->jbjoomla->getModuleParams('mod_jbzoo_basket');
+        // add advert to cart
+        if ($request = $item->getElementsByType('jbadvert')) {
 
-            $url = $app->jbrouter->basket((int)$mod_params->get('menuitem'));
-            JFactory::getApplication()->redirect($url);
+            foreach ($request as $element) {
+                $request = $app->jbrequest->getArray('elements');
+                $elemId  = $element->identifier;
+                if (isset($request[$elemId]['gotocart']) && (int)$request[$elemId]['gotocart']) {
+                    $element->addToCart();
+                }
+            }
+
+            JFactory::getApplication()->redirect($app->jbrouter->basket());
         }
     }
 
