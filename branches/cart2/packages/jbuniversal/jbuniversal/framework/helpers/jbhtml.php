@@ -80,6 +80,43 @@ class JBHtmlHelper extends AppHelper
     }
 
     /**
+     * @param string $type
+     * @param string $name
+     * @param array  $attribs
+     * @param int    $selected
+     * @param bool   $idtag
+     * @param bool   $isLabelWrap
+     * @return null|string
+     */
+    public function bool(
+        $type,
+        $name,
+        $attribs = array(),
+        $selected = 0,
+        $idtag = false,
+        $isLabelWrap = true
+    )
+    {
+        $type         = $this->app->jbvars->lower($type);
+        $dataRadio    = array(0 => JText::_('JBZOO_NO'), 1 => JText::_('JBZOO_YES'));
+        $dataCheckbox = array(1 => JText::_('JBZOO_YES'));
+
+        if ($type == 'radio') {
+            return $this->_list('radio', $dataRadio, $name, $attribs, $selected, $idtag, $isLabelWrap);
+
+        } else if ($type == 'checkbox') {
+            return $this->_list('checkbox', $dataCheckbox, $name, $attribs, $selected, $idtag, $isLabelWrap);
+
+        } elseif ($type == 'radio-ui') {
+            return $this->buttonsJqueryUI($dataRadio, $name, $attribs, $selected, $idtag, $isLabelWrap);
+
+        } else if ($type == 'checkbox-ui') {
+            $attribs['multiple'] = 'multiple';
+            return $this->buttonsJqueryUI($dataRadio, $name, $attribs, $selected, $idtag, $isLabelWrap);
+        }
+    }
+
+    /**
      * Render checkbox list
      * @param        $data
      * @param        $name
@@ -489,7 +526,8 @@ class JBHtmlHelper extends AppHelper
             $html[] = '<dl class="uk-description-list-horizontal param-list">';
 
             foreach ($data as $label => $text) {
-                $html[] = '<dt>' . JText::_($label) . '</dt>';
+                $label  = JText::_($label);
+                $html[] = '<dt title="' . $this->cleanAttrValue($label) . '">' . $label . '</dt>';
                 $html[] = '<dd>' . $text . '</dd>';
             }
 
