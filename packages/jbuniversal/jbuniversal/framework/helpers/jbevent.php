@@ -212,7 +212,12 @@ class JBEventHelper extends AppHelper
 
             // try to execute the element
             if (method_exists($element, 'notify')) {
-                $elemResult = $element->notify($params);
+
+                try {
+                    $elemResult = $element->notify($params);
+                } catch (JBCartOrderException $e) {
+                    $this->app->jbnotify->warning(JText::_($e->getMessage()));
+                }
 
                 if (self::EVENT_BREAK == $elemResult) {
                     return; // break event chain
