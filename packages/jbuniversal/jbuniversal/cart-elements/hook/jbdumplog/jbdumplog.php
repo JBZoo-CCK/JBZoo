@@ -20,28 +20,34 @@ class JBCartElementHookJBDumpLog extends JBCartElementHook
 {
 
     /**
+     * @param array $params
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        return class_exists('jbdump');
+    }
+
+    /**
      * @param $params
      */
     public function notify($params = array())
     {
-        if (class_exists('jbdump')) {
+        $order     = $this->getOrder();
+        $eventName = $this->getEvent()->getName();
+        $message   = $eventName . '  / ' . $this->getName();
 
-            $order     = $this->getOrder();
-            $eventName = $this->getEvent()->getName();
-            $message   = $eventName . '  / ' . $this->getName();
+        if ($order && $order->id) {
+            $message .= ' (id:' . $order->id . ')';
 
-            if ($order && $order->id) {
-                $message .= ' (id:' . $order->id . ')';
+        } else if (!empty($order)) {
+            $message .= ' (id:0)';
 
-            } else if (!empty($order)) {
-                $message .= ' (id:0)';
-
-            } else if (!empty($order)) {
-                $message .= ' (null)';
-            }
-
-            jbdump::log($message);
+        } else if (!empty($order)) {
+            $message .= ' (null)';
         }
+
+        jbdump::log($message);
     }
 
 }
