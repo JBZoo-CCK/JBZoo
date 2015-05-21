@@ -117,7 +117,8 @@ class JBCartOrder
             return sprintf('%06d', $this->id);
 
         } else if ($format == 'full') {
-            $created = $this->app->html->_('date', $this->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
+
+            $created = $this->app->jbdate->toHuman($this->created);
             $name    = JText::sprintf('JBZOO_ORDER_NAME_DATE', $this->getName('short'), $created);
 
             return $name;
@@ -815,6 +816,9 @@ class JBCartOrder
         $emailMode = $params->get('email', false);
         $currency  = $params->get('currency', $this->app->jbrequest->getCurrency());
 
+        /** @type JBHtmlHelper $jbhtml */
+        $jbhtml = $this->app->jbhtml;
+
         $html = array();
         foreach ($items as $cartItem) {
             // get regf to item
@@ -856,7 +860,7 @@ class JBCartOrder
             );
 
             if ($editMode) {
-                $itemHtml['quantityEdit'] = $this->app->jbhtml->quantity($quantity, $cartItem->find('params._quantity', array()));
+                $itemHtml['quantityEdit'] = $jbhtml->quantity($quantity, $cartItem->find('params._quantity', array()));
             }
 
             if ($cartItem->find('elements._description')) {
@@ -868,21 +872,23 @@ class JBCartOrder
                 $itemHtml['sku'] = implode(PHP_EOL, array(
                     '<div class="jbcart-item-sku ' . $params->find('class.sku') . '">',
                     '<span class="jbcart-item-sku-key ' . $params->find('class.sku-key') . '">' . JText::_('JBZOO_CART_ITEM_SKU') . ':</span>',
-                    '<span class="jbcart-item-sku-value ' . $params->find('class.sku-value') . '">' . $sku . '</span>',
+                    '<span class="jbcart-item-sku-value ' . $params->find('class.sku-value') . '" title="' . $jbhtml->cleanAttrValue($sku) . '">' . $sku . '</span>',
                     '</div>',
                 ));
             }
 
             // render links to item
-            if ($item) {
-
-                if ((bool)$params->get('admin_url', false) && !$emailMode) {
-                    $itemUrl = $this->app->jbrouter->adminItem($item);
-                } else {
+            $itemUrl = null;
+            if ((bool)$params->get('admin_url', false) && !$emailMode) {
+                $itemUrl = $this->app->jbrouter->adminItem($item);
+            } else {
+                if ($item && $item->isPublished()) {
                     $itemUrl = $this->app->jbrouter->externalItem($item);
                 }
+            }
 
-                $urlTmpl = '<a ' . $this->app->jbhtml->buildAttrs(array(
+            if ($item && $itemUrl) {
+                $urlTmpl = '<a ' . $jbhtml->buildAttrs(array(
                         'href'  => $itemUrl,
                         'class' => '%class% jbcart-item-url ' . $params->find('class.url') . '',
                         'title' => $cartItem->get('item_name'),
@@ -916,7 +922,7 @@ class JBCartOrder
                         $itemHtml['imageEmail'] = array('path' => $image->path, 'cid' => $cid);
                     }
 
-                    $itemHtml['image'] = '<img  ' . $this->app->jbhtml->buildAttrs(array(
+                    $itemHtml['image'] = '<img  ' . $jbhtml->buildAttrs(array(
                             'src'   => $image->url,
                             'class' => 'jbcart-item-image ' . $params->find('class.image') . '',
                             'alt'   => $cartItem->get('item_name'),
@@ -932,7 +938,7 @@ class JBCartOrder
                     $itemHtml['params'] .= implode(PHP_EOL, array(
                         '<div class="jbcart-item-param ' . $params->find('class.param') . '">',
                         '<span class="jbcart-item-param-key ' . $params->find('class.param-key') . '">' . $parName . ':</span>',
-                        '<span class="jbcart-item-param-value ' . $params->find('class.param-value') . '">' . $parValue . '</span>',
+                        '<span class="jbcart-item-param-value ' . $params->find('class.param-value') . '" title="' . $jbhtml->cleanAttrValue($parValue) . '">' . $parValue . '</span>',
                         '</div> '
                     ));
                 }
@@ -947,15 +953,27 @@ class JBCartOrder
     }
 
     /**
-     * @return mixed
+     * @param string|null $type
+     * @param string|null $renderHtml
+     * @return null
      */
-    public function getUrl()
+    public function getUrl($type = null, $renderHtml = null)
     {
-        if ($this->app->jbenv->isSite()) {
-            return $this->app->jbrouter->order($this);
-        } else {
-            return $this->app->jbrouter->orderAdmin($this);
+        if (is_null($type)) {
+            $type = $this->app->jbenv->isSite() ? 'site' : 'admin';
         }
+
+        if ($type == 'admin') {
+            $orderUrl = $this->app->jbrouter->orderAdmin($this);
+        } else {
+            $orderUrl = $this->app->jbrouter->order($this);
+        }
+
+        if ($renderHtml && $this->id) {
+            $orderUrl = '<a href="' . $orderUrl . '" target="_blank">' . $this->getName($renderHtml) . '</a>';
+        }
+
+        return $orderUrl;
     }
 
     /**
