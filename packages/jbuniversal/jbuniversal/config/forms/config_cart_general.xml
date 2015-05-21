@@ -16,6 +16,9 @@
             <field name="enable" type="jbbool" default="1" label="JBZOO_CART_CONFIG_ENABLE"
                    description="JBZOO_CART_CONFIG_ENABLE_DESC"/>
 
+            <field name="menuitem" type="menuitem" default="101" state="1" label="JBZOO_CART_CONFIG_MENUITEM"
+                   description="JBZOO_CART_CONFIG_MENUITEM_DESC"/>
+
             <field name="access" type="accesslevel" default="1" label="JBZOO_CART_CONFIG_ACCESS"
                    description="JBZOO_CART_CONFIG_ACCESS_DESC"/>
 

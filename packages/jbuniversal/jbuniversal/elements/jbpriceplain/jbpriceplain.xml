@@ -26,9 +26,6 @@
                description="JBZOO_JBPRICE_ELEMENT_CACHE_DESC"/>
 
         <param name="@basket_label" type="jbspacer" default="JBZOO_JBPRICE_BASKET_RELATION"/>
-
-        <param name="basket_menuitem" type="jbmenuitems" default="" label="JBZOO_JBPRICE_BASKET_MENUITEM"
-               description="JBZOO_JBPRICE_BASKET_MENUITEM_DESC"/>
     </params>
 
     <params group="render">

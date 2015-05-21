@@ -327,8 +327,12 @@ class JBRouterHelper extends AppHelper
      * @param int $menuItemid
      * @return string
      */
-    public function basket($menuItemid)
+    public function basket($menuItemid = 0)
     {
+        if (empty($menuItemid)) {
+            $menuItemid = JBModelConfig::model()->getGroup('cart.config')->get('menuitem', 101);
+        }
+
         $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',

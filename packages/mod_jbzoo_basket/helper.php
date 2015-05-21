@@ -136,8 +136,7 @@ class JBModuleHelperBasket extends JBModuleHelper
      */
     public function getBasketUrl()
     {
-        $menuItemId = $this->_params->get('menuitem');
-        return $this->app->jbrouter->basket($menuItemId);
+        return $this->app->jbrouter->basket();
     }
 
 }

@@ -113,10 +113,7 @@ class JBCartElementPriceButtons extends JBCartElementPrice
      */
     protected function _getBasketUrl()
     {
-        $menu = (int)$this->_jbprice->config->get('basket_menuitem');
-        $url  = $this->app->jbrouter->basket($menu);
-
-        return $url;
+        return $this->app->jbrouter->basket();
     }
 
     /**
