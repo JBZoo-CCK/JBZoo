@@ -17,9 +17,6 @@ $itemsHtml = $order->renderItems(array(
     'admin_url'    => true,
     'image_width'  => 75,
     'image_height' => 75,
-    'class'        => array(
-        'sku' => 'uk-badge uk-badge-notification'
-    )
 ));
 
 if (!empty($items)) :
@@ -71,10 +68,10 @@ if (!empty($items)) :
         <tr class="item-row">
             <td rowspan="<?php echo $rowspan; ?>"><?php echo $itemHtml['image'];?></td>
             <td>
+                <?php echo $itemHtml['name'];?>
                 <?php echo $itemHtml['itemid']; ?>
                 <?php echo $itemHtml['sku']; ?>
-                <?php echo $itemHtml['name'];?>
-                <?php echo $itemHtml['params'];?>
+                <?php echo $itemHtml['params'];?><br>
                 <?php echo $itemHtml['description'];?>
             </td>
             <td class="item-price4one">

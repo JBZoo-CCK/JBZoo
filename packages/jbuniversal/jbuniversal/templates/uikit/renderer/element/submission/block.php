@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -25,10 +24,11 @@ if ($params->get('show_tooltip') && ($description = $element->config->get('descr
 // create label
 $label = '<strong' . $tooltip . '>';
 $label .= $params->get('altlabel') ? $params->get('altlabel') : $element->config->get('name');
+$label .= $params->get('required') ? ' <span class="required-dot">*</span>' : '';
 $label .= '</strong>';
 
 // create error
-$error = '';
+$error   = '';
 $isError = isset($element->error) && !empty($element->error);
 if ($isError) {
     $error = '<p class="error-message">' . (string)$element->error . '</p>';

@@ -52,11 +52,11 @@ $orderDir = $this->filter->get('order_dir', 'desc');
                 ?>
             </td>
 
-            <td><?php echo $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset()); ?></td>
+            <td><?php echo $this->app->jbdate->toHuman($order->created); ?></td>
 
             <td><?php
                 if ($order->modified) {
-                    echo $this->app->html->_('date', $order->modified, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
+                    echo $this->app->jbdate->toHuman($order->modified);
                 } else {
                     echo '-';
                 }

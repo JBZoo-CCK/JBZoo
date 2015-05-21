@@ -41,7 +41,7 @@ echo $this->partial('clientarea_orders', 'default.styles');
             $i = 0;
             foreach ($vars['objects'] as $order) :
                 $i++;
-                $created   = $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
+                $created   = $this->app->jbdate->toHuman($order->created);
                 $orderName = '<a href="' . $order->getUrl() . '">' . $order->getName('full') . '</a>';
                 $rowClass  = ($i % 2 == 0) ? 'even' : 'odd';
                 ?>
