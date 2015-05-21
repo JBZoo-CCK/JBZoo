@@ -42,9 +42,6 @@
                        label="JBZOO_CART_MODULE_CURRENCY"
                        description="JBZOO_CART_MODULE_CURRENCY_DESC"/>
 
-                <field name="menuitem" type="menuitem" default="0" state="1" label="JBZOO_CART_MODULE_MENUITEM"
-                       description="JBZOO_CART_MODULE_MENUITEM_DESC"/>
-
             </fieldset>
 
             <fieldset name="template">
