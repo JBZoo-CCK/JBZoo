@@ -20,8 +20,8 @@ $view  = $vars['view'];
 $itemsHtml = $order->renderItems();
 $items     = $order->getItems();
 $tabsId    = uniqid('jbzoo-tabs-');
-$created   = $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
-$modified  = $this->app->html->_('date', $order->modified, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset());
+$created   = $this->app->jbdate->toHuman($order->created);
+$modified  = $this->app->jbdate->toHuman($order->modified);
 
 echo $this->partial('clientarea_order', 'default.styles');
 

@@ -25,7 +25,7 @@ if (!empty($this->orders)) {
         }
         $html[] = '</td>';
 
-        $html[] = '<td>' . $this->app->html->_('date', $order->created, JText::_('DATE_FORMAT_LC2'), $this->app->date->getOffset()) . '</td>';
+        $html[] = '<td>' . $this->app->jbdate->toHuman($order->created) . '</td>';
         $html[] = '<td>' . $order->getStatus()->getName() . '</td>';
         $html[] = '<td>' . $order->getTotalSum(true) . '</td>';
         $html[] = '<td>' . (($order->comment) ? $order->comment : ' - ') . '</td>';
