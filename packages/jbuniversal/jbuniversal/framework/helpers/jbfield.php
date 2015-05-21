@@ -112,19 +112,19 @@ class JBFieldHelper extends AppHelper
         // set modes
         $modes       = array();
         $common_name = $this->_getName($control_name, $name);
-        if ($node->attributes()->allitems) {
+        if ((int)$this->_getAttr($node, 'allitems', 0)) {
             $modes[] = $this->app->html->_('select.option', 'all', JText::_('All Items'));
         }
 
-        if ($node->attributes()->categories) {
+        if ((int)$this->_getAttr($node, 'categories', 0)) {
             $modes[] = $this->app->html->_('select.option', 'categories', JText::_('Categories'));
         }
 
-        if ($node->attributes()->types) {
+        if ((int)$this->_getAttr($node, 'types', 0)) {
             $modes[] = $this->app->html->_('select.option', 'types', JText::_('Types'));
         }
 
-        if ($node->attributes()->items) {
+        if ((int)$this->_getAttr($node, 'items', 0)) {
             $modes[] = $this->app->html->_('select.option', 'item', JText::_('Item'));
         }
 
@@ -141,19 +141,19 @@ class JBFieldHelper extends AppHelper
             $options[] = $this->app->html->_('select.option', $application->id, $application->name);
 
             // create category select
-            if ($node->attributes()->categories) {
+            if ((int)$this->_getAttr($node, 'categories', 0)) {
 
                 $cat_value = isset($value['category']) && JString::strlen($value['category']) > 0 ? $value['category'] : null;
                 $attribs   = 'class="category app-' . $application->id . ($app_value != $application->id ? ' hidden' : null) . '" data-category="' . $common_name . '[category]"';
                 $opts      = array();
-                if ($node->attributes()->frontpage) {
+                if ((int)$this->_getAttr($node, 'frontpage', 0)) {
                     $opts[] = $this->app->html->_('select.option', '', '&#8226;	' . JText::_('Frontpage'));
                 }
                 $cats[] = $this->app->html->_('zoo.categorylist', $application, $opts, ($app_value == $application->id ? $common_name . '[category]' : null), $attribs, 'value', 'text', $cat_value);
             }
 
             // create types select
-            if ($node->attributes()->types) {
+            if ((int)$this->_getAttr($node, 'types', 0)) {
                 $opts = array();
 
                 foreach ($application->getTypes() as $type) {
@@ -188,7 +188,7 @@ class JBFieldHelper extends AppHelper
 
         // create items html
         $link = '';
-        if ($node->attributes()->items) {
+        if ((int)$this->_getAttr($node, 'items', 0)) {
             $field_name = $common_name . '[item_id]';
             $item_name  = JText::_('Select Item');
             $item_id    = isset($value['item_id']) ? $value['item_id'] : null;
@@ -216,6 +216,7 @@ class JBFieldHelper extends AppHelper
 
         $html[] = '</div>';
 
+        $this->app->document->addScript('fields:zooapplication.js');
         $javascript = $this->app->jbassets->widget('#' . $unique_id, 'ZooApplication', array(
             'url'           => $link,
             'msgSelectItem' => JText::_('Select Item')
@@ -1000,6 +1001,7 @@ class JBFieldHelper extends AppHelper
         $showCode = (int)$this->_getAttr($node, 'core', 0);
         $showUser = (int)$this->_getAttr($node, 'user', 1);
         $typeList = explode(',', (string)$this->_getAttr($node, 'types', ''));
+        $typeList = array_filter($typeList);
 
         $type = (array)$this->app->jbrequest->get('cid');
         $type = current($type);
@@ -1018,11 +1020,11 @@ class JBFieldHelper extends AppHelper
                 }
 
                 if ($showCode && preg_match('#^_#', $key)) {
-                    $optionList[$key] = $element['name'];
+                    $optionList[$key] = $element['name'] ? $element['name'] : $element['type'];
                 }
 
                 if ($showUser && !preg_match('#^_#', $key)) {
-                    $optionList[$key] = $element['name'];
+                    $optionList[$key] = $element['name'] ? $element['name'] : $element['type'];
                 }
             }
         }
