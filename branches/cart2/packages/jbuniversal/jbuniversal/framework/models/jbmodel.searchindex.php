@@ -32,9 +32,7 @@ class JBModelSearchindex extends JBModel
      */
     protected $_excludedIndexTypes = array(
         // JBZoo
-        'jbbasketitems',
         'jbcomments',
-        'jbcommentsrender',
         'jbfavorite',
         'jbgallery',
         'jbquickview',
@@ -60,6 +58,26 @@ class JBModelSearchindex extends JBModel
         'relateditems',
         'socialbookmarks',
         'socialbuttons',
+
+        // Zoo std
+        'itemaccess',
+        'itemauthor',
+        'itemcommentslink',
+        'itemcreated',
+        'itemedit',
+        'itemauthor',
+        'itemfrontpage',
+        'itemstate',
+        'itemhits',
+        'itemlink',
+        'itemmodified',
+        //'itemname',
+        'itemprevnext',
+        'itemprint',
+        'itempublish_down',
+        'itempublish_up',
+        'itemsearchable',
+        //'itemtag',
     );
 
     /**
