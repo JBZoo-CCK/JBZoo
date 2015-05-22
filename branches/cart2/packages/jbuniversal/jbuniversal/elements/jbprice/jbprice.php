@@ -1060,6 +1060,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
         $jbAssets->admin();
         $jbAssets->less('elements:jbprice/assets/less/edit.less');
+        $jbAssets->less('jbassets:less/admin.less');
         if ((int)$this->config->get('mode', 1)) {
             $jbAssets->js('jbassets:js/admin/validator.js');
         }
