@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $view = $this->getView();
 $this->app->jbassets->basket();
-//$this->app->jbassets->initJBPrice();
+
 $actionUrl = $this->app->jbrouter->cartOrderCreate($view->application->id, null);
 ?>
 
