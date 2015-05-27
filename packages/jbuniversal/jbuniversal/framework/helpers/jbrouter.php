@@ -338,6 +338,7 @@ class JBRouterHelper extends AppHelper
             'controller' => 'basket',
             'task'       => 'index',
             'Itemid'     => $menuItemid,
+            'nc'         => rand(1000, 9999), // forced browser no cache
         );
 
         return JURI::root() . 'index.php?' . $this->query($linkParams);
