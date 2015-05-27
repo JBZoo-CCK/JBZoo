@@ -309,7 +309,7 @@ class JBRequestHelper extends AppHelper
                         reset($elements['_itemcategory']);
                         return (int)current($elements['_itemcategory']);
                     } else {
-                        return (int)$elements['_itemcategory'];    
+                        return (int)$elements['_itemcategory'];
                     }
                 }
             }
@@ -351,6 +351,10 @@ class JBRequestHelper extends AppHelper
     public function  getCurrency($default = null)
     {
         $key = 'JBZooCurrencyToggle_current';
+
+        if (empty($default)) {
+            $default = JBModelConfig::model()->getGroup('cart.config')->get('currency', null);
+        }
 
         $currency = isset($_COOKIE[$key]) ? $_COOKIE[$key] : $default; // TODO use Joomla API
         $currency = $this->app->jbvars->currency($currency);
