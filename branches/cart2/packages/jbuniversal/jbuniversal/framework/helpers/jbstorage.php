@@ -286,7 +286,7 @@ class JBStorageHelper extends AppHelper
         $key = strtolower(trim($key));
         if (!isset($this->parameters[$key]))
         {
-            $this->parameters->set($key, (array)$this->app->jbcartposition->loadParams($key));
+            $this->parameters->set($key, (array)$this->app->jbcartposition->loadParams($key, true));
         }
 
 

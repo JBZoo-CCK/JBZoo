@@ -1209,7 +1209,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         if ($this->filter_params === null) {
             $config = JBCart::CONFIG_PRICE_TMPL_FILTER . '.' . $this->identifier . '.' . $this->_filter_template;
 
-            $this->filter_params = (array)$this->_position->loadParams($config);
+            $this->filter_params = (array)$this->_position->loadParams($config, true);
         }
 
         return $this->filter_params;

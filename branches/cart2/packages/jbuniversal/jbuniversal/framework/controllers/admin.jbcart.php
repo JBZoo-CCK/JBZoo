@@ -323,7 +323,7 @@ class JBCartJBUniversalController extends JBUniversalController
 
         $this->positionList   = $renderer->getPositions('order.' . $this->layout);
         $this->dragElements   = $this->_position->loadElements(JBCart::CONFIG_FIELDS);
-        $this->elementsParams = $this->_position->loadParams(JBCart::CONFIG_FIELDS_TMPL . '.' . $this->layout);
+        $this->elementsParams = $this->_position->loadParams(JBCart::CONFIG_FIELDS_TMPL . '.' . $this->layout, false);
         $this->positions      = $this->_position->loadPositionsTmpl(JBCart::CONFIG_FIELDS_TMPL . '.' . $this->layout, JBCart::CONFIG_FIELDS, $this->positionList);
 
         $this->positions = $this->_position->filter($this->positions, $this->dragElements);
@@ -353,7 +353,7 @@ class JBCartJBUniversalController extends JBUniversalController
         $this->dragElements = $this->_position->loadElements(JBCart::ELEMENT_TYPE_PRICE . '.' . $this->element);
 
         $confName             = JBCart::CONFIG_PRICE_TMPL_FILTER . '.' . $this->element . '.' . $this->layout;
-        $this->elementsParams = $this->_position->loadParams($confName);
+        $this->elementsParams = $this->_position->loadParams($confName, false);
 
         $this->positions = $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE, $this->positionList);
 
@@ -386,7 +386,7 @@ class JBCartJBUniversalController extends JBUniversalController
         $this->systemElements = $this->_element->getSystemTmpl(JBCart::CONFIG_PRICE);
 
         $confName             = JBCart::CONFIG_PRICE_TMPL . '.' . $this->element . '.' . $this->layout;
-        $this->elementsParams = $this->_position->loadParams($confName);
+        $this->elementsParams = $this->_position->loadParams($confName, false);
         $this->positions      = $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE, $this->positionList);
 
         $this->positions = $this->_position->filter($this->positions, array_merge($this->dragElements, $this->systemElements));
