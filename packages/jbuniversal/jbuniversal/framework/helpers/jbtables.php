@@ -130,7 +130,7 @@ class JBTablesHelper extends AppHelper
 
         if (!isset($checked) || $force) {
             $this->createTable(ZOO_TABLE_JBZOO_SKU, array(
-                '`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT',
+                //'`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT', // bug with prevNext + category sorting
                 '`item_id` INT(11) UNSIGNED NOT NULL',
                 '`element_id` VARCHAR(36) NOT NULL',
                 '`param_id` VARCHAR(36) NOT NULL',
@@ -139,7 +139,7 @@ class JBTablesHelper extends AppHelper
                 '`value_d` DATETIME',
                 '`variant` INT(11) NOT NULL'
             ), array(
-                'PRIMARY KEY (`id`)',
+                //'PRIMARY KEY (`id`)',
                 'INDEX `item_id` (`item_id`)',
                 'INDEX `element_id` (`element_id`)',
                 'INDEX `param_id` (`param_id`)',
@@ -413,7 +413,7 @@ class JBTablesHelper extends AppHelper
 
             // add fields
             $tblFields[] = '`' . $this->getFieldName($field, 's') . '` VARCHAR(50) NULL DEFAULT NULL COLLATE \'utf8_general_ci\'';
-            $tblFields[] = '`' . $this->getFieldName($field, 'n') . '` DOUBLE NULL DEFAULT NULL';
+            $tblFields[] = '`' . $this->getFieldName($field, 'n') . '` DOUBLE NOT NULL DEFAULT \'0\'';
             $tblFields[] = '`' . $this->getFieldName($field, 'd') . '` DATETIME NULL DEFAULT NULL';
 
             // add indexes
@@ -571,7 +571,7 @@ class JBTablesHelper extends AppHelper
                     }
 
                     if ($type == 'n') {
-                        $add[] = 'ADD COLUMN `' . $filedName . '` DOUBLE NULL DEFAULT NULL';
+                        $add[] = 'ADD COLUMN `' . $filedName . '` DOUBLE NOT NULL DEFAULT \'0\'';
                     }
 
                     if ($type == 'd') {
