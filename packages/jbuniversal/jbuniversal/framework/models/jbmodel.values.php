@@ -100,20 +100,20 @@ class JBModelValues extends JBModel
      * @param      $param_id
      * @param      $itemType
      * @param      $applicationId
-     * @param int $variant
-     * @param int $catId
+     * @param int  $variant
+     * @param int  $catId
      * @return array|JObject
      */
     public function getParamsValues($element_id, $param_id, $itemType, $applicationId, $catId = null, $variant = null)
     {
         $select = $this->_getItemSelect($itemType, $applicationId)
-                       ->clear('select')
-                       ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
-                       ->select('tSku.value_s as value, tSku.value_s as text')
-                       ->select('COUNT(DISTINCT tSku.item_id) AS count')
-                       ->where('tSku.element_id = ?', $element_id)
-                       ->where('tSku.param_id = ? ', $param_id)
-                       ->group('tSku.value_s');
+            ->clear('select')
+            ->innerJoin(ZOO_TABLE_JBZOO_SKU . ' AS tSku ON tSku.item_id = tItem.id')
+            ->select('tSku.value_s as value, tSku.value_s as text')
+            ->select('COUNT(DISTINCT tSku.item_id) AS count')
+            ->where('tSku.element_id = ?', $element_id)
+            ->where('tSku.param_id = ? ', $param_id)
+            ->group('tSku.value_s');
         if ($variant !== null) {
             $select->where('tSku.variant = ?', $variant);
         }
@@ -295,8 +295,9 @@ class JBModelValues extends JBModel
                 ->innerJoin($tableName . ' AS tIndex ON tIndex.item_id = tItem.id')
                 ->clear('select')
                 ->select('MAX(tIndex.' . $identifier . ') AS max, MIN(tIndex.' . $identifier . ') AS min')
-                ->where('tIndex.' . $identifier . ' <> ""')
-                ->where('tIndex.' . $identifier . ' IS NOT NULL');
+                //->where('tIndex.' . $identifier . ' <> ""')
+                //->where('tIndex.' . $identifier . ' IS NOT NULL')
+            ;
 
             $result = $this->fetchRow($select);
 
@@ -357,15 +358,16 @@ class JBModelValues extends JBModel
      */
     protected function getSubCategories($id)
     {
-        $cats = array($id => $id);
-        $select     = $this->_getSelect()
-                           ->select('tCategory.id')
-                           ->from(ZOO_TABLE_CATEGORY . ' AS tCategory')
-                           ->where('tCategory.parent = ?' . $id);
+        $cats   = array($id => $id);
+        $select = $this->_getSelect()
+            ->select('tCategory.id')
+            ->from(ZOO_TABLE_CATEGORY . ' AS tCategory')
+            ->where('tCategory.parent = ?' . $id);
+
         $subCats = $this->fetchAll($select);
         $subCats = $this->_groupBy($subCats, 'id');
-        if ($subCats)
-        {
+
+        if ($subCats) {
             $cats = array_merge($cats, $subCats);
         }
 
