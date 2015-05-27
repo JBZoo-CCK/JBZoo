@@ -1,7 +1,6 @@
 <?php
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -20,11 +19,6 @@ defined('_JEXEC') or die('Restricted access');
 class JBCSVHelper extends AppHelper
 {
     /**
-     * @var array
-     */
-    protected $_trueValues = array();
-
-    /**
      * @var array|JBModelConfig
      */
     protected $_config = array();
@@ -36,18 +30,12 @@ class JBCSVHelper extends AppHelper
     {
         parent::__construct($app);
 
-        $this->_trueValues = array_unique(array('1', 'y', 'yes', 'да', 'on',
-            JString::strtolower(JText::_('YES')),
-            JString::strtolower(JText::_('JYES')),
-            JString::strtolower(JText::_('JBZOO_YES'))
-        ));
-
         $this->_config = JBModelConfig::model();
     }
 
     /**
-     * @param $data
-     * @param $file
+     * @param       $data
+     * @param       $file
      * @param array $maxima
      * @return bool|string
      */
@@ -71,7 +59,7 @@ class JBCSVHelper extends AppHelper
 
     /**
      * From file
-     * @param $file
+     * @param          $file
      * @param JSONData $options
      * @return array
      */
@@ -96,10 +84,10 @@ class JBCSVHelper extends AppHelper
 
     /**
      * From file
-     * @param $file
+     * @param          $file
      * @param JSONData $options
-     * @param int $start
-     * @param int $step
+     * @param int      $start
+     * @param int      $step
      * @return array
      */
     public function getLinesfromFile($file, $options, $start, $step)
@@ -113,8 +101,12 @@ class JBCSVHelper extends AppHelper
 
             while (($data = fgetcsv($handle, 0, $options->get('separator', ','), $options->get('enclosure', '"'))) !== false) {
                 $i++;
-                if ($i > $finish) break;
-                if ($start >= $i) continue;
+                if ($i > $finish) {
+                    break;
+                }
+                if ($start >= $i) {
+                    continue;
+                }
                 $lines[] = $data;
             }
 
@@ -165,9 +157,9 @@ class JBCSVHelper extends AppHelper
 
             foreach ($data as $row) {
                 fputcsv($handle,
-                        $this->app->data->create($row)->flattenRecursive(),
-                        $config->get('separator', ','),
-                        $config->get('enclosure', '"')
+                    $this->app->data->create($row)->flattenRecursive(),
+                    $config->get('separator', ','),
+                    $config->get('enclosure', '"')
                 );
             }
 
@@ -180,11 +172,4 @@ class JBCSVHelper extends AppHelper
         return $file;
     }
 
-    /**
-     * @return array
-     */
-    public function getTrueValues()
-    {
-        return $this->_trueValues;
-    }
 }

@@ -20,6 +20,19 @@ defined('_JEXEC') or die('Restricted access');
 class JBZooModItemRuleText
 {
     /**
+     * @type App
+     */
+    public $app = null;
+
+    /**
+     *
+     */
+    function __construct()
+    {
+        $this->app = App::getInstance('zoo');
+    }
+
+    /**
      * @param $key
      * @param $value
      * @return array
@@ -416,7 +429,7 @@ class JBZooModItemRuleJBImage extends JBZooModItemRuleText
      */
     public function validateValues($key, $value)
     {
-        if ($value == '1') {
+        if ($this->app->jbvars->bool($value)) {
             $value = JBModelElementJBImage::IMAGE_EXISTS;
         } elseif ($value != '' && $value == '0') {
             $value = JBModelElementJBImage::IMAGE_NO_EXISTS;

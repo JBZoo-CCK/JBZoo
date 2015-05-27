@@ -253,17 +253,7 @@ class JBCSVItem
      */
     protected function _getBool($value)
     {
-        $value = JString::strtolower(JString::trim($value));
-
-        if (in_array($value, $this->app->jbcsv->getTrueValues())) {
-            return 1;
-        }
-
-        if ((int)$value >= 1) {
-            return 1;
-        }
-
-        return 0;
+        return (int)$this->app->jbvars->bool($value);
     }
 
     /**

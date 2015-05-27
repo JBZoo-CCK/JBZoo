@@ -150,4 +150,39 @@ class JBVarsHelper extends AppHelper
         return false;
     }
 
+    /**
+     * @param $value
+     * @return bool
+     */
+    public function bool($value)
+    {
+        static $trueValues;
+
+        if (is_null($trueValues)) {
+            $trueValues = array_unique(array(
+                '1',
+                'y',
+                'yes',
+                'true',
+                'да',
+                'on',
+                $this->lower(JText::_('YES')),
+                $this->lower(JText::_('JYES')),
+                $this->lower(JText::_('JBZOO_YES'))
+            ));
+        }
+
+        $value = $this->lower($value);
+
+        if (in_array($value, $trueValues, true)) {
+            return true;
+        }
+
+        if ($this->number($value) >= 1) {
+            return true;
+        }
+
+        return false;
+    }
+
 }
