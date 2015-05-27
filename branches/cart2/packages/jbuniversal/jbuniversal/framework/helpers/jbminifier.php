@@ -133,6 +133,10 @@ class JBMinifierHelper extends AppHelper
                 $content .= $filepath . $fileContent . PHP_EOL;
             }
 
+            if ($content && $type == 'css') {
+                $content = '@charset "utf-8";' . PHP_EOL . PHP_EOL . $content;
+            }
+
             if (JDEBUG) {
                 $content =
                     '/* **********' . PHP_EOL
