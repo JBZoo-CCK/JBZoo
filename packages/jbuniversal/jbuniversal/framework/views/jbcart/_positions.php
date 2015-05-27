@@ -63,7 +63,7 @@ $jbstring = $this->app->jbstring;
                 <?php
                 foreach ($position as $elementId => $element) {
 
-                    $elementParams = isset($elementsParams[$element->identifier]) ? $elementsParams[$element->identifier] : array();
+                    $elementParams = isset($elementsParams[$positionKey][$elementId]) ? $elementsParams[$positionKey][$elementId] : array();
 
                     echo $this->partial('element', array(
                         'element'       => $element,

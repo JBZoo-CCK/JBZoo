@@ -122,12 +122,16 @@ class JBCartPositionHelper extends AppHelper
     }
 
     /**
-     * @param $tmplGroup
-     * @return array
+     * @param string $tmplGroup
+     * @param bool   $merge
+     * @return array|JSONData
      */
-    public function loadParams($tmplGroup)
+    public function loadParams($tmplGroup, $merge = true)
     {
         $list = $this->_getConfig($tmplGroup);
+        if (!$merge) {
+            return $list;
+        }
 
         $elements = array();
         foreach ($list as $items) {
