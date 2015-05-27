@@ -66,7 +66,7 @@ class JBModelSearchindex extends JBModel
         'itemcreated',
         'itemedit',
         'itemauthor',
-        'itemfrontpage',
+        //'itemfrontpage',
         'itemstate',
         'itemhits',
         'itemlink',
@@ -277,10 +277,12 @@ class JBModelSearchindex extends JBModel
     public function _valuesByTypes($data, $elementId)
     {
         $value = JString::trim($data);
+        /** @type JBVarsHelper $jbvars */
+        $jbvars = $this->app->jbvars;
 
         // exclude for frontpage mark
-        if ($elementId == 'itemfrontpage') {
-            return $this->_getInsertData(array(array('n' => (int)$value)));
+        if ($elementId == 'itemfrontpage' || $elementId == 'itemstate') {
+            return array();//$this->_getInsertData(array(array('n' => (int)$value)));
         }
 
         // exclude for related categoriess
@@ -291,7 +293,7 @@ class JBModelSearchindex extends JBModel
             $result = array();
             foreach ($values as $valueRows) {
                 if (is_numeric($valueRows)) {
-                    $result[] = array('n' => $valueRows);
+                    $result[] = array('n' => $jbvars->number($valueRows));
                 } else {
                     $result[] = array('s' => $valueRows);
                 }
@@ -325,7 +327,7 @@ class JBModelSearchindex extends JBModel
 
                         $number = str_replace(',', '.', $matches[1]);
                         if (is_numeric($number)) {
-                            $multiInsert[] = array('n' => $number);
+                            $multiInsert[] = array('n' => $jbvars->number($number));
                         }
                     }
 
