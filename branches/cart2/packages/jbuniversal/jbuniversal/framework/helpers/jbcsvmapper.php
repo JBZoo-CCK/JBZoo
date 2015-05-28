@@ -142,7 +142,7 @@ class JBCSVMapperHelper extends AppHelper
                         $instance = $helper->csvItem($element, $jbPrice);
                         $value    = $instance->toCSV();
 
-                        if ($value = $helper->getValue($value)) {
+                        if ($value !== null && $value !== '') {
                             $result[$helper::ELEMENTS_CSV_GROUP . $key . '_' . $i] = $value;
                         }
                     }

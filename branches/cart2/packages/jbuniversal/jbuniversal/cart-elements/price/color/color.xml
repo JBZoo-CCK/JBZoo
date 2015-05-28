@@ -29,7 +29,7 @@
 
     <params group="render">
         <param name="layout" type="list" label="JBZOO_ELEMENT_PRICE_OPTION_LAYOUT"
-               description="JBZOO_ELEMENT_PRICE_OPTION_LAYOUT_DESC" default="select">
+               description="JBZOO_ELEMENT_PRICE_OPTION_LAYOUT_DESC" default="color">
             <option value="color">JBZOO_ELEMENT_PRICE_OPTION_LAYOUT_COLOR</option>
             <option value="text">JBZOO_ELEMENT_PRICE_OPTION_LAYOUT_TEXT</option>
             <option value="radio">JBZOO_ELEMENT_PRICE_OPTION_LAYOUT_RADIO</option>

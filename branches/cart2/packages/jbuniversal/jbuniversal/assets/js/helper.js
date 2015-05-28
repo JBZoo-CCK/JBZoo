@@ -513,6 +513,11 @@
             globalVars[varName] = value;
         },
 
+        mergeVar:function(varName, value) {
+            globalVars[varName] = (typeof globalVars[varName] == 'undefined' ? {} : globalVars[varName]);
+            globalVars[varName] = $.extend(true, {}, globalVars[varName], value);
+        },
+
         /**
          *
          * @param varName

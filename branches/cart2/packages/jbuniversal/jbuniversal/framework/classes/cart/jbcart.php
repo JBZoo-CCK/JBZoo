@@ -872,6 +872,22 @@ class JBCart
 
     /**
      * @param      $array
+     * @param $key
+     * @return array
+     */
+    public function index($array, $key)
+    {
+        $result = array();
+        foreach ($array as $element) {
+            $value = $this->getValue($element, $key);
+            $result[$value] = $element;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param      $array
      * @param      $from
      * @param      $to
      * @param null $group

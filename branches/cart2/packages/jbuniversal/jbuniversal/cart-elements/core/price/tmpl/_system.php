@@ -17,12 +17,16 @@ $isCore = ($this->isCore() ? 'core' : 'simple');
 
 $attr = array(
     'data-identifier' => $this->identifier,
+    'data-template'   => $this->template,
+    'data-index'      => $this->_index,
+    'data-position'   => $this->_position,
     'class'           => array(
         'jbprice-' . $type, // very IMPORTANT class for element templates (DON'T REMOVE!)
         'jsElement',
         'jsPriceElement',
         'js' . ucfirst($type),
-        'js' . ucfirst($isCore)
+        'js' . ucfirst($isCore),
+        'jselement'   . strtolower($this->template . $this->_position . $this->_index)
     )
 );
 

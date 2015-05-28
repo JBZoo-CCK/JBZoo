@@ -19,36 +19,41 @@
             'isInCart'  : false,
             'itemId'    : 0,
             'identifier': '',
-            'elements'  : {},
             'hash'      : ''
         },
         {
+            'template'  : '',
             'elements'  : {},
             'cache'     : {},
             '_namespace': 'JBZooPriceElement',
 
             init: function ($this) {
                 this.elements = {};
-                this.cache = {};
-                $.each($this.options.elements, function (key, params) {
+                this.cache    = {};
 
-                    var _class = key.charAt(0).toUpperCase() + key.substr(1),
-                        element = $('.js' + _class, $this.el),
-                        plugName = $this._namespace + '_' + key,
-                        defaultName = $this._namespace + '_default';
+                var _key = this.options.itemId + this.options.identifier;
+                var elements  = JBZoo.getVar(_key + '.elements', {});
+                this.template = JBZoo.getVar(_key + '.template', {});
+
+                $.each(elements, function (_type, params) {
+
+                    var type        = _type.charAt(0).toUpperCase() + _type.substr(1),
+                        element     = $('.js' + type, $this.el),
+                        plugName    = $this._namespace + type,
+                        defaultName = $this._namespace,
+                        widget      = {};
+
                     if (JBZoo.empty(params)) {
                         params = {};
                     }
 
-                    if ($.isFunction(plugName)) {
-                        $this.elements[key] = element[plugName](params).data(plugName);
-
-                    } else if ($.fn[plugName]) {
-                        $this.elements[key] = element[plugName](params).data(plugName);
-
+                    if ($this.jbzoo.isWidgetExists(plugName)) {
+                        widget = element[plugName](params).data(plugName);
                     } else {
-                        $this.elements[key] = element[defaultName](params).data(defaultName);
+                        widget = element[defaultName](params).data(defaultName);
                     }
+
+                    $this.elements[_type] = widget;
                 });
             },
 
@@ -79,11 +84,11 @@
                     'url'    : $this.options.variantUrl,
                     'data'   : {
                         'args': {
+                            'template': this.template,
                             'values'  : $this._getValues()
                         }
                     },
                     'success': function (data) {
-
                         $this.cache[$this.getHash()] = data;
                         $this._rePaint(data);
                     },
@@ -100,8 +105,8 @@
             },
 
             get: function (identifier, defValue) {
-                var element = this.elements[identifier];
-                if (!JBZoo.empty(element)) {
+                if (!JBZoo.empty(this.elements[identifier])) {
+                    var element = this.elements[identifier];
                     if ($.isFunction(element["getValue"])) {
                         return element.getValue();
                     }
@@ -115,7 +120,6 @@
                 var values = {};
 
                 $('.jsSimple', this.el).each(function () {
-
                     var $param = $(this);
 
                     $('input, select, textarea', $param).each(function () {
@@ -137,6 +141,7 @@
                                 values[id] = {'value': value};
                             }
                         }
+
                     });
                 });
 
@@ -145,18 +150,12 @@
 
             _rePaint: function (data) {
                 var $this = this;
-                $.each(data, function (key, data) {
-
-                    if (!JBZoo.empty($this.elements[key])) {
-
-                        var element = $this.elements[key];
-
-                        if ((!JBZoo.empty(element)) && ($.isFunction(element["rePaint"]))) {
-                            element.rePaint(data);
-                        }
+                $.each(data, function (_type, data) {
+                    var element = $this.elements[_type];
+                    if ((!JBZoo.empty(element)) && ($.isFunction(element["rePaint"]))) {
+                        element.rePaint(data);
                     }
                 });
-
             },
 
             _buildHash: function (values) {

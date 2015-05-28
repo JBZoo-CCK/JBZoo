@@ -56,12 +56,12 @@ class JBPriceRenderer extends PositionRenderer
      */
     public function checkPosition($position)
     {
-        foreach ($this->getConfigPosition($position) as $data) {
+        foreach ($this->getConfigPosition($position) as $index => $data) {
             if (($element = $this->_variant->get($data['identifier']))
             ) {
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
-                $data['_index']    = $data['identifier'];
+                $data['_index']    = $index;
 
                 if ($element->canAccess() && $element->hasValue(new AppData($data))) {
                     return true;
@@ -105,18 +105,18 @@ class JBPriceRenderer extends PositionRenderer
 
         // store layout
         $layout = $this->_layout;
-        $index  = 0;
-        foreach ($this->getConfigPosition($position) as $data) {
+        foreach ($this->getConfigPosition($position) as $index => $data) {
             if ($element = $this->_variant->get($data['identifier'])) {
                 if (!$element->canAccess()) {
                     continue;
                 }
-                $index++;
+
                 $data['_price_layout'] = $this->itemLayout;
 
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
                 $data['_index']    = $index;
+
                 // set params
                 $params = array_merge($data, $args);
 
@@ -130,6 +130,7 @@ class JBPriceRenderer extends PositionRenderer
             $params = array_merge(array('first' => ($i === 0), 'last' => ($i === $count - 1)), $data['params']);
 
             $data['element']->loadAssets();
+            $data['element']->setIndex($params['_index'])->setPosition($params['_position']);
             $output[$i] = parent::render('element.' . $style, array(
                 'element' => $data['element'],
                 'params'  => new AppData($params)
@@ -178,10 +179,7 @@ class JBPriceRenderer extends PositionRenderer
         $count = count($elements);
         if ($count) {
             foreach ($elements as $i => $data) {
-                $params = array_merge(array(
-                    'first' => ($i == 0),
-                    'last'  => ($i == $count - 1)
-                ), $data['params']);
+                $params = array_merge(array('first' => ($i == 0), 'last' => ($i == $count - 1)), $data['params']);
 
                 $data['element']->loadEditAssets();
                 $output[$i] = parent::render('element.' . $style, array(

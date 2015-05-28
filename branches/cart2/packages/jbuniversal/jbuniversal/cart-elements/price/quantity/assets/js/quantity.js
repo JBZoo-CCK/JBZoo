@@ -12,7 +12,7 @@
 ;
 (function ($, window, document, undefined) {
 
-    JBZoo.widget('JBZoo.PriceElement_quantity', {
+    JBZoo.widget('JBZoo.PriceElement.Quantity', {
             'target': '.jsQuantity'
         },
         {

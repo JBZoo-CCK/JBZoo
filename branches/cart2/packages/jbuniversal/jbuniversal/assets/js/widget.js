@@ -343,7 +343,7 @@
             );
 
             // plugin initialize (HANDS OFF!!!)
-            $.fn[widgetName] = function (options) {
+            $.fn[widgetName] = function (options, isComplex) {
 
                 var args = arguments,
                     method = (args[0] && typeof args[0] == 'string') ? args[0] : null,
@@ -352,6 +352,36 @@
                 if (method && method.indexOf('_') === 0) {
                     $jbzoo.error('Method \"jQuery.' + widgetName + '.' + method + '\" is protected!');
                 }
+
+                if (widgetName.toLowerCase() == 'jbzooprice' || widgetName.toLowerCase().indexOf('jbzoopriceelement') === 0) {
+                    var $element = $(this);
+
+                    if (widgets[widgetName].prototype[method] && $element.data(widgetName) && method != "init") {
+
+                        methodValue = $element.data(widgetName)[method].apply(
+                            $element.data(widgetName),
+                            Array.prototype.slice.call(args, 1)
+                        );
+
+                        if (methodValue !== $element.data(widgetName) && methodValue !== undefined) {
+
+                            returnValue = methodValue && methodValue.jquery ?
+                                returnValue.pushStack(methodValue.get()) :
+                                methodValue;
+
+                            return false;
+                        }
+
+
+                    } else if ((!method || $.isPlainObject(method))) {
+                        $element.data(widgetName, new widgets[widgetName]($element, options));
+
+                    } else if (method) {
+                        $jbzoo.error("Method \"" + method + "\" does not exist on jQuery." + widgetName);
+                    }
+
+                }
+                else {
 
                 this.each(function () {
                     var element = this,
@@ -381,9 +411,10 @@
                         $jbzoo.error("Method \"" + method + "\" does not exist on jQuery." + widgetName);
                     }
                 });
-
+                }
                 // chain jQuery functions
                 return returnValue;
+
             };
         },
 

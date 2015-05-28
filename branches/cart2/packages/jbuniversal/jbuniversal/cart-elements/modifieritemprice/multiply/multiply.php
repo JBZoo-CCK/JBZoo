@@ -23,10 +23,12 @@ class JBCartElementModifierItemPriceMultiply extends JBCartElementModifierItemPr
     public function getRate()
     {
         if ($this->_isValid()) {
-            $rate       = $this->config->get('rate', 0);
-            $multiplier = $this->app->jbvars->number($rate) * 100;
+            $rate = $this->app->jbvars->number($this->config->get('rate', 0));
+            if ($rate) {
+                $multiplier = ($rate - 1) * 100;
 
-            return $this->_order->val($multiplier, '%');
+                return $this->_order->val($multiplier, '%');
+            }
         }
 
         return $this->_order->val(0, '%');
