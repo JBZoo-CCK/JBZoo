@@ -188,7 +188,7 @@ class JBPriceHelper extends AppHelper
 
             if (isset($position[$id])) {
                 $element    = $position[$id];
-                $oldOptions = $element['options'];
+                $oldOptions = $this->clean($element['options']);
 
                 if ($element['type'] == 'color') {
                     $options = $this->app->jbcolor->parse($oldOptions);
@@ -224,7 +224,7 @@ class JBPriceHelper extends AppHelper
         $value = JString::trim($value);
         $keys  = array_keys($options);
 
-        if (!in_array($value, $keys)) {
+        if (!in_array($value, $keys, true)) {
             $options[$value] = $value;
         }
 
@@ -241,9 +241,9 @@ class JBPriceHelper extends AppHelper
         $result = array();
 
         foreach ($data as $option) {
-            $option = JString::trim($option);
+            $option = $this->clean($option);
 
-            if (JString::strlen($option) !== 0) {
+            if ($option !== '') {
                 $result[$option] = $option;
             }
         }
@@ -253,7 +253,7 @@ class JBPriceHelper extends AppHelper
 
     /**
      * Cleans data
-     * @param string $data
+     * @param string|array $data
      * @return string mixed
      */
     public function clean($data)

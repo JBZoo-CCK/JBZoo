@@ -80,7 +80,7 @@ class JBCSVItemUserJBPrice extends JBCSVItem
                         unset($element);
                     }
                 }
-                if (!empty($result)) {
+                if ($result !== '' && $result !== null) {
                     $result[$key] = implode(';', $result[$key]);
                 }
             }
@@ -139,6 +139,7 @@ class JBCSVItemUserJBPrice extends JBCSVItem
 
             $position     = ElementJBPrice::BASIC_VARIANT;
             $variant      = (array)$this->_element->getData($position, array());
+
             $configs[$id] = (array)$this->getConfig($id);
 
             if (!empty($configs[$id])) {
@@ -257,9 +258,9 @@ class JBCSVItemUserJBPrice extends JBCSVItem
             ->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $this->_element->identifier)
             ->get(JBCart::DEFAULT_POSITION, array());
 
-        $config = array_filter(array_map(function ($data) use ($name) {
-            $_name = JString::strtolower(JString::trim($data['name']));
-            if ($name == $_name) {
+        $app = $this->app;
+        $config = array_filter(array_map(function ($data) use ($name, $app) {
+            if ($app->jbvars->lower($name) == $app->jbvars->lower($data['name'])) {
                 return $data;
             }
 

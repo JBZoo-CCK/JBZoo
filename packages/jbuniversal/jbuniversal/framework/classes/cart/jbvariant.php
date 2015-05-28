@@ -63,6 +63,8 @@ class JBCartVariant extends ArrayObject
         if(isset($options['id']))
         {
             $this->setId($options['id']);
+
+            unset($options['id']);
         }
 
         // set variant list if exists
@@ -74,11 +76,8 @@ class JBCartVariant extends ArrayObject
         //Bind elements
         if ($elements)
         {
-            $data = new AppData();
-            if(isset($options['elements']))
-            {
-                $data->exchangeArray($options['elements']);
-            }
+            $data = new AppData(isset($options['elements']) ? $options['elements'] : array());
+
             $this->add($elements, $data);
 
             unset($options['elements']);
@@ -105,17 +104,17 @@ class JBCartVariant extends ArrayObject
     }
 
     /**
-     * @param integer        $key
+     * @param integer        $id Element identifier.
      * @param ElementJBPrice $element
      * @throws JBCartVariantException
      */
-    public function set($key, $element)
+    public function set($id, $element)
     {
         if (!$element instanceof JBCartElementPrice) {
             throw new JBCartVariantException('In Method: ' . __FUNCTION__ . ' values of array must be an instance of JBCartElementPrice.');
         }
 
-        $this->elements[$key] = $element;
+        $this->elements[$id] = $element;
     }
 
     /**
@@ -124,19 +123,19 @@ class JBCartVariant extends ArrayObject
      */
     public function add(array $elements, AppData $options)
     {
-        foreach($elements as $key => $element) {
-            $this->set($key, $this->setElement($element, (array)$options->get($key)));
+        foreach($elements as $element) {
+            $this->set($element->id(), $this->setElement($element, (array)$options->get($element->id())));
         }
     }
 
     /**
      * Check if JBCartVariant exists.
-     * @param  integer $key
+     * @param  integer $id Element identifier
      * @return bool
      */
-    public function has($key)
+    public function has($id)
     {
-        return isset($this->elements[$key]) || array_key_exists($key, $this->elements);
+        return isset($this->elements[$id]) || array_key_exists($id, $this->elements);
     }
 
     /**
@@ -450,13 +449,12 @@ class JBCartVariant extends ArrayObject
      */
     protected function setElement($element, $data)
     {
-        if(is_array($data))
+        if(is_array($data) && !empty($data))
         {
             $data = array_filter($data, function($value) {;
                  return ($value !== '' && $value !== null);
             });
         }
-
         $element->setVariant($this->id);
 
         if ($this->list instanceof JBCartVariantList && !$this->isBasic())

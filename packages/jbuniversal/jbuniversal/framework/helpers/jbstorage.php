@@ -286,9 +286,8 @@ class JBStorageHelper extends AppHelper
         $key = strtolower(trim($key));
         if (!isset($this->parameters[$key]))
         {
-            $this->parameters->set($key, (array)$this->app->jbcartposition->loadParams($key, true));
+            $this->parameters->set($key, JBModelConfig::model()->getGroup('cart.' . $key, array()));
         }
-
 
         return $this->parameters->get($key, $default);
     }

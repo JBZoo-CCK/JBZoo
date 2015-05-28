@@ -34,13 +34,12 @@ $price_mode = (get_class($this) === 'ElementJBPriceCalc' ? 2 : 1); ?>
         } ?>
     </div>
 
-    <?php for ($i = 0; $i < 1; $i++) :
-        $variant = $variations[$i];
-        echo $renderer->render('_edit', array(
-            'element_id' => $this->identifier,
-            '_variant'   => $variant
-        ));
-    endfor;
+    <?php
+    $variant = $variations[ElementJBPrice::BASIC_VARIANT];
+    echo $renderer->render('_edit', array(
+        'element_id' => $this->identifier,
+        '_variant'   => $variant
+    ));
 
     $count = count($variations);
     if ($countSimple) : ?>

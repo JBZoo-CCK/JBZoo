@@ -74,6 +74,8 @@ class JBCartVariantList extends ArrayObject
             $this->setJBPrice($options['element']);
         }
 
+        $this->_storage = $this->getJBPrice()->app->jbstorage;
+
         // set options
         if (count($options)) {
             $this->setOptions($options);
@@ -390,13 +392,12 @@ class JBCartVariantList extends ArrayObject
      */
     public function getValues()
     {
-        $result = array();
-        $values = (array)$this->values;
+        $result   = array();
+        $elements = (array)$this->current()->all();
 
-        if (!empty($values)) {
-            foreach ($values as $key => $value) {
-                if ($element = $this->_jbprice->getElement($key)) {
-                    $element->bindData($value);
+        if (!empty($elements)) {
+            foreach ($elements as $key => $element) {
+                if (!$element->isCore()) {
                     //TODO Need to check value, method - issetOption
                     $result[$element->getName()] = $element->getValue(true);
                 }
@@ -456,17 +457,31 @@ class JBCartVariantList extends ArrayObject
      */
     public function renderVariant()
     {
-        $variant = $this->current();
-        $result  = array();
+        $parameters = $this->_storage->get('parameters', $this->getJBPrice()->key('private'), array());
+        $template   = $this->getJBPrice()->getTemplate();
+        $variant    = $this->current();
+        $result     = array();
 
         /** @type JBCartElementPrice $element */
-        foreach ($variant->core() as $element) {
-            if ($params = $this->getJBPrice()->getParameter($element->id())) {
-                $data = $element->renderAjax($params);
-                //return data if not null
-                if ($data !== null) {
-                    $result[$element->getElementType()] = $data;
+        if ($parameters) {
+            foreach ($parameters as $position => $elements) {
+                foreach($elements as $index => $params) {
+                    $element = $variant->get($params['identifier']);
+                    if ($element && $element->isCore()) {
+                        $element->setIndex($index)->setPosition($position);
+                        $params['_position'] = $position;
+                        $params['_index']    = $index;
+
+                        $data = $element->renderAjax(new AppData($params));
+                        //return data if not null
+                        if ($data !== null && $data !== '') {
+                            $key = strtolower('jselement' . $template . $position . $index);
+
+                            $result[$element->getElementType()][$key] = $data;
+                        }
+                    }
                 }
+
             }
         }
 

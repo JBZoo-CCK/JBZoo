@@ -224,7 +224,7 @@ class JBCartElementPriceImage extends JBCartElementPrice
     {
         $this->app->jbassets->js('jbassets:js/widget/media.js');
 
-        return parent::loadAssets();
+        return parent::loadEditAssets();
     }
 
     /**

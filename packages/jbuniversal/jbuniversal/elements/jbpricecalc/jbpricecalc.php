@@ -62,30 +62,40 @@ class ElementJBPriceCalc extends ElementJBPrice
     }
 
     /**
-     * @param string $template
+     * @param array $template
      * @param array  $values
      */
-    public function ajaxChangeVariant($template = 'default', $values = array())
+    public function ajaxChangeVariant($template = array('default'), $values = array())
     {
         $list = $this->getVariantByValues($values);
 
         $keys = array_keys($list);
         $key  = (int)end($keys);
+        $data = array();
 
-        $this->setTemplate($template)->setDefault($key);
+        $this->setDefault($key);
 
-        if ($this->_list instanceof JBCartVariantList) {
-            $this->_list->clear();
+        if(count($template)) {
+            foreach ($template as $tpl)
+            {
+                $this->setTemplate($tpl);
+
+                if ($this->_list instanceof JBCartVariantList) {
+                    $this->_list->clear();
+                }
+
+                $this->getList($list, array(
+                    'default'  => $key,
+                    'values'   => $values,
+                    'template' => $tpl,
+                    'currency' => !empty($currency) ? $currency : $this->currency()
+                ));
+
+                $data = array_merge_recursive((array)$data, (array)$this->_list->renderVariant());
+            }
         }
 
-        $this->getList($list, array(
-            'default'  => $key,
-            'values'   => $values,
-            'template' => $template,
-            'currency' => !empty($currency) ? $currency : $this->currency()
-        ));
-
-        $this->app->jbajax->send($this->_list->renderVariant());
+        $this->app->jbajax->send($data);
     }
 
     /**

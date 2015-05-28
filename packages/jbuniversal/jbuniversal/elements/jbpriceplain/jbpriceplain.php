@@ -82,24 +82,33 @@ class ElementJBPricePlain extends ElementJBPrice
     }
 
     /**
-     * @param string $template - need to get render params for elements
+     * @param array $template - need to get render params for elements
      * @param array  $values   - selected values
      */
-    public function ajaxChangeVariant($template = 'default', $values = array())
+    public function ajaxChangeVariant($template = array('default'), $values = array())
     {
+        $data = array();
         $list = $this->getVariantByValues($values);
         $key  = (int)(JString::strlen(key($list)) > 0 ? key($list) : self::BASIC_VARIANT);
 
-        $this->setDefault($key)->setTemplate($template);
+        $this->setDefault($key);
+        if(count($template))
+        {
+            foreach($template as $tpl) {
+                $this->setTemplate($tpl);
 
-        $this->getList($list, array(
-            'default'  => $key,
-            'values'   => $values,
-            'template' => $template,
-            'currency' => $this->currency()
-        ));
+                $this->getList($list, array(
+                    'default'  => $key,
+                    'values'   => $values,
+                    'template' => $tpl,
+                    'currency' => $this->currency()
+                ));
 
-        $this->app->jbajax->send($this->_list->renderVariant());
+                $data = array_merge_recursive((array)$data, (array)$this->_list->renderVariant());
+            }
+        }
+
+        $this->app->jbajax->send($data);
     }
 
     /**

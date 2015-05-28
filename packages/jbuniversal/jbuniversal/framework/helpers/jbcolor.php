@@ -80,7 +80,7 @@ class JBColorHelper extends AppHelper
      */
     public function parse($options)
     {
-        $colors  = explode("\n", $options);
+        $colors  = explode(PHP_EOL, $options);
         $options = array();
 
         foreach ($colors as $color) {
@@ -124,12 +124,12 @@ class JBColorHelper extends AppHelper
         if (empty($label)) {
             return false;
         }
-        if (!in_array($label, $keys)) {
+        if (!in_array($label, $keys, true)) {
             $options[$label] = $val;
         }
 
         foreach ($options as $key => $value) {
-            $result[] = $key . '#' . $value;
+            $result[] = $this->clean($key) . '#' . $this->clean($value);
         }
 
         return implode(PHP_EOL, $result);

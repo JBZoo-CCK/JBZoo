@@ -12,7 +12,7 @@
 ;
 (function ($, window, document, undefined) {
 
-    JBZoo.widget('JBZoo.PriceElement_buttons',
+    JBZoo.widget('JBZoo.PriceElement.Buttons',
         {
             'item_id'   : '',
             'element_id': '',
@@ -136,7 +136,7 @@
             'click .jsAddToCart': function (e, $this) {
 
                 var jbPrice = $this.price.data('JBZooPrice'),
-                    quantity = $this.get('quantity', 1),
+                    quantity = jbPrice.get('quantity', '1'),
                     input = $(this);
 
                 $this.ajax({
@@ -253,6 +253,8 @@
                 if (this.isWidgetExists('JBZooPrice')) {
                     return this.price.JBZooPrice('get', identifier, defValue);
                 }
+
+                return defValue;
             },
 
             $: function(selector, _parent) {

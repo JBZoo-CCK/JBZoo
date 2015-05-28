@@ -99,6 +99,16 @@ abstract class JBCartElementPrice extends JBCartElement
     protected $prices;
 
     /**
+     * @type string
+     */
+    protected $_position;
+
+    /**
+     * @type int
+     */
+    protected $_index;
+
+    /**
      * @type ElementJBPrice
      */
     protected $_jbprice;
@@ -193,6 +203,34 @@ abstract class JBCartElementPrice extends JBCartElement
     public function setLayout($layout)
     {
         $this->layout = $layout;
+
+        return $this;
+    }
+
+    /**
+     * @param int $index
+     * @return $this
+     */
+    public function setIndex($index)
+    {
+        if(is_numeric($index))
+        {
+            $this->_index = (int)$index;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param  string $position
+     * @return $this
+     */
+    public function setPosition($position)
+    {
+        if(is_string($position))
+        {
+            $this->_position = $position;
+        }
 
         return $this;
     }
@@ -557,14 +595,8 @@ abstract class JBCartElementPrice extends JBCartElement
     protected function renderLayout($__layout, $__args = array())
     {
         $html = parent::renderLayout($__layout, $__args);
-        if ($html) {
-            $system = $this->getLayout('_system.php');
-            $html   = parent::renderLayout($system, array(
-                'html' => $html
-            ));
-        }
 
-        return $html;
+        return $this->_systemWrapper($html, $__args);
     }
 
     /**
@@ -627,6 +659,26 @@ abstract class JBCartElementPrice extends JBCartElement
         $this->getJBPrice()->toStorage($asset);
 
         return $this;
+    }
+
+    /**
+     * @param  string $html
+     * @param  array  $args
+     * @return string
+     * @throws ElementJBPriceException
+     */
+    private function _systemWrapper($html, array $args = array())
+    {
+        $system = parent::getLayout('_system.php');
+        if (!$system)
+        {
+            throw new ElementJBPriceException('System wrapper file doesn\'t exists');
+        }
+
+        return parent::renderLayout($system, array(
+            'html' => $html,
+            'args' => $args
+        ));
     }
 
     /**

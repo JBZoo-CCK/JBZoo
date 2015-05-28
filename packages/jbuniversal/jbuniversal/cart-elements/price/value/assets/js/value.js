@@ -12,11 +12,10 @@
 ;
 (function ($, window, document, undefined) {
 
-    JBZoo.widget('JBZoo.PriceElement_value', {},
+    JBZoo.widget('JBZoo.PriceElement.Value', {},
         {
             rePaint: function (data) {
-
-                this.el.empty().prepend($(data).contents());
+                this._parent('rePaint', [data]);
                 var $jbPrice = this.el.closest('.jsPrice'),
                     toggle = $('.jsCurrencyToggle', $jbPrice);
 

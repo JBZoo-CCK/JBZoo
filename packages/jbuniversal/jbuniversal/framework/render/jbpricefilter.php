@@ -97,13 +97,11 @@ class JBPriceFilterRenderer extends PositionRenderer
 
         // get style
         $style = isset($args['style']) ? $args['style'] : 'default';
-        $index = 0;
 
         $elementsConfig = $this->_getConfigPosition($position);
-        foreach ($elementsConfig as $key => $data) {
+        foreach ($elementsConfig as $index => $data) {
             $element = $this->_jbprice->getElement($data['identifier']);
             if ($element && $element->canAccess()) {
-                $index++;
 
                 $data['_layout']   = $this->_layout;
                 $data['_index']    = $index;

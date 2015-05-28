@@ -12,7 +12,7 @@
 ;
 (function ($, window, document, undefined) {
 
-    JBZoo.widget('JBZoo.PriceElement_image',
+    JBZoo.widget('JBZoo.PriceElement.Image',
         {
             'related' : '',
             'image'   : '',
@@ -39,7 +39,7 @@
                 this.rePlace(this.options.image, null);
             },
 
-            rePaint: function (data) {
+            _rePaint: function (data) {
                 this.rePlace(data, this.options.duration);
             },
 

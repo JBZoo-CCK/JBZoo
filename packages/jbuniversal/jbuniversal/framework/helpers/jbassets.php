@@ -75,9 +75,10 @@ class JBAssetsHelper extends AppHelper
      * @param string $widgetName
      * @param array  $params
      * @param bool   $return
+     * @param bool   $isComplex
      * @return string
      */
-    public function widget($jquerySelector, $widgetName, $params = array(), $return = false)
+    public function widget($jquerySelector, $widgetName, $params = array(), $return = false, $isComplex = false)
     {
         static $included = array();
 
@@ -101,7 +102,7 @@ class JBAssetsHelper extends AppHelper
             }
 
             // widget init script
-            $initScript = '$("' . $jquerySelector . '").' . $widgetName . '(' . $this->toJSON($params) . ');';
+            $initScript = '$("' . $jquerySelector . '").' . $widgetName . '(' . $this->toJSON($params) . ', ' . (int)$isComplex . ');';
 
             if ($return) {
                 return implode(PHP_EOL, array(
@@ -663,6 +664,16 @@ class JBAssetsHelper extends AppHelper
     }
 
     /**
+     * @param $varName
+     * @param $value
+     * @return string
+     */
+    public function mergeVar($varName, $value)
+    {
+        return "<script type=\"text/javascript\">JBZoo.mergeVar(\"" . $varName . "\", " . $this->toJSON($value) . ")</script>";
+    }
+
+    /**
      * Init select cascade
      */
     public function selectCascade()
@@ -785,6 +796,7 @@ class JBAssetsHelper extends AppHelper
     {
         // force include for back-end. Do not delete!
         $this->less('jbassets:less/general.less');
+        $this->colors();
 
         if ($queryElement) {
             $script = $this->widget('#' . $queryElement, 'JBZoo.Colors', array('multiple' => (boolean)$type), $return);
