@@ -1046,6 +1046,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                     }
                 }
             }
+            // Reset keys
             $variations = array_values($variations);
             $values     = array_values($values);
 

@@ -18,7 +18,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCSVItemUserJBPrice extends JBCSVItem
 {
-
     /**
      * @type string
      */
@@ -106,9 +105,9 @@ class JBCSVItemUserJBPrice extends JBCSVItem
         if (JString::strpos($values, ':') !== false) {
             --$position;
             $variant = (array)$this->_element->getData($position, array());
+
             $values  = $this->_unpackFromLine($values);
             $values  = $this->isOldFormat($values);
-
             if (count($values)) {
                 foreach ($values as $id => $value) {
                     $value = JString::trim($value);
@@ -132,6 +131,7 @@ class JBCSVItemUserJBPrice extends JBCSVItem
             }
         } else {
             $values = JString::trim($values);
+
             if (JSTring::strlen($values) === 0) {
                 return $this->_item;
             }
@@ -147,20 +147,18 @@ class JBCSVItemUserJBPrice extends JBCSVItem
                 $variant[$id] = $instance->fromCSV($values, $position);
             }
         }
+        if ($values !== null && $values !== '' && isset($params['checkOptions']) && (int)$params['checkOptions'] === JBImportHelper::OPTIONS_YES) {
+            if (is_string($values)) {
+                $values = array(
+                    $this->_param_id => $values
+                );
+            }
 
-        if (isset($params['checkOptions']) && (int)$params['checkOptions'] == JBImportHelper::OPTIONS_YES) {
-            if (count($values)) {
-                if (is_string($values)) {
-                    $values = array(
-                        $this->_param_id => $values
-                    );
-                }
-
-                foreach ($values as $key => $val) {
-                    $this->_helper->addOption($this->_element, $key, $val);
-                }
+            foreach ($values as $key => $val) {
+                $this->_helper->addOption($this->_element, $key, $val);
             }
         }
+
         $this->_element->bindData(array('variations' => array($position => $variant)));
 
         return $this->_item;
@@ -180,7 +178,7 @@ class JBCSVItemUserJBPrice extends JBCSVItem
         $format = array();
         $files  = JFolder::files($this->app->path->path('jbelements:price'));
         foreach ($values as $key => $value) {
-            if (in_array('price_' . $key . '.php', $files)) {
+            if (in_array('price_' . $key . '.php', $files, true)) {
                 $format['_' . $key] = $value;
 
                 $old = true;
