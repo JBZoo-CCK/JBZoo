@@ -134,7 +134,7 @@ class JBTablesHelper extends AppHelper
                 '`item_id` INT(11) UNSIGNED NOT NULL',
                 '`element_id` VARCHAR(36) NOT NULL',
                 '`param_id` VARCHAR(36) NOT NULL',
-                '`value_s` VARCHAR(150) NOT NULL',
+                '`value_s` VARCHAR(150) NOT NULL COLLATE \'utf8_general_ci\'',
                 '`value_n` DOUBLE',
                 '`value_d` DATETIME',
                 '`variant` INT(11) NOT NULL'

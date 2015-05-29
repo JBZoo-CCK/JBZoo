@@ -260,7 +260,7 @@ class JBModelItem extends JBModel
             if ($appId === null) {
                 return $item;
 
-            } elseif ($item->application_id === (int)$appId) {
+            } elseif ((int)$item->application_id === (int)$appId) {
                 return $item;
             }
         }

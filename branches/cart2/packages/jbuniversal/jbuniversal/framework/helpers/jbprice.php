@@ -187,19 +187,18 @@ class JBPriceHelper extends AppHelper
             $option = $value;
 
             if (isset($position[$id])) {
-                $element    = $position[$id];
-                $oldOptions = $this->clean($element['options']);
+                $element = $position[$id];
 
                 if ($element['type'] == 'color') {
-                    $options = $this->app->jbcolor->parse($oldOptions);
+                    $options = $this->app->jbcolor->parse($element['options']);
                     $new     = $this->app->jbcolor->build($option, $options);
 
                 } else {
-                    $options = $this->parse($oldOptions);
+                    $options = $this->parse($element['options']);
                     $new     = $this->build($option, $options);
                 }
 
-                if ($new != $oldOptions && !empty($new)) {
+                if ($new !== null && $new !== '' && $new != $element['options']) {
                     $element['options'] = $new;
                     $position[$id]      = $element;
 
@@ -224,7 +223,7 @@ class JBPriceHelper extends AppHelper
         $value = JString::trim($value);
         $keys  = array_keys($options);
 
-        if (!in_array($value, $keys, true)) {
+        if (!in_array($this->clean($value), $keys, true)) {
             $options[$value] = $value;
         }
 
@@ -241,10 +240,10 @@ class JBPriceHelper extends AppHelper
         $result = array();
 
         foreach ($data as $option) {
-            $option = $this->clean($option);
+            $key = $this->clean($option);
 
-            if ($option !== '') {
-                $result[$option] = $option;
+            if ($key !== '') {
+                $result[$key] = JString::trim($option);
             }
         }
 

@@ -25,7 +25,7 @@ class JBColorHelper extends AppHelper
     public function getColors($colors, $path = '/images/jbcolor')
     {
         if (is_string($colors)) {
-            $colors = explode("\n", $colors);
+            $colors = explode(PHP_EOL, $colors);
         }
 
         $options = array();
@@ -167,7 +167,7 @@ class JBColorHelper extends AppHelper
 
     /**
      * Cleans data
-     * @param string $data
+     * @param string|array $data
      * @return string mixed
      */
     public function clean($data)
