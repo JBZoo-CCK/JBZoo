@@ -45,7 +45,9 @@ $this->app->jbassets->favorite();
     </div>
 
     <?php echo $this->app->jbassets->widget('.jsFavoriteList', 'JBZooFavoriteList', array(
-        'url_clear' => $this->app->jbrouter->favoriteClear()
+        'url_clear'        => $this->app->jbrouter->favoriteClear(),
+        'text_confirm'     => JText::_('JBZOO_FAVORITE_ITEMS_REMOVE_CONFIRM'),
+        'text_confirm_all' => JText::_('JBZOO_FAVORITE_ITEMS_REMOVE_CONFIRM_ALL'),
     ), true); ?>
 
 <?php
