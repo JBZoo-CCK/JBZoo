@@ -187,16 +187,23 @@
          * Simple system message like alert
          * @param message
          * @param closeCallback
+         * @param params
          */
-        alert: function (message, closeCallback) {
-            if ($.isFunction(swal)) {
-                window.parent.swal({
+        alert: function (message, closeCallback, params) {
+            
+            var $this = this,
+                _swal = $.isFunction(window.parent.swal) ? window.parent.swal : swal;
+            
+            if ($.isFunction(_swal)) {
+                params = $.extend(true, {}, {
                     html             : true,
                     title            : message,
                     //animation        : false,
                     allowOutsideClick: true,
                     confirmButtonText: JBZoo.getVar('JBZOO_DIALOGBOX_OK', 'OK')
-                }, closeCallback);
+                }, $this._def(params, {}));
+
+                _swal(params, closeCallback);
 
             } else {
                 message = JBZoo.stripTags(message);
@@ -214,32 +221,35 @@
          */
         confirm: function (message, yesCallback, noCallback, context) {
 
+            var $this = this,
+                _swal = $.isFunction(window.parent.swal) ? window.parent.swal : swal;
+
             noCallback = noCallback || $.noop;
             yesCallback = yesCallback || $.noop;
-
-            if ($.isFunction(swal)) {
-                window.parent.swal({
-                        html             : true,
-                        title            : message,
-                        //animation        : false,
-                        showCancelButton : true,
-                        closeOnConfirm   : true,
-                        closeOnCancel    : true,
-                        allowOutsideClick: false,
-                        confirmButtonText: JBZoo.getVar('JBZOO_DIALOGBOX_OK', 'OK'),
-                        cancelButtonText : JBZoo.getVar('JBZOO_DIALOGBOX_CANCEL', 'Cancel')
-                    },
-                    function (isConfirm) {
-                        if (isConfirm) {
-                            if ($.isFunction(yesCallback)) {
-                                yesCallback.apply(context)
-                            }
-                        } else {
-                            if ($.isFunction(noCallback)) {
-                                noCallback.apply(context)
-                            }
+            
+            if ($.isFunction(_swal)) {
+                _swal({
+                    html             : true,
+                    title            : message,
+                    //animation        : false,
+                    showCancelButton : true,
+                    closeOnConfirm   : true,
+                    closeOnCancel    : true,
+                    allowOutsideClick: false,
+                    confirmButtonText: JBZoo.getVar('JBZOO_DIALOGBOX_OK', 'OK'),
+                    cancelButtonText : JBZoo.getVar('JBZOO_DIALOGBOX_CANCEL', 'Cancel')
+                },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        if ($.isFunction(yesCallback)) {
+                            yesCallback.apply(context)
                         }
-                    });
+                    } else {
+                        if ($.isFunction(noCallback)) {
+                            noCallback.apply(context)
+                        }
+                    }
+                });
 
             } else {
                 message = JBZoo.stripTags(message);
