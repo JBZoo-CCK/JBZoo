@@ -353,7 +353,7 @@ class JBRequestHelper extends AppHelper
         $key = 'JBZooCurrencyToggle_current';
 
         if (empty($default)) {
-            $default = JBModelConfig::model()->getGroup('cart.config')->get('currency', null);
+            $default = JBModelConfig::model()->getGroup('cart.config')->get('default_currency', null);
         }
 
         $currency = isset($_COOKIE[$key]) ? $_COOKIE[$key] : $default; // TODO use Joomla API
@@ -363,7 +363,7 @@ class JBRequestHelper extends AppHelper
             return null;
         }
 
-        return $currency;
+        return $currency ? $currency : $default;
     }
 
 }
