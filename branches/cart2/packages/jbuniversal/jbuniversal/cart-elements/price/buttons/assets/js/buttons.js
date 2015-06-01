@@ -39,11 +39,11 @@
 
             init: function ($this) {
 
-                this.price = this.el.closest('.' + this.options.hash);
-                this.item_id = this.options.item_id;
+                this.price      = this.el.closest('.' + this.options.hash);
+                this.item_id    = this.options.item_id;
                 this.element_id = this.options.element_id;
-                this.isModal = this.options.isModal;
-                this.hash = this.options.hash;
+                this.isModal    = this.options.isModal;
+                this.hash       = this.options.hash;
 
                 this.toggleButtons();
                 this.price.on('removeItem', function () {
@@ -138,15 +138,16 @@
 
             'click .jsAddToCart': function (e, $this) {
 
-                var jbPrice = $this.price.data('JBZooPrice'),
+                var jbPrice  = $this._getPriceWidget(),
                     quantity = jbPrice.get('quantity', '1'),
-                    input = $(this);
+                    input    = $(this);
 
                 $this.ajax({
                     'target' : $(this),
                     'url'    : $this.options.add,
                     'data'   : {
                         "args": {
+                            'template': jbPrice.getTemplate(),
                             'quantity': quantity,
                             'values'  : jbPrice.getValue()
                         }

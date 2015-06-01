@@ -21,7 +21,7 @@ App::getInstance('zoo')->loader->register('ElementJBPrice', 'elements:jbprice/jb
 class ElementJBPricePlain extends ElementJBPrice
 {
     /**
-     * Constructor
+     * Class constructor
      */
     public function __construct()
     {
@@ -113,12 +113,12 @@ class ElementJBPricePlain extends ElementJBPrice
 
     /**
      * Ajax add to cart method
-     * @param string $template
+     * @param array $template
      * @param int    $quantity
      * @param array  $values
      * @throws ElementJBPriceException
      */
-    public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array())
+    public function ajaxAddToCart($template = array('default'), $quantity = 1, $values = array())
     {
         $jbAjax = $this->app->jbajax;
 
@@ -133,11 +133,8 @@ class ElementJBPricePlain extends ElementJBPrice
 
         $list = $this->getList($list, array(
             'values'   => $values,
-            'quantity' => $quantity,
-            'currency' => $this->currency()
+            'quantity' => $quantity
         ));
-        // Get default variant.
-        $variant = $list->current();
 
         $session_key = $list->getSessionKey();
         $data        = $cart->getItem($session_key);
@@ -146,15 +143,11 @@ class ElementJBPricePlain extends ElementJBPrice
         }
 
         // Check if all required params is selected.
-        $diff = array_map(function ($element) {
-            return $element->getName();
-        },
-            array_filter(array_diff_key($variant->required(), $values))
-        );
+        $missing = $this->getMissing($values);
 
         // Check required.
-        if (count($diff) > 0) {
-            throw new ElementJBPriceException(JText::sprintf('JBZOO_JBPRICE_OPTIONS_IS_REQUIRED', implode('", "', $diff)));
+        if (count($missing)) {
+            throw new ElementJBPriceException(JText::sprintf('JBZOO_JBPRICE_OPTIONS_IS_REQUIRED', '"' . implode('", "', $missing) . '"'));
         }
 
         // Check balance.

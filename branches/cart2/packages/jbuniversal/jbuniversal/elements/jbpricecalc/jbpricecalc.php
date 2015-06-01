@@ -100,11 +100,12 @@ class ElementJBPriceCalc extends ElementJBPrice
 
     /**
      * Ajax add to cart method
-     * @param string $template
-     * @param int    $quantity
-     * @param array  $values
+     * @param array $template
+     * @param int   $quantity
+     * @param array $values
+     * @throws ElementJBPriceException
      */
-    public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array())
+    public function ajaxAddToCart($template = array('default'), $quantity = 1, $values = array())
     {
         $jbAjax = $this->app->jbajax;
 
@@ -115,14 +116,14 @@ class ElementJBPriceCalc extends ElementJBPrice
         $keys = array_keys($list);
         $key  = (int)end($keys);
 
-        //Set the default option, which we have received, not saved. For correct calculation.
-        $this->setTemplate($template)->setDefault($key);
+        // Set the default option, which we have received, not saved. For correct calculation.
+        $this->setDefault($key)->setTemplate($template);
 
         $this->getList($list, array(
             'values'   => $values,
-            'quantity' => $quantity,
-            'currency' => !empty($currency) ? $currency : $this->currency()
+            'quantity' => $quantity
         ));
+
         $session_key = $this->_list->getSessionKey();
 
         $data = $cart->getItem($session_key);
@@ -130,19 +131,23 @@ class ElementJBPriceCalc extends ElementJBPrice
             $quantity += $data['quantity'];
         }
 
-        //Check balance
-        if ($this->inStock($quantity, $key)) {
-            $cart
-                ->addItem($this->_list->getCartData())
-                ->updateItem($cart->getItem($session_key));
+        // Check if all required params is selected.
+        $missing = $this->getMissing($values);
 
-            $jbAjax->send(array(), true);
-
-        } else {
-            $jbAjax->send(array('message' => JText::_('JBZOO_JBPRICE_ITEM_NO_QUANTITY')), false);
+        // Check required.
+        if (count($missing)) {
+            throw new ElementJBPriceException(JText::sprintf('JBZOO_JBPRICE_OPTIONS_IS_REQUIRED', '"' . implode('", "', $missing) . '"'));
         }
 
-        $jbAjax->send(array('added' => 0, 'message' => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE')));
+        // Check balance.
+        if (!$this->inStock($quantity, $key)) {
+            throw new ElementJBPriceException(JText::_('JBZOO_JBPRICE_ITEM_NO_QUANTITY'));
+        }
+
+        $cart->addItem($this->_list->getCartData())
+             ->updateItem($cart->getItem($session_key));
+
+        $jbAjax->send(array(), true);
     }
 
     /**
@@ -185,6 +190,21 @@ class ElementJBPriceCalc extends ElementJBPrice
         $result  = JBCart::getInstance()->remove($item_id, $this->identifier, $key);
 
         $this->app->jbajax->send(array('removed' => $result));
+    }
+
+    /**
+     * Get required elements.
+     * @return array
+     */
+    public function getRequired()
+    {
+        $required = array();
+        foreach($this->_list->all() as $variant)
+        {
+            $required = array_merge((array)$required, $variant->getRequired());
+        }
+
+        return $required;
     }
 
     /**
