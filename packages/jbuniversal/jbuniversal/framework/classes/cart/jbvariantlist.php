@@ -206,7 +206,8 @@ class JBCartVariantList extends ArrayObject
 
     /**
      * @return JBCartVariant|null
-     * @deprecated @see JBCartVariantList::current()
+     * @deprecated
+     * @see JBCartVariantList::current()
      */
     public function byDefault()
     {
@@ -392,12 +393,13 @@ class JBCartVariantList extends ArrayObject
      */
     public function getValues()
     {
-        $result   = array();
-        $elements = (array)$this->current()->all();
+        $result = array();
+        $values = (array)$this->values;
 
-        if (!empty($elements)) {
-            foreach ($elements as $key => $element) {
-                if (!$element->isCore()) {
+        if (!empty($values)) {
+            foreach ($values as $key => $value) {
+                if ($element = $this->_jbprice->getElement($key)) {
+                    $element->bindData($value);
                     //TODO Need to check value, method - issetOption
                     $result[$element->getName()] = $element->getValue(true);
                 }
@@ -463,25 +465,18 @@ class JBCartVariantList extends ArrayObject
         $result     = array();
 
         /** @type JBCartElementPrice $element */
-        if ($parameters) {
-            foreach ($parameters as $position => $elements) {
-                foreach($elements as $index => $params) {
-                    $element = $variant->get($params['identifier']);
-                    if ($element && $element->isCore()) {
-                        $element->setIndex($index)->setPosition($position);
-                        $params['_position'] = $position;
-                        $params['_index']    = $index;
+        foreach ($parameters as $params) {
+            $element = $variant->get($params['identifier']);
+            if ($element && $element->isCore()) {
+                $element->setIndex($params['_index'])->setPosition($params['_position']);
 
-                        $data = $element->renderAjax(new AppData($params));
-                        //return data if not null
-                        if ($data !== null && $data !== '') {
-                            $key = strtolower('jselement' . $template . $position . $index);
+                $data = $element->renderAjax(new AppData($params));
+                //return data if not null
+                if ($data !== null && $data !== '') {
+                    $key = strtolower('jselement' . $template . $params['_position'] . $params['_index']);
 
-                            $result[$element->getElementType()][$key] = $data;
-                        }
-                    }
+                    $result[$element->getElementType()][$key] = $data;
                 }
-
             }
         }
 

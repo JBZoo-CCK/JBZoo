@@ -187,7 +187,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $params = new AppData($params);
         $hash   = $this->setTemplate($params->get('template', 'default'))->hash($params);
         $this->loadAssets();
-
         if (!$this->cache || ($this->cache && !$cache = $this->_cache->get($hash, 'price_elements', true))) {
 
             $template = $this->getTemplate();
@@ -405,7 +404,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function buildVariant($data = array(), $id = self::BASIC_VARIANT)
     {
-        $elements = array_merge($this->getCoreConfigs(), $this->getParameters(), $data);
+        $elements = array_merge($this->getConfigs(), $this->loadParams(), $data);
         $elements = $this->_getElements(array_keys($elements), $id);
 
         $variant = $this->_storage->create('variant', array(
@@ -470,9 +469,9 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     /**
      * @return string
      */
-    protected function getPrivateKey()
+    protected function getPrivateKey($template = null)
     {
-        return JBCart::CONFIG_PRICE_TMPL . ".$this->identifier." . $this->getTemplate();
+        return JBCart::CONFIG_PRICE_TMPL . ".$this->identifier." . ($template !== null ? $template : $this->getTemplate());
     }
 
     /**
@@ -540,12 +539,12 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * Ajax add to cart method
-     * @param string $template
+     * @param array $template
      * @param int    $quantity
      * @param array  $values
      * @return
      */
-    abstract public function ajaxAddToCart($template = 'default', $quantity = 1, $values = array());
+    abstract public function ajaxAddToCart($template = array('default'), $quantity = 1, $values = array());
 
     /**
      * @param string $template Template to render
@@ -570,19 +569,41 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $variant    = $this->_list->current();
         $options    = array();
         $parameters = $this->_storage->get('parameters', $this->key('private'), array());
-        if ($parameters) {
-            foreach ($parameters as $position => $elements) {
-                foreach ($elements as $index => $params) {
-                    $element = $variant->get($params['identifier']);
-                    if ($element && $element->isCore()) {
-                        $element->setIndex($index)->setPosition($position);
-                        $options[$element->getElementType()] = $element->interfaceParams(new AppData($params));
-                    }
-                }
+        foreach ($parameters as $params) {
+            $element = $variant->get($params['identifier']);
+            if ($element && $element->isCore()) {
+                $element->setIndex($params['_index'])->setPosition($params['_position']);
+                $options[$element->getElementType()] = $element->interfaceParams(new AppData($params));
             }
         }
 
         return $options;
+    }
+
+    /**
+     * Get missing elements names.
+     * @param $values
+     */
+    public function getMissing($values)
+    {
+        $missing = array_map(function ($element) {
+            return $element ? $element->getName() : null;
+        },
+            array_diff_key($this->getRequired(), $values)
+        );
+
+        return $missing;
+    }
+
+    /**
+     * Get required elements.
+     * @return array
+     */
+    public function getRequired()
+    {
+        $variant = $this->_list->current();
+
+        return $variant->getRequired();
     }
 
     /**
@@ -672,15 +693,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
-     * Check if calc element
-     * @return bool
-     */
-    public function isOverlay()
-    {
-        return $this->isOverlay;
-    }
-
-    /**
      * Get element data in JSONData Object
      * @return JSONData
      */
@@ -706,7 +718,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             foreach ($list->all() as $key => $variant) {
                 $this->setDefault($key);
 
-                $data = array_merge($data, $this->getVariantData($variant));
+                $data = array_merge((array)$data, $this->getVariantData($variant));
             }
             $this->setDefault($_default);
 
@@ -1183,48 +1195,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
-     * Load element renderer params.
-     * @param string $id Element id.
-     * @return AppData
-     */
-    public function getParameter($id)
-    {
-        $parameters = $this->getParameters();
-
-        return new AppData(isset($parameters[$id]) ? $parameters[$id] : array());
-    }
-
-    /**
-     * Load all params
-     * @return array
-     */
-    protected function getConfigs()
-    {
-        return $this->_storage->get('configs', $this->key('public'), array());
-    }
-
-    /**
-     * @todo If template is not set && JDEBUG === 1  throw exception
-     * @param string $access
-     * @return array
-     * @throws ElementJBPriceException
-     */
-    protected function getParameters($access = '')
-    {
-        if ($this->getTemplate() === null)
-        {
-            //throw new ElementJBPriceException('Template is not set.');
-            return array();
-        }
-        $access = ($access === '' ? $this->key('private') : $access);
-
-        $parameters = $this->app->jbcartposition->loadParams($access);
-        $parameters = JBCart::getInstance()->index($parameters, 'identifier');
-
-        return $parameters;
-    }
-
-    /**
      * Load elements render params for @filter
      * @return array
      */
@@ -1241,6 +1211,81 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         }
 
         return $this->filter_params;
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function hasParameter($id)
+    {
+        $parameters = $this->loadParams();
+        foreach($parameters as $params) {
+            if(isset($params[$id]))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Load element renderer params.
+     * @param string $id Element id.
+     * @return AppData
+     */
+    public function getParameter($id)
+    {
+        $params = $this->getParameters();
+
+        return new AppData(isset($params[$id]) ? $params[$id] : array());
+    }
+
+    /**
+     * Load all params
+     * @return array
+     */
+    protected function getConfigs()
+    {
+        return $this->_storage->get('configs', $this->key('public'), array());
+    }
+
+    /**
+     * @todo If template is not set && JDEBUG === 1  throw exception
+     * @param string $template
+     * @return array
+     * @throws ElementJBPriceException
+     */
+    protected function getParameters($template = '')
+    {
+        if ($this->getTemplate() === null)
+        {
+            //throw new ElementJBPriceException('Template is not set.');
+            return array();
+        }
+        $template = ($template !== '' && $template !== null ? $template : $this->getTemplate());
+        $access   = $this->getPrivateKey($template);
+
+        $parameters = $this->_storage->get('parameters', $access, array());
+        $parameters = JBCart::getInstance()->index($parameters, 'identifier');
+
+        return $parameters;
+    }
+
+    /**
+     * Load and merge params for price templates.
+     * @return array
+     */
+    protected function loadParams()
+    {
+        $templates = (array)$this->getTemplate();
+        $parameters = array();
+        foreach($templates as $template) {
+            $parameters = array_merge($parameters, $this->getParameters($template));
+        }
+
+        return $parameters;
     }
 
     /**

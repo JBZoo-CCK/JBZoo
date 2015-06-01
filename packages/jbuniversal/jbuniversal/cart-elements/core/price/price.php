@@ -699,6 +699,8 @@ abstract class JBCartElementPrice extends JBCartElement
         $this->isOverlay  = null;
         $this->cache      = null;
         $this->required   = null;
+        $this->_position  = null;
+        $this->_index     = null;
     }
 
     /**

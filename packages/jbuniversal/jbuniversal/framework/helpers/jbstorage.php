@@ -286,7 +286,16 @@ class JBStorageHelper extends AppHelper
         $key = strtolower(trim($key));
         if (!isset($this->parameters[$key]))
         {
-            $this->parameters->set($key, JBModelConfig::model()->getGroup('cart.' . $key, array()));
+            $parameters = array();
+            $storage    = (array)JBModelConfig::model()->getGroup('cart.' . $key, array());
+            foreach ($storage as $position => $elements) {
+                foreach ($elements as $index => $params) {
+                    $params['_position'] = $position;
+                    $params['_index']    = $index;
+                    $parameters[] = $params;
+                }
+            }
+            $this->parameters->set($key, $parameters);
         }
 
         return $this->parameters->get($key, $default);
@@ -301,9 +310,9 @@ class JBStorageHelper extends AppHelper
     public function getParameter($key, $id, $default = null)
     {
         $key  = strtolower(trim($key));
-        $data = $this->getParameters($key, array());
+        $data = $this->getParameters($key . '.' . $id, array());
 
-        return isset($data[$id]) ? $data[$id] : $default;
+        return !empty($data) ? $data : $default;
     }
 
     /**

@@ -61,6 +61,16 @@
                 $this.rePaint();
             },
 
+            getHash: function () {
+
+                var values = this._getValues();
+                return this._buildHash(values);
+            },
+
+            getTemplate: function() {
+                return this.template;
+            },
+
             rePaint: function () {
 
                 var hash = this.getHash();
@@ -70,12 +80,6 @@
                 }
 
                 return this._rePaint(this.cache[hash]);
-            },
-
-            getHash: function () {
-
-                var values = this._getValues();
-                return this._buildHash(values);
             },
 
             getVariant: function () {

@@ -112,7 +112,7 @@ class JBCartElementPriceOption extends JBCartElementPrice
     {
         if ($this->required === null)
         {
-            $parameter  = (array)$this->getJBPrice()->getParameter($this->identifier);
+            $parameter  = (array)$this->getJBPrice()->hasParameter($this->identifier);
             $hasOptions = ($this->hasOptions() && $this->_getOptions(false) || !$this->hasOptions());
             $required   = ((int)$this->config->get('required', 0) === 1 && !$this->isOverlay);
 

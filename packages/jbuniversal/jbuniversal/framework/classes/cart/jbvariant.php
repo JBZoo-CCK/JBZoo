@@ -321,9 +321,11 @@ class JBCartVariant extends ArrayObject
      * Get all required elements.
      * @return array
      */
-    public function required()
+    public function getRequired()
     {
-        return array_filter(array_map(create_function('$element', 'return ($element->isRequired() ? $element : null);'), $this->all()));
+        return array_filter($this->all(), function ($element) {
+            return $element->isRequired() ? $element : null;
+        });
     }
 
     /**
