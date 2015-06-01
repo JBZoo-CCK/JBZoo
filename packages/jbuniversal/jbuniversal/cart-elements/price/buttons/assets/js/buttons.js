@@ -14,15 +14,18 @@
 
     JBZoo.widget('JBZoo.PriceElement.Buttons',
         {
-            'item_id'   : '',
-            'element_id': '',
-            'hash'      : '',
-            'isInCart'  : false,
-            'add'       : '',
-            'remove'    : '',
-            'basket'    : '',
-            'modal'     : '',
-            'isModal'   : 0
+            'item_id'        : '',
+            'element_id'     : '',
+            'hash'           : '',
+            'isInCart'       : false,
+            'add'            : '',
+            'remove'         : '',
+            'basket'         : '',
+            'modal'          : '',
+            'isModal'        : 0,
+            'addAlert'       : false,
+            'addAlertText'   : 'Item has been added to the cart!',
+            'addAlertTimeout': 3000
         },
         {
             // default data
@@ -43,7 +46,7 @@
                 this.hash = this.options.hash;
 
                 this.toggleButtons();
-                this.price.on('removeItem', function() {
+                this.price.on('removeItem', function () {
                     $this.removeItem();
                     $this.toggleButtons();
                 });
@@ -61,7 +64,7 @@
                 return this.isInCart;
             },
 
-            getItems: function() {
+            getItems: function () {
                 if (this.isModal) {
                     return window.parent.JBZoo.getVar('cartItems', {}) || {};
                 }
@@ -69,8 +72,8 @@
                 return JBZoo.getVar('cartItems', {}) || {};
             },
 
-            setItems: function(items) {
-                if(this.isModal) {
+            setItems: function (items) {
+                if (this.isModal) {
                     return window.parent.JBZoo.addVar('cartItems', items);
                 }
 
@@ -84,7 +87,7 @@
                     delete items[this.item_id];
                 }
 
-                if(!JBZoo.empty(items) && !JBZoo.empty(items[this.item_id]) && !JBZoo.empty(items[this.item_id])[this.element_id]) {
+                if (!JBZoo.empty(items) && !JBZoo.empty(items[this.item_id]) && !JBZoo.empty(items[this.item_id])[this.element_id]) {
                     delete items[this.item_id][this.element_id];
                 }
 
@@ -119,7 +122,7 @@
                         var content = $('.fancybox-iframe').contents().find('.jsPrice');
                         content.addClass('jsPriceModal jbprice-modal');
 
-                        this.width  = (content.width() + 100);
+                        this.width = (content.width() + 100);
                         this.height = (content.height() + 100);
                     },
                     'helpers'   : {
@@ -162,6 +165,14 @@
                         if (typeof parent.jQuery.fancybox != 'undefined') {
                             window.parent.jQuery.fancybox.close();
                         }
+
+                        if ($this.options.addAlert) {
+                            $this.alert($this.options.addAlertText, $.noop, {
+                                type : "success",
+                                timer: ($this.options.addAlertTimeout)
+                            });
+                        }
+
                     },
                     'error'  : function (data) {
                         if (data.message) {
@@ -230,7 +241,7 @@
                         .addClass('not-in-cart');
                 }
 
-                if(this.isModal) {
+                if (this.isModal) {
                     this.isModal = false;
                     this.toggleButtons();
                     this.isModal = true;
@@ -257,7 +268,7 @@
                 return defValue;
             },
 
-            $: function(selector, _parent) {
+            $: function (selector, _parent) {
 
                 if (selector == '{element}') {
                     return this.el;
@@ -281,8 +292,8 @@
                 return _$(selector, this.el);
             },
 
-            isWidgetExists: function(name) {
-                if(this.isModal) {
+            isWidgetExists: function (name) {
+                if (this.isModal) {
                     return window.parent.JBZoo.isWidgetExists(name);
                 }
 

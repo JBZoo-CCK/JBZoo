@@ -31,6 +31,16 @@
                description="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_LABEL_DESC"
                default="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_LABEL_DEFAULT"/>
 
+        <param name="add_alert" type="jbbool" label="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT"
+               description="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT_DESC" />
+
+        <param name="add_alert_timeout" type="text" label="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT_TIMEOUT"
+               description="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT_TIMEOUT_DESC" default="3" />
+
+        <param name="add_alert_text" type="jbtext" label="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT_TEXT"
+               description="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT_TEXT_DESC"
+               default="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT_TEXT_DEFAULT" />
+
         <!-- OneClick button -->
         <param name="oneclick_spacer" type="jbspacer" default="JBZOO_ELEMENT_PRICE_BUTTONS_ONECLICK_SPACER"/>
 
