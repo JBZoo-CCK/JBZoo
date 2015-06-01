@@ -541,9 +541,10 @@
          * Simple system message like alert
          * @param message
          * @param closeCallback
+         * @param params
          */
-        alert: function (message, closeCallback) {
-            $('body').JBZoo().JBZoo('alert', message, closeCallback);
+        alert: function (message, closeCallback, params) {
+            $('body').JBZoo().JBZoo('alert', message, closeCallback, params);
         },
 
         /**
