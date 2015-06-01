@@ -94,8 +94,9 @@ class JBPriceRenderer extends PositionRenderer
      * @param array  $args
      * @return string|void
      */
-    public function renderPosition($position = null, $args = array())
+    public function renderPosition($position, $args = array())
     {
+
         // init vars
         $elements = array();
         $output   = array();
@@ -106,6 +107,7 @@ class JBPriceRenderer extends PositionRenderer
         // store layout
         $layout = $this->_layout;
         foreach ($this->getConfigPosition($position) as $index => $data) {
+
             if ($element = $this->_variant->get($data['identifier'])) {
                 if (!$element->canAccess()) {
                     continue;
