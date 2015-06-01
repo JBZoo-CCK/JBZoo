@@ -12,7 +12,9 @@
 (function ($, window, document, undefined) {
 
     JBZoo.widget('JBZoo.FavoriteList', {
-        url_clear: ''
+        'url_clear'       : '',
+        'text_confirm'    : 'Are you sure?',
+        'text_confirm_all': 'Are you sure?'
     }, {
 
         'click .jsFavoriteItemRemove': function (e, $this) {
@@ -20,31 +22,37 @@
             var $button = $(this),
                 $item = $button.closest('.jsFavoriteItem');
 
-            $this.ajax({
-                'url'    : $(this).data('url'),
-                'target' : this,
-                'success': function (data) {
-                    if (data.result) {
-                        $item.slideUp(function () {
-                            $item.remove();
-                            if ($this.$('.jsFavoriteItem').length == 0) {
-                                $this.$('.jsJBZooFavoriteEmpty').fadeIn();
-                                $this.$('.jsFavoriteClear').hide();
-                            }
-                        });
+            $this.confirm($this.options.text_confirm, function () {
+
+                $this.ajax({
+                    'url'    : $button.data('url'),
+                    'target' : this,
+                    'success': function (data) {
+                        if (data.result) {
+                            $item.slideUp(function () {
+                                $item.remove();
+                                if ($this.$('.jsFavoriteItem').length == 0) {
+                                    $this.$('.jsJBZooFavoriteEmpty').fadeIn();
+                                    $this.$('.jsFavoriteClear').hide();
+                                }
+                            });
+                        }
                     }
-                }
+                });
+
             });
         },
 
         'click .jsFavoriteClear': function (e, $this) {
 
-            $this.ajax({
-                'url'    : $this.options.url_clear,
-                'target' : this,
-                'success': function () {
-                    window.location.reload();
-                }
+            $this.confirm($this.options.text_confirm_all, function () {
+                $this.ajax({
+                    'url'    : $this.options.url_clear,
+                    'target' : this,
+                    'success': function () {
+                        window.location.reload();
+                    }
+                });
             });
 
         }
