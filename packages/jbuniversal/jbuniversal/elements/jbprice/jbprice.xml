@@ -18,18 +18,5 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>2.0</version>
-    <params group="render">
-        <param name="separated_by" type="zoolist" default="Space" label="Separated by"
-               description="CHOOSE_SEPARATOR_REPEATED_ELEMENTS">
-            <option name="Space"><![CDATA[separator=[ ]]]></option>
-            <option name="Break"><![CDATA[separator=[<br />]]]></option>
-            <option name="Span"><![CDATA[tag=[<span>%s</span>]]]></option>
-            <option name="Paragraph"><![CDATA[tag=[<p>%s</p>]]]></option>
-            <option name="Div"><![CDATA[tag=[<div>%s</div>]]]></option>
-            <option name="List Item"><![CDATA[tag=[<li>%s</li>]]]></option>
-            <option name="Unordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul>%s</ul>]]]></option>
-            <option name="Ordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ol>%s</ol>]]]></option>
-            <option name="Warp Item"><![CDATA[tag=[<article class="item">%s</article>]]]></option>
-        </param>
-    </params>
+
 </element>
