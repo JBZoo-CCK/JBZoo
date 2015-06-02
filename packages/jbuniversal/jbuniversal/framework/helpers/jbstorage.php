@@ -291,6 +291,7 @@ class JBStorageHelper extends AppHelper
             foreach ($storage as $position => $elements) {
                 $_index = 0;
                 foreach ($elements as $index => $params) {
+                    // Backward Compatibility. Delete later.
                     if(!is_numeric($index))
                     {
                         $index = $_index++;

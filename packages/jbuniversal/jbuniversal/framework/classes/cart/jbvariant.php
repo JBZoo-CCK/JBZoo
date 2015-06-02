@@ -345,8 +345,9 @@ class JBCartVariant extends ArrayObject
      */
     public function getCore()
     {
-        return array_filter($this->all(),
-            create_function('$element', 'return ($element->isCore() == true && JString::strlen($element->getValue(true)) > 0);'));
+        return array_filter($this->all(), function ($element) {
+            return $element->isCore() ? $element : null;
+        });
     }
 
     /**
@@ -356,7 +357,7 @@ class JBCartVariant extends ArrayObject
     public function getSimple()
     {
         return array_filter($this->all(), function ($element) {
-            return !$element->isCore() && JString::strlen($element->getValue(true) > 0) ? $element : null;
+            return !$element->isCore() ? $element : null;
         });
     }
 
@@ -377,9 +378,13 @@ class JBCartVariant extends ArrayObject
      */
     public function data()
     {
-        return array_filter(array_map(create_function('$element',
-            'return JString::strlen($element->getValue(true)) > 0 ? (array)$element->data() : null;'), $this->isBasic() ? $this->getCore() : $this->all()
-        ));
+        $elements = $this->isBasic() ? $this->getCore() : $this->all();
+
+        return array_filter(array_map(function ($element) {
+            $value = $element->getValue(true);
+
+            return (!empty($value) ? (array)$element->data() : null);
+        }, $elements));
     }
 
     /**
@@ -391,8 +396,7 @@ class JBCartVariant extends ArrayObject
         $elements = new AppData();
         if (isset($options['data']))
         {
-                $data = $options['data'];
-                $elements->exchangeArray($data);
+            $elements->exchangeArray($options['data']);
         }
 
         foreach ($this->elements as $key => $element)
