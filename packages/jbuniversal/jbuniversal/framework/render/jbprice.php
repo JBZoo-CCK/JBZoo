@@ -56,9 +56,12 @@ class JBPriceRenderer extends PositionRenderer
      */
     public function checkPosition($position)
     {
+        $_index = 0;
         foreach ($this->getConfigPosition($position) as $index => $data) {
-            if (($element = $this->_variant->get($data['identifier']))
-            ) {
+            if ($element = $this->_variant->get($data['identifier'])) {
+                if (!is_numeric($index)) {
+                    $index = $_index++;
+                }
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
                 $data['_index']    = $index;
@@ -100,6 +103,7 @@ class JBPriceRenderer extends PositionRenderer
         // init vars
         $elements = array();
         $output   = array();
+        $_index   = 0;
 
         // get style
         $style = isset($args['style']) ? 'jbprice.' . $args['style'] : 'jbprice.default';
@@ -111,6 +115,9 @@ class JBPriceRenderer extends PositionRenderer
             if ($element = $this->_variant->get($data['identifier'])) {
                 if (!$element->canAccess()) {
                     continue;
+                }
+                if (!is_numeric($index)) {
+                    $index = $_index++;
                 }
 
                 $data['_price_layout'] = $this->itemLayout;
