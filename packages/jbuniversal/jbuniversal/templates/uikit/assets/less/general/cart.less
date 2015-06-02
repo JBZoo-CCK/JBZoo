@@ -18,78 +18,82 @@
 
 .jbzoo {
 
-    .jbcart-payment {
-        border-bottom: none !important;
-    }
+    .jbcart {
 
-    .jbcart-payment-ui-row {
+        &-payment {
+            border-bottom: none !important;
+        }
 
-        .jbcart-payment-label {
-            padding: 20px;
-            .transition(0.3s);
-            .box-shadow(0 0 40px rgba(215, 215, 215, 0.5) inset);
+        &-payment-ui-row {
 
-            &:hover {
-                cursor: pointer;
+            .jbcart-payment-label {
+                padding: 20px;
                 .transition(0.3s);
-                .box-shadow(0 0 40px rgba(186, 186, 186, 0.5) inset);
+                .box-shadow(0 0 40px rgba(215, 215, 215, 0.5) inset);
+
+                &:hover {
+                    cursor: pointer;
+                    .transition(0.3s);
+                    .box-shadow(0 0 40px rgba(186, 186, 186, 0.5) inset);
+                }
+
             }
 
         }
 
-    }
+        &-row {
 
-    .jbcart-row {
+            &.jbloading:after {
+                display: none;
+            }
 
-        &.jbloading:after {
+        }
+
+        &-item-image {
+            padding: 4px;
+            border: 1px solid #dddddd;
+            .border-radius(4px);
+        }
+
+        &-mobile-tools {
+            position: fixed;
             display: none;
-        }
+            min-height: 78px;
+            bottom: 0px;
+            left: 0;
+            width: 100%;
+            z-index: 5;
+            color: @white;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.57);
+            border-top: 6px solid rgba(0, 0, 0, 0.44);
+            .box-shadow(0 0 40px rgba(0, 0, 0, 0.5) inset);
 
-    }
-
-    .jbcart-item-image {
-        padding: 4px;
-        border: 1px solid #dddddd;
-        .border-radius(4px);
-    }
-
-    .jbcart-mobile-tools {
-        position: fixed;
-        display: none;
-        min-height: 78px;
-        bottom: 0px;
-        left: 0;
-        width: 100%;
-        z-index: 5;
-        color: @white;
-        text-align: center;
-        background: rgba(0, 0, 0, 0.57);
-        border-top: 6px solid rgba(0, 0, 0, 0.44);
-        .box-shadow(0 0 40px rgba(0, 0, 0, 0.5) inset);
-
-        .jbtool-total-price {
-            font-size: 20px;
-            padding-top: 5px;
-        }
-
-        .jbform-actions {
-            margin-top: 0;
-            padding-top: 8px;
-            padding-bottom: 0;
-            background: transparent;
-            border: none;
-
-            .uk-button {
-                min-height: 34px;
-                padding: 0 14px;
-                line-height: 34px;
-                margin-bottom: 10px;
+            .jbtool-total-price {
+                font-size: 20px;
+                padding-top: 5px;
             }
 
-        }
+            .jbform-actions {
+                margin-top: 0;
+                padding-top: 8px;
+                padding-bottom: 0;
+                background: transparent;
+                border: none;
 
-        .jbtool-value {
-            font-weight: bold;
+                .uk-button {
+                    min-height: 34px;
+                    padding: 0 14px;
+                    line-height: 34px;
+                    margin-bottom: 10px;
+                }
+
+            }
+
+            .jbtool-value {
+                font-weight: bold;
+            }
+
         }
 
     }
