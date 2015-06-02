@@ -25,7 +25,6 @@
         <param name="cache" type="jbbool" default="0" label="JBZOO_JBPRICE_ELEMENT_CACHE"
                description="JBZOO_JBPRICE_ELEMENT_CACHE_DESC"/>
 
-        <param name="@basket_label" type="jbspacer" default="JBZOO_JBPRICE_BASKET_RELATION"/>
     </params>
 
     <params group="render">
