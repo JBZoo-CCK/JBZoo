@@ -76,11 +76,11 @@ class JBCartVariant extends ArrayObject
         //Bind elements
         if ($elements)
         {
-            $data = new AppData(isset($options['elements']) ? $options['elements'] : array());
+            $data = new AppData(isset($options['data']) ? $options['data'] : array());
 
             $this->add($elements, $data);
 
-            unset($options['elements']);
+            unset($options['data']);
         }
 
         //set elements data
@@ -130,7 +130,7 @@ class JBCartVariant extends ArrayObject
 
     /**
      * Check if JBCartVariant exists.
-     * @param  integer $id Element identifier
+     * @param  string $id Element identifier
      * @return bool
      */
     public function has($id)
@@ -148,6 +148,48 @@ class JBCartVariant extends ArrayObject
     }
 
     /**
+     * @param  string $id
+     * @return bool
+     */
+    public function isCore($id)
+    {
+        return $this->has($id) && ($this->get($id)->isCore());
+    }
+
+    /**
+     * @param callable $p
+     * @return bool
+     */
+    public function exists(Closure $p)
+    {
+        foreach ($this->elements as $key => $element) {
+            if ($p($key, $element)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param callable $p
+     * @return static
+     */
+    public function filter(Closure $p)
+    {
+        return new static(array_filter($this->elements, $p));
+    }
+
+    /**
+     * @param callable $func
+     * @return static
+     */
+    public function map(Closure $func)
+    {
+        return new static(array_map($func, $this->elements));
+    }
+
+    /**
      * @param string $group Group of elements to count
      * @return int
      */
@@ -159,11 +201,11 @@ class JBCartVariant extends ArrayObject
         }
         elseif($group === 'core')
         {
-            $count = count($this->core());
+            $count = $this->filter(function($element) { return $element->isCore(); })->count();
         }
         else
         {
-            $count = count($this->simple());
+            $count = $this->filter(function($element) { return !$element->isCore(); })->count();;
         }
 
         return $count;
@@ -301,7 +343,7 @@ class JBCartVariant extends ArrayObject
      * Get all core elements from variant.
      * @return array
      */
-    public function core()
+    public function getCore()
     {
         return array_filter($this->all(),
             create_function('$element', 'return ($element->isCore() == true && JString::strlen($element->getValue(true)) > 0);'));
@@ -311,10 +353,11 @@ class JBCartVariant extends ArrayObject
      * Get all simple elements from variant.
      * @return array
      */
-    public function simple()
+    public function getSimple()
     {
-        return array_filter($this->all(),
-            create_function('$element', 'return ($element->isCore() == false && JString::strlen($element->getValue(true)) > 0);'));
+        return array_filter($this->all(), function ($element) {
+            return !$element->isCore() && JString::strlen($element->getValue(true) > 0) ? $element : null;
+        });
     }
 
     /**
@@ -335,7 +378,7 @@ class JBCartVariant extends ArrayObject
     public function data()
     {
         return array_filter(array_map(create_function('$element',
-            'return JString::strlen($element->getValue(true)) > 0 ? (array)$element->data() : null;'), $this->isBasic() ? $this->core() : $this->all()
+            'return JString::strlen($element->getValue(true)) > 0 ? (array)$element->data() : null;'), $this->isBasic() ? $this->getCore() : $this->all()
         ));
     }
 
@@ -346,10 +389,10 @@ class JBCartVariant extends ArrayObject
     public function bindData(array $options = array())
     {
         $elements = new AppData();
-        if (isset($options['elements']))
+        if (isset($options['data']))
         {
-            $data = $options['elements'];
-            $elements->exchangeArray($data);
+                $data = $options['data'];
+                $elements->exchangeArray($data);
         }
 
         foreach ($this->elements as $key => $element)

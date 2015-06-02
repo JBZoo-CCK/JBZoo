@@ -393,20 +393,7 @@ class JBCartVariantList extends ArrayObject
      */
     public function getValues()
     {
-        $result = array();
-        $values = (array)$this->values;
-
-        if (!empty($values)) {
-            foreach ($values as $key => $value) {
-                if ($element = $this->_jbprice->getElement($key)) {
-                    $element->bindData($value);
-                    //TODO Need to check value, method - issetOption
-                    $result[$element->getName()] = $element->getValue(true);
-                }
-            }
-        }
-
-        return $result;
+        return (array)$this->values;
     }
 
     /**
@@ -459,8 +446,9 @@ class JBCartVariantList extends ArrayObject
      */
     public function renderVariant()
     {
-        $parameters = $this->_storage->get('parameters', $this->getJBPrice()->key('private'), array());
         $template   = $this->getJBPrice()->getTemplate();
+
+        $parameters = $this->_storage->get('parameters', $this->getJBPrice()->key('private', $template ), array());
         $variant    = $this->current();
         $result     = array();
 
@@ -492,9 +480,9 @@ class JBCartVariantList extends ArrayObject
         $data    = array();
         $variant = $this->current();
         if ($variant->count('core')) {
-            foreach ($variant->core() as $key => $element) {
+            foreach ($variant->getCore() as $key => $element) {
                 $value = $element->getValue(true);
-                if ($element->is('_properties')) { //TODO HACK for multiplicity in properties element
+                if ($element->is('_properties')) { // TODO HACK for multiplicity in properties element
                     $value = (array)$element->data();
                 }
                 $data[$key] = $value;
@@ -538,7 +526,6 @@ class JBCartVariantList extends ArrayObject
     protected function _plainCartData()
     {
         $jbPrice = $this->getJBPrice();
-
         $data    = array(
             'key'        => $this->getSessionKey(),
             'item_id'    => $this->item_id,
@@ -548,6 +535,7 @@ class JBCartVariantList extends ArrayObject
             'quantity'   => (float)$this->quantity,
             'template'   => $this->template,
             'values'     => $this->getValues(),
+            'selected'   => $this->selected,
             'elements'   => $this->defaultVariantCartData(),
             'params'     => $jbPrice->elementsInterfaceParams(),
             'modifiers'  => $this->getModifiersRates(),
@@ -566,8 +554,7 @@ class JBCartVariantList extends ArrayObject
     protected function _calcCartData()
     {
         $jbPrice = $this->getJBPrice();
-
-        $data = array(
+        $data    = array(
             'key'        => $this->getSessionKey(),
             'item_id'    => $this->item_id,
             'item_name'  => $this->item_name,
@@ -576,6 +563,7 @@ class JBCartVariantList extends ArrayObject
             'quantity'   => (float)$this->quantity,
             'template'   => $this->template,
             'values'     => $this->getValues(),
+            'selected'   => $this->selected,
             'elements'   => $this->defaultVariantCartData(),
             'params'     => $jbPrice->elementsInterfaceParams(),
             'modifiers'  => $this->getModifiersRates(),

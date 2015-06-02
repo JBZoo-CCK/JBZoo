@@ -15,8 +15,13 @@ defined('_JEXEC') or die('Restricted access');
 App::getInstance('zoo')->loader->register('ElementJBPrice', 'elements:jbprice/jbprice.php');
 
 /**
- * Class ElementJBPricePlain
- * The Price element for JBZoo
+ * Class ElementJBPricePlain.
+ * The simple price element for JBZoo App.
+ *
+ * @package      JBZoo.Price
+ * @author       Alexander Oganov <t_tapak@yahoo.com>
+ * @version      1.1
+ * @since        Release 2.2(Beta)
  */
 class ElementJBPricePlain extends ElementJBPrice
 {
@@ -96,7 +101,6 @@ class ElementJBPricePlain extends ElementJBPrice
         {
             foreach($template as $tpl) {
                 $this->setTemplate($tpl);
-
                 $this->getList($list, array(
                     'default'  => $key,
                     'values'   => $values,
@@ -120,6 +124,7 @@ class ElementJBPricePlain extends ElementJBPrice
      */
     public function ajaxAddToCart($template = array('default'), $quantity = 1, $values = array())
     {
+        /** @type $jbAjax JBAjaxHelper  */
         $jbAjax = $this->app->jbajax;
 
         //Get variant by selected values.
@@ -132,7 +137,8 @@ class ElementJBPricePlain extends ElementJBPrice
         $this->setDefault($key)->setTemplate($template);
 
         $list = $this->getList($list, array(
-            'values'   => $values,
+            'values'   => $this->getValues($values),
+            'selected' => $values,
             'quantity' => $quantity
         ));
 
@@ -172,7 +178,7 @@ class ElementJBPricePlain extends ElementJBPrice
         $this->setTemplate($template)->setLayout($layout);
         $this->cache = false;
 
-        $this->getParameters();
+        $this->getParameters($template);
         $this->getConfigs();
 
         $html = $this->render(array(
