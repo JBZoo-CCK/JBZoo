@@ -289,7 +289,12 @@ class JBStorageHelper extends AppHelper
             $parameters = array();
             $storage    = (array)JBModelConfig::model()->getGroup('cart.' . $key, array());
             foreach ($storage as $position => $elements) {
+                $_index = 0;
                 foreach ($elements as $index => $params) {
+                    if(!is_numeric($index))
+                    {
+                        $index = $_index++;
+                    }
                     $params['_position'] = $position;
                     $params['_index']    = $index;
                     $parameters[] = $params;

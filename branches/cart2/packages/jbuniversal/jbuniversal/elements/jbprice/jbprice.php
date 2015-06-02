@@ -581,6 +581,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     /**
      * Get missing elements names.
      * @param $values
+     * @return array
      */
     protected function getMissing($values)
     {
@@ -1194,7 +1195,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
     /**
      * @todo If template is not set && JDEBUG === 1  throw exception
-     * @param string $template
+     * @param string|null $template
      * @return array
      * @throws ElementJBPriceException
      */
@@ -1205,7 +1206,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             //throw new ElementJBPriceException('Template is not set.');
             return array();
         }
-        $template = !empty($template) ? $template : $this->getTemplate();
+        $template = $template ?: $this->getTemplate();
         $access   = $this->getPrivateKey($template);
 
         $parameters = $this->_storage->get('parameters', $access, array());
@@ -1251,7 +1252,8 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             (array)$this->getItem()->elements->get($this->identifier),
             (array)$this->getConfigs(),
             (array)$this->getParameters($this->getTemplate()),
-            $this->getTemplate(),
+            (array)$this->config,
+            $this->_template,
             (array)JFactory::getUser()->groups
         ));
 
