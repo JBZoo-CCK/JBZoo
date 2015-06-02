@@ -145,7 +145,7 @@ class JBPriceHelper extends AppHelper
         }
         $value = JString::trim($value);
 
-        return ($this->empty($value) ? $value : null);
+        return (!$this->isEmpty($value) ? $value : null);
     }
 
     /**
