@@ -273,8 +273,9 @@ class JBAssetsHelper extends AppHelper
             $this->css(array('jbassets:css/libs/sweet-alert.css'), self::GROUP_LIBRARY);
 
             if ($this->app->jbenv->isSite()) {
+                $cartItems = JBCart::getInstance()->getItems();
                 $this->addVar('currencyList', $this->app->jbmoney->getData());
-                $this->addVar('cartItems', JBCart::getInstance()->map('element_id', 'element_id', 'item_id'));
+                $this->addVar('cartItems', $this->app->jbarray->map($cartItems, 'element_id', 'element_id', 'item_id'));
             }
 
             $this->addVar('JBZOO_DIALOGBOX_OK', JText::_('JBZOO_DIALOGBOX_OK'));

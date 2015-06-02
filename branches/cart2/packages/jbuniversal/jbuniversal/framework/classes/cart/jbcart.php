@@ -778,6 +778,7 @@ class JBCart
     }
 
     /**
+     *
      * @param string $from
      * @param string $to
      * @param null   $group
@@ -786,7 +787,7 @@ class JBCart
     public function map($from = 'item_id', $to = 'element_id', $group = null)
     {
         $items = (array)$this->getItems();
-        $array = $this->_map($items, $from, $to, $group);
+        $array = $this->app->jbarray->map($items, $from, $to, $group);
 
         return $array;
     }
@@ -816,92 +817,4 @@ class JBCart
 
         $session->set($this->_sessionNamespace, $result, $this->_namespace);
     }
-
-    /**
-     * @param      $array
-     * @param      $name
-     * @param bool $keepKeys
-     * @return array
-     */
-    public function getColumn($array, $name, $keepKeys = true)
-    {
-        $result = array();
-        if ($keepKeys) {
-            foreach ($array as $k => $element) {
-                $result[$k] = $this->getValue($element, $name);
-            }
-        } else {
-            foreach ($array as $element) {
-                $result[] = $this->getValue($element, $name);
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param      $array
-     * @param      $key
-     * @param null $default
-     * @return null
-     */
-    public function getValue($array, $key, $default = null)
-    {
-        if (is_array($array) && array_key_exists($key, $array)) {
-            return $array[$key];
-        }
-
-        if (($pos = strrpos($key, '.')) !== false) {
-            $array = $this->getValue($array, substr($key, 0, $pos), $default);
-            $key   = substr($key, $pos + 1);
-        }
-
-        if (is_object($array)) {
-            return $array->$key;
-        } elseif (is_array($array)) {
-            return array_key_exists($key, $array) ? $array[$key] : $default;
-        } else {
-            return $default;
-        }
-    }
-
-    /**
-     * @param      $array
-     * @param $key
-     * @return array
-     */
-    public function index($array, $key)
-    {
-        $result = array();
-        foreach ($array as $element) {
-            $value = $this->getValue($element, $key);
-            $result[$value] = $element;
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param      $array
-     * @param      $from
-     * @param      $to
-     * @param null $group
-     * @return array
-     */
-    protected function _map($array, $from, $to, $group = null)
-    {
-        $result = array();
-        foreach ($array as $element) {
-            $key   = $this->getValue($element, $from);
-            $value = $this->getValue($element, $to);
-            if ($group !== null) {
-                $result[$this->getValue($element, $group)][$key] = $value;
-            } else {
-                $result[$key] = $value;
-            }
-        }
-
-        return $result;
-    }
-
 }

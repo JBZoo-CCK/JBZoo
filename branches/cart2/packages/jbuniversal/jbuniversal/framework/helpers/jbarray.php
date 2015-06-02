@@ -122,6 +122,211 @@ class JBArrayHelper extends AppHelper
     }
 
     /**
+     * Borrowed from Yii Framework.
+     *
+     * Returns the values of a specified column in an array.
+     * The input array should be multidimensional or an array of objects.
+     *
+     * For example,
+     *
+     * ~~~
+     * $array = [
+     *     ['id' => '123', 'data' => 'abc'],
+     *     ['id' => '345', 'data' => 'def'],
+     * ];
+     * $result = JBArrayHelper::getColumn($array, 'id');
+     * // the result is: ['123', '345']
+     *
+     * // using anonymous function
+     * $result = ArrayHelper::getColumn($array, function ($element) {
+     *     return $element['id'];
+     * });
+     * ~~~
+     *
+     * @param array $array
+     * @param string|\Closure $name
+     * @param boolean $keepKeys whether to maintain the array keys. If false, the resulting array
+     * will be re-indexed with integers.
+     * @return array the list of column values
+     */
+    public function getColumn($array, $name, $keepKeys = true)
+    {
+        $result = array();
+        if ($keepKeys) {
+            foreach ($array as $k => $element) {
+                $result[$k] = $this->getValue($element, $name);
+            }
+        } else {
+            foreach ($array as $element) {
+                $result[] = $this->getValue($element, $name);
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Borrowed from Yii Framework.
+     *
+     * Retrieves the value of an array element or object property with the given key or property name.
+     * If the key does not exist in the array or object, the default value will be returned instead.
+     *
+     * The key may be specified in a dot format to retrieve the value of a sub-array or the property
+     * of an embedded object. In particular, if the key is `x.y.z`, then the returned value would
+     * be `$array['x']['y']['z']` or `$array->x->y->z` (if `$array` is an object). If `$array['x']`
+     * or `$array->x` is neither an array nor an object, the default value will be returned.
+     * Note that if the array already has an element `x.y.z`, then its value will be returned
+     * instead of going through the sub-arrays.
+     *
+     * Below are some usage examples,
+     *
+     * ~~~
+     * // working with array
+     * $username = JBArrayHelper::getValue($_POST, 'username');
+     * // working with object
+     * $username = JBArrayHelper::getValue($user, 'username');
+     * // working with anonymous function
+     * $fullName = JBArrayHelper::getValue($user, function ($user, $defaultValue) {
+     *     return $user->firstName . ' ' . $user->lastName;
+     * });
+     * // using dot format to retrieve the property of embedded object
+     * $street = JBArrayHelper::getValue($users, 'address.street');
+     * ~~~
+     *
+     * @param array|object $array array or object to extract value from
+     * @param string|\Closure $key key name of the array element, or property name of the object,
+     * or an anonymous function returning the value. The anonymous function signature should be:
+     * `function($array, $defaultValue)`.
+     * @param mixed $default the default value to be returned if the specified array key does not exist. Not used when
+     * getting value from an object.
+     * @return mixed the value of the element if found, default value otherwise
+     */
+    public function getValue($array, $key, $default = null)
+    {
+        if (is_array($array) && array_key_exists($key, $array)) {
+            return $array[$key];
+        }
+
+        if (($pos = strrpos($key, '.')) !== false) {
+            $array = $this->getValue($array, substr($key, 0, $pos), $default);
+            $key   = substr($key, $pos + 1);
+        }
+
+        if (is_object($array)) {
+            return $array->$key;
+        } elseif (is_array($array)) {
+            return array_key_exists($key, $array) ? $array[$key] : $default;
+        } else {
+            return $default;
+        }
+    }
+
+    /**
+     * Borrowed from Yii Framework.
+     *
+     * Indexes an array according to a specified key.
+     * The input array should be multidimensional or an array of objects.
+     *
+     * The key can be a key name of the sub-array, a property name of object, or an anonymous
+     * function which returns the key value given an array element.
+     *
+     * If a key value is null, the corresponding array element will be discarded and not put in the result.
+     *
+     * For example,
+     *
+     * ~~~
+     * $array = [
+     *     ['id' => '123', 'data' => 'abc'],
+     *     ['id' => '345', 'data' => 'def'],
+     * ];
+     * $result = JBArrayHelper::index($array, 'id');
+     * // the result is:
+     * // [
+     * //     '123' => ['id' => '123', 'data' => 'abc'],
+     * //     '345' => ['id' => '345', 'data' => 'def'],
+     * // ]
+     *
+     * // using anonymous function
+     * $result = JBArrayHelper::index($array, function ($element) {
+     *     return $element['id'];
+     * });
+     * ~~~
+     *
+     * @param array $array the array that needs to be indexed
+     * @param string|\Closure $key the column name or anonymous function whose result will be used to index the array
+     * @return array the indexed array
+     */
+    public function index($array, $key)
+    {
+        $result = array();
+        foreach ($array as $element) {
+            $value          = $this->getValue($element, $key);
+            $result[$value] = $element;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Borrowed from Yii Framework.
+     *
+     * Builds a map (key-value pairs) from a multidimensional array or an array of objects.
+     * The `$from` and `$to` parameters specify the key names or property names to set up the map.
+     * Optionally, one can further group the map according to a grouping field `$group`.
+     *
+     * For example,
+     *
+     * ~~~
+     * $array = [
+     *     ['id' => '123', 'name' => 'aaa', 'class' => 'x'],
+     *     ['id' => '124', 'name' => 'bbb', 'class' => 'x'],
+     *     ['id' => '345', 'name' => 'ccc', 'class' => 'y'],
+     * ];
+     *
+     * $result = JBArrayHelper::map($array, 'id', 'name');
+     * // the result is:
+     * // [
+     * //     '123' => 'aaa',
+     * //     '124' => 'bbb',
+     * //     '345' => 'ccc',
+     * // ]
+     *
+     * $result = JBArrayHelper::map($array, 'id', 'name', 'class');
+     * // the result is:
+     * // [
+     * //     'x' => [
+     * //         '123' => 'aaa',
+     * //         '124' => 'bbb',
+     * //     ],
+     * //     'y' => [
+     * //         '345' => 'ccc',
+     * //     ],
+     * // ]
+     * ~~~
+     *
+     * @param array $array
+     * @param string|\Closure $from
+     * @param string|\Closure $to
+     * @param string|\Closure $group
+     * @return array
+     */
+    public function map($array, $from, $to, $group = null)
+    {
+        $result = array();
+        foreach ($array as $element) {
+            $key   = $this->getValue($element, $from);
+            $value = $this->getValue($element, $to);
+            if ($group !== null) {
+                $result[$this->getValue($element, $group)][$key] = $value;
+            } else {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Recursive array mapping
      * @param Closure $function
      * @param array   $array

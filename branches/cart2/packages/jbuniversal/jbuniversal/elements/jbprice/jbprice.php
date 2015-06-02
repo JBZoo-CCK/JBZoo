@@ -155,6 +155,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public function edit($params = array())
     {
         $config = $this->getConfigs();
+
          if (!empty($config)) {
             if ($layout = $this->getLayout('edit.php')) {
                 $this->loadEditAssets();
@@ -331,7 +332,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             if (!count($variations)) {
                 $variations = $this->defaultList();
             }
-
             if (!array_key_exists(0, $variations)) {
                 $variations[0] = $this->getData(0);
             }
@@ -415,7 +415,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 'data' => $data
             ));
         }
-
         return $list;
     }
 
@@ -949,7 +948,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function bindData($data = array())
     {
-        if (null !== $this->_item) {
+        if ($this->_item !== null) {
             $hashes = array();
 
             if (array_key_exists('variations', $data)) {
@@ -1029,6 +1028,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                     }
                 }
             }
+
             // Reset keys
             $variations = array_values($variations);
             $values     = array_values($values);
@@ -1206,11 +1206,11 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             //throw new ElementJBPriceException('Template is not set.');
             return array();
         }
-        $template = $template ?: $this->getTemplate();
+        $template = !empty($template) ? $template : $this->getTemplate();
         $access   = $this->getPrivateKey($template);
 
         $parameters = $this->_storage->get('parameters', $access, array());
-        $parameters = JBCart::getInstance()->index($parameters, 'identifier');
+        $parameters = $this->app->jbarray->index($parameters, 'identifier');
 
         return $parameters;
     }

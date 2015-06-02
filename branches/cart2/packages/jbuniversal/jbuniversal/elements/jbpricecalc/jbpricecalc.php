@@ -478,7 +478,7 @@ class ElementJBPriceCalc extends ElementJBPrice
                     $value  = JString::trim((string)$value);
                     $string = $value;
                     $num    = $this->_helper->isNumeric($value) ? $vars->number($value) : null;
-                    $date   = $this->isDate($value);
+                    $date   = $this->_helper->isDate($value);
                 }
 
                 if (($string !== '' && $string !== null) || (is_float($num) || is_int($num)) || ($date !== '' && $date !== null)) {

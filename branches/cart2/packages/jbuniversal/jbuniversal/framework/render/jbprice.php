@@ -59,6 +59,7 @@ class JBPriceRenderer extends PositionRenderer
         $_index = 0;
         foreach ($this->getConfigPosition($position) as $index => $data) {
             if ($element = $this->_variant->get($data['identifier'])) {
+                // Backward Compatibility. Delete later.
                 if (!is_numeric($index)) {
                     $index = $_index++;
                 }
@@ -116,6 +117,7 @@ class JBPriceRenderer extends PositionRenderer
                 if (!$element->canAccess()) {
                     continue;
                 }
+                // Backward Compatibility. Delete later.
                 if (!is_numeric($index)) {
                     $index = $_index++;
                 }
