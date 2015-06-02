@@ -8,17 +8,27 @@
 // @coder       Denis Smetannikov <denis@jbzoo.com>
 //
 
-@import "jbzoo";
+.mobileAlert() {
 
-// general
-@import "general/system";
-@import "general/align";
-@import "general/columns";
+    .sweet-alert {
 
-// others
-@import "general/others";
-@import "general/buttons";
-@import "general/table";
+        h2 {
+            margin-bottom: 0 !important;
+            margin-top: 12px !important;
+        }
 
-// media
-@import "media/mobile";
+    }
+
+}
+
+@media @mobile {
+
+    .mobileAlert();
+
+}
+
+@media @mobile-mini {
+
+    .mobileAlert();
+
+}
