@@ -24,7 +24,9 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        return (!$this->getValue()->isEmpty()) || ((int)$params->get('empty_show', 0));
+        $prices = $this->getPrices();
+
+        return (!$prices['save']->isEmpty()) || ((int)$params->get('empty_show', 0));
     }
 
     /**

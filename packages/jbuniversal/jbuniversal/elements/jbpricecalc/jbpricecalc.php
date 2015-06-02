@@ -15,20 +15,52 @@ defined('_JEXEC') or die('Restricted access');
 App::getInstance('zoo')->loader->register('ElementJBPrice', 'elements:jbprice/jbprice.php');
 
 /**
- * Class ElementJBPriceAdvance
- * The Price element for JBZoo
- * @since 2.2
+ * Class ElementJBPriceCalc.
+ * The calculator element for JBZoo App.
+ *
+ * @package      JBZoo.Price
+ * @author       Alexander Oganov <t_tapak@yahoo.com>
+ * @version      1.1
+ * @since        Release 2.2(Beta)
  */
 class ElementJBPriceCalc extends ElementJBPrice
 {
     /**
-     * Constructor
+     * Class constructor
      */
     public function __construct()
     {
         parent::__construct();
 
         $this->isOverlay = true;
+    }
+
+    /**
+     * @param array  $list   Array of keys.
+     * @param string $target Can be 'value' or 'key'.
+     *                       Show where to find the number of variant in the key or value of array.
+     * @param bool   $addKey Add current key from list to array.
+     * @param string $searchIn
+     * @return array
+     */
+    public function quickSearch($list = array(), $target = 'value', $addKey = true, $searchIn = 'variations')
+    {
+        $variations = array();
+        if (!empty($list)) {
+            $data = $this->data();
+            foreach ($list as $key => $value) {
+                $result = $data->find($searchIn . '.' . $$target);
+                if (!empty($result)) {
+                    if ($addKey) {
+                        $variations[$$target] = $result;
+                    } else {
+                        $variations = array_merge($variations, $result);
+                    }
+                }
+            }
+        }
+
+        return $variations;
     }
 
     /**
@@ -107,6 +139,7 @@ class ElementJBPriceCalc extends ElementJBPrice
      */
     public function ajaxAddToCart($template = array('default'), $quantity = 1, $values = array())
     {
+        /** @type $jbAjax JBAjaxHelper  */
         $jbAjax = $this->app->jbajax;
 
         //Get variant by selected values
@@ -119,14 +152,15 @@ class ElementJBPriceCalc extends ElementJBPrice
         // Set the default option, which we have received, not saved. For correct calculation.
         $this->setDefault($key)->setTemplate($template);
 
-        $this->getList($list, array(
-            'values'   => $values,
+        $list = $this->getList($list, array(
+            'values'   => $this->getValues($values),
+            'selected' => $values,
             'quantity' => $quantity
         ));
 
-        $session_key = $this->_list->getSessionKey();
-
+        $session_key = $list->getSessionKey();
         $data = $cart->getItem($session_key);
+
         if (!empty($data)) {
             $quantity += $data['quantity'];
         }
@@ -144,8 +178,8 @@ class ElementJBPriceCalc extends ElementJBPrice
             throw new ElementJBPriceException(JText::_('JBZOO_JBPRICE_ITEM_NO_QUANTITY'));
         }
 
-        $cart->addItem($this->_list->getCartData())
-             ->updateItem($cart->getItem($session_key));
+        $cart->addItem($list->getCartData())
+             ->updateItem($cart->get($session_key));
 
         $jbAjax->send(array(), true);
     }
@@ -161,7 +195,7 @@ class ElementJBPriceCalc extends ElementJBPrice
         $this->setTemplate($template)->setLayout($layout);
         $this->cache = false;
 
-        $this->getParameters();
+        $this->getParameters($template);
         $this->getConfigs();
 
         $html = $this->render(array(
@@ -196,7 +230,7 @@ class ElementJBPriceCalc extends ElementJBPrice
      * Get required elements.
      * @return array
      */
-    public function getRequired()
+    protected function getRequired()
     {
         $required = array();
         foreach($this->_list->all() as $variant)
@@ -327,7 +361,7 @@ class ElementJBPriceCalc extends ElementJBPrice
     public function bindVariant(JBCartVariant $variant)
     {
         if ($this->_item !== null) {
-            $simple = $variant->simple();
+            $simple = $variant->getSimple();
             $data   = $this->data();
 
             $values     = (array)$data->get('values', array());
@@ -420,13 +454,13 @@ class ElementJBPriceCalc extends ElementJBPrice
         $data   = array();
 
         if ($variant->isBasic()) {
-            $elements = $variant->core();
+            $elements = $variant->getCore();
 
         } elseif ($variant->is(-1)) {
             $elements = $variant->all();
 
         } else {
-            $elements = $variant->simple();
+            $elements = $variant->getSimple();
         }
 
         if (count($elements)) {

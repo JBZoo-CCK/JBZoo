@@ -24,6 +24,7 @@ class JBPriceHelper extends AppHelper
     public function isNumeric($value)
     {
         $value = str_replace(',', '.', $value);
+
         return is_numeric($value) ? true : false;
     }
 
@@ -34,7 +35,9 @@ class JBPriceHelper extends AppHelper
      */
     public function isDate($date)
     {
-        return $this->app->jbdate->isDate($date);
+        $result = $this->app->jbdate->convertToStamp($date);
+
+        return isset($result[0]) ? $result[0] : null;
     }
 
     /**
@@ -125,7 +128,7 @@ class JBPriceHelper extends AppHelper
      * @param bool $toString
      * @return bool|string
      */
-    public function getValue($value, $toString = false)
+    public function getValue($value, $toString = true)
     {
         if ($value instanceof JBCartValue) {
             $value = $value->data($toString);
@@ -133,17 +136,33 @@ class JBPriceHelper extends AppHelper
         } elseif (is_string($value)) {
             $value = JString::trim($value);
 
-        }
+        } elseif (is_array($value) && !empty($value)) {
+            $value = JArrayHelper::toString($value, PHP_EOL);
 
-        if (is_array($value) && !empty($value)) {
-            return $value;
-
-        } elseif (JString::strlen($value) !== 0) {
-            return $value;
+        } elseif(is_object($value)) {
+            return $this->getValue((array) $value, $toString);
 
         }
+        $value = JString::trim($value);
 
-        return false;
+        return ($this->empty($value) ? $value : null);
+    }
+
+    /**
+     * Check value is not empty string or null.
+     * @param $value
+     * @return bool
+     */
+    public function isEmpty($value)
+    {
+        if (is_string($value)) {
+            $value = JString::trim($value);
+
+        } elseif (is_array($value)) {
+            $value = array_filter($value);
+        }
+
+        return ($value === null || empty($value));
     }
 
     /**

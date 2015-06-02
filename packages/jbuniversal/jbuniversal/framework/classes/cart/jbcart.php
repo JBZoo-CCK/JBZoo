@@ -293,15 +293,15 @@ class JBCart
     }
 
     /**
-     * @param string $key Session key
-     * @param null   $default
+     * @param string      $key Session key
+     * @param array|mixed $default
      * @return mixed
      */
-    public function get($key, $default = null)
+    public function get($key, $default = array())
     {
         $items = $this->getItems(false);
 
-        return $items->find($key, array());
+        return $items->find($key, $default);
     }
 
     /**
@@ -345,15 +345,13 @@ class JBCart
 
             /** @type ElementJBPrice $price * */
             if ($price = $this->getJBPrice($data)) {
-                $price->setDefault($data['variant']);
-                if (method_exists($price, 'setTemplate')) {
-                    $price->setTemplate($data['template']);
-                }
+                $price->setDefault($data['variant'])->setTemplate($data['template']);
 
                 $list = $price->getList($data['variations'], array(
                     'default'  => $data['variant'],
                     'template' => $data['template'],
-                    'quantity' => $data['quantity']
+                    'quantity' => $data['quantity'],
+                    'selected' => $data['selected']
                 ));
 
                 $this->removeVariant($data['key']);
@@ -528,12 +526,9 @@ class JBCart
     public function getJBPrice($data = array())
     {
         $element = $this->getItemElement($data);
-
-        if (method_exists($element, 'setTemplate')) {
-            $element->setTemplate($data['template']);
-        }
-
         if ($element instanceof ElementJBPrice) {
+            $element->setTemplate($data['template']);
+
             return $element;
         }
 
