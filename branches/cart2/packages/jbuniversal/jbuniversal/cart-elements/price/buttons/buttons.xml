@@ -31,7 +31,7 @@
                description="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_LABEL_DESC"
                default="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_LABEL_DEFAULT"/>
 
-        <param name="add_alert" type="jbbool" label="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT"
+        <param name="add_alert" type="jbbool" default="0" label="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT"
                description="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT_DESC" />
 
         <param name="add_alert_timeout" type="text" label="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT_TIMEOUT"
