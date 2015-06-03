@@ -27,7 +27,7 @@
         <position name="image">Image</position>
         <position name="properties">Properties</position>
         <position name="text">Text</position>
-        <position name="meta">Meta</position>
+        <position name="buttons">Buttons</position>
     </positions>
 
     <positions layout="related">
