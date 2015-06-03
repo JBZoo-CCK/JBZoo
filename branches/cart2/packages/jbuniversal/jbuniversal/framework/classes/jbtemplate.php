@@ -79,7 +79,6 @@ class JBTemplate
         $this->params        = $this->application->params;
     }
 
-
     /**
      * Init JBTemplate
      * @return void
@@ -99,6 +98,7 @@ class JBTemplate
         }
 
         $this->_registerPaths($templateName);
+        $this->_incDemoLess();
     }
 
     /**
@@ -313,6 +313,18 @@ class JBTemplate
         $this->app->path->register($this->app->path->path('jbtmpl:' . $templateName . '/assets'), 'jbassets');
         $this->app->path->register($this->app->path->path('jbtmpl:' . $templateName . '/helpers'), 'helpers');
         $this->app->path->register($this->app->path->path('jbtmpl:' . $templateName . '/cart-elements'), 'cart-elements');
+    }
+
+    /**
+     * Include demo.less
+     * @return void
+     */
+    protected function _incDemoLess()
+    {
+        $less = $this->app->path->path('jbassets:') . 'less/demo.less';
+        if (JFile::exists($less)) {
+            $this->app->jbassets->less('jbassets:less/demo.less');
+        }
     }
 
 }
