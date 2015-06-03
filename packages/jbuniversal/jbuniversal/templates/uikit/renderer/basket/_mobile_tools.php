@@ -21,5 +21,5 @@ $order = JBCart::getInstance()->newOrder();
         <span class="jbtool-value jsTotal"><?php echo $order->getTotalSum()->html(); ?></span>
     </div>
 
-    <?php echo $this->partial('basket', 'buttons'); ?>
+    <?php echo $this->partial('basket', 'mobile_buttons'); ?>
 </div>
