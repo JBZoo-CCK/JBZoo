@@ -16,9 +16,10 @@
     <positions layout="full">
         <position name="title">Title</position>
         <position name="image">Image</position>
-        <position name="properties">Properties</position>
-        <position name="text">Text</position>
         <position name="meta">Meta</position>
+        <position name="text">Tab: Text</position>
+        <position name="properties">Tab: Properties</position>
+        <position name="gallery">Tab: Gallery</position>
     </positions>
 
     <positions layout="teaser">
