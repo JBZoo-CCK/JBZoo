@@ -379,11 +379,10 @@ class JBCartVariant extends ArrayObject
     public function data()
     {
         $elements = $this->isBasic() ? $this->getCore() : $this->all();
-
         return array_filter(array_map(function ($element) {
-            $value = $element->getValue(true);
+            $value = JString::trim($element->getValue(true));
 
-            return (!empty($value) ? (array)$element->data() : null);
+            return (!empty($value) || $value == '0') ? (array)$element->data() : null;
         }, $elements));
     }
 
