@@ -778,21 +778,6 @@ class JBCart
     }
 
     /**
-     *
-     * @param string $from
-     * @param string $to
-     * @param null   $group
-     * @return array
-     */
-    public function map($from = 'item_id', $to = 'element_id', $group = null)
-    {
-        $items = (array)$this->getItems();
-        $array = $this->app->jbarray->map($items, $from, $to, $group);
-
-        return $array;
-    }
-
-    /**
      * Get session
      * @return JSONData
      */

@@ -34,7 +34,7 @@ class JBPriceFilterRenderer extends PositionRenderer
      */
     protected $_moduleParams = null;
 
-    protected $_template = null;
+    protected $_template    = null;
     protected $_application = null;
 
     /**
@@ -54,11 +54,17 @@ class JBPriceFilterRenderer extends PositionRenderer
      */
     public function checkPosition($position)
     {
-        foreach ($this->_getConfigPosition($position) as $key => $data) {
+        $_index = 0;
+        foreach ($this->_getConfigPosition($position) as $index => $data) {
             if ($element = $this->_jbprice->getElement($data['identifier'])) {
+                // Backward Compatibility. Delete later.
+                if (!is_numeric($index)) {
+                    $index = $_index++;
+                }
+
                 $data['_layout']   = $this->_layout;
                 $data['_position'] = $position;
-                $data['_index']    = $key;
+                $data['_index']    = $index;
 
                 if ($element->canAccess() && $element->hasFilterValue(new AppData($data))) {
                     return true;
@@ -91,34 +97,36 @@ class JBPriceFilterRenderer extends PositionRenderer
      * @param array  $args
      * @return string|void
      */
-    public function renderPosition($position = null, $args = array())
+    public function renderPosition($position, $args = array())
     {
         $output = array();
-
+        $_index = 0;
         // get style
         $style = isset($args['style']) ? $args['style'] : 'default';
 
-        $elementsConfig = $this->_getConfigPosition($position);
-        foreach ($elementsConfig as $index => $data) {
-            $element = $this->_jbprice->getElement($data['identifier']);
-            if ($element && $element->canAccess()) {
+        $config = $this->_getConfigPosition($position);
+        foreach ($config as $index => $data) {
+            if ($element = $this->_jbprice->getElement($data['identifier'])) {
+                if (!$element->canAccess()) {
+                    continue;
+                }
+                // Backward Compatibility. Delete later.
+                if (!is_numeric($index)) {
+                    $index = $_index++;
+                }
 
                 $data['_layout']   = $this->_layout;
-                $data['_index']    = $index;
                 $data['_position'] = $position;
+                $data['_index']    = $index;
 
                 // set params
-                $params = array_merge(
-                    array(
-                        'first'               => ($index == 1),
-                        'last'                => ($index == count($elementsConfig) - 1),
-                        'item_template'       => $this->_template,
-                        'item_application_id' => $this->_application,
-                        'moduleParams'        => $this->_moduleParams
-                    ),
-                    $args,
-                    $data
-                );
+                $params = array_merge(array(
+                    'first'               => ($index == 1),
+                    'last'                => ($index == count($config) - 1),
+                    'item_template'       => $this->_template,
+                    'item_application_id' => $this->_application,
+                    'moduleParams'        => $this->_moduleParams
+                ), $args, $data);
                 if (!$element->hasFilterValue($params)) {
                     continue;
                 }
@@ -140,19 +148,18 @@ class JBPriceFilterRenderer extends PositionRenderer
 
                 if ($style) {
                     $output[$index] = parent::render('element.jbpricefilter.' . $style, array(
-                            'element'     => $element,
-                            'params'      => $params,
-                            'attrs'       => $attrs,
-                            'value'       => $value,
-                            'config'      => $element->config,
-                            'elementHTML' => $elementHTML
-                        )
-                    );
+                        'element'     => $element,
+                        'params'      => $params,
+                        'attrs'       => $attrs,
+                        'value'       => $value,
+                        'config'      => $element->config,
+                        'elementHTML' => $elementHTML
+                    ));
                 } else {
                     $output[$index] = $elementHTML;
                 }
-            }
 
+            }
         }
 
         return implode(PHP_EOL, $output);
