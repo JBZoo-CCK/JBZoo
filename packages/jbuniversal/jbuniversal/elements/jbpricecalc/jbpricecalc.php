@@ -54,7 +54,7 @@ class ElementJBPriceCalc extends ElementJBPrice
                     if ($addKey) {
                         $variations[$$target] = $result;
                     } else {
-                        $variations = array_merge($variations, $result);
+                        $variations = array_merge((array)$variations, $result);
                     }
                 }
             }
@@ -103,31 +103,16 @@ class ElementJBPriceCalc extends ElementJBPrice
 
         $keys = array_keys($list);
         $key  = (int)end($keys);
-        $data = array();
 
-        $this->setDefault($key);
+        $this->setDefault($key)->setTemplate($template);
 
-        if(count($template)) {
-            foreach ($template as $tpl)
-            {
-                $this->setTemplate($tpl);
+        $this->getList($list, array(
+            'default'  => $key,
+            'values'   => $this->getValues($values),
+            'selected' => $values
+        ));
 
-                if ($this->_list instanceof JBCartVariantList) {
-                    $this->_list->clear();
-                }
-
-                $this->getList($list, array(
-                    'default'  => $key,
-                    'values'   => $values,
-                    'template' => $tpl,
-                    'currency' => !empty($currency) ? $currency : $this->currency()
-                ));
-
-                $data = array_merge_recursive((array)$data, (array)$this->_list->renderVariant());
-            }
-        }
-
-        $this->app->jbajax->send($data);
+        $this->app->jbajax->send($this->renderVariant());
     }
 
     /**
@@ -194,6 +179,7 @@ class ElementJBPriceCalc extends ElementJBPrice
     {
         $this->setTemplate($template)->setLayout($layout);
         $this->cache = false;
+        $this->hash  = $hash;
 
         $this->getParameters($template);
         $this->getConfigs();
@@ -243,27 +229,13 @@ class ElementJBPriceCalc extends ElementJBPrice
 
     /**
      * Get all options for element.
-     * Used in element like select, color, radio etc.
-     * @param string $id
-     * @return array
-     */
-    public function findOptions($id)
-    {
-        if (empty($id)) {
-            return array();
-        }
-
-        return $this->get('selected.' . $id, array());
-    }
-
-    /**
-     * @param $identifier
+     * @param  string $id
      * @return array|void
      */
-    public function elementOptions($identifier)
+    public function elementOptions($id)
     {
         $modifiers = (int)$this->config->get('show_modifiers', 0);
-        $options   = (array)$this->findOptions($identifier);
+        $options   = (array)$this->get('selected.' . $id, array());
 
         if (!$modifiers && count($options)) {
             return array_combine($options, $options);
@@ -343,7 +315,7 @@ class ElementJBPriceCalc extends ElementJBPrice
                 }
             }
 
-            if (!empty($data)) {
+            if (count($data)) {
                 $result = $this->_item->elements->get($this->identifier);
 
                 foreach ($data as $_id => $unknown) {
@@ -381,7 +353,8 @@ class ElementJBPriceCalc extends ElementJBPrice
 
                 if ($_selected) {
                     foreach ($_selected as $key => $value) {
-                        $val                    = explode('__', $value);
+                        $val = explode('__', $value);
+
                         $selected[$key][$value] = $val[0];
                     }
                 }
@@ -436,7 +409,7 @@ class ElementJBPriceCalc extends ElementJBPrice
             /** @type JBCartVariant $variant */
             foreach ($list->all() as $variant) {
                 if (!$variant->isBasic()) {
-                    $data = array_merge($data, $this->getVariantData($variant));
+                    $data = array_merge((array)$data, $this->getVariantData($variant));
                 }
             }
         }
@@ -452,7 +425,6 @@ class ElementJBPriceCalc extends ElementJBPrice
     {
         $vars = $this->app->jbvars;
         $data   = array();
-
         if ($variant->isBasic()) {
             $elements = $variant->getCore();
 
@@ -467,29 +439,21 @@ class ElementJBPriceCalc extends ElementJBPrice
             /**@type JBCartElementPrice $element */
             foreach ($elements as $paramId => $element) {
                 $value = $element->getSearchData();
-                $id    = $element->identifier;
+                $value = $this->_helper->getValue($value);
 
-                $date = $string = $num = null;
-                if ($value instanceof JBCartValue) {
-                    $value->convert('eur');
-                    $string = $value->data(true);
-                    $num    = $value->val();
-                } else {
-                    $value  = JString::trim((string)$value);
-                    $string = $value;
-                    $num    = $this->_helper->isNumeric($value) ? $vars->number($value) : null;
-                    $date   = $this->_helper->isDate($value);
-                }
+                $string  = (string)$value;
+                $numeric = $vars->number($value) ?: null ;
+                $date    = $this->_helper->isDate($value) ?: null;
 
-                if (($string !== '' && $string !== null) || (is_float($num) || is_int($num)) || ($date !== '' && $date !== null)) {
-                    $key = $this->_item->id . '__' . $this->identifier . '__' . $variant->getId() . '__' . $id;
+                if (!$this->_helper->isEmpty($string) || (is_numeric($numeric) || !$this->_helper->isEmpty($date))) {
+                    $key = $this->_item->id . '__' . $this->identifier . '__' . $variant->getId() . '__' . $element->id();
 
                     $data[$key] = array(
                         'item_id'    => $this->_item->id,
                         'element_id' => $this->identifier,
-                        'param_id'   => $id,
+                        'param_id'   => $element->id(),
                         'value_s'    => $string,
-                        'value_n'    => $num,
+                        'value_n'    => $numeric,
                         'value_d'    => $date,
                         'variant'    => $variant->getId()
                     );

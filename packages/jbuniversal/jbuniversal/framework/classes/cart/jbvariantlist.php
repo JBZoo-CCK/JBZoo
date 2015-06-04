@@ -441,37 +441,6 @@ class JBCartVariantList extends ArrayObject
     }
 
     /**
-     * Render core variant element when he changes
-     * @return array
-     */
-    public function renderVariant()
-    {
-        $template   = $this->getJBPrice()->getTemplate();
-
-        $parameters = $this->_storage->get('parameters', $this->getJBPrice()->key('private', $template ), array());
-        $variant    = $this->current();
-        $result     = array();
-
-        /** @type JBCartElementPrice $element */
-        foreach ($parameters as $params) {
-            $element = $variant->get($params['identifier']);
-            if ($element && $element->isCore()) {
-                $element->setIndex($params['_index'])->setPosition($params['_position']);
-
-                $data = $element->renderAjax(new AppData($params));
-                //return data if not null
-                if ($data !== null && $data !== '') {
-                    $key = strtolower('jselement' . $template . $params['_position'] . $params['_index']);
-
-                    $result[$element->getElementType()][$key] = $data;
-                }
-            }
-        }
-
-        return $result;
-    }
-
-    /**
      * Get elements data
      * @return array
      */
@@ -540,7 +509,7 @@ class JBCartVariantList extends ArrayObject
             'params'     => $jbPrice->elementsInterfaceParams(),
             'modifiers'  => $this->getModifiersRates(),
             'variant'    => $this->default,
-            'variations' => $jbPrice->defaultList(),
+            'variations' => $jbPrice->defaultData(),
             'isOverlay'  => false
         );
 

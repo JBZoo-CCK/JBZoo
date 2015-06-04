@@ -25,7 +25,7 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        return (!$this->getValue()->isEmpty()) || ((int)$params->get('empty_show', 0));
+        return (!$this->isEmpty()) || ((int)$params->get('empty_show', 0));
     }
 
     /**
@@ -60,6 +60,9 @@ class JBCartElementPriceValue extends JBCartElementPrice
      */
     public function render($params = array())
     {
+        if($this->isEmpty() && !(int)$params->get('empty_show', 0)) {
+            return $this->renderWrapper();
+        }
         $prices   = $this->getPrices();
         $discount = JBCart::val();
         if ($prices['save']->isNegative()) {
@@ -154,5 +157,15 @@ class JBCartElementPriceValue extends JBCartElementPrice
         }
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isEmpty()
+    {
+        $prices = $this->getPrices();
+
+        return $prices['total']->isEmpty();
     }
 }

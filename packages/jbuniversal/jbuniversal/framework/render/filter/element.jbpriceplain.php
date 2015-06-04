@@ -29,7 +29,7 @@ class JBFilterElementJBPricePlain extends JBFilterElement
         $jbPrice  = $this->app->jbfilter->getElement($this->_identifier);
 
         $renderer->setModuleParams($this->_params->moduleParams);
-        $jbPrice->setProp('_filter_template', $template);
+        $jbPrice->setFilterTemplate($template);
 
         $html = $renderer->render($template, array(
             'price'    => $jbPrice,

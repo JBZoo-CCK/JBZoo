@@ -200,14 +200,22 @@ class JBStorageHelper extends AppHelper
     }
 
     /**
-     * @param mixed  $object
+     * @param  mixed  $object
      * @param  array $properties
      * @return mixed
      */
-    public function configure($object, $properties)
+    public function configure(&$object, $properties)
     {
+        $reflection = new ReflectionClass($object);
         foreach ($properties as $name => $value) {
-            $object->$name = $value;
+            $setter = 'set' . $name;
+            if ($reflection->hasMethod($setter)) {
+                $object->$setter($value);
+
+            } elseif ($reflection->hasProperty($name) && $reflection->getProperty($name)->isPublic()) {
+                $object->$name = $value;
+
+            }
         }
 
         return $object;
@@ -287,7 +295,9 @@ class JBStorageHelper extends AppHelper
         if (!isset($this->parameters[$key]))
         {
             $parameters = array();
+
             $storage    = (array)JBModelConfig::model()->getGroup('cart.' . $key, array());
+            $parts      = explode('.', $key);
             foreach ($storage as $position => $elements) {
                 $_index = 0;
                 foreach ($elements as $index => $params) {
@@ -298,6 +308,8 @@ class JBStorageHelper extends AppHelper
                     }
                     $params['_position'] = $position;
                     $params['_index']    = $index;
+                    $params['_template'] = end($parts);
+
                     $parameters[] = $params;
                 }
             }
