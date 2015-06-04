@@ -57,7 +57,7 @@
                 });
             },
 
-            'change .jsSimple input, .jsSimple select, .jsSimple textarea': function (e, $this) {
+            'change .jsSimple :input': function (e, $this) {
                 $this.rePaint();
             },
 

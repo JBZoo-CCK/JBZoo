@@ -60,7 +60,7 @@ class JBCartElementPriceSku extends JBCartElementPrice
      */
     public function renderAjax($params = array())
     {
-        return $this->render($params);
+        return (string)$this->render($params);
     }
 
     /**
