@@ -321,10 +321,7 @@ class JBTemplate
      */
     protected function _incDemoLess()
     {
-        $less = $this->app->path->path('jbassets:') . 'less/demo.less';
-        if (JFile::exists($less)) {
-            $this->app->jbassets->less('jbassets:less/demo.less');
-        }
+        $this->app->jbassets->less('jbassets:less/demo.less');
     }
 
 }
