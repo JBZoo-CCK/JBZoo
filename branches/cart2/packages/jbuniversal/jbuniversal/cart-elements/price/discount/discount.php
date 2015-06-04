@@ -24,9 +24,7 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
      */
     public function hasValue($params = array())
     {
-        $prices = $this->getPrices();
-
-        return (!$prices['save']->isEmpty()) || ((int)$params->get('empty_show', 0));
+        return (!$this->isEmpty() || (int)$params->get('empty_show', 0));
     }
 
     /**
@@ -63,8 +61,11 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        $prices = $this->getPrices();
+        if($this->isEmpty() && !((int)$params->get('empty_show', 0))) {
+            return $this->renderWrapper();
+        }
 
+        $prices = $this->getPrices();
         $message = JString::trim($params->get('empty_text', ''));
         $layout  = $params->get('layout', 'icon-text');
         if ((int)$params->get('percent_show', 1)) {
@@ -94,7 +95,7 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
         }
 
         if ($layout = $this->getLayout($layout . '.php')) {
-            return self::renderLayout($layout, array(
+            return $this->renderLayout($layout, array(
                 'discount' => $discount,
                 'currency' => $this->currency(),
                 'message'  => $message
@@ -131,6 +132,16 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
         }
 
         return JBCart::val($value);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isEmpty()
+    {
+        $prices = $this->getPrices();
+
+        return $prices['save']->isEmpty();
     }
 
 }

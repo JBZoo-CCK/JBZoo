@@ -101,12 +101,12 @@ abstract class JBCartElementPrice extends JBCartElement
     /**
      * @type string
      */
-    protected $_position;
+    protected $position;
 
     /**
      * @type int
      */
-    protected $_index;
+    protected $index;
 
     /**
      * @type ElementJBPrice
@@ -215,7 +215,7 @@ abstract class JBCartElementPrice extends JBCartElement
     {
         if(is_numeric($index))
         {
-            $this->_index = (int)$index;
+            $this->index = (int)$index;
         }
 
         return $this;
@@ -229,7 +229,7 @@ abstract class JBCartElementPrice extends JBCartElement
     {
         if(is_string($position))
         {
-            $this->_position = $position;
+            $this->position = $position;
         }
 
         return $this;
@@ -385,6 +385,17 @@ abstract class JBCartElementPrice extends JBCartElement
     public function renderAjax($params = array())
     {
         return null;
+    }
+
+    /**
+     * @param  string $html
+     * @param  array  $args
+     * @return string
+     * @throws ElementJBPriceException
+     */
+    public function renderWrapper($html = '', $args = array())
+    {
+        return $this->_systemWrapper($html, $args);
     }
 
     /**
@@ -699,25 +710,8 @@ abstract class JBCartElementPrice extends JBCartElement
         $this->isOverlay  = null;
         $this->cache      = null;
         $this->required   = null;
-        $this->_position  = null;
-        $this->_index     = null;
-    }
-
-    /**
-     * @param string $name  Property name
-     * @param mixed  $value Property value
-     */
-    public function __set($name, $value)
-    {
-        $setter = 'set' . $name;
-        if (method_exists($this, $setter)) {
-            $this->$setter($value);
-        }
-        $reflect = new ReflectionProperty(get_class(), $name);
-
-        if ($reflect->isPublic()) {
-            $this->{$name} = $value;
-        }
+        $this->position  = null;
+        $this->index     = null;
     }
 }
 

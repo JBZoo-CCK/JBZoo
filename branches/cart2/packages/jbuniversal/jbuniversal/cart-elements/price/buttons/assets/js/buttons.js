@@ -36,6 +36,7 @@
             'item_id'   : '',
             'element_id': '',
             'isInCart'  : 0,
+            'isModal'   : false,
 
             init: function ($this) {
 

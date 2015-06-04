@@ -160,6 +160,9 @@ class JBPriceHelper extends AppHelper
 
         } elseif (is_array($value)) {
             $value = array_filter($value);
+
+        } elseif(is_object($value)) {
+            return $this->isEmpty((array)$value);
         }
 
         return ($value === null || empty($value));

@@ -129,9 +129,13 @@ class JBPriceRenderer extends PositionRenderer
                 $data['_index']    = $index;
 
                 // set params
-                $params = array_merge($data, $args);
+                $params   = array_merge($data, $args);
+                $hasValue = $element->hasValue(new AppData($params));
+                if (!$hasValue && $element->isCore()) {
+                    $hasValue = $params['_isEmpty'] = true;
+                }
 
-                if ($element->hasValue(new AppData($params))) {
+                if ($hasValue) {
                     $elements[] = compact('element', 'params');
                 }
             }
@@ -139,9 +143,8 @@ class JBPriceRenderer extends PositionRenderer
         $count = count($elements);
         foreach ($elements as $i => $data) {
             $params = array_merge(array('first' => ($i === 0), 'last' => ($i === $count - 1)), $data['params']);
+            $data['element']->setIndex($params['_index'])->setPosition($params['_position'])->loadAssets();
 
-            $data['element']->loadAssets();
-            $data['element']->setIndex($params['_index'])->setPosition($params['_position']);
             $output[$i] = parent::render('element.' . $style, array(
                 'element' => $data['element'],
                 'params'  => new AppData($params)

@@ -43,47 +43,21 @@ class ElementJBPricePlain extends ElementJBPrice
      */
     public function getVariantByValues($values = array())
     {
-        $data = (array)$this->get('values', array());
+        $data = array_filter((array)$this->get('values', array()));
 
         if (empty($values) || empty($data)) {
             return (array)$values;
         }
+        asort($values);
 
-        $variations = $this->get('variations', array());
-        unset($variations[self::BASIC_VARIANT]);
-        foreach ($data as $i => $value) {
-            foreach ($values as $identifier => $fields) {
+        $needle    = md5(serialize($values));
+        $hashTable = array_map(function ($array) {
+            asort($array);
 
-                $valError = false;
-                $idError  = false;
+            return md5(serialize($array));
+        }, $data);
 
-                if (!isset($value[$identifier]) ||
-                    count($values) !== count($value)
-                ) {
-                    $idError = true;
-                }
-
-                if ($idError === false) {
-                    if (isset($fields['value']) && (JString::strlen($fields['value']) === 0)) {
-                        unset($fields);
-                    }
-
-                    if (!empty($fields)) {
-                        $diff = array_diff_assoc($fields, $value[$identifier]);
-                    }
-
-                    if (!empty($diff)) {
-                        $valError = true;
-                    }
-                }
-
-                if ($idError === true || $valError === true) {
-                    unset($variations[$i]);
-                }
-            }
-        }
-
-        return $variations;
+        return array_search($needle, $hashTable, true);
     }
 
     /**
@@ -92,27 +66,17 @@ class ElementJBPricePlain extends ElementJBPrice
      */
     public function ajaxChangeVariant($template = array('default'), $values = array())
     {
-        $data = array();
-        $list = $this->getVariantByValues($values);
-        $key  = (int)(JString::strlen(key($list)) > 0 ? key($list) : self::BASIC_VARIANT);
+        $key = $this->getVariantByValues($values);
+        $key = $key !== false ? $key : self::BASIC_VARIANT;
 
-        $this->setDefault($key);
-        if(count($template))
-        {
-            foreach($template as $tpl) {
-                $this->setTemplate($tpl);
-                $this->getList($list, array(
-                    'default'  => $key,
-                    'values'   => $values,
-                    'template' => $tpl,
-                    'currency' => $this->currency()
-                ));
+        $this->setDefault($key)->setTemplate($template);
+        $this->getList($this->defaultData(), array(
+            'default'  => $key,
+            'values'   => $this->getValues($values),
+            'selected' => $values
+        ));
 
-                $data = array_merge_recursive((array)$data, (array)$this->_list->renderVariant());
-            }
-        }
-
-        $this->app->jbajax->send($data);
+        $this->app->jbajax->send($this->renderVariant());
     }
 
     /**
@@ -128,15 +92,15 @@ class ElementJBPricePlain extends ElementJBPrice
         $jbAjax = $this->app->jbajax;
 
         //Get variant by selected values.
-        $list = $this->getVariantByValues($values);
+        $key = $this->getVariantByValues($values);
+        $key = $key !== false ? $key : self::BASIC_VARIANT;
 
         $cart = JBCart::getInstance();
-        $key  = (int)(JString::strlen(key($list)) > 0 ? key($list) : self::BASIC_VARIANT);
 
         // Set the default option, which we have received, not saved. For correct calculation.
         $this->setDefault($key)->setTemplate($template);
 
-        $list = $this->getList($list, array(
+        $list = $this->getList($this->defaultData(), array(
             'values'   => $this->getValues($values),
             'selected' => $values,
             'quantity' => $quantity
@@ -175,11 +139,9 @@ class ElementJBPricePlain extends ElementJBPrice
      */
     public function ajaxModalWindow($template = 'default', $layout = 'default', $hash = '')
     {
-        $this->setTemplate($template)->setLayout($layout);
+        $this->setTemplate($template);
         $this->cache = false;
-
-        $this->getParameters($template);
-        $this->getConfigs();
+        $this->hash  = $hash;
 
         $html = $this->render(array(
             'template'       => $template,

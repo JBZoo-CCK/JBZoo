@@ -143,7 +143,7 @@ class JBCartElementPriceOption extends JBCartElementPrice
      */
     protected function _getOptions($label = true)
     {
-        $options = $this->_parseOptions(false);
+        $options = $sorted = $this->_parseOptions(false);
         if (!$this->hasOptions())
         {
             $options = $this->getJBPrice()->elementOptions($this->identifier);
@@ -157,9 +157,8 @@ class JBCartElementPriceOption extends JBCartElementPrice
         if (false !== $label && count($options))
         {
             $options[''] = $this->getLabel($label);
-
-            ksort($options);
         }
+        $options = $this->app->jbarray->sortByArray($options, $sorted);
 
         return $options;
     }
@@ -178,7 +177,6 @@ class JBCartElementPriceOption extends JBCartElementPrice
         {
             $options[''] = $this->getLabel();
         }
-        ksort($options);
 
         return $options;
     }
@@ -192,10 +190,11 @@ class JBCartElementPriceOption extends JBCartElementPrice
     {
         $text   = JString::trim($text);
         $result = array();
-        if ($text !== '' && $text !== null) {
+        if (!empty($text)) {
             $lines = explode("\n", $text);
             foreach ($lines as $line) {
-                $line          = JString::trim($line);
+                $line = JString::trim($line);
+
                 $result[$line] = $line;
             }
         }
