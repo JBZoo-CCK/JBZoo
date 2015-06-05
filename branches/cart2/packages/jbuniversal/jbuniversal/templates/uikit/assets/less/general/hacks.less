@@ -14,6 +14,23 @@
         margin-left: -25px;
     }
 
+    .jbloading {
+        position: relative;
+        .opacity(0.5);
+
+        &:after {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            content: '';
+            position: absolute;
+            display: inline-block;
+            background: data-uri('../../img/loader.gif') no-repeat center;
+        }
+
+    }
+
     &-no-border {
 
         .uk-panel-box {
