@@ -1473,14 +1473,16 @@ class JBFieldHelper extends AppHelper
                     if (strpos($elementId, '_') === 0 || in_array($element['type'], $excludeType, true)) {
                         continue;
                     }
+                    
+                    if ($app) {
+                        if ($type = $app->getType(JFile::stripExt($file))) {
+                            $_element = $type->getElement($elementId);
 
-                    if ($type = $app->getType(JFile::stripExt($file))) {
-                        $_element = $type->getElement($elementId);
-
-                        if ($_element instanceof ElementJBPrice) {
-                            $elements = array_merge($elements, $this->_getSortJBPriceOptionList($_element, $prefix));
-                        } else {
-                            $elements[] = $this->_createOption($prefix . $elementId, $element['name'], false);
+                            if ($_element instanceof ElementJBPrice) {
+                                $elements = array_merge($elements, $this->_getSortJBPriceOptionList($_element, $prefix));
+                            } else {
+                                $elements[] = $this->_createOption($prefix . $elementId, $element['name'], false);
+                            }
                         }
                     }
 
