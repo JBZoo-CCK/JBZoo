@@ -41,6 +41,7 @@ $view = $this->getView();
         'method'         => 'post',
         'name'           => 'jbcartForm',
         'accept-charset' => 'utf-8',
+        //'target'         => '_blank',
         'enctype'        => 'multipart/form-data',
         'class'          => array(
             'jbcart',
