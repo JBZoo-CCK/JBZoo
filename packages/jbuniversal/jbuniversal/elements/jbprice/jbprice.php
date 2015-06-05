@@ -881,11 +881,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             return new AppData($config);
         }
 
-        $this->loadFilterParams();
-        if (isset($this->filter_params[$id])) {
-            return new AppData($this->filter_params[$id]);
-        }
-
         $parameter = $this->getParameter($id);
 
         return (int)$parameter->get('system', 0) ? $parameter : false;
@@ -1133,23 +1128,31 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
+     * @param  string $id Element identifier
+     * @return AppData
+     */
+    public function getForFilter($id)
+    {
+        $params = (array)$this->loadFilters();
+
+        return isset($params[$id]) ? $params[$id] : array();
+    }
+
+    /**
      * Load elements render params for filter
      * @return array
      */
-    public function loadFilterParams()
+    public function loadFilters()
     {
         if (!$this->_filter_template) {
             return array();
         }
+        $access = $this->getFilterKey($this->_filter_template);
 
-        if ($this->filter_params === null) {
-            $access = $this->getFilterKey($this->_filter_template);
-            $params = $this->_storage->get('filter', $access, array());
+        $params = $this->_storage->get('filters', $access, array());
+        $params = $this->app->jbarray->index($params, 'identifier');
 
-            $this->filter_params = (array)$this->_position->loadParams($config, true);
-        }
-
-        return $this->filter_params;
+        return $params;
     }
 
     /**
