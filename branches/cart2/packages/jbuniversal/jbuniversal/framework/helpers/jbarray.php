@@ -87,7 +87,7 @@ class JBArrayHelper extends AppHelper
      * @param mixed  $val
      * @return array
      */
-    function unshiftAssoc(array $array, $key, $val)
+    public function unshiftAssoc(array $array, $key, $val)
     {
         $array       = array_reverse($array, true);
         $array[$key] = $val;

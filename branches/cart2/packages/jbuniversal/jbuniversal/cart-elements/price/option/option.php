@@ -153,12 +153,12 @@ class JBCartElementPriceOption extends JBCartElementPrice
             $selected = $this->getJBPrice()->elementOptions($this->identifier);
             $options  = array_intersect_key($selected, $options);
         }
+        $options = $this->app->jbarray->sortByArray($options, $sorted);
 
         if (false !== $label && count($options))
         {
-            $options[''] = $this->getLabel($label);
+            $options = $this->app->jbarray->unshiftAssoc($options, '', $this->getLabel());
         }
-        $options = $this->app->jbarray->sortByArray($options, $sorted);
 
         return $options;
     }
@@ -175,7 +175,7 @@ class JBCartElementPriceOption extends JBCartElementPrice
 
         if ($label !== false && count($options))
         {
-            $options[''] = $this->getLabel();
+            $options = $this->app->jbarray->unshiftAssoc($options, '', $this->getLabel());
         }
 
         return $options;

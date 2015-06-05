@@ -61,13 +61,13 @@ class ElementJBPricePlain extends ElementJBPrice
     }
 
     /**
-     * @param array $template - need to get render params for elements
+     * @param array  $template - need to get render params for elements
      * @param array  $values   - selected values
      */
     public function ajaxChangeVariant($template = array('default'), $values = array())
     {
         $key = $this->getVariantByValues($values);
-        $key = $key !== false ? $key : self::BASIC_VARIANT;
+        $key = !empty($key) || $key == '0' ? $key : self::BASIC_VARIANT;
 
         $this->setDefault($key)->setTemplate($template);
         $this->getList($this->defaultData(), array(
@@ -93,7 +93,7 @@ class ElementJBPricePlain extends ElementJBPrice
 
         //Get variant by selected values.
         $key = $this->getVariantByValues($values);
-        $key = $key !== false ? $key : self::BASIC_VARIANT;
+        $key = !empty($key) || $key == '0' ? $key : self::BASIC_VARIANT;
 
         $cart = JBCart::getInstance();
 

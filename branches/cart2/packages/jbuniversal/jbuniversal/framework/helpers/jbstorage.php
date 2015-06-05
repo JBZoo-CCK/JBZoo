@@ -33,6 +33,11 @@ class JBStorageHelper extends AppHelper
     /**
      * @type AppData
      */
+    protected $filter = array();
+
+    /**
+     * @type AppData
+     */
     protected $elements = array();
 
     /**
@@ -54,6 +59,7 @@ class JBStorageHelper extends AppHelper
         $this->assets     = new AppData();
         $this->elements   = new AppData();
         $this->parameters = new AppData();
+        $this->filter     = new AppData();
         $this->paths      = new AppData();
 
         $this->paths->exchangeArray(array(
@@ -317,6 +323,41 @@ class JBStorageHelper extends AppHelper
         }
 
         return $this->parameters->get($key, $default);
+    }
+
+    /**
+     * @param string $key
+     * @param mixed  $default
+     * @return mixed
+     */
+    public function getFilters($key, $default = null)
+    {
+        $key = strtolower(trim($key));
+        if (!isset($this->filter[$key]))
+        {
+            $parameters = array();
+
+            $storage    = (array)JBModelConfig::model()->getGroup('cart.' . $key, array());
+            $parts      = explode('.', $key);
+            foreach ($storage as $position => $elements) {
+                $_index = 0;
+                foreach ($elements as $index => $params) {
+                    // Backward Compatibility. Delete later.
+                    if(!is_numeric($index))
+                    {
+                        $index = $_index++;
+                    }
+                    $params['_position'] = $position;
+                    $params['_index']    = $index;
+                    $params['_template'] = end($parts);
+
+                    $parameters[] = $params;
+                }
+            }
+            $this->filter->set($key, $parameters);
+        }
+
+        return $this->filter->get($key, $default);
     }
 
     /**
