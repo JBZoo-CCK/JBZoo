@@ -19,6 +19,31 @@ class JBBootstrapHelper extends AppHelper
 {
 
     /**
+     * Grid columns.
+     *
+     * @var int
+     */
+    protected $_grid = 12;
+
+    /**
+     * Get column number.
+     *
+     * @param int $cols
+     * @return float
+     */
+    public function getColsNum($cols = 2)
+    {
+        $cols   = (int)$cols;
+        $output = $this->_grid / $cols;
+
+        if ($cols == 5) {
+            $output = '1-' . $cols;
+        }
+
+        return $output;
+    }
+
+    /**
      * Bootstrap pagination.
      *
      * @param $pagination
