@@ -26,6 +26,17 @@ class JBTemplateBootstrap extends JBTemplate
      */
     public function onInit()
     {
+        if ($this->params->get('global.template.add_js', true)) {
+            $this->app->jbassets->js('jbassets:js/bootstrap.min.js');
+        }
+
+        if ($this->params->get('global.template.add_css', true)) {
+            $this->app->jbassets->css('jbassets:css/bootstrap.min.css');
+        }
+
+        $this->app->jbassets->less(array(
+            'jbassets:less/general/col5.less'
+        ));
     }
 
 }
