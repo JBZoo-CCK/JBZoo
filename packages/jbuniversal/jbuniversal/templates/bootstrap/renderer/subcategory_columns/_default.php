@@ -16,16 +16,17 @@ defined('_JEXEC') or die('Restricted access');
 $this->app->jbdebug->mark('layout::subcategory_columns::start');
 
 if ($vars['count']) {
-    $i     = 0;
-    $count = $vars['count'];
+    $i      = 0;
+    $count  = $vars['count'];
+    $colNum = $this->app->jbbootstrap->getColsNum($vars['cols_num']);
 
-    echo '<div class="subcategories subcategory-col-' . $vars['cols_num'] . ' uk-article-divider">';
+    echo '<div class="subcategories subcategory-col-' . $vars['cols_num'] . '">';
 
     $rowSubcategories = array_chunk($vars['objects'], $vars['cols_num']);
 
     foreach ($rowSubcategories as $row) {
 
-        echo '<div class="jsHeightFixRow uk-grid subcategory-row-' . $i . '" data-uk-grid-margin>';
+        echo '<div class="jsHeightFixRow row subcategory-row-' . $i . '">';
 
         $j = 0;
         $i++;
@@ -34,7 +35,7 @@ if ($vars['count']) {
 
             $classes = array(
                 'subcategory-column',
-                'uk-width-medium-1-' . $vars['cols_num']
+                'col-md-' . $colNum
             );
 
             $first = ($j == 0) ? $classes[] = 'first' : '';
@@ -48,8 +49,8 @@ if ($vars['count']) {
             }
 
             echo '<div class="' . implode(' ', $classes) . '">' .
-                '<div class="uk-panel uk-panel-box">' . $subcategory . '</div>' .
-                '</div>';
+                 '  <div class="well">' . $subcategory . '</div>' .
+                 '</div>';
         }
 
         echo '</div>';
