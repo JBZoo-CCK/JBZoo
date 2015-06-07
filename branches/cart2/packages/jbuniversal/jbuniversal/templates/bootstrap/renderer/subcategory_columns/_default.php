@@ -49,7 +49,7 @@ if ($vars['count']) {
             }
 
             echo '<div class="' . implode(' ', $classes) . '">' .
-                 '  <div class="well">' . $subcategory . '</div>' .
+                 '  <div class="subcategory-box well">' . $subcategory . '</div>' .
                  '</div>';
         }
 

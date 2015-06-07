@@ -8,13 +8,26 @@
 // @coder       Sergey Kalistratov <kalistratov.s.m@gmail.com>
 //
 
-//  JBZoo core styles
-@import "jbzoo.less";
-@import "general/buttons.less";
-@import "general/system.less";
+.jbzoo {
 
-//  Bootstrap styles
-@import "bootstrap.vars.less";
-@import "general/col5.less";
-@import "general/hacks.less";
-@import "general/layout.less";
+    &-no-border {
+
+        .well {
+            background: transparent;
+            border: none;
+            .box-shadow(none);
+            .border-radius(0);
+        }
+
+    }
+
+    .well {
+        height: 100%;
+        min-height: auto;
+    }
+
+    .row {
+        margin-bottom: 15px;
+    }
+
+}
