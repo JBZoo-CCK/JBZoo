@@ -44,12 +44,12 @@ $image = $this->app->jbimage->get('category_teaser_image', $params);
     <div class="subcategory clearfix subcategory-<?php echo $subcategory->alias; ?> ">
 
         <?php if ($vars['params']->get('template.subcategory_teaser_image', 1) && $image['src']) : ?>
-            <div class="subcategory-image uk-align-<?php echo $imageAlign; ?>">
+            <div class="subcategory-image pull-<?php echo $imageAlign; ?>">
                 <a href="<?php echo $link; ?>" title="<?php echo $subcategory->name; ?>"><img
                         src="<?php echo $image['src']; ?>" <?php echo $image['width_height']; ?>
                         alt="<?php echo $subcategory->name; ?>"
                         title="<?php echo $subcategory->name; ?>"
-                        class="uk-thumbnail"
+                        class="thumbnail"
                         /></a>
             </div>
         <?php endif; ?>
