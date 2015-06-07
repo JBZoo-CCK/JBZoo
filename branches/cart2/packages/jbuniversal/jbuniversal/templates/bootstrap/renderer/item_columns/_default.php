@@ -20,11 +20,12 @@ if ($vars['count']) {
     $i        = 0;
     $count    = $vars['count'];
     $rowItems = array_chunk($vars['objects'], $vars['cols_num']);
+    $colNum   = $this->app->jbbootstrap->getColsNum($vars['cols_num']);
 
     echo '<div class="items items-col-' . $vars['cols_num'] . ' uk-article-divider">';
 
     foreach ($rowItems as $row) {
-        echo '<div class="jsHeightFixRow uk-grid item-row-' . $i . '" data-uk-grid-margin>';
+        echo '<div class="jsHeightFixRow row item-row-' . $i . '" data-uk-grid-margin>';
 
         $j = 0;
         $i++;
@@ -33,7 +34,7 @@ if ($vars['count']) {
 
             $classes = array(
                 'item-column',
-                'uk-width-medium-1-' . $vars['cols_num']
+                'col-md-' . $colNum
             );
 
             $first = ($j == 0) ? $classes[] = 'first' : '';
@@ -46,9 +47,9 @@ if ($vars['count']) {
                 $classes[] = 'last';
             }
 
-            echo '<div class="' . implode(' ', $classes) . '">'
-                . '<div class="uk-panel uk-panel-box">' . $item . '</div>'
-                . '</div>';
+            echo '<div class="' . implode(' ', $classes) . '">' .
+                 '   <div class="item-box well">' . $item . '</div>' .
+                 '</div>';
         }
 
         echo '</div>';
