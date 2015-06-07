@@ -18,9 +18,9 @@ $this->app->jbdebug->mark('layout::subcategory(' . $vars['object']->id . ')::sta
 
 // set vars
 $subcategory = $vars['object'];
-$params = $subcategory->getParams('site');
-$link = $this->app->route->category($subcategory);
-$task = $this->app->jbrequest->get('task', 'category');
+$params      = $subcategory->getParams('site');
+$link        = $this->app->route->category($subcategory);
+$task        = $this->app->jbrequest->get('task', 'category');
 
 // teaser content
 $text = $params->get('content.category_teaser_text', '');
@@ -28,8 +28,8 @@ $imageAlign = $params->get('template.subcategory_teaser_image_align', 'left');
 
 // items
 $itemsOrder = $vars['params']->get('config.item_order', 'none');
-$maxItems = $vars['params']->get('template.subcategory_items_count', 5);
-$showCount = $vars['params']->get('template.subcategory_items_count_show', 1);
+$maxItems   = $vars['params']->get('template.subcategory_items_count', 5);
+$showCount  = $vars['params']->get('template.subcategory_items_count_show', 1);
 
 $items = array();
 $countItems = 0;
@@ -62,7 +62,7 @@ $image = $this->app->jbimage->get('category_teaser_image', $params);
         </h2>
 
         <?php if ($vars['params']->get('template.subcategory_teaser_text', 1) && strlen($text) > 0) : ?>
-            <div class="subcategory-description uk-article-meta"><?php echo $text; ?></div>
+            <div class="subcategory-description"><?php echo $text; ?></div>
         <?php endif; ?>
 
         <?php if (in_array($task, array('category', 'frontpage'))) : ?>
