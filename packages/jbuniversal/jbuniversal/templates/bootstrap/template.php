@@ -35,8 +35,28 @@ class JBTemplateBootstrap extends JBTemplate
         }
 
         $this->app->jbassets->less(array(
-            'jbassets:less/general/col5.less'
+            'jbassets:less/bootstrap.styles.less'
         ));
+    }
+
+    /**
+     * Attributes for jbzoo wrapper.
+     *
+     * @return array|string
+     */
+    public function wrapperAttrs()
+    {
+        $attrs        = array();
+        $defaultAttrs = parent::wrapperAttrs();
+
+        if ($this->application) {
+            if (!(int)$this->params->get('global.config.rborder', 1)) {
+                $attrs['class'][] = $this->prefix . '-no-border';
+            }
+
+        }
+
+        return array_merge_recursive($defaultAttrs, $attrs);
     }
 
 }
