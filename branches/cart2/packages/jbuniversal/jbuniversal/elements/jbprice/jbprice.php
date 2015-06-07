@@ -976,6 +976,10 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                         $variant->clear();
                     }
                 }
+
+                if(isset($data['default_variant']) && !array_key_exists($data['default_variant'], $list)) {
+                    unset($data['default_variant']);
+                }
             }
 
             if (count($data)) {
