@@ -25,7 +25,7 @@ $image = $this->app->jbimage->get('category_image', $vars['params']);
 $title = $title ? $title : $category->name;
 
 if ((int)$vars['params']->get('template.category_show', 1)) : ?>
-    <div class="category alias-<?php echo $category->alias; ?> uk-panel uk-panel-box uk-article-divider">
+    <div class="category alias-<?php echo $category->alias; ?> well">
 
         <?php if ((int)$vars['params']->get('template.category_title_show', 1)) : ?>
             <h1 class="title"><?php echo $title; ?></h1>
@@ -38,9 +38,9 @@ if ((int)$vars['params']->get('template.category_show', 1)) : ?>
 
 
         <?php if ((int)$vars['params']->get('template.category_image', 1) && $image['src']) : ?>
-            <div class="image-full uk-align-<?php echo $vars['params']->get('template.category_image_align', 'left'); ?>">
+            <div class="image-full pull-<?php echo $vars['params']->get('template.category_image_align', 'left'); ?>">
                 <img src="<?php echo $image['src']; ?>" <?php echo $image['width_height']; ?>
-                     title="<?php echo $category->name; ?>" alt="<?php echo $category->name; ?>" class="uk-thumbnail"/>
+                     title="<?php echo $category->name; ?>" alt="<?php echo $category->name; ?>" class="thumbnail"/>
             </div>
         <?php endif; ?>
 
@@ -62,7 +62,7 @@ if ((int)$vars['params']->get('template.category_show', 1)) : ?>
 
 <?php else: ?>
 
-    <div class="category alias-<?php echo $category->alias; ?> uk-panel uk-panel-box uk-article-divider">
+    <div class="category alias-<?php echo $category->alias; ?> well">
         <?php if ((int)$vars['params']->get('template.category_title_show', 1)) : ?>
             <h1 class="title"><?php echo $title; ?></h1>
         <?php endif; ?>
