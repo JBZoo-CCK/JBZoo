@@ -77,6 +77,15 @@ $tabsId = $this->app->jbstring->getId('tabs');
                 </a>
             </li>
         <?php endif; ?>
+
+        <?php if ($this->checkPosition('comments')) : ?>
+            <li>
+                <a href="#item-comments" role="tab" id="comments-tab" data-toggle="tab">
+                    <?php echo JText::_('JBZOO_ITEM_TAB_COMMENTS'); ?>
+                    <span class="badge"><?php echo $item->getCommentsCount(); ?></span>
+                </a>
+            </li>
+        <?php endif; ?>
     </ul>
     <div id="<?php echo $tabsId; ?>Content" class="tab-content">
         <?php if ($this->checkPosition('text')) : ?>
@@ -98,6 +107,12 @@ $tabsId = $this->app->jbstring->getId('tabs');
         <?php if ($this->checkPosition('gallery')) : ?>
             <div class="tab-pane fade" id="item-gallery">
                 <?php echo $this->renderPosition('gallery'); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($this->checkPosition('comments')) : ?>
+            <div class="tab-pane fade" id="item-comments">
+                <?php echo $this->renderPosition('comments'); ?>
             </div>
         <?php endif; ?>
     </div>
