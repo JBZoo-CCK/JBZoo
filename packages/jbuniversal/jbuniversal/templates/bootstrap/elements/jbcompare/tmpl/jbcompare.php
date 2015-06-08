@@ -30,16 +30,16 @@ $wrapAttrs = array(
 <!--noindex-->
 <div <?php echo $this->app->jbhtml->buildAttrs($wrapAttrs); ?>>
     <div class="jbcompare-active">
-        <a rel="nofollow" href="<?php echo $compareUrl; ?>" class="uk-button uk-button-success">
-            <i class="uk-icon-bar-chart"></i>
+        <a rel="nofollow" href="<?php echo $compareUrl; ?>" class="btn btn-primary">
+            <i class="glyphicon glyphicon-star"></i>
         </a>
-        <span class="uk-button uk-button-danger jsCompareToggle">
-            <i class="uk-icon-trash"></i>
+        <span class="btn btn-danger jsCompareToggle">
+            <i class="glyphicon glyphicon-trash"></i>
         </span>
     </div>
     <div class="jbcompare-unactive">
-        <span class="uk-button uk-button-success jsCompareToggle">
-            <i class="uk-icon-bar-chart-o"></i>
+        <span class="btn btn-primary jsCompareToggle">
+            <i class="glyphicon glyphicon-star"></i>
         </span>
     </div>
 </div><!--/noindex-->
