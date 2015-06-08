@@ -73,7 +73,9 @@ $tabsId = $this->app->jbstring->getId('tabs');
     <div id="<?php echo $tabsId; ?>Content" class="tab-content">
         <?php if ($this->checkPosition('text')) : ?>
             <div class="tab-pane fade active in" id="item-desc">
-                <?php echo $this->renderPosition('text', array('style' => 'block')); ?>
+                <div class="item-text">
+                    <?php echo $this->renderPosition('text', array('style' => 'block')); ?>
+                </div>
             </div>
         <?php endif; ?>
 

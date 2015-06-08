@@ -16,11 +16,11 @@ defined('_JEXEC') or die('Restricted access');
 $this->app->jbassets->fancybox();
 ?>
 
-<div id="<?php echo $galleryId; ?>" class="clearfix">
+<div id="<?php echo $galleryId; ?>" class="gallery-container clearfix">
 
     <?php foreach ($thumbs as $thumb) { ?>
         <a href="<?php echo $thumb['img']; ?>" rel="<?php echo $rel; ?>" title="<?php echo $thumb['name']; ?>"
-           class="jbgallery uk-thumbnail uk-thumbnail uk-overlay block-divider">
+           class="jbgallery thumbnail block-divider">
 
             <img src="<?php echo $thumb['thumb']; ?>"
                  alt="<?php echo $thumb['name']; ?>"
