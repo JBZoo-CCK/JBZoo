@@ -20,36 +20,40 @@ if ($count) {
 
     $appParams = $this->getItem()->getApplication()->params;
     if ((int)$appParams->get('global.config.column_heightfix', 0)) {
-        $this->app->jbassets->heightFix('.uk-panel');
+        $this->app->jbassets->heightFix('.item-column');
     }
 
     $i = 0;
     $rowItems = array_chunk($items, $columns);
+    $colNum   = $this->app->jbbootstrap->getColsNum($columns);
 
-    echo '<div class="items items-col-' . $columns . ' uk-article-divider">';
+    echo '<div class="items items-col-' . $columns . '">';
         foreach ($rowItems as $row) {
-            echo '<div class="uk-grid item-row-' . $i . '" data-uk-grid-margin>';
+            echo '<div class="row item-row-' . $i . '">';
 
             $i++;
             $j = 0;
 
             foreach ($row as $item) {
 
-                $first = ($j == 0) ? ' first' : '';
-                $last  = ($j == $count - 1) ? ' last' : '';
+                $classes = array(
+                    'item-column',
+                    'col-md-' . $colNum
+                );
+
+                $first = ($j == 0) ? $classes[] = 'first' : '';
+                $last  = ($j == $count - 1) ? $classes[] = 'last' : '';
                 $j++;
 
                 $isLast = $j % $columns == 0;
 
                 if ($isLast) {
-                    $last .= ' last';
+                    $classes[] = 'last';
                 }
 
-                echo '<div class="item-column uk-width-medium-1-' . $columns . $first . $last . '">' .
-                        '<div class="uk-panel uk-panel-box">' .
-                            $item .
-                        '</div>' .
-                    '</div>';
+                echo '<div class="' . implode(' ', $classes) . '">' .
+                     '   <div class="item-box well">' . $item . '</div>' .
+                     '</div>';
             }
 
             echo '</div>';

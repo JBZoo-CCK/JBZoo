@@ -102,3 +102,14 @@ $tabsId = $this->app->jbstring->getId('tabs');
         <?php endif; ?>
     </div>
 </div>
+
+<?php if ($this->checkPosition('related')) : ?>
+    <div class="row item-related">
+        <div class="col-md-12">
+            <?php echo $this->renderPosition('related', array(
+                'labelTag' => 'h4',
+                'style'    => 'jbblock',
+            )); ?>
+        </div>
+    </div>
+<?php endif; ?>
