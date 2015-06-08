@@ -24,7 +24,7 @@ $this->app->document->addScript('libraries:jquery/plugins/cookie/jquery.cookie.j
 $this->app->document->addScript('assets:js/comment.js');
 
 ?>
-    <div id="comments" class="comments <?php echo implode(" ", $css); ?> uk-clearfix">
+    <div id="comments" class="comments <?php echo implode(" ", $css); ?> clearfix">
 
         <h3 class="comments-meta">
             <span
@@ -35,7 +35,7 @@ $this->app->document->addScript('assets:js/comment.js');
 
         if (!$this->app->jbcache->start(array(count($vars['comments']), $vars['params']), 'comments')) {
             ?>
-            <ul class="level1 uk-comment-list">
+            <ul class="level1 comment-list">
                 <?php
                 foreach ($vars['comments'][0]->getChildren() as $comment) {
                     echo $this->app->jblayout->render('comment', $vars['item'], array(
