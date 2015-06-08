@@ -28,10 +28,10 @@ $this->app->document->addScript('assets:js/placeholder.js');
 
 ?>
 
-<div id="respond" class="uk-panel uk-panel-box uk-article-divider">
+<div id="respond" class="well">
     <h3><?php echo JText::_('Leave a comment'); ?></h3>
 
-    <form class="uk-form" method="post"
+    <form class="comment-form" method="post"
           action="<?php echo $this->app->link(array('controller' => 'comment', 'task' => 'save')); ?>">
 
         <?php if ($active_author instanceof CommentAuthorJoomla) : ?>
@@ -85,21 +85,21 @@ $this->app->document->addScript('assets:js/placeholder.js');
 
                 <?php $req = $params->get('require_name_and_mail'); ?>
 
-                <div class="author uk-form-row <?php if ($req)
+                <div class="author form-group <?php if ($req)
                     echo 'required';?>">
                     <input id="comments-author" type="text" name="author"
                            placeholder="<?php echo JText::_('Name'); ?> <?php if ($req)
                                echo "*"; ?>" value="<?php echo $active_author->name; ?>"/>
                 </div>
 
-                <div class="email uk-form-row <?php if ($req)
+                <div class="email form-group <?php if ($req)
                     echo 'required';?>">
                     <input id="comments-email" type="text" name="email"
                            placeholder="<?php echo JText::_('E-mail'); ?> <?php if ($req)
                                echo "*"; ?>" value="<?php echo $active_author->email; ?>"/>
                 </div>
 
-                <div class="url uk-form-row">
+                <div class="url form-group">
                     <input id="comments-url" type="text" name="url" placeholder="<?php echo JText::_('Website'); ?>"
                            value="<?php echo $active_author->url; ?>"/>
                 </div>
@@ -110,7 +110,7 @@ $this->app->document->addScript('assets:js/placeholder.js');
 
         <?php if (!$registered || ($registered && !$active_author->isGuest())) : ?>
 
-            <div class="content uk-form-row">
+            <div class="content form-group">
                 <textarea name="content" rows="5" cols="50"><?php echo $params->get('content'); ?></textarea>
             </div>
 
@@ -122,15 +122,15 @@ $this->app->document->addScript('assets:js/placeholder.js');
                     $this->app->html->_('behavior.mootools');
                 }
                 ?>
-                <div class="captcha uk-form-row">
+                <div class="captcha form-group">
                     <?php
                     echo $captcha->display('captcha', 'captcha', 'captcha');
                     ?>
                 </div>
             <?php endif; ?>
 
-            <div class="actions uk-form-row">
-                <input name="submit" class="uk-button uk-button-success" type="submit"
+            <div class="actions">
+                <input name="submit" class="btn btn-success" type="submit"
                        value="<?php echo JText::_('Submit comment'); ?>" accesskey="s"/>
             </div>
 

@@ -115,4 +115,105 @@
         margin-bottom: 4px;
     }
 
+    .comment-form {
+        margin: 0;
+    }
+
+    .comments {
+
+        h3 {
+            margin-top: 0;
+        }
+
+        .comment-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+
+            ul {
+                list-style: none;
+            }
+
+            .comment-head {
+                margin-bottom: 6px;
+
+                .avatar {
+                    float: left;
+                    margin-right: 10px;
+                }
+
+                .author {
+                    margin-top: 0;
+                    font-size: 20px;
+                    margin-bottom: 8px;
+                }
+
+                &-content {
+                    float: left;
+                }
+
+            }
+
+        }
+
+        .comment {
+            position: relative;
+
+            .reply {
+                position: absolute;
+                top: 18px;
+                right: 18px;
+            }
+
+            #respond {
+                margin-top: 10px;
+                margin-bottom: 0;
+            }
+
+            .actions {
+
+                .comment-cancelReply {
+                    margin-left: 10px;
+                    display: inline-block;
+                    padding: 6px 12px;
+                    margin-bottom: 0;
+                    font-size: 14px;
+                    font-weight: 400;
+                    line-height: 1.42857143;
+                    text-align: center;
+                    white-space: nowrap;
+                    vertical-align: middle;
+                    -ms-touch-action: manipulation;
+                    touch-action: manipulation;
+                    cursor: pointer;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    user-select: none;
+                    border-radius: 4px;
+                    color: #fff;
+                    background-color: #c9302c;
+                    border-color: #ac2925;
+                }
+
+            }
+
+        }
+
+    }
+
+    .comment-body {
+
+        .content {
+            color: #777;
+            margin-bottom: 6px;
+        }
+
+        .bg-warning {
+            padding: 10px;
+            margin: 0;
+        }
+
+    }
+
 }

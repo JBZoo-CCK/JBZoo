@@ -29,38 +29,40 @@ $vars['author']->name = $vars['author']->name ? $vars['author']->name : JText::_
 
 ?>
     <li>
-        <div id="comment-<?php echo $comment->id; ?>" class="uk-comment comment <?php if ($author->isJoomlaAdmin()) {
+        <div id="comment-<?php echo $comment->id; ?>" class="well comment <?php if ($author->isJoomlaAdmin()) {
             echo 'comment-byadmin';
         } ?>">
 
-            <div class="comment-head uk-comment-header">
+            <div class="comment-head clearfix">
                 <!--noindex-->
                 <?php if ($params->get('avatar', 0)) : ?>
-                    <div class="avatar uk-comment-avatar"><?php echo $author->getAvatar(50); ?></div>
+                    <div class="avatar"><?php echo $author->getAvatar(50); ?></div>
                 <?php endif; ?>
 
-                <?php if ($author->url) : ?>
-                    <h3 class="author uk-comment-title">
-                        <a href="<?php echo JRoute::_($author->url); ?>" title="<?php echo $author->url; ?>"
-                           rel="nofollow"><?php echo $author->name; ?></a>
-                    </h3>
-                <?php else: ?>
-                    <h3 class="author uk-comment-title"><?php echo $author->name; ?></h3>
-                <?php endif; ?>
+                <div class="comment-head-content">
+                    <?php if ($author->url) : ?>
+                        <h3 class="author">
+                            <a href="<?php echo JRoute::_($author->url); ?>" title="<?php echo $author->url; ?>"
+                               rel="nofollow"><?php echo $author->name; ?></a>
+                        </h3>
+                    <?php else: ?>
+                        <h3 class="author"><?php echo $author->name; ?></h3>
+                    <?php endif; ?>
 
-                <div class="meta uk-comment-meta">
-                    <?php echo $this->app->html->_('date', $comment->created, $this->app->date->format(JText::_('DATE_FORMAT_COMMENTS')), $this->app->date->getOffset()); ?>
-                    | <a class="permalink" href="#comment-<?php echo $comment->id; ?>" rel="nofollow">#</a>
+                    <div class="meta">
+                        <?php echo $this->app->html->_('date', $comment->created, $this->app->date->format(JText::_('DATE_FORMAT_COMMENTS')), $this->app->date->getOffset()); ?>
+                        | <a class="permalink" href="#comment-<?php echo $comment->id; ?>" rel="nofollow">#</a>
+                    </div>
                 </div>
                 <!--/noindex-->
             </div>
 
-            <div class="comment-body uk-comment-body">
+            <div class="comment-body comment-body">
 
                 <div class="content"><?php echo $this->app->comment->filterContentOutput($comment->content); ?></div>
 
                 <?php if ($comment->getItem()->isCommentsEnabled()) : ?>
-                    <p><a class="reply uk-button uk-button-primary uk-button-mini" href="#" rel="nofollow"><?php echo JText::_('Reply'); ?></a>
+                    <p><a class="reply btn btn-primary btn-xs" href="#" rel="nofollow"><?php echo JText::_('Reply'); ?></a>
                         <?php if ($comment->canManageComments()) : ?>
 
                             <?php echo ' | '; ?>
@@ -88,10 +90,9 @@ $vars['author']->name = $vars['author']->name ? $vars['author']->name : JText::_
                 <?php endif; ?>
 
                 <?php if ($comment->state != Comment::STATE_APPROVED) : ?>
-                    <div class="uk-alert">
-                        <i class="uk-icon-refresh uk-icon-spin"></i>
+                    <p class="bg-warning">
                         <?php echo JText::_('COMMENT_AWAITING_MODERATION'); ?>
-                    </div>
+                    </p>
                 <?php endif; ?>
 
             </div>
