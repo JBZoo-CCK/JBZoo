@@ -17,6 +17,8 @@
         <position name="title">Title</position>
         <position name="image">Image</position>
         <position name="meta">Meta</position>
+        <position name="price">Price</position>
+        <position name="buttons">Buttons</position>
         <position name="text">Tab: Text</position>
         <position name="properties">Tab: Properties</position>
         <position name="gallery">Tab: Gallery</position>

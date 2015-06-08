@@ -42,6 +42,14 @@ $tabsId = $this->app->jbstring->getId('tabs');
             </div>
         <?php endif; ?>
     </div>
+
+    <?php if ($this->checkPosition('buttons')) : ?>
+        <div class="row item-buttons">
+            <div class="col-md-12">
+                <?php echo $this->renderPosition('buttons', array('style' => 'block')); ?>
+            </div>
+        </div>
+    <?php endif; ?>
 </div>
 
 <div class="item-tabs">
