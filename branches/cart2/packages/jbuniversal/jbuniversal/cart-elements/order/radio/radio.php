@@ -35,7 +35,7 @@ class JBCartElementOrderRadio extends JBCartElementOrderOption
         if (count($optionList)) {
 
             // set default, if item is new
-            if ($default != '' && $this->_item != null && $this->_item->id == 0) {
+            if (!empty($default)) {
                 $this->set('option', array($default));
             }
 
