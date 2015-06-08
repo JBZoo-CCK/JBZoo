@@ -14,12 +14,41 @@
 
     .jbzoo {
 
+        &-item {
+
+            .item-image {
+
+                .jbimage {
+                    width: 100%;
+                    height: auto;
+                }
+
+            }
+
+            .row {
+
+                [class*="col-"] {
+                    padding: 0;
+                }
+
+            }
+
+        }
+
         .item-column,
         .subcategory-column {
             margin-bottom: 15px;
 
             &.last {
                 margin-bottom: 0;
+            }
+
+        }
+
+        .item-column {
+
+            &.col-md-12 {
+                margin-bottom: 15px;
             }
 
         }

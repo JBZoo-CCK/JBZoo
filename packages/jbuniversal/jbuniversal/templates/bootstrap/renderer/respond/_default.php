@@ -87,20 +87,20 @@ $this->app->document->addScript('assets:js/placeholder.js');
 
                 <div class="author form-group <?php if ($req)
                     echo 'required';?>">
-                    <input id="comments-author" type="text" name="author"
+                    <input id="comments-author" class="form-control" type="text" name="author"
                            placeholder="<?php echo JText::_('Name'); ?> <?php if ($req)
                                echo "*"; ?>" value="<?php echo $active_author->name; ?>"/>
                 </div>
 
                 <div class="email form-group <?php if ($req)
                     echo 'required';?>">
-                    <input id="comments-email" type="text" name="email"
+                    <input id="comments-email" class="form-control" type="text" name="email"
                            placeholder="<?php echo JText::_('E-mail'); ?> <?php if ($req)
                                echo "*"; ?>" value="<?php echo $active_author->email; ?>"/>
                 </div>
 
                 <div class="url form-group">
-                    <input id="comments-url" type="text" name="url" placeholder="<?php echo JText::_('Website'); ?>"
+                    <input id="comments-url" class="form-control" type="text" name="url" placeholder="<?php echo JText::_('Website'); ?>"
                            value="<?php echo $active_author->url; ?>"/>
                 </div>
 
@@ -111,7 +111,7 @@ $this->app->document->addScript('assets:js/placeholder.js');
         <?php if (!$registered || ($registered && !$active_author->isGuest())) : ?>
 
             <div class="content form-group">
-                <textarea name="content" rows="5" cols="50"><?php echo $params->get('content'); ?></textarea>
+                <textarea class="form-control" name="content" rows="5" cols="50"><?php echo $params->get('content'); ?></textarea>
             </div>
 
             <?php if ($captcha): ?>
