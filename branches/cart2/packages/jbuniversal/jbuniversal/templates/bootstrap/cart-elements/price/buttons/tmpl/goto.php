@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 
-<span class="jsPriceButton jsGoTo uk-button jbprice-buttons-goto">
-    <i class="uk-icon-level-up"></i>
+<span class="jsPriceButton jsGoTo btn btn-default jbprice-buttons-goto">
+    <i class="glyphicon glyphicon-new-window"></i>
     <?php echo JText::_($params->get('goto_label', 'JBZOO_ELEMENT_PRICE_BUTTONS_GOTO_LABEL_DEFAULT')); ?>
 </span>
