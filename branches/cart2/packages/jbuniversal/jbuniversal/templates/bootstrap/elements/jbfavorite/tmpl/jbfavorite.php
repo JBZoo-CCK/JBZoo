@@ -30,18 +30,18 @@ $wrapAttrs = array(
 <!--noindex-->
 <div <?php echo $this->app->jbhtml->buildAttrs($wrapAttrs); ?>>
     <div class="jbfavorite-active">
-        <a rel="nofollow" href="<?php echo $favoriteUrl; ?>" class="uk-button uk-button-primary">
-            <i class="uk-icon-heart-o"></i>
+        <a rel="nofollow" href="<?php echo $favoriteUrl; ?>" class="btn btn-primary">
+            <i class="glyphicon glyphicon-heart"></i>
         </a>
 
-        <span class="uk-button uk-button-danger jsFavoriteToggle">
-            <i class="uk-icon-trash"></i>
+        <span class="btn btn-danger jsFavoriteToggle">
+            <i class="glyphicon glyphicon-trash"></i>
         </span>
     </div>
 
     <div class="jbfavorite-unactive">
-        <span class="uk-button uk-button-primary jsFavoriteToggle">
-            <i class="uk-icon-heart"></i>
+        <span class="btn btn-primary jsFavoriteToggle">
+            <i class="glyphicon glyphicon-heart"></i>
         </span>
     </div>
 </div><!--/noindex-->
