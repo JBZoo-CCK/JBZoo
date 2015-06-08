@@ -16,17 +16,16 @@ defined('_JEXEC') or die('Restricted access');
 
 $align  = $this->app->jbitem->getMediaAlign($item, $layout);
 $tabsId = $this->app->jbstring->getId('tabs');
-
 ?>
 
-<div class="uk-panel uk-panel-box uk-clearfix">
+<div class="well clearfix">
     <?php if ($this->checkPosition('title')) : ?>
         <h1 class="item-title"><?php echo $this->renderPosition('title'); ?></h1>
     <?php endif; ?>
 
-    <div class="uk-grid">
+    <div class="row">
         <?php if ($this->checkPosition('image')) : ?>
-            <div class="uk-width-medium-1-2">
+            <div class="col-md-6">
                 <div class="item-image">
                     <?php echo $this->renderPosition('image'); ?>
                 </div>
@@ -34,7 +33,7 @@ $tabsId = $this->app->jbstring->getId('tabs');
         <?php endif; ?>
 
         <?php if ($this->checkPosition('meta')) : ?>
-            <div class="uk-width-medium-1-2">
+            <div class="col-md-6">
                 <div class="item-metadata">
                     <ul class="uk-list">
                         <?php echo $this->renderPosition('meta', array('style' => 'list')); ?>
@@ -45,12 +44,11 @@ $tabsId = $this->app->jbstring->getId('tabs');
     </div>
 </div>
 
-<div class="tab-container uk-article-divider">
-    <ul class="uk-tab" data-uk-tab="{connect:'#<?php echo $tabsId; ?>'}">
+<div class="item-tabs">
+    <ul id="<?php echo $tabsId; ?>" class="nav nav-tabs">
         <?php if ($this->checkPosition('text')) : ?>
-            <li>
-                <a href="#tab-text">
-                    <i class="uk-icon-info"></i>
+            <li class="active">
+                <a href="#item-desc" id="desc-tab" data-toggle="tab">
                     <?php echo JText::_('JBZOO_ITEM_TAB_DESCRIPTION'); ?>
                 </a>
             </li>
@@ -58,8 +56,7 @@ $tabsId = $this->app->jbstring->getId('tabs');
 
         <?php if ($this->checkPosition('properties')) : ?>
             <li>
-                <a href="#tab-properties">
-                    <i class="uk-icon-list"></i>
+                <a href="#item-prop" id="prop-tab" data-toggle="tab">
                     <?php echo JText::_('JBZOO_ITEM_TAB_PROPS'); ?>
                 </a>
             </li>
@@ -67,33 +64,31 @@ $tabsId = $this->app->jbstring->getId('tabs');
 
         <?php if ($this->checkPosition('gallery')) : ?>
             <li>
-                <a href="#tab-gallery">
-                    <i class="uk-icon-image"></i>
+                <a href="#item-gallery" role="tab" id="gallery-tab" data-toggle="tab">
                     <?php echo JText::_('JBZOO_ITEM_TAB_GALLERY'); ?>
                 </a>
             </li>
         <?php endif; ?>
     </ul>
-
-    <ul class="uk-switcher uk-margin" id="<?php echo $tabsId; ?>">
+    <div id="<?php echo $tabsId; ?>Content" class="tab-content">
         <?php if ($this->checkPosition('text')) : ?>
-            <li id="tab-text">
-                <div class="item-text">
-                    <?php echo $this->renderPosition('text', array('style' => 'block')); ?>
-                </div>
-            </li>
+            <div class="tab-pane fade active in" id="item-desc">
+                <?php echo $this->renderPosition('text', array('style' => 'block')); ?>
+            </div>
         <?php endif; ?>
 
         <?php if ($this->checkPosition('properties')) : ?>
-            <ul class="item-properties">
-                <?php echo $this->renderPosition('properties', array('style' => 'list')); ?>
-            </ul>
+            <div class="tab-pane fade" id="item-prop">
+                <ul class="list-properies">
+                    <?php echo $this->renderPosition('properties', array('style' => 'list')); ?>
+                </ul>
+            </div>
         <?php endif; ?>
 
         <?php if ($this->checkPosition('gallery')) : ?>
-            <li id="tab-gallery">
+            <div class="tab-pane fade" id="item-gallery">
                 <?php echo $this->renderPosition('gallery'); ?>
-            </li>
+            </div>
         <?php endif; ?>
-    </ul>
+    </div>
 </div>
