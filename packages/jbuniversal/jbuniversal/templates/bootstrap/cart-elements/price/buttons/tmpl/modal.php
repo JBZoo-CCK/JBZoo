@@ -12,8 +12,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 if (!$this->_isModal()) : ?>
-    <span class="jsAddToCartModal uk-button uk-button-success jbprice-buttons-modal">
-        <i class="uk-icon-picture-o"></i>
+    <span class="jsAddToCartModal btn btn-success jbprice-buttons-modal">
+        <i class="glyphicon glyphicon-picture"></i>
         <?php echo JText::_($params->get('modal_label', 'JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_LABEL_DEFAULT')); ?>
 </span>
 <?php endif;
