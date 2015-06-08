@@ -22,6 +22,7 @@
         <position name="text">Tab: Text</position>
         <position name="properties">Tab: Properties</position>
         <position name="gallery">Tab: Gallery</position>
+        <position name="related">Related items</position>
     </positions>
 
     <positions layout="teaser">
@@ -30,6 +31,7 @@
         <position name="properties">Properties</position>
         <position name="text">Text</position>
         <position name="buttons">Buttons</position>
+        <position name="quick-view">Quick view</position>
     </positions>
 
     <positions layout="related">

@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 
 
 if ((int)$this->getView()->application->params->get('global.config.column_heightfix', 0)) {
-    $this->app->jbassets->heightFix('.uk-panel');
+    $this->app->jbassets->heightFix('.item-column');
 }
 
 $this->app->jbdebug->mark('layout::items::start');

@@ -22,10 +22,10 @@ if ($vars['count']) {
     $rowItems = array_chunk($vars['objects'], $vars['cols_num']);
     $colNum   = $this->app->jbbootstrap->getColsNum($vars['cols_num']);
 
-    echo '<div class="items items-col-' . $vars['cols_num'] . ' uk-article-divider">';
+    echo '<div class="items items-col-' . $vars['cols_num'] . '">';
 
     foreach ($rowItems as $row) {
-        echo '<div class="jsHeightFixRow row item-row-' . $i . '" data-uk-grid-margin>';
+        echo '<div class="row item-row-' . $i . '">';
 
         $j = 0;
         $i++;

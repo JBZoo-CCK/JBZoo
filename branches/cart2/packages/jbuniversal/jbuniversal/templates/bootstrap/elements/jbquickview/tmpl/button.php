@@ -15,14 +15,14 @@ defined('_JEXEC') or die('Restricted access');
 $this->app->jbassets->fancybox();
 
 $btnAttrs = array_replace_recursive($quickView->btnAttrs, array(
-    'class' => 'uk-button uk-button-small quickview jsQuickView'
+    'class' => 'btn btn-default quickview jsQuickView'
 ));
 
 echo $quickView->js;
 
 echo '<!--noindex-->' .
         '<a ' . $this->app->jbhtml->buildAttrs($btnAttrs) . '>' .
-            '<i class="uk-icon-eye"></i>&nbsp;' .
+            '<i class="glyphicon glyphicon-eye-open"></i>&nbsp;' .
             $quickView->buttonText .
         '</a>' .
     '<!--/noindex-->';

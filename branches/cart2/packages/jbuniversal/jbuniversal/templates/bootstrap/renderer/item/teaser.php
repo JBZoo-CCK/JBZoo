@@ -28,27 +28,35 @@ defined('_JEXEC') or die('Restricted access');
         </div>
     <?php endif; ?>
 
-        <div class="col-md-6">
-            <?php if ($this->checkPosition('properties')) : ?>
-                <div class="item-properties">
-                    <ul class="list-unstyled">
-                        <?php echo $this->renderPosition('properties', array('style' => 'list')); ?>
-                    </ul>
-                </div>
-            <?php endif; ?>
+    <div class="col-md-6">
+        <?php if ($this->checkPosition('properties')) : ?>
+            <div class="item-properties">
+                <ul class="list-unstyled">
+                    <?php echo $this->renderPosition('properties', array('style' => 'list')); ?>
+                </ul>
+            </div>
+        <?php endif; ?>
 
-            <?php if ($this->checkPosition('price')) : ?>
-                <div class="item-price">
-                    <?php echo $this->renderPosition('price', array('style' => 'block')); ?>
-                </div>
-            <?php endif; ?>
-        </div>
+        <?php if ($this->checkPosition('price')) : ?>
+            <div class="item-price">
+                <?php echo $this->renderPosition('price', array('style' => 'block')); ?>
+            </div>
+        <?php endif; ?>
+    </div>
 </div>
 
 <?php if ($this->checkPosition('text')) : ?>
     <div class="item-text row">
         <div class="col-md-12">
             <?php echo $this->renderPosition('text', array('style' => 'block')); ?>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php if ($this->checkPosition('quick-view')) : ?>
+    <div class="item-quick-view row">
+        <div class="col-md-12">
+            <?php echo $this->renderPosition('quick-view', array('style' => 'block')); ?>
         </div>
     </div>
 <?php endif; ?>
