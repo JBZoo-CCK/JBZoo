@@ -35,7 +35,8 @@ class JBCartElementOrderSelect extends JBCartElementOrderOption
         if (count($optionList)) {
 
             // set default, if item is new
-            if ($default != '' && $this->_item != null && $this->_item->id == 0) {
+            if (!empty($default)) {
+                $default = (array)$default;
                 $this->set('option', $default);
             }
 

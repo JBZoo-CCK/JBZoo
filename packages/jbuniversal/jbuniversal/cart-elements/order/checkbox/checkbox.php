@@ -33,7 +33,7 @@ class JBCartElementOrderCheckbox extends JBCartElementOrderOption
         if (count($options_from_config)) {
 
             // set default, if item is new
-            if ($default != '' && $this->_item != null && $this->_item->id == 0) {
+            if (!empty($default)) {
                 $default = array($default);
             } else {
                 $default = array();
