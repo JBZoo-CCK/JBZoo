@@ -124,7 +124,7 @@
 
         <param name="add_css" type="jbbool" default="1" label="JBZOO_BOOTSTRAP_ADD_CSS"/>
 
-        <param name="add_js" type="jbbool" default="1" label="JBZOO_BOOTSTRAP_ADD_JS"/>
+        <param name="add_js" type="jbbool" default="0" label="JBZOO_BOOTSTRAP_ADD_JS"/>
 
         <param name="@spacer" type="jbspacer" default="JBZOO_ITEM_IMAGE_ALIGN"/>
 
