@@ -227,13 +227,12 @@ class JBPriceFilterElement
      */
     protected function _sortByArray($array)
     {
-        $options = array();
         if (!$this->_element->isCore()) {
-            $options = $this->app->jbarray->index($array, 'value');
-            $options = $this->app->jbarray->sortByArray($options, $this->_element->parseOptions());
+            $array = $this->app->jbarray->index($array, 'value');
+            $array = $this->app->jbarray->sortByArray($array, $this->_element->parseOptions());
         }
 
-        return $options;
+        return $array;
     }
 
     /**
