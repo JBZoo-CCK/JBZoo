@@ -1037,7 +1037,7 @@ d35f9cccdf38563e7a18b5c70c2bd4f0 jbapp/framework/render/pricefilter/element.hidd
 619001001902f9cde3bf5f7a83a78bfa jbapp/framework/render/pricefilter/element.imageexists.php
 d7ed180452656b96e0e8c2a49993fbd2 jbapp/framework/render/pricefilter/element.jbcolor.php
 6a9e2524116831501b6c05e37fd12468 jbapp/framework/render/pricefilter/element.jqueryui.php
-86059bb4f942af7318807ec49de78fdd jbapp/framework/render/pricefilter/element.php
+9225fe07caf70c1955b41c80fa777f4a jbapp/framework/render/pricefilter/element.php
 90f69c8bc4f4d065e3c6b6d9d2febcd4 jbapp/framework/render/pricefilter/element.radio.php
 d5cd067896242c3f630e6239733bc9ac jbapp/framework/render/pricefilter/element.select.chosen.php
 4710b182843150bbf68a3e8360c1bc29 jbapp/framework/render/pricefilter/element.select.php
