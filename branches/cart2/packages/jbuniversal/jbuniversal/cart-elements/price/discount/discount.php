@@ -61,7 +61,7 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
      */
     public function render($params = array())
     {
-        if($this->isEmpty() && !((int)$params->get('empty_show', 0))) {
+        if(!$this->hasValue($params)) {
             return $this->renderWrapper();
         }
 
