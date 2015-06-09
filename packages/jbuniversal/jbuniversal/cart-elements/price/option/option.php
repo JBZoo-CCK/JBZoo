@@ -122,6 +122,16 @@ class JBCartElementPriceOption extends JBCartElementPrice
     }
 
     /**
+     * Wrapper for protected method.
+     * @see _parseOptions()
+     * @return array
+     */
+    public function parseOptions()
+    {
+        return $this->_parseOptions(false);
+    }
+
+    /**
      * @todo Not completed
      * Check if element has option.
      * @param  string $value Option value
@@ -144,19 +154,23 @@ class JBCartElementPriceOption extends JBCartElementPrice
     protected function _getOptions($label = true)
     {
         $options = $sorted = $this->_parseOptions(false);
+
         if (!$this->hasOptions())
         {
             $options = $this->getJBPrice()->elementOptions($this->identifier);
         }
-        elseif (!$this->showAll)
+        elseif (!$this->showAll && $options)
         {
             $selected = $this->getJBPrice()->elementOptions($this->identifier);
-            $options  = array_intersect_key($selected, $options);
+            array_walk($selected, function ($value, $key) use ($options) {
+                return isset($options[$key]) ? $value : null;
+            });
+            $options = array_filter($selected);
         }
-        $options = $this->app->jbarray->sortByArray($options, $sorted);
 
         if (false !== $label && count($options))
         {
+            $options = $this->app->jbarray->sortByArray($options, $sorted);
             $options = $this->app->jbarray->unshiftAssoc($options, '', $this->getLabel());
         }
 

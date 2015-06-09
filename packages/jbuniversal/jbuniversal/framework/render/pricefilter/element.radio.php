@@ -43,7 +43,12 @@ class JBPriceFilterElementRadio extends JBPriceFilterElement
      */
     protected function _getValues($type = null)
     {
-        return $this->_getDbValues();
+        $values = $this->_getDbValues();
+        if (!empty($values)) {
+            $values = $this->_sortByArray($values);
+        }
+
+        return $values;
     }
 
 }

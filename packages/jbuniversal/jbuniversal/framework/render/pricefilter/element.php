@@ -28,6 +28,11 @@ class JBPriceFilterElement
     protected $_identifier = '';
 
     /**
+     * @type JBCartElementPrice|JBCartElementPriceOption
+     */
+    protected $_element;
+
+    /**
      * @var array|string
      */
     protected $_value = null;
@@ -136,7 +141,7 @@ class JBPriceFilterElement
      */
     protected function _getValues($type = null)
     {
-        $result = null;
+        $result = array();
 
         if ($type == 'db') {
             $result = $this->_getDbValues();
@@ -151,8 +156,8 @@ class JBPriceFilterElement
             $result = true;
         }
 
-        if (empty($result)) {
-            $result = array();
+        if (!empty($result)) {
+            $result = $this->_sortByArray($result);
         }
 
         return $result;
@@ -217,6 +222,21 @@ class JBPriceFilterElement
     }
 
     /**
+     * @param $array
+     * @return mixed
+     */
+    protected function _sortByArray($array)
+    {
+        $options = array();
+        if (!$this->_element->isCore()) {
+            $options = $this->app->jbarray->index($array, 'value');
+            $options = $this->app->jbarray->sortByArray($options, $this->_element->parseOptions());
+        }
+
+        return $options;
+    }
+
+    /**
      * Get html attributs
      * @param $attrs
      * @return array
@@ -242,12 +262,15 @@ class JBPriceFilterElement
     protected function _createOptionsList($values, $showAll = true)
     {
         $options = array();
-
         if (!$this->_isMultiple && $showAll) {
             $options[] = $this->app->html->_('select.option', '', ' - ' . $this->_getPlaceholderSelect() . ' - ');
         }
 
         foreach ($values as $value) {
+            if ($this->_element->hasOptions() && !$this->_element->hasOption($value['value'])) {
+                continue;
+            }
+
             $name = $value['text'];
 
             if (!empty($value['count']) && $this->_isCountShow) {

@@ -45,7 +45,7 @@ abstract class JBCartElementPrice extends JBCartElement
     /**
      * Unique hash. Generated in price element.
      * Hash based on element render params, price elements params, item_id, price data etc.
-     * @see ElementJBPrice::hash()
+     * @see ElementJBPrice::getHash()
      * @type string
      */
     protected $hash;
