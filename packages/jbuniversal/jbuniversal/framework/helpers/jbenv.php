@@ -26,6 +26,10 @@ class JBEnvHelper extends AppHelper
      */
     public function isSite()
     {
+        if (PHP_SAPI == 'cli') {
+            return true;
+        }
+
         return JFactory::getApplication()->isSite();
     }
 
