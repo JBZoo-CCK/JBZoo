@@ -243,10 +243,16 @@ class JBCartVariant extends ArrayObject
         if ($this->hash !== null) {
             return $this->hash;
         }
+        $hash = (array)array_filter(array_map(function ($element) {
+            $value = $element->getValue(true);
 
-        $this->hash = md5(serialize(array_filter(array_map(create_function('$element',
-            'return JString::strlen($element->getValue(true)) > 0 && $element->isCore() == false ? $element->getValue(true) : null;'), $this->all()
-        ))));
+            return (!$element->isCore() && ($value == '0' || !empty($value)))
+                ? (array)$element->data()
+                : null;
+        }, $this->all()));
+        asort($hash);
+
+        $this->hash = md5(serialize($hash));
 
         return $this->hash;
     }
