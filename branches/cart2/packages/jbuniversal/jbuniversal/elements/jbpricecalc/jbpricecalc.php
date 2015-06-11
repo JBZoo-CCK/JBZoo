@@ -276,7 +276,7 @@ class ElementJBPriceCalc extends ElementJBPrice
     public function bindData($data = array())
     {
         if (null !== $this->_item) {
-            $hashes = array();
+            $hashTable = array();
 
             if (array_key_exists('variations', $data)) {
                 $list = $this->build($data['variations']);
@@ -284,25 +284,25 @@ class ElementJBPriceCalc extends ElementJBPrice
 
                 // generate hashes
                 $values = (array)$this->get('values', array());
-                if (count($values)) {
-                    $hashes = array_map(create_function('$data', ' return md5(serialize($data));'), $values);
+                if ($values) {
+                    $hashTable = array_map(function ($array) {
+                        asort($array);
+
+                        return md5(serialize($array));
+                    }, $values);
                 }
 
-                /** @type JBCartVariant $variant */
-                foreach ($list as $key => $variant) {
-                    /** @type JBCartElementPrice $element */
-                    if (($variant->isBasic()) || ($variant->count('simple') === 1 && !in_array($variant->hash(), $hashes, true))) {
-
-                        //add variant hash to array based on simple elements values
-                        $hashes[$key] = $variant->hash();
-                    }
-                }
-
+                //Check if variant with same options exists
+                $list = array_filter($list, function ($variant) use (&$hashTable) {
+                    return ($variant->isBasic() || $variant->count('simple') && !in_array($variant->hash(), $hashTable, true))
+                        ? $hashTable[$variant->getId()] = $variant->hash() //add variant hash to array based on simple elements values
+                        : null;
+                });
                 //leave only unique hashes. The array keys are the keys of valid variants.
-                $hashes = array_unique($hashes);
+                $hashTable = array_unique($hashTable);
 
                 //get valid variants
-                $list = array_intersect_key($list, $hashes);
+                $list = array_intersect_key($list, $hashTable);
 
                 //generate array values and selected
                 if (count($list)) {
@@ -310,7 +310,6 @@ class ElementJBPriceCalc extends ElementJBPrice
                         $variant->setId($key)->bindData();
 
                         $this->bindVariant($variant);
-                        $variant->clear();
                     }
                 }
             }
