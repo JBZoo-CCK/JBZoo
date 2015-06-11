@@ -30,7 +30,6 @@ class JBFilterElementJBPriceCalc extends JBFilterElement
         $jbPrice  = $this->app->jbfilter->getElement($this->_identifier);
 
         $renderer->setModuleParams($this->_params->moduleParams);
-        $jbPrice->setFilterTemplate($template);
 
         $html = $renderer->render($template, array(
             'price'    => $jbPrice,

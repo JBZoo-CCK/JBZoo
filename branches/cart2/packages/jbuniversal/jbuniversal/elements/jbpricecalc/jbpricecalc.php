@@ -279,7 +279,7 @@ class ElementJBPriceCalc extends ElementJBPrice
             $hashTable = array();
 
             if (array_key_exists('variations', $data)) {
-                $list = $this->build($data['variations']);
+                $list = $this->prepareList($data['variations']);
                 unset($data['variations']);
 
                 // generate hashes
@@ -389,7 +389,7 @@ class ElementJBPriceCalc extends ElementJBPrice
             $list  = $this->getList();
 
             // Build list of variants
-            $_variants = $this->build($variations);
+            $_variants = $this->prepareList($variations);
 
             // Add default variant to list
             if ($defKey !== self::BASIC_VARIANT) {
