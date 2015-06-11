@@ -169,6 +169,11 @@
                         }
 
                         if ($this.options.addAlert) {
+
+                            if ($this.options.addAlertTimeout <=0) {
+                                $this.options.addAlertTimeout = '';
+                            }
+
                             $this.alert($this.options.addAlertText, $.noop, {
                                 type : "success",
                                 timer: ($this.options.addAlertTimeout)
