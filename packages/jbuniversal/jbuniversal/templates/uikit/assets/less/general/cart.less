@@ -8,12 +8,12 @@
 // @coder       Sergey Kalistratov <kalistratov.s.m@gmail.com>
 //
 
-//  JBZoo core styles
+//  JBZoo core styles.
 @import "jbzoo.less";
-@import "general/buttons.less";
 @import "general/system.less";
-@import "misc/variables.less";
+@import "media/zoo/applications/jbuniversal/assets/less/cart/mobile-tools.less";
 
+//  Mobile uikit styles for cart.
 @import "../media/mobile.cart.less";
 
 .jbzoo {
@@ -58,30 +58,8 @@
         }
 
         &-mobile-tools {
-            position: fixed;
-            display: none;
-            min-height: 78px;
-            bottom: 0px;
-            left: 0;
-            width: 100%;
-            z-index: 5;
-            color: @white;
-            text-align: center;
-            background: rgba(0, 0, 0, 0.57);
-            border-top: 6px solid rgba(0, 0, 0, 0.44);
-            .box-shadow(0 0 40px rgba(0, 0, 0, 0.5) inset);
-
-            .jbtool-total-price {
-                font-size: 20px;
-                padding-top: 5px;
-            }
 
             .jbform-actions {
-                margin-top: 0;
-                padding-top: 8px;
-                padding-bottom: 0;
-                background: transparent;
-                border: none;
 
                 .uk-button {
                     min-height: 34px;
@@ -92,9 +70,6 @@
 
             }
 
-            .jbtool-value {
-                font-weight: bold;
-            }
 
         }
 
@@ -104,7 +79,7 @@
 
         .uk-button {
             font-size: 16px;
-            color: @white;
+            color: #fff;
             .border-radius(4px);
         }
 

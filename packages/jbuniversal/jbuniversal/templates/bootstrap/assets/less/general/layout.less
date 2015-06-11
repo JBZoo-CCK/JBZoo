@@ -10,6 +10,13 @@
 
 .jbzoo {
 
+    .title,
+    .subtitle,
+    .subcategory-title {
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
     .category,
     .frontpage,
     .subcategory {
@@ -245,6 +252,48 @@
 
         > div {
             margin-bottom: 8px;
+        }
+
+    }
+
+    .jbform-actions {
+        padding: 19px 20px 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        background-color: #f5f5f5;
+        border-top: 1px solid #e5e5e5;
+
+        .btn {
+            color: #fff;
+        }
+
+    }
+
+    .jbcart {
+
+        &-payment {
+            margin: 0;
+            padding: 0;
+            border-bottom: none !important;
+
+            &-desc {
+                font-weight: normal;
+            }
+
+        }
+
+        &-row {
+
+            &.jbloading:after {
+                display: none;
+            }
+
+        }
+
+        &-item-image {
+            padding: 4px;
+            border: 1px solid #dddddd;
+            .border-radius(4px);
         }
 
     }

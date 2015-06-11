@@ -79,7 +79,9 @@ echo $this->partial('basket', 'table.styles');
                 } ?>
             </td>
             <td class="jbcart-delete">
-                <a class="uk-button uk-button-danger uk-button-small round jsDelete"><i class="uk-icon-trash-o"></i></a>
+                <a class="btn btn-danger btn-xs round jsDelete">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
             </td>
         </tr>
     <?php endforeach; ?>
@@ -117,8 +119,8 @@ echo $this->partial('basket', 'table.styles');
     </tr>
     <tr class="jbcart-row-remove">
         <td colspan="6" class="jbcart-delete-all-cell">
-            <a class="jsDeleteAll item-delete-all uk-button uk-button-danger">
-                <i class="uk-icon-trash-o"></i>
+            <a class="jsDeleteAll item-delete-all btn btn-danger">
+                <span class="glyphicon glyphicon-trash"></span>
                 <?php echo JText::_('JBZOO_CART_REMOVE_ALL'); ?>
             </a>
         </td>

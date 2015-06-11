@@ -8,18 +8,22 @@
 // @coder       Sergey Kalistratov <kalistratov.s.m@gmail.com>
 //
 
-@import "../bootstrap.vars.less";
-
-@media @bootstrap-tablet {
+@media @tablet {
 
     .jbzoo {
 
-        .item-column,
-        .subcategory-column {
-            margin-bottom: 15px;
+        .jbcart-shipping {
 
-            &.last {
-                margin-bottom: 0;
+            .jbcart-shippingfield-col,
+            .jbcart-shipping-col {
+                margin-right: 0;
+                border-right: none;
+                float: none;
+                width: 100%;
+            }
+
+            &-row {
+                width: 100%;
             }
 
         }

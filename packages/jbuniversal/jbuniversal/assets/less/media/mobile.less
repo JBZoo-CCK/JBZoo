@@ -5,59 +5,10 @@
 // @author      JBZoo App http://jbzoo.com
 // @copyright   Copyright (C) JBZoo.com,  All rights reserved.
 // @license     http://jbzoo.com/license-pro.php JBZoo Licence
-// @coder       Denis Smetannikov <denis@jbzoo.com>
+// @coder       Sergey Kalistratov <kalistratov.s.m@gmail.com>
 //
 
-.mobileAlert() {
-
-    .sweet-alert {
-
-        h2 {
-            margin-bottom: 0 !important;
-            margin-top: 12px !important;
-        }
-
-    }
-
-}
-
-.fancyQuantity() {
-
-    .jbzoo.jbmodal {
-
-        .jbprice-quantity {
-
-            .plus,
-            .minus {
-                position: static;
-
-                .jbbutton {
-                    position: static;
-                    width: inherit;
-                    height: 18px;
-                    max-height: inherit;
-                    line-height: inherit;
-                    font-size: inherit;
-                }
-
-            }
-
-        }
-
-    }
-
-}
-
-
-@media @mobile {
-
-    .mobileAlert();
-    .fancyQuantity();
-
-}
-
-@media @mobile-mini {
-
-    .mobileAlert();
-    .fancyQuantity();
-}
+@import "mobile/general.less";
+@import "mobile/cart.less";
+@import "mobile/clientarea.less";
+@import "mobile/quantity.less";
