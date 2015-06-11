@@ -370,7 +370,7 @@ b5a3405e4f14454792bd6738b120c976 jbapp/cart-elements/price/balance/assets/less/b
 e2835d00a1f163214f3f21443b34243c jbapp/cart-elements/price/balance/tmpl/edit.php
 03121eb643414cca0829e25f7d0da0ee jbapp/cart-elements/price/balance/tmpl/full.php
 27f58d64d3ef1100658502612001cc76 jbapp/cart-elements/price/balance/tmpl/simple.php
-8956f1a2e74e0d232137874500892cba jbapp/cart-elements/price/buttons/assets/js/buttons.js
+f6ac1b496db16793850c1224c27893d6 jbapp/cart-elements/price/buttons/assets/js/buttons.js
 7808c52ccde1007a38944476722e3ac7 jbapp/cart-elements/price/buttons/assets/less/buttons.less
 7446651b25630b557b6ce4331ee75d48 jbapp/cart-elements/price/buttons/buttons.php
 e1f97fc755f097f6f6d6595f1ddb2207 jbapp/cart-elements/price/buttons/buttons.xml
@@ -649,14 +649,14 @@ bcd76887807a508bb6e3a4261db03ff6 jbapp/elements/jbprice/assets/js/jbprice.js
 7de138eed1d3ac76da89f973709d094e jbapp/elements/jbprice/assets/less/edit.less
 f2a10521f88b093762154f9b84d4c629 jbapp/elements/jbprice/assets/less/jbprice.less
 95109a63f775b83142f814ba1b100b14 jbapp/elements/jbprice/assets/less/submission.less
-8c6c89e21065af74ecc0a8df53bdd827 jbapp/elements/jbprice/jbprice.php
+b32486305948abc852dfc7f1dafb71fd jbapp/elements/jbprice/jbprice.php
 58b4bcfb95032e7156eede8ac1cd4cca jbapp/elements/jbprice/jbprice.xml
 199eb09c3ee148fe569c69ef6e1e3f12 jbapp/elements/jbprice/tmpl/_modal.php
 c42f492ea45caec469a3dd7b20ae8621 jbapp/elements/jbprice/tmpl/_warning.php
 3256a518ee1d720fdc8437556aea714f jbapp/elements/jbprice/tmpl/edit.php
 2928e5adb40a001fd19b71cb8dda73fb jbapp/elements/jbprice/tmpl/render.php
 1d8de246f6b90efa2f97e6a73712a21d jbapp/elements/jbpricecalc/assets/less/jbpricecalc.less
-611b1bcbec336f6c2269c97ef8d789dc jbapp/elements/jbpricecalc/jbpricecalc.php
+4ca553f28a66d0e3ea79417a2c216bc9 jbapp/elements/jbpricecalc/jbpricecalc.php
 10056da795efd0128180968a79df8839 jbapp/elements/jbpricecalc/jbpricecalc.xml
 f48f48e6034eb6f4cd272b47626ddb4d jbapp/elements/jbpriceplain/jbpriceplain.php
 e2dea4dd4bdc4424ee47267cbb4d13f8 jbapp/elements/jbpriceplain/jbpriceplain.xml
@@ -683,7 +683,7 @@ a591233fc8009812607fef027b8eedba jbapp/elements/jbsocial/tmpl/_likes.php
 ef921817ebf1219149493d31dcb3c9f1 jbapp/framework/classes/cart/jbcart.php
 fe4085bdb85222473535f080ed6c13d7 jbapp/framework/classes/cart/jborder.php
 d75d588c368a0c39a4a08a12525aaeb4 jbapp/framework/classes/cart/jbvalue.php
-250bee56a7b1ad2bdab887e246d22927 jbapp/framework/classes/cart/jbvariant.php
+47d522cb1e58cdceade2791357622655 jbapp/framework/classes/cart/jbvariant.php
 b9b39e369c40b8d1a0908fb19fdc192b jbapp/framework/classes/cart/jbvariantlist.php
 8e85af4941076c09be61d55b1b67b6db jbapp/framework/classes/database/JBDatabaseQuery.php
 26614645c9996f9d65cbcc6c6fad5c0d jbapp/framework/classes/database/JBDatabaseQueryElement.php
@@ -862,7 +862,7 @@ a79e6c0bf2cb8bed145aaa183ea4bec5 jbapp/framework/helpers/jbcompare.php
 f302d596544a3978c968664d35dbccfa jbapp/framework/helpers/jbconfig.php
 262ed50d0fa540dd80edc4b52c1acc8a jbapp/framework/helpers/jbcsv.php
 6653b7eda454640f3d20d8d1f239ad55 jbapp/framework/helpers/jbcsvcell.php
-77536f33440490cac66c8660467b92ed jbapp/framework/helpers/jbcsvmapper.php
+6ac78842a3157ef1fcc3439d308041f5 jbapp/framework/helpers/jbcsvmapper.php
 c97d82d2adbfdc7f5b870e1fd9ce9565 jbapp/framework/helpers/jbdate.php
 f0ef03071922a954f39cb00527bb90e6 jbapp/framework/helpers/jbdebug.php
 db84defeb9785a4b5ffb644ee34794fd jbapp/framework/helpers/jbdoc.php
@@ -937,7 +937,7 @@ d711f85236b2578a541f1ef47b96a114 jbapp/framework/models/jbmodel.category.php
 bba4befd33f57238637e761d1a9b1412 jbapp/framework/models/jbmodel.element.itemdate.php
 7e885e4f3786f5d1763407f1d2fdfe5c jbapp/framework/models/jbmodel.element.itemfrontpage.php
 da24639140ea0b2935cb3eb8a6e46d75 jbapp/framework/models/jbmodel.element.itemmodified.php
-d7cfdaaa6f1b58483ee46d39e8efccc6 jbapp/framework/models/jbmodel.element.itemname.php
+fe2f8ca5df32bb439eed7c83f6cafd03 jbapp/framework/models/jbmodel.element.itemname.php
 2a6b741fb4c61ee92c7f4e783210d192 jbapp/framework/models/jbmodel.element.itempublish_down.php
 6df18f2e382f779e7dd89de0ca4b6da9 jbapp/framework/models/jbmodel.element.itempublish_up.php
 1e7aef3ce12134bec86ad37f7535c49a jbapp/framework/models/jbmodel.element.itemtag.php
@@ -985,8 +985,8 @@ bafcb54ba59d03951a9a03bd678a325d jbapp/framework/render/filter/element.frontpage
 d151ff44900cf27f5e03aecd32146a5c jbapp/framework/render/filter/element.imageexists.jqueryui.php
 a16a7aa4eb49489216df3e32f2742576 jbapp/framework/render/filter/element.imageexists.php
 66a7f42cf406eac1660f3caf69e66e3c jbapp/framework/render/filter/element.jbcolor.php
-c82540fe38995d838a10bd734dc6cb36 jbapp/framework/render/filter/element.jbpricecalc.php
-d9886a5f4fdc9449ad62475afc602fdd jbapp/framework/render/filter/element.jbpriceplain.php
+13e6fdcb84a4e09f5a68dce07f4f781c jbapp/framework/render/filter/element.jbpricecalc.php
+a4bc4d3e276515c46fb81a04b8386fcc jbapp/framework/render/filter/element.jbpriceplain.php
 23f44a59addbb72121ba4f95bbe7694a jbapp/framework/render/filter/element.jbselectcascade.php
 73c91afa8b306bef256667c18f9ba41b jbapp/framework/render/filter/element.jqueryui.php
 4c97866d9c64a29fb1dc09f824d17203 jbapp/framework/render/filter/element.name.checkbox.php
