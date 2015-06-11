@@ -132,24 +132,17 @@ class JBCSVMapperHelper extends AppHelper
             /** @type ElementJBPrice $jbPrice */
             foreach ($prices as $identifier => $jbPrice) {
                 $i++;
-                $data    = $jbPrice->getData(0);
-                $variant = $jbPrice->buildVariant($data);
-
+                $variant = $jbPrice->clearList()->getVariant(0);
                 if ($variant->count()) {
                     /** @type JBCartElementPrice $element */
-                    foreach ($variant->all() as $key => $element) {
+                    foreach ($variant->getCore() as $key => $element) {
 
                         $instance = $helper->csvItem($element, $jbPrice);
                         $value    = $instance->toCSV();
 
-                        if ($value !== null && $value !== '') {
-                            $result[$helper::ELEMENTS_CSV_GROUP . $key . '_' . $i] = $value;
-                        }
+                        $result[$helper::ELEMENTS_CSV_GROUP . $key . '_' . $i] = $value;
                     }
-                    $variant->clear();
                 }
-
-                unset($jbPrice, $variant);
             }
         }
         unset($prices);

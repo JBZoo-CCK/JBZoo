@@ -46,11 +46,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public $showAll;
 
     /**
-     * @type Array of core/unique price params config
-     */
-    public $filter_params;
-
-    /**
      * @type JBCartPositionHelper
      */
     protected $_position;
@@ -92,13 +87,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * @type null|string
      */
     protected $_layout;
-
-    /**
-     * //TODO это навреное не layout а template
-     * Price template that chosen in layout
-     * @type null
-     */
-    protected $_filter_template;
 
     const BASIC_VARIANT       = 0;
     const SIMPLE_PARAM_LENGTH = 36;
@@ -311,6 +299,18 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
+     * Clear variation list.
+     * @return $this
+     */
+    public function clearList()
+    {
+        $this->_list->clear();
+        $this->_list = null;
+
+        return $this;
+    }
+
+    /**
      * Check if isset variant list object.
      * @return bool
      */
@@ -343,7 +343,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 $options['values'] = $this->getValues($options['selected']);
             }
             // Create variants objects.
-            $data = $this->build($data);
+            $data = $this->prepareList($data);
 
             // Merge default options with incoming.
             $options = array_merge($this->itemOptions($options), array(
@@ -362,14 +362,14 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * @param array $options
      * @return array
      */
-    public function build(array $variations, $options = array())
+    public function prepareList(array $variations, $options = array())
     {
         ksort($variations, SORT_NUMERIC);
 
         $list   = array();
         $params = array_merge($this->getConfigs(), $this->getParameters());
         foreach ($variations as $id => $data) {
-            $list[$id] = $this->variant(array_keys($params), array(
+            $list[$id] = $this->doVariant(array_keys($params), array(
                 'id'   => $id,
                 'data' => $data
             ));
@@ -387,7 +387,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     public function buildVariant($data = array(), $id = self::BASIC_VARIANT)
     {
         $elements = array_merge($this->getConfigs(), $this->getParameters());
-        $variant  = $this->variant(array_keys($elements), array(
+        $variant  = $this->doVariant(array_keys($elements), array(
             'id'   => $id,
             'data' => $data
         ));
@@ -400,7 +400,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * @param array $options
      * @return mixed
      */
-    public function variant(array $ids, array $options = array())
+    public function doVariant(array $ids, array $options = array())
     {
         $options['id'] = isset($options['id']) ? $options['id'] : self::BASIC_VARIANT;
 
@@ -691,17 +691,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     }
 
     /**
-     * @param  string $template
-     * @return $this
-     */
-    public function setFilterTemplate($template)
-    {
-        $this->_filter_template = $template;
-
-        return $this;
-    }
-
-    /**
      * Get element search data for sku table
      * @return array
      */
@@ -942,7 +931,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             $hashTable = array();
 
             if (array_key_exists('variations', $data)) {
-                $list = $this->build($data['variations']);
+                $list = $this->prepareList($data['variations']);
                 unset($data['variations']);
 
                 // generate hashes
@@ -1117,7 +1106,12 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         }
         catch (JBCartVariantListException $e)
         {
-            $variant = $this->variant(array_keys(array_merge((array)$this->getConfigs(), (array)$this->getParameters())));
+            $ids     = array_keys(array_merge((array)$this->getConfigs(), (array)$this->getParameters()));
+            $variant = $this->doVariant($ids, array(
+                'id'   => $id,
+                'data' => $this->getData($id)
+            ));
+
             $this->_list->set($id, $variant);
         }
 
