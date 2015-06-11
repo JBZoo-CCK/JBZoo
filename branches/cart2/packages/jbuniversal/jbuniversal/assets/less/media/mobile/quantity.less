@@ -1,0 +1,91 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Sergey Kalistratov <kalistratov.s.m@gmail.com>
+//
+
+@mob-quantity-input-width:      34px;
+@mob-quantity-btn-width:        40px;
+@mob-quantity-btn-height:       @mob-quantity-btn-width;
+@mob-quantity-btn-font-size:    30px;
+
+
+//  Core styles for quantity widget.
+@media @mobile {
+
+    .jbzoo {
+
+        .jbprice-quantity {
+            margin-left: -10px;
+        }
+
+        .quantity-wrapper {
+            margin-left: -6px;
+
+            table {
+                display: table;
+            }
+
+            tr {
+                display: table-row;
+            }
+
+            td {
+                display: table-cell;
+            }
+
+            .input-quantity,
+            .item-count-wrapper,
+            .item-count-digits,
+            .item-count {
+                width: @mob-quantity-input-width !important;
+                min-width: @mob-quantity-input-width;
+            }
+
+            .item-count-digits {
+                left: -13px;
+            }
+
+            .item-count-wrapper {
+                margin-left: @mob-quantity-btn-width + @mob-quantity-btn-height / 2 !important;
+            }
+
+            .plus,
+            .minus {
+                position: relative;
+
+                .jbbutton {
+                    position: absolute;
+                    top: 0;
+                    width: @mob-quantity-btn-width;
+                    max-width: @mob-quantity-btn-width;
+                    height: @mob-quantity-btn-height;
+                    max-height: @mob-quantity-btn-width;
+                    line-height: @mob-quantity-btn-height;
+                    font-size: @mob-quantity-btn-font-size;
+                    left: -10px / 2;
+                }
+
+            }
+
+            .plus {
+                left: 10px;
+            }
+
+            .minus {
+
+                .jbbutton {
+                    left: -@mob-quantity-btn-width * 2;
+                }
+
+            }
+
+        }
+
+    }
+
+}

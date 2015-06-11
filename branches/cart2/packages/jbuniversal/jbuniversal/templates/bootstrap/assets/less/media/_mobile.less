@@ -8,27 +8,37 @@
 // @coder       Sergey Kalistratov <kalistratov.s.m@gmail.com>
 //
 
-.jbzoo {
+@media @mobile {
 
-    .uk-pagination {
+    .jbzoo {
 
-        > li {
+        &-item,
+        .jbcart-payment {
 
-            &:nth-child(n+2) {
-                margin-left: 5px !important;
-            }
+            .row {
 
-            a,
-            span {
-                height: 20px;
-            }
-
-            a {
-
-                [class*=uk-icon-] {
-                    line-height: 18px;
+                [class*="col-"] {
+                    padding: 0;
                 }
 
+            }
+
+        }
+
+        .item-column,
+        .subcategory-column {
+            margin-bottom: 15px;
+
+            &.last {
+                margin-bottom: 0;
+            }
+
+        }
+
+        .item-column {
+
+            &.col-md-12 {
+                margin-bottom: 15px;
             }
 
         }

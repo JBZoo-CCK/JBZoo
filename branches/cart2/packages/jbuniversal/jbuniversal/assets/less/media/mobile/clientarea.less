@@ -1,0 +1,116 @@
+// JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+//
+// @package     jbzoo
+// @version     2.x Pro
+// @author      JBZoo App http://jbzoo.com
+// @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+// @license     http://jbzoo.com/license-pro.php JBZoo Licence
+// @coder       Sergey Kalistratov <kalistratov.s.m@gmail.com>
+//
+
+//  Core mobile client area styles.
+@media @mobile {
+
+    .jbzoo {
+
+        .jbclientarea {
+
+            &-order-table,
+            &-orderlist {
+                display: block;
+
+                thead, tbody, th, tr, td {
+                    display: block;
+                }
+
+                thead {
+                    display: none;
+                }
+
+                .jbclientarea-item,
+                .jbclientarea-order {
+                    overflow: hidden;
+                    border: 1px solid #ddd;
+                    margin-bottom: 10px;
+                    border-radius: 4px;
+
+                    td {
+                        overflow: hidden;
+                        position: relative;
+                        padding-left: 48%;
+                        text-align: left;
+                        border-bottom: none;
+
+                        &:before {
+                            position: absolute;
+                            top: 6px;
+                            left: 6px;
+                            width: 34%;
+                            padding-right: 10px;
+                            white-space: nowrap;
+                            text-align: right;
+                            font-weight: bold;
+                        }
+
+                    }
+
+                    .jbclientarea-item-image {
+                        padding: 10px 0;
+                        text-align: center;
+                    }
+
+                }
+
+                .jbclientarea-emptycell {
+                    display: none;
+                }
+
+            }
+
+            &-orderlist {
+
+                .jbclientarea-order {
+
+                    .jbclientarea-name {
+                        padding: 0;
+                        text-align: center;
+                        font-size: 20px;
+
+                        p {
+                            margin: 14px 0;
+                        }
+
+                    }
+
+                }
+
+            }
+
+            &-modifier,
+            &-shipping,
+            &-total {
+                overflow: hidden;
+
+                td {
+                    border-bottom: none;
+                }
+
+                .jbclientarea-label {
+                    float: left;
+                }
+
+                .jbclientarea-value {
+                    float: right;
+                }
+
+            }
+
+            &-page-desc {
+                text-align: center;
+            }
+
+        }
+
+    }
+
+}

@@ -26,7 +26,7 @@ if ($isError) {
     $error .= '<p class="jbcart-payment-error">' . (string)$element->error . '</p>';
 }
 
-$column = $params->get('column', 3);
+$column = $this->app->jbbootstrap->getColsNum($params->get('column', 3));
 
 // create class attribute
 $classes = array_filter(array(
@@ -34,7 +34,7 @@ $classes = array_filter(array(
     'jbcart-payment-' . $element->getElementType(),
     $params->get('first') ? 'first' : '',
     $params->get('last') ? 'last' : '',
-    'uk-width-medium-1-' . $column,
+    'col-md-' . $column,
     $isError ? 'error' : null,
 ));
 
@@ -52,7 +52,7 @@ $paymentId = $element->htmlId();
         'checked' => $element->isDefault() ? 'checked' : null,
     ));?> />
 
-    <label class="jbcart-radio-label jbcart-payment-label uk-panel uk-panel-box" for="<?php echo $paymentId; ?>">
+    <label class="jbcart-radio-label jbcart-payment-label well" for="<?php echo $paymentId; ?>">
 
         <div class="jbcart-payment-brand uk-clearfix">
             <div class="jbcart-radio"></div>

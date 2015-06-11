@@ -14,14 +14,14 @@ defined('_JEXEC') or die('Restricted access');
 
 ?>
 
-<div class="uk-text-center jbform-actions uk-clearfix">
+<div class="text-center jbform-actions uk-clearfix">
 
     <input type="submit" name="create" value="<?php echo JText::_('JBZOO_CART_MOBILE_SUBMIT'); ?>"
-           class="uk-button uk-button-large uk-button-success" />
+           class="btn btn-success btn-lg" />
 
     <?php if ($view->payment) : ?>
         <input type="submit" name="create-pay" value="<?php echo JText::_('JBZOO_CART_MOBILE_SUBMIT_AND_PAY'); ?>"
-               class="uk-button uk-button-large uk-button-success" />
+               class="btn btn-success btn-lg" />
     <?php endif; ?>
 
 </div>

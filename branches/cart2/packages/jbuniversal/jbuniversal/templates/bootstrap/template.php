@@ -36,9 +36,6 @@ class JBTemplateBootstrap extends JBTemplate
 
         $this->app->jbassets->less(array(
             'jbassets:less/bootstrap.styles.less',
-            'jbassets:less/media/desktop.less',
-            'jbassets:less/media/tablet.less',
-            'jbassets:less/media/mobile.less',
         ));
     }
 
