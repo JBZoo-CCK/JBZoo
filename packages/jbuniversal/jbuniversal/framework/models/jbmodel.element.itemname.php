@@ -62,10 +62,20 @@ class JBModelElementItemname extends JBModelElement
         $where = array();
         foreach ($value as $valueOne) {
             if ((int)$exact) {
-                $where[]  = 'tItem.name = ' . $this->_db->quote($valueOne);
+                if ((int)$valueOne > 0) {
+                    $where[] = 'tItem.id = ' . (int)$valueOne;
+                } else {
+                    $where[] = 'tItem.name = ' . $this->_db->quote($valueOne);
+                }
             } else {
-                $valueOne = $this->_prepareValue($valueOne);
-                $where[]  = $this->_buildLikeBySpaces($valueOne, 'tItem.name');
+
+                if ((int)$value > 0) {
+                    $where[] = 'tItem.id = ' . (int)$valueOne;
+                } else {
+                    $valueOne = $this->_prepareValue($valueOne);
+                    $where[]  = $this->_buildLikeBySpaces($valueOne, 'tItem.name');
+                }
+
             }
         }
 
