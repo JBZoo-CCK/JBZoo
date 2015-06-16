@@ -20,12 +20,13 @@ if ($vars['count']) {
     $i        = 0;
     $count    = $vars['count'];
     $rowItems = array_chunk($vars['objects'], $vars['cols_num']);
-    $colNum   = $this->app->jbbootstrap->getColsNum($vars['cols_num']);
+    $rowClass = $this->app->jbbootstrap->getRowClass();
+    $colClass = $this->app->jbbootstrap->columnClass($vars['cols_num']);
 
     echo '<div class="items items-col-' . $vars['cols_num'] . '">';
 
     foreach ($rowItems as $row) {
-        echo '<div class="row item-row-' . $i . '">';
+        echo '<div class="' . $rowClass . ' item-row-' . $i . '">';
 
         $j = 0;
         $i++;
@@ -33,8 +34,7 @@ if ($vars['count']) {
         foreach ($row as $item) {
 
             $classes = array(
-                'item-column',
-                'col-md-' . $colNum
+                'item-column', $colClass
             );
 
             $first = ($j == 0) ? $classes[] = 'first' : '';

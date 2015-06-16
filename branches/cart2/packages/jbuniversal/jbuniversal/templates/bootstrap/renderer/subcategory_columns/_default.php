@@ -35,8 +35,7 @@ if ($vars['count']) {
         foreach ($row as $subcategory) {
 
             $classes = array(
-                'subcategory-column',
-                $colClass
+                'subcategory-column', $colClass
             );
 
             $first = ($j == 0) ? $classes[] = 'first' : '';
