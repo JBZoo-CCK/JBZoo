@@ -14,33 +14,34 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$align = $this->app->jbitem->getMediaAlign($item, $layout);
+$bootstrap = $this->app->jbbootstrap;
+$rowClass  = $bootstrap->getRowClass();
 ?>
 
-<div class="uk-panel uk-panel-box uk-article-divider">
+<div class="well clearfix">
     <?php if ($this->checkPosition('title')) : ?>
         <span class="item-title"><?php echo $this->renderPosition('title'); ?></span>
     <?php endif; ?>
 
+    <div class="<?php echo $rowClass; ?>">
+        <?php if ($this->checkPosition('image')) : ?>
+            <div class="item-image <?php echo $bootstrap->gridClass(6); ?>">
+                <?php echo $this->renderPosition('image'); ?>
+            </div>
+        <?php endif; ?>
 
-    <?php if ($this->checkPosition('image')) : ?>
-        <div class="item-image uk-align-<?php echo $align; ?>">
-            <?php echo $this->renderPosition('image'); ?>
-        </div>
-    <?php endif; ?>
+        <?php if ($this->checkPosition('properties')) : ?>
+            <div class="<?php echo $bootstrap->gridClass(6); ?>">
+                <ul class="item-properties unstyled">
+                    <?php echo $this->renderPosition('properties', array('style' => 'list')); ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+    </div>
 
-
-    <?php if ($this->checkPosition('properties')) : ?>
-        <ul class="item-properties">
-            <?php echo $this->renderPosition('properties', array('style' => 'list')); ?>
-        </ul>
-    <?php endif; ?>
-
-
-    <?php if ($this->checkPosition('text')) : ?>
-        <?php echo $this->renderPosition('text', array('style' => 'block')); ?>
-    <?php endif; ?>
-
+    <?php if ($this->checkPosition('text')) {
+        echo $this->renderPosition('text', array('style' => 'block'));
+    } ?>
 
     <?php if ($this->checkPosition('meta')) : ?>
         <ul class="item-metadata">
