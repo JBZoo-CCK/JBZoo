@@ -18,10 +18,11 @@ $align  = $this->app->jbitem->getMediaAlign($item, $layout);
 $tabsId = $this->app->jbstring->getId('tabs');
 ?>
 
+<?php if ($this->checkPosition('title')) : ?>
+    <h1 class="item-title"><?php echo $this->renderPosition('title'); ?></h1>
+<?php endif; ?>
+
 <div class="well clearfix">
-    <?php if ($this->checkPosition('title')) : ?>
-        <h1 class="item-title"><?php echo $this->renderPosition('title'); ?></h1>
-    <?php endif; ?>
 
     <div class="row">
         <?php if ($this->checkPosition('image')) : ?>

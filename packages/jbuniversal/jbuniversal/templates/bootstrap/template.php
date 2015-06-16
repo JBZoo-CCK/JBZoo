@@ -26,12 +26,14 @@ class JBTemplateBootstrap extends JBTemplate
      */
     public function onInit()
     {
+        $version = (int)$this->params->get('global.template.version', 2);
+
         if ($this->params->get('global.template.add_js', true)) {
-            $this->app->jbassets->js('jbassets:js/bootstrap.min.js');
+            $this->app->jbassets->js('jbassets:js/bootstrap_v' . $version . '.x.min.js');
         }
 
         if ($this->params->get('global.template.add_css', true)) {
-            $this->app->jbassets->css('jbassets:css/bootstrap.min.css');
+            $this->app->jbassets->css('jbassets:css/bootstrap_v' . $version . '.x.min.css');
         }
 
         $this->app->jbassets->less(array(
