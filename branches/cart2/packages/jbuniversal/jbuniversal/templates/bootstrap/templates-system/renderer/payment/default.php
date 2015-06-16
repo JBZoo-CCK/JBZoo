@@ -12,7 +12,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$version  = (int)$this->app->zoo->getApplication()->params->get('global.template.version', 2);
+$version  = $this->app->jbbootstrap->getVersion();
 $rowClass = ($version == 2) ? 'row-fluid' : 'row';
 
 if ($this->checkPosition('list')) : ?>
