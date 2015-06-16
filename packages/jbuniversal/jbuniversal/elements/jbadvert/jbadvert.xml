@@ -37,7 +37,7 @@
         <!-- priority -->
         <param name="item_priority" type="jbspacer" default="JBZOO_JBADVERT_ITEM_PRIORITY"/>
 
-        <param name="item_priority_value" type="text" default="-1" label="JBZOO_JBADVERT_ITEM_PRIORITY_VALUE"
+        <param name="item_priority_value" type="text" default="10" label="JBZOO_JBADVERT_ITEM_PRIORITY_VALUE"
                description="JBZOO_JBADVERT_ITEM_PRIORITY_VALUE_DESC"/>
 
         <!-- category -->
