@@ -22,7 +22,7 @@ echo $quickView->js;
 
 echo '<!--noindex-->' .
         '<a ' . $this->app->jbhtml->buildAttrs($btnAttrs) . '>' .
-            '<i class="glyphicon glyphicon-eye-open"></i>&nbsp;' .
+            $this->app->jbbootstrap->icon('eye-open') . '&nbsp;' .
             $quickView->buttonText .
         '</a>' .
     '<!--/noindex-->';
