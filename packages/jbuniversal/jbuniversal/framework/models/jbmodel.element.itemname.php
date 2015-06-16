@@ -60,6 +60,8 @@ class JBModelElementItemname extends JBModelElement
         }
 
         $where = array();
+        eva($value);
+        var_dump($exact);
         foreach ($value as $valueOne) {
             if ((int)$exact) {
                 if ((int)$valueOne > 0) {
@@ -69,7 +71,7 @@ class JBModelElementItemname extends JBModelElement
                 }
             } else {
 
-                if ((int)$value > 0) {
+                if ((int)$valueOne > 0) {
                     $where[] = 'tItem.id = ' . (int)$valueOne;
                 } else {
                     $valueOne = $this->_prepareValue($valueOne);
