@@ -19,11 +19,11 @@ $tabsId = $this->app->jbstring->getId('tabs');
 
 ?>
 
-<div class="uk-panel uk-panel-box uk-clearfix">
-    <?php if ($this->checkPosition('title')) : ?>
-        <h1 class="item-title"><?php echo $this->renderPosition('title'); ?></h1>
-    <?php endif; ?>
+<?php if ($this->checkPosition('title')) : ?>
+    <h1 class="item-title"><?php echo $this->renderPosition('title'); ?></h1>
+<?php endif; ?>
 
+<div class="uk-panel uk-panel-box uk-clearfix">
     <div class="uk-grid">
         <?php if ($this->checkPosition('image')) : ?>
             <div class="uk-width-medium-1-2">
