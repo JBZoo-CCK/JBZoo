@@ -14,8 +14,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$align  = $this->app->jbitem->getMediaAlign($item, $layout);
-$tabsId = $this->app->jbstring->getId('tabs');
+$align     = $this->app->jbitem->getMediaAlign($item, $layout);
+$tabsId    = $this->app->jbstring->getId('tabs');
+$bootstrap = $this->app->jbbootstrap;
+$rowClass  = $bootstrap->getRowClass();
 ?>
 
 <?php if ($this->checkPosition('title')) : ?>
@@ -23,10 +25,9 @@ $tabsId = $this->app->jbstring->getId('tabs');
 <?php endif; ?>
 
 <div class="well clearfix">
-
-    <div class="row">
+    <div class="<?php echo $rowClass; ?>">
         <?php if ($this->checkPosition('image')) : ?>
-            <div class="col-md-6">
+            <div class="<?php echo $bootstrap->gridClass(6); ?>">
                 <div class="item-image">
                     <?php echo $this->renderPosition('image'); ?>
                 </div>
@@ -34,7 +35,7 @@ $tabsId = $this->app->jbstring->getId('tabs');
         <?php endif; ?>
 
         <?php if ($this->checkPosition('meta')) : ?>
-            <div class="col-md-6">
+            <div class="<?php echo $bootstrap->gridClass(6); ?>">
                 <div class="item-metadata">
                     <ul class="uk-list">
                         <?php echo $this->renderPosition('meta', array('style' => 'list')); ?>
@@ -45,8 +46,8 @@ $tabsId = $this->app->jbstring->getId('tabs');
     </div>
 
     <?php if ($this->checkPosition('buttons')) : ?>
-        <div class="row item-buttons">
-            <div class="col-md-12">
+        <div class="<?php echo $rowClass; ?> item-buttons">
+            <div class="<?php echo $bootstrap->gridClass(12); ?>">
                 <?php echo $this->renderPosition('buttons', array('style' => 'block')); ?>
             </div>
         </div>
@@ -120,8 +121,8 @@ $tabsId = $this->app->jbstring->getId('tabs');
 </div>
 
 <?php if ($this->checkPosition('related')) : ?>
-    <div class="row item-related">
-        <div class="col-md-12">
+    <div class="<?php echo $rowClass; ?> item-related">
+        <div class="<?php echo $bootstrap->gridClass(12); ?>">
             <?php echo $this->renderPosition('related', array(
                 'labelTag' => 'h4',
                 'style'    => 'jbblock',
