@@ -227,7 +227,9 @@ class ElementJBAdvert extends Element implements iSubmittable
             $oldDate = time();
 
             if ($time = strtotime($item->publish_down)) {
-                $oldDate = $time;
+                if ($time > 0) {
+                    $oldDate = $time;
+                }
             }
 
             $item->setState(1, false);
