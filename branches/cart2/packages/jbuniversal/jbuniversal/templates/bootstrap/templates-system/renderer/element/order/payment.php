@@ -26,15 +26,13 @@ if ($isError) {
     $error .= '<p class="jbcart-payment-error">' . (string)$element->error . '</p>';
 }
 
-$column = $this->app->jbbootstrap->getColsNum($params->get('column', 3));
-
 // create class attribute
 $classes = array_filter(array(
     'jbcart-payment-ui-row',
     'jbcart-payment-' . $element->getElementType(),
     $params->get('first') ? 'first' : '',
     $params->get('last') ? 'last' : '',
-    'col-md-' . $column,
+    $this->app->jbbootstrap->getGridClass($params->get('column', 3)),
     $isError ? 'error' : null,
 ));
 

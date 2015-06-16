@@ -44,6 +44,26 @@ class JBBootstrapHelper extends AppHelper
     }
 
     /**
+     * Get grid class by cols.
+     *
+     * @param int $cols
+     * @return string
+     */
+    public function getGridClass($cols = 2)
+    {
+        $output  = 'col-md-';
+        $version = (int)$this->app->zoo->getApplication()->params->get('global.template.version', 2);
+
+        if ($version == 2) {
+            $output = 'span';
+        }
+
+        $output .= $this->getColsNum($cols);
+
+        return $output;
+    }
+
+    /**
      * Create bootstrap icon.
      *
      * @param string $icon

@@ -12,6 +12,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$version  = (int)$this->app->zoo->getApplication()->params->get('global.template.version', 2);
+$rowClass = ($version == 2) ? 'row-fluid' : 'row';
 
 if ($this->checkPosition('list')) : ?>
     <div class="jbcart-payment clearfix">
@@ -21,7 +23,7 @@ if ($this->checkPosition('list')) : ?>
             'style' => 'order.payment',
             'rowAttrs' => array(
                 'class' =>  array(
-                    'row', 'jsHeightFixRow',
+                    $rowClass,
                 ),
             ),
             'column' => 3
