@@ -16,9 +16,10 @@ defined('_JEXEC') or die('Restricted access');
 $this->app->jbdebug->mark('layout::subcategory_columns::start');
 
 if ($vars['count']) {
-    $i      = 0;
-    $count  = $vars['count'];
-    $colNum = $this->app->jbbootstrap->getColsNum($vars['cols_num']);
+    $i        = 0;
+    $count    = $vars['count'];
+    $rowClass = $this->app->jbbootstrap->getRowClass();
+    $colClass = $this->app->jbbootstrap->getGridClass($vars['cols_num']);
 
     echo '<div class="subcategories subcategory-col-' . $vars['cols_num'] . '">';
 
@@ -26,7 +27,7 @@ if ($vars['count']) {
 
     foreach ($rowSubcategories as $row) {
 
-        echo '<div class="jsHeightFixRow row subcategory-row-' . $i . '">';
+        echo '<div class="jsHeightFixRow ' . $rowClass . ' subcategory-row-' . $i . '">';
 
         $j = 0;
         $i++;
@@ -35,7 +36,7 @@ if ($vars['count']) {
 
             $classes = array(
                 'subcategory-column',
-                'col-md-' . $colNum
+                $colClass
             );
 
             $first = ($j == 0) ? $classes[] = 'first' : '';

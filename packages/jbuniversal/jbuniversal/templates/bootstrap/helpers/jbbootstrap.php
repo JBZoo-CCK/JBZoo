@@ -30,9 +30,19 @@ class JBBootstrapHelper extends AppHelper
      *
      * @return int
      */
-    public function getVersion()
+    public function version()
     {
         return (int)$this->app->zoo->getApplication()->params->get('global.template.version', 2);
+    }
+
+    /**
+     * Get row class by bootstrap version.
+     *
+     * @return string
+     */
+    public function getRowClass()
+    {
+        return ($this->version() == 2) ? 'row-fluid' : 'row';
     }
 
     /**
@@ -62,7 +72,7 @@ class JBBootstrapHelper extends AppHelper
     public function getGridClass($cols = 2)
     {
         $output  = 'col-md-';
-        $version = $this->getVersion();
+        $version = $this->version();
 
         if ($version == 2) {
             $output = 'span';
@@ -87,7 +97,7 @@ class JBBootstrapHelper extends AppHelper
         }
 
         $attrs['class'] = 'bootstrap-icon';
-        $version = $this->getVersion();
+        $version = $this->version();
 
         if ($version == 2) {
             $attrs['class'] .= ' icon-' . $icon;

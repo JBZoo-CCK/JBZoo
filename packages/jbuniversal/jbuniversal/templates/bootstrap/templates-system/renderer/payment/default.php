@@ -12,8 +12,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$version  = $this->app->jbbootstrap->getVersion();
-$rowClass = ($version == 2) ? 'row-fluid' : 'row';
+
+$rowClass = $this->app->jbbootstrap->getRowClass();
 
 if ($this->checkPosition('list')) : ?>
     <div class="jbcart-payment clearfix">

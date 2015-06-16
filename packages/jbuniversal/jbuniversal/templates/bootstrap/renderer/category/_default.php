@@ -18,11 +18,10 @@ $this->app->jbdebug->mark('layout::category::start');
 
 // set vars
 $category = $vars['object'];
-$title = $this->app->string->trim($vars['params']->get('content.category_title', ''));
+$title    = $this->app->string->trim($vars['params']->get('content.category_title', ''));
 $subTitle = $this->app->string->trim($vars['params']->get('content.category_subtitle', ''));
-$image = $this->app->jbimage->get('category_image', $vars['params']);
-
-$title = $title ? $title : $category->name;
+$image    = $this->app->jbimage->get('category_image', $vars['params']);
+$title    = $title ? $title : $category->name;
 
 if ((int)$vars['params']->get('template.category_show', 1)) : ?>
     <div class="category alias-<?php echo $category->alias; ?> well">
