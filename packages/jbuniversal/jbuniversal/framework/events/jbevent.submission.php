@@ -39,16 +39,20 @@ class JBEventSubmission extends JBEvent
 
         // add advert to cart
         if ($request = $item->getElementsByType('jbadvert')) {
+            $redirect = false;
 
             foreach ($request as $element) {
                 $request = $app->jbrequest->getArray('elements');
                 $elemId  = $element->identifier;
                 if (isset($request[$elemId]['gotocart']) && (int)$request[$elemId]['gotocart']) {
                     $element->addToCart();
+                    $redirect = true;
                 }
             }
 
-            JFactory::getApplication()->redirect($app->jbrouter->basket());
+            if ($redirect) {
+                JFactory::getApplication()->redirect($app->jbrouter->basket());
+            }
         }
     }
 
