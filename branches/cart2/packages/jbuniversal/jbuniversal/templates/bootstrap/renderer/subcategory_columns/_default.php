@@ -19,7 +19,7 @@ if ($vars['count']) {
     $i        = 0;
     $count    = $vars['count'];
     $rowClass = $this->app->jbbootstrap->getRowClass();
-    $colClass = $this->app->jbbootstrap->getGridClass($vars['cols_num']);
+    $colClass = $this->app->jbbootstrap->columnClass($vars['cols_num']);
 
     echo '<div class="subcategories subcategory-col-' . $vars['cols_num'] . '">';
 

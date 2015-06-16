@@ -64,20 +64,28 @@ class JBBootstrapHelper extends AppHelper
     }
 
     /**
-     * Get grid class by cols.
+     * Get grid class by version.
+     *
+     * @param $col
+     * @return string
+     */
+    public function gridClass($col)
+    {
+        $output  = $this->_getColPrefix();
+        $output .= $col;
+
+        return $output;
+    }
+
+    /**
+     * Get grid class for JBZoo content columns.
      *
      * @param int $cols
      * @return string
      */
-    public function getGridClass($cols = 2)
+    public function columnClass($cols = 2)
     {
-        $output  = 'col-md-';
-        $version = $this->version();
-
-        if ($version == 2) {
-            $output = 'span';
-        }
-
+        $output  = $this->_getColPrefix();
         $output .= $this->getColsNum($cols);
 
         return $output;
@@ -156,6 +164,16 @@ class JBBootstrapHelper extends AppHelper
         }
 
         return $html;
+    }
+
+    /**
+     * Get bootstrap grid class prefix by version.
+     *
+     * @return string
+     */
+    protected function _getColPrefix()
+    {
+        return ($this->version() == 2) ? 'span' : 'col-md-';
     }
 
 }
