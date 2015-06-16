@@ -19,7 +19,7 @@ $unique = $this->htmlId(true);
            class="jsCode input-code <?php echo $unique; ?>"/>
 
     <span class="jsSendCode btn btn-success">
-        <i class="glyphicon glyphicon-ok"></i>
+        <?php echo $this->app->jbbootstrap->icon('ok', array('type' => 'white')); ?>
         <?php echo JText::_('JBZOO_ELEMENT_DISCOUNTCODE_SEND'); ?>
     </span>
 

@@ -15,6 +15,6 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 <span class="jsAddToCart btn btn-success jbprice-buttons-add">
-    <i class="glyphicon glyphicon-shopping-cart"></i>
+    <?php echo $this->app->jbbootstrap->icon('shopping-cart', array('type' => 'white')); ?>
     <?php echo JText::_($params->get('add_label', 'JBZOO_ELEMENT_PRICE_BUTTONS_ADD_LABEL_DEFAULT')); ?>
 </span>
