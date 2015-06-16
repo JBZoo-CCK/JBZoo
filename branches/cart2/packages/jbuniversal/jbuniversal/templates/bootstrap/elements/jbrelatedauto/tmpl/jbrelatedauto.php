@@ -19,17 +19,19 @@ $count = count($items);
 if ($count) {
 
     $appParams = $this->getItem()->getApplication()->params;
+
     if ((int)$appParams->get('global.config.column_heightfix', 0)) {
         $this->app->jbassets->heightFix('.item-column');
     }
 
     $i = 0;
     $rowItems = array_chunk($items, $columns);
-    $colNum   = $this->app->jbbootstrap->getColsNum($columns);
+    $rowClass = $this->app->jbbootstrap->getRowClass();
+    $colClass = $this->app->jbbootstrap->columnClass($columns);
 
     echo '<div class="items items-col-' . $columns . '">';
         foreach ($rowItems as $row) {
-            echo '<div class="row item-row-' . $i . '">';
+            echo '<div class="' . $rowClass . ' item-row-' . $i . '">';
 
             $i++;
             $j = 0;
@@ -37,8 +39,7 @@ if ($count) {
             foreach ($row as $item) {
 
                 $classes = array(
-                    'item-column',
-                    'col-md-' . $colNum
+                    'item-column', $colClass
                 );
 
                 $first = ($j == 0) ? $classes[] = 'first' : '';
