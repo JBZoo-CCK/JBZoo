@@ -44,6 +44,37 @@ class JBBootstrapHelper extends AppHelper
     }
 
     /**
+     * Create bootstrap icon.
+     *
+     * @param string $icon
+     * @param array $attrs
+     * @return string
+     */
+    public function icon($icon = 'home', $attrs = array())
+    {
+        if (isset($attrs['class'])) {
+            unset($attrs['class']);
+        }
+
+        $attrs['class'] = 'bootstrap-icon';
+        $version = (int)$this->app->zoo->getApplication()->params->get('global.template.version', 2);
+
+        if ($version == 2) {
+            $attrs['class'] .= ' icon-' . $icon;
+
+            if (isset($attrs['type'])) {
+                $attrs['class'] .= ' icon-' . $attrs['type'];
+                unset($attrs['type']);
+            }
+
+        } else {
+            $attrs['class'] = ' glyphicon glyphicon-' . $icon;
+        }
+
+        return '<span ' . $this->app->jbhtml->buildAttrs($attrs) . '></span>';
+    }
+
+    /**
      * Bootstrap pagination.
      *
      * @param $pagination

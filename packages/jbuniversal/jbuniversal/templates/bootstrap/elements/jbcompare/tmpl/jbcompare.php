@@ -31,15 +31,15 @@ $wrapAttrs = array(
 <div <?php echo $this->app->jbhtml->buildAttrs($wrapAttrs); ?>>
     <div class="jbcompare-active">
         <a rel="nofollow" href="<?php echo $compareUrl; ?>" class="btn btn-primary">
-            <i class="glyphicon glyphicon-star"></i>
+            <?php echo $this->app->jbbootstrap->icon('thumbs-up', array('type' => 'white')); ?>
         </a>
         <span class="btn btn-danger jsCompareToggle">
-            <i class="glyphicon glyphicon-trash"></i>
+            <?php echo $this->app->jbbootstrap->icon('trash', array('type' => 'white')); ?>
         </span>
     </div>
     <div class="jbcompare-unactive">
         <span class="btn btn-primary jsCompareToggle">
-            <i class="glyphicon glyphicon-star"></i>
+            <?php echo $this->app->jbbootstrap->icon('thumbs-up', array('type' => 'white')); ?>
         </span>
     </div>
 </div><!--/noindex-->

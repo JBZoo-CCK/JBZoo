@@ -31,17 +31,17 @@ $wrapAttrs = array(
 <div <?php echo $this->app->jbhtml->buildAttrs($wrapAttrs); ?>>
     <div class="jbfavorite-active">
         <a rel="nofollow" href="<?php echo $favoriteUrl; ?>" class="btn btn-primary">
-            <i class="glyphicon glyphicon-heart"></i>
+            <?php echo $this->app->jbbootstrap->icon('heart', array('type' => 'white')); ?>
         </a>
 
         <span class="btn btn-danger jsFavoriteToggle">
-            <i class="glyphicon glyphicon-trash"></i>
+            <?php echo $this->app->jbbootstrap->icon('trash', array('type' => 'white')); ?>
         </span>
     </div>
 
     <div class="jbfavorite-unactive">
         <span class="btn btn-primary jsFavoriteToggle">
-            <i class="glyphicon glyphicon-heart"></i>
+            <?php echo $this->app->jbbootstrap->icon('heart', array('type' => 'white')); ?>
         </span>
     </div>
 </div><!--/noindex-->
