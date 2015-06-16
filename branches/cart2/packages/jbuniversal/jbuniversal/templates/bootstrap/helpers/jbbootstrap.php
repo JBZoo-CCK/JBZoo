@@ -140,14 +140,14 @@ class JBBootstrapHelper extends AppHelper
 
             if ($pagination->current() > 1) {
                 $link = $url;
-                $html .= '<li><a href="' . JRoute::_($link) . '">' . JText::_('JBZOO_UIKIT_PAGINATE_FIRST') . '</a></li>';
+                $html .= '<li><a href="' . JRoute::_($link) . '">' . JText::_('JBZOO_BOOTSTRAP_PAGINATE_FIRST') . '</a></li>';
                 $link = $pagination->current() - 1 == 1 ? $url : $pagination->link($url, $pagination->name() . '=' . ($pagination->current() - 1));
-                $html .= '<li><a href="' . JRoute::_($link) . '"><i class="uk-icon-angle-double-left"></i></a></li>';
+                $html .= '<li><a href="' . JRoute::_($link) . '">&laquo;</a></li>';
             }
 
             for ($i = $rangeStart; $i <= $rangeEnd; $i++) {
                 if ($i == $pagination->current()) {
-                    $html .= '<li class="uk-active"><span>' . $i . '</span>';
+                    $html .= '<li class="active"><span>' . $i . '</span>';
                 } else {
                     $link = $i == 1 ? $url : $pagination->link($url, $pagination->name() . '=' . $i);
                     $html .= '<li><a href="' . JRoute::_($link) . '">' . $i . '</a></li>';
@@ -156,9 +156,9 @@ class JBBootstrapHelper extends AppHelper
 
             if ($pagination->current() < $pagination->pages()) {
                 $link = $pagination->link($url, $pagination->name() . '=' . ($pagination->current() + 1));
-                $html .= '<li><a href="' . JRoute::_($link) . '"><i class="uk-icon-angle-double-right"></i></a></li>';
+                $html .= '<li><a href="' . JRoute::_($link) . '">&raquo;</a></li>';
                 $link = $pagination->link($url, $pagination->name() . '=' . ($pagination->pages()));
-                $html .= '<li><a href="' . JRoute::_($link) . '">' . JText::_('JBZOO_UIKIT_PAGINATE_LAST') . '</a></li>';
+                $html .= '<li><a href="' . JRoute::_($link) . '">' . JText::_('JBZOO_BOOTSTRAP_PAGINATE_LAST') . '</a></li>';
             }
 
         }
