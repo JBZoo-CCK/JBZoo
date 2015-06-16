@@ -20,8 +20,10 @@ $pagination = $vars['object'];
 $this->app->jbdebug->mark('layout::pagination::start');
 
 if (!$pagination->getShowAll()) : ?>
-    <ul class="uk-pagination">
-        <?php echo $this->app->jbbootstrap->paginate($pagination, $url); ?>
-    </ul>
+    <div class="pagination text-center">
+        <ul class="list">
+            <?php echo $this->app->jbbootstrap->paginate($pagination, $url); ?>
+        </ul>
+    </div>
 <?php endif;
 $this->app->jbdebug->mark('layout::pagination::finish');
