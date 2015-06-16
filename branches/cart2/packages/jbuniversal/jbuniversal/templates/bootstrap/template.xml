@@ -122,6 +122,11 @@
     <params group="item">
         <param name="@spacer" type="jbspacer" default="JBZOO_BOOTSTRAP_PARAMS"/>
 
+        <param name="version" type="radio" default="2" label="JBZOO_BOOTSTRAP_VERSION" description="JBZOO_BOOTSTRAP_VERSION_DESC">
+            <option value="2">JBZOO_BOOTSTRAP_VERSION_2</option>
+            <option value="3">JBZOO_BOOTSTRAP_VERSION_3</option>
+        </param>
+
         <param name="add_css" type="jbbool" default="1" label="JBZOO_BOOTSTRAP_ADD_CSS"/>
 
         <param name="add_js" type="jbbool" default="0" label="JBZOO_BOOTSTRAP_ADD_JS"/>
