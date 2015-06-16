@@ -79,8 +79,8 @@ echo $this->partial('basket', 'table.styles');
                 } ?>
             </td>
             <td class="jbcart-delete">
-                <a class="btn btn-danger btn-xs round jsDelete">
-                    <span class="glyphicon glyphicon-remove"></span>
+                <a class="btn btn-danger btn-xs btn-small round jsDelete">
+                    <?php echo $this->app->jbbootstrap->icon('remove', array('type' => 'white')); ?>
                 </a>
             </td>
         </tr>
@@ -120,7 +120,7 @@ echo $this->partial('basket', 'table.styles');
     <tr class="jbcart-row-remove">
         <td colspan="6" class="jbcart-delete-all-cell">
             <a class="jsDeleteAll item-delete-all btn btn-danger">
-                <span class="glyphicon glyphicon-trash"></span>
+                <?php echo $this->app->jbbootstrap->icon('trash', array('type' => 'white')); ?>
                 <?php echo JText::_('JBZOO_CART_REMOVE_ALL'); ?>
             </a>
         </td>
