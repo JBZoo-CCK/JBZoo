@@ -32,7 +32,7 @@ $classes = array_filter(array(
     'jbcart-payment-' . $element->getElementType(),
     $params->get('first') ? 'first' : '',
     $params->get('last') ? 'last' : '',
-    $this->app->jbbootstrap->getGridClass($params->get('column', 3)),
+    $this->app->jbbootstrap->columnClass($params->get('column', 3)),
     $isError ? 'error' : null,
 ));
 
