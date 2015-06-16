@@ -270,10 +270,11 @@ class JBCart
 
                 if (!$this->inStock($data['quantity'], $key)) {
                     $element = $this->getItemElement($data);
-                    $balance = $element->getBalance($data['variant']);
-
-                    $itemName = $data['item_name'] . (!empty($data['values']) ? ' (' . JArrayHelper::toString($data['values'], ': ', '; ', false) . ')' : null);
-                    $this->setError(JText::sprintf('JBZOO_CART_VALIDATOR_ITEM_NOBALANCE', $itemName, $balance));
+                    if ($element) {
+                        $balance = $element->getBalance($data['variant']);
+                        $itemName = $data['item_name'] . (!empty($data['values']) ? ' (' . JArrayHelper::toString($data['values'], ': ', '; ', false) . ')' : null);
+                        $this->setError(JText::sprintf('JBZOO_CART_VALIDATOR_ITEM_NOBALANCE', $itemName, $balance));
+                    }
                 }
             }
         }
@@ -515,8 +516,10 @@ class JBCart
     public function getItemElement($data = array())
     {
         $item = $this->getZooItem($data);
-
-        return $item->getElement($data['element_id']);
+        
+        if ($item) {
+            return $item->getElement($data['element_id']);
+        }
     }
 
     /**
