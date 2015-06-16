@@ -60,8 +60,6 @@ class JBModelElementItemname extends JBModelElement
         }
 
         $where = array();
-        eva($value);
-        var_dump($exact);
         foreach ($value as $valueOne) {
             if ((int)$exact) {
                 if ((int)$valueOne > 0) {
