@@ -263,7 +263,13 @@
 
             basketReload: function () {
                 if (this.isWidgetExists('JBZooCartModule')) {
-                    this.$('{document} .jsJBZooCartModule', this.isModal).JBZooCartModule('reload');
+                    var modules = this.$('{document} .jsJBZooCartModule', this.isModal);
+                    $.each(modules, function(i, module) {
+                        var $module = $(module);
+                        if(!JBZoo.empty($module.data('JBZooCartModule'))) {
+                            $module.JBZooCartModule('reload');
+                        }
+                    });
                 }
             },
 

@@ -139,7 +139,12 @@
          */
         reloadModule: function () {
             if (JBZoo.isWidgetExists('JBZooCartModule')) {
-                $('.jsJBZooCartModule').JBZooCartModule('reload');
+                $('.jsJBZooCartModule').each(function (i, module) {
+                    var $module = $(module);
+                    if (!JBZoo.empty($module.data('JBZooCartModule'))) {
+                        $module.JBZooCartModule('reload');
+                    }
+                });
             }
         },
 

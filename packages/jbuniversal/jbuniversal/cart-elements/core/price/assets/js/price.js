@@ -27,7 +27,8 @@
             },
 
             _rePaint: function (data, selector) {
-                var container = JBZoo.empty(selector) ? this.el : $('.' + selector, this.el.closest('.jsPrice'));
+                var container = JBZoo.empty(selector) ? this.el : $('.' + selector, this.el.closest('.jsPrice'));+
+
                 container.empty().prepend($(data).contents());
             },
 
