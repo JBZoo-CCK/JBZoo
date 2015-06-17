@@ -22,13 +22,13 @@ $align = $this->app->jbitem->getMediaAlign($item, $layout);
 <?php endif; ?>
 
 <?php if ($this->checkPosition('image')) : ?>
-    <div class="item-image uk-align-<?php echo $align; ?>">
+    <div class="item-image pull-<?php echo $align; ?>">
         <?php echo $this->renderPosition('image'); ?>
     </div>
 <?php endif; ?>
 
 <?php if ($this->checkPosition('properties')) : ?>
-    <ul class="item-properties uk-list uk-list-line">
+    <ul class="item-properties">
         <?php echo $this->renderPosition('properties', array('style' => 'list')); ?>
     </ul>
 <?php endif; ?>
@@ -38,8 +38,8 @@ $align = $this->app->jbitem->getMediaAlign($item, $layout);
 <?php endif; ?>
 
 <?php if ($this->checkPosition('meta')) : ?>
-    <div class="uk-clearfix item-metadata">
-        <ul class="uk-list">
+    <div class="clearfix item-metadata">
+        <ul class="list">
             <?php echo $this->renderPosition('meta', array('style' => 'list')); ?>
         </ul>
     </div>

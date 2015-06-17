@@ -30,7 +30,7 @@ $align = $this->app->jbitem->getMediaAlign($item, $layout);
 
 
 <?php if ($this->checkPosition('image')) : ?>
-    <div class="item-image uk-align-<?php echo $align; ?>">
+    <div class="item-image pull-<?php echo $align; ?>">
         <?php echo $this->renderPosition('image'); ?>
     </div>
 <?php endif; ?>
@@ -47,4 +47,4 @@ $align = $this->app->jbitem->getMediaAlign($item, $layout);
     </ul>
 <?php endif; ?>
 
-<div class="uk-clearfix"></div>
+<div class="clearfix"></div>
