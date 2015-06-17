@@ -15,7 +15,11 @@ defined('_JEXEC') or die('Restricted access');
 
 
 $this->app->jbassets->jbzooLinks();
-$align = $this->app->jbitem->getMediaAlign($item, $layout);
+
+$align     = $this->app->jbitem->getMediaAlign($item, $layout);
+$bootstrap = $this->app->jbbootstrap;
+$rowClass  = $bootstrap->getRowClass();
+
 ?>
 
 <?php if ($this->checkPosition('top')) : ?>
@@ -24,10 +28,10 @@ $align = $this->app->jbitem->getMediaAlign($item, $layout);
     </div>
 <?php endif; ?>
 
-<div class="uk-panel uk-panel-box item-body">
+<div class="item-body clearfix">
     <div class="head-wrapper">
         <?php if ($this->checkPosition('image')) : ?>
-            <div class="item-image <?php echo $align; ?>">
+            <div class="item-image pull-<?php echo $align; ?>">
                 <?php echo $this->renderPosition('image'); ?>
             </div>
         <?php endif; ?>
@@ -43,17 +47,17 @@ $align = $this->app->jbitem->getMediaAlign($item, $layout);
         <?php endif; ?>
     </div>
 
-    <div class="uk-grid uk-clearfix" data-uk-grid-margin>
+    <div class="<?php echo $rowClass; ?> clearfix">
         <?php if ($this->checkPosition('price')) : ?>
-            <div class="uk-width-medium-1-2 item-price jsCartModal">
+            <div class="<?php echo $bootstrap->gridClass(2); ?> item-price jsCartModal">
                 <?php echo $this->renderPosition('price'); ?>
             </div>
         <?php endif; ?>
 
         <?php if ($this->checkPosition('properties')) : ?>
-            <div class="uk-width-medium-1-2 item-properties">
+            <div class="<?php echo $bootstrap->gridClass(2); ?> item-properties">
                 <h3><?php echo JText::_('JBZOO_QUICKVIEW_SPECIFICATION'); ?></h3>
-                <table class="uk-table uk-table-hover">
+                <table class="table table-hover">
                     <?php echo $this->renderPosition('properties', array('style' => 'jbtable')); ?>
                 </table>
             </div>
@@ -61,14 +65,21 @@ $align = $this->app->jbitem->getMediaAlign($item, $layout);
     </div>
 
     <?php if ($this->checkPosition('bottom')) : ?>
-        <div class="item-bottom">
-            <?php echo $this->renderPosition('bottom', array('style' => 'block')); ?>
+        <div class="<?php echo $rowClass; ?> item-bottom">
+            <div class="<?php echo $bootstrap->gridClass(12); ?>">
+                <?php echo $this->renderPosition('bottom', array('style' => 'block')); ?>
+            </div>
         </div>
     <?php endif; ?>
 
     <?php if ($this->checkPosition('related')) : ?>
-        <div class="item-related">
-            <?php echo $this->renderPosition('related', array('style' => 'block')); ?>
+        <div class="<?php echo $rowClass; ?> item-related">
+            <div class="<?php echo $bootstrap->gridClass(12); ?>">
+                <?php echo $this->renderPosition('related', array(
+                    'labelTag' => 'h4',
+                    'style'    => 'jbblock',
+                )); ?>
+            </div>
         </div>
     <?php endif; ?>
 </div>
