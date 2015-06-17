@@ -56,6 +56,9 @@ class JBTemplateBootstrap extends JBTemplate
                 $attrs['class'][] = $this->prefix . '-no-border';
             }
 
+            if ($isQuickView = $this->app->jbrequest->get('jbquickview', false)) {
+                $attrs['class'][] = 'jbmodal';
+            }
         }
 
         return array_merge_recursive($defaultAttrs, $attrs);

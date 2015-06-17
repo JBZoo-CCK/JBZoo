@@ -20,7 +20,8 @@ class JBTemplateUikit extends JBTemplate
 {
 
     /**
-     * On init template
+     * On init template.
+     *
      * @return void
      */
     public function onInit()
@@ -36,7 +37,8 @@ class JBTemplateUikit extends JBTemplate
     }
 
     /**
-     * Attributes for jbzoo wrapper
+     * Attributes for jbzoo wrapper.
+     *
      * @return array|string
      */
     public function wrapperAttrs()
@@ -52,6 +54,10 @@ class JBTemplateUikit extends JBTemplate
             }
 
             $attrs['class'][] = $this->prefix . '-gradient-' . $isGradient;
+
+            if ($isQuickView = $this->app->jbrequest->get('jbquickview', false)) {
+                $attrs['class'][] = 'jbmodal';
+            }
         }
 
         $attrs = array_merge_recursive($defaultAttrs, $attrs);
