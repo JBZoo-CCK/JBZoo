@@ -167,7 +167,15 @@
                 }
 
                 var $money = $this.$(selector + '>.jsMoney');
-                if ($money.length && typeof value == 'object' && JBZoo.countProps(value) == 2) {
+                if ($money.length
+                    && typeof value == 'object'
+                    && (JBZoo.countProps(value) == 2 || !JBZoo.empty(value['MoneyWrap']))
+                ) {
+
+                    if (!JBZoo.empty(value['MoneyWrap'])) {
+                        value = value['MoneyWrap'];
+                    }
+                    
                     $money
                         .JBZooMoney({rates: $this.options.rates})
                         .JBZooMoney('setValue', value[0], value[1]);
