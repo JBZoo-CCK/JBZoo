@@ -20,55 +20,64 @@ class JBTemplate
 {
 
     /**
-     * Link to Zoo Application instance
+     * Link to Zoo Application instance.
+     *
      * @var
      */
     public $app;
 
     /**
-     * Link to Zoo Application
+     * Link to Zoo Application.
+     *
      * @var
      */
     public $application;
 
     /**
-     * Event application
+     * Event application.
+     *
      * @var
      */
     public $event;
 
     /**
-     * Application params
+     * Application params.
+     *
      * @var
      */
     public $params;
 
     /**
-     * JBZoo wrapper id
+     * JBZoo wrapper id.
+     *
      * @var string
      */
     public $id = 'jbzoo';
 
     /**
-     * JBZoo class prefix
+     * JBZoo class prefix.
+     *
      * @var string
      */
     public $prefix = 'jbzoo';
 
     /**
-     * Zoo class, id for support youthemes
+     * Zoo class, id for support youthemes.
+     *
      * @var string
      */
     public $yoo = 'yoo-zoo';
 
     /**
-     * Defaul layout
+     * Defaul layout.
+     *
      * @var string
      */
     private $_layoutDefault = '_default';
 
     /**
-     * JBTemplate constructor
+     * JBTemplate constructor.
+     *
      * @param $event
      */
     public function __construct($event)
@@ -80,7 +89,8 @@ class JBTemplate
     }
 
     /**
-     * Init JBTemplate
+     * Init JBTemplate.
+     *
      * @return void
      */
     public function init()
@@ -102,7 +112,8 @@ class JBTemplate
     }
 
     /**
-     * On init (call after init method)
+     * On init (call after init method).
+     *
      * @return void
      */
     public function onInit()
@@ -110,7 +121,18 @@ class JBTemplate
     }
 
     /**
-     * JBZoo wrapper start
+     * Default layout.
+     *
+     * @return string
+     */
+    public function getDefaultLayout()
+    {
+        return $this->_layoutDefault;
+    }
+
+    /**
+     * JBZoo wrapper start.
+     *
      * @return string
      */
     public function wrapStart()
@@ -122,7 +144,8 @@ class JBTemplate
     }
 
     /**
-     * JBZoo wrapper end
+     * JBZoo wrapper end.
+     *
      * @return string
      */
     public function wrapEnd()
@@ -131,7 +154,8 @@ class JBTemplate
     }
 
     /**
-     * Render item wrapper
+     * Render item wrapper.
+     *
      * @param Item $item
      * @param string $defaultLayout
      * @param $htmlItem
@@ -164,7 +188,8 @@ class JBTemplate
     }
 
     /**
-     * Columns ordering
+     * Columns ordering.
+     *
      * @param $layoutName
      * @param $objects
      * @param $view
@@ -224,7 +249,8 @@ class JBTemplate
     }
 
     /**
-     * Get differen system classes for parent wrapper element
+     * Get differen system classes for parent wrapper element.
+     *
      * @return string
      */
     public function wrapperAttrs()
@@ -263,7 +289,8 @@ class JBTemplate
     }
 
     /**
-     * Build layout variants
+     * Build layout variants.
+     *
      * @param $vars
      * @return array
      */
@@ -296,7 +323,8 @@ class JBTemplate
     }
 
     /**
-     * Get template name
+     * Get template name.
+     *
      * @return mixed
      */
     public function getTemplateName()
@@ -305,7 +333,8 @@ class JBTemplate
     }
 
     /**
-     * Register template paths
+     * Register template paths.
+     *
      * @param $templateName
      */
     protected function _registerPaths($templateName)
@@ -316,7 +345,8 @@ class JBTemplate
     }
 
     /**
-     * Include demo.less
+     * Include demo.less.
+     *
      * @return void
      */
     protected function _incDemoLess()
