@@ -47,8 +47,8 @@ $items    = $modHelper->getBasketItems(array(
                     <div <?php echo $modHelper->attrs($attrs);?>>
 
                         <?php if ((int)$params->get('jbcart_item_delete', 1)) : ?>
-                            <span class="btn btn-danger btn-xs round jsDelete jbcart-item-delete">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            <span class="btn btn-danger btn-xs btn-mini round jsDelete jbcart-item-delete">
+                                <?php echo $this->app->jbbootstrap->icon('remove', array('type' => 'white')); ?>
                             </span>
                         <?php endif; ?>
 
@@ -120,7 +120,7 @@ $items    = $modHelper->getBasketItems(array(
 
                 <?php if ((int)$params->get('jbcart_button_empty', 1)): ?>
                     <span class="btn btn-danger jbcart-module-empty jsEmptyCart">
-                        <span class="glyphicon glyphicon-trash"></span>
+                        <?php echo $this->app->jbbootstrap->icon('trash', array('type' => 'white')); ?>
                         <?php echo JText::_('JBZOO_CART_MODULE_EMPTY_BUTTON'); ?>
                     </span>
                 <?php endif ?>
@@ -128,7 +128,7 @@ $items    = $modHelper->getBasketItems(array(
                 <?php if ((int)$params->get('jbcart_button_gotocart', 1)): ?>
                     <a rel="nofollow" class="btn btn-success jbcart-module-gotocart"
                        href="<?php echo $modHelper->getBasketUrl(); ?>">
-                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                        <?php echo $this->app->jbbootstrap->icon('shopping-cart', array('type' => 'white')); ?>
                         <?php echo JText::_('JBZOO_CART_MODULE_CART_BUTTON'); ?>
                     </a>
                 <?php endif ?>
