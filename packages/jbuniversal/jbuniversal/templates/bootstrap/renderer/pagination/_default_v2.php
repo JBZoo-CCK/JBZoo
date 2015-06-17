@@ -2,6 +2,8 @@
 /**
  * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
  *
+ * This layout renderer if the selected 2.x version in application.
+ *
  * @package     jbzoo
  * @version     2.x Pro
  * @author      JBZoo App http://jbzoo.com
@@ -21,7 +23,7 @@ $this->app->jbdebug->mark('layout::pagination::start');
 
 if (!$pagination->getShowAll()) : ?>
     <div class="pagination">
-        <ul>
+        <ul class="pagination-list">
             <?php echo $this->app->jbbootstrap->paginate($pagination, $url); ?>
         </ul>
     </div>
