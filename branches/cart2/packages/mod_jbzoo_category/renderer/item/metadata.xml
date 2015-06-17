@@ -21,4 +21,9 @@
         <description>This is uikit layout to render jbcategory list module themes</description>
     </layout>
 
+    <layout name="bootstrap">
+        <name>Bootstrap</name>
+        <description>This is bootstrap layout to render jbcategory list module themes</description>
+    </layout>
+
 </metadata>
