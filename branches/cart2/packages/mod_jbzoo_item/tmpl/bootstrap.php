@@ -27,12 +27,14 @@ if ($count) {
 
         $j = $i = 0;
 
-        $rowItem = array_chunk($items, $columns);
+        $rowItem  = array_chunk($items, $columns);
+        $rowClass = $this->app->jbbootstrap->getRowClass();
+        $colClass = $this->app->jbbootstrap->columnClass($columns);
 
-        echo '<div class="items items-col-' . $columns . ' uk-article-divider">';
+        echo '<div class="items items-col-' . $columns . '">';
 
         foreach ($rowItem as $row) {
-            echo '<div class="uk-grid item-row-' . $i . '" data-uk-grid-margin>';
+            echo '<div class="' . $rowClass . ' item-row-' . $i . '" data-uk-grid-margin>';
 
             foreach ($row as $item) {
 
@@ -49,8 +51,8 @@ if ($count) {
 
                 $renderer = $modHelper->createRenderer('item');
 
-                echo '<div class="item-column uk-width-medium-1-' . $columns . $first . $last . '">'
-                        . '<div class="uk-panel uk-panel-box">'
+                echo '<div class="item-column ' . $colClass . $first . $last . '">'
+                        . '<div class="well clearfix">'
                             . $renderer->render('item.' . $modHelper->getItemLayout(), array(
                                 'item'   => $item,
                                 'params' => $params
