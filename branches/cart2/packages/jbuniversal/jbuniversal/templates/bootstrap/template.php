@@ -42,6 +42,49 @@ class JBTemplateBootstrap extends JBTemplate
     }
 
     /**
+     * Build layout variants.
+     *
+     * Add new default variants for bootstrap application version.
+     *
+     * @param $vars
+     * @return array
+     */
+    public function buildVariants($vars)
+    {
+        $tmplFullPaths = array();
+
+        if (isset($vars['params']) && $vars['layout'] != '__auto__') {
+            if ($tmpl = $vars['params']->get('config.layout_' . $vars['layout'], null)) {
+                $tmplFullPaths[] = $tmpl;
+            }
+        }
+
+        if (isset($vars['alias'])) {
+            $tmplFullPaths[] = $this->application->alias . '.' . $vars['alias'];
+        }
+
+        if (isset($vars['id'])) {
+            $tmplFullPaths[] = $this->application->alias . '.' . $vars['id'];
+        }
+
+        if ($template = $this->application->params->get('template')) {
+            $tmplFullPaths[] = $this->application->alias . '.' . $template;
+        }
+
+        $tmplFullPaths[] = $this->application->alias;
+
+        if ($this->app->jbbootstrap->version() == 2) {
+            $tmplFullPaths[] = '_default_v2';
+        } else {
+            $tmplFullPaths[] = '_default_v3';
+        }
+
+        $tmplFullPaths[] = $this->getDefaultLayout();
+
+        return $tmplFullPaths;
+    }
+
+    /**
      * Attributes for jbzoo wrapper.
      *
      * @return array|string
