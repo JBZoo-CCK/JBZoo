@@ -975,7 +975,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 foreach ($data as $_id => $unknown) {
                     $result[$_id] = is_string($unknown) ? JString::trim($unknown) : $unknown;
                 }
-                $this->_item->elements->set($this->identifier, $result);
+                $this->_item->elements->set($this->identifier, (array)$result);
             }
         }
     }
