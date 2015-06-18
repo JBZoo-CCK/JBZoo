@@ -96,7 +96,7 @@ fb8f2986817a21940d041302c63eb787 jbapp/assets/js/admin/menu.js
 8fd99098b4b282c75306ce18795d5440 jbapp/assets/js/admin/validator/plain.js
 84647da213bdf1253f2399e33d70bdc0 jbapp/assets/js/admin/validator.js
 56e399f7bbe1d54df220dbe63e3aa117 jbapp/assets/js/back-end.js
-6f6b93b976dcd53e6d21c99f79d7eae4 jbapp/assets/js/cart/cart.js
+2bef26815173b3d284f21b5ffcfb2cea jbapp/assets/js/cart/cart.js
 e4f25e342956fe256f28f59c0c98934a jbapp/assets/js/cart/shipping-type.js
 03da342688a2e178605f5d6f514282ad jbapp/assets/js/cart/shipping.js
 603b0c20c4357b73ebfc64495561672f jbapp/assets/js/helper.js
@@ -156,6 +156,7 @@ d4f269e5e933fb7a34a6df965ee530e1 jbapp/assets/less/cart/buttons.less
 b71f16128be30ef72a96a524b4c4457d jbapp/assets/less/cart/cart.less
 5be1264de47686fd3ef17131beddbf48 jbapp/assets/less/cart/clientarea.less
 3f408235c677f8c4931b64f256b614c3 jbapp/assets/less/cart/form.less
+559f6c873c086dbf78131531ffd4f4e0 jbapp/assets/less/cart/mobile-tools.less
 6bbd52b13faed57ffbfbf91d988ee8d2 jbapp/assets/less/cart/modifier.less
 3455c88c7f9c0ec147d7da563f163cd6 jbapp/assets/less/cart/payment.less
 9258b689de163aa4a574df3c2823c893 jbapp/assets/less/cart/shipping.less
@@ -172,10 +173,16 @@ f7cb260d31a06e4aaf936f22285a7d89 jbapp/assets/less/cart/validator.less
 0a7bcc35b1fe34cf439136b4fb9a6e8c jbapp/assets/less/general/tip-wrap.less
 12085fcea3784506c5ec90d7a6845caf jbapp/assets/less/general.less
 3fd876c17484b7e60158364bee0ad788 jbapp/assets/less/jbzoo.less
-e165c36e0c11f5cdbd9b03cc4acea1ec jbapp/assets/less/media/mobile.less
+868a199ca1f0bdb5ad31b38dbd2e53df jbapp/assets/less/media/desktop.less
+4682b34e3d2f5f6e3a546c25cc58f817 jbapp/assets/less/media/mobile/cart.less
+3c5681bf41d72401b3bf6c20470d992a jbapp/assets/less/media/mobile/clientarea.less
+f9d83c07c859823c6d556c839129db50 jbapp/assets/less/media/mobile/general.less
+93f3ffc0ab7da704a2fc23f2905bd6d1 jbapp/assets/less/media/mobile/quantity.less
+1d25513e104e053264483a2cebf39615 jbapp/assets/less/media/mobile.less
+23b765ca3fe19c4f357b976cdcee42ba jbapp/assets/less/media/tablet.less
 e1dc1d8a04fccfa08a1e20dfa1e537bf jbapp/assets/less/misc/aliases.less
 8d307332b8bb1ea04dd5ff1eec9dc576 jbapp/assets/less/misc/mixins.less
-6312794f34fb4d011a1baec46d02121b jbapp/assets/less/misc/variables.less
+b4819a987f77bf233ce455ebe03efcfc jbapp/assets/less/misc/variables.less
 b509a9b821d064112d995a339cea6a95 jbapp/assets/less/widget/cascade.less
 762cb41c8d4bb9d31823e759446b0380 jbapp/assets/less/widget/colors.less
 f05dbc6b3417dc5934ded34c961f89e2 jbapp/assets/less/widget/currencytoggle.less
@@ -206,7 +213,7 @@ d73f8c87a3119c4e98e67ec8f53c8711 jbapp/cart-elements/core/notification/notificat
 c1f15ccd6ab8e3d83354ae1aa506dd88 jbapp/cart-elements/core/order/tmpl/edit.php
 bc16c2079341d3a3954e02d05ab96056 jbapp/cart-elements/core/payment/payment.php
 61dba89c4cba36a8a798173f6b5887ba jbapp/cart-elements/core/payment/payment.xml
-aa612323230539059342810b30218ad4 jbapp/cart-elements/core/price/assets/js/price.js
+18048e786a1c935111e75b9482f5b974 jbapp/cart-elements/core/price/assets/js/price.js
 5ca95d39c88bf612522abac092e37012 jbapp/cart-elements/core/price/price.php
 10040f92d51f41ff9dd2ddec8ed8ad3a jbapp/cart-elements/core/price/price.xml
 b0010cf6e2d6785e72b6d097fc4bbf24 jbapp/cart-elements/core/price/tmpl/_edit.php
@@ -370,7 +377,7 @@ b5a3405e4f14454792bd6738b120c976 jbapp/cart-elements/price/balance/assets/less/b
 e2835d00a1f163214f3f21443b34243c jbapp/cart-elements/price/balance/tmpl/edit.php
 03121eb643414cca0829e25f7d0da0ee jbapp/cart-elements/price/balance/tmpl/full.php
 27f58d64d3ef1100658502612001cc76 jbapp/cart-elements/price/balance/tmpl/simple.php
-f6ac1b496db16793850c1224c27893d6 jbapp/cart-elements/price/buttons/assets/js/buttons.js
+8eefc791493e04de87e32a86f1f4d902 jbapp/cart-elements/price/buttons/assets/js/buttons.js
 7808c52ccde1007a38944476722e3ac7 jbapp/cart-elements/price/buttons/assets/less/buttons.less
 7446651b25630b557b6ce4331ee75d48 jbapp/cart-elements/price/buttons/buttons.php
 e1f97fc755f097f6f6d6595f1ddb2207 jbapp/cart-elements/price/buttons/buttons.xml
@@ -597,8 +604,8 @@ ca9e89a9b80089cbccd8c6d0a467d405 jbapp/config/mod_jbzoo_search.xml
 f9fdba752563ca873b1ecfbb1bc8ba2e jbapp/elements/email/email.php
 7e0aae5fda9ce4615e0b9f1d5c1bba56 jbapp/elements/jbadvert/assets/js/jbadvert.js
 cb013bd0175f27a890dd365db47b0aaa jbapp/elements/jbadvert/assets/less/jbadvert.less
-95ea5ec0826051768e6b7aeaa0b18482 jbapp/elements/jbadvert/jbadvert.php
-88534292a67b6475566542e6937c6e7a jbapp/elements/jbadvert/jbadvert.xml
+cc986e574d4fabae0184b4ef02ff36a2 jbapp/elements/jbadvert/jbadvert.php
+b92730c3231d11e78a15706622910167 jbapp/elements/jbadvert/jbadvert.xml
 22e5e6e9721950f6d206ffd204bc15f6 jbapp/elements/jbadvert/tmpl/edit.php
 66a947a88e23f9cc8471dfe4df55d9a4 jbapp/elements/jbadvert/tmpl/submission-modified.php
 be1ae3e11cd050a08ab04aa2e572f249 jbapp/elements/jbadvert/tmpl/submission-not-modified.php
@@ -649,14 +656,14 @@ bcd76887807a508bb6e3a4261db03ff6 jbapp/elements/jbprice/assets/js/jbprice.js
 7de138eed1d3ac76da89f973709d094e jbapp/elements/jbprice/assets/less/edit.less
 f2a10521f88b093762154f9b84d4c629 jbapp/elements/jbprice/assets/less/jbprice.less
 95109a63f775b83142f814ba1b100b14 jbapp/elements/jbprice/assets/less/submission.less
-b32486305948abc852dfc7f1dafb71fd jbapp/elements/jbprice/jbprice.php
+ea0b8be50447a0e0f5e4a975693fb7d7 jbapp/elements/jbprice/jbprice.php
 58b4bcfb95032e7156eede8ac1cd4cca jbapp/elements/jbprice/jbprice.xml
 199eb09c3ee148fe569c69ef6e1e3f12 jbapp/elements/jbprice/tmpl/_modal.php
 c42f492ea45caec469a3dd7b20ae8621 jbapp/elements/jbprice/tmpl/_warning.php
 3256a518ee1d720fdc8437556aea714f jbapp/elements/jbprice/tmpl/edit.php
 2928e5adb40a001fd19b71cb8dda73fb jbapp/elements/jbprice/tmpl/render.php
 1d8de246f6b90efa2f97e6a73712a21d jbapp/elements/jbpricecalc/assets/less/jbpricecalc.less
-4ca553f28a66d0e3ea79417a2c216bc9 jbapp/elements/jbpricecalc/jbpricecalc.php
+838ac73b007def02f305cd369f22347d jbapp/elements/jbpricecalc/jbpricecalc.php
 10056da795efd0128180968a79df8839 jbapp/elements/jbpricecalc/jbpricecalc.xml
 f48f48e6034eb6f4cd272b47626ddb4d jbapp/elements/jbpriceplain/jbpriceplain.php
 e2dea4dd4bdc4424ee47267cbb4d13f8 jbapp/elements/jbpriceplain/jbpriceplain.xml
@@ -680,7 +687,7 @@ d1b1e180244b1fe96efe727c6aefd5c0 jbapp/elements/jbsocial/tmpl/_bookmarks.php
 04e6389610ec9cab017414fa78a67ed9 jbapp/elements/jbsocial/tmpl/_complex.php
 a591233fc8009812607fef027b8eedba jbapp/elements/jbsocial/tmpl/_likes.php
 1e49a61d6dbed00d221419774a52ebac jbapp/elements/jbsocial/tmpl/edit.php
-ef921817ebf1219149493d31dcb3c9f1 jbapp/framework/classes/cart/jbcart.php
+40cc6e2867dc3d86ccf66d31377e78c3 jbapp/framework/classes/cart/jbcart.php
 fe4085bdb85222473535f080ed6c13d7 jbapp/framework/classes/cart/jborder.php
 d75d588c368a0c39a4a08a12525aaeb4 jbapp/framework/classes/cart/jbvalue.php
 47d522cb1e58cdceade2791357622655 jbapp/framework/classes/cart/jbvariant.php
@@ -688,7 +695,7 @@ b9b39e369c40b8d1a0908fb19fdc192b jbapp/framework/classes/cart/jbvariantlist.php
 8e85af4941076c09be61d55b1b67b6db jbapp/framework/classes/database/JBDatabaseQuery.php
 26614645c9996f9d65cbcc6c6fad5c0d jbapp/framework/classes/database/JBDatabaseQueryElement.php
 19b3b3b45d7551f9a3fc5e7b30c2574f jbapp/framework/classes/jbmodulehelper.php
-0855c5364d0c8f10c0cb83908911193b jbapp/framework/classes/jbtemplate.php
+d1aa876e4e695b4fae1e46d94ab34d43 jbapp/framework/classes/jbtemplate.php
 6d2fbbdfa3df2d1c3c040f4e613abbba jbapp/framework/classes-std/view.php
 2a519ac3b077be3ae5eb9bdc8d6c7ce2 jbapp/framework/controllers/admin.jbcart.php
 3b935780902f7d21f0f228623c39971a jbapp/framework/controllers/admin.jbconfig.php
@@ -700,7 +707,7 @@ df6ff283a3fa59caea715271991a75a0 jbapp/framework/controllers/admin.jbinfo.php
 679e24c48a726604dd1a710fa05c176f jbapp/framework/controllers/admin.jbtools.php
 1ecceabf4d737e4e509ba11cf00807ca jbapp/framework/controllers/autocomplete.php
 3bd2d213abfa9d23c759a5d7d4318920 jbapp/framework/controllers/base.php
-9a43ab79d76d148df460b6cca8e5ea89 jbapp/framework/controllers/basket.php
+05c76c7ddec539b7b51323f2a322fba1 jbapp/framework/controllers/basket.php
 e734878525aed4562e1408b203951dfe jbapp/framework/controllers/clientarea.php
 dd1779e808f9575f8e93887f895a60d8 jbapp/framework/controllers/compare.php
 475ea2548580acc3ca8546fb78adf2ae jbapp/framework/controllers/favorite.php
@@ -838,7 +845,7 @@ c513caf41d8739f03f9012f3008df169 jbapp/framework/events/jbevent.comment.php
 c874c53bff53198998cbf27ba9f78648 jbapp/framework/events/jbevent.jbzoo.php
 2dbb5facbbc68bb031a81edf8718c417 jbapp/framework/events/jbevent.layout.php
 76d0aff4522c27fb19ebe468f945d681 jbapp/framework/events/jbevent.php
-ad40240d030e4635cf6b7d673d0c08a6 jbapp/framework/events/jbevent.submission.php
+80b50c9b8a1b4f1194684f7dcfe0f5cb jbapp/framework/events/jbevent.submission.php
 87eedde16e58db43ff0b979e821318b2 jbapp/framework/events/jbevent.tag.php
 bcab6986756a4462875095f0f2d95f4e jbapp/framework/events/jbevent.type.php
 3766ba1db0d4d42a1c801b1e74754446 jbapp/framework/events/jsystem.php
@@ -937,7 +944,7 @@ d711f85236b2578a541f1ef47b96a114 jbapp/framework/models/jbmodel.category.php
 bba4befd33f57238637e761d1a9b1412 jbapp/framework/models/jbmodel.element.itemdate.php
 7e885e4f3786f5d1763407f1d2fdfe5c jbapp/framework/models/jbmodel.element.itemfrontpage.php
 da24639140ea0b2935cb3eb8a6e46d75 jbapp/framework/models/jbmodel.element.itemmodified.php
-fe2f8ca5df32bb439eed7c83f6cafd03 jbapp/framework/models/jbmodel.element.itemname.php
+82ee512446d886890650eed0a344a941 jbapp/framework/models/jbmodel.element.itemname.php
 2a6b741fb4c61ee92c7f4e783210d192 jbapp/framework/models/jbmodel.element.itempublish_down.php
 6df18f2e382f779e7dd89de0ca4b6da9 jbapp/framework/models/jbmodel.element.itempublish_up.php
 1e7aef3ce12134bec86ad37f7535c49a jbapp/framework/models/jbmodel.element.itemtag.php
@@ -1158,7 +1165,7 @@ f92199295e59047bf3ac905ba0e0ff4d jbapp/framework/views/jbinfo/performancereport.
 0df484334da91585e9e093c59c4f34c7 jbapp/framework/views/jbinfo/systemreport.php
 9c32a7689ecee96c4700d5d896ef3c4e jbapp/framework/views/jbinfo/systemreport_result.php
 89164c518a30f7ad4481f95a5b5a0bef jbapp/framework/views/jborder/_edit_block_basic.php
-705daf7b8dd39ae504118866bc7ebf57 jbapp/framework/views/jborder/_edit_block_currency.php
+5429b14454278523dbf6085b59aba678 jbapp/framework/views/jborder/_edit_block_currency.php
 c3691621e99e03398208dbb93473ccf5 jbapp/framework/views/jborder/_edit_block_payment.php
 0dc9914ffd731907fc57814659176afb jbapp/framework/views/jborder/_edit_block_shipping.php
 2424206a96b4eaba1ef999058030dbc4 jbapp/framework/views/jborder/_edit_orderinfo.php
@@ -1248,7 +1255,7 @@ bfd956b846c1544113dabea6edb888b7 jbapp/joomla/fields/jbshipping.php
 c333cfa1c5e4bd37f1406e33640a57af jbapp/joomla/fields/jbtype.php
 9ab8c805f357bd31a02340e8d28ea9a5 jbapp/joomla/fields/jbzooinit.php
 395f508512da25e4d43c85282334e5a1 jbapp/language/en-GB/en-GB.com_jbzoo.ini
-6991d1358984cc521c51c8f5e0f89dba jbapp/language/ru-RU/ru-RU.com_jbzoo.ini
+9f5aa7914de65ed2f0980dbbe2c08479 jbapp/language/ru-RU/ru-RU.com_jbzoo.ini
 44370870bf4c8eb941ebfc622429d77e jbapp/language/uk-UA/uk-UA.com_jbzoo.ini
 0808631641f7fffb6cd893398f36e693 jbapp/templates/catalog/_comments.php
 3133263af7974d7d60d23bfad4528cfb jbapp/templates/catalog/alphaindex.php
@@ -1361,7 +1368,7 @@ b81c0c92a47089ceb6c0d6f8b81723ff jbapp/templates/uikit/renderer/payment_success/
 724d96faf236f6e6e2bba13c39e6416b jbapp/templates/uikit/renderer/tag/_default.php
 260139c52d4f811eca6eb297937c7a44 jbapp/templates/uikit/submission.php
 0e91e3922ff858b3497f0806b36f3098 jbapp/templates/uikit/tag.php
-89f8d374aab1f41dedbcd541291481cf jbapp/templates/uikit/template.php
+9193bb5e4caddbcdf5221f5325285e75 jbapp/templates/uikit/template.php
 573ab057ac964d83c2542a86686d588a jbapp/templates/uikit/template.xml
 7faa5d815449534e3beb768aa3e4dd2e jbapp/templates/uikit/ymlexport.php
 b563c59ebe2c80d3405ee40b288d6f11 jbapp/templates-system/renderer/element/jbprice/_basic.php
@@ -1374,7 +1381,7 @@ c9a442cd852baea9c5bb264583b0bd8a mod_jbzoo_basket/assets/less/cart-module.less
 ee03fba3f3306f03789d0af772b68898 mod_jbzoo_basket/helper.php
 dffb96dc66764f5077c66e8e7cdfe16e mod_jbzoo_basket/mod_jbzoo_basket.php
 4d32dd40810b1ae3a0e2fcf6acca99bb mod_jbzoo_basket/mod_jbzoo_basket.xml
-2aa8b585a80168262cec7a930dbc3c80 mod_jbzoo_basket/tmpl/bootstrap.php
+33cb9f8ccac42362aa1c451b655a30f2 mod_jbzoo_basket/tmpl/bootstrap.php
 d9ec6dd03cb0535be90cef8048d96e37 mod_jbzoo_basket/tmpl/default.php
 a5ca8f002ca6ca5d1ff8b441a659a5fc mod_jbzoo_basket/tmpl/uikit.php
 ae21fe60070807cd0abb451ea4304675 mod_jbzoo_props/assets/less/props.less
@@ -1404,6 +1411,7 @@ dc38637c7613a7fafb8c5e6cbd8664cb mod_jbzoo_search/tmpl/uikit.php
 b16e5a078344504ca870ddaa3c5da1bc mod_jbzoo_category/mod_jbzoo_category.php
 f2474c1276b831d9baeeed13324ab3fb mod_jbzoo_category/mod_jbzoo_category.xml
 b951e95c24d2fed3c3561bccab38d706 mod_jbzoo_category/tmpl/accordion.php
+2bbf4d432a80b1f4833641658aadec17 mod_jbzoo_category/tmpl/bootstrap.php
 5772d97e5198ee5fca9abdbcfbdc929f mod_jbzoo_category/tmpl/default.php
 9ac78ef1b72d4a819f8ed793a36e1385 mod_jbzoo_category/tmpl/tab.php
 59d23181b8b13b31a7a274b077950fd5 mod_jbzoo_category/tmpl/uikit.php
@@ -1421,9 +1429,10 @@ eb190bb393d61cc394979b1b240daa99 mod_jbzoo_currency/tmpl/select.php
 518d8eac093d23d2ea87da633defc908 mod_jbzoo_item/helper.php
 965e88ca1f14073633013ca75196c073 mod_jbzoo_item/mod_jbzoo_item.php
 f30eb6de86e198fce3bfcfe56a7e2526 mod_jbzoo_item/mod_jbzoo_item.xml
+0d06e3796281fb3479755b34256d40b7 mod_jbzoo_item/tmpl/bootstrap.php
 17b3ab7429f07f81d82342118a55e62c mod_jbzoo_item/tmpl/default.php
 354ec1fd813915f0a3deaa352a69e651 mod_jbzoo_item/tmpl/table.php
-4104e7113470492de5f0be52deff93cf mod_jbzoo_item/tmpl/uikit.php
+a20074e2d8e554444a753a0399d5e002 mod_jbzoo_item/tmpl/uikit.php
 8b675d550b60ee4c8ee5168591ff0a1a mod_jbzoo_item/types/conditions.php
 ecfccb118a7e096879c8045e855dda8b mod_jbzoo_item/types/jbzooitemtype.php
 b879a5b16974e5cf17ad85c267c3e0ef mod_jbzoo_item/types/rules.php
