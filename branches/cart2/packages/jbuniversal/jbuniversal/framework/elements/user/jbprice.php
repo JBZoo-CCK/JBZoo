@@ -58,9 +58,28 @@ class JBCSVItemUserJBPrice extends JBCSVItem
      */
     public function toCSV()
     {
-        $result = array();
-        if (count($this->_value['variations'])) {
-            foreach ($this->_value['variations'] as $key => $elements) {
+        $result  = $variations = array();
+        $default = '';
+        $data    = $this->_value;
+
+        // this data not need for user.
+        unset($data['values'], $data['selected']);
+        // Get variations
+        if(isset($data['variations'])) {
+            $variations = (array)$data['variations'];
+            unset($data['variations']);
+        }
+
+        if(isset($data['default_variant'])) {
+            $default = (int)$data['default_variant'];
+        }
+
+        if (!empty($variations)) {
+            foreach ($variations as $key => $elements) {
+
+                if($default === (int) $key) {
+                    $result[$key][] = 'default_variant:' . $default;
+                }
                 foreach ($elements as $id => $data) {
                     if ($element = $this->_element->getElement($id, $key)) {
                         $element->bindData($data);
@@ -98,7 +117,7 @@ class JBCSVItemUserJBPrice extends JBCSVItem
         if ($values === null || JString::strlen($values) === 0) {
             return $this->_item;
         }
-        $configs = array();
+        $configs = $bindData = array();
         $params  = $this->_lastImportParams->get('previousparams');
 
         $values = $this->_getAutoClean($values);
@@ -107,6 +126,10 @@ class JBCSVItemUserJBPrice extends JBCSVItem
             $variant = (array)$this->_element->getData($position, array());
 
             $values  = $this->_unpackFromLine($values);
+            if(isset($values['default_variant'])) {
+                $bindData['default_variant'] = $values['default_variant'];
+                unset($values['default_variant']);
+            }
             $values  = $this->isOldFormat($values);
             if (count($values)) {
                 foreach ($values as $id => $value) {
@@ -159,7 +182,8 @@ class JBCSVItemUserJBPrice extends JBCSVItem
             }
         }
 
-        $this->_element->bindData(array('variations' => array($position => $variant)));
+        $bindData['variations'] = array($position => $variant);
+        $this->_element->bindData($bindData);
 
         return $this->_item;
     }
