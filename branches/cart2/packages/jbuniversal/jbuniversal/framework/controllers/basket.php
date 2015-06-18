@@ -73,7 +73,14 @@ class BasketJBUniversalController extends JBUniversalController
         }
 
         if (!$this->cart->canAccess($this->app->user->get())) {
-            $this->app->jbnotify->error('JBZOO_CART_UNABLE_ACCESS');
+
+            $user = JFactory::getUser();
+            if (empty($user->id)) {
+                $url = 'index.php?option=com_users&view=login&return=' . base64_encode($this->app->jbenv->getCurrentUrl());
+                $this->setRedirect($url, JText::_('JBZOO_CART_NEED_LOGIN'));
+            } else {
+                $this->app->jbnotify->error('JBZOO_CART_UNABLE_ACCESS');
+            }
         }
     }
 
