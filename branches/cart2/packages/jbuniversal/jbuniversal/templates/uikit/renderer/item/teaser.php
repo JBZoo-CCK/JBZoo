@@ -51,4 +51,3 @@ $align = $this->app->jbitem->getMediaAlign($item, $layout);
         <?php echo $this->renderPosition('buttons'); ?>
     </div>
 <?php endif; ?>
-
