@@ -26,6 +26,42 @@
 
     }
 
+    .unstyled {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .quantity-wrapper {
+
+        .item-count-wrapper:hover {
+            border: 1px solid #F0ECEC;
+        }
+
+        .input-quantity,
+        .input-quantity:hover {
+            border: none;
+        }
+
+    }
+
+    .jbloading {
+        position: relative;
+        .opacity(0.5);
+
+        &:after {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            content: '';
+            position: absolute;
+            display: inline-block;
+            background: data-uri('../../img/loader.gif') no-repeat center;
+        }
+
+    }
+
     .title,
     .subtitle,
     .subcategory-title {
@@ -75,6 +111,15 @@
             .subcategory {
                 margin: 0;
                 padding: 0;
+
+                &-image {
+
+                    .thumbnails {
+                        margin-bottom: 10px;
+                    }
+
+                }
+
             }
 
             .subcategory-title {
@@ -130,6 +175,18 @@
         .element-jbcompare {
             float: left;
             margin-right: 10px;
+        }
+
+        .rating {
+            margin-bottom: 10px;
+        }
+
+        .tab-content {
+
+            #item-prop {
+                margin-top: 10px;
+            }
+
         }
 
     }
@@ -264,7 +321,8 @@
         margin: 0 10px 0 0;
     }
 
-    .jbprice {
+    .jbprice,
+    .jbprice-tmpl-full {
 
         > div {
             margin-bottom: 8px;
