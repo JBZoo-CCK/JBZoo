@@ -7,7 +7,7 @@
  * @author      JBZoo App http://jbzoo.com
  * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
  * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * @coder       Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
 // no direct access
@@ -34,10 +34,20 @@ $rowClass  = $bootstrap->getRowClass();
             <?php endif; ?>
 
             <?php if ($this->checkPosition('meta')) : ?>
-                <div class="item-metadata">
-                    <ul class="unstyled">
-                        <?php echo $this->renderPosition('meta', array('style' => 'list')); ?>
-                    </ul>
+                <div class="<?php echo $rowClass; ?> item-metadata">
+                    <div class="<?php echo $bootstrap->gridClass(12); ?>">
+                        <ul class="unstyled">
+                            <?php echo $this->renderPosition('meta', array('style' => 'list')); ?>
+                        </ul>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($this->checkPosition('buttons')) : ?>
+                <div class="<?php echo $rowClass; ?> item-buttons">
+                    <div class="<?php echo $bootstrap->gridClass(12); ?>">
+                        <?php echo $this->renderPosition('buttons', array('style' => 'block')); ?>
+                    </div>
                 </div>
             <?php endif; ?>
         </div>
@@ -50,14 +60,6 @@ $rowClass  = $bootstrap->getRowClass();
             </div>
         <?php endif; ?>
     </div>
-
-    <?php if ($this->checkPosition('buttons')) : ?>
-        <div class="<?php echo $rowClass; ?> item-buttons">
-            <div class="<?php echo $bootstrap->gridClass(12); ?>">
-                <?php echo $this->renderPosition('buttons', array('style' => 'block')); ?>
-            </div>
-        </div>
-    <?php endif; ?>
 
     <?php if ($this->checkPosition('social')) : ?>
         <div class="<?php echo $rowClass; ?> item-social">
@@ -88,7 +90,7 @@ $rowClass  = $bootstrap->getRowClass();
 
         <?php if ($this->checkPosition('gallery')) : ?>
             <li>
-                <a href="#item-gallery" role="tab" id="gallery-tab" data-toggle="tab">
+                <a href="#item-gallery" id="gallery-tab" data-toggle="tab">
                     <?php echo JText::_('JBZOO_ITEM_TAB_GALLERY'); ?>
                 </a>
             </li>
@@ -96,7 +98,7 @@ $rowClass  = $bootstrap->getRowClass();
 
         <?php if ($this->checkPosition('comments')) : ?>
             <li>
-                <a href="#item-comments" role="tab" id="comments-tab" data-toggle="tab">
+                <a href="#item-comments" id="comments-tab" data-toggle="tab">
                     <?php echo JText::_('JBZOO_ITEM_TAB_COMMENTS'); ?>
                     <span class="badge"><?php echo $item->getCommentsCount(); ?></span>
                 </a>
@@ -115,7 +117,10 @@ $rowClass  = $bootstrap->getRowClass();
         <?php if ($this->checkPosition('properties')) : ?>
             <div class="tab-pane fade" id="item-prop">
                 <table class="table table-hover">
-                    <?php echo $this->renderPosition('properties', array('style' => 'jbtable')); ?>
+                    <?php echo $this->renderPosition('properties', array(
+                        'tooltip' => true,
+                        'style'   => 'jbtable',
+                    )); ?>
                 </table>
             </div>
         <?php endif; ?>

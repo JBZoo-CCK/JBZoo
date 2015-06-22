@@ -41,7 +41,7 @@ if ($params['showlabel']) {
     if ($params['tooltip']) {
         $tooltipText = $this->app->jbstring->clean($element->config->get('description'));
         $tooltip     = $tooltipText ?
-            '<span class="jbtooltip" data-uk-tooltip="{pos:\'top-left\'}" title="' . $tooltipText . '">' .
+            '<span class="jbtooltip" title="' . $tooltipText . '">' .
             '</span>&nbsp;&nbsp;' : '';
     }
 
