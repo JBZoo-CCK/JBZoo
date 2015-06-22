@@ -19,6 +19,7 @@
         <position name="meta">Meta</position>
         <position name="price">Price</position>
         <position name="buttons">Buttons</position>
+        <position name="social">Social</position>
         <position name="text">Tab: Text</position>
         <position name="properties">Tab: Properties</position>
         <position name="gallery">Tab: Gallery</position>
