@@ -31,7 +31,7 @@ $rowClass  = $bootstrap->getRowClass();
 
             <?php if ($this->checkPosition('properties')) : ?>
                 <div class="item-properties">
-                    <ul class="list-unstyled">
+                    <ul class="unstyled">
                         <?php echo $this->renderPosition('properties', array('style' => 'list')); ?>
                     </ul>
                 </div>

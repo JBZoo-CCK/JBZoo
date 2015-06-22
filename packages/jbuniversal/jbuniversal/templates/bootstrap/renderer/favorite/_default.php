@@ -22,8 +22,8 @@ if (count($vars['objects'])) {
 
         ?>
         <div class="jsFavoriteItem jbfavorite-item-wrapper item-<?php echo $item->id; ?>">
-            <div class="uk-panel uk-panel-box">
-                 <span class="uk-button uk-button-danger uk-button-small jsFavoriteItemRemove jbfavorite-remove-item"
+            <div class="well clearfix">
+                 <span class="btn btn-danger jsFavoriteItemRemove jbfavorite-remove-item"
                            data-url="<?php echo $this->app->jbrouter->favoriteRemoveItem($item->id); ?>">
                     <?php echo JText::_('JBZOO_FAVORITE_REMOVE'); ?>
                 </span>

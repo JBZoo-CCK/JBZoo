@@ -19,6 +19,8 @@ $this->app->document->setTitle(JText::_('JBZOO_FAVORITE_ITEMS'));
 $this->app->jbwrapper->start();
 $this->app->jbassets->favorite();
 
+$bootstrap = $this->app->jbbootstrap;
+
 ?>
     <h1 class="title"><?php echo JText::_('JBZOO_FAVORITE_ITEMS'); ?></h1>
 
@@ -27,9 +29,9 @@ $this->app->jbassets->favorite();
         if (!empty($this->items)) {
             ?>
 
-            <div class="uk-clearfix">
-                <span class="jsFavoriteClear jbfavorite-remove-all uk-button uk-button-danger">
-                    <i class="uk-icon-trash"></i>
+            <div class="clearfix">
+                <span class="jsFavoriteClear jbfavorite-remove-all btn btn-danger">
+                    <?php echo $bootstrap->icon('trash'); ?>
                     <?php echo JText::_('JBZOO_FAVORITE_REMOVE_ALL'); ?>
                 </span>
             </div>

@@ -26,6 +26,15 @@
 
     }
 
+    .row,
+    .row-fluid {
+
+        &.last {
+            margin-bottom: 0;
+        }
+
+    }
+
     .unstyled {
         margin: 0;
         padding: 0;
@@ -155,6 +164,20 @@
                 float: right
             }
 
+        }
+
+    }
+
+    .jbfavorite-item-wrapper {
+        padding: 0;
+        margin-top: 1em;
+
+        .rating {
+            margin-bottom: 10px;
+        }
+
+        .item-image {
+            margin-bottom: 10px;
         }
 
     }
@@ -322,7 +345,8 @@
     }
 
     .jbprice,
-    .jbprice-tmpl-full {
+    .jbprice-tmpl-full,
+    .jbprice-tmpl-teaser {
 
         > div {
             margin-bottom: 8px;
