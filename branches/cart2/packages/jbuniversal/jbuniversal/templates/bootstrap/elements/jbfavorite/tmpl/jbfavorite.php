@@ -30,17 +30,17 @@ $wrapAttrs = array(
 <!--noindex-->
 <div <?php echo $this->app->jbhtml->buildAttrs($wrapAttrs); ?>>
     <div class="jbfavorite-active">
-        <a rel="nofollow" href="<?php echo $favoriteUrl; ?>" class="btn btn-primary">
+        <a rel="nofollow" href="<?php echo $favoriteUrl; ?>" class="btn btn-primary" title="<?php echo JText::_('JBZOO_FAVORITE_ITEMS'); ?>">
             <?php echo $this->app->jbbootstrap->icon('heart', array('type' => 'white')); ?>
         </a>
 
-        <span class="btn btn-danger jsFavoriteToggle">
+        <span class="btn btn-danger jsFavoriteToggle" title="<?php echo JText::_('JBZOO_FAVORITE_REMOVE_ITEM'); ?>">
             <?php echo $this->app->jbbootstrap->icon('trash', array('type' => 'white')); ?>
         </span>
     </div>
 
     <div class="jbfavorite-unactive">
-        <span class="btn btn-primary jsFavoriteToggle">
+        <span class="btn btn-primary jsFavoriteToggle" title="<?php echo JText::_('JBZOO_FAVORITE_ADD'); ?>">
             <?php echo $this->app->jbbootstrap->icon('heart', array('type' => 'white')); ?>
         </span>
     </div>
