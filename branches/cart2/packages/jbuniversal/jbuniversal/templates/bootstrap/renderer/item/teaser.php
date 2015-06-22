@@ -13,6 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$align     = $this->app->jbitem->getMediaAlign($item, $layout);
 $bootstrap = $this->app->jbbootstrap;
 $rowClass  = $bootstrap->getRowClass();
 ?>
@@ -23,29 +24,31 @@ $rowClass  = $bootstrap->getRowClass();
 
 <div class="<?php echo $rowClass; ?>">
     <?php if ($this->checkPosition('image')) : ?>
-        <div class="<?php echo $bootstrap->gridClass(6); ?>">
-            <div class="item-image">
+        <div class="<?php echo $bootstrap->gridClass(12); ?>">
+            <div class="item-image pull-<?php echo $align; ?>">
                 <?php echo $this->renderPosition('image'); ?>
             </div>
+
+            <?php if ($this->checkPosition('properties')) : ?>
+                <div class="item-properties">
+                    <ul class="list-unstyled">
+                        <?php echo $this->renderPosition('properties', array('style' => 'list')); ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
+</div>
 
-    <div class="<?php echo $bootstrap->gridClass(6); ?>">
-        <?php if ($this->checkPosition('properties')) : ?>
-            <div class="item-properties">
-                <ul class="list-unstyled">
-                    <?php echo $this->renderPosition('properties', array('style' => 'list')); ?>
-                </ul>
-            </div>
-        <?php endif; ?>
-
-        <?php if ($this->checkPosition('price')) : ?>
+<?php if ($this->checkPosition('price')) : ?>
+    <div class="<?php echo $rowClass; ?>">
+        <div class="<?php echo $bootstrap->gridClass(6); ?>">
             <div class="item-price">
                 <?php echo $this->renderPosition('price', array('style' => 'block')); ?>
             </div>
-        <?php endif; ?>
+        </div>
     </div>
-</div>
+<?php endif; ?>
 
 <?php if ($this->checkPosition('text')) : ?>
     <div class="item-text <?php echo $rowClass; ?>">

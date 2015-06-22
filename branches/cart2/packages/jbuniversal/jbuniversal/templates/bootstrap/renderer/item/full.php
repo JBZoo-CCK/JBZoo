@@ -26,20 +26,26 @@ $rowClass  = $bootstrap->getRowClass();
 
 <div class="well clearfix">
     <div class="<?php echo $rowClass; ?>">
-        <?php if ($this->checkPosition('image')) : ?>
-            <div class="<?php echo $bootstrap->gridClass(6); ?>">
+        <div class="<?php echo $bootstrap->gridClass(6); ?>">
+            <?php if ($this->checkPosition('image')) : ?>
                 <div class="item-image">
                     <?php echo $this->renderPosition('image'); ?>
                 </div>
-            </div>
-        <?php endif; ?>
+            <?php endif; ?>
 
-        <?php if ($this->checkPosition('meta')) : ?>
-            <div class="<?php echo $bootstrap->gridClass(6); ?>">
+            <?php if ($this->checkPosition('meta')) : ?>
                 <div class="item-metadata">
-                    <ul class="uk-list">
+                    <ul class="unstyled">
                         <?php echo $this->renderPosition('meta', array('style' => 'list')); ?>
                     </ul>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <?php if ($this->checkPosition('price')) : ?>
+            <div class="<?php echo $bootstrap->gridClass(6); ?>">
+                <div class="item-price">
+                    <?php echo $this->renderPosition('price'); ?>
                 </div>
             </div>
         <?php endif; ?>
@@ -49,6 +55,14 @@ $rowClass  = $bootstrap->getRowClass();
         <div class="<?php echo $rowClass; ?> item-buttons">
             <div class="<?php echo $bootstrap->gridClass(12); ?>">
                 <?php echo $this->renderPosition('buttons', array('style' => 'block')); ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($this->checkPosition('social')) : ?>
+        <div class="<?php echo $rowClass; ?> item-social">
+            <div class="<?php echo $bootstrap->gridClass(12); ?>">
+                <?php echo $this->renderPosition('social', array('style' => 'block')); ?>
             </div>
         </div>
     <?php endif; ?>
@@ -100,15 +114,18 @@ $rowClass  = $bootstrap->getRowClass();
 
         <?php if ($this->checkPosition('properties')) : ?>
             <div class="tab-pane fade" id="item-prop">
-                <ul class="list-properies">
-                    <?php echo $this->renderPosition('properties', array('style' => 'list')); ?>
-                </ul>
+                <table class="table table-hover">
+                    <?php echo $this->renderPosition('properties', array('style' => 'jbtable')); ?>
+                </table>
             </div>
         <?php endif; ?>
 
         <?php if ($this->checkPosition('gallery')) : ?>
             <div class="tab-pane fade" id="item-gallery">
-                <?php echo $this->renderPosition('gallery'); ?>
+                <?php echo $this->renderPosition('gallery', array(
+                    'labelTag' => 'h4',
+                    'style'    => 'jbblock',
+                )); ?>
             </div>
         <?php endif; ?>
 
