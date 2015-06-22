@@ -30,24 +30,23 @@ $elementList   = $render->getElementList($renderedItems);
 $horizontalUrl = $this->app->jbrouter->compare($view->itemId, 'h', $view->itemType, $view->appId);
 $verticalUrl   = $this->app->jbrouter->compare($view->itemId, 'v', $view->itemType, $view->appId);
 $clearUrl      = $this->app->jbrouter->compareClear($view->itemId, $view->itemType, $view->appId);
+$bootstrap     = $this->app->jbbootstrap;
 
 $html = array();
 
 // add links
-$html[] = '<div class="jbcompare-links uk-article-divider uk-clearfix">';
+$html[] = '<div class="jbcompare-links clearfix">';
 if ($view->layoutType == 'h') {
-    $html[] = '<a href="' . $verticalUrl . '" class="uk-button">' .
-        '<i class="uk-icon-ellipsis-v"></i>&nbsp;' .
+    $html[] = '<a href="' . $verticalUrl . '" class="btn btn-default">' .
         JTEXT::_('JBZOO_COMPARE_VERTICAL') .
         '</a>';
 } else {
-    $html[] = '<a href="' . $horizontalUrl . '" class="uk-button">' .
-        '<i class="uk-icon-ellipsis-h"></i>&nbsp;' .
+    $html[] = '<a href="' . $horizontalUrl . '" class="btn btn-default">' .
         JTEXT::_('JBZOO_COMPARE_HORIZONTAL') .
         '</a>';
 }
-$html[] = '<a href="' . $clearUrl . '" class="uk-button uk-button-danger jbcompare-clear">' .
-    '<i class="uk-icon-trash"></i>&nbsp;' .
+$html[] = '<a href="' . $clearUrl . '" class="btn btn-default btn-danger jbcompare-clear">' .
+    $bootstrap->icon('trash') .
     JText::_('JBZOO_COMPARE_REMOVEALL') .
     '</a>';
 $html[] = '</div>';
@@ -56,7 +55,7 @@ $html[] = '</div>';
 if ($view->layoutType == 'v') {
 
     // header
-    $html[]   = '<table class="uk-table uk-table-hover jsCompareTable">';
+    $html[]   = '<table class="table table-hover jsCompareTable">';
     $html[]   = '<thead><tr><td class="jbcompare-names">&nbsp;</td>';
     $colWidth = 'width' . intval(100 / (count($renderedItems) + 1));
 
@@ -89,7 +88,7 @@ if ($view->layoutType == 'v') {
 } else if ($view->layoutType == 'h') {
 
     // header
-    $html[] = '<table class="uk-table uk-table-hover jsCompareTable">';
+    $html[] = '<table class="table table-hover jsCompareTable">';
     $html[] = '<thead><tr><td class="jbcompare-item-names">&nbsp;</td>';
     foreach ($elementList as $elementId) {
         $element = $this->app->jbentity->getElement($elementId, $view->itemType, $view->appId);
@@ -132,7 +131,3 @@ echo implode(PHP_EOL, $html);
 <?php echo $this->app->jbassets->widget('.jsCompareTable', 'JBZooCompareTable', array(
     'dir' => $view->layoutType,
 ), true); ?>
-
-
-
-
