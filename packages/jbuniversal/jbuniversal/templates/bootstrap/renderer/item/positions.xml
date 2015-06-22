@@ -89,14 +89,12 @@
     </positions>
 
     <positions layout="quickview">
-        <position name="top">Top</position>
         <position name="title">Title</position>
         <position name="price">Price</position>
         <position name="image">Image</position>
         <position name="description">Description</position>
         <position name="properties">Properties</position>
         <position name="bottom">Bottom</position>
-        <position name="related">Related</position>
     </positions>
 
 </renderer>
