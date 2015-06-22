@@ -14,33 +14,43 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$align = $this->app->jbitem->getMediaAlign($item, $layout);
+$bootstrap = $this->app->jbbootstrap;
+$rowClass  = $bootstrap->getRowClass();
 ?>
 
 <?php if ($this->checkPosition('title')) : ?>
     <h2 class="item-title"><?php echo $this->renderPosition('title'); ?></h2>
 <?php endif; ?>
 
-<?php if ($this->checkPosition('image')) : ?>
-    <div class="item-image pull-<?php echo $align; ?>">
-        <?php echo $this->renderPosition('image'); ?>
+<div class="<?php echo $rowClass; ?> last">
+    <div class="<?php echo $bootstrap->gridClass(4); ?>">
+        <?php if ($this->checkPosition('image')) : ?>
+            <div class="item-image">
+                <?php echo $this->renderPosition('image'); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($this->checkPosition('price')) : ?>
+            <div class="item-price">
+                <?php echo $this->renderPosition('price', array('style' => 'jbblock')); ?>
+            </div>
+        <?php endif; ?>
     </div>
-<?php endif; ?>
 
-<?php if ($this->checkPosition('properties')) : ?>
-    <ul class="item-properties">
-        <?php echo $this->renderPosition('properties', array('style' => 'list')); ?>
-    </ul>
-<?php endif; ?>
+    <div class="<?php echo $bootstrap->gridClass(8); ?>">
+        <?php if ($this->checkPosition('text')) : ?>
+            <div class="item-text">
+                <?php echo $this->renderPosition('text', array(
+                    'labelTag' => 'h4',
+                    'style'    => 'block',
+                )); ?>
+            </div>
+        <?php endif; ?>
 
-<?php if ($this->checkPosition('text')) : ?>
-    <?php echo $this->renderPosition('text', array('style' => 'block')); ?>
-<?php endif; ?>
-
-<?php if ($this->checkPosition('meta')) : ?>
-    <div class="clearfix item-metadata">
-        <ul class="list">
-            <?php echo $this->renderPosition('meta', array('style' => 'list')); ?>
-        </ul>
+        <?php if ($this->checkPosition('properties')) : ?>
+            <table class="table table-hover item-properties">
+                <?php echo $this->renderPosition('properties', array('style' => 'jbtable')); ?>
+            </table>
+        <?php endif; ?>
     </div>
-<?php endif; ?>
+</div>
