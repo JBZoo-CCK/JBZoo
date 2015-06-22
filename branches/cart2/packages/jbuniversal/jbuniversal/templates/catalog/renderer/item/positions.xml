@@ -16,9 +16,15 @@
     <positions layout="full">
         <position name="title">Title</position>
         <position name="image">Image</position>
-        <position name="properties">Properties</position>
-        <position name="text">Text</position>
         <position name="meta">Meta</position>
+        <position name="price">Price</position>
+        <position name="buttons">Buttons</position>
+        <position name="social">Social</position>
+        <position name="text">Tab: Text</position>
+        <position name="properties">Tab: Properties</position>
+        <position name="gallery">Tab: Gallery</position>
+        <position name="comments">Tab: Comments</position>
+        <position name="related">Related items</position>
     </positions>
 
     <positions layout="teaser">
@@ -26,7 +32,8 @@
         <position name="image">Image</position>
         <position name="properties">Properties</position>
         <position name="text">Text</position>
-        <position name="meta">Meta</position>
+        <position name="buttons">Buttons</position>
+        <position name="quick-view">Quick view</position>
     </positions>
 
     <positions layout="related">
