@@ -10,8 +10,18 @@
 
 .jbzoo {
 
+    .frontpage,
+    .category {
+        margin: 0;
+        padding: 0;
+    }
+
     .uk-grid {
         margin-left: -25px;
+    }
+
+    .uk-divider {
+        margin-bottom: 10px;
     }
 
     .jbloading {
@@ -107,6 +117,57 @@
 
         td {
             border-bottom: none;
+        }
+
+    }
+
+    .items {
+
+        .jbzoo-item {
+            margin: 0;
+        }
+
+        .item-title {
+            margin-top: 0;
+        }
+
+        .item-buttons {
+            margin-bottom: 0;
+
+            .jbcompare-buttons {
+                float: left;
+            }
+
+            .jbfavorite-buttons {
+                float: right
+            }
+
+        }
+
+        .item-properties {
+            float: left;
+        }
+
+    }
+
+    .quantity-wrapper {
+
+        .item-count-wrapper:hover {
+            border: 1px solid #F0ECEC;
+        }
+
+        .input-quantity,
+        .input-quantity:hover {
+            border: none;
+        }
+
+    }
+
+    .jbprice,
+    .jbprice-tmpl-full {
+
+        > div {
+            margin-bottom: 8px;
         }
 
     }

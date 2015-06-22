@@ -28,6 +28,7 @@
         <position name="properties">Properties</position>
         <position name="text">Text</position>
         <position name="buttons">Buttons</position>
+        <position name="quick-view">Quick view</position>
     </positions>
 
     <positions layout="related">
