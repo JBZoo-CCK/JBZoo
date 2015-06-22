@@ -13,38 +13,61 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
-$align = $this->app->jbitem->getMediaAlign($item, $layout);
+$align     = $this->app->jbitem->getMediaAlign($item, $layout);
 ?>
 
 <?php if ($this->checkPosition('title')) : ?>
     <h4 class="item-title"><?php echo $this->renderPosition('title'); ?></h4>
 <?php endif; ?>
 
+<div class="jb-row">
+    <?php if ($this->checkPosition('image')) : ?>
+        <div class="width100 clearfix">
+            <div class="item-image align-<?php echo $align; ?> jb-divider-right">
+                <?php echo $this->renderPosition('image'); ?>
+            </div>
 
-<?php if ($this->checkPosition('image')) : ?>
-    <div class="item-image align-<?php echo $align; ?>">
-        <?php echo $this->renderPosition('image'); ?>
+            <?php if ($this->checkPosition('properties')) : ?>
+                <div class="item-properties">
+                    <ul class="unstyled">
+                        <?php echo $this->renderPosition('properties', array('style' => 'list')); ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+</div>
+
+<?php if ($this->checkPosition('price')) : ?>
+    <div class="jb-row">
+        <div class="width100">
+            <div class="item-price">
+                <?php echo $this->renderPosition('price', array('style' => 'block')); ?>
+            </div>
+        </div>
     </div>
 <?php endif; ?>
 
-
-<?php if ($this->checkPosition('properties')) : ?>
-    <ul class="item-properties">
-        <?php echo $this->renderPosition('properties', array('style' => 'list')); ?>
-    </ul>
-<?php endif; ?>
-
-
 <?php if ($this->checkPosition('text')) : ?>
-    <?php echo $this->renderPosition('text', array('style' => 'block')); ?>
+    <div class="item-text jb-row">
+        <div class="width100">
+            <?php echo $this->renderPosition('text', array('style' => 'block')); ?>
+        </div>
+    </div>
 <?php endif; ?>
 
-
-<?php if ($this->checkPosition('meta')) : ?>
-    <ul class="item-metadata">
-        <?php echo $this->renderPosition('meta', array('style' => 'list')); ?>
-    </ul>
+<?php if ($this->checkPosition('quick-view')) : ?>
+    <div class="item-quick-view jb-row">
+        <div class="width100">
+            <?php echo $this->renderPosition('quick-view', array('style' => 'block')); ?>
+        </div>
+    </div>
 <?php endif; ?>
 
-<?php echo JBZOO_CLR; ?>
+<?php if ($this->checkPosition('buttons')) : ?>
+    <div class="jb-row item-buttons clearfix">
+        <div class="width100">
+            <?php echo $this->renderPosition('buttons'); ?>
+        </div>
+    </div>
+<?php endif; ?>
