@@ -29,8 +29,8 @@
         width: 100%;
         border: none;
 
-        td,
-        th {
+        > td,
+        > th {
             vertical-align: top;
             padding: 0.75em;
             border: none;
@@ -42,24 +42,24 @@
             margin: 0;
         }
 
-        tr {
+        > tr {
             border: none;
         }
 
-        th {
+        > th {
             font-weight: bold;
             color: #333;
         }
 
-        caption {
+        > caption {
             color: #999;
             font-style: italic;
             padding: 0.5em 0;
             text-align: left;
         }
 
-        tbody tr:nth-child(odd) th,
-        tbody tr:nth-child(odd) td {
+        tbody > tr:nth-child(odd) th,
+        tbody > tr:nth-child(odd) td {
             background: rgba(0, 0, 0, 0.03);
         }
 
