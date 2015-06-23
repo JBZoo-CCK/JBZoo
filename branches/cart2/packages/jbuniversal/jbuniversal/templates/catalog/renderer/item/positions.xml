@@ -68,7 +68,7 @@
         <position name="image">Image</position>
         <position name="properties">Properties</position>
         <position name="text">Text</position>
-        <position name="meta">Meta</position>
+        <position name="price">Price</position>
     </positions>
 
     <positions layout="ymlexport">
