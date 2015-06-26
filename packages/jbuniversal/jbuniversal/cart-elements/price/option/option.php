@@ -171,7 +171,7 @@ class JBCartElementPriceOption extends JBCartElementPrice
         if (false !== $label && count($options))
         {
             $options = $this->app->jbarray->sortByArray($options, $sorted);
-            $options = $this->app->jbarray->unshiftAssoc($options, '', $this->getLabel());
+            $options = $this->app->jbarray->unshiftAssoc($options, '', $this->getLabel($label));
         }
 
         return $options;
@@ -214,5 +214,20 @@ class JBCartElementPriceOption extends JBCartElementPrice
         }
 
         return $result;
+    }
+
+    /**
+     * Get label for element template.
+     * @param string $label
+     * @return string
+     */
+    protected function getLabel($label = '')
+    {
+        $label = JString::trim($label);
+        if ($label === '') {
+            $label = '- ' . $this->getName() . ' -';
+        }
+
+        return JText::_($label);
     }
 }
