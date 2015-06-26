@@ -519,13 +519,13 @@ class JBCartOrder
             $errors += $this->_bindElements($formData[JBCart::ELEMENT_TYPE_ORDER], JBCart::CONFIG_FIELDS, $params);
         }
 
+        if (isset($formData[JBCart::ELEMENT_TYPE_SHIPPING])) {
+            $errors += $this->_bindShipping($formData[JBCart::ELEMENT_TYPE_SHIPPING]);
+        }
+
         if (isset($formData[JBCart::ELEMENT_TYPE_SHIPPINGFIELD])) {
             $params = $this->app->jbrenderer->create('ShippingFields')->getLayoutParams();
             $errors += $this->_bindElements($formData[JBCart::ELEMENT_TYPE_SHIPPINGFIELD], JBCart::CONFIG_SHIPPINGFIELDS, $params);
-        }
-
-        if (isset($formData[JBCart::ELEMENT_TYPE_SHIPPING])) {
-            $errors += $this->_bindShipping($formData[JBCart::ELEMENT_TYPE_SHIPPING]);
         }
 
         if (isset($formData[JBCart::ELEMENT_TYPE_PAYMENT])) {
