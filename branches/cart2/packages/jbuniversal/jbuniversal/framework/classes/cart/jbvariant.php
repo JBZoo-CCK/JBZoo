@@ -37,14 +37,14 @@ class JBCartVariant extends ArrayObject
     protected $hash;
 
     /**
-     * @type float
+     * @type JBCartValue
      */
-    protected $total;
+    public $total;
 
     /**
-     * @type float
+     * @type JBCartValue
      */
-    protected $price;
+    public $price;
 
     /**
      * @type JBCartVariantList
@@ -444,24 +444,23 @@ class JBCartVariant extends ArrayObject
      */
     public function getPrice()
     {
-        if (null !== $this->price) {
-            return $this->price;
-        }
+        if ($this->price === null) {
 
-        $price = JBCart::val();
-        if ($element = $this->get('_value')) {
-            $price->set($element->getValue(true));
-            if ($this->list->isOverlay === false && $element->isModifier() && !$this->isBasic()) {
-                $price = $this->list->first()->getValue(false, '_value')->add($price);
+            $price = JBCart::val();
+            if ($element = $this->get('_value')) {
+                $price->set($element->getValue(true));
+                if ($this->list->isOverlay === false && $element->isModifier() && !$this->isBasic()) {
+                    $price = $this->list->first()->getValue(false, '_value')->add($price);
+                }
             }
-        }
 
-        $this->price = $price;
-        if ($this->list->isOverlay === false) {
-            $this->price = $price->add($this->getValue(true, '_margin'), true);
+            $this->price = $price;
+            if ($this->list->isOverlay === false) {
+                $this->price = $price->add($this->getValue(true, '_margin'), true);
 
-            if ($this->list instanceof JBCartVariantList) {
-                $this->price = $this->list->addModifiers($this->price, false);
+                if ($this->list instanceof JBCartVariantList) {
+                    $this->price = $this->list->addModifiers($this->price, false);
+                }
             }
         }
 

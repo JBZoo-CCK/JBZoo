@@ -511,21 +511,6 @@ abstract class JBCartElementPrice extends JBCartElement
     }
 
     /**
-     * Get label for element template.
-     * @param string $label
-     * @return string
-     */
-    protected function getLabel($label = '')
-    {
-        $label = JString::trim($label);
-        if ($label === '') {
-            $label = '- ' . $this->getName() . ' -';
-        }
-
-        return JText::_($label);
-    }
-
-    /**
      * @todo move to element _value
      * Array of prices
      * @return array
@@ -703,6 +688,7 @@ abstract class JBCartElementPrice extends JBCartElement
         $this->prices     = null;
         $this->variant    = null;
         $this->template   = null;
+        $this->item_id    = null;
         $this->element_id = null;
         $this->hash       = null;
         $this->showAll    = null;
@@ -710,8 +696,8 @@ abstract class JBCartElementPrice extends JBCartElement
         $this->isOverlay  = null;
         $this->cache      = null;
         $this->required   = null;
-        $this->position  = null;
-        $this->index     = null;
+        $this->position   = null;
+        $this->index      = null;
     }
 }
 

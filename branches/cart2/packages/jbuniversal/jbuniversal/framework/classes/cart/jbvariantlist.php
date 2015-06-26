@@ -557,15 +557,21 @@ class JBCartVariantList extends ArrayObject
      */
     protected function _calcPrice()
     {
-        $price = $this->first()->getPrice();
+        $first  = $this->first();
+        $price  = $first->getPrice();
+
         if ($this->count() > 1) {
             /** @type JBCartVariant $variant */
             foreach ($this->all() as $variant) {
                 if (!$variant->isBasic()) {
+
                     $price->add($variant->getPrice());
                 }
             }
         }
+        $price = clone $price;
+        $margin = $first->getValue(false, '_margin', JBCart::val())->positive();
+        $price->add($margin);
 
         return $this->addModifiers($price, false);
     }
@@ -585,7 +591,8 @@ class JBCartVariantList extends ArrayObject
      */
     protected function _calcTotal()
     {
-        $price = $this->_calcPrice();
+        $first = $this->first();
+        $price = clone $this->_calcPrice()->minus($first->getValue(false, '_discount', JBCart::val())->positive());
 
         return $this->addModifiers($price, true);
     }
