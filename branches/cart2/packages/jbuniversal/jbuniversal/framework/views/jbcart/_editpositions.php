@@ -39,7 +39,18 @@ echo JBZOO_CLR;
 
 <form class="jbzoo-assign-elements assign-elements jsAssignElements" action="index.php" method="post" name="adminForm"
       id="adminForm" accept-charset="utf-8">
-
+    
+    <?php echo $this->app->jbhtml->hiddens(array(
+        'option'     => 'com_zoo',
+        'controller' => 'jbcart',
+        'task'       => $task,
+        'layout'     => array('value' => $this->layout, 'class' => 'jsLayout'),
+        'element'    => array('value' => $this->element, 'class' => 'jsElement'),
+        'group'      => $groupKey,
+        'redirect'   => $redirectUrl,
+        '_token'     => '_token',
+    )); ?>
+    
     <!-- left col -->
     <div class="col col-left width-65" style="margin-right: 24px;">
         <?php echo $this->partial('positions', array(
@@ -71,19 +82,7 @@ echo JBZOO_CLR;
         ?>
     </div>
 
-    <?php
-    echo JBZOO_CLR;
-    echo $this->app->jbhtml->hiddens(array(
-        'option'     => 'com_zoo',
-        'controller' => 'jbcart',
-        'task'       => $task,
-        'layout'     => array('value' => $this->layout, 'class' => 'jsLayout'),
-        'element'    => array('value' => $this->element, 'class' => 'jsElement'),
-        'group'      => $groupKey,
-        'redirect'   => $redirectUrl,
-        '_token'     => '_token',
-    ));
-    ?>
+    <?php echo JBZOO_CLR; ?>
 
 </form>
 
