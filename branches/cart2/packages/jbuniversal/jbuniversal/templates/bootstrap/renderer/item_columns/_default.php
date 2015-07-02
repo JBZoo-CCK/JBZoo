@@ -17,11 +17,12 @@ $this->app->jbdebug->mark('layout::item_columns::start');
 
 if ($vars['count']) {
 
-    $i        = 0;
-    $count    = $vars['count'];
-    $rowItems = array_chunk($vars['objects'], $vars['cols_num']);
-    $rowClass = $this->app->jbbootstrap->getRowClass();
-    $colClass = $this->app->jbbootstrap->columnClass($vars['cols_num']);
+    $i          = 0;
+    $jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
+    $count      = $vars['count'];
+    $rowItems   = array_chunk($vars['objects'], $vars['cols_num']);
+    $rowClass   = $jbtemplate->getRowClass();
+    $colClass   = $jbtemplate->columnClass($vars['cols_num']);
 
     echo '<div class="items items-col-' . $vars['cols_num'] . '">';
 

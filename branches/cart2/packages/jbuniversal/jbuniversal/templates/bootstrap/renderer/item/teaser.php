@@ -13,9 +13,9 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$align     = $this->app->jbitem->getMediaAlign($item, $layout);
-$bootstrap = $this->app->jbbootstrap;
-$rowClass  = $bootstrap->getRowClass();
+$align      = $this->app->jbitem->getMediaAlign($item, $layout);
+$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
+$rowClass   = $jbtemplate->getRowClass();
 ?>
 
 <?php if ($this->checkPosition('title')) : ?>
@@ -24,7 +24,7 @@ $rowClass  = $bootstrap->getRowClass();
 
 <div class="<?php echo $rowClass; ?>">
     <?php if ($this->checkPosition('image')) : ?>
-        <div class="<?php echo $bootstrap->gridClass(12); ?>">
+        <div class="<?php echo $jbtemplate->gridClass(12); ?>">
             <div class="item-image pull-<?php echo $align; ?>">
                 <?php echo $this->renderPosition('image'); ?>
             </div>
@@ -42,7 +42,7 @@ $rowClass  = $bootstrap->getRowClass();
 
 <?php if ($this->checkPosition('price')) : ?>
     <div class="<?php echo $rowClass; ?>">
-        <div class="<?php echo $bootstrap->gridClass(6); ?>">
+        <div class="<?php echo $jbtemplate->gridClass(6); ?>">
             <div class="item-price">
                 <?php echo $this->renderPosition('price', array('style' => 'block')); ?>
             </div>
@@ -52,7 +52,7 @@ $rowClass  = $bootstrap->getRowClass();
 
 <?php if ($this->checkPosition('text')) : ?>
     <div class="item-text <?php echo $rowClass; ?>">
-        <div class="<?php echo $bootstrap->gridClass(12); ?>">
+        <div class="<?php echo $jbtemplate->gridClass(12); ?>">
             <?php echo $this->renderPosition('text', array('style' => 'block')); ?>
         </div>
     </div>
@@ -60,7 +60,7 @@ $rowClass  = $bootstrap->getRowClass();
 
 <?php if ($this->checkPosition('quick-view')) : ?>
     <div class="item-quick-view <?php echo $rowClass; ?>">
-        <div class="<?php echo $bootstrap->gridClass(12); ?>">
+        <div class="<?php echo $jbtemplate->gridClass(12); ?>">
             <?php echo $this->renderPosition('quick-view', array('style' => 'block')); ?>
         </div>
     </div>
@@ -68,7 +68,7 @@ $rowClass  = $bootstrap->getRowClass();
 
 <?php if ($this->checkPosition('buttons')) : ?>
     <div class="<?php echo $rowClass; ?> item-buttons clearfix">
-        <div class="<?php echo $bootstrap->gridClass(12); ?>">
+        <div class="<?php echo $jbtemplate->gridClass(12); ?>">
             <?php echo $this->renderPosition('buttons'); ?>
         </div>
     </div>

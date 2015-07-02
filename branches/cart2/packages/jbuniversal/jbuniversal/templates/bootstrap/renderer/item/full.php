@@ -14,10 +14,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$align     = $this->app->jbitem->getMediaAlign($item, $layout);
-$tabsId    = $this->app->jbstring->getId('tabs');
-$bootstrap = $this->app->jbbootstrap;
-$rowClass  = $bootstrap->getRowClass();
+$align      = $this->app->jbitem->getMediaAlign($item, $layout);
+$tabsId     = $this->app->jbstring->getId('tabs');
+$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
+$rowClass   = $jbtemplate->getRowClass();
 ?>
 
 <?php if ($this->checkPosition('title')) : ?>
@@ -26,7 +26,7 @@ $rowClass  = $bootstrap->getRowClass();
 
 <div class="well clearfix">
     <div class="<?php echo $rowClass; ?>">
-        <div class="<?php echo $bootstrap->gridClass(6); ?>">
+        <div class="<?php echo $jbtemplate->gridClass(6); ?>">
             <?php if ($this->checkPosition('image')) : ?>
                 <div class="item-image">
                     <?php echo $this->renderPosition('image'); ?>
@@ -35,7 +35,7 @@ $rowClass  = $bootstrap->getRowClass();
 
             <?php if ($this->checkPosition('meta')) : ?>
                 <div class="<?php echo $rowClass; ?> item-metadata">
-                    <div class="<?php echo $bootstrap->gridClass(12); ?>">
+                    <div class="<?php echo $jbtemplate->gridClass(12); ?>">
                         <ul class="unstyled">
                             <?php echo $this->renderPosition('meta', array('style' => 'list')); ?>
                         </ul>
@@ -45,7 +45,7 @@ $rowClass  = $bootstrap->getRowClass();
 
             <?php if ($this->checkPosition('buttons')) : ?>
                 <div class="<?php echo $rowClass; ?> item-buttons">
-                    <div class="<?php echo $bootstrap->gridClass(12); ?>">
+                    <div class="<?php echo $jbtemplate->gridClass(12); ?>">
                         <?php echo $this->renderPosition('buttons', array('style' => 'block')); ?>
                     </div>
                 </div>
@@ -53,7 +53,7 @@ $rowClass  = $bootstrap->getRowClass();
         </div>
 
         <?php if ($this->checkPosition('price')) : ?>
-            <div class="<?php echo $bootstrap->gridClass(6); ?>">
+            <div class="<?php echo $jbtemplate->gridClass(6); ?>">
                 <div class="item-price">
                     <?php echo $this->renderPosition('price'); ?>
                 </div>
@@ -63,7 +63,7 @@ $rowClass  = $bootstrap->getRowClass();
 
     <?php if ($this->checkPosition('social')) : ?>
         <div class="<?php echo $rowClass; ?> item-social">
-            <div class="<?php echo $bootstrap->gridClass(12); ?>">
+            <div class="<?php echo $jbtemplate->gridClass(12); ?>">
                 <?php echo $this->renderPosition('social', array('style' => 'block')); ?>
             </div>
         </div>
@@ -144,7 +144,7 @@ $rowClass  = $bootstrap->getRowClass();
 
 <?php if ($this->checkPosition('related')) : ?>
     <div class="<?php echo $rowClass; ?> item-related">
-        <div class="<?php echo $bootstrap->gridClass(12); ?>">
+        <div class="<?php echo $jbtemplate->gridClass(12); ?>">
             <?php echo $this->renderPosition('related', array(
                 'labelTag' => 'h4',
                 'style'    => 'jbblock',

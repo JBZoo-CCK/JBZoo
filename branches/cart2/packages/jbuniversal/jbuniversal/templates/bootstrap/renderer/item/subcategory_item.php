@@ -14,8 +14,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$bootstrap = $this->app->jbbootstrap;
-$rowClass  = $bootstrap->getRowClass();
+$jbtemplate = $this->app->jbbootstrap;
+$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
+$rowClass   = $jbtemplate->getRowClass();
 ?>
 
 <div class="well clearfix">
@@ -25,13 +26,13 @@ $rowClass  = $bootstrap->getRowClass();
 
     <div class="<?php echo $rowClass; ?>">
         <?php if ($this->checkPosition('image')) : ?>
-            <div class="item-image <?php echo $bootstrap->gridClass(6); ?>">
+            <div class="item-image <?php echo $jbtemplate->gridClass(6); ?>">
                 <?php echo $this->renderPosition('image'); ?>
             </div>
         <?php endif; ?>
 
         <?php if ($this->checkPosition('properties')) : ?>
-            <div class="<?php echo $bootstrap->gridClass(6); ?>">
+            <div class="<?php echo $jbtemplate->gridClass(6); ?>">
                 <ul class="item-properties unstyled">
                     <?php echo $this->renderPosition('properties', array('style' => 'list')); ?>
                 </ul>

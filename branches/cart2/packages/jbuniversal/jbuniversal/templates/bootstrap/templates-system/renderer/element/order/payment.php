@@ -13,7 +13,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$params = $this->app->data->create($params);
+$params     = $this->app->data->create($params);
+$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
 
 // create error
 $error = '';
@@ -32,7 +33,7 @@ $classes = array_filter(array(
     'jbcart-payment-' . $element->getElementType(),
     $params->get('first') ? 'first' : '',
     $params->get('last') ? 'last' : '',
-    $this->app->jbbootstrap->columnClass($params->get('column', 3)),
+    $jbtemplate->columnClass($params->get('column', 3)),
     $isError ? 'error' : null,
 ));
 
