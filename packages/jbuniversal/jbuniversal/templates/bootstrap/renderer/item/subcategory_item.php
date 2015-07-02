@@ -14,7 +14,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$jbtemplate = $this->app->jbbootstrap;
 $jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
 $rowClass   = $jbtemplate->getRowClass();
 ?>
