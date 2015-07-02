@@ -12,9 +12,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
+$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
 ?>
 
 <span class="jsPriceButton jsGoTo btn btn-default jbprice-buttons-goto">
-    <?php echo $this->app->jbbootstrap->icon('share', array('type' => 'white')); ?>
+    <?php echo $jbtemplate->icon('share', array('type' => 'white')); ?>
     <?php echo JText::_($params->get('goto_label', 'JBZOO_ELEMENT_PRICE_BUTTONS_GOTO_LABEL_DEFAULT')); ?>
 </span>

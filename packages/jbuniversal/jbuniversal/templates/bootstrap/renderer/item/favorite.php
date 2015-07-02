@@ -14,8 +14,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$bootstrap = $this->app->jbbootstrap;
-$rowClass  = $bootstrap->getRowClass();
+$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
+$rowClass   = $jbtemplate->getRowClass();
 ?>
 
 <?php if ($this->checkPosition('title')) : ?>
@@ -23,7 +23,7 @@ $rowClass  = $bootstrap->getRowClass();
 <?php endif; ?>
 
 <div class="<?php echo $rowClass; ?> last">
-    <div class="<?php echo $bootstrap->gridClass(4); ?>">
+    <div class="<?php echo $jbtemplate->gridClass(4); ?>">
         <?php if ($this->checkPosition('image')) : ?>
             <div class="item-image">
                 <?php echo $this->renderPosition('image'); ?>
@@ -37,7 +37,7 @@ $rowClass  = $bootstrap->getRowClass();
         <?php endif; ?>
     </div>
 
-    <div class="<?php echo $bootstrap->gridClass(8); ?>">
+    <div class="<?php echo $jbtemplate->gridClass(8); ?>">
         <?php if ($this->checkPosition('text')) : ?>
             <div class="item-text">
                 <?php echo $this->renderPosition('text', array(

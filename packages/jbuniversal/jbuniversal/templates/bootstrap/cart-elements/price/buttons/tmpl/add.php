@@ -12,9 +12,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
+$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
 ?>
 
 <span class="jsAddToCart btn btn-success jbprice-buttons-add">
-    <?php echo $this->app->jbbootstrap->icon('shopping-cart', array('type' => 'white')); ?>
+    <?php echo $jbtemplate->icon('shopping-cart', array('type' => 'white')); ?>
     <?php echo JText::_($params->get('add_label', 'JBZOO_ELEMENT_PRICE_BUTTONS_ADD_LABEL_DEFAULT')); ?>
 </span>

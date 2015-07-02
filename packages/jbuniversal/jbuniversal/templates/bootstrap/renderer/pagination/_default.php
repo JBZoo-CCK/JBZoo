@@ -16,13 +16,14 @@ defined('_JEXEC') or die('Restricted access');
 
 $url        = $vars['link'];
 $pagination = $vars['object'];
+$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
 
 $this->app->jbdebug->mark('layout::pagination::start');
 
 if (!$pagination->getShowAll()) : ?>
     <div class="pagination">
         <ul>
-            <?php echo $this->app->jbbootstrap->paginate($pagination, $url); ?>
+            <?php echo $jbtemplate->paginate($pagination, $url); ?>
         </ul>
     </div>
 <?php endif;

@@ -19,6 +19,7 @@ $count = count($items);
 if ($count) {
 
     $appParams = $this->getItem()->getApplication()->params;
+    $jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
 
     if ((int)$appParams->get('global.config.column_heightfix', 0)) {
         $this->app->jbassets->heightFix('.item-column');
@@ -26,8 +27,8 @@ if ($count) {
 
     $i = 0;
     $rowItems = array_chunk($items, $columns);
-    $rowClass = $this->app->jbbootstrap->getRowClass();
-    $colClass = $this->app->jbbootstrap->columnClass($columns);
+    $rowClass = $jbtemplate->getRowClass();
+    $colClass = $jbtemplate->columnClass($columns);
 
     echo '<div class="items items-col-' . $columns . '">';
         foreach ($rowItems as $row) {
