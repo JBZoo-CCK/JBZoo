@@ -139,4 +139,36 @@ class JBModuleHelperBasket extends JBModuleHelper
         return $this->app->jbrouter->basket();
     }
 
+
+    /**
+     * Create bootstrap icon.
+     *
+     * @param string $icon
+     * @param array $attrs
+     * @return string
+     */
+    public function bsIcon($icon = 'home', $attrs = array())
+    {
+        if (isset($attrs['class'])) {
+            unset($attrs['class']);
+        }
+
+        $attrs['class'] = 'bootstrap-icon';
+        $version = (int)$this->app->zoo->getApplication()->params->get('global.template.version', 2);
+
+        if ($version == 2) {
+            $attrs['class'] .= ' icon-' . $icon;
+
+            if (isset($attrs['type'])) {
+                $attrs['class'] .= ' icon-' . $attrs['type'];
+                unset($attrs['type']);
+            }
+
+        } else {
+            $attrs['class'] = ' glyphicon glyphicon-' . $icon;
+        }
+
+        return '<span ' . $this->_jbhtml->buildAttrs($attrs) . '></span>';
+    }
+
 }
