@@ -177,7 +177,7 @@ class ElementJBPriceCalc extends ElementJBPrice
      */
     public function ajaxModalWindow($template = 'default', $layout = 'default', $hash)
     {
-        $this->setTemplate($template)->setLayout($layout);
+        $this->setTemplate($template);
         $this->cache = false;
         $this->hash  = $hash;
 
