@@ -39,6 +39,8 @@ class JBTemplateBootstrap extends JBTemplate
         $this->app->jbassets->less(array(
             'jbassets:less/bootstrap.styles.less',
         ));
+
+        $this->app->jbassets->widget('[data-toggle=\'tooltip\']', 'tooltip');
     }
 
     /**
