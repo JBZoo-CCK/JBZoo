@@ -82,7 +82,7 @@ echo $this->partial('basket', 'table.styles');
             </td>
             <td class="jbcart-delete">
                 <a class="btn btn-danger btn-xs btn-small round jsDelete">
-                    <?php echo $bootstrap->icon('remove', array('type' => 'white')); ?>
+                    <?php echo JText::_('JBZOO_CART_DELETE'); ?>
                 </a>
             </td>
         </tr>
