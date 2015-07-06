@@ -95,6 +95,16 @@ class JBTemplateHelper extends AppHelper
     }
 
     /**
+     * Register helper path by template.
+     *
+     * @param string $template
+     */
+    public function regHelpersByTpl($template = 'catalog')
+    {
+        $this->app->path->register($this->app->path->path('jbtmpl:' . $template . '/helpers'), 'helpers');
+    }
+
+    /**
      * Get path for jbtemplate class
      * @return string
      */
