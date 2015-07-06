@@ -43,7 +43,11 @@ if ($count) {
             $classes[] = 'last';
         }
 
-        echo '<div class="' . implode(' ', $classes) . '">' . $item . '</div>';
+        echo '<div class="' . implode(' ', $classes) . '">'
+                . '<div class="jb-box">'
+                    . $item
+                . '</div>'
+            . '</div>';
     }
 
     echo '</div>';
