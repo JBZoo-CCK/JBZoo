@@ -13,7 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
-<div class="wrapper-item-desc">
+<div class="wrapper-item-desc clearfix">
     <?php if ($this->checkPosition('image')) : ?>
         <div class="item-image pull-<?php echo $params->get('items_image_align', 'left') ?>">
             <?php echo $this->renderPosition('image'); ?>
@@ -36,7 +36,7 @@ defined('_JEXEC') or die('Restricted access');
 
             <?php if ($this->checkPosition('properties')) : ?>
                 <div class="product-props">
-                    <ul class="list">
+                    <ul class="list unstyled">
                         <?php echo $this->renderPosition('properties', array('style' => 'list')); ?>
                     </ul>
                 </div>

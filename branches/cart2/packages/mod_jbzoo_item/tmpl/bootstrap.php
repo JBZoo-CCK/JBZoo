@@ -17,6 +17,15 @@ $count   = count($items);
 $columns = (int)$params->get('item_cols', 1);
 $border  = (int)$params->get('display_border', 1) ? 'rborder' : 'no-border';
 
+$application = $modHelper->app->zoo->getApplication();
+$appTemplate = $application->params->get('template', 'bootstrap');
+
+if ($appTemplate !== 'bootstrap') {
+    $modHelper->app->jbtemplate->regHelpersByTpl('bootstrap');
+}
+
+$bootstrap = $modHelper->app->jbbootstrap;
+
 if ($count) {
 
     echo '<div id="' . $modHelper->getModuleId() . '" class="jbzoo yoo-zoo">';
@@ -28,8 +37,8 @@ if ($count) {
         $j = $i = 0;
 
         $rowItem  = array_chunk($items, $columns);
-        $rowClass = $this->app->jbbootstrap->getRowClass();
-        $colClass = $this->app->jbbootstrap->columnClass($columns);
+        $rowClass = $bootstrap->getRowClass();
+        $colClass = $bootstrap->columnClass($columns);
 
         echo '<div class="items items-col-' . $columns . '">';
 
