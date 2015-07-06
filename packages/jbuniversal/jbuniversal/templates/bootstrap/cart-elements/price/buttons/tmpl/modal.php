@@ -13,11 +13,11 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
+$bootstrap = $this->app->jbbootstrap;
 
 if (!$this->_isModal()) : ?>
     <span class="jsAddToCartModal btn btn-success jbprice-buttons-modal">
-        <?php echo $jbtemplate->icon('picture', array('type' => 'white')); ?>
+        <?php echo $bootstrap->icon('picture', array('type' => 'white')); ?>
         <?php echo JText::_($params->get('modal_label', 'JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_LABEL_DEFAULT')); ?>
     </span>
 <?php endif;

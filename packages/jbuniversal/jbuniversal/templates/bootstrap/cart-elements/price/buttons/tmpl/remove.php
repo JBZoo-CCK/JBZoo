@@ -13,10 +13,10 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
+$bootstrap = $this->app->jbbootstrap;
 ?>
 
 <span class="jsRemoveFromCart jsRemoveElement btn btn-danger jbprice-buttons-remove">
-    <?php echo $jbtemplate->icon('remove', array('type' => 'white')); ?>
+    <?php echo $bootstrap->icon('remove', array('type' => 'white')); ?>
     <?php echo JText::_($params->get('remove_label', 'JBZOO_ELEMENT_PRICE_BUTTONS_REMOVE_LABEL_DEFAULT')); ?>
 </span>

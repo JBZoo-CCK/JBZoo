@@ -13,8 +13,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
-$rowClass   = $jbtemplate->getRowClass();
+$bootstrap = $this->app->jbbootstrap;
+$rowClass  = $bootstrap->getRowClass();
 
 if ($this->checkPosition('list')) : ?>
     <div class="jbcart-payment clearfix">

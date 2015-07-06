@@ -19,7 +19,7 @@ $this->app->document->setTitle(JText::_('JBZOO_FAVORITE_ITEMS'));
 $this->app->jbwrapper->start();
 $this->app->jbassets->favorite();
 
-$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
+$bootstrap = $this->app->jbbootstrap;
 
 ?>
     <h1 class="title"><?php echo JText::_('JBZOO_FAVORITE_ITEMS'); ?></h1>
@@ -31,7 +31,7 @@ $jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
 
             <div class="clearfix">
                 <span class="jsFavoriteClear jbfavorite-remove-all btn btn-danger">
-                    <?php echo $jbtemplate->icon('trash'); ?>
+                    <?php echo $bootstrap->icon('trash'); ?>
                     <?php echo JText::_('JBZOO_FAVORITE_REMOVE_ALL'); ?>
                 </span>
             </div>

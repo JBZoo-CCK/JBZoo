@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $this->app->jbassets->fancybox();
 
-$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
+$bootstrap = $this->app->jbbootstrap;
 $btnAttrs  = array_replace_recursive($quickView->btnAttrs, array(
     'class' => 'btn btn-default quickview jsQuickView'
 ));
@@ -23,7 +23,7 @@ echo $quickView->js;
 
 echo '<!--noindex-->' .
         '<a ' . $this->app->jbhtml->buildAttrs($btnAttrs) . '>' .
-            $jbtemplate->icon('eye-open') . '&nbsp;' .
+            $bootstrap->icon('eye-open') . '&nbsp;' .
             $quickView->buttonText .
         '</a>' .
     '<!--/noindex-->';

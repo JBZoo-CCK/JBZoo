@@ -16,9 +16,9 @@ defined('_JEXEC') or die('Restricted access');
 
 $this->app->jbassets->jbzooLinks();
 
-$align      = $this->app->jbitem->getMediaAlign($item, $layout);
-$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
-$rowClass   = $jbtemplate->getRowClass();
+$align     = $this->app->jbitem->getMediaAlign($item, $layout);
+$bootstrap = $this->app->jbbootstrap;
+$rowClass  = $bootstrap->getRowClass();
 
 ?>
 

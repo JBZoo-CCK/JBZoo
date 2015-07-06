@@ -30,7 +30,7 @@ $elementList   = $render->getElementList($renderedItems);
 $horizontalUrl = $this->app->jbrouter->compare($view->itemId, 'h', $view->itemType, $view->appId);
 $verticalUrl   = $this->app->jbrouter->compare($view->itemId, 'v', $view->itemType, $view->appId);
 $clearUrl      = $this->app->jbrouter->compareClear($view->itemId, $view->itemType, $view->appId);
-$jbtemplate    = $this->app->zoo->getApplication()->jbtemplate;
+$bootstrap    = $this->app->jbbootstrap;
 
 $html = array();
 
@@ -46,7 +46,7 @@ if ($view->layoutType == 'h') {
         '</a>';
 }
 $html[] = '<a href="' . $clearUrl . '" class="btn btn-default btn-danger jbcompare-clear">' .
-    $jbtemplate->icon('trash') .
+    $bootstrap->icon('trash') .
     JText::_('JBZOO_COMPARE_REMOVEALL') .
     '</a>';
 $html[] = '</div>';
