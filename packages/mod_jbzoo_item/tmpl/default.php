@@ -40,10 +40,12 @@ if ($count) {
 
             $renderer = $modHelper->createRenderer('item');
             echo '<div class="' . $border . ' column width' . intval(100 / $columns) . $first . $last . '">'
-                . $renderer->render('item.' . $modHelper->getItemLayout(), array(
-                    'item'   => $item,
-                    'params' => $params
-                ))
+                .   '<div class="jb-box">'
+                        . $renderer->render('item.' . $modHelper->getItemLayout(), array(
+                            'item'   => $item,
+                            'params' => $params
+                        ))
+                    . '</div>'
                 . '</div>';
 
             if ($isLast) {
