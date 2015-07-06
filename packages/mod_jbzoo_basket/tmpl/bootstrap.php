@@ -12,6 +12,16 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
+$application = $modHelper->app->zoo->getApplication();
+$appTemplate = $application->params->get('template', 'bootstrap');
+
+if ($appTemplate !== 'bootstrap') {
+    $modHelper->app->jbtemplate->regHelpersByTpl('bootstrap');
+}
+
+$bootstrap = $modHelper->app->jbbootstrap;
+
 $cart     = JBCart::getInstance();
 $order    = $modHelper->getOrder();
 $currency = $modHelper->getCurrency();
@@ -20,8 +30,6 @@ $items    = $modHelper->getBasketItems(array(
         'image' => 'thumbnail'
     )
 ));
-
-
 ?>
 <div class="jbzoo jbcart-module jsJBZooCartModule" id="<?php echo $modHelper->getModuleId(); ?>">
 
@@ -49,7 +57,7 @@ $items    = $modHelper->getBasketItems(array(
 
                         <?php if ((int)$params->get('jbcart_item_delete', 1)) : ?>
                             <span class="btn btn-danger btn-xs btn-mini round jsDelete jbcart-item-delete">
-                                <?php echo $modHelper->bsIcon('remove', array('type' => 'white')); ?>
+                                <?php echo $bootstrap->icon('remove', array('type' => 'white')); ?>
                             </span>
                         <?php endif; ?>
 
@@ -121,7 +129,7 @@ $items    = $modHelper->getBasketItems(array(
 
                 <?php if ((int)$params->get('jbcart_button_empty', 1)): ?>
                     <span class="btn btn-danger jbcart-module-empty jsEmptyCart">
-                        <?php echo $modHelper->bsIcon('trash', array('type' => 'white')); ?>
+                        <?php echo $bootstrap->icon('trash', array('type' => 'white')); ?>
                         <?php echo JText::_('JBZOO_CART_MODULE_EMPTY_BUTTON'); ?>
                     </span>
                 <?php endif ?>
@@ -129,7 +137,7 @@ $items    = $modHelper->getBasketItems(array(
                 <?php if ((int)$params->get('jbcart_button_gotocart', 1)): ?>
                     <a rel="nofollow" class="btn btn-success jbcart-module-gotocart"
                        href="<?php echo $modHelper->getBasketUrl(); ?>">
-                        <?php echo $modHelper->bsIcon('shopping-cart', array('type' => 'white')); ?>
+                        <?php echo $bootstrap->icon('shopping-cart', array('type' => 'white')); ?>
                         <?php echo JText::_('JBZOO_CART_MODULE_CART_BUTTON'); ?>
                     </a>
                 <?php endif ?>
