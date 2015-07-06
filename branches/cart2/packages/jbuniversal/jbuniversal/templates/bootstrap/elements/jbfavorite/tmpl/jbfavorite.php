@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
 $this->app->jbassets->favorite();
 
 $uniqId    = $this->app->jbstring->getId('favorite-');
-$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
+$bootstrap = $this->app->jbbootstrap;
 $wrapAttrs = array(
     'id'    => $uniqId,
     'class' => array(
@@ -32,17 +32,17 @@ $wrapAttrs = array(
 <div <?php echo $this->app->jbhtml->buildAttrs($wrapAttrs); ?>>
     <div class="jbfavorite-active">
         <a rel="nofollow" href="<?php echo $favoriteUrl; ?>" class="btn btn-primary" title="<?php echo JText::_('JBZOO_FAVORITE_ITEMS'); ?>">
-            <?php echo $jbtemplate->icon('heart', array('type' => 'white')); ?>
+            <?php echo $bootstrap->icon('heart', array('type' => 'white')); ?>
         </a>
 
         <span class="btn btn-danger jsFavoriteToggle" title="<?php echo JText::_('JBZOO_FAVORITE_REMOVE_ITEM'); ?>">
-            <?php echo $jbtemplate->icon('trash', array('type' => 'white')); ?>
+            <?php echo $bootstrap->icon('trash', array('type' => 'white')); ?>
         </span>
     </div>
 
     <div class="jbfavorite-unactive">
         <span class="btn btn-primary jsFavoriteToggle" title="<?php echo JText::_('JBZOO_FAVORITE_ADD'); ?>">
-            <?php echo $jbtemplate->icon('heart', array('type' => 'white')); ?>
+            <?php echo $bootstrap->icon('heart', array('type' => 'white')); ?>
         </span>
     </div>
 </div><!--/noindex-->

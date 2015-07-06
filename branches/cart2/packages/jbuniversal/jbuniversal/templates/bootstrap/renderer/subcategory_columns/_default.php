@@ -17,11 +17,11 @@ $this->app->jbdebug->mark('layout::subcategory_columns::start');
 
 if ($vars['count']) {
 
-    $i          = 0;
-    $jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
-    $count      = $vars['count'];
-    $rowClass   = $jbtemplate->getRowClass();
-    $colClass   = $jbtemplate->columnClass($vars['cols_num']);
+    $i         = 0;
+    $bootstrap = $this->app->jbbootstrap;
+    $count     = $vars['count'];
+    $rowClass  = $bootstrap->getRowClass();
+    $colClass  = $bootstrap->columnClass($vars['cols_num']);
 
     echo '<div class="subcategories subcategory-col-' . $vars['cols_num'] . '">';
 

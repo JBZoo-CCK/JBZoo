@@ -21,7 +21,7 @@ $cart   = JBCart::getInstance();
 $order  = $cart->newOrder();
 $config = $cart->getConfig();
 
-$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
+$bootstrap = $this->app->jbbootstrap;
 
 echo $this->partial('basket', 'table.styles');
 
@@ -82,7 +82,7 @@ echo $this->partial('basket', 'table.styles');
             </td>
             <td class="jbcart-delete">
                 <a class="btn btn-danger btn-xs btn-small round jsDelete">
-                    <?php echo $jbtemplate->icon('remove', array('type' => 'white')); ?>
+                    <?php echo $bootstrap->icon('remove', array('type' => 'white')); ?>
                 </a>
             </td>
         </tr>
@@ -122,7 +122,7 @@ echo $this->partial('basket', 'table.styles');
     <tr class="jbcart-row-remove">
         <td colspan="6" class="jbcart-delete-all-cell">
             <a class="jsDeleteAll item-delete-all btn btn-danger">
-                <?php echo $jbtemplate->icon('trash', array('type' => 'white')); ?>
+                <?php echo $bootstrap->icon('trash', array('type' => 'white')); ?>
                 <?php echo JText::_('JBZOO_CART_REMOVE_ALL'); ?>
             </a>
         </td>

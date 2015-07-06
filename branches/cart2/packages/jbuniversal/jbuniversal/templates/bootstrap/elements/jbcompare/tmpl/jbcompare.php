@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $this->app->jbassets->compare();
 
-$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
+$bootstrap = $this->app->jbbootstrap;
 $uniqId    = $this->app->jbstring->getId('compare-');
 $wrapAttrs = array(
     'id'    => $uniqId,
@@ -32,15 +32,15 @@ $wrapAttrs = array(
 <div <?php echo $this->app->jbhtml->buildAttrs($wrapAttrs); ?>>
     <div class="jbcompare-active">
         <a rel="nofollow" href="<?php echo $compareUrl; ?>" class="btn btn-primary" title="<?php echo JText::_('JBZOO_COMPARE_ITEMS'); ?>">
-            <?php echo $jbtemplate->icon('thumbs-up', array('type' => 'white')); ?>
+            <?php echo $bootstrap->icon('thumbs-up', array('type' => 'white')); ?>
         </a>
         <span class="btn btn-danger jsCompareToggle" title="<?php echo JText::_('JBZOO_COMPARE_REMOVE'); ?>">
-            <?php echo $jbtemplate->icon('trash', array('type' => 'white')); ?>
+            <?php echo $bootstrap->icon('trash', array('type' => 'white')); ?>
         </span>
     </div>
     <div class="jbcompare-unactive">
         <span class="btn btn-primary jsCompareToggle" title="<?php echo JText::_('JBZOO_COMPARE_ADD'); ?>">
-            <?php echo $jbtemplate->icon('thumbs-up', array('type' => 'white')); ?>
+            <?php echo $bootstrap->icon('thumbs-up', array('type' => 'white')); ?>
         </span>
     </div>
 </div><!--/noindex-->

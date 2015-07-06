@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 
 $unique    = $this->htmlId(true);
-$jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
+$bootstrap = $this->app->jbbootstrap;
 ?>
 <div class="jbdiscountcode jsElement <?php echo $unique; ?>">
 
@@ -22,7 +22,7 @@ $jbtemplate = $this->app->zoo->getApplication()->jbtemplate;
            class="jsCode input-code <?php echo $unique; ?>"/>
 
     <span class="jsSendCode btn btn-success">
-        <?php echo $jbtemplate->icon('ok', array('type' => 'white')); ?>
+        <?php echo $bootstrap->icon('ok', array('type' => 'white')); ?>
         <?php echo JText::_('JBZOO_ELEMENT_DISCOUNTCODE_SEND'); ?>
     </span>
 
