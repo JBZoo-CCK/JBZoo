@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Alexander Oganov <t_tapak@yahoo.com>
+-->
+
+<form>
+    <fields>
+        <fieldset name="configs" label="JBZOO_JBMIGRATE_MAIN_CONFIG"
+                  addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+            <field type="jbapplist"
+                   default="catalog"
+                   name="order_app"
+                   label="JBZOO_JBMIGRATE_ORDER_APP"
+                   description="JBZOO_JBMIGRATE_ORDER_APP_DESCRIPTION"/>
+
+            <field type="jbtype"
+                   headhide="1"
+                   multiple="1"
+                   name="type_list"
+                   label="JBZOO_JBMIGRATE_TYPE_LIST"
+                   description="JBZOO_JBMIGRATE_TYPE_LIST_DESCRIPTION"/>
+
+            <field type="jbtemplates"
+                   default=""
+                   name="template"
+                   label="JBZOO_JBMIGRATE_ITEM_TEMPLATE"
+                   description="JBZOO_JBMIGRATE_ITEM_TEMPLATE_DESCRIPTION"/>
+        </fieldset>
+
+        <fieldset name="ecommerce" label="JBZOO_JBMIGRATE_ECOMMERCE_MAIN_CONFIG"
+                  addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
+        <field type="jbbool"
+               default="0"
+               name="free_order"
+               label="JBZOO_JBMIGRATE_ECOMMERCE_FREE_ORDER"
+               description="JBZOO_JBMIGRATE_ECOMMERCE_FREE_ORDER_DESCRIPTION"/>
+
+        </fieldset>
+    </fields>
+</form>

@@ -21,7 +21,7 @@ $curUrl  = $jbrouter->admin(array('controller' => $ctrl, 'task' => $task));
 $curMenu = $ctrl;
 
 $allItems = array(
-    'jbinfo'   => array(
+    'jbinfo'    => array(
         'info' => array(
             'custom'       => array('index'),
             'requirements' => array('requirements'),
@@ -32,17 +32,20 @@ $allItems = array(
             'performance'  => array('performance'),
         )
     ),
-    'jbtools'  => array(
-        'jbzoo' => array(
+    'jbtools'   => array(
+        'jbzoo'   => array(
             'reindex'    => array('reindex'),
-            'checkfiles' => array('checkfiles'),
+            'checkfiles' => array('checkfiles')
         ),
-        'zoo'   => array(
+        'zoo'     => array(
             'cleandb'    => array('cleandb'),
             'checkfiles' => array('checkfileszoo'),
+        ),
+        'migrate' => array(
+            'index' => array('index')
         )
     ),
-    'jbimport' => array(
+    'jbimport'  => array(
         'jbzoo' => array(
             'items'      => array('items'),
             'categories' => array('categories'),
@@ -51,7 +54,7 @@ $allItems = array(
             'standart' => array('standart'),
         ),
     ),
-    'jbconfig' => array(
+    'jbconfig'  => array(
         'jbzoo' => array(
             'index'     => array('index'),
             'assets'    => array('assets'),
@@ -59,7 +62,7 @@ $allItems = array(
             'sef'       => array('sef'),
         )
     ),
-    'jbcart'   => array(
+    'jbcart'    => array(
         'basic'    => array(
             'index' => array('index', 'params' => array('icon' => 'line-chart')),
         ),
@@ -96,7 +99,7 @@ $allItems = array(
             'emailTmpl' => array('emailTmpl', 'params' => array('icon' => 'envelope-o')),
         )
     ),
-    'jbexport' => array(
+    'jbexport'  => array(
         'jbzoo' => array(
             'items'      => array('items'),
             'categories' => array('categories'),
@@ -108,6 +111,11 @@ $allItems = array(
             'zoobackup' => array('zoobackup'),
         ),
     ),
+    'jbmigrate' => array(
+        'jbzoo' => array(
+
+        )
+    )
 );
 
 if (isset($allItems[$curMenu])) {
