@@ -17,7 +17,7 @@
     <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
-    <version>1.0</version>
+    <version>1.1</version>
 
     <params group="category">
         <param name="show_alpha_index" type="jbbool" default="0" label="JBZOO_SHOW_ALPHA_INDEX"/>
