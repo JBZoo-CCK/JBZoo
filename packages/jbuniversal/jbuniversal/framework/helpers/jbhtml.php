@@ -709,8 +709,8 @@ class JBHtmlHelper extends AppHelper
         $html = array(
             '<div class="jsSlider jbslider">',
             '<div id="' . $idtag . '-wrapper"> </div>',
-            '<span id="' . $idtag . '-value-0" class="slider-value-0">' . $valueMin . '</span>',
-            '<span id="' . $idtag . '-value-1" class="slider-value-1">' . $valueMax . '</span>',
+            '<span id="' . $idtag . '-value-0" class="slider-value-0">' . number_format($valueMin, 0, '.', ' ') . '</span>',
+            '<span id="' . $idtag . '-value-1" class="slider-value-1">' . number_format($valueMax, 0, '.', ' ') . '</span>',
             '<input type="hidden" id="' . $idtag . '-value" name="' . $name . '" />',
             JBZOO_CLR,
             '</div>'
