@@ -32,7 +32,7 @@ $attrs = array(
 <?php if (!empty($categories)): ?>
     <div <?php echo $modHelper->attrs($attrs) ?>>
 
-        <?php foreach ($categories as $catId => $category): ?>
+        <?php foreach ($categories as $catId => $category) : ?>
             <div
                 class="category-wrapper well <?php echo $category['active_class']; ?>">
 
