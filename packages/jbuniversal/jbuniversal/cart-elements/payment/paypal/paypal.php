@@ -100,7 +100,6 @@ class JBCartElementPaymentPayPal extends JBCartElementPayment
         return $amount;
     }
 
-
     /**
      * Curl request
      * @param $url
