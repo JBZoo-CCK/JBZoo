@@ -130,8 +130,9 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function hasValue($params = array())
     {
-        $params = new AppData($params);
-        $config = $this->setTemplate($params->get('template', 'default'));
+        $params   = new AppData($params);
+        $template = $params->get('template', 'default');
+        $config   = $this->setTemplate($template)->getParameters($template);
 
         return !empty($config);
     }
@@ -304,7 +305,9 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function clearList()
     {
-        $this->_list->clear();
+        if($this->_list !== null) {
+            $this->_list->clear();
+        };
         $this->_list = null;
 
         return $this;
@@ -595,6 +598,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         foreach ($parameters as $params) {
             if (($element = $variant->get($params['identifier'])) && $element->isCore()) {
                 $params  = new AppData($params);
+
                 $element = $this->_storage->configure($element, array(
                     'index'    => $params->get('_index'),
                     'position' => $params->get('_position'),
@@ -918,7 +922,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function getBalance($key)
     {
-        return $this->getVariant($key)->getValue(true, '_balance');
+        return $this->getVariant($key)->getValue(true, '_balance', false);
     }
 
     /**
@@ -929,7 +933,6 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     {
         if ($this->_item !== null) {
             $hashTable = array();
-
             if (array_key_exists('variations', $data)) {
                 $list = $this->prepareList($data['variations']);
                 unset($data['variations']);
