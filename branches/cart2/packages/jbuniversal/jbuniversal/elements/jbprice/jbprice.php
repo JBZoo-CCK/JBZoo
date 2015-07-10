@@ -829,7 +829,8 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             'variant'    => $variant,
             'template'   => $this->getTemplate(),
             'layout'     => $this->_layout,
-            'jbprice'    => $this
+            'jbprice'    => $this,
+            'config'     => $this->getElementConfig($id)
         )));
 
         return $element;
