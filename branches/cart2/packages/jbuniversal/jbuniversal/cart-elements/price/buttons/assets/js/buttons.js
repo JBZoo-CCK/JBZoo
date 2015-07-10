@@ -40,11 +40,11 @@
 
             init: function ($this) {
 
-                this.price      = this.el.closest('.' + this.options.hash);
-                this.item_id    = this.options.item_id;
+                this.price = this.el.closest('.' + this.options.hash);
+                this.item_id = this.options.item_id;
                 this.element_id = this.options.element_id;
-                this.isModal    = this.options.isModal;
-                this.hash       = this.options.hash;
+                this.isModal = this.options.isModal;
+                this.hash = this.options.hash;
 
                 this.toggleButtons();
                 this.price.on('removeItem', function () {
@@ -170,7 +170,7 @@
 
                         if ($this.options.addAlert) {
 
-                            if ($this.options.addAlertTimeout <=0) {
+                            if ($this.options.addAlertTimeout <= 0) {
                                 $this.options.addAlertTimeout = '';
                             }
 
@@ -263,13 +263,8 @@
 
             basketReload: function () {
                 if (this.isWidgetExists('JBZooCartModule')) {
-                    var modules = this.$('{document} .jsJBZooCartModule', this.isModal);
-                    $.each(modules, function(i, module) {
-                        var $module = $(module);
-                        if(!JBZoo.empty($module.data('JBZooCartModule'))) {
-                            $module.JBZooCartModule('reload');
-                        }
-                    });
+                    var module = this.$('{document} .jsJBZooCartModule', this.isModal);
+                    return module.JBZooCartModule('reload');
                 }
             },
 
