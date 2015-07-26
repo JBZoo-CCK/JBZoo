@@ -132,6 +132,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     {
         $params   = new AppData($params);
         $template = $params->get('template', 'default');
+
         $config   = $this->setTemplate($template)->getParameters($template);
 
         return !empty($config);
@@ -287,13 +288,21 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function validateSubmission($value, $params)
     {
+        $this->app->validator;
         if ((int)$params->get('required', 0)) {
-            $basic = $value->get('basic');
-            $this->app->validator
-                ->create('textfilter', array(
-                    'required' => $params->get('required')
-                ))
-                ->clean($basic['_value']);
+
+            $variations = array_filter($value->get('variations'));
+            $list       = $this->getList($variations);
+
+            if ($list->count() === 0) {
+                throw new AppValidatorException('This field is required');
+            }
+
+            foreach ($list as $variant) {
+                if (count($variant->data()) === 0) {
+                    throw new AppValidatorException('This field is required');
+                }
+            }
         }
 
         return $value;
