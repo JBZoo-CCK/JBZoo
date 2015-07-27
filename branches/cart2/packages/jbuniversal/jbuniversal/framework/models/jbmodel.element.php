@@ -131,6 +131,7 @@ class JBModelElement extends JBModel
         $subSelect = $this->_getSelect()
             ->select('item_id')
             ->from($this->_jbtables->getIndexTable($this->_itemType) . ' AS tIndex')
+            ->where('tIndex.' . $fieldName . ' IS NOT NULL')
             ->where($where);
 
         $rows = $this->fetchList($subSelect);
