@@ -79,7 +79,7 @@ if ($params['wrapperTag']) {
 }
 
 // render result
-echo '<' . $params['tag'] . ' ' . $this->app->jbhtml->buildAttrs($attrs) . '">'
+echo '<' . $params['tag'] . ' ' . $this->app->jbhtml->buildAttrs($attrs) . '>'
     . $label
     . ' '
     . $render
