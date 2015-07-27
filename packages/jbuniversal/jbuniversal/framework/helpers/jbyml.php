@@ -438,7 +438,23 @@ class JBYmlHelper extends AppHelper
                     $currencyId[$key] = $element->config->currency;
                     $available[$key]  = (isset($data['in_stock']) && $data['in_stock']) ? 'true' : 'false';
                     $offer            = true;
-                }
+                
+                } elseif ($element->config->type == 'jbpriceplain' || $element->config->type == 'jbpricecalc') {
+
+                    $prices = $element->getList()->getTotal();
+                    $balance = $element->getList()->current()->getValue(true, '_balance');
+                    
+                    $price[$key] = $prices->val();
+                    $currencyId[$key] = $prices->cur();
+                    
+                    if ($balance) {
+                        $available[$key] = $balance > 0 ? 'true' : 'false';
+                    } else {
+                        $available[$key] = 'false';
+                    }
+                    
+                    $offer = true;
+                }                
 
                 // get image paths
                 if ($element->config->type == 'image') {
