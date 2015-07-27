@@ -147,5 +147,5 @@ $tabsId    = $this->app->jbstring->getId('tabs');
         </div>
     </div>
 <?php endif;
-
+$this->app->jbassets->tabs();
 echo $this->app->jbassets->widget('#' . $tabsId, 'JBZooTabs');
