@@ -287,7 +287,7 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     public function hasShippingField($elementId)
     {
-        $list = (array)$this->config->shippingfields;
+        $list = (array)$this->config->get('shippingfields', array());
         return in_array($elementId, $list, true);
     }
 
