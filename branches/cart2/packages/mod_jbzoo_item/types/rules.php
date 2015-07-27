@@ -88,7 +88,7 @@ class JBZooModItemRuleItemCategory extends JBZooModItemRuleText
         $app    = App::getInstance('zoo');
         $result = array();
 
-        if (preg_match("/[0-9]/", $value)) {
+        if (is_numeric($value)) {
             $result[$key] = $value;
         } else {
             $slug = $app->string->sluggify($value);
