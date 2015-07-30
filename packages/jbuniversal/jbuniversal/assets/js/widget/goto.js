@@ -22,8 +22,10 @@
                 url = $(this).data('href');
             }
 
-            parent.location.href = url;
-            return false;
+            if (url) {
+                parent.location.href = url;
+                return false;
+            }
         }
     });
 
