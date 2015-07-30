@@ -119,7 +119,7 @@ d797f61865875769226f5e5da5be89ff jbapp/assets/js/widget/accordion.js
 d1fd4fb0eae157666bdc7fe57db10b32 jbapp/assets/js/widget/colors.js
 c40e3993d29ef9eeef1648a9db671668 jbapp/assets/js/widget/currencytoggle.js
 4d8e77a4a3c06d4207982860d325f3dd jbapp/assets/js/widget/emailpreview.js
-f998b96eddeb5eb4759f860a2e535ce6 jbapp/assets/js/widget/goto.js
+ecb1c3b489c47928648f6fb4682bf0f7 jbapp/assets/js/widget/goto.js
 55c37be6d94b021f903c91131b5e41ff jbapp/assets/js/widget/heightfix.js
 6c80d5d777b02fcf396abf8bb519f30e jbapp/assets/js/widget/image.js
 8bf5b68742df5b098c8921578c8317e3 jbapp/assets/js/widget/input.js
@@ -1068,7 +1068,7 @@ d9cf2e0b6fd40b4b3b446e97c762110e jbapp/framework/render/shippingfields.php
 e8f0d212491e051ec19f64a0db636355 jbapp/framework/views/_footer.php
 08e1d717c15a19ad9cb17e556971adfa jbapp/framework/views/_icons.php
 38c1b92409127f1643c8bd5010d59f3b jbapp/framework/views/_menu.php
-e550b88c10e9dcdb91085bd283c69359 jbapp/framework/views/_navigation.php
+2282df534141b6218e60e4a0642cb57f jbapp/framework/views/_navigation.php
 3902a5b28ebcb4086d826151af86a116 jbapp/framework/views/_right.php
 27b93e7cf0575b74383df224962d9158 jbapp/framework/views/jbcart/_addelements.php
 2da9f17dece51e55b1d6618a839ed6de jbapp/framework/views/jbcart/_dragelements.php
