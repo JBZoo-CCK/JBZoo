@@ -41,9 +41,11 @@ $allItems = array(
             'cleandb'    => array('cleandb'),
             'checkfiles' => array('checkfileszoo'),
         ),
+        /*
         'migrate' => array(
             'index' => array('index')
         )
+        */
     ),
     'jbimport'  => array(
         'jbzoo' => array(
