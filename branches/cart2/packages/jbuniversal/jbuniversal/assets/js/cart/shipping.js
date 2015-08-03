@@ -25,7 +25,7 @@
 
         'change .jsRadio': function (e, $this) {
 
-            var $input = $(this),
+            var $input    = $(this),
                 $shipping = $input.closest('.jsShipping');
 
             $this.$('.jsShippingElement').hide();
@@ -45,13 +45,20 @@
          */
         getPrices: function ($shipping) {
 
-            this.ajax({
-                url    : this.options.url_shipping,
-                data   : this._getShippingData($shipping),
+            var $this = this;
+
+            $this.ajax({
+                url    : $this.options.url_shipping,
+                data   : $this._getShippingData($shipping),
                 success: function (data) {
                     var $cart = $('.jsJBZooCart');
                     $cart.JBZooCart('updatePrices', data.cart);
                     $cart.JBZooCart('reloadModule');
+                },
+                error  : function (data) {
+                    if (data.message) {
+                        $this.alert(data.message);
+                    }
                 }
             });
         },
@@ -71,8 +78,8 @@
          */
         _toggleFields: function (elementId) {
 
-            var $this = this,
-                fields = $this.options.fields_assign[elementId],
+            var $this    = this,
+                fields   = $this.options.fields_assign[elementId],
                 $wrapper = $('.jbzoo .jsShippingFieldWrapper');
 
             $('.jsShippingField').stop().hide();
