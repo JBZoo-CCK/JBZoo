@@ -40,7 +40,8 @@ $controlType = $params->get('control_type', 'button');
                 'name'  => 'jbadvert_gotocart',
                 'value' => JText::_('JBZOO_JBADVERT_ADD_TO_CART'),
             )) . ' />',
-            '</div>'
+            '</div>',
+            $this->app->jbhtml->hidden($this->getControlName('gotocart'), 1),
         ));
     } else if ($controlType != 'hidden') {
         echo implode(PHP_EOL, array(
@@ -48,7 +49,7 @@ $controlType = $params->get('control_type', 'button');
             '<div class="jbadvert-control-name">' . JText::_('JBZOO_JBADVERT_CONTROL_NAME') . '</div>',
             $this->app->jbhtml->bool($params->get('control_type', 'radio'), $this->getControlName('gotocart'), array(), 0),
             JBZOO_CLR,
-            '</div>'
+            '</div>',
         ));
     }
     echo '</div>';
