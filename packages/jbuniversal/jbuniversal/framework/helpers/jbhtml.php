@@ -298,7 +298,7 @@ class JBHtmlHelper extends AppHelper
             'max'      => $this->_vars->number($params->get('max', 999999)),
             'step'     => $step,
             'default'  => $default,
-            'decimals' => $decimals
+            'decimals' => $decimals,
         );
 
         $html = array(
@@ -372,7 +372,7 @@ class JBHtmlHelper extends AppHelper
                 'id'    => $inputId,
                 'title' => isset($titles[$value]) ? $titles[$value] : $value,
                 'value' => $value,
-                'class' => 'jbcolor-input'
+                'class' => 'jbcolor-input',
             );
 
             $labelAttr = array(
@@ -382,13 +382,13 @@ class JBHtmlHelper extends AppHelper
                     $inputType,
                     'jbcolor-label',
                     'value-' . $stringHelper->sluggify($value),
-                    'hasTip'
+                    'hasTip',
                 ),
-                'style' => 'width:' . $width . ';height:' . $height . ';'
+                'style' => 'width:' . $width . ';height:' . $height . ';',
             );
 
             $attr = array(
-                'style' => ' background-color: ' . (!$isFile ? '#' . $color . ';' : 'transparent; width:' . $width . ';height:' . $height . ';')
+                'style' => ' background-color: ' . (!$isFile ? '#' . $color . ';' : 'transparent; width:' . $width . ';height:' . $height . ';'),
             );
 
             if ($selected != null && ($selected == $value || is_array($selected) && in_array($value, $selected))) {
@@ -499,7 +499,7 @@ class JBHtmlHelper extends AppHelper
                 'id'           => $id,
                 'class'        => array(
                     'jsCurrencyToggle',
-                    'currency-toggle'
+                    'currency-toggle',
                 ),
 
             );
@@ -655,7 +655,7 @@ class JBHtmlHelper extends AppHelper
             'min'    => $paramMin,
             'max'    => $paramMax,
             'step'   => $params['step'],
-            'values' => array($valueMin->val(), $valueMax->val())
+            'values' => array($valueMin->val(), $valueMax->val()),
         ), true);
 
         $html[] = JBZOO_CLR;
@@ -713,7 +713,7 @@ class JBHtmlHelper extends AppHelper
             '<span id="' . $idtag . '-value-1" class="slider-value-1">' . number_format($valueMax, 0, '.', ' ') . '</span>',
             '<input type="hidden" id="' . $idtag . '-value" name="' . $name . '" />',
             JBZOO_CLR,
-            '</div>'
+            '</div>',
         );
 
         return implode(PHP_EOL, $html);
@@ -830,16 +830,20 @@ class JBHtmlHelper extends AppHelper
                 'data-rowindex' => $i,
                 'class'         => array(
                     'jsSelect',
-                    'jsSelect-' . $i
-                )
+                    'jsSelect-' . $i,
+                ),
             );
 
             // create option list
             $options = array();
             if ($lvlCheck == $curLvl) {
                 $lvlCheck++;
-                $keys    = array_keys($itemList);
-                $options = array_combine($keys, $keys);
+                $keys = array_keys($itemList);
+                if (!empty($keys)) {
+                    $options = array_combine($keys, $keys);
+                } else {
+                    $options = array();
+                }
             }
             $options = $this->app->jbarray->unshiftAssoc($options, '', $allText);
 
@@ -859,7 +863,7 @@ class JBHtmlHelper extends AppHelper
             'class' => array(
                 'jbcascade',
                 'jsCascade',
-            )
+            ),
         ));
 
         $widgetSelector = '#' . $attribs['id'];
@@ -927,7 +931,7 @@ class JBHtmlHelper extends AppHelper
                 'value' => $value,
                 'name'  => $name,
                 'type'  => $inputType,
-                'class' => 'value-' . $valueSlug
+                'class' => 'value-' . $valueSlug,
             ), $attribs, array('id' => $idTag,));
 
             if (is_array($selected)) {
@@ -949,8 +953,8 @@ class JBHtmlHelper extends AppHelper
                 'for'   => $idTag,
                 'class' => array(
                     $inputType . '-lbl',
-                    'lbl-' . $valueSlug
-                )
+                    'lbl-' . $valueSlug,
+                ),
             );
 
             if ($isLabelWrap) {
