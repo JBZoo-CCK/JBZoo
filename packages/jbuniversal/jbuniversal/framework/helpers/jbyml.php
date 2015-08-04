@@ -259,7 +259,7 @@ class JBYmlHelper extends AppHelper
         "EH" => "Западная Сахара",
         "YE" => "Йемен",
         "ZM" => "Замбия",
-        "ZW" => "Зимбабве"
+        "ZW" => "Зимбабве",
     );
 
     /**
@@ -289,7 +289,7 @@ class JBYmlHelper extends AppHelper
         if (!empty($appList)) {
             $this->_apps = $this->app->table->application->all(array(
                 'conditions' => array(
-                    'id IN (' . implode(',', $appList) . ')')
+                    'id IN (' . implode(',', $appList) . ')'),
             ));
         } else {
             $this->_apps = '';
@@ -346,7 +346,7 @@ class JBYmlHelper extends AppHelper
 
         $categories = $this->app->table->category->all(array(
             'conditions' => array(
-                'application_id IN (' . implode(',', $this->_appParams->get('app_list')) . ')')
+                'application_id IN (' . implode(',', $this->_appParams->get('app_list')) . ')'),
         ));
 
         return array(
@@ -354,7 +354,7 @@ class JBYmlHelper extends AppHelper
             'site_name'     => $site_name,
             'company_name'  => $company_name,
             'currency_rate' => $textCurrencyRate,
-            'categories'    => $categories
+            'categories'    => $categories,
         );
     }
 
@@ -405,7 +405,7 @@ class JBYmlHelper extends AppHelper
             $types,
             array(
                 'limit'     => array($offset, $limit),
-                'published' => 1
+                'published' => 1,
             )
         );
         $price = $categoryId = $currencyId = $available = $picture = $link = array();
@@ -438,23 +438,23 @@ class JBYmlHelper extends AppHelper
                     $currencyId[$key] = $element->config->currency;
                     $available[$key]  = (isset($data['in_stock']) && $data['in_stock']) ? 'true' : 'false';
                     $offer            = true;
-                
+
                 } elseif ($element->config->type == 'jbpriceplain' || $element->config->type == 'jbpricecalc') {
 
-                    $prices = $element->getList()->getTotal();
+                    $prices  = $element->getList()->getTotal();
                     $balance = $element->getList()->current()->getValue(true, '_balance');
-                    
-                    $price[$key] = $prices->val();
+
+                    $price[$key]      = $prices->val();
                     $currencyId[$key] = $prices->cur();
-                    
+
                     if ($balance) {
                         $available[$key] = $balance > 0 ? 'true' : 'false';
                     } else {
                         $available[$key] = 'false';
                     }
-                    
+
                     $offer = true;
-                }                
+                }
 
                 // get image paths
                 if ($element->config->type == 'image') {
@@ -523,12 +523,24 @@ class JBYmlHelper extends AppHelper
             $itemParams['country'] = $country;
         }
 
-        $renderer = $this->app->renderer->create('item')->addPath(
-            array(
-                $this->app->path->path('component.site:'),
-                $this->app->path->path('jbtmpl:') . '/catalog'
-            )
+
+        $appPaths = array(
+            $this->app->path->path('component.site:'),
+            $this->app->path->path('jbtmpl:') . '/catalog',
         );
+
+        $appList = $this->app->table->application->all(array(
+            'conditions' => array('id IN (' . implode(',', $this->_appParams->get('app_list')) . ')'),
+        ));
+
+        if (!empty($appList)) {
+            foreach ($appList as $oneApp) {
+                $appPaths[] = $this->app->path->path('jbtmpl:') . '/' . $oneApp->getTemplate()->name;
+            }
+        }
+
+        $renderer = $this->app->renderer->create('item')->addPath($appPaths);
+
         $strItems = "";
         foreach ($items as $item) {
             if ($renderer->pathExists('item/' . $item->type . '/ymlexport.php')) {
@@ -537,7 +549,7 @@ class JBYmlHelper extends AppHelper
                     array(
                         'view'        => $this,
                         'item'        => $item,
-                        'item_params' => $itemParams
+                        'item_params' => $itemParams,
                     )
                 );
                 $tmpStrItems = JString::trim($tmpStrItems);
@@ -549,7 +561,7 @@ class JBYmlHelper extends AppHelper
                 $strItems .= $tmpStrItems;
 
             } else {
-                throw new AppException(JText::_('JBZOO_YML_NOT_EXISTS_TEMPLATE') . $item->getType()->getName());
+                throw new AppException(JText::_('JBZOO_YML_NOT_EXISTS_TEMPLATE') . ' ' . $item->getType()->getName());
             }
         }
         $this->app->jbsession->set('ymlCount', $this->_count, 'yml');
