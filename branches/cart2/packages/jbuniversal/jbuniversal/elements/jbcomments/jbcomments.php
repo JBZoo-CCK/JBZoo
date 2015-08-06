@@ -84,7 +84,7 @@ class ElementJBComments extends Element implements iSubmittable
                 'vkParams'  => array(
                     'width'       => (int)$params->get('vk_comm_width', 300),
                     'limit'       => (int)$params->get('vk_comm_limit', 10),
-                    'attach'      => (int)$params->get('vk_comm_attach', 1),
+                    'attach'      => $params->get('vk_comm_attach', 1) ? '*' : false,
                     'autoPublish' => (int)$params->get('vk_comm_auto_publish', 1),
                     'height'      => (int)$params->get('vk_comm_height', 500),
                     'norealtime'  => (int)$params->get('vk_comm_norealtime', 0),
