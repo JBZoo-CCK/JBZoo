@@ -86,7 +86,14 @@ class JBCartElementOrderOption extends JBCartElementOrder
      */
     public function edit($params = array())
     {
-        $options = $this->get('option', array());
+        $selected_options = $this->get('option', array());
+
+        $options = array();
+        foreach ($this->config->get('option', array()) as $option) {
+            if (in_array($option['value'], $selected_options)) {
+                $options[] = $option['name'];
+            }
+        }
 
         if ($options) {
             if (count($options) > 1) {
