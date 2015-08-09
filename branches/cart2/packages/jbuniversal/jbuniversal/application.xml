@@ -13,7 +13,7 @@
     <name>JBZoo App</name>
     <group>jbuniversal</group>
     <version>2.2.0 Pro __REVISION__</version>
-    <creationDate>2015 05</creationDate>
+    <creationDate>__CURRENT_DATE__</creationDate>
     <author>JBZoo.com</author>
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
