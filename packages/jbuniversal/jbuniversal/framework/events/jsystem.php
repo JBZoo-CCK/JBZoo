@@ -68,6 +68,12 @@ class JBZooSystemPlugin
             $dispatcher->connect('application:sefparseroute', array($jbsef, 'sefParseRoute'));
             $dispatcher->connect('application:sefbuildroute', array($jbsef, 'sefBuildRoute'));
         }
+
+        $this->app->event->register('JBEventSubmission');
+        $this->app->event->dispatcher->connect('submission:redirect', array('JBEventSubmission', 'redirect'));
+
+        // code for Zoo submision controller
+        // $this->app->event->dispatcher->notify($this->app->event->create($this->submission, 'submission:redirect', array('item' => $this->item, 'new' => !$edit, 'msg' => &$msg)));
     }
 
     /**
