@@ -301,8 +301,10 @@ class JBModelFilter extends JBModel
                     $columns   = $this->_jbtables->getFields($this->_jbtables->getIndexTable($itemType));
 
                     if (in_array($fieldName, $columns, true)) {
-                        $select->order('tIndex.' . $fieldName . ' ' . $dir);
-                        $select->where('tIndex.' . $fieldName . ' IS NOT NULL');
+                        $select
+                            ->order('tIndex.' . $fieldName . ' ' . $dir)
+                            ->where('tIndex.' . $fieldName . ' IS NOT NULL')
+                            ->select($fieldName);
                     }
                 }
             }
