@@ -200,6 +200,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 'variant'    => $variant->getId(),
                 'layout'     => $this->_layout,
                 'item'       => $this->getItem(),
+                'element'    => $this,
             ));
 
             //Must be after renderer
