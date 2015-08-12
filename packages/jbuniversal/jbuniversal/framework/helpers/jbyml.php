@@ -308,7 +308,7 @@ class JBYmlHelper extends AppHelper
         $siteUrl          = $this->_appParams->get('site_url');
         $siteName         = $this->_appParams->get('site_name');
         $companyName      = $this->_appParams->get('company_name');
-        $supportCurrency  = array('RUR', 'RUB', 'USD', 'BYR', 'KZT', 'EUR', 'UAH');
+        $supportCurrency  = array('RUB', 'USD', 'BYR', 'KZT', 'EUR', 'UAH');
         $currency         = $this->_appParams->get('currency', 'RUB');
         $currencyRate     = $this->_appParams->get('currency_rate', 'default');
 
@@ -331,17 +331,30 @@ class JBYmlHelper extends AppHelper
         }
 
         foreach ($this->app->jbmoney->getCurrencyList() as $key => $value) {
+
+            $key = strtoupper($key);
+
             if ($currencyRate == 'default') {
                 if (in_array($key, $supportCurrency)) {
                     $textCurrencyRate[$key] = str_replace(',', '.', $this->app->jbmoney->convert($key, $currency, 1));
-
                 }
+
             } else {
                 if (in_array($key, $supportCurrency)) {
                     $textCurrencyRate[$key] = $this->_appParams->get('currency_rate');
-
                 }
             }
+        }
+
+        if ($currencyRate != 'default') {
+            $defaultCur = JBModelConfig::model()->getGroup('cart.config')->get('default_currency', 'RUB');
+            $defaultCur = strtoupper($defaultCur);
+            $textCurrencyRate[$defaultCur] = 1;
+        }
+
+        if (isset($textCurrencyRate['RUB'])) {
+            $textCurrencyRate['RUR'] = $textCurrencyRate['RUB'];
+            unset($textCurrencyRate['RUB']);
         }
 
         $categories = $this->app->table->category->all(array(
@@ -365,27 +378,26 @@ class JBYmlHelper extends AppHelper
     {
         $this->_count = null;
         $marketParams = $this->_getMarketParams();
-        $string       = '<?xml version="1.0" encoding="utf-8"?>' . "\n" . '<!DOCTYPE yml_catalog SYSTEM "shops.dtd">' . "\n\t" . '<yml_catalog date="' . JHTML::_("date", "now", JText::_("Y-m-d H:i")) . '">
+        $string       = '<?xml version="1.0" encoding="utf-8"?>' . "\n" . '<!DOCTYPE yml_catalog SYSTEM "shops.dtd">' . "\n" . '<yml_catalog date="' . JHTML::_("date", "now", JText::_("Y-m-d H:i")) . '">
         <shop>
             <name>' . $marketParams['site_name'] . '</name>
             <company>' . $marketParams['company_name'] . '</company>
             <url>' . $marketParams['site_url'] . '</url>
-
             <currencies>' . "\n";
 
         foreach ($marketParams['currency_rate'] as $key => $value) {
-            $string .= "\t\t\t\t" . '<currency id="' . $key . '" rate="' . $this->replaceSpecial($value) . '"/>' . "\n";
+            $string .= '<currency id="' . $key . '" rate="' . $this->replaceSpecial($value) . '"/>' . "\n";
         }
-        $string .= "\t\t\t" . '</currencies>' . "\n\n\t\t\t" . '<categories>' . "\n";
+        $string .= '</currencies><categories>' . "\n";
 
         foreach ($marketParams['categories'] as $category) {
             if (!empty($category->parent)) {
-                $string .= "\t\t\t\t" . '<category id="' . $category->id . '" parentId="' . $category->parent . '">' . $this->replaceSpecial($category->name) . '</category>' . "\n";
+                $string .= '<category id="' . $category->id . '" parentId="' . $category->parent . '">' . $this->replaceSpecial($category->name) . '</category>' . "\n";
             } else {
-                $string .= "\t\t\t\t" . '<category id="' . $category->id . '">' . $this->replaceSpecial($category->name) . '</category>' . "\n";
+                $string .= '<category id="' . $category->id . '">' . $this->replaceSpecial($category->name) . '</category>' . "\n";
             }
         }
-        $string .= "\t\t\t" . '</categories>' . "\n\n\t\t\t" . '<offers>' . "\n";
+        $string .= '</categories>' . "\n" . '<offers>' . "\n";
 
         $this->_writeToFile($string, true);
     }
@@ -489,6 +501,15 @@ class JBYmlHelper extends AppHelper
                         $country[$key] = $this->_country[$countryData[0]];
                     }
                 }
+
+                if (isset($currencyId[$key])) {
+                    $currencyId[$key] = strtoupper($currencyId[$key]);
+
+                    if ($currencyId[$key] == 'RUB') {
+                        $currencyId[$key] = 'RUR';
+                    }
+                }
+
             }
 
             if (!$offer) {
