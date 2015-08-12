@@ -60,4 +60,9 @@
         <description>An item is rendered with the edit layout in the item edit view.</description>
     </layout>
 
+    <layout name="ymlexport">
+        <name>Yml Export</name>
+        <description>Layout for controller ymlexport</description>
+    </layout>
+
 </metadata>
