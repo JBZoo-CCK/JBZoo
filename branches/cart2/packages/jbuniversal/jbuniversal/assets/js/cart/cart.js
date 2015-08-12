@@ -29,7 +29,7 @@
         changeDelay   : 600,
 
         init: function ($this) {
-            $this.shipping = $this.$('.jsShipping');
+            $this.shipping       = $this.$('.jsShipping');
             $this.shippingFields = $this.$('.jsShippingField');
 
         },
@@ -44,7 +44,7 @@
 
         'click .jsDelete': function (e, $this) {
 
-            var $tableRow = $(this).closest('.jsCartTableRow'),
+            var $tableRow  = $(this).closest('.jsCartTableRow'),
                 itemsCount = $this.$('.jsCartTableRow').length;
 
             $this.confirm($this.options.text_remove_item, function () {
@@ -157,7 +157,7 @@
         updatePrices: function (cart, context) {
 
             var $this = this;
-            context = $this._def(context, '');
+            context   = $this._def(context, '');
 
             $.each(cart, function (key, value) {
 
@@ -175,7 +175,12 @@
                     if (!JBZoo.empty(value['MoneyWrap'])) {
                         value = value['MoneyWrap'];
                     }
-                    
+
+                    if (value[0] < 0) {
+                        $this.alert('Невозможно осуществить доставку по этому направлению при заданных условиях');
+                        value[0] = 0;
+                    }
+
                     $money
                         .JBZooMoney({rates: $this.options.rates})
                         .JBZooMoney('setValue', value[0], value[1]);
