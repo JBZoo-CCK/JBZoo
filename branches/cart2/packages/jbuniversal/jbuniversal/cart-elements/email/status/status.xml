@@ -24,8 +24,8 @@
         <param name="ordertype" type="list" default="main" label="JBZOO_ELEMENT_EMAIL_STATUS_ORDERTYPE"
                description="JBZOO_ELEMENT_EMAIL_STATUS_ORDERTYPE_DESC">
             <option value="main">JBZOO_ELEMENT_EMAIL_STATUS_ORDERTYPE_MAIN</option>
-            <option value="shipping">JBZOO_ELEMENT_EMAIL_STATUS_ORDERTYPE_PAYMENT</option>
-            <option value="payment">JBZOO_ELEMENT_EMAIL_STATUS_ORDERTYPE_SHIPPING</option>
+            <option value="shipping">JBZOO_ELEMENT_EMAIL_STATUS_ORDERTYPE_SHIPPING</option>
+            <option value="payment">JBZOO_ELEMENT_EMAIL_STATUS_ORDERTYPE_PAYMENT</option>
         </param>
 
     </params>
