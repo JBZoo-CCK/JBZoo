@@ -40,10 +40,10 @@ class JBCartElementEmailStatus extends JBCartElementEmail
             return $order->getStatus();
 
         } else if ($ordertype == 'payment') {
-            return $order->getStatus();
+            return $order->getPaymentStatus();
 
         } else if ($ordertype == 'shipping') {
-            return $order->getStatus();
+            return $order->getShippingStatus();
         }
 
         return null;
