@@ -148,7 +148,8 @@ class BasketJBUniversalController extends JBUniversalController
 
                     // go to payment page
                     $payment = $this->order->getPayment();
-                    if ($isPaymentBtn && $payment && $paymentUrl = $payment->getRedirectUrl()) {
+                    $totalSum = $this->order->getTotalSum();
+                    if ($totalSum->isPositive() && $isPaymentBtn && $payment && $paymentUrl = $payment->getRedirectUrl()) {
 
                         $message = $payment->getSuccessMessage();
                         if (empty($message)) {
