@@ -95,7 +95,7 @@ abstract class JBCartElementShipping extends JBCartElement
             return self::renderLayout($layout, array(
                 'params' => $params,
                 'value'  => $this->get('value'),
-                'fields' => $this->get('fields', array())
+                'fields' => $this->get('fields', array()),
             ));
         }
     }
@@ -250,16 +250,14 @@ abstract class JBCartElementShipping extends JBCartElement
             && $newStatus != JBCartStatusHelper::UNDEFINED // new is not empty
             && $oldStatus != $newStatus; // is really changed
 
-        if ($isChanged) {
+        $this->set('status', $newStatus);
 
+        if ($isChanged) {
             $this->app->jbevent->fire($this->getOrder(), 'basket:shippingStatus', array(
                 'oldStatus' => $oldStatus,
                 'newStatus' => $newStatus,
             ));
-
         }
-
-        $this->set('status', $newStatus);
     }
 
     /**
