@@ -123,10 +123,10 @@ class PaymentJBUniversalController extends JBUniversalController
         // checking of payment element
         if ($payment->isValid()) {
 
-            $this->app->event->dispatcher->notify($this->app->event->create($this->order, 'basket:paymentSuccess'));
-
             $payment->setSuccess();
+            $this->app->event->dispatcher->notify($this->app->event->create($this->order, 'basket:paymentSuccess'));
             $payment->renderResponse();
+
         } else {
             $this->_error('No valid request');
         }
