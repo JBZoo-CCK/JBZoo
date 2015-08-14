@@ -76,6 +76,7 @@ abstract class JBCartElementPayment extends JBCartElement
 
         if (!is_object($curStatus)) {
 
+            /** @var jbcartstatusHelper $jbstatus */
             $jbstatus = $this->app->jbcartstatus;
 
             $status = $jbstatus->getByCode($curStatus, JBCart::STATUS_PAYMENT);
@@ -201,14 +202,14 @@ abstract class JBCartElementPayment extends JBCartElement
             && $newStatus != JBCartStatusHelper::UNDEFINED // new is not empty
             && $oldStatus != $newStatus; // is really changed
 
+        $this->set('status', $newStatus);
+
         if ($isChanged) {
             $this->app->jbevent->fire($this->getOrder(), 'basket:paymentStatus', array(
                 'oldStatus' => $oldStatus,
                 'newStatus' => $newStatus,
             ));
         }
-
-        $this->set('status', $newStatus);
     }
 
     /**
