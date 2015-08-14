@@ -57,6 +57,10 @@ class JBCartElementPriceCurrency extends JBCartElementPrice
      */
     public function render($params = array())
     {
+        if (!$this->hasValue($params)) {
+            return null;
+        }
+
         $rates   = $this->_getRates($params);
         $default = $params->get('currency_default', JBCartValue::DEFAULT_CODE);
 

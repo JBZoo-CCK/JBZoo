@@ -899,9 +899,17 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $default = JBCart::val()->cur();
         $params  = $this->getParameter('_currency');
 
+        $currencyList = $params->get('currency_list', array());
+        if (count($currencyList) == 1 && !in_array('all', $currencyList)) {
+            reset($currencyList);
+            $key = current($currencyList);
+            return $key;
+        }
+
         if ((array)$params) {
             return $params->get('currency_default', $default);
         }
+
         $variant = $this->getList()->current();
 
         if ($variant->has('_value')) {
