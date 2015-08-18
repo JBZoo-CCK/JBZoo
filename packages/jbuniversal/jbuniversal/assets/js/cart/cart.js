@@ -176,10 +176,12 @@
                         value = value['MoneyWrap'];
                     }
 
+                    /*
                     if (value[0] < 0) {
                         $this.alert('Невозможно осуществить доставку по этому направлению при заданных условиях');
                         value[0] = 0;
                     }
+                    */
 
                     $money
                         .JBZooMoney({rates: $this.options.rates})
