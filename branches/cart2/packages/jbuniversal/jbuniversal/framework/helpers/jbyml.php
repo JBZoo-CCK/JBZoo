@@ -437,10 +437,10 @@ class JBYmlHelper extends AppHelper
 
                     // get available
                     $balance = $indexData[$item->id]['balance'];
-                    if ((int)$balance > 0 || $balance == -1) {
-                        $available[$key] = 'true';
-                    } else {
+                    if ($balance == 0) {
                         $available[$key] = 'false';
+                    } else {
+                        $available[$key] = 'true';
                     }
 
                     $offer = true;
