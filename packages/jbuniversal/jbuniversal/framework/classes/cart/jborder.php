@@ -879,11 +879,13 @@ class JBCartOrder
 
             // render links to item
             $itemUrl = null;
-            if ((bool)$params->get('admin_url', false) && !$emailMode) {
-                $itemUrl = $this->app->jbrouter->adminItem($item);
-            } else {
-                if ($item && $item->isPublished()) {
-                    $itemUrl = $this->app->jbrouter->externalItem($item);
+            if ($item) {
+                if ((bool)$params->get('admin_url', false) && !$emailMode) {
+                    $itemUrl = $this->app->jbrouter->adminItem($item);
+                } else {
+                    if ($item && $item->isPublished()) {
+                        $itemUrl = $this->app->jbrouter->externalItem($item);
+                    }
                 }
             }
 
@@ -940,7 +942,7 @@ class JBCartOrder
                         '<div class="jbcart-item-param ' . $params->find('class.param') . '">',
                         '<span class="jbcart-item-param-key ' . $params->find('class.param-key') . '">' . $parName . ':</span>',
                         '<span class="jbcart-item-param-value ' . $params->find('class.param-value') . '" title="' . $jbhtml->cleanAttrValue($parValue) . '">' . $parValue . '</span>',
-                        '</div> '
+                        '</div> ',
                     ));
                 }
 
