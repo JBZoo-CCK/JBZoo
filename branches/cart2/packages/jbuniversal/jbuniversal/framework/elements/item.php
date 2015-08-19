@@ -137,9 +137,10 @@ class JBCSVItem
 
                 // for repeatable objects
                 $result = array();
-                foreach ($this->_item->elements[$this->_identifier] as $self) {
-
-                    $result[] = isset($self['value']) ? $self['value'] : null;
+                if (isset($this->_item->elements[$this->_identifier])) {
+                    foreach ($this->_item->elements[$this->_identifier] as $self) {
+                        $result[] = isset($self['value']) ? $self['value'] : null;
+                    }
                 }
 
                 if ((int)$this->_exportParams->get('merge_repeatable')) {
