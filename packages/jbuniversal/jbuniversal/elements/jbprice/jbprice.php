@@ -123,6 +123,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $this->showAll = (bool)!$this->config->get('only_selected', 0);
     }
 
+
     /**
      * Check if elements value is set
      * @param array|AppData $params
@@ -365,6 +366,11 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             ));
 
             $this->createList($data, $options);
+
+            if($this->_template === null)
+            {
+                $this->clearList();
+            }
         }
 
         return $this->_list;
