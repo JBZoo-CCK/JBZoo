@@ -30,10 +30,7 @@ if (!$this->app->jbcache->start($this->tag)) {
     }
 
     // pagination render
-    echo $this->app->jblayout->render('pagination', $this->pagination, array(
-        'url'        => $this->pagination_link,
-        'pagination' => $this->pagination
-    ));
+    echo $this->app->jblayout->render('pagination', $this->pagination, array('link' => $this->pagination_link));
 
     $this->app->jbwrapper->end();
     $this->app->jbcache->stop();
