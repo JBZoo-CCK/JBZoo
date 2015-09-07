@@ -565,14 +565,20 @@ class JBYmlHelper extends AppHelper
         $strItems = "";
         foreach ($items as $item) {
             if ($renderer->pathExists('item/' . $item->type . '/ymlexport.php') || $renderer->pathExists('item/ymlexport.php')) {
-                $tmpStrItems = $renderer->render(
-                    'item.' . $item->type . '.ymlexport',
-                    array(
+
+                $tpl = 'item.' . $item->type . '.ymlexport';
+
+                if (!$renderer->pathExists('item/' . $item->type . '/ymlexport.php')) {
+                    $tpl = 'item.ymlexport';
+                }
+
+                $tmpStrItems = $renderer->render($tpl, array(
                         'view'        => $this,
                         'item'        => $item,
                         'item_params' => $itemParams,
                     )
                 );
+
                 $tmpStrItems = JString::trim($tmpStrItems);
 
                 if (!empty($tmpStrItems)) {
