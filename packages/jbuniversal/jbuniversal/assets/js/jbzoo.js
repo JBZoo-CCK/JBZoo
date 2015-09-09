@@ -71,7 +71,7 @@
             $this._isAjax = true;
             $.isFunction($this._onAjaxStart) && $this._onAjaxStart.apply($this, [options]);
 
-            JBZoo.logger('w', 'ajax::' + globalAjaxId + ' ->', options);
+            //JBZoo.logger('w', 'ajax::' + globalAjaxId + ' ->', options);
 
             var options = $.extend(true, {}, {
                 'url'     : 'index.php?format=raw&tmpl=component',
@@ -122,7 +122,7 @@
                     }
 
                     if (options.dataType == 'json') {
-                        JBZoo.logger('i', 'ajax::' + globalAjaxId + ' <-', data);
+                        //JBZoo.logger('i', 'ajax::' + globalAjaxId + ' <-', data);
 
                         if (data.result && $.isFunction(options.success)) {
                             options.success.apply($this, arguments);

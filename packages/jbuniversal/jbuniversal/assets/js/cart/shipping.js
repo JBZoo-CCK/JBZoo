@@ -37,6 +37,7 @@
             $this._toggleFields($input.val());
 
             $this.getPrices($shipping);
+            $this._repaintChosen($shipping);
         },
 
         /**
@@ -88,9 +89,23 @@
                 $.each(fields, function (n, fieldId) {
                     $('.js' + fieldId).fadeIn();
                 });
+
             } else {
                 $wrapper.find('.jsShippingFieldEmpty').stop().fadeIn();
             }
+
+            $this._repaintChosen($wrapper);
+        },
+
+        _repaintChosen: function ($wrapper) {
+            $wrapper.find('select')
+                .each(function (n, obj) {
+                    var $select = $(obj);
+                    if ($.isFunction($.fn.chosen) && $select.data('chosen')) {
+                        $select.JBZooSelect('removeChosen');
+                        $select.JBZooSelect('addChosen');
+                    }
+                });
         }
 
     });
