@@ -98,14 +98,7 @@
         },
 
         _repaintChosen: function ($wrapper) {
-            $wrapper.find('select')
-                .each(function (n, obj) {
-                    var $select = $(obj);
-                    if ($.isFunction($.fn.chosen) && $select.data('chosen')) {
-                        $select.JBZooSelect('removeChosen');
-                        $select.JBZooSelect('addChosen');
-                    }
-                });
+            $wrapper.find('select').JBZooSelect('repaintChosen');
         }
 
     });

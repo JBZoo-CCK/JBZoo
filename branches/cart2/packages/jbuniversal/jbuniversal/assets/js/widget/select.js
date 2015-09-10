@@ -90,7 +90,7 @@
          */
         addOptions: function (list, isUpdate) {
             var $this = this;
-            isUpdate = $this._def(isUpdate, true);
+            isUpdate  = $this._def(isUpdate, true);
 
             $.each(list, function (key, value) {
                 $this.addOption(key, value, isUpdate);
@@ -141,7 +141,6 @@
 
         /**
          * Add chosen widget
-         * @returns {jQuery}
          */
         addChosen: function (options) {
             $.isFunction($.fn.chosen) && this.el.chosen(options);
@@ -149,10 +148,22 @@
 
         /**
          * Remove chosen widget
-         * @returns {jQuery}
          */
         removeChosen: function () {
-            $.isFunction($.fn.chosen) && this.el.chosen('destroy');
+            this._isChosen() && this.el.chosen('destroy');
+        },
+
+        /**
+         * Repaint chosen widget
+         */
+        repaintChosen: function () {
+
+            var $this = this;
+
+            if ($this._isChosen()) {
+                $this.removeChosen();
+                $this.addChosen();
+            }
         },
 
         /**
@@ -175,7 +186,6 @@
                     .trigger('liszt:updated');
             }
         }
-
     });
 
 })(jQuery, window, document);
