@@ -41,7 +41,7 @@ class JBImportJBuniversalController extends JBuniversalController
     private $_defaultParams = array(
         'header'    => 1,
         'separator' => ',',
-        'enclosure' => '"'
+        'enclosure' => '"',
     );
 
     /**
@@ -170,6 +170,7 @@ class JBImportJBuniversalController extends JBuniversalController
         $key          = $this->_jbrequest->get('key');
         $create       = $this->_jbrequest->get('create');
         $createAlias  = $this->_jbrequest->get('createAlias', 0);
+        $cleanPrice   = $this->_jbrequest->get('cleanPrice', 0);
         $assign       = $this->_jbrequest->getArray('assign');
         $appid        = (int)$this->_jbrequest->get('appid');
 
@@ -186,7 +187,8 @@ class JBImportJBuniversalController extends JBuniversalController
             'create'       => $create,
             'assign'       => $assign[$typeid],
             'checkOptions' => $checkOptions,
-            'createAlias'  => $createAlias
+            'createAlias'  => $createAlias,
+            'cleanPrice'   => $cleanPrice,
         );
 
         $this->_jbsession->setBatch($data, 'import');
@@ -276,9 +278,10 @@ class JBImportJBuniversalController extends JBuniversalController
                 $this->_jbimport->categoriesPostProcess();
             }
 
-            $data = $this->_jbsession->getGroup('import');
-            if (JFile::exists($data['file'])) {
-                JFile::delete($data['file']);
+            // remove all csv files
+            $files = (array)JFolder::files($this->app->jbpath->sysPath('tmp'), '\.csv');
+            foreach ($files as $csvFile) {
+                JFile::delete($csvFile);
             }
 
             $this->app->jbajax->send();

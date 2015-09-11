@@ -51,6 +51,8 @@ $jbform = $this->app->jbform;
 
                     <?php echo $jbform->renderRow($this->controls['createAlias'], 'JBZOO_IMPORT_CREATE_ALIAS', 'createAlias'); ?>
 
+                    <?php echo $jbform->renderRow($this->controls['cleanPrice'], 'JBZOO_IMPORT_CLEAN_PRICE', 'cleanPrice'); ?>
+
                     <hr />
 
                     <ul id="fields-assign">
@@ -114,6 +116,10 @@ $jbform = $this->app->jbform;
             $('#create').val(prev.create);
             $('#checkOptions').val(prev.checkOptions);
             $('#createAlias').val(prev.createAlias);
+
+            if (prev.cleanPrice == 1) {
+                $('#cleanPrice').val(prev.cleanPrice);
+            }
 
             if (prev.typeid) {
                 var typeid = prev.typeid;

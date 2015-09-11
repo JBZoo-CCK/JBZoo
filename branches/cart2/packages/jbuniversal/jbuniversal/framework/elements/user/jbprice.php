@@ -114,6 +114,13 @@ class JBCSVItemUserJBPrice extends JBCSVItem
      */
     public function fromCSV($values, $position = ElementJBPrice::BASIC_VARIANT)
     {
+        $importData = $this->_lastImportParams->get('previousparams');
+        $cleanPrice = isset($importData['cleanPrice']) && (int)$importData['cleanPrice'];
+
+        if ($position == 1 && $cleanPrice) {
+            $this->_element->cleanVariations();
+        }
+
         if ($values === null || JString::strlen($values) === 0) {
             return $this->_item;
         }

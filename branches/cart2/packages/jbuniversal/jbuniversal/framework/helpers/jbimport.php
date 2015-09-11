@@ -179,6 +179,13 @@ class JBImportHelper extends AppHelper
         );
         $html['createAlias'] = $htmlHelper->_('select.genericlist', $createAliasOptions, 'createAlias');
 
+        // clean price variations
+        $cleanPriceOptions  = array(
+            $htmlHelper->_('select.option', self::OPTIONS_NO, JText::_('JBZOO_IMPORT_CLEAN_PRICE_OPTION_NO')),
+            $htmlHelper->_('select.option', self::OPTIONS_YES, JText::_('JBZOO_IMPORT_CLEAN_PRICE_OPTION_YES')),
+        );
+        $html['cleanPrice'] = $htmlHelper->_('select.genericlist', $cleanPriceOptions, 'cleanPrice');
+
         return $html;
     }
 
@@ -269,6 +276,7 @@ class JBImportHelper extends AppHelper
 
     /**
      * Create fields control for category
+     * @return mixed
      */
     protected function _createCategoriesControl()
     {

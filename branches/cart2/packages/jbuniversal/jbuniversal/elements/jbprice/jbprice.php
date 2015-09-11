@@ -1309,6 +1309,16 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     {
         return md5(serialize((array)$data));
     }
+
+    /**
+     *
+     */
+    public function cleanVariations()
+    {
+        $this->set('variations', array());
+        $this->set('selected', array());
+        $this->set('values', array());
+    }
 }
 
 /**
