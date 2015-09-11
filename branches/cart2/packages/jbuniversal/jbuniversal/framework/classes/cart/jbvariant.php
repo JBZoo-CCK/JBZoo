@@ -380,17 +380,34 @@ class JBCartVariant extends ArrayObject
 
     /**
      * Get data from all elements
+     * @param null $isOverlay
      * @return array
      */
-    public function data()
+    public function data($isOverlay = null)
     {
         $elements = $this->isBasic() ? $this->getCore() : $this->all();
-        return array_filter(array_map(function ($element) {
+        $result   = array_filter(array_map(function ($element) {
             $value = JString::trim($element->getValue(true));
 
             return (!empty($value) || $value == '0') ? (array)$element->data() : null;
         }, $elements));
+
+        // hack for unique props
+        if ($isOverlay === true) {
+            $isFound = 0;
+            foreach ($result as $key => $item) {
+                if (strpos($key, '_') !== 0) {
+                    if ($isFound != 0) {
+                        unset($result[$key]);
+                    }
+                    $isFound++;
+                }
+            }
+        }
+
+        return $result;
     }
+
 
     /**
      * @param array $options

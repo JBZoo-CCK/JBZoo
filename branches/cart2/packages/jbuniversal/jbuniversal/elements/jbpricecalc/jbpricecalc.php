@@ -339,7 +339,7 @@ class ElementJBPriceCalc extends ElementJBPrice
             $selected   = (array)$data->get('selected', array());
             $variations = (array)$data->get('variations', array());
 
-            $variations[$variant->getId()] = $variant->data();
+            $variations[$variant->getId()] = $variant->data(true);
 
             if (!$variant->isBasic()) {
                 $values[$variant->getId()] = array_filter(array_map(create_function('$element',
