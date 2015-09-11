@@ -914,7 +914,6 @@ class JBCartOrder
                             'alt'   => $cartItem->get('item_name'),
                             'title' => $cartItem->get('item_name'),
                         )) . ' />';
-
                 }
             }
 
@@ -925,11 +924,11 @@ class JBCartOrder
                         'title' => $cartItem->get('item_name'),
                     )) . '>%obj%</a>';
 
-                if ((int)$params->get('item_link', 1)) {
+                if ((int)$params->get('item_link', 1) && $cartItem->get('item_name')) {
                     $itemHtml['name'] = str_replace(array('%class%', '%obj%'), array('jbcart-item-name', $cartItem->get('item_name')), $urlTmpl);
                 }
 
-                if ((int)$params->get('image_link', 1)) {
+                if ((int)$params->get('image_link', 1) && $itemHtml['image']) {
                     $itemHtml['image'] = str_replace(array('%class%', '%obj%'), array('jbcart-item-image-url', $itemHtml['image']), $urlTmpl);
                 }
 
