@@ -341,6 +341,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      */
     public function getList($data = array(), $options = array())
     {
+
         $data    = (array)$data;
         $hasData = !empty($data);
 
@@ -367,9 +368,8 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
             $this->createList($data, $options);
 
-            if($this->_template === null)
-            {
-                $this->clearList();
+            if ($this->_template === null) {
+                //$this->clearList(); // fatal on edit and submission
             }
         }
 
