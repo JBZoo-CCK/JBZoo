@@ -132,7 +132,7 @@ class JBDatabaseQuery
 
     /**
      * Concatenates an array of column names or values.
-     * @param   array $values An array of values to concatenate.
+     * @param   array  $values    An array of values to concatenate.
      * @param   string $separator As separator to place between each value.
      * @return  string
      */
@@ -153,9 +153,9 @@ class JBDatabaseQuery
 
     /**
      * Where conditions
-     * @param string $conditions
+     * @param string         $conditions
      * @param boolean|string $value
-     * @param string $logic
+     * @param string         $logic
      * @return JBDatabaseQuery
      */
     public function where($conditions, $value = null, $logic = 'AND')
@@ -281,8 +281,8 @@ class JBDatabaseQuery
 
     /**
      * Method to escape a string for usage in an SQL statement.
-     * @param   string $text The string to be escaped.
-     * @param   bool $extra Optional parameter to provide extra escaping.
+     * @param   string $text  The string to be escaped.
+     * @param   bool   $extra Optional parameter to provide extra escaping.
      * @return  string  The escaped string.
      */
     public function escape($text, $extra = false)
@@ -325,9 +325,9 @@ class JBDatabaseQuery
 
     /**
      * A conditions to the HAVING clause of the query.
-     * @param string $conditions
+     * @param string         $conditions
      * @param boolean|string $value
-     * @param string $logic
+     * @param string         $logic
      * @return JBDatabaseQuery
      */
     public function having($conditions, $value = null, $logic = 'AND')
@@ -387,7 +387,7 @@ class JBDatabaseQuery
 
     /**
      * Add a JOIN clause to the query.
-     * @param   string $type The type of join. This string is prepended to the JOIN keyword.
+     * @param   string $type       The type of join. This string is prepended to the JOIN keyword.
      * @param   string $conditions A string or array of conditions.
      * @return  JBDatabaseQuery  Returns this object to allow chaining.
      */
@@ -469,8 +469,8 @@ class JBDatabaseQuery
 
     /**
      * Method to quote and optionally escape a string to database requirements for insertion into the database.
-     * @param   string $text The string to quote.
-     * @param   bool $escape True to escape the string, false to leave it unchanged.
+     * @param   string $text   The string to quote.
+     * @param   bool   $escape True to escape the string, false to leave it unchanged.
      * @return  string  The quoted input string.
      */
     public function quote($text, $escape = true)
@@ -530,7 +530,7 @@ class JBDatabaseQuery
     /**
      * Add a single condition string, or an array of strings to the SET clause of the query.
      * @param mixed $conditions A string or array of conditions.
-     * @param null $value Value foe set
+     * @param null  $value      Value foe set
      * @return JBDatabaseQuery
      */
     public function set($conditions, $value = null)
@@ -565,7 +565,7 @@ class JBDatabaseQuery
     /**
      * Adds a tuple, or array of tuples that would be used as values for an INSERT INTO statement.
      * @param string $column A single tuple, or array of tuples.
-     * @param string $value Value for insert
+     * @param string $value  Value for insert
      * @return JBDatabaseQuery
      */
     function values($column, $value)
@@ -584,7 +584,7 @@ class JBDatabaseQuery
 
     /**
      * Clear and
-     * @param string $conditions
+     * @param string      $conditions
      * @param null|string $value
      * @return string
      */
@@ -614,6 +614,11 @@ class JBDatabaseQuery
                 break;
 
             case 'select':
+
+                if (is_null($this->select)) {
+                    $this->select = '*';
+                }
+
                 $query .= (string)$this->select;
                 $query .= (string)$this->from;
 
