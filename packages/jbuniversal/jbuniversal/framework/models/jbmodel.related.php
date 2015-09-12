@@ -177,7 +177,7 @@ class JBModelRelated extends JBModel
             $union = '(' . implode(') UNION ALL (', $selects) . ')';
 
             $allSelect = $this->_getSelect()
-                ->select('tAll.id ')
+                ->select('tAll.id')
                 ->select('COUNT(tAll.id) AS count')
                 ->from('(' . $union . ') AS tAll')
                 ->group('tAll.id')
