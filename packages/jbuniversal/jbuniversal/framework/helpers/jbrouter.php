@@ -486,8 +486,12 @@ class JBRouterHelper extends AppHelper
      * @param Item $item
      * @return string
      */
-    public function adminItem(Item $item)
+    public function adminItem($item)
     {
+        if (empty($item)) {
+            return null;
+        }
+
         $linkParams = array(
             'option'     => $this->app->component->self->name,
             'controller' => 'item',
