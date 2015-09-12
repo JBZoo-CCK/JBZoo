@@ -168,9 +168,11 @@ class JBCSVCategory
 
             $list = explode(';', $string);
             foreach ($list as $item) {
-                list($key, $value) = explode(':', $item);
-                $key          = strtolower($key);
-                $result[$key] = str_replace($from, $to, $value);
+                if (strpos($item, ':')) {
+                    list($key, $value) = explode(':', $item);
+                    $key          = strtolower($key);
+                    $result[$key] = str_replace($from, $to, $value);
+                }
             }
         }
 
