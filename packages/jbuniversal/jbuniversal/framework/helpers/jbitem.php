@@ -51,9 +51,9 @@ class JBItemHelper extends AppHelper
      * @param bool $isLink
      * @return string|null
      */
-    public function renderImageFromItem(Item $item, $elementId, $isLink = false)
+    public function renderImageFromItem($item, $elementId, $isLink = false)
     {
-        if (empty($elementId)) {
+        if (empty($elementId) || empty($item)) {
             return null;
         }
 
@@ -93,4 +93,5 @@ class JBItemHelper extends AppHelper
 
         return null;
     }
+
 }
