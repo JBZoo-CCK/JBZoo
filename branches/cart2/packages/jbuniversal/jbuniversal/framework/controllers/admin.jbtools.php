@@ -154,4 +154,99 @@ class JBToolsJBUniversalController extends JBUniversalController
         }
     }
 
+    /**
+     * Migrate page
+     */
+    public function migrate()
+    {
+        $this->renderView();
+    }
+
+    /**
+     * Migrate steps page
+     */
+    public function migrateSteps()
+    {
+        $formData = $this->app->data->create($this->app->jbrequest->getAdminForm());
+        $this->app->jbmigrate->prepare($formData);
+
+        $this->renderView();
+    }
+
+    /**
+     * Migrate steps page
+     */
+    public function migrateAjax()
+    {
+        /**
+         * @var JBMigrateHelper      $migrate
+         * @var JBMigrateOrderHelper $migrateorder
+         * @var JBMigrateCartHelper  $migratecart
+         * @var JBMigratePriceHelper $migrateprice
+         */
+        $migrate      = $this->app->jbmigrate;
+        $migrateorder = $this->app->jbmigrateorder;
+        $migratecart  = $this->app->jbmigratecart;
+        $migrateprice = $this->app->jbmigrateprice;
+
+        $isPost  = $this->app->jbrequest->isPost();
+        $curStep = $this->app->jbrequest->get('page', 0) + 1;
+        $params  = $migrate->getParams();
+
+        $progress = $curStep / $params->find('steps.steps', 1) * 100;
+        $progress = $progress > 100 ? 100 : round($progress, 1);
+
+        if ($isPost) {
+
+            if ($curStep == 1) {
+                if ($params->get('cart_basic', 0)) {
+                    $migratecart->basic();
+                }
+
+                if ($params->get('cart_form', 0)) {
+                    $migratecart->formFields();
+                }
+
+                if ($params->get('cart_notificaction', 0)) {
+                    $migratecart->notificaction();
+                }
+
+                if ($params->get('cart_minimalsum', 0)) {
+                    $migratecart->minimalsum();
+                }
+
+                if ($params->get('cart_payments', 0)) {
+                    $migratecart->payments();
+                }
+
+                $this->app->jbajax->send(array('nextStep' => '2', 'progress' => $progress));
+            }
+
+            if ($params->get('prices_enable') && $curStep == 3) {
+                $prices       = $migrateprice->getPriceList($params->get('prices_types'));
+                $priceConfigs = $migrateprice->extractPriceData($prices);
+
+                $price = $migrateprice->createPrice($priceConfigs->get('price', array()));
+                $priceConfigs->set('price', $price);
+
+                $priceElements = $migrateprice->createPriceElements($priceConfigs->get('price', array()));
+                $migrate->setParams('elements', $priceElements);
+
+                $this->app->jbajax->send(array('nextStep' => '4', 'progress' => $progress));
+            }
+
+            if ($newStep = $migrateorder->convertItems($curStep)) {
+                $this->app->jbajax->send(array('nextStep' => $newStep, 'progress' => $progress));
+            }
+
+            if ($newStep = $migrateprice->convertItems($curStep)) {
+                $this->app->jbajax->send(array('nextStep' => $newStep, 'progress' => $progress));
+            }
+
+            $this->app->jbajax->send(array('nextStep' => 'stop', 'progress' => 100));
+        }
+
+        $this->app->jbajax->send(array('nextStep' => 'stop', 'progress' => 100));
+    }
+
 }

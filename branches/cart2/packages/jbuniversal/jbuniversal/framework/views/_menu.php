@@ -31,7 +31,6 @@ if (defined('JBZOO_DISPATCHED')) {
     $jbmenu->addItem($tab, array('controller' => 'jbtools'));
     $jbmenu->addItem($tab, array('controller' => 'jbconfig'));
     $jbmenu->addItem($tab, array('controller' => 'jbinfo'));
-    //$jbmenu->addItem($tab, array('controller' => 'jbmigrate'));
 }
 
 // render menu

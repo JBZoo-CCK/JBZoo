@@ -18,345 +18,274 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBMigrateHelper extends AppHelper
 {
-    /**
-     * Type of price to create
-     * @type string
-     */
-    protected $_type = 'jbpriceplain';
+
+    const STEP_SIZE = 10;
 
     /**
-     * @type JBCartElementHelper
+     * @var array
      */
-    protected $_element;
+    protected $_elementMap = array(
+        'text'     => '0.value',
+        'textarea' => '0.value',
+        'option'   => 'options',
+        'file'     => 'file',
+    );
 
     /**
-     * @type JBCartPositionHelper
+     * @var AppData
      */
-    protected $_position;
+    protected $_cartConfig = null;
 
-    /** Class constructor
-     *
-     * @param App $app A reference to an App Object
+    /**
+     * @var AppData
+     */
+    protected $_params = null;
+
+    /**
+     * @var JBSessionHelper
+     */
+    protected $_session = null;
+
+    /**
+     * @param App $app
      */
     public function __construct($app)
     {
         parent::__construct($app);
-
-        $this->_element  = $this->app->jbcartelement;
-        $this->_position = $this->app->jbcartposition;
+        $this->_session = $this->app->jbsession;
     }
 
     /**
-     * @param $type
-     * @param $data
-     * @return mixed
+     * @param AppData $params
      */
-    public function create($type, $data)
+    public function prepare($params)
     {
-        $method = 'create' . $type;
-        if (method_exists($this, $method)) {
-            return call_user_func(array($this, $method), $data);
+        $cartParameters = array();
+        if ($application = $this->getCartApp()) {
+            $cartParameters = $application->params->find('global.jbzoo_cart_config.', array());
         }
 
-        return false;
+        $params['steps'] = $this->getStepsInfo();
+
+        $this->_session->clearGroup('migration');
+        $this->_session->set('params', (array)$params, 'migration');
+        $this->_session->set('oldConfig', (array)$cartParameters, 'migration');
     }
 
     /**
-     * @param $list
-     * @return bool
+     * @return AppData
      */
-    public function createCurrency($list)
+    public function getOldConfig()
     {
-        $jbMoney = $this->app->jbmoney;
-        $params  = $this->_position->loadParams(JBCart::CONFIG_CURRENCIES, false, false);
+        return $this->app->data->create($this->_session->get('oldConfig', 'migration'));
+    }
 
-        $position = $params->get(JBCart::DEFAULT_POSITION);
-        $isModify = false;
+    /**
+     * @return AppData
+     */
+    public function getParams()
+    {
+        return $this->app->data->create($this->_session->get('params', 'migration', array()));
+    }
 
-        foreach ($list as $currency) {
-            if (!$jbMoney->checkCurrency($currency)) {
-                $isModify = true;
-                $element  = $this->_element->create('cbr', 'currency');
-                $config   = $element->getFormat();
+    /**
+     * @return AppData
+     */
+    public function setParams($key, $value)
+    {
+        $params = $this->getParams();
+        $params->set($key, $value);
 
-                $element->identifier  = $this->app->utility->generateUUID();
-                $config['identifier'] = $element->identifier;
+        $params = $this->app->jbarray->mapRecursive(function ($value) {
 
-                $config['name']  = $currency;
-                $config['code']  = $currency;
-                $config['type']  = $element->getElementType();
-                $config['group'] = $element->getElementGroup();
-
-                $element->setConfig($config);
-                $position[$element->identifier] = (array)$element->config;
+            if (is_array($value) || $value instanceof AppData) {
+                $value = (array)$value;
             }
-        }
-        if ($isModify) {
-            $params->set(JBCart::DEFAULT_POSITION, $position);
-            $this->_position->save(JBCart::CONFIG_CURRENCIES, (array)$params);
-        }
 
-        return $isModify;
+            return $value;
+
+        }, $params);
+
+        $this->_session->set('params', (array)$params, 'migration');
     }
 
     /**
-     * @param  $list
+     * @return string
+     */
+    public function getCurrency()
+    {
+        return strtolower($this->getOldConfig()->get('currency', 'eur'));
+    }
+
+    /**
+     * @return AppData
+     */
+    public function getRobokassa()
+    {
+        return $this->app->data->create(array(
+            'robox-enabled'   => $this->getOldConfig()->get('robox-enabled', 0),
+            'robox-debug'     => $this->getOldConfig()->get('robox-debug'),
+            'robox-login'     => $this->getOldConfig()->get('robox-login'),
+            'robox-password1' => $this->getOldConfig()->get('robox-password1'),
+            'robox-password2' => $this->getOldConfig()->get('robox-password2'),
+        ));
+    }
+
+    /**
+     * @return AppData
+     */
+    public function getInterkassa()
+    {
+        return $this->app->data->create(array(
+            'ikassa-enabled'  => $this->getOldConfig()->get('ikassa-enabled', 0),
+            'ikassa-new'      => $this->getOldConfig()->get('ikassa-new'),
+            'ikassa-shopid'   => $this->getOldConfig()->get('ikassa-shopid'),
+            'ikassa-key'      => $this->getOldConfig()->get('ikassa-key'),
+            'ikassa-key-test' => $this->getOldConfig()->get('ikassa-key-test'),
+        ));
+    }
+
+    /**
+     * @return AppData
+     */
+    public function getManual()
+    {
+        return $this->app->data->create(array(
+            'payment-enabled'   => $this->getOldConfig()->get('payment-enabled', 0),
+            'manual-enabled'    => $this->getOldConfig()->get('manual-enabled'),
+            'manual-title'      => $this->getOldConfig()->get('manual-title'),
+            'manual-text'       => $this->getOldConfig()->get('manual-text'),
+            'manual-message'    => $this->getOldConfig()->get('manual-message'),
+            'page-success'      => $this->getOldConfig()->get('page-success'),
+            'payment-page-fail' => $this->getOldConfig()->get('payment-page-fail'),
+        ));
+    }
+
+    /**
+     * @return AppData
+     */
+    public function getPayPal()
+    {
+        return $this->app->data->create(array(
+            'paypal-enabled' => $this->getOldConfig()->get('paypal-enabled', 0),
+            'paypal-debug'   => $this->getOldConfig()->get('paypal-debug'),
+            'paypal-email'   => $this->getOldConfig()->get('paypal-email'),
+        ));
+    }
+
+    /**
+     * @return AppData
+     */
+    public function getNotification()
+    {
+        return $this->app->data->create(array(
+            'notificaction-create'  => $this->getOldConfig()->get('notificaction-create', 0),
+            'notificaction-payment' => $this->getOldConfig()->get('notificaction-payment'),
+            'admin-email'           => $this->getOldConfig()->get('admin-email'),
+        ));
+    }
+
+    /**
+     * @return AppData
+     */
+    public function getBasic()
+    {
+        return $this->app->data->create(array(
+            'enable'       => $this->getOldConfig()->get('enable', 0),
+            'auth'         => $this->getOldConfig()->get('auth'),
+            'nopaid-order' => $this->getOldConfig()->get('nopaid-order'),
+            'currency'     => strtolower($this->getOldConfig()->get('currency', 'eur')),
+        ));
+    }
+
+    /**
+     * @return AppData
+     */
+    public function getMinimal()
+    {
+        return $this->app->data->create(array(
+            'minimal-summa' => $this->getOldConfig()->get('minimal-summa'),
+        ));
+    }
+
+    /**
+     * @return Application|null
+     */
+    public function getCartApp()
+    {
+        return $this->app->table->application->get($this->getParams()->get('app'));
+    }
+
+    /**
+     * @return Type|null
+     */
+    public function getOrderType()
+    {
+        if ($application = $this->getCartApp()) {
+            return $application->getType($this->getParams()->get('orders_type'));
+        }
+
+        return null;
+    }
+
+    /**
      * @return array
      */
-    public function createPrice($list)
+    public function getOrderFields()
     {
-        $list = (array)$list;
-        $app  = $this->app->zoo->getApplication();
+        $type        = $this->getOrderType();
+        $elemsConfig = $type->config->get('elements');
 
-        foreach ($list as $id => $price) {
-            if (!isset($price['id'])) {
+        $fieldList = array();
+        foreach ($elemsConfig as $elemId => $elemConfig) {
 
-                // load element
-                $element             = $this->app->element->create($this->_type);
-                $element->identifier = $this->app->utility->generateUUID();
+            if ($elemConfig['type'] != 'jbbasketitems' && strpos($elemId, '_') !== 0) {
 
-                $price['config']['identifier'] = $element->identifier;
-                $price['id']                   = $element->identifier;
+                $map = isset($this->_elementMap[$elemConfig['type']]) ? $this->_elementMap[$elemConfig['type']] : null;
 
-                $element->config = $price['config'];
-                $type            = $app->getType($price['type']);
-                $elements        = (array)$type->config->get('elements');
-
-                $elements[$element->identifier] = (array)$element->config;
-
-                $list[$id] = $price;
-                $type->bindElements(array('elements' => $elements))->save();
+                $elemConfig['_value_map'] = $map;
+                $fieldList[$elemId]       = $elemConfig;
             }
         }
 
-        return $list;
+        return $fieldList;
     }
 
     /**
-     * @param $list
+     * @return int
      */
-    public function createPriceElements($list)
+    public function getStepsInfo()
     {
-        $list = array_filter((array)$list);
-        $app  = $this->app->zoo->getApplication();
-
-        $jbElement = $this->_element;
-        $group     = 'price';
-        foreach ($list as $oldId => $data) {
-            $id   = $data['id'];
-            $type = $app->getType($data['type']);
-
-            $element   = $type->getElement($id);
-            $elements  = array_map(function ($config) use ($jbElement, $group, $element) {
-                if ($config && (!$element->getElement($config['identifier']))) {
-                    return $jbElement->create($config['type'], $group, $config)->config;
-                }
-
-                return false;
-            }, $data['elements']);
-            $elements  = array_filter($elements);
-            $positions = (array)$this->_position->loadParams(JBCart::CONFIG_PRICE . '.' . $id, false, false)->get(JBCart::DEFAULT_POSITION);
-
-            $positions = array_merge((array)$positions, $elements);
-
-            $this->_position->savePrice($group, array('list' => $positions), $id);
-        }
-
-        return true;
-    }
-
-    /**
-     * Return array of @see ElementJBPriceAdvance objects.
-     * @param string|array $types Can be id of item @see Type or array of ids.
-     *
-     * @return array
-     */
-    public function getPriceList($types)
-    {
-        $app     = $this->app->zoo->getApplication();
-        $objects = array();
-
-        $types = (array)$types;
-        foreach ($types as $type) {
-            $prices = (array)array_filter($app->getType($type)->getElements(), function ($element) {
-                return $element instanceof ElementJBPriceAdvance;
-            });
-
-            if ($prices) {
-                $objects = array_merge((array)$objects, $prices);
-            }
-        }
-
-        return $objects;
-    }
-
-    /**
-     * Extract needle data from deprecated price object.
-     * @param  array $prices Array of @see ElementJBPriceAdvance instances
-     * @return mixed
-     */
-    public function extractPriceData($prices)
-    {
-        $prices = (array)$prices;
-
-        $elements = array();
-        $data     = $this->app->data->create(array());
-
-        foreach ($prices as $element) {
-            $list = array_filter((array)$element->config->get('currency_list', array()));
-
-            $elements[$element->identifier] = array(
-                'elements' => $this->_extractCoreElements($element),
-                'create'   => $this->_extractSimpleElements($element),
-                'system'   => $this->_extractSystemElements($element),
-                'config'   => $this->_extractConfig($element),
-                'type'     => $element->getType()->id
-            );
-
-            if ($list) {
-                $data->set('currency_list', array_merge((array)$data->get('currency_list', array()), $list));
-            }
-        }
-        $data->set('price', $elements);
-
-        return $data;
-    }
-
-    /**
-     * @param  ElementJBPriceAdvance $element
-     * @return array
-     */
-    protected function _extractConfig($element)
-    {
-        return array(
-            'name'          => $element->config->get('name', ''),
-            'description'   => $element->config->get('description', ''),
-            'access'        => $element->config->get('access'),
-            'cache'         => (int)$element->config->get('cache', 1),
-            'only_selected' => (int)$element->config->get('adv_all_exists_show', 1),
-            'type'          => $this->_type
-        );
-    }
-
-    /**
-     * @param  ElementJBPriceAdvance $element
-     * @return array
-     */
-    protected function _extractCoreElements($element)
-    {
-        $config = $element->config;
-
-        $elements = array(
-            'value'   => array(
-                'name'        => JText::_('JBZOO_ELEMENT_PRICE_VALUE_NAME'),
-                'description' => '',
-                'access'      => $element->config->get('access'),
-                'type'        => 'value',
-                'group'       => 'price',
-                'identifier'  => '_value'
-            ),
-            'sku'     => array(
-                'name'        => JText::_('JBZOO_ELEMENT_PRICE_SKU_NAME'),
-                'description' => '',
-                'access'      => $element->config->get('access'),
-                'type'        => 'sku',
-                'group'       => 'price',
-                'identifier'  => '_sku'
-            ),
-            'balance' => array(
-                'name'        => JText::_('JBZOO_ELEMENT_PRICE_BALANCE_NAME'),
-                'description' => '',
-                'access'      => $element->config->get('access'),
-                'usestock'    => (int)$config->get('balance_mode', 1),
-                'type'        => 'balance',
-                'group'       => 'price',
-                'identifier'  => '_balance'
-            )
+        $result = array(
+            'step'         => self::STEP_SIZE,
+            'system_steps' => 1,
+            'steps'        => 0,
+            'orders'       => 0,
+            'items'        => 0,
         );
 
-        if (!empty($config['adv_field_text']) && ((int)$config['adv_field_text'] !== 3)) {
-            $elements['description'] = array(
-                'name'        => JText::_('JBZOO_ELEMENT_PRICE_DESCRIPTION_NAME'),
-                'description' => '',
-                'access'      => $element->config->get('access'),
-                'type'        => 'description',
-                'group'       => 'price',
-                'identifier'  => '_description'
-            );
-        }
-        if ($elements['balance']['usestock']) {
-            $elements['hook'] = array();
+        $params     = $this->getParams();
+        $modelItems = JBModelItem::model();
+
+        if ($params->get('prices_enable')) {
+            $result['system_steps']++;
         }
 
-        return $elements;
+        if ($params->get('orders_enable', 0)) {
+            $result['orders']       = $modelItems->getTotal($params->get('app'), $params->get('orders_type'));
+            $result['orders_steps'] = ceil($result['orders'] / $result['step']);
+        }
+
+        if ($params->get('prices_enable', 0)) {
+            $result['items']       = $modelItems->getTotal($params->get('prices_app'), $params->get('prices_types'));
+            $result['items_steps'] = ceil($result['items'] / $result['step']);
+        }
+
+        $result['total'] = $result['items'] + $result['orders'];
+        $result['steps'] += ceil($result['total'] / $result['step']);
+        $result['steps'] += $result['system_steps'];
+
+        return $result;
     }
-
-    /**
-     * @param $element
-     * @return array
-     */
-    protected function _extractSystemElements($element)
-    {
-        $config = $element->config;
-
-        return array(
-            'quantity' => array(
-                'name'        => JText::_('JBZOO_ELEMENT_PRICE_QUANTITY_NAME'),
-                'description' => '',
-                'access'      => $element->config->get('access'),
-                'default'     => (float)$config->get('quantity_default', 1),
-                'min'         => (float)$config->get('quantity_min', 1),
-                'step'        => (float)$config->get('quantity_step', 1),
-                'decimals'    => (float)$config->get('quantity_decimals', 1),
-                'type'        => 'quantity',
-                'group'       => 'price',
-                'identifier'  => '_quantity'
-            ),
-            'currency' => array(
-                'name'        => JText::_('JBZOO_ELEMENT_PRICE_CURRENCY_NAME'),
-                'description' => '',
-                'access'      => $element->config->get('access'),
-                'default'     => $config->get('currency_default'),
-                'list'        => $config->get('currency_list'),
-                'type'        => 'currency',
-                'group'       => 'price',
-                'identifier'  => '_currency'
-            )
-        );
-    }
-
-    /**
-     * @param  ElementJBPriceAdvance $element
-     * @return array
-     */
-    protected function _extractSimpleElements($element)
-    {
-        /**
-         * @type Type    $type
-         * @type AppData $config
-         **/
-        $config = $element->config;
-        $type   = $element->getType();
-        $types  = array();
-
-        if (!empty($config['adv_field_param_1'])) {
-            $types[] = $type->getElementConfig($config->get('adv_field_param_1'))->get('type');
-        }
-
-        if (!empty($config['adv_field_param_2'])) {
-            $types[] = $type->getElementConfig($config->get('adv_field_param_2'))->get('type');
-        }
-
-        if (!empty($config['adv_field_param_3'])) {
-            $types[] = $type->getElementConfig($config->get('adv_field_param_3'))->get('type');
-        }
-
-        if (!empty($config['adv_field_text']) && (int)$config['adv_field_text'] === 3) {
-            $types[] = 'text';
-        }
-
-        return $types;
-    }
-
 
 }
