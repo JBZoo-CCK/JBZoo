@@ -122,8 +122,6 @@ class JBArrayHelper extends AppHelper
     }
 
     /**
-     * Borrowed from Yii Framework.
-     *
      * Returns the values of a specified column in an array.
      * The input array should be multidimensional or an array of objects.
      *
@@ -166,8 +164,6 @@ class JBArrayHelper extends AppHelper
     }
 
     /**
-     * Borrowed from Yii Framework.
-     *
      * Retrieves the value of an array element or object property with the given key or property name.
      * If the key does not exist in the array or object, the default value will be returned instead.
      *
@@ -222,8 +218,6 @@ class JBArrayHelper extends AppHelper
     }
 
     /**
-     * Borrowed from Yii Framework.
-     *
      * Indexes an array according to a specified key.
      * The input array should be multidimensional or an array of objects.
      *
@@ -268,8 +262,6 @@ class JBArrayHelper extends AppHelper
     }
 
     /**
-     * Borrowed from Yii Framework.
-     *
      * Builds a map (key-value pairs) from a multidimensional array or an array of objects.
      * The `$from` and `$to` parameters specify the key names or property names to set up the map.
      * Optionally, one can further group the map according to a grouping field `$group`.
