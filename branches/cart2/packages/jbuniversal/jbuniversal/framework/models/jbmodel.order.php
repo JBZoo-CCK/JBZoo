@@ -73,9 +73,10 @@ class JBModelOrder extends JBModel
 
     /**
      * @param JBCartOrder $order
-     * @return mixed
+     * @param bool|false  $silentMode
+     * @return int|mixed
      */
-    public function save(JBCartOrder $order)
+    public function save(JBCartOrder $order, $silentMode = false)
     {
         $this->app->jbtables->checkOrder();
 
@@ -83,8 +84,11 @@ class JBModelOrder extends JBModel
         $params     = $order->getParams();
         $params->set(JBCart::CONFIG_CURRENCIES, $currencies);
 
-        $cartConfig = JBModelConfig::model()->getGroup('cart.config');
-        $params->set('config', $cartConfig->getArrayCopy());
+        $cartConfig = $order->params->find('config');
+        if (!$cartConfig) {
+            $cartConfig = JBModelConfig::model()->getGroup('cart.config');
+        }
+        $params->set('config', (array)$cartConfig);
 
         $total = $order->getTotalSum()->data();
 
@@ -112,25 +116,31 @@ class JBModelOrder extends JBModel
             $data['payment'] = $payment->data();
         }
 
-        $this->app->jbevent->fire($order, 'basket:beforeSave');
+        if (!$silentMode) {
+            $this->app->jbevent->fire($order, 'basket:beforeSave');
+        }
 
-        if (!$data['id']) {
+        if ($data['id'] <= 0) {
 
+            unset($data['id']);
             $order->id = $this->_insert($data, ZOO_TABLE_JBZOO_ORDER);
 
             //TODO hardcoded
             $order->setItemsData((string)$data['items']);
-            $this->app->jbevent->fire($order, 'basket:saved');
+            if (!$silentMode) {
+                $this->app->jbevent->fire($order, 'basket:saved');
+            }
 
         } else {
 
             $data['modified'] = $this->app->jbdate->toMySql();
             $this->_update($data, ZOO_TABLE_JBZOO_ORDER);
-            $this->app->jbevent->fire($order, 'basket:updated');
-
+            if (!$silentMode) {
+                $this->app->jbevent->fire($order, 'basket:updated');
+            }
         }
 
-        if ($order->id) {
+        if ($order->id && !$silentMode) {
             $this->app->jbevent->fire($order, 'basket:afterSave');
         }
 
@@ -196,7 +206,7 @@ class JBModelOrder extends JBModel
             ->select(array(
                 'tOrder.created_by AS created_by',
                 'tUsers.id AS user_id',
-                'tUsers.name AS user_name'
+                'tUsers.name AS user_name',
             ))
             ->leftJoin('#__users AS tUsers ON tUsers.id = tOrder.created_by')
             ->from(ZOO_TABLE_JBZOO_ORDER, 'tOrder')
@@ -310,7 +320,7 @@ class JBModelOrder extends JBModel
                 'YEAR(tOrder.created) AS year',
                 'MONTH(tOrder.created) AS month',
                 'DAY(tOrder.created) AS day',
-                'DATE_FORMAT(tOrder.created, "%Y-%m-%d") AS date'
+                'DATE_FORMAT(tOrder.created, "%Y-%m-%d") AS date',
             ))
             ->from(ZOO_TABLE_JBZOO_ORDER, 'tOrder')
             ->where("YEAR(tOrder.created) = YEAR(CURDATE())")
