@@ -133,7 +133,6 @@ class JBModelItem extends JBModel
             $select->order($this->app->jborder->get($options->get('order', 'id'), 'tItem'));
         }
 
-        // request to DB
         $rows = $this->_query($select);
 
         if (!empty($rows)) {
@@ -409,7 +408,7 @@ class JBModelItem extends JBModel
     {
 
         $strApp   = is_array($appId) ? 'tItem.application_id IN (' . implode(',', $appId) . ')' : 'tItem.application_id = ' . (int)$appId;
-        $srtTypes = is_array($types) ? 'tItem.type IN ("' . implode('","', $types) . '")' : 'tItem.type = ' . $types;
+        $srtTypes = is_array($types) ? 'tItem.type IN ("' . implode('","', $types) . '")' : 'tItem.type = ' . $this->_quote($types);
 
         $select = $this->_getSelect()
             ->select('COUNT(tItem.id) AS count')
