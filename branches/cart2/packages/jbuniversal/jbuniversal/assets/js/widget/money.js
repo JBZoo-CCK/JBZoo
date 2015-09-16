@@ -30,13 +30,13 @@
             '_defaultCur'  : 'default_cur',
 
             // currenct money data
-            'currency'     : 'eur',
-            'value'        : .0,
-            'showplus'     : 0,
+            'currency': 'eur',
+            'value'   : .0,
+            'showplus': 0,
 
             init: function ($this) {
                 $this.currency = this._cleanCur(this.data('currency'));
-                $this.value = JBZoo.toFloat(this.data('value'));
+                $this.value    = JBZoo.toFloat(this.data('value'));
                 $this.showplus = this.data('showplus');
             },
 
@@ -46,11 +46,11 @@
              * @param isAnimate
              */
             convert: function (currency, isAnimate) {
-                var $this = this,
+                var $this     = this,
                     isAnimate = $this._def(isAnimate, true),
-                    currency = $this._cleanCur(currency),
-                    from = $this._getCurInfo($this.currency),
-                    to = $this._getCurInfo(currency);
+                    currency  = $this._cleanCur(currency),
+                    from      = $this._getCurInfo($this.currency),
+                    to        = $this._getCurInfo(currency);
 
                 if (currency == '%' || $this.currency == '%') {
                     return;
@@ -66,7 +66,14 @@
                     $this._update(newValue, currency);
                 }
                 $this.currency = currency;
-                $this.value = newValue;
+                $this.value    = newValue;
+            },
+
+            /**
+             * Get current value
+             */
+            getValue: function () {
+                return [this.value, this.currency]
             },
 
             /**
@@ -76,8 +83,8 @@
              */
             setValue: function (value, currency) {
 
-                var $this = this,
-                    value = JBZoo.toFloat(value),
+                var $this    = this,
+                    value    = JBZoo.toFloat(value),
                     currency = $this._cleanCur((currency || $this.currency));
 
                 $this.currency = currency;
@@ -112,8 +119,8 @@
              */
             _update: function (value, currency) {
 
-                var $this = this,
-                    format = $this._getCurInfo(currency).format,
+                var $this      = this,
+                    format     = $this._getCurInfo(currency).format,
                     isPositive = (value >= 0);
 
                 value = $this._round(currency, value);
@@ -154,21 +161,21 @@
             _round: function (currency, value) {
 
                 // TODO smart rounding
-                var $this = this,
-                    format = $this._getCurInfo(currency).format,
-                    roundType = format.round_type,
+                var $this      = this,
+                    format     = $this._getCurInfo(currency).format,
+                    roundType  = format.round_type,
                     roundValue = format.round_value;
 
                 if (roundType == 'ceil') {
                     var base = Math.pow(10, roundValue);
-                    value = Math.ceil(value * base) / base;
+                    value    = Math.ceil(value * base) / base;
 
                 } else if (roundType == 'classic') {
                     value = $this.jbzoo.round(value, roundValue);
 
                 } else if (roundType == 'floor') {
                     var base = Math.pow(10, roundValue);
-                    value = Math.floor(value * base) / base;
+                    value    = Math.floor(value * base) / base;
 
                 } else {
                     value = $this.jbzoo.round(value, $this._defaultRound);
