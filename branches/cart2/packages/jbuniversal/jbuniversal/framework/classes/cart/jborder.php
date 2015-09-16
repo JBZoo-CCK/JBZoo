@@ -303,7 +303,7 @@ class JBCartOrder
     public function setStatus($statusCode, $type = JBCart::STATUS_ORDER)
     {
         $statusCode = JString::trim($statusCode);
-        $newStatus  = $this->app->jbcartstatus->getByCode($statusCode, $type);
+        $newStatus  = $this->app->jbcartstatus->getByCode($statusCode, $type, $this);
 
         if (!$statusCode || !$newStatus) {
             return $this;
@@ -1185,8 +1185,7 @@ class JBCartOrder
 
         $elements = array();
         foreach ($dataFields as $identifier => $data) {
-            $element = $this->getModifierOrderPriceElement($identifier);
-            if ($element) {
+            if ($element = $this->getModifierOrderPriceElement($identifier)) {
                 $element->bindData($data);
                 $element->setOrder($this);
                 $element->identifier   = $identifier;
@@ -1229,7 +1228,56 @@ class JBCartOrder
     {
         $rates = (array)$this->getCurrencyList();
 
+        if ($currency === null) {
+            $currency = $this->params->find('config.migration_currency', null);
+        }
+
         return JBCart::val($data, $currency, $rates);
+    }
+
+    /**
+     * @param JBCartElementPayment $element
+     */
+    public function setPaymentElement(JBCartElementPayment $element)
+    {
+        $this->params[JBCart::CONFIG_PAYMENTS][$element->identifier]    = (array)$element->config;
+        $this->_elements[JBCart::CONFIG_PAYMENTS][$element->identifier] = $element;
+
+        $this->_payment = $element;
+    }
+
+    /**
+     * @param JBCartElementShipping $element
+     */
+    public function setShippingElement(JBCartElementShipping $element)
+    {
+        $this->params[JBCart::CONFIG_SHIPPINGS][$element->identifier]    = (array)$element->config;
+        $this->_elements[JBCart::CONFIG_SHIPPINGS][$element->identifier] = $element;
+
+        $this->_shipping = $element;
+    }
+
+    /**
+     * @param JBCartElementOrder $element
+     */
+    public function addOrderElement(JBCartElementOrder $element)
+    {
+        $this->params[JBCart::CONFIG_FIELDS][$element->identifier]         = (array)$element->config;
+        $this->_elements[JBCart::CONFIG_FIELDS][$element->identifier] = $element;
+    }
+
+    /**
+     * @param array $statList
+     */
+    public function setStatusList(array $statList)
+    {
+        foreach ($statList as $group => $elements) {
+
+            foreach ($elements as $element) {
+                $this->params[JBCart::CONFIG_STATUSES][$group][$element->identifier] = (array)$element->config;
+            }
+        }
+
     }
 
 }

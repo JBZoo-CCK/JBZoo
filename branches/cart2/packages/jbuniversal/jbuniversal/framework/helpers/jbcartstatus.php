@@ -53,17 +53,26 @@ class JBCartStatusHelper extends AppHelper
     }
 
     /**
-     * @param string $group
-     * @param bool   $asKeyValue
-     * @param bool   $addUndefined
-     *
-     * @return array
+     * @param string      $group
+     * @param bool|false  $asKeyValue
+     * @param bool|true   $addUndefined
+     * @param JBCartOrder $order
+     * @return array|mixed
      */
-    public function getList($group = JBCart::STATUS_ORDER, $asKeyValue = false, $addUndefined = true)
+    public function getList($group = JBCart::STATUS_ORDER, $asKeyValue = false, $addUndefined = true, JBCartOrder $order = null)
     {
         $this->init();
 
-        $list = $this->_lists->get($group, array());
+        /** @var AppData $statusList */
+        $statusList = $this->_lists;
+        if ($order) {
+            $statusList = $this->_getListByOrder($order);
+            if (!$statusList) {
+                $statusList = $this->_lists;
+            }
+        }
+
+        $list = $statusList->get($group, array());
 
         if (!$asKeyValue) {
             return $list;
@@ -72,10 +81,12 @@ class JBCartStatusHelper extends AppHelper
         $result = array();
 
         if ($addUndefined) {
-            $und                     = $this->getUndefined();
+            $und = $this->getUndefined();
+
             $result[$und->getCode()] = $und->getName();
         }
 
+        /** @var JBCartElementStatus $element */
         foreach ($list as $element) {
             $result[$element->getCode()] = $element->getName();
         }
@@ -84,14 +95,14 @@ class JBCartStatusHelper extends AppHelper
     }
 
     /**
-     * @param        $code
-     * @param string $group
-     *
+     * @param string      $code
+     * @param string      $group
+     * @param JBCartOrder $order
      * @return null
      */
-    public function getByCode($code, $group = JBCart::STATUS_ORDER)
+    public function getByCode($code, $group = JBCart::STATUS_ORDER, JBCartOrder $order = null)
     {
-        $list = $this->getList($group);
+        $list = $this->getList($group, false, true, $order);
 
         if (isset($list[$code])) {
             return clone($list[$code]);
@@ -102,12 +113,11 @@ class JBCartStatusHelper extends AppHelper
 
     /**
      * Get exists status list
-     *
-     * @param string $group
-     *
+     * @param string      $group
+     * @param JBCartOrder $order
      * @return array
      */
-    public function getExistsList($group = JBCart::STATUS_ORDER)
+    public function getExistsList($group = JBCart::STATUS_ORDER, JBCartOrder $order = null)
     {
         $rows = JBModelOrder::model()->getStatusList($group);
 
@@ -115,7 +125,7 @@ class JBCartStatusHelper extends AppHelper
 
         if (!empty($rows)) {
             foreach ($rows as $row) {
-                if ($element = $this->getByCode($row->status)) {
+                if ($element = $this->getByCode($row->status, JBCart::STATUS_ORDER, $order)) {
                     $result[$row->status] = $element->getName();
                 } else {
                     $result[$row->status] = $row->status;
@@ -132,14 +142,46 @@ class JBCartStatusHelper extends AppHelper
      */
     public function getUndefined()
     {
-        $configs = array(
+        $status = $this->app->jbcartelement->create('custom', JBCart::ELEMENT_TYPE_STATUS, array(
             'code' => self::UNDEFINED,
-            'name' => JText::_('JBZOO_STATUS_UNDEFINED')
-        );
-
-        $status = $this->app->jbcartelement->create('custom', JBCart::ELEMENT_TYPE_STATUS, $configs);
+            'name' => JText::_('JBZOO_STATUS_UNDEFINED'),
+        ));
 
         return $status;
+    }
+
+    /**
+     * @param JBCartOrder $order
+     * @return AppData|null
+     */
+    protected function _getListByOrder(JBCartOrder $order)
+    {
+        if (!$order || !$order->params) {
+            return null;
+        }
+
+        $paramList = $order->params->find('status');
+
+        /** @var JBCartElementHelper $jbelement */
+        $jbelement = $this->app->jbcartelement;
+
+        $result = array();
+
+        if (is_array($paramList) && count($paramList) > 0) {
+            foreach ($paramList as $key => $groups) {
+                foreach ($groups as $group => $config) {
+                    $result[$key][$config['code']] = $jbelement->create('custom', JBCart::ELEMENT_TYPE_STATUS, array(
+                        'name'       => $config['name'],
+                        'code'       => $config['code'],
+                        'identifier' => $config['identifier'],
+                    ));
+                }
+            }
+
+            return $this->app->data->create($result);
+        }
+
+        return null;
     }
 
 }
