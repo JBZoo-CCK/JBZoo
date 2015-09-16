@@ -617,7 +617,7 @@ abstract class JBCartElement
                     'required' => (int)$params->get('required'),
                     'trim'     => true,
                 ))
-                ->clean($value->get('value'))
+                ->clean($value->get('value')),
         );
     }
 
@@ -698,6 +698,20 @@ abstract class JBCartElement
     {
         return $this->app->jbhtml->buildAttrs($attrs);
     }
+
+    /**
+     * @param string $positon
+     */
+    public function saveConfig($positon = JBCart::DEFAULT_POSITION)
+    {
+        $config = JBModelConfig::model();
+        $list   = $config->getGroup('cart.' . $this->getElementGroup());
+
+        $list[$positon][$this->identifier] = (array)$this->config;
+
+        $config->setGroup('cart.' . $this->getElementGroup(), $list);
+    }
+
 }
 
 /**
