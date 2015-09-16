@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+-->
+<form>
+    <fields>
+        <fieldset name="custom" label="JBZOO_MIGRATE_CUSTOM_CONFIG"
+                  addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+            <field type="jbapplist"
+                   default="0"
+                   name="app"
+                   label="JBZOO_MIGRATE_APP"
+                   description="JBZOO_MIGRATE_APP_DESC"/>
+
+            <field type="jbtype"
+                   multiple="0"
+                   default="order"
+                   name="orders_type"
+                   label="JBZOO_MIGRATE_ORDERS_TYPE"
+                   description="JBZOO_MIGRATE_ORDERS_TYPE_DESC"/>
+        </fieldset>
+
+
+        <fieldset name="cart" label="JBZOO_MIGRATE_CART_CONFIG">
+            <field type="jbbool"
+                   default="0"
+                   name="cart_basic"
+                   label="JBZOO_MIGRATE_CART_BASIC"
+                   description="JBZOO_MIGRATE_CART_BASIC_DESC"/>
+
+            <field type="jbbool"
+                   default="0"
+                   name="cart_form"
+                   label="JBZOO_MIGRATE_CART_FORM"
+                   description="JBZOO_MIGRATE_CART_FORM_DESC"/>
+
+            <field type="jbbool"
+                   default="0"
+                   name="cart_notificaction"
+                   label="JBZOO_MIGRATE_CART_NOTIFICACTION"
+                   description="JBZOO_MIGRATE_CART_NOTIFICACTION_DESC"/>
+
+            <field type="jbbool"
+                   default="0"
+                   name="cart_minimalsum"
+                   label="JBZOO_MIGRATE_CART_MINIMALSUM"
+                   description="JBZOO_MIGRATE_CART_MINIMALSUM_DESC"/>
+
+            <field type="jbbool"
+                   default="0"
+                   name="cart_payments"
+                   label="JBZOO_MIGRATE_CART_PAYMENTS"
+                   description="JBZOO_MIGRATE_CART_PAYMENTS_DESC"/>
+        </fieldset>
+
+
+        <fieldset name="orders" label="JBZOO_MIGRATE_ORDERS_CONFIG">
+            <field type="jbbool"
+                   default="0"
+                   name="orders_enable"
+                   label="JBZOO_MIGRATE_ORDERS_ENABLE"
+                   description="JBZOO_MIGRATE_ORDERS_ENABLE_DESC"/>
+
+        </fieldset>
+
+
+        <fieldset name="prices" label="JBZOO_MIGRATE_PRICES_CONFIG">
+            <field type="jbbool"
+                   default="0"
+                   name="prices_enable"
+                   label="JBZOO_MIGRATE_PRICES_ENABLE"
+                   description="JBZOO_MIGRATE_PRICES_ENABLE_DESC"/>
+
+            <field type="jbapplist"
+                   name="prices_app"
+                   multiple="1"
+                   label="JBZOO_MIGRATE_PRICES_APP"
+                   description="JBZOO_MIGRATE_PRICES_APP_DESC"/>
+
+            <field type="jbtype"
+                   default="product"
+                   multiple="1"
+                   name="prices_types"
+                   label="JBZOO_MIGRATE_PRICES_TYPES"
+                   description="JBZOO_MIGRATE_PRICES_TYPES_DESC"/>
+        </fieldset>
+
+    </fields>
+</form>
