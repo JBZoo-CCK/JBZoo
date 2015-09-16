@@ -44,8 +44,8 @@ class JBOrderJBuniversalController extends JBUniversalController
         $this->filter['offset'] = $this->app->system->application->getUserStateFromRequest('jborder.limitstart', 'limitstart', 0, 'int');
 
         // order
-        $this->filter['order'] = $this->_jbrequest->get('filter_order', 'id');
-        $this->filter['order_dir']   = $this->_jbrequest->get('filter_order_Dir', 'desc');
+        $this->filter['order']     = $this->_jbrequest->get('filter_order', 'id');
+        $this->filter['order_dir'] = $this->_jbrequest->get('filter_order_Dir', 'desc');
 
         $orderModel       = JBModelOrder::model();
         $this->orderList  = $orderModel->getList($this->filter);
@@ -80,6 +80,7 @@ class JBOrderJBuniversalController extends JBUniversalController
         }
 
         $this->shipRender       = $this->app->jbrenderer->create('Shipping');
+        $this->paymentRender    = $this->app->jbrenderer->create('Payment');
         $this->shipFieldsRender = $this->app->jbrenderer->create('ShippingFields');
         $this->orderFieldRender = $this->app->jbrenderer->create('order');
 
