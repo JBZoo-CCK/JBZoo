@@ -76,10 +76,10 @@ abstract class JBCartElementPayment extends JBCartElement
 
         if (!is_object($curStatus)) {
 
-            /** @var jbcartstatusHelper $jbstatus */
+            /** @var JBCartStatusHelper $jbstatus */
             $jbstatus = $this->app->jbcartstatus;
 
-            $status = $jbstatus->getByCode($curStatus, JBCart::STATUS_PAYMENT);
+            $status = $jbstatus->getByCode($curStatus, JBCart::STATUS_PAYMENT, $this->getOrder());
             if (!empty($status)) {
                 return $status;
             }
@@ -369,6 +369,21 @@ abstract class JBCartElementPayment extends JBCartElement
         return (int)$this->config->get('modifytotal', 0);
     }
 
+    /**
+     * Render shipping in order
+     * @param  array
+     * @return bool|string
+     */
+    public function edit($params = array())
+    {
+        if ($layout = $this->getLayout('edit.php')) {
+            return self::renderLayout($layout, array(
+                'params' => $params,
+                'value'  => $this->get('value'),
+                'fields' => $this->get('fields', array()),
+            ));
+        }
+    }
 }
 
 /**
