@@ -15,8 +15,8 @@ defined('_JEXEC') or die('Restricted access');
 
 $this->app->jbassets->progressBar();
 
-$urlAjax     = $this->app->jbrouter->admin(array('task' => 'doStep'));
-$urlPostAjax = $this->app->jbrouter->admin(array('task' => 'lastStep')); ?>
+$urlPostAjax = $this->app->jbrouter->admin(array('task' => 'migrateAjax'));
+?>
 
 <div class="uk-grid">
     <div id="sidebar" class="uk-width-1-6">
@@ -25,23 +25,23 @@ $urlPostAjax = $this->app->jbrouter->admin(array('task' => 'lastStep')); ?>
 
     <div class="uk-width-4-6">
 
-        <h2><?php echo JText::_('JBZOO_JBMIGRATE_CONFIG_TITLE'); ?></h2>
+        <h2><?php echo JText::_('JBZOO_MIGRATE_CONFIG_TITLE'); ?></h2>
 
-        <p><strong><?php echo JText::_('JBZOO_JBMIGRATE_ATTENTION'); ?></strong></p>
+        <p style="color:#a00;">
+            <strong><?php echo JText::_('JBZOO_MIGRATE_STEPS_DESCRIPTION'); ?></strong>
+        </p>
 
-        <ul>
-            <li><?php echo JText::_('JBZOO_JBMIGRATE_ATTENTION_1'); ?></li>
-            <li><?php echo JText::_('JBZOO_JBMIGRATE_ATTENTION_2'); ?></li>
-            <li><?php echo JText::_('JBZOO_JBMIGRATE_ATTENTION_3'); ?></li>
-        </ul>
+        <p><?php echo JText::_('JBZOO_PROGRESSBAR_FATAL'); ?></p>
+
         <div class="jsProgressBar progress jbadminform"></div>
         <p>&nbsp;</p>
 
-        <?php echo $this->app->jbform->render('migrate_config', array(
-            'action'     => $this->app->jbrouter->admin(array('task' => 'lastStep')),
-            'showSubmit' => true,
-            'submit'     => JText::_('JBZOO_FORM_NEXT')
-        )); ?>
+        <div class="error-block jsErrorBlockWrapper" style="display: none;">
+            <hr />
+            <h3><em><?php echo JText::_('JBZOO_PROGRESSBAR_ERROR_REPORTING'); ?></em></h3>
+
+            <div class="jsErrorBlock"></div>
+        </div>
 
         <?php echo $this->partial('footer'); ?>
     </div>
@@ -59,10 +59,12 @@ $urlPostAjax = $this->app->jbrouter->admin(array('task' => 'lastStep')); ?>
             'text_start'        : "<?php echo JText::_('JBZOO_PROGRESSBAR_START');?>",
             'text_stop'         : "<?php echo JText::_('JBZOO_PROGRESSBAR_STOP');?>",
             'text_ready'        : "<?php echo JText::_('JBZOO_PROGRESSBAR_READY');?>",
-            'text_wait'         : "<?php echo JText::_('JBZOO_PROGRESSBAR_WAIT_CLEAN');?>",
-            'url'               : "<?php echo $urlAjax;?>",
+            'text_wait'         : "<?php echo JText::_('JBZOO_PROGRESSBAR_COMPLETE');?>",
+            'url'               : "<?php echo $urlPostAjax;?>",
+            'autoStart'         : true,
 
             'onRequest': function (data) {
+                dump(data);
                 $.each(data, function (key, data) {
                     $('.js-' + key).text(data);
                 });
@@ -74,20 +76,7 @@ $urlPostAjax = $this->app->jbrouter->admin(array('task' => 'lastStep')); ?>
             },
 
             'onFinal': function (callback) {
-                $('.jsLoader').show();
-                $.get(postAjax, { // TODO: replace to jbajax
-                    'nocache': (new Date()).getMilliseconds()
-                }, function () {
-                    callback();
-                    $('.jsLoader').hide();
-                    JBZoo.confirm("<?php echo JText::_('JBZOO_IMPORT_ITEMS_NEED_REINDEX'); ?>",
-                        function () {
-                            window.location.href = "<?php echo $this->app->jbrouter->admin(array(
-                                 'controller' => 'jbmigrate',
-                                 'task'       => 'do'
-                                 )); ?>";
-                        });
-                });
+                $('.jsLoader').hide();
             },
 
             'onTimer': function (data) {

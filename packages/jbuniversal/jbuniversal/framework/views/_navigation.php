@@ -41,11 +41,9 @@ $allItems = array(
             'cleandb'    => array('cleandb'),
             'checkfiles' => array('checkfileszoo'),
         ),
-        /*
         'migrate' => array(
-            'index' => array('index')
+            'migrate' => array('migrate')
         )
-        */
     ),
     'jbimport'  => array(
         'jbzoo' => array(
@@ -113,11 +111,6 @@ $allItems = array(
             'zoobackup' => array('zoobackup'),
         ),
     ),
-    'jbmigrate' => array(
-        'jbzoo' => array(
-
-        )
-    )
 );
 
 if (isset($allItems[$curMenu])) {
