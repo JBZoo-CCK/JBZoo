@@ -34,6 +34,8 @@ $urlPostAjax = $this->app->jbrouter->admin(array('task' => 'postImport', 'import
             <strong><?php echo JText::_('JBZOO_IMPORT_STEPS_DESCRIPTION'); ?></strong>
         </p>
 
+        <p><?php echo JText::_('JBZOO_PROGRESSBAR_FATAL'); ?></p>
+
         <div class="jsProgressBar progress jbadminform"></div>
 
         <div class="statistic">
