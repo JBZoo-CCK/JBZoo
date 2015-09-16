@@ -220,4 +220,44 @@ class PaymentRenderer extends PositionRenderer
     {
         return $this->_jbconfig->get(JBCart::DEFAULT_POSITION, array(), 'cart.' . JBCart::CONFIG_PAYMENTS);
     }
+
+    /**
+     * @param array $args
+     * @return string|void
+     */
+    public function renderAdminEdit($args = array())
+    {
+        $style = isset($args['style']) ? $args['style'] : null;
+
+        return $this->render('edit.list', array(
+            'order' => $args['order'],
+            'style' => $style,
+        ));
+    }
+
+    /**
+     * @param $args
+     * @return string
+     */
+    public function renderAdminPosition($args = array())
+    {
+        // init vars
+        $layout = $this->_layout;
+        $style  = isset($args['style']) ? $args['style'] : 'adminedit';
+
+        $this->_order = isset($args['order']) ? $args['order'] : $this->_order;
+
+        if ($payment = $this->_order->getPayment()) {
+
+            $output = parent::render('element.' . $style, array(
+                'element' => $payment,
+                'params'  => $args,
+            ));
+
+            // restore layout
+            $this->_layout = $layout;
+
+            return $output;
+        }
+    }
 }
