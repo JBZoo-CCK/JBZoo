@@ -121,7 +121,7 @@ class JBCartJBUniversalController extends JBUniversalController
     {
         $this->groupList = $this->_element->getGroups(array(
             JBCart::ELEMENT_TYPE_NOTIFICATION,
-            JBCart::ELEMENT_TYPE_HOOK
+            JBCart::ELEMENT_TYPE_HOOK,
         ));
 
         $this->positions = $this->_position->loadPositions(JBCart::CONFIG_NOTIFICATION, $this->app->jbevent->getEventsName());
@@ -135,11 +135,11 @@ class JBCartJBUniversalController extends JBUniversalController
     public function modifierItemPrice()
     {
         $this->groupList = $this->_element->getGroups(array(
-            JBCart::ELEMENT_TYPE_MODIFIER_ITEM_PRICE
+            JBCart::ELEMENT_TYPE_MODIFIER_ITEM_PRICE,
         ));
 
         $this->positions = $this->_position->loadPositions(JBCart::CONFIG_MODIFIER_ITEM_PRICE, array(
-            JBCart::DEFAULT_POSITION
+            JBCart::DEFAULT_POSITION,
         ));
 
         $this->groupKey = JBCart::CONFIG_MODIFIER_ITEM_PRICE;
@@ -152,11 +152,11 @@ class JBCartJBUniversalController extends JBUniversalController
     public function modifierOrderPrice()
     {
         $this->groupList = $this->_element->getGroups(array(
-            JBCart::ELEMENT_TYPE_MODIFIER_ORDER_PRICE
+            JBCart::ELEMENT_TYPE_MODIFIER_ORDER_PRICE,
         ));
 
         $this->positions = $this->_position->loadPositions(JBCart::CONFIG_MODIFIER_ORDER_PRICE, array(
-            JBCart::DEFAULT_POSITION
+            JBCart::DEFAULT_POSITION,
         ));
 
         $this->groupKey = JBCart::CONFIG_MODIFIER_ORDER_PRICE;
@@ -224,9 +224,10 @@ class JBCartJBUniversalController extends JBUniversalController
     {
         $this->groupList = $this->_element->getGroups(array(
             JBCart::ELEMENT_TYPE_NOTIFICATION,
-            JBCart::ELEMENT_TYPE_HOOK
+            JBCart::ELEMENT_TYPE_HOOK,
         ));
 
+        /** @var JBCartStatusHelper $jbstatus */
         $jbstatus = $this->app->jbcartstatus;
 
         $statusGroups = array(
@@ -244,8 +245,8 @@ class JBCartJBUniversalController extends JBUniversalController
         }
 
         $this->positions = $this->_position->loadPositions(JBCart::CONFIG_STATUS_EVENTS, array_keys($statusList));
+        $this->groupKey  = JBCart::CONFIG_STATUS_EVENTS;
 
-        $this->groupKey = JBCart::CONFIG_STATUS_EVENTS;
         $this->renderView();
     }
 
@@ -326,7 +327,7 @@ class JBCartJBUniversalController extends JBUniversalController
         $this->elementsParams = $this->_position->loadParams(JBCart::CONFIG_FIELDS_TMPL . '.' . $this->layout, false, true);
         $this->positions      = $this->_position->loadPositionsTmpl(JBCart::CONFIG_FIELDS_TMPL . '.' . $this->layout, JBCart::CONFIG_FIELDS, $this->positionList);
 
-        //$this->positions = $this->_position->filter($this->positions, $this->dragElements);
+        $this->positions = $this->_position->filter($this->positions, $this->dragElements);
 
         $this->groupKey      = JBCart::CONFIG_FIELDS_TMPL;
         $this->isElementTmpl = true;
@@ -357,7 +358,7 @@ class JBCartJBUniversalController extends JBUniversalController
 
         $this->positions = $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE, $this->positionList);
 
-        //$this->positions = $this->_position->filter($this->positions, $this->dragElements);
+        $this->positions = $this->_position->filter($this->positions, $this->dragElements);
 
         $this->saveTask      = 'savePricePositions';
         $this->groupKey      = JBCart::CONFIG_PRICE_TMPL_FILTER;
@@ -389,7 +390,7 @@ class JBCartJBUniversalController extends JBUniversalController
         $this->elementsParams = $this->_position->loadParams($confName, false, true);
         $this->positions      = $this->_position->loadPositionsTmpl($confName, JBCart::CONFIG_PRICE, $this->positionList);
 
-        //$this->positions = $this->_position->filter($this->positions, array_merge($this->dragElements, $this->systemElements));
+        $this->positions = $this->_position->filter($this->positions, array_merge($this->dragElements, $this->systemElements));
 
         $this->saveTask      = 'savePricePositions';
         $this->groupKey      = JBCart::CONFIG_PRICE_TMPL;
@@ -546,7 +547,7 @@ class JBCartJBUniversalController extends JBUniversalController
         $result = array();
         $model  = JBModelOrder::model();
         $list   = $model->getList(array(
-            'limit' => 10
+            'limit' => 10,
         ));
 
         if (!empty($list)) {

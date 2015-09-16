@@ -130,23 +130,23 @@ class JBCartPositionHelper extends AppHelper
     {
         $list = $this->_getConfig($tmplGroup);
         if (!$merge) {
-            
+
             if ($resetIndexes) {
                 $result = array();
                 foreach ($list as $position => $items) {
-                    
+
                     if (!isset($result[$position])) {
                         $result[$position] = array();
                     }
-                    
-                    foreach($items as $item) {
+
+                    foreach ($items as $item) {
                         $result[$position][] = $item;
                     }
                 }
-                
+
                 return $result;
             }
-        
+
             return $list;
         }
 
@@ -243,12 +243,18 @@ class JBCartPositionHelper extends AppHelper
      */
     public function filter($positions, $needleElements)
     {
-        $needleList = array_keys($needleElements);
+        $needleList = array();
+        foreach ($needleElements as $needleElement) {
+            $needleList[] = $needleElement->identifier;
+        }
 
-        foreach ($positions as $position => $elements) {
-            foreach ($elements as $elementId => $element) {
-                if (!in_array($elementId, $needleList)) {
-                    unset($positions[$position][$elementId]);
+        if ($needleList) {
+            foreach ($positions as $position => $elements) {
+                foreach ($elements as $elementId => $element) {
+
+                    if (!in_array($element->identifier, $needleList, true)) {
+                        unset($positions[$position][$elementId]);
+                    }
                 }
             }
         }
