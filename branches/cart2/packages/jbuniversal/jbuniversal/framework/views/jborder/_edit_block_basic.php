@@ -6,9 +6,10 @@ if ($juser = $order->getAuthor()) {
     $user = '<a href="' . $href . '">' . $juser->name . '</a>';
 }
 
-
-$statusList = $this->app->jbcartstatus->getList(JBCart::STATUS_ORDER, true);
-$curStatus = $order->getStatus()->getCode();
+/** @var JBCartStatusHelper $jbstatus */
+$jbstatus   = $this->app->jbcartstatus;
+$statusList = $jbstatus->getList(JBCart::STATUS_ORDER, true, true, $order);
+$curStatus  = $order->getStatus()->getCode();
 
 ?>
 <div class="uk-panel uk-panel-box basic-info">

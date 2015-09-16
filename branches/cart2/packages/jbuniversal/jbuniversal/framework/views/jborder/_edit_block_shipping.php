@@ -12,11 +12,15 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$statusList = $this->app->jbcartstatus->getList(JBCart::STATUS_SHIPPING, true);
+/** @var JBCartStatusHelper $jbstatus */
+$jbstatus   = $this->app->jbcartstatus;
+$statusList = $jbstatus->getList(JBCart::STATUS_SHIPPING, true, true, $order);
 
 if ($shipping) {
     $curStatus = $shipping->getStatus();
-} ?>
+}
+
+?>
 <div class="uk-panel uk-panel-box">
 
     <h3 class="uk-panel-title"><?php echo JText::_('JBZOO_ORDER_SHIPPING_TITLE'); ?></h3>

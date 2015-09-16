@@ -14,10 +14,18 @@
 defined('_JEXEC') or die('Restricted access');
 
 if (!empty($payment)) :
-    $statusList = $this->app->jbcartstatus->getList(JBCart::STATUS_PAYMENT, true);
-    $curStatus  = $payment->getStatus(); ?>
+
+    /** @var JBCartStatusHelper $jbstatus */
+    $jbstatus   = $this->app->jbcartstatus;
+    $statusList = $jbstatus->getList(JBCart::STATUS_PAYMENT, true, true, $order);
+    $curStatus  = $payment->getStatus();
+    ?>
+
     <div class="uk-panel uk-panel-box">
         <h3 class="uk-panel-title">Система оплаты</h3>
+
+        <?php echo $this->paymentRender->renderAdminEdit(array('order' => $order)); ?>
+
         <dl class="uk-description-list-horizontal">
 
             <dt>Способ оплаты</dt>
