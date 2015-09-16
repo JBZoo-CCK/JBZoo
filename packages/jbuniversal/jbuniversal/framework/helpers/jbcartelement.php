@@ -187,22 +187,31 @@ class JBCartElementHelper extends AppHelper
             return null;
         }
 
+        /** @var JBCartElement $element */
         $element = new $elementClass($this->app, $type, $group);
 
-        if (isset($config['identifier'])) {
+        $keyName     = 'JBZOO_ELEMENT_' . strtoupper($group) . '_' . strtoupper($type) . '_NAME';
+        $elementName = JText::_($keyName) !== $keyName ? JText::_($keyName) : '';
+
+        $config = array_merge(array(
+            'identifier'  => $this->app->utility->generateUUID(),
+            'type'        => $type,
+            'group'       => $group,
+            'name'        => $elementName,
+            'description' => '',
+            'access'      => '1',
+        ), (array)$config);
+
+        if ($element->isCore()) {
+            $config['identifier'] = '_' . strtolower($element->getElementType());
+            $config['name']       = JText::_('JBZOO_ELEMENT_CORE_' . $element->getElementType());
+        }
+
+        if ($config['identifier']) {
             $element->identifier = $config['identifier'];
         }
 
-        if ($element->isCore()) {
-            $element->identifier = '_' . strtolower($element->getElementType());
-            $element->setConfig(array(
-                'name' => JText::_('JBZOO_ELEMENT_CORE_' . $element->getElementType())
-            ));
-        }
-
-        if ($config) {
-            $element->setConfig($config);
-        }
+        $element->setConfig($config);
 
         return $element;
     }
