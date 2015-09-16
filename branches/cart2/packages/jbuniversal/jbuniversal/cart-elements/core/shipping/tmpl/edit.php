@@ -13,5 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $data = (array)$this->data();
-unset($data['rate']);
-echo '<pre>', print_r($data, true), '</pre>';
+//unset($data['rate']);
+//echo '<pre>', print_r($data, true), '</pre>';
+
+echo $this->app->jbhtml->dataList($data);

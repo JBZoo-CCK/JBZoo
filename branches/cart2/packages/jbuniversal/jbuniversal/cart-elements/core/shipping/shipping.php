@@ -137,14 +137,18 @@ abstract class JBCartElementShipping extends JBCartElement
         }
 
         if (!is_object($curStatus)) {
-            $status = $this->app->jbcartstatus->getByCode($curStatus, JBCart::STATUS_SHIPPING);
+
+            /** @var JBCartStatusHelper $jbstatus */
+            $jbstatus = $this->app->jbcartstatus;
+
+            $status = $jbstatus->getByCode($curStatus, JBCart::STATUS_SHIPPING, $this->getOrder());
             if (!empty($status)) {
                 return $status;
             }
 
             // if not found in current configs
             // TODO get status info from order params
-            $unfound = $this->app->jbcartstatus->getUndefined();
+            $unfound = $jbstatus->getUndefined();
             $unfound->config->set('code', $curStatus);
             $unfound->config->set('name', $curStatus);
 
