@@ -13,7 +13,7 @@
         <fieldset name="custom" label="JBZOO_MIGRATE_CUSTOM_CONFIG"
                   addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
             <field type="jbapplist"
-                   default="0"
+                   default="18"
                    name="app"
                    label="JBZOO_MIGRATE_APP"
                    description="JBZOO_MIGRATE_APP_DESC"/>
@@ -79,6 +79,7 @@
 
             <field type="jbapplist"
                    name="prices_app"
+                   default="11"
                    multiple="1"
                    label="JBZOO_MIGRATE_PRICES_APP"
                    description="JBZOO_MIGRATE_PRICES_APP_DESC"/>
