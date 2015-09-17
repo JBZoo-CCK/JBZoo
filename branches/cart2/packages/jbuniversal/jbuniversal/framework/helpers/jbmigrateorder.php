@@ -73,8 +73,9 @@ class JBMigrateOrderHelper extends AppHelper
 
         if (count($orders) > 0) {
             foreach ($orders as $order) {
-                $newOrder     = $this->_convertOrder($order);
-                JBModelOrder::model()->save($newOrder, true);
+                if ($newOrder = $this->_convertOrder($order)) {
+                    JBModelOrder::model()->save($newOrder, true);
+                }
             }
             return $page + 1;
         }
@@ -91,8 +92,12 @@ class JBMigrateOrderHelper extends AppHelper
         $newOrder = new JBCartOrder();
 
         $cartElement = current($order->getElementsByType('jbbasketitems'));
-        $orderItems  = $cartElement->getOrderItems();
-        $data        = (array)$cartElement->data();
+        if (!$cartElement) {
+            return null;
+        }
+
+        $orderItems = $cartElement->getOrderItems();
+        $data       = (array)$cartElement->data();
 
         $newOrder->id         = -1;
         $newOrder->modified   = $order->modified;

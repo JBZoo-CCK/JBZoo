@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 class JBMigrateHelper extends AppHelper
 {
 
-    const STEP_SIZE = 10;
+    const STEP_SIZE = 100;
 
     /**
      * @var array

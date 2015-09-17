@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBToolsJBUniversalController extends JBUniversalController
 {
-    const INDEX_STEP = 5;
+    const INDEX_STEP = 100;
 
     /**
      * Index page
@@ -222,7 +222,7 @@ class JBToolsJBUniversalController extends JBUniversalController
                 $this->app->jbajax->send(array('nextStep' => '2', 'progress' => $progress));
             }
 
-            if ($params->get('prices_enable') && $curStep == 3) {
+            if ($params->get('prices_enable') && $curStep == 2) {
                 $prices       = $migrateprice->getPriceList($params->get('prices_types'));
                 $priceConfigs = $migrateprice->extractPriceData($prices);
 
@@ -235,12 +235,16 @@ class JBToolsJBUniversalController extends JBUniversalController
                 $this->app->jbajax->send(array('nextStep' => '4', 'progress' => $progress));
             }
 
-            if ($newStep = $migrateorder->convertItems($curStep)) {
-                $this->app->jbajax->send(array('nextStep' => $newStep, 'progress' => $progress));
+            if ($params->get('orders_enable') && $params->find('steps.orders_steps')) {
+                if ($newStep = $migrateorder->convertItems($curStep)) {
+                    $this->app->jbajax->send(array('nextStep' => $newStep, 'progress' => $progress));
+                }
             }
 
-            if ($newStep = $migrateprice->convertItems($curStep)) {
-                $this->app->jbajax->send(array('nextStep' => $newStep, 'progress' => $progress));
+            if ($params->get('prices_enable') && $params->find('steps.items_steps')) {
+                if ($newStep = $migrateprice->convertItems($curStep)) {
+                    $this->app->jbajax->send(array('nextStep' => $newStep, 'progress' => $progress));
+                }
             }
 
             $this->app->jbajax->send(array('nextStep' => 'stop', 'progress' => 100));
