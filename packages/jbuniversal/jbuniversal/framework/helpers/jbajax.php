@@ -45,6 +45,10 @@ class JBAjaxHelper extends AppHelper
             JResponse::sendHeaders();
         }
 
+        if (JDEBUG) {
+            $data['mpu'] = round(memory_get_peak_usage(true) / 1024 / 1024, 2) . ' M';
+        }
+        
         jexit(json_encode($data));
     }
 
