@@ -68,7 +68,12 @@ class JBMigrateCartHelper extends AppHelper
         $config     = $this->_migrate->getBasic();
         $cartConfig = $this->_confModel->getGroup('cart.config');
 
-        $cartConfig->set('access', $config->get('auth', 1));
+        if ($config->get('auth', 0)) {
+            $cartConfig->set('access', 2);
+        } else {
+            $cartConfig->set('access', 1);
+        }
+
         $cartConfig->set('default_currency', $config->get('currency', 'eur'));
         $cartConfig->set('enable', $config->get('enable', 1));
         $cartConfig->set('freeorder', $config->get('nopaid-order', 0));
