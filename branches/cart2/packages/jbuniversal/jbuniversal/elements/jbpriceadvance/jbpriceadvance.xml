@@ -9,8 +9,8 @@
     @license     http://jbzoo.com/license-pro.php JBZoo Licence
     @coder       Denis Smetannikov <denis@jbzoo.com>
 -->
-<element type="jbpriceadvance" group="JBZoo" orderable="true">
-    <name>JBZoo Price - Advance</name>
+<element type="jbpriceadvance" group="JBZoo Deprecated" orderable="true">
+    <name>Price Advance</name>
     <description>Price element for catalog</description>
     <author>JBZoo.com</author>
     <creationDate>2013 07</creationDate>
@@ -18,5 +18,4 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>2.0</version>
-    <params></params>
 </element>
