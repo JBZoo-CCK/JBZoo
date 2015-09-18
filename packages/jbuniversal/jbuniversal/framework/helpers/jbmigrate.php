@@ -65,11 +65,11 @@ class JBMigrateHelper extends AppHelper
             $cartParameters = $application->params->find('global.jbzoo_cart_config.', array());
         }
 
-        $params['steps'] = $this->getStepsInfo();
-
         $this->_session->clearGroup('migration');
         $this->_session->set('params', (array)$params, 'migration');
         $this->_session->set('oldConfig', (array)$cartParameters, 'migration');
+
+        $this->setParams('steps', $this->getStepsInfo());
     }
 
     /**
