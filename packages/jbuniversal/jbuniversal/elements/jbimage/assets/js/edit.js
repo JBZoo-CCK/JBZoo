@@ -22,7 +22,8 @@ jQuery(function ($) {
             return;
         }
 
-        var id = "jbimage-select-" + i,
+        var parentClass   = $element.closest('.repeat-elements').attr('id'),
+            id            = parentClass + '-jbimage-' + i,
             $selectButton = $('<button type="button" />').text("Select Image").insertAfter($element),
             $cancelSelect = $("<span />").addClass("image-cancel").insertAfter($element),
             $imagePreview = $("<div />").addClass("image-preview").insertAfter($selectButton);
@@ -53,9 +54,8 @@ jQuery(function ($) {
 
     $("input.jbimage-select").each(function (n, obj) {
         initJbImage.apply(obj, [n, false]);
-        var $parent = $(obj).closest('.element');
-
-        var $addButton = $parent.find('p.add');
+        var $parent = $(obj).closest('.element'),
+            $addButton = $parent.find('p.add');
 
         if (!$addButton.data('jbimage-init')) {
 
@@ -76,10 +76,10 @@ jQuery(function ($) {
 
     window.jInsertEditorText = function (c, a) {
 
-        if (a.match(/^jbimage-select-/)) {
+        if (a.match(/-jbimage-/)) {
 
             var $element = $("#" + a),
-                value = c.match(/src="([^\"]*)"/)[1];
+                value    = c.match(/src="([^\"]*)"/)[1];
 
             $element.parent()
                 .find("div.image-preview")
