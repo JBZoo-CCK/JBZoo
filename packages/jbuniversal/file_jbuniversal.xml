@@ -12,11 +12,11 @@
 <extension type="file" version="2.5" method="upgrade">
 	<name>JBZoo App</name>
 	<author>JBZoo.com</author>
-	<creationDate>2014 06</creationDate>
+	<creationDate>2015 09</creationDate>
 	<copyright>Copyright (C) JBZoo.com,  All rights reserved.</copyright>
 	<authorEmail>admin@jbzoo.com</authorEmail>
 	<authorUrl>http://jbzoo.com</authorUrl>
-	<version>2.2.0 Pro RC</version>
+	<version>2.2.1 Pro</version>
     <updateUrl>http://server.jbzoo.com/checkupdates</updateUrl>
 	<license>http://jbzoo.com/license JBZoo Licence</license>
 	<description>JBZoo App is universal Joomla CCK, application for YooTheme Zoo component</description>

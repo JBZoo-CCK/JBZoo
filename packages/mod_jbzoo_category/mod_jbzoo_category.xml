@@ -12,11 +12,11 @@
 <extension type="module" version="2.5" method="upgrade" client="site">
     <name>JBZoo Category List</name>
     <author>JBZoo.com</author>
-    <creationDate>2014 06</creationDate>
+    <creationDate>2015 09</creationDate>
     <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
-    <version>2.2.0 Pro RC</version>
+    <version>2.2.1 Pro</version>
     <updateUrl>http://server.jbzoo.com/checkupdates</updateUrl>
     <license>http://jbzoo.com/license JBZoo Licence</license>
     <description>JBZOO_CATEGORY_MODULE_DESCRIPTION</description>
