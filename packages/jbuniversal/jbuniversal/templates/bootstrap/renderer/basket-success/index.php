@@ -16,8 +16,6 @@ defined('_JEXEC') or die('Restricted access');
 
 $view = $this->getView();
 $this->app->jbassets->basket();
-
 $actionUrl = $this->app->jbrouter->cartOrderCreate($view->application->id, null);
-?>
 
-Заказ успешно создан
+echo JText::_('JBZOO_CART_ORDER_SUCCESS_CREATED');
