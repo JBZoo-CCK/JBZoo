@@ -97,7 +97,7 @@ class JBCartVariantList extends ArrayObject
      */
     public function get($key = ElementJBPrice::BASIC_VARIANT)
     {
-        if(!$this->has($key)) {
+        if (!$this->has($key)) {
             throw new JBCartVariantListException('Variant - ' . $this->default . ' doesn\'t exists');
         }
 
@@ -373,7 +373,7 @@ class JBCartVariantList extends ArrayObject
         $result = array(
             '_default' => $this->options->get('default'),
             '_priceId' => $this->options->get('element_id'),
-            '_itemId'  => $this->options->get('item_id')
+            '_itemId'  => $this->options->get('item_id'),
         );
 
         $values = (array)$this->values;
@@ -425,7 +425,7 @@ class JBCartVariantList extends ArrayObject
     /**
      * Check if option isset in element
      * @param JBCartElementPrice $element
-     * @param $value
+     * @param                    $value
      * @return bool|string
      */
     public function issetOption($element, $value)
@@ -448,12 +448,15 @@ class JBCartVariantList extends ArrayObject
     {
         $data    = array();
         $variant = $this->current();
+
         if ($variant->count('core')) {
             foreach ($variant->getCore() as $key => $element) {
                 $value = $element->getValue(true);
+
                 if ($element->is('_properties')) { // TODO HACK for multiplicity in properties element
                     $value = (array)$element->data();
                 }
+
                 $data[$key] = $value;
             }
         }
@@ -495,22 +498,31 @@ class JBCartVariantList extends ArrayObject
     protected function _plainCartData()
     {
         $jbPrice = $this->getJBPrice();
-        $data    = array(
+
+        $total    = $this->getTotal()->data(true);
+        $discount = $this->current()->getValue(true, '_discount');
+        $margin   = $this->current()->getValue(true, '_margin');
+        $elements = $this->defaultVariantCartData(); // bug, call only at the end!
+
+        $elements['_discount'] = $discount;
+        $elements['_margin']   = $margin;
+
+        $data = array(
             'key'        => $this->getSessionKey(),
             'item_id'    => $this->item_id,
             'item_name'  => $this->item_name,
             'element_id' => $this->element_id,
-            'total'      => $this->getTotal()->data(true),
+            'total'      => $total,
             'quantity'   => (float)$this->quantity,
             'template'   => $this->template,
             'values'     => $this->getValues(),
             'selected'   => $this->selected,
-            'elements'   => $this->defaultVariantCartData(),
+            'elements'   => $elements,
             'params'     => $jbPrice->elementsInterfaceParams(),
             'modifiers'  => $this->getModifiersRates(),
             'variant'    => $this->default,
             'variations' => $jbPrice->defaultData(),
-            'isOverlay'  => false
+            'isOverlay'  => false,
         );
 
         return $data;
@@ -538,7 +550,7 @@ class JBCartVariantList extends ArrayObject
             'modifiers'  => $this->getModifiersRates(),
             'variant'    => 0,
             'variations' => $jbPrice->quickSearch(array_keys($this->all())),
-            'isOverlay'  => true
+            'isOverlay'  => true,
         );
 
         return $data;
@@ -557,8 +569,8 @@ class JBCartVariantList extends ArrayObject
      */
     protected function _calcPrice()
     {
-        $first  = $this->first();
-        $price  = $first->getPrice();
+        $first = $this->first();
+        $price = $first->getPrice();
 
         if ($this->count() > 1) {
             /** @type JBCartVariant $variant */
@@ -569,7 +581,7 @@ class JBCartVariantList extends ArrayObject
                 }
             }
         }
-        $price = clone $price;
+        $price  = clone $price;
         $margin = $first->getValue(false, '_margin', JBCart::val())->positive();
         $price->add($margin);
 
@@ -602,8 +614,8 @@ class JBCartVariantList extends ArrayObject
      */
     public function clear()
     {
-        $this->variants    = null;
-        $this->options     = new AppData();
+        $this->variants = null;
+        $this->options  = new AppData();
 
         $this->session_key = null;
         $this->default     = 0;
