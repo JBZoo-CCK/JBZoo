@@ -404,13 +404,6 @@ class JBTablesHelper extends AppHelper
 
         foreach ($fields as $field) {
 
-            // only for frontpage mark (for perfomance optimization)
-            if ($field == '_itemfrontpage') {
-                $tblFields[] = '`' . $this->getFieldName($field, 'n') . '` TINYINT(1) NULL DEFAULT \'0\'';
-                $tblIndex[]  = 'INDEX `' . $this->getFieldName($field, 'n') . '` (`' . $this->getFieldName($field, 'n') . '`)';
-                continue;
-            }
-
             // add fields
             $tblFields[] = '`' . $this->getFieldName($field, 's') . '` VARCHAR(50) NULL DEFAULT NULL COLLATE \'utf8_general_ci\'';
             $tblFields[] = '`' . $this->getFieldName($field, 'n') . '` DOUBLE NOT NULL DEFAULT \'0\'';
