@@ -752,7 +752,10 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             $numeric = is_numeric($value) ? $vars->number($value) : null;
             $date    = $this->_helper->isDate($value) ?: null;
 
-            if (!$this->_helper->isEmpty($string) || (is_numeric($numeric) || !$this->_helper->isEmpty($date))) {
+            if (
+                (!$this->_helper->isEmpty($string) || (is_numeric($numeric) || !$this->_helper->isEmpty($date))) ||
+                ($element->id() == '_value')
+            ) {
                 $key = $this->_item->id . '__' . $this->identifier . '__' . $variant->getId() . '__' . $element->id();
 
                 $data[$key] = array(
