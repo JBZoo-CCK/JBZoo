@@ -65,7 +65,7 @@ class JBUikitHelper extends AppHelper
 
             for ($i = $rangeStart; $i <= $rangeEnd; $i++) {
                 if ($i == $pagination->current()) {
-                    $html .= '<li class="uk-active"><span>' . $i . '</span>';
+                    $html .= '<li class="uk-active"><span>' . $i . '</span></li>';
                 } else {
                     $link = $i == 1 ? $url : $pagination->link($url, $pagination->name() . '=' . $i);
                     $html .= '<li><a href="' . JRoute::_($link) . '">' . $i . '</a></li>';
