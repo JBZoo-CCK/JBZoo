@@ -19,7 +19,7 @@
         ].join(', '),
 
         // field list for auto submit
-        autoSubmitFileds = [
+        autoSubmitFileds  = [
             'select',
             'input',
             'input[type=text]',
@@ -29,7 +29,7 @@
         ].join(', '),
 
         // filed list that mustn't reset
-        resetExclude = [
+        resetExclude      = [
             ':reset',
             ':submit',
             ':button',
@@ -60,7 +60,7 @@
              * @private
              */
             _initAutoSubmit: function () {
-                var $this = this,
+                var $this   = this,
                     $fields = $this.$(autoSubmitFileds).not(autoSubmitExclude);
 
                 if (!$this.options.autosubmit) {
@@ -116,7 +116,6 @@
                         // any selects
                         $input.JBZooSelect().JBZooSelect('reset');
 
-
                     } else if ($input.is('.jbcolor-input')) {
                         // JBColor Widget
                         var $colors = $input.closest('.jbzoo-colors');
@@ -128,6 +127,9 @@
                         var $group = $input.closest('.jbfilter-row');
                         $('input[type=radio]:eq(0)', $group).attr('checked', 'checked');
 
+                    } else if ($input.is('[type=checkbox]')) {
+                        // checkbox buttons
+                        $input.removeAttr('checked');
 
                     } else if ($input.is('.jsSlider') && $input.data('JBZooSlider')) {
                         // advanced slider
