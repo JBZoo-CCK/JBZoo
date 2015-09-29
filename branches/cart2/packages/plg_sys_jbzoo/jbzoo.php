@@ -31,7 +31,7 @@ class plgSystemJBZoo extends JPlugin
      * @var array
      */
     protected $_disableInitBackEnd = array(
-        'com_seoboss'
+        'com_seoboss',
     );
 
     /**
@@ -39,7 +39,7 @@ class plgSystemJBZoo extends JPlugin
      * @var array
      */
     protected $_disableInitFrontEnd = array(
-        'com_seoboss'
+        'com_seoboss',
     );
 
     /**
@@ -52,8 +52,9 @@ class plgSystemJBZoo extends JPlugin
      */
     public function onAfterInitialise()
     {
-        $this->_initFramework();
-        $this->_jbzooSystemPlg->onAfterInitialise();
+        if ($this->_initFramework() && $this->_jbzooSystemPlg) {
+            $this->_jbzooSystemPlg->onAfterInitialise();
+        }
     }
 
     /**
@@ -103,6 +104,7 @@ class plgSystemJBZoo extends JPlugin
                 header('Content-Type:text/html; charset=utf-8', true); // fix apache default charset
             }
 
+            return true;
         }
     }
 
@@ -124,7 +126,7 @@ class plgSystemJBZoo extends JPlugin
         ) {
 
             $jbzooApp = $zoo->table->application->first(array(
-                'conditions' => array('application_group="' . JBZOO_APP_GROUP . '"')
+                'conditions' => array('application_group="' . JBZOO_APP_GROUP . '"'),
             ));
 
             if ($jbzooApp) {
@@ -160,7 +162,9 @@ class plgSystemJBZoo extends JPlugin
      */
     public function onAfterRoute()
     {
-        $this->_jbzooSystemPlg->onAfterRoute();
+        if ($this->_jbzooSystemPlg) {
+            $this->_jbzooSystemPlg->onAfterRoute();
+        }
     }
 
     /**
@@ -168,7 +172,9 @@ class plgSystemJBZoo extends JPlugin
      */
     public function onAfterDispatch()
     {
-        $this->_jbzooSystemPlg->onAfterDispatch();
+        if ($this->_jbzooSystemPlg) {
+            $this->_jbzooSystemPlg->onAfterDispatch();
+        }
     }
 
     /**
@@ -176,7 +182,9 @@ class plgSystemJBZoo extends JPlugin
      */
     public function onBeforeRender()
     {
-        $this->_jbzooSystemPlg->onBeforeRender();
+        if ($this->_jbzooSystemPlg) {
+            $this->_jbzooSystemPlg->onBeforeRender();
+        }
     }
 
     /**
@@ -184,7 +192,9 @@ class plgSystemJBZoo extends JPlugin
      */
     public function onAfterRender()
     {
-        $this->_jbzooSystemPlg->onAfterRender();
+        if ($this->_jbzooSystemPlg) {
+            $this->_jbzooSystemPlg->onAfterRender();
+        }
     }
 
     /**
@@ -192,7 +202,9 @@ class plgSystemJBZoo extends JPlugin
      */
     public function onBeforeCompileHead()
     {
-        $this->_jbzooSystemPlg->onBeforeCompileHead();
+        if ($this->_jbzooSystemPlg) {
+            $this->_jbzooSystemPlg->onBeforeCompileHead();
+        }
     }
 
     /**
@@ -200,7 +212,9 @@ class plgSystemJBZoo extends JPlugin
      */
     public function onSearch()
     {
-        $this->_jbzooSystemPlg->onSearch();
+        if ($this->_jbzooSystemPlg) {
+            $this->_jbzooSystemPlg->onSearch();
+        }
     }
 
     /**
@@ -208,7 +222,9 @@ class plgSystemJBZoo extends JPlugin
      */
     public function onSearchAreas()
     {
-        $this->_jbzooSystemPlg->onSearchAreas();
+        if ($this->_jbzooSystemPlg) {
+            $this->_jbzooSystemPlg->onSearchAreas();
+        }
     }
 
 }
