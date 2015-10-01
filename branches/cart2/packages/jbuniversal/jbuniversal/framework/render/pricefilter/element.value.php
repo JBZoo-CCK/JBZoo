@@ -24,7 +24,12 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
     {
         $value = $this->_prepareValues();
 
-        $html = $this->_html->text($this->_getName('value'), $value['value'], 'class="jbprice-filter-value"', $this->_getId('val'));
+        $html = $this->_html->text(
+            $this->_getName('value'),
+            $value['value'],
+            'class="jbprice-filter-value"',
+            $this->_getId('val')
+        );
 
         $html .= $this->renderCurrency();
 
@@ -77,7 +82,7 @@ class JBPriceFilterElementValue extends JBPriceFilterElement
             'value'   => null,
             'min'     => null,
             'max'     => null,
-            'range'   => null
+            'range'   => null,
         ), $this->_value);
     }
 }
