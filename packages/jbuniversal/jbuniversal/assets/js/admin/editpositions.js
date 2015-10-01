@@ -195,6 +195,7 @@
         },
 
         'click .jsEdit': function (e, $this) {
+            $this.hideAllConfigs();
             $(this).closest(".jsElement").toggleClass("hideconfig");
         },
 
@@ -235,6 +236,7 @@
                     var $newElement = $(data),
                         elemHeight = $newElement.height();
 
+                    $this.hideAllConfigs();
                     $newElement.removeClass('hideconfig').hide();
 
                     // evalate
@@ -270,6 +272,10 @@
                 }
             });
 
+        },
+
+        hideAllConfigs : function() {
+            this.$(".jsElement").addClass("hideconfig");
         }
 
     });
