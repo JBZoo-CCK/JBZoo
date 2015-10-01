@@ -99,8 +99,19 @@ table.list.order-list thead th {
     cursor: pointer;
 }
 
-.jbzoo .uk-form legend {
-    padding-top: 20px;
-    padding-bottom: 10px;
-    margin-bottom: 0;
+// only for JBZoo block
+.jbzoo {
+    .uk-form legend {
+        padding-top: 20px;
+        padding-bottom: 10px;
+        margin-bottom: 0;
+    }
+
+    #adminForm.assign-elements {
+        overflow-y: inherit;
+    }
+
+    ul.parameter-form li .field textarea {
+        max-width: 200px;
+    }
 }
