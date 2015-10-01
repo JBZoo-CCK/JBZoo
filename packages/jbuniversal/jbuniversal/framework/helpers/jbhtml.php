@@ -633,8 +633,8 @@ class JBHtmlHelper extends AppHelper
         $paramMin = $this->_vars->money($params['min'] ?: 0, 2);
         $paramMax = $this->_vars->money($params['max'] ?: 10000, 2);
 
-        $valueMin = JBCart::val($value[0], $currency);
-        $valueMax = JBCart::val($value[1], $currency);
+        $valueMin = JBCart::val($value[0], $currency)->setFormat(array('round_type' => 'floor', 'round_value' => '0'), $currency);
+        $valueMax = JBCart::val($value[1], $currency)->setFormat(array('round_type' => 'ceil', 'round_value' => '0'), $currency);
 
         $html   = array();
         $html[] = '<div class="jbslider-ui jsUI"></div>';
