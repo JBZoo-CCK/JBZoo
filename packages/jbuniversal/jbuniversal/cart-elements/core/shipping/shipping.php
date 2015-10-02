@@ -69,7 +69,17 @@ abstract class JBCartElementShipping extends JBCartElement
     public function modify(JBCartValue $summa)
     {
         if ($this->isModify()) {
-            $rate = $this->get('rate') ? $this->get('rate') : $this->getRate();
+
+            if ($this->get('rate')) {
+                $rate = $this->get('rate');
+            } else {
+                try {
+                    $rate = $this->getRate();
+                } catch (JBCartElementShippingException $e) {
+                    $rate = $this->_order->val();
+                }
+            }
+
             $summa->add($rate);
         }
 
@@ -300,6 +310,15 @@ abstract class JBCartElementShipping extends JBCartElement
     {
         return (int)$this->config->get('modifytotal', 0);
     }
+
+    /**
+     * @return array
+     */
+    public function getAjaxData()
+    {
+        return array();
+    }
+
 }
 
 /**

@@ -21,6 +21,14 @@
          */
         _updatePrice: function () {
             $('.jsJBCartShipping').JBZooShipping('getPrices', $('.jsShipping.active'));
+        },
+
+        'jbzooShippingAjax {closest .jsShippingElement}': function (e, $this) {
+            $this.onRecountAjax($(this).data('JBZooShippingAjax'));
+        },
+
+        onRecountAjax: function (params) {
+            // noop
         }
 
     });

@@ -271,7 +271,7 @@ class JBCart
                 if (!$this->inStock($data['quantity'], $key)) {
                     $element = $this->getItemElement($data);
                     if ($element) {
-                        $balance = $element->getBalance($data['variant']);
+                        $balance  = $element->getBalance($data['variant']);
                         $itemName = $data['item_name'] . (!empty($data['values']) ? ' (' . JArrayHelper::toString($data['values'], ': ', '; ', false) . ')' : null);
                         $this->setError(JText::sprintf('JBZOO_CART_VALIDATOR_ITEM_NOBALANCE', $itemName, $balance));
                     }
@@ -352,7 +352,7 @@ class JBCart
                     'default'  => $data['variant'],
                     'template' => $data['template'],
                     'quantity' => $data['quantity'],
-                    'selected' => $data['selected']
+                    'selected' => $data['selected'],
                 ));
 
                 $this->removeVariant($data['key']);
@@ -516,7 +516,7 @@ class JBCart
     public function getItemElement($data = array())
     {
         $item = $this->getZooItem($data);
-        
+
         if ($item) {
             return $item->getElement($data['element_id']);
         }
@@ -744,7 +744,17 @@ class JBCart
 
                 if ($element = $order->getShippingElement($elemId)) {
                     $element->bindData($shipping);
-                    $shippingRes['Price-' . $elemId] = $element->getRate()->convert($cookieCur)->data();
+
+                    $rate = JBCart::val();
+                    try {
+                        $rate = $element->getRate();
+                    } catch (JBCartElementShippingException $e) {
+                        $shippingRes[$elemId . '-exception'] = $e->getMessage();
+                    }
+
+                    $shippingRes['Price-' . $elemId] = $rate->convert($cookieCur)->data();
+
+                    $shippingRes[$elemId . '-ajax'] = $element->getAjaxData();
                 }
             }
         }
@@ -761,7 +771,7 @@ class JBCart
                 }
 
                 $modiferRes['Modifier-' . $identifier] = array(
-                    'MoneyWrap' => $modRate->data()
+                    'MoneyWrap' => $modRate->data(),
                 );
             }
         }

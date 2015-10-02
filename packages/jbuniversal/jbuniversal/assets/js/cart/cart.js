@@ -167,7 +167,14 @@
                 }
 
                 var $money = $this.$(selector + '>.jsMoney');
-                if ($money.length
+
+                if (key.indexOf('-ajax') > 0) {
+
+                    $this.$('.jsShippingAjax-' + key.replace('-ajax', ''))
+                        .data('JBZooShippingAjax', value)
+                        .trigger('jbzooShippingAjax');
+
+                } else if ($money.length
                     && typeof value == 'object'
                     && (JBZoo.countProps(value) == 2 || !JBZoo.empty(value['MoneyWrap']))
                 ) {
@@ -176,12 +183,6 @@
                         value = value['MoneyWrap'];
                     }
 
-                    /*
-                    if (value[0] < 0) {
-                        $this.alert('Невозможно осуществить доставку по этому направлению при заданных условиях');
-                        value[0] = 0;
-                    }
-                    */
 
                     $money
                         .JBZooMoney({rates: $this.options.rates})

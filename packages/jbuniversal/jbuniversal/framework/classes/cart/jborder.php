@@ -240,7 +240,13 @@ class JBCartOrder
     public function getShippingPrice()
     {
         if ($shipping = $this->getShipping()) {
-            return $shipping->getRate();
+
+            $rate = $this->val(0);
+            try {
+                $rate = $shipping->getRate();
+            } catch (JBCartElementShippingException $e) {}
+
+            return $rate;
         }
 
         return $this->val(0);
