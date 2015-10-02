@@ -11,11 +11,12 @@
 ;
 (function ($, window, document, undefined) {
 
-    var instanceId = 0,
-        widgetId = 0,
-        widgets = {},
-        parentSelector = '{element}',
-        documentSelector = '{document}';
+    var instanceId       = 0,
+        widgetId         = 0,
+        widgets          = {},
+        parentSelector   = '{element}',
+        documentSelector = '{document}',
+        closestSelector  = '{closest';
 
     /**
      * JBZoo widget factory
@@ -30,8 +31,8 @@
          */
         widget: function (widgetName, defaults, methods) {
 
-            var $jbzoo = this,
-                eventList = {},
+            var $jbzoo     = this,
+                eventList  = {},
                 widgetPath = widgetName.split('.'),
                 widgetName = widgetName.replace(/\./g, '');
 
@@ -42,7 +43,7 @@
                     var keyParts = key.match(/^(.*?)\s(.*)/);
                     if (!$jbzoo.empty(keyParts[1]) && $.isFunction(method)) {
                         var trigger = $.trim(keyParts[1]),
-                            target = $.trim(keyParts[2]);
+                            target  = $.trim(keyParts[2]);
 
                         eventList[trigger + ' ' + target] = {
                             'trigger': trigger,
@@ -60,18 +61,21 @@
             }
 
             widgets[widgetName] = function (element, options) {
-                var $this = this;
+                var $this   = this;
 
                 // system
                 instanceId++;
-                $this._id = instanceId;
+                $this._id   = instanceId;
                 $this._name = widgetName;
 
                 // for widget
-                $this.el = $(element);
+                $this.el      = $(element);
                 $this.options = $.extend(true, {}, $this._defaults, options);
 
-                $this.el.attr('data-widgetid', $this._id);
+                var oldId = $this.el.attr('data-widgetid');
+
+                oldId = oldId ? ',' + $this._id : $this._id;
+                $this.el.attr('data-widgetid', oldId);
 
                 // init
                 $this._initEvents(this._eventList, this);
@@ -88,8 +92,8 @@
                     onCreate : $.noop,
                     onDestroy: $.noop
                 },
-                extendedEventList = {},
-                lastParent = '';
+                extendedEventList   = {},
+                lastParent          = '';
 
             if ($jbzoo.countProps(widgetPath) > 1) {
                 var parentName = '';
@@ -102,7 +106,7 @@
 
                         $jbzoo.classExtend(widgets[widgetName], widgets[parentName]);
 
-                        extendedEventList = $.extend(true, extendedEventList, widgets[parentName].prototype._eventList);
+                        extendedEventList   = $.extend(true, extendedEventList, widgets[parentName].prototype._eventList);
                         extendedDefaultList = $.extend({}, extendedDefaultList, widgets[parentName].prototype._defaults);
 
                     } else if (n + 1 != widgetPath.length) {
@@ -214,10 +218,10 @@
                      */
                     on: function (eventName, selector, callback) {
 
-                        var $this = this,
+                        var $this         = this,
                             eventCallback = function (event) {
 
-                                var args = arguments,
+                                var args    = arguments,
                                     newArgs = [event, $this];
 
                                 if (args.length > 1) {
@@ -245,6 +249,12 @@
                             selector = selector.replace(documentSelector + ' ', '');
                             return $(selector).on(eventName, eventCallback);
 
+                        } else if (selector.indexOf(closestSelector + ' ') == 0) {
+                            selector = selector.replace(closestSelector + ' ', '');
+                            selector = selector.replace('}', '');
+
+                            return $(this.el).closest(selector).on(eventName, eventCallback);
+
                         } else {
 
                             return $(this.el)
@@ -261,7 +271,7 @@
                      */
                     off: function (eventName, selector) {
 
-                        var $this = this,
+                        var $this     = this,
                             eventName = eventName + '.' + $this._name;
 
                         if (!selector || selector == parentSelector) {
@@ -282,11 +292,11 @@
                     _trigger: function (trigger, selector, data) {
 
                         if (arguments.length == 1) {
-                            data = [];
+                            data     = [];
                             selector = parentSelector;
 
                         } else if (arguments.length == 2) {
-                            data = arguments[1];
+                            data     = arguments[1];
                             selector = parentSelector;
 
                         } else {
@@ -308,8 +318,8 @@
                      */
                     _delay: function (handler, delay, timerName) {
 
-                        var $this = this;
-                        timerName = timerName || 'default';
+                        var $this                = this;
+                        timerName                = timerName || 'default';
 
                         clearTimeout($this._timers[timerName]);
                         $this._timers[timerName] = setTimeout(function () {
@@ -345,8 +355,8 @@
             // plugin initialize (HANDS OFF!!!)
             $.fn[widgetName] = function (options, isComplex) {
 
-                var args = arguments,
-                    method = (args[0] && typeof args[0] == 'string') ? args[0] : null,
+                var args        = arguments,
+                    method      = (args[0] && typeof args[0] == 'string') ? args[0] : null,
                     returnValue = this;
 
                 if (method && method.indexOf('_') === 0) {
@@ -383,34 +393,34 @@
                 }
                 else {
 
-                this.each(function () {
-                    var element = this,
-                        $element = $(this);
+                    this.each(function () {
+                        var element  = this,
+                            $element = $(this);
 
-                    if (widgets[widgetName].prototype[method] && $element.data(widgetName) && method != "init") {
+                        if (widgets[widgetName].prototype[method] && $element.data(widgetName) && method != "init") {
 
-                        methodValue = $element.data(widgetName)[method].apply(
-                            $element.data(widgetName),
-                            Array.prototype.slice.call(args, 1)
-                        );
+                            methodValue = $element.data(widgetName)[method].apply(
+                                $element.data(widgetName),
+                                Array.prototype.slice.call(args, 1)
+                            );
 
-                        if (methodValue !== $element.data(widgetName) && methodValue !== undefined) {
+                            if (methodValue !== $element.data(widgetName) && methodValue !== undefined) {
 
-                            returnValue = methodValue && methodValue.jquery ?
-                                returnValue.pushStack(methodValue.get()) :
-                                methodValue;
+                                returnValue = methodValue && methodValue.jquery ?
+                                    returnValue.pushStack(methodValue.get()) :
+                                    methodValue;
 
-                            return false;
+                                return false;
+                            }
+
+
+                        } else if ((!method || $.isPlainObject(method)) && (!$.data(element, widgetName))) {
+                            $element.data(widgetName, new widgets[widgetName](element, options));
+
+                        } else if (method) {
+                            $jbzoo.error("Method \"" + method + "\" does not exist on jQuery." + widgetName);
                         }
-
-
-                    } else if ((!method || $.isPlainObject(method)) && (!$.data(element, widgetName))) {
-                        $element.data(widgetName, new widgets[widgetName](element, options));
-
-                    } else if (method) {
-                        $jbzoo.error("Method \"" + method + "\" does not exist on jQuery." + widgetName);
-                    }
-                });
+                    });
                 }
                 // chain jQuery functions
                 return returnValue;
@@ -424,13 +434,13 @@
          * @param Parent
          */
         classExtend: function (Child, Parent) {
-            var JBZooObject = function () {
+            var JBZooObject             = function () {
             };
 
             $.extend(JBZooObject.prototype, Child.prototype, Parent.prototype);
-            Child.prototype = new JBZooObject;
+            Child.prototype             = new JBZooObject;
             Child.prototype.constructor = Child;
-            Child.parent = Parent.prototype
+            Child.parent                = Parent.prototype
         },
 
         /**
