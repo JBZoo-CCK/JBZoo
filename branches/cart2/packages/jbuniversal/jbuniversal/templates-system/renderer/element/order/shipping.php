@@ -37,6 +37,12 @@ $element->loadAssets();
 $label  = $params->get('altlabel') ? $params->get('altlabel') : $element->getName();
 $uniqId = $element->htmlId();
 
+$exceptionMessage = '';
+try {
+    $rate = $element->getRate();
+} catch (JBCartElementShippingException $e) {
+    $exceptionMessage = $e->getMessage();
+}
 ?>
 
 <div class="<?php echo implode(' ', $classes); ?>" data-type="<?php echo $element->getElementType(); ?>">
@@ -70,27 +76,31 @@ $uniqId = $element->htmlId();
             <?php echo $label; ?>
             <span class="jbcart-shipping-price jsShippingElementPrice">
                 (<span class="jsPrice-<?php echo $element->identifier; ?>">
-                    <?php echo $element->getRate()->html(); ?>
+                    <?php echo $rate->html(); ?>
                 </span>)
             </span>
         </label>
 
         <?php
-        $description = $element->config->get('description');
-        $element     = $element->renderSubmission($params);
+        $description       = $element->config->get('description');
+        $elementSubmission = $element->renderSubmission($params);
 
-        if ($element || $description) {
+        if ($elementSubmission || $description) {
 
             $html = array();
 
-            $html[] = '<div class="jbcart-shipping-element jsShippingElement">';
+            $html[] = '<div class="jbcart-shipping-element jsShippingElement jsShippingAjax-' . $element->identifier . '">';
 
             if ($description) {
                 $html[] = '<p class="jbcart-shipping-desc">' . JText::_($description) . '</p>';
             }
 
-            $html[] = $element;
+            $html[] = $elementSubmission;
             $html[] = $error;
+
+            $html[] = '<div class="jbcart-shipping-exception jsPrice-' . $element->identifier . '-exception">'
+                . $exceptionMessage
+                . '</div>';
 
             $html[] = '</div>';
 
