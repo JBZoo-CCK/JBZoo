@@ -412,6 +412,7 @@ abstract class JBCartElement
     public function getConfigForm()
     {
         // get form
+        /** @var AppParameterForm $form */
         $form = $this->app->parameterform->create();
 
         $params = array();
@@ -451,6 +452,11 @@ abstract class JBCartElement
 
         // trigger configform event
         $this->app->jbevent->fire($this, 'cart-element:configform', compact('form'));
+
+        $fieldsPath = JPath::clean($this->getPath() . '/fields');
+        if (is_dir($fieldsPath)) {
+            $form->addElementPath($fieldsPath);
+        }
 
         return $form;
     }
