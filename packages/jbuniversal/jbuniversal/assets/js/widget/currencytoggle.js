@@ -29,15 +29,15 @@
                     $this.options.rates = JBZoo.getVar('currencyList', {});
                 }
 
+                var curCurrency = $this.getCurrent();
+
                 if ($this.options.setOnInit) {
-                    var newCurrency = $this.getCurrent();
-                    $this._getMoney().JBZooMoney('convert', newCurrency, false);
-                    $this._trigger('change', [newCurrency]);
+                    $this._getMoney().JBZooMoney('convert', curCurrency, false);
+                    $this._trigger('change', [curCurrency]);
                 }
 
                 if ($this.options.isMain) {
-                    var curCurrency = $this.getCurrent(),
-                        newCurrency = $this.getCookie('current', curCurrency);
+                    var newCurrency = $this.getCookie('current', curCurrency);
 
                     if (curCurrency != newCurrency) {
                         $this.setCurrency(newCurrency);
@@ -45,6 +45,7 @@
                     }
                 }
 
+                $this.setCookie('current', curCurrency);
             },
 
             /**
