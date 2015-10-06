@@ -69,8 +69,10 @@ class JBPriceFilterElementValueSlider extends JBPriceFilterElementValue
                 $categoryId
             );
 
-            $params['min'] = JBCart::val($rangesData['total_min'], 'eur')->val($to);
-            $params['max'] = JBCart::val($rangesData['total_max'], 'eur')->val($to);
+            $cur = JBModelConfig::model()->getCurrency();
+
+            $params['min'] = JBCart::val($rangesData['total_min'], $cur)->val($to);
+            $params['max'] = JBCart::val($rangesData['total_max'], $cur)->val($to);
         }
 
         return $params;

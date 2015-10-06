@@ -46,7 +46,7 @@ class JBModelElementJBPrice extends JBModelElement
         $this->money  = $this->app->jbmoney;
         $this->helper = $this->app->jbprice;
 
-        $this->_currency = 'eur';
+        $this->_currency = JBModelConfig::model()->getCurrency();
     }
 
     /**

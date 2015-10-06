@@ -52,8 +52,10 @@ class JBPriceFilterElementValueSliderInput extends JBPriceFilterElementValueSlid
                 $categoryId
             );
 
-            $params['min'] = JBCart::val($rangesData['total_min'] ? $rangesData['total_min'] . ' eur' : $params['min'])->val($to);
-            $params['max'] = JBCart::val($rangesData['total_max'] ? $rangesData['total_max'] . ' eur' : $params['max'])->val($to);
+            $cur = JBModelConfig::model()->getCurrency();
+
+            $params['min'] = JBCart::val($rangesData['total_min'] ? $rangesData['total_min'] . $cur : $params['min'])->val($to);
+            $params['max'] = JBCart::val($rangesData['total_max'] ? $rangesData['total_max'] . $cur : $params['max'])->val($to);
         }
 
         $html[] = $this->_html->sliderInput($params, $value['range'], $this->_getName('range'), $this->app->jbstring->getId('jsSlider-'), $to);

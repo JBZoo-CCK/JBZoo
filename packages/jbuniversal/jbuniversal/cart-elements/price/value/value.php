@@ -36,7 +36,7 @@ class JBCartElementPriceValue extends JBCartElementPrice
     {
         $prices = $this->getPrices();
 
-        return $prices['total']->val('eur');
+        return $prices['total']->val(JBModelConfig::model()->getCurrency());
     }
 
     /**
