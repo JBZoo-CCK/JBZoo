@@ -201,6 +201,20 @@ class JBModelConfig extends JBModel
     }
 
     /**
+     * @return string
+     */
+    public function getCurrency()
+    {
+        static $currency;
+
+        if (!isset($currency)) {
+            $currency = $this->getGroup('cart.config')->get('default_currency', 'eur');
+        }
+
+        return $currency;
+    }
+
+    /**
      * Init all configs
      */
     protected function _init()
@@ -211,7 +225,7 @@ class JBModelConfig extends JBModel
             ->select(array(
                 'CONCAT_WS(".", `group`, `key`) as group_key',
                 '`value`',
-                '`type`'
+                '`type`',
             ))
             ->limit(1000);
 
