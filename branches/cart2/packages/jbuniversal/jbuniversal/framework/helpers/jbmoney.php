@@ -64,7 +64,7 @@ class JBMoneyHelper extends AppHelper
         parent::__construct($app);
 
         $this->_config     = JBModelConfig::model();
-        $this->_defaultCur = $this->_config->get('default_currency', 'eur', 'cart.config');
+        $this->_defaultCur = $this->_config->getCurrency();
 
         $this->_currencyMode = $this->_config->get('undefined_currency', 'default', 'cart.config');
         if (empty($this->_currencyMode)) {
