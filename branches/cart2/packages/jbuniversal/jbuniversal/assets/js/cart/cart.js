@@ -168,6 +168,7 @@
 
                 var $money = $this.$(selector + '>.jsMoney');
 
+                key = "" + key; // force to string
                 if (key.indexOf('-ajax') > 0) {
 
                     $this.$('.jsShippingAjax-' + key.replace('-ajax', ''))
