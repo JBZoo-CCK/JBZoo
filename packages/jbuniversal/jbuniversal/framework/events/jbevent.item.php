@@ -78,6 +78,14 @@ class JBEventItem extends JBEvent
 
         // update index data
         JBModelSearchindex::model()->removeById($item);
+        
+        // execute item trigger
+        $jbimageElements = $item->getElements();
+        foreach ($jbimageElements as $element) {
+            if (method_exists($element, 'triggerItemDeleted')) {
+                $element->triggerItemDeleted();
+            }
+        }        
     }
 
     /**
