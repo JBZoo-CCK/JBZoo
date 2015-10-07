@@ -831,15 +831,16 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                     'variant'    => $variant,
                 ))
                 ) {
-                    if (!$element->canAccess()) {
-                        return false;
-                    }
                 } else {
                     return false;
                 }
             } else {
                 return false;
             }
+        }
+
+        if (!$element->canAccess()) {
+            return false;
         }
 
         $element = clone $element;
