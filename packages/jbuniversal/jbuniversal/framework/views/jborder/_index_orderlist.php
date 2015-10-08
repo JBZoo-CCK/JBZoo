@@ -54,7 +54,7 @@ $orderDir = $this->filter->get('order_dir', 'desc');
             <td>
                 <a href="<?php echo $order->getUrl(); ?>">№<?php echo $order->getName(); ?></a>
                 <?php
-                echo JText::_('JBZOO_BY');
+                echo JText::_('JBZOO_BY') . ' ';
                 if ($user = $order->getAuthor()) {
                     $href = $this->app->component->users->link(array('task' => 'user.edit', 'layout' => 'edit', 'view' => 'user', 'id' => $user->id));
                     echo '<i><a href="' . $href . '">' . $user->name . '</a></i>';
