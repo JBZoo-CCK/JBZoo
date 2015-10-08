@@ -475,8 +475,9 @@ class JBMigratePriceHelper extends AppHelper
 
         if ($items) {
             foreach ($items as $item) {
-                $this->_convertItem($item);
-                $this->app->table->item->save($item);
+                if ($this->_convertItem($item)) {
+                    $this->app->table->item->save($item);
+                }
             }
 
             return $page + 1;
@@ -487,11 +488,15 @@ class JBMigratePriceHelper extends AppHelper
 
     /**
      * @param Item $item
+     * @return bool
      */
     public function _convertItem(Item $item)
     {
         $oldPrices = $item->getElementsByType('jbpriceadvance');
         $oldPrice  = current($oldPrices);
+        if (!$oldPrice) {
+            return false;
+        }
         $oldData   = $this->app->data->create($oldPrice->data());
 
         $params = $this->app->data->create($this->_migrate->getParams()->find('elements.' . $oldPrice->identifier));
@@ -529,6 +534,8 @@ class JBMigratePriceHelper extends AppHelper
         if ($newPriceId && $newPrice = $item->getElement($newPriceId)) {
             $newPrice->bindData($newPriceData);
         }
+
+        return true;
     }
 
 }
