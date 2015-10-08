@@ -364,7 +364,9 @@ class JBCartOrder
             if (!empty($elementConfigs)) {
                 foreach ($elementConfigs as $elementId => $elementConfig) {
                     if ($modifierElement = $this->getModifierOrderPriceElement($elementId)) {
-                        $elements[$elementId] = $modifierElement;
+                        if ($modifierElement->canAccess()) {
+                            $elements[$elementId] = $modifierElement;
+                        }
                     }
                 }
             }
