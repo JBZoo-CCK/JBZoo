@@ -715,6 +715,7 @@ class JBCart
         $this->app->jbevent->fire($this, 'basket:recount');
 
         $cookieCur = $this->app->jbrequest->getCurrency();
+        $this->updateItems();        
         $this->checkItems();
 
         $order   = $this->newOrder();
