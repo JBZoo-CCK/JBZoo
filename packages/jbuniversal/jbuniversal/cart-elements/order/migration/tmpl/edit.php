@@ -19,7 +19,7 @@ $fields = $this->get('content', array());
 if ($fields) {
 
     $html[] = '<div class="uk-overflow-container"><table class="uk-table uk-table-condensed"><tbody>';
-    $html[] = '<thead><tr><th>Поле</th><th>Значение</th><tr></thead>';
+    $html[] = '<thead><tr><th>Property</th><th>Value</th><tr></thead>';
 
     foreach ($fields as $key => $value) {
         $html[] = '<tr>';
