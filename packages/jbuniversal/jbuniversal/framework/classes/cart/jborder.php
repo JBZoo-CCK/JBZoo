@@ -141,6 +141,20 @@ class JBCartOrder
     }
 
     /**
+     * @return \JUser|null
+     */
+    public function getUser()
+    {
+        $author = $this->getAuthor();
+
+        if(!$author) {
+            $author = JFactory::getUser(0);
+        }
+
+        return $author;
+    }
+
+    /**
      * Get the Order published state
      * @return JBCartElementStatus
      */
@@ -258,12 +272,15 @@ class JBCartOrder
     public function getTotalForSevices()
     {
         $summa = $this->getTotalForItems();
+        $user  = $this->getUser();
 
         // get modifiers
         $modifiers = $this->getModifiersOrderPrice();
         if (!empty($modifiers)) {
             foreach ($modifiers as $modifier) {
-                $modifier->modify($summa);
+                if ($modifier->canAccess($user)) {
+                    $modifier->modify($summa);
+                }
             }
         }
 
@@ -360,11 +377,12 @@ class JBCartOrder
 
             $elementConfigs = $this->params->get(JBCart::CONFIG_MODIFIER_ORDER_PRICE);
 
+            $user     = $this->getUser();
             $elements = array();
             if (!empty($elementConfigs)) {
                 foreach ($elementConfigs as $elementId => $elementConfig) {
                     if ($modifierElement = $this->getModifierOrderPriceElement($elementId)) {
-                        if ($modifierElement->canAccess()) {
+                        if ($modifierElement->canAccess($user)) {
                             $elements[$elementId] = $modifierElement;
                         }
                     }
