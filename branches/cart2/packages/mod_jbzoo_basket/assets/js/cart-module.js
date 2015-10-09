@@ -64,8 +64,13 @@
             $this.ajax({
                 url     : $this.options.url_reload,
                 dataType: 'html',
-                success : function (data) {
-                    $this.el.empty().prepend($(data).contents());
+                success : function (html) {
+                    
+                    html = '<div>' + html + '</div>';
+                    
+                    var content = $(html).find('.jsJBZooCartModule').contents();
+                                        
+                    $this.el.empty().prepend(content);
                 }
             });
         }
