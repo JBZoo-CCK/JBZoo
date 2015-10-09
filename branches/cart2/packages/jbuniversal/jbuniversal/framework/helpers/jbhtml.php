@@ -275,6 +275,25 @@ class JBHtmlHelper extends AppHelper
     }
 
     /**
+     * Render textarea field
+     * @param      $name
+     * @param null $value
+     * @param null $attribs
+     * @param null $idtag
+     * @return string
+     */
+    public function textarea($name, $value = null, $attribs = null, $idtag = null)
+    {
+        if ($idtag && is_array($attribs)) {
+            $attribs['id'] = $idtag;
+        }
+
+        $attribs = $this->_buildAttrs($attribs);
+
+        return $this->app->html->_('control.textarea', $name, $value, $attribs);
+    }
+
+    /**
      * Quantity widget
      * @param int    $default
      * @param array  $options
