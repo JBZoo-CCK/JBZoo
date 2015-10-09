@@ -444,9 +444,10 @@ class JBCartOrder
                 }
 
                 $this->_elements[$type][$identifier] = $element;
+
+                return $this->_elements[$type][$identifier];
             }
 
-            return $this->_elements[$type][$identifier];
         }
 
         return null;
@@ -1173,9 +1174,10 @@ class JBCartOrder
         $dataFields = $this->app->data->create($dataFields);
 
         foreach ($dataFields as $identifier => $data) {
-            $element = $this->getShippingFieldElement($identifier);
-            $element->bindData($data);
-            $element->identifier = $identifier;
+            if ($element = $this->getShippingFieldElement($identifier)) {
+                $element->bindData($data);
+                $element->identifier = $identifier;
+            }
         }
     }
 
@@ -1187,9 +1189,10 @@ class JBCartOrder
         $dataFields = $this->app->data->create($dataFields);
 
         foreach ($dataFields as $identifier => $data) {
-            $element = $this->getFieldElement($identifier);
-            $element->bindData($data);
-            $element->identifier = $identifier;
+            if ($element = $this->getFieldElement($identifier)) {
+                $element->bindData($data);
+                $element->identifier = $identifier;
+            }
         }
 
     }
