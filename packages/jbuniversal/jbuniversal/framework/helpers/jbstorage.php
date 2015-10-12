@@ -53,7 +53,8 @@ class JBStorageHelper extends AppHelper
     {
         parent::__construct($app);
 
-        $elements       = JPATH_ROOT . '/media/zoo/applications/jbuniversal/cart-elements/';
+        $path     = JPATH_ROOT . '/media/zoo/applications/jbuniversal/cart-elements/';
+        $elements = JFolder::folders($path . 'price/');
 
         $this->configs    = new AppData();
         $this->assets     = new AppData();
@@ -62,34 +63,16 @@ class JBStorageHelper extends AppHelper
         $this->filter     = new AppData();
         $this->paths      = new AppData();
 
-        $this->paths->exchangeArray(array(
-            'jbcartelementpricebalance'     => $elements . 'price/balance/balance.php',
-            'jbcartelementpricebool'        => $elements . 'price/bool/bool.php',
-            'jbcartelementpricebuttons'     => $elements . 'price/buttons/buttons.php',
-            'jbcartelementpricecheckbox'    => $elements . 'price/checkbox/checkbox.php',
-            'jbcartelementpricecolor'       => $elements . 'price/color/color.php',
-            'jbcartelementpricecurrency'    => $elements . 'price/currency/currency.php',
-            'jbcartelementpricedate'        => $elements . 'price/date/date.php',
-            'jbcartelementpricedescription' => $elements . 'price/description/description.php',
-            'jbcartelementpricediscount'    => $elements . 'price/discount/discount.php',
-            'jbcartelementpriceimage'       => $elements . 'price/image/image.php',
-            'jbcartelementpricemargin'      => $elements . 'price/margin/margin.php',
-            'jbcartelementpriceproperties'  => $elements . 'price/properties/properties.php',
-            'jbcartelementpricequantity'    => $elements . 'price/quantity/quantity.php',
-            'jbcartelementpriceradio'       => $elements . 'price/radio/radio.php',
-            'jbcartelementpriceselect'      => $elements . 'price/select/select.php',
-            'jbcartelementpricesku'         => $elements . 'price/sku/sku.php',
-            'jbcartelementpricetext'        => $elements . 'price/text/text.php',
-            'jbcartelementpricevalue'       => $elements . 'price/value/value.php',
-            'jbcartelementpriceweight'      => $elements . 'price/weight/weight.php'
-        ));
-
+        foreach($elements as $element) {
+            $this->paths->set('jbcartelementprice' . $element, $path . 'price/' . $element . '/' . $element . '.php');
+        }
+        
         if (!class_exists('JBCartElement')) {
-            require($elements . 'core/element/element.php');
+            require($path . 'core/element/element.php');
         }
 
         if (!class_exists('JBCartElementPrice')) {
-            require($elements . 'core/price/price.php');
+            require($path . 'core/price/price.php');
         }
     }
 
