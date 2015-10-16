@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 if (!empty($this->orders)) {
 
     $html = array(
-        '<br><h2>5 последних заказов</h2>',
+        '<br><h2>' . JText::_('JBZOO_ADMIN_INDEX_ORDERS_TITLE') . '</h2>',
         '<table class="uk-table uk-table-hover uk-table-striped uk-table-condensed"><thead><tr>',
         '<th>' . JText::_('JBZOO_ADMIN_NAME') . '</th>',
         '<th>' . JText::_('JBZOO_ADMIN_CREATED') . '</th>',

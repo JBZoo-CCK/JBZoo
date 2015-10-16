@@ -35,7 +35,7 @@ $graphRows = JBModelOrder::model()->countByDate();
         var chart = new google.visualization.Calendar(document.getElementById('calendar_basic'));
 
         var options = {
-            title   : "Календарь продаж за текущий год",
+            title   : "<?php echo JText::_('JBZOO_ADMIN_INDEX_GRAPH_TITLE'); ?>",
             calendar: {
                 daysOfWeek: 'ВПВСЧПС'
             }

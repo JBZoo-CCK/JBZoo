@@ -14,9 +14,9 @@ defined('_JEXEC') or die('Restricted access');
 
 
 if ($this->count) : ?>
-    <h2>Статистика магазина</h2>
+    <h2><?php echo JText::_('JBZOO_ADMIN_INDEX_SHOP_STATS'); ?></h2>
     <p>
-        Сумма всех заказов: <?php echo $this->summ->html(); ?><br />
-        Всего заказов: <?php echo $this->count; ?>
+        <?php echo JText::_('JBZOO_ADMIN_INDEX_ORDERS_SUM'); ?>: <?php echo $this->summ->html(); ?><br />
+        <?php echo JText::_('JBZOO_ADMIN_INDEX_ORDERS_COUNT'); ?>: <?php echo $this->count; ?>
     </p>
 <?php endif; ?>
