@@ -21,7 +21,7 @@ $curList = $modHelper->getCurrencyList();
 
         <?php if (count($curList['list']) > 1) : ?>
 
-            <p><?php echo $curList['orig']->html(); ?> в других валютах </p>
+            <p><?php echo $curList['orig']->html(); ?><?php echo JText::_('JBZOO_MODULE_CURRENCY_OTHERS'); ?></p>
 
             <table class="jbcurrency-list no-border">
                 <?php foreach ($curList['list'] as $code => $currency) : ?>
