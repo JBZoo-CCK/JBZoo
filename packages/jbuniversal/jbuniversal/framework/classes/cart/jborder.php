@@ -700,7 +700,10 @@ class JBCartOrder
         if (!$this->id) {
             if ($shippingData = JBCart::getInstance()->getShipping()) {
 
-                $elemId = isset($shippingData['element_id']) ? $shippingData['element_id'] : '';
+                $elemId = isset($shippingData['element_id']) ? $shippingData['element_id'] : null;
+                if (!$elemId) {
+                    $elemId = isset($shippingData['_shipping_id']) ? $shippingData['_shipping_id'] : null;
+                }
 
                 if ($shipping = $this->getShippingElement($elemId)) {
                     $shipping->bindData($shippingData);
