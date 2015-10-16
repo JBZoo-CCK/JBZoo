@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 
     <div class="uk-width-4-6">
 
-        <h2>Электронная коммерция</h2>
+        <h2><?php echo JText::_('JBZOO_ADMIN_INDEX_TITLE'); ?></h2>
         <?php echo $this->partial('index_graph'); ?>
         <?php echo $this->partial('index_stats'); ?>
         <?php echo $this->partial('index_orders'); ?>

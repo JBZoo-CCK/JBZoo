@@ -34,7 +34,7 @@ if ($shipping) {
                 <p><?php echo $shipping->getRate()->html(); ?></p>
             </dd>
 
-            <dt>Статус</dt>
+            <dt><?php echo JText::_('JBZOO_ORDER_SHIPPING_BLOCK_STATUS'); ?></dt>
             <dd>
                 <p><?php echo $this->app->jbhtml->select($statusList, 'order[shipping][status]', '', $curStatus); ?></p>
             </dd>

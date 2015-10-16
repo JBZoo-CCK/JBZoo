@@ -22,22 +22,22 @@ if (!empty($payment)) :
     ?>
 
     <div class="uk-panel uk-panel-box">
-        <h3 class="uk-panel-title">Система оплаты</h3>
+        <h3 class="uk-panel-title"><?php echo JText::_('JBZOO_ORDER_PAYMENT_TITLE'); ?></h3>
 
         <?php echo $this->paymentRender->renderAdminEdit(array('order' => $order)); ?>
 
         <dl class="uk-description-list-horizontal">
 
-            <dt>Способ оплаты</dt>
+            <dt><?php echo JText::_('JBZOO_ORDER_PAYMENT_METHOD'); ?></dt>
             <dd><p><?php echo $payment->getName(); ?></p></dd>
 
-            <dt>Комиссия</dt>
+            <dt><?php echo JText::_('JBZOO_ORDER_PAYMENT_TAX'); ?></dt>
             <dd><p><?php echo $payment->getRate()->html(); ?></p></dd>
 
-            <dt>Итого к оплате</dt>
+            <dt><?php echo JText::_('JBZOO_ORDER_PAYMENT_TOTAL'); ?></dt>
             <dd><p><?php echo $order->getTotalSum(true)->html(); ?></p></dd>
 
-            <dt>Статус</dt>
+            <dt><?php echo JText::_('JBZOO_ORDER_PAYMENT_STATUS'); ?></dt>
             <dd><?php echo $this->app->jbhtml->select($statusList, 'order[payment][status]', '', $curStatus); ?></dd>
 
         </dl>

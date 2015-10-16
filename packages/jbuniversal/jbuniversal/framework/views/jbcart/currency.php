@@ -19,17 +19,15 @@ defined('_JEXEC') or die('Restricted access');
         <?php echo $this->partial('navigation'); ?>
     </div>
 
-
     <div class="uk-width-4-6">
-
-        <h2>Список доступных валют</h2>
+        <h2><?php echo JText::_('JBZOO_ADMIN_CURRENCY_LIST'); ?></h2>
 
         <?php echo $this->partial('cartdesc'); ?>
 
         <?php echo $this->partial('editpositions', array(
             'positions' => $this->positions,
             'groupList' => $this->groupList,
-        ));?>
+        )); ?>
 
         <?php echo $this->partial('footer'); ?>
     </div>

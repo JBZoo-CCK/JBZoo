@@ -22,16 +22,13 @@ defined('_JEXEC') or die('Restricted access');
 
     <div class="uk-width-4-6">
 
-        <h2>Ссылки</h2>
-
+        <h2><?php echo JText::_('JBZOO_ADMIN_URLS_TITLE'); ?></h2>
         <?php echo $this->partial('cartdesc'); ?>
-
         <?php echo $this->app->jbform->render('config_urls', array('hideSubmit' => 1)); ?>
-
         <?php echo $this->partial('footer'); ?>
     </div>
 
     <div id="right-sidebar" class="uk-width-1-6">
         <?php echo $this->partial('right'); ?>
-    </div>    
+    </div>
 </div>

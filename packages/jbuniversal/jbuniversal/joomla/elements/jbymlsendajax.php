@@ -18,17 +18,19 @@ $id    = uniqid();
 $appId = App::getInstance('zoo')->zoo->getApplication()->id;
 $link  = '/?controller=ymlexport&task=index&app_id=' . $appId . '&ajaxSubmit=true';
 
-echo '<input id="'.$id.'" name="ajaxSubmit" type="button" class="ajaxSubmit" style="cursor: pointer" value="Обновить файл" />';
+echo '<input id="' . $id . '" name="ajaxSubmit" type="button" class="ajaxSubmit"
+ style="cursor: pointer" value="' . JText::_('JBZOO_FIELDS_YMLSENDAJAX') . '" />';
+
 ?>
 <script type="text/javascript">
     (function ($) {
         $('#<?php echo $id ?>').on('click', function () {
             $.ajax({
-                type: 'GET',
-                cache: false,
+                type    : 'GET',
+                cache   : false,
                 dataType: 'html',
-                url: '<?php echo $link ;?>',
-                success: function () {
+                url     : '<?php echo $link ;?>',
+                success : function () {
                     alert('<?php echo JText::_('JBZOO_YML_EXPORT') ?>');
                 }
             });
