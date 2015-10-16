@@ -20,7 +20,7 @@ $order = JBCart::getInstance()->newOrder();
 
 <div class="jbcart-mobile-tools">
     <div class="jbtool-total-price">
-        <span class="jbtool-label"><?php echo JText::_('Итого к оплате'); ?>:</span>
+        <span class="jbtool-label"><?php echo JText::_('JBZOO_CART_TOTAL_SUM'); ?>:</span>
         <span class="jbtool-value jsTotal"><?php echo $order->getTotalSum()->html(); ?></span>
     </div>
 
