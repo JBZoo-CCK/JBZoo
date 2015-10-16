@@ -25,11 +25,14 @@ $urlAction = $this->app->jbrouter->admin(array('controller' => 'jbinfo', 'task' 
         <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_INFO_LICENCE'); ?></h2>
 
         <?php echo $this->app->jbform->render('licence',
-            array('action' => $urlAction),
+            array(
+                'action'     => $urlAction,
+                'showSubmit' => true,
+            ),
             array(
                 'JBZOO_USERNAME' => defined('JBZOO_USERNAME') ? JBZOO_USERNAME : '',
             )
-        );?>
+        ); ?>
 
         <?php echo $this->partial('footer'); ?>
 
