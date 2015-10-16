@@ -60,9 +60,8 @@
                label="JBZOO_JBCOLORS_TEMPLATE_LABEL"
                description="JBZOO_JBCOLORS_TEMPLATE_DESC"
                 >
-
-            <option value="default">Цветные блоки</option>
-            <option value="alphabetic">Только названия</option>
+            <option value="default">JBZOO_JBCOLORS_TEMPLATE_DEFAULT</option>
+            <option value="alphabetic">JBZOO_JBCOLORS_TEMPLATE_ALPHABETIC</option>
         </param>
 
         <param name="width"
