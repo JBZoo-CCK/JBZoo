@@ -12,6 +12,10 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+if ($price->compare($total)) {
+    return;
+}
+
 ?>
 
 <span class="jbprice-value-price"><?php echo $price->html($currency); ?></span>
