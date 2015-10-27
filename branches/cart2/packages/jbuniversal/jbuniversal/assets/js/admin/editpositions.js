@@ -195,8 +195,16 @@
         },
 
         'click .jsEdit': function (e, $this) {
+            var $element = $(this).closest(".jsElement"),
+                isHide = $element.is('.hideconfig');
+
             $this.hideAllConfigs();
-            $(this).closest(".jsElement").toggleClass("hideconfig");
+
+            if (isHide) {
+                $element.removeClass('hideconfig');
+            } else {
+                $element.addClass('hideconfig');
+            }
         },
 
         'click .jsDelete': function (e, $this) {
