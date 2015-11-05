@@ -389,6 +389,7 @@ class JBImportHelper extends AppHelper
 
         // clean memory
         unset($item);
+        $this->app->table->item->unsetObject($id);
 
         return $id;
     }
@@ -401,7 +402,7 @@ class JBImportHelper extends AppHelper
      */
     protected function _processCategoryRow($row, $lineKey)
     {
-        // create item
+        // create category
         $category = $this->_getCategoryByKey($row, $lineKey);
         if (empty($category)) {
             return 0;
@@ -432,6 +433,7 @@ class JBImportHelper extends AppHelper
 
         // clean memory
         unset($category);
+        $this->app->table->category->unsetObject($id);
 
         return $id;
     }
