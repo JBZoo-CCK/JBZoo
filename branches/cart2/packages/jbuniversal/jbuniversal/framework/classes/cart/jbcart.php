@@ -746,17 +746,19 @@ class JBCart
                 if ($element = $order->getShippingElement($elemId)) {
                     $element->bindData($shipping);
 
-                    $rate = JBCart::val();
+                    $modRate = JBCart::val();
                     try {
-                        $rate = $element->getRate();
+                    	$modRate = $element->getRate();
                     } catch (JBCartElementShippingException $e) {
-                        $shippingRes[$elemId . '-exception'] = $e->getMessage();
+                    	$shippingRes[$elemId . '-exception'] = $e->getMessage();
                     }
 
-                    $shippingRes['Price-' . $elemId] = $rate->convert($cookieCur)->data();
-
-                    $shippingRes[$elemId . '-ajax'] = $element->getAjaxData();
-                }
+                    if (!$modRate->isCur('%')) {
+                        $modRate->convert($cookieCur);
+                    }                    
+                    
+                    $shippingRes['Price-' . $elemId] = $modRate->data();
+                    $shippingRes[$elemId . '-ajax']  = $element->getAjaxData();                }
             }
         }
 
@@ -772,20 +774,35 @@ class JBCart
                 }
 
                 $modiferRes['Modifier-' . $identifier] = array(
-                    'MoneyWrap' => $modRate->data(),
+                    'MoneyWrap' => $modRate->data()
                 );
             }
         }
 
+        $totalPrice = $order->getTotalForItems();
+        if (!$totalPrice->isCur('%')) {
+            $totalPrice->convert($cookieCur);
+        }
+        
+        $shippingPrice = $order->getShippingPrice(false);
+        if (!$shippingPrice->isCur('%')) {
+            $shippingPrice->convert($cookieCur);
+        }
+
+        $total = $order->getTotalSum(false);
+        if (!$total->isCur('%')) {
+            $total->convert($cookieCur);
+        }       
+        
         // result
         $result = array(
             'Modifier'      => $modiferRes,
             'CartTableRow'  => $itemsRes,
             'Shipping'      => $shippingRes,
             'TotalCount'    => $order->getTotalCount(),
-            'TotalPrice'    => $order->getTotalForItems()->convert($cookieCur)->data(),
-            'ShippingPrice' => $order->getShippingPrice(false)->convert($cookieCur)->data(),
-            'Total'         => $order->getTotalSum()->convert($cookieCur)->data(),
+            'TotalPrice'    => $totalPrice->data(),
+            'ShippingPrice' => $shippingPrice->data(),
+            'Total'         => $total->data(),
         );
 
         return $result;
