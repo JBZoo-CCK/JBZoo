@@ -90,13 +90,13 @@ class JBEnvHelper extends AppHelper
     public function maxPerformance()
     {
         // set max time
-        @ini_set('max_execution_time', 1200);
+        @ini_set('max_execution_time', 1800);
         if (function_exists('set_time_limit')) {
-            @set_time_limit(1200);
+            @set_time_limit(1800);
         }
 
         // set memory limit
-        @ini_set('memory_limit', '256M');
+        @ini_set('memory_limit', '512M');
     }
 
 }
