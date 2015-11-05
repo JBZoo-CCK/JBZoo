@@ -42,18 +42,32 @@ class JBCSVItemCoreCategory extends JBCSVItem
     }
 
     /**
-     * @param $value
+     * @param      $value
      * @param null $position
      * @return Item|void
      */
     public function fromCSV($value, $position = null)
     {
-        $categoryTable = $this->app->table->category;
+        static $memCache = array();
 
-        $application      = $this->_item->getApplication();
-        $appCategories    = $this->app->table->category->getAll($application->id);
-        $appCategoryAlias = array_map(create_function('$cat', 'return $cat->alias;'), $appCategories);
-        $appCategoryNames = array_map(create_function('$cat', 'return $cat->name;'), $appCategories);
+        $categoryTable = $this->app->table->category;
+        $application   = $this->_item->getApplication();
+
+        if (!isset($memCache[$application->id])) {
+            $appCategories    = $this->app->table->category->getAll($application->id);
+            $appCategoryAlias = array_map(create_function('$cat', 'return $cat->alias;'), $appCategories);
+            $appCategoryNames = array_map(create_function('$cat', 'return $cat->name;'), $appCategories);
+
+            $memCache[$application->id] = array(
+                'appCategories'    => $appCategories,
+                'appCategoryAlias' => $appCategoryAlias,
+                'appCategoryNames' => $appCategoryNames,
+            );
+        } else {
+            $appCategories    = &$memCache[$application->id]['appCategories'];
+            $appCategoryAlias = &$memCache[$application->id]['appCategoryAlias'];
+            $appCategoryNames = &$memCache[$application->id]['appCategoryNames'];
+        }
 
         $itemCategories = $this->_getArray($value, 'simple');
 
