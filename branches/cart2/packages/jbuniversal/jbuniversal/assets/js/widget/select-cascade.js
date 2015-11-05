@@ -90,6 +90,12 @@
                 $selectNext = $this.$('.jsSelect-' + (selectIndex + 1));
 
             $this._fillSelect($selectNext, selectValue, parentValues, false);
+
+
+            if ($selectNext.find('option').length == 2) {
+                $selectNext.val($selectNext.find('option:eq(1)').val());
+            }
+
             $selectNext.trigger('change');
         },
 
