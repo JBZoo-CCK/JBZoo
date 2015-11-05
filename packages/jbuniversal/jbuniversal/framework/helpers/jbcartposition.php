@@ -47,8 +47,12 @@ class JBCartPositionHelper extends AppHelper
 
             foreach ($elements as $elemConfig) {
 
-                $element    = null;
-                $identifier = $elemConfig['identifier'];
+                $element = null;
+                if (isset($elemConfig['identifier'])) {
+                    $identifier = $elemConfig['identifier'];
+                } else {
+                    continue;
+                }
 
                 if (!empty($forceElements)) {
 
