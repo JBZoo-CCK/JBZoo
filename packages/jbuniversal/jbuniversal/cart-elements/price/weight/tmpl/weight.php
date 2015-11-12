@@ -13,4 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-echo JText::sprintf('JBZOO_ELEMENT_PRICE_WEIGHT_UNIT', $value);
+$value = trim($value);
+if ($value) {
+    echo JText::sprintf('JBZOO_ELEMENT_PRICE_WEIGHT_UNIT', $value);
+}
