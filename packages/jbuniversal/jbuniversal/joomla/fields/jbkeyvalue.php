@@ -69,6 +69,10 @@ class JFormFieldJBKeyvalue extends JFormField
             if (array_key_exists($type, $typesList)) {
 
                 $appType = $application->getType($type);
+                if (!$appType) {
+                    continue;
+                }
+
                 foreach ($tmpElements as $key => $element) {
 
                     if (!in_array($element['type'], $exclude) && strpos($key, '_') === false) {
