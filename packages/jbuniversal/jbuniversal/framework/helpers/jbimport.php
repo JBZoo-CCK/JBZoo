@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBImportHelper extends AppHelper
 {
-    const STEP_SIZE = 50;
+    const STEP_SIZE = 25;
 
     const LOSE_NONE    = 0;
     const LOSE_DISABLE = 1;
