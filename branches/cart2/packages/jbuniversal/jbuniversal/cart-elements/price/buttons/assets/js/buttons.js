@@ -139,7 +139,7 @@
 
             'click .jsAddToCart': function (e, $this) {
 
-                var jbPrice  = $this._getPriceWidget(),
+                var jbPrice  = $this.el.closest('.jsPrice').data('JBZooPrice'),
                     quantity = jbPrice.get('quantity', '1'),
                     input    = $(this);
 
