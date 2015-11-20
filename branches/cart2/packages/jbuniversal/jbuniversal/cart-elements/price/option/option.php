@@ -69,7 +69,7 @@ class JBCartElementPriceOption extends JBCartElementPrice
     {
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderEditLayout($layout, array(
-                'options' => $this->_parseOptions()
+                'options' => $this->_parseOptions(),
             ));
         }
 
@@ -84,7 +84,7 @@ class JBCartElementPriceOption extends JBCartElementPrice
     {
         if ($layout = $this->getLayout($params->get('layout', 'radio') . '.php')) {
             return $this->renderLayout($layout, array(
-                'data' => $this->_getOptions($params->get('label', ''))
+                'data' => $this->_getOptions($params->get('label', '')),
             ));
         }
 
@@ -110,8 +110,7 @@ class JBCartElementPriceOption extends JBCartElementPrice
      */
     public function isRequired()
     {
-        if ($this->required === null)
-        {
+        if ($this->required === null) {
             $hasOptions = ($this->hasOptions() && $this->_getOptions(false)) || !$this->hasOptions();
             $required   = (int)$this->config->get('required', 0) === 1;
 
@@ -155,21 +154,19 @@ class JBCartElementPriceOption extends JBCartElementPrice
     {
         $options = $sorted = $this->_parseOptions(false);
 
-        if (!$this->hasOptions())
-        {
+        if (!$this->hasOptions()) {
             $options = $this->getJBPrice()->elementOptions($this->identifier);
-        }
-        elseif (!$this->showAll && $options)
-        {
+
+        } elseif (!$this->showAll && $options) {
             $selected = $this->getJBPrice()->elementOptions($this->identifier);
+
             array_walk($selected, function ($value, $key) use ($options) {
                 return isset($options[$key]) ? $value : null;
             });
             $options = array_filter($selected);
         }
 
-        if (false !== $label && count($options))
-        {
+        if (false !== $label && count($options)) {
             $options = $this->app->jbarray->sortByArray($options, $sorted);
             $options = $this->app->jbarray->unshiftAssoc($options, '', $this->getLabel($label));
         }
@@ -187,8 +184,7 @@ class JBCartElementPriceOption extends JBCartElementPrice
         $options = $this->config->get('options', '');
         $options = $this->_parseLines($options);
 
-        if ($label !== false && count($options))
-        {
+        if ($label !== false && count($options)) {
             $options = $this->app->jbarray->unshiftAssoc($options, '', $this->getLabel());
         }
 
