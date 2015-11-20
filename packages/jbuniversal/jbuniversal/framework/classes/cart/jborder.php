@@ -147,7 +147,7 @@ class JBCartOrder
     {
         $author = $this->getAuthor();
 
-        if(!$author) {
+        if (!$author) {
             $author = JFactory::getUser(0);
         }
 
@@ -258,7 +258,8 @@ class JBCartOrder
             $rate = $this->val(0);
             try {
                 $rate = $shipping->getRate();
-            } catch (JBCartElementShippingException $e) {}
+            } catch (JBCartElementShippingException $e) {
+            }
 
             return $rate;
         }
@@ -1294,7 +1295,7 @@ class JBCartOrder
      */
     public function addOrderElement(JBCartElementOrder $element)
     {
-        $this->params[JBCart::CONFIG_FIELDS][$element->identifier]         = (array)$element->config;
+        $this->params[JBCart::CONFIG_FIELDS][$element->identifier]    = (array)$element->config;
         $this->_elements[JBCart::CONFIG_FIELDS][$element->identifier] = $element;
     }
 
