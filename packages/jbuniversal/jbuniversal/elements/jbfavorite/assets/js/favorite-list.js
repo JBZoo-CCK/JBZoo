@@ -39,8 +39,9 @@
                         }
                     }
                 });
-
             });
+
+            return false;
         },
 
         'click .jsFavoriteClear': function (e, $this) {
