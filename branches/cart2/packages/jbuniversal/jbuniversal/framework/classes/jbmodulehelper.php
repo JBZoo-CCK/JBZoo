@@ -28,7 +28,7 @@ class JBModuleHelper
     protected $_moduleType = '';
 
     /**
-     * @var JRegistry
+     * @var \Joomla\Registry\Registry
      */
     protected $_params = null;
 
@@ -63,10 +63,10 @@ class JBModuleHelper
     protected $_jbassets = null;
 
     /**
-     * @param JRegistry $params
+     * @param \Joomla\Registry\Registry $params $params
      * @param stdClass  $module
      */
-    public function __construct(JRegistry $params, $module)
+    public function __construct($params, $module)
     {
         JBZoo::init();
 
