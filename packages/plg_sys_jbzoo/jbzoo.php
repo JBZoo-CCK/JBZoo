@@ -48,11 +48,24 @@ class plgSystemJBZoo extends JPlugin
     protected $_jbzooSystemPlg = null;
 
     /**
+     * Joomla Event onAfterInitialise
+     */
+    public function onAfterInitialise()
+    {
+        if ($this->_initFramework() && $this->_jbzooSystemPlg) {
+            $this->_jbzooSystemPlg->onAfterInitialise();
+        }
+    }
+
+    /**
      * Init Zoo && JBZoo Framework
      * @return bool|null
      */
     protected function _initFramework()
     {
+        if (!isset($_SERVER['REQUEST_TIME_FLOAT'])) { // hack for performance test
+            $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
+        }
 
         if (!$this->_getExtCompatibility()) {
             return false;
@@ -145,25 +158,18 @@ class plgSystemJBZoo extends JPlugin
     }
 
     /**
-     * Joomla Event onAfterInitialise
-     */
-    public function onAfterInitialise()
-    {
-        if (!isset($_SERVER['REQUEST_TIME_FLOAT'])) { // hack for performance test
-            $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
-        }
-
-        if ($this->_jbzooSystemPlg) {
-            $this->_jbzooSystemPlg->onAfterInitialise();
-        }
-    }
-
-    /**
      * Joomla Event onAfterRoute
      */
     public function onAfterRoute()
     {
-        if ($this->_initFramework() && $this->_jbzooSystemPlg) {
+        if ($this->_jbzooSystemPlg) {
+
+            $zoo = App::getInstance('zoo');
+            $lang = JFactory::getLanguage();
+            $lang->load('com_zoo');
+            $lang->load('com_jbzoo', $zoo->path->path('jbapp:'), null, true);
+            $lang->load('com_zoo', JPATH_ADMINISTRATOR);
+
             $this->_jbzooSystemPlg->onAfterRoute();
         }
     }
