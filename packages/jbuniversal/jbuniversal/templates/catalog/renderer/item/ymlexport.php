@@ -25,6 +25,10 @@ $yml = $this->app->jbyml;
 
         <price><?php echo $item_params['price'][$item->id]; ?></price>
 
+        <?php if ($item_params['priceOld'][$item->id] > 0) : ?>
+            <oldprice><?php echo $item_params['priceOld'][$item->id]; ?></oldprice>
+        <?php endif; ?>
+
         <currencyId><?php echo $item_params['currencyId'][$item->id]; ?></currencyId>
         <categoryId><?php echo $item_params['categoryId'][$item->id]; ?></categoryId>
 
