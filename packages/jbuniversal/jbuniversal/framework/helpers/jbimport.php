@@ -18,8 +18,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBImportHelper extends AppHelper
 {
-    const STEP_SIZE = 25;
-
     const LOSE_NONE    = 0;
     const LOSE_DISABLE = 1;
     const LOSE_REMOVE  = 2;
@@ -326,7 +324,7 @@ class JBImportHelper extends AppHelper
      */
     protected function _getLastLine($step = 0)
     {
-        $lastLine = self::STEP_SIZE * $step;
+        $lastLine = $this->_data->get('step') * $step;
         if ((int)$this->_data->header) {
             $lastLine++;
         }
@@ -342,7 +340,7 @@ class JBImportHelper extends AppHelper
      */
     protected function _getCSVLines($file, $lastLine)
     {
-        return $this->app->jbcsv->getLinesfromFile($file, $this->_data, $lastLine, self::STEP_SIZE);
+        return $this->app->jbcsv->getLinesfromFile($file, $this->_data, $lastLine, $this->_data->get('step'));
     }
 
     /**

@@ -42,6 +42,7 @@ class JBImportJBuniversalController extends JBuniversalController
         'header'    => 1,
         'separator' => ',',
         'enclosure' => '"',
+        'step'      => '25',
     );
 
     /**
@@ -104,6 +105,10 @@ class JBImportJBuniversalController extends JBuniversalController
 
         if (empty($request['enclosure'])) {
             $request['enclosure'] = $this->_defaultParams['enclosure'];
+        }
+
+        if (empty($request['step'])) {
+            $request['step'] = (int)$this->_defaultParams['step'];
         }
 
         // validate upload file
