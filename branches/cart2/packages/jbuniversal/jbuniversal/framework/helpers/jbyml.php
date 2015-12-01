@@ -349,6 +349,7 @@ class JBYmlHelper extends AppHelper
         if ($currencyRate != 'default') {
             $defaultCur = JBModelConfig::model()->getGroup('cart.config')->get('default_currency', 'RUB');
             $defaultCur = strtoupper($defaultCur);
+
             $textCurrencyRate[$defaultCur] = 1;
         }
 
@@ -420,7 +421,8 @@ class JBYmlHelper extends AppHelper
                 'published' => 1,
             )
         );
-        $price = $categoryId = $currencyId = $available = $picture = $link = array();
+
+        $priceOld = $price = $categoryId = $currencyId = $available = $picture = $link = array();
 
         foreach ($items as $key => $item) {
             $offer    = false;
@@ -444,6 +446,7 @@ class JBYmlHelper extends AppHelper
                     }
 
                     $offer = true;
+
                 } elseif ($element->config->type == 'jbprice') {
                     $data             = $element->current();
                     $price[$key]      = $data['value'];
@@ -453,14 +456,30 @@ class JBYmlHelper extends AppHelper
 
                 } elseif ($element->config->type == 'jbpriceplain' || $element->config->type == 'jbpricecalc') {
 
-                    $prices  = $element->getList()->getTotal();
-                    $balance = $element->getList()->current()->getValue(true, '_balance');
+                    $prices   = $element->getList()->getTotal();
+                    $oldPrice = $element->getList()->getPrice();
+                    $balance  = $element->getList()->current()->getValue(true, '_balance');
 
+                    $priceCur         = $prices->cur();
                     $price[$key]      = $prices->val();
-                    $currencyId[$key] = $prices->cur();
+                    $currencyId[$key] = $priceCur;
+
+                    $priceOld[$key] = 0;
+                    if ($prices->compare($oldPrice, '<')) {
+                        $priceOld[$key] = $oldPrice->val($priceCur);
+                    }
 
                     if ($balance) {
-                        $available[$key] = $balance > 0 ? 'true' : 'false';
+                        if ($balance == 0) {
+                            $available[$key] = 'false';
+
+                        } elseif ($balance == -1 || $balance > 0) {
+                            $available[$key] = 'true';
+
+                        } else {
+                            $available[$key] = 'false';
+                        }
+
                     } else {
                         $available[$key] = 'false';
                     }
@@ -533,6 +552,8 @@ class JBYmlHelper extends AppHelper
 
         $itemParams = array(
             'price'      => $price,
+            'priceOld'   => $priceOld,
+            'pricesOld'   => $priceOld, // only for old versions
             'categoryId' => $categoryId,
             'currencyId' => $currencyId,
             'available'  => $available,
