@@ -177,6 +177,10 @@ class JBOrderHelper extends AppHelper
                 $result[$key][$innerKey] = $value;
             }
 
+            if ($orderRow == 'random' || $orderRow == '_random') {
+                $result[]['field'] = 'random';
+            }
+
         }
 
         foreach ($result as $key => $orderRow) {
@@ -199,9 +203,7 @@ class JBOrderHelper extends AppHelper
 
         $orders = $this->convert($order);
 
-        $joinList = array();
-        $ol       = array();
-        $columns  = array();
+        $joinList = $ol = $columns = array();
 
         $ran = $this->app->jbarray->recursiveSearch('random', $orders);
         if ($ran !== false) {
@@ -214,6 +216,9 @@ class JBOrderHelper extends AppHelper
 
             if ($orderParams['field'] == 'corename') {
                 $ol[] = 'a.name ' . $order;
+
+            } elseif ($orderParams['field'] == 'corepriority') {
+                $ol[] = 'a.priority ' . $order;
 
             } elseif ($orderParams['field'] == 'corealias') {
                 $ol[] = 'a.alias ' . $order;
@@ -240,13 +245,13 @@ class JBOrderHelper extends AppHelper
             } elseif (strpos($orderParams['field'], '__')) {
                 list ($elementId, $priceField) = explode('__', $orderParams['field']);
 
-                $joinList['tSku']    = 'LEFT JOIN ' . ZOO_TABLE_JBZOO_SKU
+                $joinList['tSku'] = 'LEFT JOIN ' . ZOO_TABLE_JBZOO_SKU
                     . ' AS tSku ON tSku.item_id = a.id'
-                    . ' AND tSku.element_id = \'' . $elementId . '\'
-                        AND tSku.param_id = \'' . $priceField . '\'
-                        AND `variant` = \'-1\'';
+                    . ' AND tSku.element_id = \'' . $elementId . '\''
+                    . ' AND tSku.param_id = \'' . $priceField . '\''
+                    . ' AND `variant` = \'-1\'';
 
-                $ol[] = 'tSku.value_' . $orderParams['mode'] . ' ' . $order;
+                $ol[] = 'tSku.value_n ' . $order;
 
             } else {
                 $itemType = $this->app->jbentity->getItemTypeByElementId($orderParams['field']);
@@ -268,6 +273,7 @@ class JBOrderHelper extends AppHelper
                 }
             }
         }
+
         if (!empty($ol)) {
             return array(' ' . implode(' ', $joinList) . ' ', implode(', ', $ol));
 
@@ -294,11 +300,12 @@ class JBOrderHelper extends AppHelper
     }
 
     /**
-     * @return array
+     * @param bool|false $isModule
+     * @return mixed
      */
-    public function getListAdv()
+    public function getListAdv($isModule = false)
     {
-        return $this->app->jbfield->getSortElementsOptionList(0, '');
+        return $this->app->jbfield->getSortElementsOptionList(0, '', $isModule);
     }
 
     /**

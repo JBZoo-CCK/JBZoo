@@ -203,7 +203,7 @@ class JBFieldHelper extends AppHelper
                 'task'       => 'element',
                 'tmpl'       => 'component',
                 'func'       => 'selectZooItem',
-                'object'     => $unique_id
+                'object'     => $unique_id,
             ), false);
 
             $html[] = '<div class="item">';
@@ -219,7 +219,7 @@ class JBFieldHelper extends AppHelper
         $this->app->document->addScript('fields:zooapplication.js');
         $javascript = $this->app->jbassets->widget('#' . $unique_id, 'ZooApplication', array(
             'url'           => $link,
-            'msgSelectItem' => JText::_('Select Item')
+            'msgSelectItem' => JText::_('Select Item'),
         ), true);
 
         echo implode(PHP_EOL, $html) . $javascript;
@@ -388,7 +388,7 @@ class JBFieldHelper extends AppHelper
         $application = $this->app->zoo->getApplication();
 
         $options = array(
-            '' => JText::_('JBZOO_CART_SELECT_ORDER_FORM')
+            '' => JText::_('JBZOO_CART_SELECT_ORDER_FORM'),
         );
 
         if ($application) {
@@ -422,7 +422,7 @@ class JBFieldHelper extends AppHelper
         $application = $this->app->zoo->getApplication();
 
         $options = array(
-            '' => JText::_('JBZOO_CART_SELECT_ORDER_FORM')
+            '' => JText::_('JBZOO_CART_SELECT_ORDER_FORM'),
         );
 
         if ($application) {
@@ -599,7 +599,7 @@ class JBFieldHelper extends AppHelper
             'controller' => 'jbcart',
             'task'       => 'files',
             'format'     => 'raw',
-            'layout'     => $layout
+            'layout'     => $layout,
         );
 
         $html[] = '<div id="' . $id . '" class="creation-form jbdownload">';
@@ -611,7 +611,7 @@ class JBFieldHelper extends AppHelper
             'mode'      => 'file',
             'url'       => $this->app->jbrouter->admin($params),
             'title'     => JText::_('Files'),
-            'msgDelete' => JText::_('Delete')
+            'msgDelete' => JText::_('Delete'),
         ), true);
 
         return implode(PHP_EOL, $html);
@@ -727,7 +727,7 @@ class JBFieldHelper extends AppHelper
     {
         $optionList = array(
             0 => 'JBZOO_NO',
-            1 => 'JBZOO_YES'
+            1 => 'JBZOO_YES',
         );
 
         return $this->_renderRadio($optionList, $value, $this->_getName($controlName, $name), $node);
@@ -794,7 +794,7 @@ class JBFieldHelper extends AppHelper
 
         // Assemble menu items to the array
         $options = array(
-            '0' => JText::_('JOPTION_SELECT_MENU_ITEM')
+            '0' => JText::_('JOPTION_SELECT_MENU_ITEM'),
         );
 
         foreach ($menuTypes as $type) {
@@ -886,7 +886,7 @@ class JBFieldHelper extends AppHelper
                     'language'     => $lang->getTag(),
                     'direction'    => $lang->isRTL() ? 'rtl' : 'ltr',
                     'mediaversion' =>
-                        (method_exists($version, 'getMediaVersion') === true ? $version->getMediaVersion() : null)
+                        (method_exists($version, 'getMediaVersion') === true ? $version->getMediaVersion() : null),
                 );
 
                 $document = JDocument::getInstance('html', $attributes);
@@ -925,7 +925,7 @@ class JBFieldHelper extends AppHelper
         $colorAttrs = array(
             'placeholder' => JText::_('JBZOO_COLOR'),
             'class'       => 'jbcolor-input jbcolor  minicolors-position-bottom',
-            'id'          => $id
+            'id'          => $id,
         );
 
         $html[] = '<div id="' . $divId . '" class="jbzoo-picker">';
@@ -939,7 +939,7 @@ class JBFieldHelper extends AppHelper
         $html[] = '</div></div>';
 
         $html[] = $this->app->jbassets->widget('#' . $divId, 'JBColorElement', array(
-            'text' => JText::_('JBZOO_JBCOLOR_COLOR_EXISTS')
+            'text' => JText::_('JBZOO_JBCOLOR_COLOR_EXISTS'),
         ), true);
 
         return implode(PHP_EOL, $html);
@@ -1182,7 +1182,7 @@ class JBFieldHelper extends AppHelper
             'type'  => 'text',
             'value' => JText::_($value),
             'name'  => $this->_getName($controlName, $name),
-            'class' => isset($class) ? $class : ''
+            'class' => isset($class) ? $class : '',
         );
 
         return '<input ' . $this->app->jbhtml->buildAttrs($attrs) . '/>';
@@ -1199,7 +1199,9 @@ class JBFieldHelper extends AppHelper
      */
     public function relatedFields($name, $value, $controlName, SimpleXMLElement $node, $parent)
     {
-        $stdFields = array('_itemname', '_itemtag', '_itemcategory', '_itemfrontpage');
+        /* $stdFields = array('_itemname', '_itemtag', '_itemcategory', '_itemfrontpage');*/
+        $stdFields = array('_itemname', '_itemtag', '_itemcategory', '_itemfrontpage', '_itemauthor');
+
 
         $typesPath = $this->app->path->path('jbtypes:');
         $files     = JFolder::files($typesPath, '.config');
@@ -1297,7 +1299,7 @@ class JBFieldHelper extends AppHelper
                     'type'        => 'text',
                     'name'        => $this->_getName($controlName, $name) . '[' . $i . '][key]',
                     'value'       => isset($valueItem['key']) ? $valueItem['key'] : '',
-                    'class'       => isset($class) ? $class : ''
+                    'class'       => isset($class) ? $class : '',
                 )) . ' />';
 
             $html[] = '<strong>&nbsp;=&nbsp;</strong>';
@@ -1307,7 +1309,7 @@ class JBFieldHelper extends AppHelper
                     'type'        => 'text',
                     'name'        => $this->_getName($controlName, $name) . '[' . $i . '][value]',
                     'value'       => isset($valueItem['value']) ? $valueItem['value'] : '',
-                    'class'       => isset($class) ? $class : ''
+                    'class'       => isset($class) ? $class : '',
                 )) . ' />';
 
             $html[] = '</div>';
@@ -1426,11 +1428,13 @@ class JBFieldHelper extends AppHelper
      * Get pre-prepared options list for itemorder list
      * @param int    $index
      * @param string $prefix
+     * @param bool   $isModule
      * @return array
      */
-    public function getSortElementsOptionList($index = 0, $prefix = '_jbzoo_<INDEX>')
+    public function getSortElementsOptionList($index = 0, $prefix = '_jbzoo_<INDEX>', $isModule = false)
     {
         $stdFields = array(
+            'corepriority',
             'corename',
             'corealias',
             'corecreated',
@@ -1455,7 +1459,7 @@ class JBFieldHelper extends AppHelper
         $coreGrp = JText::_('JBZOO_FIELDS_CORE');
         $options = array($coreGrp => array(
             $prefix . '_none' => JText::_('JBZOO_FIELDS_CORE_NONE'),
-            'random'          => JText::_('JBZOO_SORT_ORDER_RANDOM')
+            'random'          => JText::_('JBZOO_SORT_ORDER_RANDOM'),
         ));
         foreach ($stdFields as $stdField) {
             $options[$coreGrp][] = $this->_createOption($prefix . $stdField, 'JBZOO_FIELDS_CORE_' . $stdField);
@@ -1473,13 +1477,13 @@ class JBFieldHelper extends AppHelper
                     if (strpos($elementId, '_') === 0 || in_array($element['type'], $excludeType, true)) {
                         continue;
                     }
-                    
+
                     if ($app) {
                         if ($type = $app->getType(JFile::stripExt($file))) {
                             $_element = $type->getElement($elementId);
 
                             if ($_element instanceof ElementJBPrice) {
-                                $elements = array_merge($elements, $this->_getSortJBPriceOptionList($_element, $prefix));
+                                $elements = array_merge($elements, $this->_getSortJBPriceOptionList($_element, $prefix, $isModule));
                             } else {
                                 $elements[] = $this->_createOption($prefix . $elementId, $element['name'], false);
                             }
@@ -1498,9 +1502,10 @@ class JBFieldHelper extends AppHelper
     /**
      * @param ElementJBPrice $element
      * @param string         $prefix
+     * @param bool           $isModule
      * @return array
      */
-    protected function _getSortJBPriceOptionList($element, $prefix)
+    protected function _getSortJBPriceOptionList($element, $prefix, $isModule = false)
     {
         $list = array();
 
@@ -1508,7 +1513,16 @@ class JBFieldHelper extends AppHelper
         $elements  = $element->getElements();
         if (count($elements)) {
             foreach ($elements as $element) {
-                $type   = JString::ucfirst($element->getElementType());
+                $type = JString::ucfirst($element->getElementType());
+
+                if ($isModule && strpos($element->identifier, '_') === 0 && !in_array($element->identifier, array('_value', '_sku'))) {
+                    continue;
+                }
+
+                if ($element->identifier == '_image') {
+                    continue;
+                }
+
                 $list[] = $this->_createOption($keyPrefix . '__' . $element->identifier, $element->getName() . ' - ' . $type, false);
             }
         }
@@ -1559,7 +1573,7 @@ class JBFieldHelper extends AppHelper
                 'id'    => $id,
                 'type'  => 'radio',
                 'name'  => $controlName,
-                'value' => $key
+                'value' => $key,
             );
 
             if ($key == $value) {

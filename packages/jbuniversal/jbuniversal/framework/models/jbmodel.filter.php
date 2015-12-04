@@ -262,6 +262,9 @@ class JBModelFilter extends JBModel
                 } else if ($field == 'corealias') {
                     $select->order('tItem.alias ' . $dir);
 
+                } else if ($field == 'corepriority') {
+                    $select->order('tItem.priority ' . $dir);
+
                 } else if ($field == 'corecreated') {
                     $select->order('tItem.created ' . $dir);
 
@@ -286,14 +289,19 @@ class JBModelFilter extends JBModel
                     $select->order('RAND()');
 
                 } elseif (strpos($field, '__')) {
-                    list ($elementId, $id) = explode('__', $field);
+                    list ($elementId, $priceId) = explode('__', $field);
+
+                    if (strpos($priceId, '_') === 0 && !in_array($priceId, array('_value', '_sku'))) {
+                        continue;
+                    }
 
                     $select
                         ->leftJoin(ZOO_TABLE_JBZOO_SKU . '  AS tSku ON tSku.item_id = tItem.id')
                         ->where('tSku.element_id = ?', $elementId)
-                        ->where('tSku.param_id = ?', $id)
-                        ->where('tSku.variant = \'-1\'')
-                        ->order('tSku.value_' . $order->get('mode') . ' ' . $dir);
+                        ->where('tSku.param_id = ?', $priceId)
+                        ->where('tSku.variant = ?', -1)
+                        ->order('tSku.value_n ' . $dir)
+                        ->order('tSku.value_s ' . $dir);
 
                 } else {
 

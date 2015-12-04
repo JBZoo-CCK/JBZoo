@@ -34,10 +34,9 @@ class JFormFieldJBItemOrderList extends JFormField
     public function getInput()
     {
         $app  = App::getInstance('zoo');
-        $list = $app->jborder->getListAdv();
+        $list = $app->jborder->getListAdv(true);
 
         unset($list[JText::_('JBZOO_FIELDS_CORE')]['_none']);
-        $list[JText::_('JBZOO_FIELDS_CORE')][] = JHtml::_('select.option', 'random', JText::_('JBZOO_SORT_ORDER_RANDOM'), 'value', 'text');
 
         return JHtml::_('select.groupedlist', $list, $this->getName($this->fieldname) . '[]', array(
             'list.attr'   => $app->jbhtml->buildAttrs(array(
