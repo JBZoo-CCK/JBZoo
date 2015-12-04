@@ -28,8 +28,8 @@
                 var $jbzoo = this.el.closest('.jbzoo');
 
                 var related = JBZoo.empty(this.options.related) ? "" : '.' + this.options.related;
-                this.image = $('.jbimage' + related, $jbzoo);
-                this.link = $('.jbimage-link' + related, $jbzoo);
+                this.image = $('.jbimage' + related + ':first', $jbzoo);
+                this.link = $('.jbimage-link' + related + ':first', $jbzoo);
 
                 this.options.default = {
                     'image': this.image.attr('src'),
