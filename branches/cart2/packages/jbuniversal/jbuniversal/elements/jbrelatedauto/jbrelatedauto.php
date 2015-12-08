@@ -32,6 +32,7 @@ class ElementJBRelatedAuto extends Element
      */
     public function hasValue($params = array())
     {
+
         if ((int)$this->get('value', 1)) {
             $items = $this->_getRelatedAuto($params);
             return !empty($items);
@@ -56,6 +57,7 @@ class ElementJBRelatedAuto extends Element
      */
     private function _getRelatedAuto($params)
     {
+        
         if ($this->_relatedItems === null) {
 
             $item  = $this->getItem();

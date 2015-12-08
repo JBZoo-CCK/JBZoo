@@ -70,7 +70,20 @@
             <option value="2">JBZOO_RELATEDAUTO_SEARCHMETHOD_INEXACT</option>
         </param>
 
-        <param name="check_app" type="jbbool" default="0" label="JBZOO_RELATEDAUTO_CHECK_APP"
+        <param name="order" type="list" default="relevant" label="JBZOO_RELATEDAUTO_ORDER">
+            <option value="relevant">JBZOO_RELATEDAUTO_ORDER_RELEVANT</option>
+            <option value="random">JBZOO_RELATEDAUTO_ORDER_RANDOM</option>
+            <option value="priority">JBZOO_RELATEDAUTO_ORDER_PRIORITY</option>
+            <option value="date">JBZOO_RELATEDAUTO_ORDER_DATE</option>
+            <option value="rdate">JBZOO_RELATEDAUTO_ORDER_RDATE</option>
+            <option value="hits">JBZOO_RELATEDAUTO_ORDER_HITS</option>
+            <option value="modified">JBZOO_RELATEDAUTO_ORDER_MODIFIED</option>
+            <option value="rmodified">JBZOO_RELATEDAUTO_ORDER_RMODIFIED</option>
+            <option value="name">JBZOO_RELATEDAUTO_ORDER_NAME</option>
+            <option value="rname">JBZOO_RELATEDAUTO_ORDER_RNAME</option>
+        </param>
+
+        <param name="check_app" type="jbapplications" multiple="1" default="" label="JBZOO_RELATEDAUTO_CHECK_APP"
                description="JBZOO_RELATEDAUTO_CHECK_APP_DESC"/>
 
         <param name="check_type" type="jbbool" default="0" label="JBZOO_RELATEDAUTO_CHECK_TYPE"

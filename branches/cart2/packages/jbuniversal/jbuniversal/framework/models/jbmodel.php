@@ -214,7 +214,7 @@ Class JBModel
         }
 
         $conditions = array(
-            'id IN (' . implode(',', $ids) . ')'
+            'id IN (' . implode(',', $ids) . ')',
         );
 
         $order  = $this->app->jborder->get($order);

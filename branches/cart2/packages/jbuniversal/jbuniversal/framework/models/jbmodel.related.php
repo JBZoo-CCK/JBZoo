@@ -31,7 +31,7 @@ class JBModelRelated extends JBModel
 
     /**
      * Get auto related items
-     * @param Item $item
+     * @param Item     $item
      * @param JSONData $config
      * @param JSONData $params
      * @return array
@@ -50,6 +50,7 @@ class JBModelRelated extends JBModel
             $data   = $this->_getSearchData($item, $params);
             $rows   = $this->_getFromDatabase($item, $data, $searchMethod, $params);
             $result = $this->_groupBy($rows, 'id');
+
             if (empty($result)) {
                 $result[] = '-1'; // only for cache empty result
             }
@@ -58,7 +59,21 @@ class JBModelRelated extends JBModel
         }
 
         $this->app->jbdebug->mark('model::getRelated::loadItems');
-        $result = $this->getZooItemsByIds($result);
+
+
+        // create item objects and order
+        $order = $params->get('order', 'relevant');
+        if ($order == 'relevant') {
+            $result = $this->getZooItemsByIds($result);
+
+        } elseif ($order == 'random') {
+            $result = $this->getZooItemsByIds($result);
+            shuffle($result); // if items are cached
+
+        } else {
+            $result = $this->getZooItemsByIds($result, $order);
+        }
+
 
         $this->app->jbdebug->mark('model::getRelated::end');
 
@@ -67,9 +82,9 @@ class JBModelRelated extends JBModel
 
     /**
      * Get all item from database
-     * @param Item $item
+     * @param Item  $item
      * @param Array $data
-     * @param Int $searchMethod
+     * @param Int   $searchMethod
      * @param Array $params
      * @return array
      */
@@ -86,9 +101,12 @@ class JBModelRelated extends JBModel
             $this->_jbtables->getFieldName('_itemtype'),
             $this->_jbtables->getFieldName('_itemcategory'),
             $this->_jbtables->getFieldName('_itemfrontpage'),
+            $this->_jbtables->getFieldName('_itemauthor'),
         ));
 
         foreach ($data as $elementId => $elemValues) {
+
+            $tableFieldName = false;
 
             // no empty values
             $elemValues = $this->_toCleanArray((array)$elemValues, $searchMethod);
@@ -107,10 +125,16 @@ class JBModelRelated extends JBModel
                 ->select('tItem.id AS id')
                 ->where('tItem.id <> ?', $item->id);
 
+
             // set application
-            if ((int)$params->get('check_app', 0)) {
-                $select->where('tItem.application_id = ?', $item->application_id);
+            $appList = $params->get('check_app', 0);
+            if (is_numeric($appList) && $appList) {
+                $select->where('tItem.application_id = ?', (int)$item->application_id);
+
+            } else if (is_array($appList)) {
+                $select->where('tItem.application_id IN (' . implode(',', $appList) . ')');
             }
+
 
             // set item type
             if ((int)$params->get('check_type', 0)) {
@@ -126,52 +150,66 @@ class JBModelRelated extends JBModel
                 }
             }
 
+
             if ($elementId == $this->_jbtables->getFieldName('_itemname')) {
                 $tableFieldName = 'tItem.name';
 
+
             } else if ($elementId == $this->_jbtables->getFieldName('_itemtype')) {
                 $tableFieldName = 'tItem.type';
+
 
             } else if ($elementId == $this->_jbtables->getFieldName('_itemtag')) {
                 $select->leftJoin(ZOO_TABLE_TAG . ' AS tTag ON tTag.item_id = tItem.id');
                 $tableFieldName = 'tTag.name';
 
+
+            } else if ($elementId == $this->_jbtables->getFieldName('_itemauthor')) {
+                $tableFieldName = 'tItem.created_by';
+
+
             } else if ($elementId == $this->_jbtables->getFieldName('_itemcategory')) {
                 $select->leftJoin(ZOO_TABLE_CATEGORY_ITEM . ' AS tCategoryItem ON tCategoryItem.item_id = tItem.id');
-                
-                $cleanVavlue = (int)str_replace("'", '', $elemValues[0]);
-                if ($cleanVavlue) {
+
+                $elemValues = (array)$elemValues;
+
+                $cleanValue = (int)str_replace("'", '', $elemValues[0]);
+                if ($cleanValue) {
                     $tableFieldName = 'tCategoryItem.category_id';
                 } else {
                     $select->leftJoin(ZOO_TABLE_CATEGORY . ' AS tCategory ON tCategoryItem.category_id = tCategory.id');
                     $tableFieldName = 'tCategory.name';
                 }
 
+
             } else if ($elementId == $this->_jbtables->getFieldName('_itemfrontpage')) {
                 $select->leftJoin(ZOO_TABLE_CATEGORY_ITEM . ' AS tCategoryItem ON tCategoryItem.item_id = tItem.id');
-                $tableFieldName = 'tCategoryItem.category_id';
-                $elemValues     = array(0);
+                $select->where('tCategoryItem.category_id = ?', '0');
+
 
             } else {
                 $select->leftJoin($tableName . ' AS tIndex ON tIndex.item_id = tItem.id');
                 $tableFieldName = 'tIndex.' . $elementId;
             }
 
-            $conds = array();
-            foreach ($elemValues as $elemValue) {
-                if ($searchMethod == 1) {
-                    $conds[] = $tableFieldName . ' = ' . $elemValue;
-                } else {
-                    $conds[] = $this->_buildLikeBySpaces($elemValue, $tableFieldName);
+            if ($tableFieldName) {
+                $conds = array();
+                foreach ($elemValues as $elemValue) {
+                    if ($searchMethod == 1 || is_numeric($elemValue)) {
+                        $conds[] = $tableFieldName . ' = ' . $this->_quote($elemValue);
+                    } else {
+                        $conds[] = $this->_buildLikeBySpaces($elemValue, $tableFieldName);
+                    }
                 }
-            }
 
-            if (!empty($conds)) {
-                $select->where('(' . implode(' OR ', $conds) . ')');
+                if (!empty($conds)) {
+                    $select->where('(' . implode(' OR ', $conds) . ')');
+                }
             }
 
             $selects[] = $select->__toString();
         }
+
         if (!empty($selects)) {
 
             $union = '(' . implode(') UNION ALL (', $selects) . ')';
@@ -181,18 +219,35 @@ class JBModelRelated extends JBModel
                 ->select('COUNT(tAll.id) AS count')
                 ->from('(' . $union . ') AS tAll')
                 ->group('tAll.id')
-                ->order('count DESC')
-                ->limit((int)$params->get('count', 4));
+                ->limit(500); // for optimizations only
+
+            $order = $params->get('order', 'relevant');
+            if ($order == 'random') {
+                $allSelect->order('RAND()');
+
+            } elseif ($order == 'relevant') {
+                $allSelect->order('count DESC');
+            }
+
 
             $relevant = (int)$params->get('relevant', 5);
             if ($relevant > 0) {
                 $allSelect->having('count >= ?', $relevant);
             }
 
+
             // clean query for optimization
             $db = JFactory::getDbo();
             $db->setQuery($allSelect);
-            $rows = $db->loadAssocList();
+            $rows = (array)$db->loadAssocList();
+
+
+            // post limit logic for nice realty results
+            $limit = (int)$params->get('count', 4);
+            if ($limit > 0 && count($rows) > 0) {
+                $rows = array_slice($rows, 0, $limit);
+            }
+
 
             return $rows;
         }
@@ -249,7 +304,7 @@ class JBModelRelated extends JBModel
 
     /**
      * Get search data from item
-     * @param Item $item
+     * @param Item     $item
      * @param JSONData $params
      * @return array
      */
@@ -257,9 +312,11 @@ class JBModelRelated extends JBModel
     {
         // get related categories
         $itemCategories = array();
-        $checkCategory  = (int)$params->get('check_category', 1);
+
+        $checkCategory = (int)$params->get('check_category', 1);
         if ($checkCategory == 1) {
             $itemCategories[] = $item->getPrimaryCategoryId();
+
         } else if ($checkCategory == 2) {
             $itemCategories = $item->getRelatedCategoryIds();
         }
@@ -283,13 +340,14 @@ class JBModelRelated extends JBModel
             }
         }
 
-        // get search data
         $tmpResult = array(
             '_itemfrontpage' => (int)in_array(0, $itemCategories),
             '_itemcategory'  => $itemCategories,
             '_itemname'      => $item->name,
             '_itemtag'       => $item->getTags(),
+            '_itemauthor'    => $item->created_by,
         );
+
 
         $elements = $item->getElements();
         foreach ($elements as $element) {
