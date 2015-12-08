@@ -20,7 +20,7 @@ defined('_JEXEC') or die('Restricted access');
 class JBRendererHelper extends AppHelper
 {
     /**
-     * @param $rendererType
+     * @param        $rendererType
      * @param string $paths
      * @return PositionRenderer
      */
@@ -29,7 +29,12 @@ class JBRendererHelper extends AppHelper
         $application  = $this->app->zoo->getApplication();
         $rendererType = trim(strtolower($rendererType));
         $renderer     = $this->app->renderer->create($rendererType);
-        $tmplName     = $application->getTemplate()->name;
+
+        if (!$application) {
+            return $renderer;
+        }
+
+        $tmplName = $application->getTemplate()->name;
 
         if (isset($application->basketTmpl)) {
             $tmplName = $application->basketTmpl;
