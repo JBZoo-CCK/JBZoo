@@ -126,13 +126,14 @@ class JBModelElementJBPrice extends JBModelElement
             $all[] = '(' . $where->__toString() . ')';
         }
 
-        $query  = $this
+        $query = $this
             ->_getSelect()
             ->clear()
             ->select('tAll.id')
             ->from('(' . implode('UNION ALL', $all) . ') as tAll')
             ->group('tAll.id')
             ->having('COUNT(tAll.id) = ?', count($all));
+
         $idList = $this->_groupBy($this->fetchAll($query), 'id');
 
         if (!empty($idList)) {
@@ -213,7 +214,9 @@ class JBModelElementJBPrice extends JBModelElement
         if (empty($values)) {
             return $values;
         }
-        $values = array_filter($values, function($value) { return ($value !== null && $value !== '');});
+        $values = array_filter($values, function ($value) {
+            return ($value !== null && $value !== '');
+        });
         $result = array();
 
         $iterator  = new RecursiveArrayIterator($values);
@@ -272,7 +275,7 @@ class JBModelElementJBPrice extends JBModelElement
             } elseif (is_string($values) && $values !== '') {
                 $values = $this->_value(array(
                     'min' => $values,
-                    'max' => $values
+                    'max' => $values,
                 ), $currency);
             } elseif (is_array($values)) {
                 foreach ($values as $key => $value) {
@@ -306,7 +309,7 @@ class JBModelElementJBPrice extends JBModelElement
 
             $values[$key] = array(
                 (isset($value[0]) ? $value[0] : '1970-01-01') . ' 00:00:00',
-                (isset($value[1]) ? $value[1] : '2099-12-31') . ' 23:59:59'
+                (isset($value[1]) ? $value[1] : '2099-12-31') . ' 23:59:59',
             );
 
         }
@@ -343,8 +346,8 @@ class JBModelElementJBPrice extends JBModelElement
     protected function _date($date)
     {
         return array('tSku.value_d BETWEEN'
-                     . ' STR_TO_DATE(\'' . $date[0] . '\', \' % Y -%m -%d % H:%i:%s\') AND'
-                     . ' STR_TO_DATE(\'' . $date[1] . '\', \' % Y -%m -%d % H:%i:%s\')'
+            . ' STR_TO_DATE(\'' . $date[0] . '\', \' % Y -%m -%d % H:%i:%s\') AND'
+            . ' STR_TO_DATE(\'' . $date[1] . '\', \' % Y -%m -%d % H:%i:%s\')',
         );
     }
 
@@ -358,7 +361,7 @@ class JBModelElementJBPrice extends JBModelElement
         list($min, $max) = explode('/', $value);
         $value = array(
             'min' => $min,
-            'max' => $max
+            'max' => $max,
         );
 
         return $value;
