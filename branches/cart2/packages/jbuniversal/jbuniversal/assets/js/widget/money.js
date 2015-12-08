@@ -106,6 +106,9 @@
                                     $this.value = value;
                                 }
                             });
+                    } else {
+                        $this._update(value, $this.currency);
+                        $this.value = value;
                     }
                 }
 
