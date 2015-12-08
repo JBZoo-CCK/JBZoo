@@ -94,7 +94,7 @@ class JBRouterHelper extends AppHelper
 
         $urlParams = array_merge($urlParams, $params);
 
-        return 'index.php?' . $this->query($urlParams);
+        return JURI::root() . 'index.php?' . $this->query($urlParams);
     }
 
     /**
