@@ -64,18 +64,33 @@ class JFormFieldJBItemOrder extends JFormField
             }
         }
 
+        $isRandom  = (int)$this->getAttribute('random', 1);
+        $isReverse = (int)$this->getAttribute('reverse', 1);
+
         $html[] = '<div id="' . $orderId . '" style="float: left;">';
+
+        if (!$isRandom) {
+            unset($params['random']);
+        }
 
         $html[] = $app->jbhtml->select($params, "", array('class' => 'order-select'), $value['order']);
 
-        $html[] = '<label class="order-reverse-wrap"><input class="order-reverse" type="checkbox">'
-            . JText::_('JBZOO_ORDER_REVERSE') . '</label> ';
 
-        $html[] = '<label class="order-random-wrap"><input class="order-random" type="checkbox">'
-            . JText::_('JBZOO_ORDER_RANDOM') . '</label>';
+        if ($isReverse) {
+            $html[] = '<label class="order-reverse-wrap"><input class="order-reverse" type="checkbox">'
+                . JText::_('JBZOO_ORDER_REVERSE') . '</label> ';
+        }
+
+
+        if ($isRandom) {
+            $html[] = '<label class="order-random-wrap"><input class="order-random" type="checkbox">'
+                . JText::_('JBZOO_ORDER_RANDOM') . '</label>';
+        }
+
 
         $html[] = $app->jbhtml->hidden($this->getName($this->fieldname), $this->value, array('class' => 'hidden-value'));
         $html[] = '</div>';
+
         $html[] = $app->jbassets->widget('#' . $orderId, 'JBItemOrder', $value, true);
 
         return implode(PHP_EOL, $html);

@@ -37,9 +37,10 @@ class JBCSVHelper extends AppHelper
      * @param       $data
      * @param       $file
      * @param array $maxima
+     * @param bool  $addHeader
      * @return bool|string
      */
-    public function toFile($data, $file, array $maxima = null)
+    public function toFile($data, $file, array $maxima = null, $addHeader = true)
     {
         if (empty($data)) {
             return false;
@@ -54,7 +55,7 @@ class JBCSVHelper extends AppHelper
             }
         }
 
-        return $this->_createFile($data, $file);
+        return $this->_createFile($data, $file, $addHeader);
     }
 
     /**
@@ -134,14 +135,15 @@ class JBCSVHelper extends AppHelper
 
     /**
      * Create CSV file from $data
-     * @param $data
-     * @param $filename
+     * @param array  $data
+     * @param string $filename
+     * @param bool   $addHeader
      * @return string
      * @throws AppException
      */
-    protected function _createFile($data, $filename)
+    protected function _createFile($data, $filename, $addHeader = true)
     {
-        $file    = $this->app->jbpath->sysPath('tmp', "/jbzoo-export/$filename.csv");
+        $file    = $this->app->jbpath->sysPath('tmp', '/' . JBExportHelper::EXPORT_PATH . '/' . $filename . '.csv');
         $config  = $this->_config->getGroup('export');
         $dirName = dirname($file);
 
@@ -149,7 +151,7 @@ class JBCSVHelper extends AppHelper
             JFolder::create($dirName);
         }
 
-        if (!JFile::exists($file)) {
+        if (!JFile::exists($file) && $addHeader) {
             $data = $this->_addHeader($data);
         }
 

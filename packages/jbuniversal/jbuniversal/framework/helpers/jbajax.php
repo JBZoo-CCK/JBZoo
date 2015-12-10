@@ -38,17 +38,16 @@ class JBAjaxHelper extends AppHelper
             $app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s', time()) . ' GMT', true);
             $app->setHeader('Content-Type', 'application/json; charset=utf-8', true);
             $app->sendHeaders();
-        } else {
+
+        } elseif (class_exists('JResponse')) {
             JResponse::allowCache(false);
             JResponse::setHeader('Last-Modified', gmdate('D, d M Y H:i:s', time()) . ' GMT', true);
             JResponse::setHeader('Content-Type', 'application/json; charset=utf-8', true);
             JResponse::sendHeaders();
         }
 
-        if (JDEBUG) {
-            $data['mpu'] = round(memory_get_peak_usage(true) / 1024 / 1024, 2) . ' M';
-        }
-        
+        $data['mpu'] = round(memory_get_peak_usage(false) / 1024 / 1024, 2) . ' M'; // debug info
+
         jexit(json_encode($data));
     }
 

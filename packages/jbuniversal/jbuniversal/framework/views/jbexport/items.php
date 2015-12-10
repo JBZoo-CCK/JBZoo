@@ -26,9 +26,9 @@ defined('_JEXEC') or die('Restricted access');
         <p><?php echo JText::_('JBZOO_ADMIN_PAGE_EXPORT_DESC'); ?></p>
 
         <?php echo $this->app->jbform->render('export_items', array(
-            'action'     => $this->app->jbrouter->admin(),
+            'action'     => $this->app->jbrouter->admin(array('task' => 'itemsSteps', 'page' => -1)),
             'showSubmit' => true,
-            'submit'     => JText::_('JBZOO_FORM_DOWNLOAD')
+            'submit'     => JText::_('JBZOO_ADMIN_PAGE_EXPORT_RUN'),
         ), $this->exportParams);
         ?>
 
