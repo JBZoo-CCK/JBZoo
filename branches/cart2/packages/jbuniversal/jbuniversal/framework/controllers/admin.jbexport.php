@@ -166,7 +166,10 @@ class JBExportJBuniversalController extends JBuniversalController
                 $progress = (($page + 1) / $sesData->get('steps')) * 100;
             }
 
-            $jbajax->send(array('page' => ++$page, 'progress' => $progress));
+            $jbajax->send(array(
+                'page'     => ++$page,
+                'progress' => $progress,
+            ));
 
         } catch (AppException $e) {
             $this->app->jbnotify->notice(JText::_('Error create export file') . ' (' . $e . ')');
@@ -180,20 +183,24 @@ class JBExportJBuniversalController extends JBuniversalController
      */
     public function itemsDownload()
     {
+        $tmpArch = null;
+
         if ($compressFiles = $this->_jbexport->splitFiles()) {
             $tmpArch = $this->app->jbarch->compress($compressFiles, 'jbzoo-export-items-' . date('Y-m-d_H-i'));
         } else {
-            throw new AppException(JText::_('JBZOO_EXPORT_ITEMS_NOT_FOUND'));
+            $this->app->jbnotify->notice(JText::_('JBZOO_EXPORT_ITEMS_NOT_FOUND'));
+            $this->setRedirect($this->app->jbrouter->admin(array('task' => 'items')));
         }
 
-        if (is_readable($tmpArch) && JFile::exists($tmpArch)) {
+        if ($tmpArch && is_readable($tmpArch) && JFile::exists($tmpArch)) {
             $this->app->filesystem->output($tmpArch);
             JFile::delete($tmpArch);
             $this->_jbexport->clean();
             JExit();
 
         } else {
-            throw new AppException(JText::sprintf('Unable to create file %s', $tmpArch));
+            $this->app->jbnotify->notice(JText::sprintf('Unable to create file %s', $tmpArch));
+            $this->setRedirect($this->app->jbrouter->admin(array('task' => 'items')));
         }
     }
 
