@@ -740,7 +740,7 @@ class JBPerformHelper extends AppHelper
      */
     protected function _testMemoryPeak()
     {
-        return memory_get_peak_usage(true);
+        return memory_get_peak_usage(false);
     }
 
     /**
@@ -1029,14 +1029,14 @@ class JBPerformHelper extends AppHelper
                         'type'     => 'less',
                         'value'    => $values->get('engine_init', '-'),
                         'standart' => 0.250,
-                        'postfix'  => 'in_sec'
+                        'postfix'  => 'in_sec',
                     ),
                     array(
                         'key'      => 'memory_peak',
                         'type'     => 'less',
                         'value'    => $values->get('memory_peak', '-'),
                         'standart' => 15728640,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                 ),
                 'cpu'     => array(
@@ -1045,35 +1045,35 @@ class JBPerformHelper extends AppHelper
                         'type'     => 'more',
                         'value'    => $values->get('cpu_complex', '-'),
                         'standart' => 9.0,
-                        'postfix'  => 'mil_in_sec'
+                        'postfix'  => 'mil_in_sec',
                     ),
                     array(
                         'key'      => 'cpu_sin',
                         'type'     => 'less',
                         'value'    => $values->get('cpu_sin', '-'),
                         'standart' => 0.300,
-                        'postfix'  => 'in_sec'
+                        'postfix'  => 'in_sec',
                     ),
                     array(
                         'key'      => 'cpu_concat_dot',
                         'type'     => 'less',
                         'value'    => $values->get('cpu_concat_dot', '-'),
                         'standart' => 0.200,
-                        'postfix'  => 'in_sec'
+                        'postfix'  => 'in_sec',
                     ),
                     array(
                         'key'      => 'cpu_concat_quotes',
                         'type'     => 'less',
                         'value'    => $values->get('cpu_concat_quotes', '-'),
                         'standart' => 0.250,
-                        'postfix'  => 'in_sec'
+                        'postfix'  => 'in_sec',
                     ),
                     array(
                         'key'      => 'cpu_concat_array',
                         'type'     => 'less',
                         'value'    => $values->get('cpu_concat_array', '-'),
                         'standart' => 0.600,
-                        'postfix'  => 'in_sec'
+                        'postfix'  => 'in_sec',
                     ),
                 ),
                 'mysql'   => array(
@@ -1082,91 +1082,91 @@ class JBPerformHelper extends AppHelper
                         'type'     => 'less',
                         'value'    => $values->get('mysql_connect', '-'),
                         'standart' => 0.005,
-                        'postfix'  => 'in_sec'
+                        'postfix'  => 'in_sec',
                     ),
                     array(
                         'key'      => 'mysql_sin',
                         'type'     => 'less',
                         'value'    => $values->get('mysql_sin', '-'),
                         'standart' => 0.100,
-                        'postfix'  => 'in_sec'
+                        'postfix'  => 'in_sec',
                     ),
                     array(
                         'key'      => 'mysql_insert',
                         'type'     => 'less',
                         'value'    => $values->get('mysql_insert', '-'),
                         'standart' => 3.000,
-                        'postfix'  => 'in_sec'
+                        'postfix'  => 'in_sec',
                     ),
                     array(
                         'key'      => 'mysql_select',
                         'type'     => 'less',
                         'value'    => $values->get('mysql_select', '-'),
                         'standart' => 0.030,
-                        'postfix'  => 'in_sec'
+                        'postfix'  => 'in_sec',
                     ),
                     array(
                         'key'      => 'mysql_insert_joomla',
                         'type'     => 'less',
                         'value'    => $values->get('mysql_insert_joomla', '-'),
                         'standart' => 0.250,
-                        'postfix'  => 'in_sec'
+                        'postfix'  => 'in_sec',
                     ),
                     array(
                         'key'      => 'mysql_select_joomla',
                         'type'     => 'less',
                         'value'    => $values->get('mysql_select_joomla', '-'),
                         'standart' => 0.030,
-                        'postfix'  => 'in_sec'
+                        'postfix'  => 'in_sec',
                     ),
                     array(
                         'key'      => 'mysql_select_advance',
                         'type'     => 'more',
                         'value'    => $values->get('mysql_select_advance', '-'),
                         'standart' => 7800,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'mysql_insert_advance',
                         'type'     => 'more',
                         'value'    => $values->get('mysql_insert_advance', '-'),
                         'standart' => 5600,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'mysql_replace_advance',
                         'type'     => 'more',
                         'value'    => $values->get('mysql_replace_advance', '-'),
                         'standart' => 5800,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'db_uptime',
                         'type'     => 'more',
                         'value'    => $values->get('db_uptime', '-'),
                         'standart' => 1,
-                        'postfix'  => 'days'
+                        'postfix'  => 'days',
                     ),
                     array(
                         'key'      => 'db_send',
                         'type'     => 'less',
                         'value'    => $values->get('db_send', '-'),
                         'standart' => 100000000,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'db_connections',
                         'type'     => 'less',
                         'value'    => $values->get('db_connections', '-'),
                         'standart' => 300,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'db_select_count',
                         'type'     => 'less',
                         'value'    => $values->get('db_select_count', '-'),
                         'standart' => 10000,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                 ),
                 'fs'      => array(
@@ -1175,35 +1175,35 @@ class JBPerformHelper extends AppHelper
                         'type'     => 'more',
                         'value'    => $values->get('fs_simple', '-'),
                         'standart' => 20000,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'fs_complex',
                         'type'     => 'more',
                         'value'    => $values->get('fs_complex', '-'),
                         'standart' => 8000,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'fs_complex_joomla',
                         'type'     => 'more',
                         'value'    => $values->get('fs_complex_joomla', '-'),
                         'standart' => 6000,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'fs_write',
                         'type'     => 'less',
                         'value'    => $values->get('fs_write', '-'),
                         'standart' => 3.500,
-                        'postfix'  => 'in_sec'
+                        'postfix'  => 'in_sec',
                     ),
                     array(
                         'key'      => 'fs_read',
                         'type'     => 'less',
                         'value'    => $values->get('fs_read', '-'),
                         'standart' => 0.350,
-                        'postfix'  => 'in_sec'
+                        'postfix'  => 'in_sec',
                     ),
                 ),
                 'mail'    => array(
@@ -1212,14 +1212,14 @@ class JBPerformHelper extends AppHelper
                         'type'     => 'less',
                         'value'    => $values->get('mail_joomla', '-'),
                         'standart' => 0.120,
-                        'postfix'  => 'in_sec'
+                        'postfix'  => 'in_sec',
                     ),
                     array(
                         'key'      => 'mail_php',
                         'type'     => 'less',
                         'value'    => $values->get('mail_php', '-'),
                         'standart' => 0.100,
-                        'postfix'  => 'in_sec'
+                        'postfix'  => 'in_sec',
                     ),
                 ),
                 'others'  => array(
@@ -1228,28 +1228,28 @@ class JBPerformHelper extends AppHelper
                         'type'     => 'less',
                         'value'    => $values->get('session_init', '-'),
                         'standart' => 0.005,
-                        'postfix'  => 'in_sec'
+                        'postfix'  => 'in_sec',
                     ),
                     array(
                         'key'      => 'realpath_used',
                         'type'     => 'less',
                         'value'    => $values->get('realpath_used', '-'),
-                        'standart' => 786432,
-                        'postfix'  => ''
+                        'standart' => 4 * 1024 * 1024,
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'realpath_remaining',
                         'type'     => 'more',
                         'value'    => $values->get('realpath_remaining', '-'),
                         'standart' => 262144,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'system_loadavg',
                         'type'     => 'less',
                         'value'    => $values->get('system_loadavg', '-'),
                         'standart' => 5.0,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                 ),
                 'version' => array(
@@ -1258,42 +1258,42 @@ class JBPerformHelper extends AppHelper
                         'type'     => 'none',
                         'value'    => $values->get('version_os', '-'),
                         'standart' => 'Linux-like system',
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'version_php',
                         'type'     => 'none',
                         'value'    => $values->get('version_php', '-'),
                         'standart' => '5.3.x+',
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'version_mysql',
                         'type'     => 'none',
                         'value'    => $values->get('version_mysql', '-'),
                         'standart' => '5.x+',
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'version_joomla',
                         'type'     => 'none',
                         'value'    => $values->get('version_joomla', '-'),
                         'standart' => '3.1.x+',
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'version_zoo',
                         'type'     => 'none',
                         'value'    => $values->get('version_zoo', '-'),
                         'standart' => '3.1.x+',
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'version_jbzoo',
                         'type'     => 'none',
                         'value'    => $values->get('version_jbzoo', '-'),
                         'standart' => '2.1.x+',
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                 ),
                 'result'  => array(
@@ -1302,49 +1302,49 @@ class JBPerformHelper extends AppHelper
                         'type'     => 'more',
                         'value'    => $values->get('total_engine', '-'),
                         'standart' => 0,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'total_cpu',
                         'type'     => 'more',
                         'value'    => $values->get('total_cpu', '-'),
                         'standart' => 0,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'total_mysql',
                         'type'     => 'more',
                         'value'    => $values->get('total_mysql', '-'),
                         'standart' => 0,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'total_mail',
                         'type'     => 'more',
                         'value'    => $values->get('total_mail', '-'),
                         'standart' => 0,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'total_fs',
                         'type'     => 'more',
                         'value'    => $values->get('total_fs', '-'),
                         'standart' => 0,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'total_score',
                         'type'     => 'more',
                         'value'    => $values->get('total_score', '-'),
                         'standart' => 0,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                     array(
                         'key'      => 'total_fail',
                         'type'     => 'less',
                         'value'    => $values->get('total_fail', '-'),
                         'standart' => 0,
-                        'postfix'  => ''
+                        'postfix'  => '',
                     ),
                 ),
             );
@@ -1389,10 +1389,10 @@ class JBPerformHelper extends AppHelper
             return number_format($value, 2, '.', ' ');
 
         } else if ($value > 0.01) {
-            return number_format($value, 3, '.', ' ');
+            return number_format($value, 2, '.', ' ');
 
         } else {
-            return number_format($value, 4, '.', ' ');
+            return number_format($value, 3, '.', ' ');
         }
     }
 
