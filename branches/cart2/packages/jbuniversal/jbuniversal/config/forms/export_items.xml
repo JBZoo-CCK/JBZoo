@@ -31,6 +31,7 @@
             <field type="jbtype"
                    default=""
                    name="type"
+                   required="true"
                    label="JBZOO_EXPORT_TYPE"
                    description="JBZOO_EXPORT_TYPE_DESC"/>
 
@@ -92,6 +93,8 @@
             <field type="jbitemorder"
                    name="order"
                    default="id"
+                   reverse="1"
+                   random="0"
                    label="JBZOO_EXPORT_ORDER"
                    description="JBZOO_EXPORT_ORDER_DESC"/>
 
@@ -110,7 +113,22 @@
                    required="true"
                    label="JBZOO_IMPORT_ENCLOSURE"
                    description="JBZOO_IMPORT_ENCLOSURE_DESC"/>
+
+            <field type="list"
+                   default="100"
+                   name="step"
+                   required="true"
+                   label="JBZOO_IMPORT_STEP"
+                   description="JBZOO_IMPORT_STEP_DESC">
+                <option value="25">25</option>
+                <option value="100">100</option>
+                <option value="250">250</option>
+                <option value="500">500</option>
+                <option value="1000">1000</option>
+            </field>
+
         </fieldset>
+
 
     </fields>
 </form>

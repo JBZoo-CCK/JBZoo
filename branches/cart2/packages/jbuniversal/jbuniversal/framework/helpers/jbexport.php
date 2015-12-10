@@ -19,7 +19,8 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBExportHelper extends AppHelper
 {
-    const STEP_SIZE = 500;
+    const STEP_SIZE   = 500;
+    const EXPORT_PATH = 'jbzoo-export';
 
     /**
      * @var JBCSVMapperHelper
@@ -39,7 +40,7 @@ class JBExportHelper extends AppHelper
 
     /**
      * Categories to CSV
-     * @param null $appId
+     * @param null  $appId
      * @param array $options
      * @return bool|string
      * @throws AppException
@@ -70,47 +71,46 @@ class JBExportHelper extends AppHelper
 
     /**
      * Items to CSV
-     * @param $appId
-     * @param $typeId
-     * @param null $catId
+     * @param       $appId
+     * @param       $typeId
+     * @param null  $catId
+     * @param array $options
+     * @return bool|string
+     * @throws AppException
+     */
+    public function getTotalItems($appId = null, $catId = null, $typeId = null, $options = array())
+    {
+        return JBModelItem::model()->getTotal($appId, $typeId, $catId);
+    }
+
+    /**
+     * Items to CSV
+     * @param       $appId
+     * @param       $typeId
+     * @param null  $catId
      * @param array $options
      * @return bool|string
      * @throws AppException
      */
     public function itemsToCSV($appId = null, $catId = null, $typeId = null, $options = array())
     {
-        $files  = array();
-        $offset = 0;
+        $items        = $this->_getItemList($appId, $catId, $typeId, $options);
+        $itemsByTypes = $this->app->jbarray->groupByKey($items, 'type');
 
-        $options['limit'] = array($offset, self::STEP_SIZE);
-
-        while ($items = $this->_getItemList($appId, $catId, $typeId, $options)) {
-            $itemsByTypes = $this->app->jbarray->groupByKey($items, 'type');
-
-            // clean memory
-            $idList = array_keys($items);
-            foreach ($idList as $id) {
-                $this->app->table->item->unsetObject($id);
-            }
-            unset($items, $idList);
-
-            // convert items group to csv
-            foreach ($itemsByTypes as $itemType => $items) {
-                $files[$itemType] = $this->_exportTypeToFile($items, $itemType, $options);
-            }
-
-            // shift the offset
-            $offset += self::STEP_SIZE;
-            $options['limit'] = array($offset, self::STEP_SIZE);
+        // convert items group to csv
+        $files = array();
+        foreach ($itemsByTypes as $itemType => $items) {
+            $files[$itemType] = $this->_exportTypeToFile($items, $itemType, $options);
         }
+
         return $files;
     }
 
     /**
      * Export data to CSV file by item type
-     * @param array $items
+     * @param array  $items
      * @param string $typeId
-     * @param array $options
+     * @param array  $options
      * @return bool|string
      */
     protected function _exportTypeToFile(array $items, $typeId, $options)
@@ -146,13 +146,18 @@ class JBExportHelper extends AppHelper
                 }
             }
         }
-        return $this->app->jbcsv->toFile($data, 'items_' . $typeId, $maxima);
+
+        $offset    = $options->find('limit.0', 0);
+        $addHeader = $offset == 0 ? true : false;
+        $file      = 'items__' . $typeId . '__' . $offset;
+
+        return $this->app->jbcsv->toFile($data, $file, $maxima, $addHeader);
     }
 
     /**
      * Export data to CSV file by item type
      * @param array $categories
-     * @param int $appId
+     * @param int   $appId
      * @param array $options
      * @return bool|string
      */
@@ -168,9 +173,9 @@ class JBExportHelper extends AppHelper
 
     /**
      * Get item list
-     * @param $appId
-     * @param $typeId
-     * @param null $catId
+     * @param       $appId
+     * @param       $typeId
+     * @param null  $catId
      * @param array $options
      * @return mixed
      */
@@ -185,7 +190,7 @@ class JBExportHelper extends AppHelper
 
     /**
      * Get category list
-     * @param $appId
+     * @param       $appId
      * @param array $options
      * @return mixed
      */
@@ -199,13 +204,55 @@ class JBExportHelper extends AppHelper
      */
     public function clean()
     {
-        $folder = $this->app->jbpath->sysPath('tmp', "/jbzoo-export/");
+        $folder = $this->app->jbpath->sysPath('tmp', '/' . JBExportHelper::EXPORT_PATH . '/');
 
         if (JFolder::exists($folder)) {
             JFolder::delete($folder);
         }
 
         JFolder::create($folder);
+    }
+
+    /**
+     * @return array
+     */
+    public function splitFiles()
+    {
+        /** @var JBFileHelper $jfile */
+        $jfile      = $this->app->jbfile;
+        $exportPath = $this->app->jbpath->sysPath('tmp', '/' . self::EXPORT_PATH);
+        $files      = JFolder::files($exportPath, '\.csv$');
+
+        $filesGroup = array();
+        foreach ($files as $file) {
+            if (preg_match('#items__(.*?)__(\d*)\.csv#', $file, $matches)) {
+
+                if (!isset($filesGroup[$matches[1]])) {
+                    $filesGroup[$matches[1]] = array();
+                }
+
+                $filesGroup[$matches[1]][] = $file;
+                natsort($filesGroup[$matches[1]]);
+            }
+        }
+
+        $itemTypesList = array();
+        foreach ($filesGroup as $itemType => $group) {
+
+            $content = array();
+            foreach ($group as $file) {
+                if ($fileContent = $jfile->read($exportPath . '/' . $file)) {
+                    $content[] = $fileContent;
+                }
+            }
+
+            $resultCsv = JPath::clean($exportPath . '/' . $itemType . '.csv');
+            $jfile->save($resultCsv, implode("", $content));
+
+            $itemTypesList[] = $resultCsv;
+        }
+
+        return $itemTypesList;
     }
 
 }

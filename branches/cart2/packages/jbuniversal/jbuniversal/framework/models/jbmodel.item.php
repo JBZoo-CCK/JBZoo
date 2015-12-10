@@ -183,7 +183,7 @@ class JBModelItem extends JBModel
 
         if (!empty($alias)) {
             $conditions = array(
-                'alias = ' . $this->app->database->Quote($alias)
+                'alias = ' . $this->app->database->Quote($alias),
             );
 
             if ((int)$appId) {
@@ -208,7 +208,7 @@ class JBModelItem extends JBModel
         if (!empty($itemId)) {
 
             $conditions = array(
-                'id = ' . $itemId
+                'id = ' . $itemId,
             );
 
             if ((int)$appId) {
@@ -233,7 +233,7 @@ class JBModelItem extends JBModel
         if (!empty($name)) {
 
             $conditions = array(
-                'name = ' . $this->app->database->Quote($name)
+                'name = ' . $this->app->database->Quote($name),
             );
 
             if ((int)$appId) {
@@ -400,23 +400,41 @@ class JBModelItem extends JBModel
     }
 
     /**
-     * @param $appId
-     * @param $types
+     * @param int    $appId
+     * @param string $types
+     * @param array  $catList
      * @return int
      */
-    public function getTotal($appId, $types)
+    public function getTotal($appId, $types, $catList = array())
     {
-
-        $strApp   = is_array($appId) ? 'tItem.application_id IN (' . implode(',', $appId) . ')' : 'tItem.application_id = ' . (int)$appId;
-        $srtTypes = is_array($types) ? 'tItem.type IN ("' . implode('","', $types) . '")' : 'tItem.type = ' . $this->_quote($types);
-
         $select = $this->_getSelect()
             ->select('COUNT(tItem.id) AS count')
             ->from(ZOO_TABLE_ITEM . ' AS tItem')
-            ->where($strApp . ' AND ' . $srtTypes)
             ->where('tItem.state = ?', 1)
             ->where('(tItem.publish_up = ' . $this->_dbNull . ' OR tItem.publish_up <= ' . $this->_dbNow . ')')
             ->where('(tItem.publish_down = ' . $this->_dbNull . ' OR tItem.publish_down >= ' . $this->_dbNow . ')');
+
+
+        if (!empty($appId)) {
+            $strApp = is_array($appId) ? 'tItem.application_id IN (' . implode(',', $appId) . ')'
+                : 'tItem.application_id = ' . (int)$appId;
+
+            $select->where($strApp);
+        }
+
+
+        if (!empty($types)) {
+            $srtTypes = is_array($types) ? 'tItem.type IN ("' . implode('","', $types) . '")'
+                : 'tItem.type = ' . $this->_quote($types);
+
+            $select->where($srtTypes);
+        }
+
+
+        if (!empty($catList) && !in_array('-1', $catList)) {
+            $select->innerJoin(ZOO_TABLE_CATEGORY_ITEM . ' AS tCategoryItem ON tItem.id = tCategoryItem.item_id');
+            $select->where('tCategoryItem.category_id IN ("' . implode('", "', (array)$catList) . '")');
+        }
 
         $result = $this->fetchRow($select);
 

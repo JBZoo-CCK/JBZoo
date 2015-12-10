@@ -35,7 +35,8 @@ class JBExportJBuniversalController extends JBuniversalController
      */
     private $_defaultParams = array(
         'separator' => ',',
-        'enclosure' => '"'
+        'enclosure' => '"',
+        'step'      => 500,
     );
 
     /**
@@ -89,52 +90,110 @@ class JBExportJBuniversalController extends JBuniversalController
      */
     public function items()
     {
-        if (!$this->_jbrequest->isPost()) {
-            $this->exportParams = $this->_config->getGroup('export.items', $this->_jbuser->getParam('export-items'));
-            $this->_setExportParams();
+        $this->exportParams = $this->_config->getGroup('export.items', array());
+        $this->renderView();
+    }
 
-            $this->renderView();
+    /**
+     * Items steps
+     */
+    public function itemsSteps()
+    {
+        /** @var AppData $req */
+        /** @var JBAjaxHelper $jbajax */
+        /** @var JBSessionHelper $session */
+        $req     = $this->app->data->create($this->_jbrequest->getAdminForm());
+        $page    = $this->_jbrequest->get('page');
+        $jbajax  = $this->app->jbajax;
+        $session = $this->app->jbsession;
 
-        } else {
-            try {
-                $request = $this->app->data->create($this->_jbrequest->getAdminForm());
+        try {
+            $progress = 0;
 
-                $data['separator'] = $request->get('separator');
-                $data['enclosure'] = $request->get('enclosure');
+            if ($page == -1) { // prepare
 
-                $data['separator'] = empty($data['separator']) ? $this->_defaultParams['separator'] : $data['separator'];
-                $data['enclosure'] = empty($data['enclosure']) ? $this->_defaultParams['enclosure'] : $data['enclosure'];
+                if (!$req->get('type')) {
+                    $this->app->jbnotify->notice('Please, select file type for export!');
+                    $this->setRedirect($this->app->jbrouter->admin(array('task' => 'items')));
+                    return;
+                }
 
-                $request->remove('separator');
-                $request->remove('enclosure');
+                //$req->set('step', 10); // TODO DEBUG
 
-                $this->_config->setGroup('export.items', $request);
-                $this->_config->setGroup('export', $data);
+                $this->_config->setGroup('export.items', $req);
+                $this->_config->setGroup('export', array( // for helpers
+                    'separator' => $req->get('separator') ? $req->get('separator') : $this->_defaultParams['separator'],
+                    'enclosure' => $req->get('enclosure') ? $req->get('enclosure') : $this->_defaultParams['enclosure'],
+                    'step'      => $req->get('step') ? $req->get('step') : $this->_defaultParams['step'],
+                ));
 
                 $this->_jbexport->clean();
 
-                list($appId, $catId) = explode(':', $request->get('items_app_category', '0:0'));
-                $files = $this->_jbexport->itemsToCSV($appId, $catId, $request->get('type', null), $request);
+                // parse application and parent category
+                list($appId, $categoryList) = explode(':', $req->get('items_app_category', '0:0'));
+                $categoryList = (array)$categoryList;
 
-                if (!empty($files)) {
-                    $tmpArch = $this->app->jbarch->compress($files, 'jbzoo-export-items-' . date('Y-m-d_H-i'));
-                } else {
-                    throw new AppException(JText::_('JBZOO_EXPORT_ITEMS_NOT_FOUND'));
+                // get full category list
+                if ((int)$req->get('category_nested') && !in_array('-1', $categoryList)) {
+                    $categoryList = JBModelCategory::model()->getNestedCategories($categoryList);
                 }
 
-                if (is_readable($tmpArch) && JFile::exists($tmpArch)) {
-                    $this->app->filesystem->output($tmpArch);
-                    JFile::delete($tmpArch);
-                    JFolder::delete($this->app->jbpath->sysPath('tmp', '/jbzoo-export'));
-                    JExit();
-                } else {
-                    throw new AppException(JText::sprintf('Unable to create file %s', $tmpArch));
-                }
+                // Get total
+                $total = $this->_jbexport->getTotalItems($appId, $categoryList, $req->get('type'));
 
-            } catch (AppException $e) {
-                $this->app->jbnotify->notice(JText::_('Error create export file') . ' (' . $e . ')');
-                $this->setRedirect($this->app->jbrouter->admin(array('task' => 'items')));
+                // save to session
+                $session->setGroup(array(
+                    'steps' => ceil($total / $req->get('step')),
+                    'appId' => $appId,
+                    'catId' => $categoryList,
+                    'total' => $total,
+                    'files' => array(),
+                    'req'   => (array)$req,
+                ), 'export.items');
+
+                $this->renderView();
+                return; // render progress page
             }
+
+            if ($page >= 0) { // process each export step
+
+                $sesData = $this->app->data->create($session->getGroup('export.items'));
+                $config  = $this->_config->getGroup('export.items');
+                $config->set('limit', array($page * $config->get('step'), $config->get('step')));
+
+                $this->_jbexport->itemsToCSV($sesData->get('appId'), $sesData->get('catId'), $sesData->find('req.type'), $config);
+
+                $progress = (($page + 1) / $sesData->get('steps')) * 100;
+            }
+
+            $jbajax->send(array('page' => ++$page, 'progress' => $progress));
+
+        } catch (AppException $e) {
+            $this->app->jbnotify->notice(JText::_('Error create export file') . ' (' . $e . ')');
+            $this->setRedirect($this->app->jbrouter->admin(array('task' => 'items')));
+        }
+    }
+
+    /**
+     * Last export step
+     * @throws AppException
+     */
+    public function itemsDownload()
+    {
+        if ($compressFiles = $this->_jbexport->splitFiles()) {
+            $tmpArch = $this->app->jbarch->compress($compressFiles, 'jbzoo-export-items-' . date('Y-m-d_H-i'));
+        } else {
+            throw new AppException(JText::_('JBZOO_EXPORT_ITEMS_NOT_FOUND'));
+        }
+
+        if (is_readable($tmpArch) && JFile::exists($tmpArch)) {
+            $this->app->filesystem->output($tmpArch);
+            JFile::delete($tmpArch);
+            $this->_jbexport->clean();
+            JExit();
+
+        } else {
+            throw new AppException(JText::sprintf('Unable to create file %s', $tmpArch));
         }
     }
 
@@ -178,7 +237,7 @@ class JBExportJBuniversalController extends JBuniversalController
                 if (is_readable($tmpArch) && JFile::exists($tmpArch)) {
                     $this->app->filesystem->output($tmpArch);
                     JFile::delete($tmpArch);
-                    JFolder::delete($this->app->jbpath->sysPath('tmp', '/jbzoo-export'));
+                    $this->_jbexport->clean();
                     JExit();
                 } else {
                     throw new AppException(JText::sprintf('Unable to create file %s', $tmpArch));
@@ -213,7 +272,7 @@ class JBExportJBuniversalController extends JBuniversalController
                 if (is_readable($tmpArch) && JFile::exists($tmpArch)) {
                     $this->app->filesystem->output($tmpArch);
                     JFile::delete($tmpArch);
-                    JFolder::delete($this->app->jbpath->sysPath('tmp', '/jbzoo-export'));
+                    $this->_jbexport->clean();
                     JExit();
                 } else {
                     throw new AppException(JText::sprintf('Unable to create file %s', $tmpArch));
@@ -290,7 +349,7 @@ class JBExportJBuniversalController extends JBuniversalController
             'lines'    => $lines,
             'step'     => $page + 1,
             'stepsize' => $limit,
-            'ymlcount' => $this->app->jbsession->get('ymlCount', 'yml')
+            'ymlcount' => $this->app->jbsession->get('ymlCount', 'yml'),
         ));
     }
 
