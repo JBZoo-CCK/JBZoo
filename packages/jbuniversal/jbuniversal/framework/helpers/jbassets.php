@@ -279,8 +279,8 @@ class JBAssetsHelper extends AppHelper
                 $this->addVar('cartItems', $this->app->jbarray->map($cartItems, 'element_id', 'element_id', 'item_id'));
             }
 
-            $this->addVar('JBZOO_DIALOGBOX_OK', JText::_('JBZOO_DIALOGBOX_OK'));
-            $this->addVar('JBZOO_DIALOGBOX_CANCEL', JText::_('JBZOO_DIALOGBOX_CANCEL'));
+            $this->addVar('JBZOO_DIALOGBOX_OK', 'Ok');
+            $this->addVar('JBZOO_DIALOGBOX_CANCEL', 'Cancel');
 
             $this->widget('.jbzoo .jsGoto', 'JBZoo.Goto');
             $this->widget('.jbzoo select', 'JBZoo.Select');
