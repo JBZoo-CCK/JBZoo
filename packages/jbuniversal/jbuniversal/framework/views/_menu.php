@@ -19,8 +19,10 @@ $jbmenu = $this->app->jbmenu;
 if (defined('JBZOO_DISPATCHED')) {
 
     // create jbzoo order list tab
-    $tab = $jbmenu->addTab('jborders', 'jborder', 'jbzoo-orders', JText::_('JBZOO_ADMIN_ORDER_TAB'));
-    $jbmenu->addItem($tab, array('controller' => 'jborder'));
+    if ((int)JBModelConfig::model()->get('enable', 1, 'cart.config')) {
+        $tab = $jbmenu->addTab('jborders', 'jborder', 'jbzoo-orders', JText::_('JBZOO_ADMIN_ORDER_TAB'));
+        $jbmenu->addItem($tab, array('controller' => 'jborder'));
+    }
 
     // create jbzoo tools tab
     $tab = $jbmenu->addTab('jbtools', 'jbindex', 'jbzoo');
