@@ -75,7 +75,13 @@ class JBModelItem extends JBModel
         }
 
         // check category
-        if (!empty($catId) && $catId != -1) {
+        if (
+            !empty($catId) &&
+            $catId != -1 &&
+            (
+                is_array($catId) && !in_array('-1', $catId)
+            )
+        ) {
             $select->innerJoin(ZOO_TABLE_CATEGORY_ITEM . ' AS tCategoryItem ON tItem.id = tCategoryItem.item_id');
 
             $catId = (array)$catId;
