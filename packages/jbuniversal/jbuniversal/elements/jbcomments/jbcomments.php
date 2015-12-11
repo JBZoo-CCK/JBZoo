@@ -47,7 +47,7 @@ class ElementJBComments extends Element implements iSubmittable
 
         $this->loadAssets();
 
-        $html['JBZOO_COMMENTS_STANDART']  = $this->_renderZooComments($params);
+        $html['JBZOO_COMMENTS_STANDARD']  = $this->_renderZooComments($params);
         $html['JBZOO_COMMENTS_VKONTAKTE'] = $this->_renderVKComments($params);
         $html['JBZOO_COMMENTS_FACEBOOK']  = $this->_renderFBComments($params);
 

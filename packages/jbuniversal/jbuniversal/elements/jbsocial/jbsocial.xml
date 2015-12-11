@@ -134,7 +134,7 @@
 
         <param name="like_fb_layout" type="list" default="button_count" label="JBZOO_LIKE_FB_LAYOUT"
                description="JBZOO_LIKE_FB_LAYOUT_DESC">
-            <option value="standart">JBZOO_LIKE_FB_STANDART</option>
+            <option value="standard">JBZOO_LIKE_FB_STANDARD</option>
             <option value="button_count">JBZOO_LIKE_FB_BUTTON_COUNT</option>
             <option value="box_count">JBZOO_LIKE_FB_BOX_COUNT</option>
         </param>
@@ -259,7 +259,7 @@
                description="JBZOO_LIKE_GP_SIZE_DESC">
             <option value="small">JBZOO_LIKE_GP_SMALL</option>
             <option value="medium">JBZOO_LIKE_GP_MEDIUM</option>
-            <option value="standart">JBZOO_LIKE_GP_STANDART</option>
+            <option value="standard">JBZOO_LIKE_GP_STANDARD</option>
             <option value="tall">JBZOO_LIKE_GP_TALL</option>
         </param>
 

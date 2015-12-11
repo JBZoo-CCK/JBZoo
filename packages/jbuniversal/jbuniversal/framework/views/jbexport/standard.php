@@ -14,7 +14,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 ?>
-
 <div class="uk-grid">
     <div id="sidebar" class="uk-width-1-6">
         <?php echo $this->partial('navigation'); ?>
@@ -22,9 +21,9 @@ defined('_JEXEC') or die('Restricted access');
 
     <div class="uk-width-4-6">
 
-        <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_IMPORT_STANDART'); ?></h2>
+        <h2><?php echo JText::_('JBZOO_ADMIN_TITLE_EXPORT_STANDARD'); ?></h2>
 
-        <p><?php echo JText::_('JBZOO_ADMIN_PAGE_IMPORT_STANDART'); ?></p>
+        <p><?php echo JText::_('JBZOO_ADMIN_PAGE_EXPORT_STANDARD'); ?></p>
 
         <?php echo $this->partial('icons', array('items' => $this->appList)); ?>
 

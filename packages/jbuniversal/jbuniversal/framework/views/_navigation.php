@@ -51,7 +51,7 @@ $allItems = array(
             'categories' => array('categories'),
         ),
         'zoo'   => array(
-            'standart' => array('standart'),
+            'standard' => array('standard'),
         ),
     ),
     'jbconfig'  => array(
@@ -107,7 +107,7 @@ $allItems = array(
             'yandexYml'  => array('yandexYml'),
         ),
         'zoo'   => array(
-            'standart'  => array('standart'),
+            'standard'  => array('standard'),
             'zoobackup' => array('zoobackup'),
         ),
     ),
