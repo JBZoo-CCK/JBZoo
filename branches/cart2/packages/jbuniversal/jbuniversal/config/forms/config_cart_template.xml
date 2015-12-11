@@ -44,6 +44,12 @@
 
             <field name="tmpl_subtotal" type="jbbool" default="1" label="JBZOO_CART_CONFIG_TMPL_SUBTOTAL"
                    description="JBZOO_CART_CONFIG_TMPL_SUBTOTAL_DESC"/>
+
+            <field name="tmpl_button_create" type="jbbool" default="1" label="JBZOO_CART_CONFIG_TMPL_BUTTON_CREATE"
+                   description="JBZOO_CART_CONFIG_TMPL_BUTTON_CREATE_DESC"/>
+
+            <field name="tmpl_button_payment" type="jbbool" default="1" label="JBZOO_CART_CONFIG_TMPL_BUTTON_PAYMENT"
+                   description="JBZOO_CART_CONFIG_TMPL_BUTTON_PAYMENT_DESC"/>
         </fieldset>
 
     </fields>

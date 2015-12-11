@@ -14,14 +14,20 @@ defined('_JEXEC') or die('Restricted access');
 
 
 $this->app->jbassets->less('jbassets:less/cart/buttons.less');
+
+$isCreate  = (int)$view->config->get('tmpl_button_create', 1);
+$isPayment = (int)$view->config->get('tmpl_button_payment', 1) && $view->payment;
+
 ?>
 
 <div class="jbcart-buttons clearfix">
 
-    <input type="submit" name="create" value="<?php echo JText::_('JBZOO_CART_SUBMIT'); ?>"
-           class="jbbutton green big" />
+    <?php if ($isCreate) : ?>
+        <input type="submit" name="create" value="<?php echo JText::_('JBZOO_CART_SUBMIT'); ?>"
+               class="jbbutton green big" />
+    <?php endif; ?>
 
-    <?php if ($view->payment) : ?>
+    <?php if ($isPayment) : ?>
         <input type="submit" name="create-pay" value="<?php echo JText::_('JBZOO_CART_SUBMIT_AND_PAY'); ?>"
                class="jbbutton green big" />
     <?php endif; ?>
