@@ -46,7 +46,7 @@ $jbperform = $this->app->jbperform;
             <tr>
                 <th class="uk-width-6-10 uk-text-bold uk-text-center"><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_TESTNAME'); ?></th>
                 <th class="uk-width-2-10 uk-text-bold uk-text-center"><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_CURRENT'); ?></th>
-                <th class="uk-width-2-10 uk-text-bold uk-text-center"><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_STANDART'); ?></th>
+                <th class="uk-width-2-10 uk-text-bold uk-text-center"><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_STANDARD'); ?></th>
             </tr>
             </thead>
 
@@ -82,7 +82,7 @@ $jbperform = $this->app->jbperform;
                         </td>
 
                         <td class="uk-text-center jsStandard">
-                            <?php echo $jbperform->toFormat($test['standart'], $test['key']); ?>
+                            <?php echo $jbperform->toFormat($test['standard'], $test['key']); ?>
 
                             <?php if ($test['postfix']) : ?>
                                 <?php echo JText::_('JBZOO_BENCHMARK_POSTFIX_' . $test['postfix']); ?>
@@ -150,7 +150,7 @@ $jbperform = $this->app->jbperform;
 
                     if (typeof (data.value) != "undefined") {
                         $value.text(data.value);
-                        $standard.text(data.standart);
+                        $standard.text(data.standard);
 
                         if (data.alert == -1) {
                             $obj.removeClass('uk-error uk-success');

@@ -297,9 +297,9 @@ class JBImportJBuniversalController extends JBuniversalController
     }
 
     /**
-     * Standart
+     * Standard
      */
-    public function standart()
+    public function standard()
     {
         $applications = $this->app->table->application->all();
 

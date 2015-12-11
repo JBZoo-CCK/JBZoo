@@ -257,7 +257,7 @@ class JBTemplate
     {
         $attrs = array();
 
-        // standart
+        // standard
         $attrs['id']      = $this->id;
         $attrs['class'][] = $this->prefix;
 

@@ -35,9 +35,9 @@ defined('_JEXEC') or die('Restricted access');
                 'link' => array('task' => 'categories'),
             ),
             array(
-                'name' => 'JBZOO_ICON_IMPORT_STANDART',
+                'name' => 'JBZOO_ICON_IMPORT_STANDARD',
                 'icon' => 'zoo.png',
-                'link' => array('task' => 'standart'),
+                'link' => array('task' => 'standard'),
             )
         ))); ?>
 

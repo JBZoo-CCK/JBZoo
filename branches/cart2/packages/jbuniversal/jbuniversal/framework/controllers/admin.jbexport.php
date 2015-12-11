@@ -54,7 +54,7 @@ class JBExportJBuniversalController extends JBuniversalController
     }
 
     /**
-     * Standart export methods
+     * Standard export methods
      */
     public function index()
     {
@@ -62,9 +62,9 @@ class JBExportJBuniversalController extends JBuniversalController
     }
 
     /**
-     * Standart
+     * Standard
      */
-    public function standart()
+    public function standard()
     {
         $applications = $this->app->table->application->all();
 

@@ -492,7 +492,7 @@ class JBModelSearchindex extends JBModel
     }
 
     /**
-     * Parse Standart item data
+     * Parse Standard item data
      * @param Item $item
      * @return array
      */
@@ -577,7 +577,7 @@ class JBModelSearchindex extends JBModel
     }
 
     /**
-     * Standart fields for index
+     * Standard fields for index
      * @return array
      */
     public function getStdIndexFields()

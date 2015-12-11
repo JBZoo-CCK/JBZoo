@@ -50,9 +50,9 @@ defined('_JEXEC') or die('Restricted access');
                 'link' => array('task' => 'zoobackup'),
             ),
             array(
-                'name' => 'JBZOO_ICON_EXPORT_STANDART',
+                'name' => 'JBZOO_ICON_EXPORT_STANDARD',
                 'icon' => 'zoo.png',
-                'link' => array('task' => 'standart'),
+                'link' => array('task' => 'standard'),
             )
         ))); ?>
 
