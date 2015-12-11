@@ -35,7 +35,7 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'form',
-            'orderId'    => $this->getOrderId()
+            'orderId'    => $this->getOrderId(),
         );
 
         return 'index.php?' . $this->_jbrouter->query($query);
@@ -64,8 +64,7 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
 
         $billHashSign = base64_encode(hash_hmac('sha1', $hashData, $signPsw, true));
 
-        if (isset($_SERVER['HTTP_X_API_SIGNATURE']) && $_SERVER['HTTP_X_API_SIGNATURE'] === $billHashSign)
-        {
+        if (isset($_SERVER['HTTP_X_API_SIGNATURE']) && $_SERVER['HTTP_X_API_SIGNATURE'] === $billHashSign) {
             return true;
         }
 
@@ -122,9 +121,9 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
                     'option'     => 'com_zoo',
                     'controller' => 'basket',
                     'task'       => 'form',
-                    'orderId'    => $this->_jbrequest->get('orderId')
+                    'orderId'    => $this->_jbrequest->get('orderId'),
                 )),
-            'submit' => JText::_('JBZOO_BUTTON_SUBMIT_SHOW')
+            'submit' => JText::_('JBZOO_BUTTON_SUBMIT_SHOW'),
         ));
     }
 
@@ -153,7 +152,7 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
             'amount'     => $orderAmount->val(),
             'user'       => 'tel:' . JString::trim($request['phone']),
             'comment'    => $this->getOrderDescription(),
-            'prv_name'   => $shopConfig->get('shop_name')
+            'prv_name'   => $shopConfig->get('shop_name'),
         );
 
         $httpAuthHeaderKey = base64_encode($restId . ':' . $restPw);
@@ -166,7 +165,7 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
                 'shop'        => $shopId,
                 'transaction' => $billId,
                 'failUrl'     => $this->_jbrouter->payment('fail'),
-                'successUrl'  => $this->_jbrouter->payment('success')
+                'successUrl'  => $this->_jbrouter->payment('success'),
             );
 
             return $this->_uri . '?' . $this->_jbrouter->query($query);
@@ -186,7 +185,7 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
     {
         $check = $request['jbzooform'];
 
-        if (preg_match('/\+\d{1,15}$/', $check['phone'])) {
+        if (preg_match('#\d{1,15}$#', $check['phone'])) {
             return true;
         } else {
             $this->app->jbnotify->warning(JText::_('JBZOO_PAYMENT_QIWI_NO_VALID_PHONE'));
@@ -197,10 +196,10 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
 
     /**
      * Create qiwi bill
-     * @param null $shopId
-     * @param $billId
+     * @param null  $shopId
+     * @param       $billId
      * @param array $data
-     * @param $authHeaderKey
+     * @param       $authHeaderKey
      * @return JHttpResponse
      */
     protected function _createBill($shopId = null, $billId, $data = array(), $authHeaderKey)
@@ -208,12 +207,12 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
         $curl = $this->_getQiwiCurl($shopId, $billId);
 
         return $this->app->jbhttp->request($curl, $data, array(
-            'method'  => 'put',
-            'headers' => array(
+            'method'   => 'put',
+            'headers'  => array(
                 'Accept'        => 'application/json',
-                'Authorization' => 'Basic ' . $authHeaderKey
+                'Authorization' => 'Basic ' . $authHeaderKey,
             ),
-            'response' => 'full'
+            'response' => 'full',
         ));
     }
 
