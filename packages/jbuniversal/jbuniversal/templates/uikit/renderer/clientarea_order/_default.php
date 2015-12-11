@@ -52,8 +52,8 @@ $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredi
         $itemCount = count($items);
         foreach ($items as $key => $item) :
             $itemHtml = $itemsHtml[$key];
-            $first    = ($j == 0) ? ' first' : '';
-            $last     = ($j == $itemCount - 1) ? ' last' : '';
+            $first = ($j == 0) ? ' first' : '';
+            $last  = ($j == $itemCount - 1) ? ' last' : '';
             $j++;
             $rowClass = ($j % 2 == 0) ? 'even' : 'odd';
             ?>
@@ -83,7 +83,7 @@ $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredi
                     <td class="jbclientarea-label" colspan="3"><?php echo $modifier->getName(); ?></td>
                     <td class="jbclientarea-value"><?php echo $rate->html(); ?></td>
                 </tr>
-            <?php
+                <?php
             }
         }
         ?>
@@ -170,6 +170,13 @@ $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredi
 
                         <dt><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT_STATUS'); ?></dt>
                         <dd><?php echo $payment->getStatus()->getName(); ?></dd>
+
+                        <?php if (!$payment->isPaid() && ($checkoutUrl = $payment->getRedirectUrl())) : ?>
+                            <dd>
+                                <a target="_blank" class="uk-button-success uk-button" href="<?php echo $checkoutUrl; ?>">
+                                    <?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT_GOTO_CHECKOUT'); ?></a>
+                            </dd>
+                        <?php endif; ?>
                     </dl>
                 </div>
             </li>

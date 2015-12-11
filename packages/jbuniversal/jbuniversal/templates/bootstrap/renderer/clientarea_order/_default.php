@@ -170,6 +170,13 @@ $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredi
 
                         <dt><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT_STATUS'); ?></dt>
                         <dd><?php echo $payment->getStatus()->getName(); ?></dd>
+
+                        <?php if (!$payment->isPaid() && ($checkoutUrl = $payment->getRedirectUrl())) : ?>
+                            <dd>
+                                <a target="_blank" class="btn btn-success" href="<?php echo $checkoutUrl; ?>">
+                                    <?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT_GOTO_CHECKOUT'); ?></a>
+                            </dd>
+                        <?php endif; ?>
                     </dl>
                 </div>
             </li>
