@@ -311,7 +311,7 @@ abstract class JBCartElementPayment extends JBCartElement
     public function getOrderSumm()
     {
         $order = $this->getOrder();
-        return $order->getTotalSum(false);
+        return $order->getTotalSum();
     }
 
     /**
@@ -383,6 +383,20 @@ abstract class JBCartElementPayment extends JBCartElement
                 'fields' => $this->get('fields', array()),
             ));
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPaid()
+    {
+        $curStatus  = $this->getStatus()->getCode();
+        $paidStatus = JBCart::getInstance()->getPaymentSuccess();
+
+        return
+            ($curStatus && $paidStatus) &&
+            ($paidStatus != JBCartStatusHelper::UNDEFINED) &&
+            ($curStatus == $paidStatus);
     }
 }
 
