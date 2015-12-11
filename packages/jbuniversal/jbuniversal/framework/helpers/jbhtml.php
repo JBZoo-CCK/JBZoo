@@ -711,8 +711,8 @@ class JBHtmlHelper extends AppHelper
 
         $this->_assets->jqueryui();
         $this->_assets->less('jbassets:less/widget/slider.less');
-        $this->_assets->addScript(
-            '$("#' . $idtag . '-wrapper").removeAttr("slide");
+        $this->_assets->addScript('
+        $("#' . $idtag . '-wrapper").removeAttr("slide");
             $("#' . $idtag . '-wrapper")[0].slide = null;
             $("#' . $idtag . '-wrapper").slider({
                 "range" : true,
@@ -724,10 +724,11 @@ class JBHtmlHelper extends AppHelper
                     $("#' . $idtag . '-value").val(ui.values[0] + "/" + ui.values[1]);
                     $("#' . $idtag . '-value-0").html(JBZoo.numberFormat(ui.values[0], 0, ".", " "));
                     $("#' . $idtag . '-value-1").html(JBZoo.numberFormat(ui.values[1], 0, ".", " "));
+                    $("#' . $idtag . '-wrapper").closest(".jsSlider").trigger("change");
                 }
             });
-            $("#' . $idtag . '-value").val(' . $valueMin . '+ "/" +' . $valueMax . ');'
-        );
+            $("#' . $idtag . '-value").val("' . $valueMin . '/' . $valueMax . '");
+        ');
 
         $html = array(
             '<div class="jsSlider jbslider">',
