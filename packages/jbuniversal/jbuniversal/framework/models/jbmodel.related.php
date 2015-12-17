@@ -229,7 +229,6 @@ class JBModelRelated extends JBModel
                 $allSelect->order('count DESC');
             }
 
-
             $relevant = (int)$params->get('relevant', 5);
             if ($relevant > 0) {
                 $allSelect->having('count >= ?', $relevant);
@@ -292,10 +291,9 @@ class JBModelRelated extends JBModel
 
         $elemValues = $this->_quote($elemValues);
 
-        if ($searchMethod != 1) {
-            foreach ($elemValues as $key => $elemValue) {
-                $elemValues[$key] = JString::trim($elemValue, '\'"');
-            }
+        // double escaping hack
+        foreach ($elemValues as $key => $elemValue) {
+            $elemValues[$key] = JString::trim($elemValue, '\'"');
         }
 
         return (!empty($elemValues) ? $elemValues : null);
