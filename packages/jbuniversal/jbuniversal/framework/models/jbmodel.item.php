@@ -75,16 +75,15 @@ class JBModelItem extends JBModel
         }
 
         // check category
+        $catId = array_filter((array)$catId, function ($value) {
+            return $value > 0 || $value == -1 || $value === 0 || $value === '0';
+        });
+
         if (
             !empty($catId) &&
-            $catId != -1 &&
-            (
-                is_array($catId) && !in_array('-1', $catId)
-            )
+            !in_array('-1', $catId)
         ) {
             $select->innerJoin(ZOO_TABLE_CATEGORY_ITEM . ' AS tCategoryItem ON tItem.id = tCategoryItem.item_id');
-
-            $catId = (array)$catId;
 
             $subcatId = array();
             if ((int)$options->get('category_nested')) {
