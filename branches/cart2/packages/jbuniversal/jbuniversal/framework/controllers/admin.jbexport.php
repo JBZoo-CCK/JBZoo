@@ -166,7 +166,7 @@ class JBExportJBuniversalController extends JBuniversalController
 
             $jbajax->send(array(
                 'page'     => ++$page,
-                'progress' => $progress,
+                'progress' => round($progress, 2),
             ));
 
         } catch (AppException $e) {
