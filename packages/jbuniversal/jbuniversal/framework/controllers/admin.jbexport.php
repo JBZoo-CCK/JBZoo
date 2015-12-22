@@ -118,8 +118,6 @@ class JBExportJBuniversalController extends JBuniversalController
                     return;
                 }
 
-                //$req->set('step', 10); // TODO DEBUG
-
                 $this->_config->setGroup('export.items', $req);
                 $this->_config->setGroup('export', array( // for helpers
                     'separator' => $req->get('separator') ? $req->get('separator') : $this->_defaultParams['separator'],
@@ -139,7 +137,7 @@ class JBExportJBuniversalController extends JBuniversalController
                 }
 
                 // Get total
-                $total = $this->_jbexport->getTotalItems($appId, $categoryList, $req->get('type'));
+                $total = JBModelItem::model()->getTotal($appId, $req->get('type'), $categoryList, $req->get('state', 0));
 
                 // save to session
                 $session->setGroup(array(

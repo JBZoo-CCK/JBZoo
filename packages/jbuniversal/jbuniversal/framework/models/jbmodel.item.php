@@ -408,17 +408,27 @@ class JBModelItem extends JBModel
      * @param int    $appId
      * @param string $types
      * @param array  $catList
+     * @param int    $isPublished
      * @return int
      */
-    public function getTotal($appId, $types, $catList = array())
+    public function getTotal($appId, $types, $catList = array(), $isPublished = 1)
     {
         $select = $this->_getSelect()
             ->select('COUNT(tItem.id) AS count')
-            ->from(ZOO_TABLE_ITEM . ' AS tItem')
-            ->where('tItem.state = ?', 1)
-            ->where('(tItem.publish_up = ' . $this->_dbNull . ' OR tItem.publish_up <= ' . $this->_dbNow . ')')
-            ->where('(tItem.publish_down = ' . $this->_dbNull . ' OR tItem.publish_down >= ' . $this->_dbNow . ')');
+            ->from(ZOO_TABLE_ITEM . ' AS tItem');
 
+        if ($isPublished == 1) {
+            $select
+                ->where('tItem.state = ?', 1)
+                ->where('(tItem.publish_up = ' . $this->_dbNull . ' OR tItem.publish_up <= ' . $this->_dbNow . ')')
+                ->where('(tItem.publish_down = ' . $this->_dbNull . ' OR tItem.publish_down >= ' . $this->_dbNow . ')');
+
+        } elseif ($isPublished == 2) {
+            $select->where('tItem.state = ?', 1);
+
+        } elseif ($isPublished == 3) {
+            $select->where('tItem.state = ?', 0);
+        }
 
         if (!empty($appId)) {
             $strApp = is_array($appId) ? 'tItem.application_id IN (' . implode(',', $appId) . ')'
