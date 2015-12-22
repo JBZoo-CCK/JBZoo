@@ -109,7 +109,7 @@ class JBModuleHelperCategory extends JBModuleHelper
         $imgAttrs = array(
             'src'    => $image['src'],
             'width'  => $image['width'],
-            'height' => $image['height']
+            'height' => $image['height'],
         );
 
         if ((int)$this->_params->get('category_image_width') || (int)$this->_params->get('category_image_height')) {
@@ -121,7 +121,7 @@ class JBModuleHelperCategory extends JBModuleHelper
             $imgAttrs = array_merge($imgAttrs, array(
                 'src'    => $image->url,
                 'width'  => $image->width,
-                'height' => $image->height
+                'height' => $image->height,
             ));
         }
 
@@ -163,6 +163,7 @@ class JBModuleHelperCategory extends JBModuleHelper
                 'order'     => $this->_params->get('item_order'),
             )
         );
+
         return $items;
     }
 
