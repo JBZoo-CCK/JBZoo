@@ -185,6 +185,8 @@ class JBExportHelper extends AppHelper
             $options['order'] = 'id';
         }
 
+        $options['published'] = $options['state'];
+
         return JBModelItem::model()->getList($appId, $catId, $typeId, $options);
     }
 
