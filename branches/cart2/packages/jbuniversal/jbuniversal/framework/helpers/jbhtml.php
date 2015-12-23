@@ -443,9 +443,9 @@ class JBHtmlHelper extends AppHelper
     {
         $rates = !empty($rates) ? $rates : $this->app->jbmoney->getData();
 
-        $defaultCur = $this->_vars->lower($defaultCur);
-        $moneyVal   = JBCart::val(1, $rates); // for calculating
-        $uniqId     = $this->_jbstring->getId();
+        $defaultCur    = $this->_vars->lower($defaultCur);
+        $uniqId        = $this->_jbstring->getId();
+        $systemDefault = JBModelConfig::model()->getCurrency();
 
         if (isset($rates['%'])) {
             unset($rates['%']);
@@ -463,8 +463,10 @@ class JBHtmlHelper extends AppHelper
             $id    = $this->_jbstring->getId('unique-');
             $title = JText::_('JBZOO_JBCURRENCY_' . $code);
 
-            if ($code != JBCartValue::DEFAULT_CODE && !$moneyVal->isCur($code)) {
-                $title .= '; ' . $moneyVal->text() . ' = ' . $moneyVal->text($code);
+            $moneyVal = JBCart::val('1000 ' . $code, $rates); // for calculating
+
+            if ($systemDefault != JBCartValue::DEFAULT_CODE && !$moneyVal->isCur($systemDefault)) {
+                $title .= '; ' . $moneyVal->text() . ' ≈ ' . $moneyVal->text($systemDefault);
             }
 
             $inputAttrs = array(
