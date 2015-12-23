@@ -466,7 +466,7 @@ class JBHtmlHelper extends AppHelper
             $moneyVal = JBCart::val('1000 ' . $code, $rates); // for calculating
 
             if ($systemDefault != JBCartValue::DEFAULT_CODE && !$moneyVal->isCur($systemDefault)) {
-                $title .= '; ' . $moneyVal->text() . ' ≈ ' . $moneyVal->text($systemDefault);
+                $title .= '; ' . $moneyVal->text() . ' &asymp; ' . $moneyVal->text($systemDefault);
             }
 
             $inputAttrs = array(
