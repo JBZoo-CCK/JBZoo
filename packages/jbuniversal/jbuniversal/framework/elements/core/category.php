@@ -38,6 +38,10 @@ class JBCSVItemCoreCategory extends JBCSVItem
             $result[] = $name;
         }
 
+        if (!empty($result)) {
+            natsort($result);
+        }
+
         return $result;
     }
 
