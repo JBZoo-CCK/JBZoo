@@ -66,7 +66,7 @@ class JBViewedHelper extends AppHelper
             );
         }
 
-        $newGroup = $this->app->jbarray->unshiftAssoc($viewed, $item->id, array(
+        $newGroup = $this->app->jbarray->unshiftAssoc((array)$viewed, $item->id, array(
             'type'  => $item->type,
             'appId' => $item->application_id,
         ));
