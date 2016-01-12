@@ -93,16 +93,15 @@ class JBOrderMacrosHelper extends AppHelper
      */
     private function _replaceMacros($text, $macros, JBCartOrder $order = null)
     {
+        $date = JFactory::getDate('now', $this->app->date->getOffset());
+
         if ($macros == 'date') {
-            $date    = new JDate();
             $replace = $date->format(JText::_('DATE_FORMAT_LC3'));
 
         } else if ($macros == 'time') {
-            $date    = new JDate();
             $replace = $date->format('H:i');
 
         } else if ($macros == 'datetime') {
-            $date    = new JDate();
             $replace = $date->format('Y-m-d H:m');
 
         } else if ($macros == 'order_id' && $order) {
