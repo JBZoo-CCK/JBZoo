@@ -392,7 +392,7 @@ class ElementJBPriceCalc extends ElementJBPrice
             $_variants = $this->prepareList($variations);
 
             // Add default variant to list
-            if ($defKey !== self::BASIC_VARIANT) {
+            if ($defKey !== self::BASIC_VARIANT && isset($_variants[$defKey])) {
                 $list->add(array($defKey => $_variants[$defKey]));
             }
 
