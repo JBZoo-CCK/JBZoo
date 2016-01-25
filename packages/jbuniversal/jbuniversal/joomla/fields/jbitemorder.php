@@ -64,8 +64,13 @@ class JFormFieldJBItemOrder extends JFormField
             }
         }
 
-        $isRandom  = (int)$this->getAttribute('random', 1);
-        $isReverse = (int)$this->getAttribute('reverse', 1);
+        $isRandom  = 1;
+        $isReverse = 1;
+        if (method_exists($this, 'getAttribute')) {
+            $isRandom  = (int)$this->getAttribute('random', 1);
+            $isReverse = (int)$this->getAttribute('reverse', 1);
+        }
+
 
         $html[] = '<div id="' . $orderId . '" style="float: left;">';
 
