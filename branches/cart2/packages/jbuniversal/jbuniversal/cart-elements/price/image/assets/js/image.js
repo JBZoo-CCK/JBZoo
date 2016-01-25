@@ -59,7 +59,10 @@
                     }
 
                     this.image.attr('src', data.image);
-                    this.link.attr('href', data.popup);
+
+                    if (this.image.hasClass('jbimage-gallery')) {
+                        this.link.attr('href', data.popup);
+                    }
                 }
             }
         }
