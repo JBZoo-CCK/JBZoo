@@ -261,7 +261,39 @@ class JBModelSearchindex extends JBModel
 
         if (!empty($elements)) {
             foreach ($elements as $key => $element) {
-                $result += $element->getIndexData();
+                $elementIndex = $element->getIndexData();
+
+                if (!empty($elementIndex)) {
+                    $result += $elementIndex;
+
+                } else {
+
+                    $indexedFields = array(
+                        '_sku'      => $item->id,
+                        '_value'    => 0,
+                        '_balance'  => 1,
+                        '_discount' => 0,
+                    );
+
+                    for ($variant = -1; $variant <= 0; $variant++) {
+                        foreach($indexedFields as $fieldId => $defValue) {
+
+                            $newKey = $item->id . '__' . $element->identifier . '__' . $variant . '_' . $fieldId;
+
+                            $result += array(
+                                 $newKey => array(
+                                    'item_id'    => $item->id,
+                                    'element_id' => $element->identifier,
+                                    'param_id'   => $fieldId,
+                                    'value_s'    => (string)$defValue,
+                                    'value_n'    => (float)$defValue,
+                                    'value_d'    => '1970-01-01 00:00:00',
+                                    'variant'    => $variant,
+                                ),
+                            );
+                        }
+                    }
+                }
             }
         }
 
