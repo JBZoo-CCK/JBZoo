@@ -263,7 +263,7 @@ class ElementJBSocial extends Element implements iSubmittable
             (int)$this->get('complex_enabled', 1)
         ) {
             $yaOptions['yaEnabled'] = $params->get('like_ya_share_enabled');
-            $doc->addScript('http://yandex.st/share/share.js');
+            $doc->addScript('//yandex.st/share/share.js');
 
             $services = str_replace(' ', '', $params->get('like_ya_share_services'));
             if (!empty($services)) {
