@@ -41,21 +41,22 @@ class JBPriceFilterElementBalance extends JBPriceFilterElement
      */
     protected function _getValues($type = null)
     {
-        $values  = (array)$this->_getDbValues();
-        $default = array(
-            '1' => array(
-                'text'  => JText::_('JBZOO_FILTER_JBPRICE_BALANCE_AVAILABLE'),
-                'value' => 1
-            )
-        );
+        $values = (array)$this->_getDbValues();
 
         foreach ($values as $key => $value) {
-            if (isset($default[$value['value']])) {
-                $default[$value['value']]['count'] = $value['count'];
+
+            if ($value['value'] == JBCartElementPriceBalance::AVAILABLE) {
+                $values[$key]['text'] = JText::_('JBZOO_FILTER_JBPRICE_BALANCE_AVAILABLE');
+                continue;
+            }
+
+            if ($value['value'] == JBCartElementPriceBalance::COUNT_REQUEST) {
+                $values[$key]['text'] = JText::_('JBZOO_ELEMENT_PRICE_BALANCE_EDIT_REQUEST');
+                continue;
             }
         }
 
-        return $default;
+        return $values;
     }
 
     /**

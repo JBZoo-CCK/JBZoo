@@ -21,6 +21,9 @@ class JBCartElementPriceBalance extends JBCartElementPrice
     const COUNT_AVAILABLE_YES = -1;
     const COUNT_REQUEST       = -2;
 
+    const AVAILABLE    = 1;
+    const NO_AVAILABLE = 0;
+
     /**
      * Check if element has value
      * @param array $params
@@ -38,11 +41,16 @@ class JBCartElementPriceBalance extends JBCartElementPrice
     public function getSearchData()
     {
         $value = $this->getValue();
-        if ($value == self::COUNT_AVAILABLE_YES || $value > 0) {
-            return 1;
+
+        if ($value == self::COUNT_REQUEST) {
+            return self::COUNT_REQUEST;
         }
 
-        return 0;
+        if ($value == self::COUNT_AVAILABLE_YES || $value > 0) {
+            return self::AVAILABLE;
+        }
+
+        return self::NO_AVAILABLE;
     }
 
     /**
@@ -156,7 +164,7 @@ class JBCartElementPriceBalance extends JBCartElementPrice
         return array(
             self::COUNT_AVAILABLE_NO  => JText::_('JBZOO_ELEMENT_PRICE_BALANCE_EDIT_AVAILABLE_NO'),
             self::COUNT_AVAILABLE_YES => JText::_('JBZOO_ELEMENT_PRICE_BALANCE_EDIT_UNLIMITED'),
-            self::COUNT_REQUEST       => JText::_('JBZOO_ELEMENT_PRICE_BALANCE_EDIT_REQUEST')
+            self::COUNT_REQUEST       => JText::_('JBZOO_ELEMENT_PRICE_BALANCE_EDIT_REQUEST'),
         );
     }
 }
