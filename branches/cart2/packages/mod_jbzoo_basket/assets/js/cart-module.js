@@ -71,6 +71,10 @@
                     var content = $(html).find('.jsJBZooCartModule').contents();
                                         
                     $this.el.empty().prepend(content);
+
+                    if (window.location.href.indexOf('controller=basket') && $('.jsCartItem', content).length == 0) {
+                        window.location.reload();
+                    }
                 }
             });
         }
