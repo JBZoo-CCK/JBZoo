@@ -119,7 +119,7 @@ class JBModelElement extends JBModel
 
         $conditions = array();
 
-        $conditions[] = 'tIndex.' . $this->_jbtables->getFieldName($elementId, 's') . ' IS NOT NULL';
+        // $conditions[] = 'tIndex.' . $this->_jbtables->getFieldName($elementId, 's') . ' IS NOT NULL';
 
         foreach ($values as $valueOne) {
             if ($this->app->jbdate->isDate($valueOne)) {
@@ -166,7 +166,7 @@ class JBModelElement extends JBModel
 
         $conditions = array();
 
-        $conditions[] = 'tIndex.' . $this->_jbtables->getFieldName($elementId, 's') . ' IS NOT NULL';
+        // $conditions[] = 'tIndex.' . $this->_jbtables->getFieldName($elementId, 's') . ' IS NOT NULL';
 
         foreach ($values as $valueOne) {
             $conditions[] = $this->_buildLikeBySpaces($valueOne, 'tIndex.' . $fieldName) . PHP_EOL;
