@@ -41,8 +41,8 @@ class JBModelElement extends JBModel
 
     /**
      * @param Element $element
-     * @param int $applicationId
-     * @param string $itemType
+     * @param int     $applicationId
+     * @param string  $itemType
      */
     function __construct(Element $element, $applicationId, $itemType)
     {
@@ -66,10 +66,10 @@ class JBModelElement extends JBModel
     /**
      * Set AND element conditions
      * @param JBDatabaseQuery $select
-     * @param string $elementId
-     * @param string|array $value
-     * @param int $i
-     * @param bool $exact
+     * @param string          $elementId
+     * @param string|array    $value
+     * @param int             $i
+     * @param bool            $exact
      * @return array
      */
     public function conditionAND(JBDatabaseQuery $select, $elementId, $value, $i = 0, $exact = false)
@@ -84,10 +84,10 @@ class JBModelElement extends JBModel
     /**
      * Set OR element conditions
      * @param JBDatabaseQuery $select
-     * @param string $elementId
-     * @param string|array $value
-     * @param int $i
-     * @param bool $exact
+     * @param string          $elementId
+     * @param string|array    $value
+     * @param int             $i
+     * @param bool            $exact
      * @return array
      */
     public function conditionOR(JBDatabaseQuery $select, $elementId, $value, $i = 0, $exact = false)
@@ -101,9 +101,9 @@ class JBModelElement extends JBModel
 
     /**
      * @param JBDatabaseQuery $select
-     * @param $elementId
-     * @param $value
-     * @param $exact
+     * @param string          $elementId
+     * @param mixed           $value
+     * @param bool            $exact
      * @return array
      */
     public function _getWhereExact(JBDatabaseQuery $select, $elementId, $value, $exact)
@@ -113,11 +113,14 @@ class JBModelElement extends JBModel
 
         if (empty($values) && is_array($values)) {
             return array();
-        }elseif($values === null){
+        } elseif ($values === null) {
             return array('tItem.id IN (0)');
         }
 
         $conditions = array();
+
+        $conditions[] = 'tIndex.' . $this->_jbtables->getFieldName($elementId, 's') . ' IS NOT NULL';
+
         foreach ($values as $valueOne) {
             if ($this->app->jbdate->isDate($valueOne)) {
                 $conditions[] = 'tIndex.' . $fieldName . ' LIKE ' . $this->_quote('%' . $valueOne . '%');
@@ -145,9 +148,9 @@ class JBModelElement extends JBModel
 
     /**
      * @param JBDatabaseQuery $select
-     * @param $elementId
-     * @param $value
-     * @param $exact
+     * @param string          $elementId
+     * @param mixed           $value
+     * @param bool            $exact
      * @return array
      */
     public function _getWhereLike(JBDatabaseQuery $select, $elementId, $value, $exact)
@@ -157,11 +160,14 @@ class JBModelElement extends JBModel
 
         if (empty($values) && is_array($values)) {
             return array();
-        }elseif($values === null){
+        } elseif ($values === null) {
             return array('tItem.id IN (0)');
         }
 
         $conditions = array();
+
+        $conditions[] = 'tIndex.' . $this->_jbtables->getFieldName($elementId, 's') . ' IS NOT NULL';
+
         foreach ($values as $valueOne) {
             $conditions[] = $this->_buildLikeBySpaces($valueOne, 'tIndex.' . $fieldName) . PHP_EOL;
         }
@@ -185,7 +191,7 @@ class JBModelElement extends JBModel
     /**
      * Prepare value
      * @param string|array $value
-     * @param boolean $exact
+     * @param boolean      $exact
      * @return mixed
      */
     protected function _prepareValue($value, $exact = false)
