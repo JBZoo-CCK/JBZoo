@@ -36,10 +36,10 @@
             } else {
                 if (options.headerWidget == 'h3') {
                     var $content = $element.children(options.contentWidget),
-                        $header = $element.children(options.headerWidget);
+                        $header  = $element.children(options.headerWidget);
                 } else {
                     var $content = $element.children(options.contentWidget + ':odd'),
-                        $header = $element.children('div:even');
+                        $header  = $element.children('div:even');
                 }
 
                 $content.hide();
@@ -64,8 +64,8 @@
                 $header.bind('click', function () {
 
                     var $contActive = $(this, $element).next(),
-                        $span = $(this, $element).find('.jbzootabs-accordion-header-icon'),
-                        $allSpan = $header.find('.jbzootabs-accordion-header-icon');
+                        $span       = $(this, $element).find('.jbzootabs-accordion-header-icon'),
+                        $allSpan    = $header.find('.jbzootabs-accordion-header-icon');
 
                     $header.removeClass('jbzootabs-accordion-active jbzootabs-state-active');
                     $allSpan.removeClass('jbzootabs-icon-opened');
@@ -85,6 +85,9 @@
                         map.data('Googlemaps').refresh();
                     }
 
+                    setTimeout(function () {
+                        $(window).trigger('resize');
+                    }, 200);
                 });
 
                 function initAccordion() {
