@@ -30,16 +30,16 @@
         return $(this).each(function () {
 
             // init vars, links to DOM objects
-            var $element = $(this),
-                $widgetHeader = $element.children('ul'),
-                $widgetList = $widgetHeader.children('li'),
-                $widgetLinks = $widgetList.children('a'),
+            var $element       = $(this),
+                $widgetHeader  = $element.children('ul'),
+                $widgetList    = $widgetHeader.children('li'),
+                $widgetLinks   = $widgetList.children('a'),
                 $widgetContent = $element.children('div');
 
             if ($element.hasClass('jbzootabs-widget')) {
                 return true;
-            } else {
 
+            } else {
                 $element.addClass('jbzootabs jbzootabs-widget jbzootabs-widget-cont');
                 $widgetLinks.addClass('jbzootabs-anchor');
                 $widgetHeader.addClass('jbzootabs-nav jbzootabs-header');
@@ -60,7 +60,7 @@
                 $widgetLinks.bind('click', function () {
 
                     var result = $(this, $element).attr('href'),
-                        link = getAnchor(result);
+                        link   = getAnchor(result);
 
                     $widgetContent.hide();
                     $(link[0], $element).show();
@@ -74,6 +74,10 @@
                         options.onTabShow(index);
                     }
 
+                    setTimeout(function () {
+                        $(window).trigger('resize');
+                    }, 200);
+
                     return false;
                 });
 
@@ -84,7 +88,7 @@
 
                     if (link && link[1]) {
 
-                        var loc = window.location.hash,
+                        var loc   = window.location.hash,
                             index = $widgetContent.siblings().not($widgetHeader).index($(loc, $element));
 
                         if (index > 0) {
