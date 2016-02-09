@@ -198,7 +198,13 @@ class JBModelRelated extends JBModel
                     if ($searchMethod == 1 || is_numeric($elemValue)) {
                         $conds[] = $tableFieldName . ' = ' . $this->_quote($elemValue);
                     } else {
-                        $conds[] = $this->_buildLikeBySpaces($elemValue, $tableFieldName);
+                        if (is_array($elemValue)) {
+                            foreach($elemValue as $elemValueOne) {
+                                $conds[] = $this->_buildLikeBySpaces($elemValueOne, $tableFieldName);
+                            }
+                        } else {
+                            $conds[] = $this->_buildLikeBySpaces($elemValue, $tableFieldName);
+                        }
                     }
                 }
 
@@ -233,7 +239,6 @@ class JBModelRelated extends JBModel
             if ($relevant > 0) {
                 $allSelect->having('count >= ?', $relevant);
             }
-
 
             // clean query for optimization
             $db = JFactory::getDbo();
@@ -274,6 +279,10 @@ class JBModelRelated extends JBModel
     {
         foreach ($elemValues as $key => $elemValue) {
 
+            if (strpos(JString::trim($elemValue), "\n") !== false) {
+                $elemValue = explode("\n", $elemValue);
+            }
+
             if (is_array($elemValue)) {
 
                 foreach ($elemValue as $innerKey => $innerValue) {
@@ -284,7 +293,7 @@ class JBModelRelated extends JBModel
 
                 $elemValues[$key] = $elemValue;
 
-            } else if ($this->_isEmpty($elemValue)) {
+            } elseif ($this->_isEmpty($elemValue)) {
                 unset($elemValues[$key]);
             }
         }
