@@ -29,13 +29,13 @@ class JBAssetsHelper extends AppHelper
         'js'  => array(
             self::GROUP_CORE    => array(),
             self::GROUP_LIBRARY => array(),
-            self::GROUP_DEFAULT => array()
+            self::GROUP_DEFAULT => array(),
         ),
         'css' => array(
             self::GROUP_CORE    => array(),
             self::GROUP_LIBRARY => array(),
-            self::GROUP_DEFAULT => array()
-        )
+            self::GROUP_DEFAULT => array(),
+        ),
     );
 
     /**
@@ -48,7 +48,7 @@ class JBAssetsHelper extends AppHelper
         'jbzoocolors' => 'colors',
         'fancybox'    => array(
             'jQuery',
-            'fancybox'
+            'fancybox',
         ),
     );
 
@@ -84,7 +84,8 @@ class JBAssetsHelper extends AppHelper
 
         $jquerySelector = is_array($jquerySelector) ? implode(', ', $jquerySelector) : $jquerySelector;
 
-        $hash = $jquerySelector . ' /// ' . $widgetName;
+        $hash = implode('///', array($jquerySelector, $widgetName, (int)$return, (int)$isComplex));
+
         if (!isset($included[$hash])) {
             $included[$hash] = true;
 
@@ -107,8 +108,8 @@ class JBAssetsHelper extends AppHelper
             if ($return) {
                 return implode(PHP_EOL, array(
                     '<script type="text/javascript">',
-                    "\tjQuery(function($){ " . $initScript . "});",
-                    '</script>'
+                    "\tjQuery(function($){ setTimeout(function(){" . $initScript . "}, 0); });",
+                    '</script>',
                 ));
             }
 
@@ -316,7 +317,7 @@ class JBAssetsHelper extends AppHelper
         $this->less('jbassets:less/widget/currencytoggle.less');
         $this->js(array(
             'jbassets:js/widget/money.js',
-            'jbassets:js/widget/currencytoggle.js'
+            'jbassets:js/widget/currencytoggle.js',
         ));
 
         $script = $this->widget('#' . $id, 'JBZoo.CurrencyToggle', $params, $return);
@@ -358,7 +359,7 @@ class JBAssetsHelper extends AppHelper
         $this->jQuery();
 
         $this->css(array(
-            'jbassets:css/libs/fancybox.css'
+            'jbassets:css/libs/fancybox.css',
         ), self::GROUP_LIBRARY);
 
         $this->js(array(
@@ -458,7 +459,7 @@ class JBAssetsHelper extends AppHelper
         $this->quantity();
 
         $this->less(array(
-            'jbassets:less/cart/cart.less'
+            'jbassets:less/cart/cart.less',
         ));
 
         $this->js(array(
@@ -478,7 +479,7 @@ class JBAssetsHelper extends AppHelper
         $this->tools();
         $this->js(array(
             'elements:jbcompare/assets/js/compare-buttons.js',
-            'elements:jbcompare/assets/js/compare-table.js'
+            'elements:jbcompare/assets/js/compare-table.js',
         ));
         $this->less('elements:jbcompare/assets/less/compare.less');
     }
@@ -530,7 +531,7 @@ class JBAssetsHelper extends AppHelper
         $this->tools();
         $this->js(array(
             'elements:jbfavorite/assets/js/favorite-buttons.js',
-            'elements:jbfavorite/assets/js/favorite-list.js'
+            'elements:jbfavorite/assets/js/favorite-list.js',
         ));
         $this->less('elements:jbfavorite/assets/less/favorite.less');
     }
@@ -603,7 +604,7 @@ class JBAssetsHelper extends AppHelper
         $this->widget(
             array(
                 'a.jbimage-link[rel=jbimage-popup]',
-                'a.jbimage-gallery'
+                'a.jbimage-gallery',
             ),
             'fancybox',
             array(
@@ -612,7 +613,7 @@ class JBAssetsHelper extends AppHelper
                     'buttons' => array('position' => 'top'),
                     'thumbs'  => array('width' => 80, 'height' => 80),
                     'overlay' => array('locked' => false),
-                )
+                ),
             )
         );
     }
@@ -683,7 +684,7 @@ class JBAssetsHelper extends AppHelper
         $this->jQuery();
         $this->js(array(
             'jbassets:js/widget/select.js', // parent class
-            'jbassets:js/widget/select-cascade.js'
+            'jbassets:js/widget/select-cascade.js',
         ));
 
         $this->less('jbassets:less/widget/cascade.less');
