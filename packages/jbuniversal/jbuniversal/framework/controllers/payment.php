@@ -111,7 +111,7 @@ class PaymentJBUniversalController extends JBUniversalController
         $realSum    = $payment->getOrderSumm();
         $requestSum = $payment->getRequestOrderSum();
 
-        if ($realSum->compare($requestSum, '!=', 5)) {
+        if ($realSum->compare($requestSum, '!=', 2)) {
             $this->_error('Not correct amount');
         }
 
