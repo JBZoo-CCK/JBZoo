@@ -234,7 +234,7 @@ class JBModelCategory extends JBModel
      * Create new empty category in DB
      * @param int $appId
      * @param string $nameSuf
-     * @return Item
+     * @return Category
      */
     public function createEmpty($appId, $nameSuf = null)
     {
