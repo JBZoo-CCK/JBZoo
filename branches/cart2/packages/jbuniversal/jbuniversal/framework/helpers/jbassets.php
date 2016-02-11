@@ -346,8 +346,8 @@ class JBAssetsHelper extends AppHelper
 
         if (!$isAdded) {
             $isAdded = true;
-            $this->css('libraries:jquery/jquery-ui.custom.css', self::GROUP_CORE);
-            $this->js('libraries:jquery/jquery-ui.custom.min.js', self::GROUP_CORE);
+            $this->app->document->addScript('libraries:jquery/jquery-ui.custom.min.js');
+            $this->app->document->addStylesheet('libraries:jquery/jquery-ui.custom.css');
         }
     }
 
