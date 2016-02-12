@@ -76,6 +76,7 @@ class JBDateHelper extends AppHelper
 
         if ($time) {
             return date('Y-m-d H:i:s', $time);
+            //(string)JFactory::getDate($time, $this->app->date->getOffset())
         }
 
         return null;
@@ -87,8 +88,7 @@ class JBDateHelper extends AppHelper
      */
     public function isDate($date)
     {
-        $time = strtotime($date);
-        return $time > 0;
+        return strlen($date) > 4 && strtotime($date) > 0;
     }
 
     /**
