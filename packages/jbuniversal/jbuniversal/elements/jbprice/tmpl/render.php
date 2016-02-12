@@ -12,9 +12,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$key        = $this->_item->id . $this->identifier;
+$key = $this->_item->id . $this->identifier;
+$id  = $this->app->jbstring->getId('jbprice-');
+
 $attributes = array(
-    'id'    => $this->app->jbstring->getId('jbprice-'),
+    'id'    => $id,
     'class' => array(
         // for JS
         'jsPrice-' . $this->_item->id . '-' . $this->identifier,
@@ -26,23 +28,22 @@ $attributes = array(
         // for design
         'jbprice',
         'jbprice-tmpl-' . $this->_template,
-        str_replace('jbprice', 'jbprice-type-', $this->getElementType())
-    )
+        str_replace('jbprice', 'jbprice-type-', $this->getElementType()),
+    ),
 );
 
 $html = array(
     '<div ' . $this->app->jbhtml->buildAttrs($attributes) . '>',
     $data,
-    $this->app->jbassets->widget('.jsPrice-' . $this->_item->id . '-' . $this->identifier, 'JBZoo.Price', array(
+    $this->app->jbassets->widget('#' . $id, 'JBZoo.Price', array(
         'hash'       => $hash,
         'itemId'     => $this->_item->id,
         'identifier' => $this->identifier,
         'variantUrl' => $variantUrl,
     ), true, true),
-    '</div>'
+    '</div>',
 );
 
-echo
-$this->app->jbassets->mergeVar($key . '.elements', $elements),
-$this->app->jbassets->mergeVar($key . '.template', array($hash => $this->getTemplate())),
-implode(PHP_EOL, $html);
+echo $this->app->jbassets->mergeVar($key . '.elements', $elements);
+echo $this->app->jbassets->mergeVar($key . '.template', array($hash => $this->getTemplate()));
+echo implode(PHP_EOL, $html);
