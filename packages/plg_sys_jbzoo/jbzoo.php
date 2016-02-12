@@ -32,6 +32,7 @@ class plgSystemJBZoo extends JPlugin
      */
     protected $_disableInitBackEnd = array(
         'com_seoboss',
+        'com_templates',
     );
 
     /**
@@ -40,6 +41,7 @@ class plgSystemJBZoo extends JPlugin
      */
     protected $_disableInitFrontEnd = array(
         'com_seoboss',
+        'com_templates'
     );
 
     /**
