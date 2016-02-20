@@ -387,7 +387,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         ksort($variations, SORT_NUMERIC);
 
         $list   = array();
-        $params = array_merge($this->getConfigs(), $this->getParameters());
+        $params = array_merge((array)$this->getConfigs(), (array)$this->getParameters());
         foreach ($variations as $id => $data) {
             $list[$id] = $this->doVariant(array_keys($params), array(
                 'id'   => $id,
