@@ -500,7 +500,7 @@ class JBYmlHelper extends AppHelper
                     $imageData = $element->data();
                     $limit     = 10;
 
-                    foreach ($imageData as $i => $row) {
+                    foreach ((array)$imageData as $i => $row) {
                         if (isset($row['file']) && $row['file']) {
                             $picture[$key][] = $this->replaceSpecial(JURI::root() . str_replace('\\', '/', $row['file']));
                         }
