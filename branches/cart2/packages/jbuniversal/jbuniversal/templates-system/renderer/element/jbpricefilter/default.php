@@ -31,9 +31,9 @@ $attrs = array(
         'jbfilter-' . trim($params->get('jbzoo_filter_render', 'default'), '_'),
     ));
 
-echo '<div ' . $this->app->jbhtml->buildAttrs($attrs) . '/>'
+echo '<div ' . $this->app->jbhtml->buildAttrs($attrs) . '>'
     . $label
-    . '<div class="jbfilter-element">'.$elementHTML .'</div>'
+    . '<div class="jbfilter-element">' . $elementHTML . '</div>'
     . JBZOO_CLR
     . '</div>';
 
