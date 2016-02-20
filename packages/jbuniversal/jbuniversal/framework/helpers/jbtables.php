@@ -86,7 +86,7 @@ class JBTablesHelper extends AppHelper
         $config = new JConfig();
 
         $tableList = $this->getTableList($force);
-        $tableName = trim(strtolower(str_replace('#__', $config->dbprefix, $tableName)));
+        $tableName = trim(str_replace('#__', $config->dbprefix, $tableName));
 
         return in_array($tableName, $tableList, true);
     }
