@@ -147,6 +147,9 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
     public static function apiRequest($options)
     {
         $options['plain'] = 'true'; // forced options for resolving bug with spaces
+        if (isset($options['method']) && $options['method'] == 'ems.calculate') {
+            $options['type'] = 'att';
+        }
 
         $response = App::getInstance('zoo')->jbhttp->request(self::URL, $options, array(
             'cache'     => 1,
