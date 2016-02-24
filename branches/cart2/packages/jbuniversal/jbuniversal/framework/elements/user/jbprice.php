@@ -98,7 +98,8 @@ class JBCSVItemUserJBPrice extends JBCSVItem
                         unset($element);
                     }
                 }
-                if ($result !== '' && $result !== null) {
+
+                if (isset($result[$key]) && is_array($result[$key])) {
                     $result[$key] = implode(';', $result[$key]);
                 }
             }
