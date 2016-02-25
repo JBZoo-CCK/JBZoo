@@ -69,6 +69,8 @@ class JBOrderMacrosHelper extends AppHelper
             $result[$key] = $value;
         }
 
+        //ksort($result);
+
         return $result;
     }
 
@@ -197,8 +199,22 @@ class JBOrderMacrosHelper extends AppHelper
                     }
 
                     if ($element) {
-                        $replace = $element->data()->get('value');
-                        $replace = JString::trim($replace);;
+                        /** @var AppData $data */
+                        $data    = $element->data();
+                        $replace = null;
+
+                        if ($data->has('value')) {
+                            $replace = $data->get('value');
+                        } elseif ($data->has('option')) {
+                            $replace = $data->get('option');
+                        }
+
+                        if (is_array($replace)) {
+                            $replace = array_filter($replace);
+                            $replace = implode(', ', $replace);
+                        }
+
+                        $replace = JString::trim($replace);
                     }
 
                     if (isset($replace)) {
