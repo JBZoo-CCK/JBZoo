@@ -112,12 +112,12 @@ class PaymentJBUniversalController extends JBUniversalController
         $requestSum = $payment->getRequestOrderSum();
 
         if ($realSum->compare($requestSum, '!=', 2)) {
-            $this->_error('Not correct amount');
+            $this->_error('Not correct amount: ' . $realSum->data(true) . ' != ' . $requestSum->data(true));
         }
 
         // check if sum was empty
         if ($realSum->compare(0, '<=')) {
-            $this->_error('Amount less or equal zero');
+            $this->_error('Amount less or equal zero: ' . $realSum->data(true));
         }
 
         // checking of payment element
@@ -165,9 +165,13 @@ class PaymentJBUniversalController extends JBUniversalController
             $message = 'Undefined Order: ' . $message;
         }
 
-        $this->app->jbdebug->log($message);
-        $this->app->jbdebug->log(@file_get_contents('php://input'), 'php://input');
-        $this->app->jbdebug->logArray($_REQUEST, '_REQUEST');
+        /** @var JBDebugHelper $debuger */
+        $debuger = $this->app->jbdebug;
+
+        $debuger->log($message);
+        $debuger->logArray($_POST, '_POST');
+        $debuger->logArray($_GET, '_GET');
+        $debuger->logArray($_REQUEST, '_REQUEST');
 
         $this->app->jbevent->fire($this->order, 'basket:paymentFail', array(
             'message' => $message,
@@ -175,6 +179,7 @@ class PaymentJBUniversalController extends JBUniversalController
 
         if (!JDEBUG) {
             header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+            jexit('500 Internal Server Error');
         }
 
         jexit($message);
