@@ -109,4 +109,22 @@ class JBDateHelper extends AppHelper
         return $date;
     }
 
+    /**
+     * @param string $default
+     * @return string
+     */
+    public function getCurrent($default = null)
+    {
+        $tzOffset = $this->app->date->getOffset();
+
+        try {
+            $default = $this->app->date->create($default, $tzOffset);
+            $current = $default->toSQL();
+        } catch (Exception $e) {
+            $now     = $this->app->date->create();
+            $current = $now->toSQL();
+        }
+
+        return $current;
+    }
 }

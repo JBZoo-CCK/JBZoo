@@ -148,7 +148,7 @@ class JBCart
         $order = new JBCartOrder();
 
         $order->id         = 0;
-        $order->created    = $this->app->jbdate->toMySql();
+        $order->created    = $this->app->jbdate->getCurrent();
         $order->created_by = (int)JFactory::getUser()->id;
 
         return $order;
