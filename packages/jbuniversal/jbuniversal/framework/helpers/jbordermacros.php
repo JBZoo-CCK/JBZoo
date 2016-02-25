@@ -36,6 +36,7 @@ class JBOrderMacrosHelper extends AppHelper
         'order_payment_name',
         'order_payment_stat',
         'order_shipping_name',
+        'order_shipping_elem',
         'order_shipping_stat',
 
         'user_id',
@@ -180,16 +181,22 @@ class JBOrderMacrosHelper extends AppHelper
         } else if ($macros == 'shop_zip') {
             $replace = JBModelConfig::model()->get('default_shipping_zip', '', 'cart.config');
 
-        } else if ($macros == 'order_elem') {
-
+        } else if ($macros == 'order_elem' || $macros == 'order_shipping_elem') {
             $regExp = '#\{' . preg_quote($macros . ' ') . '(.*?)\}#ius';
             preg_match_all($regExp, $text, $matches);
 
             foreach ($matches[1] as $match) {
-                $match = trim($match);
+                if ($match = trim($match)) {
 
-                if ($match) {
-                    if ($element = $order->getFieldElement($match)) {
+                    $element = null;
+
+                    if ($macros == 'order_elem') {
+                        $element = $order->getFieldElement($match);
+                    } else if ($macros == 'order_shipping_elem') {
+                        $element = $order->getShippingFieldElement($match);
+                    }
+
+                    if ($element) {
                         $replace = $element->data()->get('value');
                         $replace = JString::trim($replace);;
                     }
