@@ -28,6 +28,7 @@ class JBOrderMacrosHelper extends AppHelper
 
         'order_id',
         'order_name',
+        'order_elem',
         'order_status',
         'order_total',
         'order_created_id',
@@ -178,6 +179,28 @@ class JBOrderMacrosHelper extends AppHelper
 
         } else if ($macros == 'shop_zip') {
             $replace = JBModelConfig::model()->get('default_shipping_zip', '', 'cart.config');
+
+        } else if ($macros == 'order_elem') {
+
+            $regExp = '#\{' . preg_quote($macros . ' ') . '(.*?)\}#ius';
+            preg_match_all($regExp, $text, $matches);
+
+            foreach ($matches[1] as $match) {
+                $match = trim($match);
+
+                if ($match) {
+                    if ($element = $order->getFieldElement($match)) {
+                        $replace = $element->data()->get('value');
+                        $replace = JString::trim($replace);;
+                    }
+
+                    if (isset($replace)) {
+                        $macrosReg = preg_quote('{' . $macros . ' ' . $match . '}');
+                        $text      = preg_replace('#' . $macrosReg . '#ius', $replace, $text);
+                    }
+                    $replace = null;
+                }
+            }
 
         } else {
             throw new Exception('Undefined email macros: "{' . $macros . '}"');
