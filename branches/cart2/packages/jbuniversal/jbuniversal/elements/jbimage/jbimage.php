@@ -156,7 +156,7 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
                         'src'           => $image->url,
                         'width'         => $image->width,
                         'height'        => $image->height,
-                        'data-template' => $template
+                        'data-template' => $template,
                     )),
                     'linkAttrs'  => $this->_buildAttrs(array(
                         'class'  => 'jbimage-link ' . $appendClass . ' ' . $unique,
@@ -167,7 +167,7 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
                         'id'     => uniqid('jbimage-link-'),
                     )),
                     'link'       => $url,
-                    'image'      => $image
+                    'image'      => $image,
                 )
             );
         }
@@ -176,8 +176,8 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
     }
 
     /**
-     * Render
      * @param array $params
+     * @return mixed
      */
     public function render($params = array())
     {
@@ -266,16 +266,21 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
                 $options[] = $this->app->html->_('select.option', $image, '- ' . JText::_('No Change') . ' -');
             }
 
-            $img_ext =
-                str_replace(',', '|', trim(JComponentHelper::getParams('com_media')->get('image_extensions'), ','));
-            foreach ($this->app->path->files('root:' . $this->_getUploadImagePath(), false,
-                '/\.(' . $img_ext . ')$/i') as $file) {
-                $options[] = $this->app->html->_('select.option', $this->_getUploadImagePath() . '/' . $file, $file);
+            $img_ext = str_replace(',', '|', trim(JComponentHelper::getParams('com_media')->get('image_extensions'), ','));
+
+            $imagesPaths = array(
+                $this->_getUploadImagePath(false),
+                $this->_getUploadImagePath(true),
+            );
+
+            foreach ($imagesPaths as $imagePath) {
+                foreach ($this->app->path->files('root:' . $imagePath, false, '/\.(' . $img_ext . ')$/i') as $file) {
+                    $filepath           = $imagePath . '/' . $file;
+                    $options[$filepath] = $this->app->html->_('select.option', $filepath, $file);
+                }
             }
 
-            $lists['image_select'] =
-                $this->app->html->_('select.genericlist', $options, $this->getControlName('image'), 'class="image"',
-                    'value', 'text', $image);
+            $lists['image_select'] = $this->app->html->_('select.genericlist', $options, $this->getControlName('image'), 'class="image"', 'value', 'text', $image);
 
         } else {
             if (!empty($image)) {
@@ -336,9 +341,8 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
                     (empty($userfile) || empty($userfile['tmp_name']))
                     && ($value->get('filename') || $value->get('image'))
                 ) {
-                    if (
-                    $message = $this->app->jbsession->get($this->identifier . '||' . $this->key(), 'jbimage_validate')
-                    ) {
+                    $message = $this->app->jbsession->get($this->identifier . '||' . $this->key(), 'jbimage_validate');
+                    if ($message) {
                         throw new AppValidatorException($message);
                     }
                 }
@@ -356,8 +360,7 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
 
             } catch (AppValidatorException $e) {
 
-                $this->app->jbsession->set($this->identifier . '||' . $this->key(), $e->getMessage(),
-                    'jbimage_validate');
+                $this->app->jbsession->set($this->identifier . '||' . $this->key(), $e->getMessage(), 'jbimage_validate');
 
                 if ($e->getCode() != UPLOAD_ERR_NO_FILE) {
                     throw $e;
@@ -376,14 +379,10 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
         $result = array('file' => $this->_moveUploadedFiles($file));
 
         if ($trusted_mode) {
-            $result['title']  =
-                $this->app->validator->create('string', array('required' => false))->clean($value->get('title'));
-            $result['link']   = $this->app->validator->create('url', array('required' => false),
-                array('required' => 'Please enter an URL.'))->clean($value->get('link'));
-            $result['target'] =
-                $this->app->validator->create('', array('required' => false))->clean($value->get('target'));
-            $result['rel']    =
-                $this->app->validator->create('string', array('required' => false))->clean($value->get('rel'));
+            $result['title']  = $this->app->validator->create('string', array('required' => false))->clean($value->get('title'));
+            $result['link']   = $this->app->validator->create('url', array('required' => false), array('required' => 'Please enter an URL.'))->clean($value->get('link'));
+            $result['target'] = $this->app->validator->create('', array('required' => false))->clean($value->get('target'));
+            $result['rel']    = $this->app->validator->create('string', array('required' => false))->clean($value->get('rel'));
         }
 
         $this->next();
@@ -398,21 +397,30 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
      */
     protected function _inUploadPath($image)
     {
-        return JPath::clean($this->_getUploadImagePath()) == JPath::clean(dirname($image));
+        $auth  = JPath::clean($this->_getUploadImagePath(false)) == JPath::clean(dirname($image));
+        $guest = JPath::clean($this->_getUploadImagePath(true)) == JPath::clean(dirname($image));
+
+        return $auth || $guest;
     }
 
     /**
      * Get upload image path
+     * @param bool $forceGuest
      * @return string
      */
-    protected function _getUploadImagePath()
+    protected function _getUploadImagePath($forceGuest = false)
     {
         $uploadByUser    = (int)$this->config->get('upload_by_user', 0);
         $uploadDirectory = trim(trim($this->config->get('upload_directory', 'images/zoo/uploads/')), '\/');
 
         if ($uploadByUser) {
-            $user = JFactory::getUser();
-            $uploadDirectory .= '/user_' . $user->id;
+
+            if ($forceGuest) {
+                $uploadDirectory .= '/user_0';
+            } else {
+                $user = JFactory::getUser();
+                $uploadDirectory .= '/user_' . $user->id;
+            }
         }
 
         $uploadDirectory = JPath::clean($uploadDirectory);
