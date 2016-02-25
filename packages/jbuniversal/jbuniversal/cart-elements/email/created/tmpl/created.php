@@ -13,5 +13,4 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$date = new JDate($order->created);
-echo $date->calendar($params->get('format', 'D, d M Y H:i'), false, true);
+echo $this->app->jbdate->toHuman($order->created);
