@@ -64,7 +64,7 @@ class JBDebugHelper extends AppHelper
     public function mark($name = '')
     {
         if (self::$_jbdump !== null && method_exists(self::$_jbdump, 'mark')) {
-            self::$_jbdump->mark($name);
+            //self::$_jbdump->mark($name);
         }
     }
 
@@ -85,7 +85,7 @@ class JBDebugHelper extends AppHelper
     public function log($message)
     {
         if (self::$_jbdump !== null && method_exists(self::$_jbdump, 'log')) {
-            self::$_jbdump->log((string)$message, 'jbdebug::log');
+            self::$_jbdump->log($message, 'jbdebug::log');
         }
     }
 
@@ -96,7 +96,7 @@ class JBDebugHelper extends AppHelper
     public function logArray($array, $arrayName = 'data')
     {
         if (self::$_jbdump !== null && method_exists(self::$_jbdump, 'phpArray')) {
-            $arrayString = self::$_jbdump->phpArray($array, $arrayName);
+            $arrayString = self::$_jbdump->phpArray($array, $arrayName, true);
             $this->log($arrayString);
         }
     }
