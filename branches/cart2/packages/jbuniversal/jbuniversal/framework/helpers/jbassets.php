@@ -346,8 +346,14 @@ class JBAssetsHelper extends AppHelper
 
         if (!$isAdded) {
             $isAdded = true;
-            $this->app->document->addScript('libraries:jquery/jquery-ui.custom.min.js');
-            $this->app->document->addStylesheet('libraries:jquery/jquery-ui.custom.css');
+
+            if ($this->app->jbenv->isSite()) {
+                $this->css('libraries:jquery/jquery-ui.custom.css', self::GROUP_CORE);
+                $this->js('libraries:jquery/jquery-ui.custom.min.js', self::GROUP_CORE);
+            } else {
+                $this->app->document->addScript('libraries:jquery/jquery-ui.custom.min.js');
+                $this->app->document->addStylesheet('libraries:jquery/jquery-ui.custom.css');
+            }
         }
     }
 
@@ -862,9 +868,9 @@ class JBAssetsHelper extends AppHelper
             $script = trim(trim($script), ';') . ';';
 
             if ($docReady) {
-                $script = "\tjQuery(function($){ " . $script . " });\n\n";
+                $script = "\tjQuery(function($){ " . $script . " });\n";
             } else {
-                $script = "\t" . $script . "\n\n";
+                $script = "\t" . $script . "\n";
             }
 
             JFactory::getDocument()->addScriptDeclaration($script);
