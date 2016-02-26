@@ -65,15 +65,15 @@
                 url     : $this.options.url_reload,
                 dataType: 'html',
                 success : function (html) {
-                    
+
                     html = '<div>' + html + '</div>';
-                    
+
                     var content = $(html).find('.jsJBZooCartModule').contents();
-                                        
+
                     $this.el.empty().prepend(content);
 
-                    if (window.location.href.indexOf('controller=basket') && $('.jsCartItem', content).length == 0) {
-                        window.location.reload();
+                    if (window.location.href.indexOf('controller=basket') > 0 && $('.jsCartItem', content).length == 0) {
+                        //window.location.reload();
                     }
                 }
             });
