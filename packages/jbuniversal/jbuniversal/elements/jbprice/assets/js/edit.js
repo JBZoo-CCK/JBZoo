@@ -150,6 +150,7 @@
                     .clearOptions(clone);
 
                 clone.slideDown();
+                return false;
             },
 
             sortable: function () {
