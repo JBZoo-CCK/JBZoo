@@ -66,7 +66,7 @@ class JBCartElementNotificationSendemail extends JBCartElementNotification
             foreach ($recipients as $recEmail => $recName) {
 
                 // send message
-                $this->_mailer->addRecipient(array($recEmail, $recName));
+                $this->_mailer->addRecipient($recEmail, $recName);
                 $this->_mailer->send();
                 $this->_mailer->ClearAllRecipients();
 
