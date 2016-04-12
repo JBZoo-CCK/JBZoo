@@ -51,7 +51,8 @@ class JBCartElementPaymentPayPal extends JBCartElementPayment
             'return'        => $this->_jbrouter->payment('success'),
             'cancel_return' => $this->_jbrouter->payment('fail'),
             'notify_url'    => $this->_jbrouter->payment('callback'),
-            'item_name'     => $this->getOrderDescription()
+            'item_name'     => $this->getOrderDescription(),
+            'charset'       => 'utf-8',
         );
 
         return $merchantUrl . '?' . $this->_jbrouter->query($fields);
@@ -102,7 +103,7 @@ class JBCartElementPaymentPayPal extends JBCartElementPayment
 
     /**
      * Curl request
-     * @param $url
+     * @param       $url
      * @param array $data
      * @throws AppException
      */
@@ -111,13 +112,13 @@ class JBCartElementPaymentPayPal extends JBCartElementPayment
         if (function_exists('curl_init') && is_callable('curl_init')) {
 
             $curl = curl_init($url);
-            curl_setopt ($curl, CURLOPT_HEADER, 0);
-            curl_setopt ($curl, CURLOPT_POST, 1);
-            curl_setopt ($curl, CURLOPT_POSTFIELDS, $this->_jbrouter->query($data));
-            curl_setopt ($curl, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
-            $response = curl_exec ($curl);
-            curl_close ($curl);
+            curl_setopt($curl, CURLOPT_HEADER, 0);
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $this->_jbrouter->query($data));
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $response = curl_exec($curl);
+            curl_close($curl);
 
             return $response;
 
