@@ -212,7 +212,7 @@ class JBSefHelper extends AppHelper
         $flags = array(
             $this->_jbrequest->getWord('task'),
             $this->_jbrequest->getWord('view'),
-            $this->_jbrequest->getWord('layout')
+            $this->_jbrequest->getWord('layout'),
         );
 
         $newCanUrl = null;
@@ -220,7 +220,11 @@ class JBSefHelper extends AppHelper
             $itemId    = $this->_jbrequest->getSystem('item');
             $newCanUrl = $this->_getUrl($this->_itemTable->get($itemId), 'item');
 
-        } else if (in_array('category', $flags)) {
+        } elseif (in_array('frontpage', $flags)) {
+            $appId     = $this->app->zoo->getApplication()->id;
+            $newCanUrl = $this->_getUrl($appId, 'frontpage');
+
+        } elseif (in_array('category', $flags)) {
             $categoryId = $this->_jbrequest->getSystem('category');
             $newCanUrl  = $this->_getUrl($this->_catTable->get($categoryId), 'category');
         }
@@ -328,7 +332,7 @@ class JBSefHelper extends AppHelper
 
     /**
      * Get abs url to object
-     * @param mixed $object
+     * @param mixed  $object
      * @param string $type
      * @param string $param
      * @return string
@@ -345,6 +349,9 @@ class JBSefHelper extends AppHelper
 
         } else if ($type == 'category') {
             $url = $this->app->route->category($object);
+
+        } else if ($type == 'frontpage') {
+            $url = $this->app->route->frontpage($object);
 
         } else if ($type == 'feed') {
             $url = $this->app->route->feed($object, $param);
