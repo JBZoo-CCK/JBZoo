@@ -133,7 +133,7 @@ class JBExportJBuniversalController extends JBuniversalController
 
                 // get full category list
                 if ((int)$req->get('category_nested') && !in_array('-1', $categoryList)) {
-                    $categoryList = JBModelCategory::model()->getNestedCategories($categoryList);
+                    $categoryList += JBModelCategory::model()->getNestedCategories($categoryList); // сделать доп опцию
                 }
 
                 // Get total
