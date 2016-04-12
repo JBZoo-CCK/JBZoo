@@ -35,6 +35,7 @@ class JBOrderMacrosHelper extends AppHelper
         'order_created_name',
         'order_payment_name',
         'order_payment_stat',
+        'order_payment_url',
         'order_shipping_name',
         'order_shipping_elem',
         'order_shipping_stat',
@@ -180,6 +181,15 @@ class JBOrderMacrosHelper extends AppHelper
 
         } else if ($macros == 'shop_zip') {
             $replace = JBModelConfig::model()->get('default_shipping_zip', '', 'cart.config');
+
+        } else if ($macros == 'order_payment_url') {
+
+            if ($payment = $order->getPayment()) {
+                if (!$payment->isPaid() && ($checkoutUrl = $payment->getRedirectUrl())) {
+                    $replace = '<a target="_blank" class="jbbutton green" href="' . $checkoutUrl . '">'
+                        . JText::_('JBZOO_CLIENTAREA_PAYMENT_GOTO_CHECKOUT') . '</a>';
+                }
+            }
 
         } else if ($macros == 'order_elem' || $macros == 'order_shipping_elem') {
             $regExp = '#\{' . preg_quote($macros . ' ') . '(.*?)\}#ius';
