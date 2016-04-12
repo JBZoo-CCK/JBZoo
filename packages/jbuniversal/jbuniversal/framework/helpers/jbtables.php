@@ -406,7 +406,7 @@ class JBTablesHelper extends AppHelper
 
             // add fields
             $tblFields[] = '`' . $this->getFieldName($field, 's') . '` VARCHAR(50) NULL DEFAULT NULL COLLATE \'utf8_general_ci\'';
-            $tblFields[] = '`' . $this->getFieldName($field, 'n') . '` DOUBLE NOT NULL DEFAULT \'0\'';
+            $tblFields[] = '`' . $this->getFieldName($field, 'n') . '` DOUBLE NULL DEFAULT NULL';
             $tblFields[] = '`' . $this->getFieldName($field, 'd') . '` DATETIME NULL DEFAULT NULL';
 
             // add indexes
