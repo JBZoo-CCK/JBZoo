@@ -367,7 +367,7 @@ class JBModelSearchindex extends JBModel
                 }
             }
         } else {
-            $multiInsert[] = array('n' => 0);
+            $multiInsert[] = array('n' => null);
             $multiInsert[] = array('s' => '');
         }
 

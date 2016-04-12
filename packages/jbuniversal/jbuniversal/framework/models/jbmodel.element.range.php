@@ -143,6 +143,7 @@ class JBModelElementRange extends JBModelElement
                 $clearElementId = $this->_jbtables->getFieldName($elementId, $isDate ? 'd' : 'n');
 
                 $where[] = 'tIndex.' . $this->_jbtables->getFieldName($elementId, 's') .' IS NOT NULL';
+                $where[] = 'tIndex.' . $this->_jbtables->getFieldName($elementId, 'n') .' IS NOT NULL';
 
                 if ($isDate) {
 
