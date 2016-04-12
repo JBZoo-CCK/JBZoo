@@ -196,7 +196,8 @@ class JBModelRelated extends JBModel
                 $conds = array();
                 foreach ($elemValues as $elemValue) {
                     if ($searchMethod == 1 || is_numeric($elemValue)) {
-                        $conds[] = $tableFieldName . ' = ' . $this->_quote($elemValue);
+                        $elemValue = (array)$this->_quote($elemValue);
+                        $conds[] = $tableFieldName . ' IN (' . implode(', ', $elemValue) . ')';
                     } else {
                         if (is_array($elemValue)) {
                             foreach($elemValue as $elemValueOne) {
