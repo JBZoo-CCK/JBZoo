@@ -98,7 +98,9 @@ class JBCartVariantList extends ArrayObject
     public function get($key = ElementJBPrice::BASIC_VARIANT)
     {
         if (!$this->has($key)) {
-            throw new JBCartVariantListException('Variant - ' . $this->default . ' doesn\'t exists');
+            $item = $this->_jbprice->getItem();
+            throw new JBCartVariantListException('Variant - ' . $this->default .
+                ' doesn\'t exists in item id=' . $item->id . ' "' . $item->name . '"');
         }
 
         return $this->variants[$key];
