@@ -962,7 +962,13 @@ abstract class ElementJBPrice extends Element implements iSubmittable
     {
         if ($this->_item !== null) {
             $hashTable = array();
+
+            if ($this->app->jbenv->isSite()) {
+                $this->_item->elements->set($this->identifier, array());
+            }
+
             if (array_key_exists('variations', $data)) {
+
                 $list = $this->prepareList($data['variations']);
                 unset($data['variations']);
 
