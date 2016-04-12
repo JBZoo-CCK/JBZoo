@@ -38,7 +38,7 @@ class JBCartElementPaymentYandexMoney extends JBCartElementPayment
             'orderId'    => $this->getOrderId()
         );
 
-        return 'index.php?' . $this->_jbrouter->query($query);
+        return JUri::root() . 'index.php?' . $this->_jbrouter->query($query);
     }
 
     /**
