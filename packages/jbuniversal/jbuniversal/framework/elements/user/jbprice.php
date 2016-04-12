@@ -99,7 +99,7 @@ class JBCSVItemUserJBPrice extends JBCSVItem
                     }
                 }
 
-                if (isset($result[$key]) && is_array($result[$key])) {
+                if (isset($result[$key]) && is_array($result[$key]) && !empty($result[$key])) {
                     $result[$key] = implode(';', $result[$key]);
                 }
             }
