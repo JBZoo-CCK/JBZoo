@@ -107,35 +107,35 @@ $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredi
 
 <div class="jbclientarea-tab-headers">
 
-    <ul class="uk-tab" data-uk-tab="{connect:'#<?php echo $tabsId; ?>'}">
+    <ul id="<?php echo $tabsId; ?>" class="nav nav-tabs">
 
-        <li class="uk-active">
-            <a href="#"><?php echo JText::_('JBZOO_CLIENTAREA_ORDERINFO'); ?></a>
+        <li class="active">
+            <a data-toggle="tab" href="#orderinfo"><?php echo JText::_('JBZOO_CLIENTAREA_ORDERINFO'); ?></a>
         </li>
 
         <?php if ($payment = $order->getPayment()) : ?>
             <li>
-                <a href="#"><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT'); ?></a>
+                <a data-toggle="tab" href="#payment"><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT'); ?></a>
             </li>
         <?php endif; ?>
 
         <?php if ($shipping = $order->getShipping()) : ?>
             <li>
-                <a href="#"><?php echo JText::_('JBZOO_CLIENTAREA_SHIPPING'); ?></a>
+                <a data-toggle="tab" href="#shipping"><?php echo JText::_('JBZOO_CLIENTAREA_SHIPPING'); ?></a>
             </li>
         <?php endif; ?>
 
         <?php if (JString::trim(strip_tags($html))) : ?>
             <li>
-                <a href="#"><?php echo JText::_('JBZOO_CLIENTAREA_USERINFO'); ?></a>
+                <a data-toggle="tab" href="#userinfo"><?php echo JText::_('JBZOO_CLIENTAREA_USERINFO'); ?></a>
             </li>
         <?php endif; ?>
 
     </ul>
 
-    <ul id="<?php echo $tabsId; ?>" class="uk-switcher uk-margin">
+    <div id="<?php echo $tabsId; ?>Content" class="tab-content">
 
-        <li>
+        <div class="tab-pane fade active in" id="orderinfo">
             <div class="jbclientarea-basicinfo">
                 <h3><?php echo JText::_('JBZOO_CLIENTAREA_ORDERINFO'); ?></h3>
                 <dl class="uk-description-list-horizontal">
@@ -152,10 +152,10 @@ $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredi
                     <dd><p><?php echo $modified; ?></p></dd>
                 </dl>
             </div>
-        </li>
+        </div>
 
         <?php if ($payment = $order->getPayment()) : ?>
-            <li>
+            <div class="tab-pane fade" id="payment">
                 <div class="jbclientarea-payment">
                     <h3><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT'); ?></h3>
                     <dl class="uk-description-list-horizontal">
@@ -170,20 +170,13 @@ $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredi
 
                         <dt><?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT_STATUS'); ?></dt>
                         <dd><?php echo $payment->getStatus()->getName(); ?></dd>
-
-                        <?php if (!$payment->isPaid() && ($checkoutUrl = $payment->getRedirectUrl())) : ?>
-                            <dd>
-                                <a target="_blank" class="btn btn-success" href="<?php echo $checkoutUrl; ?>">
-                                    <?php echo JText::_('JBZOO_CLIENTAREA_PAYMENT_GOTO_CHECKOUT'); ?></a>
-                            </dd>
-                        <?php endif; ?>
                     </dl>
                 </div>
-            </li>
+            </div>
         <?php endif; ?>
 
         <?php if ($shipping = $order->getShipping()) : ?>
-            <li>
+            <div class="tab-pane fade" id="shipping">
                 <div class="jbclientarea-shipping">
                     <h3><?php echo JText::_('JBZOO_CLIENTAREA_SHIPPING'); ?></h3>
                     <dl class="uk-description-list-horizontal">
@@ -202,18 +195,18 @@ $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredi
                         <?php echo $view->shippingFieldsRenderer->renderAdminPosition(array('style' => 'order.useredit', 'order' => $order)); ?>
                     </dl>
                 </div>
-            </li>
+            </div>
         <?php endif; ?>
 
         <?php if (JString::trim(strip_tags($html))) : ?>
-            <li>
+            <div class="tab-pane fade" id="userinfo">
                 <div class="jbclientarea-formfields">
                     <h3><?php echo JText::_('JBZOO_CLIENTAREA_USERINFO'); ?></h3>
                     <dl class="uk-description-list-horizontal">
                         <?php echo $html; ?>
                     </dl>
                 </div>
-            </li>
+            </div>
         <?php endif; ?>
 
     </ul>
