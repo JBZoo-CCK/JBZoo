@@ -713,10 +713,14 @@ class JBHtmlHelper extends AppHelper
 
         $this->_assets->jqueryui();
         $this->_assets->less('jbassets:less/widget/slider.less');
+
+        $selector = '"#' . $idtag . '-wrapper"';
         $this->_assets->addScript('
-        $("#' . $idtag . '-wrapper").removeAttr("slide");
-            $("#' . $idtag . '-wrapper")[0].slide = null;
-            $("#' . $idtag . '-wrapper").slider({
+        $(' . $selector . ').removeAttr("slide");
+            if ($(' . $selector . ')[0]) {
+                $(' . $selector . ')[0].slide = null;
+            }
+            $(' . $selector . ').slider({
                 "range" : true,
                 "min"   : ' . ($params['min'] ? $params['min'] : 0) . ',
                 "max"   : ' . ($params['max'] ? $params['max'] : 10000) . ',
@@ -724,9 +728,9 @@ class JBHtmlHelper extends AppHelper
                 "values": [' . $valueMin . ', ' . $valueMax . '],
                 "slide" : function(event,ui) {
                     $("#' . $idtag . '-value").val(ui.values[0] + "/" + ui.values[1]);
-                    $("#' . $idtag . '-value-0").html(JBZoo.numberFormat(ui.values[0], 0, ".", " "));
-                    $("#' . $idtag . '-value-1").html(JBZoo.numberFormat(ui.values[1], 0, ".", " "));
-                    $("#' . $idtag . '-wrapper").closest(".jsSlider").trigger("change");
+                    $("#' . $idtag . '-value-0").html(JBZoo.numberFormat(ui.values[0], 2, ".", " "));
+                    $("#' . $idtag . '-value-1").html(JBZoo.numberFormat(ui.values[1], 2, ".", " "));
+                    $(' . $selector . ').closest(".jsSlider").trigger("change");
                 }
             });
             $("#' . $idtag . '-value").val("' . $valueMin . '/' . $valueMax . '");
