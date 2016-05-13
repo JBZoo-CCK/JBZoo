@@ -564,7 +564,7 @@ class JBTablesHelper extends AppHelper
                     }
 
                     if ($type == 'n') {
-                        $add[] = 'ADD COLUMN `' . $filedName . '` DOUBLE NOT NULL DEFAULT \'0\'';
+                        $add[] = 'ADD COLUMN `' . $filedName . '` DOUBLE NULL DEFAULT \'0\'';
                     }
 
                     if ($type == 'd') {
