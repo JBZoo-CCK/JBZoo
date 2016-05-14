@@ -228,7 +228,7 @@ class JBTablesHelper extends AppHelper
                 '`created_by` INT(11) NULL DEFAULT NULL',
                 '`modified` DATETIME NULL DEFAULT NULL',
                 '`total` FLOAT NULL DEFAULT NULL',
-                '`items` TEXT NULL',
+                '`items` LONGTEXT NULL',
                 '`fields` TEXT NULL',
                 '`shipping` TEXT NULL',
                 '`shippingfields` TEXT NULL',
