@@ -174,7 +174,7 @@
                         $this._destroy.apply(this, arguments);
                         $this.off('');
                         $this.el.removeData(this._name);
-                        if ($.isFunction(this.options.onCreate)) {
+                        if ($.isFunction(this.options.onDestroy)) {
                             this.options.onDestroy.apply($this);
                         }
                     },
