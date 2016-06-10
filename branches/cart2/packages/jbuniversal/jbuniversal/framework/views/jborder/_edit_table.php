@@ -52,7 +52,7 @@ $currency    = $this->sum->cur();
         <td class="noborder-btm"></td>
         <td colspan="2"><p><?php echo JText::_('JBZOO_ORDER_SUBTOTAL'); ?></p></td>
         <td class="align-right"><p><?php echo $this->count; ?></p></td>
-        <td class="align-right subtotal-money"><?php echo $this->sum->html(); ?>
+        <td class="align-right subtotal-money"><?php echo $this->sum->html(); ?></td>
     </tr>
     <?php echo $emptyRow; ?>
 
