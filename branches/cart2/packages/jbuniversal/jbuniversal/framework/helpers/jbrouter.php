@@ -686,7 +686,7 @@ class JBRouterHelper extends AppHelper
     public function externalItem(Item $item)
     {
         if ($this->app->jbenv->isSite()) {
-            return JRoute::_($this->app->route->item($item, false), false, 2);
+            return JRoute::_($this->app->route->item($item, false), false, 1);
 
         } else {
             $root        = JUri::root();
