@@ -64,4 +64,13 @@ class JBCartElementPriceWeight extends JBCartElementPrice
         }
     }
 
+    /**
+     * Returns data when variant changes
+     * @param array $params
+     * @return null
+     */
+    public function renderAjax($params = array())
+    {
+        return (string)$this->render($params);
+    }
 }
