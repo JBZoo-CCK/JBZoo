@@ -129,6 +129,11 @@ class JBModelOrder extends JBModel
             $order->setItemsData((string)$data['items']);
             if (!$silentMode) {
                 $this->app->jbevent->fire($order, 'basket:saved');
+
+                $this->app->jbevent->fire($order, 'basket:orderStatus', array(
+                    'oldStatus' => (string)$this->app->jbcartstatus->getUndefined(),
+                    'newStatus' => (string)$order->getStatus(),
+                ));
             }
 
         } else {
