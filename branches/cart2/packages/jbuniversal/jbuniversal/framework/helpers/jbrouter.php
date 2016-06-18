@@ -694,7 +694,7 @@ class JBRouterHelper extends AppHelper
             $router      = $application->getRouter();
             $link        = $router->build($this->app->route->item($item, false));
 
-            return $root . preg_replace('/^.*administrator\//', '', $link, 2);
+            return $root . preg_replace('/^.*administrator\//', '', $link, 1);
         }
     }
 
