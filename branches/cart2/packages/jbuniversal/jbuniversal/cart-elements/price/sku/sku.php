@@ -74,8 +74,15 @@ class JBCartElementPriceSku extends JBCartElementPrice
     {
         $value = parent::getValue($toString, $key, $default);
 
-        if (empty($value) && $item = $this->_jbprice->getItem()) {
-            $value = $item->id;
+        if (empty($value)) {
+
+            $data = $this->getJBPrice()->defaultData();
+            if (isset($data[0]['_sku']['value'])) {
+                $value = $data[0]['_sku']['value'];
+
+            } elseif ($item = $this->_jbprice->getItem()) {
+                $value = $item->id;
+            }
         }
 
         $value = JString::trim($value);
