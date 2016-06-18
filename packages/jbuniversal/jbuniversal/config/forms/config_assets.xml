@@ -36,6 +36,13 @@
                 <option value="1">JBZOO_CONFIG_ASSETS_LESS_MODE_ALWAYS</option>
             </field>
 
+            <field name="styles_include" type="list" default="2" label="JBZOO_CONFIG_ASSETS_STYLE_INCLUDE"
+                   description="JBZOO_CONFIG_ASSETS_STYLE_INCLUDE_DESC">
+                <option value="0">JBZOO_CONFIG_ASSETS_STYLE_INCLUDE_NONE</option>
+                <option value="1">JBZOO_CONFIG_ASSETS_STYLE_INCLUDE_LIBS</option>
+                <option value="2">JBZOO_CONFIG_ASSETS_STYLE_INCLUDE_ALL</option>
+            </field>
+
         </fieldset>
     </fields>
 </form>
