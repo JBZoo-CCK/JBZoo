@@ -105,8 +105,11 @@
                         newMedia = $('.variant-image-wrap .jsMedia', clone);
                     $('.jsMediaCancel, .jsMediaButton', newMedia).remove();
 
-                    newMedia.JBZooMedia(oldMedia.options);
+                    if (oldMedia && oldMedia.options) {
+                        newMedia.JBZooMedia(oldMedia.options);
+                    }
                 }
+
                 //Init JBZooBalance. Helper for radio input.
                 var balance = $('.variant-balance-wrap', row);
                 if (balance.length > 0) {
