@@ -686,7 +686,7 @@ class JBRouterHelper extends AppHelper
     public function externalItem(Item $item)
     {
         if ($this->app->jbenv->isSite()) {
-            return JRoute::_($this->app->route->item($item, false), false, 1);
+            return JRoute::_($this->app->route->item($item, false), false, 2);
 
         } else {
             $root        = JUri::root();
@@ -694,7 +694,7 @@ class JBRouterHelper extends AppHelper
             $router      = $application->getRouter();
             $link        = $router->build($this->app->route->item($item, false));
 
-            return $root . preg_replace('/^.*administrator\//', '', $link, 1);
+            return $root . preg_replace('/^.*administrator\//', '', $link, 2);
         }
     }
 
