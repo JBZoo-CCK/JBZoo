@@ -296,13 +296,13 @@ class JBAssetsHelper extends AppHelper
     public function uikit($addJS = false, $isGradient = false)
     {
         if ($addJS) {
-            $this->js('jbassets:js/libs/uikit.min.js', self::GROUP_CORE);
+            $this->js('jbassets:js/libs/uikit.min.js', self::GROUP_LIBRARY);
         }
 
         if ($isGradient) {
-            $this->css('jbassets:css/uikit.gradient.min.css', self::GROUP_CORE);
+            $this->css('jbassets:css/uikit.gradient.min.css', self::GROUP_LIBRARY);
         } else {
-            $this->css('jbassets:css/uikit.min.css', self::GROUP_CORE);
+            $this->css('jbassets:css/uikit.min.css', self::GROUP_LIBRARY);
         }
     }
 
@@ -993,6 +993,7 @@ class JBAssetsHelper extends AppHelper
     {
         $assetsConfig = JBModelConfig::model()->getGroup('config.assets');
         $splitMode    = $assetsConfig->get('split_mode', 'group');
+        $includeMode  = (int)$assetsConfig->get('styles_include', 2);
         $jbminifier   = $this->app->jbminifier;
 
         foreach ($this->_list as $type => $groupList) {
@@ -1000,8 +1001,16 @@ class JBAssetsHelper extends AppHelper
 
             foreach ($groupList as $group => $files) {
 
-                if ($splitMode == 'none' || $group == self::GROUP_CORE) {
+                if ($type == 'css' && $this->app->jbenv->isSite()) {
+                    if (0 == $includeMode) {
+                        continue;
 
+                    } elseif (1 == $includeMode && $group == self::GROUP_DEFAULT) {
+                        continue;
+                    }
+                }
+
+                if ($splitMode == 'none' || $group == self::GROUP_CORE) {
                     foreach ($files as $file) {
                         $this->includeFile($file, $type, $group);
                     }
