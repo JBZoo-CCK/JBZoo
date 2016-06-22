@@ -12,8 +12,16 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-echo $this->app->jbhtml->dataList(array(
+$list = array(
     'JBZOO_ELEMENT_SHIPPING_COURIER_FULLDATE_VALUE' => $this->get('fulldate', ' - '),
-    'JBZOO_ELEMENT_SHIPPING_COURIER_WEEKDAY_VALUE'  => $this->get('weekday', ' - '),
-    'JBZOO_ELEMENT_SHIPPING_COURIER_HOUR_VALUE'     => $this->get('hour', ' - '),
-));
+);
+
+if ($this->config->get('weekday', 'none') !== 'none') {
+    $list['JBZOO_ELEMENT_SHIPPING_COURIER_WEEKDAY_VALUE'] = $this->get('weekday', ' - ');
+}
+
+if ($this->config->get('hour', 'none') !== 'none') {
+    $list['JBZOO_ELEMENT_SHIPPING_COURIER_HOUR_VALUE'] = $this->get('hour', ' - ');
+}
+
+echo $this->app->jbhtml->dataList($list);
