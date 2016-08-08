@@ -487,15 +487,17 @@ class JBYmlHelper extends AppHelper
                     $offer = true;
                 }
 
+                if (!isset($picture[$key])) {
+                    $picture[$key] = array();
+                }
+
                 // get image paths
                 if ($element->config->type == 'image') {
-                    $picture[$key] = $this->replaceSpecial(JURI::root() . str_replace('\\', '/', $data->get('file')));
+                    $picture[$key][] = $this->replaceSpecial(JURI::root() . str_replace('\\', '/', $data->get('file')));
                 }
 
                 // get jbimage paths
                 if ($element->config->type == 'jbimage') {
-
-                    $picture[$key] = array();
 
                     $imageData = $element->data();
                     $limit     = 10;
@@ -509,9 +511,9 @@ class JBYmlHelper extends AppHelper
                             break;
                         }
                     }
-
-                    $picture[$key] = array_unique($picture[$key]);
                 }
+
+                $picture[$key] = array_unique($picture[$key]);
 
                 // get countries
                 if ($element->config->type == 'country') {
