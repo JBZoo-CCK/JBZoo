@@ -23,7 +23,7 @@ $yml = $this->app->jbyml;
 
         <url><?php echo $yml->replaceSpecial($item_params['link'][$item->id]); ?></url>
 
-        <price><?php echo $item_params['price'][$item->id]; ?></price>
+        <price><?php echo str_replace(' ', '', $item_params['price'][$item->id]); ?></price>
 
         <?php if ($item_params['priceOld'][$item->id] > 0) : ?>
             <oldprice><?php echo $item_params['priceOld'][$item->id]; ?></oldprice>
