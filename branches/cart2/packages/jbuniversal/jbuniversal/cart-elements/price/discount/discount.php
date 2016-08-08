@@ -139,8 +139,9 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
     protected function isEmpty()
     {
         $prices = $this->getPrices();
+        $value  = abs(round($prices['save']->val(), 0));
 
-        return $prices['save']->isEmpty();
+        return $value == 0;
     }
 
 }
