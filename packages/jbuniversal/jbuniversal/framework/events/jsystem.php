@@ -96,6 +96,8 @@ class JBZooSystemPlugin
      */
     public function onAfterRender()
     {
+        require_once JPATH_SITE. '/media/zoo/applications/jbuniversal/framework/classes/jbadminmenu.php';
+        JBAdminMenu::render();
     }
 
     /**
@@ -113,8 +115,15 @@ class JBZooSystemPlugin
         // fix Zoo SEF problems
         $sefConfig = $this->_config->getGroup('config.sef');
         $isSite    = $this->app->jbenv->isSite();
-        if ($sefConfig->get('enabled') && $sefConfig->get('fix_canonical') && $isSite) {
-            $this->app->jbsef->canonicalFix();
+        if ($sefConfig->get('enabled') && $isSite) {
+
+            if ($sefConfig->get('fix_canonical')) {
+                $this->app->jbsef->canonicalFix();
+            }
+
+            if ($sefConfig->get('canonical_redirect')) {
+                $this->app->jbsef->canonicalRedirect();
+            }
         }
 
         // load all assets
@@ -136,5 +145,4 @@ class JBZooSystemPlugin
     {
         // noop
     }
-
 }

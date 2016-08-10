@@ -54,6 +54,15 @@
                 <option value="category">JBZOO_CONFIG_SEF_PARSE_PRIORITY_CATEGORY</option>
             </field>
 
+            <field name="canonical_redirect" type="list" default="none" label="JBZOO_CONFIG_SEF_CANONICAL_REDIRECT"
+                   description="JBZOO_CONFIG_SEF_CANONICAL_REDIRECT_DESC">
+                <option value="none">JBZOO_CONFIG_SEF_CANONICAL_REDIRECT_NONE</option>
+                <option value="404_strict">JBZOO_CONFIG_SEF_CANONICAL_REDIRECT_404_STRICT</option>
+                <option value="404_noquery">JBZOO_CONFIG_SEF_CANONICAL_REDIRECT_404_NOQUERY</option>
+                <option value="301_strict">JBZOO_CONFIG_SEF_CANONICAL_REDIRECT_301_STRICT</option>
+                <option value="301_noquery">JBZOO_CONFIG_SEF_CANONICAL_REDIRECT_301_NOQUERY</option>
+            </field>
+
             <field name="zoo_route_caching" type="jbbool" default="0" label="JBZOO_CONFIG_SEF_ZOO_ROUTE_CACHING"
                    description="JBZOO_CONFIG_SEF_ZOO_ROUTE_CACHING_DESC"/>
 
