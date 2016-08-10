@@ -240,4 +240,14 @@ class plgSystemJBZoo extends JPlugin
         }
     }
 
+    /**
+     * Joomla Event onBeforeRespond
+     */
+    public function onBeforeRespond()
+    {
+        if ($this->_jbzooSystemPlg) {
+            $this->_jbzooSystemPlg->onBeforeRespond();
+        }
+    }
+
 }
