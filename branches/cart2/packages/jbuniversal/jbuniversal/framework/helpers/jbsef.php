@@ -245,6 +245,62 @@ class JBSefHelper extends AppHelper
     }
 
     /**
+     * @return bool
+     */
+    public function canonicalRedirect()
+    {
+        $isJBZoo = $this->app->jbrequest->is('option', 'com_zoo');
+        $isSEF   = (int)JFactory::getConfig()->get('sef');
+        $mode    = $this->_config->get('canonical_redirect', 'none');
+
+        if (!$mode || $mode == 'none' || !$isJBZoo || !$isSEF) {
+            return false;
+        }
+
+        $currentUrl   = $this->app->jbenv->getCurrentUrl();
+        $canonicalUrl = null;
+
+        $data = $this->_joomlaDoc->getHeadData();
+        if (isset($data['links'])) {
+            foreach ($data['links'] as $link => $linkData) {
+                if ($linkData['relation'] == 'canonical') {
+                    $canonicalUrl = $link;
+                }
+            }
+        }
+
+        if (!$canonicalUrl || !$currentUrl) {
+            return false;
+        }
+
+        $rootUrl      = new JUri(JUri::root());
+        $currentUrl   = new JUri(trim($currentUrl, '/'));
+        $canonicalUrl = new JUri(trim($canonicalUrl, '/'));
+
+        if ($mode === '404_noquery' || $mode === '301_noquery') {
+            $currentUrl->setQuery('');
+            $canonicalUrl->setQuery('');
+        }
+
+        $canonicalUrl->setHost($rootUrl->getHost());
+        $currentUrl->setHost($rootUrl->getHost());
+
+        // Check normalized urls
+        if (
+            (trim((string)$canonicalUrl, '/') !== trim((string)$currentUrl, '/')) && // No loop redirect
+            (trim((string)$canonicalUrl, '/') !== trim((string)$rootUrl, '/'))
+        ) {
+            if ($mode === '301_strict' || $mode === '301_noquery') {
+                $this->_redirect($canonicalUrl);
+            }
+
+            if ($mode === '404_strict' || $mode === '404_noquery') {
+                return $this->app->error->raiseError(404, JText::_('Item not found'));
+            }
+        }
+    }
+
+    /**
      * Remove variable "category_id" from GET query
      * @param $params
      */
