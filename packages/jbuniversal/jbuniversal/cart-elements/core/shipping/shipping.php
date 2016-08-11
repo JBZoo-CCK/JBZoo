@@ -326,9 +326,8 @@ abstract class JBCartElementShipping extends JBCartElement
     {
         $cost = $this->_order->val($this->config->get('order_cost', 0));
         $totalPrice = $this->_order->getTotalForItems();
-        $hasPrice   = (bool) $cost->val();
 
-        if ($cost->val() <= $totalPrice->val() && $hasPrice) {
+        if ($cost->compare($totalPrice, '<=') && !$cost->isEmpty()) {
             return true;
         }
 
