@@ -32,8 +32,8 @@
         <param name="modifytotal" type="jbbool" default="0" label="JBZOO_ELEMENT_SHIPPING_MODIFYTOTAL"
                description="JBZOO_ELEMENT_SHIPPING_MODIFYTOTAL_DESC"/>
 
-        <param name="order_cost" type="text" default="" label="JBZOO_ELEMENT_SHIPPING_ORDERCOST"
-               description="JBZOO_ELEMENT_SHIPPING_ORDERCOST_DESC"/>
+        <param name="limit_for_free" type="text" default="" label="JBZOO_ELEMENT_SHIPPING_LIMIT_FOR_FREE"
+               description="JBZOO_ELEMENT_SHIPPING_LIMIT_FOR_FREE_DESC"/>
 
         <param name="shippingfields" type="jbcartfields" group="CONFIG_SHIPPINGFIELDS" position="DEFAULT_POSITION"
                multiple="true" label="JBZOO_ELEMENT_SHIPPING_SHIPPINGFIELDS_LABEL"

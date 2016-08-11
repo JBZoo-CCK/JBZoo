@@ -324,7 +324,7 @@ abstract class JBCartElementShipping extends JBCartElement
      */
     public function isFree()
     {
-        $cost = $this->_order->val($this->config->get('order_cost', 0));
+        $cost = $this->_order->val($this->config->get('limit_for_free', 0));
         $totalPrice = $this->_order->getTotalForItems();
 
         if ($cost->compare($totalPrice, '<=') && !$cost->isEmpty()) {
