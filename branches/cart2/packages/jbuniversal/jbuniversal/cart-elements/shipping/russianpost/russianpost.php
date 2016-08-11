@@ -50,7 +50,7 @@ class JBCartElementShippingRussianpost extends JBCartElementShipping
             'cache_ttl' => self::CACHE_TTL,
         ));
 
-        if ($resp) {
+        if ($resp && !$this->isFree()) {
             preg_match('/<span id="TarifValue">([0-9\,\-]+)<\/span>/i', $resp, $result);
             if (isset($result[1])) {
                 $result[1] = $this->app->jbvars->money($result[1]);

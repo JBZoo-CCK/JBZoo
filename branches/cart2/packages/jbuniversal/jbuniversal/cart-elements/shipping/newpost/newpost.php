@@ -101,7 +101,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
         }
 
-        return $summ;
+        return $this->isFree() ? $this->_order->val(0) : $summ;
     }
 
     /**

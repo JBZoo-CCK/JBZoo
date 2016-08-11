@@ -319,6 +319,21 @@ abstract class JBCartElementShipping extends JBCartElement
         return array();
     }
 
+    /**
+     * @return bool
+     */
+    public function isFree()
+    {
+        $cost = $this->_order->val($this->config->get('order_cost', 0));
+        $totalPrice = $this->_order->getTotalForItems();
+        $hasPrice   = (bool) $cost->val();
+
+        if ($cost->val() <= $totalPrice->val() && $hasPrice) {
+            return true;
+        }
+
+        return false;
+    }
 }
 
 /**

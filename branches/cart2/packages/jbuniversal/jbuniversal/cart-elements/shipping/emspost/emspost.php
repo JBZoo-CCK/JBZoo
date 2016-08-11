@@ -82,7 +82,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
                 'to'     => $location,
             ));
 
-            if ($response) {
+            if ($response && !$this->isFree()) {
                 $summ->set($response['price'], $this->_currency);
             }
         }

@@ -91,7 +91,15 @@ $this->app->jbassets->widget('#' . $tabsId, 'JBZoo.Tabs');
         <?php if ($shipping = $order->getShipping()) : ?>
             <tr class="jbclientarea-shipping">
                 <td class="jbclientarea-emptycell"></td>
-                <td class="jbclientarea-label" colspan="3"><?php echo $shipping->getName(); ?></td>
+                <td class="jbclientarea-label" colspan="1"><?php echo $shipping->getName(); ?></td>
+                <td class="jbclientarea-info" colspan="2">
+                    <?php
+                    if ($shipping->isFree()) {
+                        $priceCost = $shipping->getOrder()->val($shipping->config->get('order_cost'));
+                        echo JText::sprintf('JBZOO_ORDER_SHIPPING_IF_FREE', $priceCost->html());
+                    }
+                    ?>
+                </td>
                 <td class="jbclientarea-value"><?php echo $shipping->getRate()->html(); ?></td>
             </tr>
         <?php endif; ?>
