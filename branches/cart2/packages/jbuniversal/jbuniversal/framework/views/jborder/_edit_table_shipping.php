@@ -35,7 +35,7 @@ $this->sum->addModify($shipping); ?>
             )</em>
         <?php
         if ($shipping->isFree()) {
-            $priceCost = $shipping->getOrder()->val($shipping->config->get('order_cost'));
+            $priceCost = $shipping->getOrder()->val($shipping->config->get('limit_for_free'));
             echo '<br />' . JText::sprintf('JBZOO_ORDER_SHIPPING_IF_FREE', $priceCost->html());
         }
         ?>

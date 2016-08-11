@@ -70,6 +70,10 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
     {
         $summ = $this->_order->val(0, $this->_currency);
 
+        if ($this->isFree()) {
+            return $this->_order->val(0);
+        }
+
         $items = $this->_order->getItems();
         foreach ($items as $item) {
 
@@ -101,7 +105,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
 
         }
 
-        return $this->isFree() ? $this->_order->val(0) : $summ;
+        return $summ;
     }
 
     /**

@@ -95,7 +95,7 @@ $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredi
                 <td class="jbclientarea-info" colspan="2">
                     <?php
                     if ($shipping->isFree()) {
-                        $priceCost = $shipping->getOrder()->val($shipping->config->get('order_cost'));
+                        $priceCost = $shipping->getOrder()->val($shipping->config->get('limit_for_free'));
                         echo JText::sprintf('JBZOO_ORDER_SHIPPING_IF_FREE', $priceCost->html());
                     }
                     ?>
