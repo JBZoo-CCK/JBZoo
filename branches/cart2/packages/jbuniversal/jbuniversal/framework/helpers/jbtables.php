@@ -208,6 +208,21 @@ class JBTablesHelper extends AppHelper
         return $this;
     }
 
+    public function checkOrderFields()
+    {
+
+        if ($fields = $this->getTableInfo(ZOO_TABLE_JBZOO_ORDER)) {
+
+            // check group index length
+            if (isset($fields['items']) && strtolower($fields['items']['Type']) != 'longtext') {
+                $sql = 'ALTER TABLE `' . ZOO_TABLE_JBZOO_ORDER . '` CHANGE COLUMN `items` `items` LONGTEXT NULL AFTER `total`';
+                $this->_query($sql);
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * Check and create favorite table
      * @param bool $force
