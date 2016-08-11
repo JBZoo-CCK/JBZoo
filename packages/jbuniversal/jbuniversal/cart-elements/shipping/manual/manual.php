@@ -32,7 +32,6 @@ class JBCartElementShippingManual extends JBCartElementShipping
      */
     public function getRate()
     {
-        return $this->_order->val($this->config->get('rate', 0));
+        return $this->isFree() ? $this->_order->val(0) : $this->_order->val($this->config->get('rate', 0));
     }
-
 }

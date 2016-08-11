@@ -32,7 +32,13 @@ $this->sum->addModify($shipping); ?>
                 echo JText::_('JBZOO_ORDER_SHIPPING_NOT_INCLUDED');
             }
             ?>
-        )</em>
+            )</em>
+        <?php
+        if ($shipping->isFree()) {
+            $priceCost = $shipping->getOrder()->val($shipping->config->get('order_cost'));
+            echo '<br />' . JText::sprintf('JBZOO_ORDER_SHIPPING_IF_FREE', $priceCost->html());
+        }
+        ?>
     </td>
     <td class="align-right">
         <?php echo $shipping->getRate()->htmlAdv($currency, true); ?>

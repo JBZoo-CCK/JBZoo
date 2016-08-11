@@ -76,10 +76,10 @@ if (!empty($items)) :
             </td>
             <td class="item-price4one">
                 <?php
-				if ($itemValue !== null) {
-					echo '<p>' . $itemValue->html() . '</p>';
-				}
-				?>
+                if ($itemValue !== null) {
+                    echo '<p>' . $itemValue->html() . '</p>';
+                }
+                ?>
 
                 <?php if (!$margin->isEmpty()) {
                     echo '<p>' . JText::_('JBZOO_ORDER_ITEM_MARGIN') . ':' . $margin->htmlAdv($currency, true) . '</p>';
@@ -92,12 +92,12 @@ if (!empty($items)) :
 
             <td class="item-quantity"><?php echo $itemHtml['quantity'];?></td>
             <td class="align-right">
-			<?php
-				if ($itemPrice !== null) {
-					echo $itemPrice->multiply($quantity, true)->html();
-				}
-			?>
-			</td>>
+            <?php
+                if ($itemPrice !== null) {
+                    echo $itemPrice->multiply($quantity, true)->html();
+                }
+            ?>
+            </td>
         </tr>
 
         <?php
