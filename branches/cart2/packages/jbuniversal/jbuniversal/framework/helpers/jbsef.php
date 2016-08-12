@@ -250,10 +250,16 @@ class JBSefHelper extends AppHelper
     public function canonicalRedirect()
     {
         $isJBZoo = $this->app->jbrequest->is('option', 'com_zoo');
+        $isItem  = $this->app->jbrequest->getSystem('item') > 0;
+        $isCat   = $this->app->jbrequest->getSystem('category') && !$this->app->jbrequest->is('task', 'filter');
         $isSEF   = (int)JFactory::getConfig()->get('sef');
         $mode    = $this->_config->get('canonical_redirect', 'none');
 
         if (!$mode || $mode == 'none' || !$isJBZoo || !$isSEF) {
+            return false;
+        }
+
+        if (!$isItem && !$isCat) {
             return false;
         }
 
