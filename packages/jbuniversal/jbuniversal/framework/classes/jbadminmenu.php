@@ -44,13 +44,14 @@ class JBAdminMenu
             if (isset($parentItem['children']) && count($parentItem['children'])) {
 
                 $menu->addChild(new JBZooJMenuNode($parentItem['name'], $parentItem['url'], $parentName, false, $target), true);
-                foreach ($parentItem['children'] as $childItem) {
+                foreach ((array)$parentItem['children'] as $childItem) {
                     if ($childItem === 'divider') {
                         $menu->addSeparator();
                     } else {
                         $menu->addChild(new JBZooJMenuNode($childItem['name'], $childItem['url'], $className));
                     }
                 }
+
                 $menu->getParent();
 
             } else {
