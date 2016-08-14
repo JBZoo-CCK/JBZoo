@@ -27,7 +27,7 @@ class JBCartElementPaymentRobokassa extends JBCartElementPayment
     /**
      * @var string
      */
-    private $_testUrl = 'http://test.robokassa.ru/Index.aspx';
+    private $_testUrl = 'https://auth.robokassa.ru/Merchant/Index.aspx';
 
     /**
      * Redirect to payment action
@@ -45,6 +45,10 @@ class JBCartElementPaymentRobokassa extends JBCartElementPayment
             'Desc'           => $this->getOrderDescription(),
             'SignatureValue' => $this->_getSignature(),
         );
+
+        if ($this->isDebug()) {
+            $fields['IsTest'] = 1;
+        }
 
         return $merchantUrl . '?' . $this->_jbrouter->query($fields);
     }
