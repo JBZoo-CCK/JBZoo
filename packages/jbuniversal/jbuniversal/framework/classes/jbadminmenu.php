@@ -82,7 +82,8 @@ class JBAdminMenu
         $body = JString::str_ireplace(
             "</ul>\n<ul id=\"nav-empty\" class=\"dropdown-menu nav-empty hidden-phone\"></ul>",
             $menuHtml,
-            $body
+            $body,
+            1
         );
 
         $app->setBody($body);
