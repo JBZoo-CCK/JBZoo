@@ -58,13 +58,10 @@ class JBCartElementNotificationSendemail extends JBCartElementNotification
                 return null;
             }
 
-            $this->_mailer->setSubject($this->_getMailSubject());
-
             $sender = $this->_getMailSender();
-            if (isset($sender[0]) && $sender[0]) {
-                $this->_mailer->setSender($sender[0], $sender[1]);
-            }
 
+            $this->_mailer->setSubject($this->_getMailSubject());
+            $this->_mailer->setFrom($sender[0], $sender[1]);
             $this->_mailer->isHtml($this->_isHtml());
             $this->_mailer->setBody($body);
 
