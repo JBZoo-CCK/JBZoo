@@ -111,6 +111,17 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         $this->_storage = $this->app->jbstorage;
     }
 
+    public function getSearchData()
+    {
+        return array_reduce($this->getList()->all(), function ($acc, $item) {
+            if ($skuElem = $item->get('_sku')) {
+                $acc .= "\n" . $skuElem->getValue();
+            }
+
+            return $acc;
+        }, '');
+    }
+
     /**
      * Set related type object.
      * @param Type $type
@@ -659,7 +670,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * @param array $values
      * @return mixed
      */
-    protected function getValues($values = array())
+    public function getValues($values = array())
     {
         $result = array();
         $values = (array)$values;
