@@ -43,6 +43,11 @@ $element->loadAssets();
 $label = $params->get('altlabel') ? $params->get('altlabel') : $element->getName();
 $label = $params->get('required') ? ($label . ' <span class="required-dot">*</span>') : $label;
 
+$html = $element->renderSubmission($params);
+if (!$html) {
+    return null;
+}
+
 ?>
 
 <div class="<?php echo implode(' ', $classes); ?>">
@@ -52,7 +57,7 @@ $label = $params->get('required') ? ($label . ' <span class="required-dot">*</sp
     </label>
 
     <div class="jbcart-form-control">
-        <?php echo $element->renderSubmission($params); ?>
+        <?php echo $html; ?>
         <?php echo $error; ?>
     </div>
 
