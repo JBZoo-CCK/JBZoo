@@ -133,7 +133,7 @@ $this->app->jbassets->widget('#' . $tabsId, 'JBZoo.Tabs');
 
         <?php if (JString::trim(strip_tags($html))) : ?>
             <li>
-                <a href="#tab-form-fields"><?php echo JText::_('JBZOO_CLIENTAREA_SHIPPING'); ?></a>
+                <a href="#tab-form-fields"><?php echo JText::_('JBZOO_CLIENTAREA_USERINFO'); ?></a>
             </li>
         <?php endif; ?>
     </ul>
