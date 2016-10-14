@@ -12,6 +12,24 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+/** @var array $fields */
+/** @var JBCartOrder $order */
+$fields = $this->_getFields();
+$order  = $this->getOrder();
 
-$orderFieldRender = $this->app->jbrenderer->create('order');
-echo $orderFieldRender->renderAdminEdit(array('order' => $order));
+$output = array();
+
+foreach ($fields as $identifier => $elementData) {
+
+    /** @var JBCartElementOrderEmail $element */
+    if ($element = $order->getFieldElement($identifier)) {
+        $element->bindData((array)$elementData);
+
+        $params   = $this->app->data->create();
+        $output[] = "<dt>{$element->getName()}</dt><dd>{$element->edit($params)}</dd>";
+    }
+}
+
+if (count($output)) {
+    echo '<dl class="uk-description-list-horizontal">' . implode(PHP_EOL, $output) . '</dl>';
+}
