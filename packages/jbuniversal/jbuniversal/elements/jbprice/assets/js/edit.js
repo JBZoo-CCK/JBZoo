@@ -192,7 +192,7 @@
                             random = Math.floor((Math.random() * 999999) + 1);
 
                         field.attr('name', field.attr('name')
-                            .replace(/\[variations\]\[\d\]/i, '[variations-' + random + '][' + n + ']'));
+                            .replace(/\[variations\]\[\d*\]/i, '[variations-' + random + '][' + n + ']'));
                     });
                 });
 
@@ -210,7 +210,7 @@
                         var field = $(this),
                             name = field.attr('name');
 
-                        field.attr('name', field.attr('name').replace(/\[variations\]\[\d\]/i, '[variations][' + i + ']'));
+                        field.attr('name', field.attr('name').replace(/\[variations\]\[\d*\]/i, '[variations][' + i + ']'));
                     });
 
                     $('input[type="radio"]', row).each(function () {
