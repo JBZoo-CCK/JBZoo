@@ -254,6 +254,7 @@ class JBSefHelper extends AppHelper
         $isCat   = $this->app->jbrequest->getSystem('category') && !$this->app->jbrequest->is('task', 'filter');
         $isSEF   = (int)JFactory::getConfig()->get('sef');
         $mode    = $this->_config->get('canonical_redirect', 'none');
+        $page    = (int)$this->app->jbrequest->get('page', 1);
 
         if (!$mode || $mode == 'none' || !$isJBZoo || !$isSEF) {
             return false;
@@ -291,10 +292,15 @@ class JBSefHelper extends AppHelper
         $canonicalUrl->setHost($rootUrl->getHost());
         $currentUrl->setHost($rootUrl->getHost());
 
-        // Check normalized urls
+        // Normalized urls
+        $canonicalUrl = trim((string)$canonicalUrl, '/') . ($page >= 2 ? "/{$page}" : '');
+        $currentUrl   = trim((string)$currentUrl, '/');
+        $rootUrl      = trim((string)$rootUrl, '/');
+
+        // Check it
         if (
-            (trim((string)$canonicalUrl, '/') !== trim((string)$currentUrl, '/')) && // No loop redirect
-            (trim((string)$canonicalUrl, '/') !== trim((string)$rootUrl, '/'))
+            ($canonicalUrl !== $currentUrl) && // No loop redirect
+            ($canonicalUrl !== $rootUrl)
         ) {
             if ($mode === '301_strict' || $mode === '301_noquery') {
                 $this->_redirect($canonicalUrl);
