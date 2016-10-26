@@ -80,6 +80,12 @@
                    name="fields_full_price"
                    label="JBZOO_EXPORT_FIELDS_FULL_PRICE"
                    description="JBZOO_EXPORT_FIELDS_FULL_PRICE_DESC"/>
+
+            <field type="jbbool"
+                   default="0"
+                   name="fields_item_url"
+                   label="JBZOO_EXPORT_FIELDS_ITEM_URL"
+                   description="JBZOO_EXPORT_FIELDS_ITEM_URL_DESC"/>
         </fieldset>
 
         <fieldset name="other" label="JBZOO_EXPORT_OTHER">

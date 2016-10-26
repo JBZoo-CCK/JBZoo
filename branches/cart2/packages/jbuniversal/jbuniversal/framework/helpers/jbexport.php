@@ -139,6 +139,10 @@ class JBExportHelper extends AppHelper
                 $data[$item->id] = array_merge($data[$item->id], $this->_mapper->getItemMeta($item));
             }
 
+            if ((int)$options->get('fields_item_url', 0)) {
+                $data[$item->id] = array_merge($data[$item->id], $this->_mapper->getItemUrl($item));
+            }
+
             // check multiple fields
             foreach ($data[$item->id] as $key => $value) {
                 if (is_array($value)) {
