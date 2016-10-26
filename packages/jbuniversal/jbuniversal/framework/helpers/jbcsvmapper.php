@@ -96,6 +96,7 @@ class JBCSVMapperHelper extends AppHelper
 
     /**
      * Get from item meta data
+     * Get item absolute URL
      *
      * @param Item $item
      * @return array
@@ -109,6 +110,21 @@ class JBCSVMapperHelper extends AppHelper
             'metadata_keywords'    => $this->_csvcell->createItem('keywords', $item, 'meta')->toCSV(),
             'metadata_robots'      => $this->_csvcell->createItem('robots', $item, 'meta')->toCSV(),
             'metadata_author'      => $this->_csvcell->createItem('author', $item, 'meta')->toCSV(),
+        );
+
+        return $result;
+    }
+
+    /**
+     * Get item absolute URL
+     *
+     * @param Item $item
+     * @return array
+     */
+    public function getItemUrl(Item $item)
+    {
+        $result = array(
+            'item_url' => $this->app->jbrouter->externalItem($item)
         );
 
         return $result;
