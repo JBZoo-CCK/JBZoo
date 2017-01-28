@@ -23,10 +23,10 @@ class JBModelElementItemname extends JBModelElement
     /**
      * Set AND element conditions
      * @param JBDatabaseQuery $select
-     * @param string $elementId
-     * @param string|array $value
-     * @param int $i
-     * @param bool $exact
+     * @param string          $elementId
+     * @param string|array    $value
+     * @param int             $i
+     * @param bool            $exact
      * @return JBDatabaseQuery
      */
     public function conditionAND(JBDatabaseQuery $select, $elementId, $value, $i = 0, $exact = false)
@@ -37,10 +37,10 @@ class JBModelElementItemname extends JBModelElement
     /**
      * Set OR element conditions
      * @param JBDatabaseQuery $select
-     * @param string $elementId
-     * @param string|array $value
-     * @param int $i
-     * @param bool $exact
+     * @param string          $elementId
+     * @param string|array    $value
+     * @param int             $i
+     * @param bool            $exact
      * @return array
      */
     public function conditionOR(JBDatabaseQuery $select, $elementId, $value, $i = 0, $exact = false)
@@ -62,19 +62,9 @@ class JBModelElementItemname extends JBModelElement
         $where = array();
         foreach ($value as $valueOne) {
             if ((int)$exact) {
-                if ((int)$valueOne > 0) {
-                    $where[] = 'tItem.id = ' . (int)$valueOne;
-                } else {
-                    $where[] = 'tItem.name = ' . $this->_db->quote($valueOne);
-                }
+                $where[] = 'tItem.id = ' . (int)$valueOne . ' OR tItem.name = ' . $this->_db->quote($valueOne);
             } else {
-
-                if ((int)$valueOne > 0) {
-                    $where[] = 'tItem.id = ' . (int)$valueOne;
-                } else {
-                    $valueOne = $this->_prepareValue($valueOne);
-                    $where[]  = $this->_buildLikeBySpaces($valueOne, 'tItem.name');
-                }
+                $where[] = 'tItem.id = ' . (int)$valueOne . ' OR ' . $this->_buildLikeBySpaces($this->_prepareValue($valueOne), 'tItem.name');
 
             }
         }
@@ -84,7 +74,7 @@ class JBModelElementItemname extends JBModelElement
 
     /**
      * @param array|string $value
-     * @param bool $exact
+     * @param bool         $exact
      * @return mixed|void
      */
     protected function _prepareValue($value, $exact = false)
