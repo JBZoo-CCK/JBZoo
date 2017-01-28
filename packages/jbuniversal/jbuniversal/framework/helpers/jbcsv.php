@@ -46,11 +46,19 @@ class JBCSVHelper extends AppHelper
             return false;
         }
 
+        $result = array();
+
         // use maxima to pad arrays
         if (!empty($maxima)) {
             foreach ($maxima as $key => $num) {
                 foreach (array_keys($data) as $i) {
-                    $data[$i][$key] = array_pad((array)$data[$i][$key], $num, '');
+
+                    if (isset($data[$i]) && isset($data[$i][$key])) {
+                        $data[$i][$key] = array_pad((array)$data[$i][$key], $num, '');
+                    } else {
+                        $data[$i][$key] = array();
+                    }
+
                 }
             }
         }
