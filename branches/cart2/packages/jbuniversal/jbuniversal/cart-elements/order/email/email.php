@@ -71,4 +71,18 @@ class JBCartElementOrderEmail extends JBCartElementOrder
         );
     }
 
+    /**
+     * @param array $params
+     * @return mixed|string
+     */
+    public function edit($params = array())
+    {
+        $mailto = $this->get('value');
+
+        if ($mailto) {
+            return sprintf('<a href="mailto:%s">%s</a>', $mailto, $mailto);
+        }
+
+        return '-';
+    }
 }
