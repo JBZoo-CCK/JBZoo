@@ -21,4 +21,18 @@ class JBCSVItemUserJoomlaModule extends JBCSVItem
 {
     protected $_autoType = 'int';
 
+    /**
+     * Export data to CSV cell
+     * @return string
+     */
+    public function toCSV()
+    {
+
+        if ($this->_element && isset($this->_item->elements[$this->_identifier]['value'])) {
+            return (int)$this->_item->elements[$this->_identifier]['value'];
+        }
+
+        return 'none';
+    }
+
 }
