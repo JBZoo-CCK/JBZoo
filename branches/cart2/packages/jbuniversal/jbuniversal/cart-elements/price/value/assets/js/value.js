@@ -21,6 +21,11 @@
 
                 if (toggle.length) {
                     toggle.JBZooCurrencyToggle('toggle');
+                } else {
+                    toggle = $('.jsCurrencyToggle');
+                    if (toggle.length) {
+                        toggle.JBZooCurrencyToggle('toggle');
+                    }
                 }
             }
         }
