@@ -163,6 +163,10 @@ class JBTemplate
      */
     public function renderItem(Item $item, $defaultLayout = 'teaser', $htmlItem)
     {
+        if (!$htmlItem) {
+            return null;
+        }
+
         $attrs = array(
             'class' => array(
                 'jbzoo-item',
@@ -241,6 +245,8 @@ class JBTemplate
                     $columns[$column] .= $this->app->jblayout->render($layoutName, $object, $vars);
                 }
             }
+
+            $columns = array_filter($columns);
 
             return $this->app->jblayout->render($layoutName . '_columns', $columns, $vars);
         }
