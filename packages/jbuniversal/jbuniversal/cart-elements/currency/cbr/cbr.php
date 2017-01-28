@@ -89,7 +89,7 @@ class JBCartElementCurrencyCBR extends JBCartElementCurrency
     {
         $result = $this->app->jbhttp->request($url, $data, array(
             'response' => 'full',
-            'follow'   => false,
+            'follow'   => true,
         ));
 
         if (is_object($result) && $result->code == 200) {
@@ -117,5 +117,4 @@ class JBCartElementCurrencyCBR extends JBCartElementCurrency
 
         return parent::_loadUrl($url, $data, $params);
     }
-
 }
