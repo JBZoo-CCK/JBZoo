@@ -748,17 +748,18 @@ class JBCart
 
                     $modRate = JBCart::val();
                     try {
-                    	$modRate = $element->getRate();
+                        $modRate = $element->getRate();
                     } catch (JBCartElementShippingException $e) {
-                    	$shippingRes[$elemId . '-exception'] = $e->getMessage();
+                        $shippingRes[$elemId . '-exception'] = $e->getMessage();
                     }
 
                     if (!$modRate->isCur('%')) {
                         $modRate->convert($cookieCur);
-                    }                    
-                    
+                    }
+
                     $shippingRes['Price-' . $elemId] = $modRate->data();
-                    $shippingRes[$elemId . '-ajax']  = $element->getAjaxData();                }
+                    $shippingRes[$elemId . '-ajax']  = $element->getAjaxData();
+                }
             }
         }
 
@@ -783,7 +784,7 @@ class JBCart
         if (!$totalPrice->isCur('%')) {
             $totalPrice->convert($cookieCur);
         }
-        
+
         $shippingPrice = $order->getShippingPrice(false);
         if (!$shippingPrice->isCur('%')) {
             $shippingPrice->convert($cookieCur);
@@ -792,8 +793,8 @@ class JBCart
         $total = $order->getTotalSum(false);
         if (!$total->isCur('%')) {
             $total->convert($cookieCur);
-        }       
-        
+        }
+
         // result
         $result = array(
             'Modifier'      => $modiferRes,
