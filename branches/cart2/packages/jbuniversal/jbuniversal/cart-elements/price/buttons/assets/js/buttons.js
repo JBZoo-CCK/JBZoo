@@ -12,6 +12,8 @@
 ;
 (function ($, window, document, undefined) {
 
+    var ajaxLock = false;
+
     JBZoo.widget('JBZoo.PriceElement.Buttons',
         {
             'item_id'        : '',
@@ -37,6 +39,7 @@
             'element_id': '',
             'isInCart'  : 0,
             'isModal'   : false,
+            '_ajaxLock' : false,
 
             init: function ($this) {
 
@@ -143,6 +146,12 @@
                     quantity = jbPrice.get('quantity', '1'),
                     input    = $(this);
 
+                if (ajaxLock) {
+                    return;
+                }
+
+                ajaxLock = true;
+
                 $this.ajax({
                     'target' : $(this),
                     'url'    : $this.options.add,
@@ -154,6 +163,7 @@
                         }
                     },
                     'success': function () {
+                        ajaxLock = false;
 
                         $this.addItem();
                         $this.toggleButtons();
@@ -182,6 +192,7 @@
 
                     },
                     'error'  : function (data) {
+                        ajaxLock = false;
                         if (data.message) {
                             $this.alert(data.message);
                         }
