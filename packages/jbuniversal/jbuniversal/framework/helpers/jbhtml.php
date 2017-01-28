@@ -814,6 +814,8 @@ class JBHtmlHelper extends AppHelper
             $idtag = $this->_jbstring->getId('chosen-');
         }
 
+        $idtag = $this->_jbstring->getId('chosen-');
+
         $attribs['data-no_results_text'] = JText::_('JBZOO_CHOSEN_NORESULT');
         $attribs['data-placeholder']     = (isset($params['placeholder'])) ? $params['placeholder'] : JText::_('JBZOO_CHOSEN_SELECT');
 
