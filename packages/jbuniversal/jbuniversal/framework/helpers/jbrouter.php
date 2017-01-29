@@ -694,6 +694,10 @@ class JBRouterHelper extends AppHelper
             $router      = $application->getRouter();
             $link        = $router->build($this->app->route->item($item, false));
 
+            if (JBModelConfig::model()->getGroup('config')->get('sef.fix_item')) {
+                $link = preg_replace('#\/item\/#', '/', '' . $link, 1);
+            }
+
             return $root . preg_replace('/^.*administrator\//', '', $link, 1);
         }
     }
