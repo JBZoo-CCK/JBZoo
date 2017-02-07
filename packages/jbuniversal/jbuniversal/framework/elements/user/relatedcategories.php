@@ -28,7 +28,9 @@ class JBCSVItemUserRelatedCategories extends JBCSVItem
         if (isset($this->_value['category'])) {
             foreach ($this->_value['category'] as $categoryId) {
                 $category = $this->app->table->category->get($categoryId);
-                $result[] = $category->alias;
+                if ($category) {
+                    $result[] = $category->alias;
+                }
             }
 
             return implode(JBCSVItem::SEP_ROWS, $result);
