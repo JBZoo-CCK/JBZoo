@@ -24,7 +24,7 @@ $image    = $this->app->jbimage->get('category_image', $vars['params']);
 $title    = $title ? $title : $category->name;
 
 if ((int)$vars['params']->get('template.category_show', 1)) : ?>
-    <div class="category alias-<?php echo $category->alias; ?> well">
+    <div class="category alias-<?php echo $category->alias; ?> ">
 
         <?php if ((int)$vars['params']->get('template.category_title_show', 1)) : ?>
             <h1 class="title"><?php echo $title; ?></h1>
@@ -51,9 +51,7 @@ if ((int)$vars['params']->get('template.category_show', 1)) : ?>
         <?php endif; ?>
 
 
-        <?php if ((int)$vars['params']->get('template.category_text', 1) && $category->description) : ?>
-            <div class="description-full"><?php echo $category->getText($category->description); ?></div>
-        <?php endif; ?>
+    
 
 
         <?php echo JBZOO_CLR; ?>
@@ -61,7 +59,7 @@ if ((int)$vars['params']->get('template.category_show', 1)) : ?>
 
 <?php else: ?>
 
-    <div class="category alias-<?php echo $category->alias; ?> well">
+    <div class="category alias-<?php echo $category->alias; ?> ">
         <?php if ((int)$vars['params']->get('template.category_title_show', 1)) : ?>
             <h1 class="title"><?php echo $title; ?></h1>
         <?php endif; ?>
