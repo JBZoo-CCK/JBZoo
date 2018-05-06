@@ -51,9 +51,7 @@ if ((int)$vars['params']->get('template.category_show', 1)) : ?>
         <?php endif; ?>
 
 
-        <?php if ((int)$vars['params']->get('template.category_text', 1) && $category->description) : ?>
-            <div class="description-full"><?php echo $category->getText($category->description); ?></div>
-        <?php endif; ?>
+    
 
 
         <?php echo JBZOO_CLR; ?>
