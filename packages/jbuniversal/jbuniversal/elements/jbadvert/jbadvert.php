@@ -214,7 +214,10 @@ class ElementJBAdvert extends Element implements iSubmittable
 
 
         } else if ($mode == self::MODE_PHP) { // execute php code
-            eval($mParams->get('item_php_eval'));
+            eval(
+                '$itemId = ' . $this->getItem()->id . '; ' .
+                $mParams->get('item_php_eval')
+             );
 
 
         } else if ($mode == self::MODE_PRIORITY) { // change priority
