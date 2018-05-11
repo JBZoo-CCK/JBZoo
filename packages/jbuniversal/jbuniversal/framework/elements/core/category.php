@@ -38,61 +38,62 @@ class JBCSVItemCoreCategory extends JBCSVItem
             $result[] = $name;
         }
 
-        if (!empty($result)) {
-            natsort($result);
-        }
-
         return $result;
     }
 
     /**
-     * @param      $value
+     * @param $value
      * @param null $position
      * @return Item|void
      */
     public function fromCSV($value, $position = null)
     {
         $categoryTable = $this->app->table->category;
-        $application   = $this->_item->getApplication();
+
+        $application      = $this->_item->getApplication();
+        $appCategories    = $this->app->table->category->getAll($application->id);
+        $appCategoryAlias = array_map(create_function('$cat', 'return $cat->alias;'), $appCategories);
+        $appCategoryNames = array_map(create_function('$cat', 'return $cat->name;'), $appCategories);
 
         $itemCategories = $this->_getArray($value, 'simple');
 
         if ($position == 1) {
             $relatedCategories = array();
-            //} else {
-            //$relatedCategories = JBModelItem::model()->getRelatedCategories($this->_item->id);
+        } else {
+            $relatedCategories = JBModelItem::model()->getRelatedCategories($this->_item->id);
         }
 
         try {
             // store categories
             foreach ($itemCategories as $categoryName) {
-                $names = array_filter(explode(JBCSVItem::SEP_ROWS, $categoryName));
-
+                $names      = array_filter(explode(JBCSVItem::SEP_ROWS, $categoryName));
                 $previousId = 0;
+                $found      = true;
 
                 for ($i = 0; $i < count($names); $i++) {
 
                     list($name, $alias) = array_pad(explode(JBCSVItem::SEP_CELL, $names[$i]), 2, false);
 
-                    $id    = 0;
-                    $found = false;
-
-                    if (isset($alias)) {
-                        $alias = trim(strtolower($alias));
-                        $id    = $this->app->alias->category->translateAliasToID($alias);
-                        $found = true;
+                    // did the alias change?
+                    if ($alias && isset($aliasMatches[$alias])) {
+                        $alias = $aliasMatches[$alias];
                     }
 
-                    if (!$id && !$found) {
-                        if ($categories = $this->app->table->category->getByName($application->id, $name)) {
-                            reset($categories);
-                            $id = current($categories)->id;
+                    // try to find category through alias, if category is not found, try to match name
+                    if (!($id = array_search($alias, $appCategoryAlias)) && !$alias) {
+                        $id = array_search($name, $appCategoryNames);
+                        foreach (array_keys($appCategoryNames, $name) as $key) {
+                            if ($previousId && isset($appCategories[$key]) && $appCategories[$key]->parent == $previousId) {
+                                $id = $key;
+                            }
                         }
                     }
 
-                    if (!$id) {
-                        $category = $this->app->object->create('Category');
+                    if (!$found || !$id) {
 
+                        $found = false;
+
+                        $category                 = $this->app->object->create('Category');
                         $category->application_id = $application->id;
                         $category->name           = JString::trim($name);
                         $category->parent         = $previousId;
@@ -106,8 +107,7 @@ class JBCSVItemCoreCategory extends JBCSVItem
                             $appCategories[$category->id]    = $category;
                             $appCategoryNames[$category->id] = $category->name;
                             $appCategoryAlias[$category->id] = $aliasMatches[$alias] = $category->alias;
-
-                            $id = $category->id;
+                            $id                              = $category->id;
 
                         } catch (CategoryTableException $e) {
                         }
