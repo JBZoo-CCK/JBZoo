@@ -24,19 +24,20 @@ class JBConfigHelper extends AppHelper
      */
     protected $_oldVersionMap = array(
         // custom config
-        'JBZOO_CONFIG_SHOWUPDATE'        => 'update_show',
-        'JBZOO_CONFIG_CURRENCY_ONLINE'   => 'currency_mode',
-        'JBZOO_CONFIG_ADMINMENU'         => 'adminmenu_show',
+        'JBZOO_CONFIG_SHOWUPDATE'           => 'update_show',
+        'JBZOO_CONFIG_CURRENCY_ONLINE'      => 'currency_mode',
+        'JBZOO_CONFIG_ADMINMENU'            => 'adminmenu_show',
+        'JBZOO_CONFIG_DELETE_PRICE_LABEL'   => 'delpricelbl_mode',
 
         // yml config
-        'JBZOO_CONFIG_YML_SITE_URL'      => 'site_url',
-        'JBZOO_CONFIG_YML_APP_LIST'      => 'app_list',
-        'JBZOO_CONFIG_YML_SITE_NAME'     => 'site_name',
-        'JBZOO_CONFIG_YML_COMPANY_NAME'  => 'company_name',
-        'JBZOO_CONFIG_YML_TYPE'          => 'type_list',
-        'JBZOO_CONFIG_YML_CURRENCY_RATE' => 'currency_rate',
-        'JBZOO_CONFIG_YML_FILE_PATH'     => 'file_path',
-        'JBZOO_CONFIG_YML_FILE_NAME'     => 'file_name',
+        'JBZOO_CONFIG_YML_SITE_URL'         => 'site_url',
+        'JBZOO_CONFIG_YML_APP_LIST'         => 'app_list',
+        'JBZOO_CONFIG_YML_SITE_NAME'        => 'site_name',
+        'JBZOO_CONFIG_YML_COMPANY_NAME'     => 'company_name',
+        'JBZOO_CONFIG_YML_TYPE'             => 'type_list',
+        'JBZOO_CONFIG_YML_CURRENCY_RATE'    => 'currency_rate',
+        'JBZOO_CONFIG_YML_FILE_PATH'        => 'file_path',
+        'JBZOO_CONFIG_YML_FILE_NAME'        => 'file_name',
     );
 
     /**

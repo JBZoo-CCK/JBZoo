@@ -168,7 +168,9 @@ class JBCartElementPriceOption extends JBCartElementPrice
 
         if (false !== $label && count($options)) {
             $options = $this->app->jbarray->sortByArray($options, $sorted);
-            $options = $this->app->jbarray->unshiftAssoc($options, '', $this->getLabel($label));
+            if (($this->app->jbconfig->getList('config.custom')->get('delpricelbl_mode') == 0)) {
+                $options = $this->app->jbarray->unshiftAssoc($options, '', $this->getLabel($label));
+            }
         }
 
         return $options;

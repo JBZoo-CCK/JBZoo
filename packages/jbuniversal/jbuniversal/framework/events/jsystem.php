@@ -96,8 +96,6 @@ class JBZooSystemPlugin
      */
     public function onAfterRender()
     {
-        require_once JPATH_SITE. '/media/zoo/applications/jbuniversal/framework/classes/jbadminmenu.php';
-        JBAdminMenu::render();
     }
 
     /**
