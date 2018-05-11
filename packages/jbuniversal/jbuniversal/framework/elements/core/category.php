@@ -100,7 +100,9 @@ class JBCSVItemCoreCategory extends JBCSVItem
 
                         // set a valid category alias
                         $categoryAlias   = $this->app->string->sluggify($alias ? $alias : $name);
-                        $category->alias = $this->app->alias->category->getUniqueAlias(0, $categoryAlias);
+                        // $category->alias = $this->app->alias->category->getUniqueAlias(0, $categoryAlias);
+                        // try better import
+                        $category->alias = $categoryAlias;
 
                         try {
                             $categoryTable->save($category);
