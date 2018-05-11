@@ -115,7 +115,8 @@ class JBCartElementPriceColor extends JBCartElementPriceOption
         }
 
         if ($label && count($options)) {
-            $options[''] = $this->getLabel();
+            if (($this->app->jbconfig->getList('config.custom')->get('delpricelbl_mode') == 0)) {           $options[''] = $this->getLabel();
+            }
             ksort($options);
         }
 
