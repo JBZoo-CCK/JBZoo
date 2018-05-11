@@ -19,6 +19,9 @@
             <field type="jbbool" default="1" name="adminmenu_show" label="JBZOO_CONFIG_ADMINMENU"
                    description="JBZOO_CONFIG_ADMINMENU_DESC"/>
 
+            <field type="jbbool" default="1" name="delpricelbl_mode" label="JBZOO_CONFIG_DELETE_PRICE_LABEL"
+                   description="JBZOO_CONFIG_DELETE_PRICE_LABEL_DESC"/>
+
         </fieldset>
     </fields>
 </form>
