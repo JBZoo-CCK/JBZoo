@@ -25,6 +25,9 @@
             <field type="jbbool" default="1" name="del_empty_category_fromcsv" label="JBZOO_CONFIG_DELETE_EMPTY_CATEGORY_FROMCSV"
                    description="JBZOO_CONFIG_DELETE_EMPTY_CATEGORY_FROMCSV_DESC"/>
 
+            <field type="jbbool" default="1" name="del_empty_item_fromcsv" label="JBZOO_CONFIG_DELETE_EMPTY_ITEM_FROMCSV"
+                   description="JBZOO_CONFIG_DELETE_EMPTY_ITEM_FROMCSV_DESC"/>
+
         </fieldset>
     </fields>
 </form>
