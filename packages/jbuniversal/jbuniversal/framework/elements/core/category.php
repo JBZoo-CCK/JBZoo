@@ -100,9 +100,12 @@ class JBCSVItemCoreCategory extends JBCSVItem
 
                         // set a valid category alias
                         $categoryAlias   = $this->app->string->sluggify($alias ? $alias : $name);
-                        // $category->alias = $this->app->alias->category->getUniqueAlias(0, $categoryAlias);
-                        // try better import
+                   
                         $category->alias = $categoryAlias;
+                        
+                        if (($this->app->jbconfig->getList('config.custom')->get('del_empty_item_fromcsv') == 0)) {
+                            $category->alias = $this->app->alias->category->getUniqueAlias(0, $categoryAlias);
+                        }
 
                         try {
                             $categoryTable->save($category);
