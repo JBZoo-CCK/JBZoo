@@ -138,7 +138,7 @@ class JBModelOrder extends JBModel
 
         } else {
 
-            $data['modified'] = $this->app->jbdate->toMySql();
+            $data['modified'] = $this->app->date->create()->toSQL();
             $this->_update($data, ZOO_TABLE_JBZOO_ORDER);
             if (!$silentMode) {
                 $this->app->jbevent->fire($order, 'basket:updated');
