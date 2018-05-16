@@ -19,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
  */
 class AutocompleteJBUniversalController extends JBUniversalController
 {
-    const MAX_LENGTH = 20;
+    const MAX_LENGTH = 200;
 
     /**
      * @throws AppException
