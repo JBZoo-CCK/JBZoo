@@ -99,7 +99,7 @@ class StringHelper extends AppHelper
             'h'   => array('х'),
             'ch'  => array('ч'),
             'sh'  => array('ш'),
-            'shh' => array('щ'),
+            'shch' => array('щ'),
             ''    => array('ъ', 'ь', '«', '»', '@', '#', '!', '$', '%', '^', '&', '*', '?', '=', '+', '~', '"', ':', ';', '.', ',', '(', ')', '№'),
             'yu'  => array('ю'),
             'ya'  => array('я'),
