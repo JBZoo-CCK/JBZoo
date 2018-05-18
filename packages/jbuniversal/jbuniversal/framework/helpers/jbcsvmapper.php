@@ -192,7 +192,15 @@ class JBCSVMapperHelper extends AppHelper
                 $name = $name ? $name : $element->getElementType();
                 $name = $name . ' (#' . ++$i . ')';
 
-                $result[$name] = (array)$data;
+                if (($this->app->jbconfig->getList('config.custom')->get('only_jbpriceplain_export') == 1)) {
+                    if ($element->getElementType() == 'jbpriceplain') {
+                        $result[$name] = (array)$data;
+                        }
+                }
+                else {
+                    $result[$name] = (array)$data;
+                }
+                
             }
         }
 

@@ -143,10 +143,16 @@ class JBExportHelper extends AppHelper
                 $data[$item->id] = array_merge($data[$item->id], $this->_mapper->getItemUrl($item));
             }
 
+            if (($this->app->jbconfig->getList('config.custom')->get('only_jbpriceplain_export_extracolomn'))) {
+                $extracolomn = (int) $this->app->jbconfig->getList('config.custom')->get('only_jbpriceplain_export_extracolomn');
+            }
+            else {
+                $extracolomn = 0;
+            }
             // check multiple fields
             foreach ($data[$item->id] as $key => $value) {
                 if (is_array($value)) {
-                    $maxima[$key] = max(1, @$maxima[$key], count($value));
+                    $maxima[$key] = max(1, @$maxima[$key], count($value) + $extracolomn);
                 }
             }
         }
