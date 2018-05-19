@@ -21,10 +21,10 @@ $toggleList = array(
     2 => JText::_('JBZOO_JBADVERT_EDIT_IS_MODIFIED_EXEC'),
 );
 
-$mode = $this->_getMode();
-if ($mode == ElementJBAdvert::MODE_CATEGORY) {
-    unset($toggleList[2]);
-}
+//$mode = $this->_getMode();
+//if ($mode == ElementJBAdvert::MODE_CATEGORY) {
+//    unset($toggleList[2]);
+//}
 
 $toggler = $this->app->jbhtml->radio($toggleList, $this->getControlName('is_modified'), array(), $this->get('is_modified', 0));
 
