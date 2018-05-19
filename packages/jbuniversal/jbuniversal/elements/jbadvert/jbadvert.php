@@ -169,25 +169,16 @@ class ElementJBAdvert extends Element implements iSubmittable
 
         } else if ($mode == self::MODE_CATEGORY) { // change category and application
 
-            $categoryId = (int)$mParams->find('item_category_value.category', 0);
+            $item = $this->getItem();
+            $itemId = $this->getItem()->id;
             $appId      = (int)$mParams->find('item_category_value.app', 0);
-
-            // set new app
+            if ($appId == 0) {$appId = $item->application_id;}
+            $categories = $item->getRelatedCategoryIds();
+            $categories[] = (int)$mParams->find('item_category_value.category', 0);
+            $categories = array_unique($categories);
             $item->application_id = $appId;
-
-            // and new category
-            if (0) {
-                $this->app->category->saveCategoryItemRelations($item, $categoryId); // need check ACL
-            } else {
-                $item->getParams()->set('config.primary_category', $categoryId);
-                $this->app->table->item->save($item);
-                $sql = "DELETE FROM " . ZOO_TABLE_CATEGORY_ITEM . " WHERE item_id=" . (int)$item->id;
-                $this->app->database->query($sql);
-
-                $sql = "INSERT INTO " . ZOO_TABLE_CATEGORY_ITEM . " (category_id, item_id) VALUES (" . $categoryId . ',' . (int)$item->id . ')';
-                $this->app->database->query($sql);
-            }
-
+            $this->app->category->saveCategoryItemRelations($item, $categories);
+            define('JBADVERT_EVALED', true);
             // TODO admin page save bug
 
         } else if ($mode == self::MODE_ELEMENT) {  // set new data to element
@@ -214,12 +205,13 @@ class ElementJBAdvert extends Element implements iSubmittable
 
 
         } else if ($mode == self::MODE_PHP) { // execute php code
-            eval(
-                '$itemId = ' . $this->getItem()->id . '; ' .
-                $mParams->get('item_php_eval')
-             );
-
-
+            
+			$edit = (bool) $this->getItem()->id;
+            $item = $this->getItem();
+            $itemId = $this->getItem()->id;
+            eval($this->config->get('item_php_eval'));
+			define('JBADVERT_EVALED', true);
+			
         } else if ($mode == self::MODE_PRIORITY) { // change priority
             $item->priority = (int)$mParams->get('item_priority_value', -1);
 
