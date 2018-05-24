@@ -57,6 +57,7 @@ $allItems = array(
     'jbconfig'  => array(
         'jbzoo' => array(
             'index'     => array('index'),
+            'zoohack'   => array('zoohack'),
             'assets'    => array('assets'),
             'yandexYml' => array('yandexYml'),
             'sef'       => array('sef'),

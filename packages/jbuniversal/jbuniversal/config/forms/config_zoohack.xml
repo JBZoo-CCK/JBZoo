@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+
+    @package     jbzoo
+    @version     2.x Pro
+    @author      JBZoo App http://jbzoo.com
+    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+    @license     http://jbzoo.com/license-pro.php JBZoo Licence
+    @coder       Denis Smetannikov <denis@jbzoo.com>
+-->
+<form>
+    <fields>
+        <fieldset name="configzoohack" label="" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
+            <field name="spacer_item" type="jbspacer" default="JBZOO_CONFIG_ZOO_HACKS"/>
+
+            <field name="jbzoo_hit_disabled" type="jbbool" default="0" label="JBZOO_CONFIG_HIT_DISABLED"
+                   description="JBZOO_CONFIG_HIT_DISABLED_DESC"/>
+                   
+            <field name="jbzoo_zoo_update_disabled" type="jbbool" default="0" label="JBZOO_CONFIG_ZOO_UPDATE_DISABLED"
+                   description="JBZOO_CONFIG_ZOO_UPDATE_DISABLED_DESC"/>
+                   
+            <field name="jbzoo_zoo_dependency_disabled" type="jbbool" default="0" label="JBZOO_CONFIG_ZOO_DEPENDENCY_DISABLED"
+                   description="JBZOO_CONFIG_ZOO_DEPENDENCY_DISABLED_DESC"/>
+                   
+            <field name="jbzoo_zoo_cache_writable_disabled" type="jbbool" default="0" label="JBZOO_CONFIG_ZOO_CACHE_WRITABLE_DISABLED"
+                   description="JBZOO_CONFIG_ZOO_CACHE_WRITABLE_DISABLED_DESC"/>
+                   
+            <field name="jbzoo_zoo_media_is_writable" type="jbbool" default="1" label="JBZOO_CONFIG_ZOO_MEDIA_IS_WRITABLE"
+                   description="JBZOO_CONFIG_ZOO_MEDIA_IS_WRITABLE_DESC"/>
+
+        </fieldset>
+    </fields>
+</form>
