@@ -45,6 +45,40 @@
             <field name="file_name" type="text" default="yml" label="JBZOO_CONFIG_YML_FILE_NAME"
                    description="JBZOO_CONFIG_YML_FILE_NAME_DESC"/>
 
+            <field name="spacer_item_listimtes3" type="jbspacer" default="JBZOO_CONFIG_MY_ITEMS_HACKS_ON"/>
+
+            <field name="my_items_edit" type="jbbool" default="0" label="JBZOO_CONFIG_YML_ONLY_MY_LISTIMTES_CUSTOM_RULES_MODE"
+                   description="JBZOO_CONFIG_YML_ONLY_MY_PHP_CUSTOM_RULES_MODE_DESC"/>
+
+            <field name="spacer_item_listimtes" type="jbspacer" default="JBZOO_CONFIG_MY_ITEMS_HACKS_LIST"/>
+
+            <field name="my_items_mode_listimtes" type="jbbool" default="0" label="JBZOO_CONFIG_YML_ONLY_MY_LISTIMTES_CUSTOM_RULES_MODE_CUSTOM"
+                   description="JBZOO_CONFIG_YML_ONLY_MY_PHP_CUSTOM_RULES_MODE_DESC"/>
+
+            <field name="only_my_listitems_rules" type="textarea" default="" label="JBZOO_CONFIG_YML_ONLY_MY_LISTITEMS_RULES"
+                   description="JBZOO_CONFIG_YML_ONLY_MY_LISTITEMS_RULES_DESC"/>
+
+            <field name="spacer_item" type="jbspacer" default="JBZOO_CONFIG_MY_ITEMS_HACKS_EL"/>
+
+            <field name="my_items_mode_listimtes_el" type="jbbool" default="0" label="JBZOO_CONFIG_YML_ONLY_MY_LISTIMTES_CUSTOM_RULES_MODE_CUSTOM"
+                   description="JBZOO_CONFIG_YML_ONLY_MY_PHP_CUSTOM_RULES_MODE_DESC"/>
+
+
+            <field name="my_items_mode_or" type="list" default="0" label="JBZOO_EL_MODE"
+                   description="JBZOO_EL_MODE_DESC">
+                <option value="no">Не содержит в поле данное значение</option>
+                <option value="and">Только items с данным значением</option>
+            </field>
+
+            <field name="only_my_items_elements" type="text" default="" label="JBZOO_CONFIG_YML_ONLY_MY_ITEMS"
+                   description="JBZOO_CONFIG_YML_ONLY_MY_ITEMS_DESC"/>
+
+            <field name="only_my_items_customrules" type="text" default="option.0" label="JBZOO_CONFIG_YML_ONLY_MY_ITEMS_VALUE_CUSTOMRULES"
+                   description="JBZOO_CONFIG_YML_ONLY_MY_ITEMS_VALUE_CUSTOMRULES_DESC"/>
+
+            <field name="only_my_items_value" type="text" default="yes" label="JBZOO_CONFIG_YML_ONLY_MY_ITEMS_VALUE"
+                   description="JBZOO_CONFIG_YML_ONLY_MY_ITEMS_VALUE_DESC"/>
+
         </fieldset>
     </fields>
 </form>
