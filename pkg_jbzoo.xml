@@ -11,17 +11,18 @@
 -->
 <extension type="package" version="2.5" method="upgrade">
     <name>JBZoo Package</name>
-    
-	<author>JBZoo.com</author>
-	<creationDate>2015 12</creationDate>
-	<copyright>Copyright (C) JBZoo.com,  All rights reserved.</copyright>
-	<authorEmail>admin@jbzoo.com</authorEmail>
-	<authorUrl>http://jbzoo.com</authorUrl>
-	<version>2.2.4 Pro</version>
+
+    <author>JBZoo.com</author>
+    <creationDate>2015 12</creationDate>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>2.2.4 Pro</version>
     <updateUrl>http://server.jbzoo.com/checkupdates</updateUrl>
-	<license>http://jbzoo.com/license JBZoo Licence</license>
+    <license>http://jbzoo.com/license JBZoo Licence</license>
     <packagename>jbzoo</packagename>
-    <description>JBZoo App is universal Joomla CCK, application for YooTheme Zoo component. Developed by JBZoo.com</description>
+    <description>JBZoo App is universal Joomla CCK, application for YooTheme Zoo component. Developed by JBZoo.com
+    </description>
 
     <files folder="packages">
         <file type="file" id="jbuniversal">jbuniversal</file>
@@ -33,7 +34,7 @@
         <file type="module" id="mod_jbzoo_search" client="site">mod_jbzoo_search</file>
         <file type="module" id="mod_jbzoo_item" client="site">mod_jbzoo_item</file>
     </files>
-    
+
     <scriptfile>file.script.php</scriptfile>
-    
+
 </extension>

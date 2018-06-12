@@ -1,0 +1,26 @@
+{
+    "name"         : "jbzoo/jbzoo",
+    "license"      : "GPL-2.0",
+    "description"  : "JBZoo Application for ZOO",
+
+    "authors"      : [
+        {
+            "name"  : "Denis Smetannikov",
+            "email" : "denis.smetannikov@item8.io"
+        }
+    ],
+
+    "require"      : {
+        "php" : ">=7.0"
+    },
+
+    "autoload-dev" : {
+        "classmap" : [
+            "tests"
+        ]
+    },
+
+    "require-dev"  : {
+        "jbzoo/phpunit" : "^2.3"
+    }
+}

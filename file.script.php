@@ -41,7 +41,7 @@ class pkg_jbzooInstallerScript
      */
     public function preflight($type, $parent)
     {
-        $messages = array();
+        $messages = [];
 
         // check webserver
         if (!extension_loaded('ionCube Loader')) {
@@ -99,5 +99,4 @@ class pkg_jbzooInstallerScript
         $db->setQuery('UPDATE #__extensions SET enabled = 1 WHERE element = "' . $plugin . '"');
         $db->execute();
     }
-
 }

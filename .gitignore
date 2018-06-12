@@ -1,3 +1,7 @@
-# Editor stuff
+# Editor & OS stuff
 .idea/
 .DS_Store
+
+# composer
+/vendor/*
+/composer.lock
