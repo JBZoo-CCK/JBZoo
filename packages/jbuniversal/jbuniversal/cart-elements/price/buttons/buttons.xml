@@ -10,74 +10,67 @@
     @license    GPL-2.0
     @copyright  Copyright (C) JBZoo.com, All rights reserved.
     @link       https://github.com/JBZoo/JBZoo
+--><?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+--><?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+--><?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+--><?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+--><?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
 -->
-<element type="buttons" group="Core" hidden="true" core="true" system-tmpl="true">
-    <name>JBZOO_ELEMENT_PRICE_BUTTONS_NAME</name>
-    <author>JBZoo.com</author>
-    <creationDate>2014</creationDate>
-    <copyright>Copyright (C) JBZoo.com</copyright>
-    <authorEmail>admin@jbzoo.com</authorEmail>
-    <authorUrl>http://jbzoo.com</authorUrl>
-    <version>1.0</version>
-    <description>JBZOO_ELEMENT_PRICE_BUTTONS_DESC</description>
-
-    <params group="render">
-
-        <!-- add button -->
-        <param name="add_spacer" type="jbspacer" default="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_SPACER"/>
-
-        <param name="add_show" type="jbbool" default="1" label="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_SHOW"
-               description="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_SHOW_DESC"/>
-
-        <param name="add_label" type="jbtext" label="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_LABEL"
-               description="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_LABEL_DESC"
-               default="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_LABEL_DEFAULT"/>
-
-        <param name="add_alert" type="jbbool" default="0" label="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT"
-               description="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT_DESC"/>
-
-        <param name="add_alert_timeout" type="text" label="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT_TIMEOUT"
-               description="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT_TIMEOUT_DESC" default="3"/>
-
-        <param name="add_alert_text" type="jbtext" label="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT_TEXT"
-               description="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT_TEXT_DESC"
-               default="JBZOO_ELEMENT_PRICE_BUTTONS_ADD_ALERT_TEXT_DEFAULT"/>
-
-        <!-- OneClick button -->
-        <param name="oneclick_spacer" type="jbspacer" default="JBZOO_ELEMENT_PRICE_BUTTONS_ONECLICK_SPACER"/>
-
-        <param name="oneclick_show" type="jbbool" default="0" label="JBZOO_ELEMENT_PRICE_BUTTONS_ONECLICK_SHOW"
-               description="JBZOO_ELEMENT_PRICE_BUTTONS_ONECLICK_SHOW_DESC"/>
-
-        <param name="oneclick_label" type="jbtext" label="JBZOO_ELEMENT_PRICE_BUTTONS_ONECLICK_LABEL"
-               description="JBZOO_ELEMENT_PRICE_BUTTONS_ONECLICK_LABEL_DESC"
-               default="JBZOO_ELEMENT_PRICE_BUTTONS_ONECLICK_LABEL_DEFAULT"/>
-
-        <!-- Modal button -->
-        <param name="modal_spacer" type="jbspacer" default="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_SPACER"/>
-
-        <param name="modal_show" type="jbbool" default="0" label="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_SHOW"
-               description="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_SHOW_DESC"/>
-
-        <param name="modal_label" type="jbtext" label="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_LABEL"
-               description="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_LABEL_DESC"
-               default="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_LABEL_DEFAULT"/>
-
-        <param name="modal_layout" type="jbpricetemplates" default="modal"
-               label="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_LAYOUT"
-               description="JBZOO_ELEMENT_PRICE_BUTTONS_MODAL_LAYOUT_DESC"/>
-
-        <!-- Goto button -->
-        <param name="goto_spacer" type="jbspacer" default="JBZOO_ELEMENT_PRICE_BUTTONS_GOTO_SPACER"/>
-
-        <param name="goto_show" type="jbbool" default="0" label="JBZOO_ELEMENT_PRICE_BUTTONS_GOTO_SHOW"
-               description="JBZOO_ELEMENT_PRICE_BUTTONS_GOTO_SHOW_DESC"/>
-
-        <param name="goto_label" type="jbtext" label="JBZOO_ELEMENT_PRICE_BUTTONS_GOTO_LABEL"
-               description="JBZOO_ELEMENT_PRICE_BUTTONS_GOTO_LABEL_DESC"
-               default="JBZOO_ELEMENT_PRICE_BUTTONS_GOTO_LABEL_DEFAULT"/>
-
-        <!-- remove button -->
         <param name="remove_spacer" type="jbspacer" default="JBZOO_ELEMENT_PRICE_BUTTONS_REMOVE_SPACER"/>
 
         <param name="remove_show" type="jbbool" default="1" label="JBZOO_ELEMENT_PRICE_BUTTONS_REMOVE_SHOW"

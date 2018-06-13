@@ -10,20 +10,19 @@
     @license    GPL-2.0
     @copyright  Copyright (C) JBZoo.com, All rights reserved.
     @link       https://github.com/JBZoo/JBZoo
+--><?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
 -->
-<form>
-    <fields>
-        <fieldset name="others"
-                  label=""
-                  addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
-
-            <field name="basket" type="jbrouter" method="basket" arg1="MENU_ITEMID"
-                   label="JBZOO_CART_URL_CART" description="JBZOO_CART_URL_CART_DESC"/>
-
-            <field name="orders" type="jbrouter" method="orders" arg1="MENU_ITEMID"
-                   label="JBZOO_CART_URL_ORDERS" description="JBZOO_CART_URL_ORDERS_DESC"/>
-
-            <!--  payment configs -->
             <field name="payment" type="jbspacer" default="JBZOO_CART_URLS_PAYMENT_URL"/>
 
             <field name="payment_success" type="jbrouter" method="payment" arg1="success"
