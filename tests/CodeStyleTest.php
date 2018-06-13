@@ -39,4 +39,9 @@ class CodeStyleTest extends Codestyle
         'tmp',
         'libs',
     ];
+
+    public function testCyrillic()
+    {
+        isTrue(true);
+    }
 }
