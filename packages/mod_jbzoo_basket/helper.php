@@ -1,71 +1,40 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-
-require_once JPATH_ADMINISTRATOR . '/components/com_zoo/config.php';
-require_once JPATH_BASE . '/media/zoo/applications/jbuniversal/framework/jbzoo.php';
-require_once JPATH_BASE . '/media/zoo/applications/jbuniversal/framework/classes/jbmodulehelper.php'; // TODO move to bootstrap
-
+<?php
 /**
- * Class JBModuleHelperBasket
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
-class JBModuleHelperBasket extends JBModuleHelper
-{
-    /**
-     * @type JBCartOrder
-     */
-    protected $_order = null;
 
-    /**
-     * Init Zoo
-     * @param JRegistry $params
-     * @param object    $module
-     */
-    public function __construct(JRegistry $params, $module)
-    {
-        parent::__construct($params, $module);
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 
-        $this->_order = JBCart::getInstance()->newOrder();
-    }
-
-    /**
-     * Load important assets files
-     */
-    protected function _loadAssets()
-    {
-        parent::_loadAssets();
-        $this->_jbassets->js('mod_jbzoo_basket:assets/js/cart-module.js');
-        $this->_jbassets->less('mod_jbzoo_basket:assets/less/cart-module.less');
-    }
-
-    /**
-     * Init cart widget
-     */
-    protected function _initWidget()
-    {
-        $this->_jbassets->widget('#' . $this->getModuleId(), 'JBZoo.CartModule', $this->getWidgetParams());
-    }
-
-    /**
-     * @param bool $addNoindex
-     * @return string
-     */
-    public function render($addNoindex = true)
-    {
-        if (!JBCart::getInstance()->canAccess($this->app->user->get())) {
-            return JText::_('JBZOO_CART_UNABLE_ACCESS');
-        }
+}
 
         return parent::render($addNoindex);
     }

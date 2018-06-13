@@ -1,3 +1,17 @@
+/**
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ */
+
+;
 /* Copyright (C) YOOtheme GmbH, http://www.gnu.org/licenses/gpl.html GNU/GPL */
 /* zoo v3.0.10 */
 jQuery(function(a){var c=a('form[name="adminForm"]'),e=a('[name="boxchecked"]:hidden',c);a("#submenu li").addClass(function(){return"item"+(a(this).index()+1)});a("select.auto-submit").bind("change",function(){c.submit()});a("table.stripe tbody tr").addClass(function(a){return a%2?"even":"odd"});c.delegate("input.check-all","click",function(){var b=a(this).is(":checked"),d=a('[name="cid[]"]:checkbox',c).attr("checked",function(){return b});e.val(d.filter(":checked").length)});c.delegate('[name="cid[]"]:checkbox',

@@ -10,11 +10,11 @@
  * @license    GPL-2.0
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
  * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
 
 require_once JPATH_ADMINISTRATOR . '/components/com_zoo/config.php';
 require_once JPATH_BASE . '/media/zoo/applications/jbuniversal/framework/jbzoo.php';

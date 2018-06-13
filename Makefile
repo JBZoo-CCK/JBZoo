@@ -1,14 +1,14 @@
 #
-# Item8 | Application
+# JBZoo Application
 #
-# This file is part of the Item8 Service Package.
+# This file is part of the JBZoo CCK package.
 # For the full copyright and license information, please view the LICENSE
 # file that was distributed with this source code.
 #
-# @package      Application
-# @license      Proprietary
-# @copyright    Copyright (C) Item8, All rights reserved.
-# @link         https://item8.io
+# @package    Application
+# @license    GPL-2.0
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @link       https://github.com/JBZoo/JBZoo
 #
 
 #### Project Update & Building (complex commands) ######################################################################

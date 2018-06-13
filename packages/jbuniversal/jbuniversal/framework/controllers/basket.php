@@ -1,86 +1,40 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+<?php
 /**
- * Class BasketJBUniversalController
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
-class BasketJBUniversalController extends JBUniversalController
-{
-    const SESSION_PREFIX = 'JBZOO_';
 
-    /**
-     * @var JBModelConfig
-     */
-    protected $_config = null;
+// no direct access
+defined('_JEXEC') or die('Restricted access');
 
-    /**
-     * @var JBCartHelper
-     */
-    protected $_jbcart = null;
-
-    /**
-     * @var JBMoneyHelper
-     */
-    protected $_jbmoney = null;
-
-    /**
-     * @var JBCartOrder
-     */
-    public $order = null;
-
-    /**
-     * @var JBCart
-     */
-    public $cart = null;
-
-    /**
-     * @param array $app
-     * @param array $config
-     */
-    public function __construct($app, $config = array())
-    {
-        parent::__construct($app, $config);
-
-        $this->app->jbdoc->noindex();
-        $this->_jbmoney = $this->app->jbmoney;
-        $this->_config  = JBModelConfig::model()->getGroup('cart.config');
-        $this->cart     = JBCart::getInstance();
-
-        $this->application = $this->app->zoo->getApplication();
-
-        // load template
-        $tmplName       = $this->_config->get('tmpl_name', 'uikit');
-        $templates      = $this->application->getTemplates();
-        $this->template = $this->application->getTemplate();
-
-        if (isset($templates[$tmplName])) {
-            $this->template = $templates[$tmplName];
-        }
-
-        if (!$this->_config->get('enable', 1)) {
-            $this->app->jbnotify->error('JBZOO_CART_DISABLED');
-        }
-
-        if (!$this->cart->canAccess($this->app->user->get())) {
-
-            $user = JFactory::getUser();
-            if (empty($user->id)) {
-                $url = 'index.php?option=com_users&view=login&return=' . base64_encode($this->app->jbenv->getCurrentUrl());
-                $this->setRedirect($url, JText::_('JBZOO_CART_NEED_LOGIN'));
-            } else {
-                $this->app->jbnotify->error('JBZOO_CART_UNABLE_ACCESS');
-            }
+}
         }
     }
 
