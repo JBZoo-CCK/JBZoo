@@ -10,19 +10,19 @@
     @coder       Denis Smetannikov <denis@jbzoo.com>
 -->
 <extension type="file" version="2.5" method="upgrade">
-	<name>JBZoo App</name>
-	<author>JBZoo.com</author>
-	<creationDate>2015 09</creationDate>
-	<copyright>Copyright (C) JBZoo.com,  All rights reserved.</copyright>
-	<authorEmail>admin@jbzoo.com</authorEmail>
-	<authorUrl>http://jbzoo.com</authorUrl>
-	<version>2.2.1 Pro</version>
+    <name>JBZoo App</name>
+    <author>JBZoo.com</author>
+    <creationDate>2015 09</creationDate>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>2.2.1 Pro</version>
     <updateUrl>http://server.jbzoo.com/checkupdates</updateUrl>
-	<license>http://jbzoo.com/license JBZoo Licence</license>
-	<description>JBZoo App is universal Joomla CCK, application for YooTheme Zoo component</description>
-	<fileset>
-		<files target="media/zoo/applications">
-			<folder>jbuniversal</folder>
-		</files>
-	</fileset>
+    <license>http://jbzoo.com/license JBZoo Licence</license>
+    <description>JBZoo App is universal Joomla CCK, application for YooTheme Zoo component</description>
+    <fileset>
+        <files target="media/zoo/applications">
+            <folder>jbuniversal</folder>
+        </files>
+    </fileset>
 </extension>

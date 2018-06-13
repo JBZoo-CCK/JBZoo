@@ -1,12 +1,15 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
  */
 
 // no direct access
@@ -53,9 +56,9 @@ class JBModuleHelperFilter extends JBModuleHelper
      */
     protected function _initWidget()
     {
-        $this->_jbassets->widget('#' . $this->getModuleId(), 'JBZoo.Filter', array(
+        $this->_jbassets->widget('#' . $this->getModuleId(), 'JBZoo.Filter', [
             'autosubmit' => (int)$this->_params->get('autosubmit', 0)
-        ));
+        ]);
     }
 
     /**
@@ -67,9 +70,9 @@ class JBModuleHelperFilter extends JBModuleHelper
         $value = $this->_jbrequest->get('limit', $this->_params->get('pages', 20));
 
         if ((int)$this->_params->get('pages_show', 1)) {
-            $values = array('5', '10', '15', '20', '25', '30', '50', '100', 'all');
+            $values = ['5', '10', '15', '20', '25', '30', '50', '100', 'all'];
 
-            $options = array();
+            $options = [];
             foreach ($values as $option) {
                 $options[$option] = 'JBZOO_NUMBERS_' . $option;
             }
@@ -91,8 +94,8 @@ class JBModuleHelperFilter extends JBModuleHelper
         $value = $this->_jbrequest->get('logic', $this->_params->get('logic', 'and'));
 
         if ((int)$this->_params->get('logic_show', 1)) {
-            $options = array('and' => 'JBZOO_AND', 'or' => 'JBZOO_OR');
-            $html    = $this->_jbhtml->radio($options, 'logic', null, $value, 'jbfilter-id-logic', true);
+            $options = ['and' => 'JBZOO_AND', 'or' => 'JBZOO_OR'];
+            $html = $this->_jbhtml->radio($options, 'logic', null, $value, 'jbfilter-id-logic', true);
         } else {
             $html = $this->_jbhtml->hidden('logic', $value);
         }
@@ -107,15 +110,15 @@ class JBModuleHelperFilter extends JBModuleHelper
     public function getOrderings()
     {
         $appId = $this->getAppId();
-        $type  = $this->getType();
+        $type = $this->getType();
 
-        $default = $this->app->data->create($this->_params->get('order_default', array()));
+        $default = $this->app->data->create($this->_params->get('order_default', []));
         $request = $this->_jbrequest->getArray('order');
-        $values  = $this->app->data->create((!empty($request)) ? $request : $default);
+        $values = $this->app->data->create((!empty($request)) ? $request : $default);
 
         $orderList = $this->getOrderList();
 
-        $html = array();
+        $html = [];
         if ((int)$this->_params->get('order_show', 1) && !empty($orderList)) {
 
             if (empty($request)) {
@@ -124,13 +127,15 @@ class JBModuleHelperFilter extends JBModuleHelper
 
             $orderMode = $this->_params->get('order_mode');
 
-            $options = array();
+            $options = [];
             foreach ($orderList as $fieldId) {
                 $options[$fieldId] = $this->app->jborder->getNameById($fieldId, $type, $appId);
             }
 
-            $html[] = $this->_jbhtml->select($options, 'order[field]', array(), $values->get('field'), 'jbfilter-id-order', true);
-            $html[] = $this->_jbhtml->checkbox(array('1' => JText::_('JBZOO_ORDER_REVERSE')), 'order[reverse]', '', $values->get('reverse'));
+            $html[] = $this->_jbhtml->select($options, 'order[field]', [], $values->get('field'), 'jbfilter-id-order',
+                true);
+            $html[] = $this->_jbhtml->checkbox(['1' => JText::_('JBZOO_ORDER_REVERSE')], 'order[reverse]', '',
+                $values->get('reverse'));
             $html[] = $this->_jbhtml->hidden('order[mode]', $orderMode);
 
         } else {
@@ -147,7 +152,7 @@ class JBModuleHelperFilter extends JBModuleHelper
      */
     public function getOrderList()
     {
-        return $this->_params->get('order_list', array());
+        return $this->_params->get('order_list', []);
     }
 
     /**

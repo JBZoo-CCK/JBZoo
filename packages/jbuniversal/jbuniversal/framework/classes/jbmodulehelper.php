@@ -1,12 +1,15 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
  */
 
 // no direct access
@@ -64,7 +67,7 @@ class JBModuleHelper
 
     /**
      * @param \Joomla\Registry\Registry $params $params
-     * @param stdClass  $module
+     * @param stdClass                  $module
      */
     public function __construct($params, $module)
     {
@@ -73,16 +76,16 @@ class JBModuleHelper
         $this->app = App::getInstance('zoo');
 
         // vars
-        $this->_params       = $params;
-        $this->_module       = $module;
-        $this->_moduleType   = $this->_module->module;
-        $this->_itemLayout   = $this->_params->get('item_layout', 'default');
+        $this->_params = $params;
+        $this->_module = $module;
+        $this->_moduleType = $this->_module->module;
+        $this->_itemLayout = $this->_params->get('item_layout', 'default');
         $this->_moduleLayout = $this->_params->get('layout', 'default');
 
         // helpers
-        $this->_jbhtml    = $this->app->jbhtml;
+        $this->_jbhtml = $this->app->jbhtml;
         $this->_jbrequest = $this->app->jbrequest;
-        $this->_jbassets  = $this->app->jbassets;
+        $this->_jbassets = $this->app->jbassets;
 
         $this->app->jbdebug->mark($this->_module->module . '::init');
     }
@@ -116,11 +119,11 @@ class JBModuleHelper
         // set renderer
         $renderer = $this->app->renderer
             ->create($type)
-            ->addPath(array(
+            ->addPath([
                 $this->app->path->path('component.site:'),
                 $this->app->path->path('modules:' . $this->_moduleType),
                 $this->app->path->path('applications:' . JBZOO_APP_GROUP . '/catalog/renderer') // beta TEST
-            ));
+            ]);
 
         if ($addPath && $renderer) {
             $renderer->addPath($addPath);
@@ -226,7 +229,7 @@ class JBModuleHelper
      * @param array  $vars
      * @return string
      */
-    public function partial($layout = null, $vars = array())
+    public function partial($layout = null, $vars = [])
     {
         $layout = !empty($layout) ? $layout : $this->getModuleLayout();
 
@@ -234,13 +237,13 @@ class JBModuleHelper
 
         if (JFile::exists($__layout)) {
 
-            $vars['modHelper']    = $this;
-            $vars['unique']       = $this->getModuleId(true);
-            $vars['params']       = $this->_params;
-            $vars['module']       = $this->_module;
-            $vars['itemLayout']   = $this->getItemLayout();
+            $vars['modHelper'] = $this;
+            $vars['unique'] = $this->getModuleId(true);
+            $vars['params'] = $this->_params;
+            $vars['module'] = $this->_module;
+            $vars['itemLayout'] = $this->getItemLayout();
             $vars['moduleLayout'] = $this->getModuleLayout();
-            $vars['renderer']     = $this->createRenderer('item'); // for compatible
+            $vars['renderer'] = $this->createRenderer('item'); // for compatible
 
             if (is_array($vars)) {
                 foreach ($vars as $_var => $_value) {

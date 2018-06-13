@@ -1,12 +1,12 @@
 {
     "name"         : "jbzoo/jbzoo",
     "license"      : "GPL-2.0",
-    "description"  : "JBZoo Application for ZOO",
+    "description"  : "JBZoo App is universal Joomla CCK, application for YooTheme Zoo component",
 
     "authors"      : [
         {
             "name"  : "Denis Smetannikov",
-            "email" : "denis.smetannikov@item8.io"
+            "email" : "denis@jbzoo.con"
         }
     ],
 
@@ -15,9 +15,7 @@
     },
 
     "autoload-dev" : {
-        "classmap" : [
-            "tests"
-        ]
+        "classmap" : ["tests"]
     },
 
     "require-dev"  : {

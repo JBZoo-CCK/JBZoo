@@ -1,12 +1,15 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
  */
 
 // no direct access
@@ -14,18 +17,18 @@ defined('_JEXEC') or die('Restricted access');
 
 $modHelper->app->jbassets->uikit(false, true); // TODO get gradient option from catalog configs
 
-$formAttrs = array(
+$formAttrs = [
     'id'     => $modHelper->getModuleId(),
     'name'   => $modHelper->getModuleId(),
     'method' => 'get',
     'action' => JRoute::_('index.php?Itemid=' . $modHelper->getMenuId()),
-    'class'  => array(
+    'class'  => [
         'jsFilter',
         'jbfilter',
         'jbfilter-' . $itemLayout,
         'uk-form',
-    ),
-);
+    ],
+];
 
 ?>
 
@@ -41,7 +44,7 @@ $formAttrs = array(
         echo $modHelper->partial('_logic');
         echo '</div>';
 
-        echo $modHelper->partial('_buttons', array('btnClass' => 'uk-button'));
+        echo $modHelper->partial('_buttons', ['btnClass' => 'uk-button']);
         echo $modHelper->partial('_hidden');
         ?>
     </form>

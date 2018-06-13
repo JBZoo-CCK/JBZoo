@@ -1,12 +1,15 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
  */
 
 // no direct access
@@ -22,10 +25,10 @@ $this->app->jbassets->jqueryAccordion();
     <?php
     for ($i = 1; $i <= 10; $i++) {
         if ($this->checkPosition('tab-' . $i)) {
-            echo $this->renderPosition('tab-' . $i, array(
+            echo $this->renderPosition('tab-' . $i, [
                 'moduleParams' => $params,
                 'style'        => 'filter.tab',
-            ));
+            ]);
         }
     } ?>
 

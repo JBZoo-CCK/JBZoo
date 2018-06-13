@@ -1,9 +1,15 @@
 <?php
 /**
- * @package   com_zoo
- * @author    YOOtheme http://www.yootheme.com
- * @copyright Copyright (C) YOOtheme GmbH
- * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
  */
 
 /**
@@ -32,7 +38,7 @@ class DataHelper extends AppHelper
      * @return mixed The class representing the data
      * @since 1.0.0
      */
-    public function create($data = array(), $format = 'json')
+    public function create($data = [], $format = 'json')
     {
         if ($data instanceof AppData) {
             return $data;

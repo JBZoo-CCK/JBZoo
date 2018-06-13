@@ -1,12 +1,12 @@
 <?php
 /**
- * JBZoo | Application for ZOO
+ * JBZoo Application
  *
  * This file is part of the JBZoo CCK package.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    Application for ZOO
+ * @package    Application
  * @license    GPL-2.0
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
  * @link       https://github.com/JBZoo/JBZoo
@@ -20,11 +20,11 @@ namespace JBZoo\PHPUnit;
  */
 class CodeStyleTest extends Codestyle
 {
-    protected $_packageVendor  = 'JBZoo |';
-    protected $_packageName    = 'Application for ZOO';
+    protected $_packageName    = 'Application';
     protected $_packageLicense = 'GPL-2.0';
     protected $_packageLink    = 'https://github.com/JBZoo/JBZoo';
     protected $_packageAuthor  = 'Denis Smetannikov';
+    protected $_le             = "\n";
 
     /**
      * @inheritDoc
@@ -37,5 +37,6 @@ class CodeStyleTest extends Codestyle
         'vendor',
         'temp',
         'tmp',
+        'libs',
     ];
 }

@@ -1,19 +1,21 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ * JBZoo Application
  *
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (version_compare(PHP_VERSION, '7.0', '>=')) {
+if (PHP_VERSION_ID >= 70000) {
     require_once __DIR__ . '/jbzoo_7.x.php'; // For latest PHP version and ioncube loader v6.x+
 } else {
     require_once __DIR__ . '/jbzoo_5.x.php'; // legacy versions of PHP...
