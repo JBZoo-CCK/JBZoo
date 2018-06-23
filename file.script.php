@@ -45,14 +45,8 @@ class pkg_jbzooInstallerScript
     {
         $messages = [];
 
-        // check webserver
-        if (!extension_loaded('ionCube Loader')) {
-            $messages[] = 'On your web server must be installed PHP-module '
-                . '<a href="http://www.ioncube.com/loaders.php" target="_blank">ionCube Loader</a>. '
-                . 'Please, check for it and try to install again.';
-        }
-
-        if (version_compare(PHP_VERSION, '5.3.1', '<')) {
+        // check PHP version
+        if (PHP_VERSION_ID < 50500) {
             $messages[] = 'Your host needs to use PHP 5.3.0 or higher to run this version of JBZoo!';
         }
 
@@ -63,8 +57,7 @@ class pkg_jbzooInstallerScript
 
         // no auto update!
         if (JFolder::exists(JPATH_ROOT . '/media/zoo/applications/jbuniversal')) {
-            $messages[] = 'JBZoo is already installed. ' .
-                'Please, <a href="http://server.jbzoo.com/download#patches" target="_blank">use patches</a> for update!';
+            $messages[] = "Sorry, JBZoo doesn't support auto update on install yet.";
         }
 
         if (!empty($messages)) {
