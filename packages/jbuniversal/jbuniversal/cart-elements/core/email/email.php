@@ -29,7 +29,7 @@ abstract class JBCartElementEmail extends JBCartElement
     /**
      * @param JMail $mailer
      */
-    public function setMailer(JMail $mailer)
+    public function setMailer($mailer)
     {
         $this->_mailer = $mailer;
     }
@@ -39,11 +39,11 @@ abstract class JBCartElementEmail extends JBCartElement
      * @param  array $attrs
      * @return mixed
      */
-    public function getAttrs($attrs = array())
+    public function getAttrs($attrs = [])
     {
-        $default = array(
+        $default = [
             'align' => 'left',
-        );
+        ];
 
         if (empty($attrs)) {
             return $this->app->jbhtml->buildAttrs($default);
@@ -60,14 +60,14 @@ abstract class JBCartElementEmail extends JBCartElement
      * @param  array $styles
      * @return mixed
      */
-    public function getStyles($styles = array(), $merge = false)
+    public function getStyles($styles = [], $merge = false)
     {
-        $default = array(
+        $default = [
             'text-align'    => 'left',
             'border-bottom' => '1px solid #dddddd',
             'font-size'     => '14px',
             'color'         => '#333'
-        );
+        ];
 
         if (empty($styles)) {
             return $this->buildStyles($default);
