@@ -1,4 +1,4 @@
-# JBZoo Community Edition [![Build Status](https://travis-ci.org/JBZoo/JBZoo.svg?branch=master)](https://travis-ci.org/JBZoo/JBZoo) [![License](https://poser.pugx.org/JBZoo/Event/license)](https://packagist.org/packages/JBZoo/Event)
+# JBZoo Community Edition [![Build Status](https://travis-ci.org/JBZoo/JBZoo.svg?branch=master)](https://travis-ci.org/JBZoo/JBZoo) [![License](https://poser.pugx.org/JBZoo/JBZoo/license)](https://packagist.org/packages/JBZoo/JBZoo)
 
 FREE Community Edition
 
@@ -25,8 +25,8 @@ First of all, we **strongly recommend** you to upgrade your JBZoo to the latest 
 After that just use special patch from [that repository](https://github.com/JBZoo/JBZoo-2-GPL-patches)
 
 ## Releases
- * [All Stable Versions](https://github.com/JBZoo/JBZoo/releases) [![Latest Stable Version](https://poser.pugx.org/jbzoo/jbzoo/v/stable)](https://packagist.org/packages/jbzoo/jbzoo)
- * [Last Unstable](https://github.com/JBZoo/JBZoo/archive/master.zip) [![Latest Unstable Version](https://poser.pugx.org/jbzoo/jbzoo/v/unstable)](https://packagist.org/packages/jbzoo/jbzoo)
+ * [All Stable Versions](https://github.com/JBZoo/JBZoo/releases) [![Latest Stable Version](https://poser.pugx.org/jbzoo/jbzoo/v/stable)](https://github.com/JBZoo/JBZoo/releases)
+ * [Last Unstable](https://github.com/JBZoo/JBZoo/archive/master.zip) [![Latest Unstable Version](https://poser.pugx.org/jbzoo/jbzoo/v/unstable)](https://github.com/JBZoo/JBZoo/archive/master.zip)
  * [Old Paid Versions](http://clientarea.jbzoo.com)
 
 ## Useful links
