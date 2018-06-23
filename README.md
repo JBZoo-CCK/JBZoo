@@ -23,13 +23,13 @@ FREE Community edition
    * opcache
    * mysqli
 
-### Realises
+### Releases
  * [Last Unstable](https://github.com/JBZoo/JBZoo/archive/master.zip)
  * [All Stable Versions](https://github.com/JBZoo/JBZoo/releases)
 
 
 ### How to run unit tests
-Now we are checking only copyrights and some codes tyle
+Now we are checking only copyrights and some codes style. [See details](https://travis-ci.org/JBZoo/JBZoo).
 
 ```sh
 make
@@ -40,6 +40,7 @@ make test
 ### Useful links
  * [JBZoo Website (English)](http://jbzoo.com)
  * [JBZoo Website (Russian)](http://jbzoo.ru)
+ * [JBZoo Demo](http://demo.jbzoo.com)
  * [Forum & Community](http://forum.jbzoo.com)
  * [JBZoo Marketplace (extentions)](http://forum.jbzoo.com/files/)
  * [YooTheme Zoo Component (Original)](https://www.yootheme.com/zoo)
