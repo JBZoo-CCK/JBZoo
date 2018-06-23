@@ -16,25 +16,75 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-<?php
 /**
- * JBZoo Application
- *
- * This file is part of the JBZoo CCK package.
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @package    Application
- * @license    GPL-2.0
- * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/JBZoo
- * @author     Denis Smetannikov <denis@jbzoo.com>
+ * Class BasketJBUniversalController
  */
+class BasketJBUniversalController extends JBUniversalController
+{
+    const SESSION_PREFIX = 'JBZOO_';
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+    /**
+     * @var JBModelConfig
+     */
+    protected $_config = null;
 
-}
+    /**
+     * @var JBCartHelper
+     */
+    protected $_jbcart = null;
+
+    /**
+     * @var JBMoneyHelper
+     */
+    protected $_jbmoney = null;
+
+    /**
+     * @var JBCartOrder
+     */
+    public $order = null;
+
+    /**
+     * @var JBCart
+     */
+    public $cart = null;
+
+    /**
+     * @param array $app
+     * @param array $config
+     */
+    public function __construct($app, $config = [])
+    {
+        parent::__construct($app, $config);
+
+        $this->app->jbdoc->noindex();
+        $this->_jbmoney = $this->app->jbmoney;
+        $this->_config = JBModelConfig::model()->getGroup('cart.config');
+        $this->cart = JBCart::getInstance();
+
+        $this->application = $this->app->zoo->getApplication();
+
+        // load template
+        $tmplName = $this->_config->get('tmpl_name', 'uikit');
+        $templates = $this->application->getTemplates();
+        $this->template = $this->application->getTemplate();
+
+        if (isset($templates[$tmplName])) {
+            $this->template = $templates[$tmplName];
+        }
+
+        if (!$this->_config->get('enable', 1)) {
+            $this->app->jbnotify->error('JBZOO_CART_DISABLED');
+        }
+
+        if (!$this->cart->canAccess($this->app->user->get())) {
+
+            $user = JFactory::getUser();
+            if (empty($user->id)) {
+                $url = 'index.php?option=com_users&view=login&return=' . base64_encode($this->app->jbenv->getCurrentUrl());
+                $this->setRedirect($url, JText::_('JBZOO_CART_NEED_LOGIN'));
+            } else {
+                $this->app->jbnotify->error('JBZOO_CART_UNABLE_ACCESS');
+            }
         }
     }
 
@@ -43,33 +93,33 @@ defined('_JEXEC') or die('Restricted access');
      */
     function index()
     {
-        $this->formRenderer               = $this->app->jbrenderer->create('Order');
-        $this->shippingRenderer           = $this->app->jbrenderer->create('Shipping');
-        $this->paymentRenderer            = $this->app->jbrenderer->create('Payment');
-        $this->validatorRenderer          = $this->app->jbrenderer->create('Validator');
-        $this->shippingFieldRenderer      = $this->app->jbrenderer->create('ShippingFields');
+        $this->formRenderer = $this->app->jbrenderer->create('Order');
+        $this->shippingRenderer = $this->app->jbrenderer->create('Shipping');
+        $this->paymentRenderer = $this->app->jbrenderer->create('Payment');
+        $this->validatorRenderer = $this->app->jbrenderer->create('Validator');
+        $this->shippingFieldRenderer = $this->app->jbrenderer->create('ShippingFields');
         $this->modifierOrderPriceRenderer = $this->app->jbrenderer->create('ModifierOrderPrice');
 
-        $this->shipping       = $this->app->jbshipping->getEnabled();
+        $this->shipping = $this->app->jbshipping->getEnabled();
         $this->shippingFields = $this->app->jbshipping->getFields();
-        $this->payment        = $this->app->jbpayment->getEnabled();
-        $this->modifierPrice  = $this->app->jbmodifierprice->getEnabled();
+        $this->payment = $this->app->jbpayment->getEnabled();
+        $this->modifierPrice = $this->app->jbmodifierprice->getEnabled();
 
-        $this->config    = $this->_config;
-        $this->Itemid    = $this->_jbrequest->get('Itemid');
-        $this->order     = $this->cart->newOrder();
-        $this->items     = $this->order->getItems(true);
-        $this->itemsHtml = $this->order->renderItems(array(
+        $this->config = $this->_config;
+        $this->Itemid = $this->_jbrequest->get('Itemid');
+        $this->order = $this->cart->newOrder();
+        $this->items = $this->order->getItems(true);
+        $this->itemsHtml = $this->order->renderItems([
             'image_width'  => $this->_config->get('tmpl_image_width', 75),
             'image_height' => $this->_config->get('tmpl_image_height', 75),
             'image_link'   => $this->_config->get('tmpl_image_link', 1),
             'item_link'    => $this->_config->get('tmpl_item_link', 1),
             'edit'         => true,
-        ));
+        ]);
 
         $jbnotify = $this->app->jbnotify;
 
-        $errors     = 0;
+        $errors = 0;
         $orderSaved = false;
 
         $isPaymentBtn = $this->app->jbrequest->get('create-pay');
@@ -153,7 +203,7 @@ defined('_JEXEC') or die('Restricted access');
      */
     public function delete()
     {
-        $id  = $this->_jbrequest->get('item_id');
+        $id = $this->_jbrequest->get('item_id');
         $key = $this->_jbrequest->get('key');
 
         $cart = JBCart::getInstance();
@@ -161,7 +211,7 @@ defined('_JEXEC') or die('Restricted access');
 
         $recount = $cart->recount();
 
-        $this->app->jbajax->send(array('cart' => $recount));
+        $this->app->jbajax->send(['cart' => $recount]);
     }
 
     /**
@@ -170,8 +220,8 @@ defined('_JEXEC') or die('Restricted access');
      */
     public function form()
     {
-        $orderId        = $this->_jbrequest->get('orderId');
-        $order          = JBModelOrder::model()->getById($orderId);
+        $orderId = $this->_jbrequest->get('orderId');
+        $order = JBModelOrder::model()->getById($orderId);
         $this->template = $this->application->getTemplate();
 
         if (!$orderId || !$order->id) {
@@ -179,7 +229,7 @@ defined('_JEXEC') or die('Restricted access');
         }
 
         if ($order->id) {
-            $payment           = $order->getPayment();
+            $payment = $order->getPayment();
             $this->paymentForm = $payment->renderPaymentForm();
 
             if ($this->_jbrequest->isPost()) {
@@ -217,22 +267,22 @@ defined('_JEXEC') or die('Restricted access');
     {
         // get request
         $value = (float)$this->_jbrequest->get('value');
-        $key   = $this->_jbrequest->get('key');
+        $key = $this->_jbrequest->get('key');
 
         $cart = JBCart::getInstance();
         if ($cart->inStock($value, $key)) {
             $cart->changeQuantity($key, $value);
             $recount = $cart->recount();
 
-            $this->app->jbajax->send(array('cart' => $recount));
+            $this->app->jbajax->send(['cart' => $recount]);
         }
 
-        $item    = $cart->getItem($key);
+        $item = $cart->getItem($key);
         $variant = isset($item['variant']) ? $item['variant'] : 0;
-        $this->app->jbajax->send(array(
+        $this->app->jbajax->send([
             'message'  => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE'),
             'quantity' => (float)$cart->getItemElement($item)->getBalance($variant)
-        ), false);
+        ], false);
     }
 
     /**
@@ -245,7 +295,7 @@ defined('_JEXEC') or die('Restricted access');
         $cart = JBCart::getInstance();
         $cart->setShipping($shipping);
 
-        $this->app->jbajax->send(array('cart' => $cart->recount()));
+        $this->app->jbajax->send(['cart' => $cart->recount()]);
     }
 
     /**
@@ -254,7 +304,7 @@ defined('_JEXEC') or die('Restricted access');
     public function reloadModule()
     {
         $moduleId = $this->_jbrequest->get('moduleId');
-        $html     = $this->app->jbjoomla->renderModuleById($moduleId);
+        $html = $this->app->jbjoomla->renderModuleById($moduleId);
         jexit($html);
     }
 
@@ -264,11 +314,11 @@ defined('_JEXEC') or die('Restricted access');
     public function callElement()
     {
         // get request
-        $group     = $this->app->request->getCmd('group', '');
+        $group = $this->app->request->getCmd('group', '');
         $elementId = $this->app->request->getCmd('element', '');
-        $orderId   = $this->app->request->getInt('order_id', '');
-        $method    = $this->app->request->getCmd('method', '');
-        $args      = $this->app->request->getVar('args', array(), 'default', 'array');
+        $orderId = $this->app->request->getInt('order_id', '');
+        $method = $this->app->request->getCmd('method', '');
+        $args = $this->app->request->getVar('args', [], 'default', 'array');
 
         if ($orderId > 0) {
             $order = JBModelOrder::model()->getById($orderId);
@@ -305,9 +355,9 @@ defined('_JEXEC') or die('Restricted access');
      */
     protected function _getShippingPrices()
     {
-        $request  = $this->_jbrequest->get('shipping');
+        $request = $this->_jbrequest->get('shipping');
         $elements = $this->app->jbshipping->getEnabled();
-        $result   = array();
+        $result = [];
 
         if (!empty($request)) {
             foreach ($request as $identifier => $data) {
@@ -315,7 +365,7 @@ defined('_JEXEC') or die('Restricted access');
                 if (isset($elements[$identifier])) {
 
                     $service = $elements[$identifier];
-                    $data    = $service->mergeParams($data);
+                    $data = $service->mergeParams($data);
 
                     $result[$identifier] = $service->getPrice($data);
                 }

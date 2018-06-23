@@ -10,19 +10,36 @@
     @license    GPL-2.0
     @copyright  Copyright (C) JBZoo.com, All rights reserved.
     @link       https://github.com/JBZoo/JBZoo
---><?xml version="1.0" encoding="UTF-8" ?>
-<!--
-    JBZoo Application
-
-    This file is part of the JBZoo CCK package.
-    For the full copyright and license information, please view the LICENSE
-    file that was distributed with this source code.
-
-    @package    Application
-    @license    GPL-2.0
-    @copyright  Copyright (C) JBZoo.com, All rights reserved.
-    @link       https://github.com/JBZoo/JBZoo
 -->
+<element>
+    <params group="render">
+
+        <param name="jbzoo_filter_render"
+               type="list"
+               label="JBZOO_ELEMENT_TEMPLATE"
+               description="JBZOO_ELEMENT_TEMPLATE_DESC"
+               default="_auto_"
+        >
+            <option value="_auto_">JBZOO_ELEMENT_TEMPLATE_AUTO</option>
+            <option value="text">JBZOO_ELEMENT_TEMPLATE_TEXT</option>
+            <option value="hidden">JBZOO_ELEMENT_TEMPLATE_HIDDEN</option>
+        </param>
+
+        <param name="jbzoo_filter_default"
+               type="text"
+               default=""
+               label="JBZOO_FILTER_DEFAULT"
+               description="JBZOO_FILTER_DEFAULT_DESC"
+        />
+
+        <param name="jbzoo_filter_placeholder"
+               type="text"
+               default=""
+               label="JBZOO_FILTER_PLACEHOLDER"
+               description="JBZOO_FILTER_PLACEHOLDER_DESC"
+        />
+
+        <!-- jquery.ui autocomplete -->
         <param name="@spacer"
                type="jbspacer"
                default="JBZOO_AUTOCOMPLETE_TEXT_ONLY"/>

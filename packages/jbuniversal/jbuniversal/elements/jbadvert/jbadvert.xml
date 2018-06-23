@@ -10,79 +10,91 @@
     @license    GPL-2.0
     @copyright  Copyright (C) JBZoo.com, All rights reserved.
     @link       https://github.com/JBZoo/JBZoo
---><?xml version="1.0" encoding="UTF-8" ?>
-<!--
-    JBZoo Application
-
-    This file is part of the JBZoo CCK package.
-    For the full copyright and license information, please view the LICENSE
-    file that was distributed with this source code.
-
-    @package    Application
-    @license    GPL-2.0
-    @copyright  Copyright (C) JBZoo.com, All rights reserved.
-    @link       https://github.com/JBZoo/JBZoo
---><?xml version="1.0" encoding="UTF-8" ?>
-<!--
-    JBZoo Application
-
-    This file is part of the JBZoo CCK package.
-    For the full copyright and license information, please view the LICENSE
-    file that was distributed with this source code.
-
-    @package    Application
-    @license    GPL-2.0
-    @copyright  Copyright (C) JBZoo.com, All rights reserved.
-    @link       https://github.com/JBZoo/JBZoo
---><?xml version="1.0" encoding="UTF-8" ?>
-<!--
-    JBZoo Application
-
-    This file is part of the JBZoo CCK package.
-    For the full copyright and license information, please view the LICENSE
-    file that was distributed with this source code.
-
-    @package    Application
-    @license    GPL-2.0
-    @copyright  Copyright (C) JBZoo.com, All rights reserved.
-    @link       https://github.com/JBZoo/JBZoo
---><?xml version="1.0" encoding="UTF-8" ?>
-<!--
-    JBZoo Application
-
-    This file is part of the JBZoo CCK package.
-    For the full copyright and license information, please view the LICENSE
-    file that was distributed with this source code.
-
-    @package    Application
-    @license    GPL-2.0
-    @copyright  Copyright (C) JBZoo.com, All rights reserved.
-    @link       https://github.com/JBZoo/JBZoo
---><?xml version="1.0" encoding="UTF-8" ?>
-<!--
-    JBZoo Application
-
-    This file is part of the JBZoo CCK package.
-    For the full copyright and license information, please view the LICENSE
-    file that was distributed with this source code.
-
-    @package    Application
-    @license    GPL-2.0
-    @copyright  Copyright (C) JBZoo.com, All rights reserved.
-    @link       https://github.com/JBZoo/JBZoo
---><?xml version="1.0" encoding="UTF-8" ?>
-<!--
-    JBZoo Application
-
-    This file is part of the JBZoo CCK package.
-    For the full copyright and license information, please view the LICENSE
-    file that was distributed with this source code.
-
-    @package    Application
-    @license    GPL-2.0
-    @copyright  Copyright (C) JBZoo.com, All rights reserved.
-    @link       https://github.com/JBZoo/JBZoo
 -->
+<element type="jbadvert" group="JBZoo" hidden="false" orderable="true">
+    <name>JBZoo Advert</name>
+    <description>Price element for catalog</description>
+    <author>JBZoo.com</author>
+    <creationDate>2013 07</creationDate>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+
+    <params>
+
+        <param name="mode" type="list" default="publish" label="JBZOO_JBADVERT_MODE"
+               description="JBZOO_JBADVERT_MODE_DESC">
+            <option value="publish">JBZOO_JBADVERT_MODE_PUBLISH</option>
+            <option value="priority">JBZOO_JBADVERT_MODE_PRIORITY</option>
+            <option value="category">JBZOO_JBADVERT_MODE_CATEGORY</option>
+            <option value="expiredate">JBZOO_JBADVERT_MODE_EXPIREDATE</option>
+            <option value="element">JBZOO_JBADVERT_MODE_ELEMENT</option>
+            <option value="php">JBZOO_JBADVERT_MODE_PHP</option>
+        </param>
+
+        <param name="price" type="text" default="" label="JBZOO_JBADVERT_PRICE"
+               description="JBZOO_JBADVERT_PRICE_DESC"/>
+
+        <!-- priority -->
+        <param name="item_priority" type="jbspacer" default="JBZOO_JBADVERT_ITEM_PRIORITY"/>
+
+        <param name="item_priority_value" type="text" default="10" label="JBZOO_JBADVERT_ITEM_PRIORITY_VALUE"
+               description="JBZOO_JBADVERT_ITEM_PRIORITY_VALUE_DESC"/>
+
+        <!-- category -->
+        <param name="item_category" type="jbspacer" default="JBZOO_JBADVERT_ITEM_CATEGORY"/>
+
+        <param name="item_category_value" type="jbapplication" default="0" label="JBZOO_JBADVERT_ITEM_CATEGORY_VALUE"
+               description="JBZOO_JBADVERT_ITEM_CATEGORY_VALUE_DESC" categories="1" frontpage="1"/>
+
+        <!-- expire date -->
+        <param name="item_expiredate" type="jbspacer" default="JBZOO_JBADVERT_ITEM_EXPIREDATE"/>
+
+        <param name="item_expiredate_timeout" type="text" default="30" label="JBZOO_JBADVERT_ITEM_EXPIREDATE_TIMEOUT"
+               description="JBZOO_JBADVERT_ITEM_EXPIREDATE_TIMEOUT_DESC"/>
+
+        <!-- element -->
+        <param name="item_element" type="jbspacer" default="JBZOO_JBADVERT_ITEM_ELEMENT"/>
+
+        <param name="item_element_id" type="jbelementlistbytype" core="1" user="1" default=""
+               label="JBZOO_JBADVERT_ITEM_ELEMENT_ID"
+               description="JBZOO_JBADVERT_ITEM_ELEMENT_ID_DESC"/>
+
+        <param name="item_element_value" type="textarea" default="" label="JBZOO_JBADVERT_ITEM_ELEMENT_VALUE"
+               description="JBZOO_JBADVERT_ITEM_ELEMENT_VALUE_DESC"/>
+
+        <!-- php -->
+        <param name="item_php" type="jbspacer" default="JBZOO_JBADVERT_ITEM_PHP"/>
+
+        <param name="item_php_eval" type="textarea" default="" label="JBZOO_JBADVERT_ITEM_PHP_EVAL"
+               description="JBZOO_JBADVERT_ITEM_PHP_EVAL_DESC"/>
+    </params>
+
+    <params group="submission">
+
+        <param name="required" type="hidden" default="0"/>
+
+        <param name="name_show" type="jbbool" default="1" label="JBZOO_JBADVERT_NAME_SHOW"
+               description="JBZOO_JBADVERT_NAME_SHOW_DESC"/>
+
+        <param name="price_show" type="jbbool" default="1" label="JBZOO_JBADVERT_PRICE_SHOW"
+               description="JBZOO_JBADVERT_PRICE_SHOW_DESC"/>
+
+        <param name="control_type" type="list" default="radio" label="JBZOO_JBADVERT_CONTROL_TYPE"
+               description="JBZOO_JBADVERT_CONTROL_TYPE_DESC">
+            <option value="hidden">JBZOO_JBADVERT_CONTROL_TYPE_HIDDEN</option>
+            <option value="button">JBZOO_JBADVERT_CONTROL_TYPE_BUTTON</option>
+            <option value="radio">JBZOO_JBADVERT_CONTROL_TYPE_RADIO</option>
+            <option value="radio-ui">JBZOO_JBADVERT_CONTROL_TYPE_RADIO_UI</option>
+            <option value="checkbox">JBZOO_JBADVERT_CONTROL_TYPE_CHECKBOX</option>
+            <option value="checkbox-ui">JBZOO_JBADVERT_CONTROL_TYPE_RADIO_UI</option>
+        </param>
+
+        <!--
+        <param name="show_order_link" type="textarea" default="" label="JBZOO_JBADVERT_SHOW_ORDER_LINK"
+               description="JBZOO_JBADVERT_SHOW_ORDER_LINK_DESC"/>
+        -->
 
     </params>
 

@@ -12,14 +12,10 @@
  * @link       https://github.com/JBZoo/JBZoo
  */
 
-if (!defined('PROJECT_ROOT')) { // for PHPUnit process isolation
-    !defined('PROJECT_ROOT') && define('PROJECT_ROOT', realpath('.'));
-    !defined('PROJECT_SRC') && define('PROJECT_SRC', PROJECT_ROOT . DS . 'src');
-    !defined('PROJECT_TESTS') && define('PROJECT_TESTS', PROJECT_ROOT . DS . 'tests');
-}
+define('PATH_ROOT', realpath(__DIR__ . '/../'));
 
 // Main autoload
-if ($autoload = realpath('./vendor/autoload.php')) {
+if ($autoload = realpath(PATH_ROOT . '/vendor/autoload.php')) {
     require_once $autoload;
 } else {
     echo 'Please execute "make update" in project root directory';
