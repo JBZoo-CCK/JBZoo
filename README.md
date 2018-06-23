@@ -24,18 +24,22 @@ FREE Community Edition
  * [Last Unstable](https://github.com/JBZoo/JBZoo/archive/master.zip)
  * [All Stable Versions](https://github.com/JBZoo/JBZoo/releases)
 
-### Our websites
+### General
  * [English](http://jbzoo.com)
  * [Russian](http://jbzoo.ru)
  * [JBZoo Demo](http://demo.jbzoo.com)
  * [Forum & Community](http://forum.jbzoo.com)
  * [JBZoo Marketplace (extentions)](http://forum.jbzoo.com/files/)
 
-### Others
+### Related projects
+ * [JBZoo CLI extention](https://github.com/JBZoo/CCK-Cli)
+ * [JBlank Template](https://github.com/JBZoo/JBlank)
+ * [Our libs and tools](https://github.com/JBZoo)
+
+### About ZOO
  * [YT Zoo Component (Original)](https://www.yootheme.com/zoo)
  * [YT Zoo Component (JBZoo Community Edition)](https://github.com/JBZoo/YOOtheme-Zoo)
  * [YT Zoo Performance Hacks](https://github.com/JBZoo/Zoo-Hacks)
- * [Our libs and tools](https://github.com/JBZoo)
 
 
 ## Author and General Developer
@@ -49,8 +53,8 @@ FREE Community Edition
  * [And many others...](https://github.com/JBZoo/JBZoo/graphs/contributors)
 
 
-## How to run unit tests
-Now we are checking only copyrights and some codes style. [See details](https://travis-ci.org/JBZoo/JBZoo).
+## PHP Unit tests
+Unfortunately now we are checking only copyrights and some code styles. [See details](https://travis-ci.org/JBZoo/JBZoo).
 
 ```sh
 make
