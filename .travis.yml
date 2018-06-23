@@ -1,0 +1,13 @@
+language: php
+
+php:
+  - 7.2
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 7.2
+
+script:
+  - make
+  - make test-all

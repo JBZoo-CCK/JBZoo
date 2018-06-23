@@ -1,4 +1,4 @@
-# JBZoo Community Edition
+# JBZoo Community Edition [![Build Status](https://travis-ci.org/JBZoo/JBZoo.svg?branch=master)](https://travis-ci.org/JBZoo/JBZoo)
 
 FREE Community edition
 
@@ -7,10 +7,12 @@ FREE Community edition
  * No ioncube or any other PHP-encoders (open source)
  * No actiovations
  * No domain limits
- * For private/commercial use (see license conditions)
+ * For any private/commercial use (see license conditions)
+ * On your own risk (see license conditions)
+ * And of course you can add your fixes via Github (PR)
 
 
-## System requirements
+### System requirements
  * YT Zoo v3.3.28+
  * Joomla v3.8.x+
  * Joomla v4.0 (maybe...)
@@ -21,8 +23,21 @@ FREE Community edition
    * opcache
    * mysqli
 
+### Realises
+ * [Last Unstable](https://github.com/JBZoo/JBZoo/archive/master.zip)
+ * [All Stable Versions](https://github.com/JBZoo/JBZoo/releases)
 
-## Useful links
+
+### How to run unit tests
+Now we are checking only copyrights and some codes tyle
+
+```sh
+make
+make test
+```
+
+
+### Useful links
  * [JBZoo Website (English)](http://jbzoo.com)
  * [JBZoo Website (Russian)](http://jbzoo.ru)
  * [Forum & Community](http://forum.jbzoo.com)
@@ -33,7 +48,7 @@ FREE Community edition
  * [Our libs and tools](https://github.com/JBZoo)
 
 
-### Author and Main Developer
+### Author and General Developer
  * [Denis Smetannikov](https://github.com/SmetDenis) (SmetDenis)
 
 ### Contributors
