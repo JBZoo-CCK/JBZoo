@@ -23,24 +23,27 @@ FREE Community Edition
    * opcache
    * mysqli
 
-## Releases
+## Useful links
+
+### Releases
  * [Last Unstable](https://github.com/JBZoo/JBZoo/archive/master.zip)
  * [All Stable Versions](https://github.com/JBZoo/JBZoo/releases)
 
-
-### Useful links
- * [JBZoo Website (English)](http://jbzoo.com)
- * [JBZoo Website (Russian)](http://jbzoo.ru)
+### Our websites
+ * [English](http://jbzoo.com)
+ * [Russian](http://jbzoo.ru)
  * [JBZoo Demo](http://demo.jbzoo.com)
  * [Forum & Community](http://forum.jbzoo.com)
  * [JBZoo Marketplace (extentions)](http://forum.jbzoo.com/files/)
+
+### Others
  * [YT Zoo Component (Original)](https://www.yootheme.com/zoo)
  * [YT Zoo Component (JBZoo Community Edition)](https://github.com/JBZoo/YOOtheme-Zoo)
  * [YT Zoo Performance Hacks](https://github.com/JBZoo/Zoo-Hacks)
  * [Our libs and tools](https://github.com/JBZoo)
 
 
-### Author and General Developer
+## Author and General Developer
  * [Denis Smetannikov](https://github.com/SmetDenis) (SmetDenis)
 
 
