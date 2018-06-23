@@ -11,12 +11,26 @@
 # @link       https://github.com/JBZoo/JBZoo
 #
 
-#### Project Update & Building (complex commands) ######################################################################
 update:
-	@echo "$(C_AR)>>> >>> >>> >>> $(C_T) Update project (DEV) $(CE)"
-	@make off
-	@make clean-cache
-	@make clean-build
-	@make update-composer
-	@make update-bower
-	@make on
+	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Update project \033[0m"
+	@composer update --optimize-autoloader --no-interaction --no-progress
+	@echo ""
+
+validate:
+	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Composer validate \033[0m"
+	@composer validate --no-interaction
+	@echo ""
+
+test:
+	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Run unit-tests \033[0m"
+	@php ./vendor/phpunit/phpunit/phpunit
+	@echo ""
+
+reset:
+	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Hard reset \033[0m"
+	@git reset --hard
+
+clean:
+	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Cleanup project \033[0m"
+	@rm -rf ./vendor/
+	@rm -f ./composer.lock
