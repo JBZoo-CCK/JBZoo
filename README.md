@@ -1,4 +1,4 @@
-# JBZoo Community Edition [![Build Status](https://travis-ci.org/JBZoo/JBZoo.svg?branch=master)](https://travis-ci.org/JBZoo/JBZoo)
+# JBZoo Community Edition [![Build Status](https://travis-ci.org/JBZoo/JBZoo.svg?branch=master)](https://travis-ci.org/JBZoo/JBZoo) [![Latest Version](https://poser.pugx.org/JBZoo/JBZoo/v/stable)](https://github.com/JBZoo/JBZoo/releases)
 
 FREE Community Edition
 
