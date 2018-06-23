@@ -1,7 +1,29 @@
+#
+# JBZoo Application
+#
+# This file is part of the JBZoo CCK package.
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+#
+# @package    Application
+# @license    GPL-2.0
+# @copyright  Copyright (C) JBZoo.com, All rights reserved.
+# @link       https://github.com/JBZoo/JBZoo
+#
+# Note: All ini files need to be saved as UTF-8 (no BOM)
+#
+
 # Editor & OS stuff
-.idea/
+.idea
 .DS_Store
 
 # composer
 /vendor/*
 /composer.lock
+
+# JBZoo/Zoo service files
+positions.config
+packages/jbuniversal/jbuniversal/types/*.config
+packages/jbuniversal/jbuniversal/tmp/*
+packages/jbuniversal/jbuniversal/templates/uikit/renderer/item/*/
+packages/jbuniversal/jbuniversal/config/licence.*.php
