@@ -20,6 +20,7 @@ FREE Community Edition
 
 ## How to GPL previous versions <= 2.4.x
 First of all, we **strongly recommend** you to upgrade your JBZoo to the latest paid version 2.4.x
+
 After that just use paths from [that repository](https://github.com/JBZoo/JBZoo-2-GPL-patches)
 
 ## Releases
