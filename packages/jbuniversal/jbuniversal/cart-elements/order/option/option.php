@@ -1,12 +1,16 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Andrey Voytsehovsky <kess@jbzoo.com>
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
@@ -23,9 +27,9 @@ class JBCartElementOrderOption extends JBCartElementOrder
      * @param array $params
      * @return bool
      */
-    public function hasValue($params = array())
+    public function hasValue($params = [])
     {
-        foreach ($this->get('option', array()) as $option) {
+        foreach ($this->get('option', []) as $option) {
             if (!empty($option)) {
                 return true;
             }
@@ -39,7 +43,7 @@ class JBCartElementOrderOption extends JBCartElementOrder
      * @param array $params
      * @return mixed|string
      */
-    public function render($params = array())
+    public function render($params = [])
     {
         return $this->edit($params);
     }
@@ -84,12 +88,12 @@ class JBCartElementOrderOption extends JBCartElementOrder
      * @param array $params
      * @return string
      */
-    public function edit($params = array())
+    public function edit($params = [])
     {
-        $selected_options = $this->get('option', array());
+        $selected_options = $this->get('option', []);
 
-        $options = array();
-        foreach ($this->config->get('option', array()) as $option) {
+        $options = [];
+        foreach ($this->config->get('option', []) as $option) {
             if (in_array($option['value'], $selected_options)) {
                 $options[] = $option['name'];
             }
@@ -122,16 +126,19 @@ class JBCartElementOrderOption extends JBCartElementOrder
      */
     public function validateSubmission($value, $params)
     {
-        $params   = $this->app->data->create($params);
-        $value    = $this->app->data->create($value);
-        $options  = array('required' => $params->get('required'));
-        $messages = array('required' => 'Please choose an option.');
+        $params = $this->app->data->create($params);
+        $value = $this->app->data->create($value);
+        $options = ['required' => $params->get('required')];
+        $messages = ['required' => 'Please choose an option.'];
 
         $option = $this->app->validator
             ->create('foreach', $this->app->validator->create('string', $options, $messages), $options, $messages)
             ->clean($value->get('option'));
 
-        $config_options = array_map(create_function('$o', 'return @$o["value"];'), $this->config->get('option', array()));
+        $config_options = array_map(function ($o) {
+            return @$o["value"];
+        }, $this->config->get('option', []));
+
         foreach ($option as $key => $value) {
             if (!in_array($value, $config_options)) {
                 unset($option[$key]);

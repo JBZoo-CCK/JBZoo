@@ -1,18 +1,20 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ * JBZoo Application
  *
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
 
 /**
  * Class ElementJBRelatedAuto
@@ -30,7 +32,7 @@ class ElementJBRelatedAuto extends Element
      * @param array $params
      * @return bool
      */
-    public function hasValue($params = array())
+    public function hasValue($params = [])
     {
 
         if ((int)$this->get('value', 1)) {
@@ -57,10 +59,10 @@ class ElementJBRelatedAuto extends Element
      */
     private function _getRelatedAuto($params)
     {
-        
+
         if ($this->_relatedItems === null) {
 
-            $item  = $this->getItem();
+            $item = $this->getItem();
             $model = JBModelRelated::model();
 
             $this->_relatedItems = $model->getRelated($item, $this->config, $params);
@@ -76,18 +78,21 @@ class ElementJBRelatedAuto extends Element
      * @param array $params
      * @return mixed
      */
-    public function render($params = array())
+    public function render($params = [])
     {
         // init vars
         $params = $this->app->data->create($params);
 
         $items = $this->_getRelatedAuto($params);
 
-        $renderer = $this->app->renderer->create('item')->addPath(array($this->app->path->path('component.site:'), $this->_item->getApplication()->getTemplate()->getPath()));
+        $renderer = $this->app->renderer->create('item')->addPath([
+            $this->app->path->path('component.site:'),
+            $this->_item->getApplication()->getTemplate()->getPath()
+        ]);
 
         // create output
-        $layout      = $params->get('layout');
-        $itemsOutput = array();
+        $layout = $params->get('layout');
+        $itemsOutput = [];
 
         foreach ($items as $item) {
 
@@ -107,10 +112,10 @@ class ElementJBRelatedAuto extends Element
         if ($columns > 0 && $params->get('layout', false)) {
             if ($layout = $this->getLayout()) {
                 return self::renderLayout(
-                    $layout, array(
+                    $layout, [
                         'items'   => $itemsOutput,
                         'columns' => $columns
-                    )
+                    ]
                 );
             }
         }
@@ -131,9 +136,9 @@ class ElementJBRelatedAuto extends Element
             $order = $this->app->itemorder->convert($order);
         }
 
-        $items    = (array)$items;
-        $order    = (array)$order;
-        $sorted   = array();
+        $items = (array)$items;
+        $order = (array)$order;
+        $sorted = [];
         $reversed = false;
 
         // remove empty values
@@ -161,7 +166,9 @@ class ElementJBRelatedAuto extends Element
 
         // if there is a none core element present, ordering will only take place for those elements
         if (count($order) > 1) {
-            $order = array_filter($order, create_function('$a', 'return strpos($a, "_item") === false;'));
+            $order = array_filter($order, function ($a) {
+                return strpos($a, '_item') === false;
+            });
         }
 
         if (!empty($order)) {

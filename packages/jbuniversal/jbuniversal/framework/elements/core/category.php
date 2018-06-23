@@ -1,18 +1,20 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ * JBZoo Application
  *
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
 
 /**
  * Class JBCSVItemCoreCategory
@@ -24,7 +26,7 @@ class JBCSVItemCoreCategory extends JBCSVItem
      */
     public function toCSV()
     {
-        $result = array();
+        $result = [];
 
         $categories = JBModelItem::model()->getItemCategories($this->_item->id);
 
@@ -42,7 +44,7 @@ class JBCSVItemCoreCategory extends JBCSVItem
     }
 
     /**
-     * @param $value
+     * @param      $value
      * @param null $position
      * @return Item|void
      */
@@ -50,15 +52,19 @@ class JBCSVItemCoreCategory extends JBCSVItem
     {
         $categoryTable = $this->app->table->category;
 
-        $application      = $this->_item->getApplication();
-        $appCategories    = $this->app->table->category->getAll($application->id);
-        $appCategoryAlias = array_map(create_function('$cat', 'return $cat->alias;'), $appCategories);
-        $appCategoryNames = array_map(create_function('$cat', 'return $cat->name;'), $appCategories);
+        $application = $this->_item->getApplication();
+        $appCategories = $this->app->table->category->getAll($application->id);
+        $appCategoryAlias = array_map(function ($cat) {
+            return $cat->alias;
+        }, $appCategories);
+        $appCategoryNames = array_map(function ($cat) {
+            return $cat->name;
+        }, $appCategories);
 
         $itemCategories = $this->_getArray($value, 'simple');
 
         if ($position == 1) {
-            $relatedCategories = array();
+            $relatedCategories = [];
         } else {
             $relatedCategories = JBModelItem::model()->getRelatedCategories($this->_item->id);
         }
@@ -66,9 +72,9 @@ class JBCSVItemCoreCategory extends JBCSVItem
         try {
             // store categories
             foreach ($itemCategories as $categoryName) {
-                $names      = array_filter(explode(JBCSVItem::SEP_ROWS, $categoryName));
+                $names = array_filter(explode(JBCSVItem::SEP_ROWS, $categoryName));
                 $previousId = 0;
-                $found      = true;
+                $found = true;
 
                 for ($i = 0; $i < count($names); $i++) {
 
@@ -93,26 +99,26 @@ class JBCSVItemCoreCategory extends JBCSVItem
 
                         $found = false;
 
-                        $category                 = $this->app->object->create('Category');
+                        $category = $this->app->object->create('Category');
                         $category->application_id = $application->id;
-                        $category->name           = JString::trim($name);
-                        $category->parent         = $previousId;
+                        $category->name = JString::trim($name);
+                        $category->parent = $previousId;
 
                         // set a valid category alias
-                        $categoryAlias   = $this->app->string->sluggify($alias ? $alias : $name);
-                   
+                        $categoryAlias = $this->app->string->sluggify($alias ? $alias : $name);
+
                         $category->alias = $categoryAlias;
-                        
+
                         if (($this->app->jbconfig->getList('config.custom')->get('del_empty_item_fromcsv') == 0)) {
                             $category->alias = $this->app->alias->category->getUniqueAlias(0, $categoryAlias);
                         }
 
                         try {
                             $categoryTable->save($category);
-                            $appCategories[$category->id]    = $category;
+                            $appCategories[$category->id] = $category;
                             $appCategoryNames[$category->id] = $category->name;
                             $appCategoryAlias[$category->id] = $aliasMatches[$alias] = $category->alias;
-                            $id                              = $category->id;
+                            $id = $category->id;
 
                         } catch (CategoryTableException $e) {
                         }

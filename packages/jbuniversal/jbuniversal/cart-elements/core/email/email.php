@@ -1,12 +1,16 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Alexander Oganov <t_tapak@yahoo.com>
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
@@ -25,7 +29,7 @@ abstract class JBCartElementEmail extends JBCartElement
     /**
      * @param JMail $mailer
      */
-    public function setMailer(JMail $mailer)
+    public function setMailer($mailer)
     {
         $this->_mailer = $mailer;
     }
@@ -35,11 +39,11 @@ abstract class JBCartElementEmail extends JBCartElement
      * @param  array $attrs
      * @return mixed
      */
-    public function getAttrs($attrs = array())
+    public function getAttrs($attrs = [])
     {
-        $default = array(
+        $default = [
             'align' => 'left',
-        );
+        ];
 
         if (empty($attrs)) {
             return $this->app->jbhtml->buildAttrs($default);
@@ -56,14 +60,14 @@ abstract class JBCartElementEmail extends JBCartElement
      * @param  array $styles
      * @return mixed
      */
-    public function getStyles($styles = array(), $merge = false)
+    public function getStyles($styles = [], $merge = false)
     {
-        $default = array(
+        $default = [
             'text-align'    => 'left',
             'border-bottom' => '1px solid #dddddd',
             'font-size'     => '14px',
             'color'         => '#333'
-        );
+        ];
 
         if (empty($styles)) {
             return $this->buildStyles($default);

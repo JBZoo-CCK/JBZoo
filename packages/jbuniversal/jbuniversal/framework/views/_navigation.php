@@ -1,12 +1,16 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
@@ -17,102 +21,101 @@ $jbrouter = $this->app->jbrouter;
 $ctrl = $this->app->jbrequest->getCtrl();
 $task = $this->app->jbrequest->get('task', 'index');
 
-$curUrl  = $jbrouter->admin(array('controller' => $ctrl, 'task' => $task));
+$curUrl = $jbrouter->admin(['controller' => $ctrl, 'task' => $task]);
 $curMenu = $ctrl;
 
-$allItems = array(
-    'jbinfo'    => array(
-        'info' => array(
-            'custom'       => array('index'),
-            'requirements' => array('requirements'),
-            'licence'      => array('licence'),
-        ),
-        'test' => array(
-            'systemreport' => array('systemreport'),
-            'performance'  => array('performance'),
-        )
-    ),
-    'jbtools'   => array(
-        'jbzoo'   => array(
-            'reindex'    => array('reindex'),
-            'checkfiles' => array('checkfiles')
-        ),
-        'zoo'     => array(
-            'cleandb'    => array('cleandb'),
-            'checkfiles' => array('checkfileszoo'),
-        ),
-        'migrate' => array(
-            'migrate' => array('migrate')
-        )
-    ),
-    'jbimport'  => array(
-        'jbzoo' => array(
-            'items'      => array('items'),
-            'categories' => array('categories'),
-        ),
-        'zoo'   => array(
-            'standard' => array('standard'),
-        ),
-    ),
-    'jbconfig'  => array(
-        'jbzoo' => array(
-            'index'     => array('index'),
-            'zoohack'   => array('zoohack'),
-            'assets'    => array('assets'),
-            'yandexYml' => array('yandexYml'),
-            'sef'       => array('sef'),
-        )
-    ),
-    'jbcart'    => array(
-        'basic'    => array(
-            'index' => array('index', 'params' => array('icon' => 'line-chart')),
-        ),
-        'config'   => array(
-            'config'   => array('config', 'params' => array('icon' => 'cog')),
-            'urls'     => array('urls', 'params' => array('icon' => 'link')),
-            'status'   => array('status', 'params' => array('icon' => 'bookmark')),
-            'currency' => array('currency', 'params' => array('icon' => 'eur')),
-        ),
-        'price'    => array(
-            'price'             => array('price', 'params' => array('icon' => 'money')),
-            'jbpriceTmpl'       => array('priceTmpl', 'params' => array('icon' => 'columns')),
-            'jbpriceFilterTmpl' => array('priceFilterTmpl', 'params' => array('icon' => 'filter')),
-        ),
-        'order'    => array(
-            'fields'   => array('fields', 'params' => array('icon' => 'check-square-o')),
-            'cartTmpl' => array('cartTmpl', 'params' => array('icon' => 'columns')),
-        ),
-        'shipping' => array(
-            'shipping'      => array('shipping', 'params' => array('icon' => 'truck')),
-            'shippingfield' => array('shippingfield', 'params' => array('icon' => 'check-square-o')),
-        ),
-        'payment'  => array(
-            'payment' => array('payment', 'params' => array('icon' => 'credit-card')),
-        ),
-        'events'   => array(
-            'modifier_item_price'  => array('modifierItemPrice', 'params' => array('icon' => 'cubes')),
-            'modifier_order_price' => array('modifierOrderPrice', 'params' => array('icon' => 'cubes')),
-            'validator'            => array('validator', 'params' => array('icon' => 'cube')),
-            'notification'         => array('notification', 'params' => array('icon' => 'envelope-o')),
-            'statusEvents'         => array('statusEvents', 'params' => array('icon' => 'code-fork')),
-        ),
-        'others'   => array(
-            'emailTmpl' => array('emailTmpl', 'params' => array('icon' => 'envelope-o')),
-        )
-    ),
-    'jbexport'  => array(
-        'jbzoo' => array(
-            'items'      => array('items'),
-            'categories' => array('categories'),
-            'types'      => array('types'),
-            'yandexYml'  => array('yandexYml'),
-        ),
-        'zoo'   => array(
-            'standard'  => array('standard'),
-            'zoobackup' => array('zoobackup'),
-        ),
-    ),
-);
+$allItems = [
+    'jbinfo'   => [
+        'info' => [
+            'custom'       => ['index'],
+            'requirements' => ['requirements'],
+        ],
+        'test' => [
+            'systemreport' => ['systemreport'],
+            'performance'  => ['performance'],
+        ]
+    ],
+    'jbtools'  => [
+        'jbzoo'   => [
+            'reindex'    => ['reindex'],
+            'checkfiles' => ['checkfiles']
+        ],
+        'zoo'     => [
+            'cleandb'    => ['cleandb'],
+            'checkfiles' => ['checkfileszoo'],
+        ],
+        'migrate' => [
+            'migrate' => ['migrate']
+        ]
+    ],
+    'jbimport' => [
+        'jbzoo' => [
+            'items'      => ['items'],
+            'categories' => ['categories'],
+        ],
+        'zoo'   => [
+            'standard' => ['standard'],
+        ],
+    ],
+    'jbconfig' => [
+        'jbzoo' => [
+            'index'     => ['index'],
+            'zoohack'   => ['zoohack'],
+            'assets'    => ['assets'],
+            'yandexYml' => ['yandexYml'],
+            'sef'       => ['sef'],
+        ]
+    ],
+    'jbcart'   => [
+        'basic'    => [
+            'index' => ['index', 'params' => ['icon' => 'line-chart']],
+        ],
+        'config'   => [
+            'config'   => ['config', 'params' => ['icon' => 'cog']],
+            'urls'     => ['urls', 'params' => ['icon' => 'link']],
+            'status'   => ['status', 'params' => ['icon' => 'bookmark']],
+            'currency' => ['currency', 'params' => ['icon' => 'eur']],
+        ],
+        'price'    => [
+            'price'             => ['price', 'params' => ['icon' => 'money']],
+            'jbpriceTmpl'       => ['priceTmpl', 'params' => ['icon' => 'columns']],
+            'jbpriceFilterTmpl' => ['priceFilterTmpl', 'params' => ['icon' => 'filter']],
+        ],
+        'order'    => [
+            'fields'   => ['fields', 'params' => ['icon' => 'check-square-o']],
+            'cartTmpl' => ['cartTmpl', 'params' => ['icon' => 'columns']],
+        ],
+        'shipping' => [
+            'shipping'      => ['shipping', 'params' => ['icon' => 'truck']],
+            'shippingfield' => ['shippingfield', 'params' => ['icon' => 'check-square-o']],
+        ],
+        'payment'  => [
+            'payment' => ['payment', 'params' => ['icon' => 'credit-card']],
+        ],
+        'events'   => [
+            'modifier_item_price'  => ['modifierItemPrice', 'params' => ['icon' => 'cubes']],
+            'modifier_order_price' => ['modifierOrderPrice', 'params' => ['icon' => 'cubes']],
+            'validator'            => ['validator', 'params' => ['icon' => 'cube']],
+            'notification'         => ['notification', 'params' => ['icon' => 'envelope-o']],
+            'statusEvents'         => ['statusEvents', 'params' => ['icon' => 'code-fork']],
+        ],
+        'others'   => [
+            'emailTmpl' => ['emailTmpl', 'params' => ['icon' => 'envelope-o']],
+        ]
+    ],
+    'jbexport' => [
+        'jbzoo' => [
+            'items'      => ['items'],
+            'categories' => ['categories'],
+            'types'      => ['types'],
+            'yandexYml'  => ['yandexYml'],
+        ],
+        'zoo'   => [
+            'standard'  => ['standard'],
+            'zoobackup' => ['zoobackup'],
+        ],
+    ],
+];
 
 if (isset($allItems[$curMenu])) {
     $headItems = $allItems[$curMenu];
@@ -125,7 +128,7 @@ if (isset($allItems[$curMenu])) {
     <ul class="uk-nav uk-nav-side">
 
         <?php
-        $html = array();
+        $html = [];
         foreach ($headItems as $headItem => $items) {
 
             $html[] = '<li class="uk-nav-divider"></li>';
@@ -133,17 +136,17 @@ if (isset($allItems[$curMenu])) {
 
             foreach ($items as $itemName => $urlParams) {
 
-                $params = array();
+                $params = [];
                 if (isset($urlParams['params'])) {
                     $params = $urlParams['params'];
                     unset($urlParams['params']);
                 }
 
-                $url      = $jbrouter->admin(array('controller' => $curMenu, 'task' => $urlParams[0]));
+                $url = $jbrouter->admin(['controller' => $curMenu, 'task' => $urlParams[0]]);
                 $labelKey = strtoupper('JBZOO_NAV_' . $curMenu . '_' . $headItem . '_' . $itemName);
-                $name     = JText::_($labelKey);
+                $name = JText::_($labelKey);
 
-                $classes = array($headItem, $itemName);
+                $classes = [$headItem, $itemName];
                 if (strtolower($curUrl) == strtolower($url)) {
                     $classes[] = 'uk-active';
                 }

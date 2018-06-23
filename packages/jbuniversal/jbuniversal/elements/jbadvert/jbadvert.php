@@ -1,12 +1,16 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
@@ -38,7 +42,7 @@ class ElementJBAdvert extends Element implements iSubmittable
      * @param array $params
      * @return bool
      */
-    public function hasValue($params = array())
+    public function hasValue($params = [])
     {
         return false;
     }
@@ -47,14 +51,14 @@ class ElementJBAdvert extends Element implements iSubmittable
      * @param array $params
      * @return null|string
      */
-    public function edit($params = array())
+    public function edit($params = [])
     {
         JFactory::getSession()->set($this->_getSaveKey(), $this->data(), __CLASS__);
 
         if ($layout = $this->getLayout('edit.php')) {
-            return self::renderLayout($layout, array(
+            return self::renderLayout($layout, [
                 'params' => $params,
-            ));
+            ]);
         }
 
         return false;
@@ -65,7 +69,7 @@ class ElementJBAdvert extends Element implements iSubmittable
      * @param array $params
      * @return null|string
      */
-    public function renderSubmission($params = array())
+    public function renderSubmission($params = [])
     {
         $elementLayout = 'submission-not-modified.php';
         if ($this->_isModified()) {
@@ -73,9 +77,9 @@ class ElementJBAdvert extends Element implements iSubmittable
         }
 
         if ($layout = $this->getLayout($elementLayout)) {
-            return self::renderLayout($layout, array(
+            return self::renderLayout($layout, [
                 'params' => $params,
-            ));
+            ]);
         }
 
         return false;
@@ -91,18 +95,18 @@ class ElementJBAdvert extends Element implements iSubmittable
     public function validateSubmission($values, $params)
     {
 
-        $mode    = $this->_getMode();
-        $price   = $this->_getPrice()->data(true);
+        $mode = $this->_getMode();
+        $price = $this->_getPrice()->data(true);
         $mParams = $this->_getModifiersParams($mode);
 
-        $values = array(
+        $values = [
             'mode'        => $mode,
             'price'       => $price,
             'params'      => $mParams,
             'order_id'    => 0,
             'modified'    => $this->_getLastModified(),
             'is_modified' => 0,
-        );
+        ];
 
         return $values;
     }
@@ -119,7 +123,7 @@ class ElementJBAdvert extends Element implements iSubmittable
     /**
      * @param array $data
      */
-    public function bindData($data = array())
+    public function bindData($data = [])
     {
         $saveData = $data;
         if ($this->getItem()) {
@@ -159,7 +163,7 @@ class ElementJBAdvert extends Element implements iSubmittable
 
         $mode = $this->_getMode();
         /** @type JSONData $mParams */
-        $mParams = $this->app->data->create($this->get('params', array()));
+        $mParams = $this->app->data->create($this->get('params', []));
         /** @type JBDateHelper $jbdate */
         $jbdate = $this->app->jbdate;
 
@@ -167,68 +171,85 @@ class ElementJBAdvert extends Element implements iSubmittable
             $item->setState(1, false);
 
 
-        } else if ($mode == self::MODE_CATEGORY) { // change category and application
+        } else {
+            if ($mode == self::MODE_CATEGORY) { // change category and application
 
-            $item = $this->getItem();
-            $itemId = $this->getItem()->id;
-            $appId      = (int)$mParams->find('item_category_value.app', 0);
-            if ($appId == 0) {$appId = $item->application_id;}
-            $categories = $item->getRelatedCategoryIds();
-            $categories[] = (int)$mParams->find('item_category_value.category', 0);
-            $categories = array_unique($categories);
-            $item->application_id = $appId;
-            $this->app->category->saveCategoryItemRelations($item, $categories);
-            define('JBADVERT_EVALED', true);
-            // TODO admin page save bug
+                $item = $this->getItem();
+                $itemId = $this->getItem()->id;
+                $appId = (int)$mParams->find('item_category_value.app', 0);
+                if ($appId == 0) {
+                    $appId = $item->application_id;
+                }
+                $categories = $item->getRelatedCategoryIds();
+                $categories[] = (int)$mParams->find('item_category_value.category', 0);
+                $categories = array_unique($categories);
+                $item->application_id = $appId;
+                $this->app->category->saveCategoryItemRelations($item, $categories);
+                define('JBADVERT_EVALED', true);
+                // TODO admin page save bug
 
-        } else if ($mode == self::MODE_ELEMENT) {  // set new data to element
-            /** @type Element|ElementRepeatable $element */
-            $element = $item->getElement($mParams->get('item_element_id'));
-            if ($element) {
+            } else {
+                if ($mode == self::MODE_ELEMENT) {  // set new data to element
+                    /** @type Element|ElementRepeatable $element */
+                    $element = $item->getElement($mParams->get('item_element_id'));
+                    if ($element) {
 
-                $value = JString::trim($mParams->get('item_element_value'));
+                        $value = JString::trim($mParams->get('item_element_value'));
 
-                if (strpos($value, '{') === 0 && strpos($value, '}') > 1) {
-                    $value = json_decode($value, true);
+                        if (strpos($value, '{') === 0 && strpos($value, '}') > 1) {
+                            $value = json_decode($value, true);
+                        } else {
+                            if ($element instanceof ElementOption) {
+                                $value = ['option' => [$this->app->string->sluggify($value)]];
+                            } else {
+                                if ($element instanceof ElementRepeatable) {
+                                    $value = [['value' => $value]];
+                                } else {
+                                    $value = ['value' => $value];
+                                }
+                            }
+                        }
+
+                        $element->bindData($value);
+                    }
+
+
                 } else {
-                    if ($element instanceof ElementOption) {
-                        $value = array('option' => array($this->app->string->sluggify($value)));
-                    } else if ($element instanceof ElementRepeatable) {
-                        $value = array(array('value' => $value));
+                    if ($mode == self::MODE_PHP) { // execute php code
+
+                        $edit = (bool)$this->getItem()->id;
+                        $item = $this->getItem();
+                        $itemId = $this->getItem()->id;
+                        eval($this->config->get('item_php_eval'));
+                        define('JBADVERT_EVALED', true);
+
                     } else {
-                        $value = array('value' => $value);
+                        if ($mode == self::MODE_PRIORITY) { // change priority
+                            $item->priority = (int)$mParams->get('item_priority_value', -1);
+
+
+                        } else {
+                            if ($mode == self::MODE_EXPIREDATE) { // set new expire date (publish date)
+
+                                $addTime = 86400 * $this->app->jbvars->number(
+                                        $mParams->get('item_expiredate_timeout', 30)
+                                    );
+
+                                $oldDate = time();
+
+                                if ($time = strtotime($item->publish_down)) {
+                                    if ($time > 0) {
+                                        $oldDate = $time;
+                                    }
+                                }
+
+                                $item->setState(1, false);
+                                $item->publish_down = $jbdate->toMysql($oldDate + $addTime);
+                            }
+                        }
                     }
                 }
-
-                $element->bindData($value);
             }
-
-
-        } else if ($mode == self::MODE_PHP) { // execute php code
-            
-			$edit = (bool) $this->getItem()->id;
-            $item = $this->getItem();
-            $itemId = $this->getItem()->id;
-            eval($this->config->get('item_php_eval'));
-			define('JBADVERT_EVALED', true);
-			
-        } else if ($mode == self::MODE_PRIORITY) { // change priority
-            $item->priority = (int)$mParams->get('item_priority_value', -1);
-
-
-        } else if ($mode == self::MODE_EXPIREDATE) { // set new expire date (publish date)
-
-            $addTime = 86400 * $this->app->jbvars->number($mParams->get('item_expiredate_timeout', 30));
-            $oldDate = time();
-
-            if ($time = strtotime($item->publish_down)) {
-                if ($time > 0) {
-                    $oldDate = $time;
-                }
-            }
-
-            $item->setState(1, false);
-            $item->publish_down = $jbdate->toMysql($oldDate + $addTime);
         }
 
         $this->set('is_modified', self::MODIFIED_YES);
@@ -247,8 +268,8 @@ class ElementJBAdvert extends Element implements iSubmittable
      */
     public function _renderModifierParams()
     {
-        $htmlParams = array();
-        $mParams    = $this->get('params', array());
+        $htmlParams = [];
+        $mParams = $this->get('params', []);
 
         foreach ($mParams as $key => $value) {
 
@@ -257,27 +278,35 @@ class ElementJBAdvert extends Element implements iSubmittable
                 //$value = '<pre>' . $value . '</pre>';
                 continue;
 
-            } else if ($key == 'item_php_eval') {
-                //$value = '<pre>' . $value . '</pre>';
-                continue;
+            } else {
+                if ($key == 'item_php_eval') {
+                    //$value = '<pre>' . $value . '</pre>';
+                    continue;
 
-            } else if ($key == 'item_element_id') {
-                if ($element = $this->getItem()->getElement($value)) {
-                    $value = $element->config->get('name') ? $element->config->get('name') : $element->config->get('type');
+                } else {
+                    if ($key == 'item_element_id') {
+                        if ($element = $this->getItem()->getElement($value)) {
+                            $value = $element->config->get('name') ? $element->config->get('name') : $element->config->get('type');
+                        }
+
+                    } else {
+                        if ($key == 'item_category_value') {
+
+                            if ($application = $this->app->table->application->get($value['app'])) {
+                                $htmlParams['JBZOO_JBADVERT_EDIT_APP'] = $application->name;
+                            }
+
+                            if ($value['category'] == 0) {
+                                $htmlParams['JBZOO_JBADVERT_EDIT_CATEGORY'] = JText::_('JBZOO_JBADVERT_EDIT_CATEGORY_ROOT');
+                            } else {
+                                if ($category = $this->app->table->category->get($value['category'])) {
+                                    $htmlParams['JBZOO_JBADVERT_EDIT_CATEGORY'] = $category->name;
+                                }
+                            }
+
+                        }
+                    }
                 }
-
-            } else if ($key == 'item_category_value') {
-
-                if ($application = $this->app->table->application->get($value['app'])) {
-                    $htmlParams['JBZOO_JBADVERT_EDIT_APP'] = $application->name;
-                }
-
-                if ($value['category'] == 0) {
-                    $htmlParams['JBZOO_JBADVERT_EDIT_CATEGORY'] = JText::_('JBZOO_JBADVERT_EDIT_CATEGORY_ROOT');
-                } else if ($category = $this->app->table->category->get($value['category'])) {
-                    $htmlParams['JBZOO_JBADVERT_EDIT_CATEGORY'] = $category->name;
-                }
-
             }
 
             if (!empty($value) && !is_array($value)) {
@@ -303,7 +332,7 @@ class ElementJBAdvert extends Element implements iSubmittable
     {
         $mode = $this->_getMode();
 
-        $result = array();
+        $result = [];
         foreach ($this->config as $key => $value) {
             if (strpos($key, 'item_' . $mode) === 0) {
                 $result[$key] = $value;
@@ -329,9 +358,9 @@ class ElementJBAdvert extends Element implements iSubmittable
     protected function _getCartData()
     {
         $price = $this->_getPrice();
-        $item  = $this->getItem();
+        $item = $this->getItem();
 
-        $data = array(
+        $data = [
             'key'        => md5($this->identifier . serialize($this->_getModifiersParams())),
             'item_id'    => $item->id,
             'item_name'  => $item->name,
@@ -341,19 +370,19 @@ class ElementJBAdvert extends Element implements iSubmittable
             'values'     => $this->_getCartValues(),
             'quantity'   => 1,
             'variant'    => 0,
-            'elements'   => array(
+            'elements'   => [
                 '_value' => $price->data(true)
-            ),
-            'params'     => array(
-                '_quantity' => array(
+            ],
+            'params'     => [
+                '_quantity' => [
                     'min'      => 1,
                     'max'      => 1,
                     'step'     => 1,
                     'default'  => 1,
                     'decimals' => 0
-                )
-            ),
-        );
+                ]
+            ],
+        ];
 
         $data = $this->app->data->create($data);
 
@@ -365,12 +394,12 @@ class ElementJBAdvert extends Element implements iSubmittable
      */
     protected function _getCartValues()
     {
-        $modName     = JText::_('JBZOO_JBADVERT_MODE_' . $this->_getMode());
+        $modName = JText::_('JBZOO_JBADVERT_MODE_' . $this->_getMode());
         $elementName = $this->config->get('name', $modName);
 
-        return array(
+        return [
             JText::_('JBZOO_JBADVERT_CART_MODE') => $elementName ? $elementName : $modName,
-        );
+        ];
     }
 
     /**

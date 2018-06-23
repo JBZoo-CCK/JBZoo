@@ -1,17 +1,20 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
 
 /**
  * Class JBCheckFilesHelper
@@ -22,7 +25,7 @@ class JBCheckFilesHelper extends AppHelper
      * Check paths
      * @var array
      */
-    protected $_checkVirtPaths = array(
+    protected $_checkVirtPaths = [
         'jbapp',
         'mod_jbzoo_basket',
         'mod_jbzoo_category',
@@ -31,22 +34,22 @@ class JBCheckFilesHelper extends AppHelper
         'mod_jbzoo_props',
         'mod_jbzoo_search',
         'plugin_jbzoo'
-    );
+    ];
 
     /**
      * Exclude pattern list
      * @var array
      */
-    protected $_exclude = array(
+    protected $_exclude = [
         // old files 
         'index\.html$',
-        
+
         // any configs
         '\.config$',
-        
+
         // jbzoo version
         'application\.xml$',
-        
+
         // templates
         'templates[/\\\].*[/\\\]assets',
         'templates[/\\\].*[/\\\]cart-elements',
@@ -61,14 +64,10 @@ class JBCheckFilesHelper extends AppHelper
         'positions\.xml$',
         'metadata\.xml',
         'renderer[/\\\]item[/\\\].*',
-        
-        // configs
-        'config[/\\\]licence\.php$',
-        'config[/\\\]licence\..*\.php$',
-        
+
         // temp files
         'tmp[/\\\].*',
-    );
+    ];
 
     /**
      * Create checksums file
@@ -101,7 +100,7 @@ class JBCheckFilesHelper extends AppHelper
             throw new JBCheckFilterException(JText::_('Unable to locate checksums file in ' . $path));
         }
 
-        $result = array();
+        $result = [];
 
         foreach ($this->_checkVirtPaths as $vpath) {
 
@@ -112,9 +111,13 @@ class JBCheckFilesHelper extends AppHelper
                     $path,
                     $checksum,
                     $result,
-                    array(create_function('$path',
-                          'if (preg_match("#^' . $vpath . '#i", $path)) return preg_replace("#^' . $vpath . '/#i", "", $path);'
-                    )),
+                    [
+                        function ($path) use ($vpath) {
+                            if (preg_match("#^' . $vpath . '#i", $path)) {
+                                return preg_replace("#^' . $vpath . '/#i", "", $path);
+                            }
+                        }
+                    ],
                     $this->app->path->relative($path),
                     $this->_exclude
                 );

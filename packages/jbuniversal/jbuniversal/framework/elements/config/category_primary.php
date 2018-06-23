@@ -1,18 +1,20 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ * JBZoo Application
  *
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
 
 /**
  * Class JBCSVItemConfigCategory_primary
@@ -32,7 +34,7 @@ class JBCSVItemConfigCategory_primary extends JBCSVItem
     }
 
     /**
-     * @param $value
+     * @param      $value
      * @param null $position
      * @return Item|void
      */
@@ -42,28 +44,34 @@ class JBCSVItemConfigCategory_primary extends JBCSVItem
         $value = $this->_getString($value);
 
         if ($value) {
-            $application      = $this->_item->getApplication();
-            $appCategories    = $application->getCategories();
-            $appCategoryAlias = array_map(create_function('$cat', 'return $cat->alias;'), $appCategories);
-            $appCategoryNames = array_map(create_function('$cat', 'return $cat->name;'), $appCategories);
+            $application = $this->_item->getApplication();
+            $appCategories = $application->getCategories();
+            $appCategoryAlias = array_map(function ($cat) {
+                return $cat->alias;
+            }, $appCategories);
+            $appCategoryNames = array_map(function ($cat) {
+                return $cat->name;
+            }, $appCategories);
 
             $primaryCategoryId = null;
 
             $alias = null;
-            $name  = $value;
+            $name = $value;
             if (strpos($value, JBCSVItem::SEP_CELL)) {
                 list($name, $alias) = explode(JBCSVItem::SEP_CELL, $value);
             }
 
-            if ($name == '__ROOT__') {
+            if ($name === '__ROOT__') {
                 $primaryCategoryId = 0;
 
             } else {
                 if ($alias && $id = array_search($alias, $appCategoryAlias)) {
                     $primaryCategoryId = $id;
 
-                } else if ($name && $id = array_search($name, $appCategoryNames)) {
-                    $primaryCategoryId = $id;
+                } else {
+                    if ($name && $id = array_search($name, $appCategoryNames)) {
+                        $primaryCategoryId = $id;
+                    }
                 }
             }
 
@@ -72,7 +80,7 @@ class JBCSVItemConfigCategory_primary extends JBCSVItem
                 $relatedCategories = JBModelItem::model()->getRelatedCategories($this->_item->id);
                 if (!in_array($primaryCategoryId, $relatedCategories)) {
                     $relatedCategories[] = $primaryCategoryId;
-                    $relatedCategories   = array_unique($relatedCategories);
+                    $relatedCategories = array_unique($relatedCategories);
 
                     $this->app->category->saveCategoryItemRelations($this->_item, $relatedCategories);
                 }

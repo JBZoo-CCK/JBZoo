@@ -1,18 +1,20 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ * JBZoo Application
  *
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
 
 /**
  * Class JBConfigHelper
@@ -22,23 +24,23 @@ class JBConfigHelper extends AppHelper
     /**
      * @var array
      */
-    protected $_oldVersionMap = array(
+    protected $_oldVersionMap = [
         // custom config
-        'JBZOO_CONFIG_SHOWUPDATE'           => 'update_show',
-        'JBZOO_CONFIG_CURRENCY_ONLINE'      => 'currency_mode',
-        'JBZOO_CONFIG_ADMINMENU'            => 'adminmenu_show',
-        'JBZOO_CONFIG_DELETE_PRICE_LABEL'   => 'delpricelbl_mode',
+        'JBZOO_CONFIG_SHOWUPDATE'         => 'update_show',
+        'JBZOO_CONFIG_CURRENCY_ONLINE'    => 'currency_mode',
+        'JBZOO_CONFIG_ADMINMENU'          => 'adminmenu_show',
+        'JBZOO_CONFIG_DELETE_PRICE_LABEL' => 'delpricelbl_mode',
 
         // yml config
-        'JBZOO_CONFIG_YML_SITE_URL'         => 'site_url',
-        'JBZOO_CONFIG_YML_APP_LIST'         => 'app_list',
-        'JBZOO_CONFIG_YML_SITE_NAME'        => 'site_name',
-        'JBZOO_CONFIG_YML_COMPANY_NAME'     => 'company_name',
-        'JBZOO_CONFIG_YML_TYPE'             => 'type_list',
-        'JBZOO_CONFIG_YML_CURRENCY_RATE'    => 'currency_rate',
-        'JBZOO_CONFIG_YML_FILE_PATH'        => 'file_path',
-        'JBZOO_CONFIG_YML_FILE_NAME'        => 'file_name',
-    );
+        'JBZOO_CONFIG_YML_SITE_URL'       => 'site_url',
+        'JBZOO_CONFIG_YML_APP_LIST'       => 'app_list',
+        'JBZOO_CONFIG_YML_SITE_NAME'      => 'site_name',
+        'JBZOO_CONFIG_YML_COMPANY_NAME'   => 'company_name',
+        'JBZOO_CONFIG_YML_TYPE'           => 'type_list',
+        'JBZOO_CONFIG_YML_CURRENCY_RATE'  => 'currency_rate',
+        'JBZOO_CONFIG_YML_FILE_PATH'      => 'file_path',
+        'JBZOO_CONFIG_YML_FILE_NAME'      => 'file_name',
+    ];
 
     /**
      * Compatibility list of params were saved in config files
@@ -57,13 +59,13 @@ class JBConfigHelper extends AppHelper
             require_once $config;
         }
 
-        $result = array();
+        $result = [];
         foreach ($this->_oldVersionMap as $key => $value) {
             if (!defined($key)) {
                 continue;
             }
 
-            if (in_array($key, array('JBZOO_CONFIG_YML_TYPE', 'JBZOO_CONFIG_YML_APP_LIST'))) {
+            if (in_array($key, ['JBZOO_CONFIG_YML_TYPE', 'JBZOO_CONFIG_YML_APP_LIST'])) {
                 $result[$value] = explode(':', constant($key));
             } else {
                 $result[$value] = constant($key);
@@ -80,33 +82,24 @@ class JBConfigHelper extends AppHelper
     /**
      * Save file
      * @param array $params
-     * @param $path
+     * @param       $path
      * @return bool
      */
     public function saveToFile(array $params, $path)
     {
-        $fileTemplate = array(
+        $fileTemplate = [
             '<?php',
-            '/**',
-            ' * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component',
-            ' *',
-            ' * @package     jbzoo',
-            ' * @version     2.x Pro',
-            ' * @author      JBZoo App http://jbzoo.com',
-            ' * @copyright   Copyright (C) JBZoo.com,  All rights reserved.',
-            ' * @license     http://jbzoo.com/license JBZoo Licence',
-            ' */',
             '',
             '// no direct access',
             'defined(\'_JEXEC\') or die(\'Restricted access\');',
             '',
             '',
-        );
+        ];
 
         foreach ($params as $key => $value) {
 
             $constName = JString::strtoupper($key);
-            $value     = str_replace('\'', "\\'", $value);
+            $value = str_replace('\'', "\\'", $value);
 
             $fileTemplate[] = 'define(\'' . $constName . '\', \'' . $value . '\');';
         }

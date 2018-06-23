@@ -1,17 +1,20 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
 
 require_once JPATH_ADMINISTRATOR . '/components/com_zoo/config.php';
 require_once JPATH_BASE . '/media/zoo/applications/jbuniversal/framework/jbzoo.php';
@@ -81,16 +84,16 @@ class JBModuleHelperBasket extends JBModuleHelper
     /**
      * @return JBCartOrder
      */
-    public function getBasketItems($params = array())
+    public function getBasketItems($params = [])
     {
-        $_params = array(
+        $_params = [
             // TODO config from module
             'currency'     => $this->getCurrency(),
             'item_link'    => (int)$this->_params->get('jbcart_item_link', 1),
             'image_width'  => $this->_params->get('jbcart_item_image_width', 75),
             'image_height' => $this->_params->get('jbcart_item_image_height', 75),
             'image_link'   => (int)$this->_params->get('jbcart_item_image_link', 1),
-        );
+        ];
 
         $params = array_replace_recursive($_params, $params);
 
@@ -121,13 +124,13 @@ class JBModuleHelperBasket extends JBModuleHelper
      */
     public function getWidgetParams()
     {
-        return array(
+        return [
             'url_clean'           => $this->app->jbrouter->basketEmpty(),
             'url_reload'          => $this->app->jbrouter->basketReloadModule($this->_module->id),
             'url_item_remove'     => $this->app->jbrouter->basketDelete(),
             'text_delete_confirm' => JText::_('JBZOO_CART_MODULE_DELETE_CONFIRM'),
             'text_empty_confirm'  => JText::_('JBZOO_CART_MODULE_EMPTY_CONFIRM'),
-        );
+        ];
     }
 
     /**
@@ -138,5 +141,4 @@ class JBModuleHelperBasket extends JBModuleHelper
     {
         return $this->app->jbrouter->basket();
     }
-
 }

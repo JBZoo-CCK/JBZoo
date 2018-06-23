@@ -1,9 +1,16 @@
 <?php
 /**
- * @package   com_zoo
- * @author    YOOtheme http://www.yootheme.com
- * @copyright Copyright (C) YOOtheme GmbH
- * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
@@ -31,7 +38,7 @@ class StringHelper extends AppHelper
      */
     public function __call($method, $args)
     {
-        return $this->_call(array($this->_class, $method), $args);
+        return $this->_call([$this->_class, $method], $args);
     }
 
     /**
@@ -64,46 +71,71 @@ class StringHelper extends AppHelper
      */
     public function getTransliteration()
     {
-        return array(
-            '-'   => array('\'', '/', ' ', ' / '),
-            'a'   => array('à', 'á', 'â', 'ã', 'ą', 'å', 'a', 'a', 'а'),
-            'ae'  => array('ä', 'æ'),
-            'c'   => array('c', 'c', 'ç', 'č', 'ć', 'ц'),
-            'd'   => array('d', 'd', 'д'),
-            'e'   => array('è', 'é', 'ê', 'ë', 'e', 'ě', 'ę', 'е', 'е', 'э', 'є'),
-            'g'   => array('g', 'ğ', 'г', 'ґ'),
-            'i'   => array('ì', 'í', 'î', 'ï', 'ı', 'и', 'і', 'ї'),
-            'l'   => array('l', 'l', 'l', 'ł', 'л'),
-            'n'   => array('ñ', 'n', 'n', 'ń', 'н'),
-            'o'   => array('ò', 'ó', 'ô', 'õ', 'ø', 'o', 'ó', 'ó', 'о'),
-            'oe'  => array('ö', 'œ'),
-            'r'   => array('r', 'ř', 'р'),
-            's'   => array('š', 's', 's', 'ş', 'ś', 'с'),
-            't'   => array('t', 't', 't', 'т'),
-            'u'   => array('ù', 'ú', 'û', 'u', 'µ', 'у'),
-            'ue'  => array('ü'),
-            'y'   => array('ÿ', 'ý', 'ы'),
-            'z'   => array('ž', 'z', 'z', 'ż', 'ź', 'з'),
-            'th'  => array('þ'),
-            'dh'  => array('ð'),
-            'ss'  => array('ß'),
-            'b'   => array('б'),
-            'v'   => array('в'),
-            'yo'  => array('ё'),
-            'zh'  => array('ж'),
-            'j'   => array('й'),
-            'k'   => array('к'),
-            'm'   => array('м'),
-            'p'   => array('п'),
-            'f'   => array('ф'),
-            'h'   => array('х'),
-            'ch'  => array('ч'),
-            'sh'  => array('ш'),
-            'shch' => array('щ'),
-            ''    => array('ъ', 'ь', '«', '»', '@', '#', '!', '$', '%', '^', '&', '*', '?', '=', '+', '~', '"', ':', ';', '.', ',', '(', ')', '№'),
-            'yu'  => array('ю'),
-            'ya'  => array('я'),
-        );
+        return [
+            '-'    => ['\'', '/', ' ', ' / '],
+            'a'    => ['à', 'á', 'â', 'ã', 'ą', 'å', 'a', 'a', 'а'],
+            'ae'   => ['ä', 'æ'],
+            'c'    => ['c', 'c', 'ç', 'č', 'ć', 'ц'],
+            'd'    => ['d', 'd', 'д'],
+            'e'    => ['è', 'é', 'ê', 'ë', 'e', 'ě', 'ę', 'е', 'е', 'э', 'є'],
+            'g'    => ['g', 'ğ', 'г', 'ґ'],
+            'i'    => ['ì', 'í', 'î', 'ï', 'ı', 'и', 'і', 'ї'],
+            'l'    => ['l', 'l', 'l', 'ł', 'л'],
+            'n'    => ['ñ', 'n', 'n', 'ń', 'н'],
+            'o'    => ['ò', 'ó', 'ô', 'õ', 'ø', 'o', 'ó', 'ó', 'о'],
+            'oe'   => ['ö', 'œ'],
+            'r'    => ['r', 'ř', 'р'],
+            's'    => ['š', 's', 's', 'ş', 'ś', 'с'],
+            't'    => ['t', 't', 't', 'т'],
+            'u'    => ['ù', 'ú', 'û', 'u', 'µ', 'у'],
+            'ue'   => ['ü'],
+            'y'    => ['ÿ', 'ý', 'ы'],
+            'z'    => ['ž', 'z', 'z', 'ż', 'ź', 'з'],
+            'th'   => ['þ'],
+            'dh'   => ['ð'],
+            'ss'   => ['ß'],
+            'b'    => ['б'],
+            'v'    => ['в'],
+            'yo'   => ['ё'],
+            'zh'   => ['ж'],
+            'j'    => ['й'],
+            'k'    => ['к'],
+            'm'    => ['м'],
+            'p'    => ['п'],
+            'f'    => ['ф'],
+            'h'    => ['х'],
+            'ch'   => ['ч'],
+            'sh'   => ['ш'],
+            'shch' => ['щ'],
+            ''     => [
+                'ъ',
+                'ь',
+                '«',
+                '»',
+                '@',
+                '#',
+                '!',
+                '$',
+                '%',
+                '^',
+                '&',
+                '*',
+                '?',
+                '=',
+                '+',
+                '~',
+                '"',
+                ':',
+                ';',
+                '.',
+                ',',
+                '(',
+                ')',
+                '№'
+            ],
+            'yu'   => ['ю'],
+            'ya'   => ['я'],
+        ];
     }
 
     /**
@@ -115,7 +147,7 @@ class StringHelper extends AppHelper
      */
     public function sluggify($origString, $forceSafe = false)
     {
-        static $cache = array();
+        static $cache = [];
 
         if (!isset($cache[$origString])) { // performance bug
 
@@ -127,11 +159,14 @@ class StringHelper extends AppHelper
                 }
             }
 
-            $replace = array('#\s+#', '#[^\x{00C0}-\x{00D6}x{00D8}-\x{00F6}\x{00F8}-\x{00FF}\x{0370}-\x{1FFF}\x{4E00}-\x{9FAF}a-z0-9\-]#ui');
-            $string  = preg_replace($replace, array('-', ''), $string);
-            $string  = preg_replace('#[-]+#u', '-', $string);
-            $string  = trim($string, '-');
-            $string  = trim($string);
+            $replace = [
+                '#\s+#',
+                '#[^\x{00C0}-\x{00D6}x{00D8}-\x{00F6}\x{00F8}-\x{00FF}\x{0370}-\x{1FFF}\x{4E00}-\x{9FAF}a-z0-9\-]#ui'
+            ];
+            $string = preg_replace($replace, ['-', ''], $string);
+            $string = preg_replace('#[-]+#u', '-', $string);
+            $string = trim($string, '-');
+            $string = trim($string);
 
             $cache[$origString] = $string;
         }

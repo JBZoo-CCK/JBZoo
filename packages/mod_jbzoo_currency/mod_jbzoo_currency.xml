@@ -1,24 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
-    JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+    JBZoo Application
 
-    @package     jbzoo
-    @version     2.x Pro
-    @author      JBZoo App http://jbzoo.com
-    @copyright   Copyright (C) JBZoo.com,  All rights reserved.
-    @license     http://jbzoo.com/license JBZoo Licence
-    @coder       Denis Smetannikov <denis@jbzoo.com>
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
 -->
 <extension type="module" version="2.5" method="upgrade" client="site">
     <name>JBZoo Currency</name>
     <author>JBZoo.com</author>
-    <creationDate>2015 09</creationDate>
+    <creationDate>2018 June</creationDate>
     <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
-    <version>2.2.1 Pro</version>
-    <updateUrl>http://server.jbzoo.com/checkupdates</updateUrl>
-    <license>http://jbzoo.com/license JBZoo Licence</license>
+    <version>4.0.0 Free Community Edition</version>
+    <license>GPL-2.0</license>
     <description>JBZOO_MODULE_CURRENCY_DESC</description>
 
     <files>

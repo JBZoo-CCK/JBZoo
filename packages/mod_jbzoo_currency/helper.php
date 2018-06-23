@@ -1,17 +1,20 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
 
 require_once JPATH_ADMINISTRATOR . '/components/com_zoo/config.php';
 require_once JPATH_BASE . '/media/zoo/applications/jbuniversal/framework/jbzoo.php';
@@ -26,7 +29,7 @@ class JBModuleHelperCurrency extends JBModuleHelper
     /**
      * @type array
      */
-    protected $_curList = array();
+    protected $_curList = [];
 
     /**
      * @param JRegistry $params
@@ -54,9 +57,9 @@ class JBModuleHelperCurrency extends JBModuleHelper
      */
     protected function _initWidget()
     {
-        $this->app->jbassets->widget('.jsCurrencyModuleSwitcher', 'JBZoo.CurrencyModuleSwitcher', array(
+        $this->app->jbassets->widget('.jsCurrencyModuleSwitcher', 'JBZoo.CurrencyModuleSwitcher', [
             'target' => $this->_params->get('switcher_target', '.jbzoo'),
-        ));
+        ]);
     }
 
     /**
@@ -64,17 +67,17 @@ class JBModuleHelperCurrency extends JBModuleHelper
      */
     public function renderButtons()
     {
-        $curList = $this->_params->get('currency_list', array());
+        $curList = $this->_params->get('currency_list', []);
 
         return $this->app->jbhtml->currencyToggle(
             $this->_defaultCur(true),
             $this->_curList,
-            array(
+            [
                 'target'      => $this->_params->get('switcher_target', '.jbzoo'),
                 'showDefault' => isset($curList[JBCartValue::DEFAULT_CODE]),
                 'setOnInit'   => 1,
                 'isMain'      => 1,
-            )
+            ]
         );
     }
 
@@ -83,14 +86,14 @@ class JBModuleHelperCurrency extends JBModuleHelper
      */
     public function renderSelect()
     {
-        $list    = $this->_getOptionList();
+        $list = $this->_getOptionList();
         $current = $this->_defaultCur(true);
 
-        $html = array(
+        $html = [
             '<div class="jsCurrencyModuleSwitcher jbcurrency-list-select">',
             $this->app->jbhtml->select($list, 'cur-' . $this->_module->id, '', $current),
             '</div>'
-        );
+        ];
 
         return implode(PHP_EOL, $html);
     }
@@ -100,14 +103,14 @@ class JBModuleHelperCurrency extends JBModuleHelper
      */
     public function renderRadio()
     {
-        $list    = $this->_getOptionList();
+        $list = $this->_getOptionList();
         $current = $this->_defaultCur(true);
 
-        $html = array(
+        $html = [
             '<div class="jsCurrencyModuleSwitcher jbcurrency-list-radio">',
             $this->app->jbhtml->radio($list, 'cur-' . $this->_module->id, '', $current),
             '</div>'
-        );
+        ];
 
         return implode(PHP_EOL, $html);
     }
@@ -117,7 +120,7 @@ class JBModuleHelperCurrency extends JBModuleHelper
      */
     protected function _getOptionList()
     {
-        $options = array();
+        $options = [];
 
         if (!empty($this->_curList)) {
             foreach ($this->_curList as $code => $currency) {
@@ -134,16 +137,16 @@ class JBModuleHelperCurrency extends JBModuleHelper
      */
     public function getCurrencyList($addDefault = false)
     {
-        $result = array(
+        $result = [
             'orig' => null,
-            'list' => array(),
-        );
+            'list' => [],
+        ];
 
         if (!empty($this->_curList)) {
 
             $defaultCur = $this->_params->get('currency_default', 'eur');
-            $multiply   = $this->app->jbvars->number($this->_params->get('list_multiply', 1));
-            $moneyVal   = JBCart::val(1, $defaultCur)->multiply($multiply);
+            $multiply = $this->app->jbvars->number($this->_params->get('list_multiply', 1));
+            $moneyVal = JBCart::val(1, $defaultCur)->multiply($multiply);
 
             foreach ($this->_curList as $code => $currency) {
 
@@ -155,11 +158,11 @@ class JBModuleHelperCurrency extends JBModuleHelper
                     //continue;
                 }
 
-                $result['list'][$code] = array(
+                $result['list'][$code] = [
                     'from' => $moneyVal->html(),
                     'to'   => $moneyVal->html($code),
                     'name' => $currency['name'],
-                );
+                ];
 
             }
 
@@ -175,10 +178,10 @@ class JBModuleHelperCurrency extends JBModuleHelper
      */
     protected function _getList()
     {
-        $curList = (array)$this->_params->get('currency_list', array());
-        $list    = $this->app->jbmoney->getData();
+        $curList = (array)$this->_params->get('currency_list', []);
+        $list = $this->app->jbmoney->getData();
 
-        $result = array();
+        $result = [];
         foreach ($curList as $code) {
             $result[$code] = $list->get($code);
         }

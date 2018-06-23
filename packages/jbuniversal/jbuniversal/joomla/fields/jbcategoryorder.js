@@ -1,26 +1,18 @@
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ * JBZoo Application
  *
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Vitaliy Yanovskiy <joejoker@jbzoo.com>
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
  */
 
-
-(function ($) {
-
-    $.fn.JBCategoryOrder = function (option) {
-
-        var option = $.extend({}, {
-            'order'  : 'ordering',
-            'reverse': '0',
-            'random' : '0'
-        }, option);
-
-        return $(this).each(function () {
+;
+return $(this).each(function () {
 
             // init vars, links to DOM objects
             var $element = $(this),

@@ -1,18 +1,20 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ * JBZoo Application
  *
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
 
 /**
  * Class JBDatabaseQuery
@@ -269,7 +271,7 @@ class JBDatabaseQuery
      */
     public function delete($table = null)
     {
-        $this->type   = 'delete';
+        $this->type = 'delete';
         $this->delete = new JBDatabaseQueryElement('DELETE', null);
 
         if (!empty($table)) {
@@ -365,7 +367,7 @@ class JBDatabaseQuery
      */
     public function insert($table)
     {
-        $this->type   = 'insert';
+        $this->type = 'insert';
         $this->insert = new JBDatabaseQueryElement('INSERT INTO', '`' . $table . '`');
 
         return $this;
@@ -379,7 +381,7 @@ class JBDatabaseQuery
      */
     public function replace($table)
     {
-        $this->type    = 'replace';
+        $this->type = 'replace';
         $this->replace = new JBDatabaseQueryElement('REPLACE INTO', '`' . $table . '`');
 
         return $this;
@@ -394,7 +396,7 @@ class JBDatabaseQuery
     public function join($type, $conditions)
     {
         if (is_null($this->join)) {
-            $this->join = array();
+            $this->join = [];
         }
 
         $this->join[] = new JBDatabaseQueryElement(strtoupper($type) . ' JOIN', $conditions);
@@ -556,7 +558,7 @@ class JBDatabaseQuery
      */
     public function update($tables)
     {
-        $this->type   = 'update';
+        $this->type = 'update';
         $this->update = new JBDatabaseQueryElement('UPDATE', $tables);
 
         return $this;
@@ -571,7 +573,7 @@ class JBDatabaseQuery
     function values($column, $value)
     {
         if (is_null($this->values)) {
-            $this->values  = new JBDatabaseQueryElement('()', $this->quote($value), ', ');
+            $this->values = new JBDatabaseQueryElement('()', $this->quote($value), ', ');
             $this->columns = new JBDatabaseQueryElement('()', '`' . $column . '`');
 
         } else {
@@ -728,27 +730,27 @@ class JBDatabaseQuery
         switch ($clause) {
             case 'select':
                 $this->select = null;
-                $this->type   = null;
+                $this->type = null;
                 break;
 
             case 'delete':
                 $this->delete = null;
-                $this->type   = null;
+                $this->type = null;
                 break;
 
             case 'update':
                 $this->update = null;
-                $this->type   = null;
+                $this->type = null;
                 break;
 
             case 'insert':
                 $this->insert = null;
-                $this->type   = null;
+                $this->type = null;
                 break;
 
             case 'replace':
                 $this->replace = null;
-                $this->type    = null;
+                $this->type = null;
                 break;
 
             case 'from':
@@ -792,22 +794,22 @@ class JBDatabaseQuery
                 break;
 
             default:
-                $this->type    = null;
-                $this->select  = null;
-                $this->delete  = null;
-                $this->update  = null;
-                $this->insert  = null;
+                $this->type = null;
+                $this->select = null;
+                $this->delete = null;
+                $this->update = null;
+                $this->insert = null;
                 $this->replace = null;
-                $this->from    = null;
-                $this->join    = null;
-                $this->set     = null;
-                $this->where   = null;
-                $this->group   = null;
-                $this->having  = null;
-                $this->order   = null;
+                $this->from = null;
+                $this->join = null;
+                $this->set = null;
+                $this->where = null;
+                $this->group = null;
+                $this->having = null;
+                $this->order = null;
                 $this->columns = null;
-                $this->values  = null;
-                $this->limit   = null;
+                $this->values = null;
+                $this->limit = null;
                 break;
         }
 

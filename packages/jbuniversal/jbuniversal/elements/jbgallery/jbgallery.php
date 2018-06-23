@@ -1,18 +1,20 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ * JBZoo Application
  *
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
 
 /**
  * Class ElementJBGallery
@@ -44,10 +46,10 @@ class ElementJBGallery extends Element implements iSubmittable
      * @param array $params
      * @return bool
      */
-    public function hasValue($params = array())
+    public function hasValue($params = [])
     {
         // init vars
-        $value     = $this->_data->get('value');
+        $value = $this->_data->get('value');
         $directory = $this->config->get('directory');
         $directory = JPATH_ROOT . '/' . trim($directory, '/') . '/' . trim($value, '/');
 
@@ -59,10 +61,10 @@ class ElementJBGallery extends Element implements iSubmittable
      * @param array $params
      * @return null|string
      */
-    public function render($params = array())
+    public function render($params = [])
     {
         // init vars
-        $this->_uri  = JURI::base();
+        $this->_uri = JURI::base();
         $this->_path = JPATH_ROOT . '/' . trim($this->config->get('directory'), '/')
             . '/' . trim($this->_data->get('value'), '/');
 
@@ -112,11 +114,11 @@ class ElementJBGallery extends Element implements iSubmittable
         if ($layout = $this->getLayout('edit.php')) {
             return self::renderLayout(
                 $layout,
-                array(
+                [
                     'element'   => $this->identifier,
                     'directory' => $directory,
                     'value'     => $this->_data->get('value')
-                )
+                ]
             );
         }
 
@@ -131,29 +133,30 @@ class ElementJBGallery extends Element implements iSubmittable
      */
     protected function _getThumbnails($params)
     {
-        $thumbs = array();
-        $width  = $params->get('width');
+        $thumbs = [];
+        $width = $params->get('width');
         $height = $params->get('height');
         $resize = $params->get('resize', 1);
-        $title  = $this->_data->get('title', '');
+        $title = $this->_data->get('title', '');
 
-        $files = JFolder::files($this->_path, '.', false, true, array('.svn', 'CVS', '.DS_Store'));
+        $files = JFolder::files($this->_path, '.', false, true, ['.svn', 'CVS', '.DS_Store']);
         $files = array_filter(
-            $files, create_function('$file', 'return preg_match("#(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$#i", $file);')
-        );
+            $files, function ($file) {
+            return preg_match("#(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$#i", $file);
+        });
 
         // set default thumbnail size, if incorrect sizes defined
-        $width  = intval($width);
-        $height = intval($height);
+        $width = (int)$width;
+        $height = (int)$height;
         if ($width < 1 && $height < 1) {
-            $width  = 100;
+            $width = 100;
             $height = null;
         }
 
         foreach ($files as $file) {
 
             $filename = basename($file);
-            $thumb    = $this->app->jbimage->resize($file, $width, $height);
+            $thumb = $this->app->jbimage->resize($file, $width, $height);
 
             // set image name or title if exsist
             $name = '';
@@ -161,7 +164,7 @@ class ElementJBGallery extends Element implements iSubmittable
                 $name = $desc_array[$filename];
             }
 
-            $thumbs[] = array(
+            $thumbs[] = [
                 'name'         => htmlspecialchars($this->getItem()->name),
                 'filename'     => $filename,
                 'img'          => $this->app->jbimage->getUrl($file),
@@ -169,7 +172,7 @@ class ElementJBGallery extends Element implements iSubmittable
                 'thumb'        => $thumb->url,
                 'thumb_width'  => $thumb->width,
                 'thumb_height' => $thumb->height
-            );
+            ];
         }
 
         return $thumbs;
@@ -183,13 +186,15 @@ class ElementJBGallery extends Element implements iSubmittable
      */
     protected function _sortThumbnails(&$thumbs, $order)
     {
-        usort($thumbs, create_function('$a,$b', 'return strcmp($a["filename"], $b["filename"]);'));
+        usort($thumbs, function ($a, $b) {
+            return strcmp($a['filename'], $b['filename']);
+        });
 
-        if ($order == 'random') {
+        if ($order === 'random') {
             shuffle($thumbs);
         }
 
-        if ($order == 'desc') {
+        if ($order === 'desc') {
             $thumbs = array_reverse($thumbs);
         }
 
@@ -215,8 +220,9 @@ class ElementJBGallery extends Element implements iSubmittable
      */
     public function validateSubmission($value, $params)
     {
-        $folder    = $value->get('value');
-        $directory = $this->app->path->path('root:' . trim($this->config->get('directory'), '/\\') . '/' . trim($folder, '/\\'));
+        $folder = $value->get('value');
+        $directory = $this->app->path->path('root:' . trim($this->config->get('directory'), '/\\') . '/' . trim($folder,
+                '/\\'));
 
         if (!$directory) {
             throw new AppValidatorException('This directory does not exist');
@@ -229,7 +235,7 @@ class ElementJBGallery extends Element implements iSubmittable
      * @param array $params
      * @return null|string
      */
-    public function renderSubmission($params = array())
+    public function renderSubmission($params = [])
     {
         return $this->edit($params);
     }

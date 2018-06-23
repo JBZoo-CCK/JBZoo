@@ -1,13 +1,15 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ * JBZoo Application
  *
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
  */
 
 // no direct access
@@ -41,16 +43,10 @@ class pkg_jbzooInstallerScript
      */
     public function preflight($type, $parent)
     {
-        $messages = array();
+        $messages = [];
 
-        // check webserver
-        if (!extension_loaded('ionCube Loader')) {
-            $messages[] = 'On your web server must be installed PHP-module '
-                . '<a href="http://www.ioncube.com/loaders.php" target="_blank">ionCube Loader</a>. '
-                . 'Please, check for it and try to install again.';
-        }
-
-        if (version_compare(PHP_VERSION, '5.3.1', '<')) {
+        // check PHP version
+        if (PHP_VERSION_ID < 50500) {
             $messages[] = 'Your host needs to use PHP 5.3.0 or higher to run this version of JBZoo!';
         }
 
@@ -61,8 +57,7 @@ class pkg_jbzooInstallerScript
 
         // no auto update!
         if (JFolder::exists(JPATH_ROOT . '/media/zoo/applications/jbuniversal')) {
-            $messages[] = 'JBZoo is already installed. ' .
-                'Please, <a href="http://server.jbzoo.com/download#patches" target="_blank">use patches</a> for update!';
+            $messages[] = "Sorry, JBZoo doesn't support auto update on install yet.";
         }
 
         if (!empty($messages)) {
@@ -99,5 +94,4 @@ class pkg_jbzooInstallerScript
         $db->setQuery('UPDATE #__extensions SET enabled = 1 WHERE element = "' . $plugin . '"');
         $db->execute();
     }
-
 }

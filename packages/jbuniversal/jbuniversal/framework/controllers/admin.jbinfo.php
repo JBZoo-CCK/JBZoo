@@ -1,34 +1,36 @@
 <?php
 /**
- * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
- * @package     jbzoo
- * @version     2.x Pro
- * @author      JBZoo App http://jbzoo.com
- * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
- * @license     http://jbzoo.com/license-pro.php JBZoo Licence
- * @coder       Denis Smetannikov <denis@jbzoo.com>
+ * JBZoo Application
+ *
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package    Application
+ * @license    GPL-2.0
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
 
 /**
  * Class JBInfoJBuniversalController
  */
 class JBInfoJBUniversalController extends JBUniversalController
 {
-
     /**
      * Index action
      */
     public function index()
     {
         $this->image = $this->app->path->url('jbapp:application_info.png');
-        $xmlFile     = $this->app->path->path('jbapp:application.xml');
-        $xml         = simplexml_load_file($xmlFile);
+        $xmlFile = $this->app->path->path('jbapp:application.xml');
+        $xml = simplexml_load_string(file_get_contents($xmlFile));
 
-        $this->metadata = $data = $this->app->data->create(array(
+        $this->metadata = $data = $this->app->data->create([
             'name'         => (string)$xml->name,
             'creationdate' => $xml->creationDate ? (string)$xml->creationDate : 'Unknown',
             'author'       => $xml->author ? (string)$xml->author : 'Unknown',
@@ -38,7 +40,7 @@ class JBInfoJBUniversalController extends JBUniversalController
             'version'      => (string)$xml->version,
             'description'  => (string)$xml->description,
             'license'      => (string)$xml->license,
-        ));
+        ]);
 
         $this->renderView();
     }
@@ -76,7 +78,7 @@ class JBInfoJBUniversalController extends JBUniversalController
                 JFile::write($tmpPath, $content);
 
                 $zip = $this->app->archive->open($tmpArch, 'zip');
-                $zip->create(array($tmpPath), PCLZIP_OPT_REMOVE_ALL_PATH);
+                $zip->create([$tmpPath], PCLZIP_OPT_REMOVE_ALL_PATH);
 
                 if (is_readable($tmpArch) && JFile::exists($tmpArch)) {
                     $this->app->filesystem->output($tmpArch);
@@ -92,7 +94,7 @@ class JBInfoJBUniversalController extends JBUniversalController
                 // raise error on exception
                 $this->app->error->raiseNotice(0, JText::_('Error create report') . ' (' . $e . ')');
 
-                $this->setRedirect($this->app->jbrouter->admin(array('task' => 'systemReport')));
+                $this->setRedirect($this->app->jbrouter->admin(['task' => 'systemReport']));
 
                 return;
             }
@@ -128,7 +130,7 @@ class JBInfoJBUniversalController extends JBUniversalController
     public function performanceStep()
     {
         $testName = $this->_jbrequest->getWord('testname');
-        $result   = $this->app->jbperform->execTest($testName);
+        $result = $this->app->jbperform->execTest($testName);
 
         $this->app->jbajax->send($result);
     }
@@ -139,68 +141,31 @@ class JBInfoJBUniversalController extends JBUniversalController
     public function performanceReport()
     {
         $prevData = $this->app->jbsession->getGroup('benchmark');
-        $tests    = $this->app->jbperform->getStdValues();
+        $tests = $this->app->jbperform->getStdValues();
 
         if (count($tests) != count($prevData)) {
             $this->app->jbnotify->notice(JText::_('JBZOO_PERFORMANCE_REPORT_NO_DATA'));
-            $this->setRedirect($this->app->jbrouter->admin(array('task' => 'performance')));
+            $this->setRedirect($this->app->jbrouter->admin(['task' => 'performance']));
         }
 
         if ($this->_jbrequest->isPost()) {
 
-            $sendData = array(
-                'data'   => array(
+            $sendData = [
+                'data'   => [
                     'hosting' => $this->_jbrequest->getAdminForm(),
                     'tests'   => $prevData,
                     'host'    => JUri::root(),
                     'jbuser'  => JBZOO_USERNAME,
-                ),
+                ],
                 'method' => 'add-hosting',
-            );
+            ];
 
             $this->app->jbhttp->request('http://stats.jbzoo.com/api', $sendData);
 
-            $this->setRedirect($this->app->jbrouter->admin(array('task' => 'performance')), JText::_('JBZOO_PERFORMANCE_REPORT_THANK_YOU'));
+            $this->setRedirect($this->app->jbrouter->admin(['task' => 'performance']),
+                JText::_('JBZOO_PERFORMANCE_REPORT_THANK_YOU'));
         }
 
         $this->renderView();
     }
-
-    /**
-     * Show licence form
-     */
-    public function licence()
-    {
-        $this->renderView();
-    }
-
-    /**
-     * Save licence data
-     */
-    public function licenceSave()
-    {
-        // define vars
-        $app     = $this->app->zoo->getApplication();
-        $licData = $app->clearLData($_POST['jbzooform']);
-        $host    = $app->getDomain(true);
-
-        // save new lic data
-        $domainPath = $this->app->path->path('jbapp:config') . '/licence.' . $host . '.php';
-        $this->app->jbconfig->saveToFile($licData, $domainPath);
-
-        // cleanup cache
-        $this->app->jbcache->clear('data-' . $host);
-        $tmpPath = $this->app->path->path('jbapp:tmp') . '/data-' . $host;
-        if (JFile::exists($tmpPath)) {
-            JFile::delete($tmpPath);
-        }
-
-        $redirectUrl = $this->app->jbrouter->admin(array('task' => 'index'));
-        if (!empty($_POST['jbzooform']['redirect'])) {
-            $redirectUrl = base64_decode($_POST['jbzooform']['redirect']);
-        }
-
-        $this->setRedirect($redirectUrl, JText::_('JBZOO_LICENCE_SAVED'));
-    }
-
 }
