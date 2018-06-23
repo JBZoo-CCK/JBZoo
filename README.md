@@ -42,11 +42,11 @@ FREE Community Edition
  * [YT Zoo Performance Hacks](https://github.com/JBZoo/Zoo-Hacks)
 
 
-## Author and General Developer
+### Author and General Developer
  * [Denis Smetannikov](https://github.com/SmetDenis) (SmetDenis)
 
 
-## Contributors
+### Contributors
  * [Sergey Kalistratov](https://github.com/Cheren) (Cheren)
  * [Alexandr Oganov](https://github.com/Tapakan) (Tapakan)
  * [Eugene Kopylov](https://github.com/CB9TOIIIA) (CB9TOIIIA)
