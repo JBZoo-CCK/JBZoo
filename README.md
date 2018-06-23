@@ -18,6 +18,10 @@ FREE Community Edition
  * Joomla! CMS `4.0` (maybe...)
  * PHP `>= 7.0` is recommended with modules (mbstring, xml, json, opcache, mysqli)
 
+## How to GPL previous versions <= 2.4.x
+First of all, we **strongly recommend** you to upgrade your JBZoo to the latest paid version 2.4.x
+After that just use paths from [that repository](https://github.com/JBZoo/JBZoo-2-GPL-patches)
+
 ## Releases
  * [Last Unstable](https://github.com/JBZoo/JBZoo/archive/master.zip)
  * [All Stable Versions](https://github.com/JBZoo/JBZoo/releases)
