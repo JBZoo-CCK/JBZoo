@@ -65,11 +65,6 @@ defined('_JEXEC') or die('Restricted access');
                     'link' => ['controller' => 'jbinfo', 'task' => 'performance'],
                 ],
                 [
-                    'name' => 'JBZOO_ICON_INDEX_LICENCE',
-                    'icon' => 'licence.png',
-                    'link' => ['controller' => 'jbinfo', 'task' => 'licence'],
-                ],
-                [
                     'name' => 'JBZOO_ICON_INDEX_SUPPORT',
                     'icon' => 'support.png',
                     'url'  => 'http://forum.jbzoo.com/',

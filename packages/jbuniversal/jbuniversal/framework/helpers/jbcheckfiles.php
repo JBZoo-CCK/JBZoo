@@ -25,7 +25,7 @@ class JBCheckFilesHelper extends AppHelper
      * Check paths
      * @var array
      */
-    protected $_checkVirtPaths = array(
+    protected $_checkVirtPaths = [
         'jbapp',
         'mod_jbzoo_basket',
         'mod_jbzoo_category',
@@ -34,22 +34,22 @@ class JBCheckFilesHelper extends AppHelper
         'mod_jbzoo_props',
         'mod_jbzoo_search',
         'plugin_jbzoo'
-    );
+    ];
 
     /**
      * Exclude pattern list
      * @var array
      */
-    protected $_exclude = array(
+    protected $_exclude = [
         // old files 
         'index\.html$',
-        
+
         // any configs
         '\.config$',
-        
+
         // jbzoo version
         'application\.xml$',
-        
+
         // templates
         'templates[/\\\].*[/\\\]assets',
         'templates[/\\\].*[/\\\]cart-elements',
@@ -64,14 +64,10 @@ class JBCheckFilesHelper extends AppHelper
         'positions\.xml$',
         'metadata\.xml',
         'renderer[/\\\]item[/\\\].*',
-        
-        // configs
-        'config[/\\\]licence\.php$',
-        'config[/\\\]licence\..*\.php$',
-        
+
         // temp files
         'tmp[/\\\].*',
-    );
+    ];
 
     /**
      * Create checksums file
@@ -104,7 +100,7 @@ class JBCheckFilesHelper extends AppHelper
             throw new JBCheckFilterException(JText::_('Unable to locate checksums file in ' . $path));
         }
 
-        $result = array();
+        $result = [];
 
         foreach ($this->_checkVirtPaths as $vpath) {
 
@@ -115,9 +111,11 @@ class JBCheckFilesHelper extends AppHelper
                     $path,
                     $checksum,
                     $result,
-                    array(create_function('$path',
-                          'if (preg_match("#^' . $vpath . '#i", $path)) return preg_replace("#^' . $vpath . '/#i", "", $path);'
-                    )),
+                    [
+                        create_function('$path',
+                            'if (preg_match("#^' . $vpath . '#i", $path)) return preg_replace("#^' . $vpath . '/#i", "", $path);'
+                        )
+                    ],
                     $this->app->path->relative($path),
                     $this->_exclude
                 );
