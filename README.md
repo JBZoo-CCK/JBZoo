@@ -13,15 +13,10 @@ FREE Community Edition
 
 
 ## System requirements
- * YooTheme Zoo Component v3.3.28+
- * Joomla! CMS v3.8.x+
- * Joomla! CMS v4.0 (maybe...)
- * PHP v5.6.x / v7.x (7.2+ is recommended) with modules
-   * mbstring
-   * xml
-   * json
-   * opcache
-   * mysqli
+ * YooTheme Zoo Component `^3.3.28`
+ * Joomla! CMS `^3.8.3`
+ * Joomla! CMS `4.0` (maybe...)
+ * PHP `>= 7.0` is recommended with modules (mbstring, xml, json, opcache, mysqli)
 
 ## Useful links
 
@@ -63,4 +58,4 @@ make test
 ```
 
 ## LICENSE
-GNU GPL v2.0 or later - [see details](https://github.com/JBZoo/JBZoo/blob/master/LICENSE.md)
+GNU GPL v2.0 or later. [See details](https://github.com/JBZoo/JBZoo/blob/master/LICENSE)
