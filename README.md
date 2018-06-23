@@ -18,35 +18,32 @@ FREE Community Edition
  * Joomla! CMS `4.0` (maybe...)
  * PHP `>= 7.0` is recommended with modules (mbstring, xml, json, opcache, mysqli)
 
-## Useful links
-
-### Releases
+## Releases
  * [Last Unstable](https://github.com/JBZoo/JBZoo/archive/master.zip)
  * [All Stable Versions](https://github.com/JBZoo/JBZoo/releases)
+ * [Old Paid Versions](http://clientarea.jbzoo.com)
 
-### General
+## Useful links
+### General websites
  * [English](http://jbzoo.com)
  * [Russian](http://jbzoo.ru)
  * [JBZoo Demo](http://demo.jbzoo.com)
  * [Forum & Community](http://forum.jbzoo.com)
  * [JBZoo Marketplace (extentions)](http://forum.jbzoo.com/files/)
 
-### Related projects
+### Our Related Projects
  * [JBZoo CLI extention](https://github.com/JBZoo/CCK-Cli)
  * [JBlank Template](https://github.com/JBZoo/JBlank)
  * [Our libs and tools](https://github.com/JBZoo)
 
-### About ZOO
+### About YooTheme ZOO
  * [YT Zoo Component (Original)](https://www.yootheme.com/zoo)
  * [YT Zoo Component (JBZoo Community Edition)](https://github.com/JBZoo/YOOtheme-Zoo)
  * [YT Zoo Performance Hacks](https://github.com/JBZoo/Zoo-Hacks)
 
 
-### Author and General Developer
- * [Denis Smetannikov](https://github.com/SmetDenis) (SmetDenis)
-
-
-### Contributors
+## Contributors
+ * [Denis Smetannikov](https://github.com/SmetDenis) (SmetDenis) `-=! Author, Founder and General Developer !=-`
  * [Sergey Kalistratov](https://github.com/Cheren) (Cheren)
  * [Alexandr Oganov](https://github.com/Tapakan) (Tapakan)
  * [Eugene Kopylov](https://github.com/CB9TOIIIA) (CB9TOIIIA)
