@@ -112,9 +112,11 @@ class JBCheckFilesHelper extends AppHelper
                     $checksum,
                     $result,
                     [
-                        create_function('$path',
-                            'if (preg_match("#^' . $vpath . '#i", $path)) return preg_replace("#^' . $vpath . '/#i", "", $path);'
-                        )
+                        function ($path) use ($vpath) {
+                            if (preg_match("#^' . $vpath . '#i", $path)) {
+                                return preg_replace("#^' . $vpath . '/#i", "", $path);
+                            }
+                        }
                     ],
                     $this->app->path->relative($path),
                     $this->_exclude

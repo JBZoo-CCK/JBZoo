@@ -47,9 +47,9 @@ class ElementJBPriceCalc extends ElementJBPrice
      * @param string $searchIn
      * @return array
      */
-    public function quickSearch($list = array(), $target = 'value', $addKey = true, $searchIn = 'variations')
+    public function quickSearch($list = [], $target = 'value', $addKey = true, $searchIn = 'variations')
     {
-        $variations = array();
+        $variations = [];
         if (!empty($list)) {
             $data = $this->data();
             foreach ($list as $key => $value) {
@@ -73,22 +73,22 @@ class ElementJBPriceCalc extends ElementJBPrice
      * @param  array $values
      * @return array
      */
-    public function getVariantByValues($values = array())
+    public function getVariantByValues($values = [])
     {
-        $data = (array)$this->get('values', array());
+        $data = (array)$this->get('values', []);
 
         if (empty($values) || empty($data)) {
             return (array)$values;
         }
 
-        $variations = array();
+        $variations = [];
         foreach ($data as $i => $value) {
             foreach ($value as $identifier => $fields) {
                 if (isset($values[$identifier])) {
 
                     $diff = array_diff_assoc($fields, $values[$identifier]);
                     if (empty($diff)) {
-                        $variations[$i] = $this->get('variations.' . $i, array());
+                        $variations[$i] = $this->get('variations.' . $i, []);
                     }
                 }
             }
@@ -99,22 +99,22 @@ class ElementJBPriceCalc extends ElementJBPrice
 
     /**
      * @param array $template
-     * @param array  $values
+     * @param array $values
      */
-    public function ajaxChangeVariant($template = array('default'), $values = array())
+    public function ajaxChangeVariant($template = ['default'], $values = [])
     {
         $list = $this->getVariantByValues($values);
 
         $keys = array_keys($list);
-        $key  = (int)end($keys);
+        $key = (int)end($keys);
 
         $this->setDefault($key)->setTemplate($template);
 
-        $this->getList($list, array(
+        $this->getList($list, [
             'default'  => $key,
             'values'   => $this->getValues($values),
             'selected' => $values
-        ));
+        ]);
 
         $this->app->jbajax->send($this->renderVariant());
     }
@@ -126,9 +126,9 @@ class ElementJBPriceCalc extends ElementJBPrice
      * @param array $values
      * @throws ElementJBPriceException
      */
-    public function ajaxAddToCart($template = array('default'), $quantity = 1, $values = array())
+    public function ajaxAddToCart($template = ['default'], $quantity = 1, $values = [])
     {
-        /** @type $jbAjax JBAjaxHelper  */
+        /** @type $jbAjax JBAjaxHelper */
         $jbAjax = $this->app->jbajax;
 
         //Get variant by selected values
@@ -136,16 +136,16 @@ class ElementJBPriceCalc extends ElementJBPrice
 
         $cart = JBCart::getInstance();
         $keys = array_keys($list);
-        $key  = (int)end($keys);
+        $key = (int)end($keys);
 
         // Set the default option, which we have received, not saved. For correct calculation.
         $this->setDefault($key)->setTemplate($template);
 
-        $list = $this->getList($list, array(
+        $list = $this->getList($list, [
             'values'   => $this->getValues($values),
             'selected' => $values,
             'quantity' => $quantity
-        ));
+        ]);
 
         $session_key = $list->getSessionKey();
         $data = $cart->getItem($session_key);
@@ -159,7 +159,8 @@ class ElementJBPriceCalc extends ElementJBPrice
 
         // Check required.
         if (count($missing)) {
-            throw new ElementJBPriceException(JText::sprintf('JBZOO_JBPRICE_OPTIONS_IS_REQUIRED', '"' . implode('", "', $missing) . '"'));
+            throw new ElementJBPriceException(JText::sprintf('JBZOO_JBPRICE_OPTIONS_IS_REQUIRED',
+                '"' . implode('", "', $missing) . '"'));
         }
 
         // Check balance.
@@ -168,9 +169,9 @@ class ElementJBPriceCalc extends ElementJBPrice
         }
 
         $cart->addItem($list->getCartData())
-             ->updateItem($cart->get($session_key));
+            ->updateItem($cart->get($session_key));
 
-        $jbAjax->send(array(), true);
+        $jbAjax->send([], true);
     }
 
     /**
@@ -183,21 +184,21 @@ class ElementJBPriceCalc extends ElementJBPrice
     {
         $this->setTemplate($template);
         $this->cache = false;
-        $this->hash  = $hash;
+        $this->hash = $hash;
 
         $this->getParameters($template);
         $this->getConfigs();
 
-        $html = $this->render(array(
+        $html = $this->render([
             'template'       => $template,
             'layout'         => 'modal',
             '_layout'        => $layout,
             'modal_template' => null
-        ));
+        ]);
 
-        return parent::renderLayout($this->getLayout('_modal.php'), array(
+        return parent::renderLayout($this->getLayout('_modal.php'), [
             'html' => $html
-        ));
+        ]);
     }
 
     /**
@@ -211,9 +212,9 @@ class ElementJBPriceCalc extends ElementJBPrice
             $key = null;
         }
         $item_id = $this->getItem()->id;
-        $result  = JBCart::getInstance()->remove($item_id, $this->identifier, $key);
+        $result = JBCart::getInstance()->remove($item_id, $this->identifier, $key);
 
-        $this->app->jbajax->send(array('removed' => $result));
+        $this->app->jbajax->send(['removed' => $result]);
     }
 
     /**
@@ -222,9 +223,8 @@ class ElementJBPriceCalc extends ElementJBPrice
      */
     protected function getRequired()
     {
-        $required = array();
-        foreach($this->_list->all() as $variant)
-        {
+        $required = [];
+        foreach ($this->_list->all() as $variant) {
             $required = array_merge((array)$required, $variant->getRequired());
         }
 
@@ -239,7 +239,7 @@ class ElementJBPriceCalc extends ElementJBPrice
     public function elementOptions($id)
     {
         $modifiers = (int)$this->config->get('show_modifiers', 0);
-        $options   = (array)$this->get('selected.' . $id, array());
+        $options = (array)$this->get('selected.' . $id, []);
 
         if (!$modifiers && count($options)) {
             return array_combine($options, $options);
@@ -253,12 +253,12 @@ class ElementJBPriceCalc extends ElementJBPrice
      * @param array $options
      * @return array
      */
-    public function addModifiers($options = array())
+    public function addModifiers($options = [])
     {
         if (empty($options)) {
             return $options;
         }
-        $result = array();
+        $result = [];
 
         foreach ($options as $key => $option) {
             $total = JBCart::val();
@@ -277,17 +277,17 @@ class ElementJBPriceCalc extends ElementJBPrice
      * Bind and validate data
      * @param array $data
      */
-    public function bindData($data = array())
+    public function bindData($data = [])
     {
         if (null !== $this->_item) {
-            $hashTable = array();
+            $hashTable = [];
 
             if (array_key_exists('variations', $data)) {
                 $list = $this->prepareList($data['variations']);
                 unset($data['variations']);
 
                 // generate hashes
-                $values = (array)$this->get('values', array());
+                $values = (array)$this->get('values', []);
                 if ($values) {
                     $hashTable = array_map(function ($array) {
                         asort($array);
@@ -298,7 +298,8 @@ class ElementJBPriceCalc extends ElementJBPrice
 
                 //Check if variant with same options exists
                 $list = array_filter($list, function ($variant) use (&$hashTable) {
-                    return ($variant->isBasic() || $variant->count('simple') && !in_array($variant->hash(), $hashTable, true))
+                    return ($variant->isBasic() || $variant->count('simple') && !in_array($variant->hash(), $hashTable,
+                            true))
                         ? $hashTable[$variant->getId()] = $variant->hash() //add variant hash to array based on simple elements values
                         : null;
                 });
@@ -337,22 +338,22 @@ class ElementJBPriceCalc extends ElementJBPrice
     {
         if ($this->_item !== null) {
             $simple = $variant->getSimple();
-            $data   = $this->data();
+            $data = $this->data();
 
-            $values     = (array)$data->get('values', array());
-            $selected   = (array)$data->get('selected', array());
-            $variations = (array)$data->get('variations', array());
+            $values = (array)$data->get('values', []);
+            $selected = (array)$data->get('selected', []);
+            $variations = (array)$data->get('variations', []);
 
             $variations[$variant->getId()] = $variant->data(true);
 
             if (!$variant->isBasic()) {
-                $values[$variant->getId()] = array_filter(array_map(create_function('$element',
-                    'return JString::strlen($element->getValue(true)) > 0 ? (array)$element->data() : null;'), $simple
-                ));
+                $values[$variant->getId()] = array_filter(array_map(function ($element) {
+                    return JString::strlen($element->getValue(true)) > 0 ? (array)$element->data() : null;
+                }, $simple));
 
-                $_selected = array_filter(array_map(create_function('$element', 'return JString::strlen($element->getValue(true)) > 0
-                ? JString::trim($element->getValue(true) . \'__\' . $element->variant) : null;'), $simple)
-                );
+                $_selected = array_filter(array_map(function ($element) {
+                    return JString::strlen($element->getValue(true)) > 0 ? JString::trim($element->getValue(true) . '__' . $element->variant) : null;
+                }, $simple));
 
                 if ($_selected) {
                     foreach ($_selected as $key => $value) {
@@ -363,11 +364,11 @@ class ElementJBPriceCalc extends ElementJBPrice
                 }
             }
             $variations = array_values($variations);
-            $values     = array_values($values);
+            $values = array_values($values);
 
             $data->set('variations', $variations);
             $data->set('selected', $selected);
-            $data->set('values', $variant->isBasic() ? array(self::BASIC_VARIANT => array()) : $values);
+            $data->set('values', $variant->isBasic() ? [self::BASIC_VARIANT => []] : $values);
 
             $this->_item->elements->set($this->identifier, (array)$data);
         }
@@ -381,23 +382,23 @@ class ElementJBPriceCalc extends ElementJBPrice
      */
     public function getIndexData()
     {
-        $variations = (array)$this->get('variations', array());
+        $variations = (array)$this->get('variations', []);
 
-        $data = array();
+        $data = [];
         if (count($variations)) {
             $defKey = $this->defaultKey();
 
             if ($this->_list instanceof JBCartVariantList) {
                 $this->_list->clear();
             }
-            $list  = $this->getList();
+            $list = $this->getList();
 
             // Build list of variants
             $_variants = $this->prepareList($variations);
 
             // Add default variant to list
             if ($defKey !== self::BASIC_VARIANT && isset($_variants[$defKey])) {
-                $list->add(array($defKey => $_variants[$defKey]));
+                $list->add([$defKey => $_variants[$defKey]]);
             }
 
             $list->current()->setId(-1);
@@ -427,7 +428,7 @@ class ElementJBPriceCalc extends ElementJBPrice
     public function getVariantData(JBCartVariant $variant)
     {
         $vars = $this->app->jbvars;
-        $data   = array();
+        $data = [];
         if ($variant->isBasic()) {
             $elements = $variant->getCore();
 
@@ -444,14 +445,14 @@ class ElementJBPriceCalc extends ElementJBPrice
                 $value = $element->getSearchData();
                 $value = $this->_helper->getValue($value);
 
-                $string  = (string)$value;
+                $string = (string)$value;
                 $numeric = is_numeric($value) ? $vars->number($value) : null;
-                $date    = $this->_helper->isDate($value) ?: null;
+                $date = $this->_helper->isDate($value) ?: null;
 
                 if (!$this->_helper->isEmpty($string) || (is_numeric($numeric) || !$this->_helper->isEmpty($date))) {
                     $key = $this->_item->id . '__' . $this->identifier . '__' . $variant->getId() . '__' . $element->id();
 
-                    $data[$key] = array(
+                    $data[$key] = [
                         'item_id'    => $this->_item->id,
                         'element_id' => $this->identifier,
                         'param_id'   => $element->id(),
@@ -459,7 +460,7 @@ class ElementJBPriceCalc extends ElementJBPrice
                         'value_n'    => $numeric,
                         'value_d'    => $date,
                         'variant'    => $variant->getId()
-                    );
+                    ];
                 }
             }
         }

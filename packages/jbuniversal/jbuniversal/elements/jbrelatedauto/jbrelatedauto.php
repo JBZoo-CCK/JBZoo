@@ -32,7 +32,7 @@ class ElementJBRelatedAuto extends Element
      * @param array $params
      * @return bool
      */
-    public function hasValue($params = array())
+    public function hasValue($params = [])
     {
 
         if ((int)$this->get('value', 1)) {
@@ -59,10 +59,10 @@ class ElementJBRelatedAuto extends Element
      */
     private function _getRelatedAuto($params)
     {
-        
+
         if ($this->_relatedItems === null) {
 
-            $item  = $this->getItem();
+            $item = $this->getItem();
             $model = JBModelRelated::model();
 
             $this->_relatedItems = $model->getRelated($item, $this->config, $params);
@@ -78,18 +78,21 @@ class ElementJBRelatedAuto extends Element
      * @param array $params
      * @return mixed
      */
-    public function render($params = array())
+    public function render($params = [])
     {
         // init vars
         $params = $this->app->data->create($params);
 
         $items = $this->_getRelatedAuto($params);
 
-        $renderer = $this->app->renderer->create('item')->addPath(array($this->app->path->path('component.site:'), $this->_item->getApplication()->getTemplate()->getPath()));
+        $renderer = $this->app->renderer->create('item')->addPath([
+            $this->app->path->path('component.site:'),
+            $this->_item->getApplication()->getTemplate()->getPath()
+        ]);
 
         // create output
-        $layout      = $params->get('layout');
-        $itemsOutput = array();
+        $layout = $params->get('layout');
+        $itemsOutput = [];
 
         foreach ($items as $item) {
 
@@ -109,10 +112,10 @@ class ElementJBRelatedAuto extends Element
         if ($columns > 0 && $params->get('layout', false)) {
             if ($layout = $this->getLayout()) {
                 return self::renderLayout(
-                    $layout, array(
+                    $layout, [
                         'items'   => $itemsOutput,
                         'columns' => $columns
-                    )
+                    ]
                 );
             }
         }
@@ -133,9 +136,9 @@ class ElementJBRelatedAuto extends Element
             $order = $this->app->itemorder->convert($order);
         }
 
-        $items    = (array)$items;
-        $order    = (array)$order;
-        $sorted   = array();
+        $items = (array)$items;
+        $order = (array)$order;
+        $sorted = [];
         $reversed = false;
 
         // remove empty values
@@ -163,7 +166,9 @@ class ElementJBRelatedAuto extends Element
 
         // if there is a none core element present, ordering will only take place for those elements
         if (count($order) > 1) {
-            $order = array_filter($order, create_function('$a', 'return strpos($a, "_item") === false;'));
+            $order = array_filter($order, function ($a) {
+                return strpos($a, '_item') === false;
+            });
         }
 
         if (!empty($order)) {

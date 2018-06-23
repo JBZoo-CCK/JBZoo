@@ -27,7 +27,7 @@ class JBCartElementOrderUpload extends JBCartElementOrder
      * @param array $params
      * @return bool
      */
-    public function hasValue($params = array())
+    public function hasValue($params = [])
     {
         $file = $this->app->path->path('root:' . $this->get('file'));
 
@@ -39,7 +39,7 @@ class JBCartElementOrderUpload extends JBCartElementOrder
      * @param array $params
      * @return string
      */
-    public function render($params = array())
+    public function render($params = [])
     {
         return $this->edit($params);
     }
@@ -49,14 +49,14 @@ class JBCartElementOrderUpload extends JBCartElementOrder
      * @param array $params
      * @return string
      */
-    public function edit($params = array())
+    public function edit($params = [])
     {
         if ($this->get('file')) {
             // TODO add download file with protection
             $relPath = $this->app->path->relative($this->get('file'));
 
             return '<a href="' . JUri::root() . $relPath . '" target="_blank">' . $relPath . '</a>'
-            . ' (' . $this->_getSize() . ')';
+                . ' (' . $this->_getSize() . ')';
         }
 
         return ' - ';
@@ -67,7 +67,7 @@ class JBCartElementOrderUpload extends JBCartElementOrder
      * @param array $data
      * @return void
      */
-    public function bindData($data = array())
+    public function bindData($data = [])
     {
         parent::bindData($data);
 
@@ -80,12 +80,12 @@ class JBCartElementOrderUpload extends JBCartElementOrder
      * @param array $params
      * @return string
      */
-    public function renderSubmission($params = array())
+    public function renderSubmission($params = [])
     {
         // init vars
         $default = $this->getUserState($params->get('user_field'));
-        $upload  = $this->get('file', $default);
-        $upload  = is_array($upload) ? '' : $upload; // is uploaded file
+        $upload = $this->get('file', $default);
+        $upload = is_array($upload) ? '' : $upload; // is uploaded file
 
         if (!empty($upload)) {
             $upload = basename($upload);
@@ -95,12 +95,12 @@ class JBCartElementOrderUpload extends JBCartElementOrder
         $maxSize = empty($maxSize) ? null : $maxSize;
 
         if ($layout = $this->getLayout('submission.php')) {
-            return $this->renderLayout($layout, array(
+            return $this->renderLayout($layout, [
                 'upload'          => $upload,
                 'maxSizeFormated' => $this->app->filesystem->formatFilesize($maxSize),
                 'maxSizeBytes'    => $maxSize,
                 'uploadFlag'      => $upload ? 1 : '',
-            ));
+            ]);
         }
 
     }
@@ -116,7 +116,7 @@ class JBCartElementOrderUpload extends JBCartElementOrder
     {
         // get old file value
         $old_file = $this->get('file');
-        $file     = '';
+        $file = '';
 
         try {
 
@@ -127,10 +127,13 @@ class JBCartElementOrderUpload extends JBCartElementOrder
             }
 
             // get legal extensions
-            $extensions = array_map(create_function('$ext', 'return strtolower(trim($ext));'), explode(',', $this->config->get('upload_extensions', 'png,jpg,doc,mp3,mov,avi,mpg,zip,rar,gz')));
+            $extensions = array_map(function ($ext) {
+                return strtolower(trim($ext));
+            }, explode(',', $this->config->get('upload_extensions', 'png,jpg,doc,mp3,mov,avi,mpg,zip,rar,gz')));
 
             //get legal mime types
-            $mime_types = $this->app->data->create(array_intersect_key($this->app->filesystem->getMimeMapping(), array_flip($extensions)))->flattenRecursive();
+            $mime_types = $this->app->data->create(array_intersect_key($this->app->filesystem->getMimeMapping(),
+                array_flip($extensions)))->flattenRecursive();
 
             // get max upload size
             $max_size = $this->config->get('max_upload_size', '512') * 1024;
@@ -160,10 +163,10 @@ class JBCartElementOrderUpload extends JBCartElementOrder
 
         if ($userfile['tmp_name'] && is_array($userfile)) {
             // get file name
-            $ext       = $this->app->filesystem->getExtension($userfile['name']);
+            $ext = $this->app->filesystem->getExtension($userfile['name']);
             $base_path = JPATH_ROOT . '/' . $this->_getUploadPath() . '/';
-            $file      = $base_path . $userfile['name'];
-            $filename  = basename($file, '.' . $ext);
+            $file = $base_path . $userfile['name'];
+            $filename = basename($file, '.' . $ext);
 
             $i = 1;
             while (JFile::exists($file)) {

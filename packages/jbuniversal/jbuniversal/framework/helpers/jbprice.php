@@ -53,9 +53,9 @@ class JBPriceHelper extends AppHelper
      *                      Can be like type, identifier etc.
      * @return array
      */
-    public function getAppPrices($filter = array())
+    public function getAppPrices($filter = [])
     {
-        $elements    = array();
+        $elements = [];
         $application = $this->app->zoo->getApplication();
 
         foreach ($application->getTypes() as $id => $type) {
@@ -78,7 +78,9 @@ class JBPriceHelper extends AppHelper
      */
     public function getItemPrices(Item $item)
     {
-        return array_filter($item->getElements(), create_function('$element', 'return $element instanceof ElementJBPrice;'));
+        return array_filter($item->getElements(), function ($element) {
+            return $element instanceof ElementJBPrice;
+        });
     }
 
     /**
@@ -88,7 +90,9 @@ class JBPriceHelper extends AppHelper
      */
     public function getTypePrices(Type $type)
     {
-        return array_filter($type->getElements(), create_function('$element', 'return $element instanceof ElementJBPrice;'));
+        return array_filter($type->getElements(), function ($element) {
+            return $element instanceof ElementJBPrice;
+        });
     }
 
     /**
@@ -98,8 +102,8 @@ class JBPriceHelper extends AppHelper
     public function getPricesList()
     {
         $types = $this->getAppPrices();
-        $app   = $this->app->zoo->getApplication();
-        $list  = array();
+        $app = $this->app->zoo->getApplication();
+        $list = [];
 
         if (!empty($types)) {
             foreach ($types as $id => $elements) {
@@ -146,8 +150,8 @@ class JBPriceHelper extends AppHelper
         } elseif (is_array($value) && !empty($value)) {
             $value = JArrayHelper::toString($value, PHP_EOL);
 
-        } elseif(is_object($value)) {
-            return $this->getValue((array) $value, $toString);
+        } elseif (is_object($value)) {
+            return $this->getValue((array)$value, $toString);
 
         }
         $value = JString::trim($value);
@@ -168,7 +172,7 @@ class JBPriceHelper extends AppHelper
         } elseif (is_array($value)) {
             $value = array_filter($value);
 
-        } elseif(is_object($value)) {
+        } elseif (is_object($value)) {
             return $this->isEmpty((array)$value);
         }
 
@@ -207,10 +211,10 @@ class JBPriceHelper extends AppHelper
         }
 
         $helper = $this->app->jbcartposition;
-        $model  = JBModelConfig::model();
+        $model = JBModelConfig::model();
 
         $positions = $model->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $jbPrice->identifier);
-        $position  = $positions->get(JBCart::DEFAULT_POSITION, array());
+        $position = $positions->get(JBCart::DEFAULT_POSITION, []);
 
         if (JString::strlen($id) === ElementJBPrice::SIMPLE_PARAM_LENGTH) {
             $option = $value;
@@ -220,16 +224,16 @@ class JBPriceHelper extends AppHelper
 
                 if ($element['type'] == 'color') {
                     $options = $this->app->jbcolor->parse($element['options']);
-                    $new     = $this->app->jbcolor->build($option, $options);
+                    $new = $this->app->jbcolor->build($option, $options);
 
                 } else {
                     $options = $this->parse($element['options']);
-                    $new     = $this->build($option, $options);
+                    $new = $this->build($option, $options);
                 }
 
                 if ($new !== null && $new !== '' && $new != $element['options']) {
                     $element['options'] = $new;
-                    $position[$id]      = $element;
+                    $position[$id] = $element;
 
                     $positions->set(JBCart::DEFAULT_POSITION, $position);
                     $helper->savePrice(JBCart::CONFIG_PRICE, (array)$positions, $jbPrice->identifier);
@@ -250,7 +254,7 @@ class JBPriceHelper extends AppHelper
     public function build($value, $options)
     {
         $value = JString::trim($value);
-        $keys  = array_keys($options);
+        $keys = array_keys($options);
 
         if (!in_array($this->clean($value), $keys, true)) {
             $options[$value] = $value;
@@ -265,8 +269,8 @@ class JBPriceHelper extends AppHelper
      */
     public function parse($options)
     {
-        $data   = explode(PHP_EOL, $options);
-        $result = array();
+        $data = explode(PHP_EOL, $options);
+        $result = [];
 
         foreach ($data as $option) {
             $key = $this->clean($option);
@@ -303,7 +307,7 @@ class JBPriceHelper extends AppHelper
      * @param  array              $options
      * @return \JBCSVItemPrice
      */
-    public function csvItem($element, $jbPrice, $options = array())
+    public function csvItem($element, $jbPrice, $options = [])
     {
         if (empty($jbPrice)) {
             return false;
@@ -322,7 +326,8 @@ class JBPriceHelper extends AppHelper
         }
 
         if (!class_exists($class)) {
-            $this->app->loader->register($class, 'jbelements:' . self::ELEMENTS_CSV_GROUP . '/' . strtolower($type) . '.php');
+            $this->app->loader->register($class,
+                'jbelements:' . self::ELEMENTS_CSV_GROUP . '/' . strtolower($type) . '.php');
         }
 
         if (class_exists($class)) {
