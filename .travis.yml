@@ -10,4 +10,4 @@ matrix:
 
 script:
   - make
-  - make test-all
+  - make test
