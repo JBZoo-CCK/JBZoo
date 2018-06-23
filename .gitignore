@@ -10,8 +10,6 @@
 # @copyright  Copyright (C) JBZoo.com, All rights reserved.
 # @link       https://github.com/JBZoo/JBZoo
 #
-# Note: All ini files need to be saved as UTF-8 (no BOM)
-#
 
 # Editor & OS stuff
 .idea
@@ -20,6 +18,7 @@
 # composer
 /vendor/*
 /composer.lock
+phpunit.xml
 
 # JBZoo/Zoo service files
 positions.config
