@@ -40,7 +40,6 @@ FREE Community edition
  * [Sergey Kalistratov](https://github.com/Cheren) (Cheren)
  * [Alexandr Oganov](https://github.com/Tapakan) (Tapakan)
  * [Eugene Kopylov](https://github.com/CB9TOIIIA) (CB9TOIIIA)
- * [Anton Isaev](https://github.com/isay777) (isay777)
  * [And many others...](https://github.com/JBZoo/JBZoo/graphs/contributors)
 
 ### LICENSE
