@@ -14,13 +14,13 @@
 <application>
     <name>JBZoo App</name>
     <group>jbuniversal</group>
-    <version>__VERSION__ Pro __REVISION__</version>
-    <creationDate>__CURRENT_DATE__</creationDate>
+    <version>4.0.0 Free Community Edition</version>
+    <creationDate>2018 June</creationDate>
     <author>JBZoo.com</author>
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
-    <license>http://jbzoo.com/license JBZoo Licence</license>
+    <license>GPL-2.0</license>
     <description>JBZoo App is universal Joomla CCK, application for YooTheme Zoo component</description>
 
     <params group="application-config">

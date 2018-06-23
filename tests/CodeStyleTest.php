@@ -14,8 +14,6 @@
 
 namespace JBZoo\PHPUnit;
 
-use Symfony\Component\Finder\Finder;
-
 /**
  * Class CodeStyleTest
  * @package JBZoo\PHPUnit
