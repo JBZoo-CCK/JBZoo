@@ -12,6 +12,7 @@ script:
   - make
   - make test
   - make build-distr
+  - ls ./build
 
 deploy:
   provider: releases
