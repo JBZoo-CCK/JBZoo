@@ -11,3 +11,12 @@ matrix:
 script:
   - make
   - make test
+  - make build-distr
+  - travis setup releases
+
+deploy:
+  provider: releases
+  file: ./build/jbzoo_installer.zip
+  skip_cleanup: true
+  on:
+    tags: true

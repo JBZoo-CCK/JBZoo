@@ -26,6 +26,20 @@ test:
 	@php ./vendor/phpunit/phpunit/phpunit
 	@echo ""
 
+build-distr:
+	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Build distribution file: ./build/jbzoo_installer.zip \033[0m"
+	@rm -rf ./build/
+	@mkdir -pv ./build/files
+	@cp -R ./packages         ./build/files/packages
+	@cp    ./file.script.php  ./build/files/file.script.php
+	@cp    ./pkg_jbzoo.xml    ./build/files/pkg_jbzoo.xml
+	@cp    ./README.md        ./build/files/README.md
+	@cp    ./LICENSE.md       ./build/files/LICENSE.md
+	@cd ./build/files; zip -r9q jbzoo_installer.zip *
+	@mv ./build/files/jbzoo_installer.zip ./build/jbzoo_installer.zip
+	@rm -rf ./build/files
+	@echo ""
+
 reset:
 	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Hard reset \033[0m"
 	@git reset --hard
