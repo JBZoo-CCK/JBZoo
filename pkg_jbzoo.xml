@@ -37,5 +37,7 @@
     </files>
 
     <scriptfile>file.script.php</scriptfile>
-
+    <updateservers>
+        <server type="extension" priority="1" name="JBZoo">https://raw.githubusercontent.com/JBZoo/JBZoo/master/update.xml</server>
+    </updateservers>
 </extension>

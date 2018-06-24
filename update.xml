@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<updates>
+	<update>
+		<name>JBZoo Community Edition</name>
+		<description>JBZoo Community Edition</description>
+		<element>JBZoo Community Edition</element>
+		<type>component</type>
+		<version>4.0.0-beta3</version>
+		<infourl title="JBZoo">https://github.com/JBZoo/JBZoo/</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip"><![CDATA[https://github.com/JBZoo/JBZoo/archive/4.0.0-beta3.zip]]></downloadurl>
+		</downloads>
+		<tags>
+			<tag>stable</tag>
+		</tags>
+        <client>1</client>
+		<targetplatform name="joomla" version="3.[23456789]"/>
+	</update>
+</updates>
