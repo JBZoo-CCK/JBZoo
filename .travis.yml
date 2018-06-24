@@ -12,6 +12,7 @@ script:
   - make
   - make test
   - make build-distr
+  - make reset
 
 deploy:
   provider: releases
