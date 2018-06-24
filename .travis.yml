@@ -12,7 +12,6 @@ script:
   - make
   - make test
   - make build-distr
-  - travis setup releases
 
 deploy:
   provider: releases
