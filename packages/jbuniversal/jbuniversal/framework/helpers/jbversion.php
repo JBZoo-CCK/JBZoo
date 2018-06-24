@@ -60,7 +60,7 @@ class JBVersionHelper extends AppHelper
             $version = $this->_getversionByXml('/media/zoo/applications/jbuniversal/application.xml');
         }
 
-        return $version;
+        return $version . ' GNU GPL (Community Edition)';
     }
 
     /**
