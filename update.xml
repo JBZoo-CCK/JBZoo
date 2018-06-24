@@ -19,7 +19,7 @@
         </description>
         <license>GPL-2.0</license>
         <element>JBZoo Community Edition</element>
-        <type>component</type>
+        <type>package</type>
         <version>4.0.0-beta3</version>
         <infourl title="JBZoo">https://github.com/JBZoo/JBZoo/</infourl>
         <downloads>
