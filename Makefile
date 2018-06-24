@@ -38,6 +38,22 @@ build-distr:
 	@cd ./build/files; zip -r9q jbzoo_installer.zip *
 	@mv ./build/files/jbzoo_installer.zip ./build/jbzoo_installer.zip
 	@rm -rf ./build/files
+	@echo "./build/files/jbzoo_installer.zip is ready"
+	@echo ""
+	@rm -rf ./build/files
+	@mkdir -pv ./build/files
+	@cp -R ./packages         ./build/files/packages
+	@cp    ./file.script.php  ./build/files/file.script.php
+	@cp    ./pkg_jbzoo.xml    ./build/files/pkg_jbzoo.xml
+	@cp    ./README.md        ./build/files/README.md
+	@cp    ./LICENSE.md       ./build/files/LICENSE.md
+	@find ./build/files -name 'positions.config' -delete
+	@find ./build/files -name 'positions.xml' -delete
+	@find ./build/files -name 'metadata.xml' -delete
+	@cd ./build/files; zip -r9q jbzoo_update.zip *
+	@mv ./build/files/jbzoo_update.zip ./build/jbzoo_update.zip
+	@echo "./build/files/jbzoo_update.zip is ready"
+	@rm -rf ./build/files
 	@echo ""
 
 reset:
