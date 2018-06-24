@@ -26,49 +26,46 @@ class JBChecksumHelper extends AppHelper
 
     /**
      * Verify a file checksum
-     * @param string $path     The path to the files
-     * @param string $checksum The checksum file
-     * @param array  $log      Log Array
-     * @param array  $filter   An array of filter functions
-     * @param string $prefix   A prefix for the file
-     * @param array  $exclude  patterns for no check
+     * @param string  $path        The path to the files
+     * @param string  $checksum    The checksum file
+     * @param array   $log         Log Array
+     * @param Closure $vPathFilter filter functions
+     * @param string  $prefix      A prefix for the file
+     * @param array   $exclude     patterns for no check
      * @return boolean If the checksum was valid
      */
-    public function verify($path, $checksum, &$log = null, array $filter = array(), $prefix = '', $exclude = array())
+    public function verify($path, $checksum, &$log = null, $vPathFilter, $prefix = '', $exclude = [])
     {
         $path = rtrim(str_replace(DIRECTORY_SEPARATOR, '/', $path), '/') . '/';
 
         if ($rows = file($checksum)) {
+            $checksumFiles = [];
 
-            $checksum_files = array();
             foreach ($rows as $row) {
+
                 list($hash, $file) = explode(' ', trim($row), 2);
 
-                foreach ($filter as $callback) {
-                    if ($callback && !($file = call_user_func($callback, $file))) {
-                        continue 2;
-                    }
-
-                    if ($file == 'checksums') {
-                        continue 2;
-                    }
-
+                if (!($file = $vPathFilter($file))) {
+                    continue;
                 }
 
-                $checksum_files[] = $file;
+                if ($file === 'checksums') {
+                    continue;
+                }
+
+                $checksumFiles[] = $file;
 
                 if (!file_exists($path . $file)) {
                     $log['missing'][] = str_replace('//', '/', $prefix . '/' . $file);
-                } elseif ($this->_hash($path . $file) != $hash) {
+                } elseif ($this->_hash($path . $file) !== $hash) {
                     $log['modified'][] = str_replace('//', '/', $prefix . '/' . $file);
                 }
             }
 
             foreach ($this->_readDirectory($path) as $file) {
-                if (
-                    !in_array($file, $checksum_files) &&
-                    !preg_match('/' . preg_quote($file, '/') . '$/i', $checksum) &&
-                    !$this->_isIgnore($file, $exclude)
+                if (!in_array($file, $checksumFiles, true) &&
+                    !$this->_isIgnore($file, $exclude) &&
+                    strpos($file, 'checksums') === false
                 ) {
                     $log['unknown'][] = str_replace('//', '/', $prefix . '/' . $file);
                 }
@@ -85,7 +82,7 @@ class JBChecksumHelper extends AppHelper
      * @param array $exclude
      * @return bool
      */
-    protected function _isIgnore($filename, $exclude = array())
+    protected function _isIgnore($filename, $exclude = [])
     {
         $filename = JPath::clean($filename);
 
@@ -109,19 +106,20 @@ class JBChecksumHelper extends AppHelper
     protected function _readDirectory($path, $prefix = '', $recursive = true)
     {
 
-        $files  = array();
-        $ignore = array('.', '..', '.DS_Store', '.svn', '.git', '.gitignore', '.gitmodules', 'cgi-bin');
+        $files = [];
+        $ignore = ['.', '..', '.DS_Store', '.svn', '.git', '.gitignore', '.gitmodules', 'cgi-bin'];
 
-        foreach (scandir($path) as $file) {
-
+        foreach (scandir($path, SCANDIR_SORT_NONE) as $file) {
             // ignore file ?
-            if (in_array($file, $ignore)) {
+            if (in_array($file, $ignore, true)) {
                 continue;
             }
 
             // get files
             if (is_dir($path . '/' . $file) && $recursive) {
-                $files = array_merge($files, $this->_readDirectory($path . '/' . $file, $prefix . $file . '/', $recursive));
+                $files = array_merge($files,
+                    $this->_readDirectory($path . '/' . $file, $prefix . $file . '/', $recursive)
+                );
             } else {
                 $files[] = $prefix . $file;
             }
@@ -136,13 +134,9 @@ class JBChecksumHelper extends AppHelper
      */
     protected function _hash($filePath)
     {
-        if (self::HASH_MODE) {
-            $code = $this->app->jbfile->read($filePath, true);
-            $code = str_replace(array("\r\n", "\r", "\n"), "_LE_", $code);
-            $hash = md5($code);
-        } else {
-            $hash = md5_file($filePath);
-        }
+        $code = $this->app->jbfile->read($filePath, true);
+        $code = str_replace(["\r\n", "\r", "\n"], '_LE_', $code);
+        $hash = md5($code);
 
         return $hash;
     }

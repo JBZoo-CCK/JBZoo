@@ -13,6 +13,7 @@
  */
 
 define('PATH_ROOT', realpath(__DIR__ . '/../'));
+define('PATH_PACKAGES', PATH_ROOT . '/packages');
 
 // Main autoload
 if ($autoload = realpath(PATH_ROOT . '/vendor/autoload.php')) {
