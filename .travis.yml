@@ -17,6 +17,6 @@ deploy:
   provider: releases
   file: ./build/jbzoo_installer.zip
   skip_cleanup: true
-  api_key: "22aa5ddf2e63c7fa8cecb684b8a39970f582b1c9"
+  api_key: "cb9fe41d74ebcae4187fe845af8d65b4d1d39510"
   on:
     tags: true
