@@ -35,7 +35,7 @@ build-distr:
 	@cp    ./pkg_jbzoo.xml    ./build/files/pkg_jbzoo.xml
 	@cp    ./README.md        ./build/files/README.md
 	@cp    ./LICENSE.md       ./build/files/LICENSE.md
-	@cd ./build/files; zip -r9 jbzoo_installer.zip *
+	@cd ./build/files; zip -r9q jbzoo_installer.zip *
 	@mv ./build/files/jbzoo_installer.zip ./build/jbzoo_installer.zip
 	@rm -rf ./build/files
 	@echo ""

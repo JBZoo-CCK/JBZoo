@@ -12,11 +12,11 @@ script:
   - make
   - make test
   - make build-distr
-  - ls ./build
 
 deploy:
   provider: releases
   file: ./build/jbzoo_installer.zip
   skip_cleanup: true
+  api_key: "09f5a70579e3614c04db6f366de67ed81bf2db61"
   on:
     tags: true

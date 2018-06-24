@@ -47,7 +47,7 @@ class pkg_jbzooInstallerScript
 
         // check PHP version
         if (PHP_VERSION_ID < 50500) {
-            $messages[] = 'Your host needs to use PHP 5.3.0 or higher to run this version of JBZoo!';
+            $messages[] = 'Your host needs to use PHP 5.5.0 or higher to run this version of JBZoo!';
         }
 
         // check installed Zoo
