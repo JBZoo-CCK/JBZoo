@@ -27,7 +27,7 @@ test:
 	@echo ""
 
 build-distr:
-	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Build distribution file: ./build/jbzoo_installer.zip \033[0m"
+	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Build distribution files \033[0m"
 	@rm -rf ./build/
 	@mkdir -pv ./build/files
 	@cp -R ./packages         ./build/files/packages
@@ -35,10 +35,10 @@ build-distr:
 	@cp    ./pkg_jbzoo.xml    ./build/files/pkg_jbzoo.xml
 	@cp    ./README.md        ./build/files/README.md
 	@cp    ./LICENSE.md       ./build/files/LICENSE.md
-	@cd ./build/files; zip -r9q jbzoo_installer.zip *
-	@mv ./build/files/jbzoo_installer.zip ./build/jbzoo_installer.zip
+	@cd ./build/files; zip -r9q jbzoo_clean_install.zip *
+	@mv ./build/files/jbzoo_clean_install.zip ./build/jbzoo_clean_install.zip
 	@rm -rf ./build/files
-	@echo "./build/files/jbzoo_installer.zip is ready"
+	@echo "./build/files/jbzoo_clean_install.zip is ready"
 	@echo ""
 	@rm -rf ./build/files
 	@mkdir -pv ./build/files

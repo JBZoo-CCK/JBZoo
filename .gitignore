@@ -20,7 +20,6 @@
 /composer.lock
 phpunit.xml
 /build
-jbzoo_installer.zip
 
 # JBZoo/Zoo service files
 positions.config
