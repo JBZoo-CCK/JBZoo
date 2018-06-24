@@ -19,5 +19,7 @@ deploy:
   api_key:
     secure: TJVEw9U/tlXqSkc4VeV+63f/AdTLqO9oRVFLIIDr5E5so2krc/DET7+CFL6JBCm+9eGfTfUoYbDlZmQq28trHkKX7sfVO3jmYf857AxntM+ThdYpAmohHPH44aV0ea1gIaYPDn0A4eIapTnHeuLZqBER6dFNuOqyoSiMx++I5MCMdXqgm4XU/XkpyY6x1egZu0jkQTKBb+tW9F3yucrg5QfK7cBI6rpsXcbOqllvDwKGQaOcNh5Bv2CDuVSVkIp8WdO6oZAHdcXdH9ED4cfkbjibOMqms02QnIMevjU2vOEtFMpsNSGFCfhj+9XaIsjKPM3FKA8LycPRY5/CJ2MYvN04tr3HzaHbALkuM/8OBNBHxylSSaUQ2650dOdVDjne4IPkgndXJ+JAu0eRQO736FntrHue7w4fmBPMNmo6/hXau8yEW/hw6wfMEBlQqE9B9Nz9tbmtXjolFdzvAg1FW9CKS2rw0hwk6QWpfMxbVI6/xfXG06jgQpQFOxkH8Fj0XsN0tjeazi6+KAh7u7rH0ejO8+BCJKj19SLnNML2/s9GayN6XZp+JwaJb38/j7Wd+dNDxoy4006Rpfbscvko1yAR5E0OfmSnrwgMKAUv93vAvVkEZUHP4wk2tsSOFG5s94Y1U5YveDmjW2mIPnPsFz4tAbIvEpp89mnYO5KbIwg=
   file: "./build/jbzoo_installer.zip"
+  skip_cleanup: true
   on:
     repo: JBZoo/JBZoo
+    tags: true
