@@ -17,6 +17,7 @@ deploy:
   provider: releases
   file: ./build/jbzoo_installer.zip
   skip_cleanup: true
-  api_key: "cb9fe41d74ebcae4187fe845af8d65b4d1d39510"
+  api_key:
+    secure: "QXjO18EnTBaoniCPb74hM4dhRfMK4+YATB1GEhWoKYq6JXi3ksFTIgPLBmyFv93VM+hCVvGfZlo3PiHZ/e96oQ13Cyls52D07YVSWxWdVFVNtlP6oDXeyU+v/6IcPLgDil/rS9LEBG3I/pweMWvzd55a38LyhBOZD1HKmlja8KpV/lUTIjJ1iEWBPPd/+QguxkVdfs+84PfVOBTlMYo3AXHDYkuwgRWfpW1S7xERysXgX+KO5PpN5f+GpYZiAAQOzkcz06ma2y7DvDdPxUyYc/+YkVkZk6qEFbGAP1+uz+g+aX8EgEAMz1SC2D3o+vrjwygtcwEmChtkfT9UfPJSXh/ESm4OJTjqkevNZOIASioF2Wrzp2Po+qbzchIh0cdk/X4suYB6CJgMQVcnGdgEEDQX5ryz3BOR5mD4/Fo1lsj5/wMTBY8381jqGn4uuNgM/PqqPqH4tz7qsc/bMGbXlRVJEY90TAvaYq25RGl28ZKsC37gYq+DnM16Kmo4mw4sgvm0Fv1nzntl3sJnCMBQwuqUfpD48cD8mwLdtK4R+hXTKHFOBz6y5CkaPbSai1RnRctf5il9EGtjCA0j08bkMWFGeNIVrx3MDfxy4V13Z5QunVZRFxwrNO4bxjoYTq6pcGOMScWRkjaafchMwc29Tv4xf/i3zAbW41EDz20xAeo="
   on:
     tags: true
