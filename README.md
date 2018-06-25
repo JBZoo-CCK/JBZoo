@@ -9,7 +9,7 @@ FREE Community Edition
  * No domain limits
  * For any private/commercial use (see license conditions)
  * On your own risk (see license conditions)
- * And of course you can add your fixes via Github (PR)
+ * And of course you can add your fixes via [Github (PR)](https://github.com/JBZoo/JBZoo/blob/master/PULL_REQUEST_TEMPLATE.md)
 
 
 ## System requirements
