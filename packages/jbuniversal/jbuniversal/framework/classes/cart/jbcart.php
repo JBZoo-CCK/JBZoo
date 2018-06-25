@@ -278,6 +278,11 @@ class JBCart
                         $balance  = $element->getBalance($data['variant']);
                         $itemName = $data['item_name'] . (!empty($data['values']) ? ' (' . JArrayHelper::toString($data['values'], ': ', '; ', false) . ')' : null);
                         $this->setError(JText::sprintf('JBZOO_CART_VALIDATOR_ITEM_NOBALANCE', $itemName, $balance));
+                        $alerttojs = array_unique($this->getErrors());
+                        $alerttojs = strip_tags(trim($alerttojs[0]));
+                        echo "<script>swal ( '{$alerttojs}' ,  '' ,  'error' );</script>";
+                        // JBCart::getInstance()->removeItems();
+                        // JError::raiseError(500, JText::_("JBZOO_CART_VALIDATOR_ITEM_NOBALANCE")); 
                     }
                 }
             }

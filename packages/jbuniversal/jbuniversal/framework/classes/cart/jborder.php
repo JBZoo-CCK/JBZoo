@@ -660,6 +660,9 @@ class JBCartOrder
     {
         $errorMessages = array();
 
+        $cart = JBCart::getInstance()->checkItems();
+        $recount = $cart->recount(); // FIX many buy cart
+
         if ($this->getItems()->count() == 0) {
             $errorMessages[] = 'JBZOO_CART_VALIDATOR_EMPTY';
         }
@@ -668,7 +671,6 @@ class JBCartOrder
             $errorMessages[] = 'JBZOO_CART_VALIDATOR_ZERO_SUM';
         }
 
-        $cart = JBCart::getInstance()->checkItems();
         if ($cart->getErrors()) {
             $errorMessages[] = $cart->getErrors();
         }
