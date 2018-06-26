@@ -11,7 +11,7 @@ matrix:
 script:
   - make
   - make test
-  - make build-distr
+  - make build
   - make reset
 
 deploy:
