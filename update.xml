@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<updates>
+    <update>
+        <name>JBZoo Community Edition</name>
+        <description>
+            JBZoo App is universal Joomla CCK, application for YooTheme Zoo component. Developed by Denis Smetannikov
+        </description>
+        <license>GPL-2.0</license>
+        <element>JBZoo Community Edition</element>
+        <type>package</type>
+        <version>4.0.0-beta8</version>
+        <infourl title="JBZoo">https://github.com/JBZoo/JBZoo/</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">
+                <![CDATA[https://github.com/JBZoo/JBZoo/releases/download/4.0.0-beta-update2/jbzoo_update.zip]]>
+            </downloadurl>
+        </downloads>
+        <tags>
+            <tag>stable</tag>
+        </tags>
+        <client>1</client>
+        <targetplatform name="joomla" version="3.[23456789]"/>
+    </update>
+</updates>

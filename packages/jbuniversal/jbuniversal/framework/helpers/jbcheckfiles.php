@@ -102,22 +102,19 @@ class JBCheckFilesHelper extends AppHelper
 
         $result = [];
 
-        foreach ($this->_checkVirtPaths as $vpath) {
-
-            $path = $this->app->path->path($vpath . ':');
+        foreach ($this->_checkVirtPaths as $vPath) {
+            $path = $this->app->path->path($vPath . ':');
 
             if ($path) {
                 $this->app->jbchecksum->verify(
                     $path,
                     $checksum,
                     $result,
-                    [
-                        function ($path) use ($vpath) {
-                            if (preg_match("#^' . $vpath . '#i", $path)) {
-                                return preg_replace("#^' . $vpath . '/#i", "", $path);
-                            }
+                    function ($somePath) use ($vPath) {
+                        if (preg_match("#^{$vPath}/#i", $somePath)) {
+                            return preg_replace("#^{$vPath}/#i", '', $somePath);
                         }
-                    ],
+                    },
                     $this->app->path->relative($path),
                     $this->_exclude
                 );

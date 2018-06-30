@@ -24,8 +24,12 @@ First of all, we **strongly recommend** you to upgrade your JBZoo to the latest 
 
 After that just use special patch from [that repository](https://github.com/JBZoo/JBZoo-2-GPL-patches)
 
+## How to build Joomla zip-package (distrib)?
+Just run in the root directory of project `make build-distr` and see `./build/jbzoo_installer.zip`
+
+
 ## Releases
- * [All Stable Versions](https://github.com/JBZoo/JBZoo/releases) [![Latest Stable Version](https://poser.pugx.org/jbzoo/jbzoo/v/stable)](https://github.com/JBZoo/JBZoo/releases)
+ * [All Stable Versions](https://github.com/JBZoo/JBZoo/releases) [![Latest Stable Version](https://poser.pugx.org/jbzoo/jbzoo/v/stable)](https://github.com/JBZoo/JBZoo/releases) See file `jbzoo_clean_install.zip` or `jbzoo_update.zip`
  * [Last Unstable](https://github.com/JBZoo/JBZoo/archive/master.zip) [![Latest Unstable Version](https://poser.pugx.org/jbzoo/jbzoo/v/unstable)](https://github.com/JBZoo/JBZoo/archive/master.zip)
  * [Old Paid Versions](http://clientarea.jbzoo.com)
 

@@ -19,6 +19,7 @@
 /vendor/*
 /composer.lock
 phpunit.xml
+/build
 
 # JBZoo/Zoo service files
 positions.config
