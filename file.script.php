@@ -55,11 +55,6 @@ class pkg_jbzooInstallerScript
             $messages[] = 'Please, first of all, you need to install <a href="http://www.yootheme.com/zoo" target="_blank">YOOtheme Zoo (free)</a>. After this, please, try again.';
         }
 
-        // no auto update!
-        if (JFolder::exists(JPATH_ROOT . '/media/zoo/applications/jbuniversal')) {
-            $messages[] = "Sorry, JBZoo doesn't support auto update on install yet.";
-        }
-
         if (!empty($messages)) {
             $message = implode("<br /><br /> \n", $messages);
             $parent->getParent()->abort('<strong style="font-size:14px;color:red;">' . $message . '</strong>');
