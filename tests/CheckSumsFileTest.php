@@ -84,7 +84,7 @@ class CheckSumsFileTest extends PHPUnit
         $files = [];
         $ignore = ['.', '..', '.DS_Store', '.svn', '.git', '.gitignore', '.gitmodules', 'cgi-bin'];
 
-        foreach (scandir($path, SCANDIR_SORT_NONE) as $file) {
+        foreach (scandir($path, SCANDIR_SORT_ASCENDING) as $file) {
             // ignore file ?
             if (in_array($file, $ignore, true)) {
                 continue;
@@ -162,6 +162,10 @@ class CheckSumsFileTest extends PHPUnit
                     if (preg_match('#' . $pattern . '#ius', $fileClean)) {
                         continue 2;
                     }
+                }
+
+                if ($file === 'checksums') {
+                    continue;
                 }
 
                 $hash = $this->getHash("{$path}/{$file}");
