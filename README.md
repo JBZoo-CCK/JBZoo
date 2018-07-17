@@ -1,4 +1,4 @@
-# JBZoo Community Edition [![Build Status](https://travis-ci.org/JBZoo/JBZoo.svg?branch=master)](https://travis-ci.org/JBZoo/JBZoo) [![License](https://poser.pugx.org/JBZoo/JBZoo/license)](https://packagist.org/packages/JBZoo/JBZoo)
+# JBZoo Community Edition [![Build Status](https://travis-ci.org/JBZoo/JBZoo.svg?branch=master)](https://travis-ci.org/JBZoo/JBZoo)    [![Latest Stable Version](https://poser.pugx.org/jbzoo/jbzoo/v/stable)](https://github.com/JBZoo/JBZoo/releases)    [![License](https://poser.pugx.org/JBZoo/JBZoo/license)](https://packagist.org/packages/JBZoo/JBZoo)
 
 FREE Community Edition
 
