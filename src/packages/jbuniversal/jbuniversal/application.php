@@ -45,7 +45,7 @@ final class JBUniversalApplication extends Application
     /**
      * Register controller path, only for frontend
      */
-    final private function _initAssets()
+    private function initAssets()
     {
         if ($this->isSite) {
             $this->app->jbassets->setAppCSS($this->alias);
@@ -74,7 +74,7 @@ final class JBUniversalApplication extends Application
     /**
      * Dispatch
      */
-    final public function dispatch()
+    public function dispatch()
     {
         define('JBZOO_DISPATCHED', true);
 
@@ -88,7 +88,7 @@ final class JBUniversalApplication extends Application
 
         $this->jbdebug->mark('application::dispatch::before');
 
-        $this->_initAssets();
+        $this->initAssets();
 
         // dispatcher hack
         $ctrlRequest = $this->jbrequest->getCtrl();

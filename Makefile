@@ -11,11 +11,16 @@
 # @link       https://github.com/JBZoo/JBZoo
 #
 
-.PHONY: build build-installer build-update clean reset test update validate
+.PHONY: build build-installer build-update clean reset test dev validate prod
 
-update:
+dev:
 	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Update project \033[0m"
 	@composer update --optimize-autoloader --no-interaction --no-progress
+	@echo ""
+
+prod:
+	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Prepare project to production version \033[0m"
+	@composer update --optimize-autoloader --no-interaction --no-progress --no-dev
 	@echo ""
 
 validate:
@@ -25,7 +30,7 @@ validate:
 
 test:
 	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Run unit-tests \033[0m"
-	@php ./vendor/phpunit/phpunit/phpunit
+	@php ./src/packages/jbuniversal/jbuniversal/vendor/phpunit/phpunit/phpunit
 	@echo ""
 
 build:

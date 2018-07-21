@@ -14,12 +14,24 @@
         "php" : ">=5.6"
     },
 
+    "autoload"     : {
+        "classmap" : [
+            "src/packages/jbuniversal/jbuniversal/cart-elements",
+            "src/packages/jbuniversal/jbuniversal/framework",
+            "src/packages/jbuniversal/jbuniversal/joomla"
+        ]
+    },
     "autoload-dev" : {
         "classmap" : ["tests"]
     },
 
     "require-dev"  : {
         "jbzoo/phpunit"      : "^2.3",
-        "symfony/var-dumper" : "^4.1"
+        "symfony/var-dumper" : "^4.1.1"
+    },
+
+    "config"       : {
+        "vendor-dir"        : "src/packages/jbuniversal/jbuniversal/vendor",
+        "autoloader-suffix" : "JBZooApp"
     }
 }

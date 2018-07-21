@@ -24,11 +24,8 @@ First of all, we **strongly recommend** you to upgrade your JBZoo to the latest 
 
 After that just use special patch from [that repository](https://github.com/JBZoo/JBZoo-2-GPL-patches)
 
-## How to build Joomla install package (distr)?
-Just run in the root directory of project `make` and `make build-installer` and see `./build/jbzoo_installer.zip`
-
-## How to build Joomla update package?
-Just run in the root directory of project `make` and `make build-update` and see `./build/jbzoo_update.zip`
+## How to build Joomla installer/update package (distr)?
+Just run in the root directory of project `make prod build` and see `./build/` folder
 
 
 ## Releases
@@ -67,7 +64,7 @@ Just run in the root directory of project `make` and `make build-update` and see
 Unfortunately now we are checking only copyrights and some code styles. [See details](https://travis-ci.org/JBZoo/JBZoo).
 
 ```sh
-make
+make dev
 make test
 ```
 
