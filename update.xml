@@ -20,11 +20,11 @@
         <license>GPL-2.0</license>
         <element>JBZoo Community Edition</element>
         <type>package</type>
-        <version>4.0.0</version>
+        <version>4.0.2</version>
         <infourl title="JBZoo">https://github.com/JBZoo/JBZoo/</infourl>
         <downloads>
             <downloadurl type="full" format="zip">
-                <![CDATA[https://github.com/JBZoo/JBZoo/releases/download/4.0.0/jbzoo_update.zip]]>
+                <![CDATA[https://github.com/JBZoo/JBZoo/releases/download/4.0.2/jbzoo_update.zip]]>
             </downloadurl>
         </downloads>
         <tags>
