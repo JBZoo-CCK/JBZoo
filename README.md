@@ -35,7 +35,7 @@ Just create [new issue](https://github.com/JBZoo/JBZoo/issues/new/choose) and we
  - Backup your website (database, all files)
  - Install file "jbzoo_update.zip" as Joomla Extention (via control Panel).
  - That's all.
- - If you have any bugs - [just create new issue] (https://github.com/JBZoo/JBZoo/issues/new/choose)
+ - If you have any bugs - [just create new issue](https://github.com/JBZoo/JBZoo/issues/new/choose)
 
 ### Where can I download the ready-to-use JBZoo?
 See files `jbzoo_clean_install.zip` and `jbzoo_update.zip` in [releases](https://github.com/JBZoo/JBZoo/releases) 
