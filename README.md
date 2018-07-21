@@ -1,5 +1,7 @@
 # JBZoo Community Edition [![Build Status](https://travis-ci.org/JBZoo/JBZoo.svg?branch=master)](https://travis-ci.org/JBZoo/JBZoo)    [![Latest Stable Version](https://poser.pugx.org/jbzoo/jbzoo/v/stable)](https://github.com/JBZoo/JBZoo/releases)    [![License](https://poser.pugx.org/JBZoo/JBZoo/license)](https://packagist.org/packages/JBZoo/JBZoo)
 
+[![version-badge][version-badge]][versions]
+
 FREE Community Edition
 
  * All Features are included
@@ -13,8 +15,8 @@ FREE Community Edition
 
 
 ## System requirements
- * YooTheme Zoo Component `^3.3.28`
- * Joomla! CMS `^3.8.3`
+ * YooTheme Zoo Component [![Build Status](https://img.shields.io/badge/Zoo-3.3.31-blue.svg?longCache=true&style=plastic)](https://www.yootheme.com/zoo)
+ * Joomla! CMS [![Joomla](https://img.shields.io/badge/Joomla!-3.8.10-blue.svg?longCache=true&style=plastic)](https://downloads.joomla.org/)
  * PHP `>= 7.2.5` is recommended with modules (mbstring, xml, json, opcache, mysqli)
  * Works fine with PHP v5.5, v5.6, v7.1
  * Joomla! CMS 4.0 (on your own risk)
