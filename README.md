@@ -15,8 +15,8 @@ FREE Community Edition
 
 
 ## System requirements
- * YooTheme Zoo Component [![Build Status](https://img.shields.io/badge/Zoo-3.3.31-blue.svg?longCache=true&style=plastic)](https://www.yootheme.com/zoo)
- * Joomla! CMS [![Joomla](https://img.shields.io/badge/Joomla!-3.8.10-blue.svg?longCache=true&style=plastic)](https://downloads.joomla.org/)
+ * YooTheme Zoo Component [![Zoo](https://img.shields.io/badge/Zoo-3.3.31-blue.svg)](https://www.yootheme.com/zoo)
+ * Joomla! CMS [![Joomla](https://img.shields.io/badge/Joomla!-3.8.10-blue.svg)](https://downloads.joomla.org/)
  * PHP `>= 7.2.5` is recommended with modules (mbstring, xml, json, opcache, mysqli)
  * Works fine with PHP v5.5, v5.6, v7.1
  * Joomla! CMS 4.0 (on your own risk)
@@ -32,8 +32,8 @@ Just run in the root directory of project `make prod build` and see `./build/` f
 Just create [new issue](https://github.com/JBZoo/JBZoo/issues/new/choose)
 
 ## Releases
- * [All Stable Versions](https://github.com/JBZoo/JBZoo/releases) [![Latest Stable Version](https://poser.pugx.org/jbzoo/jbzoo/v/stable)](https://github.com/JBZoo/JBZoo/releases) See file `jbzoo_clean_install.zip` or `jbzoo_update.zip`
- * [Last Unstable](https://github.com/JBZoo/JBZoo/archive/master.zip) [![Latest Unstable Version](https://poser.pugx.org/jbzoo/jbzoo/v/unstable)](https://github.com/JBZoo/JBZoo/archive/master.zip)
+ * [All Stable Versions](https://github.com/JBZoo/JBZoo/releases) See file `jbzoo_clean_install.zip` or `jbzoo_update.zip`
+ * [Last Unstable](https://github.com/JBZoo/JBZoo/archive/master.zip)
  * [Old Paid Versions](http://clientarea.jbzoo.com)
 
 ## Useful links
