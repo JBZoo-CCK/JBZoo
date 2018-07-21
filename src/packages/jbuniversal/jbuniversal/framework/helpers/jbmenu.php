@@ -34,11 +34,11 @@ class JBMenuHelper extends AppHelper
         $task = $options->get('task', 'index');
         $ctrl = $options->get('controller');
 
-        $item = $this->app->object->create('AppMenuItem', array(
+        $item = $this->app->object->create('AppMenuItem', [
             $ctrl . '-' . $task,
             JText::_('JBZOO_ADMIN_MENU_' . $ctrl . '_' . $task),
-            $this->app->link(array('controller' => $ctrl, 'task' => $task))
-        ));
+            $this->app->link(['controller' => $ctrl, 'task' => $task])
+        ]);
 
         return $parentItem->addChild($item);
     }
@@ -55,12 +55,12 @@ class JBMenuHelper extends AppHelper
     {
         $text = $text ? '<span class="icon"> </span>' . $text : '<span class="icon"> </span>';
 
-        $tab = $this->app->object->create('AppMenuItem', array(
+        $tab = $this->app->object->create('AppMenuItem', [
             $name . '-index',
             $text,
-            $this->app->link(array('controller' => $ctrlName, 'task' => 'index')),
-            array('class' => $class)
-        ));
+            $this->app->link(['controller' => $ctrlName, 'task' => 'index']),
+            ['class' => $class]
+        ]);
 
         $this->getAdmin()->addChild($tab);
 
@@ -85,13 +85,13 @@ class JBMenuHelper extends AppHelper
         $menu = $this->getAdmin();
 
         $menu
-            ->addFilter(array('JBMenuHelper', 'filterZooActive'))
-            ->addFilter(array('JBMenuHelper', 'filterJBZooActive'))
-            ->addFilter(array('JBMenuHelper', 'filterNames'))
-            ->addFilter(array('JBMenuHelper', 'filterVersions'))
+            ->addFilter(['JBMenuHelper', 'filterZooActive'])
+            ->addFilter(['JBMenuHelper', 'filterJBZooActive'])
+            ->addFilter(['JBMenuHelper', 'filterNames'])
+            ->addFilter(['JBMenuHelper', 'filterVersions'])
             ->applyFilter();
 
-        $menuHtml = $menu->render(array('AppMenuDecorator', 'index'));
+        $menuHtml = $menu->render(['AppMenuDecorator', 'index']);
 
         return '<div id="nav"><div class="bar"></div>' . $menuHtml . '</div>';
     }
@@ -103,12 +103,12 @@ class JBMenuHelper extends AppHelper
     public static function filterZooActive(AppMenuItem $item)
     {
         // init vars
-        $id          = '';
-        $app         = App::getInstance('zoo');
+        $id = '';
+        $app = App::getInstance('zoo');
         $application = $app->zoo->getApplication();
-        $controller  = $app->jbrequest->getCtrl();
-        $task        = $app->jbrequest->getWord('task');
-        $classes     = array();
+        $controller = $app->jbrequest->getCtrl();
+        $task = $app->jbrequest->getWord('task');
+        $classes = [];
 
         // application context
         if (!empty($application)) {
@@ -117,10 +117,12 @@ class JBMenuHelper extends AppHelper
 
         // application configuration
         if ($controller == 'configuration' && $task) {
-            if (in_array($task, array('importfrom', 'import', 'importcsv', 'importexport'))) {
+            if (in_array($task, ['importfrom', 'import', 'importcsv', 'importexport'])) {
                 $id .= '-importexport';
-            } else if ($task != 'index') {
-                $id .= '-' . $task;
+            } else {
+                if ($task != 'index') {
+                    $id .= '-' . $task;
+                }
             }
         }
 
@@ -132,7 +134,8 @@ class JBMenuHelper extends AppHelper
         // application manager
         if ($controller == 'manager') {
             $id = 'manager';
-            if (in_array($task, array('types', 'addtype', 'edittype', 'editelements', 'assignelements', 'assignsubmission'))) {
+            if (in_array($task,
+                ['types', 'addtype', 'edittype', 'editelements', 'assignelements', 'assignsubmission'])) {
                 $id .= '-types';
             } elseif ($task) {
                 $id .= '-' . $task;
@@ -165,9 +168,9 @@ class JBMenuHelper extends AppHelper
         }
 
         // init vars
-        $app        = App::getInstance('zoo');
+        $app = App::getInstance('zoo');
         $controller = $app->jbrequest->getCtrl();
-        $classes    = array();
+        $classes = [];
 
         $id = $controller . '-index';
 
@@ -189,7 +192,7 @@ class JBMenuHelper extends AppHelper
      */
     public static function filterNames(AppMenuItem $item)
     {
-        if (!(in_array($item->getId(), array('new', 'manager')) || strpos($item->getId(), 'jb') === 0)) {
+        if (!(in_array($item->getId(), ['new', 'manager']) || strpos($item->getId(), 'jb') === 0)) {
             $item->setName(htmlspecialchars($item->getName(), ENT_QUOTES, 'UTF-8'));
         }
     }
@@ -210,6 +213,7 @@ class JBMenuHelper extends AppHelper
 
         if (strpos($item->getId(), 'jb') === 0) {
             if ($version = $app->jbversion->jbzoo()) {
+                $version = strip_tags($version);
                 $item->setAttribute('data-jbzooversion', $version);
             }
         }

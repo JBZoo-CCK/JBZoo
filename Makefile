@@ -19,7 +19,7 @@ dev:
 	@echo ""
 
 prod:
-	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Prepare project to production version \033[0m"
+	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Prepare project for production version \033[0m"
 	@composer update --optimize-autoloader --no-interaction --no-progress --no-dev
 	@echo ""
 

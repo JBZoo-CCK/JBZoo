@@ -12,3 +12,13 @@
 #
 
 * text eol=lf
+
+# (binary is a macro for -text -diff)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.bmp binary
+*.ico binary
+*.ttf binary
+*.svg binary

@@ -23,7 +23,7 @@ phpunit.xml
 src/packages/jbuniversal/jbuniversal/vendor/*
 
 # JBZoo/Zoo service files
-
+positions.config
 packages/jbuniversal/jbuniversal/types/*.config
 packages/jbuniversal/jbuniversal/tmp/*
 packages/jbuniversal/jbuniversal/templates/uikit/renderer/item/*/

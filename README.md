@@ -21,12 +21,13 @@ FREE Community Edition
 
 ## How to GPL previous JBZoo version <= 2.4.x ?
 First of all, we **strongly recommend** you to upgrade your JBZoo to the latest paid version 2.4.x
-
 After that just use special patch from [that repository](https://github.com/JBZoo/JBZoo-2-GPL-patches)
 
 ## How to build Joomla installer/update package (distr)?
 Just run in the root directory of project `make prod build` and see `./build/` folder
 
+## I found a bug. What I have to do?
+Just create [new issue](https://github.com/JBZoo/JBZoo/issues/new/choose)
 
 ## Releases
  * [All Stable Versions](https://github.com/JBZoo/JBZoo/releases) [![Latest Stable Version](https://poser.pugx.org/jbzoo/jbzoo/v/stable)](https://github.com/JBZoo/JBZoo/releases) See file `jbzoo_clean_install.zip` or `jbzoo_update.zip`
