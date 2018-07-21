@@ -15,7 +15,7 @@
 ## System requirements
  * YooTheme Zoo Component [![Zoo](https://img.shields.io/badge/Zoo-3.3.31-blue.svg?style=plastic)](https://www.yootheme.com/zoo)
  * Joomla! CMS [![Joomla](https://img.shields.io/badge/Joomla!-3.8.10-blue.svg?style=plastic)](https://downloads.joomla.org/)
- * ![PHP 7.2.0+](https://img.shields.io/badge/PHP-7.2.0+-blue.svg?style=plastic) is recommended with modules (mbstring, xml, json, opcache, mysqli)
+ * ![PHP 7.2.0+](https://img.shields.io/badge/PHP-7.2.0+-blue.svg?style=plastic) is recommended with modules mbstring, xml, json, opcache, mysqli.
  * Works fine with PHP v5.5, v5.6, v7.1
  * Joomla! CMS 4.0 (on your own risk)
 
@@ -58,7 +58,7 @@ Just create [new issue](https://github.com/JBZoo/JBZoo/issues/new/choose) and we
  * [Sergey Kalistratov](https://github.com/Cheren) (Cheren)
  * [Alexandr Oganov](https://github.com/Tapakan) (Tapakan)
  * [Eugene Kopylov](https://github.com/CB9TOIIIA) (CB9TOIIIA)
- * And many others... [![Contributors](https://img.shields.io/github/contributors/JBZoo/JBZoo.svg?style=plastic)](https://github.com/JBZoo/JBZoo/graphs/contributors)
+ * [![Contributors](https://img.shields.io/github/contributors/JBZoo/JBZoo.svg?style=plastic)](https://github.com/JBZoo/JBZoo/graphs/contributors)
 
 
 ## PHP Unit tests
