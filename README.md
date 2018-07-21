@@ -19,20 +19,28 @@
  * Works fine with PHP v5.5, v5.6, v7.1
  * Joomla! CMS 4.0 (on your own risk)
 
-## How to GPL previous JBZoo version <= 2.4.x ?
-First of all, we **strongly recommend** you to upgrade your JBZoo to the latest paid version 2.4.x
+## FAQ
+#### How to GPL previous JBZoo version <= 2.4.x ?
+First of all, we recommend you to upgrade your JBZoo to the latest paid version 2.4.x (only if you wish).
+
 After that just use special patch from [that repository](https://github.com/JBZoo/JBZoo-2-GPL-patches)
 
-## How to build Joomla installer/update package (distr)?
+#### How to build Joomla installer/update package (distr)?
 Run in the root directory of project `make prod build` and see `./build/` folder
 
-## I found a bug. What I have to do?
+#### I found a bug. What I have to do?
 Just create [new issue](https://github.com/JBZoo/JBZoo/issues/new/choose) and we will try to fix it.
 
-## Releases
- * [All Stable Versions](https://github.com/JBZoo/JBZoo/releases) See files `jbzoo_clean_install.zip` and `jbzoo_update.zip`
- * [Last Unstable](https://github.com/JBZoo/JBZoo/archive/master.zip)
- * [Old Paid Versions](http://clientarea.jbzoo.com)
+#### How to use `jbzoo_update.zip`?
+ 
+ - Backup your website (database, all files)
+ - Install file "jbzoo_update.zip" as Joomla Extention (via control Panel).
+ - That's all.
+ - If you have any bugs - [just create new issue] (https://github.com/JBZoo/JBZoo/issues/new/choose)
+
+#### Where can I download the ready-to-use JBZoo?
+See files `jbzoo_clean_install.zip` and `jbzoo_update.zip` in [releases](https://github.com/JBZoo/JBZoo/releases) 
+
 
 ## Useful links
 ### General websites
