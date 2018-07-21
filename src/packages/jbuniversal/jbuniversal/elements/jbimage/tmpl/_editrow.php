@@ -16,17 +16,11 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$media_folder = 'images/';
-$def_folder = $this->config->get('upload_directory');
-
-if(strpos($def_folder,$media_folder) == 0){
-    $folder_upload = substr($def_folder,strlen($media_folder),-1);
-}
 ?>
 <div>
 
     <div class="row">
-        <?php echo $this->app->html->_('control.text', $this->getControlName('file'), $this->get('file'), 'class="jbimage-select" upload-folder="'.$folder_upload.'" size="60" style="width:200px;margin-right:5px;" title="' . JText::_('File') . '"'); ?>
+        <?php echo $this->app->html->_('control.text', $this->getControlName('file'), $this->get('file'), 'class="jbimage-select" size="60" style="width:200px;margin-right:5px;" title="' . JText::_('File') . '"'); ?>
     </div>
 
     <div class="more-options">

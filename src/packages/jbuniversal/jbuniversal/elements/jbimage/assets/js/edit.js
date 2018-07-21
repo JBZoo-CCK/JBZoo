@@ -12,7 +12,11 @@
  */
 
 ;
-var initJbImage = function (i, isCopy) {
+jQuery(function ($) {
+
+    var url = location.href.match(/^(.+)administrator\/index\.php.*/i)[1];
+
+    var initJbImage = function (i, isCopy) {
 
         var $element = $(this);
 
@@ -22,10 +26,9 @@ var initJbImage = function (i, isCopy) {
 
         var parentClass   = $element.closest('.repeat-elements').attr('id'),
             id            = parentClass + '-jbimage-' + i,
-            $selectButton = $('<button type="button" />').text((($('html').attr('lang') == 'ru-ru')?"Выбрать фото":"Select Image")).insertAfter($element),
+            $selectButton = $('<button type="button" />').text("Select Image").insertAfter($element),
             $cancelSelect = $("<span />").addClass("image-cancel").insertAfter($element),
-            $imagePreview = $("<div />").addClass("image-preview").insertAfter($selectButton),
-            foldr = $element.attr('upload-folder');
+            $imagePreview = $("<div />").addClass("image-preview").insertAfter($selectButton);
 
         $element.attr("id", id);
         $element.val() && $("<img />").attr("src", url + $element.val()).appendTo($imagePreview);
@@ -37,17 +40,10 @@ var initJbImage = function (i, isCopy) {
 
         $selectButton.click(function (event) {
             event.preventDefault();
-            fold_cur = $element.attr('value');
-            if(fold_cur !=''){
-                if(fold_cur.indexOf('images/') == 0){
-                    foldr = fold_cur.substring(fold_cur.indexOf('/')+1,fold_cur.lastIndexOf('/'));
-                }else{
-                    foldr = fold_cur.substr(0, fold_cur.lastIndexOf('/'));
-                }
-            }
+
             SqueezeBox.fromElement(this, {
                 handler: "iframe",
-                url    : "index.php?option=com_media&view=images&folder=" + foldr + "&tmpl=component&e_name=" + id,
+                url    : "index.php?option=com_media&view=images&tmpl=component&e_name=" + id,
                 size   : {x: 850, y: 500}
             });
         });
@@ -101,3 +97,4 @@ var initJbImage = function (i, isCopy) {
     };
 
 });
+
