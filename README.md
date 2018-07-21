@@ -65,7 +65,7 @@ See files `jbzoo_clean_install.zip` and `jbzoo_update.zip` in [releases](https:/
  * [Sergey Kalistratov](https://github.com/Cheren) (Cheren)
  * [Alexandr Oganov](https://github.com/Tapakan) (Tapakan)
  * [Eugene Kopylov](https://github.com/CB9TOIIIA) (CB9TOIIIA)
- * [![Contributors](https://img.shields.io/github/contributors/JBZoo/JBZoo.svg?style=plastic)](https://github.com/JBZoo/JBZoo/graphs/contributors)
+ * ... and [other](https://github.com/JBZoo/JBZoo/graphs/contributors)
 
 
 ## PHP Unit tests
