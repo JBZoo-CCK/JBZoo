@@ -1,6 +1,6 @@
 # JBZoo Community Edition [![Build Status](https://travis-ci.org/JBZoo/JBZoo.svg?branch=master)](https://travis-ci.org/JBZoo/JBZoo)    [![Latest Stable Version](https://poser.pugx.org/jbzoo/jbzoo/v/stable)](https://github.com/JBZoo/JBZoo/releases)    [![License](https://poser.pugx.org/JBZoo/JBZoo/license)](https://packagist.org/packages/JBZoo/JBZoo)
 
-FREE Community Edition
+
 
  * All Features are included
  * GPL v2.0 or later license
@@ -13,9 +13,9 @@ FREE Community Edition
 
 
 ## System requirements
- * YooTheme Zoo Component [![Zoo](https://img.shields.io/badge/Zoo-3.3.31-blue.svg)](https://www.yootheme.com/zoo)
- * Joomla! CMS [![Joomla](https://img.shields.io/badge/Joomla!-3.8.10-blue.svg)](https://downloads.joomla.org/)
- * PHP `>= 7.2.5` is recommended with modules (mbstring, xml, json, opcache, mysqli)
+ * YooTheme Zoo Component [![Zoo](https://img.shields.io/badge/Zoo-3.3.31-blue.svg?style=plastic)](https://www.yootheme.com/zoo)
+ * Joomla! CMS [![Joomla](https://img.shields.io/badge/Joomla!-3.8.10-blue.svg?style=plastic)](https://downloads.joomla.org/)
+ * ![PHP 7.2.0+](https://img.shields.io/badge/PHP-7.2.0+-blue.svg?style=plastic) is recommended with modules (mbstring, xml, json, opcache, mysqli)
  * Works fine with PHP v5.5, v5.6, v7.1
  * Joomla! CMS 4.0 (on your own risk)
 
@@ -24,13 +24,13 @@ First of all, we **strongly recommend** you to upgrade your JBZoo to the latest 
 After that just use special patch from [that repository](https://github.com/JBZoo/JBZoo-2-GPL-patches)
 
 ## How to build Joomla installer/update package (distr)?
-Just run in the root directory of project `make prod build` and see `./build/` folder
+Run in the root directory of project `make prod build` and see `./build/` folder
 
 ## I found a bug. What I have to do?
-Just create [new issue](https://github.com/JBZoo/JBZoo/issues/new/choose)
+Just create [new issue](https://github.com/JBZoo/JBZoo/issues/new/choose) and we will try to fix it.
 
 ## Releases
- * [All Stable Versions](https://github.com/JBZoo/JBZoo/releases) See file `jbzoo_clean_install.zip` or `jbzoo_update.zip`
+ * [All Stable Versions](https://github.com/JBZoo/JBZoo/releases) See files `jbzoo_clean_install.zip` and `jbzoo_update.zip`
  * [Last Unstable](https://github.com/JBZoo/JBZoo/archive/master.zip)
  * [Old Paid Versions](http://clientarea.jbzoo.com)
 
@@ -53,12 +53,12 @@ Just create [new issue](https://github.com/JBZoo/JBZoo/issues/new/choose)
  * [YT Zoo Performance Hacks](https://github.com/JBZoo/Zoo-Hacks)
 
 
-## Contributors
+## Contributors 
  * [Denis Smetannikov](https://github.com/SmetDenis) (SmetDenis) `-=! Author, Founder and General Developer !=-`
  * [Sergey Kalistratov](https://github.com/Cheren) (Cheren)
  * [Alexandr Oganov](https://github.com/Tapakan) (Tapakan)
  * [Eugene Kopylov](https://github.com/CB9TOIIIA) (CB9TOIIIA)
- * [And many others...](https://github.com/JBZoo/JBZoo/graphs/contributors)
+ * And many others... [![Contributors](https://img.shields.io/github/contributors/JBZoo/JBZoo.svg?style=plastic)](https://github.com/JBZoo/JBZoo/graphs/contributors)
 
 
 ## PHP Unit tests
