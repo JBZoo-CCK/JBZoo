@@ -30,7 +30,7 @@ Run in the root directory of project `make prod build` and see `./build/` folder
 ### I found a bug. What I have to do?
 Just create [new issue](https://github.com/JBZoo/JBZoo/issues/new/choose) and we will try to fix it.
 
-### How to use `jbzoo_update.zip`?
+### How to use jbzoo_update.zip?
  
  - Backup your website (database, all files)
  - Install file "jbzoo_update.zip" as Joomla Extention (via control Panel).
