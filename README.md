@@ -20,6 +20,9 @@
  * Joomla! CMS 4.0 (on your own risk)
 
 ## FAQ
+### How to subsribe to updates ?
+Watch and star this repo (see buttons in the top) and Github will send you notification. It's easy!
+
 ### How to GPL previous JBZoo version <= 2.4.x ?
 First of all, we recommend you to upgrade your JBZoo to the latest paid version 2.4.x (only if you wish).
 After that just use special patch from [that repository](https://github.com/JBZoo/JBZoo-2-GPL-patches)
@@ -30,8 +33,7 @@ Run in the root directory of project `make prod build` and see `./build/` folder
 ### I found a bug. What I have to do?
 Just create [new issue](https://github.com/JBZoo/JBZoo/issues/new/choose) and we will try to fix it.
 
-### How to use jbzoo_update.zip?
- 
+### How to use jbzoo_update.zip? 
  - Backup your website (database, all files)
  - Install file "jbzoo_update.zip" as Joomla Extention (via control Panel).
  - That's all.
