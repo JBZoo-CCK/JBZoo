@@ -5,7 +5,7 @@
  * All Features are included
  * GPL v2.0 or later license
  * No ioncube or any other PHP-encoders (open source)
- * No actiovations
+ * No activations
  * No domain limits
  * For any private/commercial use (see license conditions)
  * On your own risk (see license conditions)
