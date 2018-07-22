@@ -20,7 +20,7 @@
  * Joomla! CMS 4.0 (on your own risk)
 
 ## FAQ
-### 1. How to subsribe to updates ?
+### 1. How to subscribe to updates ?
 Watch and star this repo (see buttons in the top) and Github will send you notification. It's easy!
 
 ### 2. How to GPL previous JBZoo version <= 2.4.x ?
