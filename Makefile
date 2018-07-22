@@ -30,7 +30,7 @@ validate:
 
 test:
 	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Run unit-tests \033[0m"
-	@php ./src/packages/jbuniversal/jbuniversal/vendor/phpunit/phpunit/phpunit
+	@php ./vendor/phpunit/phpunit/phpunit
 	@echo ""
 
 build:

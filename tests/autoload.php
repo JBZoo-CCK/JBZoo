@@ -16,7 +16,7 @@ define('PATH_ROOT', realpath(__DIR__ . '/../'));
 define('PATH_PACKAGES', PATH_ROOT . '/src/packages');
 
 // Main autoload
-if ($autoload = realpath(PATH_ROOT . '/src/packages/jbuniversal/jbuniversal/vendor/autoload.php')) {
+if ($autoload = realpath(PATH_ROOT . '/vendor/autoload.php')) {
     require_once $autoload;
 } else {
     echo 'Please execute "make update" in project root directory';
