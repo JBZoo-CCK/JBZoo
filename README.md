@@ -1,4 +1,4 @@
-# JBZoo Community Edition [![Build Status](https://travis-ci.org/JBZoo/JBZoo.svg?branch=master)](https://travis-ci.org/JBZoo/JBZoo)    [![Latest Stable Version](https://poser.pugx.org/jbzoo/jbzoo/v/stable)](https://github.com/JBZoo/JBZoo/releases)    [![License](https://poser.pugx.org/JBZoo/JBZoo/license)](https://packagist.org/packages/JBZoo/JBZoo)   [![Analytics](https://ga-beacon.appspot.com/UA-122740514-1/jbzoo-readme?pixel)](https://github.com/igrigorik/ga-beacon)
+# JBZoo Community Edition [![Build Status](https://travis-ci.org/JBZoo/JBZoo.svg?branch=master)](https://travis-ci.org/JBZoo/JBZoo)    [![Latest Stable Version](https://poser.pugx.org/jbzoo/jbzoo/v/stable)](https://github.com/JBZoo/JBZoo/releases)    [![License](https://poser.pugx.org/JBZoo/JBZoo/license)](https://packagist.org/packages/JBZoo/JBZoo)   [![Analytics](https://ga-beacon.appspot.com/UA-122740514-1/jbzoo-readme)](https://github.com/igrigorik/ga-beacon)
 
  * All Features are included
  * GPL v2.0 or later license
