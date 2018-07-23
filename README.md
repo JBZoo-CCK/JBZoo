@@ -78,3 +78,6 @@ make test
 
 ## LICENSE
 GNU GPL v2.0 or later. [See details](https://github.com/JBZoo/JBZoo/blob/master/LICENSE.md)
+
+
+[![Analytics](https://ga-beacon.appspot.com/UA-122740514-1/welcome-page)](https://github.com/igrigorik/ga-beacon)
