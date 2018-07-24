@@ -28,7 +28,7 @@ After that just use special patch from [that repository](https://github.com/JBZo
 ### 3. How to build Joomla installer/update package (distr)?
 Run in the root directory of project `make prod build` and see `./build/` folder
 
-### 4. I have found some bugs. What I should to do?
+### 4. I have found some bugs. What should I do?
 Just create [new issue](https://github.com/JBZoo/JBZoo/issues/new/choose) and we will try to fix it.
 
 ### 5. How to use jbzoo_update.zip? 
