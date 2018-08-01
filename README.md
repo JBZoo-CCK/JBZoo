@@ -44,7 +44,7 @@ See files `jbzoo_clean_install.zip` and `jbzoo_update.zip` in [releases](https:/
 ## Useful links
 ### General websites
  * [English](http://jbzoo.com)
- * [Russian](http://jbzoo.ru)
+ * [Russian](http://jbzoo.ru) and [about GPL version](http://jbzoo.ru/blog/jbzoo-4-gpl)
  * [JBZoo Demo](http://demo.jbzoo.com)
  * [Forum & Community](http://forum.jbzoo.com)
  * [JBZoo Marketplace (extentions)](http://forum.jbzoo.com/files/)
