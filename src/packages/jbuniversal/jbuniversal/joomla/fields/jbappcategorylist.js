@@ -11,8 +11,16 @@
  * @link       https://github.com/JBZoo/JBZoo
  */
 
-;
-return $(this).each(function () {
+(function ($) {
+
+    $.fn.JBCategoryList = function (option) {
+
+        var option = $.extend({}, {
+            'appId': 0,
+            'catId': 0
+        }, option);
+
+        return $(this).each(function () {
 
             // init vars, links to DOM objects
             var $element = $(this),
