@@ -156,7 +156,7 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
             foreach ($selectInfo['names'] as $key => $title) {
                 if (!empty($title) && !empty($valueList[$key])) {
                     $result[] =
-                        '<span class="jbselect-label jbselect-label-' . $key . '">' . $title . ':<span> '
+                        '<span class="jbselect-label jbselect-label-' . $key . '">' . $title . ':</span> '
                         . '<span class="jbselect-value jbselect-value-' . $key . '">' . $valueList[$key] . '</span>';
                 }
             }
