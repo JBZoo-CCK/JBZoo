@@ -54,6 +54,21 @@ class JBConfigJBuniversalController extends JBUniversalController
     }
 
     /**
+     * Config for Zoo hacks (YML)
+     */
+    public function zoohack()
+    {
+        if ($this->app->jbrequest->isPost()) {
+            $this->_config->setGroup('config.zoohack', $this->app->jbrequest->getAdminForm());
+            $this->setRedirect($this->app->jbrouter->admin(), JText::_('JBZOO_CONFIG_SAVED'));
+        }
+
+        $this->configData = $this->_config->getGroup('config.zoohack', $this->app->jbconfig->getList());
+
+        $this->renderView();
+    }
+
+    /**
      * Config for assets
      */
     public function assets()
