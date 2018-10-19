@@ -39,9 +39,6 @@ $jbperform = $this->app->jbperform;
         <a class="uk-button uk-button-primary jsStart"
            href="<?php echo $testUrl; ?>"><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_START'); ?></a>
 
-        <a class="uk-button uk-button-success jsReport"
-           href="<?php echo $reportUrl; ?>"><?php echo JText::_('JBZOO_ADMIN_PAGE_INFO_PERFORMANCE_SHARE'); ?></a>
-
         <p>&nbsp;</p>
 
         <table class="uk-table uk-table-hover uk-table-striped table-performance">

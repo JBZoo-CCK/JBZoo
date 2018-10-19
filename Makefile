@@ -11,9 +11,16 @@
 # @link       https://github.com/JBZoo/JBZoo
 #
 
-update:
+.PHONY: build build-installer build-update clean reset test dev validate prod
+
+dev:
 	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Update project \033[0m"
 	@composer update --optimize-autoloader --no-interaction --no-progress
+	@echo ""
+
+prod:
+	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Prepare project for production version \033[0m"
+	@composer update --optimize-autoloader --no-interaction --no-progress --no-dev
 	@echo ""
 
 validate:
@@ -26,11 +33,14 @@ test:
 	@php ./vendor/phpunit/phpunit/phpunit
 	@echo ""
 
-build: build-installer build-update
+build:
+	@rm -rf ./build
+	@make build-installer
+	@make build-update
+	@ls -ld ./build/*
 
 build-installer:
 	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Build installer \033[0m"
-	@rm -rf ./build/
 	@mkdir -p ./build/files
 	@cp -R ./src/packages         ./build/files/packages
 	@cp    ./src/file.script.php  ./build/files/file.script.php
@@ -45,7 +55,6 @@ build-installer:
 
 build-update:
 	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Build update package \033[0m"
-	@rm -rf ./build
 	@mkdir -p ./build/files
 	@cp -R ./src/packages         ./build/files/packages
 	@cp    ./src/file.script.php  ./build/files/file.script.php

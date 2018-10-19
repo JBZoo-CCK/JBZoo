@@ -86,7 +86,7 @@ class pkg_jbzooInstallerScript
     private static function _enablePlugin($plugin)
     {
         $db = JFactory::getDbo();
-        $db->setQuery('UPDATE #__extensions SET enabled = 1 WHERE element = "' . $plugin . '"');
+        $db->setQuery('UPDATE #__extensions SET enabled = 1 WHERE element = "' . trim($plugin) . '"');
         $db->execute();
     }
 }

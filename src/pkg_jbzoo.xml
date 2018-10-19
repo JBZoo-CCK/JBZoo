@@ -22,7 +22,10 @@
     <license>GPL-2.0</license>
     <packagename>jbzoo</packagename>
     <description>
-        JBZoo App is universal Joomla CCK, application for YooTheme Zoo component. Developed by Denis Smetannikov
+        <![CDATA[
+        JBZoo App is universal Joomla CCK, application for YooTheme Zoo component.
+        Developed by <a href="https://github.com/SmetDenis" target="_blank">Denis Smetannikov</a>
+        ]]>
     </description>
 
     <files folder="packages">
@@ -38,6 +41,8 @@
 
     <scriptfile>file.script.php</scriptfile>
     <updateservers>
-        <server type="package" priority="1" name="JBZoo App">https://raw.githubusercontent.com/JBZoo/JBZoo/master/update.xml</server>
+        <server type="package" priority="1" name="JBZoo App">
+            https://raw.githubusercontent.com/JBZoo/JBZoo/master/update.xml
+        </server>
     </updateservers>
 </extension>

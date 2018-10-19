@@ -121,11 +121,11 @@ class JBZoo
         define('ZOO_TABLE_JBZOO_CONFIG', '#__zoo_jbzoo_config');
         define('ZOO_TABLE_JBZOO_ORDER', '#__zoo_jbzoo_orders');
 
-        $frmwork = JPATH_SITE . '/media/zoo/applications/jbuniversal/framework';
-        $clsPath = $frmwork . '/classes';
-        $modPath = $frmwork . '/models';
-        $filPath = $frmwork . '/render/filter';
-        $evtPath = $frmwork . '/events';
+        $frameworkPath = JPATH_SITE . '/media/zoo/applications/jbuniversal/framework';
+        $clsPath = $frameworkPath . '/classes';
+        $modPath = $frameworkPath . '/models';
+        $filPath = $frameworkPath . '/render/filter';
+        $evtPath = $frameworkPath . '/events';
 
         $classList = [
             'JBDatabaseQuery'                    => $clsPath . '/database/JBDatabaseQuery.php',
@@ -361,7 +361,7 @@ class JBZoo
 
         $event->register('JBEventJBZoo');
         $dispatcher->connect('jbzoo:beforeInit', ['JBEventJBZoo', 'beforeInit']);
-        $dispatcher->notify($event->create($this, 'jbzoo:beforeInit'));
+        $dispatcher->notify($event::create($this, 'jbzoo:beforeInit'));
 
         $event->register('JBEventBasket');
         $dispatcher->connect('basket:beforeSave', ['JBEventBasket', 'beforeSave']);

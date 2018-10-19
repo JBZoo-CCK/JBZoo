@@ -11,8 +11,17 @@
  * @link       https://github.com/JBZoo/JBZoo
  */
 
-;
-return $(this).each(function () {
+(function ($) {
+
+    $.fn.JBCategoryOrder = function (option) {
+
+        var option = $.extend({}, {
+            'order'  : 'ordering',
+            'reverse': '0',
+            'random' : '0'
+        }, option);
+
+        return $(this).each(function () {
 
             // init vars, links to DOM objects
             var $element = $(this),

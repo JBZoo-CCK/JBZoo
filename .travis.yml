@@ -9,8 +9,9 @@ matrix:
     - php: 7.2
 
 script:
-  - make
+  - make dev
   - make test
+  - make prod
   - make build
   - make reset
 
