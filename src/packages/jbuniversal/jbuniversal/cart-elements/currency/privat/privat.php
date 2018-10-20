@@ -46,27 +46,28 @@ class JBCartElementCurrencyPrivat extends JBCartElementCurrency
         if ($xml = simplexml_load_string($xmlString)) {
 
             foreach ($xml as $row) {
-                $row = (array)$row;
-                $row = $row['@attributes'];
-
+               
+                $row = $row->exchangerate;
+                  
                 if (!isset($row['ccy'])) {
                     continue;
                 }
-
-                $unit  = trim($row['unit']) * 100;
-                $value = $this->app->jbvars->money($row['buy']) / $unit;
+               
+                $unit  = 100; // trim($row['unit']) * 100
+                $value = $this->app->jbvars->money($row['buy']);
                 $code  = strtolower(trim($row['ccy']));
-
+                
                 $result[$code] = $value;
             }
-
+        
             $result['rub'] = $result['rur'];
-            $result['uah'] = 100;
+            $result['uah'] = '100';
+        
         }
 
         $result = $this->_normToDefault($result);
-
+       
         return $result;
     }
-
+        
 }
