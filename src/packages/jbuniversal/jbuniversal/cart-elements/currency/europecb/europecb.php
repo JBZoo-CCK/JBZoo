@@ -22,7 +22,7 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementCurrencyEuropeCB extends JBCartElementCurrency
 {
 
-    protected $_apiUrl = 'http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml';
+    protected $_apiUrl = 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml';
 
     /**
      * @param null $currency
