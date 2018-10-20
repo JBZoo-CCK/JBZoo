@@ -22,7 +22,8 @@ defined('_JEXEC') or die('Restricted access');
 class JBCartElementCurrencyCBR extends JBCartElementCurrency
 {
 
-    protected $_apiUrl = 'http://www.cbr.ru/scripts/XML_daily.asp';
+    protected $_apiUrl = 'https://www.cbr-xml-daily.ru/daily_utf8.xml';
+    // old url - http://www.cbr.ru/scripts/XML_daily.asp
 
     /**
      * Simple cache
