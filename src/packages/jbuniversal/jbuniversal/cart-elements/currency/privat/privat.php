@@ -25,7 +25,8 @@ class JBCartElementCurrencyPrivat extends JBCartElementCurrency
      * Service URL
      * @var string
      */
-    protected $_apiUrl = 'https://privat24.privatbank.ua/p24/accountorder?oper=prp&PUREXML&apicour&country=ua&full';
+    protected $_apiUrl = 'https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5';
+    // old https://privat24.privatbank.ua/p24/accountorder?oper=prp&PUREXML&apicour&country=ua&full
 
     /**
      * @param null $currency
