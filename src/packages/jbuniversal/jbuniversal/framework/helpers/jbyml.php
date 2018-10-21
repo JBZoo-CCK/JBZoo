@@ -313,7 +313,7 @@ class JBYmlHelper extends AppHelper
         $siteUrl          = $this->_appParams->get('site_url');
         $siteName         = $this->_appParams->get('site_name');
         $companyName      = $this->_appParams->get('company_name');
-        $supportCurrency  = array('RUB', 'USD', 'BYR', 'KZT', 'EUR', 'UAH');
+        $supportCurrency  = array('RUB', 'USD', 'BYR', 'BYN', 'KZT', 'EUR', 'UAH');
         $supportCurrency  = array('RUB');
         $currency         = $this->_appParams->get('currency', 'RUB');
         $currencyRate     = $this->_appParams->get('currency_rate', 'default');
