@@ -146,4 +146,12 @@ class JBZooSystemPlugin
     {
         // noop
     }
+    
+    /**
+     * Joomla Event onBeforeRespond
+     */
+    public function onBeforeRespond()
+    {
+        // noop
+    }
 }
