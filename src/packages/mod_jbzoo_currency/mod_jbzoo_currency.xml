@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<extension type="module" version="2.5" method="upgrade" client="site">
+    <name>JBZoo Currency</name>
+    <author>JBZoo.com</author>
+    <creationDate>2018 June</creationDate>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>4.0.2</version>
+    <license>GPL-2.0</license>
+    <description>JBZOO_MODULE_CURRENCY_DESC</description>
+
+    <files>
+        <folder>assets</folder>
+        <folder>tmpl</folder>
+        <filename module="mod_jbzoo_currency">mod_jbzoo_currency.php</filename>
+        <filename>helper.php</filename>
+    </files>
+
+    <config>
+        <fields name="params">
+
+            <fieldset name="basic" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+                <field name="@spacer" type="jbzooinit"/>
+
+                <field name="layout" type="modulelayout" default="switcher-buttons" label="JFIELD_ALT_LAYOUT_LABEL"
+                       description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
+
+                <field name="currency_list" type="jbcurrency" multiple="1" defaultCode="1" default=""
+                       label="JBZOO_MODULE_CURRENCY_LIST"
+                       description="JBZOO_MODULE_CURRENCY_LIST_DESC"/>
+
+                <field name="currency_default" type="jbcurrency" defaultCode="1" default="eur"
+                       label="JBZOO_MODULE_CURRENCY_DEFAULT"
+                       description="JBZOO_MODULE_CURRENCY_DEFAULT_DESC"/>
+
+                <field name="for_switcher" type="jbspacer" default="JBZOO_MODULE_CURRENCY_FOR_SWITCHER"/>
+
+                <field name="switcher_target" type="text" default=".jbzoo" label="JBZOO_MODULE_CURRENCY_SWITCHER_TARGET"
+                       description="JBZOO_MODULE_CURRENCY_SWITCHER_TARGET_DESC"/>
+
+                <field name="for_rates" type="jbspacer" default="JBZOO_MODULE_CURRENCY_FOR_RATES"/>
+
+                <field name="list_multiply" type="text" default="1" label="JBZOO_MODULE_CURRENCY_LIST_MULTIPLY"
+                       description="JBZOO_MODULE_CURRENCY_LIST_MULTIPLY_DESC"/>
+
+            </fieldset>
+
+            <fieldset name="advanced">
+
+                <field name="moduleclass_sfx" type="textarea" rows="3" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                       description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"/>
+
+                <field name="cache" type="hidden" default="0"/>
+                <field name="owncache" type="hidden" default="0"/>
+                <field name="cache_time" type="hidden" default="0"/>
+                <field name="cachemode" type="hidden" default="safeuri"/>
+            </fieldset>
+
+        </fields>
+    </config>
+
+</extension>

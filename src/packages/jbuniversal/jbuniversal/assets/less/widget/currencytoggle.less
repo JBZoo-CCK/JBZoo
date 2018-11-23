@@ -1,0 +1,174 @@
+//
+// JBZoo Application
+//
+// This file is part of the JBZoo CCK package.
+// For the full copyright and license information, please view the LICENSE
+// file that was distributed with this source code.
+//
+// @package    Application
+// @license    GPL-2.0
+// @copyright  Copyright (C) JBZoo.com, All rights reserved.
+// @link       https://github.com/JBZoo/JBZoo
+//
+
+@import "jbzoo";
+
+#flags {
+
+    .init (@path, @size, @pad: 0) when (isstring(@path)) {
+        background: url(@path) 0 0 no-repeat;
+        width: @size;
+        height: @size;
+        display: inline-block;
+        font-size: @size + @pad;
+    }
+
+    .image(@y) {
+        background-position: 0 -@y * 1em;
+    }
+
+}
+
+.jbzoo {
+
+    .currency-toggle {
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+        font-size: 0;
+        white-space: nowrap;
+
+        .jbtooltip {
+            background: inherit;
+            width: inherit;
+            height: inherit;
+        }
+
+    }
+
+    .jbcurrency-label {
+        // box
+        float: left;
+        display: inline-block;
+        padding: 3px 6px;
+        margin-bottom: 0;
+        cursor: pointer;
+        vertical-align: middle;
+
+        // text
+        font-size: 0;
+        line-height: 0;
+        color: #333333;
+        text-align: center;
+
+        // borders
+        border: 1px solid #cccccc;
+        border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+        border-radius: 0;
+        transition: 0.5s;
+        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+        border-bottom-color: #b3b3b3;
+
+        // others
+        .opacity(0.8);
+        .text-shadow(0 1px 1px rgba(255, 255, 255, 0.75));
+        .box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05));
+        #gradient > .vertical(#ffffff, #e6e6e6);
+
+        &.isFirst {
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+        }
+
+        &.isLast {
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+
+        &:nth-child(n+2) {
+            margin-left: -1px;
+        }
+
+    }
+
+    .jbcurrency-label:hover {
+        .box-shadow(inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05));
+        .opacity(0.8);
+    }
+
+    .jbcurrency-input {
+        position: absolute;
+        left: -9999px;
+    }
+
+    .jbcurrency-input:checked + .jbcurrency-label {
+        .opacity(1);
+        .box-shadow(inset 0 3px 5px #4D90FE);
+        .transition(background-position 0.1s linear);
+        background-color: #e6e6e6;
+        text-decoration: none;
+        background-position: 0 -15px;
+    }
+
+    .jbcurrency-label {
+
+        .jbflag {
+            #flags > .init('../../img/currency/flags.png', 32px, 0);
+        }
+
+        .jbflag-default_cur {
+            line-height: 32px;
+            font-size: 32px;
+            color: #333;
+            text-align: center;
+            background: none;
+        }
+
+        .jbflag-eur { #flags > .image(0);  }
+        .jbflag-usd { #flags > .image(1);  }
+        .jbflag-rub { #flags > .image(2);  }
+        .jbflag-uah { #flags > .image(3);  }
+        .jbflag-amd { #flags > .image(4);  }
+        .jbflag-aud { #flags > .image(5);  }
+        .jbflag-azn { #flags > .image(6);  }
+        .jbflag-bgn { #flags > .image(7);  }
+        .jbflag-brl { #flags > .image(8);  }
+        .jbflag-byr { #flags > .image(9);  }
+        .jbflag-byn { #flags > .image(9);  }
+        .jbflag-cad { #flags > .image(10); }
+        .jbflag-chf { #flags > .image(11); }
+        .jbflag-cny { #flags > .image(12); }
+        .jbflag-czk { #flags > .image(13); }
+        .jbflag-dkk { #flags > .image(14); }
+        .jbflag-gbp { #flags > .image(15); }
+        .jbflag-hkd { #flags > .image(16); }
+        .jbflag-hrk { #flags > .image(17); }
+        .jbflag-huf { #flags > .image(18); }
+        .jbflag-idr { #flags > .image(19); }
+        .jbflag-ils { #flags > .image(20); }
+        .jbflag-jpy { #flags > .image(21); }
+        .jbflag-kgs { #flags > .image(22); }
+        .jbflag-krw { #flags > .image(23); }
+        .jbflag-kzt { #flags > .image(24); }
+        .jbflag-ltl { #flags > .image(25); }
+        .jbflag-lvl { #flags > .image(26); }
+        .jbflag-mdl { #flags > .image(27); }
+        .jbflag-mxn { #flags > .image(28); }
+        .jbflag-myr { #flags > .image(29); }
+        .jbflag-nok { #flags > .image(30); }
+        .jbflag-nzd { #flags > .image(31); }
+        .jbflag-php { #flags > .image(32); }
+        .jbflag-pln { #flags > .image(33); }
+        .jbflag-ron { #flags > .image(34); }
+        .jbflag-sek { #flags > .image(35); }
+        .jbflag-sgd { #flags > .image(36); }
+        .jbflag-thb { #flags > .image(37); }
+        .jbflag-tjs { #flags > .image(38); }
+        .jbflag-tmt { #flags > .image(39); }
+        .jbflag-try { #flags > .image(40); }
+        .jbflag-uzs { #flags > .image(41); }
+        .jbflag-zar { #flags > .image(42); }
+
+    }
+
+}

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<extension type="module" version="2.5" method="upgrade" client="site">
+    <name>JBZoo Search List</name>
+    <author>JBZoo.com</author>
+    <creationDate>2018 June</creationDate>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>4.0.2</version>
+    <license>GPL-2.0</license>
+    <description>JBZOO_SEARCH_LIST_MODULE_DESCRIPTION</description>
+
+    <files>
+        <folder>assets</folder>
+        <folder>renderer</folder>
+        <folder>tmpl</folder>
+        <filename module="mod_jbzoo_props">mod_jbzoo_props.php</filename>
+        <filename>helper.php</filename>
+    </files>
+
+    <config>
+        <fields name="params">
+            <fieldset name="basic" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+                <field name="@spacer" type="jbzooinit"/>
+
+                <field name="application" type="jbapplist" default="" label="JBZOO_FILTER_APPLICATION"
+                       description="JBZOO_FILTER_APPLICATION_DESC"/>
+
+                <field name="type" type="jbtype" default="" label="JBZOO_FILTER_ITEM_TYPE"
+                       description="JBZOO_FILTER_ITEM_TYPE_DESC"/>
+
+                <field name="item_layout" type="jbfilename" default="default" label="JBZOO_FILTER_LAYOUT"
+                       description="JBZOO_FILTER_LAYOUT_DESC" path="/modules/mod_jbzoo_props/renderer/item/" ext="php"/>
+
+                <field name="menuitem" type="menuitem" default="0" state="1" label="JBZOO_FILTER_MENU"
+                       description="JBZOO_FILTER_MENU_DESC"/>
+
+                <field name="moduleclass_sfx" type="text" default="" label="JBZOO_MODULE_SFX"
+                       description="JBZOO_MODULE_SFX_DESC"/>
+
+                <field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL"
+                       description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
+
+            </fieldset>
+
+            <fieldset name="CONFIG">
+                <field name="limit" type="test" default="20" label="JBZOO_FILTER_LIST_LIMIT"
+                       description="JBZOO_FILTER_LIST_LIMIT_DESC"/>
+
+                <field name="depend" type="jbbool" default="1" label="JBZOO_FILTER_LIST_DEPEND"
+                       description="JBZOO_FILTER_LIST_DEPEND_DESC"/>
+
+                <field name="count" type="jbbool" default="1" label="JBZOO_FILTER_LIST_COUNT"
+                       description="JBZOO_FILTER_LIST_COUNT_DESC"/>
+
+                <field name="depend_category" type="jbbool" default="0" label="JBZOO_FILTER_LIST_DEPEND_CATEGORY"
+                       description="JBZOO_FILTER_LIST_DEPEND_CATEGORY_DESC"/>
+
+            </fieldset>
+
+            <fieldset name="ORDER">
+                <field name="order" type="jbitemorderadv" default="none" label="JBZOO_ORDER"
+                       description="JBZOO_ORDER_DESC"/>
+            </fieldset>
+
+            <fieldset name="CACHE">
+                <field name="cache" type="list" default="1" label="JBZOO_CACHE_CACHING"
+                       description="JBZOO_CACHE_CACHING_DESC">
+                    <option value="1">JBZOO_CACHE_USE_GLOBAL</option>
+                    <option value="0">JBZOO_CACHE_NOCACHING</option>
+                </field>
+
+                <field name="cache_time" type="text" label="JBZOO_CACHE_TIME" default="900"
+                       description="JBZOO_CACHE_TIME_DESC"/>
+
+                <field name="cachemode" type="hidden" default="safeuri"/>
+            </fieldset>
+
+        </fields>
+    </config>
+
+</extension>

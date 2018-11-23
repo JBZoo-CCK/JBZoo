@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<extension type="module" version="2.5" method="upgrade" client="site">
+    <name>JBZoo Cart</name>
+    <author>JBZoo.com</author>
+    <creationDate>2018 June</creationDate>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>4.0.2</version>
+    <license>GPL-2.0</license>
+    <description>JBZOO_CART_MODULE_DESCRIPTION</description>
+
+    <files>
+        <folder>assets</folder>
+        <folder>tmpl</folder>
+        <filename module="mod_jbzoo_basket">mod_jbzoo_basket.php</filename>
+        <filename>helper.php</filename>
+    </files>
+
+    <config>
+        <fields name="params">
+
+            <fieldset name="basic" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
+                <field name="@spacer" type="jbzooinit"/>
+
+                <field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL"
+                       description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
+
+                <field name="currency" type="jbcurrency" defaultCode="1" default="RUR"
+                       label="JBZOO_CART_MODULE_CURRENCY"
+                       description="JBZOO_CART_MODULE_CURRENCY_DESC"/>
+
+            </fieldset>
+
+            <fieldset name="template">
+
+                <field name="jbcart_items" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEMS"
+                       description="JBZOO_CART_MODULE_JBCART_ITEMS_DESC"/>
+
+                <field name="jbcart_item_delete" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_DELETE"
+                       description="JBZOO_CART_MODULE_ITEM_DELETE_DESC"/>
+
+                <field name="jbcart_item_link" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_LINK"
+                       description="JBZOO_CART_MODULE_ITEM_LINK_DESC"/>
+
+                <field name="jbcart_item_image" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_IMAGE"
+                       description="JBZOO_CART_MODULE_ITEM_IMAGE_DESC"/>
+
+                <field name="jbcart_item_image_link" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_IMAGE_LINK"
+                       description="JBZOO_CART_MODULE_ITEM_IMAGE_LINK_DESC"/>
+
+                <field name="jbcart_item_image_width" type="text" default="75"
+                       label="JBZOO_CART_MODULE_ITEM_IMAGE_WIDTH"
+                       description="JBZOO_CART_MODULE_ITEM_IMAGE_WIDTH_DESC"/>
+
+                <field name="jbcart_item_image_height" type="text" default="75"
+                       label="JBZOO_CART_MODULE_ITEM_IMAGE_HEIGHT"
+                       description="JBZOO_CART_MODULE_ITEM_IMAGE_HEIGHT_DESC"/>
+
+                <field name="jbcart_item_price" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_PRICE"
+                       description="JBZOO_CART_MODULE_ITEM_PRICE_DESC"/>
+
+                <field name="jbcart_item_total" type="jbbool" default="0" label="JBZOO_CART_MODULE_ITEM_TOTAL"
+                       description="JBZOO_CART_MODULE_ITEM_TOTAL_DESC"/>
+
+                <field name="jbcart_item_quantity" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_QUANTITY"
+                       description="JBZOO_CART_MODULE_ITEM_QUANTITY_DESC"/>
+
+                <field name="jbcart_item_params" type="jbbool" default="1" label="JBZOO_CART_MODULE_ITEM_PARAMS"
+                       description="JBZOO_CART_MODULE_ITEM_PARAMS_DESC"/>
+
+                <field name="jbcart_count_items" type="jbbool" default="1" label="JBZOO_CART_MODULE_COUNT_ITEMS"
+                       description="JBZOO_CART_MODULE_COUNT_ITEMS_DESC"/>
+
+                <field name="jbcart_count_sku" type="jbbool" default="1" label="JBZOO_CART_MODULE_COUNT_SKU"
+                       description="JBZOO_CART_MODULE_COUNT_SKU_DESC"/>
+
+                <field name="jbcart_totalsum" type="jbbool" default="1" label="JBZOO_CART_MODULE_TOTALSUM"
+                       description="JBZOO_CART_MODULE_TOTALSUM_DESC"/>
+
+                <field name="jbcart_button_empty" type="jbbool" default="1" label="JBZOO_CART_MODULE_BUTTON_EMPTY"
+                       description="JBZOO_CART_MODULE_BUTTON_EMPTY_DESC"/>
+
+                <field name="jbcart_button_gotocart" type="jbbool" default="1" label="JBZOO_CART_MODULE_BUTTON_GOTOCART"
+                       description="JBZOO_CART_MODULE_BUTTON_GOTOCART_DESC"/>
+
+            </fieldset>
+
+            <fieldset name="advanced">
+
+                <field name="moduleclass_sfx" type="textarea" rows="3" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                       description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"/>
+
+                <field name="cache" type="hidden" default="0"/>
+                <field name="owncache" type="hidden" default="0"/>
+                <field name="cache_time" type="hidden" default="0"/>
+                <field name="cachemode" type="hidden" default="itemid"/>
+            </fieldset>
+
+        </fields>
+    </config>
+
+</extension>

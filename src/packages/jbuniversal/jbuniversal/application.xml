@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<application>
+    <name>JBZoo App</name>
+    <group>jbuniversal</group>
+    <version>4.10.1</version>
+    <creationDate>2018 June</creationDate>
+    <author>JBZoo.com</author>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
+    <license>GPL-2.0</license>
+    <description>JBZoo App is universal Joomla CCK, application for YooTheme Zoo component</description>
+
+    <params group="application-config">
+
+        <param name="applicationid" type="jbapplicationid" label="JBZOO_APPLICATION_ID"/>
+
+        <param name="rborder" type="jbbool" default="1" label="JBZOO_RBORDER" description="JBZOO_RBORDER_DESC"/>
+
+        <param name="column_heightfix" type="jbbool" default="0" label="JBZOO_COLUMN_HEIGHTFIX"
+               description="JBZOO_COLUMN_HEIGHTFIX_DESC"/>
+
+        <param name="wrap_item_style" type="list" default="div" label="JBZOO_WRAP_ITEM_STYLE"
+               description="JBZOO_WRAP_ITEM_STYLE_DESC">
+            <option value="div">JBZOO_TAG_DIV</option>
+            <option value="li">JBZOO_TAG_LI</option>
+            <option value="td">JBZOO_TAG_TD</option>
+            <option value="tr">JBZOO_TAG_TR</option>
+            <option value="p">JBZOO_TAG_P</option>
+            <option value="none">JBZOO_TAG_NONE</option>
+        </param>
+
+        <param name="@spacer" type="jbspacer" default="JBZOO_CONFIG_CATEGORIES"/>
+
+        <param name="category_image_height" type="text" default="150" label="JBZOO_CATEGORY_IMAGE_HEIGHT" size="3"/>
+
+        <param name="category_image_width" type="text" default="150" label="JBZOO_CATEGORY_IMAGE_WIDTH" size="3"/>
+
+        <param name="show_feed_link" type="zoofeed" default="0" label="JBZOO_SHOW_FEED_LINK"
+               description="JBZOO_SHOW_FEED_LINK_DESC"/>
+
+        <param name="@spacer" type="jbspacer" default="JBZOO_CONFIG_SUBCATEGORIES"/>
+
+        <param name="category_teaser_image_height" type="text" default="50" label="JBZOO_CATEGORY_TEASER_IMAGE_HEIGHT"
+               description="JBZOO_CATEGORY_TEASER_IMAGE_HEIGHT_DESC" size="3"/>
+
+        <param name="category_teaser_image_width" type="text" default="50" label="JBZOO_CATEGORY_TEASER_IMAGE_WIDTH"
+               description="JBZOO_CATEGORY_TEASER_IMAGE_WIDTH_DESC" size="3"/>
+
+        <param name="@spacer" type="jbspacer" default="JBZOO_CONFIG_ITEMS"/>
+
+        <param name="items_per_page" type="text" default="20" label="JBZOO_ITEMS_PER_PAGE" size="3"/>
+
+        <param name="item_order" type="jbitemorder" default="" label="JBZOO_ITEM_ORDER"
+               description="JBZOO_ITEM_ORDER_DESC"/>
+
+        <param name="@spacer" type="jbspacer" default="JBZOO_CONFIG_OTHERS"/>
+
+        <param name="alpha_index" type="list" default="0" label="JBZOO_ALPHA_INDEX"
+               description="JBZOO_ALPHA_INDEX_DESC">
+            <option value="0">JBZOO_DISABLE</option>
+            <option value="1">JBZOO_ONLY_CATEGORIES</option>
+            <option value="2">JBZOO_ONLY_ITEMS</option>
+            <option value="3">JBZOO_BOTH</option>
+        </param>
+
+        <param name="alpha_chars" type="list" default="0" label="JBZOO_ALPHA_CHARS">
+            <option value="0">JBZOO_BOTH</option>
+            <option value="1">JBZOO_ALPHA_RU</option>
+            <option value="2">JBZOO_ALPHA_EN</option>
+        </param>
+
+        <param name="@spacer" type="jbspacer" default="JBZOO_TEMPLATE_LAYOUTS"/>
+
+        <param name="layout_frontpage" type="jblayout" default="__auto__" label="JBZOO_LAYOUT_FRONTPAGE"
+               description="JBZOO_LAYOUT_FRONTPAGE_DESC"/>
+
+        <param name="layout_category" type="jblayout" default="__auto__" label="JBZOO_LAYOUT_CATEGORY"
+               description="JBZOO_LAYOUT_CATEGORY_DESC"/>
+
+        <param name="layout_subcategory" type="jblayout" default="__auto__" label="JBZOO_LAYOUT_SUBCATEGORY"
+               description="JBZOO_LAYOUT_SUBCATEGORY_DESC"/>
+
+        <param name="layout_subcategory_columns" type="jblayout" default="__auto__"
+               label="JBZOO_LAYOUT_SUBCATEGORY_COLUMNS" description="JBZOO_LAYOUT_SUBCATEGORY_COLUMNS_DESC"/>
+
+        <param name="layout_subcategories" type="jblayout" default="__auto__" label="JBZOO_LAYOUT_SUBCATEGORIES"
+               description="JBZOO_LAYOUT_SUBCATEGORIES_DESC"/>
+
+        <param name="layout_items" type="jblayout" default="__auto__" label="JBZOO_LAYOUT_ITEMS"
+               description="JBZOO_LAYOUT_ITEMS_DESC"/>
+
+        <param name="layout_item_columns" type="jblayout" default="__auto__" label="JBZOO_LAYOUT_ITEM_COLUMNS"
+               description="JBZOO_LAYOUT_ITEM_COLUMNS_DESC"/>
+
+        <param name="layout_alphaindex" type="jblayout" default="__auto__" label="JBZOO_LAYOUT_ALPHAINDEX"
+               description="JBZOO_LAYOUT_ALPHAINDEX_DESC"/>
+
+        <param name="layout_pagination" type="jblayout" default="__auto__" label="JBZOO_LAYOUT_PAGINATION"
+               description="JBZOO_LAYOUT_PAGINATION_DESC"/>
+
+        <param name="layout_tag" type="jblayout" default="__auto__" label="JBZOO_LAYOUT_TAG"
+               description="JBZOO_LAYOUT_TAG_DESC"/>
+
+        <param name="layout_comments" type="jblayout" default="__auto__" label="JBZOO_LAYOUT_COMMENTS"
+               description="JBZOO_LAYOUT_COMMENTS_DESC"/>
+
+        <param name="layout_comment" type="jblayout" default="__auto__" label="JBZOO_LAYOUT_COMMENT"
+               description="JBZOO_LAYOUT_COMMENT_DESC"/>
+
+        <param name="layout_respond" type="jblayout" default="__auto__" label="JBZOO_LAYOUT_RESPOND"
+               description="JBZOO_LAYOUT_RESPOND_DESC"/>
+
+        <param name="layout_mysubmissions" type="jblayout" default="__auto__" label="JBZOO_LAYOUT_MYSUBMISSIONS"
+               description="JBZOO_LAYOUT_MYSUBMISSIONS_DESC"/>
+
+        <param name="layout_administration" type="jblayout" default="__auto__" label="JBZOO_LAYOUT_ADMINISTRATION"
+               description="JBZOO_LAYOUT_ADMINISTRATION_DESC"/>
+
+        <param name="layout_submission" type="jblayout" default="__auto__" label="JBZOO_LAYOUT_SUBMISSION"
+               description="JBZOO_LAYOUT_SUBMISSION_DESC"/>
+
+        <param name="lastmodified" type="jbtimestamp"/>
+
+    </params>
+
+    <params group="category-config">
+
+        <param name="@spacer" type="jbspacer" default="JBZOO_CONFIG_CATEGORIES"/>
+
+        <param name="show_feed_link" type="zoofeedglobal" default="0" label="JBZOO_SHOW_FEED_LINK"
+               description="JBZOO_SHOW_FEED_LINK_DESC"/>
+
+        <param name="@spacer" type="jbspacer" default="JBZOO_CONFIG_ITEMS"/>
+
+        <param name="items_per_page" type="textglobal" default="10" label="JBZOO_ITEMS_PER_PAGE" size="3"/>
+
+        <param name="item_order" type="jbitemorderglobal" default="" label="JBZOO_ITEM_ORDER"
+               description="JBZOO_ITEM_ORDER_DESC" random="true" add_default="true"/>
+
+        <param name="@spacer" type="jbspacer" default="JBZOO_CONFIG_OTHERS"/>
+
+        <param name="alpha_index" type="listglobal" default="0" label="JBZOO_ALPHA_INDEX"
+               description="JBZOO_ALPHA_INDEX_DESC">
+            <option value="0">JBZOO_DISABLE</option>
+            <option value="1">JBZOO_ONLY_CATEGORIES</option>
+            <option value="2">JBZOO_ONLY_ITEMS</option>
+            <option value="3">JBZOO_BOTH</option>
+        </param>
+
+        <param name="alpha_chars" type="listglobal" default="0" label="JBZOO_ALPHA_CHARS">
+            <option value="0">JBZOO_BOTH</option>
+            <option value="1">JBZOO_ALPHA_RU</option>
+            <option value="2">JBZOO_ALPHA_EN</option>
+        </param>
+
+        <param name="@spacer" type="jbspacer" default="JBZOO_TEMPLATE_LAYOUTS"/>
+
+        <param name="layout_frontpage" type="jblayoutglobal" default="__auto__" label="JBZOO_LAYOUT_FRONTPAGE"
+               description="JBZOO_LAYOUT_FRONTPAGE_DESC"/>
+
+        <param name="layout_category" type="jblayoutglobal" default="__auto__" label="JBZOO_LAYOUT_CATEGORY"
+               description="JBZOO_LAYOUT_CATEGORY_DESC"/>
+
+        <param name="layout_subcategory" type="jblayoutglobal" default="__auto__" label="JBZOO_LAYOUT_SUBCATEGORY"
+               description="JBZOO_LAYOUT_SUBCATEGORY_DESC"/>
+
+        <param name="layout_subcategory_columns" type="jblayoutglobal" default="__auto__"
+               label="JBZOO_LAYOUT_SUBCATEGORY_COLUMNS" description="JBZOO_LAYOUT_SUBCATEGORY_COLUMNS_DESC"/>
+
+        <param name="layout_subcategories" type="jblayoutglobal" default="__auto__" label="JBZOO_LAYOUT_SUBCATEGORIES"
+               description="JBZOO_LAYOUT_SUBCATEGORIES_DESC"/>
+
+        <param name="layout_items" type="jblayoutglobal" default="__auto__" label="JBZOO_LAYOUT_ITEMS"
+               description="JBZOO_LAYOUT_ITEMS_DESC"/>
+
+        <param name="layout_item_columns" type="jblayoutglobal" default="__auto__" label="JBZOO_LAYOUT_ITEM_COLUMNS"
+               description="JBZOO_LAYOUT_ITEM_COLUMNS_DESC"/>
+
+        <param name="layout_alphaindex" type="jblayoutglobal" default="__auto__" label="JBZOO_LAYOUT_ALPHAINDEX"
+               description="JBZOO_LAYOUT_ALPHAINDEX_DESC"/>
+
+        <param name="lastmodified" type="jbtimestamp"/>
+
+    </params>
+
+    <params group="application-content">
+        <param name="category_title" type="textarea" rows="2" cols="30" label="JBZOO_CATEGORY_TITLE"
+               description="JBZOO_CATEGORY_TITLE_DESC"/>
+
+        <param name="category_subtitle" type="textarea" rows="2" cols="30" label="JBZOO_CATEGORY_SUBTITLE"
+               description="JBZOO_CATEGORY_SUBTITLE_DESC"/>
+
+        <param name="category_image" type="zooimage" label="JBZOO_CATEGORY_IMAGE"
+               description="JBZOO_CATEGORY_IMAGE_DESC"/>
+    </params>
+
+    <params group="category-content">
+        <param name="categoryid" type="jbcategoryid" label="JBZOO_CATEGORY_ID"/>
+
+        <param name="category_title" type="textarea" rows="2" cols="30" label="JBZOO_CATEGORY_TITLE"
+               description="JBZOO_CATEGORY_TITLE_DESC"/>
+
+        <param name="category_subtitle" type="textarea" rows="2" cols="30" label="JBZOO_CATEGORY_SUBTITLE"
+               description="JBZOO_CATEGORY_SUBTITLE_DESC"/>
+
+        <param name="category_teaser_text" type="textarea" rows="10" cols="30" label="JBZOO_TEASER_DESCRIPTION"
+               description="JBZOO_TEASER_DESCRIPTION_DESC"/>
+
+        <param name="category_image" type="zooimage" label="JBZOO_CATEGORY_IMAGE"
+               description="JBZOO_CATEGORY_IMAGE_DESC"/>
+
+        <param name="category_teaser_image" type="zooimage" label="JBZOO_CATEGORY_TEASER_IMAGE"
+               description="JBZOO_CATEGORY_TEASER_IMAGE_DESC"/>
+    </params>
+
+    <params group="item-content">
+
+    </params>
+</application>

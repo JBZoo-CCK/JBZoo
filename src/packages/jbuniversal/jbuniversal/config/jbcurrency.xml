@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<currency>
+
+    <curencylist>
+        <eur value="1.00000"/>
+        <usd value="1.38110"/>
+        <rub value="49.7435"/>
+        <uah value="17.1016"/>
+        <amd value="572.701"/>
+        <aud value="1.47205"/>
+        <azn value="1.08251"/>
+        <bgn value="1.95536"/>
+        <brl value="3.06295"/>
+        <byr value="13689.3"/>
+        <byn value="13689.3"/>
+        <cad value="1.51659"/>
+        <chf value="1.21586"/>
+        <cny value="8.52629"/>
+        <czk value="27.4480"/>
+        <dkk value="7.46612"/>
+        <gbp value="0.82589"/>
+        <hkd value="10.7082"/>
+        <hrk value="7.61882"/>
+        <huf value="307.453"/>
+        <idr value="15784.0"/>
+        <ils value="4.78261"/>
+        <jpy value="140.62"/>
+        <kgs value="75.1249"/>
+        <krw value="1436.25"/>
+        <kzt value="248.554"/>
+        <ltl value="3.45198"/>
+        <lvl value="0.70902"/>
+        <mdl value="18.1949"/>
+        <mxn value="18.0263"/>
+        <myr value="4.48784"/>
+        <nok value="8.23235"/>
+        <nzd value="1.59565"/>
+        <php value="61.4214"/>
+        <pln value="4.18264"/>
+        <ron value="4.46394"/>
+        <sek value="9.07424"/>
+        <sgd value="1.73030"/>
+        <thb value="44.5312"/>
+        <tjs value="6.67113"/>
+        <tmt value="3.93613"/>
+        <try value="2.94003"/>
+        <uzs value="3135.10"/>
+        <zar value="14.5377"/>
+    </curencylist>
+</currency>

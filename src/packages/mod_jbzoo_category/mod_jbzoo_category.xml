@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<extension type="module" version="2.5" method="upgrade" client="site">
+    <name>JBZoo Category List</name>
+    <author>JBZoo.com</author>
+    <creationDate>2018 June</creationDate>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>4.0.2</version>
+    <license>GPL-2.0</license>
+    <description>JBZOO_CATEGORY_MODULE_DESCRIPTION</description>
+
+    <files>
+        <folder>assets</folder>
+        <folder>renderer</folder>
+        <folder>tmpl</folder>
+        <filename module="mod_jbzoo_category">mod_jbzoo_category.php</filename>
+        <filename>helper.php</filename>
+    </files>
+
+    <config>
+        <fields name="params">
+            <fieldset name="JBZOO_MODCATEGORY_SOURCE" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+                <field name="@spacer" type="jbzooinit"/>
+
+                <field name="application" type="jbappcategorylist" default="0:0" label="JBZOO_MODCATEGORY_APPLICATIONS"
+                       description="JBZOO_MODCATEGORY_APPLICATIONS_DESC" categories="true" frontpage="true" showcategories_all="0" show_categories="1"/>
+
+                <field name="type_id" type="jbtype" default="false" multiple="1" label="JBZOO_MODCATEGORY_TYPE"
+                       description="JBZOO_MODCATEGORY_TYPE_DESC"/>
+
+                <field name="category_limit" type="text" default="0" size="5" label="JBZOO_MODCATEGORY_CATEGORY_LIMIT"
+                       description="JBZOO_MODCATEGORY_CATEGORY_LIMIT_DESC"/>
+
+                <field name="item_order" type="jbitemorder" default="priority" label="JBZOO_ORDER"
+                       description="JBZOO_ORDER_DESC"/>
+
+                <field name="items_limit" type="text" default="4" size="5" label="JBZOO_MODCATEGORY_ITEMS_LIMIT"
+                       description="JBZOO_MODCATEGORY_ITEMS_LIMIT_DESC"/>
+            </fieldset>
+
+            <fieldset name="JBZOO_MODCATEGORY_CATEGORY" addfieldpath="/modules/mod_zoocategory/fields">
+                <field name="category_order" type="jbcategoryorder" default="ordering" label="JBZOO_MODCATEGORY_CATEGORY_ORDER"
+                       description="JBZOO_MODCATEGORY_CATEGORY_ORDER_DESC"/>
+
+                <field name="category_display_image" type="jbbool" default="1" label="JBZOO_MODCATEGORY_DISPLAY_IMAGE"
+                       description="JBZOO_MODCATEGORY_DISPLAY_IMAGE_DESC"/>
+
+                <field name="category_image_width" type="text" default="100" size="3"
+                       label="JBZOO_MODCATEGORY_IMAGE_WIDTH" description="JBZOO_MODCATEGORY_IMAGE_WIDTH_DESC"/>
+
+                <field name="category_image_height" type="text" default="100" size="3"
+                       label="JBZOO_MODCATEGORY_IMAGE_HEIGHT" description="JBZOO_MODCATEGORY_IMAGE_HEIGHT_DESC"/>
+
+                <field name="category_image_align" type="list" default="left" label="JBZOO_MODCATEGORY_IMAGE_ALIGN"
+                       description="JBZOO_MODCATEGORY_IMAGE_ALIGN_DESC">
+                    <option value="none">JBZOO_MODCATEGORY_IMAGE_ALIGN_NONE</option>
+                    <option value="left">JBZOO_MODCATEGORY_IMAGE_ALIGN_LEFT</option>
+                    <option value="right">JBZOO_MODCATEGORY_IMAGE_ALIGN_RIGHT</option>
+                    <option value="center">JBZOO_MODCATEGORY_IMAGE_ALIGN_CENTER</option>
+                </field>
+
+                <field name="category_display_description" type="jbbool" default="1"
+                       label="JBZOO_MODCATEGORY_DISPLAY_DESCRIPTION"
+                       description="JBZOO_MODCATEGORY_DISPLAY_DESCRIPTION_DESC"/>
+
+                <field name="display_count_items" type="jbbool" default="1"
+                       label="JBZOO_MODCATEGORY_DISPLAY_COUNT_ITEMS"
+                       description="JBZOO_MODCATEGORY_DISPLAY_COUNT_ITEMS_DESC"/>
+
+                <field name="menu_item" type="zoomenuitem" default="" state="1"
+                       label="JBZOO_MODCATEGORY_MENU_ITEM"
+                       description="JBZOO_MODCATEGORY_MENU_ITEM_DESC"/>
+            </fieldset>
+
+            <fieldset name="JBZOO_MODCATEGORY_ITEMS">
+                <field name="display_items" type="jbbool" default="1" label="JBZOO_MODCATEGORY_DISPLAY_ITEMS"
+                       description="JBZOO_MODCATEGORY_DISPLAY_ITEMS_DESC"/>
+
+                <field name="items_image_align" type="list" default="left" label="JBZOO_MODCATEGORY_ITEMS_IMAGE_ALIGN"
+                       description="JBZOO_MODCATEGORY_ITEMS_IMAGE_ALIGN_DESC">
+                    <option value="none">JBZOO_MODCATEGORY_IMAGE_ALIGN_NONE</option>
+                    <option value="left">JBZOO_MODCATEGORY_IMAGE_ALIGN_LEFT</option>
+                    <option value="right">JBZOO_MODCATEGORY_IMAGE_ALIGN_RIGHT</option>
+                    <option value="center">JBZOO_MODCATEGORY_IMAGE_ALIGN_CENTER</option>
+                </field>
+            </fieldset>
+
+            <fieldset name="JBZOO_MODCATEGORY_TEMPLATES">
+                <field name="layout" type="jbfilename" default="default" label="JBZOO_MODCATEGORY_LAYOUT"
+                       description="JBZOO_MODCATEGORY_LAYOUT_DESC" path="/modules/mod_jbzoo_category/tmpl/" ext="php"/>
+
+                <field name="item_layout" type="jbfilename" default="default" label="JBZOO_MODCATEGORY_LAYOUT_ITEM"
+                       description="JBZOO_MODCATEGORY_LAYOUT_ITEM_DESC"
+                       path="/modules/mod_jbzoo_category/renderer/item/" ext="php"/>
+
+                <field name="category_display_border" type="jbbool" default="1" label="JBZOO_MODCATEGORY_DISPLAY_BORDER"
+                       description="JBZOO_MODCATEGORY_DISPLAY_BORDER_DESC"/>
+
+                <field name="moduleclass_sfx" type="text" default="" label="JBZOO_MODCATEGORY_CLASS_SUFFIX"
+                       description="JBZOO_MODCATEGORY_CLASS_SUFFIX_DESC"/>
+            </fieldset>
+
+            <fieldset name="CACHE">
+                <field name="cache" type="list" default="" label="JBZOO_CACHE_CACHING"
+                       description="JBZOO_CACHE_CACHING_DESC">
+                    <option value="1">JBZOO_CACHE_USE_GLOBAL</option>
+                    <option value="0">JBZOO_CACHE_NOCACHING</option>
+                </field>
+
+                <field name="cache_time" type="text" label="JBZOO_CACHE_TIME" default="900"
+                       description="JBZOO_CACHE_TIME_DESC"/>
+
+                <field name="cachemode" type="hidden" default="safeuri"/>
+            </fieldset>
+        </fields>
+    </config>
+</extension>

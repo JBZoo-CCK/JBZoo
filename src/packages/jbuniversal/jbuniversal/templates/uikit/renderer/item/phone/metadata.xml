@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<metadata>
+    <layout name="full">
+        <name>Full</name>
+        <description>An item is rendered with the full layout in the item view.</description>
+    </layout>
+
+    <layout name="teaser" type="related">
+        <name>Teaser</name>
+        <description>An item is rendered with the teaser layout in the frontpage, category, alphaindex and tag view.
+        </description>
+    </layout>
+
+    <layout name="quickview">
+        <name>Quick view</name>
+        <description>Quick view item layout.</description>
+    </layout>
+
+    <layout name="compare">
+        <name>Compare</name>
+        <description>Compare item layout</description>
+    </layout>
+
+    <layout name="related" type="related">
+        <name>Related</name>
+        <description>Related items layout</description>
+    </layout>
+
+    <layout name="subcategory_item" type="related">
+        <name>Subcategory item</name>
+        <description>Subcategory item layout</description>
+    </layout>
+
+    <layout name="feed">
+        <name>Feed</name>
+        <description>An item is rendered with the feed layout for all kinds of feeds like RSS and Atom.</description>
+    </layout>
+
+    <layout name="submission" type="submission">
+        <name>Submission</name>
+        <description>An item is rendered with the submission layout in the submission view.</description>
+    </layout>
+
+    <layout name="favorite">
+        <name>Favorite</name>
+        <description>Layout for element favorite</description>
+    </layout>
+
+</metadata>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<form>
+    <fields>
+        <fieldset name="others" label="" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
+            <field type="jbbool" default="1" name="update_show" label="JBZOO_CONFIG_SHOWUPDATE"
+                   description="JBZOO_CONFIG_SHOWUPDATE_DESCRIPTION"/>
+
+            <field type="jbbool" default="1" name="adminmenu_show" label="JBZOO_CONFIG_ADMINMENU"
+                   description="JBZOO_CONFIG_ADMINMENU_DESC"/>
+
+            <field type="jbbool" default="0" name="delpricelbl_mode" label="JBZOO_CONFIG_DELETE_PRICE_LABEL"
+                   description="JBZOO_CONFIG_DELETE_PRICE_LABEL_DESC"/>
+
+            <field type="jbbool" default="0" name="del_empty_category_fromcsv" label="JBZOO_CONFIG_DELETE_EMPTY_CATEGORY_FROMCSV"
+                   description="JBZOO_CONFIG_DELETE_EMPTY_CATEGORY_FROMCSV_DESC"/>
+
+            <field type="jbbool" default="0" name="del_empty_item_fromcsv" label="JBZOO_CONFIG_DELETE_EMPTY_ITEM_FROMCSV"
+                   description="JBZOO_CONFIG_DELETE_EMPTY_ITEM_FROMCSV_DESC"/>
+
+            <field type="jbbool" default="0" name="only_jbpriceplain_export" label="JBZOO_CONFIG_ONLY_JBPRICEPLAIN_EXPORT"
+                   description="JBZOO_CONFIG_ONLY_JBPRICEPLAIN_EXPORT_DESC"/>
+
+            <field type="text"
+                   default="0"
+                   name="only_jbpriceplain_export_extracolomn"
+                   label="JBZOO_ONLY_JBPRICEPLAIN_EXTRACOLOMN"
+                   description="JBZOO_ONLY_JBPRICEPLAIN_EXTRACOLOMN_DESC"/>
+
+        </fieldset>
+    </fields>
+</form>

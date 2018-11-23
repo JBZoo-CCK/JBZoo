@@ -11,9 +11,16 @@
 # @link       https://github.com/JBZoo/JBZoo
 #
 
-update:
+.PHONY: build build-installer build-update clean reset test dev validate prod
+
+dev:
 	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Update project \033[0m"
 	@composer update --optimize-autoloader --no-interaction --no-progress
+	@echo ""
+
+prod:
+	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Prepare project for production version \033[0m"
+	@composer update --optimize-autoloader --no-interaction --no-progress --no-dev
 	@echo ""
 
 validate:
@@ -26,13 +33,18 @@ test:
 	@php ./vendor/phpunit/phpunit/phpunit
 	@echo ""
 
-build-distr:
-	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Build distribution files \033[0m"
-	@rm -rf ./build/
-	@mkdir -pv ./build/files
-	@cp -R ./packages         ./build/files/packages
-	@cp    ./file.script.php  ./build/files/file.script.php
-	@cp    ./pkg_jbzoo.xml    ./build/files/pkg_jbzoo.xml
+build:
+	@rm -rf ./build
+	@make build-installer
+	@make build-update
+	@ls -ld ./build/*
+
+build-installer:
+	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Build installer \033[0m"
+	@mkdir -p ./build/files
+	@cp -R ./src/packages         ./build/files/packages
+	@cp    ./src/file.script.php  ./build/files/file.script.php
+	@cp    ./src/pkg_jbzoo.xml    ./build/files/pkg_jbzoo.xml
 	@cp    ./README.md        ./build/files/README.md
 	@cp    ./LICENSE.md       ./build/files/LICENSE.md
 	@cd ./build/files; zip -r9q jbzoo_clean_install.zip *
@@ -40,16 +52,19 @@ build-distr:
 	@rm -rf ./build/files
 	@echo "./build/files/jbzoo_clean_install.zip is ready"
 	@echo ""
-	@rm -rf ./build/files
-	@mkdir -pv ./build/files
-	@cp -R ./packages         ./build/files/packages
-	@cp    ./file.script.php  ./build/files/file.script.php
-	@cp    ./pkg_jbzoo.xml    ./build/files/pkg_jbzoo.xml
+
+build-update:
+	@echo "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Build update package \033[0m"
+	@mkdir -p ./build/files
+	@cp -R ./src/packages         ./build/files/packages
+	@cp    ./src/file.script.php  ./build/files/file.script.php
+	@cp    ./src/pkg_jbzoo.xml    ./build/files/pkg_jbzoo.xml
 	@cp    ./README.md        ./build/files/README.md
 	@cp    ./LICENSE.md       ./build/files/LICENSE.md
 	@find ./build/files -name 'positions.config' -delete
 	@find ./build/files -name 'positions.xml' -delete
 	@find ./build/files -name 'metadata.xml' -delete
+	@rm   -rf ./build/files/packages/jbuniversal/jbuniversal/templates
 	@cd ./build/files; zip -r9q jbzoo_update.zip *
 	@mv ./build/files/jbzoo_update.zip ./build/jbzoo_update.zip
 	@echo "./build/files/jbzoo_update.zip is ready"
