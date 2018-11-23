@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<element type="element" group="Core" hidden="false">
+    <name>Яндекс.Касса (Email)</name>
+    <author>JBZoo.com</author>
+    <creationDate>2015</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.4</version>
+    <description>Оплата через кассу без интеграции с API Яндекс.Кассы (Email)</description>
+
+    <params>
+
+        <param name="description" type="textarea" label="Описание"
+               default="Популярный сервис оплаты на территории России и СНГ"
+               description="Текст появится на странице корзины"/>
+
+        <param name="rate" type="text" default="3.5%" label="Комиссия"/>
+
+        <param name="shopId" type="text" default="" label="Идентификатор магазина (shopId)"
+               description="Выдается при заключении договора"/>
+
+        <param name="scid" type="text" default="" label="Номер витрины (scid)"
+               description="Выдается при заключении договора"/>
+
+        <param name="paymentType" type="list" label="Тип платежной системы" default="none">
+            <option value="AB">Альфа-Клик</option>
+            <option value="AC">Банковская карта</option>
+            <option value="GP">Наличные через терминал</option>
+            <option value="MA">MasterPass</option>
+            <option value="MC">Мобильная коммерция</option>
+            <option value="PB">Интернет-банк Промсвязьбанка</option>
+            <option value="PC">Кошелек Яндекс.Денег</option>
+            <option value="SB">Сбербанк Онлайн</option>
+            <option value="WM">Кошелек WebMoney</option>
+            <option value="WQ">Qiwi</option>
+            <option value="QP">Куппи.ру</option>
+            <option value="KV">КупиВкредит</option>
+            <option value="none">Редирект на Яндекс.Деньги (там будет выбор)</option>
+        </param>
+        <param
+            default=""
+            description=""
+            label="ELEMENT_ID телефон cps_phone"
+            name="cps_phone"
+            type="text"
+            />
+        <param
+            default=""
+            description=""
+            label="ELEMENT_ID email cps_email"
+            name="cps_email"
+            type="text"
+            />
+        <param
+            default="1"
+            description="1 — общая СН; 2 — упрощенная СН (доходы); 3 — упрощенная СН (доходы минус расходы); 4 — единый налог на вмененный доход; 5 — единый сельскохозяйственный налог; 6 — патентная СН."
+            label="Система налогообложения магазина (СНО)"
+            name="taxSystem"
+            type="text"
+            />
+        <param
+            default="1"
+            description="1 — без НДС; 2 — НДС по ставке 0%; 3 — НДС чека по ставке 10%; 4 — НДС чека по ставке 18%; 5 — НДС чека по расчетной ставке 10/110; 6 — НДС чека по расчетной ставке 18/118."
+            label="Ставка НДС - ID"
+            name="tax"
+            type="text"
+            />
+    </params>
+
+</element>
