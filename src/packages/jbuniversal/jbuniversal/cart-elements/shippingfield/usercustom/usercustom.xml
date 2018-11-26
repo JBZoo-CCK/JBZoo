@@ -12,14 +12,14 @@
     @link       https://github.com/JBZoo/JBZoo
 -->
 <element type="element" group="Core" hidden="false">
-    <name>JBZOO_ELEMENT_SHIPPINGFIELDS_USERCUSTOM_NAME</name>
+    <name>Joomla User Profile Field</name>
     <author>JBZoo.com</author>
     <creationDate>2014</creationDate>
     <copyright>Copyright (C) JBZoo.com</copyright>
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    <description>JBZOO_ELEMENT_SHIPPINGFIELDS_USERCUSTOM_DESC</description>
+    <description>Get Field from Joomla USER Profile</description>
 
     <params>
 
