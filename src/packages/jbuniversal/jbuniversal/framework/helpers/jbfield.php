@@ -245,13 +245,26 @@ class JBFieldHelper extends AppHelper
      */
     public function userData($name, $value, $controlName, SimpleXMLElement $node, $parent)
     {
+        JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php'); 
+        $context = 'com_users.user';
+        $fieldsarr = array();
+        $poleuser = JFactory::getUser()->id;
+        $poleuserstd = new \stdClass;
+        $poleuserstd->id = $poleuser;
+        $bigProfile = FieldsHelper::getFields($context, $poleuserstd, false);
+
+        foreach ($bigProfile as $poleProfile) {
+            if (!empty($poleProfile->name)) {
+                $fieldsarr[] = trim($poleProfile->name);
+            }
+        }
+        
+        $poleList = implode(',',$fieldsarr);
+       
         $whiteList = ['name', 'username', 'email', 'registerDate', 'lastvisitDate'];
-        $properties = array_keys($this->app->jbuser->getFields());
+        $resultList = array_merge($whiteList,$fieldsarr);
 
-        $list = (array)array_intersect($whiteList, $properties);
-        $list = array_combine($list, $list);
-
-        return $this->_renderList(['' => '--'] + $list, $value, $this->_getName($controlName, $name), $node);
+        return $this->_renderList(['' => '--'] + $resultList, $value, $this->_getName($controlName, $name), $node);
     }
 
     /**

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<element type="element" group="Core" hidden="false">
+    <name>Joomla User Profile Field</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>Get Field from Joomla USER Profile</description>
+
+    <params>
+
+        <param name="user_field" type="userfields" default="name"
+               label="USER Profile use field"/>
+
+        <param name="@spacer" type="jbspacer" default="JBZOO_ADMIN_POSITIONS_LAYOUT_LIST"/>
+
+        <param name="tmpl" type="list" label="JBZOO_ELEMENT_TEMPLATE" description="JBZOO_ELEMENT_TEMPLATE_DESC"
+               default="text">
+            <option value="text">JBZOO_ELEMENT_ORDER_TEXT_NAME</option>
+            <option value="textarea">JBZOO_ELEMENT_ORDER_TEXTAREA_NAME</option>
+        </param>
+
+    </params>
+
+</element>

@@ -65,7 +65,29 @@ abstract class JBCartElementOrder extends JBCartElement
      */
     public function getUserState($key, $default = '')
     {
+        JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php'); 
+        
         $user = JFactory::getUser();
+
+        $context = 'com_users.user';
+        $fieldsarr = array();
+        $poleuser = $user->id;
+        $poleuserstd = new \stdClass;
+        $poleuserstd->id = $poleuser;
+        $bigProfile = FieldsHelper::getFields($context, $poleuserstd, false);
+        $properties = array_keys($this->app->jbuser->getFields());
+        $whiteList = [$user->name, $user->username, $user->email, $user->registerDate, $user->lastvisitDate];
+        $list = (array)array_intersect($whiteList, $properties);
+        $list = array_combine($list, $list);
+
+        foreach ($bigProfile as $poleProfile) {
+            if (!empty($poleProfile->name)) {
+                $fieldsarr[] = trim($poleProfile->value);
+            }
+        }
+        
+        $resultList = array_merge($whiteList,$fieldsarr);
+
         if (empty($default)) {
             $default = $this->config->get('default');
         }
@@ -75,14 +97,14 @@ abstract class JBCartElementOrder extends JBCartElement
         }
 
         $value = null;
-        if (property_exists($user, $key)) {
-            $value = $user->$key;
 
+        if (!empty($resultList[$key])) {
+            $value = $resultList[$key];
             if (empty($value) || !isset($value)) {
                 $value = $default;
             }
         }
-
+        
         return $value;
     }
 }
