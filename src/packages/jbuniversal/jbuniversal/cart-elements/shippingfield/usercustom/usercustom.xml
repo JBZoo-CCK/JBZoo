@@ -24,7 +24,7 @@
     <params>
 
         <param name="user_field" type="userfields" default="name"
-               label="JBZOO_ELEMENT_SHIPPINGFIELDS_USER_FIELD_LABEL"/>
+               label="USER Profile use field"/>
 
         <param name="@spacer" type="jbspacer" default="JBZOO_ADMIN_POSITIONS_LAYOUT_LIST"/>
 
