@@ -22,8 +22,8 @@ $jWhiteList       = array('name', 'username', 'email', 'registerDate', 'lastvisi
 $jProperties      = array_keys($this->app->jbuser->getFields());
 $jUserFieldList   = (array)array_intersect($jWhiteList, $jProperties);
 $jUserFieldList   = array_combine($jUserFieldList, $jUserFieldList);
-$jUserFieldLabel  = JText::_('JBZOO_ELEMENT_SHIPPINGFIELDS_JOOMLA_USER_FIELDS');
-$customFieldLabel = JText::_('JBZOO_ELEMENT_SHIPPINGFIELDS_JOOMLA_USER_CUSTOM');
+$jUserFieldLabel  = JText::_('User main fields');
+$customFieldLabel = JText::_('User custom fields');
 
 $userFields = array($jUserFieldLabel => $jUserFieldList);
 
