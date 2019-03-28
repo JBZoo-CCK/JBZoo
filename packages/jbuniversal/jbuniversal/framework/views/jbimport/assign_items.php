@@ -128,13 +128,16 @@ $jbform = $this->app->jbform;
         }
 
         function putValues(val) {
+
             var typeid = val;
             $('#fields-assign select.type-select-' + val).each(function (n, obj) {
                 $(obj).val(prevParams[typeid][n]);
             });
+
         }
 
         function checkKey(value) {
+
             selects.each(function () {
                 if ($(this).val() == value) {
                     result = true;
@@ -145,6 +148,7 @@ $jbform = $this->app->jbform;
                     result = true;
                     return false;
                 }
+                
             });
             return result;
         }
