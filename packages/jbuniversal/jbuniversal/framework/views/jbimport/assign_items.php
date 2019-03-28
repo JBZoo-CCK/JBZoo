@@ -122,23 +122,24 @@ $jbform = $this->app->jbform;
             }
 
             if (prev.typeid) {
-                var typeid = prev.typeid;
-                $('#fields-assign select.type-select-' + prev.typeid).each(function (n, obj) {
-                    $(obj).val(prevParams[typeid][n]);
-                });
+                putValues(prev.typeid)
             }
 
         }
 
+        function putValues(val) {
+            var typeid = val;
+            $('#fields-assign select.type-select-' + val).each(function (n, obj) {
+                $(obj).val(prevParams[typeid][n]);
+            });
+        }
+
         function checkKey(value) {
-
-            var result = false;
-            var selects = $('#fields-assign select.type-select:visible');
-
             selects.each(function () {
                 if ($(this).val() == value) {
                     result = true;
                     return false;
+
                 } else if (value == 'jbprice' && $(this).val().indexOf(value) != -1 ||
                     value == 'jbprice' && $(this).val().indexOf('price_sku') != -1) {
                     result = true;
