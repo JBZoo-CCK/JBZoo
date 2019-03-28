@@ -137,7 +137,6 @@ $jbform = $this->app->jbform;
         }
 
         function checkKey(value) {
-
             selects.each(function () {
                 if ($(this).val() == value) {
                     result = true;
@@ -148,7 +147,6 @@ $jbform = $this->app->jbform;
                     result = true;
                     return false;
                 }
-                
             });
             return result;
         }
