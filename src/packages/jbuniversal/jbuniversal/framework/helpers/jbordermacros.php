@@ -42,6 +42,7 @@ class JBOrderMacrosHelper extends AppHelper
         'order_shipping_name',
         'order_shipping_elem',
         'order_shipping_stat',
+        'order_track',
 
         'user_id',
         'user_name',
@@ -236,6 +237,8 @@ class JBOrderMacrosHelper extends AppHelper
                 }
             }
 
+        } else if ($macros == 'order_track') {
+            $replace = $order->track;
         } else {
             throw new Exception('Undefined email macros: "{' . $macros . '}"');
         }

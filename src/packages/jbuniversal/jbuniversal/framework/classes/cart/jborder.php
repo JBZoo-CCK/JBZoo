@@ -47,6 +47,11 @@ class JBCartOrder
     public $comment;
 
     /**
+     * @var string
+     */
+    public $track;
+
+    /**
      * @var ParameterData
      */
     public $params = array();
@@ -1099,6 +1104,7 @@ class JBCartOrder
         $this->modified   = $data->get('modified');
         $this->created_by = $data->get('created_by');
         $this->comment    = $data->get('comment');
+        $this->track      = $data->get('track');
         $this->params     = $this->app->data->create($data->get('params'));
 
         $this->setStatus($data->get('status'));
@@ -1253,8 +1259,10 @@ class JBCartOrder
             }
         }
 
-        $this->comment = $data->get('comment');
+        $this->comment  = $data->get('comment');
+
         $this->setStatus($data->get('status'), JBCart::STATUS_ORDER);
+        $this->setTrack($data->get('track'));
     }
 
     /**
@@ -1316,6 +1324,33 @@ class JBCartOrder
             }
         }
 
+    }
+
+    /**
+     * Set the Order track
+     * @param string $track The new Order track
+     * @return $this
+     */
+    public function setTrack($track)
+    {   
+        $newTrack       = JString::trim($track);
+        $oldTrack       = $this->track;
+
+        $this->track    = $newTrack;
+
+        if (empty($oldTrack) && !empty($newTrack)) {
+            $this->app->jbevent->fire($this, 'basket:addTrack', array(
+                'track' => (string) $newTrack,
+            ));
+        }
+
+        if (!empty($track) && (string)$oldTrack != (string)$newTrack) {
+            $this->app->jbevent->fire($this, 'basket:changeTrack', array(
+                'track' => (string) $newTrack,
+            ));
+        }
+        
+        return $this;
     }
 
 }

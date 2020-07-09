@@ -22,12 +22,6 @@ require_once dirname(__FILE__) . '/helper.php';
 $zoo = App::getInstance('zoo');
 $zoo->jbdebug->mark($module->module . '::start-' . $module->id);
 
-$template = $zoo->zoo->getApplication()->getTemplate()->name;
-
-// set path for helpers
-$zoo->jbtemplate->regHelpersByTpl($template);
-
-
 $modHelper = new JBModuleHelperFilter($params, $module);
 
 if ($modHelper->getType() && $modHelper->getAppId()) {

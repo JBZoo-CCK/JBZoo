@@ -16,14 +16,4 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// load config
-require_once dirname(__FILE__) . DS . 'helper.php';
-
-$zoo = App::getInstance('zoo');
-
-$zoo->jbdebug->mark($module->module . '::start-' . $module->id);
-
-$modHelper = new JBModuleHelperCurrency($params, $module);
-echo $modHelper->render(true);
-
-$zoo->jbdebug->mark($module->module . '::finish-' . $module->id);
+echo $order->track;

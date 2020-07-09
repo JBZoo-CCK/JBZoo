@@ -16,14 +16,14 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// load config
-require_once dirname(__FILE__) . DS . 'helper.php';
+?>
+<div class="uk-panel uk-panel-box">
 
-$zoo = App::getInstance('zoo');
+    <h3 class="uk-panel-title"><?php echo JText::_('JBZOO_ORDER_TRACK_TITLE'); ?></h3>
 
-$zoo->jbdebug->mark($module->module . '::start-' . $module->id);
+    <dl class="uk-description-list-horizontal">
+        <dt><?php echo JText::_('JBZOO_ORDER_TRACK'); ?></dt>
+        <dd><p><?php echo $this->app->jbhtml->text('order[track]', $order->track, '', ''); ?></p></dd>
+    </dl>
 
-$modHelper = new JBModuleHelperCurrency($params, $module);
-echo $modHelper->render(true);
-
-$zoo->jbdebug->mark($module->module . '::finish-' . $module->id);
+</div>

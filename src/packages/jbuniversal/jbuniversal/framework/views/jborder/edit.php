@@ -84,6 +84,10 @@ $editUrl = $this->app->jbrouter->admin(array('cid' => array($order->id)));
                         'order'    => $order,
                         'shipping' => $shipping,
                     ));
+
+                    echo $this->partial('edit_block_track', array(
+                        'order'    => $order,
+                    ));
                 }
                 ?>
             </div>

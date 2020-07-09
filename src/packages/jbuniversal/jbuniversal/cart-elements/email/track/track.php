@@ -16,14 +16,17 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// load config
-require_once dirname(__FILE__) . DS . 'helper.php';
-
-$zoo = App::getInstance('zoo');
-
-$zoo->jbdebug->mark($module->module . '::start-' . $module->id);
-
-$modHelper = new JBModuleHelperCurrency($params, $module);
-echo $modHelper->render(true);
-
-$zoo->jbdebug->mark($module->module . '::finish-' . $module->id);
+/**
+ * Class JBCartElementEmailOrderID
+ */
+class JBCartElementEmailTrack extends JBCartElementEmail
+{
+    /**
+     * @param  array $params
+     * @return bool
+     */
+    public function hasValue($params = array())
+    {
+        return $this->getOrder()->track;
+    }
+}

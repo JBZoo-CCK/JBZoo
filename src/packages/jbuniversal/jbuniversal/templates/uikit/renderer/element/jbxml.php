@@ -21,8 +21,14 @@ if (isset($params['showlabel']) && $params['showlabel']) {
     $label = ($params['altlabel']) ? $params['altlabel'] : $element->getConfig()->get('name');
 }
 
-// render result HTML
-echo '<param name="' . $this->app->jbyml->replaceSpecial($label) . '">'
-    . $this->app->jbyml->replaceSpecial($element->getSearchData())
-    . '</param>'
-    . PHP_EOL;
+$elementData = explode("\n", $element->getSearchData()); // for multiple values elements (select, checkboxes)
+
+if (!empty($elementData)) {
+	foreach ($elementData as $data) {
+		// render result HTML
+		echo '<param name="' . $this->app->jbyml->replaceSpecial($label) . '">'
+		    . $this->app->jbyml->replaceSpecial($data)
+		    . '</param>'
+		    . PHP_EOL;
+	}
+}
