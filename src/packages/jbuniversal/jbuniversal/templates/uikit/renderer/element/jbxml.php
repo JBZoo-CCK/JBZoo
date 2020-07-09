@@ -24,11 +24,11 @@ if (isset($params['showlabel']) && $params['showlabel']) {
 $elementData = explode("\n", $element->getSearchData()); // for multiple values elements (select, checkboxes)
 
 if (!empty($elementData)) {
-	foreach ($elementData as $data) {
-		// render result HTML
-		echo '<param name="' . $this->app->jbyml->replaceSpecial($label) . '">'
-		    . $this->app->jbyml->replaceSpecial($data)
-		    . '</param>'
-		    . PHP_EOL;
-	}
+    foreach ($elementData as $data) {
+        // render result HTML
+        echo '<param name="' . $this->app->jbyml->replaceSpecial($label) . '">'
+            . $this->app->jbyml->replaceSpecial($data)
+            . '</param>'
+            . PHP_EOL;
+    }
 }
