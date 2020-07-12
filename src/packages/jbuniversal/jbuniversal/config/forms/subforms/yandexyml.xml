@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<form>
+    <fields>
+        <fieldset name="configyml" label="" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+
+            <field name="element" type="jbelements" default="" label="JBZOO_CONFIG_YML_CUSTOM_CONDITIONS_ELEMENTS"
+                   description="JBZOO_CONFIG_YML_CUSTOM_CONDITIONS_ELEMENTS_DESC"/>
+
+            <field name="mode" type="list" default="0" label="JBZOO_CONFIG_YML_CUSTOM_CONDITIONS_MODE"
+                       description="JBZOO_CONFIG_YML_CUSTOM_CONDITIONS_MODE_DESC">
+                <option value="equal">JBZOO_CONFIG_YML_CUSTOM_CONDITIONS_MODE_EQUAL</option>
+                <option value="no-equal">JBZOO_CONFIG_YML_CUSTOM_CONDITIONS_MODE_NOT_EQUAL</option>
+            </field>
+
+            <field name="value" type="text" default="yes" label="JBZOO_CONFIG_YML_CUSTOM_CONDITIONS_VALUE"
+                   description="JBZOO_CONFIG_YML_CUSTOM_CONDITIONS_VALUE_DESC"/>
+        </fieldset>
+    </fields>
+</form>

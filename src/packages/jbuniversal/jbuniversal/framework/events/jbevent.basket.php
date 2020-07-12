@@ -157,4 +157,20 @@ class JBEventBasket extends JBEvent
         self::app()->jbevent->fireElements($event);
     }
 
+    /**
+     * @param AppEvent $event
+     */
+    public static function addTrack($event)
+    {
+        self::app()->jbevent->fireElements($event);
+    }
+
+    /**
+     * @param AppEvent $event
+     */
+    public static function changeTrack($event)
+    {   
+        self::app()->jbevent->fireElements($event);
+    }
+
 }

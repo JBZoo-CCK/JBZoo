@@ -120,6 +120,7 @@ class JBZoo
         define('ZOO_TABLE_JBZOO_FAVORITE', '#__zoo_jbzoo_favorite');
         define('ZOO_TABLE_JBZOO_CONFIG', '#__zoo_jbzoo_config');
         define('ZOO_TABLE_JBZOO_ORDER', '#__zoo_jbzoo_orders');
+        define('ZOO_TABLE_JBZOO_TRACKING', '#__zoo_jbzoo_tracking');
 
         $frameworkPath = JPATH_SITE . '/media/zoo/applications/jbuniversal/framework';
         $clsPath = $frameworkPath . '/classes';
@@ -383,6 +384,9 @@ class JBZoo
         $dispatcher->connect('basket:paymentSuccess', ['JBEventBasket', 'paymentSuccess']);
         $dispatcher->connect('basket:paymentFail', ['JBEventBasket', 'paymentFail']);
         $dispatcher->connect('basket:paymentCallback', ['JBEventBasket', 'paymentCallback']);
+
+        $dispatcher->connect('basket:addTrack', ['JBEventBasket', 'addTrack']);
+        $dispatcher->connect('basket:changeTrack', ['JBEventBasket', 'changeTrack']);
     }
 
     /**

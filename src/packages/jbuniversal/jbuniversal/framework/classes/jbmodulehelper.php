@@ -76,6 +76,10 @@ class JBModuleHelper
 
         $this->app = App::getInstance('zoo');
 
+        // register helper path
+        $template = $this->app->zoo->getApplication()->getTemplate()->name;
+        $this->app->jbtemplate->regHelpersByTpl($template);
+
         // vars
         $this->_params = $params;
         $this->_module = $module;

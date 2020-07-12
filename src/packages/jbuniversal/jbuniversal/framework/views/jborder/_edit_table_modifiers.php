@@ -27,8 +27,8 @@ if (!empty($modifiers)) {
 
             if ($i == 1) { ?>
                 <tr>
-                    <td rowspan="<?php echo count($modifiers) - 1; ?>" class="noborder-btm"></td>
-                    <td rowspan="<?php echo count($modifiers) - 1; ?>">
+                    <td <?php echo (count($modifiers) > 1) ? 'rowspan="'.(count($modifiers) - 1).'"' : '' ; ?> class="noborder-btm"></td>
+                    <td <?php echo (count($modifiers) > 1) ? 'rowspan="'.(count($modifiers) - 1).'"' : '' ; ?>>
                         <strong><?php echo JText::_('JBZOO_ORDER_MODIFIERS_OTHER'); ?></strong><br>
                         <i>(<?php echo JText::_('JBZOO_ORDER_MODIFIERS_OTHER_ELEMENTS'); ?>)</i>
                     </td>

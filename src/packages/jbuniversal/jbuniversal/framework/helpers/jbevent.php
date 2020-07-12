@@ -106,6 +106,13 @@ class JBEventHelper extends AppHelper
             'name' => 'order_removeitems',
         ),
 
+        // order track
+        'basket:addtrack'        => array(
+            'name' => 'order_addtrack',
+        ),
+        'basket:changetrack'     => array(
+            'name' => 'order_changetrack',
+        ),
     );
 
     /**
@@ -186,7 +193,7 @@ class JBEventHelper extends AppHelper
      * @param array       $params
      */
     protected function _execElements($event, $elements, $order, $params)
-    {
+    {   
         $elements = (array)$elements;
         if (empty($elements)) {
             return;

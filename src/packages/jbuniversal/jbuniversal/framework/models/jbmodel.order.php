@@ -106,6 +106,7 @@ class JBModelOrder extends JBModel
             'items'           => $order->getItems(false),
             'fields'          => $order->getFields(),
             'shippingfields'  => $order->getShippingFields(),
+            'track'           => $order->track,
             'modifiers'       => $order->getModifiersData(),
             'params'          => $params,
             'comment'         => $order->comment,
