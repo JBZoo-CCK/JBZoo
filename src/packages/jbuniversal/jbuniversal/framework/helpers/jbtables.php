@@ -237,6 +237,8 @@ class JBTablesHelper extends AppHelper
 
         if (!isset($checked) || $force) {
 
+            // Create Order Table
+
             $this->createTable(ZOO_TABLE_JBZOO_ORDER, array(
                 '`id` INT(11) NOT NULL AUTO_INCREMENT',
                 '`status` VARCHAR(100) NULL DEFAULT \'0\'',
@@ -265,6 +267,33 @@ class JBTablesHelper extends AppHelper
                 'INDEX `total` (`total`)',
                 'FULLTEXT INDEX `comment` (`comment`)',
             ));
+
+            // Add Track Column
+
+            if ($fields = $this->getTableInfo(ZOO_TABLE_JBZOO_ORDER)) {
+
+                // Check Track Column
+                if (!isset($fields['track'])) {
+                    $sql = 'ALTER TABLE `' . ZOO_TABLE_JBZOO_ORDER . '` ADD COLUMN `track` TEXT NULL AFTER `shippingfields`';
+                    $this->_query($sql);
+                }
+            }
+
+            // Create Tracking Table
+
+            // $this->createTable(ZOO_TABLE_JBZOO_TRACKING, array(
+            //     '`id` INT(11) NOT NULL AUTO_INCREMENT',
+            //     '`order_id` INT(11) NULL DEFAULT \'0\'',
+            //     '`state` VARCHAR(100) NULL DEFAULT \'0\'',
+            //     '`date` DATETIME NULL DEFAULT NULL',
+            //     '`comment` TEXT NULL',
+            // ), array(
+            //     'PRIMARY KEY (`id`)',
+            //     'INDEX `order_id` (`order_id`)',
+            //     'INDEX `state` (`state`)',
+            //     'INDEX `date` (`date`)',
+            //     'FULLTEXT INDEX `comment` (`comment`)',
+            // ));
         }
 
         $checked = true;

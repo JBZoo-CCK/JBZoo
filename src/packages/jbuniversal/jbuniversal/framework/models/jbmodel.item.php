@@ -136,11 +136,27 @@ class JBModelItem extends JBModel
             $select->where('tItem.state = ?', 0);
         }
 
+        // check elements
+        if ($options->get('elements')) {
+            $elements   = $options->get('elements');
+
+            $i = 0;
+
+            foreach ($elements as $element) {
+                $mode   = ($element['mode'] == 'equal') ? 'REGEXP' : 'NOT REGEXP';
+
+                $select->innerJoin(ZOO_TABLE_SEARCH . ' AS tSearchItem'.$i.' ON tItem.id = tSearchItem'.$i.'.item_id');
+                $select->where('(tSearchItem'.$i.'.element_id = "'.$element['element'].'" AND tSearchItem'.$i.'.value '.$mode.' "'.$element['value'].'")');
+
+                $i++;
+            }
+        }
+
         $order = $options->get('order', 'id');
         if (isset($order)) {
             $select->order($this->app->jborder->get($options->get('order', 'id'), 'tItem'));
         }
-
+        
         $rows = $this->_query($select);
 
         if (!empty($rows)) {
@@ -152,6 +168,106 @@ class JBModelItem extends JBModel
         }
 
         return array();
+    }
+
+    /**
+     * Get Zoo items
+     * @param int       $appId
+     * @param int|array $catId
+     * @param string    $typeId
+     * @param array     $options
+     * @return array
+     */
+    public function getListCount($appId = null, $catId = null, $typeId = null, $options = array())
+    {
+        $options = $this->app->data->create($options);
+
+        // create select
+        $select = $this->_getSelect()
+            ->select('COUNT(tItem.id) AS count')
+            ->from(ZOO_TABLE_ITEM . ' AS tItem');
+
+
+        // check type
+        if (!empty($typeId)) {
+            $typeId = (array)$typeId;
+            $select->where('tItem.type IN ("' . implode('", "', $typeId) . '")');
+        }
+
+        // check appId
+        if (is_array($appId)) {
+            $select->where('tItem.application_id IN (' . implode(',', $appId) . ')');
+        } elseif ((int)$appId) {
+            $select->where('tItem.application_id = ?', (int)$appId);
+        }
+
+        // check category
+        $catId = array_filter((array)$catId, function ($value) {
+            return $value > 0 || $value == -1 || $value === 0 || $value === '0';
+        });
+
+        if (
+            !empty($catId) &&
+            !in_array('-1', $catId)
+        ) {
+            $select->innerJoin(ZOO_TABLE_CATEGORY_ITEM . ' AS tCategoryItem ON tItem.id = tCategoryItem.item_id');
+
+            $subcatId = array();
+            if ((int)$options->get('category_nested')) {
+                $subcatId = JBModelCategory::model()->getNestedCategories($catId);
+            }
+
+            $catId += $subcatId;
+
+            if (!empty($catId)) {
+                $select->where('tCategoryItem.category_id IN ("' . implode('", "', $catId) . '")');
+            }
+
+        }
+
+        if ($options->get('id')) {
+            $idList = (array)$options->get('id');
+            $select->where('tItem.id IN (' . implode(',', $idList) . ')');
+        }
+
+        // check access
+        if ($options->get('user')) {
+            $select->where('tItem.' . $this->app->user->getDBAccessString());
+        }
+
+        // check status
+        if ($options->get('published') == 1) {
+            $select
+                ->where('tItem.state = ?', 1)
+                ->where('(tItem.publish_up = ' . $this->_dbNull . ' OR tItem.publish_up <= ' . $this->_dbNow . ')')
+                ->where('(tItem.publish_down = ' . $this->_dbNull . ' OR tItem.publish_down >= ' . $this->_dbNow . ')');
+
+        } else if ($options->get('state') == 2) {
+            $select->where('tItem.state = ?', 1);
+
+        } else if ($options->get('state') == 3) {
+            $select->where('tItem.state = ?', 0);
+        }
+
+        // check elements
+        if ($options->get('elements')) {
+            $elements   = $options->get('elements');
+
+            $i = 0;
+
+            foreach ($elements as $element) {
+                $mode   = ($element['mode'] == 'equal') ? 'REGEXP' : 'NOT REGEXP';
+
+                $select->innerJoin(ZOO_TABLE_SEARCH . ' AS tSearchItem'.$i.' ON tItem.id = tSearchItem'.$i.'.item_id');
+                $select->where('(tSearchItem'.$i.'.element_id = "'.$element['element'].'" AND tSearchItem'.$i.'.value '.$mode.' "'.$element['value'].'")');
+
+                $i++;
+            }
+        }
+
+        $result = $this->fetchRow($select);
+
+        return (int)$result->count;
     }
 
     /**

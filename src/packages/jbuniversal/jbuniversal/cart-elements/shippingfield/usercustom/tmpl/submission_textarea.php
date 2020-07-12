@@ -51,4 +51,4 @@ $attrs = array(
     'value' => isset($userFields[$userField]) ? $userFields[$userField] : null,
 );
 
-echo '<textarea ' . $this->app->jbhtml->buildAttrs($attrs) . '>' . $value . '</textarea>';
+echo '<textarea rows="5" cols="100" ' . $this->app->jbhtml->buildAttrs($attrs) . '>' . $value . $userFields[$userField] . '</textarea>';

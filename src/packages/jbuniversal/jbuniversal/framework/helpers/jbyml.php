@@ -417,12 +417,15 @@ class JBYmlHelper extends AppHelper
      */
     public function exportItems($offset, $limit)
     {
-        $types = $this->_appParams->get('type_list');
+        $types      = $this->_appParams->get('type_list');
+
         $items = JBModelItem::model()->getList(
             $this->_appParams->get('app_list'),
             null,
             $types,
             array(
+                'id'        => $this->_appParams->get('enable_rules', 0) ? $this->_appParams->get('include', '') : '',
+                'elements'  => $this->_appParams->get('enable_rules', 0) ? $this->_appParams->get('condition', array()) : '',
                 'limit'     => array($offset, $limit),
                 'published' => 1,
             )
@@ -697,7 +700,7 @@ class JBYmlHelper extends AppHelper
      * @return int|boolean
      */
     public function getTotal()
-    {
+    {   
         $types = $this->_appParams->get('type_list');
         $appId = $this->_appParams->get('app_list');
 
@@ -705,6 +708,17 @@ class JBYmlHelper extends AppHelper
             return false;
         }
 
-        return JBModelItem::model()->getTotal($appId, $types);
+        $count = JBModelItem::model()->getListCount(
+            $appId,
+            null,
+            $types,
+            array(
+                'id'        => $this->_appParams->get('enable_rules', 0) ? $this->_appParams->get('include', '') : '',
+                'elements'  => $this->_appParams->get('enable_rules', 0) ? $this->_appParams->get('condition', array()) : '',
+                'published' => 1,
+            )
+        );
+
+        return $count;
     }
 }

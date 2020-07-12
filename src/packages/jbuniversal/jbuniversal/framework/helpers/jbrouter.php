@@ -693,27 +693,25 @@ class JBRouterHelper extends AppHelper
      */
     public function externalItem(Item $item)
     {
-        $app = JFactory::getApplication();
-        $isSsl = $app::getRouter()->build('')->isSsl();
+        $app    = JFactory::getApplication();
+        $ssl    = (JFactory::getConfig()->get('force_ssl', 0) == 2) ? 1 : -1;
 
         if ($this->app->jbenv->isSite()) {
-            $url = JRoute::_($this->app->route->item($item, false), false, 2); // force always full url
-            if ($isSsl) {
-                $url = str_replace('http://', 'https://', $url);
-            }
+            $url = JRoute::_($this->app->route->item($item, false), false, $ssl); // force always full url
+
             return $url;
 
         } else {
             $root = JUri::root();
             $application = JApplication::getInstance('site');
             $router = $application->getRouter();
-            $link = $router->build($this->app->route->item($item, false));
+            $link = $router->build($this->app->route->item($item, false), false, $ssl)->toString();
 
             if (JBModelConfig::model()->getGroup('config')->get('sef.fix_item')) {
                 $link = preg_replace('#\/item\/#', '/', '' . $link, 1);
             }
 
-            return $root . preg_replace('/^.*administrator\//', '', $link, 1);
+            return rtrim($root, '/') . preg_replace('/^.*administrator\//', '', $link, 1);
         }
     }
 
