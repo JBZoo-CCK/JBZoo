@@ -24,5 +24,5 @@ deploy:
      - "./build/jbzoo_update.zip"
   skip_cleanup: true
   on:
-    repo: JBZoo/JBZoo
+    repo: JBZoo-CCK/JBZoo
     tags: true
