@@ -25,8 +25,8 @@ class JBCartElementModifierOrderPriceAddVAT extends JBCartElementModifierOrderPr
      * @return JBCartValue
      */
     public function getRate()
-    {	
-    	if ($this->session->get('JBZooRemoveAllModifiers', false)) {
+    {    
+        if ($this->session->get('JBZooRemoveAllModifiers', false)) {
             return $this->_order->val(0);
         }
 
