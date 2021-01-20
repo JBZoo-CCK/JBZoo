@@ -1,25 +1,23 @@
 <?php
 /**
- * JBZoo Application
- *
- * This file is part of the JBZoo CCK package.
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @package    Application
- * @license    GPL-2.0
- * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/JBZoo
- * @author     Denis Smetannikov <denis@jbzoo.com>
+ * JBZoo App is universal Joomla CCK, application for YooTheme Zoo component
+ * @package     jbzoo
+ * @version     2.x Pro
+ * @author      JBZoo App http://jbzoo.com
+ * @copyright   Copyright (C) JBZoo.com,  All rights reserved.
+ * @license     http://jbzoo.com/license-pro.php JBZoo Licence
+ * @coder       Vitaliy Yanovskiy <joejoker@jbzoo.com>
+ * @coder       Oganov Alexander <t_tapakm@yahoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 /**
- * Class JBZooModItemRuleText
+ * Class JBZooRuleText
  */
-class JBZooModItemRuleText
+class JBZooRuleText
 {
     /**
      * @type App
@@ -56,9 +54,9 @@ class JBZooModItemRuleText
 }
 
 /**
- * Class JBZooModItemRuleRating
+ * Class JBZooRuleRating
  */
-class JBZooModItemRuleRating
+class JBZooRuleRating
 {
     /**
      * @param $key
@@ -76,9 +74,9 @@ class JBZooModItemRuleRating
 }
 
 /**
- * Class JBZooModItemRuleItemCategory
+ * Class JBZooRuleItemCategory
  */
-class JBZooModItemRuleItemCategory extends JBZooModItemRuleText
+class JBZooRuleItemCategory extends JBZooRuleText
 {
     /**
      * @param $key
@@ -106,9 +104,9 @@ class JBZooModItemRuleItemCategory extends JBZooModItemRuleText
 }
 
 /**
- * Class JBZooModItemRuleItemDate
+ * Class JBZooRuleItemDate
  */
-class JBZooModItemRuleItemDate extends JBZooModItemRuleText
+class JBZooRuleItemDate extends JBZooRuleText
 {
     /**
      * @param $key
@@ -129,9 +127,9 @@ class JBZooModItemRuleItemDate extends JBZooModItemRuleText
 }
 
 /**
- * Class JBZooModItemRuleDate
+ * Class JBZooRuleDate
  */
-class JBZooModItemRuleDate extends JBZooModItemRuleItemDate
+class JBZooRuleDate extends JBZooRuleItemDate
 {
     /**
      * @param $key
@@ -151,9 +149,9 @@ class JBZooModItemRuleDate extends JBZooModItemRuleItemDate
 }
 
 /**
- * Class JBZooModItemRulePrice
+ * Class JBZooRulePrice
  */
-class JBZooModItemRuleJBPrice extends JBZooModItemRuleText
+class JBZooRuleJBPrice extends JBZooRuleText
 {
     /**
      * @var App
@@ -360,20 +358,20 @@ class JBZooModItemRuleJBPrice extends JBZooModItemRuleText
 
 }
 
-class JBZooModItemRuleJBPricePlain extends JBZooModItemRuleJBPrice
+class JBZooRuleJBPricePlain extends JBZooRuleJBPrice
 {
 
 }
 
-class JBZooModItemRuleJBPriceCalc extends JBZooModItemRuleJBPrice
+class JBZooRuleJBPriceCalc extends JBZooRuleJBPrice
 {
 
 }
 
 /**
- * Class JBZooModItemRuleItemFrontPage
+ * Class JBZooRuleItemFrontPage
  */
-class JBZooModItemRuleItemFrontPage extends JBZooModItemRuleText
+class JBZooRuleItemFrontPage extends JBZooRuleText
 {
 
     /**
@@ -395,9 +393,9 @@ class JBZooModItemRuleItemFrontPage extends JBZooModItemRuleText
 
 
 /**
- * Class JBZooModItemRuleJBSelectCascade
+ * Class JBZooRuleJBSelectCascade
  */
-class JBZooModItemRuleJBSelectCascade extends JBZooModItemRuleText
+class JBZooRuleJBSelectCascade extends JBZooRuleText
 {
 
     /**
@@ -420,9 +418,9 @@ class JBZooModItemRuleJBSelectCascade extends JBZooModItemRuleText
 }
 
 /**
- * Class JBZooModItemRuleJBImage
+ * Class JBZooRuleJBImage
  */
-class JBZooModItemRuleJBImage extends JBZooModItemRuleText
+class JBZooRuleJBImage extends JBZooRuleText
 {
     /**
      * @param $key
@@ -448,9 +446,9 @@ class JBZooModItemRuleJBImage extends JBZooModItemRuleText
 }
 
 /**
- * Class JBZooModItemRuleImage
+ * Class JBZooRuleImage
  */
-class JBZooModItemRuleImage extends JBZooModItemRuleText
+class JBZooRuleImage extends JBZooRuleText
 {
 
     /**
@@ -471,9 +469,9 @@ class JBZooModItemRuleImage extends JBZooModItemRuleText
 }
 
 /**
- * Class JBZooModItemRuleItemAuthor
+ * Class JBZooRuleItemAuthor
  */
-class JBZooModItemRuleItemAuthor extends JBZooModItemRuleText
+class JBZooRuleItemAuthor extends JBZooRuleText
 {
     /**
      * @param $key
@@ -493,9 +491,9 @@ class JBZooModItemRuleItemAuthor extends JBZooModItemRuleText
 }
 
 /**
- * Class JBZooModItemRuleItemName
+ * Class JBZooRuleItemName
  */
-class JBZooModItemRuleItemName extends JBZooModItemRuleText
+class JBZooRuleItemName extends JBZooRuleText
 {
     /**
      * @param $key
@@ -515,9 +513,9 @@ class JBZooModItemRuleItemName extends JBZooModItemRuleText
 }
 
 /**
- * Class JBZooModItemRuleItemTag
+ * Class JBZooRuleItemTag
  */
-class JBZooModItemRuleItemTag extends JBZooModItemRuleText
+class JBZooRuleItemTag extends JBZooRuleText
 {
     /**
      * @param $key

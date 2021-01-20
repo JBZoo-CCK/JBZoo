@@ -148,6 +148,12 @@ class FilterRenderer extends AppRenderer
 
         if (!$value) {
             $elements = $this->app->jbrequest->get('e');
+
+            if (empty($elements)) {
+                $conditions = (array) $this->app->system->application->getParams()->get('conditions', array());
+                $elements   = $this->app->jbconditions->getValue($conditions);
+            }
+
             if (is_array($elements)) {
                 return (isset($elements[$identifier]) ? $elements[$identifier] : null);
             }

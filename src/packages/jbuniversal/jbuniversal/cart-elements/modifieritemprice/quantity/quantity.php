@@ -26,14 +26,13 @@ class JBCartElementModifierItemPriceQuantity extends JBCartElementModifierItemPr
      */
     public function getRate()
     {
-        $isAjax   = $this->app->jbrequest->isAjax();
         $isChange = !$this->app->jbrequest->is('method', 'ajaxChangeVariant');
         $isValid  = $this->_isValid();
         $jbPrice  = $this->_price;
         $itemData = $this->_itemData;
         $quantity = (float)$this->config->get('quantity', 0);
 
-        if ($isAjax && $isValid && $isChange) {
+        if ($isValid && $isChange) {
 
             $list = $jbPrice->getList();
             if (($itemData && $itemData->get('quantity', 1) >= $quantity) ||

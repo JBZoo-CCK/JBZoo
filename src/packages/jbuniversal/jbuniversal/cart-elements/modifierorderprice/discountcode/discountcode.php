@@ -36,7 +36,11 @@ class JBCartElementModifierOrderPriceDiscountCode extends JBCartElementModifierO
      * @return JBCartValue
      */
     public function getRate()
-    {
+    {   
+        if ($this->session->get('JBZooRemoveAllModifiers', false)) {
+            return $this->_order->val(0);
+        }
+        
         if ($this->_isInList()) {
             $rate = $this->_order->val($this->config->get('rate'));
             $rate->negative();

@@ -14,11 +14,11 @@
 <extension type="package" version="2.5" method="upgrade">
     <name>JBZoo Package</name>
     <author>JBZoo.com</author>
-    <creationDate>2018 June</creationDate>
+    <creationDate>2021 January</creationDate>
     <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
-    <version>4.11.0</version>
+    <version>4.12.0</version>
     <license>GPL-2.0</license>
     <packagename>jbzoo</packagename>
     <description>
@@ -30,6 +30,7 @@
 
     <files folder="packages">
         <file type="file" id="jbuniversal">jbuniversal</file>
+        <file type="file" id="jbzoo_views">jbzoo_views</file>
         <file type="plugin" id="jbzoo" group="system">plg_sys_jbzoo</file>
         <file type="module" id="mod_jbzoo_basket" client="site">mod_jbzoo_basket</file>
         <file type="module" id="mod_jbzoo_category" client="site">mod_jbzoo_category</file>

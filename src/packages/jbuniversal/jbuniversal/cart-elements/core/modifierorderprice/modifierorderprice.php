@@ -24,6 +24,19 @@ abstract class JBCartElementModifierOrderPrice extends JBCartElement
     protected $_namespace = JBCart::ELEMENT_TYPE_MODIFIER_ORDER_PRICE;
 
     /**
+     * @param App    $app
+     * @param string $type
+     * @param string $group
+     */
+    public function __construct($app, $type, $group)
+    {
+        parent::__construct($app, $type, $group);
+
+        // Get session
+        $this->session = JFactory::getSession();
+    }
+
+    /**
      * @param JBCartValue $summa
      * @return JBCartValue
      */

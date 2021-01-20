@@ -52,20 +52,20 @@ class BasketJBUniversalController extends JBUniversalController
      * @param array $app
      * @param array $config
      */
-    public function __construct($app, $config = [])
+    public function __construct($app, $config = array())
     {
         parent::__construct($app, $config);
 
         $this->app->jbdoc->noindex();
         $this->_jbmoney = $this->app->jbmoney;
-        $this->_config = JBModelConfig::model()->getGroup('cart.config');
-        $this->cart = JBCart::getInstance();
+        $this->_config  = JBModelConfig::model()->getGroup('cart.config');
+        $this->cart     = JBCart::getInstance();
 
         $this->application = $this->app->zoo->getApplication();
 
         // load template
-        $tmplName = $this->_config->get('tmpl_name', 'uikit');
-        $templates = $this->application->getTemplates();
+        $tmplName       = $this->_config->get('tmpl_name', 'uikit');
+        $templates      = $this->application->getTemplates();
         $this->template = $this->application->getTemplate();
 
         if (isset($templates[$tmplName])) {
@@ -93,33 +93,34 @@ class BasketJBUniversalController extends JBUniversalController
      */
     function index()
     {
-        $this->formRenderer = $this->app->jbrenderer->create('Order');
-        $this->shippingRenderer = $this->app->jbrenderer->create('Shipping');
-        $this->paymentRenderer = $this->app->jbrenderer->create('Payment');
-        $this->validatorRenderer = $this->app->jbrenderer->create('Validator');
-        $this->shippingFieldRenderer = $this->app->jbrenderer->create('ShippingFields');
+        $this->formRenderer               = $this->app->jbrenderer->create('Order');
+        $this->shippingRenderer           = $this->app->jbrenderer->create('Shipping');
+        $this->paymentRenderer            = $this->app->jbrenderer->create('Payment');
+        $this->validatorRenderer          = $this->app->jbrenderer->create('Validator');
+        $this->shippingFieldRenderer      = $this->app->jbrenderer->create('ShippingFields');
         $this->modifierOrderPriceRenderer = $this->app->jbrenderer->create('ModifierOrderPrice');
 
-        $this->shipping = $this->app->jbshipping->getEnabled();
+        $this->shipping       = $this->app->jbshipping->getEnabled();
         $this->shippingFields = $this->app->jbshipping->getFields();
-        $this->payment = $this->app->jbpayment->getEnabled();
-        $this->modifierPrice = $this->app->jbmodifierprice->getEnabled();
+        $this->payment        = $this->app->jbpayment->getEnabled();
+        $this->modifierPrice  = $this->app->jbmodifierprice->getEnabled();
 
-        $this->config = $this->_config;
-        $this->Itemid = $this->_jbrequest->get('Itemid');
-        $this->order = $this->cart->newOrder();
-        $this->items = $this->order->getItems(true);
-        $this->itemsHtml = $this->order->renderItems([
+        $this->config    = $this->_config;
+        $this->Itemid    = $this->_jbrequest->get('Itemid');
+        $this->order     = $this->cart->newOrder();
+        $this->items     = $this->order->getItems(true);
+        $this->itemsHtml = $this->order->renderItems(array(
             'image_width'  => $this->_config->get('tmpl_image_width', 75),
             'image_height' => $this->_config->get('tmpl_image_height', 75),
             'image_link'   => $this->_config->get('tmpl_image_link', 1),
             'item_link'    => $this->_config->get('tmpl_item_link', 1),
             'edit'         => true,
-        ]);
+        ));
+        $this->title    = JText::_('JBZOO_CART_ITEMS');
 
         $jbnotify = $this->app->jbnotify;
 
-        $errors = 0;
+        $errors     = 0;
         $orderSaved = false;
 
         $isPaymentBtn = $this->app->jbrequest->get('create-pay');
@@ -181,6 +182,35 @@ class BasketJBUniversalController extends JBUniversalController
             $templatedName = 'basket-success';
         }
 
+        // get metadata
+        $title       = '';
+        $description = '';
+        $keywords    = '';
+        
+        // Set Menu Meta
+        $menu           = $this->app->menu->getActive();
+        $menu_params    = $this->app->parameter->create($menu->params);
+
+        if ($menu and in_array(@$menu->query['view'], array('basket')) and $menu_params) {
+
+            if ($menu_params->get('page_title') || $menu->title) {
+                $title = $menu_params->get('page_title') ? $menu_params->get('page_title') : $menu->title;
+                $this->app->document->setTitle($this->app->zoo->buildPageTitle($title));
+            }
+
+            if ($page_description = $menu_params->get('menu-meta_description')) {
+                $description = $page_description;
+                $this->app->document->setDescription($description);
+            }
+
+            if ($page_keywords = $menu_params->get('menu-meta_keywords')) {
+                $keywords = $page_keywords;
+                $this->app->document->setMetadata('keywords', $keywords);
+            }
+
+            $this->title = $menu_params->get('page_heading') ? : $title;
+        }
+
         $this
             ->getView($templatedName)
             ->addTemplatePath($this->template->getPath())
@@ -203,7 +233,7 @@ class BasketJBUniversalController extends JBUniversalController
      */
     public function delete()
     {
-        $id = $this->_jbrequest->get('item_id');
+        $id  = $this->_jbrequest->get('item_id');
         $key = $this->_jbrequest->get('key');
 
         $cart = JBCart::getInstance();
@@ -211,7 +241,7 @@ class BasketJBUniversalController extends JBUniversalController
 
         $recount = $cart->recount();
 
-        $this->app->jbajax->send(['cart' => $recount]);
+        $this->app->jbajax->send(array('cart' => $recount));
     }
 
     /**
@@ -220,8 +250,8 @@ class BasketJBUniversalController extends JBUniversalController
      */
     public function form()
     {
-        $orderId = $this->_jbrequest->get('orderId');
-        $order = JBModelOrder::model()->getById($orderId);
+        $orderId        = $this->_jbrequest->get('orderId');
+        $order          = JBModelOrder::model()->getById($orderId);
         $this->template = $this->application->getTemplate();
 
         if (!$orderId || !$order->id) {
@@ -229,7 +259,7 @@ class BasketJBUniversalController extends JBUniversalController
         }
 
         if ($order->id) {
-            $payment = $order->getPayment();
+            $payment           = $order->getPayment();
             $this->paymentForm = $payment->renderPaymentForm();
 
             if ($this->_jbrequest->isPost()) {
@@ -267,22 +297,22 @@ class BasketJBUniversalController extends JBUniversalController
     {
         // get request
         $value = (float)$this->_jbrequest->get('value');
-        $key = $this->_jbrequest->get('key');
+        $key   = $this->_jbrequest->get('key');
 
         $cart = JBCart::getInstance();
         if ($cart->inStock($value, $key)) {
             $cart->changeQuantity($key, $value);
             $recount = $cart->recount();
 
-            $this->app->jbajax->send(['cart' => $recount]);
+            $this->app->jbajax->send(array('cart' => $recount));
         }
 
-        $item = $cart->getItem($key);
+        $item    = $cart->getItem($key);
         $variant = isset($item['variant']) ? $item['variant'] : 0;
-        $this->app->jbajax->send([
+        $this->app->jbajax->send(array(
             'message'  => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE'),
             'quantity' => (float)$cart->getItemElement($item)->getBalance($variant)
-        ], false);
+        ), false);
     }
 
     /**
@@ -295,7 +325,7 @@ class BasketJBUniversalController extends JBUniversalController
         $cart = JBCart::getInstance();
         $cart->setShipping($shipping);
 
-        $this->app->jbajax->send(['cart' => $cart->recount()]);
+        $this->app->jbajax->send(array('cart' => $cart->recount()));
     }
 
     /**
@@ -304,7 +334,7 @@ class BasketJBUniversalController extends JBUniversalController
     public function reloadModule()
     {
         $moduleId = $this->_jbrequest->get('moduleId');
-        $html = $this->app->jbjoomla->renderModuleById($moduleId);
+        $html     = $this->app->jbjoomla->renderModuleById($moduleId);
         jexit($html);
     }
 
@@ -314,11 +344,11 @@ class BasketJBUniversalController extends JBUniversalController
     public function callElement()
     {
         // get request
-        $group = $this->app->request->getCmd('group', '');
+        $group     = $this->app->request->getCmd('group', '');
         $elementId = $this->app->request->getCmd('element', '');
-        $orderId = $this->app->request->getInt('order_id', '');
-        $method = $this->app->request->getCmd('method', '');
-        $args = $this->app->request->getVar('args', [], 'default', 'array');
+        $orderId   = $this->app->request->getInt('order_id', '');
+        $method    = $this->app->request->getCmd('method', '');
+        $args      = $this->app->request->getVar('args', array(), 'default', 'array');
 
         if ($orderId > 0) {
             $order = JBModelOrder::model()->getById($orderId);
@@ -355,9 +385,9 @@ class BasketJBUniversalController extends JBUniversalController
      */
     protected function _getShippingPrices()
     {
-        $request = $this->_jbrequest->get('shipping');
+        $request  = $this->_jbrequest->get('shipping');
         $elements = $this->app->jbshipping->getEnabled();
-        $result = [];
+        $result   = array();
 
         if (!empty($request)) {
             foreach ($request as $identifier => $data) {
@@ -365,7 +395,7 @@ class BasketJBUniversalController extends JBUniversalController
                 if (isset($elements[$identifier])) {
 
                     $service = $elements[$identifier];
-                    $data = $service->mergeParams($data);
+                    $data    = $service->mergeParams($data);
 
                     $result[$identifier] = $service->getPrice($data);
                 }

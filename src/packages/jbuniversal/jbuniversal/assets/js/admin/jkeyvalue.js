@@ -21,6 +21,12 @@
      */
     $.fn.JBZooJKeyValue = function (options) {
 
+        // Fix for menu items
+
+        if ($('#item-form').length) {
+            $('#item-form').addClass('jbzoo');
+        }
+
         $('body').on('click', '.jsJKeyValue .jsJKeyValueAdd', function () {
 
             var $addButton = $(this),

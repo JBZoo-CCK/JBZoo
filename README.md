@@ -1,5 +1,5 @@
 # JBZoo CCK - Community Edition
- 
+
 [![Build Status](https://travis-ci.org/JBZoo-CCK/JBZoo.svg)](https://travis-ci.org/JBZoo-CCK/JBZoo)    [![Latest Stable Version](https://poser.pugx.org/jbzoo-cck/jbzoo/v/stable)](https://github.com/JBZoo-CCK/JBZoo/releases)    [![HitCount](http://hits.dwyl.com/jbzoo-cck/jbzoo.svg)](http://hits.dwyl.com/jbzoo-cck/jbzoo)
 
  * All Features are included
@@ -33,14 +33,14 @@ Run in the root directory of project `make prod build` and see `./build/` folder
 ### 4. I have found some bugs. What should I do?
 Just create [new issue](https://github.com/JBZoo-CCK/JBZoo/issues/new/choose) and we will try to fix it.
 
-### 5. How to use jbzoo_update.zip? 
+### 5. How to use jbzoo_update.zip?
  - Backup your website (database, all files)
  - Install file "jbzoo_update.zip" as Joomla Extention (via control Panel).
  - That's all.
  - If you have any bugs - [just create new issue](https://github.com/JBZoo-CCK/JBZoo/issues/new/choose)
 
 ### 6. Where I can download the ready-to-use JBZoo?
-See files `jbzoo_clean_install.zip` and `jbzoo_update.zip` in [releases](https://github.com/JBZoo-CCK/JBZoo/releases) 
+See files `jbzoo_clean_install.zip` and `jbzoo_update.zip` in [releases](https://github.com/JBZoo-CCK/JBZoo/releases)
 
 
 ## Useful links
@@ -62,9 +62,9 @@ See files `jbzoo_clean_install.zip` and `jbzoo_update.zip` in [releases](https:/
  * [YT Zoo Performance Hacks](https://github.com/JBZoo-CCK/Zoo-Hacks)
 
 
-## Contributors 
+## Contributors
  * [Denis Smetannikov](https://github.com/SmetDenis) (SmetDenis) `-=! Author, Founder and General Maintainer !=-`
- * [Dmitriy](https://github.com/fiction13) (fiction13)
+ * [Dmitriy Vasyukov](https://github.com/fiction13) (fiction13)
  * [Eugene Kopylov](https://github.com/CB9TOIIIA) (CB9TOIIIA)
  * [Sergey Kalistratov](https://github.com/Cheren) (Cheren)
  * [Alexandr Oganov](https://github.com/Tapakan) (Tapakan)

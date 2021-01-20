@@ -23,7 +23,7 @@ $this->app->jblayout->setView($this);
 if (!$this->app->jbcache->start()) {
     $this->app->jbwrapper->start();
 
-    ?><h1 class="title"><?php echo JText::_('JBZOO_SEARCH_RESULT'); ?></h1><?php
+    ?><h1 class="title"><?php echo $this->title ? $this->title : JText::_('JBZOO_SEARCH_RESULT'); ?></h1><?php
 
     if ($this->items) {
 

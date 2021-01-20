@@ -16,6 +16,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 /**
  * Class JBRequestHelper
  */
@@ -36,7 +37,8 @@ class JBRequestHelper extends AppHelper
     {
         parent::__construct($app);
 
-        $this->_request = $this->app->request;
+        $this->_request     = $this->app->request;
+        $this->_elements    = $this->app->jbentity->getItemTypesData(false);
     }
 
     /**
@@ -121,6 +123,11 @@ class JBRequestHelper extends AppHelper
 
             $elements = $this->_request->get('e', 'array', array());
             $elements = $this->clear($elements);
+
+            if (empty($elements)) {
+                $conditions = (array) $this->app->system->application->getParams()->get('conditions', array());
+                $elements   = $this->app->jbconditions->getValue($conditions);
+            }
 
             $result = array();
             foreach ($elements as $key => $value) {
@@ -368,5 +375,4 @@ class JBRequestHelper extends AppHelper
 
         return $currency ? $currency : $default;
     }
-
 }

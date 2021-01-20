@@ -142,7 +142,11 @@ class JBLessHelper extends AppHelper
     protected function _getProcessor($addPath = array())
     {
         if (!class_exists('Less_Parser')) {
-            require_once JPATH_ROOT . '/media/zoo/applications/jbuniversal/framework/libs/lessphp/lib/Less/Autoloader.php';
+            if (version_compare(PHP_VERSION, '7.2.9') < 0) {
+                require_once JPATH_ROOT . '/media/zoo/applications/jbuniversal/framework/libs/lessphp/1.8.1/lib/Less/Autoloader.php'; // for php 5.3+
+            } else {
+                require_once JPATH_ROOT . '/media/zoo/applications/jbuniversal/framework/libs/lessphp/latest/lib/Less/Autoloader.php'; // for php 7.2.9+
+            }
 
             Less_Autoloader::register();            
         }

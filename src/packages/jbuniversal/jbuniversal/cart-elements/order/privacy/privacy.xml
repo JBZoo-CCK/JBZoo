@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<element type="privacy" group="Form" orderable="true">
+    <name>JBZOO_ELEMENT_ORDER_PRIVACY_NAME</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZOO_ELEMENT_ORDER_PRIVACY_DESC</description>
+
+    <params>
+        <param name="privacy" type="jbmenuitems" default="" label="JBZOO_ELEMENT_ORDER_PRIVACY_LINK_PRIVACY" description="JBZOO_ELEMENT_ORDER_PRIVACY_LINK_PRIVACY_DESC"/>
+        <param name="policy" type="jbmenuitems" default="" label="JBZOO_ELEMENT_ORDER_PRIVACY_LINK_POLICY" description="JBZOO_ELEMENT_ORDER_PRIVACY_LINK_POLICY_DESC"/>
+    </params>
+</element>

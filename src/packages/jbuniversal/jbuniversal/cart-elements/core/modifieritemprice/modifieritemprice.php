@@ -39,6 +39,19 @@ abstract class JBCartElementModifierItemPrice extends JBCartElement
     protected $_itemData = null;
 
     /**
+     * @param App    $app
+     * @param string $type
+     * @param string $group
+     */
+    public function __construct($app, $type, $group)
+    {
+        parent::__construct($app, $type, $group);
+
+        // Get session
+        $this->session = JFactory::getSession();
+    }
+
+    /**
      * @param ElementJBPrice $priceElement
      */
     public function setPriceElement(ElementJBPrice $priceElement)
@@ -59,15 +72,19 @@ abstract class JBCartElementModifierItemPrice extends JBCartElement
      * @return JBCartValue
      */
     public function modify(JBCartValue $value)
-    {
-        return $value->add($this->getRate());
+    {   
+        if ($value->val()) {
+            return $value->add($this->getRate());
+        }
+
+        return $value;
     }
 
     /**
      * @return JBCartValue
      */
     public function getRate()
-    {
+    {   
         if ($this->_isValid()) {
             return $this->_order->val($this->config->get('rate'));
         }
@@ -80,7 +97,11 @@ abstract class JBCartElementModifierItemPrice extends JBCartElement
      * @return bool
      */
     protected function _isValid()
-    {
+    {   
+        if ($this->session->get('JBZooRemoveAllModifiers', false)) {
+            return false;
+        }
+
         $item = $this->_price->getItem();
         if (!$item) {
             return false;

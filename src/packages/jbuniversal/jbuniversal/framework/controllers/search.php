@@ -29,20 +29,47 @@ class SearchJBUniversalController extends JBUniversalController
     {
         $this->app->jbdebug->mark('filter::init');
 
-        $this->app->jbdoc->noindex();
+        $document       = JFactory::getDocument();
+        $session        = JFactory::getSession();
 
-        $type     = $this->_jbrequest->get('type');
-        $page     = ($page = $this->_jbrequest->get('page', 1)) ? $page : 1;
-        $logic    = strtoupper($this->_jbrequest->getWord('logic', 'and'));
-        $order    = $this->_jbrequest->get('order', 'none');
-        $exact    = (int)$this->_jbrequest->get('exact', 0);
-        $limit    = $this->_jbrequest->get('limit', $this->_params->get('config.items_per_page', 2));
-        $offset   = $limit * ($page - 1);
-        $elements = $this->_jbrequest->getElements();
-        $appId    = $this->_jbrequest->get('app_id');
+        $params         = $this->joomla->getParams();
+        $type           = $this->_jbrequest->get('type', $params->get('type'));
+        $view           = $this->_jbrequest->get('view', '');
+        $page           = ($page = $this->_jbrequest->get('page', 1)) ? $page : 1;
+        $logic          = strtoupper($this->_jbrequest->getWord('logic', $params->get('logic', 'and')));
+        $order          = $this->_jbrequest->get('order', $params->get('order_default', 'none'));
+        $exact          = (int)$this->_jbrequest->get('exact', $params->get('exact', 0));
+        $limit          = $this->_jbrequest->get('limit', $this->_params->get('config.items_per_page', 2));
+        $offset         = $limit * ($page - 1);
+        $elements       = $this->_jbrequest->getElements();
+        $appId          = $this->_jbrequest->get('app_id', $params->get('application'));
+        $sessionAppId   = $session->get('orderApp', 0);
+        $sessionOrder   = $session->get('order', '');
+
+        if ($view == 'filter') {
+            if ($sessionAppId == $appId) {
+                if (is_string($order)) {
+                    $orderString = $order;
+                } else {
+                    $orderString = $sessionOrder;
+                }
+
+                $order          = array();
+                $order['field'] = str_replace(array('_asc', '_desc'), array('', ''), $orderString);
+
+                if (strpos($orderString, '_desc')) {
+                    $order['reverse'] = 1;
+                }
+
+                $session->set('order', $orderString);
+            }
+        } else {
+            $session->set('order', $order['field'].'_'.(isset($order['reverse']) ? '_desc' : '_asc'));
+        }
 
         // search!
         $searchModel = JBModelFilter::model();
+
         $items       = $searchModel->search($elements, $logic, $type, $appId, $exact, $offset, $limit, $order);
         $itemsCount  = $searchModel->searchCount($elements, $logic, $type, $appId, $exact);
 
@@ -50,6 +77,7 @@ class SearchJBUniversalController extends JBUniversalController
         if ($this->_jbrequest->isPost()) {
             $_POST['option'] = 'com_zoo';
             unset($_POST['page']);
+            unset($_POST['controller']);
             unset($_POST['view']);
             unset($_POST['layout']);
             $this->pagination_link = 'index.php?' . $this->app->jbrouter->query($_POST);
@@ -57,6 +85,7 @@ class SearchJBUniversalController extends JBUniversalController
         } else {
             $_GET['option'] = 'com_zoo';
             unset($_GET['page']);
+            unset($_POST['controller']);
             unset($_GET['view']);
             unset($_GET['layout']);
             $this->pagination_link = 'index.php?' . $this->app->jbrouter->query($_GET);
@@ -73,9 +102,54 @@ class SearchJBUniversalController extends JBUniversalController
         }
 
         // assign variables
-        $this->items      = $items;
-        $this->params     = $this->_params;
-        $this->itemsCount = $itemsCount;
+        $this->items        = $items;
+        $this->params       = $this->_params;
+        $this->itemsCount   = $itemsCount;
+        $this->description  = '';
+        $this->title        = '';
+        $this->count        = true;
+
+        // get metadata
+        $title              = '';
+        $keywords           = '';
+        $metaDescription    = '';
+        
+        // Set Menu Meta
+        $menu           = $this->app->menu->getActive();
+        $menu_params    = $this->app->parameter->create($menu->params);
+
+        if ($menu and in_array(@$menu->query['view'], array('filter')) and $menu_params) {
+
+            $condElements = $this->app->jbconditions->getValue($menu_params->get('conditions'));
+
+            if ($condElements == $elements) {
+                $metaDescription    = $menu_params->get('menu-meta_description') ? $menu_params->get('menu-meta_description') : $this->description;
+                $title              = $menu_params->get('page_title') ? $menu_params->get('page_title') : $menu->title;
+                $keywords           = $menu_params->get('menu-meta_keywords');
+
+                $this->description  = $menu_params->get('description');
+                $this->title        = $menu_params->get('page_heading') ? $menu_params->get('page_heading') : $title;
+                $this->count        = $menu_params->get('count');
+            } else {
+                // Set noindex
+                $this->app->jbdoc->noindex();
+            }
+        } else {
+            // Set noindex
+            $this->app->jbdoc->noindex();
+        }
+
+        if ($title) {
+            $this->app->document->setTitle($this->app->zoo->buildPageTitle($title));
+        }
+
+        if ($metaDescription) {
+            $this->app->document->setDescription($metaDescription);
+        }
+
+        if ($keywords) {
+            $this->app->document->setMetadata('keywords', $keywords);
+        }
 
         // set renderer
         $this->renderer = $this->app->renderer->create('item')->addPath(
@@ -91,5 +165,4 @@ class SearchJBUniversalController extends JBUniversalController
 
         $this->app->jbdebug->mark('filter::display');
     }
-
 }

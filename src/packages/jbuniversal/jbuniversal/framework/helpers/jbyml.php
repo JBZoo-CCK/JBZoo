@@ -506,7 +506,7 @@ class JBYmlHelper extends AppHelper
                 }
 
                 // get jbimage paths
-                if ($element->config->type == 'jbimage') {
+                if ($element->config->type == 'jbimage' || $element->config->type == 'jbgalleryimage') {
 
                     $imageData = $element->data();
                     $limit     = 10;
@@ -700,7 +700,7 @@ class JBYmlHelper extends AppHelper
      * @return int|boolean
      */
     public function getTotal()
-    {   
+    {
         $types = $this->_appParams->get('type_list');
         $appId = $this->_appParams->get('app_list');
 

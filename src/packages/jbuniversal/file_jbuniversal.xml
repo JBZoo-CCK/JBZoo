@@ -14,11 +14,11 @@
 <extension type="file" version="2.5" method="upgrade">
     <name>JBZoo App</name>
     <author>JBZoo.com</author>
-    <creationDate>2018 June</creationDate>
+    <creationDate>2020 August</creationDate>
     <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
-    <version>4.10.3</version>
+    <version>4.12.0</version>
     <license>GPL-2.0</license>
     <description>JBZoo App is universal Joomla CCK, application for YooTheme Zoo component</description>
     <fileset>

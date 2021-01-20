@@ -80,6 +80,14 @@ class JBModuleHelper
         $template = $this->app->zoo->getApplication()->getTemplate()->name;
         $this->app->jbtemplate->regHelpersByTpl($template);
 
+        // register new module assets path
+        $this->app->path->register($this->app->path->path('jbtmpl:' . $template . '/modules/mod_jbzoo_search'), 'mod_jbzoo_search');
+        $this->app->path->register($this->app->path->path('jbtmpl:' . $template . '/modules/mod_jbzoo_props'), 'mod_jbzoo_props');
+        $this->app->path->register($this->app->path->path('jbtmpl:' . $template . '/modules/mod_jbzoo_basket'), 'mod_jbzoo_basket');
+        $this->app->path->register($this->app->path->path('jbtmpl:' . $template . '/modules/mod_jbzoo_category'), 'mod_jbzoo_category');
+        $this->app->path->register($this->app->path->path('jbtmpl:' . $template . '/modules/mod_jbzoo_item'), 'mod_jbzoo_item');
+        $this->app->path->register($this->app->path->path('jbtmpl:' . $template . '/modules/mod_jbzoo_currency'), 'mod_jbzoo_currency');
+
         // vars
         $this->_params = $params;
         $this->_module = $module;

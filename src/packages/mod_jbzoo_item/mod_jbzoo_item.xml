@@ -14,11 +14,11 @@
 <extension type="module" version="2.5" method="upgrade" client="site">
     <name>JBZoo Item</name>
     <author>JBZoo.com</author>
-    <creationDate>2018 June</creationDate>
+    <creationDate>2020 August</creationDate>
     <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
-    <version>4.0.2</version>
+    <version>4.12.0</version>
     <license>GPL-2.0</license>
     <description>JBZOO_ITEM_MODULE_DESCRIPTION</description>
 

@@ -189,4 +189,21 @@ class StringHelper extends AppHelper
         return ContentHelper::filterText((string)$string);
     }
 
+    /**
+     * Converts string to camel case (https://en.wikipedia.org/wiki/Camel_case).
+     *
+     * @param string|string[] $string
+     * @param bool            $upper
+     *
+     * @return string
+     */
+    public function camelCase($string, $upper = false)
+    {
+        $string = join(' ', (array) $string);
+        $string = str_replace(array('-', '_'), ' ', $string);
+        $string = str_replace(' ', '', ucwords($string));
+
+        return $upper ? $string : lcfirst($string);
+    }
+
 }
