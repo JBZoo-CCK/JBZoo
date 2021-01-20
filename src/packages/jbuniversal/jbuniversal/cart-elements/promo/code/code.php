@@ -21,11 +21,11 @@ defined('_JEXEC') or die('Restricted access');
  */
 class JBCartElementPromoCode extends JBCartElementPromo
 {
-	/**
+    /**
      * @return mixed
      */
     public function isValid() {
-    	return true;
+        return true;
     }
 
     /**
