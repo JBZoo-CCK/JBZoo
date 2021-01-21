@@ -15,6 +15,9 @@
 .idea
 .DS_Store
 
+# phpunit
+.phpunit.result.cache
+
 # composer
 /vendor/*
 /composer.lock
