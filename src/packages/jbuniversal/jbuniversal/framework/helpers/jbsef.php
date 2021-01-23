@@ -632,21 +632,21 @@ class JBSefHelper extends AppHelper
         $task = 'filter';
         $controller = 'searchjbuniversal';
 
-        if ((@$query['task'] == $task || @$query['controller'] == $controller) && @$query['view'] == $task) {
+        if ((@$query['task'] == $task || @$query['controller'] == $controller) && @$query['view'] == $task && @$query['layout'] == $task) {
             unset($params['query']['task'], $params['query']['type'], $params['query']['view'], $params['query']['layout'], $params['query']['app_id'], $params['query']['controller']);
-        }
 
-        // Unset controller from filter menu pagination
-        if (!($menu = $this->app->system->application->getMenu('site')
-                and $menu instanceof JMenu
-                and isset($query['Itemid'])
-                and $item = $menu->getItem($query['Itemid'])
-                and @$item->component == 'com_zoo'
-                and $app_id = $item->params->get('application')
-                and @$params['query']['app_id'] == $app_id
-                and @$query['controller'] == $controller)) {
-            
-            unset($params['query']['controller']);
+            // Unset controller from filter menu pagination
+            if (!($menu = $this->app->system->application->getMenu('site')
+                    and $menu instanceof JMenu
+                    and isset($query['Itemid'])
+                    and $item = $menu->getItem($query['Itemid'])
+                    and @$item->component == 'com_zoo'
+                    and $app_id = $item->params->get('application')
+                    and @$params['query']['app_id'] == $app_id
+                    and @$query['controller'] == $controller)) {
+                
+                unset($params['query']['controller']);
+            }
         }
 
         // basket

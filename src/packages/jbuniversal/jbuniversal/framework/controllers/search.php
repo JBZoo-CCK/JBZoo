@@ -77,7 +77,6 @@ class SearchJBUniversalController extends JBUniversalController
         if ($this->_jbrequest->isPost()) {
             $_POST['option'] = 'com_zoo';
             unset($_POST['page']);
-            unset($_POST['controller']);
             unset($_POST['view']);
             unset($_POST['layout']);
             $this->pagination_link = 'index.php?' . $this->app->jbrouter->query($_POST);
@@ -85,7 +84,6 @@ class SearchJBUniversalController extends JBUniversalController
         } else {
             $_GET['option'] = 'com_zoo';
             unset($_GET['page']);
-            unset($_POST['controller']);
             unset($_GET['view']);
             unset($_GET['layout']);
             $this->pagination_link = 'index.php?' . $this->app->jbrouter->query($_GET);
@@ -116,7 +114,7 @@ class SearchJBUniversalController extends JBUniversalController
         
         // Set Menu Meta
         $menu           = $this->app->menu->getActive();
-        $menu_params    = $this->app->parameter->create($menu->params);
+        $menu_params    = $menu ? $this->app->parameter->create($menu->params) : '';
 
         if ($menu and in_array(@$menu->query['view'], array('filter')) and $menu_params) {
 
