@@ -25,7 +25,7 @@ class JBCartElementPaymentYandexKassaEmail extends JBCartElementPayment
      * Payment uri
      * @var string
      */
-    private $_uri = 'https://money.yandex.ru/eshop.xml';
+    private $_uri = 'https://yoomoney.ru/eshop.xml';
 
     /**
      * Redirect to payment form action
