@@ -366,7 +366,7 @@ class JBRequestHelper extends AppHelper
             $default = JBModelConfig::model()->getCurrency();
         }
 
-        $currency = isset($_COOKIE[$key]) ? $_COOKIE[$key] : $default; // TODO use Joomla API
+        $currency = $this->app->system->application->input->cookie->get($key, $default);
         $currency = $this->app->jbvars->currency($currency);
 
         if ($currency == JBCartValue::PERCENT) {

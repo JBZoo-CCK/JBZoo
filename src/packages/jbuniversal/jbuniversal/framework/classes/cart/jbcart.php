@@ -205,6 +205,15 @@ class JBCart
     }
 
     /**
+     * Get payment fail status
+     * @return string
+     */
+    public function getPaymentFail()
+    {
+        return $this->_config->get('default_payment_status_error', 'error');
+    }
+
+    /**
      * Get default status from cart configurations
      * @param string $type
      * @return JBCartElementStatus

@@ -47,6 +47,7 @@ class JBFilterElementCategory extends JBFilterElement
         $applicationId = (int)$this->_params->get('item_application_id', 0);
         $application   = $this->app->table->application->get($applicationId);
         $modeParam     = $this->_params->get('jbzoo_category_mode', 'tree');
+        $modeParamCat  = $this->_params->get('jbzoo_category_mode_cat', 0);
 
         $allCategories = array();
         if ($application) {
@@ -71,6 +72,14 @@ class JBFilterElementCategory extends JBFilterElement
             // only childs
             foreach ($allCategories as $category) {
                 if ($category->parent) {
+                    $result[] = $category;
+                }
+            }
+
+        } elseif ($modeParam == 'child-cat') {
+            // only certain child cat
+            foreach ($allCategories as $category) {
+                if ($category->parent && $modeParamCat && $modeParamCat == $category->parent) {
                     $result[] = $category;
                 }
             }

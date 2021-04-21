@@ -133,8 +133,12 @@ class JBSefHelper extends AppHelper
         // get url params
         $params = $event->getParameters();
 
+        // fix menu
+        if ($this->_config->get('fix_menu', 0)) {
+            $params = $this->_buildSefUrl($params);
+        }
+
         // build new url by rules
-        $params = $this->_buildSefUrl($params);
         $params = $this->_buildItemUrl($params);
         $params = $this->_buildCategoryUrl($params);
         $params = $this->_buildFeedUrl($params);
@@ -156,7 +160,11 @@ class JBSefHelper extends AppHelper
         $this->_jbdebug->mark('jbzoo-sef::sefParseRoute::start');
 
         $params = $event->getParameters();
-        $params = $this->_parseSefUrl($params);
+
+        // fix menu
+        if ($this->_config->get('fix_menu', 0)) {
+            $params = $this->_parseSefUrl($params);
+        }
 
         // parse category or item by priority order
         if ($this->_config->get('parse_priority', 'item') == 'category') {

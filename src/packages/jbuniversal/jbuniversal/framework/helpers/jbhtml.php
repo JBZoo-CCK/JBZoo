@@ -176,12 +176,8 @@ class JBHtmlHelper extends AppHelper
             return null;
         }
 
-        if ($idtag) {
-            if (is_array($attribs)) {
-                $attribs['id'] = $idtag;
-            } else {
-                $attribs .= ' id="' . $idtag . '"';
-            }
+        if ($idtag && is_array($attribs) && isset($attribs['id'])) {
+            unset($attribs['id']);
         }
 
         if (is_array($attribs) && isset($attribs['multiple'])) {

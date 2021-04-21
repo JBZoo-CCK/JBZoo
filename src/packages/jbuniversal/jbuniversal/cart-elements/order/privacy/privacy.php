@@ -42,7 +42,7 @@ class JBCartElementOrderPrivacy extends JBCartElementOrder
         $text    = JText::sprintf('JBZOO_ELEMENT_ORDER_PRIVACY_TEXT_FULL', $privacyText, $policyText);
 
         $name    = $this->getControlName('option', true);
-        $checked = in_array('agree', $this->get('option', '')) ? ' checked="checked"' : null;
+        $checked = in_array('agree', $this->get('option', array())) ? ' checked="checked"' : null;
 
         $html    = array('<div>');
         $html[]  = '<div><input id="'.$name.'" type="checkbox" name="' . $name . '" value="agree"'.$checked.' /><label for="'.$name.'">'.$text.'</label></div>';

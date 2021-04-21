@@ -153,27 +153,23 @@ class JBCartElementModifierOrderPricePromoCode extends JBCartElementModifierOrde
     /**
      * @return null
      */
-    public function afterBasketSave() {
-        // $code       = JString::trim($this->get('code'));
-
-        
+    public function afterBasketSave()
+    {
         $discount   = $this->getDiscount();
         $isActive   = $this->isActive($discount);
 
-        if (!$isActive['result']) {
-            throw new AppValidatorException($isActive['msg']);
-        }
+        if ($isActive['result']) {
+            $code       = $discount['code'];
+            $list       = $this->_config->get(JBCart::DEFAULT_POSITION, array(), 'cart.' . JBCart::CONFIG_PROMO);
 
-        $code       = $discount['code'];
-        $list       = $this->_config->get(JBCart::DEFAULT_POSITION, array(), 'cart.' . JBCart::CONFIG_PROMO);
+            if ($list && is_array($list)) {
+                foreach ($list as $key => $promoCode) {
+                    if ($promoCode['code'] == $code) {
+                        $count                  = $promoCode['count'];
+                        $list[$key]['count']    = $count + 1;
 
-        if ($list && is_array($list)) {
-            foreach ($list as $key => $promoCode) {
-                if ($promoCode['code'] == $code) {
-                    $count                  = $promoCode['count'];
-                    $list[$key]['count']    = $count + 1;
-
-                    $this->_config->set(JBCart::DEFAULT_POSITION, $list, 'cart.' . JBCart::CONFIG_PROMO, 'data');
+                        $this->_config->set(JBCart::DEFAULT_POSITION, $list, 'cart.' . JBCart::CONFIG_PROMO, 'data');
+                    }
                 }
             }
         }
@@ -182,7 +178,8 @@ class JBCartElementModifierOrderPricePromoCode extends JBCartElementModifierOrde
     /**
      * @return bool
      */
-    public function isActive($discount) {
+    public function isActive($discount)
+    {
         if (empty($discount) || empty($discount['code'] || empty($discount['value']))) {
             return array(
                 'result' => false,

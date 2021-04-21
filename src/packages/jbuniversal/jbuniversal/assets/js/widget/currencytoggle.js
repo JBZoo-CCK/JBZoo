@@ -42,6 +42,8 @@
                     var newCurrency = $this.getCookie('current', curCurrency);
 
                     if (curCurrency != newCurrency) {
+                        curCurrency = newCurrency;
+
                         $this.setCurrency(newCurrency);
                         $this.toggle();
                     }

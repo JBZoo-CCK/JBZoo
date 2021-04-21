@@ -157,6 +157,26 @@ class PaymentJBUniversalController extends JBUniversalController
     }
 
     /**
+     * Payment fail wait
+     */
+    public function paymentWait()
+    {   
+        $this->_init();
+
+        JFactory::getSession()->set('application.queue', null); // HACK remove success order's messages
+
+        /** @type JBCartElementPayment $payment */
+        $payment    = $this->order->getPayment();
+        $redirect   = $payment->getStatusUrl();
+
+        if ($redirect) {
+            JFactory::getApplication()->redirect($redirect);
+        }
+
+        $this->getview('payment_wait')->addtemplatepath($this->template->getpath())->setlayout('payment_wait')->display();
+    }
+
+    /**
      * @param $message
      * @throws AppException
      */

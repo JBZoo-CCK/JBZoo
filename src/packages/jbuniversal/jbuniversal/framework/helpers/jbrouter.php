@@ -41,7 +41,8 @@ class JBRouterHelper extends AppHelper
         parent::__construct($app);
 
         $this->_jbrequest   = $this->app->jbrequest;
-        $this->_sefEnable   = JBModelConfig::model()->get('enabled', 0, 'config.sef');
+        $this->_config      = JBModelConfig::model();
+        $this->_sefEnable   = $this->_config->get('enabled', 0, 'config.sef') && $this->_config->get('fix_menu', 0, 'config.sef');
     }
 
 
@@ -647,7 +648,20 @@ class JBRouterHelper extends AppHelper
      * @return string
      */
     public function cartOrderCreate($Itemid = null)
-    {
+    {   
+        // Priority 1: direct link to basket
+
+        if ($this->_sefEnable) {
+            if ($menu_item = $this->_find('basket', 0)) {
+                $link = $menu_item->link;
+                $itemid = $menu_item->id;
+
+                return JRoute::_($link.'&Itemid='.$itemid);
+            }
+        }
+
+        // Priority 2: direct params link
+
         $params = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
@@ -821,7 +835,7 @@ class JBRouterHelper extends AppHelper
      * @return stdClass menu item
      * @since 2.0
      */
-    protected function _find($type, $id) {
+    protected function _find($view, $id) {
         if ($this->_jbmenu_items == null) {
             $menu_items = $this->app->system->application->getMenu('site')->getItems('component_id', JComponentHelper::getComponent('com_zoo')->id);
             $menu_items = $menu_items ? $menu_items : array();
@@ -875,6 +889,6 @@ class JBRouterHelper extends AppHelper
             }
         }
 
-        return @$this->_jbmenu_items[$type][$id];
+        return @$this->_jbmenu_items[$view][$id];
     }
 }

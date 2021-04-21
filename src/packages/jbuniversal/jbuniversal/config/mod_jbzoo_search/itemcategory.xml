@@ -22,6 +22,7 @@
                 >
             <option value="_auto_">JBZOO_ELEMENT_TEMPLATE_AUTO</option>
             <option value="category">JBZOO_ELEMENT_TEMPLATE_CATEGORIES</option>
+            <option value="category-checkbox">JBZOO_ELEMENT_TEMPLATE_CHECKBOX</option>
             <option value="category-chosen">JBZOO_ELEMENT_TEMPLATE_CATEGORIES_CHOSEN</option>
             <option value="category-hidden">JBZOO_ELEMENT_TEMPLATE_CATEGORY_HIDDEN</option>
         </param>
@@ -42,7 +43,15 @@
             <option value="tree">JBZOO_FILTER_TREE</option>
             <option value="parent">JBZOO_FILTER_ONLY_PARENT</option>
             <option value="child">JBZOO_FILTER_ONLY_CHILD</option>
+            <option value="child-cat">JBZOO_FILTER_ONLY_PARENT_CUSTOM</option>
         </param>
+
+        <param name="jbzoo_category_mode_cat"
+               type="text"
+               default=""
+               label="JBZOO_ELEMENT_TEMPLATE_CATEGORIES_CUSTOM"
+               description="JBZOO_ELEMENT_TEMPLATE_CATEGORIES_CUSTOM_DESCRIPTION"
+                />
 
         <param name="jbzoo_filter_multiple"
                type="jbbool"
