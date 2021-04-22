@@ -16,6 +16,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 /**
  * Class JBRequestHelper
  */
@@ -36,7 +37,8 @@ class JBRequestHelper extends AppHelper
     {
         parent::__construct($app);
 
-        $this->_request = $this->app->request;
+        $this->_request     = $this->app->request;
+        $this->_elements    = $this->app->jbentity->getItemTypesData(false);
     }
 
     /**
@@ -121,6 +123,11 @@ class JBRequestHelper extends AppHelper
 
             $elements = $this->_request->get('e', 'array', array());
             $elements = $this->clear($elements);
+
+            if (empty($elements)) {
+                $conditions = (array) $this->app->system->application->getParams()->get('conditions', array());
+                $elements   = $this->app->jbconditions->getValue($conditions);
+            }
 
             $result = array();
             foreach ($elements as $key => $value) {
@@ -359,7 +366,7 @@ class JBRequestHelper extends AppHelper
             $default = JBModelConfig::model()->getCurrency();
         }
 
-        $currency = isset($_COOKIE[$key]) ? $_COOKIE[$key] : $default; // TODO use Joomla API
+        $currency = $this->app->system->application->input->cookie->get($key, $default);
         $currency = $this->app->jbvars->currency($currency);
 
         if ($currency == JBCartValue::PERCENT) {
@@ -368,5 +375,4 @@ class JBRequestHelper extends AppHelper
 
         return $currency ? $currency : $default;
     }
-
 }

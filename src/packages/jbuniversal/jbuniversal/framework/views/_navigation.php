@@ -100,6 +100,7 @@ $allItems = [
             'statusEvents'         => ['statusEvents', 'params' => ['icon' => 'code-fork']],
         ],
         'others'   => [
+            'promo'     => ['promo', 'params' => ['icon' => 'bomb']],
             'emailTmpl' => ['emailTmpl', 'params' => ['icon' => 'envelope-o']],
         ]
     ],

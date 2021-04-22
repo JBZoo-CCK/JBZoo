@@ -41,6 +41,7 @@ class JBCartElementHelper extends AppHelper
         'JBCartElementPrice'              => 'price',
         'JBCartElementStatus'             => 'status',
         'JBCartElementValidator'          => 'validator',
+        'JBCartElementPromo'              => 'promo',
     );
 
     /**

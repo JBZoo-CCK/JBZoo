@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<element type="element" group="Core" hidden="false">
+    <name>JBZOO_ELEMENT_PAYMENT_SBERBANK_NAME</name>
+    <author>JBZoo.com</author>
+    <creationDate>2021</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZOO_ELEMENT_PAYMENT_SBERBANK_DESC</description>
+
+    <params>
+
+        <param name="merchant" type="text" default="" label="JBZOO_ELEMENT_PAYMENT_SBERBANK_LOGIN"
+               description="JBZOO_ELEMENT_PAYMENT_SBERBANK_LOGIN_DESC"/>
+
+        <param name="password" type="text" default="" label="JBZOO_ELEMENT_PAYMENT_SBERBANK_PASSWORD"
+               description="JBZOO_ELEMENT_PAYMENT_SBERBANK_PASSWORD_DESC"/>
+
+        <param name="contact" type="radio" default="email" label="JBZOO_ELEMENT_PAYMENT_SBERBANK_CONTACT"
+               description="JBZOO_ELEMENT_PAYMENT_SBERBANK_CONTACT_DESC">
+            <option value="email">JBZOO_ELEMENT_PAYMENT_SBERBANK_CONTACT_EMAIL</option>
+            <option value="phone">JBZOO_ELEMENT_PAYMENT_SBERBANK_CONTACT_PHONE</option>
+        </param>
+
+        <param name="email" type="jbcartfields" group="CONFIG_FIELDS" position="DEFAULT_POSITION"
+                label="JBZOO_ELEMENT_PAYMENT_SBERBANK_CONTACT_FIELD_EMAIL" description="JBZOO_ELEMENT_PAYMENT_SBERBANK_CONTACT_FIELD_EMAIL_DESC"/>
+
+        <param name="phone" type="jbcartfields" group="CONFIG_FIELDS" position="DEFAULT_POSITION"
+                label="JBZOO_ELEMENT_PAYMENT_SBERBANK_CONTACT_FIELD_PHONE" description="JBZOO_ELEMENT_PAYMENT_SBERBANK_CONTACT_FIELD_PHONE_DESC"/>
+
+        <param name="tax" type="list" default="1" label="JBZOO_ELEMENT_PAYMENT_SBERBANK_NDS"
+               description="JBZOO_ELEMENT_PAYMENT_SBERBANK_NDS_DESC">
+            <option value="1">JBZOO_ELEMENT_PAYMENT_SBERBANK_NDS_1</option>
+            <option value="2">JBZOO_ELEMENT_PAYMENT_SBERBANK_NDS_2</option>
+            <option value="3">JBZOO_ELEMENT_PAYMENT_SBERBANK_NDS_3</option>
+            <option value="4">JBZOO_ELEMENT_PAYMENT_SBERBANK_NDS_4</option>
+            <option value="5">JBZOO_ELEMENT_PAYMENT_SBERBANK_NDS_5</option>
+            <option value="6">JBZOO_ELEMENT_PAYMENT_SBERBANK_NDS_6</option>
+        </param>
+
+        <param name="payment_subject" type="list" default="commodity" label="JBZOO_ELEMENT_PAYMENT_SBERBANK_SUBJECT"
+               description="JBZOO_ELEMENT_PAYMENT_SBERBANK_SUBJECT_DESC">
+            <option value="commodity">JBZOO_ELEMENT_PAYMENT_SBERBANK_SUBJECT_1</option>
+            <option value="excise">JBZOO_ELEMENT_PAYMENT_SBERBANK_SUBJECT_2</option>
+            <option value="job">JBZOO_ELEMENT_PAYMENT_SBERBANK_SUBJECT_3</option>
+            <option value="service">JBZOO_ELEMENT_PAYMENT_SBERBANK_SUBJECT_4</option>
+            <option value="gambling_bet">JBZOO_ELEMENT_PAYMENT_SBERBANK_SUBJECT_5</option>
+            <option value="gambling_prize">JBZOO_ELEMENT_PAYMENT_SBERBANK_SUBJECT_6</option>
+            <option value="lottery">JBZOO_ELEMENT_PAYMENT_SBERBANK_SUBJECT_7</option>
+            <option value="lottery_prize">JBZOO_ELEMENT_PAYMENT_SBERBANK_SUBJECT_8</option>
+            <option value="intellectual_activity">JBZOO_ELEMENT_PAYMENT_SBERBANK_SUBJECT_9</option>
+            <option value="payment">JBZOO_ELEMENT_PAYMENT_SBERBANK_SUBJECT_10</option>
+            <option value="agent_commission">JBZOO_ELEMENT_PAYMENT_SBERBANK_SUBJECT_11</option>
+            <option value="composite">JBZOO_ELEMENT_PAYMENT_SBERBANK_SUBJECT_12</option>
+            <option value="another">JBZOO_ELEMENT_PAYMENT_SBERBANK_SUBJECT_13</option>
+        </param>
+
+        <param name="payment_method" type="list" default="full_prepayment" label="JBZOO_ELEMENT_PAYMENT_SBERBANK_TYPE"
+               description="JBZOO_ELEMENT_PAYMENT_SBERBANK_TYPE_DESC">
+            <option value="full_prepayment">JBZOO_ELEMENT_PAYMENT_SBERBANK_TYPE_1</option>
+            <option value="partial_prepayment">JBZOO_ELEMENT_PAYMENT_SBERBANK_TYPE_2</option>
+            <option value="advance">JBZOO_ELEMENT_PAYMENT_SBERBANK_TYPE_3</option>
+            <option value="full_payment">JBZOO_ELEMENT_PAYMENT_SBERBANK_TYPE_4</option>
+            <option value="partial_payment">JBZOO_ELEMENT_PAYMENT_SBERBANK_TYPE_5</option>
+            <option value="credit">JBZOO_ELEMENT_PAYMENT_SBERBANK_TYPE_6</option>
+            <option value="credit_payment">JBZOO_ELEMENT_PAYMENT_SBERBANK_TYPE_7</option>
+        </param>
+
+    </params>
+
+</element>

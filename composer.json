@@ -19,7 +19,7 @@
     },
 
     "require-dev"  : {
-        "jbzoo/phpunit"      : "^2.3",
+        "jbzoo/phpunit"      : "^3.2",
         "symfony/var-dumper" : "^4.1.1"
     }
 }

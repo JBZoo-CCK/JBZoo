@@ -42,6 +42,26 @@ class ElementJBGallery extends Element implements iSubmittable
     static $galleryCount = 1;
 
     /**
+     * Returns the element's value.
+     * @param array $params
+     * @return Value
+     */
+    public function getValue($params = []) {
+        // set params
+        $parameter = $this->app->parameter->create()
+            ->loadArray((array)$this->config)
+            ->loadArray($params);
+            
+        $value  = $this->_data->get('value');
+
+        if (empty($value)) {
+            return;
+        }
+
+        return $this->_getThumbnails($parameter);
+    }
+
+    /**
      * Check, has value
      * @param array $params
      * @return bool
@@ -166,6 +186,7 @@ class ElementJBGallery extends Element implements iSubmittable
 
             $thumbs[] = [
                 'name'         => htmlspecialchars($this->getItem()->name),
+                'file'         => $this->app->path->relative($file),
                 'filename'     => $filename,
                 'img'          => $this->app->jbimage->getUrl($file),
                 'img_file'     => JPath::clean($file),

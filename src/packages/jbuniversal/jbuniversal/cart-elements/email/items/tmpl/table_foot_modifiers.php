@@ -53,6 +53,9 @@ if (!empty($modifiers)) {
                 </td>
                 <td <?php echo $this->getStyles(array('border-bottom' => '1px solid #dddddd')); ?>>
                     <?php echo $rate->html($this->_getCurrency()); ?>
+                    <?php if ($modifier->getElementType() == 'promocode') : ?>
+                        <?php echo ' ('.$modifier->get('code').')';?>
+                    <?php endif; ?>
                 </td>
             </tr>
         <?php else : ?>

@@ -172,9 +172,24 @@ class JBOrderHelper extends AppHelper
      * @param $order
      * @return array
      */
-    public function convert($order)
+    public function convert($order, $prevResult)
     {
         $result = array();
+
+        // Hack for Zoo 4
+        if (!is_array($order)) {
+            preg_match('/(?<=\()(.+)(?=\))/is', $prevResult[0], $matches);
+
+            if (!empty($matches)) {
+                
+                $order = explode(',',$matches[0]);
+                
+                $order = array_map(function($orderItem) {
+                    return str_replace(['\'', ' '], ['', ''], $orderItem);
+                }, $order);
+            }
+        }
+
         foreach ($order as $orderRow) {
             preg_match('#_jbzoo_([0-9])_(.*?)_(.*)#', $orderRow, $matches);
 
@@ -207,7 +222,7 @@ class JBOrderHelper extends AppHelper
     {
         $jbtables = $this->app->jbtables;
 
-        $orders = $this->convert($order);
+        $orders = $this->convert($order, $prevResult);
 
         $joinList = $ol = $columns = array();
 

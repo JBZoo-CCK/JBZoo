@@ -199,7 +199,7 @@ class JBCartElementPriceImage extends JBCartElementPrice
     {
         $value = parent::getValue($toString, $key, '');
 
-        if (!isset($value{0}) && $element = $this->_getElement()) {
+        if (!isset($value[0]) && $element = $this->_getElement()) {
             $value = $element->get('file', $default);
         }
 

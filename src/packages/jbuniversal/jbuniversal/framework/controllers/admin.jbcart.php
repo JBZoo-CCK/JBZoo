@@ -179,6 +179,18 @@ class JBCartJBUniversalController extends JBUniversalController
     }
 
     /**
+     * Promo list action
+     */
+    public function promo()
+    {
+        $this->groupList = $this->_element->getGroups(array(JBCart::ELEMENT_TYPE_PROMO));
+        $this->positions = $this->_position->loadPositions(JBCart::CONFIG_PROMO, array(JBCart::DEFAULT_POSITION));
+
+        $this->groupKey = JBCart::CONFIG_PROMO;
+        $this->renderView();
+    }
+
+    /**
      * Payment list action
      */
     public function payment()

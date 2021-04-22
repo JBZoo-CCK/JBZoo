@@ -184,6 +184,7 @@ class JBZoo
             'JBFilterElementAuthorChosen'        => $filPath . '/element.author.select.chosen.php',
             'JBFilterElementAuthorText'          => $filPath . '/element.author.text.php',
             'JBFilterElementCategory'            => $filPath . '/element.category.php',
+            'JBFilterElementCategoryCheckbox'    => $filPath . '/element.category.checkbox.php',
             'JBFilterElementCategoryChosen'      => $filPath . '/element.category.chosen.php',
             'JBFilterElementCategoryHidden'      => $filPath . '/element.category.hidden.php',
             'JBFilterElementCheckbox'            => $filPath . '/element.checkbox.php',

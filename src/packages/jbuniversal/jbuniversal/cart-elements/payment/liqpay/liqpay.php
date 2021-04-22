@@ -28,7 +28,7 @@ class JBCartElementPaymentLiqPay extends JBCartElementPayment
      * Payment uri
      * @var string
      */
-    private $_uri = 'https://www.liqpay.com/api/checkout';
+    private $_uri = 'https://www.liqpay.ua/api/checkout';
 
     /**
      * Redirect to payment form action

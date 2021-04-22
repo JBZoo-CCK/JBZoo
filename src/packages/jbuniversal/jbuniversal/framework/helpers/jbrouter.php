@@ -16,6 +16,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+
 /**
  * Class JBRouterHelper
  */
@@ -27,13 +28,21 @@ class JBRouterHelper extends AppHelper
     protected $_jbrequest = null;
 
     /**
+     * The parsed menu items
+     * @var array
+     */
+    protected $_jbmenu_items;
+
+    /**
      * @param App $app
      */
     public function __construct($app)
     {
         parent::__construct($app);
 
-        $this->_jbrequest = $this->app->jbrequest;
+        $this->_jbrequest   = $this->app->jbrequest;
+        $this->_config      = JBModelConfig::model();
+        $this->_sefEnable   = $this->_config->get('enabled', 0, 'config.sef') && $this->_config->get('fix_menu', 0, 'config.sef');
     }
 
 
@@ -46,8 +55,21 @@ class JBRouterHelper extends AppHelper
      * @return string
      */
     public function filter($elemId, $value, $moduleParams, $mode = 0)
-    {
-        $urlParams = [
+    {   
+        // Priority 1: direct link to filter
+
+        if ($this->_sefEnable) {
+            if ($menu_item = $this->_find('filter', $moduleParams->get('application').':'.$moduleParams->get('type').':'.$elemId.':'.$value)) {
+                $link = $menu_item->link;
+                $itemid = $menu_item->id;
+
+                return JRoute::_($link.'&Itemid='.$itemid);
+            }
+        }
+
+        // Priority 2: direct params link
+        
+        $urlParams = array(
             'option'     => 'com_zoo',
             'controller' => 'search',
             'task'       => 'filter',
@@ -57,13 +79,13 @@ class JBRouterHelper extends AppHelper
             'limit'      => $moduleParams->get('limit', 10),
             'exact'      => 1,
             'order'      => $moduleParams->get('order'),
-        ];
+        );
 
         if ($mode == 0) {
             $urlParams['e'][$elemId] = $value;
 
         } elseif ($mode == 1) {
-            $urlParams['e'] = $this->_jbrequest->getElements();
+            $urlParams['e']          = $this->_jbrequest->getElements();
             $urlParams['e'][$elemId] = $value;
 
         } elseif ($mode == 2) {
@@ -78,7 +100,7 @@ class JBRouterHelper extends AppHelper
             }
         }
 
-        return $this->_url($urlParams);
+        return $this->_url($urlParams, true);
     }
 
     /**
@@ -86,14 +108,14 @@ class JBRouterHelper extends AppHelper
      * @param array $params
      * @return string
      */
-    public function autocomplete(array $params = [])
+    public function autocomplete(array $params = array())
     {
-        $urlParams = [
+        $urlParams = array(
             'option'     => 'com_zoo',
             'controller' => 'autocomplete',
             'task'       => 'index',
             'tmpl'       => 'raw',
-        ];
+        );
 
         $urlParams = array_merge($urlParams, $params);
 
@@ -108,9 +130,9 @@ class JBRouterHelper extends AppHelper
      * @param array  $params
      * @return string
      */
-    public function element($identifier = null, $itemId = null, $method = 'ajax', array $params = [])
+    public function element($identifier = null, $itemId = null, $method = 'ajax', array $params = array())
     {
-        $linkParams = [
+        $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'default',
             'task'       => 'callelement',
@@ -118,7 +140,7 @@ class JBRouterHelper extends AppHelper
             'element'    => $identifier,
             'method'     => $method,
             'item_id'    => $itemId,
-        ];
+        );
 
         if (!empty($params)) {
             $linkParams['args'] = $params;
@@ -134,9 +156,9 @@ class JBRouterHelper extends AppHelper
      * @param array  $params
      * @return string
      */
-    public function elementOrder($method = 'ajax', array $urlParams = [], array $params = [])
+    public function elementOrder($method = 'ajax', array $urlParams = array(), array $params = array())
     {
-        $linkParams = [
+        $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'callelement',
@@ -145,7 +167,7 @@ class JBRouterHelper extends AppHelper
             'group'      => $urlParams['group'],
             'order_id'   => $urlParams['order_id'],
             'method'     => $method,
-        ];
+        );
 
         if (!empty($params)) {
             $linkParams['args'] = $params;
@@ -162,9 +184,9 @@ class JBRouterHelper extends AppHelper
      * @param array  $params
      * @return string
      */
-    public function elementAdmin($identifier = null, $itemId = null, $method = 'ajax', array $params = [])
+    public function elementAdmin($identifier = null, $itemId = null, $method = 'ajax', array $params = array())
     {
-        $linkParams = [
+        $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'item',
             'task'       => 'callelement',
@@ -173,7 +195,7 @@ class JBRouterHelper extends AppHelper
             'elm_id'     => $identifier,
             'method'     => $method,
             'item_id'    => $itemId,
-        ];
+        );
 
         if (!empty($params)) {
             $linkParams['args'] = $params;
@@ -192,14 +214,9 @@ class JBRouterHelper extends AppHelper
      * @param array  $params
      * @return string
      */
-    public function elementAdminOrder(
-        $identifier = null,
-        $method = 'ajax',
-        $layout = null,
-        $controller = 'jbcart',
-        array $params = []
-    ) {
-        $linkParams = [
+    public function elementAdminOrder($identifier = null, $method = 'ajax', $layout = null, $controller = 'jbcart', array $params = array())
+    {
+        $linkParams = array(
             'option'     => 'com_zoo',
             'layout'     => $layout,
             'controller' => $controller,
@@ -208,7 +225,7 @@ class JBRouterHelper extends AppHelper
             'element'    => $identifier,
             'elm_id'     => $identifier,
             'method'     => $method,
-        ];
+        );
 
         if (!empty($params)) {
             $linkParams['args'] = $params;
@@ -226,11 +243,24 @@ class JBRouterHelper extends AppHelper
      * @return string
      */
     public function compare($menuItemid, $layout = 'v', $itemType = null, $appId = null)
-    {
-        $itemType = ($itemType) ? $itemType : $this->_jbrequest->get('type');
-        $appId = ($appId) ? $appId : (int)$this->_jbrequest->get('app_id');
+    {   
+        // Priority 1: direct link to compare
 
-        $linkParams = [
+        if ($this->_sefEnable) {
+            if ($menu_item = $this->_find('compare', $appId.'-'.$itemType)) {
+                $link = $menu_item->link;
+                $itemid = $menu_item->id;
+
+                return JRoute::_($link.'&Itemid='.$itemid);
+            }
+        }
+
+        // Priority 2: direct params link
+
+        $itemType = ($itemType) ? $itemType : $this->_jbrequest->get('type');
+        $appId    = ($appId) ? $appId : (int)$this->_jbrequest->get('app_id');
+
+        $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'compare',
             'task'       => 'compare',
@@ -238,7 +268,7 @@ class JBRouterHelper extends AppHelper
             'type'       => $itemType,
             'layout'     => $layout,
             'Itemid'     => (int)$menuItemid,
-        ];
+        );
 
         return $this->_url($linkParams, false, JURI::root());
     }
@@ -250,16 +280,29 @@ class JBRouterHelper extends AppHelper
      * @return string
      */
     public function favorite($menuItemid, $appId = null)
-    {
+    {   
+        // Priority 1: direct link to favorite
+
+        if ($this->_sefEnable) {
+            if ($menu_item = $this->_find('favorite', $appId)) {
+                $link = $menu_item->link;
+                $itemid = $menu_item->id;
+
+                return JRoute::_($link.'&Itemid='.$itemid);
+            }
+        }
+
+        // Priority 2: direct params link
+
         $appId = ($appId) ? $appId : (int)$this->_jbrequest->get('app_id');
 
-        $linkParams = [
+        $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'favorite',
             'task'       => 'favorite',
             'app_id'     => (int)$appId,
             'Itemid'     => (int)$menuItemid,
-        ];
+        );
 
         return $this->_url($linkParams, false, JURI::root());
     }
@@ -270,16 +313,16 @@ class JBRouterHelper extends AppHelper
      */
     public function favoriteClear()
     {
-        $appId = (int)$this->_jbrequest->get('app_id');
+        $appId  = (int)$this->_jbrequest->get('app_id');
         $Itemid = (int)$this->_jbrequest->get('Itemid');
 
-        $linkParams = [
+        $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'favorite',
             'task'       => 'removeAll',
             'app_id'     => (int)$appId,
             'Itemid'     => (int)$Itemid,
-        ];
+        );
 
         return $this->_url($linkParams, false, JURI::root());
     }
@@ -294,13 +337,13 @@ class JBRouterHelper extends AppHelper
     {
         $appId = ($appId) ? $appId : (int)$this->_jbrequest->get('app_id');
 
-        $linkParams = [
+        $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'favorite',
             'task'       => 'remove',
             'app_id'     => (int)$appId,
             'item_id'    => (int)$itemId,
-        ];
+        );
 
         return $this->_url($linkParams, false, JURI::root());
     }
@@ -315,9 +358,9 @@ class JBRouterHelper extends AppHelper
     public function compareClear($menuItemid, $itemType = null, $appId = null)
     {
         $itemType = ($itemType) ? $itemType : $this->_jbrequest->get('type');
-        $appId = ($appId) ? $appId : (int)$this->_jbrequest->get('app_id');
+        $appId    = ($appId) ? $appId : (int)$this->_jbrequest->get('app_id');
 
-        $linkParams = [
+        $linkParams = array(
             'option'      => 'com_zoo',
             'controller'  => 'compare',
             'task'        => 'clear',
@@ -325,7 +368,7 @@ class JBRouterHelper extends AppHelper
             'type'        => $itemType,
             'Itemid'      => (int)$menuItemid,
             'back_itemid' => (int)$menuItemid,
-        ];
+        );
 
         return $this->_url($linkParams, false, JURI::root());
     }
@@ -336,20 +379,33 @@ class JBRouterHelper extends AppHelper
      * @return string
      */
     public function basket($menuItemid = 0)
-    {
+    {   
+        // Priority 1: direct link to basket
+
+        if ($this->_sefEnable) {
+            if ($menu_item = $this->_find('basket', 0)) {
+                $link = $menu_item->link;
+                $itemid = $menu_item->id;
+
+                return JRoute::_($link.'&Itemid='.$itemid.'&nc='.rand(1000, 9999));
+            }
+        }
+        
+        // Priority 2: direct params link
+        
         if (empty($menuItemid)) {
             $menuItemid = JBModelConfig::model()->getGroup('cart.config')->get('menuitem', 101);
         }
 
-        $linkParams = [
+        $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'index',
             'Itemid'     => $menuItemid,
             'nc'         => rand(1000, 9999), // forced browser no cache
-        ];
+        );
 
-        return JURI::root() . 'index.php?' . $this->query($linkParams);
+        return $this->_url($linkParams, false);
     }
 
     /**
@@ -358,11 +414,11 @@ class JBRouterHelper extends AppHelper
      */
     public function basketEmpty()
     {
-        $linkParams = [
+        $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'clear',
-        ];
+        );
 
         return $this->_url($linkParams, false, JURI::root());
     }
@@ -373,12 +429,12 @@ class JBRouterHelper extends AppHelper
      */
     public function basketReloadModule($moduleId)
     {
-        $linkParams = [
+        $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'reloadModule',
             'moduleId'   => $moduleId,
-        ];
+        );
 
         return $this->_url($linkParams, false, JURI::root());
     }
@@ -393,13 +449,13 @@ class JBRouterHelper extends AppHelper
     {
         $appId = ($appId) ? $appId : (int)$this->_jbrequest->get('app_id');
 
-        $linkParams = [
+        $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'index',
             'app_id'     => (int)$appId,
             'Itemid'     => (int)$menuItemid,
-        ];
+        );
 
         return $this->_url($linkParams, false, JURI::root());
     }
@@ -413,17 +469,17 @@ class JBRouterHelper extends AppHelper
      */
     public function basketPayment($menuItemid, $appId, $itemId)
     {
-        $appId = ($appId) ? $appId : (int)$this->_jbrequest->get('app_id');
-        $linkParams = [
+        $appId      = ($appId) ? $appId : (int)$this->_jbrequest->get('app_id');
+        $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'payment',
             'task'       => 'index',
             'app_id'     => (int)$appId,
             'Itemid'     => (int)$menuItemid,
             'order_id'   => $itemId,
-        ];
+        );
 
-        $url = $this->_url($linkParams, true);
+        $url  = $this->_url($linkParams, true);
         $base = $this->getHostUrl();
 
         return $base . $url;
@@ -435,11 +491,11 @@ class JBRouterHelper extends AppHelper
      */
     public function basketDelete()
     {
-        $linkParams = [
+        $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'delete',
-        ];
+        );
 
         return $this->_url($linkParams, false, JURI::root());
     }
@@ -450,11 +506,11 @@ class JBRouterHelper extends AppHelper
      */
     public function basketClear()
     {
-        $linkParams = [
+        $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'clear',
-        ];
+        );
 
         return $this->_url($linkParams, false, JURI::root());
     }
@@ -465,11 +521,11 @@ class JBRouterHelper extends AppHelper
      */
     public function basketQuantity()
     {
-        $linkParams = [
+        $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'quantity',
-        ];
+        );
 
         return $this->_url($linkParams, false, JURI::root());
     }
@@ -480,11 +536,11 @@ class JBRouterHelper extends AppHelper
      */
     public function basketShipping()
     {
-        $linkParams = [
+        $linkParams = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'shipping',
-        ];
+        );
 
         return $this->_url($linkParams, false, JURI::root());
     }
@@ -500,13 +556,13 @@ class JBRouterHelper extends AppHelper
             return null;
         }
 
-        $linkParams = [
+        $linkParams = array(
             'option'     => $this->app->component->self->name,
             'controller' => 'item',
             'changeapp'  => $item->application_id,
             'task'       => 'edit',
             'cid[]'      => $item->id,
-        ];
+        );
 
         return $this->_url($linkParams, true, JURI::root() . 'administrator/index.php');
     }
@@ -518,11 +574,11 @@ class JBRouterHelper extends AppHelper
      */
     public function auth($return = null)
     {
-        $linkParams = [
+        $linkParams = array(
             'option' => 'com_users',
             'task'   => 'login',
             'return' => $return,
-        ];
+        );
 
         return $this->_url($linkParams, true);
     }
@@ -532,7 +588,7 @@ class JBRouterHelper extends AppHelper
      * @param array $params
      * @return string
      */
-    public function admin(array $params = [])
+    public function admin(array $params = array())
     {
         if (!isset($params['controller'])) {
             $params['controller'] = $this->_jbrequest->getCtrl();
@@ -557,11 +613,11 @@ class JBRouterHelper extends AppHelper
      */
     public function payment($type)
     {
-        $params = [
+        $params = array(
             'option'     => 'com_zoo',
             'controller' => 'payment',
             'task'       => 'payment' . ucfirst($type),
-        ];
+        );
 
         return JURI::root() . 'index.php?' . $this->query($params);
     }
@@ -575,14 +631,14 @@ class JBRouterHelper extends AppHelper
      */
     public function paymentNotPaid($Itemid, $appId, $orderId)
     {
-        $params = [
+        $params = array(
             'option'     => 'com_zoo',
             'controller' => 'payment',
             'task'       => 'paymentNotPaid',
             'app_id'     => (int)$appId,
             'Itemid'     => $Itemid,
             'order_id'   => $orderId
-        ];
+        );
 
         return JURI::root() . 'index.php?' . $this->query($params);
     }
@@ -592,13 +648,26 @@ class JBRouterHelper extends AppHelper
      * @return string
      */
     public function cartOrderCreate($Itemid = null)
-    {
-        $params = [
+    {   
+        // Priority 1: direct link to basket
+
+        if ($this->_sefEnable) {
+            if ($menu_item = $this->_find('basket', 0)) {
+                $link = $menu_item->link;
+                $itemid = $menu_item->id;
+
+                return JRoute::_($link.'&Itemid='.$itemid);
+            }
+        }
+
+        // Priority 2: direct params link
+
+        $params = array(
             'option'     => 'com_zoo',
             'controller' => 'basket',
             'task'       => 'index',
             'Itemid'     => $Itemid,
-        ];
+        );
 
         return JURI::root() . 'index.php?' . $this->query($params);
     }
@@ -608,16 +677,15 @@ class JBRouterHelper extends AppHelper
      * @return string
      */
     public function order($order)
-    {
-        $params = [
+    {       
+        $params = array(
             'option'     => 'com_zoo',
             'controller' => 'clientarea',
             'task'       => 'order',
-            'order_id'   => $order->id,
             'Itemid'     => $this->app->jbrequest->get('Itemid'),
-        ];
+        );
 
-        return JURI::root() . 'index.php?' . $this->query($params);
+        return JRoute::_('index.php?' . $this->query($params)).'?task=order&order_id='.$order->id;
     }
 
     /**
@@ -626,11 +694,11 @@ class JBRouterHelper extends AppHelper
      */
     public function orderAdmin($order)
     {
-        return $this->admin([
+        return $this->admin(array(
             'controller' => 'jborder',
             'task'       => 'edit',
             'cid[]'      => $order->id
-        ]);
+        ));
     }
 
     /**
@@ -638,13 +706,26 @@ class JBRouterHelper extends AppHelper
      * @return string
      */
     public function orders($menuItemid)
-    {
-        $params = [
+    {   
+        // Priority 1: direct link to orders
+
+        if ($this->_sefEnable) {
+            if ($menu_item = $this->_find('orders', 0) && $this->_sefEnable) {
+                $link = $menu_item->link;
+                $itemid = $menu_item->id;
+
+                return JRoute::_($link.'&Itemid='.$itemid);
+            }
+        }
+        
+        // Priority 2: direct params link
+        
+        $params = array(
             'option'     => 'com_zoo',
             'controller' => 'clientarea',
             'task'       => 'orders',
             'Itemid'     => $menuItemid,
-        ];
+        );
 
         return JURI::root() . 'index.php?' . $this->query($params);
     }
@@ -654,13 +735,13 @@ class JBRouterHelper extends AppHelper
      */
     public function removeViewed()
     {
-        $params = [
+        $params = array(
             'option'     => 'com_zoo',
             'controller' => 'viewed',
             'task'       => 'clear',
             'format'     => 'raw',
             'app_id'     => $this->app->zoo->getApplication()->id,
-        ];
+        );
 
         return JURI::root() . 'index.php?' . $this->query($params);
     }
@@ -672,7 +753,7 @@ class JBRouterHelper extends AppHelper
      * @param string $base
      * @return string
      */
-    private function _url(array $params = [], $zooRoute = false, $base = 'index.php')
+    private function _url(array $params = array(), $zooRoute = false, $base = 'index.php')
     {
         foreach ($params as $key => $param) {
             if (is_null($param)) {
@@ -693,25 +774,20 @@ class JBRouterHelper extends AppHelper
      */
     public function externalItem(Item $item)
     {
-        $app    = JFactory::getApplication();
-        $ssl    = (JFactory::getConfig()->get('force_ssl', 0) == 2) ? 1 : -1;
-
         if ($this->app->jbenv->isSite()) {
-            $url = JRoute::_($this->app->route->item($item, false), false, $ssl); // force always full url
-
-            return $url;
+            return JRoute::_($this->app->route->item($item, false), false, 2);
 
         } else {
-            $root = JUri::root();
+            $root        = JUri::root();
             $application = JApplication::getInstance('site');
-            $router = $application->getRouter();
-            $link = $router->build($this->app->route->item($item, false), false, $ssl)->toString();
+            $router      = $application->getRouter();
+            $link        = $router->build($this->app->route->item($item, false));
 
             if (JBModelConfig::model()->getGroup('config')->get('sef.fix_item')) {
                 $link = preg_replace('#\/item\/#', '/', '' . $link, 1);
             }
 
-            return rtrim($root, '/') . preg_replace('/^.*administrator\//', '', $link, 1);
+            return $root . preg_replace('/^.*administrator\//', '', $link, 1);
         }
     }
 
@@ -720,7 +796,7 @@ class JBRouterHelper extends AppHelper
      * @return string
      */
     public function query(array $data)
-    {
+    {   
         return http_build_query($data, null, '&');
     }
 
@@ -747,6 +823,72 @@ class JBRouterHelper extends AppHelper
      */
     public function getHostUrl()
     {
-        return JUri::getInstance()->toString(['scheme', 'user', 'pass', 'host', 'port']);
+        return JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+    }
+
+    /**
+     * Finds a menu item by its type and id in the menu items
+     *
+     * @param string $type
+     * @param string $id
+     *
+     * @return stdClass menu item
+     * @since 2.0
+     */
+    protected function _find($view, $id) {
+        if ($this->_jbmenu_items == null) {
+            $menu_items = $this->app->system->application->getMenu('site')->getItems('component_id', JComponentHelper::getComponent('com_zoo')->id);
+            $menu_items = $menu_items ? $menu_items : array();
+
+            $this->_jbmenu_items = array_fill_keys(array('basket', 'favorite', 'compare', 'orders'), array());
+
+            foreach ($menu_items as $menu_item) {
+                switch (@$menu_item->query['view']) {
+                    case 'basket':
+                        $this->_jbmenu_items['basket'][0] = $menu_item;
+                        break;
+                    case 'favorite':
+                        $key = @$menu_item->query['app_id'];
+                        $this->_jbmenu_items['favorite'][$key] = $menu_item;
+
+                        break;
+                    case 'compare':
+                        $appId  = @$menu_item->query['app_id'];
+                        $type   = @$menu_item->query['type'];
+                        $key    = $appId.'-'.$type;
+
+                        $this->_jbmenu_items['compare'][$key] = $menu_item;
+                        break;
+                    case 'filter':
+                        $menuParams = $this->app->parameter->create(@$menu_item->params);
+                        $conditions = (array) $menuParams->get('conditions', array());
+                        $elements   = $this->app->jbconditions->getValue($conditions);
+                        $appId      = $menuParams->get('application');
+                        $type       = $menuParams->get('type');
+
+                        $key = implode(', ', array_map(
+                            function ($v, $k) {
+                                if (is_array($v)) {
+                                    $v = implode('||', $v);
+                                }
+                                return sprintf("%s:%s", $k, $v); 
+                            },
+                            $elements,
+                            array_keys($elements)
+                        ));
+
+                        $key = $appId.':'.$type.':'.$key;
+
+                        $this->_jbmenu_items['filter'][$key] = $menu_item;
+                        break;
+                    case 'orders':
+                        $this->_jbmenu_items['orders'][0] = $menu_item;
+
+                        break;
+                }
+            }
+        }
+
+        return @$this->_jbmenu_items[$view][$id];
     }
 }

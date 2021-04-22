@@ -50,11 +50,15 @@ if (!empty($items)) :
                 }
             }
         } else {
-            $discount = $order->val($row->find('elements._discount'));
-            $margin   = $order->val($row->find('elements._margin'));
+            $discount       = $order->val($row->find('elements._discount'));
+            $margin         = $order->val($row->find('elements._margin'));
+            $defaultPrice   = $row->get('elements._value');
+            $variantIndex   = $row->get('variant');
+            $variantions    = $this->app->data->create($row->get('variations'));
+            $itemValue      = $row->find('variations.'.$variantIndex.'._value.value', $row->find('variations.0._value.value', $defaultPrice));
 
-            $itemValue = $order->val($row->find('elements._value'));
-            $itemPrice = $itemValue->getClone()->add($margin)->minus($discount);
+            $itemValue      = $order->val($itemValue);
+            $itemPrice      = $itemValue->getClone()->add($margin)->minus($discount);
         }
 
 

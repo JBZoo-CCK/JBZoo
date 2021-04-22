@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<metadata>
+    <layout title="JBZOO_VIEW_SEARCH">
+        <message><![CDATA[JBZOO_VIEW_SEARCH_DESC]]></message>
+    </layout>
+
+    <fields name="request">
+        <fieldset name="request">
+            <field name="option" type="hidden" label="" description="" default="com_zoo" />
+            <field name="controller" type="hidden" label="" description="" default="search" />
+            <field name="task" type="hidden" label="" description="" default="filter" />
+        </fieldset>
+    </fields>
+
+    <fields name="params" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+        <fieldset name="params"    addfieldpath="/administrator/components/com_zoo/joomla/fields">
+            <field name="@spacer" type="jbzooinit"></field>
+
+            <field name="application" type="jbapplist" default="" label="JBZOO_FILTER_APPLICATION"
+                       description="JBZOO_FILTER_APPLICATION_DESC"/>
+
+            <field name="type" type="jbtype" default="" label="JBZOO_FILTER_ITEM_TYPE"
+                       description="JBZOO_FILTER_ITEM_TYPE_DESC"/>
+
+               <field name="conditions" type="jbkeyvalue" default="" label="JBZOO_MODITEM_CONDITIONS"
+                       description="JBZOO_MODITEM_CONDITIONS_DESC"/>
+
+            <field name="logic" type="jblogic" default="and" label="JBZOO_FILTER_LOGIC"
+                       description="JBZOO_FILTER_LOGIC_DESC" />
+
+            <field name="order_default" type="jbitemorderadv" default="" label="JBZOO_ORDER_DEFAULT"
+                       description="JBZOO_ORDER_DEFAULT_DESC"/>
+
+            <field name="exact" type="radio" default="1" label="JBZOO_FILTER_EXACT"
+                   description="JBZOO_FILTER_EXACT_DESC">
+                <option value="1">JBZOO_FILTER_EXACT_NOTEXT</option>
+                <option value="0">JBZOO_FILTER_EXACT_TEXT</option>
+            </field>
+
+            <field name="count" type="radio" default="0" 
+                    class="btn-group"
+                    label="JBZOO_VIEW_SEARCH_ADD_COUNT"
+                    description="JBZOO_VIEW_SEARCH_ADD_COUNT_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+            <field name="description" type="editor" default="" label="JBZOO_VIEW_SEARCH_DESCRIPTION"
+                       description="JBZOO_VIEW_SEARCH_DESCRIPTION_DESC" filter="safehtml"/>
+        </fieldset>
+    </fields>
+</metadata>

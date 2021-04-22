@@ -38,6 +38,7 @@ class CodeStyleTest extends Codestyle
         'temp',
         'tmp',
         'libs',
+        '.github'
     ];
 
     public function testCyrillic()

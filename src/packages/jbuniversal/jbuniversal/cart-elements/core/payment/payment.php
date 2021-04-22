@@ -233,7 +233,16 @@ abstract class JBCartElementPayment extends JBCartElement
      */
     public function isDebug()
     {
-        return (int)$this->config->get('debug', 0);
+        return (int) $this->config->get('debug', 0);
+    }
+
+    /**
+     * Check is log enabled
+     * @return int
+     */
+    public function isLog()
+    {
+        return (int) $this->config->get('log', 0);
     }
 
     /**
@@ -297,6 +306,22 @@ abstract class JBCartElementPayment extends JBCartElement
         if ($payment) {
             $successStatus = $cart->getPaymentSuccess();
             $payment->setStatus($successStatus);
+            JBModelOrder::model()->save($order);
+        }
+    }
+
+    /**
+     * Set fail payment status to order
+     */
+    public function setFail()
+    {
+        $order   = $this->getOrder();
+        $payment = $order->getPayment();
+        $cart    = JBCart::getInstance();
+
+        if ($payment) {
+            $failStatus = $cart->getPaymentFail();
+            $payment->setStatus($failStatus);
             JBModelOrder::model()->save($order);
         }
     }
@@ -401,6 +426,15 @@ abstract class JBCartElementPayment extends JBCartElement
             ($curStatus && $paidStatus) &&
             ($paidStatus != JBCartStatusHelper::UNDEFINED) &&
             ($curStatus == $paidStatus);
+    }
+
+    /**
+     * Get url for redirect
+     * @return bool | null
+     */
+    public function getStatusUrl()
+    {
+        return;
     }
 }
 

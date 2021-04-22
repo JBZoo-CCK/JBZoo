@@ -38,7 +38,7 @@ class FavoriteJBUniversalController extends JBUniversalController
         $itemId = $this->_jbrequest->get('Itemid');
 
         if (!$appId) {
-            throw new AppException('Type or AppId is no set');
+            $appId = 0;
         }
 
         if (!JFactory::getUser()->id) {
