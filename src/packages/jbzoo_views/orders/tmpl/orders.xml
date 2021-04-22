@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<metadata>
+    <layout title="JBZOO_VIEW_ORDERS">
+        <message><![CDATA[JBZOO_VIEW_ORDERS_DESC]]></message>
+    </layout>
+
+    <fields name="request">
+        <fieldset name="request" addfieldpath="/administrator/components/com_zoo/joomla/fields">
+            <field name="controller" type="hidden" label="" description="" default="clientarea" />
+            <field name="task" type="hidden" label="" description="" default="orders" />
+        </fieldset>
+    </fields>
+</metadata>

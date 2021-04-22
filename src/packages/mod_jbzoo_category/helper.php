@@ -63,7 +63,7 @@ class JBModuleHelperCategory extends JBModuleHelper
             foreach ($categories as $category) {
 
                 if ($menuItem) {
-                    $catUrl = $this->app->route->category($category, true, $menuItem);
+                    $catUrl = str_replace('?f=1', '', $this->app->route->category($category, true, $menuItem));
                 } else {
                     $catUrl = $this->app->route->category($category);
                 }

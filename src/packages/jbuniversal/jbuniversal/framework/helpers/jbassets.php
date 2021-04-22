@@ -262,7 +262,7 @@ class JBAssetsHelper extends AppHelper
             $this->js(array(
                 'jbassets:js/libs/browser.min.js', // for compatible with old jQuery plugins
                 'jbassets:js/libs/cookie.min.js',
-                'jbassets:js/libs/sweet-alert.min.js',
+                'jbassets:js/libs/sweetalert2.all.min.js',
                 'jbassets:js/helper.js',
                 'jbassets:js/widget.js',
                 'jbassets:js/jbzoo.js',
@@ -275,7 +275,7 @@ class JBAssetsHelper extends AppHelper
                 'jbassets:js/widget/heightfix.js',
             ));
 
-            $this->css(array('jbassets:css/libs/sweet-alert.css'), self::GROUP_LIBRARY);
+            $this->css(array('jbassets:css/libs/sweetalert2.min.css'), self::GROUP_LIBRARY);
 
             if ($this->app->jbenv->isSite()) {
                 $cartItems = JBCart::getInstance()->getItems();
@@ -372,10 +372,7 @@ class JBAssetsHelper extends AppHelper
         ), self::GROUP_LIBRARY);
 
         $this->js(array(
-            'jbassets:js/libs/fancybox/core.min.js',
-            'jbassets:js/libs/fancybox/buttons.min.js',
-            'jbassets:js/libs/fancybox/media.min.js',
-            'jbassets:js/libs/fancybox/thumbnail.min.js',
+            'jbassets:js/libs/fancybox.min.js',
         ), self::GROUP_LIBRARY);
     }
 
@@ -617,12 +614,12 @@ class JBAssetsHelper extends AppHelper
             ),
             'fancybox',
             array(
-                'helpers' => array(
-                    'title'   => array('type' => 'outside'),
-                    'buttons' => array('position' => 'top'),
-                    'thumbs'  => array('width' => 80, 'height' => 80),
-                    'overlay' => array('locked' => false),
-                ),
+                // 'helpers' => array(
+                //     'title'   => array('type' => 'outside'),
+                //     'buttons' => array('position' => 'top'),
+                //     'thumbs'  => array('width' => 80, 'height' => 80),
+                //     'overlay' => array('locked' => false),
+                // ),
             )
         );
     }

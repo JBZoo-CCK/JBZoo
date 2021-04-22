@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<extension type="file" version="2.5" method="upgrade">
+    <name>JBZoo Views For Zoo Component</name>
+    <author>JBZoo.com</author>
+    <creationDate>2020 August</creationDate>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>4.12.0</version>
+    <license>GPL-2.0</license>
+    <description>JBZoo App is universal Joomla CCK, application for YooTheme Zoo component</description>
+    <fileset>
+        <files target="components/com_zoo/views">
+            <folder>basket</folder>
+            <folder>compare</folder>
+            <folder>favorite</folder>
+            <folder>filter</folder>
+            <folder>orders</folder>
+        </files>
+    </fileset>
+</extension>

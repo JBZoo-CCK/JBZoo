@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<element type="element" group="Core" hidden="false">
+    <name>JBZOO_ELEMENT_SHIPPING_BOXBERRY_NAME</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZOO_ELEMENT_SHIPPING_BOXBERRY_DESC</description>
+
+    <params>
+
+        <param name="@boxberry" type="jbspacer" default="JBZOO_ELEMENT_SHIPPING_BOXBERRY_NAME" />
+
+        <param name="city" type="text" default="" label="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_CITY"
+               description="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_CITY_DESC"/>
+        <param name="api_token" type="text" default="" label="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_TOKEN"
+               description="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_TOKEN_DESC"/>
+        <param name="yandex_map_key" type="text" default="" label="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_YANDEX"
+               description="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_YANDEX_DESC"/>
+
+        <param name="source" type="radio" default="price" label="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_SOURCE" description="">
+            <option value="price">JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_SOURCE_PRICE</option>
+            <option value="elements">JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_SOURCE_ELEMENTS</option>
+        </param>
+
+        <param name="@elements" type="jbspacer" default="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_SEPARATOR_ELEMENTS" />
+
+        <param name="element_weight" type="jbelementlist" types="text" default="" label="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_ELEMENTS_WEIGHT"
+                description="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_ELEMENTS_WEIGHT_DESC"/>
+
+        <param name="@defaults" type="jbspacer" default="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_SEPARATOR_DEFAULT" />
+
+        <param name="default_weight" type="text" default="0.1" label="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_DEFAULT_WEIGHT"
+                description="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_DEFAULT_WEIGHT_DESC"/>
+
+        <param name="@box" type="jbspacer" default="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_SEPARATOR_BOX" />
+
+        <param name="default_length" type="text" default="0.1" label="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_DEFAULT_LENGTH"
+                description="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_DEFAULT_LENGTH_DESC"/>
+        <param name="default_width" type="text" default="0.1" label="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_DEFAULT_WIDTH"
+                description="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_DEFAULT_WIDTH_DESC"/>
+        <param name="default_height" type="text" default="0.2" label="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_DEFAULT_HEIGHT"
+                description="JBZOO_ELEMENT_SHIPPING_BOXBERRY_PARAM_DEFAULT_HEIGHT_DESC"/>
+
+    </params>
+
+</element>

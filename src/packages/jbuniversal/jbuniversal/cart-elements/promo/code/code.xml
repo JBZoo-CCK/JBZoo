@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<element type="element" group="Core" hidden="false">
+    <name>JBZOO_ELEMENT_PROMO_CODE_NAME</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZOO_ELEMENT_PROMO_CODE_DESC</description>
+    <params>
+        <param name="enable" type="radio" label="JBZOO_ELEMENT_PROMO_CODE_ENABLE" default="1" description="JBZOO_ELEMENT_PROMO_CODE_ENABLE_DESC">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </param>
+        <param name="code" label="JBZOO_ELEMENT_PROMO_CODE_CODE" type="text" default="" description="JBZOO_ELEMENT_PROMO_CODE_CODE_DESC" />
+        <param name="value" label="JBZOO_ELEMENT_PROMO_CODE_VALUE" type="text" default="" description="JBZOO_ELEMENT_PROMO_CODE_VALUE_DESC" />
+        <param name="date" type="zoocalendar" label="JBZOO_ELEMENT_PROMO_CODE_DATE" description="JBZOO_ELEMENT_PROMO_CODE_DESC" />
+        <param name="limit" type="text" label="JBZOO_ELEMENT_PROMO_CODE_LIMIT" description="JBZOO_ELEMENT_PROMO_CODE_LIMIT_DESC" />
+        <param name="count" type="jbhiddenvalue" label="JBZOO_ELEMENT_PROMO_CODE_COUNT" default="0" description="JBZOO_ELEMENT_PROMO_CODE_COUNT_DESC" />
+        <param name="min" type="text" label="JBZOO_ELEMENT_PROMO_CODE_MIN" description="JBZOO_ELEMENT_PROMO_CODE_MIN_DESC" />
+        <param name="other" type="radio" label="JBZOO_ELEMENT_PROMO_CODE_OTHER" default="1" description="JBZOO_ELEMENT_PROMO_CODE_OTHER_DESC">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </param>
+    </params>
+</element>

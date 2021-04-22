@@ -20,4 +20,9 @@
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
     <description>JBZoo Cart Element Core System</description>
+
+    <params>
+        <param name="log" type="jbbool" default="0" label="JBZOO_ELEMENT_PAYMENT_LOG"
+                description="JBZOO_ELEMENT_PAYMENT_LOG_DESC"/>
+    </params>
 </element>

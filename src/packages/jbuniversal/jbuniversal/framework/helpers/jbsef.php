@@ -133,6 +133,11 @@ class JBSefHelper extends AppHelper
         // get url params
         $params = $event->getParameters();
 
+        // fix menu
+        if ($this->_config->get('fix_menu', 0)) {
+            $params = $this->_buildSefUrl($params);
+        }
+
         // build new url by rules
         $params = $this->_buildItemUrl($params);
         $params = $this->_buildCategoryUrl($params);
@@ -155,6 +160,11 @@ class JBSefHelper extends AppHelper
         $this->_jbdebug->mark('jbzoo-sef::sefParseRoute::start');
 
         $params = $event->getParameters();
+
+        // fix menu
+        if ($this->_config->get('fix_menu', 0)) {
+            $params = $this->_parseSefUrl($params);
+        }
 
         // parse category or item by priority order
         if ($this->_config->get('parse_priority', 'item') == 'category') {
@@ -613,6 +623,105 @@ class JBSefHelper extends AppHelper
                 // TODO remove bug with "Class 'JFeedItem' not found"
                 // unset($params['query']['format']);
             }
+        }
+
+        return $params;
+    }
+
+    /**
+     * @param $params
+     * @return mixed
+     */
+    protected function _buildSefUrl($params)
+    {   
+        $query = $params['query'];
+
+        // filter
+        $task = 'filter';
+        $controller = 'searchjbuniversal';
+
+        if ((@$query['task'] == $task || @$query['controller'] == $controller) && @$query['view'] == $task && @$query['layout'] == $task) {
+            unset($params['query']['task'], $params['query']['type'], $params['query']['view'], $params['query']['layout'], $params['query']['app_id'], $params['query']['controller']);
+
+            // Unset controller from filter menu pagination
+            if (!($menu = $this->app->system->application->getMenu('site')
+                    and $menu instanceof JMenu
+                    and isset($query['Itemid'])
+                    and $item = $menu->getItem($query['Itemid'])
+                    and @$item->component == 'com_zoo'
+                    and $app_id = $item->params->get('application')
+                    and @$params['query']['app_id'] == $app_id
+                    and @$query['controller'] == $controller)) {
+                
+                unset($params['query']['controller']);
+            }
+        }
+
+        // basket
+        $task = 'index';
+        $controller = 'basket';
+
+        if (@$query['task'] == $task || @$query['controller'] == $controller) {
+            unset($params['query']['task'], $params['query']['controller'], $params['query']['view'], $params['query']['layout']);
+        }
+
+        // orders
+        $task = 'orders';
+        $controller = 'clientarea';
+
+        if (@$query['task'] == $task || @$query['controller'] == $controller) {
+            unset($params['query']['task'], $params['query']['controller']);
+        }
+
+        // order
+        $task = 'order';
+        $controller = 'clientarea';
+
+        if (@$query['task'] == $task || @$query['controller'] == $controller) {
+            $params['query']['segments'][] = $task;
+            $params['query']['segments'][] = $params['query']['order_id'];
+            unset($params['query']['task'], $params['query']['controller'], $params['query']['order_id']);
+        }
+
+        // compare
+        $task = 'compare';
+
+        if (@$query['task'] == $task) {
+            unset($params['query']['task'], $params['query']['type'], $params['query']['app_id'], $params['query']['controller'], $params['query']['layout']);
+        }
+
+        // favorite
+        $task = 'favorite';
+
+        if (@$query['task'] == $task) {
+            unset($params['query']['task'], $params['query']['type'], $params['query']['app_id'], $params['query']['controller'], $params['query']['view'], $params['query']['layout']);
+        }
+
+        return $params;
+    }
+
+    /**
+     * @param $params
+     * @return mixed
+     */
+    protected function _parseSefUrl($params)
+    {   
+        $count = count($params['segments']);
+
+        // filter
+        $task = 'filter';
+
+        if ($count == 1 && $params['segments'][0] == $task) {
+            $params['vars']['task'] = $task;
+        }
+
+        // orders
+        $task = 'order';
+
+        if ($count == 2 && $params['segments'][0] == $task) {
+            $params['vars']['controller'] = 'clientarea';
+            $params['vars']['task'] = $task;
+            $params['vars']['order_id'] = $params['segments'][1];
         }
 
         return $params;

@@ -26,6 +26,9 @@
         <param name="debug" type="jbbool" default="0" label="JBZOO_ELEMENT_PAYMENT_DEBUG"
                description="JBZOO_ELEMENT_PAYMENT_DEBUG_DESC"/>
 
+        <param name="log" type="jbbool" default="0" label="JBZOO_ELEMENT_PAYMENT_LOG"
+                description="JBZOO_ELEMENT_PAYMENT_LOG_DESC"/>
+
         <param name="currency" type="jbcurrency" default="eur" label="JBZOO_ELEMENT_PAYMENT_CURRENCY"
                description="JBZOO_ELEMENT_PAYMENT_CURRENCY_DESC"/>
 

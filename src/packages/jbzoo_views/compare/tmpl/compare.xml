@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<metadata>
+    <layout title="JBZOO_VIEW_COMPARE">
+        <message><![CDATA[JBZOO_VIEW_COMPARE_DESC]]></message>
+    </layout>
+
+    <fields name="request" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
+        <fieldset name="request" addfieldpath="/administrator/components/com_zoo/joomla/fields">
+            <field name="app_id" type="zooapplication" label="Application" required="true" description="Set an Application" />
+            <field name="type" type="jbtype" default="" label="JBZOO_FILTER_ITEM_TYPE" description="JBZOO_FILTER_ITEM_TYPE_DESC"/>
+            <field name="option" type="hidden" label="" description="" default="com_zoo" />
+            <field name="controller" type="hidden" label="" description="" default="favorite" />
+            <field name="task" type="hidden" label="" description="" default="favorite" />
+        </fieldset>
+    </fields>
+</metadata>

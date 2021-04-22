@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<element type="element" group="Core" hidden="false">
+    <name>JBZOO_ELEMENT_HOOK_BOXBERRYORDER_NAME</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>JBZOO_ELEMENT_HOOK_BOXBERRYORDER_DESC</description>
+
+    <params>
+        
+        <param name="items_params" type="jbspacer" default="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_SEPARATOR_PARAMS"/>
+
+        <param name="token" type="text" default="" label="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_TOKEN"
+                description="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_TOKEN_DESC"/>
+        
+        <param name="source" type="radio" default="price" label="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_SOURCE" description="">
+            <option value="price">JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_SOURCE_PRICE</option>
+            <option value="elements">JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_SOURCE_ELEMENTS</option>
+        </param>
+
+        <param name="@elements" type="jbspacer" default="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_SEPARATOR_ELEMENTS" />
+
+        <param name="element_weight" type="jbelementlist" types="text" default="" label="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_ELEMENTS_WEIGHT"
+                description="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_ELEMENTS_WEIGHT_DESC"/>
+
+        <param name="@defaults" type="jbspacer" default="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_SEPARATOR_DEFAULT" />
+
+        <param name="default_weight" type="text" default="0.1" label="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_DEFAULT_WEIGHT"
+                description="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_DEFAULT_WEIGHT_DESC"/>
+
+        <param name="items_receiver" type="jbspacer" default="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_SEPARATOR_RECEIVER"/>
+
+        <param name="receiver_name" type="jbcartfields" group="CONFIG_FIELDS" default="" label="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_FIO" position="DEFAULT_POSITION"
+                description="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_FIO_DESC"/>
+        <param name="receiver_email" type="jbcartfields" group="CONFIG_FIELDS" default="" label="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_EMAIL" position="DEFAULT_POSITION"
+                description="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_EMAIL_DESC"/>
+        <param name="receiver_phone" type="jbcartfields" group="CONFIG_FIELDS" default="" label="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_PHONE" position="DEFAULT_POSITION"
+                description="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_PHONE_DESC"/>
+    </params>
+
+</element>

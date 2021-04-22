@@ -52,6 +52,24 @@ class AppView extends JViewLegacy
     }
 
     /**
+     * @inheritDoc
+     *
+     * @since 3.3.38
+     */
+    public function display($tpl = null)
+    {
+        $this->_output = null;
+        JDispatcher::getInstance()->trigger('onLoadTemplate', array('view' => $this, 'tpl' => null));
+
+        if ($this->_output) {
+            echo $this->_output;
+            return;
+        }
+
+        parent::display($tpl);
+    }
+
+    /**
      * Render a partial view template file
      * The partial view template filename starts with an underscore (_)
      * and is meant to render a reusable part of a bigger view

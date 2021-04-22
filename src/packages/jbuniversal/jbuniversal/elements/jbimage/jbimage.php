@@ -40,6 +40,16 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
     }
 
     /**
+     * Returns the element's value.
+     * @param array $params
+     * @return Value
+     */
+    public function getValue($params = array())
+    {  
+        return $this->data();
+    }
+
+    /**
      * Checks if the repeatables element's value is set.
      * @param array $params render parameter
      * @return bool true, on success

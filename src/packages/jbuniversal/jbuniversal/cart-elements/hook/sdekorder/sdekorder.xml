@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<element type="element" group="Core" hidden="false">
+    <name>Отправка заказа в СДЭК</name>
+    <author>JBZoo.com</author>
+    <creationDate>2014</creationDate>
+    <copyright>Copyright (C) JBZoo.com</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+    <description>Sdek Order</description>
+
+    <params>
+        <param name="debug" type="jbbool" default="0" label="JBZOO_ELEMENT_PAYMENT_DEBUG"
+               description="JBZOO_ELEMENT_PAYMENT_DEBUG_DESC"/>
+
+        <param name="items_params" type="jbspacer" default="Параметры"/>
+
+        <param name="shipping_type" type="list" default="none" label="Тип заказа" description="Тип заказа">
+            <option value="1">Интернет-магазин</option>
+            <option value="2">Доставка</option>
+        </param>
+
+        <param name="item_price" type="text" label="Цена 1 товара" description="Жестко указать цену за 1 товар для получения минимальной страховки" />
+
+        <param name="source" type="radio" default="price" label="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_SOURCE" description="">
+            <option value="price">JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_SOURCE_PRICE</option>
+            <option value="elements">JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_SOURCE_ELEMENTS</option>
+        </param>
+
+        <param name="@elements" type="jbspacer" default="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_SEPARATOR_ELEMENTS" />
+
+        <param name="element_weight" type="jbelementlist" types="text" default="" label="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_ELEMENTS_WEIGHT"
+                description="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_ELEMENTS_WEIGHT_DESC"/>
+
+        <param name="@defaults" type="jbspacer" default="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_SEPARATOR_DEFAULT" />
+
+        <param name="default_weight" type="text" default="0.1" label="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_DEFAULT_WEIGHT"
+                description="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_DEFAULT_WEIGHT_DESC"/>
+
+        <param name="items_sender" type="jbspacer" default="Отправитель"/>
+        <param name="sender_company" type="text" default="" label="Компания" 
+                description="Компания"/>
+        <param name="sender_name" type="text" default="" label="ФИО контактного лица" 
+                description="ФИО контактного лица"/>
+        <param name="sender_email" type="text" default="" label="Email" 
+                description="Email"/>
+        <param name="sender_phone" type="text" default="" label="Телефон" 
+                description="Телефон"/>
+
+        <param name="items_sender_address" type="jbspacer" default="Адрес отправителя"/>
+        <param name="sender_address" type="text" default="" label="Адрес отправителя" 
+                description="Адрес отправителя без указания города"/>
+        <param name="sender_phone" type="text" default="" label="Телефон"
+                description="Телефон"/>
+
+        <param name="items_receiver" type="jbspacer" default="Получатель"/>
+        <param name="receiver_name" type="jbcartfields" group="CONFIG_FIELDS" default="" label="ФИО контактного лица" position="DEFAULT_POSITION"
+                description=""/>
+        <param name="receiver_email" type="jbcartfields" group="CONFIG_FIELDS" default="" label="Email" position="DEFAULT_POSITION"
+                description=""/>
+        <param name="receiver_phone" type="jbcartfields" group="CONFIG_FIELDS" default="" label="Телефон" position="DEFAULT_POSITION"
+                description=""/>
+
+        <param name="items_receiver" type="jbspacer" default="Email"/>
+        <param name="recipient" type="text" default="" label="Email" description="Email для оповещения о неудачном создании заказа в системе СДЭК"/>
+    </params>
+
+</element>

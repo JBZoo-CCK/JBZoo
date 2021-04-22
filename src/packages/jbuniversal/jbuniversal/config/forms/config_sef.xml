@@ -18,6 +18,11 @@
             <field name="enabled" type="jbbool" default="0" label="JBZOO_CONFIG_SEF_ENABLED"
                    description="JBZOO_CONFIG_SEF_ENABLED_DESC"/>
 
+            <field name="spacer_menu" type="jbspacer" default="JBZOO_CONFIG_SEF_MENU"/>
+
+            <field name="fix_menu" type="jbbool" default="0" label="JBZOO_CONFIG_SEF_FIX_MENU"
+                   description="JBZOO_CONFIG_SEF_FIX_MENU_DESC"/>
+
             <field name="spacer_item" type="jbspacer" default="JBZOO_CONFIG_SEF_ITEM"/>
 
             <field name="fix_item" type="jbbool" default="0" label="JBZOO_CONFIG_SEF_FIX_ITEM"

@@ -199,14 +199,16 @@
             
             if ($.isFunction(_swal)) {
                 params = $.extend(true, {}, {
-                    html             : true,
                     title            : message,
                     //animation        : false,
                     allowOutsideClick: true,
-                    confirmButtonText: JBZoo.getVar('JBZOO_DIALOGBOX_OK', 'OK')
+                    confirmButtonText: JBZoo.getVar('JBZOO_DIALOGBOX_OK', 'OK'),
+                    willClose: () => {
+                        closeCallback
+                    }
                 }, $this._def(params, {}));
 
-                _swal(params, closeCallback);
+                _swal.fire(params);
 
             } else {
                 message = JBZoo.stripTags(message);
@@ -231,8 +233,7 @@
             yesCallback = yesCallback || $.noop;
             
             if ($.isFunction(_swal)) {
-                _swal({
-                    html             : true,
+                _swal.fire({
                     title            : message,
                     //animation        : false,
                     showCancelButton : true,
@@ -241,9 +242,8 @@
                     allowOutsideClick: false,
                     confirmButtonText: JBZoo.getVar('JBZOO_DIALOGBOX_OK', 'OK'),
                     cancelButtonText : JBZoo.getVar('JBZOO_DIALOGBOX_CANCEL', 'Cancel')
-                },
-                function (isConfirm) {
-                    if (isConfirm) {
+                }).then(result => {
+                    if (result.value) {
                         if ($.isFunction(yesCallback)) {
                             yesCallback.apply(context)
                         }

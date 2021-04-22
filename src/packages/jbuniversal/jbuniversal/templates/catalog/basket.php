@@ -18,10 +18,9 @@ defined('_JEXEC') or die('Restricted access');
 
 $this->app->jbdebug->mark('template::basket::start');
 $this->app->jblayout->setView($this);
-$this->app->document->setTitle(JText::_('JBZOO_CART_ITEMS'));
 $this->app->jbwrapper->start();
 
-?><h1 class="title"><?php echo JText::_('JBZOO_CART_ITEMS'); ?></h1><?php
+?><h1 class="title"><?php echo $this->title ? $this->title : JText::_('JBZOO_CART_ITEMS'); ?></h1><?php
 
 echo $this->app->jblayout->renderIndex('basket');
 

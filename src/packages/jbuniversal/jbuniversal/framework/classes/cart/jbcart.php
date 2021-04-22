@@ -40,6 +40,7 @@ class JBCart
     const CONFIG_MODIFIER_ITEM_PRICE  = 'modifieritemprice';
     const CONFIG_MODIFIER_ORDER_PRICE = 'modifierorderprice';
     const CONFIG_VALIDATORS           = 'validator';
+    const CONFIG_PROMO                = 'promo';
     const CONFIG_PAYMENTS             = 'payment';
     const CONFIG_SHIPPINGS            = 'shipping';
     const CONFIG_STATUS_EVENTS        = 'status_events';
@@ -68,6 +69,7 @@ class JBCart
     const ELEMENT_TYPE_PRICE                = 'price';
     const ELEMENT_TYPE_STATUS               = 'status';
     const ELEMENT_TYPE_VALIDATOR            = 'validator';
+    const ELEMENT_TYPE_PROMO                = 'promo';
 
     /**
      * @var string
@@ -200,6 +202,15 @@ class JBCart
     public function getPaymentSuccess()
     {
         return $this->_config->get('default_payment_status_success', 'success');
+    }
+
+    /**
+     * Get payment fail status
+     * @return string
+     */
+    public function getPaymentFail()
+    {
+        return $this->_config->get('default_payment_status_error', 'error');
     }
 
     /**

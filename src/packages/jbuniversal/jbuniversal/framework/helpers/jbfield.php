@@ -601,6 +601,26 @@ class JBFieldHelper extends AppHelper
     }
 
     /**
+     * Render hidden input with value
+     * @param string           $name
+     * @param string|array     $value
+     * @param string           $controlName
+     * @param SimpleXMLElement $node
+     * @param SimpleXMLElement $parent
+     * @return mixed
+     */
+    public function hiddenValue($name, $value, $controlName, SimpleXMLElement $node, $parent)
+    {
+        $attrs = [
+            'name'  => $this->_getName($controlName, $name),
+            'type'  => 'hidden',
+            'value' => $value,
+        ];
+
+        return '<span class="badge badge-info">'.$value.'</span><input ' . $this->app->jbhtml->buildAttrs($attrs) . ' />';
+    }
+
+    /**
      * @param                  $name
      * @param                  $value
      * @param                  $controlName
