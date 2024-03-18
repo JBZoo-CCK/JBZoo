@@ -888,7 +888,9 @@ class JBCartValue
             return $this->_parse($value, $currency);
 
         } else {
-            $data = trim($data);
+            if ($data !== null) {
+                $data = trim($data);
+            }
 
             if ($this->_currencyMode == 'default') {
                 $reg = '#(.*)(' . implode('|', $this->getCodeList()) . ')$#i';
@@ -896,10 +898,13 @@ class JBCartValue
                 $reg = '#(.*)([a-z]{3}|%)$#i';
             }
 
-            if (preg_match($reg, $data, $matches)) {
-                $value    = $matches[1];
-                $currency = $matches[2];
+            if ($data !== null) {
+                if (preg_match($reg, $data, $matches)) {
+                    $value = $matches[1];
+                    $currency = $matches[2];
+                }
             }
+            
         }
 
         if (is_null($value)) {
@@ -934,7 +939,9 @@ class JBCartValue
      */
     protected function _checkCur($currency)
     {
-        $currency = strtolower(trim($currency));
+        if ($currency !== null) {
+            $currency = strtolower(trim($currency));
+        }
 
         if (self::PERCENT === $currency) {
             return $currency;

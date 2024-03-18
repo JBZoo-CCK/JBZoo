@@ -1,4 +1,5 @@
 <?php
+use Joomla\CMS\Toolbar\Toolbar;
 /**
  * JBZoo Application
  *

@@ -141,7 +141,7 @@ class ElementJBPricePlain extends ElementJBPrice
      * @param string $hash     Hash string for communication between the elements in/out modal window
      * @return string
      */
-    public function ajaxModalWindow($template = 'default', $layout = 'default', $hash = '')
+    public function ajaxModalWindow($hash, $template = 'default', $layout = 'default')
     {
         $this->setTemplate($template);
         $this->cache = false;

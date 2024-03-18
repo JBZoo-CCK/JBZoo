@@ -113,7 +113,9 @@ class plgSystemJBZoo extends JPlugin
         $params = $event->getParameters();
         $curApp = $params['application'];
 
-        $currentCtrl = strtolower($zoo->request->getCmd('controller'));
+        $controller = $zoo->request->getCmd('controller');
+        $currentCtrl = isset($controller) ? strtolower($controller) : '';
+        
         $jbzooCtrls  = array('autocomplete', 'basket', 'compare', 'favorite', 'payment', 'search', 'viewed');
 
         if (empty($curApp) ||
