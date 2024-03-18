@@ -49,6 +49,7 @@
 
                 $this._initUploads();
                 $this._initServerUploads();
+                $this._editTitle();
 
                 if ($this.options.maxNumberOfFiles > 1) {
                     $this._initSortable(this.el);
@@ -255,25 +256,28 @@
                 var elemId = 'jbupload--' + $this.options.class + '--' + $this.options.id,
 
                 $selectButton = $this.$('.jsServerUpload');
+                
+                
 
                 $selectButton.click(function (event) {
                     event.preventDefault();
-
-                    alert('Извините, не работает, нужен JS специалист для правки SqueezeBox, его нужно подружить с Joomla.initialiseModal. Рабочий пример с медиа менеджером есть в стандартном элементе Zoo image (элемент Изображения). t.me/jbzoo');
-
-                    SqueezeBox.fromElement(this, {
+                    
+                    var e = $(".jsUploadInput");
+                    //alert('Извините, не работает, нужен JS специалист для правки SqueezeBox, его нужно подружить с Joomla.initialiseModal. Рабочий пример с медиа менеджером есть в стандартном элементе Zoo image (элемент Изображения). t.me/jbzoo');
+                    Joomla.initialiseModal ? $this.r(e) : SqueezeBox.fromElement(this, {
+                    //SqueezeBox.fromElement(this, {
                         handler: "iframe",
                         url    : "index.php?option=com_media&view=images&tmpl=component&e_name=" + elemId,
                         size   : {x: 850, y: 500}
                     });
                 });
-
+                
                 if ($.isFunction(window.jInsertEditorText) && !$.isFunction(window.insertTextOldUpload)) {
                     window.insertTextOldUpload = window.jInsertEditorText;
                 }
-
+                
                 window.jInsertEditorText = function (c, a) { // text, id
-
+                    
                     // TODO Repeat Element server upload
 
                     if (a.match(new RegExp('jbupload', 'i'))) {
@@ -392,8 +396,125 @@
                 }
 
                 return extraSettings;
-            }
+            },
+            
+            r: function (t) {
+                    
+                    var e = "index.php?option=com_media&amp;view=media&amp;tmpl=component&amp;mediatypes=0&amp;asset=com_content&amp;path=",
+                        a = $(`<div tabindex="-1" class="joomla-modal modal fade" aria-modal="true" role="dialog">
+                        <div class="modal-dialog modal-lg jviewport-width80">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                        <h3 class="modal-title">Choose Image</h3>
+                        </div>
+                        <div class="modal-body jviewport-height60"><iframe class="iframe" src="` + e + `" name="Change Image" height="100%" width="100%"></iframe>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-success button-save-selected">Select</button><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button></div>
+                        </div>
+                        </div>
+                        </div>`).insertBefore(t)[0];
+                        
+                    Joomla.initialiseModal(a, {
+                        isJoomla: !0
+                    }), 
+                    a.querySelector(".button-save-selected").addEventListener("click", function() {
+                        
+                        Joomla.getMedia(Joomla.selectedMediaFile, 
+                        t[0], 
+                        {
+                            updatePreview: function() {},
+                            markValid: function() {},
+                            setValue: function(i) {
+                                var elemId = 'jbupload--' + $this.options.class + '--' + $this.options.id
+                                console.log('3------', elemId);
+                                //t.val(i)
+                                console.log(i.replace(/#.*/, ""));
+                                //return i.replace(/#.*/, "");
+                                
+                               
+                                
+                                var a = elemId;
+                                if (a.match(new RegExp('jbupload', 'i'))) {
+                                    var url             = '/' + i.replace(/#.*/, "");
+                                    
+                                    
+                                    var requestArray    = a.split('--');
+                                    var elemId          = requestArray[2];
+                                    var container       = $('input[name*="' + elemId + '"]').closest('.jsUpload');
+                                    var options         = container.data('JBZooUpload').options;
+                                    var count           = parseInt(container.data('count'));
+                                    var extraSettings   = $this._getExtraSettings(count, options);
+                                    //var value           = i.match(/src="([^\"]*)"/)[1];
+                                    var value           = '/' + i.replace(/#.*/, "");
+                                    var html            = '<li class="' + options.class + '__file-item ' + options.class + '__file-item_success">' +
+                                        '<div class="' + options.class + '__file-item-body">' +
+                                            '<div class="' + options.class + '__file-item-teaser">' +
+                                                '<' + $this.options.tag + ' src="' + url /*+ value*/ + '">' +
+                                                '<a href="#" data-type="simple" class="jsUploadDelete ' + options.class + '__file-item-delete ' + options.class + '__file-item-delete--simple"></a>' +
+                                            '</div>' +
+                                            '<p><i class="' + options.class + '__file-item-icon ' + options.class + '__file-item-icon--check"></i> ' + value.substr(value.lastIndexOf("/") + 1) + '</p>' +
+                                            extraSettings +
+                                            '<input type="text" name="elements[' + elemId + '][' + count + '][file]" value="' + value + '" style="display:none;">' +
+                                        '</div>' +
+                                    '</li>';
+            
+                                    count++;
+            
+                                    container.data('count', count).find('.jsUploadFiles').append(html);
+            
+                                }
+        
+                            
+                                        
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                            }
+                        }).then(function() {
+                            //t.val(t.val().replace(/#.*/, "")), n(t), 
+                            a.close()
+                        })
+                    }), 
+                    a.addEventListener("hidden.bs.modal", function(i) {
+                        $(a).remove()
+                    }), 
+                    Joomla.selectedMediaFile = {}, a.open()
+                    
+                },
+                
+                _editTitle : function() {
+                    jQuery('.jbimage__file-item-edit button').click(function (event) {
+                            event.preventDefault();
+                            
+                            var elem = this.parentNode.querySelector('.collapse');
+                            
+                            if(elem.className.split(" ").indexOf("show") >= 0) {
+                                elem.classList.remove("show");
+                            } else {
+                                elem.classList.add("show");
+                            }
+                            
+                            
+                    });
+                }
+            
+            
         }
+        
+        
+        
+        
+        
+        
+        
     );
+    
+    
 
 })(jQuery, window, document);

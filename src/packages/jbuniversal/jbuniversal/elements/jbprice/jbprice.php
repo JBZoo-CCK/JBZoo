@@ -572,7 +572,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * @param string $layout   Current price layout
      * @param string $hash     Hash string for communication between the elements in/out modal window
      */
-    abstract public function ajaxModalWindow($template = 'default', $layout = 'default', $hash);
+    abstract public function ajaxModalWindow($hash, $template = 'default', $layout = 'default');
 
     /**
      * Remove from cart method

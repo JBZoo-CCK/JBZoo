@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<element type="jbgalleryimage" group="Fictionlabs.ru">
+    <name>FL Uploader</name>
+    <description>Uploader Element for JBZoo</description>
+    <author>Васюков Дмитрий</author>
+    <creationDate>November 2015</creationDate>
+    <authorEmail>info@fictionlabs.ru</authorEmail>
+    <authorUrl>Fictionlabs.ru</authorUrl>
+    <version>1.0</version>
+    <params>
+
+        <param name="image_settings" type="jbspacer" default="Настройки" />
+
+        <param name="upload_scripts" type="jbbool" default="0" label="Отключить скрипты?"
+               description="Отключение скриптов загрузки, если они уже есть в другом элементе"/>
+
+        <param name="upload_directory" type="text" default="images/uploads/" label="JBZOO_UPLOAD_DIRECTORY"
+               description="JBZOO_UPLOAD_DIRECTORY_DESC"/>
+
+        <param name="max_upload_size" type="text" default="512" label="Максимальный размер"
+               description="Максимальный размер загружаемых изображений в килобайтах, по умолчанию - 10000"/>
+
+        <param name="thumb_width" type="text" default="175" label="Ширина эскиза"
+               description="Ширина уменьшенного изображения, по умолчанию - 175"/>
+
+        <param name="thumb_height" type="text" default="110" label="Высота эскиза"
+               description="Высота уменьшенного изображения, по умолчанию - 175"/>
+
+        <param name="max_width" type="text" default="1920" label="Максимальная ширина"
+               description="До этой ширины будет уменьшено исходной изображение и загружено на сервер, по умолчанию - 5000000"/>
+
+        <param name="max_height" type="text" default="1080" label="Максимальная высота"
+               description="До этой высоты будет уменьшено исходной изображение и загружено на сервер, по умолчанию - 5000000"/>
+
+        <param name="watermark_settings" type="jbspacer" default="Водяной знак" />
+
+        <param name="watermark_enable" type="jbbool" default="1" label="Наложить водяной знак"
+               description="Водяной знак накладывается на каждое изображение после загрузки"/>
+
+        <param name="watermark_path" type="text" default="images/watermark.png" label="Путь для водяного знака"
+               description="Путь, где лежит файл для наложения водяной знака"/>
+
+        <param name="upload_settings" type="jbspacer" default="Режим загрузки" />
+
+        <param name="upload_by_user" type="jbbool" default="0" label="Загружать по пользователям"
+               description="Файлы разных пользователей будут загружаться в разные папки"/>
+
+        <param name="upload_by_date" type="jbbool" default="0" label="Загружать по датам"
+               description="Файлы будут загружаться в разные папки в зависимости от даты"/>
+
+        <param name="upload_by_month" type="jbbool" default="0" label="Загружать по месяцам"
+               description="Файлы будут загружаться в разные папки в зависимости от месяца"/>
+
+    </params>
+    <params group="render">
+    </params>
+</element>

@@ -51,8 +51,11 @@ class JBRequestHelper extends AppHelper
     {
         if (!is_array($value)) {
 
-            $value = strip_tags($value);
-            $value = StringHelper::trim($value);
+            if ($value !== null) {
+                $value = strip_tags($value);
+                $value = StringHelper::trim($value);
+            }
+           
 
             // force clean input vars
             //$value = str_replace(array('"', "'", ';', '--', '`', '.', ','), ' ', $value);
@@ -194,10 +197,23 @@ class JBRequestHelper extends AppHelper
      * @param $value      string
      * @return bool
      */
-    public function is($requestKey, $value)
-    {
-        return strtolower($this->get($requestKey, null)) == strtolower($value);
-    }
+
+    // public function is($requestKey, $value)
+    // {
+    //     return strtolower($this->get($requestKey, null)) == strtolower($value);
+    // }
+
+        public function is($requestKey, $value)
+        {
+            
+        $requestValue = $this->get($requestKey, null);
+
+            if ($requestValue !== null && $value !== null) {
+                return strtolower($requestValue) == strtolower($value);
+            } else {
+                return false; // or handle the case when either request value or comparison value is null
+            }
+        }
 
     /**
      * Get file
@@ -276,8 +292,12 @@ class JBRequestHelper extends AppHelper
      */
     public function getWord($varName, $default = null)
     {
+        
         $value = $this->get($varName, $default);
-        $value = strtolower((string)preg_replace('/[^A-Z\_\-]/i', '', $value));
+        
+        if ($value !== null) {
+            $value = strtolower((string) preg_replace('/[^A-Z\_\-]/i', '', $value));
+        }
 
         return $value;
     }

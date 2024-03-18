@@ -361,9 +361,9 @@ class JBHtmlHelper extends AppHelper
      * @return string
      */
     public function colors(
-        $inputType = 'checkbox',
         $data,
         $name,
+        $inputType = 'checkbox',
         $selected = null,
         $attrs = array(),
         $width = '26px',

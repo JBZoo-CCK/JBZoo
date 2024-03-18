@@ -602,7 +602,17 @@ class JBDatabaseQuery
         }
 
         $conditions = trim($conditions);
-        $conditions = preg_replace('#\?#', $value, $conditions) . PHP_EOL;
+        // $conditions = preg_replace('#\?#', $value, $conditions) . PHP_EOL;
+
+        // Check if $value is not null before using it in preg_replace
+        if ($value !== null) {
+            $conditions = preg_replace('#\?#', $value, $conditions) . PHP_EOL;
+        } else {
+            // Handle the case where $value is null, e.g., set $conditions without replacement
+            $conditions .= PHP_EOL;
+        }
+
+
         return $conditions;
     }
 

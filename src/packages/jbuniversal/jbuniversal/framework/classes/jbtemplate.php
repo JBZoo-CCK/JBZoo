@@ -164,7 +164,8 @@ class JBTemplate
      * @param $htmlItem
      * @return null|string
      */
-    public function renderItem(Item $item, $defaultLayout = 'teaser', $htmlItem)
+    public function renderItem(Item $item, $defaultLayout = 'teaser', $htmlItem = NULL)
+    // public function renderItem(Item $item, $htmlItem, $defaultLayout = 'teaser')
     {
         if (!$htmlItem) {
             return null;

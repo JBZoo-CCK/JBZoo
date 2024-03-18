@@ -48,6 +48,7 @@ class JBModelRelated extends JBModel
 
         if (!($result = $this->app->jbcache->get($cacheHash, $cacheKey))) {
 
+            //$paramsObject->get???
             $searchMethod = (int)$params->get('search-method', 2);
 
             $data   = $this->_getSearchData($item, $params);
@@ -244,10 +245,16 @@ class JBModelRelated extends JBModel
                 $allSelect->having('count >= ?', $relevant);
             }
 
+            // allSelect
+            $fixphp8 = $allSelect->__toString();
+
+            // dd($fixphp8);
+
             // clean query for optimization
             $db = JFactory::getDbo();
-            $db->setQuery($allSelect);
+            $db->setQuery($fixphp8);
             $rows = (array)$db->loadAssocList();
+
 
 
             // post limit logic for nice realty results

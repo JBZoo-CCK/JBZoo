@@ -223,7 +223,9 @@ class JBCartVariantList extends ArrayObject
     /**
      * @return int
      */
-    public function count()
+    
+    #[\ReturnTypeWillChange]
+    public function count(): int
     {
         return count($this->variants);
     }
@@ -261,7 +263,9 @@ class JBCartVariantList extends ArrayObject
     /**
      * @return ArrayIterator
      */
-    public function getIterator()
+    
+    #[\ReturnTypeWillChange]
+    public function getIterator(): Iterator
     {
         return new ArrayIterator($this->variants);
     }

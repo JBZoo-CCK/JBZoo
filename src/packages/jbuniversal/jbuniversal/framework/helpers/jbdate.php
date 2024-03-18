@@ -92,7 +92,12 @@ class JBDateHelper extends AppHelper
      */
     public function isDate($date)
     {
-        return strlen($date) > 4 && strtotime($date) > 0;
+        if ($date !== null && strlen($date) > 4 && strtotime($date) > 0) {
+            // Your logic here
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

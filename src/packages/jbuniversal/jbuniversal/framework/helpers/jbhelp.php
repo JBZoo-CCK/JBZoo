@@ -36,7 +36,8 @@ class JBHelpHelper extends AppHelper
             $file     = $this->_getName($task . '_' . $position);
             $filePath = $this->app->path->path('jbviews:jb' . $controller . '/help/' . $file);
 
-            if (JFile::exists($filePath)) {
+            // if (JFile::exists($filePath)) {
+            if (file_exists($filePath)) {
                 ob_start();
                 include($filePath);
                 $output = ob_get_contents();

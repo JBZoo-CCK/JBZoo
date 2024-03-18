@@ -94,7 +94,8 @@ class JBMinifierHelper extends AppHelper
      * @param string $filePrefix
      * @return string
      */
-    public function split($files = array(), $type, $filePrefix = null)
+    // public function split($files = array(), $type, $filePrefix = null)
+    public function split($type, $files = array(), $filePrefix = null)
     {
         if ($type == 'css') {
             ksort($files);
