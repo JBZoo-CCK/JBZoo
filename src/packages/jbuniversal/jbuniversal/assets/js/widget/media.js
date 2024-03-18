@@ -67,6 +67,9 @@
             'click .jsMediaButton': function (e, $this) {
                 e.preventDefault();
 
+                
+                alert('Извините, не работает, нужен JS специалист для правки SqueezeBox, его нужно подружить с Joomla.initialiseModal. Рабочий пример с медиа менеджером есть в стандартном элементе Zoo image (элемент Изображения). t.me/jbzoo');
+                
                 SqueezeBox.fromElement(this, {
                     handler: "iframe",
                     url    : "index.php?option=com_media&view=images&tmpl=component&e_name=" + $this.unique + '&folder=' + $this.options.folder,

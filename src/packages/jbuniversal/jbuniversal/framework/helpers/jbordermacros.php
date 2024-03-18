@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -165,7 +166,7 @@ class JBOrderMacrosHelper extends AppHelper
             $replace = JUri::root();
 
         } else if ($macros == 'site_link') {
-            $sitename = JString::trim(JFactory::getConfig()->get('sitename'));
+            $sitename = StringHelper::trim(JFactory::getConfig()->get('sitename'));
             $replace  = '<a href="' . JUri::root() . '" target="_blank">' . $sitename . '</a>';
 
         } else if ($macros == 'shop_name') {
@@ -226,7 +227,7 @@ class JBOrderMacrosHelper extends AppHelper
                             $replace = implode(', ', $replace);
                         }
 
-                        $replace = JString::trim($replace);
+                        $replace = StringHelper::trim($replace);
                     }
 
                     if (isset($replace)) {
@@ -244,7 +245,7 @@ class JBOrderMacrosHelper extends AppHelper
         }
 
         if (isset($replace)) {
-            $replace = JString::trim($replace);
+            $replace = StringHelper::trim($replace);
             $macros  = preg_quote('{' . trim($macros) . '}');
             $text    = preg_replace('#' . $macros . '#ius', $replace, $text);
         }

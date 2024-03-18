@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -31,8 +32,8 @@ class JBCartElementNotificationSmsuslugiru extends JBCartElementNotification
     public function notify()
     {
         $phones   = $this->_getPhones();
-        $login    = JString::trim($this->config->get('sms_login'));
-        $password = JString::trim($this->config->get('sms_password'));
+        $login    = StringHelper::trim($this->config->get('sms_login'));
+        $password = StringHelper::trim($this->config->get('sms_password'));
         $text     = $this->_macros->renderText($this->config->get('message'), $this->getOrder());
 
         if (

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -192,7 +193,7 @@ class JBModelConfig extends JBModel
     public function clearNumberValue($value)
     {
         $value = (string)$value;
-        $value = JString::trim($value);
+        $value = StringHelper::trim($value);
         $value = preg_replace('#[^0-9\,\.\-\+]#ius', '', $value);
 
         if (preg_match('#^([\+\-]{0,1})([0-9\.\,]*)$#ius', $value, $matches)) {

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -94,7 +95,7 @@ class JBFilterPropsHelper extends AppHelper
         if (isset($elements[$identifier])) {
 
             if (is_string($elements[$identifier])) {
-                return JString::strtolower($elements[$identifier]) == JString::strtolower(JString::trim($value));
+                return StringHelper::strtolower($elements[$identifier]) == StringHelper::strtolower(StringHelper::trim($value));
             } else {
                 return in_array($value, $elements[$identifier]);
             }

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -90,9 +91,9 @@ class JBCSVItemUserJBPrice extends JBCSVItem
                         $csv   = $this->create($element);
                         $toCSV = $csv->toCSV();
                         if ($toCSV !== null && $toCSV !== '') {
-                            $element_name = JString::strtolower($element->getName());
+                            $element_name = StringHelper::strtolower($element->getName());
                             if ($element->isCore()) {
-                                $element_name = JString::strtolower($element->identifier);
+                                $element_name = StringHelper::strtolower($element->identifier);
                             }
 
                             $result[$key][] = $element_name . ':' . $toCSV;
@@ -125,14 +126,14 @@ class JBCSVItemUserJBPrice extends JBCSVItem
             $this->_element->cleanVariations();
         }
 
-        if ($values === null || JString::strlen($values) === 0) {
+        if ($values === null || StringHelper::strlen($values) === 0) {
             return $this->_item;
         }
         $configs = $bindData = array();
         $params  = $this->_lastImportParams->get('previousparams');
 
         $values = $this->_getAutoClean($values);
-        if (JString::strpos($values, ':') !== false) {
+        if (StringHelper::strpos($values, ':') !== false) {
             --$position;
             $variant = (array)$this->_element->getData($position, array());
 
@@ -144,7 +145,7 @@ class JBCSVItemUserJBPrice extends JBCSVItem
             $values  = $this->isOldFormat($values);
             if (count($values)) {
                 foreach ($values as $id => $value) {
-                    $value = JString::trim($value);
+                    $value = StringHelper::trim($value);
 
                     if (strpos($id, '_') !== 0) {
                         $_id = $this->getIdByName($id);
@@ -164,9 +165,9 @@ class JBCSVItemUserJBPrice extends JBCSVItem
                 }
             }
         } else {
-            $values = JString::trim($values);
+            $values = StringHelper::trim($values);
 
-            if (JSTring::strlen($values) === 0) {
+            if (StringHelper::strlen($values) === 0) {
                 return $this->_item;
             }
             $id = $this->_param_id;
@@ -240,12 +241,12 @@ class JBCSVItemUserJBPrice extends JBCSVItem
 
             $i = 1;
             foreach ($configs as $id => $value) {
-                if (JString::strlen($id) !== ElementJBPrice::SIMPLE_PARAM_LENGTH ||
+                if (StringHelper::strlen($id) !== ElementJBPrice::SIMPLE_PARAM_LENGTH ||
                     $i > 3 || !isset($values['param' . $i])
                 ) {
                     continue;
                 }
-                $key = JString::strtolower(JString::trim($value['name']));
+                $key = StringHelper::strtolower(StringHelper::trim($value['name']));
 
                 $format[$key] = $values['param' . $i];
                 unset($values['param' . $i]);

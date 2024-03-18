@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -340,7 +341,7 @@ class ElementJBSocial extends Element implements iSubmittable
         $ogTags = array(
             'og:type'  => 'article',
             'og:title' => addslashes(htmlspecialchars(strip_tags($this->getItem()->name))),
-            'og:url'   => JUri::base() . JString::trim($this->app->route->item($this->getItem()), '/'),
+            'og:url'   => JUri::base() . StringHelper::trim($this->app->route->item($this->getItem()), '/'),
         );
 
         $item     = $this->getItem();
@@ -359,7 +360,7 @@ class ElementJBSocial extends Element implements iSubmittable
                         $ogTags['og:description'] = $str;
                         break;
                     } else {
-                        $ogTags['og:description'] = JString::trim(JFactory::getDocument()->getDescription());
+                        $ogTags['og:description'] = StringHelper::trim(JFactory::getDocument()->getDescription());
                         break;
                     }
                 }

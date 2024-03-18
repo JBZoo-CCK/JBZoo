@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -71,13 +72,13 @@ class JBCartElementPaymentInterkassa extends JBCartElementPayment
      */
     public function isValid($params = array())
     {
-        $shopid    = JString::trim(JString::strtoupper($this->config->get('shopid')));
-        $reqShopid = JString::trim(JString::strtoupper($this->app->jbrequest->get('ik_co_id')));
+        $shopid    = StringHelper::trim(StringHelper::strtoupper($this->config->get('shopid')));
+        $reqShopid = StringHelper::trim(StringHelper::strtoupper($this->app->jbrequest->get('ik_co_id')));
         if ($reqShopid !== $shopid) {
             throw new JBCartElementPaymentException('Not correct shopid');
         }
 
-        $status = JString::trim(JString::strtoupper($this->app->jbrequest->get('ik_inv_st')));
+        $status = StringHelper::trim(StringHelper::strtoupper($this->app->jbrequest->get('ik_inv_st')));
         if ($status !== 'SUCCESS') {
             throw new JBCartElementPaymentException('Not correct status');
         }
@@ -150,7 +151,7 @@ class JBCartElementPaymentInterkassa extends JBCartElementPayment
         ksort($fields, SORT_STRING);
 
         // add secret key
-        $secretKey = JString::trim($secretKey);
+        $secretKey = StringHelper::trim($secretKey);
         array_push($fields, $secretKey);
 
         // get hash

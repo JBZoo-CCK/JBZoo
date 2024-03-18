@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -314,7 +315,7 @@ class JBModelSearchindex extends JBModel
      */
     public function _valuesByTypes($data, $elementId)
     {
-        $value = JString::trim($data);
+        $value = StringHelper::trim($data);
         /** @type JBVarsHelper $jbvars */
         $jbvars = $this->app->jbvars;
 
@@ -359,7 +360,7 @@ class JBModelSearchindex extends JBModel
         if (!empty($value) && !empty($strings)) {
             foreach ($strings as $string) {
 
-                $string = JString::trim($string);
+                $string = StringHelper::trim($string);
                 if ($string != '') {
                     if (preg_match('#^([0-9\.\,\-]+)#ius', $string, $matches)) {
 

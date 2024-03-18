@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -51,12 +52,12 @@ class JBRequestHelper extends AppHelper
         if (!is_array($value)) {
 
             $value = strip_tags($value);
-            $value = JString::trim($value);
+            $value = StringHelper::trim($value);
 
             // force clean input vars
             //$value = str_replace(array('"', "'", ';', '--', '`', '.', ','), ' ', $value);
 
-            if (JString::strlen($value)) {
+            if (StringHelper::strlen($value)) {
                 return $value;
             }
 
@@ -346,8 +347,14 @@ class JBRequestHelper extends AppHelper
 
         $activeMenu = JFactory::getApplication()->getMenu()->getActive();
         $result     = 0;
-        if ($activeMenu && $activeMenu->params) {
-            $result = (int)$activeMenu->params->get($menuParam);
+
+        // if ($activeMenu && $activeMenu->params) {
+        //     $result = (int)$activeMenu->params->get($menuParam);
+        // }
+        //todofixj4
+
+        if ($activeMenu && $activeMenu->getParams()) {
+            $result = (int)$activeMenu->getParams()->get($menuParam);
         }
 
         if (empty($result)) {

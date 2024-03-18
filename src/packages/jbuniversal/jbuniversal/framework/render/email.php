@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -351,7 +352,7 @@ class EmailRenderer extends PositionRenderer
 
         $result .= "\"";
 
-        return JString::trim($result);
+        return StringHelper::trim($result);
     }
 
     /**

@@ -34,6 +34,8 @@ class JBArchHelper extends AppHelper
         $filename = $this->app->jbpath->sysPath('tmp', $archName . '.zip');
         $zip      = $this->app->archive->open($filename, 'zip');
 
+        d($zip);
+
         if (is_array($path)) {
             $fileList = $path;
 

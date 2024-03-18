@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -137,7 +138,7 @@ $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredi
             </li>
         <?php endif; ?>
 
-        <?php if (JString::trim(strip_tags($html))) : ?>
+        <?php if (StringHelper::trim(strip_tags($html))) : ?>
             <li>
                 <a data-toggle="tab" href="#userinfo"><?php echo JText::_('JBZOO_CLIENTAREA_USERINFO'); ?></a>
             </li>
@@ -210,7 +211,7 @@ $html = $view->formRenderer->renderAdminPosition(array('style' => 'order.useredi
             </div>
         <?php endif; ?>
 
-        <?php if (JString::trim(strip_tags($html))) : ?>
+        <?php if (StringHelper::trim(strip_tags($html))) : ?>
             <div class="tab-pane fade" id="userinfo">
                 <div class="jbclientarea-formfields">
                     <h3><?php echo JText::_('JBZOO_CLIENTAREA_USERINFO'); ?></h3>

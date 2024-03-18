@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -422,7 +423,7 @@ abstract class JBCartElementPrice extends JBCartElement
     public function getValue($toString = false, $key = 'value', $default = null)
     {
         $value = $this->get($key);
-        if ((JString::strlen($value) === 0) && ($this->isCore()) && (!$this->isBasic())) {
+        if ((StringHelper::strlen($value) === 0) && ($this->isCore()) && (!$this->isBasic())) {
             $value = $this->get('_basic', $default);
         }
 
@@ -556,7 +557,7 @@ abstract class JBCartElementPrice extends JBCartElement
      */
     protected function clearSymbols($value, $symbols = array('%', '+', '-'))
     {
-        return JString::str_ireplace($symbols, '', $value);
+        return StringHelper::str_ireplace($symbols, '', $value);
     }
 
     /**

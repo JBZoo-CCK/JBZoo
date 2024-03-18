@@ -16,19 +16,46 @@
     <description>JBZoo image element</description>
     <author>JBZoo.com</author>
     <creationDate>2013 07</creationDate>
-    <copyright>Copyright (C) JBZoo.com,  All rights reserved.</copyright>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
     <params>
+
+        <param name="image_settings" type="jbspacer" default="JBZOO_UPLOAD_SETTINGS_MAIN"/>
+
         <param name="upload_directory" type="text" default="images/uploads/" label="JBZOO_UPLOAD_DIRECTORY"
                description="JBZOO_UPLOAD_DIRECTORY_DESC"/>
 
-        <param name="max_upload_size" type="text" default="512" label="JBZOO_MAX_UPLOAD_SIZE"
-               description="JBZOO_MAX_UPLOAD_SIZE_DESC"/>
+        <param name="max_number" type="text" default="10" label="JBZOO_UPLOAD_MAX_NUMBER"
+               description="JBZOO_UPLOAD_MAX_NUMBER_DESC"/>
 
-        <param name="upload_by_user" type="jbbool" default="0" label="JBZOO_JBIMAGE_UPLOAD_BY_USER"
-               description="JBZOO_JBIMAGE_UPLOAD_BY_USER_DESC"/>
+        <param name="max_upload_size" type="text" default="10000" label="JBZOO_UPLOAD_MAX_SIZE"
+               description="JBZOO_UPLOAD_MAX_SIZE_DESC"/>
+
+        <param name="max_width" type="text" default="1920" label="JBZOO_JBIMAGE_MAX_WIDTH"
+               description="JBZOO_JBIMAGE_MAX_WIDTH_DESC"/>
+
+        <param name="max_height" type="text" default="1080" label="JBZOO_JBIMAGE_MAX_HEIGHT"
+               description="JBZOO_JBIMAGE_MAX_HEIGHT_DESC"/>
+
+        <param name="watermark_settings" type="jbspacer" default="JBZOO_JBIMAGE_SETTINGS_WATERMARK"/>
+
+        <param name="watermark_enable" type="jbbool" default="0" label="JBZOO_JBIMAGE_WATERMARK_ENABLE"
+               description="JBZOO_JBIMAGE_WATERMARK_ENABLE_DESC"/>
+
+        <param name="watermark_path" type="text" default="images/watermark.png" label="JBZOO_JBIMAGE_WATERMARK_PATH"
+               description="JBZOO_JBIMAGE_WATERMARK_PATH_DESC"/>
+
+        <param name="upload_settings" type="jbspacer" default="JBZOO_UPLOAD_SETTINGS_TYPE"/>
+
+        <param name="upload_by" type="list" default="simple" label="JBZOO_UPLOAD_TYPE"
+               description="JBZOO_UPLOAD_TYPE_DESC">
+            <option value="user">JBZOO_UPLOAD_TYPE_USER</option>
+            <option value="date">JBZOO_UPLOAD_TYPE_DATE</option>
+        </param>
+
+        <param name="default_settings" type="jbspacer" default="JBZOO_UPLOAD_SETTINGS_DEFAULT"/>
 
         <param name="default_enable" type="jbbool" default="0" label="JBZOO_JBIMAGE_DEFAULT_ENABLE"
                description="JBZOO_JBIMAGE_DEFAULT_ENABLE_DESC"/>
@@ -36,8 +63,16 @@
         <param name="default_image" type="text" default="" label="JBZOO_JBIMAGE_DEFAULT"
                description="JBZOO_JBIMAGE_DEFAULT_DESC"/>
 
-        <param name="remove_with_item" type="jbbool" default="0" label="JBZOO_JBIMAGE_REMOVE_WITH_ITEM"
-               description="JBZOO_JBIMAGE_REMOVE_WITH_ITEM_DESC"/>
+        <param name="delete_settings" type="jbspacer" default="JBZOO_UPLOAD_SETTINGS_REMOVE"/>
+
+        <param name="remove_with_item" type="jbbool" default="0" label="JBZOO_UPLOAD_REMOVE_WITH_ITEM"
+               description="JBZOO_UPLOAD_REMOVE_WITH_ITEM_DESC"/>
+
+        <param name="delete_type" type="list" default="simple" label="JBZOO_UPLOAD_REMOVE_TYPE"
+               description="JBZOO_UPLOAD_REMOVE_TYPE_DESC">
+            <option value="simple">JBZOO_UPLOAD_REMOVE_TYPE_ELEMENT</option>
+            <option value="full">JBZOO_UPLOAD_REMOVE_TYPE_SERVER</option>
+        </param>
 
     </params>
     <params group="render">
@@ -52,6 +87,16 @@
             <option name="Unordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul>%s</ul>]]]></option>
             <option name="Ordered List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ol>%s</ol>]]]></option>
             <option name="Warp Item"><![CDATA[tag=[<article class="item">%s</article>]]]></option>
+            <option name="Blank"><![CDATA[tag=[%s]]]></option>
+            <option name="UIkit Block"><![CDATA[tag=[<div class="uk-margin">%s</div>]]]></option>
+            <option name="UIkit Article"><![CDATA[tag=[<article class="uk-article">%s</article>]]]></option>
+            <option name="UIkit List"><![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul class="uk-list">%s</ul>]]]></option>
+            <option name="UIkit List Line">
+                <![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul class="uk-list uk-list-line">%s</ul>]]]></option>
+            <option name="UIkit Grid 4">
+                <![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul class="uk-grid uk-grid-width-1-4" data-uk-grid-match data-uk-grid-margin>%s</ul>]]]></option>
+            <option name="UIkit Slider Grid 4">
+                <![CDATA[tag=[<li>%s</li>] enclosing_tag=[<ul class="uk-slider-items uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-4@l uk-grid uk-grid-medium" data-uk-grid-match data-uk-grid-margin>%s</ul>]]]></option>
         </param>
 
         <param name="display" type="list" default="all" label="Display"
@@ -82,7 +127,7 @@
                description="JBZOO_RESIZE_WIDTH_POPUP_DESC"/>
 
         <param name="height_popup" type="text" default="800" label="JBZOO_RESIZE_POPUP_HEIGHT"
-               description="JBZOO_RESIZE_HEIGHT_POPUP_DESC"/>
+               description="JBZOO_RESIZE_WIDTH_POPUP_DESC"/>
 
     </params>
 </element>

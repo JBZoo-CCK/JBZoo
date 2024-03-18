@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -28,8 +29,8 @@ class JBCSVItemUserJBSliderNivo extends JBCSVItem
      */
     public function fromCSV($value, $position = null)
     {
-        $value = JString::trim($value, '/\\');
-        $value = JString::trim($value);
+        $value = StringHelper::trim($value, '/\\');
+        $value = StringHelper::trim($value);
         $this->_element->bindData(array('value' => $value));
 
         return $this->_item;

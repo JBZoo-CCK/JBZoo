@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -248,8 +249,8 @@ abstract class JBCartElementShipping extends JBCartElement
     protected function _getDefaultCountry()
     {
         $country = $this->_cartConfig->get('default_shipping_country');
-        $country = JString::trim($country);
-        $country = JString::strtolower($country);
+        $country = StringHelper::trim($country);
+        $country = StringHelper::strtolower($country);
 
         return $country;
     }

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -57,7 +58,7 @@ class JBCartElementNotificationSendemail extends JBCartElementNotification
     {
         if ($recipients = $this->_getRecipients()) {
 
-            $body = JString::trim($this->renderBody());
+            $body = StringHelper::trim($this->renderBody());
             if (empty($body)) {
                 return null;
             }
@@ -98,7 +99,7 @@ class JBCartElementNotificationSendemail extends JBCartElementNotification
         );
 
         if (!$this->_isHtml()) {
-            $emailBody = JString::trim($emailBody);
+            $emailBody = StringHelper::trim($emailBody);
 
             // clean up text (experimental)
             //$emailBody = strip_tags($emailBody, '<br><br/>');
@@ -133,7 +134,7 @@ class JBCartElementNotificationSendemail extends JBCartElementNotification
     {
         $subject = $this->config->get('subject');
         $subject = $this->_macros->renderText($subject, $this->getOrder());
-        $subject = JString::trim($subject);
+        $subject = StringHelper::trim($subject);
 
         if (empty($subject)) {
             $subject = $this->getName();
@@ -196,7 +197,7 @@ class JBCartElementNotificationSendemail extends JBCartElementNotification
 
             if ($email = $this->app->jbvars->email($email)) {
                 if (!isset($result[$email])) {
-                    $result[$email] = JString::trim($name);
+                    $result[$email] = StringHelper::trim($name);
                 }
             }
 
@@ -220,8 +221,8 @@ class JBCartElementNotificationSendemail extends JBCartElementNotification
         $fromEmail = $jbvars->email($this->config->get('fromemail', $joomlaMail));
         $fromEmail = (!empty($fromEmail)) ? $fromEmail : $joomlaMail;
 
-        $fromName = JString::trim($this->config->get('fromname', $joomlaSite));
-        $fromName = (!empty($fromName)) ? $fromName : JString::trim($joomlaSite);
+        $fromName = StringHelper::trim($this->config->get('fromname', $joomlaSite));
+        $fromName = (!empty($fromName)) ? $fromName : StringHelper::trim($joomlaSite);
 
         return array($fromEmail, $fromName);
     }

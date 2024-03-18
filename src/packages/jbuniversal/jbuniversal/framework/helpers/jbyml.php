@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -611,7 +612,7 @@ class JBYmlHelper extends AppHelper
                     )
                 );
 
-                $tmpStrItems = JString::trim($tmpStrItems);
+                $tmpStrItems = StringHelper::trim($tmpStrItems);
 
                 if (!empty($tmpStrItems)) {
                     $this->_count++;

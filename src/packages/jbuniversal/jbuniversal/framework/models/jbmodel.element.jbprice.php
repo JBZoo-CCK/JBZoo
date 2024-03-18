@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -226,7 +227,7 @@ class JBModelElementJBPrice extends JBModelElement
         $iterator  = new RecursiveArrayIterator($values);
         $recursive = new RecursiveIteratorIterator($iterator);
         foreach ($recursive as $key => $value) {
-            $value = JString::trim($value);
+            $value = StringHelper::trim($value);
             if ($value !== '' && $value !== null) {
                 $depth = $recursive->getDepth();
                 $depth--;

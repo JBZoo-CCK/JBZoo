@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -36,7 +37,7 @@ class JBCartElementEmailShopName extends JBCartElementEmail
     protected function _getShopName()
     {
         $shopName = JBModelConfig::model()->get('shop_name', '', 'cart.config');
-        $shopName = JString::trim($shopName);
+        $shopName = StringHelper::trim($shopName);
         return $shopName;
     }
 }

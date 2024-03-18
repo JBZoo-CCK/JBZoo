@@ -19,15 +19,27 @@ defined('_JEXEC') or die('Restricted access');
 $this->app->jbdebug->mark('template::filter::start');
 
 $this->app->jblayout->setView($this);
-$this->app->jbassets->tabs();
+
 if (!$this->app->jbcache->start()) {
     $this->app->jbwrapper->start();
 
-    ?><h1 class="title"><?php echo $this->title ? $this->title : JText::_('JBZOO_SEARCH_RESULT'); ?></h1><?php
+?>
+
+<h1 class="title"><?php echo $this->title ? $this->title : JText::_('JBZOO_SEARCH_RESULT'); ?></h1>
+
+<?php if ($this->description) : ?>
+    <div class="description">
+        <?php echo $this->description; ?>
+    </div>
+<?php endif; ?>
+
+<?php
 
     if ($this->items) {
 
-        echo '<p>' . JText::_('JBZOO_FILTER_TOTAL_RESULT') . ': ' . $this->itemsCount . '</p>';
+        if ($this->count) {
+            echo '<p>' . JText::_('JBZOO_FILTER_TOTAL_RESULT') . ': ' . $this->itemsCount . '</p>';
+        }
 
         // items
         echo $this->app->jblayout->render('items', $this->items);
@@ -36,9 +48,7 @@ if (!$this->app->jbcache->start()) {
         echo $this->app->jblayout->render('pagination', $this->pagination, array('link' => $this->pagination_link));
 
     } else {
-        echo $this->app->jbjoomla->renderPosition('jbzoo_price_filter');
         ?><p><?php echo JText::_('JBZOO_FILTER_ITEMS_NOT_FOUND'); ?></p><?php
-
     }
 
     $this->app->jbwrapper->end();

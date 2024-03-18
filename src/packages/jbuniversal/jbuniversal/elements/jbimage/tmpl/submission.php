@@ -16,62 +16,103 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Language\Text;
+
 ?>
 
-<div class="<?php echo $this->identifier; ?> jbimage-submission">
-    <div class="image-select">
-        <div class="upload">
-            <input type="text" name="<?php echo $this->getControlName('filename'); ?>" class="filename"
-                   readonly="readonly" />
-            <div class="button-container">
-                <button class="jbbutton search" type="button"><?php echo JText::_('Select'); ?></button>
-                <input type="file" name="<?php echo $this->getControlName('file'); ?>" class="file-select" />
-            </div>
-        </div>
+<div id="<?php echo $id; ?>" class="jsUpload jbimage" data-count="<?php echo $images ? count($images) : 0; ?>">
 
-        <?php if (isset($lists['image_select'])) : ?>
-            <span class="select"><?php echo JText::_('ALREADY UPLOADED'); ?></span><?php echo $lists['image_select']; ?>
-        <?php else : ?>
-            <input type="hidden" class="image" name="<?php echo $this->getControlName('image'); ?>"
-                   value="<?php echo $image ? 1 : ''; ?>">
-        <?php endif; ?>
-
+    <div class="jsUploadZone jbimage__upload">
+        <span class="jbimage__upload-text"><?php echo Text::_('JBZOO_JBIMAGE_EDIT_UPLOAD_TEXT_1'); ?></span>
+        <span class="jbimage__upload-input">
+            <input class="jsUploadInput" type="file" name="<?php echo $this->identifier; ?>-jbimages[]" multiple>
+            <span class="jbimage__upload-input-link"><?php echo Text::_('JBZOO_JBIMAGE_EDIT_UPLOAD_TEXT_2'); ?></span>
+        </span>
     </div>
 
-    <div class="image-preview">
-        <img src="<?php echo $image; ?>" alt="preview">
-        <span class="image-cancel" title="<?php JText::_('Remove image'); ?>"></span>
+    <div class="jsUploadAlert jbimage__alert" style="display: none;"></div>
+
+    <div class="jsUploadProgress jbimage__progress" style="display: none;">
+        <div class="jbimage__progress-bar"></div>
     </div>
 
-    <?php if ($trusted_mode) : ?>
-        <div class="more-options">
-            <div class="trigger">
-                <div>
-                    <div class="link button"><?php echo JText::_('Link'); ?></div>
-                    <div class="title button"><?php echo JText::_('Title'); ?></div>
-                </div>
-            </div>
-            <div class="title options">
-                <div class="row">
-                    <?php echo $this->app->html->_('control.text', $this->getControlName('title'), $this->get('title'), 'maxlength="255" title="' . JText::_('Title') . '" placeholder="' . JText::_('Title') . '"'); ?>
-                </div>
-            </div>
+    <ul class="jsUploadFiles jbimage__files" <?php echo !$images ? 'style="display: none;"' : ''; ?>>
+        <?php
+        if (!empty($images))
+        {
+            foreach ($images as $key => $image)
+            {
+                $image = array(
+                    'file'   => isset($image['file']) ? $image['file'] : '',
+                    'title'  => isset($image['title']) ? $image['title'] : '',
+                    'link'   => isset($image['link']) ? $image['link'] : '',
+                    'target' => isset($image['target']) ? $image['target'] : '',
+                    'rel'    => isset($image['rel']) ? $image['rel'] : '',
+                );
 
-            <div class="link options">
-                <div class="row">
-                    <?php echo $this->app->html->_('control.text', $this->getControlName('link'), $this->get('link'), 'size="60" maxlength="255" title="' . JText::_('Link') . '" placeholder="' . JText::_('Link') . '"'); ?>
-                </div>
+                if ($this->isFileExists($image['file']))
+                {
+                    $img       = $this->app->zoo->resizeImage($this->app->path->path('root:' . $image['file']), 150, 100);
+                    $img       = $this->app->path->relative($img);
+                    $imageName = basename($image['file']);
 
-                <div class="row">
-                    <strong><?php echo JText::_('New window'); ?></strong>
-                    <?php echo $this->app->html->_('select.booleanlist', $this->getControlName('target'), $this->get('target'), $this->get('target')); ?>
-                </div>
+                    $deleteType = $this->config->get('delete_type', 'simple');
 
-                <div class="row">
-                    <?php echo $this->app->html->_('control.text', $this->getControlName('rel'), $this->get('rel'), 'size="60" maxlength="255" title="' . JText::_('Rel') . '" placeholder="' . JText::_('Rel') . '"'); ?>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
+                    if (strpos($image['file'], $this->config->get('upload_directory')) === false)
+                    {
+                        $deleteType = 'simple';
+                    } ?>
 
+                    <li class="jbimage__file-item">
+                        <div class="jbimage__file-item-body">
+                            <div class="jbimage__file-item-teaser">
+                                <img src="/<?php echo $img; ?>">
+                                <a href="#" data-type="<?php echo $deleteType; ?>"
+                                   class="jsUploadDelete jbimage__file-item-delete jbimage__file-item-delete--<?php echo $deleteType; ?>"></a>
+                            </div>
+
+                            <p>
+                                <i class="jbimage__file-item-icon jbimage__file-item-icon--check"></i> <?php echo $imageName; ?>
+                            </p>
+
+                            <?php if ($params->get('trusted_mode')) : ?>
+                                <div class="jbimage__file-item-edit">
+                                    <button type="button" class="btn btn-small" data-toggle="collapse"
+                                            data-target="#<?php echo $this->identifier . '-edit-' . $key; ?>">
+                                        <span></span>
+                                    </button>
+
+                                    <div id="<?php echo $this->identifier . '-edit-' . $key; ?>" class="collapse out">
+                                        <div>
+                                            <?php echo $this->app->html->_('control.text', $this->getControlName('title', $key), $image['title'], ' size="60" maxlength="255" title="' . Text::_('Title') . '" placeholder="' . Text::_('Title') . '"'); ?>
+                                        </div>
+                                        <div>
+                                            <?php echo $this->app->html->_('control.text', $this->getControlName('link', $key), $image['link'], ' size="60" maxlength="255" title="' . Text::_('Link') . '" placeholder="' . Text::_('Link') . '"'); ?>
+                                        </div>
+                                        <div>
+                                            <?php echo $this->app->html->_('control.text', $this->getControlName('rel', $key), $image['rel'], ' size="60" maxlength="255" title="' . Text::_('Rel') . '" placeholder="' . Text::_('Rel') . '"'); ?>
+                                        </div>
+                                        <div>
+                                            <?php echo Text::_('New window'); ?><?php echo $this->app->html->_('select.booleanlist', $this->getControlName('target', $key), $image['target'], $image['target']); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+
+                            <input style="display: none;" name="<?php echo $this->getControlName('file', $key); ?>"
+                                   type="text" value="<?php echo $image['file']; ?>">
+                        </div>
+                    </li>
+                    <?php
+                }
+            }
+        }
+        ?>
+    </ul>
 </div>
+
+
+<?php
+// Init Upload
+$this->app->jbassets->initUpload($id, $options);
+?>

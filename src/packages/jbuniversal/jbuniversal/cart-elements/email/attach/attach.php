@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -51,7 +52,7 @@ class JBCartElementEmailAttach extends JBCartElementEmail
     protected function _getFile()
     {
         $file = $this->config->get('file');
-        $file = JString::trim($file);
+        $file = StringHelper::trim($file);
 
         if (JFile::exists($file)) {
             return $file;

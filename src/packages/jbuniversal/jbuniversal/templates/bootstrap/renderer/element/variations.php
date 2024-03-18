@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -31,7 +32,7 @@ if ($element->isCore()) {
 <div class="variant-<?php echo strtolower($name); ?>-wrap <?php echo $class; ?> variant-param">
     <strong class="hasTip row-field label"
             title="<?php echo $lang; ?>">
-        <?php echo JString::ucfirst($lang); ?>
+        <?php echo StringHelper::ucfirst($lang); ?>
     </strong>
     <span class="attention jsJBpriceAttention"></span>
 

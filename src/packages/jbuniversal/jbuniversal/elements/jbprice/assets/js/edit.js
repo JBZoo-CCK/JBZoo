@@ -127,24 +127,24 @@
                     newDesc.JBZooPriceEditElement_descriptionEdit();
                 }
 
-                // Tips
-                $('.hasTip', clone).each(function() {
-                    var $tip = $(this),
-                        forAttr = $tip.attr('for');
+                // // Tips
+                // $('.hasTip', clone).each(function() {
+                //     var $tip = $(this),
+                //         forAttr = $tip.attr('for');
 
-                    if (forAttr) {
-                        var $colorElem = $('#' + forAttr);
-                        if ($colorElem.length) {
-                            var title = $colorElem.attr('title');
-                            $tip.attr('title', title);
+                //     if (forAttr) {
+                //         var $colorElem = $('#' + forAttr);
+                //         if ($colorElem.length) {
+                //             var title = $colorElem.attr('title');
+                //             $tip.attr('title', title);
 
-                            var parts = title.split('::', 2);
-                            var mtelement = document.id(this);
-                            mtelement.store('tip:title', title);
-                        }
-                    }
-                });
-                var JTooltips = new Tips($('.hasTip', clone).get(), {"maxTitleChars": 50,"fixed": false});
+                //             var parts = title.split('::', 2);
+                //             var mtelement = document.id(this);
+                //             mtelement.store('tip:title', title);
+                //         }
+                //     }
+                // });
+                // var JTooltips = new Tips($('.hasTip', clone).get(), {"maxTitleChars": 50,"fixed": false});
 
                 $('.variant-param', clone).each(function (i, param) {
                     var $param = $(param),

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -101,7 +102,7 @@ class JBCSVItemCoreCategory extends JBCSVItem
 
                         $category = $this->app->object->create('Category');
                         $category->application_id = $application->id;
-                        $category->name = JString::trim($name);
+                        $category->name = StringHelper::trim($name);
                         $category->parent = $previousId;
 
                         // set a valid category alias

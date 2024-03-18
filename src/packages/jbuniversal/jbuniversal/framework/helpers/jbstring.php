@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -33,22 +34,22 @@ class JBStringHelper extends AppHelper
     public function smartSubstr($text, $searchword)
     {
         $length      = self::MAX_LENGTH;
-        $textlen     = JString::strlen($text);
-        $lsearchword = JString::strtolower($searchword);
+        $textlen     = StringHelper::strlen($text);
+        $lsearchword = StringHelper::strtolower($searchword);
         $wordfound   = false;
         $pos         = 0;
         $chunk       = '';
 
         while ($wordfound === false && $pos < $textlen) {
 
-            if (($wordpos = @JString::strpos($text, ' ', $pos + $length)) !== false) {
+            if (($wordpos = @StringHelper::strpos($text, ' ', $pos + $length)) !== false) {
                 $chunk_size = $wordpos - $pos;
             } else {
                 $chunk_size = $length;
             }
 
-            $chunk     = JString::substr($text, $pos, $chunk_size);
-            $wordfound = JString::strpos(JString::strtolower($chunk), $lsearchword);
+            $chunk     = StringHelper::substr($text, $pos, $chunk_size);
+            $wordfound = StringHelper::strpos(StringHelper::strtolower($chunk), $lsearchword);
 
             if ($wordfound === false) {
                 $pos += $chunk_size + 1;
@@ -58,11 +59,11 @@ class JBStringHelper extends AppHelper
         if ($wordfound !== false) {
             return (($pos > 0) ? '...' : '') . $chunk;
 
-        } elseif (($wordpos = @JString::strpos($text, ' ', $length)) !== false) {
-            return JString::substr($text, 0, $wordpos) . '...';
+        } elseif (($wordpos = @StringHelper::strpos($text, ' ', $length)) !== false) {
+            return StringHelper::substr($text, 0, $wordpos) . '...';
 
         } else {
-            return JString::substr($text, 0, $length);
+            return StringHelper::substr($text, 0, $length);
         }
     }
 
@@ -75,13 +76,13 @@ class JBStringHelper extends AppHelper
      */
     public function cutByWords($string, $maxlen = 255)
     {
-        $len = (JString::strlen($string) > $maxlen)
-            ? JString::strrpos(JString::substr($string, 0, $maxlen), ' ')
+        $len = (StringHelper::strlen($string) > $maxlen)
+            ? StringHelper::strrpos(StringHelper::substr($string, 0, $maxlen), ' ')
             : $maxlen;
 
-        $cutStr = JString::substr($string, 0, $len);
+        $cutStr = StringHelper::substr($string, 0, $len);
 
-        return (JString::strlen($string) > $maxlen) ? $cutStr . '...' : $cutStr;
+        return (StringHelper::strlen($string) > $maxlen) ? $cutStr . '...' : $cutStr;
     }
 
     /**
@@ -91,7 +92,7 @@ class JBStringHelper extends AppHelper
      */
     public function parseLines($text)
     {
-        $text = JString::trim($text);
+        $text = StringHelper::trim($text);
         $text = htmlspecialchars_decode($text);
         $text = strip_tags($text);
 
@@ -103,7 +104,7 @@ class JBStringHelper extends AppHelper
 
             foreach ($lines as $line) {
 
-                $line          = JString::trim($line);
+                $line          = StringHelper::trim($line);
                 $result[$line] = $line;
 
             }
@@ -141,7 +142,7 @@ class JBStringHelper extends AppHelper
      */
     public function clean($value, $encoding = 'UTF-8')
     {
-        $value = JString::trim($value);
+        $value = StringHelper::trim($value);
         $value = strip_tags($value);
 
         return htmlentities($value, ENT_COMPAT, $encoding);

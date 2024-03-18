@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -93,7 +94,7 @@ class JBSelectCascadeHelper extends AppHelper
      */
     public function parseLines($text)
     {
-        $text = JString::trim($text);
+        $text = StringHelper::trim($text);
         $text = htmlspecialchars_decode($text, ENT_COMPAT);
         $text = strip_tags($text);
 
@@ -102,7 +103,7 @@ class JBSelectCascadeHelper extends AppHelper
         $result = array();
         if (!empty($lines)) {
             foreach ($lines as $line) {
-                $line     = JString::trim($line);
+                $line     = StringHelper::trim($line);
                 $result[] = strtr($line, "\"", "'");
             }
         }

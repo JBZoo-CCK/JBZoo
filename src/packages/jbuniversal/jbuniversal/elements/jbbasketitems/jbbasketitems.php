@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -282,7 +283,7 @@ class ElementJBBasketItems extends Element implements iSubmittable
         $status    = $orderInfo->get('status', self::ORDER_STATUS_NODATA);
 
         if ($isFormated) {
-            return JText::_('JBZOO_PAYMENT_STATUS_' . JString::strtoupper($status));
+            return JText::_('JBZOO_PAYMENT_STATUS_' . StringHelper::strtoupper($status));
         }
 
         return $status;

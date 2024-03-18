@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -109,7 +110,7 @@ class JBPriceHelper extends AppHelper
             foreach ($types as $id => $elements) {
                 $name = $app->getType($id)->config->get('name');
                 foreach ($elements as $identifier => $element) {
-                    $list[$identifier] = JString::ucfirst($name) . ' - ' . JString::ucfirst($element->config->get('name'));
+                    $list[$identifier] = StringHelper::ucfirst($name) . ' - ' . StringHelper::ucfirst($element->config->get('name'));
                 }
             }
         }
@@ -145,7 +146,7 @@ class JBPriceHelper extends AppHelper
             $value = $value->data($toString);
 
         } elseif (is_string($value)) {
-            $value = JString::trim($value);
+            $value = StringHelper::trim($value);
 
         } elseif (is_array($value) && !empty($value)) {
             $value = JArrayHelper::toString($value, PHP_EOL);
@@ -154,7 +155,7 @@ class JBPriceHelper extends AppHelper
             return $this->getValue((array)$value, $toString);
 
         }
-        $value = JString::trim($value);
+        $value = StringHelper::trim($value);
 
         return (!$this->isEmpty($value) ? $value : null);
     }
@@ -167,7 +168,7 @@ class JBPriceHelper extends AppHelper
     public function isEmpty($value)
     {
         if (is_string($value)) {
-            $value = JString::trim($value);
+            $value = StringHelper::trim($value);
 
         } elseif (is_array($value)) {
             $value = array_filter($value);
@@ -216,7 +217,7 @@ class JBPriceHelper extends AppHelper
         $positions = $model->getGroup('cart.' . JBCart::CONFIG_PRICE . '.' . $jbPrice->identifier);
         $position = $positions->get(JBCart::DEFAULT_POSITION, []);
 
-        if (JString::strlen($id) === ElementJBPrice::SIMPLE_PARAM_LENGTH) {
+        if (StringHelper::strlen($id) === ElementJBPrice::SIMPLE_PARAM_LENGTH) {
             $option = $value;
 
             if (isset($position[$id])) {
@@ -253,7 +254,7 @@ class JBPriceHelper extends AppHelper
      */
     public function build($value, $options)
     {
-        $value = JString::trim($value);
+        $value = StringHelper::trim($value);
         $keys = array_keys($options);
 
         if (!in_array($this->clean($value), $keys, true)) {
@@ -276,7 +277,7 @@ class JBPriceHelper extends AppHelper
             $key = $this->clean($option);
 
             if ($key !== '') {
-                $result[$key] = JString::trim($option);
+                $result[$key] = StringHelper::trim($option);
             }
         }
 
@@ -346,8 +347,8 @@ class JBPriceHelper extends AppHelper
      */
     private function _clean($str, $charlist = false)
     {
-        $str = JString::trim($str, $charlist);
-        $str = JString::strtolower($str);
+        $str = StringHelper::trim($str, $charlist);
+        $str = StringHelper::strtolower($str);
 
         return $str;
     }

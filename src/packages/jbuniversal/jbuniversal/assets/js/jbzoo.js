@@ -193,10 +193,10 @@
          * @param params
          */
         alert: function (message, closeCallback, params) {
-            
+
             var $this = this,
                 _swal = $.isFunction(window.parent.swal) ? window.parent.swal : swal;
-            
+
             if ($.isFunction(_swal)) {
                 params = $.extend(true, {}, {
                     title            : message,
@@ -231,7 +231,7 @@
 
             noCallback = noCallback || $.noop;
             yesCallback = yesCallback || $.noop;
-            
+
             if ($.isFunction(_swal)) {
                 _swal.fire({
                     title            : message,

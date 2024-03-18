@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -148,7 +149,7 @@ class JBCartElementShippingNewPost extends JBCartElementShipping
         $xml = implode("\n", array(
             '<?xml version="1.0" encoding="utf-8"?>',
             '<file>',
-            '    <auth>' . JString::trim($this->config->get('api_key')) . '</auth>',
+            '    <auth>' . StringHelper::trim($this->config->get('api_key')) . '</auth>',
             $dataXml,
             '</file>'
         ));

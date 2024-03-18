@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -68,7 +69,7 @@ class JBEmailHelper extends AppHelper
             $recipients = explode(',', $recipients);
             foreach ($recipients as $email) {
 
-                $email = JString::trim($email);
+                $email = StringHelper::trim($email);
 
                 if (empty($email)) {
                     continue;
@@ -102,7 +103,7 @@ class JBEmailHelper extends AppHelper
         $html = preg_replace("#<script.*?/script>#ius", '', $html);
         $html = preg_replace("#<style.*?/style>#ius", '', $html);
         $html = preg_replace("#<!--.*?-->#ius", '', $html);
-        $html = JString::trim($html);
+        $html = StringHelper::trim($html);
 
         return $html;
     }

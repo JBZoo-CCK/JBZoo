@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -110,7 +111,7 @@ class FilterRenderer extends AppRenderer
 
                 $value       = $this->_getRequest($element->identifier);
                 $elementHTML = $this->app->jbfilter->elementRender($element->identifier, $value, $params, $attrs);
-                $elementHTML = JString::trim($elementHTML);
+                $elementHTML = StringHelper::trim($elementHTML);
                 if (empty($elementHTML)) {
                     continue;
                 }

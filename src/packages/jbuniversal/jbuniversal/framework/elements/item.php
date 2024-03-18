@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -197,7 +198,7 @@ class JBCSVItem
                     }
 
                     $data   = ($position == 1) ? array() : $data = $this->_element->data();
-                    $data[] = array('value' => JString::trim($value));
+                    $data[] = array('value' => StringHelper::trim($value));
 
                     $this->_element->bindData($data);
                 }
@@ -289,7 +290,7 @@ class JBCSVItem
      */
     protected function _getString($value)
     {
-        return JString::trim($value);
+        return StringHelper::trim($value);
     }
 
     /**
@@ -378,8 +379,8 @@ class JBCSVItem
             $from = array(':', ';');
             $to   = array('%col%', '%sem%');
 
-            $dataValue = JString::trim($data['_value']);
-            $dataCurr  = JString::trim($data['_currency']);
+            $dataValue = StringHelper::trim($data['_value']);
+            $dataCurr  = StringHelper::trim($data['_currency']);
 
             if (!empty($dataValue)) {
                 $result['_value'] = '_value:' . str_replace($from, $to, $data['_value']);
@@ -393,14 +394,14 @@ class JBCSVItem
             if (!empty($data)) {
                 foreach ($data as $key => $value) {
 
-                    $key = JString::strtolower($key);
+                    $key = StringHelper::strtolower($key);
                     if ($nullElement) {
                         $result[] = $key . ':' . str_replace($from, $to, $value);
                     }
 
                     if (is_string($value)) {
-                        $value = JString::trim($value);
-                        if (JString::strlen($value) > 0 && !empty($value) && $key) {
+                        $value = StringHelper::trim($value);
+                        if (StringHelper::strlen($value) > 0 && !empty($value) && $key) {
                             $result[] = $key . ':' . str_replace($from, $to, $value);
                         }
                     } else if (!empty($value) && is_array($value)) {
@@ -408,14 +409,14 @@ class JBCSVItem
                         foreach ($value as $i => $val) {
 
                             if (is_string($val)) {
-                                $val = JString::trim($val);
-                                if (JString::strlen($val) > 0 && !empty($val) && $i) {
+                                $val = StringHelper::trim($val);
+                                if (StringHelper::strlen($val) > 0 && !empty($val) && $i) {
                                     $result[$i] = $i . ':' . str_replace($from, $to, $val);
                                 }
                             } else if (is_array($val)) {
                                 $val = $val[key($val)];
-                                $val = JString::trim($val);
-                                if (JString::strlen($val) > 0 && !empty($val) && $i) {
+                                $val = StringHelper::trim($val);
+                                if (StringHelper::strlen($val) > 0 && !empty($val) && $i) {
                                     $result[$i] = $i . ':' . str_replace($from, $to, $val);
                                 }
                             }
@@ -444,7 +445,7 @@ class JBCSVItem
             foreach ($list as $item) {
                 if (strpos($item, ':')) {
                     list($key, $value) = explode(':', $item);
-                    $key          = JString::strtolower($key);
+                    $key          = StringHelper::strtolower($key);
                     $result[$key] = str_replace($from, $to, $value);
                 }
             }

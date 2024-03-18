@@ -18,6 +18,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $align     = $this->app->jbitem->getMediaAlign($item, $layout);
 $tabsId    = $this->app->jbstring->getId('tabs');
+// dd($item,0,'item');
 ?>
 
 <?php if ($this->checkPosition('title')) : ?>

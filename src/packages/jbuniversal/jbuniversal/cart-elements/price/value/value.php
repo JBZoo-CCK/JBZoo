@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -74,7 +75,7 @@ class JBCartElementPriceValue extends JBCartElementPrice
         }
 
         $total   = $prices['total'];
-        $message = JText::_(JString::trim($params->get('empty_text', '')));
+        $message = JText::_(StringHelper::trim($params->get('empty_text', '')));
 
         $layout = $params->get('layout', 'full-div');
         if ($total->isEmpty() && !empty($message)) {

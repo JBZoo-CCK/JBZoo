@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -105,9 +106,9 @@ abstract class JBCartElementCurrency extends JBCartElement
                     $reason = $result;
                 }
 
-                $reason = JString::trim(strip_tags($reason));
+                $reason = StringHelper::trim(strip_tags($reason));
                 if ($reason) {
-                    $reason = JString::substr($reason, 0, 200);
+                    $reason = StringHelper::substr($reason, 0, 200);
                     $message .= '<br>' . JText::sprintf('JBZOO_ELEMENT_CURRENCY_NO_CONNECT_REASON', $reason);
                 }
             }

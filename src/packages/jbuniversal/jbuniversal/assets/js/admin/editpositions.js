@@ -269,10 +269,10 @@
                         }
                     });
 
-                    new Tips($newElement.find(".hasTip[title]").get(), {
-                        maxTitleChars: 1000,
-                        fixed        : false
-                    });
+                    // new Tips($newElement.find(".hasTip[title]").get(), {
+                    //     maxTitleChars: 1000,
+                    //     fixed        : false
+                    // });
 
                     $this.el.trigger("element.added", $place);
                     $newElement.fadeIn(300, function () {

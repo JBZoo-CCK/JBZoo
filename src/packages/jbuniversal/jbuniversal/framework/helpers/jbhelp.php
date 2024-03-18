@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -61,7 +62,7 @@ class JBHelpHelper extends AppHelper
             $file .= '.php';
         }
 
-        return JString::strtolower($file);
+        return StringHelper::strtolower($file);
     }
 
 }

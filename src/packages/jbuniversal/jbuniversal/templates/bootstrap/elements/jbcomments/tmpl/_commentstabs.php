@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -24,7 +25,7 @@ $jbCommId = uniqid('tabs-');
         <?php
         $i = 0;
         foreach ($jbcomments as $key => $value) {
-            $key   = JString::strtolower($key);
+            $key   = StringHelper::strtolower($key);
             $class = ($i == 0) ? 'active' : '';
 
             if (!empty($value)) {
@@ -45,7 +46,7 @@ $jbCommId = uniqid('tabs-');
         <?php
         $j = 0;
         foreach ($jbcomments as $key => $value) {
-            $key     = JString::strtolower($key);
+            $key     = StringHelper::strtolower($key);
             $classes = 'tab-pane fade';
 
             if ($j == 0) {

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -79,7 +80,7 @@ class JBModelSku extends JBModel
      */
     public function getItemIdBySku($sku)
     {
-        $sku = JString::trim($sku);
+        $sku = StringHelper::trim($sku);
         if ($sku !== '') {
             $select = $this
                 ->_getSelect()

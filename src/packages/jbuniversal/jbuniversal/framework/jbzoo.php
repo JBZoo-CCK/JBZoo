@@ -54,7 +54,6 @@ class JBZoo
     private function __construct()
     {
         $this->app = App::getInstance('zoo');
-
         $this->_initPaths();
         $this->_initClasses();
         $this->_initEvents();
@@ -68,19 +67,21 @@ class JBZoo
     {
         $this->_addPath('applications:' . $this->_getGroup(), 'jbapp');
         $this->_addPath('jbapp:framework', 'jbzoo');
+        $this->_addPath('jbzoo:zoo', 'zoo');
         $this->_addPath('jbapp:assets', 'jbassets');
         $this->_addPath('jbassets:zoo', 'assets');
+        $this->_addPath('jbassets:libraries', 'libraries');
         $this->_addPath('jbapp:config', 'jbconfig');
         $this->_addPath('jbzoo:elements', 'jbelements');
         $this->_addPath('jbapp:cart-elements', 'cart-elements');
         $this->_addPath('jbapp:types', 'jbtypes');
 
         $this->_addPath('jbzoo:helpers', 'helpers');
-        $this->_addPath('jbzoo:helpers-std', 'helpers');
+        $this->_addPath('jbzoo:helpers-std', 'helpers'); //todofixj4
         $this->_addPath('helpers:fields', 'fields');
 
         $this->_addPath('jbzoo:tables', 'tables');
-        $this->_addPath('jbzoo:classes-std', 'classes');
+        $this->_addPath('jbzoo:classes-std', 'classes'); //todofixj4
         $this->_addPath('jbzoo:render', 'renderer');
         $this->_addPath('jbzoo:views', 'jbviews');
         $this->_addPath('jbapp:config', 'jbxml');
@@ -94,6 +95,11 @@ class JBZoo
         $this->_addPath('modules:mod_jbzoo_category', 'mod_jbzoo_category');
         $this->_addPath('modules:mod_jbzoo_item', 'mod_jbzoo_item');
         $this->_addPath('modules:mod_jbzoo_currency', 'mod_jbzoo_currency');
+
+        $this->_addPath('zoo:classes', 'classes');
+        $this->_addPath('zoo:helpers', 'helpers');
+        $this->_addPath('zoo:tables', 'tables');
+        $this->_addPath('zoo:views', 'views');
 
         $this->_addPath('plugins:/system/jbzoo', 'plugin_jbzoo');
 
@@ -137,6 +143,7 @@ class JBZoo
             'JBCartVariant'                      => $clsPath . '/cart/jbvariant.php',
             'JBCartVariantList'                  => $clsPath . '/cart/jbvariantlist.php',
             'JBTemplate'                         => $clsPath . '/jbtemplate.php',
+            'JBUpload'                           => $clsPath . '/jbupload.php',
 
             // models
             'JBModel'                            => $modPath . '/jbmodel.php',

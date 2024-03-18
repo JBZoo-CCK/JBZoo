@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -37,7 +38,7 @@ class JBCartElementEmailSiteName extends JBCartElementEmail
     protected function _getSitename()
     {
         $config   = $config = JFactory::getConfig();
-        $sitename = JString::trim($config->get('sitename'));
+        $sitename = StringHelper::trim($config->get('sitename'));
         return $sitename;
     }
 

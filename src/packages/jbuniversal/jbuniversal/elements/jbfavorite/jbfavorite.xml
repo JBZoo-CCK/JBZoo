@@ -20,11 +20,11 @@
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
     <version>1.0</version>
-    
+
     <params>
         <param name="menuitem" type="jbmenuitems" default="" label="JBZOO_COMPARE_MENUITEM" description="JBZOO_COMPARE_MENUITEM_DESC" />
     </params>
-    
+
     <params group="render">
     </params>
 </element>

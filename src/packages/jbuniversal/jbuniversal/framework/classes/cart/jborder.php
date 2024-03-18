@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -334,7 +335,7 @@ class JBCartOrder
      */
     public function setStatus($statusCode, $type = JBCart::STATUS_ORDER)
     {
-        $statusCode = JString::trim($statusCode);
+        $statusCode = StringHelper::trim($statusCode);
         $newStatus  = $this->app->jbcartstatus->getByCode($statusCode, $type, $this);
 
         if (!$statusCode || !$newStatus) {
@@ -1333,7 +1334,7 @@ class JBCartOrder
      */
     public function setTrack($track)
     {   
-        $newTrack       = JString::trim($track);
+        $newTrack       = StringHelper::trim($track);
         $oldTrack       = $this->track;
 
         $this->track    = $newTrack;

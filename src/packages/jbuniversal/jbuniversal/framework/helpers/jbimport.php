@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -365,7 +366,7 @@ class JBImportHelper extends AppHelper
         // bind import data from CSV
 
         foreach ($this->_data->assign as $colKey => $itemField) {
-            $itemField = JString::trim($itemField);
+            $itemField = StringHelper::trim($itemField);
             if (!empty($itemField)) {
                 $value = isset($row[$colKey]) ? $row[$colKey] : null;
 
@@ -412,7 +413,7 @@ class JBImportHelper extends AppHelper
         // bind import data from CSV
         foreach ($this->_data->assign as $colKey => $itemField) {
 
-            $itemField = JString::trim($itemField);
+            $itemField = StringHelper::trim($itemField);
             if (!empty($itemField)) {
 
                 $value = isset($row[$colKey]) ? $row[$colKey] : null;
@@ -489,19 +490,19 @@ class JBImportHelper extends AppHelper
             foreach ($this->_data->assign as $csvKey => $fieldName) {
 
                 if ($this->_data->key == self::KEY_ID && $fieldName == 'id') {
-                    $item = $itemModel->getById(JString::trim($row[$csvKey]), $this->_data->appid);
+                    $item = $itemModel->getById(StringHelper::trim($row[$csvKey]), $this->_data->appid);
                     break;
 
                 } else if ($this->_data->key == self::KEY_NAME && $fieldName == 'name') {
-                    $item = $itemModel->getByName(JString::trim($row[$csvKey]), $this->_data->appid);
+                    $item = $itemModel->getByName(StringHelper::trim($row[$csvKey]), $this->_data->appid);
                     break;
 
                 } else if ($this->_data->key == self::KEY_ALIAS && $fieldName == 'alias') {
-                    $item = $itemModel->getByAlias(JString::trim($row[$csvKey]), $this->_data->appid);
+                    $item = $itemModel->getByAlias(StringHelper::trim($row[$csvKey]), $this->_data->appid);
                     break;
 
                 } else if ($this->_data->key == self::KEY_SKU && strpos($fieldName, 'sku') !== false) {
-                    $item = $itemModel->getBySku(JString::trim($row[$csvKey]), $this->_data->appid);
+                    $item = $itemModel->getBySku(StringHelper::trim($row[$csvKey]), $this->_data->appid);
                     break;
                 }
             }
@@ -553,15 +554,15 @@ class JBImportHelper extends AppHelper
             foreach ($this->_data->assign as $csvKey => $fieldName) {
 
                 if ($this->_data->key == self::KEY_ID && $fieldName == 'id') {
-                    $category = JBModelCategory::model()->getById(JString::trim($row[$csvKey]), $this->_data->appid);
+                    $category = JBModelCategory::model()->getById(StringHelper::trim($row[$csvKey]), $this->_data->appid);
                     break;
 
                 } else if ($this->_data->key == self::KEY_NAME && $fieldName == 'name') {
-                    $category = JBModelCategory::model()->getByName(JString::trim($row[$csvKey]), $this->_data->appid);
+                    $category = JBModelCategory::model()->getByName(StringHelper::trim($row[$csvKey]), $this->_data->appid);
                     break;
 
                 } else if ($this->_data->key == self::KEY_ALIAS && $fieldName == 'alias') {
-                    $category = JBModelCategory::model()->getByAlias(JString::trim($row[$csvKey]), $this->_data->appid);
+                    $category = JBModelCategory::model()->getByAlias(StringHelper::trim($row[$csvKey]), $this->_data->appid);
                     break;
                 }
             }

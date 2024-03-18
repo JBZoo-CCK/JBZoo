@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -31,7 +32,7 @@ class JBCSVItemPriceProperties extends JBCSVItemPrice
         $values = (array)$this->_param->data();
         $result = array();
         foreach ($values as $key => $value) {
-            $value = JString::trim($value);
+            $value = StringHelper::trim($value);
 
             if (!empty($value)) {
                 $result[$key] = $value;
@@ -48,7 +49,7 @@ class JBCSVItemPriceProperties extends JBCSVItemPrice
      */
     public function fromCSV($value, $variant = null)
     {
-        $value  = JString::trim((string)$value);
+        $value  = StringHelper::trim((string)$value);
         $charts = explode(JBCSVItem::SEP_CELL, $value);
 
         return array(

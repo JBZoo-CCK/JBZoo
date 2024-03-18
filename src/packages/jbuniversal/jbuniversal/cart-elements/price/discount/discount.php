@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -69,7 +70,7 @@ class JBCartElementPriceDiscount extends JBCartElementPrice
         }
 
         $prices = $this->getPrices();
-        $message = JString::trim($params->get('empty_text', ''));
+        $message = StringHelper::trim($params->get('empty_text', ''));
         $layout  = $params->get('layout', 'icon-text');
         if ((int)$params->get('percent_show', 1)) {
             $price    = $prices['price'];

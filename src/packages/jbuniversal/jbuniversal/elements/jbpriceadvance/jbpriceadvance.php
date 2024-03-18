@@ -80,5 +80,5 @@ class ElementJBPriceAdvance extends Element implements iSubmittable
     {
         return null;
     }
-    
+
 }

@@ -139,8 +139,8 @@
 
                 $('input, select, textarea', $param).removeAttr('disabled readonly');
                 $('.jsMessage', $param)
-                    .tooltip()
-                    .tooltip('destroy');
+                    // .tooltip()
+                    // .tooltip('destroy');
 
                 return this;
             },

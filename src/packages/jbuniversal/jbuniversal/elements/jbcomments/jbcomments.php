@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -122,7 +123,7 @@ class ElementJBComments extends Element implements iSubmittable
                 'fbLocale'     => $params->get('fb_comm_locale', 'ru_RU'),
                 'fbAttributes' => array(
                     'class'            => 'fb-comments',
-                    'data-href'        => JUri::base() . JString::trim($this->app->route->item($this->getItem()), '/'),
+                    'data-href'        => JUri::base() . StringHelper::trim($this->app->route->item($this->getItem()), '/'),
                     'data-width'       => $params->get('fb_comm_width', 470),
                     'data-num-post'    => $params->get('fb_comm_limit', 10),
                     'data-colorscheme' => $params->get('fb_comm_color_scheme', 'light')

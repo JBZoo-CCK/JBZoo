@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -119,7 +120,7 @@ class JBCartElementShippingSdek extends JBCartElementShipping
                 'tariff'    => $this->get('tariff'),
                 'to'        => $this->get('to'),
                 'value'     => $this->get('value'),
-                'rate'      => $this->config->get('rate') ? JString::trim($this->config->get('rate')) : 1,
+                'rate'      => $this->config->get('rate') ? StringHelper::trim($this->config->get('rate')) : 1,
                 'goods'     => $this->app->jbassets->toJSON($this->_getWeight()),
             ));
         }
@@ -288,8 +289,8 @@ class JBCartElementShippingSdek extends JBCartElementShipping
 
     public function clear($var)
     {
-        //$clearVar = htmlentities(strip_tags(JString::trim($var)), ENT_QUOTES, "UTF-8");
-        $clearVar = strip_tags(JString::trim($var));
+        //$clearVar = htmlentities(strip_tags(StringHelper::trim($var)), ENT_QUOTES, "UTF-8");
+        $clearVar = strip_tags(StringHelper::trim($var));
         $clearVar = str_replace(array('см.', 'м.', 'мл.', 'л.', 'кг.', 'г.', ','), array('', '', '', '', '', '', '.'), $clearVar);
 
         return $clearVar;

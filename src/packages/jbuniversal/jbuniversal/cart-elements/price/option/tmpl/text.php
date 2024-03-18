@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -20,7 +21,7 @@ $html = array();
 foreach ($data as $optionName => $optionVal) {
     if ($optionName) {
         $className  = $this->app->string->sluggify($optionName);
-        $optionName = JString::ucfirst($optionName);
+        $optionName = StringHelper::ucfirst($optionName);
         $html[]     = '<span class="jbprice-option-' . $className . '">' . $optionName . '</span>';
     }
 }

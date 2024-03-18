@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -121,7 +122,7 @@ class JBCartElementModifierOrderPricePromoCode extends JBCartElementModifierOrde
     protected function getDiscount()
     {   
         $rate  = 0;
-        $code  = JString::trim($this->get('code'));
+        $code  = StringHelper::trim($this->get('code'));
         $list  = $this->_config->get(JBCart::DEFAULT_POSITION, array(), 'cart.' . JBCart::CONFIG_PROMO);
 
         if ($list) {

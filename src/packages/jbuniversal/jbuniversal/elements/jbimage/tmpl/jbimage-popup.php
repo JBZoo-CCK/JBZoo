@@ -15,7 +15,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\Language\Text;
+// $this->app->jbassets->fancybox();
 
-App::getInstance('zoo')->jbassets->jbimagePopup();
-
-echo '<a ' . $linkAttrs . '><img ' . $imageAttrs . ' /></a> ' . PHP_EOL;
+echo '<img ' . $imageAttrs . ' />' . PHP_EOL;

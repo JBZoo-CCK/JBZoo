@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -44,7 +45,7 @@ class JBVarsHelper extends AppHelper
     public function phone($value)
     {
         $value = preg_replace('#[^0-9]#ius', '', $value);
-        $value = JString::trim((string)$value);
+        $value = StringHelper::trim((string)$value);
 
         return $value;
     }
@@ -72,8 +73,8 @@ class JBVarsHelper extends AppHelper
             $string = trim($string, $trimList);
             $string = function_exists('mb_strtolower') ? mb_strtolower($string) : strtolower($string);
         } else {
-            $string = JString::trim($string, $trimList);
-            $string = JString::strtolower($string);
+            $string = StringHelper::trim($string, $trimList);
+            $string = StringHelper::strtolower($string);
         }
 
         return $string;
@@ -102,8 +103,8 @@ class JBVarsHelper extends AppHelper
             $string = trim($string, $trimList);
             $string = function_exists('mb_strtoupper') ? mb_strtoupper($string) : strtoupper($string);
         } else {
-            $string = JString::trim($string, $trimList);
-            $string = JString::strtoupper($string);
+            $string = StringHelper::trim($string, $trimList);
+            $string = StringHelper::strtoupper($string);
         }
 
         return $string;
@@ -141,7 +142,7 @@ class JBVarsHelper extends AppHelper
      */
     public function email($email)
     {
-        $email = JString::trim($email);
+        $email = StringHelper::trim($email);
 
         // like in JFormRuleEmail
         $regex = chr(1) . '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$' . chr(1) . 'u';

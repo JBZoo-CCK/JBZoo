@@ -82,8 +82,9 @@ class JBFormHelper extends AppHelper
             $html[] = '</div>';
         }
 
-        JHtml::_('behavior.tooltip');
-        JHtml::_('behavior.formvalidation');
+        // todoj4fix
+        // JHtml::_('behavior.tooltip');
+        // JHtml::_('behavior.formvalidation');
 
         $html = '<form ' . $this->app->jbhtml->buildAttrs($options) . ' >' . implode(PHP_EOL, $html);
 

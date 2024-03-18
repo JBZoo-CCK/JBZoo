@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -34,7 +35,7 @@ class JBPriceFilterElementJBColor extends JBPriceFilterElement
         }
 
         $colors = explode(PHP_EOL, $this->_element->config->get('options'));
-        $path   = JString::trim($this->_element->config->get('path'));
+        $path   = StringHelper::trim($this->_element->config->get('path'));
         $colors = $this->app->jbcolor->getColors($colors, $path);
         $data   = array();
         $titles = array();

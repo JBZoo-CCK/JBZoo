@@ -37,7 +37,8 @@ class JBSessionHelper extends AppHelper
     public function __construct($app)
     {
         parent::__construct($app);
-        $this->_session = JFactory::getSession();
+        // $this->_session = JFactory::getSession();  //todofixj4
+        $this->_session = Joomla\CMS\Factory::getSession();
     }
 
     /**

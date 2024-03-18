@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -103,7 +104,7 @@ abstract class JBCartElementEmail extends JBCartElement
 
         $result .= "\"";
 
-        return JString::trim($result);
+        return StringHelper::trim($result);
     }
 
     /**
