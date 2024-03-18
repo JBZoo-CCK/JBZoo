@@ -187,6 +187,8 @@ class JBOrderHelper extends AppHelper
                 $order = array_map(function($orderItem) {
                     return str_replace(['\'', ' '], ['', ''], $orderItem);
                 }, $order);
+            } else {
+                $order = (array) $order;
             }
         }
 

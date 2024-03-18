@@ -25,7 +25,7 @@ require_once __DIR__ . '/framework/jbzoo.php';
  */
 final class JBUniversalApplication extends Application
 {
-    const JBZOO_VERSION = '4.12.0';
+    const JBZOO_VERSION = '4.12.1';
 
     /**
      * @var bool

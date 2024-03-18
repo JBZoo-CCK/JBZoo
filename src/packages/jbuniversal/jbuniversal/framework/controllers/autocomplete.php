@@ -28,8 +28,8 @@ class AutocompleteJBUniversalController extends JBUniversalController
      */
     public function index()
     {
-        $this->app->jbdebug->mark('autocomplete::start');
-        if (!$this->app->jbcache->start(null, 'autocomplete')) {
+        $this->zoo->jbdebug->mark('autocomplete::start');
+        if (!$this->zoo->jbcache->start(null, 'autocomplete')) {
 
             $type    = $this->_jbrequest->get('type');
             $query   = $this->_jbrequest->get('value');
@@ -41,7 +41,7 @@ class AutocompleteJBUniversalController extends JBUniversalController
                 $param_id   = isset($element_id[2]) ? $element_id[2] : null;
                 $element_id = $element_id[1];
 
-                $element     = $this->app->jbentity->getElement($element_id, $type, $appId);
+                $element     = $this->zoo->jbentity->getElement($element_id, $type, $appId);
                 $elementType = $element->getElementType();
 
                 $db = JBModelAutocomplete::model();
@@ -74,7 +74,7 @@ class AutocompleteJBUniversalController extends JBUniversalController
                     foreach ($rows as $row) {
 
                         if (JString::strlen($row->value) > self::MAX_LENGTH) {
-                            $value = $this->app->jbstring->smartSubstr($row->value, $query);
+                            $value = $this->zoo->jbstring->smartSubstr($row->value, $query);
                         } else {
                             $value = $row->value;
                         }
@@ -95,10 +95,10 @@ class AutocompleteJBUniversalController extends JBUniversalController
                 throw new AppException('Unkown element name');
             }
 
-            $this->app->jbcache->stop();
+            $this->zoo->jbcache->stop();
         }
 
-        $this->app->jbdebug->mark('autocomplete::end');
+        $this->zoo->jbdebug->mark('autocomplete::end');
         jexit();
     }
 

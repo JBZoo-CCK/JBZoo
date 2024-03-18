@@ -51,8 +51,8 @@ class JBExportJBuniversalController extends JBuniversalController
         parent::__construct($app, $config);
 
         // get link to helpers
-        $this->_jbexport = $this->app->jbexport;
-        $this->_jbuser   = $this->app->jbuser;
+        $this->_jbexport = $this->zoo->jbexport;
+        $this->_jbuser   = $this->zoo->jbuser;
     }
 
     /**
@@ -68,7 +68,7 @@ class JBExportJBuniversalController extends JBuniversalController
      */
     public function standard()
     {
-        $applications = $this->app->table->application->all();
+        $applications = $this->zoo->table->application->all();
 
         $this->appList = array();
         foreach ($applications as $application) {
@@ -104,10 +104,10 @@ class JBExportJBuniversalController extends JBuniversalController
         /** @var AppData $req */
         /** @var JBAjaxHelper $jbajax */
         /** @var JBSessionHelper $session */
-        $req     = $this->app->data->create($this->_jbrequest->getAdminForm());
+        $req     = $this->zoo->data->create($this->_jbrequest->getAdminForm());
         $page    = $this->_jbrequest->get('page');
-        $jbajax  = $this->app->jbajax;
-        $session = $this->app->jbsession;
+        $jbajax  = $this->zoo->jbajax;
+        $session = $this->zoo->jbsession;
 
         try {
             $progress = 0;
@@ -115,8 +115,8 @@ class JBExportJBuniversalController extends JBuniversalController
             if ($page == -1) { // prepare
 
                 if (!$req->get('type')) {
-                    $this->app->jbnotify->notice('Please, select file type for export!');
-                    $this->setRedirect($this->app->jbrouter->admin(array('task' => 'items')));
+                    $this->zoo->jbnotify->notice('Please, select file type for export!');
+                    $this->setRedirect($this->zoo->jbrouter->admin(array('task' => 'items')));
                     return;
                 }
 
@@ -157,7 +157,7 @@ class JBExportJBuniversalController extends JBuniversalController
 
             if ($page >= 0) { // process each export step
 
-                $sesData = $this->app->data->create($session->getGroup('export.items'));
+                $sesData = $this->zoo->data->create($session->getGroup('export.items'));
                 $config  = $this->_config->getGroup('export.items');
                 $config->set('limit', array($page * $config->get('step'), $config->get('step')));
 
@@ -172,8 +172,8 @@ class JBExportJBuniversalController extends JBuniversalController
             ));
 
         } catch (AppException $e) {
-            $this->app->jbnotify->notice(JText::_('Error create export file') . ' (' . $e . ')');
-            $this->setRedirect($this->app->jbrouter->admin(array('task' => 'items')));
+            $this->zoo->jbnotify->notice(JText::_('Error create export file') . ' (' . $e . ')');
+            $this->setRedirect($this->zoo->jbrouter->admin(array('task' => 'items')));
         }
     }
 
@@ -186,21 +186,21 @@ class JBExportJBuniversalController extends JBuniversalController
         $tmpArch = null;
 
         if ($compressFiles = $this->_jbexport->splitFiles()) {
-            $tmpArch = $this->app->jbarch->compress($compressFiles, 'jbzoo-export-items-' . date('Y-m-d_H-i'));
+            $tmpArch = $this->zoo->jbarch->compress($compressFiles, 'jbzoo-export-items-' . date('Y-m-d_H-i'));
         } else {
-            $this->app->jbnotify->notice(JText::_('JBZOO_EXPORT_ITEMS_NOT_FOUND'));
-            $this->setRedirect($this->app->jbrouter->admin(array('task' => 'items')));
+            $this->zoo->jbnotify->notice(JText::_('JBZOO_EXPORT_ITEMS_NOT_FOUND'));
+            $this->setRedirect($this->zoo->jbrouter->admin(array('task' => 'items')));
         }
 
         if ($tmpArch && is_readable($tmpArch) && JFile::exists($tmpArch)) {
-            $this->app->filesystem->output($tmpArch);
+            $this->zoo->filesystem->output($tmpArch);
             JFile::delete($tmpArch);
             $this->_jbexport->clean();
             JExit();
 
         } else {
-            $this->app->jbnotify->notice(JText::sprintf('Unable to create file %s', $tmpArch));
-            $this->setRedirect($this->app->jbrouter->admin(array('task' => 'items')));
+            $this->zoo->jbnotify->notice(JText::sprintf('Unable to create file %s', $tmpArch));
+            $this->setRedirect($this->zoo->jbrouter->admin(array('task' => 'items')));
         }
     }
 
@@ -218,7 +218,7 @@ class JBExportJBuniversalController extends JBuniversalController
         } else {
 
             try {
-                $request = $this->app->data->create($this->_jbrequest->getAdminForm());
+                $request = $this->zoo->data->create($this->_jbrequest->getAdminForm());
 
                 $data['separator'] = $request->get('separator');
                 $data['enclosure'] = $request->get('enclosure');
@@ -236,13 +236,13 @@ class JBExportJBuniversalController extends JBuniversalController
                 $files = $this->_jbexport->categoriesToCSV($appId, $request);
 
                 if (!empty($files)) {
-                    $tmpArch = $this->app->jbarch->compress($files, 'jbzoo-export-categories-' . date('Y-m-d_H-i'));
+                    $tmpArch = $this->zoo->jbarch->compress($files, 'jbzoo-export-categories-' . date('Y-m-d_H-i'));
                 } else {
                     throw new AppException(JText::_('JBZOO_EXPORT_CATEGORIES_NOT_FOUND'));
                 }
 
                 if (is_readable($tmpArch) && JFile::exists($tmpArch)) {
-                    $this->app->filesystem->output($tmpArch);
+                    $this->zoo->filesystem->output($tmpArch);
                     JFile::delete($tmpArch);
                     $this->_jbexport->clean();
                     JExit();
@@ -251,8 +251,8 @@ class JBExportJBuniversalController extends JBuniversalController
                 }
 
             } catch (AppException $e) {
-                $this->app->jbnotify->notice(JText::_('Error create export file') . ' (' . $e . ')');
-                $this->setRedirect($this->app->jbrouter->admin(array('task' => 'categories')));
+                $this->zoo->jbnotify->notice(JText::_('Error create export file') . ' (' . $e . ')');
+                $this->setRedirect($this->zoo->jbrouter->admin(array('task' => 'categories')));
             }
         }
     }
@@ -268,16 +268,16 @@ class JBExportJBuniversalController extends JBuniversalController
         } else {
 
             try {
-                $files = JFolder::files($this->app->path->path('jbapp:types'), 'config', false, true);
+                $files = JFolder::files($this->zoo->path->path('jbapp:types'), 'config', false, true);
 
                 if (!empty($files)) {
-                    $tmpArch = $this->app->jbarch->compress($files, 'jbzoo-export-types-' . date('Y-m-d_H-i'));
+                    $tmpArch = $this->zoo->jbarch->compress($files, 'jbzoo-export-types-' . date('Y-m-d_H-i'));
                 } else {
                     throw new AppException(JText::_('JBZOO_EXPORT_TYPES_NOT_FOUND'));
                 }
 
                 if (is_readable($tmpArch) && JFile::exists($tmpArch)) {
-                    $this->app->filesystem->output($tmpArch);
+                    $this->zoo->filesystem->output($tmpArch);
                     JFile::delete($tmpArch);
                     $this->_jbexport->clean();
                     JExit();
@@ -286,8 +286,8 @@ class JBExportJBuniversalController extends JBuniversalController
                 }
 
             } catch (AppException $e) {
-                $this->app->jbnotify->notice(JText::_('Error create export file') . ' (' . $e . ')');
-                $this->setRedirect($this->app->jbrouter->admin(array('task' => 'types')));
+                $this->zoo->jbnotify->notice(JText::_('Error create export file') . ' (' . $e . ')');
+                $this->setRedirect($this->zoo->jbrouter->admin(array('task' => 'types')));
             }
         }
     }
@@ -297,8 +297,8 @@ class JBExportJBuniversalController extends JBuniversalController
      */
     public function zooBackup()
     {
-        $this->app->jbtables->checkSku();
-        $this->app->jbtables->checkFavorite();
+        $this->zoo->jbtables->checkSku();
+        $this->zoo->jbtables->checkFavorite();
 
         $this->renderView();
     }
@@ -308,10 +308,10 @@ class JBExportJBuniversalController extends JBuniversalController
      */
     public function yandexYml()
     {
-        $this->app->jbyml->init();
+        $this->zoo->jbyml->init();
 
         $this->indexStep = 25;
-        $this->total     = $this->app->jbyml->getTotal();
+        $this->total     = $this->zoo->jbyml->getTotal();
 
         $this->renderView();
     }
@@ -322,18 +322,18 @@ class JBExportJBuniversalController extends JBuniversalController
     public function writeStep()
     {
         $limit  = 25;
-        $page   = (int)$this->app->jbrequest->get('page', 0);
+        $page   = (int)$this->zoo->jbrequest->get('page', 0);
         $offset = $limit * $page;
 
-        $this->app->jbyml->init();
+        $this->zoo->jbyml->init();
 
         try {
             if ($page == 0) {
-                $this->app->jbyml->renderStart();
+                $this->zoo->jbyml->renderStart();
             }
 
-            $lines   = $this->app->jbyml->exportItems($offset, $limit);
-            $total   = $this->app->jbyml->getTotal();
+            $lines   = $this->zoo->jbyml->exportItems($offset, $limit);
+            $total   = $this->zoo->jbyml->getTotal();
             $current = $limit * ($page + 1);
 
             if ($current > $total) {
@@ -343,20 +343,20 @@ class JBExportJBuniversalController extends JBuniversalController
             $progress = round($current * 100 / $total, 2);
 
             if ($progress == 100) {
-                $this->app->jbyml->renderFinish();
+                $this->zoo->jbyml->renderFinish();
             }
         } catch (AppException $exception) {
             JExit($exception->getMessage());
         }
 
-        $this->app->jbajax->send(array(
+        $this->zoo->jbajax->send(array(
             'progress' => $progress,
             'current'  => $current,
             'total'    => $total,
             'lines'    => $lines,
             'step'     => $page + 1,
             'stepsize' => $limit,
-            'ymlcount' => $this->app->jbsession->get('ymlCount', 'yml'),
+            'ymlcount' => $this->zoo->jbsession->get('ymlCount', 'yml'),
         ));
     }
 

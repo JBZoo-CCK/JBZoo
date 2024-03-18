@@ -59,6 +59,7 @@ class JBCartElementHookBoxberryOrder extends JBCartElementHook
         $order      = $this->getOrder();
         $shipping   = $order->getShipping();
         $to         = $shipping->get('pvz');
+        $orderName  = $this->config->get('prefix', '') ? $this->config->get('prefix').'-'.$order->getName() : $order->getName();
         
         if (!empty($to)) {
             $data       =  array(

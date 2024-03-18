@@ -31,13 +31,13 @@ class ClientareaJBUniversalController extends JBUniversalController
      */
     public function init()
     {
-        $this->app->jbdoc->noindex();
-        $this->application = $this->app->zoo->getApplication();
+        $this->zoo->jbdoc->noindex();
+        $this->application = $this->zoo->zoo->getApplication();
         $this->template    = $this->application->getTemplate();
 
         $this->_user = JFactory::getUser();
         if (empty($this->_user->id)) {
-            $url = 'index.php?option=com_users&view=login&return=' . base64_encode($this->app->jbenv->getCurrentUrl());
+            $url = 'index.php?option=com_users&view=login&return=' . base64_encode($this->zoo->jbenv->getCurrentUrl());
             $this->setRedirect($url, JText::_('JBZOO_CLIENTAREA_NEED_LOGIN'));
             return;
         }
@@ -53,7 +53,7 @@ class ClientareaJBUniversalController extends JBUniversalController
 
         $user = JFactory::getUser();
         if (empty($user->id)) {
-            $url = 'index.php?option=com_users&view=login&return=' . base64_encode($this->app->jbenv->getCurrentUrl());
+            $url = 'index.php?option=com_users&view=login&return=' . base64_encode($this->zoo->jbenv->getCurrentUrl());
             $this->setRedirect($url, JText::_('JBZOO_CLIENTAREA_NEED_LOGIN'));
             return;
         }
@@ -78,15 +78,15 @@ class ClientareaJBUniversalController extends JBUniversalController
     {
         $this->init();
 
-        $orderId     = $this->app->jbrequest->get('order_id');
+        $orderId     = $this->zoo->jbrequest->get('order_id');
         $this->order = JBModelOrder::model()->getById($orderId);
 
-        $this->formRenderer           = $this->app->jbrenderer->create('Order');
-        $this->shippingRenderer       = $this->app->jbrenderer->create('Shipping');
-        $this->shippingFieldsRenderer = $this->app->jbrenderer->create('ShippingFields');
+        $this->formRenderer           = $this->zoo->jbrenderer->create('Order');
+        $this->shippingRenderer       = $this->zoo->jbrenderer->create('Shipping');
+        $this->shippingFieldsRenderer = $this->zoo->jbrenderer->create('ShippingFields');
 
         if (!$this->order || ($this->_user->id != $this->order->created_by)) {
-            $this->app->jbnotify->error('JBZOO_CLIENTAREA_ORDER_NOT_FOUND');
+            $this->zoo->jbnotify->error('JBZOO_CLIENTAREA_ORDER_NOT_FOUND');
         }
 
         $this

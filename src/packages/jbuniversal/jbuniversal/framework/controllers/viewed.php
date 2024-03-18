@@ -28,7 +28,7 @@ class ViewedJBUniversalController extends JBUniversalController
      */
     public function clear()
     {
-        $result = $this->app->jbviewed->clear();
-        $this->app->jbajax->send(array(), $result);
+        $result = $this->zoo->jbviewed->clear();
+        $this->zoo->jbajax->send(array(), $result);
     }
 }

@@ -22,6 +22,7 @@
     <description>JBZOO_ELEMENT_PAYMENT_SBERBANK_DESC</description>
 
     <params>
+        <param name="jbdesc" type="jbdesc" default="JBZOO_ELEMENT_PAYMENT_SBERBANK_CALLBACK_DESC"/>
 
         <param name="merchant" type="text" default="" label="JBZOO_ELEMENT_PAYMENT_SBERBANK_LOGIN"
                description="JBZOO_ELEMENT_PAYMENT_SBERBANK_LOGIN_DESC"/>

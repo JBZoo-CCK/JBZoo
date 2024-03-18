@@ -56,12 +56,12 @@ class BasketJBUniversalController extends JBUniversalController
     {
         parent::__construct($app, $config);
 
-        $this->app->jbdoc->noindex();
-        $this->_jbmoney = $this->app->jbmoney;
+        $this->zoo->jbdoc->noindex();
+        $this->_jbmoney = $this->zoo->jbmoney;
         $this->_config  = JBModelConfig::model()->getGroup('cart.config');
         $this->cart     = JBCart::getInstance();
 
-        $this->application = $this->app->zoo->getApplication();
+        $this->application = $this->zoo->zoo->getApplication();
 
         // load template
         $tmplName       = $this->_config->get('tmpl_name', 'uikit');
@@ -73,17 +73,17 @@ class BasketJBUniversalController extends JBUniversalController
         }
 
         if (!$this->_config->get('enable', 1)) {
-            $this->app->jbnotify->error('JBZOO_CART_DISABLED');
+            $this->zoo->jbnotify->error('JBZOO_CART_DISABLED');
         }
 
-        if (!$this->cart->canAccess($this->app->user->get())) {
+        if (!$this->cart->canAccess($this->zoo->user->get())) {
 
             $user = JFactory::getUser();
             if (empty($user->id)) {
-                $url = 'index.php?option=com_users&view=login&return=' . base64_encode($this->app->jbenv->getCurrentUrl());
+                $url = 'index.php?option=com_users&view=login&return=' . base64_encode($this->zoo->jbenv->getCurrentUrl());
                 $this->setRedirect($url, JText::_('JBZOO_CART_NEED_LOGIN'));
             } else {
-                $this->app->jbnotify->error('JBZOO_CART_UNABLE_ACCESS');
+                $this->zoo->jbnotify->error('JBZOO_CART_UNABLE_ACCESS');
             }
         }
     }
@@ -93,17 +93,17 @@ class BasketJBUniversalController extends JBUniversalController
      */
     function index()
     {
-        $this->formRenderer               = $this->app->jbrenderer->create('Order');
-        $this->shippingRenderer           = $this->app->jbrenderer->create('Shipping');
-        $this->paymentRenderer            = $this->app->jbrenderer->create('Payment');
-        $this->validatorRenderer          = $this->app->jbrenderer->create('Validator');
-        $this->shippingFieldRenderer      = $this->app->jbrenderer->create('ShippingFields');
-        $this->modifierOrderPriceRenderer = $this->app->jbrenderer->create('ModifierOrderPrice');
+        $this->formRenderer               = $this->zoo->jbrenderer->create('Order');
+        $this->shippingRenderer           = $this->zoo->jbrenderer->create('Shipping');
+        $this->paymentRenderer            = $this->zoo->jbrenderer->create('Payment');
+        $this->validatorRenderer          = $this->zoo->jbrenderer->create('Validator');
+        $this->shippingFieldRenderer      = $this->zoo->jbrenderer->create('ShippingFields');
+        $this->modifierOrderPriceRenderer = $this->zoo->jbrenderer->create('ModifierOrderPrice');
 
-        $this->shipping       = $this->app->jbshipping->getEnabled();
-        $this->shippingFields = $this->app->jbshipping->getFields();
-        $this->payment        = $this->app->jbpayment->getEnabled();
-        $this->modifierPrice  = $this->app->jbmodifierprice->getEnabled();
+        $this->shipping       = $this->zoo->jbshipping->getEnabled();
+        $this->shippingFields = $this->zoo->jbshipping->getFields();
+        $this->payment        = $this->zoo->jbpayment->getEnabled();
+        $this->modifierPrice  = $this->zoo->jbmodifierprice->getEnabled();
 
         $this->config    = $this->_config;
         $this->Itemid    = $this->_jbrequest->get('Itemid');
@@ -118,12 +118,12 @@ class BasketJBUniversalController extends JBUniversalController
         ));
         $this->title    = JText::_('JBZOO_CART_ITEMS');
 
-        $jbnotify = $this->app->jbnotify;
+        $jbnotify = $this->zoo->jbnotify;
 
         $errors     = 0;
         $orderSaved = false;
 
-        $isPaymentBtn = $this->app->jbrequest->get('create-pay');
+        $isPaymentBtn = $this->zoo->jbrequest->get('create-pay');
 
         if ($this->_jbrequest->isPost()) {
 
@@ -137,7 +137,7 @@ class BasketJBUniversalController extends JBUniversalController
                 $errors += count($errorMessages);
 
                 if ($errors) {
-                    $this->app->system->application->setUserState('JBZOO_ORDDER_SUBMISSION_FORM', serialize($formData));
+                    $this->zoo->system->application->setUserState('JBZOO_ORDDER_SUBMISSION_FORM', serialize($formData));
 
                     // show custom error messages
                     $jbnotify->warning('JBZOO_CART_ORDER_SOME_ERROR');
@@ -188,24 +188,24 @@ class BasketJBUniversalController extends JBUniversalController
         $keywords    = '';
         
         // Set Menu Meta
-        $menu           = $this->app->menu->getActive();
-        $menu_params    = $this->app->parameter->create($menu->params);
+        $menu           = $this->zoo->menu->getActive();
+        $menu_params    = $this->zoo->parameter->create($menu->params);
 
         if ($menu and in_array(@$menu->query['view'], array('basket')) and $menu_params) {
 
             if ($menu_params->get('page_title') || $menu->title) {
                 $title = $menu_params->get('page_title') ? $menu_params->get('page_title') : $menu->title;
-                $this->app->document->setTitle($this->app->zoo->buildPageTitle($title));
+                $this->zoo->document->setTitle($this->zoo->zoo->buildPageTitle($title));
             }
 
             if ($page_description = $menu_params->get('menu-meta_description')) {
                 $description = $page_description;
-                $this->app->document->setDescription($description);
+                $this->zoo->document->setDescription($description);
             }
 
             if ($page_keywords = $menu_params->get('menu-meta_keywords')) {
                 $keywords = $page_keywords;
-                $this->app->document->setMetadata('keywords', $keywords);
+                $this->zoo->document->setMetadata('keywords', $keywords);
             }
 
             $this->title = $menu_params->get('page_heading') ? : $title;
@@ -225,7 +225,7 @@ class BasketJBUniversalController extends JBUniversalController
     {
         $cart = JBcart::getInstance();
         $cart->removeItems();
-        $this->app->jbajax->send();
+        $this->zoo->jbajax->send();
     }
 
     /**
@@ -241,7 +241,7 @@ class BasketJBUniversalController extends JBUniversalController
 
         $recount = $cart->recount();
 
-        $this->app->jbajax->send(array('cart' => $recount));
+        $this->zoo->jbajax->send(array('cart' => $recount));
     }
 
     /**
@@ -278,7 +278,7 @@ class BasketJBUniversalController extends JBUniversalController
                     }
 
                 } catch (AppValidatorException $e) {
-                    $this->app->jbnotify->warning(JText::_($e->getMessage()));
+                    $this->zoo->jbnotify->warning(JText::_($e->getMessage()));
                 }
             }
         }
@@ -304,12 +304,12 @@ class BasketJBUniversalController extends JBUniversalController
             $cart->changeQuantity($key, $value);
             $recount = $cart->recount();
 
-            $this->app->jbajax->send(array('cart' => $recount));
+            $this->zoo->jbajax->send(array('cart' => $recount));
         }
 
         $item    = $cart->getItem($key);
         $variant = isset($item['variant']) ? $item['variant'] : 0;
-        $this->app->jbajax->send(array(
+        $this->zoo->jbajax->send(array(
             'message'  => JText::_('JBZOO_JBPRICE_NOT_AVAILABLE_MESSAGE'),
             'quantity' => (float)$cart->getItemElement($item)->getBalance($variant)
         ), false);
@@ -320,12 +320,12 @@ class BasketJBUniversalController extends JBUniversalController
      */
     public function shipping()
     {
-        $shipping = $this->app->jbrequest->get('shipping');
+        $shipping = $this->zoo->jbrequest->get('shipping');
 
         $cart = JBCart::getInstance();
         $cart->setShipping($shipping);
 
-        $this->app->jbajax->send(array('cart' => $cart->recount()));
+        $this->zoo->jbajax->send(array('cart' => $cart->recount()));
     }
 
     /**
@@ -334,7 +334,7 @@ class BasketJBUniversalController extends JBUniversalController
     public function reloadModule()
     {
         $moduleId = $this->_jbrequest->get('moduleId');
-        $html     = $this->app->jbjoomla->renderModuleById($moduleId);
+        $html     = $this->zoo->jbjoomla->renderModuleById($moduleId);
         jexit($html);
     }
 
@@ -344,11 +344,11 @@ class BasketJBUniversalController extends JBUniversalController
     public function callElement()
     {
         // get request
-        $group     = $this->app->request->getCmd('group', '');
-        $elementId = $this->app->request->getCmd('element', '');
-        $orderId   = $this->app->request->getInt('order_id', '');
-        $method    = $this->app->request->getCmd('method', '');
-        $args      = $this->app->request->getVar('args', array(), 'default', 'array');
+        $group     = $this->zoo->request->getCmd('group', '');
+        $elementId = $this->zoo->request->getCmd('element', '');
+        $orderId   = $this->zoo->request->getInt('order_id', '');
+        $method    = $this->zoo->request->getCmd('method', '');
+        $args      = $this->zoo->request->getVar('args', array(), 'default', 'array');
 
         if ($orderId > 0) {
             $order = JBModelOrder::model()->getById($orderId);
@@ -357,7 +357,7 @@ class BasketJBUniversalController extends JBUniversalController
         }
 
         if (empty($order)) {
-            return $this->app->error->raiseError(404, JText::_('Order not found'));
+            return $this->zoo->error->raiseError(404, JText::_('Order not found'));
         }
 
         // get element
@@ -370,11 +370,11 @@ class BasketJBUniversalController extends JBUniversalController
         }
 
         if (empty($element)) {
-            return $this->app->error->raiseError(404, JText::_('Element not forund'));
+            return $this->zoo->error->raiseError(404, JText::_('Element not forund'));
         }
 
-        if (!$element->canAccess($this->app->user->get())) {
-            return $this->app->error->raiseError(403, JText::_('Unable to access item'));
+        if (!$element->canAccess($this->zoo->user->get())) {
+            return $this->zoo->error->raiseError(403, JText::_('Unable to access item'));
         }
 
         $element->callback($method, $args);
@@ -386,7 +386,7 @@ class BasketJBUniversalController extends JBUniversalController
     protected function _getShippingPrices()
     {
         $request  = $this->_jbrequest->get('shipping');
-        $elements = $this->app->jbshipping->getEnabled();
+        $elements = $this->zoo->jbshipping->getEnabled();
         $result   = array();
 
         if (!empty($request)) {
@@ -411,7 +411,7 @@ class BasketJBUniversalController extends JBUniversalController
      */
     protected function _getRequest()
     {
-        $formData = $this->app->request->get('post:', 'array');
+        $formData = $this->zoo->request->get('post:', 'array');
 
         // add _FILES data
         foreach ($_FILES as $key => $userfile) {

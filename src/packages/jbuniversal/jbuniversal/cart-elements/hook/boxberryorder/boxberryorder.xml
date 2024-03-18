@@ -27,6 +27,8 @@
 
         <param name="token" type="text" default="" label="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_TOKEN"
                 description="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_TOKEN_DESC"/>
+
+        <param name="prefix" type="text" label="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PREFIX" description="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PREFIX_DESC" />
         
         <param name="source" type="radio" default="price" label="JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_SOURCE" description="">
             <option value="price">JBZOO_ELEMENT_HOOK_BOXBERRYORDER_PARAM_SOURCE_PRICE</option>

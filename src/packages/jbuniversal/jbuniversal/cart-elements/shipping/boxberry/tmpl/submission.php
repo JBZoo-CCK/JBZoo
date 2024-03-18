@@ -49,8 +49,5 @@ $isSelected = ($price && $address && $pvz) ? true : false;
     'free'              => $this->config->get('limit_for_free'),
     'rate'              => $this->config->get('rate'),
     'weight'            => (int) $weight,
-    'box_lenght'        => (int) $this->config->get('box_length'),
-    'box_height'        => (int) $this->config->get('box_height'),
-    'box_width'         => (int) $this->config->get('box_width'),
     'yandex_map_key'    => $this->config->get('yandex_map_key'),
 ), true); ?>

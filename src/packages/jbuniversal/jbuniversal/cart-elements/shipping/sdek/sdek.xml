@@ -58,13 +58,13 @@
 
         <param name="@defaults" type="jbspacer" default="JBZOO_ELEMENT_SHIPPING_SDEK_PARAM_SEPARATOR_DEFAULT" />
 
-        <param name="default_weight" type="text" default="1" label="JBZOO_ELEMENT_SHIPPING_SDEK_PARAM_DEFAULT_WEIGHT"
+        <param name="default_weight" type="text" default="0.1" label="JBZOO_ELEMENT_SHIPPING_SDEK_PARAM_DEFAULT_WEIGHT"
                 description="JBZOO_ELEMENT_SHIPPING_SDEK_PARAM_DEFAULT_WEIGHT_DESC"/>
-        <param name="default_length" type="text" default="10" label="JBZOO_ELEMENT_SHIPPING_SDEK_PARAM_DEFAULT_LENGTH"
+        <param name="default_length" type="text" default="0.1" label="JBZOO_ELEMENT_SHIPPING_SDEK_PARAM_DEFAULT_LENGTH"
                 description="JBZOO_ELEMENT_SHIPPING_SDEK_PARAM_DEFAULT_LENGTH_DESC"/>
-        <param name="default_width" type="text" default="10" label="JBZOO_ELEMENT_SHIPPING_SDEK_PARAM_DEFAULT_WIDTH"
+        <param name="default_width" type="text" default="0.1" label="JBZOO_ELEMENT_SHIPPING_SDEK_PARAM_DEFAULT_WIDTH"
                 description="JBZOO_ELEMENT_SHIPPING_SDEK_PARAM_DEFAULT_WIDTH_DESC"/>
-        <param name="default_height" type="text" default="20" label="JBZOO_ELEMENT_SHIPPING_SDEK_PARAM_DEFAULT_HEIGHT"
+        <param name="default_height" type="text" default="0.2" label="JBZOO_ELEMENT_SHIPPING_SDEK_PARAM_DEFAULT_HEIGHT"
                 description="JBZOO_ELEMENT_SHIPPING_SDEK_PARAM_DEFAULT_HEIGHT_DESC"/>
 
     </params>

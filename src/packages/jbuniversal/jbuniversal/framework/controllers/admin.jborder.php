@@ -30,7 +30,7 @@ class JBOrderJBuniversalController extends JBUniversalController
     {
         parent::__construct($app, $config);
 
-        $this->app->path->register($this->app->path->path('jbviews:jborder'), 'renderer');
+        $this->zoo->path->register($this->zoo->path->path('jbviews:jborder'), 'renderer');
     }
 
     /**
@@ -38,13 +38,13 @@ class JBOrderJBuniversalController extends JBUniversalController
      */
     public function index()
     {
-        $this->app->toolbar->deleteList();
+        $this->zoo->toolbar->deleteList();
 
-        $this->filter = $this->app->data->create($this->_jbrequest->getArray('filter', array()));
+        $this->filter = $this->zoo->data->create($this->_jbrequest->getArray('filter', array()));
 
         // limit
-        $this->filter['limit']  = $this->app->system->application->getUserStateFromRequest('global.list.limit', 'limit', $this->app->system->config->get('list_limit'), 'int');
-        $this->filter['offset'] = $this->app->system->application->getUserStateFromRequest('jborder.limitstart', 'limitstart', 0, 'int');
+        $this->filter['limit']  = $this->zoo->system->application->getUserStateFromRequest('global.list.limit', 'limit', $this->zoo->system->config->get('list_limit'), 'int');
+        $this->filter['offset'] = $this->zoo->system->application->getUserStateFromRequest('jborder.limitstart', 'limitstart', 0, 'int');
 
         // order
         $this->filter['order']     = $this->_jbrequest->get('filter_order', 'id');
@@ -54,10 +54,10 @@ class JBOrderJBuniversalController extends JBUniversalController
         $this->orderList  = $orderModel->getList($this->filter);
         $this->orderCount = $orderModel->getCount($this->filter);
 
-        $this->pagination = $this->app->pagination->create($this->orderCount, $this->filter['offset'], $this->filter['limit']);
+        $this->pagination = $this->zoo->pagination->create($this->orderCount, $this->filter['offset'], $this->filter['limit']);
 
-        $this->statusList = array('' => JText::_('JBZOO_ADMIN_STATUS_SELECT')) + $this->app->jbcartstatus->getExistsList();
-        $this->userList   = array(0 => JText::_('JBZOO_ADMIN_USER_SELECT')) + $this->app->jbcartorder->getExistsUsers();
+        $this->statusList = array('' => JText::_('JBZOO_ADMIN_STATUS_SELECT')) + $this->zoo->jbcartstatus->getExistsList();
+        $this->userList   = array(0 => JText::_('JBZOO_ADMIN_USER_SELECT')) + $this->zoo->jbcartorder->getExistsUsers();
 
         $this->renderView();
     }
@@ -67,32 +67,32 @@ class JBOrderJBuniversalController extends JBUniversalController
      */
     public function edit()
     {
-        $orderId = $this->app->request->get('cid.0', 'int');
+        $orderId = $this->zoo->request->get('cid.0', 'int');
 
         // get item
         $orderModel  = JBModelOrder::model();
         $this->order = $orderModel->getById($orderId);
 
-        if ($this->app->jbrequest->isPost()) {
-            $newData = $this->app->jbrequest->getArray('order');
+        if ($this->zoo->jbrequest->isPost()) {
+            $newData = $this->zoo->jbrequest->getArray('order');
             $this->order->updateData($newData);
             $orderModel->save($this->order);
 
-            $editUrl = $this->app->jbrouter->admin(array('cid' => array($this->order->id)));
+            $editUrl = $this->zoo->jbrouter->admin(array('cid' => array($this->order->id)));
             $this->setRedirect($editUrl, JText::_('JBZOO_ADMIN_MESSAGE_SAVED'));
         }
 
-        $this->shipRender       = $this->app->jbrenderer->create('Shipping');
-        $this->paymentRender    = $this->app->jbrenderer->create('Payment');
-        $this->shipFieldsRender = $this->app->jbrenderer->create('ShippingFields');
-        $this->orderFieldRender = $this->app->jbrenderer->create('order');
+        $this->shipRender       = $this->zoo->jbrenderer->create('Shipping');
+        $this->paymentRender    = $this->zoo->jbrenderer->create('Payment');
+        $this->shipFieldsRender = $this->zoo->jbrenderer->create('ShippingFields');
+        $this->orderFieldRender = $this->zoo->jbrenderer->create('order');
 
         if ($this->order->id == 0) {
-            $this->app->error->raiseError(500, JText::sprintf('Unable to access item with id %s', $orderId));
+            $this->zoo->error->raiseError(500, JText::sprintf('Unable to access item with id %s', $orderId));
             return;
         }
 
-        $this->app->jbassets->addVar('currencyList', $this->order->getCurrencyList());
+        $this->zoo->jbassets->addVar('currencyList', $this->order->getCurrencyList());
 
         $this->renderView();
     }
@@ -102,11 +102,11 @@ class JBOrderJBuniversalController extends JBUniversalController
      */
     public function remove()
     {
-        //$this->app->session->checkToken() or jexit('Invalid Token'); // TODO fix token
-        $cid = $this->app->request->get('cid', 'array', array());
+        //$this->zoo->session->checkToken() or jexit('Invalid Token'); // TODO fix token
+        $cid = $this->zoo->request->get('cid', 'array', array());
 
         if (count($cid) < 1) {
-            $this->app->jbnotify->error('JBZOO_ADMIN_ORDER_NO_SELECTED');
+            $this->zoo->jbnotify->error('JBZOO_ADMIN_ORDER_NO_SELECTED');
         }
 
         try {
@@ -120,11 +120,11 @@ class JBOrderJBuniversalController extends JBUniversalController
         } catch (AppException $e) {
 
             // raise notice on exception
-            $this->app->jbnotify->warning(JText::_('JBZOO_ADMIN_ORDER_DELET_ERROR') . ' (' . $e . ')');
+            $this->zoo->jbnotify->warning(JText::_('JBZOO_ADMIN_ORDER_DELET_ERROR') . ' (' . $e . ')');
             $msg = null;
         }
 
-        $redirectUrl = $this->app->jbrouter->admin(array(
+        $redirectUrl = $this->zoo->jbrouter->admin(array(
             'controller' => 'jborder',
             'task'       => 'index',
         ));

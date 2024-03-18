@@ -26,11 +26,11 @@ class JBInfoJBUniversalController extends JBUniversalController
      */
     public function index()
     {
-        $this->image = $this->app->path->url('jbapp:application_info.png');
-        $xmlFile = $this->app->path->path('jbapp:application.xml');
+        $this->image = $this->zoo->path->url('jbapp:application_info.png');
+        $xmlFile = $this->zoo->path->path('jbapp:application.xml');
         $xml = simplexml_load_string(file_get_contents($xmlFile));
 
-        $this->metadata = $data = $this->app->data->create([
+        $this->metadata = $data = $this->zoo->data->create([
             'name'         => (string)$xml->name,
             'creationdate' => $xml->creationDate ? (string)$xml->creationDate : 'Unknown',
             'author'       => $xml->author ? (string)$xml->author : 'Unknown',
@@ -54,18 +54,18 @@ class JBInfoJBUniversalController extends JBUniversalController
             $this->renderView();
 
         } else {
-            $this->app->jbdoc->disableTmpl();
+            $this->zoo->jbdoc->disableTmpl();
 
             try {
 
                 ob_start();
                 $this->renderView('result');
                 $content = ob_get_contents();
-                $content .= '<!--' . $this->app->zoo->getApplication()->getHash($content) . '-->';
+                $content .= '<!--' . $this->zoo->zoo->getApplication()->getHash($content) . '-->';
                 ob_end_clean();
 
-                $tmpPath = $this->app->jbpath->sysPath('tmp', '/jbzoo-system-report-' . time() . '.html');
-                $tmpArch = $this->app->jbpath->sysPath('tmp', '/jbzoo-system-report-' . time() . '.zip');
+                $tmpPath = $this->zoo->jbpath->sysPath('tmp', '/jbzoo-system-report-' . time() . '.html');
+                $tmpArch = $this->zoo->jbpath->sysPath('tmp', '/jbzoo-system-report-' . time() . '.zip');
 
                 if (JFile::exists($tmpPath)) {
                     JFile::delete($tmpPath);
@@ -77,11 +77,11 @@ class JBInfoJBUniversalController extends JBUniversalController
 
                 JFile::write($tmpPath, $content);
 
-                $zip = $this->app->archive->open($tmpArch, 'zip');
+                $zip = $this->zoo->archive->open($tmpArch, 'zip');
                 $zip->create([$tmpPath], PCLZIP_OPT_REMOVE_ALL_PATH);
 
                 if (is_readable($tmpArch) && JFile::exists($tmpArch)) {
-                    $this->app->filesystem->output($tmpArch);
+                    $this->zoo->filesystem->output($tmpArch);
                     JFile::delete($tmpPath);
                     JFile::delete($tmpArch);
                     jexit();
@@ -92,9 +92,9 @@ class JBInfoJBUniversalController extends JBUniversalController
             } catch (AppException $e) {
 
                 // raise error on exception
-                $this->app->error->raiseNotice(0, JText::_('Error create report') . ' (' . $e . ')');
+                $this->zoo->error->raiseNotice(0, JText::_('Error create report') . ' (' . $e . ')');
 
-                $this->setRedirect($this->app->jbrouter->admin(['task' => 'systemReport']));
+                $this->setRedirect($this->zoo->jbrouter->admin(['task' => 'systemReport']));
 
                 return;
             }
@@ -106,9 +106,9 @@ class JBInfoJBUniversalController extends JBUniversalController
      */
     public function requirements()
     {
-        $this->app->loader->register('AppRequirements', 'installation:requirements.php');
+        $this->zoo->loader->register('AppRequirements', 'installation:requirements.php');
 
-        $this->requirements = $this->app->object->create('AppRequirements');
+        $this->requirements = $this->zoo->object->create('AppRequirements');
         $this->requirements->checkRequirements();
 
         $this->renderView();
@@ -119,7 +119,7 @@ class JBInfoJBUniversalController extends JBUniversalController
      */
     public function performance()
     {
-        $this->testList = $this->app->jbperform->getTestData();
+        $this->testList = $this->zoo->jbperform->getTestData();
 
         $this->renderView();
     }
@@ -130,9 +130,9 @@ class JBInfoJBUniversalController extends JBUniversalController
     public function performanceStep()
     {
         $testName = $this->_jbrequest->getWord('testname');
-        $result = $this->app->jbperform->execTest($testName);
+        $result = $this->zoo->jbperform->execTest($testName);
 
-        $this->app->jbajax->send($result);
+        $this->zoo->jbajax->send($result);
     }
 
     /**
@@ -140,12 +140,12 @@ class JBInfoJBUniversalController extends JBUniversalController
      */
     public function performanceReport()
     {
-        $prevData = $this->app->jbsession->getGroup('benchmark');
-        $tests = $this->app->jbperform->getStdValues();
+        $prevData = $this->zoo->jbsession->getGroup('benchmark');
+        $tests = $this->zoo->jbperform->getStdValues();
 
         if (count($tests) != count($prevData)) {
-            $this->app->jbnotify->notice(JText::_('JBZOO_PERFORMANCE_REPORT_NO_DATA'));
-            $this->setRedirect($this->app->jbrouter->admin(['task' => 'performance']));
+            $this->zoo->jbnotify->notice(JText::_('JBZOO_PERFORMANCE_REPORT_NO_DATA'));
+            $this->setRedirect($this->zoo->jbrouter->admin(['task' => 'performance']));
         }
 
         if ($this->_jbrequest->isPost()) {
@@ -160,9 +160,9 @@ class JBInfoJBUniversalController extends JBUniversalController
                 'method' => 'add-hosting',
             ];
 
-            $this->app->jbhttp->request('http://stats.jbzoo.com/api', $sendData);
+            $this->zoo->jbhttp->request('http://stats.jbzoo.com/api', $sendData);
 
-            $this->setRedirect($this->app->jbrouter->admin(['task' => 'performance']),
+            $this->setRedirect($this->zoo->jbrouter->admin(['task' => 'performance']),
                 JText::_('JBZOO_PERFORMANCE_REPORT_THANK_YOU'));
         }
 

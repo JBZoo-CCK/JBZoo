@@ -47,9 +47,9 @@ class JBCartJBUniversalController extends JBUniversalController
     {
         parent::__construct($app, $config);
 
-        $this->_element  = $this->app->jbcartelement;
-        $this->_position = $this->app->jbcartposition;
-        $this->_session  = $this->app->jbsession;
+        $this->_element  = $this->zoo->jbcartelement;
+        $this->_position = $this->zoo->jbcartposition;
+        $this->_session  = $this->zoo->jbsession;
 
         // task
         $task = strtolower($this->_jbrequest->get('task'));
@@ -86,7 +86,7 @@ class JBCartJBUniversalController extends JBUniversalController
     {
         if ($this->_jbrequest->isPost()) {
             $this->_config->setGroup('cart.config', $this->_jbrequest->getAdminForm());
-            $this->setRedirect($this->app->jbrouter->admin(), JText::_('JBZOO_CONFIG_SAVED'));
+            $this->setRedirect($this->zoo->jbrouter->admin(), JText::_('JBZOO_CONFIG_SAVED'));
         }
 
         $this->configData = $this->_config->getGroup('cart.config');
@@ -109,11 +109,11 @@ class JBCartJBUniversalController extends JBUniversalController
     {
         $appId = (int)$this->_jbrequest->get('app_id');
 
-        $this->resultUrl  = $this->app->jbrouter->payment($appId, 'callback');
-        $this->successUrl = $this->app->jbrouter->payment($appId, 'success');
-        $this->failUrl    = $this->app->jbrouter->payment($appId, 'fail');
+        $this->resultUrl  = $this->zoo->jbrouter->payment($appId, 'callback');
+        $this->successUrl = $this->zoo->jbrouter->payment($appId, 'success');
+        $this->failUrl    = $this->zoo->jbrouter->payment($appId, 'fail');
 
-        $this->app->jbdoc->disableTmpl();
+        $this->zoo->jbdoc->disableTmpl();
         $this->renderView();
     }
 
@@ -127,7 +127,7 @@ class JBCartJBUniversalController extends JBUniversalController
             JBCart::ELEMENT_TYPE_HOOK,
         ));
 
-        $this->positions = $this->_position->loadPositions(JBCart::CONFIG_NOTIFICATION, $this->app->jbevent->getEventsName());
+        $this->positions = $this->_position->loadPositions(JBCart::CONFIG_NOTIFICATION, $this->zoo->jbevent->getEventsName());
         $this->groupKey  = JBCart::CONFIG_NOTIFICATION;
         $this->renderView();
     }
@@ -219,9 +219,9 @@ class JBCartJBUniversalController extends JBUniversalController
      */
     public function price()
     {
-        $this->app->jbtables->checkSku(true);
+        $this->zoo->jbtables->checkSku(true);
         $this->groupList   = $this->_element->getGroups(array(JBCart::ELEMENT_TYPE_PRICE));
-        $this->elementList = $this->app->jbprice->getPricesList();
+        $this->elementList = $this->zoo->jbprice->getPricesList();
 
         $this->element   = $this->_jbrequest->take('jbcart.price.element', 'element', key($this->elementList), 'string');
         $this->positions = $this->_position->loadPositions(JBCart::CONFIG_PRICE . '.' . $this->element, array(JBCart::DEFAULT_POSITION));
@@ -243,7 +243,7 @@ class JBCartJBUniversalController extends JBUniversalController
         ));
 
         /** @var JBCartStatusHelper $jbstatus */
-        $jbstatus = $this->app->jbcartstatus;
+        $jbstatus = $this->zoo->jbcartstatus;
 
         $statusGroups = array(
             JBCart::STATUS_ORDER    => $jbstatus->getList(JBCart::STATUS_ORDER),
@@ -311,7 +311,7 @@ class JBCartJBUniversalController extends JBUniversalController
      */
     public function emailTmpl()
     {
-        $renderer = $this->app->jbrenderer->create('email');
+        $renderer = $this->zoo->jbrenderer->create('email');
 
         $this->layoutList = $renderer->getLayouts('email');
         $this->layout     = $this->_jbrequest->get('layout', key($this->layoutList));
@@ -332,7 +332,7 @@ class JBCartJBUniversalController extends JBUniversalController
      */
     public function cartTmpl()
     {
-        $renderer         = $this->app->jbrenderer->create('order');
+        $renderer         = $this->zoo->jbrenderer->create('order');
         $this->layoutList = $renderer->getLayouts('order');
 
         $this->layout = $this->_jbrequest->get('layout', key($this->layoutList));
@@ -355,10 +355,10 @@ class JBCartJBUniversalController extends JBUniversalController
      */
     public function priceFilterTmpl()
     {
-        $this->app->jbtables->checkSku(true);
-        $renderer = $this->app->jbrenderer->create('jbpricefilter');
+        $this->zoo->jbtables->checkSku(true);
+        $renderer = $this->zoo->jbrenderer->create('jbpricefilter');
 
-        $this->elementList = $this->app->jbprice->getPricesList();
+        $this->elementList = $this->zoo->jbprice->getPricesList();
         $this->layoutList  = $renderer->getLayouts('jbpricefilter');
 
         $this->element = $this->_jbrequest->take('jbcart.' . strtolower(__METHOD__) . '.element', 'element', key($this->elementList), 'string');
@@ -387,10 +387,10 @@ class JBCartJBUniversalController extends JBUniversalController
      */
     public function priceTmpl()
     {
-        $this->app->jbtables->checkSku(true);
-        $renderer = $this->app->jbrenderer->create('jbprice');
+        $this->zoo->jbtables->checkSku(true);
+        $renderer = $this->zoo->jbrenderer->create('jbprice');
 
-        $this->elementList = $this->app->jbprice->getPricesList();
+        $this->elementList = $this->zoo->jbprice->getPricesList();
         $this->layoutList  = $renderer->getLayouts('jbprice');
 
         $this->element = $this->_jbrequest->take('jbcart.' . strtolower(__METHOD__) . '.element', 'element', key($this->elementList), 'string');
@@ -433,9 +433,9 @@ class JBCartJBUniversalController extends JBUniversalController
     public function savePositions()
     {
         // session token
-        $this->app->session->checkToken() or jexit('Invalid Token');
+        $this->zoo->session->checkToken() or jexit('Invalid Token');
 
-        $defaultRedirect = $this->app->jbrouter->admin(array('task' => 'index'));
+        $defaultRedirect = $this->zoo->jbrouter->admin(array('task' => 'index'));
         if (!$this->_jbrequest->isPost()) {
             $this->setRedirect($defaultRedirect);
         }
@@ -456,14 +456,14 @@ class JBCartJBUniversalController extends JBUniversalController
     public function savePricePositions()
     {
         // session token
-        $this->app->session->checkToken() or jexit('Invalid Token');
+        $this->zoo->session->checkToken() or jexit('Invalid Token');
 
-        $defaultRedirect = $this->app->jbrouter->admin(array('task' => 'index'));
+        $defaultRedirect = $this->zoo->jbrouter->admin(array('task' => 'index'));
         if (!$this->_jbrequest->isPost()) {
             $this->setRedirect($defaultRedirect);
         }
 
-        $this->app->jbtables->checkSku(true);
+        $this->zoo->jbtables->checkSku(true);
 
         $positions = $this->_jbrequest->getArray('positions');
         $group     = $this->_jbrequest->get('group');
@@ -487,13 +487,13 @@ class JBCartJBUniversalController extends JBUniversalController
 
         // load element
         $this->element             = $this->_element->create($elementType, $elementGroup);
-        $this->element->identifier = $this->app->utility->generateUUID();
+        $this->element->identifier = $this->zoo->utility->generateUUID();
 
         if ($this->element->getMetaData('core') == 'true') {
             $this->element->identifier = '_' . strtolower($elementType);
         }
 
-        $this->app->jbdoc->disableTmpl();
+        $this->zoo->jbdoc->disableTmpl();
         $this->renderView();
     }
 
@@ -514,7 +514,7 @@ class JBCartJBUniversalController extends JBUniversalController
      */
     public function emailPreview()
     {
-        $id = $this->app->request->getInt('id');
+        $id = $this->zoo->request->getInt('id');
 
         $order = JBModelOrder::model()->getById($id);
         if (!$order) {
@@ -527,7 +527,7 @@ class JBCartJBUniversalController extends JBUniversalController
         }
 
         $emailElement->setOrder($order);
-        $emailElement->config->set('layout_email', $this->app->jbrequest->get('layout', 'string'));
+        $emailElement->config->set('layout_email', $this->zoo->jbrequest->get('layout', 'string'));
 
         $html = $emailElement->renderBody();
 
@@ -540,14 +540,14 @@ class JBCartJBUniversalController extends JBUniversalController
     public function files()
     {
         $files = array();
-        $path  = ltrim($this->app->request->get('path', 'string'), '/');
+        $path  = ltrim($this->zoo->request->get('path', 'string'), '/');
         $path  = empty($path) ? '' : $path . '/';
 
-        foreach ($this->app->path->dirs('root:' . $path) as $dir) {
+        foreach ($this->zoo->path->dirs('root:' . $path) as $dir) {
             $files[] = array('name' => basename($dir), 'path' => $path . $dir, 'type' => 'folder');
         }
 
-        foreach ($this->app->path->files('root:' . $path, false, '/^.*(' . $this->_extensions . ')$/i') as $file) {
+        foreach ($this->zoo->path->files('root:' . $path, false, '/^.*(' . $this->_extensions . ')$/i') as $file) {
             $files[] = array('name' => basename($file), 'path' => $path . $file, 'type' => 'file');
         }
 

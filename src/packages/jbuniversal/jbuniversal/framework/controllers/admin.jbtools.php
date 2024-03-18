@@ -49,7 +49,7 @@ class JBToolsJBUniversalController extends JBUniversalController
     public function reindexStep()
     {
         $limit  = self::INDEX_STEP;
-        $page   = (int)$this->app->jbrequest->get('page', 0);
+        $page   = (int)$this->zoo->jbrequest->get('page', 0);
         $offset = $limit * $page;
 
         $modelIndex = JBModelSearchindex::model();
@@ -64,7 +64,7 @@ class JBToolsJBUniversalController extends JBUniversalController
 
         $progress = round($current * 100 / $total, 2);
 
-        $this->app->jbajax->send(array(
+        $this->zoo->jbajax->send(array(
             'progress' => $progress,
             'current'  => $current,
             'total'    => $total,
@@ -83,7 +83,7 @@ class JBToolsJBUniversalController extends JBUniversalController
             $this->renderView();
         } else {
 
-            $this->item_count = $this->app->table->item->count();
+            $this->item_count = $this->zoo->table->item->count();
             $this->steps      = (int)(11 + ($this->item_count / 10));
 
             $this->renderView('process');
@@ -100,10 +100,10 @@ class JBToolsJBUniversalController extends JBUniversalController
 
         } else {
 
-            $this->app->jbdoc->disableTmpl();
+            $this->zoo->jbdoc->disableTmpl();
 
             try {
-                $this->results = $this->app->jbcheckfiles->check();
+                $this->results = $this->zoo->jbcheckfiles->check();
                 $this->renderView('result');
                 jexit();
 
@@ -119,7 +119,7 @@ class JBToolsJBUniversalController extends JBUniversalController
      */
     public function removeUnversionFiles()
     {
-        $files = $this->app->jbcheckfiles->check();
+        $files = $this->zoo->jbcheckfiles->check();
 
         $fileCount = 0;
         if (isset($files['unknown']) && !empty($files['unknown'])) {
@@ -143,10 +143,10 @@ class JBToolsJBUniversalController extends JBUniversalController
             $this->renderView();
         } else {
 
-            $this->app->jbdoc->disableTmpl();
+            $this->zoo->jbdoc->disableTmpl();
 
             try {
-                $this->results = $this->app->modification->check();
+                $this->results = $this->zoo->modification->check();
                 $this->renderView('result');
                 jexit();
 
@@ -170,8 +170,8 @@ class JBToolsJBUniversalController extends JBUniversalController
      */
     public function migrateSteps()
     {
-        $formData = $this->app->data->create($this->app->jbrequest->getAdminForm());
-        $this->app->jbmigrate->prepare($formData);
+        $formData = $this->zoo->data->create($this->zoo->jbrequest->getAdminForm());
+        $this->zoo->jbmigrate->prepare($formData);
 
         $this->renderView();
     }
@@ -187,13 +187,13 @@ class JBToolsJBUniversalController extends JBUniversalController
          * @var JBMigrateCartHelper  $migratecart
          * @var JBMigratePriceHelper $migrateprice
          */
-        $migrate      = $this->app->jbmigrate;
-        $migrateorder = $this->app->jbmigrateorder;
-        $migratecart  = $this->app->jbmigratecart;
-        $migrateprice = $this->app->jbmigrateprice;
+        $migrate      = $this->zoo->jbmigrate;
+        $migrateorder = $this->zoo->jbmigrateorder;
+        $migratecart  = $this->zoo->jbmigratecart;
+        $migrateprice = $this->zoo->jbmigrateprice;
 
-        $isPost  = $this->app->jbrequest->isPost();
-        $curStep = $this->app->jbrequest->get('page', 0) + 1;
+        $isPost  = $this->zoo->jbrequest->isPost();
+        $curStep = $this->zoo->jbrequest->get('page', 0) + 1;
         $params  = $migrate->getParams();
 
         $progress = $curStep / $params->find('steps.steps', 1) * 100;
@@ -222,7 +222,7 @@ class JBToolsJBUniversalController extends JBUniversalController
                     $migratecart->payments();
                 }
 
-                $this->app->jbajax->send(array('nextStep' => '2', 'progress' => $progress));
+                $this->zoo->jbajax->send(array('nextStep' => '2', 'progress' => $progress));
             }
 
             if ($params->get('prices_enable') && $curStep == 2) {
@@ -235,25 +235,25 @@ class JBToolsJBUniversalController extends JBUniversalController
                 $priceElements = $migrateprice->createPriceElements($priceConfigs->get('price', array()));
                 $migrate->setParams('elements', $priceElements);
 
-                $this->app->jbajax->send(array('nextStep' => '4', 'progress' => $progress));
+                $this->zoo->jbajax->send(array('nextStep' => '4', 'progress' => $progress));
             }
 
             if ($params->get('orders_enable') && $params->find('steps.orders_steps')) {
                 if ($newStep = $migrateorder->convertItems($curStep)) {
-                    $this->app->jbajax->send(array('nextStep' => $newStep, 'progress' => $progress));
+                    $this->zoo->jbajax->send(array('nextStep' => $newStep, 'progress' => $progress));
                 }
             }
 
             if ($params->get('prices_enable') && $params->find('steps.items_steps')) {
                 if ($newStep = $migrateprice->convertItems($curStep)) {
-                    $this->app->jbajax->send(array('nextStep' => $newStep, 'progress' => $progress));
+                    $this->zoo->jbajax->send(array('nextStep' => $newStep, 'progress' => $progress));
                 }
             }
 
-            $this->app->jbajax->send(array('nextStep' => 'stop', 'progress' => 100));
+            $this->zoo->jbajax->send(array('nextStep' => 'stop', 'progress' => 100));
         }
 
-        $this->app->jbajax->send(array('nextStep' => 'stop', 'progress' => 100));
+        $this->zoo->jbajax->send(array('nextStep' => 'stop', 'progress' => 100));
     }
 
 }

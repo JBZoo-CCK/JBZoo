@@ -63,10 +63,14 @@ class JBUniversalController extends AppController
      */
     public function __construct($app, $config = array())
     {
-
         parent::__construct($app, $config);
 
-        $this->_jbrequest = $this->app->jbrequest;
+        // Joomla 3
+        if (!isset($this->zoo)) {
+            $this->zoo = $app;
+        }
+
+        $this->_jbrequest = $this->zoo->jbrequest;
 
         $task = $this->_jbrequest->getWord('task');
 
@@ -77,22 +81,22 @@ class JBUniversalController extends AppController
         }
 
         // internal vars
-        $this->application = $this->app->zoo->getApplication();
+        $this->application = $this->zoo->zoo->getApplication();
         $this->_params     = $this->application->getParams('frontpage');
-        $this->joomla      = $this->app->system->application;
-        $isSite            = $this->app->jbenv->isSite();
+        $this->joomla      = $this->zoo->system->application;
+        $isSite            = $this->zoo->jbenv->isSite();
 
         if (!$isSite) {
-            $this->app->document->addStylesheet("root:administrator/templates/system/css/system.css");
-            $this->app->jbassets->uikit(true, true);
+            $this->zoo->document->addStylesheet("root:administrator/templates/system/css/system.css");
+            $this->zoo->jbassets->uikit(true, true);
             $this->_setToolbarTitle();
 
         } else {
             $this->params  = $this->joomla->getParams();
             $this->pathway = $this->joomla->getPathway();
 
-            $this->app->jbassets->setAppCSS();
-            $this->app->jbassets->setAppJS();
+            $this->zoo->jbassets->setAppCSS();
+            $this->zoo->jbassets->setAppJS();
         }
 
         $this->_config = JBModelConfig::model();
@@ -108,7 +112,7 @@ class JBUniversalController extends AppController
      */
     public function getView($name = '', $type = '', $prefix = '', $config = array())
     {
-        $config['template_path'] = $this->app->path->path('jbviews:');
+        $config['template_path'] = $this->zoo->path->path('jbviews:');
 
         return parent::getView($name, $type, $prefix, $config);
     }
@@ -123,13 +127,13 @@ class JBUniversalController extends AppController
 
         $ctrl = $this->_jbrequest->getCtrl();
         $task = $this->_jbrequest->getWord('task');
-        $path = $this->app->path->path('jbviews:' . $ctrl);
+        $path = $this->zoo->path->path('jbviews:' . $ctrl);
 
         $view = $this->getView($ctrl);
 
         // warpper hack
         if (!$isJoomlaTmpl) {
-            $jVersion = $this->app->jbversion->joomla('2.7.0') ? '3': '2';
+            $jVersion = $this->zoo->jbversion->joomla('2.7.0') ? '3': '2';
 
             echo $view->partial('menu');
             echo '<div class="jbzoo box-bottom joomla-' . $jVersion . '">';
@@ -158,10 +162,10 @@ class JBUniversalController extends AppController
             $title .= ': ' . JText::_($postfix);
         }
 
-        $icon = $this->app->path->url('jbapp:application.png');
+        $icon = $this->zoo->path->url('jbapp:application.png');
 
         $html = array();
-        if ($this->app->joomla->version->isCompatible('3.2')) {
+        if ($this->zoo->joomla->version->isCompatible('3.2')) {
             $html[] = '<h1 class="page-title">';
             $html[] = '<img src="' . $icon . '" width="48" height="48" />';
             $html[] = $title;
@@ -174,7 +178,7 @@ class JBUniversalController extends AppController
             $html[] = '</div>';
         }
 
-        $this->app->system->application->JComponentTitle = implode(PHP_EOL, $html);
+        $this->zoo->system->application->JComponentTitle = implode(PHP_EOL, $html);
     }
 
 }

@@ -77,9 +77,8 @@ class JBCartElementPaymentSberbank extends JBCartElementPayment
             'orderBundle'         => $this->getMerchantdData()
         );
 
-        $method = 'register.do';
-    
-        $response = $this->apiRequest($options, $method);
+        $method     = 'register.do';
+        $response   = $this->apiRequest($options, $method);
 
         if (isset($response['formUrl']) && !empty($response['formUrl'])) {
             $this->_session->set('sberbank_redirect_url_order_'.$orderId, $response['formUrl']);
@@ -106,7 +105,7 @@ class JBCartElementPaymentSberbank extends JBCartElementPayment
      */
     public function isValid($params = array())
     {  
-        $orderId = $this->app->jbrequest->get('sberbankOrderId');
+        $orderId = (int) $this->app->jbrequest->get('sberbankOrderId');
 
         $options = array(
             'userName'       => $this->config->get('merchant'),
@@ -117,11 +116,15 @@ class JBCartElementPaymentSberbank extends JBCartElementPayment
         $method     = 'getOrderStatusExtended.do';
         $response   = $this->apiRequest($options, $method);
 
-        $orderStatus = $response['OrderStatus'];
+        if (!isset($response['orderStatus'])) {
+            $this->renderResponse();
+        }
 
-        if ($orderStatus == '1' || $orderStatus == '2') {
+        $orderStatus = (int) $response['orderStatus'];
+
+        if ($orderStatus == 1 || $orderStatus == 2) {
             return true;
-        } else if ($orderStatus == '3') {
+        } else if ($orderStatus == 3 || $orderStatus == 6 ) {
             // Set status
             $this->setFail();
 
@@ -137,14 +140,8 @@ class JBCartElementPaymentSberbank extends JBCartElementPayment
      * @return int
      */
     public function getRequestOrderId()
-    {   
-        $task = $this->app->jbrequest->get('task');
-
-        if ($task == 'paymentCallback') {
-            return $this->app->jbrequest->get('orderNumber');
-        }
-        
-        return $this->app->jbrequest->get('sberbankOrderId');
+    {         
+        return (int) $this->app->jbrequest->get('sberbankOrderId');
     }
     
     /**
@@ -152,11 +149,7 @@ class JBCartElementPaymentSberbank extends JBCartElementPayment
      */
     public function getRequestOrderSum()
     {   
-        $orderId = $this->app->jbrequest->get('sberbankOrderId');
-
-        if ($task == 'paymentCallback') {
-            $orderId = $this->app->jbrequest->get('orderNumber');
-        }
+        $orderId = (int) $this->app->jbrequest->get('sberbankOrderId');
 
         if ($orderId) {
 
@@ -170,7 +163,7 @@ class JBCartElementPaymentSberbank extends JBCartElementPayment
             $response   = $this->apiRequest($options, $method);
 
             if (isset($response['amount'])) {
-                $sum = $response['amount'];
+                $sum = (int) $response['amount'];
 
                 return $this->_order->val($sum/100, $this->getDefaultCurrency());
             }
@@ -319,7 +312,8 @@ class JBCartElementPaymentSberbank extends JBCartElementPayment
      */
     public function apiRequest($options, $method)
     {   
-        $url = $this->isDebug() ? $this->_testUrl : $this->_prodUrl;
+        $result = array();
+        $url    = $this->isDebug() ? $this->_testUrl : $this->_prodUrl;
         
         $response = $this->app->jbhttp->request($url.$method, $options, array(
             'headers'   => array('Content-Type' => 'application/x-www-form-urlencoded'),
@@ -341,5 +335,3 @@ class JBCartElementPaymentSberbank extends JBCartElementPayment
         return $result;
     }
 }
-
-

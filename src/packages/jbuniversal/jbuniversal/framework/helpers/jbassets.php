@@ -608,18 +608,18 @@ class JBAssetsHelper extends AppHelper
     public function jbimagePopup()
     {
         $this->widget(
-            array(
-                'a.jbimage-link[rel=jbimage-popup]',
-                'a.jbimage-gallery',
-            ),
+            array('a.jbimage-gallery'),
             'fancybox',
             array(
-                // 'helpers' => array(
-                //     'title'   => array('type' => 'outside'),
-                //     'buttons' => array('position' => 'top'),
-                //     'thumbs'  => array('width' => 80, 'height' => 80),
-                //     'overlay' => array('locked' => false),
-                // ),
+                'selector' => 'a.jbimage-gallery'
+            )
+        );
+
+        $this->widget(
+            array('a.jbimage-link[rel=jbimage-popup]'),
+            'fancybox',
+            array(
+                'selector' => 'a.jbimage-link[rel=jbimage-popup]'
             )
         );
     }

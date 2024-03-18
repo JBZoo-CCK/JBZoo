@@ -130,20 +130,23 @@ class JBRequestHelper extends AppHelper
             }
 
             $result = array();
-            foreach ($elements as $key => $value) {
 
-                if (is_string($value) && strlen($value)) {
-                    $result[$key] = $value;
+            if (!empty($elements)) {
+                foreach ($elements as $key => $value) {
+                    
+                    if (is_string($value) && strlen($value)) {
+                        $result[$key] = $value;
 
-                } elseif (is_array($value)) {
+                    } elseif (is_array($value)) {
 
-                    foreach ($value as $valueRow) {
-                        if (!empty($valueRow)) {
-                            $result[$key] = $value;
-                            break;
+                        foreach ($value as $valueRow) {
+                            if (!empty($valueRow)) {
+                                $result[$key] = $value;
+                                break;
+                            }
                         }
-                    }
 
+                    }
                 }
             }
         }

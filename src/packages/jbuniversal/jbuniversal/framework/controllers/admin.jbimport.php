@@ -57,9 +57,9 @@ class JBImportJBuniversalController extends JBuniversalController
         parent::__construct($app, $config);
 
         // get link to helpers
-        $this->_jbsession = $this->app->jbsession;
-        $this->_jbimport  = $this->app->jbimport;
-        $this->_jbuser    = $this->app->jbuser;
+        $this->_jbsession = $this->zoo->jbsession;
+        $this->_jbimport  = $this->zoo->jbimport;
+        $this->_jbuser    = $this->zoo->jbuser;
     }
 
     /**
@@ -115,10 +115,10 @@ class JBImportJBuniversalController extends JBuniversalController
 
         // validate upload file
         try {
-            $userfile = $this->app->validator->create('file', array('extension' => array('csv')))->clean($csvfile);
+            $userfile = $this->zoo->validator->create('file', array('extension' => array('csv')))->clean($csvfile);
         } catch (AppException $e) {
-            $this->app->jbnotify->notice(JText::_('JBZOO_UNABLE_TO_UPLOAD_FILE') . ' (' . $e . ')');
-            $this->setRedirect($this->app->jbrouter->admin(array('task' => $importType)));
+            $this->zoo->jbnotify->notice(JText::_('JBZOO_UNABLE_TO_UPLOAD_FILE') . ' (' . $e . ')');
+            $this->setRedirect($this->zoo->jbrouter->admin(array('task' => $importType)));
             return;
         }
 
@@ -160,7 +160,7 @@ class JBImportJBuniversalController extends JBuniversalController
             }
 
         } else {
-            $this->app->error->raiseNotice(0, JText::_('JBZOO_CHECK_TEMP_PERMISIONS'));
+            $this->zoo->error->raiseNotice(0, JText::_('JBZOO_CHECK_TEMP_PERMISIONS'));
             $this->setRedirect($this->baseurl . '&task=index');
             return;
         }
@@ -182,8 +182,8 @@ class JBImportJBuniversalController extends JBuniversalController
         $appid        = (int)$this->_jbrequest->get('appid');
 
         if (empty($appid) || empty($typeid) || !isset($assign[$typeid]) || empty($assign[$typeid])) {
-            $this->app->jbnotify->notice(JText::_('JBZOO_INCORRECT_DATA'));
-            $this->setRedirect($this->app->jbrouter->admin(array('task' => 'index')));
+            $this->zoo->jbnotify->notice(JText::_('JBZOO_INCORRECT_DATA'));
+            $this->setRedirect($this->zoo->jbrouter->admin(array('task' => 'index')));
         }
 
         $data = array(
@@ -225,8 +225,8 @@ class JBImportJBuniversalController extends JBuniversalController
         $appid       = (int)$this->_jbrequest->get('appid');
 
         if (empty($appid) || empty($assign)) {
-            $this->app->jbnotify->notice(JText::_('JBZOO_INCORRECT_DATA'));
-            $this->setRedirect($this->app->jbrouter->admin(array('task' => 'index')));
+            $this->zoo->jbnotify->notice(JText::_('JBZOO_INCORRECT_DATA'));
+            $this->setRedirect($this->zoo->jbrouter->admin(array('task' => 'index')));
         }
 
         $data = array(
@@ -263,7 +263,7 @@ class JBImportJBuniversalController extends JBuniversalController
                 $result = $this->_jbimport->categoriesProcess($page);
             }
 
-            $this->app->jbajax->send($result);
+            $this->zoo->jbajax->send($result);
 
         } catch (Exception $e) {
             jexit("Exception: " . $e->getMessage());
@@ -286,12 +286,12 @@ class JBImportJBuniversalController extends JBuniversalController
             }
 
             // remove all csv files
-            $files = (array)JFolder::files($this->app->jbpath->sysPath('tmp'), '\.csv');
+            $files = (array)JFolder::files($this->zoo->jbpath->sysPath('tmp'), '\.csv');
             foreach ($files as $csvFile) {
                 JFile::delete($csvFile);
             }
 
-            $this->app->jbajax->send();
+            $this->zoo->jbajax->send();
 
         } catch (Exception $e) {
             jexit("Exception: " . $e->getMessage());
@@ -303,7 +303,7 @@ class JBImportJBuniversalController extends JBuniversalController
      */
     public function standard()
     {
-        $applications = $this->app->table->application->all();
+        $applications = $this->zoo->table->application->all();
 
         $this->appList = array();
         foreach ($applications as $application) {
