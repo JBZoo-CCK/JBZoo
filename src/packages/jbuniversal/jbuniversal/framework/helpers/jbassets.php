@@ -1127,7 +1127,8 @@ class JBAssetsHelper extends AppHelper
                 }
                 else if ($splitMode == 'group')
                 {
-                    $this->includeFile($jbminifier->split($files, $type, $group), $type, $group);
+                    // $this->includeFile($jbminifier->split($files, $type, $group), $type, $group);
+                    $this->includeFile($jbminifier->split($type, $files, $group), $type, $group);
 
                 }
                 else if ($splitMode == 'all')

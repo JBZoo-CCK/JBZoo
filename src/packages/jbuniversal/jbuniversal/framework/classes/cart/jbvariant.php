@@ -194,7 +194,9 @@ class JBCartVariant extends ArrayObject
      * @param string $group Group of elements to count
      * @return int
      */
-    public function count($group = 'all')
+
+    #[\ReturnTypeWillChange]
+    public function count($group = 'all'): int
     {
         if ($group === 'all') {
             $count = count($this->elements);
@@ -289,7 +291,9 @@ class JBCartVariant extends ArrayObject
     /**
      * @return ArrayIterator
      */
-    public function getIterator()
+    
+    #[\ReturnTypeWillChange]
+    public function getIterator(): Iterator
     {
         return new ArrayIterator($this->elements);
     }
@@ -319,12 +323,15 @@ class JBCartVariant extends ArrayObject
      * @param mixed  $default
      * @return JBCartElementPrice|JBCartValue
      */
-    public function getValue($toString = false, $key, $default = null)
+
+    // public function getValue($toString = false, $key, $default = null)
+
+    public function getValue($key, $toString = false, $default = null)
     {
         if ($element = $this->get($key)) {
             return $element->getValue($toString);
         }
-
+    
         return $default;
     }
 

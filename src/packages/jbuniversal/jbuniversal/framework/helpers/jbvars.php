@@ -30,10 +30,16 @@ class JBVarsHelper extends AppHelper
      */
     public function money($value, $round = 10)
     {
-        $value = trim($value);
-        $value = str_replace(array(' ', ','), array('', '.'), $value);
-        $value = (float)$value;
-        $res   = round($value, $round);
+        if ($value !== null) {
+            $value = trim($value);         
+            $value = str_replace(array(' ', ','), array('', '.'), $value);
+            $value = (float)$value;
+            $res   = round($value, $round);
+        }
+        else {
+            $res = 0; // 0
+        }
+
 
         return $res;
     }

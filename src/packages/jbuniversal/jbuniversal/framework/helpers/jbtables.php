@@ -452,7 +452,7 @@ class JBTablesHelper extends AppHelper
         foreach ($fields as $field) {
 
             // add fields
-            $tblFields[] = '`' . $this->getFieldName($field, 's') . '` VARCHAR(50) NULL DEFAULT NULL COLLATE \'utf8_general_ci\'';
+            $tblFields[] = '`' . $this->getFieldName($field, 's') . '` VARCHAR(250) NULL DEFAULT NULL COLLATE \'utf8_general_ci\'';
             $tblFields[] = '`' . $this->getFieldName($field, 'n') . '` DOUBLE NULL DEFAULT NULL';
             $tblFields[] = '`' . $this->getFieldName($field, 'd') . '` DATETIME NULL DEFAULT NULL';
 
@@ -607,7 +607,7 @@ class JBTablesHelper extends AppHelper
                 if (!in_array($filedName, $currentFields, true)) {
 
                     if ($type == 's') {
-                        $add[] = 'ADD COLUMN `' . $filedName . '` VARCHAR(50) NULL DEFAULT NULL COLLATE \'utf8_general_ci\'';
+                        $add[] = 'ADD COLUMN `' . $filedName . '` VARCHAR(250) NULL DEFAULT NULL COLLATE \'utf8_general_ci\'';
                     }
 
                     if ($type == 'n') {

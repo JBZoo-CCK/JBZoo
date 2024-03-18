@@ -800,7 +800,7 @@ class JBRouterHelper extends AppHelper
      */
     public function query(array $data)
     {
-        return http_build_query($data, null, '&');
+        return http_build_query($data, '', '&');
     }
 
     /**
@@ -891,14 +891,27 @@ class JBRouterHelper extends AppHelper
                         {
                             $key = implode(', ', array_map(
                                 function ($v, $k) {
+                                    // if (is_array($v)) {
+                                    //     $v = implode('||', $v);
+                                    // }
+                                    // return sprintf("%s:%s", $k, $v);
+
                                     if (is_array($v)) {
                                         $v = implode('||', $v);
-                                    }
-                                    return sprintf("%s:%s", $k, $v);
+                                      } else {
+                                        $v = ''; // или выполнить другую обработку, если $v не является массивом
+                                      }
+                                      return sprintf("%s:%s", $k, $v);
                                 },
                                 $elements,
                                 array_keys($elements)
                             ));
+
+                            // $key = implode(', ', array_map(
+                            //     fn($v, $k) => sprintf("%s:%s", $k, is_array($v) ? implode('||', $v) : ''),
+                            //     $elements,
+                            //     array_keys($elements)
+                            // ));
 
                             $key = $appId.':'.$type.':'.$key;
 
