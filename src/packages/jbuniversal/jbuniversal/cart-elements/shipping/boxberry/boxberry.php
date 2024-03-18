@@ -54,8 +54,8 @@ class JBCartElementShippingBoxberry extends JBCartElementShipping
      */
     public function loadAssets()
     {   
-        $this->app->jbassets->js('https://points.boxberry.ru/js/boxberry.js');
-        $this->app->jbassets->js('https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey='.$this->config->get('yandex_map_key'));
+        JFactory::getDocument()->addScript('https://points.boxberry.ru/js/boxberry.js');
+        JFactory::getDocument()->addScript('https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey='.$this->config->get('yandex_map_key'));
 
         parent::loadAssets();
     }
@@ -161,7 +161,7 @@ class JBCartElementShippingBoxberry extends JBCartElementShipping
             $variations = $jsonItem->get('variations');
 
             if (isset($variations[0])) {
-                $weight = isset($variations[0]['_weight']) ? $this->clear($variations[0]['_weight']['value']) : 0;
+                $weight = isset($variations[0]['_weight']) ? $this->clear($variations[0]['_weight']['value']) : $defaultWeight;
             }
         } else {
             $item = $jsonItem->get('item');
@@ -169,8 +169,6 @@ class JBCartElementShippingBoxberry extends JBCartElementShipping
             $elementWeight  = $this->config->get('element_weight');
             $elementWeight  = $item->getElement($elementWeight);
         }
-
-        $weight = $weight ? $weight : $defaultWeight;
 
         return array(
             'weight' => $weight * 1000,

@@ -405,7 +405,7 @@ class JBRouterHelper extends AppHelper
             'nc'         => rand(1000, 9999), // forced browser no cache
         );
 
-        return $this->_url($linkParams, false);
+        return JURI::root().'index.php?'.$this->query($linkParams);
     }
 
     /**
@@ -685,7 +685,7 @@ class JBRouterHelper extends AppHelper
             'Itemid'     => $this->app->jbrequest->get('Itemid'),
         );
 
-        return JRoute::_('index.php?' . $this->query($params)).'?task=order&order_id='.$order->id;
+        return JRoute::_('index.php?' . $this->query($params)).'&task=order&order_id='.$order->id;
     }
 
     /**

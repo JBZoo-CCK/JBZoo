@@ -16,8 +16,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-require_once(JPATH_BASE . '/modules/mod_jbzoo_item/types/rules.php');
-
 /**
  * Class JBZooModItemCategory
  */

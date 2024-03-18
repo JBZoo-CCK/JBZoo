@@ -51,12 +51,12 @@ class PaymentJBUniversalController extends JBUniversalController
      */
     protected function _init()
     {
-        $this->app->jbdoc->noindex();
+        $this->zoo->jbdoc->noindex();
 
         $this->_orderModel = JBModelOrder::model();
-        $this->_jbmoney    = $this->app->jbmoney;
+        $this->_jbmoney    = $this->zoo->jbmoney;
 
-        $this->_orderInfo = $this->app->jbcartpayment->getInfoByRequest();
+        $this->_orderInfo = $this->zoo->jbcartpayment->getInfoByRequest();
         $orderId          = $this->_orderInfo->get('id');
 
         if ($orderId > 0) {
@@ -69,7 +69,7 @@ class PaymentJBUniversalController extends JBUniversalController
             $this->_error('Order #' . $orderId . ' not found');
         }
 
-        $application    = $this->app->zoo->getApplication();
+        $application    = $this->zoo->zoo->getApplication();
         $this->template = $application->getTemplate();
     }
 
@@ -82,8 +82,8 @@ class PaymentJBUniversalController extends JBUniversalController
     {
         $this->_init();
 
-        $this->app->jbevent->fire($this->order, 'basket:paymentCallback');
-        $this->app->jbdoc->rawOutput();
+        $this->zoo->jbevent->fire($this->order, 'basket:paymentCallback');
+        $this->zoo->jbdoc->rawOutput();
 
         $cart = JBCart::getInstance();
 
@@ -127,7 +127,7 @@ class PaymentJBUniversalController extends JBUniversalController
         if ($payment->isValid()) {
 
             $payment->setSuccess();
-            $this->app->event->dispatcher->notify($this->app->event->create($this->order, 'basket:paymentSuccess'));
+            $this->zoo->event->dispatcher->notify($this->zoo->event->create($this->order, 'basket:paymentSuccess'));
             $payment->renderResponse();
 
         } else {
@@ -189,14 +189,14 @@ class PaymentJBUniversalController extends JBUniversalController
         }
 
         /** @var JBDebugHelper $debuger */
-        $debuger = $this->app->jbdebug;
+        $debuger = $this->zoo->jbdebug;
 
         $debuger->log($message);
         $debuger->logArray($_POST, '_POST');
         $debuger->logArray($_GET, '_GET');
         $debuger->logArray($_REQUEST, '_REQUEST');
 
-        $this->app->jbevent->fire($this->order, 'basket:paymentFail', array(
+        $this->zoo->jbevent->fire($this->order, 'basket:paymentFail', array(
             'message' => $message,
         ));
 

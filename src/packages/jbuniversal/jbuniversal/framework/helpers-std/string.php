@@ -16,56 +16,57 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Filter\OutputFilter;
+
 /**
  * The general String Helper.
+ *
  * @package Component.Helpers
- * @since   2.0
+ * @since 2.0
  */
-class StringHelper extends AppHelper
-{
+class StringHelper extends AppHelper {
 
-    /**
-     * wrapped class
-     * @var string
-     */
-    protected $_class = 'JString';
+	/**
+	 * Map all functions to StringHelper class
+	 *
+	 * @param string $method Method name
+	 * @param array $args Method arguments
+	 *
+	 * @return mixed
+	 */
+	public function __call($method, $args) {
+		return $this->_call(array(Joomla\String\StringHelper::class, $method), $args);
+	}
 
-    /**
-     * Map all functions to JString class
-     * @param string $method Method name
-     * @param array  $args   Method arguments
-     * @return mixed
-     */
-    public function __call($method, $args)
-    {
-        return $this->_call([$this->_class, $method], $args);
-    }
+	/**
+	 * Truncates the input string.
+	 *
+	 * @param string $text input string
+	 * @param int $length the length of the output string
+	 * @param string $truncate_string the truncate string
+	 *
+	 * @return string The truncated string
+	 * @since 2.0
+	 */
+	public function truncate($text, $length = 30, $truncate_string = '...')
+	{
+		if ($text == '') {
+			return '';
+		}
 
-    /**
-     * Truncates the input string.
-     * @param string $text            input string
-     * @param int    $length          the length of the output string
-     * @param string $truncate_string the truncate string
-     * @return string The truncated string
-     * @since 2.0
-     */
-    public function truncate($text, $length = 30, $truncate_string = '...')
-    {
-        if ($text == '') {
-            return '';
-        }
+		if ($this->strlen($text) > $length) {
+			$length -= min($length, strlen($truncate_string));
+			$text = preg_replace('/\s+?(\S+)?$/', '', substr($text, 0, $length + 1));
 
-        if ($this->strlen($text) > $length) {
-            $length -= min($length, strlen($truncate_string));
-            $text = preg_replace('/\s+?(\S+)?$/', '', substr($text, 0, $length + 1));
+			return $this->substr($text, 0, $length).$truncate_string;
+		} else {
+			return $text;
+		}
+	}
 
-            return $this->substr($text, 0, $length) . $truncate_string;
-        } else {
-            return $text;
-        }
-    }
-
-    /**
+	/**
      * Get the transliteration array
      * @return array Transliteration
      */
@@ -138,14 +139,16 @@ class StringHelper extends AppHelper
         ];
     }
 
-    /**
-     * Sluggifies the input string.
-     * @param string $origString input string
-     * @param bool   $forceSafe  Do we have to enforce ASCII instead of UTF8 (default: false)
-     * @return string sluggified string
-     * @since 2.0
-     */
-    public function sluggify($origString, $forceSafe = false)
+	/**
+	 * Sluggifies the input string.
+	 *
+	 * @param string $string 		input string
+	 * @param bool   $force_safe 	Do we have to enforce ASCII instead of UTF8 (default: false)
+	 *
+	 * @return string sluggified string
+	 * @since 2.0
+	 */
+	public function sluggify($origString, $forceSafe = false)
     {
         static $cache = [];
 
@@ -155,7 +158,7 @@ class StringHelper extends AppHelper
 
             foreach ($this->getTransliteration() as $replace => $keys) {
                 foreach ($keys as $search) {
-                    $string = JString::str_ireplace($search, $replace, $string);
+                    $string = $this->str_ireplace($search, $replace, $string);
                 }
             }
 
@@ -176,34 +179,36 @@ class StringHelper extends AppHelper
 
     /**
      * Apply Joomla text filters based on the user's groups
-     * @param  string $string The string to clean
-     * @return string         The cleaned string
+     *
+     * @param  string|array $string The string to clean
+     *
+     * @return string|array The cleaned string
      */
-    public function applyTextFilters($string)
-    {
-        // Apply the textfilters (let's reuse Joomla's ContentHelper class)
-        if (!class_exists('ContentHelper')) {
-            require_once JPATH_SITE . '/administrator/components/com_content/helpers/content.php';
+    public function applyTextFilters($string) {
+        if (is_array($string)) {
+            foreach ($string as $k => $v) {
+                $string[$k] = $this->applyTextFilters($v);
+            }
+            return $string;
         }
 
-        return ContentHelper::filterText((string)$string);
+        return ComponentHelper::filterText((string) $string);
     }
 
-    /**
-     * Converts string to camel case (https://en.wikipedia.org/wiki/Camel_case).
-     *
-     * @param string|string[] $string
-     * @param bool            $upper
-     *
-     * @return string
-     */
-    public function camelCase($string, $upper = false)
-    {
-        $string = join(' ', (array) $string);
-        $string = str_replace(array('-', '_'), ' ', $string);
-        $string = str_replace(' ', '', ucwords($string));
+	/**
+	 * Converts string to camel case (https://en.wikipedia.org/wiki/Camel_case).
+	 *
+	 * @param string|string[] $string
+	 * @param bool            $upper
+	 *
+	 * @return string
+	 */
+	public function camelCase($string, $upper = false)
+	{
+		$string = join(' ', (array) $string);
+		$string = str_replace(array('-', '_'), ' ', $string);
+		$string = str_replace(' ', '', ucwords($string));
 
-        return $upper ? $string : lcfirst($string);
-    }
-
+		return $upper ? $string : lcfirst($string);
+	}
 }

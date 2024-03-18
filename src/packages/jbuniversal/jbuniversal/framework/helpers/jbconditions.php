@@ -65,15 +65,9 @@ class JBConditionsHelper extends AppHelper
                 $data = $conds[$key];
 
                 if (isset($param_id)) {
-                    if (!isset($result[$key][$param_id])) {
-                        $result[$key][$param_id] = array();
-                    }
-
-                    $result[$key][$param_id] = array_merge($result[$key][$param_id], $data);
-
-                    // $result[$key][$param_id] = $data[$param_id];
+                    $result[$key][$param_id][$k + 1] = $data;
                 } else {
-                    $result[$key] = $data;
+                    $result[$key][$k + 1] = $data;
                 }
 
                 if ($this->_checkDateElement($this->_elements[$key]['type'])) {

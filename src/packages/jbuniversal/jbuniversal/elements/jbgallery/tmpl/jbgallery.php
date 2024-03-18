@@ -31,10 +31,5 @@ $this->app->jbassets->less('elements:jbgallery/assets/styles.less');
 </div>
 
 <?php echo $this->app->jbassets->widget('#' . $galleryId . ' .jbgallery', 'fancybox', array(
-    'helpers' => array(
-        'title'   => array('type' => 'outside'),
-        'buttons' => array('position' => "top"),
-        'thumbs'  => array('width' => 80, 'height' => 80),
-        'overlay' => array('locked' => false)
-    )
+    'selector' => 'a.jbgallery'
 ), true); ?>

@@ -36,12 +36,12 @@ class JBCartElementHookSdekOrder extends JBCartElementHook
     /**
      * @var string
      */
-    private $_realOauth = 'https://api.cdek.ru/v2/oauth/token';
+    private $_realOauth = 'https://api.cdek.ru/v2/oauth/token?parameters';
 
     /**
      * @var string
      */
-    private $_testOauth = 'https://api.edu.cdek.ru/v2/oauth/token';
+    private $_testOauth = 'https://api.edu.cdek.ru/v2/oauth/token?parameters';
 
     /**
      * @var array
@@ -101,11 +101,12 @@ class JBCartElementHookSdekOrder extends JBCartElementHook
         $tariff     = (int) $shipping->get('tariff');
         $address    = $shipping->get('address');
         $pvz        = $shipping->get('pvz');
+        $orderName  = $this->config->get('prefix', '') ? $this->config->get('prefix').'-'.$this->getOrder()->getName() : $this->getOrder()->getName();
         
         if (!empty($from) && !empty($to)) {
             $options = array(
                 'type'              => $type,
-                'number'            => $this->getOrder()->getName(),
+                'number'            => $orderName,
                 'tariff_code'       => $tariff,
                 'from_location'     => array(
                     'code'          => $from,
@@ -136,9 +137,9 @@ class JBCartElementHookSdekOrder extends JBCartElementHook
                 ),
                 'packages'          => array(
                     0 => array(
-                        'number'        => $this->getOrder()->getName(),
+                        'number'        => $orderName,
                         'weight'        => $this->getWeight() * 1000,
-                        'comment'       => 'Упаковка #1',
+                        'comment'       => JText::_('JBZOO_ELEMENT_HOOK_SDEKORDER_PACK'),
                     )
                 )
             );
@@ -208,6 +209,10 @@ class JBCartElementHookSdekOrder extends JBCartElementHook
         $url        = $this->isDebug() ? $this->_testOrder : $this->_realOrder;
         $oauth      = $this->apiOauth();
 
+        if (!isset($oauth['access_token'])) {
+            return;
+        }
+
         $response = $this->app->jbhttp->request($url, json_encode($options), array(
             'headers'   => array('Content-Type' => 'application/json', 'Authorization' => 'Bearer '.$oauth['access_token']),
             'cache'     => 0,
@@ -241,6 +246,10 @@ class JBCartElementHookSdekOrder extends JBCartElementHook
         $url        = $this->isDebug() ? $this->_testOrder : $this->_realOrder;
         $oauth      = $this->apiOauth();
 
+        if (!isset($oauth['access_token'])) {
+            return;
+        }
+
         $response = $this->app->jbhttp->request($url.'/'.$uuid, array(), array(
             'headers'   => array('Content-Type' => 'application/json', 'Authorization' => 'Bearer '.$oauth['access_token']),
             'cache'     => 0,
@@ -272,7 +281,7 @@ class JBCartElementHookSdekOrder extends JBCartElementHook
      */
     public function apiOauth()
     {   
-        if (!$this->_oauth) {
+        if (empty($this->_oauth)) {
             $shipping   = $this->getOrder()->getShipping();
             $login      = $shipping->config->get('login');
             $password   = $shipping->config->get('password');
@@ -290,9 +299,16 @@ class JBCartElementHookSdekOrder extends JBCartElementHook
                 'cache_ttl' => self::CACHE_TTL,
                 'debug'     => 1,
                 'method'    => 'post',
+                'response'  => 'full'
             ));
 
-            $result = json_decode($response, true);
+            $result = json_decode($response->body, true);
+
+            // Logging
+
+            if ($this->isLog()) {
+                $this->app->jblog->log('jbzoo.cart-elements.hook.sdekorder', 'apiOauth', $result);
+            }
 
             if ($result) {
                 $this->_oauth = $result;

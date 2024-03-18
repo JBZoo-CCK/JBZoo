@@ -54,6 +54,15 @@ abstract class JBCartElementHook extends JBCartElement
     }
 
     /**
+     * Check is log enabled
+     * @return int
+     */
+    public function isLog()
+    {
+        return (int) $this->config->get('log', 0);
+    }
+
+    /**
      * Execute element
      * @param $params
      * @return

@@ -16,16 +16,15 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (!class_exists('JViewLegacy', false)) {
-    jimport('cms.view.legacy');
-    jimport('legacy.view.legacy');
-}
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\Filesystem\Path;
 
 /**
  * Base View class
  * @package Framework.Classes
  */
-class AppView extends JViewLegacy
+class AppView extends HtmlView
 {
     /**
      * Set the layout for the view
@@ -59,7 +58,7 @@ class AppView extends JViewLegacy
     public function display($tpl = null)
     {
         $this->_output = null;
-        JDispatcher::getInstance()->trigger('onLoadTemplate', array('view' => $this, 'tpl' => null));
+        $this->app->system->application->triggerEvent('onLoadTemplate', array($this, $tpl));
 
         if ($this->_output) {
             echo $this->_output;

@@ -29,9 +29,9 @@ class FavoriteJBUniversalController extends JBUniversalController
     function favorite()
     {
         // init
-        $this->app->jbdebug->mark('favorite::init');
+        $this->zoo->jbdebug->mark('favorite::init');
 
-        $this->app->jbdoc->noindex();
+        $this->zoo->jbdoc->noindex();
 
         $type   = $this->_jbrequest->get('type');
         $appId  = $this->_jbrequest->get('app_id');
@@ -42,12 +42,12 @@ class FavoriteJBUniversalController extends JBUniversalController
         }
 
         if (!JFactory::getUser()->id) {
-            $this->app->jbnotify->notice(JText::_('JBZOO_FAVORITE_NOTAUTH_NOTICE'));
+            $this->zoo->jbnotify->notice(JText::_('JBZOO_FAVORITE_NOTAUTH_NOTICE'));
         }
 
         // get items
         $searchModel = JBModelFilter::model();
-        $items       = $this->app->jbfavorite->getAllItems();
+        $items       = $this->zoo->jbfavorite->getAllItems();
 
         $items        = $searchModel->getZooItemsByIds(array_keys($items));
         $this->items  = $items;
@@ -60,19 +60,19 @@ class FavoriteJBUniversalController extends JBUniversalController
         }
 
         // set renderer
-        $this->renderer = $this->app->renderer->create('item')->addPath(
+        $this->renderer = $this->zoo->renderer->create('item')->addPath(
             array(
-                $this->app->path->path('component.site:'),
+                $this->zoo->path->path('component.site:'),
                 $this->template->getPath()
             )
         );
 
-        $this->app->jbdebug->mark('favorite::renderInit');
+        $this->zoo->jbdebug->mark('favorite::renderInit');
 
         // display view
         $this->getView('favorite')->addTemplatePath($this->template->getPath())->setLayout('favorite')->display();
 
-        $this->app->jbdebug->mark('favorite::display');
+        $this->zoo->jbdebug->mark('favorite::display');
     }
 
     /**
@@ -81,11 +81,11 @@ class FavoriteJBUniversalController extends JBUniversalController
     public function remove()
     {
         $itemId = (int)$this->_jbrequest->get('item_id');
-        $item   = $this->app->table->item->get($itemId);
+        $item   = $this->zoo->table->item->get($itemId);
 
-        $this->app->jbfavorite->toggleState($item);
+        $this->zoo->jbfavorite->toggleState($item);
 
-        $this->app->jbajax->send();
+        $this->zoo->jbajax->send();
     }
 
     /**
@@ -93,8 +93,8 @@ class FavoriteJBUniversalController extends JBUniversalController
      */
     public function removeAll()
     {
-        $this->app->jbfavorite->removeItems();
-        $this->app->jbajax->send();
+        $this->zoo->jbfavorite->removeItems();
+        $this->zoo->jbajax->send();
     }
 
 }
