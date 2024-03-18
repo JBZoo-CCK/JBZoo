@@ -15,9 +15,13 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\Language\Text;
 
-if ($link) {
+if ($link)
+{
     echo '<a ' . $linkAttrs . '><img ' . $imageAttrs . ' /></a> ' . PHP_EOL;
-} else {
+}
+else
+{
     echo '<img ' . $imageAttrs . ' /> ' . PHP_EOL;
 }

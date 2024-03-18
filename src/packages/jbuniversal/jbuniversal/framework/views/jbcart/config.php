@@ -19,8 +19,9 @@ defined('_JEXEC') or die('Restricted access');
 $jbform    = $this->app->jbform;
 $formAttrs = $jbform->getDefaultFormOptions();
 
-JHtml::_('behavior.tooltip');
-JHtml::_('behavior.formvalidation');
+// todoj4fix
+// JHtml::_('behavior.tooltip');
+// JHtml::_('behavior.formvalidation');
 $this->app->jbtoolbar->save();
 
 ?>

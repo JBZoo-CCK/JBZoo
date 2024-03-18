@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -30,7 +31,7 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
      * @type string
      */
     protected $_selGroup = '';
-    
+
     /**
      * @type array
      */
@@ -231,7 +232,7 @@ class ElementJBSelectCascade extends ElementRepeatable implements iRepeatSubmitt
         $i = 0;
         while (true) {
             $value = $this->get('list-' . $i, '');
-            $value = JString::trim($value);
+            $value = StringHelper::trim($value);
 
             if (empty($value)) {
                 break;

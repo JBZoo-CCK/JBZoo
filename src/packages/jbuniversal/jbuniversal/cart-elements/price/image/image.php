@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -62,7 +63,7 @@ class JBCartElementPriceImage extends JBCartElementPrice
      */
     public function getSearchData()
     {
-        $value    = JString::trim($this->getValue());
+        $value    = StringHelper::trim($this->getValue());
         $isExists = !empty($value) && JFile::exists(JPATH_ROOT . '/' . $value);
 
         if ($isExists) {

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -974,7 +975,7 @@ class JBHtmlHelper extends AppHelper
                 }
 
             } else {
-                $value = JString::trim($value);
+                $value = StringHelper::trim($value);
                 if ($value == $selected) {
                     $extra['checked'] = 'checked';
                 }
@@ -1045,7 +1046,7 @@ class JBHtmlHelper extends AppHelper
             }
         }
 
-        return JString::trim($result);
+        return StringHelper::trim($result);
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -80,7 +81,7 @@ class JBAdminMenu
         ob_end_clean();
 
 
-        $menuHtml = JString::str_ireplace(
+        $menuHtml = StringHelper::str_ireplace(
             "<ul id=\"jbzoo-adminmenu-root\" >\n<li class=\"dropdown\">",
             "<li class=\"dropdown\" id=\"jbzoo-adminmenu\">",
             $menuHtml
@@ -88,7 +89,7 @@ class JBAdminMenu
 
         $app = JFactory::getApplication();
         $body = $app->getBody();
-        $body = JString::str_ireplace(
+        $body = StringHelper::str_ireplace(
             "</ul>\n<ul id=\"nav-empty\" class=\"dropdown-menu nav-empty hidden-phone\"></ul>",
             $menuHtml,
             $body,

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -105,7 +106,7 @@ class JBModelElementItemauthor extends JBModelElement
         $conditions = array();
         foreach ($value as $oneValue) {
 
-            $oneValue = JString::trim($oneValue);
+            $oneValue = StringHelper::trim($oneValue);
             if (empty($oneValue)) {
                 continue;
             }

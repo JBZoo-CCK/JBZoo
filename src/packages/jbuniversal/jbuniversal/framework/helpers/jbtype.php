@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -127,7 +128,7 @@ class JBTypeHelper extends AppHelper
             $label = $newOption;
         }
 
-        $label = JString::trim($label);
+        $label = StringHelper::trim($label);
 
         if (empty($label)) {
             return false;

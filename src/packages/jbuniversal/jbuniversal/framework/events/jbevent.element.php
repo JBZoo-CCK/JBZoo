@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -127,7 +128,7 @@ class JBEventElement extends JBEvent
             $element = $event->getSubject();
             $find    = 'element-' . $element->getElementType();
 
-            $params['html'][0] = JString::str_ireplace($find, $find . ' element-' . $element->identifier, $params['html'][0]);
+            $params['html'][0] = StringHelper::str_ireplace($find, $find . ' element-' . $element->identifier, $params['html'][0]);
         }
 
         $event->setReturnValue($params);

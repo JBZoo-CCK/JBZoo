@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -56,7 +57,7 @@ class JBCartElementCurrencyCBR extends JBCartElementCurrency
                 return $this->_curList;
             }
 
-            $xmlString = JString::trim(iconv("WINDOWS-1251", "UTF-8//TRANSLIT", $xmlString));
+            $xmlString = StringHelper::trim(iconv("WINDOWS-1251", "UTF-8//TRANSLIT", $xmlString));
 
             preg_match_all('#<Valute(.*?)<\/Valute>#ius', $xmlString, $out);
             if (!empty($out) && isset($out[1])) {

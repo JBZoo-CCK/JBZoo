@@ -51,12 +51,12 @@ class ElementJBGallery extends Element implements iSubmittable
         $this->_uri = JURI::base();
         $this->_path = JPATH_ROOT . '/' . trim($this->config->get('directory'), '/')
             . '/' . trim($this->_data->get('value'), '/');
-            
+
         // set params
         $parameter = $this->app->parameter->create()
             ->loadArray((array)$this->config)
             ->loadArray($params);
-            
+
         $value  = $this->_data->get('value');
 
         if (empty($value)) {

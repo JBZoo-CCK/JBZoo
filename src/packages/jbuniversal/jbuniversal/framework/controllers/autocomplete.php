@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -73,7 +74,7 @@ class AutocompleteJBUniversalController extends JBUniversalController
 
                     foreach ($rows as $row) {
 
-                        if (JString::strlen($row->value) > self::MAX_LENGTH) {
+                        if (StringHelper::strlen($row->value) > self::MAX_LENGTH) {
                             $value = $this->zoo->jbstring->smartSubstr($row->value, $query);
                         } else {
                             $value = $row->value;
@@ -82,9 +83,9 @@ class AutocompleteJBUniversalController extends JBUniversalController
                         $id     = isset($row->id) ? $row->id : $row->value;
 
                         $data[] = array(
-                            'id'    => JString::str_ireplace("\n", " ", $id),
-                            'label' => JString::str_ireplace("\n", " ", $label),
-                            'value' => JString::str_ireplace("\n", " ", JString::trim($value, '.')),
+                            'id'    => StringHelper::str_ireplace("\n", " ", $id),
+                            'label' => StringHelper::str_ireplace("\n", " ", $label),
+                            'value' => StringHelper::str_ireplace("\n", " ", StringHelper::trim($value, '.')),
                         );
                     }
                 }

@@ -93,10 +93,13 @@ class JBConfigJBuniversalController extends JBUniversalController
             $this->_config->setGroup('config.sef', $this->zoo->jbrequest->getAdminForm());
 
             // save route caching state
-            $cacheState = $this->_config->get('zoo_route_caching', 0, 'config.sef');
-            $this->zoo->set('cache_routes', $cacheState);
-            $this->zoo->component->self->save();
-            $this->zoo->route->clearCache();
+            // $cacheState = $this->_config->get('zoo_route_caching', 0, 'config.sef');
+            // $this->zoo->set('cache_routes', $cacheState);
+            // $this->zoo->component->self->save();
+            // $this->zoo->route->clearCache();
+
+            //todofixj4
+            //WTF (убрана функция старого кеширования ссылок)
 
             // redirect after submit
             $this->setRedirect($this->zoo->jbrouter->admin(), JText::_('JBZOO_CONFIG_SAVED'));

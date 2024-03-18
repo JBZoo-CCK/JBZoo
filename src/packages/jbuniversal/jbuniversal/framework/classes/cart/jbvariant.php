@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -386,7 +387,7 @@ class JBCartVariant extends ArrayObject
     {
         $elements = $this->isBasic() ? $this->getCore() : $this->all();
         $result   = array_filter(array_map(function ($element) {
-            $value = JString::trim($element->getValue(true));
+            $value = StringHelper::trim($element->getValue(true));
 
             return (!empty($value) || $value == '0') ? (array)$element->data() : null;
         }, $elements));

@@ -74,19 +74,19 @@ class pkg_jbzooInstallerScript
      * @param $parent
      * @param $results
      */
-    public function postflight($type, $parent, $results)
-    {
-        self::_enablePlugin('jbzoo');
-    }
+    // public function postflight($type, $parent, $results)
+    // {
+    //     self::_enablePlugin('jbzoo');
+    // }
 
-    /**
-     * Enable plugin by name
-     * @param $plugin
-     */
-    private static function _enablePlugin($plugin)
-    {
-        $db = JFactory::getDbo();
-        $db->setQuery('UPDATE #__extensions SET enabled = 1 WHERE element = "' . trim($plugin) . '"');
-        $db->execute();
-    }
+    // /**
+    //  * Enable plugin by name
+    //  * @param $plugin
+    //  */
+    // private static function _enablePlugin($plugin)
+    // {
+    //     $db = JFactory::getDbo();
+    //     $db->setQuery('UPDATE #__extensions SET enabled = 1 WHERE element = "' . trim($plugin) . '"');
+    //     $db->execute();
+    // }
 }

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -51,7 +52,7 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
      */
     public function isValid($params = array())
     {
-        $signPsw = JString::trim($this->config->get('sign_psw'));
+        $signPsw = StringHelper::trim($this->config->get('sign_psw'));
 
         $hashData = implode('|', array(
             $this->app->jbrequest->get('amount'),
@@ -138,9 +139,9 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
     {
         $order   = $this->getOrder();
         $billId  = $this->getOrderId();
-        $restPw  = JString::trim($this->config->get('psw'));
-        $shopId  = JString::trim($this->config->get('shop_id'));
-        $restId  = JString::trim($this->config->get('rest_id'));
+        $restPw  = StringHelper::trim($this->config->get('psw'));
+        $shopId  = StringHelper::trim($this->config->get('shop_id'));
+        $restId  = StringHelper::trim($this->config->get('rest_id'));
         $request = $this->_jbrequest->get('jbzooform');
 
         $payCurrency = $this->getDefaultCurrency();
@@ -153,7 +154,7 @@ class JBCartElementPaymentQiwi extends JBCartElementPayment
             'lifetime'   => $lifeTimeISO,
             'ccy'        => $payCurrency,
             'amount'     => $orderAmount->val(),
-            'user'       => 'tel:' . JString::trim($request['phone']),
+            'user'       => 'tel:' . StringHelper::trim($request['phone']),
             'comment'    => $this->getOrderDescription(),
             'prv_name'   => $shopConfig->get('shop_name'),
         );

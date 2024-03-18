@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -18,7 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 
 // add check admin position
 $html   = $this->orderFieldRender->renderAdminEdit(array('order' => $order));
-$isShow = JString::trim(strip_tags($html));
+$isShow = StringHelper::trim(strip_tags($html));
 
 ?>
 

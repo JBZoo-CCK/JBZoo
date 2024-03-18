@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -206,7 +207,7 @@ class ElementJBSliderNivo extends Element implements iSubmittable
      */
     protected function _getRelativePath($file)
     {
-        return JString::trim(str_replace('\\', '/', preg_replace('/^' . preg_quote(JPATH_ROOT, '/') . '/i', '', $file)),
+        return StringHelper::trim(str_replace('\\', '/', preg_replace('/^' . preg_quote(JPATH_ROOT, '/') . '/i', '', $file)),
             '/');
     }
 

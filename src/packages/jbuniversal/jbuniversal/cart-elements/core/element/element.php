@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -644,7 +645,7 @@ abstract class JBCartElement
             $retult = JText::_($name);
         }
 
-        $retult = JString::trim($retult);
+        $retult = StringHelper::trim($retult);
 
         return $retult;
     }

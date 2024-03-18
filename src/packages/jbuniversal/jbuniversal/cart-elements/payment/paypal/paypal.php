@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -47,10 +48,10 @@ class JBCartElementPaymentPayPal extends JBCartElementPayment
             'cmd'           => '_xclick',
             'no_shipping'   => 1,
             'rm'            => 2,
-            'business'      => JString::trim($this->config->get('email')),
+            'business'      => StringHelper::trim($this->config->get('email')),
             'item_number'   => $order->id,
             'amount'        => $orderAmount->val(),
-            'currency_code' => JString::strtoupper($payCurrency),
+            'currency_code' => StringHelper::strtoupper($payCurrency),
             'return'        => $this->_jbrouter->payment('success'),
             'cancel_return' => $this->_jbrouter->payment('fail'),
             'notify_url'    => $this->_jbrouter->payment('callback'),

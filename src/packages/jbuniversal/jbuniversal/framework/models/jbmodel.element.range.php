@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -95,8 +96,8 @@ class JBModelElementRange extends JBModelElement
             } else {
 
                 $values[] = array(
-                    JString::trim($tmp[0]),
-                    JString::trim($tmp[1])
+                    StringHelper::trim($tmp[0]),
+                    StringHelper::trim($tmp[1])
                 );
             }
 

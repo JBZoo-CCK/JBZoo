@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -115,7 +116,7 @@ class JBCartElementPriceColor extends JBCartElementPriceOption
         // convert to custom view
         $options = array();
         foreach (array_keys($colors) as $color) {
-            $options[$color] = JString::ucfirst($color);
+            $options[$color] = StringHelper::ucfirst($color);
         }
 
         if ($label && count($options)) {
@@ -173,7 +174,16 @@ class JBCartElementPriceColor extends JBCartElementPriceOption
      */
     public function loadConfigAssets()
     {
-        JHtml::_('behavior.colorpicker');
+        // JHtml::_('behavior.colorpicker');
+
+        // Get the web asset manager.
+        $webAssetManager = Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager();
+
+        // Load the assets.
+        $webAssetManager
+            ->usePreset('minicolors')
+            ->useScript('field.color-adv');
+
         return parent::loadConfigAssets();
     }
 

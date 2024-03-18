@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -23,7 +24,7 @@ $jbCommId = uniqid('comments-tabs-');
     <ul class="uk-tab" data-uk-tab="{connect:'#<?php echo $jbCommId; ?>'}">
         <?php
         foreach ($jbcomments as $key => $value) {
-            $key = JString::strtolower($key);
+            $key = StringHelper::strtolower($key);
 
             if (!empty($value)) {
                 echo '<li>' .
@@ -40,7 +41,7 @@ $jbCommId = uniqid('comments-tabs-');
     <ul id="<?php echo $jbCommId; ?>" class="uk-switcher uk-margin">
         <?php
         foreach ($jbcomments as $key => $value) {
-            $key = JString::strtolower($key);
+            $key = StringHelper::strtolower($key);
             if (!empty($value)) {
                 echo '<li id="jbcomment-tab-' . $key . '">' . $value . '</li>';
             }

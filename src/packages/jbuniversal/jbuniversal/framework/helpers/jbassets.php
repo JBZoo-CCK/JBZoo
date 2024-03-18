@@ -14,14 +14,22 @@
  */
 
 // no direct access
+
 defined('_JEXEC') or die('Restricted access');
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
+use Joomla\String\StringHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * Class JBAssetsHelper
  */
 class JBAssetsHelper extends AppHelper
 {
-    const GROUP_CORE    = 'core';
+    const GROUP_CORE = 'core';
     const GROUP_LIBRARY = 'library';
     const GROUP_DEFAULT = 'default';
 
@@ -61,7 +69,7 @@ class JBAssetsHelper extends AppHelper
     protected $_isAjax = false;
 
     /**
-     * @param App $app
+     * @param   App  $app
      */
     public function __construct($app)
     {
@@ -74,11 +82,12 @@ class JBAssetsHelper extends AppHelper
     }
 
     /**
-     * @param string $jquerySelector
-     * @param string $widgetName
-     * @param array  $params
-     * @param bool   $return
-     * @param bool   $isComplex
+     * @param   string  $jquerySelector
+     * @param   string  $widgetName
+     * @param   array   $params
+     * @param   bool    $return
+     * @param   bool    $isComplex
+     *
      * @return string
      */
     public function widget($jquerySelector, $widgetName, $params = array(), $return = false, $isComplex = false)
@@ -87,9 +96,10 @@ class JBAssetsHelper extends AppHelper
 
         $jquerySelector = is_array($jquerySelector) ? implode(', ', $jquerySelector) : $jquerySelector;
 
-        $hash = implode('///', array($jquerySelector, $widgetName, (int)$return, (int)$isComplex));
+        $hash = implode('///', array($jquerySelector, $widgetName, (int) $return, (int) $isComplex));
 
-        if (!isset($included[$hash])) {
+        if (!isset($included[$hash]))
+        {
             $included[$hash] = true;
 
             $this->tools();
@@ -98,17 +108,20 @@ class JBAssetsHelper extends AppHelper
 
             // experimental lib loader!
             $mapName = $this->app->jbvars->lower($widgetName, true);
-            if (isset($this->_libraryMap[$mapName])) {
-                $methods = (array)$this->_libraryMap[$mapName];
-                foreach ($methods as $method) {
+            if (isset($this->_libraryMap[$mapName]))
+            {
+                $methods = (array) $this->_libraryMap[$mapName];
+                foreach ($methods as $method)
+                {
                     call_user_func(array($this, $method));
                 }
             }
 
             // widget init script
-            $initScript = '$("' . $jquerySelector . '").' . $widgetName . '(' . $this->toJSON($params) . ', ' . (int)$isComplex . ');';
+            $initScript = '$("' . $jquerySelector . '").' . $widgetName . '(' . $this->toJSON($params) . ', ' . (int) $isComplex . ');';
 
-            if ($return) {
+            if ($return)
+            {
                 return implode(PHP_EOL, array(
                     '<script type="text/javascript">',
                     "\tjQuery(function($){ setTimeout(function(){" . $initScript . "}, 0); });",
@@ -124,42 +137,50 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include JS in document
-     * @param array  $files
-     * @param string $group
+     *
+     * @param   array   $files
+     * @param   string  $group
+     *
      * @return bool
      */
     public function js($files, $group = self::GROUP_DEFAULT)
     {
-        return $this->_include((array)$files, 'js', $group);
+        return $this->_include((array) $files, 'js', $group);
     }
 
     /**
      * Include CSS in document
-     * @param array  $files
-     * @param string $group
+     *
+     * @param   array   $files
+     * @param   string  $group
+     *
      * @return bool
      */
     public function css($files, $group = self::GROUP_DEFAULT)
     {
-        return $this->_include((array)$files, 'css', $group);
+        return $this->_include((array) $files, 'css', $group);
     }
 
     /**
      * Complile&cache less and include rsult to document
-     * @param        $files
-     * @param string $group
+     *
+     * @param           $files
+     * @param   string  $group
+     *
      * @return bool
      */
     public function less($files, $group = self::GROUP_DEFAULT)
     {
-        if (!$this->_isAjax) {
+        if (!$this->_isAjax)
+        {
             return false;
         }
 
-        $files = (array)$files;
+        $files = (array) $files;
 
         $resultFiles = array();
-        foreach ($files as $file) {
+        foreach ($files as $file)
+        {
             $resultFiles[] = $this->app->jbless->compile($file);
         }
 
@@ -176,16 +197,19 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * @param $vars
+     *
      * @return mixed|string
      */
     public function toJSON($vars)
     {
         //$vars = $this->app->jbarray->cleanJson($vars);
-        if (is_object($vars)) { // for scalar vars
-            $vars = (array)$vars;
+        if (is_object($vars))
+        { // for scalar vars
+            $vars = (array) $vars;
         }
 
-        if (!empty($vars)) {
+        if (!empty($vars))
+        {
             return json_encode($vars);
         }
 
@@ -194,7 +218,8 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Set application styles files
-     * @param string $alias
+     *
+     * @param   string  $alias
      */
     public function setAppCss($alias = null)
     {
@@ -207,7 +232,8 @@ class JBAssetsHelper extends AppHelper
      */
     public function admin()
     {
-        if ($this->app->jbenv->isSite()) {
+        if ($this->app->jbenv->isSite())
+        {
             return;
         }
 
@@ -235,7 +261,8 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Set application JavaScript files
-     * @param string $alias
+     *
+     * @param   string  $alias
      */
     public function setAppJS($alias = null)
     {
@@ -250,12 +277,13 @@ class JBAssetsHelper extends AppHelper
     {
         static $isAdded = false;
 
-        if (!$isAdded) {
+        if (!$isAdded)
+        {
             $isAdded = true;
 
             $this->jQuery();
             $this->addScript(implode("\n\t", array(
-                'JBZoo.DEBUG = ' . (int)JDEBUG . ';',
+                'JBZoo.DEBUG = ' . (int) JDEBUG . ';',
                 'jQuery.migrateMute = false;',
             )), false);
 
@@ -277,7 +305,8 @@ class JBAssetsHelper extends AppHelper
 
             $this->css(array('jbassets:css/libs/sweetalert2.min.css'), self::GROUP_LIBRARY);
 
-            if ($this->app->jbenv->isSite()) {
+            if ($this->app->jbenv->isSite())
+            {
                 $cartItems = JBCart::getInstance()->getItems();
                 $this->addVar('currencyList', $this->app->jbmoney->getData());
                 $this->addVar('cartItems', $this->app->jbarray->map($cartItems, 'element_id', 'element_id', 'item_id'));
@@ -293,26 +322,32 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include UIkit files
-     * @param bool $addJS
-     * @param bool $isGradient
+     *
+     * @param   bool  $addJS
+     * @param   bool  $isGradient
      */
     public function uikit($addJS = false, $isGradient = false)
     {
-        if ($addJS) {
+        if ($addJS)
+        {
             $this->js('jbassets:js/libs/uikit.min.js', self::GROUP_LIBRARY);
         }
 
-        if ($isGradient) {
+        if ($isGradient)
+        {
             $this->css('jbassets:css/uikit.gradient.min.css', self::GROUP_LIBRARY);
-        } else {
+        }
+        else
+        {
             $this->css('jbassets:css/uikit.min.css', self::GROUP_LIBRARY);
         }
     }
 
     /**
-     * @param string $id
-     * @param array  $params
-     * @param bool   $return
+     * @param   string  $id
+     * @param   array   $params
+     * @param   bool    $return
+     *
      * @return string
      */
     public function currencyToggle($id, $params = array(), $return = false)
@@ -324,7 +359,8 @@ class JBAssetsHelper extends AppHelper
         ));
 
         $script = $this->widget('#' . $id, 'JBZoo.CurrencyToggle', $params, $return);
-        if ($return && $script) {
+        if ($return && $script)
+        {
             return $script;
         }
     }
@@ -347,13 +383,22 @@ class JBAssetsHelper extends AppHelper
 
         $this->jQuery();
 
-        if (!$isAdded) {
+        if (!$isAdded)
+        {
             $isAdded = true;
 
-            if ($this->app->jbenv->isSite()) {
+            if ($this->app->jbenv->isSite())
+            {
                 $this->css('libraries:jquery/jquery-ui.custom.css', self::GROUP_CORE);
                 $this->js('libraries:jquery/jquery-ui.custom.min.js', self::GROUP_CORE);
-            } else {
+            }
+            else
+            {
+                // $this->app->system->document->addScript('/media/zoo/libraries/jquery/legacy/jquery.min.js');
+                // $this->app->system->document->addScript('/media/zoo/libraries/jquery/legacy/jquery-noconflict.min.js');
+                // $this->app->system->document->addScript('/media/vendor/jquery/js/jquery.js');
+                // $this->app->system->document->addScript('/media/legacy/js/jquery-noconflict.js');
+
                 $this->app->document->addScript('libraries:jquery/jquery-ui.custom.min.js');
                 $this->app->document->addStylesheet('libraries:jquery/jquery-ui.custom.css');
             }
@@ -408,9 +453,11 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include slider js
-     * @param string $id
-     * @param array  $params
-     * @param bool   $return
+     *
+     * @param   string  $id
+     * @param   array   $params
+     * @param   bool    $return
+     *
      * @return string
      */
     public function slider($id, $params = array(), $return = false)
@@ -421,7 +468,8 @@ class JBAssetsHelper extends AppHelper
         $this->less('jbassets:less/widget/slider.less');
 
         $script = $this->widget('#' . $id, 'JBZoo.Slider', $params, $return);
-        if ($return && $script) {
+        if ($return && $script)
+        {
             return $script;
         }
     }
@@ -443,16 +491,22 @@ class JBAssetsHelper extends AppHelper
     {
         static $isAdded = false;
 
-        if (!$isAdded) {
+        if (!$isAdded)
+        {
             $isAdded = true;
-            if (!$this->app->joomla->version->isCompatible('3.0')) {
-                if (!$this->app->system->application->get('jquery')) {
+            if (!$this->app->joomla->version->isCompatible('3.0'))
+            {
+                if (!$this->app->system->application->get('jquery'))
+                {
                     $this->app->system->application->set('jquery', true);
                     $this->app->system->document->addScript($this->app->path->url('libraries:jquery/jquery.js'));
                 }
-            } else {
-                JHtml::_('jquery.framework');
             }
+            // else
+            // {
+            //      todoj4fix
+            //     JHtml::_('jquery.framework');
+            // }
         }
     }
 
@@ -579,9 +633,11 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Init quantity widget
-     * @param      $id
-     * @param      $options
-     * @param bool $return
+     *
+     * @param         $id
+     * @param         $options
+     * @param   bool  $return
+     *
      * @return string|void
      */
     public function initQuantity($id, $options, $return = false)
@@ -589,7 +645,8 @@ class JBAssetsHelper extends AppHelper
         $this->tools();
         $this->quantity();
         $script = $this->widget('#' . $id, 'JBZoo.Quantity', $options, $return);
-        if ($return && $script) {
+        if ($return && $script)
+        {
             return $script;
         }
     }
@@ -626,7 +683,8 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Height fix for items columns
-     * @param string $element
+     *
+     * @param   string  $element
      */
     public function heightFix($element = '.column')
     {
@@ -659,6 +717,7 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Add global variable to javascript
+     *
      * @param $varName
      * @param $value
      */
@@ -666,7 +725,8 @@ class JBAssetsHelper extends AppHelper
     {
         static $vars = array();
 
-        if (!isset($vars[$varName])) {
+        if (!isset($vars[$varName]))
+        {
             $vars[$varName] = true;
             $this->addScript("\n\tJBZoo.addVar(\"" . $varName . "\", " . $this->toJSON($value) . " )", false);
         }
@@ -675,6 +735,7 @@ class JBAssetsHelper extends AppHelper
     /**
      * @param $varName
      * @param $value
+     *
      * @return string
      */
     public function mergeVar($varName, $value)
@@ -706,7 +767,8 @@ class JBAssetsHelper extends AppHelper
         $this->jQuery();
         $this->jQueryUI();
 
-        if (!$isAdded) {
+        if (!$isAdded)
+        {
             $isAdded = true;
             $this->addScript('$(".jbzoo .jsAutocomplete").each(function (n, obj) {
                 var $input = $(obj),
@@ -742,7 +804,8 @@ class JBAssetsHelper extends AppHelper
         $this->jQuery();
         $this->jQueryUI();
 
-        if (!$isAdded) {
+        if (!$isAdded)
+        {
             $isAdded = true;
             $this->addScript('$(".jbzoo .jsPriceAutoComplete").each(function (n, obj) {
                 var $input = $(obj),
@@ -783,7 +846,8 @@ class JBAssetsHelper extends AppHelper
 
         $this->accordion();
 
-        if (!$isAdded) {
+        if (!$isAdded)
+        {
             $isAdded = true;
             $this->addScript('$(".jbzoo .jsAccordion").each(function(n, obj){
                 var $obj = $(obj),
@@ -796,9 +860,11 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Init color widget
-     * @param string  $queryElement
-     * @param boolean $type
-     * @param bool    $return
+     *
+     * @param   string   $queryElement
+     * @param   boolean  $type
+     * @param   bool     $return
+     *
      * @return string
      */
     public function initJBColorHelper($queryElement, $type = true, $return = true)
@@ -807,10 +873,12 @@ class JBAssetsHelper extends AppHelper
         $this->less('jbassets:less/general.less');
         $this->colors();
 
-        if ($queryElement) {
-            $script = $this->widget('#' . $queryElement, 'JBZoo.Colors', array('multiple' => (boolean)$type), $return);
+        if ($queryElement)
+        {
+            $script = $this->widget('#' . $queryElement, 'JBZoo.Colors', array('multiple' => (boolean) $type), $return);
 
-            if ($return) {
+            if ($return)
+            {
                 return $script;
             }
         }
@@ -818,14 +886,16 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Init color widget
-     * @param string $queryElement
-     * @param string $text
+     *
+     * @param   string  $queryElement
+     * @param   string  $text
      */
     public function initJBColorElement($queryElement, $text = null)
     {
         $this->jQuery();
 
-        if ($queryElement) {
+        if ($queryElement)
+        {
             $this->css('media:jui/css/jquery.minicolors.css', self::GROUP_CORE);
             $this->js('media:jui/js/jquery.minicolors.min.js', self::GROUP_CORE);
             $this->widget($queryElement, 'JBColorElement', array('message' => $text));
@@ -842,15 +912,16 @@ class JBAssetsHelper extends AppHelper
     }
 
     /**
-     * @param      $queryElement
-     * @param null $version
+     * @param         $queryElement
+     * @param   null  $version
      */
     public function initJBDelimiter($queryElement, $version = null)
     {
         $this->jQuery();
 
-        if (empty($version)) {
-            $version = JString::substr($this->app->jbversion->joomla(), 0, 1);
+        if (empty($version))
+        {
+            $version = StringHelper::substr($this->app->jbversion->joomla(), 0, 1);
         }
 
         $this->widget($queryElement, 'JBZoo.Delimiter', array('version' => $version));
@@ -858,22 +929,27 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Add script to document
-     * @param      $script
-     * @param bool $docReady
+     *
+     * @param         $script
+     * @param   bool  $docReady
      */
     public function addScript($script, $docReady = true)
     {
-        if (!$this->app->jbrequest->isAjax()) {
+        if (!$this->app->jbrequest->isAjax())
+        {
 
             $script = trim(trim($script), ';') . ';';
 
-            if ($docReady) {
+            if ($docReady)
+            {
                 $script = "\tjQuery(function($){ " . $script . " });\n";
-            } else {
+            }
+            else
+            {
                 $script = "\t" . $script . "\n";
             }
 
-            JFactory::getDocument()->addScriptDeclaration($script);
+            Factory::getDocument()->addScriptDeclaration($script);
         }
     }
 
@@ -884,7 +960,8 @@ class JBAssetsHelper extends AppHelper
     public function _getRoot()
     {
         static $root;
-        if (!isset($root)) {
+        if (!isset($root))
+        {
             //$root = JUri::root();
             $root = '/';
         }
@@ -894,38 +971,48 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Include files to document
-     * @param array  $files
-     * @param string $type
-     * @param string $group
+     *
+     * @param   array   $files
+     * @param   string  $type
+     * @param   string  $group
+     *
      * @return bool
      */
     protected function _include(array $files, $type, $group = self::GROUP_DEFAULT)
     {
-        if (!$this->_isAjax) {
+        if (!$this->_isAjax)
+        {
             return false;
         }
 
-        foreach ($files as $origPath) {
+        foreach ($files as $origPath)
+        {
 
-            if (!$origPath || isset($this->_list[$type][$group][$origPath])) {
+            if (!$origPath || isset($this->_list[$type][$group][$origPath]))
+            {
                 continue;
             }
 
             $resultPath = $origPath;
 
-            if (strpos($origPath, 'http') !== false) { // external path
+            if (strpos($origPath, 'http') !== false)
+            { // external path
                 $resultPath = $origPath;
 
-            } elseif (strpos($origPath, ':') > 0) { // virtual path
+            }
+            elseif (strpos($origPath, ':') > 0)
+            { // virtual path
 
                 $resultPath = null;
-                if ($fullPath = $this->app->path->path($origPath)) {
+                if ($fullPath = $this->app->path->path($origPath))
+                {
                     $resultPath = $this->app->path->relative($fullPath);
                 }
 
             }
 
-            if ($resultPath) {
+            if ($resultPath)
+            {
                 $this->_list[$type][$group][$origPath] = $resultPath;
             }
         }
@@ -935,12 +1022,13 @@ class JBAssetsHelper extends AppHelper
 
     /**
      * Init modal window
-     * @param string $class
-     * @param array  $opt
+     *
+     * @param   string  $class
+     * @param   array   $opt
      */
     public function behaviorModal($class = 'modal', $opt = array())
     {
-        JHTML::_('behavior.modal', 'a.' . $class, $opt);
+        HTMLHelper::_('behavior.modal', 'a.' . $class, $opt);
     }
 
     /**
@@ -950,37 +1038,46 @@ class JBAssetsHelper extends AppHelper
     {
         static $isAdded = false;
 
-        if (!$isAdded) {
+        if (!$isAdded)
+        {
             $isAdded = true;
             $this->addScript('$(".jbzoo a").attr("target", "_top")');
         }
     }
 
     /**
-     * @param string $relativePath
-     * @param string $type
-     * @param string $group
+     * @param   string  $relativePath
+     * @param   string  $type
+     * @param   string  $group
+     *
      * @return bool
      */
     public function includeFile($relativePath, $type = 'css', $group = self::GROUP_DEFAULT)
     {
-        if (strpos($relativePath, 'http') === false) { // if not external and not core group
+        if (strpos($relativePath, 'http') === false)
+        { // if not external and not core group
 
             $fullPath = JPATH_ROOT . '/' . $relativePath;
 
-            if (JFile::exists($fullPath)) {
-                $relativePath = JUri::root() . $relativePath;
+            if (File::exists($fullPath))
+            {
+                $relativePath = Uri::root() . $relativePath;
                 $relativePath = $relativePath . '?' . substr(filemtime($fullPath), -3); // no browser cache
 
-            } else {
+            }
+            else
+            {
                 return false;
             }
         }
 
-        if ($type == 'css') {
-            JFactory::getDocument()->addStylesheet($relativePath);
-        } elseif ($type == 'js') {
-            JFactory::getDocument()->addScript($relativePath);
+        if ($type == 'css')
+        {
+            Factory::getDocument()->addStylesheet($relativePath);
+        }
+        elseif ($type == 'js')
+        {
+            Factory::getDocument()->addScript($relativePath);
         }
 
         return true;
@@ -993,40 +1090,121 @@ class JBAssetsHelper extends AppHelper
     {
         $assetsConfig = JBModelConfig::model()->getGroup('config.assets');
         $splitMode    = $assetsConfig->get('split_mode', 'group');
-        $includeMode  = (int)$assetsConfig->get('styles_include', 2);
+        $includeMode  = (int) $assetsConfig->get('styles_include', 2);
         $jbminifier   = $this->app->jbminifier;
 
-        foreach ($this->_list as $type => $groupList) {
+        foreach ($this->_list as $type => $groupList)
+        {
             $allFiles = array();
 
-            foreach ($groupList as $group => $files) {
+            foreach ($groupList as $group => $files)
+            {
+                if (empty($files))
+                {
+                    continue;
+                }
 
-                if ($type == 'css' && $this->app->jbenv->isSite()) {
-                    if (0 == $includeMode) {
+                if ($type == 'css' && $this->app->jbenv->isSite())
+                {
+                    if (0 == $includeMode)
+                    {
                         continue;
 
-                    } elseif (1 == $includeMode && $group == self::GROUP_DEFAULT) {
+                    }
+                    elseif (1 == $includeMode && $group == self::GROUP_DEFAULT)
+                    {
                         continue;
                     }
                 }
 
-                if ($splitMode == 'none' || $group == self::GROUP_CORE) {
-                    foreach ($files as $file) {
+                if ($splitMode == 'none' || $group == self::GROUP_CORE)
+                {
+                    foreach ($files as $file)
+                    {
                         $this->includeFile($file, $type, $group);
                     }
 
-                } else if ($splitMode == 'group') {
+                }
+                else if ($splitMode == 'group')
+                {
                     $this->includeFile($jbminifier->split($files, $type, $group), $type, $group);
 
-                } else if ($splitMode == 'all') {
+                }
+                else if ($splitMode == 'all')
+                {
                     $allFiles = array_merge($allFiles, $files);
                 }
 
             }
 
-            if ($splitMode == 'all') {
+            if ($splitMode == 'all' && !empty($allFiles))
+            {
                 $this->includeFile($jbminifier->split($allFiles, $type, 'all'), $type, $group);
             }
+        }
+    }
+
+    /**
+     * Add script for upload files
+     */
+    public function upload()
+    {
+        $this->addVar('JBZOO_UPLOAD_ERROR_FILE', Text::_('JBZOO_UPLOAD_ERROR_FILE'));
+        $this->addVar('JBZOO_UPLOAD_ERROR_REASON', Text::_('JBZOO_UPLOAD_ERROR_REASON'));
+        $this->addVar('JBZOO_UPLOAD_EXTRA_OPTIONS_TARGET', Text::_('JBZOO_UPLOAD_EXTRA_OPTIONS_TARGET'));
+        $this->addVar('JBZOO_UPLOAD_EXTRA_OPTIONS_TARGET_YES', Text::_('JBZOO_UPLOAD_EXTRA_OPTIONS_TARGET_YES'));
+        $this->addVar('JBZOO_UPLOAD_EXTRA_OPTIONS_TARGET_NO', Text::_('JBZOO_UPLOAD_EXTRA_OPTIONS_TARGET_NO'));
+        $this->addVar('JBZOO_UPLOAD_EXTRA_OPTIONS_TITLE', Text::_('JBZOO_UPLOAD_EXTRA_OPTIONS_TITLE'));
+        $this->addVar('JBZOO_UPLOAD_EXTRA_OPTIONS_LINK', Text::_('JBZOO_UPLOAD_EXTRA_OPTIONS_LINK'));
+        $this->addVar('JBZOO_UPLOAD_EXTRA_OPTIONS_REL', Text::_('JBZOO_UPLOAD_EXTRA_OPTIONS_REL'));
+        $this->addVar('JBZOO_UPLOAD_ERROR_9', Text::_('JBZOO_UPLOAD_ERROR_9'));
+        $this->addVar('JBZOO_UPLOAD_ERROR_10', Text::_('JBZOO_UPLOAD_ERROR_10'));
+        $this->addVar('JBZOO_UPLOAD_ERROR_11', Text::_('JBZOO_UPLOAD_ERROR_11'));
+        $this->addVar('JBZOO_UPLOAD_ERROR_12', Text::_('JBZOO_UPLOAD_ERROR_12'));
+
+        $this->js(array(
+            'jbassets:js/widget/upload.js',
+            'jbassets:js/upload/load-image.all.min.js',
+            'jbassets:js/upload/canvas-to-blob.min.js',
+            'jbassets:js/upload/jquery.iframe-transport.js',
+            'jbassets:js/upload/jquery.fileupload.js',
+            'jbassets:js/upload/jquery.fileupload-process.js',
+            'jbassets:js/upload/jquery.fileupload-image.js',
+            'jbassets:js/upload/jquery.fileupload-video.js',
+            'jbassets:js/upload/jquery.fileupload-audio.js',
+            'jbassets:js/upload/jquery.fileupload-validate.js',
+        ));
+    }
+
+    /**
+     * Add script for upload files
+     */
+    public function sortable()
+    {
+        $this->js(array(
+            'jbassets:js/libs/sortable.min.js',
+        ));
+    }
+
+    /**
+     * Init upload widget
+     *
+     * @param         $id
+     * @param         $options
+     * @param   bool  $return
+     *
+     * @return string|void
+     */
+    public function initUpload($id, $options, $return = false)
+    {
+        $this->upload();
+        $this->sortable();
+
+        $script = $this->widget('#' . $id, 'JBZoo.Upload', $options, $return);
+
+        if ($return && $script)
+        {
+            return $script;
         }
     }
 }

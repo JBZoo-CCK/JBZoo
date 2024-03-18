@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -70,7 +71,7 @@ class JBItemHelper extends AppHelper
         }
 
         $element = $item->getElement($elementId);
-        if (JString::strtolower(get_class($element)) == 'elementjbimage') {
+        if (StringHelper::strtolower(get_class($element)) == 'elementjbimage') {
 
             return $element->render(array(
                 'width'    => 75,
@@ -79,14 +80,14 @@ class JBItemHelper extends AppHelper
                 'display'  => 'first',
             ));
 
-        } else if (JString::strtolower(get_class($element)) == 'elementimage') {
+        } else if (StringHelper::strtolower(get_class($element)) == 'elementimage') {
 
             return $element->render(array(
                 'width'  => 75,
                 'height' => 75,
             ));
 
-        } else if (JString::strtolower(get_class($element)) == 'elementimagepro') {
+        } else if (StringHelper::strtolower(get_class($element)) == 'elementimagepro') {
 
             return $element->render(array(
                 'specific._width'  => 75,

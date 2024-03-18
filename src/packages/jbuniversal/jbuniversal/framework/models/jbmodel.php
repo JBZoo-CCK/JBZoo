@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -131,6 +132,7 @@ Class JBModel
      */
     protected function sqlQuery($select)
     {
+        // jbdump($select->__toString(),1,'select');
         return $this->_db->setQuery((string)$select)->execute();
     }
 
@@ -388,8 +390,8 @@ Class JBModel
 
         foreach ($values as $key => $value) {
 
-            $value = JString::trim($value);
-            if (JString::strlen($value)) {
+            $value = StringHelper::trim($value);
+            if (StringHelper::strlen($value)) {
                 $values[$key] = $value;
             } else {
                 unset($values[$key]);

@@ -70,7 +70,7 @@
                 <option value="301_noquery">JBZOO_CONFIG_SEF_CANONICAL_REDIRECT_301_NOQUERY</option>
             </field>
 
-            <field name="zoo_route_caching" type="jbbool" default="0" label="JBZOO_CONFIG_SEF_ZOO_ROUTE_CACHING"
+            <field name="zoo_route_caching" type="hidden" default="0" label="JBZOO_CONFIG_SEF_ZOO_ROUTE_CACHING"
                    description="JBZOO_CONFIG_SEF_ZOO_ROUTE_CACHING_DESC"/>
 
         </fieldset>

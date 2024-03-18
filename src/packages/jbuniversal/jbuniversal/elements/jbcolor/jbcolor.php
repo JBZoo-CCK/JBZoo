@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -121,7 +122,7 @@ class ElementJBColor extends Element implements iSubmittable
     public function edit()
     {
         $colors     = explode("\n", $this->config->get('colors'));
-        $path       = JString::trim($this->config->get('path', 'images'));
+        $path       = StringHelper::trim($this->config->get('path', 'images'));
         $path       = !empty($path) ? $path : 'images';
         $colorItems = $this->_jbcolor->getColors($colors, $path);
 
@@ -160,7 +161,7 @@ class ElementJBColor extends Element implements iSubmittable
     public function getSelectedColors()
     {
         $colors     = explode("\n", $this->config->get('colors'));
-        $path       = JString::trim($this->config->get('path', 'images'));
+        $path       = StringHelper::trim($this->config->get('path', 'images'));
         $path       = !empty($path) ? $path : 'images';
         $colorItems = $this->_jbcolor->getColors($colors, $path);
         $selected   = $this->get('option', array());
@@ -174,7 +175,8 @@ class ElementJBColor extends Element implements iSubmittable
      */
     public function loadConfigAssets()
     {
-        JHtml::_('behavior.colorpicker');
+         // todoj4fix
+        // JHtml::_('behavior.colorpicker');
 
         return parent::loadConfigAssets();
     }
@@ -228,7 +230,7 @@ class ElementJBColor extends Element implements iSubmittable
     public function validateSubmission($value, $params)
     {
         $colors     = explode("\n", $this->config->get('colors'));
-        $path       = JString::trim($this->config->get('path', 'images'));
+        $path       = StringHelper::trim($this->config->get('path', 'images'));
         $path       = !empty($path) ? $path : 'images';
         $colorItems = $this->_jbcolor->getColors($colors, $path);
 

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -194,7 +195,7 @@ class ElementJBAdvert extends Element implements iSubmittable
                     $element = $item->getElement($mParams->get('item_element_id'));
                     if ($element) {
 
-                        $value = JString::trim($mParams->get('item_element_value'));
+                        $value = StringHelper::trim($mParams->get('item_element_value'));
 
                         if (strpos($value, '{') === 0 && strpos($value, '}') > 1) {
                             $value = json_decode($value, true);

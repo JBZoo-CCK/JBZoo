@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -60,7 +61,7 @@ class JBCartElementPaymentYooKassa extends JBCartElementPayment
         $fields = array(
             'amount'            => array(
                 'value'     => $orderAmount->val(),
-                'currency'  => JString::strtoupper($this->getDefaultCurrency())
+                'currency'  => StringHelper::strtoupper($this->getDefaultCurrency())
             ),
             'receipt'       => $this->getMerchantdData(),
             'description'   => $this->getOrderDescription(),
@@ -218,7 +219,7 @@ class JBCartElementPaymentYooKassa extends JBCartElementPayment
                 'quantity'          => $item['quantity'],
                 'amount'            => array(
                     'value'     => $itemPrice->val(),
-                    'currency'  => JString::strtoupper($this->getDefaultCurrency())
+                    'currency'  => StringHelper::strtoupper($this->getDefaultCurrency())
                 ),
                 'vat_code'          => $this->config->get('tax', 1),
                 'payment_subject'   => $this->config->get('payment_subject', 'commodity'),
@@ -239,7 +240,7 @@ class JBCartElementPaymentYooKassa extends JBCartElementPayment
                         'quantity'          => 1,
                         'amount'            => array(
                             'value'     => $rate->val(),
-                            'currency'  => JString::strtoupper($this->getDefaultCurrency())
+                            'currency'  => StringHelper::strtoupper($this->getDefaultCurrency())
                         ),
                         'vat_code'          => $this->config->get('tax', 1),
                         'payment_subject'   => $this->config->get('payment_subject', 'commodity'),
@@ -253,7 +254,7 @@ class JBCartElementPaymentYooKassa extends JBCartElementPayment
 
         // Customer
 
-        $result[$contact] = JString::trim($this->_order->getFieldElement($contactEl)->data()['value']);
+        $result[$contact] = StringHelper::trim($this->_order->getFieldElement($contactEl)->data()['value']);
 
         return $result;
     }

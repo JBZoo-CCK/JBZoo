@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -185,7 +186,7 @@ class JBMinifierHelper extends AppHelper
                 $content = $this->_minifyJsSimple($content);
             }
 
-            $content = JString::trim($content);
+            $content = StringHelper::trim($content);
         }
 
         return $content;
@@ -216,7 +217,7 @@ class JBMinifierHelper extends AppHelper
         $code = preg_replace('#(\s*\!important)#ius', '!important', $code);
 
         // trim
-        $code = JString::trim($code);
+        $code = StringHelper::trim($code);
 
         return $code;
     }
@@ -267,7 +268,7 @@ class JBMinifierHelper extends AppHelper
             )
         );
 
-        $result = JString::trim($result);
+        $result = StringHelper::trim($result);
         if (empty($result)) {
             $result = $origCode;
         }

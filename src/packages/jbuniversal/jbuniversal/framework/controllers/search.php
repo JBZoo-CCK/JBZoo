@@ -126,7 +126,9 @@ class SearchJBUniversalController extends JBUniversalController
         
         // Set Menu Meta
         $menu           = $this->zoo->menu->getActive();
-        $menu_params    = $menu ? $this->zoo->parameter->create($menu->params) : '';
+        // $menu_params    = $menu ? $this->zoo->parameter->create($menu->params) : '';
+        // todoj4fix
+        $menu_params    = $menu ? '' : '';
 
         if ($menu and in_array(@$menu->query['view'], array('filter')) and $menu_params) {
 

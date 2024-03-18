@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -204,12 +205,12 @@ class JBCartElementPriceOption extends JBCartElementPrice
      */
     protected function _parseLines($text)
     {
-        $text   = JString::trim($text);
+        $text   = StringHelper::trim($text);
         $result = array();
         if (!empty($text)) {
             $lines = explode("\n", $text);
             foreach ($lines as $line) {
-                $line = JString::trim($line);
+                $line = StringHelper::trim($line);
 
                 $result[$line] = $line;
             }
@@ -225,7 +226,7 @@ class JBCartElementPriceOption extends JBCartElementPrice
      */
     protected function getLabel($label = '')
     {
-        $label = JString::trim($label);
+        $label = StringHelper::trim($label);
         if ($label === '') {
             $label = '- ' . $this->getName() . ' -';
         }

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -323,7 +324,7 @@ class ElementJBPriceCalc extends ElementJBPrice
                 $result = $this->_item->elements->get($this->identifier);
 
                 foreach ($data as $_id => $unknown) {
-                    $result[$_id] = is_string($unknown) ? JString::trim($unknown) : $unknown;
+                    $result[$_id] = is_string($unknown) ? StringHelper::trim($unknown) : $unknown;
                 }
                 $this->_item->elements->set($this->identifier, $result);
             }
@@ -348,11 +349,11 @@ class ElementJBPriceCalc extends ElementJBPrice
 
             if (!$variant->isBasic()) {
                 $values[$variant->getId()] = array_filter(array_map(function ($element) {
-                    return JString::strlen($element->getValue(true)) > 0 ? (array)$element->data() : null;
+                    return StringHelper::strlen($element->getValue(true)) > 0 ? (array)$element->data() : null;
                 }, $simple));
 
                 $_selected = array_filter(array_map(function ($element) {
-                    return JString::strlen($element->getValue(true)) > 0 ? JString::trim($element->getValue(true) . '__' . $element->variant) : null;
+                    return StringHelper::strlen($element->getValue(true)) > 0 ? StringHelper::trim($element->getValue(true) . '__' . $element->variant) : null;
                 }, $simple));
 
                 if ($_selected) {

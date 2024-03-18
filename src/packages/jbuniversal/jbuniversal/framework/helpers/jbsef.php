@@ -649,7 +649,10 @@ class JBSefHelper extends AppHelper
                     and isset($query['Itemid'])
                     and $item = $menu->getItem($query['Itemid'])
                     and @$item->component == 'com_zoo'
-                    and $app_id = $item->params->get('application')
+                    // and $app_id = $this->app->zoo->getApplication()->id
+                    // and $app_id = $item->params->get('application')
+                    and $app_id = $item->getParams()->get('application')
+                    // todoj4fix
                     and @$params['query']['app_id'] == $app_id
                     and @$query['controller'] == $controller)) {
                 

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -48,7 +49,7 @@ class JBCSVItemUserJBSelectCascade extends JBCSVItem
      */
     public function fromCSV($value, $position = null)
     {
-        if(JString::trim($value) === '') {
+        if(StringHelper::trim($value) === '') {
             return $this->_item;
         }
 

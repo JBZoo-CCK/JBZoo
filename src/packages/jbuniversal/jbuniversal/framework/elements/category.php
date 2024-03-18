@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -68,7 +69,7 @@ class JBCSVCategory
      */
     protected function _getBool($value)
     {
-        $value = JString::strtolower(JString::trim($value));
+        $value = StringHelper::strtolower(StringHelper::trim($value));
 
         if (in_array($value, array('1', 'y', 'yes', 'on'))) {
             return 1;
@@ -98,7 +99,7 @@ class JBCSVCategory
      */
     protected function _getString($value)
     {
-        return JString::trim($value);
+        return StringHelper::trim($value);
     }
 
     /**

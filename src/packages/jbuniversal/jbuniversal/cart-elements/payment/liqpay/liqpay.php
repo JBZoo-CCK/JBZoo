@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -38,8 +39,8 @@ class JBCartElementPaymentLiqPay extends JBCartElementPayment
     {
         $order      = $this->getOrder();
         $orderId    = $this->getOrderId();
-        $publicKey  = JString::trim($this->config->get('public_key'));
-        $privateKey = JString::trim($this->config->get('private_key'));
+        $publicKey  = StringHelper::trim($this->config->get('public_key'));
+        $privateKey = StringHelper::trim($this->config->get('private_key'));
 
         $payCurrency = $this->getDefaultCurrency();
         $orderAmount = $this->_order->val($this->getOrderSumm(), $order->getCurrency())->convert($payCurrency);
@@ -47,7 +48,7 @@ class JBCartElementPaymentLiqPay extends JBCartElementPayment
         $data = array(
             'version'     => self::VERSION,
             'amount'      => $orderAmount->val(),
-            'currency'    => JString::strtoupper($payCurrency),
+            'currency'    => StringHelper::strtoupper($payCurrency),
             'public_key'  => $publicKey,
             'description' => $this->getOrderDescription(),
             'order_id'    => $orderId,
@@ -76,7 +77,7 @@ class JBCartElementPaymentLiqPay extends JBCartElementPayment
     public function isValid($params = array())
     {
         $requestData = $this->app->jbrequest->get('data');
-        $privateKey  = JString::trim($this->config->get('private_key'));
+        $privateKey  = StringHelper::trim($this->config->get('private_key'));
 
         $signature   = base64_encode(sha1($privateKey . $requestData . $privateKey, 1));
         $requestSign = $this->app->jbrequest->get('signature');

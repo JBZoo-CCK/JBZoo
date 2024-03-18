@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -301,7 +302,7 @@ class JBModelOrder extends JBModel
             if ((int)$search) {
                 $select->where('tOrder.id = ?', (int)$search);
             } else {
-                $select->where('tOrder.comment LIKE ' . $this->_db->quote('%' . JString::trim($filter->get('search')) . '%'));
+                $select->where('tOrder.comment LIKE ' . $this->_db->quote('%' . StringHelper::trim($filter->get('search')) . '%'));
             }
         }
 

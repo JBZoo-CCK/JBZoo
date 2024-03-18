@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -66,7 +67,7 @@ class JBFilterElementJBColor extends JBFilterElement
     protected function _createValues($values)
     {
         $colors = explode("\n", $this->_element->config->get('colors'));
-        $path   = JString::trim($this->_element->config->get('path'));
+        $path   = StringHelper::trim($this->_element->config->get('path'));
 
         $result = array();
         $colors = $this->app->jbcolor->getColors($colors, $path);

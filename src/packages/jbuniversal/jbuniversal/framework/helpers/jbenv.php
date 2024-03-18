@@ -1,4 +1,6 @@
 <?php
+use \Joomla\CMS\Factory;
+
 /**
  * JBZoo Application
  *
@@ -32,7 +34,7 @@ class JBEnvHelper extends AppHelper
             return true;
         }
 
-        return JFactory::getApplication()->isSite();
+        return \Joomla\CMS\Factory::getApplication()->isClient('site');
     }
 
 

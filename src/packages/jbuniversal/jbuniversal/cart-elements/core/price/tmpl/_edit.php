@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -26,8 +27,8 @@ $attr   = array(
     'class' => array(
         'jbprice-element',
         'jsElement',
-        'js' . JString::ucfirst($type),
-        'js' . JString::ucfirst($isCore)
+        'js' . StringHelper::ucfirst($type),
+        'js' . StringHelper::ucfirst($isCore)
     )
 );
 

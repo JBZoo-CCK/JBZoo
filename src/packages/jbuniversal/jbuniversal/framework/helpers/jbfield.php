@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -146,7 +147,7 @@ class JBFieldHelper extends AppHelper
             // create category select
             if ((int)$this->_getAttr($node, 'categories', 0)) {
 
-                $cat_value = isset($value['category']) && JString::strlen($value['category']) > 0 ? $value['category'] : null;
+                $cat_value = isset($value['category']) && StringHelper::strlen($value['category']) > 0 ? $value['category'] : null;
                 $attribs = 'class="category app-' . $application->id . ($app_value != $application->id ? ' hidden' : null) . '" data-category="' . $common_name . '[category]"';
                 $opts = [];
                 if ((int)$this->_getAttr($node, 'frontpage', 0)) {
@@ -1565,7 +1566,7 @@ class JBFieldHelper extends AppHelper
         $elements = $element->getElements();
         if (count($elements)) {
             foreach ($elements as $element) {
-                $type = JString::ucfirst($element->getElementType());
+                $type = StringHelper::ucfirst($element->getElementType());
 
                 if ($isModule && strpos($element->identifier, '_') === 0 && !in_array($element->identifier,
                         ['_value', '_sku'])) {

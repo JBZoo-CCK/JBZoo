@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -17,8 +18,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 $name = JText::_($element->getName());
-$type = JString::strtolower($element->getElementType());
-$desc = JString::trim($element->getDescription());
+$type = StringHelper::strtolower($element->getElementType());
+$desc = StringHelper::trim($element->getDescription());
 
 $unique  = $element->htmlId(true);
 $jbPrice = $element->getJBPrice();
@@ -28,7 +29,7 @@ $name = (isset($params['altlabel'])) ? $params['altlabel'] : $name;
 $desc = (!empty($desc) ? $desc : JText::_('JBZOO_ELEMENT_PRICE_' . $type . '_DESC'));
 
 // create label
-$label = '<label class="hasTip row-field" title="' . $desc . '" for="' . $unique . '">' . JString::ucfirst($name) . '</label>';
+$label = '<label class="hasTip row-field" title="' . $desc . '" for="' . $unique . '">' . StringHelper::ucfirst($name) . '</label>';
 
 //create attributes for main div
 $attributes = array(

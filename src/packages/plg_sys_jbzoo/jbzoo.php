@@ -149,7 +149,7 @@ class plgSystemJBZoo extends JPlugin
     {
         $joomlaApp = JFactory::getApplication();
         $jInput    = $joomlaApp->input;
-        $isSite    = $joomlaApp->isSite();
+        $isSite    = $joomlaApp->isClient('Site');
         $compName  = $jInput->getCmd('option', '');
 
         if (

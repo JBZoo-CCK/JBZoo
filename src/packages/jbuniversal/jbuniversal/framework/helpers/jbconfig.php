@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -98,7 +99,7 @@ class JBConfigHelper extends AppHelper
 
         foreach ($params as $key => $value) {
 
-            $constName = JString::strtoupper($key);
+            $constName = StringHelper::strtoupper($key);
             $value = str_replace('\'', "\\'", $value);
 
             $fileTemplate[] = 'define(\'' . $constName . '\', \'' . $value . '\');';

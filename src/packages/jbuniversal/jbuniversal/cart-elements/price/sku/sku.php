@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -89,7 +90,7 @@ class JBCartElementPriceSku extends JBCartElementPrice
             }
         }
 
-        $value = JString::trim($value);
+        $value = StringHelper::trim($value);
 
         return $value;
     }

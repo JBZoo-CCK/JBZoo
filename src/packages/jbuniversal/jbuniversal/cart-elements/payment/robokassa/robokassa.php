@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -63,8 +64,8 @@ class JBCartElementPaymentRobokassa extends JBCartElementPayment
      */
     public function isValid($params = array())
     {
-        $crc   = JString::trim(JString::strtoupper($_REQUEST["SignatureValue"]));
-        $myCrc = JString::trim(JString::strtoupper(md5(implode(':', array(
+        $crc   = StringHelper::trim(StringHelper::strtoupper($_REQUEST["SignatureValue"]));
+        $myCrc = StringHelper::trim(StringHelper::strtoupper(md5(implode(':', array(
             $_REQUEST['OutSum'],
             $this->getOrderId(),
             $this->config->get('password2')

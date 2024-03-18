@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -38,7 +39,7 @@ class JBDateHelper extends AppHelper
      */
     public function convertToStamp($date)
     {
-        $dates = explode("\n", JString::trim($date));
+        $dates = explode("\n", StringHelper::trim($date));
 
         $result = array();
 

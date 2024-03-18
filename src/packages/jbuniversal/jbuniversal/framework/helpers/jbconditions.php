@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -109,7 +110,7 @@ class JBConditionsHelper extends AppHelper
         if (!is_array($value)) {
 
             $value = strip_tags($value);
-            $value = JString::trim($value);
+            $value = StringHelper::trim($value);
 
             if (strpos($value, '||')) {
                 $value = explode('||', $value);
@@ -121,7 +122,7 @@ class JBConditionsHelper extends AppHelper
         } else {
             foreach ($value as $key => $val) {
 
-                $value[$key] = JString::trim($val);
+                $value[$key] = StringHelper::trim($val);
             }
 
             return $value;

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -55,7 +56,7 @@ class JBCartElementEmailTextArea extends JBCartElementEmail
     public function _renderText()
     {
         if (is_null($this->_text)) {
-            $text        = JString::trim($this->config->get('text'));
+            $text        = StringHelper::trim($this->config->get('text'));
             $this->_text = $this->app->jbordermacros->renderText($text, $this->getOrder());
         }
 

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -59,7 +60,7 @@ class JBCartElementShippingEmsPost extends JBCartElementShipping
         foreach ($locations['locations'] as $location) {
 
             $value = $jbvars->lower($location['value']);
-            $name  = JString::ucfirst($jbvars->lower($location['name']));
+            $name  = StringHelper::ucfirst($jbvars->lower($location['name']));
 
             $result[$value] = $name;
         }

@@ -1,4 +1,6 @@
 <?php
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 /**
  * JBZoo Application
  *
@@ -127,7 +129,7 @@ class JBDatabaseQuery
      * @param   JDatabase $db The database connector resource
      * @return  JBDatabaseQuery
      */
-    public function __construct(JDatabase $db)
+    public function __construct($db)
     {
         $this->db = $db;
     }
@@ -485,6 +487,8 @@ class JBDatabaseQuery
         }
 
         return $this->db->quote(($escape ? $this->db->escape($text) : $text));
+
+        // return $this->db->quote($this->db->escape($text));
     }
 
     /**
@@ -715,7 +719,7 @@ class JBDatabaseQuery
             $query .= (string)$this->limit;
         }
 
-        $query = str_replace('#__', $this->db->getPrefix(), $query);
+        $query = str_replace('#__', Factory::getContainer()->get('DatabaseDriver')->getPrefix(), $query);
 
         return $query;
     }

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -49,7 +50,7 @@ class JBCSVItemUserCountry extends JBCSVItem
         $options = $this->_getArray($value, JBCSVItem::SEP_CELL);
 
         foreach ($options as $key => $option) {
-            $options[$key] = JString::strtoupper($option);
+            $options[$key] = StringHelper::strtoupper($option);
         }
 
         $this->_element->bindData(array('country' => $options));

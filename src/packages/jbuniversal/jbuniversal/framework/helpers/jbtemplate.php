@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -88,7 +89,7 @@ class JBTemplateHelper extends AppHelper
             $template = explode($this->_replacement, $template);
 
             foreach ($template as $subStr) {
-                $newName .= JString::ucfirst($subStr);
+                $newName .= StringHelper::ucfirst($subStr);
             }
 
             $template = $newName;
@@ -150,7 +151,7 @@ class JBTemplateHelper extends AppHelper
      */
     protected function _getClassName($name = 'catalog')
     {
-        return $this->_classPrefix . JString::ucfirst($name);
+        return $this->_classPrefix . StringHelper::ucfirst($name);
     }
 
 }

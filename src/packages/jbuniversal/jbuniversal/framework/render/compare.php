@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -108,7 +109,7 @@ class CompareRenderer extends ItemRenderer
                 $element['_index']    = $index;
 
                 $html = $this->renderItemElement($element['element'], $item, $element);
-                $html = JString::trim($html);
+                $html = StringHelper::trim($html);
 
                 $renderedItems[$item->id][$element['element']] = $html;
             }

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -353,7 +354,7 @@ class JBModelItem extends JBModel
      */
     public function getByName($name, $appId = null)
     {
-        $name = JString::trim($name);
+        $name = StringHelper::trim($name);
         if (!empty($name)) {
 
             $conditions = array(

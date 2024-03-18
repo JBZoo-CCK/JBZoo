@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -196,7 +197,7 @@ class JBZooRuleJBPrice extends JBZooRuleText
         $this->_param_id   = $param_id;
         $result[$elem_id]  = array();
 
-        $value = JString::trim($value);
+        $value = StringHelper::trim($value);
 
         unset($elements);
         if ($param_id == '_value') {

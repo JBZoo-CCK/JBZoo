@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -93,7 +94,7 @@ class JBCartElementModifierOrderPriceDiscountCode extends JBCartElementModifierO
         $list = $this->config->get('codelist');
         $list = $this->app->jbstring->parseLines($list);
 
-        $code = JString::trim($this->get('code'));
+        $code = StringHelper::trim($this->get('code'));
 
         return in_array($code, $list);
     }

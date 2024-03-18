@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -135,7 +136,7 @@ $this->app->jbassets->widget('#' . $tabsId, 'JBZoo.Tabs');
             </li>
         <?php endif; ?>
 
-        <?php if (JString::trim(strip_tags($html))) : ?>
+        <?php if (StringHelper::trim(strip_tags($html))) : ?>
             <li>
                 <a href="#tab-form-fields"><?php echo JText::_('JBZOO_CLIENTAREA_USERINFO'); ?></a>
             </li>
@@ -206,7 +207,7 @@ $this->app->jbassets->widget('#' . $tabsId, 'JBZoo.Tabs');
         </div>
     <?php endif; ?>
 
-    <?php if (JString::trim(strip_tags($html))) : ?>
+    <?php if (StringHelper::trim(strip_tags($html))) : ?>
         <div id="tab-form-fields" class="jbclientarea-formfields">
             <h3><?php echo JText::_('JBZOO_CLIENTAREA_USERINFO'); ?></h3>
             <dl>

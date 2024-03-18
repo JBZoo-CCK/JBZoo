@@ -128,7 +128,7 @@
                     }
                 });
 
-                $('.option .key', $options).tooltip();
+                // $('.option .key', $options).tooltip();
 
                 return this;
             },
@@ -144,7 +144,7 @@
                 $('.jsMessage', parent)
                     .attr('title', message)
                     .addClass('error')
-                    .tooltip();
+                    // .tooltip();
 
                 return this;
             },
@@ -154,8 +154,8 @@
                 $('.jsMessage', row)
                     .removeClass('error lock')
                     .removeAttr('title data-original-title')
-                    .tooltip()
-                    .tooltip('destroy');
+                    // .tooltip()
+                    // .tooltip('destroy');
 
                 return this;
             },

@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -67,8 +68,8 @@ class JBCartElementPaymentSberbank extends JBCartElementPayment
         }
         
         $options = array(
-            'userName'            => JString::trim($this->config->get('merchant')),
-            'password'            => JString::trim($this->config->get('password')),
+            'userName'            => StringHelper::trim($this->config->get('merchant')),
+            'password'            => StringHelper::trim($this->config->get('password')),
             'amount'              => $orderAmount,
             'orderNumber'         => $orderId,
             'dynamicCallbackUrl'  => $this->_jbrouter->payment('callback').'&sberbankOrderId='.$order->id,
@@ -286,7 +287,7 @@ class JBCartElementPaymentSberbank extends JBCartElementPayment
         $contactEl      = $this->config->get($contact);
 
         if (!empty($contactEl)) {
-            $contactData = JString::trim($order->getFieldElement($contactEl)->data()['value']);
+            $contactData = StringHelper::trim($order->getFieldElement($contactEl)->data()['value']);
 
             if ($contactData) {
                 $result[$contact] = $contactData;

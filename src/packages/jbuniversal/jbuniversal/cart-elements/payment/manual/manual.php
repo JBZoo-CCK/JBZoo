@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -27,7 +28,7 @@ class JBCartElementPaymentManual extends JBCartElementPayment
      */
     public function getRedirectUrl()
     {
-        if ($url = JString::trim($this->config->get('redirect_url'))) {
+        if ($url = StringHelper::trim($this->config->get('redirect_url'))) {
             return $url;
         }
 

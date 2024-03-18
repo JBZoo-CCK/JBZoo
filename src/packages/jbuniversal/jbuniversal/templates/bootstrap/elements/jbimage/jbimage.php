@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -48,7 +49,7 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
      */
     public function _hasValue($params = array())
     {
-        $file         = JString::trim($this->get('file'));
+        $file         = StringHelper::trim($this->get('file'));
         $isExists     = !empty($file) && JFile::exists(JPATH_ROOT . '/' . $file);
         $defaultImage = $this->_getDefaultImage($params);
 
@@ -65,7 +66,7 @@ class ElementJBImage extends ElementRepeatable implements iRepeatSubmittable
      */
     public function _getSearchData()
     {
-        $file     = JString::trim($this->get('file'));
+        $file     = StringHelper::trim($this->get('file'));
         $isExists = !empty($file) && JFile::exists(JPATH_ROOT . '/' . $file);
         $title    = $this->get('title');
 

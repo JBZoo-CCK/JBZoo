@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -118,7 +119,7 @@ class JBPriceFilterElement
     protected function _getElementValue($value)
     {
         if ($this->_isValueEmpty($value) && $value = $this->_params->get('jbzoo_filter_default', null)) {
-            $value = JString::trim($value);
+            $value = StringHelper::trim($value);
 
             if (strpos($value, '{') !== false && strpos($value, '}') !== false) {
                 $value = json_decode($value, true);
@@ -354,7 +355,7 @@ class JBPriceFilterElement
     protected function _getPlaceholder()
     {
         $default     = JText::_('JBZOO_FILTER_PLACEHOLDER_DEFAULT');
-        $placeholder = JString::trim($this->_params->get('jbzoo_filter_placeholder', $default));
+        $placeholder = StringHelper::trim($this->_params->get('jbzoo_filter_placeholder', $default));
         if (!$placeholder) {
             $placeholder = $default;
         }
@@ -369,7 +370,7 @@ class JBPriceFilterElement
     protected function _getPlaceholderSelect()
     {
         $default     = JText::_('JBZOO_ALL');
-        $placeholder = JString::trim($this->_params->get('jbzoo_filter_placeholder', $default));
+        $placeholder = StringHelper::trim($this->_params->get('jbzoo_filter_placeholder', $default));
         if (!$placeholder) {
             $placeholder = $default;
         }
@@ -385,7 +386,7 @@ class JBPriceFilterElement
     protected function _addPlaceholder($attrs)
     {
         $isAutocomplete = (int)$this->_params->get('jbzoo_filter_autocomplete', 0);
-        $placeholder    = JString::trim($this->_params->get('jbzoo_filter_placeholder'));
+        $placeholder    = StringHelper::trim($this->_params->get('jbzoo_filter_placeholder'));
 
         if (!empty($placeholder)) {
             $attrs['placeholder'] = $placeholder;

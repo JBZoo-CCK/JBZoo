@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -50,7 +51,7 @@ class JBCartElementEmailDownload extends JBCartElementEmail
 
                 if ($element = $item['item']->getElement($downloadId)) {
 
-                    $file     = JString::trim($element->get('file'));
+                    $file     = StringHelper::trim($element->get('file'));
                     $fullPath = JPath::clean(JPATH_ROOT . '/' . $file);
 
                     if ($file && JFile::exists($fullPath)) {
@@ -58,7 +59,7 @@ class JBCartElementEmailDownload extends JBCartElementEmail
                             'full'    => $fullPath,
                             'url'     => JUri::root() . $this->app->path->relative($fullPath),
                             'element' => $this->app->jbrouter->element($downloadId, $item['item']->id, 'download'),
-                            'name'    => JString::trim($item->item_name),
+                            'name'    => StringHelper::trim($item->item_name),
                             'size'    => $this->app->filesystem->formatFilesize(filesize($fullPath)),
                         );
                     }

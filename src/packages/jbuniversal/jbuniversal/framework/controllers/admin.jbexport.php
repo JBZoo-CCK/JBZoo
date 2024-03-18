@@ -186,7 +186,8 @@ class JBExportJBuniversalController extends JBuniversalController
         $tmpArch = null;
 
         if ($compressFiles = $this->_jbexport->splitFiles()) {
-            $tmpArch = $this->zoo->jbarch->compress($compressFiles, 'jbzoo-export-items-' . date('Y-m-d_H-i'));
+            // $tmpArch = $this->zoo->jbarch->compress($compressFiles, 'jbzoo-export-items-' . date('Y-m-d_H-i')); todofixj4
+            $tmpArch = $compressFiles[0];
         } else {
             $this->zoo->jbnotify->notice(JText::_('JBZOO_EXPORT_ITEMS_NOT_FOUND'));
             $this->setRedirect($this->zoo->jbrouter->admin(array('task' => 'items')));
@@ -194,7 +195,7 @@ class JBExportJBuniversalController extends JBuniversalController
 
         if ($tmpArch && is_readable($tmpArch) && JFile::exists($tmpArch)) {
             $this->zoo->filesystem->output($tmpArch);
-            JFile::delete($tmpArch);
+            // JFile::delete($tmpArch);
             $this->_jbexport->clean();
             JExit();
 
@@ -236,14 +237,15 @@ class JBExportJBuniversalController extends JBuniversalController
                 $files = $this->_jbexport->categoriesToCSV($appId, $request);
 
                 if (!empty($files)) {
-                    $tmpArch = $this->zoo->jbarch->compress($files, 'jbzoo-export-categories-' . date('Y-m-d_H-i'));
+                    // $tmpArch = $this->zoo->jbarch->compress($files, 'jbzoo-export-categories-' . date('Y-m-d_H-i')); //todofixj4
+                    $tmpArch = $files[0];
                 } else {
                     throw new AppException(JText::_('JBZOO_EXPORT_CATEGORIES_NOT_FOUND'));
                 }
 
                 if (is_readable($tmpArch) && JFile::exists($tmpArch)) {
                     $this->zoo->filesystem->output($tmpArch);
-                    JFile::delete($tmpArch);
+                    // JFile::delete($tmpArch);
                     $this->_jbexport->clean();
                     JExit();
                 } else {
@@ -271,14 +273,15 @@ class JBExportJBuniversalController extends JBuniversalController
                 $files = JFolder::files($this->zoo->path->path('jbapp:types'), 'config', false, true);
 
                 if (!empty($files)) {
-                    $tmpArch = $this->zoo->jbarch->compress($files, 'jbzoo-export-types-' . date('Y-m-d_H-i'));
+                    // $tmpArch = $this->zoo->jbarch->compress($files, 'jbzoo-export-types-' . date('Y-m-d_H-i')); todofixj4
+                    $tmpArch = $files[0];
                 } else {
                     throw new AppException(JText::_('JBZOO_EXPORT_TYPES_NOT_FOUND'));
                 }
 
                 if (is_readable($tmpArch) && JFile::exists($tmpArch)) {
                     $this->zoo->filesystem->output($tmpArch);
-                    JFile::delete($tmpArch);
+                    // JFile::delete($tmpArch);
                     $this->_jbexport->clean();
                     JExit();
                 } else {

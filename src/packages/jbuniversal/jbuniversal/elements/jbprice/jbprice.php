@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -763,17 +764,22 @@ abstract class ElementJBPrice extends Element implements iSubmittable
         foreach ($variant->all() as $element) {
             $value = $element->getSearchData();
             $value = $this->_helper->getValue($value);
-
+            
+            if (NULL === $value) { $value = 0;}
             $string = (string)$value;
-            $numeric = is_numeric($value) ? $vars->number($value) : null;
-            $date = $this->_helper->isDate($value) ?: null;
+           
+            // $numeric = is_numeric($value) ? $vars->number($value) : null;
+            $numeric = is_numeric($value) ? $vars->number($value) : (float)$value;
+            // $date = $this->_helper->isDate($value) ?: null;
+            // todoj4fix
+            $date = $this->_helper->isDate($value) ?: '1970-01-01 00:00:00';
 
             if (
                 (!$this->_helper->isEmpty($string) || (is_numeric($numeric) || !$this->_helper->isEmpty($date))) ||
                 ($element->id() == '_value')
             ) {
                 $key = $this->_item->id . '__' . $this->identifier . '__' . $variant->getId() . '__' . $element->id();
-
+               
                 $data[$key] = [
                     'item_id'    => $this->_item->id,
                     'element_id' => $this->identifier,
@@ -1029,7 +1035,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
                 $result = $this->_item->elements->get($this->identifier);
 
                 foreach ($data as $_id => $unknown) {
-                    $result[$_id] = is_string($unknown) ? JString::trim($unknown) : $unknown;
+                    $result[$_id] = is_string($unknown) ? StringHelper::trim($unknown) : $unknown;
                 }
                 $this->_item->elements->set($this->identifier, (array)$result);
             }
@@ -1053,11 +1059,11 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             $variations[$variant->getId()] = $variant->data();
             if (!$variant->isBasic()) {
                 $values[$variant->getId()] = array_filter(array_map(function ($element) {
-                    return JString::strlen($element->getValue(true)) > 0 ? (array)$element->data() : null;
+                    return StringHelper::strlen($element->getValue(true)) > 0 ? (array)$element->data() : null;
                 }, $simple));
 
                 $_selected = array_filter(array_map(function ($element) {
-                    return JString::strlen($element->getValue(true)) > 0 ? JString::trim($element->getValue(true)) : null;
+                    return StringHelper::strlen($element->getValue(true)) > 0 ? StringHelper::trim($element->getValue(true)) : null;
                 }, $simple));
 
                 if ($_selected) {

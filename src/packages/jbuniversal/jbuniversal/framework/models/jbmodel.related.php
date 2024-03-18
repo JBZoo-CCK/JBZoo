@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -282,7 +283,7 @@ class JBModelRelated extends JBModel
     {
         foreach ($elemValues as $key => $elemValue) {
 
-            if (strpos(JString::trim($elemValue), "\n") !== false) {
+            if (strpos(StringHelper::trim($elemValue), "\n") !== false) {
                 $elemValue = explode("\n", $elemValue);
             }
 
@@ -305,7 +306,7 @@ class JBModelRelated extends JBModel
 
         // double escaping hack
         foreach ($elemValues as $key => $elemValue) {
-            $elemValues[$key] = JString::trim($elemValue, '\'"');
+            $elemValues[$key] = StringHelper::trim($elemValue, '\'"');
         }
 
         return (!empty($elemValues) ? $elemValues : null);
@@ -362,7 +363,7 @@ class JBModelRelated extends JBModel
         $elements = $item->getElements();
         foreach ($elements as $element) {
             if ($data = $element->getSearchData()) {
-                $tmpResult[$element->identifier] = JString::trim($data);
+                $tmpResult[$element->identifier] = StringHelper::trim($data);
             }
         }
 

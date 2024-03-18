@@ -1,0 +1,226 @@
+//
+// JBZoo Application
+//
+// This file is part of the JBZoo CCK package.
+// For the full copyright and license information, please view the LICENSE
+// file that was distributed with this source code.
+//
+// @package    Application
+// @license    GPL-2.0
+// @copyright  Copyright (C) JBZoo.com, All rights reserved.
+// @link       https://github.com/JBZoo/JBZoo
+//
+
+// Variables
+
+@color-white:       #ffffff;
+@color-border:      #e5e5e5;
+@color-link:        #3071a9;
+@color-success:     #46a546;
+@color-danger:      #FF0000;
+
+fieldset {
+    &.creation-form {
+        .jbvideo {
+            width: 600px;
+
+            &__upload {
+                text-align: center;
+                margin-bottom: 20px;
+                padding: 30px 30px;
+                background: transparent;
+                border: 1px dashed @color-border;
+
+                &-input {
+                    display: inline-block;
+                    position: relative;
+                    max-width: 100%;
+                    vertical-align: middle;
+
+                    &-link {
+                        color: @color-link;
+                        text-decoration: none;
+                        cursor: pointer;
+                    }
+
+                    input {
+                        font-size: 500px;
+                        overflow: hidden;
+                        position: absolute;
+                        top: 0;
+                        z-index: 1;
+                        width: 100%;
+                        height: 100%;
+                        left: 0;
+                        -webkit-appearance: none;
+                        opacity: 0;
+                        cursor: pointer;
+                    }
+                }
+
+                &-text {
+                    vertical-align: middle;
+                }
+            }
+
+            &__progress {
+                display: flex;
+                height: 1rem;
+                overflow: hidden;
+                line-height: 0;
+                font-size: .75rem;
+                background-color: @color-border;
+                border-radius: .25rem;
+                margin-bottom: 20px;
+
+                &-bar {
+                    display: -ms-flexbox;
+                    display: flex;
+                    -ms-flex-direction: column;
+                    flex-direction: column;
+                    -ms-flex-pack: center;
+                    justify-content: center;
+                    overflow: hidden;
+                    color: @color-white;
+                    text-align: center;
+                    white-space: nowrap;
+                    background-color: @color-link;
+                    transition: width .6s ease;
+                }
+            }
+
+            &__alert {
+                margin-bottom: 20px;
+                border: 1px solid @color-danger;
+                padding: 10px;
+                color: @color-danger;
+
+                p {
+                    margin-bottom: 0;
+
+                    + p {
+                        margin-top: 10px;
+                    }
+                }
+            }
+
+            &__files {
+                display: flex;
+                flex-wrap: wrap;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                margin-left: -20px;
+            }
+
+            &__file {
+                &-item {
+                    width: 50%;
+                    box-sizing: border-box;
+                    max-width: 100%;
+                    padding-left: 20px;
+                    margin-bottom: 20px;
+                    min-height: 160px;
+
+                    &_success {
+                        color: @color-success;
+
+                        .jbvideo__file-item-body {
+                            border: 1px solid @color-success;
+                        }
+                    }
+
+                    &-teaser {
+                        video {
+                            height: 100px;
+                            width: 100%;
+                            object-fit: cover;
+                        }
+                    }
+
+                    &-body {
+                        border: 1px solid @color-border;
+                        padding: 20px;
+                        position: relative;
+                        background-color: @color-white;
+
+                        p {
+                            margin-bottom: 0;
+                            max-width: 100%;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            font-weight: bold;
+                            font-size: 14px;
+                            margin-top: 15px;
+                        }
+                    }
+
+                    &.sortable-ghost {
+                        .jbvideo__file-item-body {
+                            opacity: .6;
+                        }
+                    }
+
+                    &-edit {
+                        margin-top: 15px;
+
+                        .btn {
+                            width: 100%;
+
+                            span {
+                                width: 14px;
+                                height: 14px;
+                                background-image: url(/media/zoo/applications/jbuniversal/assets/img/icon/ico-edit.svg);
+                                background-position: center center;
+                                background-repeat: no-repeat;
+                                display: inline-block;
+                            }
+                        }
+
+                        .collapse {
+                            > div {
+                                margin-top: 10px;
+                            }
+                        }
+
+                        input[type="text"] {
+                            font-size: 11px;
+                            height: 26px;
+                            padding: 5px;
+                            font-size: 12px;
+                        }
+                    }
+
+                    &-delete {
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        width: 30px;
+                        height: 30px;
+                        background-image: url(/media/zoo/applications/jbuniversal/assets/img/icon/ico-delete.svg);
+                        background-position: center center;
+                        background-repeat: no-repeat;
+                        background-color: @color-border;
+                    }
+                }
+            }
+
+            &__from-server {
+                margin-bottom: 20px;
+
+                .btn {
+                    width: inherit;
+                    float: right;
+                }
+            }
+
+            .btn {
+                padding: 4px 12px;
+                line-height: inherit;
+                font-size: inherit;
+                height: inherit;
+            }
+        }
+    }
+}

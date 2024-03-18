@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -30,7 +31,7 @@ class JBCSVItemPriceBalance extends JBCSVItemPrice
      */
     public function fromCSV($value, $variant = null)
     {
-        $value = JString::trim($value);
+        $value = StringHelper::trim($value);
 
         return array('value' => $value);
     }

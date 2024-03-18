@@ -1,4 +1,6 @@
 <?php
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 /**
  * JBZoo Application
  *
