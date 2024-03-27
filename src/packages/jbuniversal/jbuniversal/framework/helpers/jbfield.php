@@ -1,5 +1,8 @@
 <?php
 use Joomla\String\StringHelper;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filesystem\Folder;
+
 /**
  * JBZoo Application
  *
@@ -295,16 +298,18 @@ class JBFieldHelper extends AppHelper
             $options = ['__auto__' => JText::_('JBZOO_LAYOUT_AUTOSELECT')];
         }
 
-        if (JFolder::exists($path)) {
-            $files = JFolder::files($path, '^([-_A-Za-z0-9\.]*)\.php$', false, false, ['.svn', 'CVS']);
+        if (is_dir($path)) {
+            $files = Folder::files($path, '^([-_A-Za-z0-9\.]*)\.php$', false, false, ['.svn', 'CVS']);
             foreach ($files as $tmpl) {
                 $tmpl = basename($tmpl, '.php');
                 $options[$tmpl] = $tmpl;
             }
         }
 
-        if (JFolder::exists($system) && $system) {
-            $files = JFolder::files($system, '^([-_A-Za-z0-9\.]*)\.php$', false, false, ['.svn', 'CVS']);
+
+
+        if (is_dir($system) && $system) {
+            $files = Folder::files($system, '^([-_A-Za-z0-9\.]*)\.php$', false, false, ['.svn', 'CVS']);
             foreach ($files as $tmpl) {
                 $tmpl = basename($tmpl, '.php');
                 $options[$tmpl] = $tmpl;
@@ -388,7 +393,7 @@ class JBFieldHelper extends AppHelper
             $options = ['__auto__' => JText::_('JBZOO_LAYOUT_AUTOSELECT')];
         }
 
-        $files = JFolder::files($lPath, '^([-_A-Za-z0-9\.]*)\.php$', false, false, ['.svn', 'CVS']);
+        $files = Folder::files($lPath, '^([-_A-Za-z0-9\.]*)\.php$', false, false, ['.svn', 'CVS']);
         foreach ($files as $tmpl) {
             $tmpl = basename($tmpl, '.php');
             $options[$tmpl] = $tmpl;
@@ -1012,7 +1017,7 @@ class JBFieldHelper extends AppHelper
         if ($types) {
             $types = explode(',', $types);
         }
-        $files = JFolder::files($this->app->path->path('jbtypes:'), '\.config');
+        $files = Folder::files($this->app->path->path('jbtypes:'), '\.config');
 
         $optionList = [];
         foreach ($files as $file) {
@@ -1254,7 +1259,7 @@ class JBFieldHelper extends AppHelper
 
 
         $typesPath = $this->app->path->path('jbtypes:');
-        $files = JFolder::files($typesPath, '.config');
+        $files = Folder::files($typesPath, '.config');
 
         $coreGrp = JText::_('JBZOO_FIELDS_CORE');
         $options = [$coreGrp => []];
@@ -1502,7 +1507,7 @@ class JBFieldHelper extends AppHelper
         $excludeType = JBModelSearchindex::model()->getExcludeTypes();
 
         $typesPath = $this->app->path->path('jbtypes:');
-        $files = JFolder::files($typesPath, '.config');
+        $files = Folder::files($typesPath, '.config');
         $app = $this->app->zoo->getApplication();
 
         // add std fields
