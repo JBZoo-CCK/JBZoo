@@ -28,8 +28,9 @@ class JBToolbarHelper extends AppHelper
      */
     public function toolbar()
     {
-        $this->_customLink('jbzoosupport', 'JBZOO_BUTTON_SUPPORT', 'http://forum.jbzoo.com');
-        $this->_separator();
+        return true;
+        // $this->_customLink('jbzoosupport', 'JBZOO_BUTTON_SUPPORT', 'http://forum.jbzoo.com');
+        // $this->_separator();
     }
 
     /**
@@ -73,7 +74,7 @@ class JBToolbarHelper extends AppHelper
         ), $urlParams);
 
         $link = JRoute::_(JURI::root() . 'administrator/index.php?' . $this->app->jbrouter->query($urlParams), true, -1);
-
+        // return true;
         return JToolBar::getInstance('toolbar')->appendButton('Popup', $icon, $name, $link, $width, $height);
     }
 
@@ -92,8 +93,8 @@ class JBToolbarHelper extends AppHelper
         ), $urlParams);
 
         $link = JRoute::_(JURI::root() . 'administrator/index.php?' . $this->app->jbrouter->query($urlParams), true, -1);
-
-        return JToolBar::getInstance('toolbar')->appendButton('Link', $icon, $name, $link);
+        return true;
+        // return JToolBar::getInstance('toolbar')->appendButton('Link', $icon, $name, $link);
     }
 
     /**
@@ -105,7 +106,8 @@ class JBToolbarHelper extends AppHelper
      */
     protected function _customLink($icon, $name, $link)
     {
-        return JToolBar::getInstance('toolbar')->appendButton('Link', $icon, $name, $link);
+        return true;
+        // return JToolBar::getInstance('toolbar')->appendButton('Link', $icon, $name, $link);
     }
 
     /**
@@ -114,6 +116,7 @@ class JBToolbarHelper extends AppHelper
      */
     protected function _separator()
     {
-        JToolBar::getInstance('toolbar')->appendButton('Separator', 'spacer', '90');
+        return true;
+        // JToolBar::getInstance('toolbar')->appendButton('Separator', 'spacer', '90');
     }
 }
