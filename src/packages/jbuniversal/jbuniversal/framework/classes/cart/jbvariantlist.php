@@ -227,8 +227,13 @@ class JBCartVariantList extends ArrayObject
     #[\ReturnTypeWillChange]
     public function count(): int
     {
+        if ($this->variants === null) {
+            return 0;
+        }
+    
         return count($this->variants);
     }
+    
 
     /**
      * @param $key
