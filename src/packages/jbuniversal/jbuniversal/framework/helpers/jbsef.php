@@ -230,7 +230,9 @@ class JBSefHelper extends AppHelper
         $newCanUrl = null;
         if (in_array('item', $flags)) {
             $itemId    = $this->_jbrequest->getSystem('item');
-            $newCanUrl = $this->_getUrl($this->_itemTable->get($itemId), 'item');
+            // $newCanUrl = $this->_getUrl($this->_itemTable->get($itemId), 'item');
+            //j4fix
+            $newCanUrl = App::getInstance('zoo')->zoo->getApplication()->alias .  '/' . $this->_itemTable->get((int)$itemId)->alias;
 
         } elseif (in_array('frontpage', $flags)) {
             $appId     = $this->app->zoo->getApplication()->id;
@@ -250,7 +252,8 @@ class JBSefHelper extends AppHelper
 
             // set new url
             $baseUrl = $this->_jbrouter->getHostUrl();
-            $this->_joomlaDoc->addHeadLink($baseUrl . $newCanUrl, 'canonical');
+            // $this->_joomlaDoc->addHeadLink($baseUrl . $newCanUrl, 'canonical');
+            $this->_joomlaDoc->addHeadLink($baseUrl . '/' . $newCanUrl, 'canonical');
         }
 
         $this->_jbdebug->mark('jbzoo-sef::canonicalFix::finish');
