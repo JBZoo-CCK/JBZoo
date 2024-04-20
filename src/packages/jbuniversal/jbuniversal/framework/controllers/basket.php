@@ -190,10 +190,9 @@ class BasketJBUniversalController extends JBUniversalController
         // Set Menu Meta
         $menu           = $this->zoo->menu->getActive();
 
-        if (isset($menu->params)) {
-            $menu_params    = $this->zoo->parameter->create($menu->params);
+        if (isset($menu)) {
+            $menu_params    = $menu->getParams();
         }
-        
 
         if ($menu and in_array(@$menu->query['view'], array('basket')) and $menu_params) {
 
