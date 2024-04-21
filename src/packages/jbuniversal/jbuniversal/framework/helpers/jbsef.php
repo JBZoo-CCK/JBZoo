@@ -216,6 +216,9 @@ class JBSefHelper extends AppHelper
      */
     public function canonicalFix()
     {
+
+        $glconfig = JBModelConfig::model()->getGroup('config.sef', array());
+
         if (!$this->_jbrequest->is('option', 'com_zoo')) {
             return null;
         }
@@ -228,11 +231,74 @@ class JBSefHelper extends AppHelper
         );
 
         $newCanUrl = null;
+        
         if (in_array('item', $flags)) {
             $itemId    = $this->_jbrequest->getSystem('item');
-            // $newCanUrl = $this->_getUrl($this->_itemTable->get($itemId), 'item');
+            $newCanUrl = $this->_getUrl($this->_itemTable->get($itemId), 'item');
+
+            if (substr($newCanUrl, 0, 1) === "/") {
+                // Удаляем первый символ "/"
+                $newCanUrl = substr($newCanUrl, 1);
+            }
+            
             //j4fix
+
+       if ($glconfig->get('fix_canonical_v1')) {
+
             $newCanUrl = App::getInstance('zoo')->zoo->getApplication()->alias .  '/' . $this->_itemTable->get((int)$itemId)->alias;
+
+       }
+
+       if ($glconfig->get('fix_canonical_v2')) {
+
+        $item_get_fix = $this->_itemTable->get($itemId);
+
+        $items_get_fix   = [];
+        $items_get_fix[] = (object) [
+            'id'        => $item_get_fix->id,
+            'name'      => $item_get_fix->name,
+            'published' => $item_get_fix->state,
+            'url'       => App::getInstance('zoo')->route->item($item_get_fix, 0),
+            'type'      => JText::_('ITEM'),
+        ];
+
+        $cats = $item_get_fix->getRelatedCategories();
+
+        foreach ($cats as $cat)
+        {
+            $items_get_fix[] = (object) [
+                'id'        => $cat->id,
+                'name'      => $cat->name,
+                'published' => $cat->published,
+                'url'       => App::getInstance('zoo')->route->category($cat, 0),
+                'type'      => JText::_('CATEGORY'),
+            ];
+        }
+
+        $fix_url_v2 = end($items_get_fix)->url;
+
+        // Проверяем наличие item_id
+        if (strpos($fix_url_v2, 'item_id=') === false) {
+            // Если item_id отсутствует, производим замену
+            $fix_url_v2 = str_replace(
+                'view=category&layout=category',
+                'task=item&item_id='.$itemId,
+                $fix_url_v2
+            );
+        }
+
+        $fix_url_v2_sef = JRoute::_(str_replace("&amp;", "&", $fix_url_v2), true, false);
+        $fix_url_v2_sef = str_replace("//", "/", $fix_url_v2_sef);
+
+        // Проверяем, начинается ли строка с символа "/"
+        if (substr($fix_url_v2_sef, 0, 1) === "/") {
+            // Удаляем первый символ "/"
+            $fix_url_v2_sef = substr($fix_url_v2_sef, 1);
+        }
+
+        $newCanUrl = $fix_url_v2_sef;
+
+       }
 
         } elseif (in_array('frontpage', $flags)) {
             $appId     = $this->app->zoo->getApplication()->id;
