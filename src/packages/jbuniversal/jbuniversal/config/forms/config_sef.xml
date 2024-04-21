@@ -55,6 +55,12 @@
             <field name="fix_canonical" type="jbbool" default="0" label="JBZOO_CONFIG_SEF_FIX_CANONICAL"
                    description="JBZOO_CONFIG_SEF_FIX_CANONICAL_DESC"/>
 
+            <field name="fix_canonical_v1" type="jbbool" default="0" label="Simple Canonical App alias and Item alias"
+                   description="Very simple generate canonical fix - app_alias and item_alias"/>
+
+            <field name="fix_canonical_v2" type="jbbool" default="0" label="New BETA version Canonical (beta)"
+                   description="Find canonical from related category in menu and replace it - Please before test it on page"/>
+
             <field name="parse_priority" type="list" default="item" label="JBZOO_CONFIG_SEF_PARSE_PRIORITY"
                    description="JBZOO_CONFIG_SEF_PARSE_PRIORITY_DESC">
                 <option value="item">JBZOO_CONFIG_SEF_PARSE_PRIORITY_ITEM</option>
