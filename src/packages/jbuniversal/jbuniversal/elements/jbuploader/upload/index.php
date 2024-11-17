@@ -29,39 +29,39 @@ JBZoo::init();
 $zoo = App::getInstance('zoo');
 
 if (isset($_REQUEST['elementId'])) {
-	//$elementId = htmlentities(strip_tags(JString::trim($_REQUEST['elementId'])), ENT_QUOTES, "UTF-8");
+    //$elementId = htmlentities(strip_tags(JString::trim($_REQUEST['elementId'])), ENT_QUOTES, "UTF-8");
     $elementId = htmlentities(strip_tags(JString::trim($_REQUEST['elementId'])));
-	$element = $zoo->jbentity->getItemTypesData();
-	$params = $element[$elementId];
-	$uploadDirectory = trim(trim($params['upload_directory']), '\/');
-	$watermark_path = trim(trim($params['watermark_path']), '\/');
-	$site_url = str_replace('media/zoo/applications/jbuniversal/elements/jbuploader/upload/', '', JURI::root());
+    $element = $zoo->jbentity->getItemTypesData();
+    $params = $element[$elementId];
+    $uploadDirectory = trim(trim($params['upload_directory']), '\/');
+    $watermark_path = trim(trim($params['watermark_path']), '\/');
+    $site_url = str_replace('media/zoo/applications/jbuniversal/elements/jbuploader/upload/', '', JURI::root());
 
-	$upload_dir = $site_url.$uploadDirectory;
+    $upload_dir = $site_url.$uploadDirectory;
 
-	if ($params['upload_by_user'] || $params['upload_by_date'] || $params['upload_by_month']) {
-		$upload_dir .= '/';
-	}
+    if ($params['upload_by_user'] || $params['upload_by_date'] || $params['upload_by_month']) {
+        $upload_dir .= '/';
+    }
 
-	$options = array(
-		'upload_dir'		=>	JPATH_BASE.'/'.$uploadDirectory.'/', 
-		'upload_url'		=> 	$upload_dir,
-		'user_dirs' 		=> 	true,
-		'param_name'		=> 	$elementId.'-files',
-		'watermark_enable'  =>  $params['watermark_enable'],
-		'watermark_path'  	=>  JPATH_BASE.'/'.$watermark_path,
-		'upload_by_user'  	=>  $params['upload_by_user'],
-		'upload_by_date'  	=>  $params['upload_by_date'],
-		'upload_by_month'  	=>  $params['upload_by_month']
-	);
+    $options = array(
+        'upload_dir'        =>    JPATH_BASE.'/'.$uploadDirectory.'/', 
+        'upload_url'        =>     $upload_dir,
+        'user_dirs'         =>     true,
+        'param_name'        =>     $elementId.'-files',
+        'watermark_enable'  =>  $params['watermark_enable'],
+        'watermark_path'      =>  JPATH_BASE.'/'.$watermark_path,
+        'upload_by_user'      =>  $params['upload_by_user'],
+        'upload_by_date'      =>  $params['upload_by_date'],
+        'upload_by_month'      =>  $params['upload_by_month']
+    );
 
-	class CustomUploadHandler extends UploadHandler {
-	    protected function get_user_id() {
-	    	return $this->handle_form_data();
-	    }
-	}
+    class CustomUploadHandler extends UploadHandler {
+        protected function get_user_id() {
+            return $this->handle_form_data();
+        }
+    }
 
-	$upload_handler = new CustomUploadHandler($options);
+    $upload_handler = new CustomUploadHandler($options);
 } else {
-	echo 'Error, Sorry =(';
+    echo 'Error, Sorry =(';
 }
