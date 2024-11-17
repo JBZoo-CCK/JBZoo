@@ -25,6 +25,9 @@ jobs:
         curl -sS https://getcomposer.org/installer | php
         sudo mv composer.phar /usr/local/bin/composer
 
+    - name: Install dependencies
+      run: composer install --optimize-autoloader --no-interaction --no-progress
+
     - name: Composer update (dev)
       run: composer update --optimize-autoloader --no-interaction --no-progress
 
@@ -35,7 +38,7 @@ jobs:
       run: composer validate --no-interaction
 
     - name: Run unit tests
-      run: php ./vendor/phpunit/phpunit/phpunit
+      run: vendor/bin/phpunit
 
     - name: Build installer
       run: |
