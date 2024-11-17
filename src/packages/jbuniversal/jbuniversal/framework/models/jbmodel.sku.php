@@ -1,6 +1,4 @@
 <?php
-use Joomla\String\StringHelper;
-
 /**
  * JBZoo Application
  *
@@ -24,6 +22,8 @@ defined('_JEXEC') or die('Restricted access');
  *
  * This class represents the model for handling SKU data in the JBZoo CCK.
  */
+use Joomla\String\StringHelper;
+
 class JBModelSku extends JBModel
 {
     /**
