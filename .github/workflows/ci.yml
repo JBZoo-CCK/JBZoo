@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [develop]  # Change this to your default branch if it's not 'main'
+  pull_request:
+    branches: [develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'  # Specify your PHP version
+          extensions: mbstring, xml, zip, curl  # Add any required PHP extensions
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --no-progress
+
+      - name: Run Makefile commands
+        run: make build  # You can replace this with any specific make target you want to run
+      
+      - name: Run tests
+        run: make test  # Run your tests as defined in the Makefile
+
+      - name: Clean up
+        run: make clean  # Optional cleanup step if needed
