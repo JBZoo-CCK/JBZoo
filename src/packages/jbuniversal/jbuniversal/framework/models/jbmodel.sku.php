@@ -7,11 +7,12 @@ use Joomla\String\StringHelper;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    Application
- * @license    GPL-2.0
- * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/JBZoo
- * @author     Denis Smetannikov <denis@jbzoo.com>
+ * @category  JBZoo
+ * @package   JBZoo\SKU
+ * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @license   GPL-2.0
+ * @link      https://github.com/JBZoo/JBZoo
+ * @since     1.0.0
  */
 
 // no direct access
@@ -19,11 +20,14 @@ defined('_JEXEC') or die('Restricted access');
 
 /**
  * Class JBModelSku
+ *
+ * This class represents the model for handling SKU data in the JBZoo CCK.
  */
 class JBModelSku extends JBModel
 {
     /**
      * Create and return self instance
+     * 
      * @return JBModelSku
      */
     public static function model()

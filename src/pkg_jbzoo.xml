@@ -25,8 +25,8 @@
         <![CDATA[
         JBZoo App is universal Joomla CCK, application for YooTheme Zoo component.
         Developed by <a href="https://github.com/SmetDenis" target="_blank">Denis Smetannikov</a><br>
-		<h2>ВНИМАНИЕ!!! Включите JBZoo ПЛАГИН!!! ОБЯЗАТЕЛЬНО! Иначе будет ошибка jbenvHelper!!!<h2>
-		<h1><a href="/administrator/index.php?option=com_plugins&view=plugins&filter[search]=jbzoo">Активировать плагин JBZOO бесплатно без регистрации и смс</a></h1>
+        <h2>ВНИМАНИЕ!!! Включите JBZoo ПЛАГИН!!! ОБЯЗАТЕЛЬНО! Иначе будет ошибка jbenvHelper!!!<h2>
+        <h1><a href="/administrator/index.php?option=com_plugins&view=plugins&filter[search]=jbzoo">Активировать плагин JBZOO бесплатно без регистрации и смс</a></h1>
         ]]>
     </description>
 
