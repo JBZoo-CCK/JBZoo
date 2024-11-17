@@ -6,12 +6,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @category  JBZoo
- * @package   JBZoo\SKU
- * @author    Denis Smetannikov <denis@jbzoo.com>
- * @license   GPL-2.0
- * @link      https://github.com/JBZoo/JBZoo
- * @since     1.0.0
+ * @category JBZoo
+ * @package JBZoo\SKU
+ * @author Denis Smetannikov <denis@jbzoo.com>
+ * @license GPL-2.0
+ * @link https://github.com/JBZoo/JBZoo
+ * @since 1.0.0
  */
 
 // no direct access
