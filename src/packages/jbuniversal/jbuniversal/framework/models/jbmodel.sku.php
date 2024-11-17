@@ -1,5 +1,6 @@
 <?php
 use Joomla\String\StringHelper;
+
 /**
  * JBZoo Application
  *
@@ -38,6 +39,7 @@ class JBModelSku extends JBModel
     /**
      * Check columns in SKU table
      * Add new fields if it not exists
+     *
      * @deprecated
      */
     public function checkColumns()
@@ -47,6 +49,7 @@ class JBModelSku extends JBModel
 
     /**
      * Get the unique id(primary key) for element
+     *
      * @param string $id Identifier of price element
      * @return int|bool
      */
@@ -57,9 +60,10 @@ class JBModelSku extends JBModel
 
     /**
      * Get id of value by value and param_id
-     * @param $value
-     * @param $param_id
-     * @param $element_id
+     *
+     * @param string $value
+     * @param int    $element_id
+     * @param int    $param_id
      * @return mixed
      */
     public function getValueId($value, $element_id, $param_id)
@@ -79,6 +83,7 @@ class JBModelSku extends JBModel
 
     /**
      * Get item id by sku
+     *
      * @param string $sku
      * @return mixed|null
      */
@@ -109,6 +114,7 @@ class JBModelSku extends JBModel
 
     /**
      * Save to index table
+     *
      * @param array $data
      * @return bool
      */
@@ -116,7 +122,6 @@ class JBModelSku extends JBModel
     {
         if (count($data)) {
             foreach ($data as $values) {
-
                 $eav = array(
                     'value_s'    => $values['value_s'],
                     'value_n'    => $values['value_n'],
@@ -160,17 +165,18 @@ class JBModelSku extends JBModel
 
     /**
      * Remove columns from #__jbzoo_config when element deleted
-     * @param $identifier
+     *
+     * @param string $identifier
      */
     public function removeByElement($identifier)
     {
-
     }
 
     /**
      * Remove rows by item
+     *
      * @param Item  $item
-     * @param       $identifier
+     * @param mixed $identifier
      * @return bool
      */
     public function removeByItem(Item $item, $identifier)
@@ -180,6 +186,7 @@ class JBModelSku extends JBModel
 
     /**
      * Insert elements if they are not exists
+     *
      * @return $this
      */
     public function updateParams()
