@@ -1,5 +1,4 @@
 <?php
-use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -15,7 +14,7 @@ use Joomla\String\StringHelper;
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
+use Joomla\String\StringHelper;
 /**
  * Class JBModelSku
  *
