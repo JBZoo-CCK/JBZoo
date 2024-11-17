@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [develop]  # Change this to your default branch if it's not 'main'
+    branches: [develop]
   pull_request:
     branches: [develop]
 
@@ -25,17 +25,11 @@ jobs:
         curl -sS https://getcomposer.org/installer | php
         sudo mv composer.phar /usr/local/bin/composer
 
-    - name: Install dependencies
+    - name: Install dependencies (dev)
       run: composer install --optimize-autoloader --no-interaction --no-progress
 
-    - name: Composer update (dev)
-      run: composer update --optimize-autoloader --no-interaction --no-progress
-
-    - name: Composer update (prod)
-      run: composer update --optimize-autoloader --no-interaction --no-progress --no-dev
-
-    - name: Composer validate
-      run: composer validate --no-interaction
+    - name: Check for PHPUnit binary
+      run: ls -la vendor/bin/phpunit
 
     - name: Run unit tests
       run: vendor/bin/phpunit
