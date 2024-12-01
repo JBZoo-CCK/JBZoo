@@ -364,7 +364,7 @@ class JBModelValues extends JBModel
         $select = $this->_getSelect()
             ->select('tCategory.id')
             ->from(ZOO_TABLE_CATEGORY . ' AS tCategory')
-            ->where('tCategory.parent = ?' . $id);
+            ->where('tCategory.parent = ?' , $id);
 
         $subCats = $this->fetchAll($select);
         $subCats = $this->_groupBy($subCats, 'id');
