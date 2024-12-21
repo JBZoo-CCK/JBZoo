@@ -223,17 +223,17 @@ class JBCartVariantList extends ArrayObject
     /**
      * @return int
      */
-    
+
     #[\ReturnTypeWillChange]
     public function count(): int
     {
         if ($this->variants === null) {
             return 0;
         }
-    
+
         return count($this->variants);
     }
-    
+
 
     /**
      * @param $key
@@ -268,7 +268,7 @@ class JBCartVariantList extends ArrayObject
     /**
      * @return ArrayIterator
      */
-    
+
     #[\ReturnTypeWillChange]
     public function getIterator(): Iterator
     {
@@ -515,8 +515,8 @@ class JBCartVariantList extends ArrayObject
         $jbPrice = $this->getJBPrice();
 
         $total    = $this->getTotal()->data(true);
-        $discount = $this->current()->getValue(true, '_discount');
-        $margin   = $this->current()->getValue(true, '_margin');
+        $discount = $this->current()->getValue('_discount', true);
+        $margin   = $this->current()->getValue('_margin', true);
         $elements = $this->defaultVariantCartData(); // bug, call only at the end!
 
         $elements['_discount'] = $discount;
@@ -581,8 +581,9 @@ class JBCartVariantList extends ArrayObject
 
     /**
      * @return JBCartValue
+     * @since 4.15.7
      */
-    protected function _calcPrice()
+    protected function _calcPrice(): JBCartValue
     {
         $first = $this->first();
         $price = $first->getPrice();
@@ -597,10 +598,10 @@ class JBCartVariantList extends ArrayObject
             }
         }
         $price  = clone $price;
-        $margin = $first->getValue(false, '_margin', JBCart::val())->positive();
+        $margin = $first->getValue('_margin', false, JBCart::val())->positive();
         $price->add($margin);
 
-        return $this->addModifiers($price, false);
+        return $this->addModifiers($price);
     }
 
     /**
@@ -615,11 +616,12 @@ class JBCartVariantList extends ArrayObject
     /**
      * Get the total price for the variant element - ElementJBPriceCalc
      * @return JBCartValue
+     * @since 4.15.7
      */
-    protected function _calcTotal()
+    protected function _calcTotal(): JBCartValue
     {
         $first = $this->first();
-        $price = clone $this->_calcPrice()->minus($first->getValue(false, '_discount', JBCart::val())->positive());
+        $price = clone $this->_calcPrice()->minus($first->getValue('_discount', false, JBCart::val())->positive());
 
         return $this->addModifiers($price, true);
     }
