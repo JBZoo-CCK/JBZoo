@@ -904,7 +904,6 @@ class JBCartValue
                     $currency = $matches[2];
                 }
             }
-            
         }
 
         if (is_null($value)) {
