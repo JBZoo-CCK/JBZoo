@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * JBZoo Application
  *
@@ -11,6 +12,12 @@
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
  * @link       https://github.com/JBZoo/JBZoo
  * @author     Denis Smetannikov <denis@jbzoo.com>
+ *
+ */
+
+/**
+ * @var JRegistry $params
+ * @var stdClass $module
  */
 
 // no direct access
@@ -20,10 +27,11 @@ defined('_JEXEC') or die('Restricted access');
 require_once dirname(__FILE__) . '/helper.php';
 
 $zoo = App::getInstance('zoo');
+
 $zoo->jbdebug->mark($module->module . '::start-' . $module->id);
 
 // init & render module
 $modHelper = new JBModuleHelperBasket($params, $module);
-echo $modHelper->render(true);
+echo $modHelper->render();
 
 $zoo->jbdebug->mark($module->module . '::finish-' . $module->id);

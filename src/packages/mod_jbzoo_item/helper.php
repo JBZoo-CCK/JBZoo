@@ -1,4 +1,9 @@
 <?php
+declare(strict_types=1);
+
+use Joomla\Filesystem\Path;
+use Joomla\Registry\Registry;
+
 /**
  * JBZoo Application
  *
@@ -36,13 +41,13 @@ class JBModuleHelperItem extends JBModuleHelper
     /**
      * @type array|null
      */
-    protected $_items = null;
+    protected ?array $_items = null;
 
     /**
-     * @param JRegistry $params
-     * @param stdClass  $module
+     * @param Registry $params
+     * @param object $module
      */
-    public function __construct(JRegistry $params, $module)
+    public function __construct(Registry $params, object $module)
     {
         parent::__construct($params, $module);
 
@@ -51,47 +56,50 @@ class JBModuleHelperItem extends JBModuleHelper
 
     /**
      * Load module assets
+     * @return void
      */
-    protected function _loadAssets()
+    protected function _loadAssets(): void
     {
         parent::_loadAssets();
 
         if ($this->_isRemoveViewed()) {
-            $this->_jbassets->js('mod_jbzoo_item:assets/js/viewed.js');
+            $this->_jbassets->js(['mod_jbzoo_item:assets/js/viewed.js']);
         }
     }
 
     /**
      * Init remove viewed button
+     * @return void
      */
-    protected function _initWidget()
+    protected function _initWidget(): void
     {
         if ($this->_isRemoveViewed()) {
-            $this->_jbassets->widget('#' . $this->getModuleId(), 'JBZoo.Viewed', array(
-                'message'   => JText::_('JBZOO_MODITEM_RECENTLY_VIEWED_DELETE_HISTORY'),
+            $this->_jbassets->widget('#' . $this->getModuleId(), 'JBZoo.Viewed', [
+                'message' => JText::_('JBZOO_MODITEM_RECENTLY_VIEWED_DELETE_HISTORY'),
                 'url_clear' => $this->app->jbrouter->removeViewed()
-            ));
+            ]);
         }
 
         if ((int)$this->_params->get('column_heightfix', 0)) {
-            $this->_jbassets->js('jbassets:js/widget/heightfix.js');
-            $this->_jbassets->widget('#' . $this->getModuleId(), 'JBZoo.HeightFix', array());
+            $this->_jbassets->js(['jbassets:js/widget/heightfix.js']);
+            $this->_jbassets->widget('#' . $this->getModuleId(), 'JBZoo.HeightFix');
         }
     }
 
     /**
      * @param $params
+     * @return void
      */
-    protected function _loadType($params)
+    protected function _loadType($params): void
     {
         $fileType = $params->get('mode', 'category');
 
         $pathType = $this->app->path->path('mod_jbzoo_item:types/' . $fileType . '.php');
 
-        $moduleType = JPath::clean($pathType);
-        $className  = self::TYPE_PREFIX . ucfirst($fileType);
+        $moduleType = Path::clean($pathType);
+        $className = self::TYPE_PREFIX . ucfirst($fileType);
 
-        if (JFile::exists($moduleType)) {
+        if (is_file($moduleType)) {
             require_once $moduleType;
         }
 
@@ -101,9 +109,9 @@ class JBModuleHelperItem extends JBModuleHelper
     }
 
     /**
-     * @return mixed
+     * @return array|null
      */
-    public function getItems()
+    public function getItems(): ?array
     {
         if (is_null($this->_items)) {
             $this->_items = $this->_itemType->getItems();
@@ -113,18 +121,20 @@ class JBModuleHelperItem extends JBModuleHelper
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function renderRemoveButton()
+    public function renderRemoveButton(): ?string
     {
         if ($this->_isRemoveViewed()) {
 
-            $attrs = array('class' => array(
-                'recently-viewed-clear',
-                'jsRecentlyViewedClear',
-                'jbbutton',
-                'small',
-            ));
+            $attrs = [
+                'class' => [
+                    'recently-viewed-clear',
+                    'jsRecentlyViewedClear',
+                    'jbbutton',
+                    'small',
+                ]
+            ];
 
             return '<span ' . $this->attrs($attrs) . '>' . JText::_('JBZOO_MODITEM_DELETE') . '</span>';
         }
@@ -135,17 +145,17 @@ class JBModuleHelperItem extends JBModuleHelper
     /**
      * @return bool
      */
-    protected function _isRemoveViewed()
+    protected function _isRemoveViewed(): bool
     {
         return $this->_params->get('delete', 1) && $this->_params->get('mode') == 'viewed';
     }
 
     /**
-     * @param null  $layout
+     * @param null $layout
      * @param array $vars
-     * @return string
+     * @return string|null
      */
-    public function partial($layout = null, $vars = array())
+    public function partial($layout = null, $vars = []): ?string
     {
         $vars['items'] = $this->getItems();
         return parent::partial($layout, $vars);

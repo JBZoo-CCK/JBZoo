@@ -1,4 +1,8 @@
 <?php
+declare(strict_types=1);
+
+use Joomla\Registry\Registry;
+
 /**
  * JBZoo Application
  *
@@ -11,6 +15,11 @@
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
  * @link       https://github.com/JBZoo/JBZoo
  * @author     Denis Smetannikov <denis@jbzoo.com>
+ */
+
+/**
+ * @var Registry $params
+ * @var object $module
  */
 
 // no direct access

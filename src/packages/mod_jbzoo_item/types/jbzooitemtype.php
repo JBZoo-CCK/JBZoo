@@ -1,4 +1,8 @@
 <?php
+declare(strict_types=1);
+
+use Joomla\Registry\Registry;
+
 /**
  * JBZoo Application
  *
@@ -22,22 +26,22 @@ defined('_JEXEC') or die('Restricted access');
 abstract class JBZooItemType
 {
     /**
-     * @var App
+     * @var App|string
      */
-    public $app = null;
+    public App|string $app;
 
     /**
-     * @var JRegistry
+     * @var Registry|null
      */
-    protected $_params = null;
+    protected ?Registry $_params = null;
 
     /**
      * Init Zoo
-     * @param JRegistry $params
+     * @param Registry $params
      */
-    public function __construct(JRegistry $params)
+    public function __construct(Registry $params)
     {
-        $this->app     = App::getInstance('zoo');
+        $this->app = App::getInstance('zoo');
         $this->_params = $params;
     }
 
