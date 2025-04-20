@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * JBZoo Application
  *
@@ -13,6 +15,8 @@
  * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
+use Joomla\Registry\Registry;
+
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
@@ -26,16 +30,16 @@ require_once JPATH_BASE . '/media/zoo/applications/jbuniversal/framework/classes
 class JBModuleHelperBasket extends JBModuleHelper
 {
     /**
-     * @type JBCartOrder
+     * @type JBCartOrder|null
      */
-    protected $_order = null;
+    protected ?JBCartOrder $_order = null;
 
     /**
      * Init Zoo
-     * @param JRegistry $params
-     * @param object    $module
+     * @param Registry $params
+     * @param object $module
      */
-    public function __construct(JRegistry $params, $module)
+    public function __construct(Registry $params, object $module)
     {
         parent::__construct($params, $module);
 
@@ -45,17 +49,17 @@ class JBModuleHelperBasket extends JBModuleHelper
     /**
      * Load important assets files
      */
-    protected function _loadAssets()
+    protected function _loadAssets(): void
     {
         parent::_loadAssets();
-        $this->_jbassets->js('mod_jbzoo_basket:assets/js/cart-module.js');
+        $this->_jbassets->js(['mod_jbzoo_basket:assets/js/cart-module.js']);
         $this->_jbassets->less('mod_jbzoo_basket:assets/less/cart-module.less');
     }
 
     /**
      * Init cart widget
      */
-    protected function _initWidget()
+    protected function _initWidget(): void
     {
         $this->_jbassets->widget('#' . $this->getModuleId(), 'JBZoo.CartModule', $this->getWidgetParams());
     }
@@ -82,17 +86,18 @@ class JBModuleHelperBasket extends JBModuleHelper
     }
 
     /**
-     * @return JBCartOrder
+     * @param array $params
+     * @return array
      */
-    public function getBasketItems($params = [])
+    public function getBasketItems(array $params = []): array
     {
         $_params = [
             // TODO config from module
-            'currency'     => $this->getCurrency(),
-            'item_link'    => (int)$this->_params->get('jbcart_item_link', 1),
-            'image_width'  => $this->_params->get('jbcart_item_image_width', 75),
+            'currency' => $this->getCurrency(),
+            'item_link' => (int)$this->_params->get('jbcart_item_link', 1),
+            'image_width' => $this->_params->get('jbcart_item_image_width', 75),
             'image_height' => $this->_params->get('jbcart_item_image_height', 75),
-            'image_link'   => (int)$this->_params->get('jbcart_item_image_link', 1),
+            'image_link' => (int)$this->_params->get('jbcart_item_image_link', 1),
         ];
 
         $params = array_replace_recursive($_params, $params);
@@ -101,13 +106,12 @@ class JBModuleHelperBasket extends JBModuleHelper
     }
 
     /**
-     * @return mixed
+     * @return null|string
      */
-    public function getCurrency()
+    public function getCurrency(): ?string
     {
         $currencyDef = $this->_params->get('currency', 'eur');
-        $currencyCur = $this->app->jbrequest->getCurrency($currencyDef);
-        return $currencyCur;
+        return $this->app->jbrequest->getCurrency($currencyDef);
     }
 
     /**
@@ -120,16 +124,16 @@ class JBModuleHelperBasket extends JBModuleHelper
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getWidgetParams()
+    public function getWidgetParams(): array
     {
         return [
-            'url_clean'           => $this->app->jbrouter->basketEmpty(),
-            'url_reload'          => $this->app->jbrouter->basketReloadModule($this->_module->id),
-            'url_item_remove'     => $this->app->jbrouter->basketDelete(),
+            'url_clean' => $this->app->jbrouter->basketEmpty(),
+            'url_reload' => $this->app->jbrouter->basketReloadModule($this->_module->id),
+            'url_item_remove' => $this->app->jbrouter->basketDelete(),
             'text_delete_confirm' => JText::_('JBZOO_CART_MODULE_DELETE_CONFIRM'),
-            'text_empty_confirm'  => JText::_('JBZOO_CART_MODULE_EMPTY_CONFIRM'),
+            'text_empty_confirm' => JText::_('JBZOO_CART_MODULE_EMPTY_CONFIRM'),
         ];
     }
 

@@ -1,4 +1,8 @@
 <?php
+declare(strict_types=1);
+
+use Joomla\Registry\Registry;
+
 /**
  * JBZoo Application
  *
@@ -27,10 +31,10 @@ require_once JPATH_BASE . '/media/zoo/applications/jbuniversal/framework/classes
 class JBModuleHelperFilter extends JBModuleHelper
 {
     /**
-     * @param JRegistry $params
-     * @param stdClass  $module
+     * @param Registry $params
+     * @param object $module
      */
-    public function __construct($params, $module)
+    public function __construct(Registry $params, object $module)
     {
         parent::__construct($params, $module);
 
@@ -39,22 +43,24 @@ class JBModuleHelperFilter extends JBModuleHelper
     }
 
     /**
-     * Load filters important asstes
+     * Load filters important assets
+     * @return void
      */
-    protected function _loadAssets()
+    protected function _loadAssets(): void
     {
         parent::_loadAssets();
 
-        $this->_jbassets->js('mod_jbzoo_search:assets/js/filter.js');
+        $this->_jbassets->js(['mod_jbzoo_search:assets/js/filter.js']);
 
         $this->_jbassets->less('mod_jbzoo_search:assets/less/filter.less');
         $this->_jbassets->less('mod_jbzoo_search:assets/less/filter-' . $this->getItemLayout() . '.less');
     }
 
     /**
-     *  init filter widget
+     * init filter widget
+     * @return void
      */
-    protected function _initWidget()
+    protected function _initWidget(): void
     {
         $this->_jbassets->widget('#' . $this->getModuleId(), 'JBZoo.Filter', [
             'autosubmit' => (int)$this->_params->get('autosubmit', 0)
@@ -89,7 +95,7 @@ class JBModuleHelperFilter extends JBModuleHelper
      * Get logic
      * @return string|null
      */
-    public function renderLogic()
+    public function renderLogic(): ?string
     {
         $value = $this->_jbrequest->get('logic', $this->_params->get('logic', 'and'));
 
@@ -105,9 +111,9 @@ class JBModuleHelperFilter extends JBModuleHelper
 
     /**
      * Get ordering
-     * @return mixed
+     * @return string
      */
-    public function getOrderings()
+    public function getOrderings(): string
     {
         $appId = $this->getAppId();
         $type = $this->getType();
@@ -137,7 +143,6 @@ class JBModuleHelperFilter extends JBModuleHelper
             $html[] = $this->_jbhtml->checkbox(['1' => JText::_('JBZOO_ORDER_REVERSE')], 'order[reverse]', '',
                 $values->get('reverse'));
             $html[] = $this->_jbhtml->hidden('order[mode]', $orderMode);
-
         } else {
             foreach ($default as $key => $value) {
                 $html[] = $this->_jbhtml->hidden('order[' . $key . ']', $value);
@@ -163,5 +168,4 @@ class JBModuleHelperFilter extends JBModuleHelper
     {
         return $this->app->jbhtml->hiddens($fields);
     }
-
 }
