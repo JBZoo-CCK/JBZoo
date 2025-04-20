@@ -35,7 +35,7 @@ class JBModuleHelperBasket extends JBModuleHelper
      * @param JRegistry $params
      * @param object    $module
      */
-    public function __construct(JRegistry $params, $module)
+    public function __construct(\Joomla\Registry\Registry $params, $module)
     {
         parent::__construct($params, $module);
 
