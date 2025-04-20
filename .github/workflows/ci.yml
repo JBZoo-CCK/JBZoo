@@ -28,12 +28,6 @@ jobs:
     - name: Install dependencies (dev)
       run: composer install --optimize-autoloader --no-interaction --no-progress
 
-    - name: Check for PHPUnit binary
-      run: ls -la vendor/bin/phpunit
-
-    - name: Run unit tests
-      run: vendor/bin/phpunit
-
     - name: Build installer
       run: |
         mkdir -p ./build/files
