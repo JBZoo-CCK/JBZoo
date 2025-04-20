@@ -42,7 +42,7 @@ class JBModuleHelperItem extends JBModuleHelper
      * @param JRegistry $params
      * @param stdClass  $module
      */
-    public function __construct(JRegistry $params, $module)
+    public function __construct(\Joomla\Registry\Registry $params, $module)
     {
         parent::__construct($params, $module);
 
