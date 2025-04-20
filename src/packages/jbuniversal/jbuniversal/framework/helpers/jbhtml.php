@@ -264,13 +264,20 @@ class JBHtmlHelper extends AppHelper
         if ($idtag && is_array($attribs)) {
             $attribs['id'] = $idtag;
         }
-
+    
+        // Проверяем, что значение является строкой или приводится к строке
+        if (is_array($value)) {
+            $value = ''; // или можно использовать implode(', ', $value) если нужно сохранить данные
+        } elseif ($value === null) {
+            $value = '';
+        }
+    
         $attribs = $this->_buildAttrs($attribs);
         if (strpos($attribs, 'jsAutocomplete') !== false) {
             $this->_assets->jqueryui();
             $this->_assets->initAutocomplete();
         }
-
+    
         return $this->app->html->_('control.text', $name, $value, $attribs);
     }
 

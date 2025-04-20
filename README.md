@@ -16,8 +16,8 @@
  * YooTheme Zoo Component [![Zoo](https://img.shields.io/badge/Zoo-4.0.8-blue.svg?style=plastic)](https://www.yootheme.com/zoo)
  * Joomla! CMS [![Joomla](https://img.shields.io/badge/Joomla!-3.9.25-blue.svg?style=plastic)](https://downloads.joomla.org/)
  * ![PHP 7.2.0+](https://img.shields.io/badge/PHP-7.4.0+-blue.svg?style=plastic) is recommended with modules mbstring, xml, json, opcache, mysqli.
- * Works fine with PHP v5.5, v5.6, v7.1, v7.2, v7.3, v7.4
- * Joomla! CMS 4.0 (on your own risk)
+ * Works fine with PHP v5.5, v5.6, v7.1, v7.2, v7.3, v7.4, v8.0, v8.1, v8.2, v8.3, v8.4
+ * Joomla! CMS 3.9+ / 4.4+ / 5.3+ (on your own risk)
 
 ## FAQ
 ### 1. How to subscribe to updates ?

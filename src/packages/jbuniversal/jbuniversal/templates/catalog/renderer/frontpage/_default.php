@@ -38,13 +38,21 @@ if ((int)$vars['params']->get('template.category_show', 1)) : ?>
             <h2 class="subtitle"><?php echo $subTitle; ?></h2>
         <?php endif; ?>
 
+        <?php 
 
-        <?php if ((int)$vars['params']->get('template.category_image', 1) && $image['src']) : ?>
-            <div class="image-full align-<?php echo $vars['params']->get('template.category_image_align', 'left'); ?>">
-                <img src="<?php echo $image['src']; ?>" <?php echo $image['width_height']; ?>
-                     title="<?php echo $category->name; ?>" alt="<?php echo $category->name; ?>"/>
-            </div>
-        <?php endif; ?>
+// Проверяем все условия перед выводом
+if ((int)$vars['params']->get('template.category_image', 1) 
+    && !empty($image) 
+    && is_array($image) 
+    && !empty($image['src'])
+) : ?>
+    <div class="image-full align-<?php echo htmlspecialchars($vars['params']->get('template.category_image_align', 'left'), ENT_QUOTES, 'UTF-8'); ?>">
+        <img src="<?php echo htmlspecialchars($image['src'], ENT_QUOTES, 'UTF-8'); ?>" 
+             <?php echo !empty($image['width_height']) ? $image['width_height'] : ''; ?>
+             title="<?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>"
+             alt="<?php echo htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8'); ?>"/>
+    </div>
+<?php endif; ?>
 
 
         <?php if ((int)$vars['params']->get('template.category_teaser_text', 1) && $vars['params']->get('content.category_teaser_text', '')) : ?>

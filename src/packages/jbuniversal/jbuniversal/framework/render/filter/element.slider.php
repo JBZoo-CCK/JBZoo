@@ -40,9 +40,20 @@ class JBFilterElementSlider extends JBFilterElement
 
             $applicationId = (int)$this->_params->get('item_application_id', 0);
             $itemType      = $this->_params->get('item_type', null);
+            
+            $categoryId = null;//ivp depend_category
 
-            $ranges = (array)JBModelValues::model()->getRangeByField($this->_identifier, $itemType, $applicationId);
+            $isCatDepend = (int)$this->_params->moduleParams->get('depend_category'); //ivp depend_category
+            if ($isCatDepend) { //ivp depend_category
+                $categoryId = $this->app->jbrequest->getSystem('category');
+            }
+            
+            $ranges = (array)JBModelValues::model()->getRangeByField($this->_identifier, $itemType, $applicationId, $categoryId);
             $params = array_merge($params, $ranges);
+        }
+        
+        if($ranges['max'] == 0){ //ivp depend_category
+            return;
         }
 
         return $this->app->jbhtml->slider(

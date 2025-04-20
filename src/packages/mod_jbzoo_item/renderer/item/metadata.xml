@@ -22,6 +22,11 @@
         <description>This is the uikit layout to render jbzoo items module themes</description>
     </layout>
 
+    <layout name="uikit3">
+        <name>Uikit3</name>
+        <description>This is the uikit3 layout to render jbzoo items module themes</description>
+    </layout>
+
     <layout name="bootstrap">
         <name>Bootstrap</name>
         <description>This is the bootstrap layout to render jbzoo items module themes</description>

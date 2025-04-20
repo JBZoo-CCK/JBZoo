@@ -1,0 +1,1014 @@
+//
+// JBZoo Application
+//
+// This file is part of the JBZoo CCK package.
+// For the full copyright and license information, please view the LICENSE
+// file that was distributed with this source code.
+//
+// @package    Application
+// @license    GPL-2.0
+// @copyright  Copyright (C) JBZoo.com, All rights reserved.
+// @link       https://github.com/JBZoo/JBZoo
+//
+
+html {
+    --main-color: #31587F !important;
+    --cassiopeia-color-primary: #31587f !important;
+    --cassiopeia-color-hover:  #205080 !important;
+}
+
+.jbzoo-item h1.item-title {
+    font-size: 2rem;
+}
+
+.container-header {
+    z-index: 999;
+}
+
+#yoo-zoo .category {
+    margin: -10px 0px 10px 0px;
+    padding: 0.5em 1em;
+}
+
+ul.zoo-list a {
+    text-decoration: none;
+    
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+ul.zoo-list.zoocard-body {
+        flex: 1 1 auto;
+        padding: 8px 16px 16px 16px;
+}
+
+ul.zoo-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+ul.zoo-list > li {
+	margin-top: 5px;
+	padding-top: 5px;
+	border-top: 1px solid #ddd;
+}
+
+ul.zoo-list > li:first-child {
+	margin-top: 0;
+	padding-top: 0;
+	border: none;
+}
+
+ul.zoo-list > li > a:first-child { display: block; }
+
+.offcanvas.show {
+    background-color: var(--cassiopeia-color-primary);
+    background-image: linear-gradient(135deg,var(--cassiopeia-color-primary),var(--cassiopeia-color-hover));
+}
+@media (min-width: 992px) {
+    .offcanvas-start {
+        width: 100%;
+    }
+}
+@media (max-width: 991.98px) {
+    .offcanvas .metismenu.mod-menu .metismenu-item > ul {
+        position: relative;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    .offcanvas .metismenu.mod-menu .mm-collapse {
+        background-color: transparent;
+    }
+    .offcanvas .metismenu.mod-menu .metismenu-item > a {
+        color: #fff;
+    }
+}
+.offcanvas-header > *:only-child {
+    margin-left: auto;
+}
+
+.card__cover, .card__cover.card__cover_main-promobox {
+    position: relative;
+}
+
+
+.card__heading.card__heading_main-promobox.card__heading_main-promobox_2 {
+    padding: 8px 16px;
+}
+
+.card__heading.card__heading_main-promobox.card__heading_main-promobox_2 a {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+    display: inline-block;
+}
+
+
+// .card__summary.card__summary_main-promobox.card__summary_main-promobox_2 .element.element-textarea {
+//     line-height: normal; padding-bottom: 5px; max-height: 85px;
+// }
+
+
+.card__cover.card__cover_main-promobox {
+    padding-bottom: 5px;
+}
+
+
+
+.card__cover.card__cover_main-promobox {
+    padding-bottom: 5px;
+    box-shadow: 0 0 10px #dfe3e7;
+    margin: 0 0 5px 0;
+    // margin: 5px 0;
+    // margin: 10px 0;
+}
+
+
+
+
+.card__cover p.links {
+    position: absolute;
+    right: 5px;
+    bottom: 0px;
+    font-size: 21px;
+    font-weight: bold;
+    color: #2f577f;
+    font-family: cursive;
+    background: transparent;
+    width: 32px;
+    text-align: center;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+ul.zoo-list.zoocard-body {
+    border: 1px solid #dfe3e7;
+    border-radius: 4px;
+}
+
+
+
+.jbzoo .flexcatdiv {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0px 30px; 
+    width: 100%;
+}
+
+.jbzoo .flexcatdiv article {
+    display: grid;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #dadce0;
+    justify-content: flex-start;
+    align-items: flex-start;
+    grid-gap: 20px;
+    border-bottom: 0 !important;
+}
+
+
+.related .card__summary.card__summary_main-promobox {
+    margin: 0 15px;
+}
+
+.element.element-relateditems.grid-child.flexcenter.first.last {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.related .card__summary.card__summary_main-promobox .element.element-textarea.first.last p {
+    margin-bottom: 0 !important;
+}
+
+.related .card__category.card__category_main-promobox.card__category_2.card__trend_with-label .card__date.card__trend_with-label {
+    margin-right: 0 !important;
+}
+
+.element.element-relateditems.grid-child.flexcenter.first.last {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.related .card__cover.card__cover_main-promobox.alignment-center {
+    box-sizing: border-box;
+    margin: 1% 0;
+    width: 48%;
+    flex-basis: 48%;
+}
+
+.related .card__cover.card__cover_main-promobox.alignment-center:only-child {
+    width: 100%;
+    flex-basis: 100%;
+}
+
+
+
+.jbzoo .flexcatdiv {
+    display: grid;
+    gap: 0px 30px; /* Пространство между блоками */
+    width: 100%;
+}
+
+.jbzoo .flexcatdiv article {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #dadce0;
+    // padding-bottom: 15px; /* Отступ снизу */
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+}
+
+.jbzoo .flexcatdiv .card__heading {
+    display: flex;
+    // height: 45px;
+    height: 65px;
+    align-items: center;
+    justify-content: flex-start; /* Выравнивание по левому центру */
+    text-align: left;
+    font-size: 1.5em;
+    margin: 10px 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+.jbzoo .flexcatdiv .card__cover.card__cover_main-promobox::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0.5em;
+    // height: 1.5em;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), white 100%);
+	pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.jbzoo .flexcatdiv article:hover .card__summary {
+    max-height: none; /* Убираем ограничение высоты при наведении */
+    padding-bottom: 3em; /* Добавляем отступ для текста */
+    position: relative;
+}
+
+.jbzoo .flexcatdiv article:hover .card__summary::after {
+    opacity: 0; /* Скрываем градиент при наведении */
+}
+
+
+.jbzoo .flexcatdiv  .card__summary.card__summary_main-promobox.card__summary_main-promobox_2:hover .element.element-textarea {
+    max-height: 200px; /* высота при наведении */
+    transition: max-height 0.5s ease; /* плавность перехода */
+}
+
+
+.jbzoo .flexcatdiv   .card__summary.card__summary_main-promobox.card__summary_main-promobox_2 .element.element-textarea {
+    line-height: normal; padding-bottom: 5px; max-height: 125px;
+}
+
+
+.card__cover.card__cover_main-promobox .card__content {
+    min-height: 159px;
+}
+
+
+.jbzoo .flexcatdiv .card__summary {
+    position: relative;
+    max-height: 8em;
+    transition: max-height 0.6s ease, padding-bottom 0.6s ease; /* Увеличили время перехода */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+.jbzoo .flexcatdiv .card__cover.card__cover_main-promobox:hover .card__summary, .jbzoo .flexcatdiv .card__summary:hover {
+    max-height: 100em; /* Увеличиваем max-height для показа всего текста */
+    -webkit-line-clamp: unset; /* Снимаем ограничение на количество строк при наведении */
+    padding-bottom: 1em; /* Добавляем отступ */
+    transition: max-height 0.6s ease, padding-bottom 0.6s ease; /* Плавный переход */
+}
+
+
+.jbzoo .flexcatdiv .card__cover.card__cover_main-promobox:hover::after {
+    display: none;
+}
+
+.jbzoo .flexcatdiv .card__summary.card__summary_main-promobox.card__summary_main-promobox_2 .element.element-textarea p {
+    margin-bottom: 0;
+}
+
+.jbzoo .flexcatdiv .card__heading.card__heading_main-promobox.card__heading_main-promobox_2 a {
+    font-size: 18px; color: rgb(34, 38, 42);
+    font-weight: 600; text-decoration: none; 
+    line-height: 1.4;
+    display: inline-block;
+}
+
+
+
+.jbzoo .flexcatdiv article 
+ .card__summary.card__summary_main-promobox.card__summary_main-promobox_2 {
+    padding: 0 15px;
+}
+
+.jbzoo .flexcatdiv .card__date.card__trend_with-label {
+    margin-right: 0 !important;
+}
+
+
+.items.maincatjbzoo.flexcatdiv {
+    // grid-template-columns: repeat(6, 1fr);
+    // grid-template-columns: repeat(5, 1fr);
+    // grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+}
+
+
+
+.card-body .card__heading {
+    display: flex;
+    height: 45px;
+    align-items: center;
+    justify-content: flex-start; /* Выравнивание по левому центру */
+    text-align: left;
+    font-size: 1.5em;
+    margin: 10px 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+
+.card__category.card__category_main-promobox.card__category_2.card__trend_with-label {
+    background: #30577f;
+    display: inline-block;
+    width: 100%;
+    padding: 3px 16px !important;
+}
+
+.card__category.card__category_main-promobox.card__category_2.card__trend_with-label a {
+    color: #fff;
+}
+
+
+.card__category.card__category_main-promobox.card__category_2.card__trend_with-label .card__date.card__trend_with-label {
+    display: block;
+    float: right;
+    margin-right: -15px;
+}
+
+.cover__link.link.cover__link_media:before {
+    height: 100%;
+    width: 100%;
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-image: linear-gradient(180deg, rgba(34, 34, 48, 0) 00%, rgba(34, 34, 48, .5) 80%, rgba(34, 34, 48, .8));
+}
+
+
+.card__category.card__category_main-promobox.card__category_2.card__trend_with-label {
+    background: transparent;
+    position: absolute;
+    color: #fff;
+    margin-top: -35px;
+    z-index: 10;
+}
+
+
+.fl-zoo-item-list.fl-zoo-list .card__summary.card__summary_main-promobox.card__summary_main-promobox_2 .element.element-textarea {
+    line-height: normal;
+    padding-bottom: 5px;
+    max-height: 85px;
+}
+
+.fl-zoo-item-list.fl-zoo-list .card__summary {
+    position: relative;
+    min-height: 84px;
+    max-height: 8em; /* Увеличенная высота текста */
+    overflow: hidden;
+    padding-right: 1em; /* Отступ справа для градиента */
+    transition: max-height 0.3s ease, padding-bottom 0.3s ease; /* Плавный переход */
+}
+
+.fl-zoo-item-list.fl-zoo-list .card__summary.card__summary_main-promobox.card__summary_main-promobox_2:hover .element.element-textarea {
+    max-height: 200px; /* высота при наведении */
+    transition: max-height 0.5s ease; /* плавность перехода */
+    z-index: 9999;
+    position: relative;
+}
+
+.fl-zoo-item-list.fl-zoo-list .card__cover.card__cover_main-promobox::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1.5em;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.9) 100%, rgba(255, 255, 255, 1) 100%, transparent);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+
+
+
+
+
+// .card__cover.card__cover_main-promobox .element.element-itemprimarycategory {
+//     position: absolute;
+//     top: 30px;
+//     right: 0px;
+//     background: #2f577f;
+//     padding: 5px 10px;
+//     font-size: 14px;
+//     color: #fff;
+//     border-radius: 0;
+//     z-index: 10;
+// }
+
+// .card__date.card__trend_with-label {
+//     position: absolute;
+//     top: 0;
+//     right: 0px;
+//     background: #2f577f;
+//     padding: 8px 0px;
+//     font-size: 14px;
+//     color: #fff;
+//     border-radius: 0;
+//     line-height: 1;     z-index: 10;
+// }
+
+.card__date.card__trend_with-label time.jbzootimecode.modifieddate {
+    color: #fff;     z-index: 10;
+}
+
+.top-d.card {
+    border: none;
+}
+
+.top-d.card .card-body {
+    padding: 0px;
+}
+
+.top-d.card .card-body .card__summary.card__summary_main-promobox.card__summary_main-promobox_2 {
+    padding: 0px 16px;
+}
+
+
+
+.top-d.card .card__date.card__trend_with-label {
+    padding: 0px 16px;
+}
+
+.top-d.card .card__date.card__trend_with-label time.jbzootimecode.modifieddate {
+    font-size: 16px;
+}
+
+
+.teaserimgcentr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.container-footer.footerline.full-width {
+    padding-top: 15px;
+    box-shadow: 0px -10px 10px -10px #dadce0;
+}
+
+.mitam {
+    text-indent: -9999px;
+}
+
+
+.btnssocial {
+    width: 100%;
+    display: inline-block;
+}
+
+.btnssocial a {
+    display: inline-block;
+    padding: 10px;
+}
+
+ul.socialbtnmini {
+    margin-top: 10px;
+}
+
+.custompattern.badge.belic {
+    margin-top: 18px;
+    margin-left: 20px;
+}
+
+.secsyasbanfooter .custom > div {
+    display: inline-block;
+}
+
+.flexcenter {
+    justify-content: center;
+    align-items: center;
+}
+
+.fl-zoo-item-list.fl-zoo-list .card.card_main-news.card_not-cover a:not(:first-child) {
+    border-top: 1px solid #ddd;
+    width: 100%;
+    display: inline-block;
+  }
+
+  
+.fl-zoo-item-list.fl-zoo-list {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+
+    .element-itemmodified.first.last {
+        color: #757575;
+        margin-bottom: 2px;
+        font-size: 12.5px;
+    }
+    
+    .card__heading.card__heading_main-news.card__heading_not-cover {
+        font-size: 16px;
+    }
+
+    .card.card_main-news.card_not-cover {
+        border: none;
+        margin-bottom: 5px !important;
+
+        a {
+            color: #000;
+            text-decoration: none;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+
+}
+
+.cover__media_bgi {
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.cover__media_ratio {
+    height: 0;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-bottom: 56.25%;
+ }
+
+    .card a {
+        color: inherit;
+        text-decoration: none;
+    }
+    .cover__link_media {
+        display: block;
+        text-indent: -999999em;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 1;
+    }
+    .link {
+        text-decoration: none;
+        color: inherit;
+    }
+
+
+.jbzoo {
+
+    
+
+    article .tags ul {
+        display: inline-flex;
+        list-style-type: none;
+        margin-top: 15px;
+    }
+
+    article .tags ul li strong {
+        display: inline-block;
+        width: 100%;
+    }
+
+    article .tags ul li {
+        padding: 0px 15px 0px 0px;
+    }
+
+    article .iteminfo ul {
+        display: inline-flex;
+        list-style-type: none;
+        margin-bottom: 15px;
+    }
+
+    article .iteminfo ul li strong {
+        display: inline-block;
+        width: 100%;
+    }
+
+    article .iteminfo ul li {
+        padding: 0px 15px 0px 0px;
+    }
+    
+    // article .tags ul {
+    //     padding-left: 0px;
+    // }
+
+    article .from ul {
+        display: inline-flex;
+        list-style-type: none;
+        margin-top: 15px;
+    }
+    
+    article .from ul li strong {
+        display: inline-block;
+        width: 100%;
+    }
+
+
+   .pretext {
+        font-weight: bold;
+    }
+
+    .jbzoo-item-full .item-image img {
+        border-radius: 0px !important;
+    }
+    
+    .jbzoo-item-full .item-image {
+        margin-bottom: 20px;
+    }
+
+    .frontpage.alias-catalog {
+        margin: 0;
+        padding: 0;
+    }
+
+    font-size: 16px;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+
+    .btn {
+        color: #333;
+        text-decoration: none;
+
+        &-default {
+            color: #333;
+        }
+
+        &-primary,
+        &-danger,
+        &-success {
+            color: #fff;
+        }
+
+        &:hover {
+            background-position: 0;
+        }
+
+    }
+
+    [class^="icon-"],
+    [class*=" icon-"] {
+        display: inline-block;
+    }
+
+    .list-unstyled {
+        margin: 0;
+    }
+
+    &-no-border {
+
+        .well {
+            background: transparent;
+            border: none;
+            .box-shadow(none);
+            .border-radius(0);
+        }
+
+    }
+
+    .well {
+        background-color: transparent;
+        border: 1px solid #e3e3e3;
+        .box-shadow(inset 0 1px 1px rgba(0,0,0,0.05));
+    }
+
+    .item-body {
+        padding: 19px;
+    }
+
+    .row,
+    .row-fluid {
+        margin-bottom: 15px;
+
+        .well {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+    }
+
+    .table {
+
+        .jbtooltip {
+            margin-left: 0;
+        }
+
+    }
+
+    .jbtooltip,
+    [data-toggle="tooltip"] {
+        display: inline-block !important;
+    }
+
+    .item-title {
+
+        a {
+            color: var(--main-color);
+        }
+    }
+
+
+    .jbzoo-item {
+
+        .item-image {
+            a {
+                img {
+                    border-radius: 8px;
+                }
+            }
+            img {
+                border-radius: 8px;
+            }
+        }
+    }
+
+    .flexcatdiv {
+        display: grid;
+        flex-direction: column;
+        justify-content: flex-start;
+        width: 100%;
+
+        article {
+            display: grid;
+            // grid-template-columns: minmax(40px, 370px) minmax(280px, 1fr);
+            // padding-bottom: 20px;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #dadce0;
+            justify-content: flex-start;
+            align-items: flex-start;
+            grid-gap: 20px;
+           
+        }
+
+
+    }
+
+.item-properties {
+
+    padding-top: 5px;
+    padding-bottom: 15px;
+
+/* Стилизация для списка без маркера */
+.list-unstyled {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Стилизация для времени */
+.jbzootimecode {
+    font-size: 1rem;
+    color: #333; /* Цвет текста времени */
+}
+
+/* Стилизация для ссылки */
+.element-itemprimarycategory a {
+    text-decoration: none;
+    font-size: 1rem;
+    color: var(--main-color);
+    text-decoration: underline;
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+/* Стилизация для разделителя между временем и категорией */
+.element:not(:last-child)::after {
+    content: "•";
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+
+    font-size: 1rem;
+
+    a {
+        font-size: 1rem;
+    }
+    
+}
+
+ .jbzoo-item-teaser {
+    .item-title {
+        font-size: 1.4rem;
+        margin-bottom: 0.5em;
+        a {
+            font-size:  1.4rem; 
+        }
+    }
+    .item-text {
+        font-size: 1rem;
+    }
+    
+ 
+ }
+
+
+    .item-properties .element {
+        display: inline-flex;     font-size: 1rem;
+    }
+    .item-properties .element-itemauthor {
+        display: inline-flex;     font-size: 1rem;
+    }
+
+    .ostgallery-modal a img {
+        margin: 0px 0px 5px 0px;
+    }
+
+    .pagination {
+        margin: 0px 0px 1rem 0px;
+    }
+    
+    .pagination ul.pagination-list {
+        list-style-type: none;
+        display: flex;
+        padding: 0px;
+    }
+    
+    .pagination ul.pagination-list li {
+        padding: 10px;
+        display: inline-flex;
+        flex-direction: column;
+        min-width: 48px;
+        text-align: center;
+    }
+ 
+
+
+}
+
+@media (max-width: 1024px) {
+
+    .site-grid {
+        grid-gap: 0;
+    }
+
+    .grid-child.container-fulllinemodule3,.grid-child.container-fulllinemodule5 {
+        display: grid;
+    }
+
+    .grid-child .gridonemorediv {
+        flex-direction: column !important;
+        flex: 1 1 100% !important;
+        margin: 0!important;
+    }
+
+    ._access-icon {
+        display: none !important;
+    }
+
+    ._access-menu ._text-center {
+        margin: 3px !important;
+    }
+    
+    ._access-menu ul li button {
+        padding: 5px !important;
+        font-size: 14px !important;
+    }
+
+    .fl-zoo-item-list.fl-zoo-list .card__summary.card__summary_main-promobox.card__summary_main-promobox_2 .element.element-textarea,.fl-zoo-item-list.fl-zoo-list .card__summary {
+        max-height: unset;
+    }
+    .fl-zoo-item-list.fl-zoo-list .card__cover.card__cover_main-promobox::after {
+        height: 0;
+    }
+    .card__heading.card__heading_main-promobox.card__heading_main-promobox_2 {
+        height: unset;
+    }
+
+    ol.mod-breadcrumbs.breadcrumb {
+        display: flex !important;
+    }
+
+    div#yoo-zoo.jbzoo-view-category article {
+        grid-gap: 0 !important;
+        width: 100% !important;
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+
+    div#yoo-zoo.jbzoo-view-category {
+        padding: 5px 10px;
+    }
+
+    div#yoo-zoo.jbzoo-view-category  .flexcatdiv {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr) !important;
+        width: 100%;
+    }
+
+       div#yoo-zoo.jbzoo-view-category  .flexcatdiv .card__summary.card__summary_main-promobox.card__summary_main-promobox_2:hover .element.element-textarea,    div#yoo-zoo.jbzoo-view-category  .flexcatdiv .card__summary.card__summary_main-promobox.card__summary_main-promobox_2 .element.element-textarea {
+        max-height: unset !important;
+    }
+
+    div#yoo-zoo.jbzoo-view-category  .flexcatdiv .card__cover.card__cover_main-promobox::after {
+        height: 0; background: transparent !important;
+    }
+
+
+    /* Убрали штатное меню */
+
+    // ul.mod-menu.mod-list.nav, .breadcrumb {
+    //     display: none !important;
+    // }
+
+    // .sidebar-left.card {
+    //     display: none;
+    // }
+    
+
+    .jbzoo article .from ul,  .jbzoo article .tags ul {
+        margin-bottom: 15px;
+        padding: 0px !important;
+        display: block;
+        list-style-type: none;
+        margin-top: 15px;
+    }
+    
+    .grid-child.flexcenter {
+        display: inline-block;
+        padding: 10px;
+    }
+    
+    ul.socialbtnmini {
+        padding: 0px;
+        margin: 0px;
+        text-align: center;
+    }
+    
+    ul.socialbtnmini a {
+        padding: 8px;
+    }
+    
+    .custompattern.badge.belic {
+        padding: 0px;
+        margin: 0px;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .secsyasbanfooter {
+        text-align: center;
+    }
+
+    .card__heading.card__heading_main-promobox.card__heading_main-promobox_2, .card__summary.card__summary_main-promobox.card__summary_main-promobox_2 {
+        padding: 8px 16px;
+    }
+
+    .top-c.card {
+        border: none;
+    }
+    
+    .top-c.card {
+        padding: 0;
+    }
+    
+    .top-c.card .card-body {
+        padding: 0;
+    }
+    
+    .card__category.card__category_main-promobox.card__category_2.card__trend_with-label .card__date.card__trend_with-label {
+        margin-right: 0;
+    }
+    
+    .fl-zoo-item-list.fl-zoo-list .element-itemmodified.first.last {
+        font-size: inherit;
+    }
+
+}

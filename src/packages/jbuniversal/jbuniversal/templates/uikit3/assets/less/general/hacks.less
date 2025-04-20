@@ -1,0 +1,243 @@
+//
+// JBZoo Application
+//
+// This file is part of the JBZoo CCK package.
+// For the full copyright and license information, please view the LICENSE
+// file that was distributed with this source code.
+//
+// @package    Application
+// @license    GPL-2.0
+// @copyright  Copyright (C) JBZoo.com, All rights reserved.
+// @link       https://github.com/JBZoo/JBZoo
+//
+
+.jbzoo {
+
+    .frontpage,
+    .category {
+        padding: 0;
+    }
+
+    .uk-divider {
+        margin-bottom: 10px;
+    }
+
+    .jbloading {
+        position: relative;
+        .opacity(0.5);
+
+        &:after {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            content: '';
+            position: absolute;
+            display: inline-block;
+            background: data-uri('../../img/loader.gif') no-repeat center;
+        }
+
+    }
+
+    .uk-button {
+
+        &-danger,
+        &-primary,
+        &-danger {
+            color: #fff;
+            text-decoration: none;
+        }
+
+    }
+
+    .uk-grid-margin {
+        margin-top: 25px;
+    }
+
+    .jbprice {
+
+        .default-style {
+            margin-bottom: 10px;
+        }
+
+    }
+
+    .block-divider {
+        margin-bottom: 10px;
+    }
+
+    .table-no-border {
+
+        td {
+            border-bottom: none;
+        }
+
+    }
+
+    .quantity-wrapper {
+
+        .item-count-wrapper:hover {
+            border: 1px solid #F0ECEC;
+        }
+
+        .input-quantity,
+        .input-quantity:hover {
+            border: none;
+        }
+
+    }
+
+    .jbprice,
+    .jbprice-tmpl-full {
+
+        > div {
+            margin-bottom: 8px;
+        }
+
+    }
+
+    //  Item teaser styles
+    .jbzoo-item-teaser {
+
+        .jbprice {
+
+            [class*=sale-icon] {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+        }
+
+        .product-links {
+
+            .element {
+                display: inline-block;
+            }
+
+        }
+
+    }
+
+    //  Item full styles
+    .jbzoo-item-full {
+
+        .element-rating {
+            margin-bottom: 0;
+        }
+
+        .jbprice {
+
+            [class*=sale-icon] {
+                position: absolute;
+                top: 0;
+                right: 0;
+                left: inherit;
+            }
+
+        }
+
+        .item-links {
+            text-align: right;
+
+            .element {
+                display: inline-block;
+            }
+
+        }
+
+    }
+
+    .jbdiscountcode.jbloading:after {
+        display: none;
+    }
+
+    .comments {
+
+        li {
+            list-style: none;
+        }
+
+        .author {
+            margin: 5px 0 0 !important;
+        }
+
+    }
+
+    .jbclientarea {
+
+        &-tab-headers {
+
+            ul {
+                margin: 0 !important;
+                padding: 0 !important;
+
+                li {
+                    list-style: none !important;
+                }
+
+            }
+
+        }
+
+    }
+
+    .chosen-container-single .chosen-search input[type=text] {
+        background: url('../../../../../assets/img/chosen/chosen-sprite.png') no-repeat 100% -20px;
+        .transition(none) !important;
+        width: 100%;
+    }
+
+    &.jbzoo-gradient-no {
+
+        .quantity-wrapper {
+
+            .jbbutton {
+                background: #eee;
+                border-color: #eae5e5;
+                .box-shadow(none);
+            }
+
+        }
+
+    }
+
+    &.jbzoo-filter-wrapper {
+
+        .uk-form input:not([type]),
+        .uk-form input[type=color],
+        .uk-form input[type=date],
+        .uk-form input[type=datetime-local],
+        .uk-form input[type=datetime],
+        .uk-form input[type=email],
+        .uk-form input[type=month],
+        .uk-form input[type=number],
+        .uk-form input[type=password],
+        .uk-form input[type=search],
+        .uk-form input[type=tel],
+        .uk-form input[type=text],
+        .uk-form input[type=time],
+        .uk-form input[type=url],
+        .uk-form input[type=week],
+        .uk-form select,
+        .uk-form textarea {
+            .transition(none);
+        }
+
+    }
+
+    .jbcompare-wrapper {
+        td, th {
+            float: none !important;
+            margin: 0;
+        }
+
+        th {
+            vertical-align: top;
+        }
+    }
+}
+
+.uk-grid {
+    display: block !important;
+}

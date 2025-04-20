@@ -45,15 +45,21 @@ $image = $this->app->jbimage->get('category_teaser_image', $params);
 ?>
     <div class="subcategory clearfix subcategory-<?php echo $subcategory->alias; ?>">
 
-        <?php if ($vars['params']->get('template.subcategory_teaser_image', 1) && $image['src']) : ?>
-            <div class="subcategory-image align-<?php echo $imageAlign; ?>">
-                <a href="<?php echo $link; ?>" title="<?php echo $subcategory->name; ?>"><img
-                        src="<?php echo $image['src']; ?>" <?php echo $image['width_height']; ?>
-                        alt="<?php echo $subcategory->name; ?>"
-                        title="<?php echo $subcategory->name; ?>"
-                        /></a>
-            </div>
-        <?php endif; ?>
+<?php // Проверяем перед выводом
+if ($vars['params']->get('template.subcategory_teaser_image', 1) 
+    && !empty($image) 
+    && is_array($image) 
+    && !empty($image['src'])
+) : ?>
+    <div class="subcategory-image align-<?php echo $imageAlign; ?>">
+        <a href="<?php echo $link; ?>" title="<?php echo $subcategory->name; ?>">
+            <img src="<?php echo $image['src']; ?>" 
+                 <?php echo !empty($image['width_height']) ? $image['width_height'] : ''; ?>
+                 alt="<?php echo $subcategory->name; ?>"
+                 title="<?php echo $subcategory->name; ?>" />
+        </a>
+    </div>
+<?php endif; ?>
 
 
         <h2 class="subcategory-title">

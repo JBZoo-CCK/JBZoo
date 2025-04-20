@@ -23,6 +23,11 @@
         <description>This is uikit layout to render jbcategory list module themes</description>
     </layout>
 
+    <layout name="uikit3">
+        <name>Uikit3</name>
+        <description>This is uikit3 layout to render jbcategory list module themes</description>
+    </layout>
+
     <layout name="bootstrap">
         <name>Bootstrap</name>
         <description>This is bootstrap layout to render jbcategory list module themes</description>

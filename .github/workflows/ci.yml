@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        extensions: mbstring, intl, zip
+
+    - name: Install Composer
+      run: |
+        curl -sS https://getcomposer.org/installer | php
+        sudo mv composer.phar /usr/local/bin/composer
+
+    - name: Install dependencies (dev)
+      run: composer install --optimize-autoloader --no-interaction --no-progress
+
+    - name: Build installer
+      run: |
+        # Создаем структуру каталогов
+        mkdir -p ./build/files/packages
+        # Копируем только если файлы существуют
+        [ -d "./src/packages" ] && cp -R ./src/packages ./build/files/
+        [ -f "./src/file.script.php" ] && cp ./src/file.script.php ./build/files/
+        [ -f "./src/pkg_jbzoo.xml" ] && cp ./src/pkg_jbzoo.xml ./build/files/
+        [ -f "./README.md" ] && cp ./README.md ./build/files/
+        [ -f "./LICENSE.md" ] && cp ./LICENSE.md ./build/files/
+        
+        # Переходим в каталог и создаем архив, если есть файлы
+        cd ./build/files
+        if [ "$(ls -A .)" ]; then
+          zip -r9q ../jbzoo_clean_install.zip *
+        else
+          echo "Error: No files to archive in build/files/"
+          exit 1
+        fi
+        # Очищаем временные файлы
+        cd ../..
+        rm -rf ./build/files
+
+    - name: Build update package
+      run: |
+        mkdir -p ./build/files/packages
+        [ -d "./src/packages" ] && cp -R ./src/packages ./build/files/
+        [ -f "./src/file.script.php" ] && cp ./src/file.script.php ./build/files/
+        [ -f "./src/pkg_jbzoo.xml" ] && cp ./src/pkg_jbzoo.xml ./build/files/
+        [ -f "./README.md" ] && cp ./README.md ./build/files/
+        [ -f "./LICENSE.md" ] && cp ./LICENSE.md ./build/files/
+        
+        # Удаляем лишние файлы для update-пакета
+        find ./build/files -name 'positions.config' -delete
+        find ./build/files -name 'positions.xml' -delete
+        find ./build/files -name 'metadata.xml' -delete
+        [ -d "./build/files/packages/jbuniversal/jbuniversal/templates" ] && rm -rf ./build/files/packages/jbuniversal/jbuniversal/templates
+        
+        cd ./build/files
+        if [ "$(ls -A .)" ]; then
+          zip -r9q ../jbzoo_update.zip *
+        else
+          echo "Error: No files to archive in build/files/"
+          exit 1
+        fi
+        cd ../..
+        rm -rf ./build/files
+
+    - name: Cleanup project
+      run: rm -rf ./vendor/

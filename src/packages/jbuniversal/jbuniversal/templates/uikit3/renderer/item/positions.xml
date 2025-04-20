@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<renderer>
+    <positions layout="feed">
+        <position name="description">Description</position>
+    </positions>
+
+    <positions layout="full">
+        <position name="title">Title</position>
+        <position name="image">Image</position>
+        <position name="meta">Meta</position>
+        <position name="price">Price</position>
+        <position name="buttons">Buttons</position>
+        <position name="social">Social</position>
+        <position name="text">Tab: Text</position>
+        <position name="properties">Tab: Properties</position>
+        <position name="gallery">Tab: Gallery</position>
+        <position name="comments">Tab: Comments</position>
+        <position name="related">Related items</position>
+    </positions>
+
+    <positions layout="teaser">
+        <position name="title">Title</position>
+        <position name="image">Image</position>
+        <position name="properties">Properties</position>
+        <position name="text">Text</position>
+        <position name="buttons">Buttons</position>
+        <position name="quick-view">Quick view</position>
+    </positions>
+
+    <positions layout="related">
+        <position name="title">Title</position>
+        <position name="image">Image</position>
+        <position name="properties">Properties</position>
+        <position name="text">Text</position>
+        <position name="meta">Meta</position>
+    </positions>
+
+    <positions layout="subcategory_item">
+        <position name="title">Title</position>
+        <position name="image">Image</position>
+        <position name="properties">Properties</position>
+        <position name="text">Text</position>
+        <position name="meta">Meta</position>
+    </positions>
+
+    <positions layout="submission">
+        <position name="content">Content</position>
+        <position name="media">Media</position>
+        <position name="meta">Meta</position>
+        <position name="administration">Administration</position>
+    </positions>
+
+    <positions layout="compare">
+        <position name="fields">Fields</position>
+    </positions>
+
+    <positions layout="favorite">
+        <position name="title">Title</position>
+        <position name="image">Image</position>
+        <position name="properties">Properties</position>
+        <position name="text">Text</position>
+        <position name="meta">Meta</position>
+    </positions>
+
+    <positions layout="ymlexport">
+        <position name="title">Title</position>
+        <position name="price">Price</position>
+        <position name="properties">Properties</position>
+        <position name="image">Image</position>
+        <position name="description">Description</position>
+        <position name="vendor">Vendor</position>
+        <position name="country_of_origin">Country of origin</position>
+    </positions>
+
+    <positions layout="edit">
+        <position name="content">Content</position>
+        <position name="media">Media</position>
+        <position name="meta">Meta</position>
+        <position name="administration">Administration</position>
+    </positions>
+
+    <positions layout="quickview">
+        <position name="title">Title</position>
+        <position name="price">Price</position>
+        <position name="image">Image</position>
+        <position name="description">Description</position>
+        <position name="properties">Properties</position>
+        <position name="bottom">Bottom</position>
+    </positions>
+
+</renderer>

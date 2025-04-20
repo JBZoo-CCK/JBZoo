@@ -39,7 +39,12 @@ if ((int)$vars['params']->get('template.category_show', 1)) : ?>
         <?php endif; ?>
 
 
-        <?php if ((int)$vars['params']->get('template.category_image', 1) && $image['src']) : ?>
+
+        <?php if ((int)$vars['params']->get('template.category_image', 1) 
+            && !empty($image) 
+            && is_array($image) 
+            && !empty($image['src'])
+        ) : ?>
             <div class="image-full align-<?php echo $vars['params']->get('template.category_image_align', 'left'); ?>">
                 <img src="<?php echo $image['src']; ?>" <?php echo $image['width_height']; ?>
                      title="<?php echo $category->name; ?>" alt="<?php echo $category->name; ?>"/>

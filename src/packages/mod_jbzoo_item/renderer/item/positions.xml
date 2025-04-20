@@ -30,6 +30,15 @@
         <position name="links">Links</position>
     </positions>
 
+    <positions layout="uikit3">
+        <position name="image">Image</position>
+        <position name="title">Title</position>
+        <position name="price">Price</position>
+        <position name="description">Description</position>
+        <position name="properties">Properties</position>
+        <position name="links">Links</position>
+    </positions>
+
     <positions layout="bootstrap">
         <position name="image">Image</position>
         <position name="title">Title</position>

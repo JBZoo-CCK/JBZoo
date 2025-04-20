@@ -1,0 +1,127 @@
+//
+// JBZoo Application
+//
+// This file is part of the JBZoo CCK package.
+// For the full copyright and license information, please view the LICENSE
+// file that was distributed with this source code.
+//
+// @package    Application
+// @license    GPL-2.0
+// @copyright  Copyright (C) JBZoo.com, All rights reserved.
+// @link       https://github.com/JBZoo/JBZoo
+//
+
+.jbzoo {
+
+    &-no-border {
+
+        .uk-panel-box {
+            border: none;
+            background: transparent;
+            .border-radius(0);
+        }
+
+    }
+
+    .jbcomments {
+        position: relative;
+        top: -2px;
+        margin: 0 5px 0 0 !important;
+    }
+
+    .subcategory {
+
+        &-title {
+            margin-top: 0;
+        }
+
+    }
+
+    .comments {
+
+        .actions input {
+            color: #fff;
+            .border-radius(4px);
+        }
+
+        .comment-cancelReply {
+            margin: 0;
+            overflow: visible;
+            font: inherit;
+            color: #666;
+            text-transform: none;
+            display: inline-block;
+            padding: 0 12px;
+            background: #f7f7f7;
+            vertical-align: middle;
+            line-height: 28px;
+            min-height: 30px;
+            font-size: 1rem;
+            text-decoration: none;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, .2);
+            border-bottom-color: rgba(0, 0, 0, .3);
+            .text-shadow(0 1px 0 #fff);
+            .gradient(#fff, #eee);
+            .border-radius(4px);
+            .box-sizing(border-box);
+        }
+
+    }
+
+    .items {
+
+        .jbzoo-item {
+            margin: 0;
+        }
+
+        .item-title {
+            margin-top: 0;
+        }
+
+        .item-buttons {
+            margin-bottom: 0;
+
+            .jbcompare-buttons {
+                float: left;
+            }
+
+            .jbfavorite-buttons {
+                float: right
+            }
+
+        }
+
+        .item-properties {
+            float: left;
+        }
+
+    }
+
+    .jbzoo-item-full {
+
+        .item-metadata {
+
+            ul {
+                margin-left: 0px;
+            }
+
+        }
+
+        .item-buttons {
+
+            .element {
+
+                &-jbcompare,
+                &-jbfavorite {
+                    float: left;
+                    margin-right: 10px;
+                }
+
+            }
+
+        }
+
+    }
+
+}

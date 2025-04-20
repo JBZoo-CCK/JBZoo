@@ -18,7 +18,7 @@
     <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
     <authorEmail>admin@jbzoo.com</authorEmail>
     <authorUrl>http://jbzoo.com</authorUrl>
-    <version>4.15.7</version>
+    <version>4.50.3</version>
     <license>GPL-2.0</license>
     <description>JBZOO_CATEGORY_MODULE_DESCRIPTION</description>
 
@@ -35,8 +35,8 @@
             <fieldset name="JBZOO_MODCATEGORY_SOURCE" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
                 <field name="@spacer" type="jbzooinit"/>
 
-                <field name="application" type="jbappcategorylist" default="0:0" label="JBZOO_MODCATEGORY_APPLICATIONS"
-                       description="JBZOO_MODCATEGORY_APPLICATIONS_DESC" categories="true" frontpage="true" showcategories_all="0" show_categories="1"/>
+                <field name="application" type="jbapplist" default="" label="JBZOO_FILTER_APPLICATION"
+                       description="JBZOO_FILTER_APPLICATION_DESC"/>
 
                 <field name="type_id" type="jbtype" default="false" multiple="1" label="JBZOO_MODCATEGORY_TYPE"
                        description="JBZOO_MODCATEGORY_TYPE_DESC"/>
