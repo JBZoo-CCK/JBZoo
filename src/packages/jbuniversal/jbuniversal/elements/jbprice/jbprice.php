@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -10,11 +11,11 @@
  * @license    GPL-2.0
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
  * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-use Joomla\String\StringHelper;
 
 App::getInstance('zoo')->loader->register('JBCartVariantList', 'jbapp:framework/classes/cart/jbvariantlist.php');
 App::getInstance('zoo')->loader->register('JBCartVariant', 'jbapp:framework/classes/cart/jbvariant.php');
@@ -835,6 +836,7 @@ abstract class ElementJBPrice extends Element implements iSubmittable
      * @return JBCartElementPrice
      */
     public function getElement($id, $variant = self::BASIC_VARIANT)
+  
     {
         // has element already been loaded?
         if (!$element = ($this->_storage->hasElement($id) ? $this->_storage->getElement($id) : null)) {
@@ -938,17 +940,23 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             return $key;
         }
 
-        if ((array)$params) {
-            return $params->get('currency_default', $default);
-        }
+ if (is_array($params)) {
+    return $params['currency_default'] ?? $default;
+}
 
-        $variant = $this->getList()->current();
+$variant = $this->getList()->current();
 
-        if ($variant->has('_value')) {
-            return $variant->getValue(false, '_value')->cur();
-        }
+if ($variant->has('_value')) {
+    $value = $variant->getValue(false, '_value');
+    if ($value instanceof Currency) {
+        return $value->format();
+    } else {
+        // Если значение не является экземпляром Currency, то вернуть его как есть
+        return $value;
+    }
+}
 
-        return $default;
+return $default;
     }
 
     /**
@@ -992,17 +1000,17 @@ abstract class ElementJBPrice extends Element implements iSubmittable
             if (array_key_exists('variations', $data)) {
 
                 $list = $this->prepareList($data['variations']);
-                unset($data['variations']);
+// unset($data['variations']);
 
-                // generate hashes
-                $values = (array)$this->get('values', []);
-                if ($values) {
-                    $hashTable = array_map(function ($array) {
-                        asort($array);
+// generate hashes
+$values = $this->get('values', []);
+if ($values) {
+    $hashTable = array_map(function ($array) {
+        sort($array);
 
-                        return md5(serialize($array));
-                    }, $values);
-                }
+        return hash('md5', json_encode($array));
+    }, $values);
+} 
                 //Check if variant with same options exists
                 $list = array_filter($list, function ($variant) use (&$hashTable) {
                     return ($variant->isBasic() || $variant->count('simple') && !in_array($variant->hash(), $hashTable,
@@ -1032,7 +1040,21 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
             if (count($data)) {
                 $result = $this->_item->elements->get($this->identifier);
-
+$_selected = array();
+                if (!empty($result["selected"])) {
+                    foreach ($result["selected"] as $key => $value) {
+                        foreach ($data["variations"] as $_value) {
+                            if (!empty($_value[$key])) {
+                                if (!empty($_value[$key]["value"])) {
+                                    $_selected[$key][$_value[$key]["value"]] = $_value[$key]["value"];
+                                }
+                            }
+                        }
+                    }
+                }
+                if (!empty($_selected)) {
+                    $result["selected"] = $_selected;
+                }
                 foreach ($data as $_id => $unknown) {
                     $result[$_id] = is_string($unknown) ? StringHelper::trim($unknown) : $unknown;
                 }
@@ -1077,7 +1099,8 @@ abstract class ElementJBPrice extends Element implements iSubmittable
 
             $data->set('variations', $variations);
             $data->set('selected', $selected);
-            $data->set('values', $variant->isBasic() ? [self::BASIC_VARIANT => []] : $values);
+			// сюда
+           $data->set('values', $variant->isBasic() ? [self::BASIC_VARIANT => []] : $values);
 
             $this->_item->elements->set($this->identifier, (array)$data);
         }
