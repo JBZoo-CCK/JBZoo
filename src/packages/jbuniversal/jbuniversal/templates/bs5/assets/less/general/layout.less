@@ -1,0 +1,416 @@
+//
+// JBZoo Application
+//
+// This file is part of the JBZoo CCK package.
+// For the full copyright and license information, please view the LICENSE
+// file that was distributed with this source code.
+//
+// @package    Application
+// @license    GPL-2.0
+// @copyright  Copyright (C) JBZoo.com, All rights reserved.
+// @link       https://github.com/JBZoo/JBZoo
+//
+
+.jbzoo {
+
+    .pull-left {
+        margin-right: 10px;
+    }
+
+    .pull-right {
+        margin-left: 10px;
+    }
+
+    .pull-center {
+
+        .thumbnail {
+            margin: 0 auto;
+        }
+
+    }
+
+    .well {
+        background-color: #f5f5f5;
+        border: 1px solid #e3e3e3;
+        .box-shadow(inset 0 1px 1px rgba(0,0,0,0.05));
+    }
+
+    .row,
+    .row-fluid {
+
+        &.last {
+            margin-bottom: 0;
+        }
+
+    }
+
+    .unstyled {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .quantity-wrapper {
+
+        .item-count-wrapper:hover {
+            border: 1px solid #F0ECEC;
+        }
+
+        .input-quantity,
+        .input-quantity:hover {
+            border: none;
+        }
+
+    }
+
+    .jbloading {
+        position: relative;
+        .opacity(0.5);
+
+        &:after {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            content: '';
+            position: absolute;
+            display: inline-block;
+            background: data-uri('../../img/loader.gif') no-repeat center;
+        }
+
+    }
+
+    .title,
+    .subtitle,
+    .subcategory-title {
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .category,
+    .frontpage,
+    .subcategory {
+
+        .title {
+            margin-top: 0;
+        }
+
+        .image-full,
+        .subcategory-image {
+
+            &.pull-left {
+                margin-right: 10px;
+            }
+
+            &.pull-right {
+                margin-left: 10px;
+            }
+
+            &.pull-center {
+
+                .thumbnail {
+                    margin: 0 auto 10px;
+                }
+
+            }
+
+        }
+
+    }
+
+    .subcategories {
+
+        .subcategory-box {
+            margin-bottom: 0;
+        }
+
+        .subcategory-column {
+
+            .subcategory {
+                margin: 0;
+                padding: 0;
+
+                &-image {
+
+                    .thumbnails {
+                        margin-bottom: 10px;
+                    }
+
+                }
+
+            }
+
+            .subcategory-title {
+                margin-top: 0;
+            }
+
+        }
+
+    }
+
+    .items {
+
+        .item-box {
+            margin-bottom: 0;
+        }
+
+        .jbzoo-item {
+            margin: 0;
+        }
+
+        .item-title {
+            margin-top: 0;
+        }
+
+        .item-buttons {
+            margin-bottom: 0;
+
+            .jbcompare-buttons {
+                float: left;
+            }
+
+            .jbfavorite-buttons {
+                float: right
+            }
+
+        }
+
+    }
+
+    .jbfavorite-item-wrapper {
+        padding: 0;
+        margin-top: 1em;
+
+        .rating {
+            margin-bottom: 10px;
+        }
+
+        .item-image {
+            margin-bottom: 10px;
+        }
+
+    }
+
+    &-item {
+
+        .item-title {
+            margin-top: 0;
+        }
+
+        .item-text,
+        .list-properies,
+        .gallery-container {
+            margin-top: 10px;
+        }
+
+        .element-jbfavorite,
+        .element-jbcompare {
+            float: left;
+            margin-right: 10px;
+        }
+
+        .rating {
+            margin-bottom: 10px;
+        }
+
+        .tab-content {
+
+            #item-prop {
+                margin-top: 10px;
+            }
+
+        }
+
+    }
+
+    .jbgallery {
+        display: inline-block;
+        margin-bottom: 4px;
+    }
+
+    .comment-form {
+        margin: 0;
+    }
+
+    .comments {
+
+        h3 {
+            margin-top: 0;
+        }
+
+        .comment-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+
+            ul {
+                list-style: none;
+            }
+
+            .comment-head {
+                margin-bottom: 6px;
+
+                .avatar {
+                    float: left;
+                    margin-right: 10px;
+
+                    img {
+                        background-color: #fff;
+                        border: 1px solid #ddd;
+                        padding: 2px;
+                        .border-radius(4px);
+                    }
+
+                }
+
+                .author {
+                    margin-top: 0;
+                    font-size: 20px;
+                    margin-bottom: 8px;
+                }
+
+                &-content {
+                    float: left;
+                }
+
+            }
+
+        }
+
+        .comment {
+            position: relative;
+
+            .reply {
+                position: absolute;
+                top: 18px;
+                right: 18px;
+            }
+
+            #respond {
+                margin-top: 10px;
+                margin-bottom: 0;
+            }
+
+            .actions {
+
+                .comment-cancelReply {
+                    margin-left: 10px;
+                    display: inline-block;
+                    padding: 6px 12px;
+                    margin-bottom: 0;
+                    font-size: 14px;
+                    font-weight: 400;
+                    line-height: 1.42857143;
+                    text-align: center;
+                    white-space: nowrap;
+                    vertical-align: middle;
+                    -ms-touch-action: manipulation;
+                    touch-action: manipulation;
+                    cursor: pointer;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    user-select: none;
+                    border-radius: 4px;
+                    color: #fff;
+                    background-color: #c9302c;
+                    border-color: #ac2925;
+                }
+
+            }
+
+        }
+
+    }
+
+    .comment-body {
+
+        .content {
+            color: #777;
+            margin-bottom: 6px;
+        }
+
+        .bg-warning {
+            padding: 10px;
+            margin: 0;
+        }
+
+    }
+
+    .tab-content {
+
+        .nav-tabs {
+            margin-top: 10px;
+        }
+
+        .tab-content {
+            margin-top: 10px;
+        }
+
+    }
+
+    .jbcomments {
+        margin: 0 10px 0 0;
+    }
+
+    .jbprice,
+    .jbprice-tmpl-full,
+    .jbprice-tmpl-teaser {
+
+        > div {
+            margin-bottom: 8px;
+        }
+
+    }
+
+    .jbform-actions {
+        padding: 19px 20px 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        background-color: #f5f5f5;
+        border-top: 1px solid #e5e5e5;
+
+        .btn {
+            color: #fff;
+        }
+
+    }
+
+    .jbcart {
+
+        &-payment {
+            margin: 0;
+            padding: 0;
+            border-bottom: none !important;
+
+            &-desc {
+                font-weight: normal;
+            }
+
+        }
+
+        &-row {
+
+            &.jbloading:after {
+                display: none;
+            }
+
+        }
+
+        &-item-image {
+            padding: 4px;
+            border: 1px solid #dddddd;
+            .border-radius(4px);
+        }
+
+    }
+
+    .module-items {
+
+        .wrapper-item-desc {
+            margin-bottom: 10px;
+        }
+
+    }
+
+}
