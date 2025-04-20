@@ -28,6 +28,14 @@
         <position name="links">Links</position>
     </positions>
 
+    <positions layout="uikit3">
+        <position name="title">Title</position>
+        <position name="description">Description</position>
+        <position name="image">Image</position>
+        <position name="properties">Properties</position>
+        <position name="links">Links</position>
+    </positions>
+
     <positions layout="bootstrap">
         <position name="title">Title</position>
         <position name="description">Description</position>

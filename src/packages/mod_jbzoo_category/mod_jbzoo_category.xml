@@ -35,8 +35,8 @@
             <fieldset name="JBZOO_MODCATEGORY_SOURCE" addfieldpath="/media/zoo/applications/jbuniversal/joomla/fields">
                 <field name="@spacer" type="jbzooinit"/>
 
-                <field name="application" type="jbappcategorylist" default="0:0" label="JBZOO_MODCATEGORY_APPLICATIONS"
-                       description="JBZOO_MODCATEGORY_APPLICATIONS_DESC" categories="true" frontpage="true" showcategories_all="0" show_categories="1"/>
+                <field name="application" type="jbapplist" default="" label="JBZOO_FILTER_APPLICATION"
+                       description="JBZOO_FILTER_APPLICATION_DESC"/>
 
                 <field name="type_id" type="jbtype" default="false" multiple="1" label="JBZOO_MODCATEGORY_TYPE"
                        description="JBZOO_MODCATEGORY_TYPE_DESC"/>
