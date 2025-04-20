@@ -322,9 +322,9 @@ class JBCartVariant extends ArrayObject
      * @return JBCartElementPrice|JBCartValue
      */
 
-    // public function getValue($toString = false, $key, $default = null)
+    // public function getValue($key, $toString = false, $default = null)
 
-    public function getValue($key, $toString = false, $default = null)
+    public function getValue($toString = false, $key, $default = null)
     {
         if ($element = $this->get($key)) {
             return $element->getValue($toString);
