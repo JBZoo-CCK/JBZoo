@@ -10,10 +10,12 @@
  * @license    GPL-2.0
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
  * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+
 /**
  * Class JBModelValues
  */
@@ -285,7 +287,7 @@ class JBModelValues extends JBModel
      * @param int    $applicationId
      * @return array|JObject
      */
-    public function getRangeByField($identifier, $itemType, $applicationId)
+    public function getRangeByField($identifier, $itemType, $applicationId, $categoryId = null)//ivp depend_category
     {
         $this->app->jbdebug->mark('model::filter::getRangeByField:start');
 
@@ -300,6 +302,12 @@ class JBModelValues extends JBModel
                 //->where('tIndex.' . $identifier . ' <> ""')
                 //->where('tIndex.' . $identifier . ' IS NOT NULL')
             ;
+            
+            if($categoryId){//ivp depend_category
+                $select->leftJoin(ZOO_TABLE_CATEGORY_ITEM
+                            . ' AS tCategoryItem ON tCategoryItem.item_id = tItem.id');
+                        $select->where('tCategoryItem.category_id = ?', $categoryId);
+            }
 
             $result = $this->fetchRow($select);
 

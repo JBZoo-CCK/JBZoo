@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -10,11 +11,12 @@
  * @license    GPL-2.0
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
  * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-use Joomla\String\StringHelper;
+
 /**
  * Class JBHtmlHelper
  */
@@ -262,13 +264,20 @@ class JBHtmlHelper extends AppHelper
         if ($idtag && is_array($attribs)) {
             $attribs['id'] = $idtag;
         }
-
+    
+        // Проверяем, что значение является строкой или приводится к строке
+        if (is_array($value)) {
+            $value = ''; // или можно использовать implode(', ', $value) если нужно сохранить данные
+        } elseif ($value === null) {
+            $value = '';
+        }
+    
         $attribs = $this->_buildAttrs($attribs);
         if (strpos($attribs, 'jsAutocomplete') !== false) {
             $this->_assets->jqueryui();
             $this->_assets->initAutocomplete();
         }
-
+    
         return $this->app->html->_('control.text', $name, $value, $attribs);
     }
 

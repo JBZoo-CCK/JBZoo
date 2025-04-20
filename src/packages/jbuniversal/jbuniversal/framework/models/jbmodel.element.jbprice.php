@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -10,11 +11,12 @@
  * @license    GPL-2.0
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
  * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-use Joomla\String\StringHelper;
+
 /**
  * Class JBModelElementJBPrice
  */
@@ -257,38 +259,51 @@ class JBModelElementJBPrice extends JBModelElement
      */
     protected function _processValue($values = array())
     {
-        if (count($values)) {
-            $currency = null;
-            if (is_array($values) && array_key_exists('currency', $values)) {
-                $currency = $values['currency'];
-                unset($values['currency']);
+        // Проверяем, является ли $values массивом или Countable объектом
+        if (is_array($values) || $values instanceof \Countable) {
+            if (count($values)) {
+                $currency = null;
+                if (array_key_exists('currency', $values)) {
+                    $currency = $values['currency'];
+                    unset($values['currency']);
+                }
+    
+                if (is_string($values) && $this->isRange($values)) {
+                    $range  = $this->_setMinMax($values);
+                    $values = $this->_value($range, $currency);
+    
+                } elseif ((is_array($values) && (isset($values['range']) && !empty($values['range'])))) {
+                    $range  = $this->_setMinMax($values['range']);
+                    $values = $this->_value($range, $currency);
+    
+                } elseif ((is_array($values)) && (!empty($values['min']) || !empty($values['max']))) {
+                    $values = $this->_value($values, $currency);
+    
+                } elseif (is_string($values) && $values !== '') {
+                    $values = $this->_value(array(
+                        'min' => $values,
+                        'max' => $values,
+                    ), $currency);
+                } elseif (is_array($values)) {
+                    foreach ($values as $key => $value) {
+                        $values[$key] = $this->_processValue($value);
+                    }
+                } else {
+                    $values = null;
+                }
             }
-
-            if (is_string($values) && $this->isRange($values)) {
-                $range  = $this->_setMinMax($values);
-                $values = $this->_value($range, $currency);
-
-            } elseif ((is_array($values) && (isset($values['range']) && !empty($values['range'])))) {
-                $range  = $this->_setMinMax($values['range']);
-                $values = $this->_value($range, $currency);
-
-            } elseif ((is_array($values)) && (!empty($values['min']) || !empty($values['max']))) {
-                $values = $this->_value($values, $currency);
-
-            } elseif (is_string($values) && $values !== '') {
+        } else {
+            // Если $values не массив и не Countable, обрабатываем как одиночное значение
+            if (is_string($values) && $values !== '') {
                 $values = $this->_value(array(
                     'min' => $values,
                     'max' => $values,
-                ), $currency);
-            } elseif (is_array($values)) {
-                foreach ($values as $key => $value) {
-                    $values[$key] = $this->_processValue($value);
-                }
+                ), null);
             } else {
                 $values = null;
             }
         }
-
+    
         return $values;
     }
 

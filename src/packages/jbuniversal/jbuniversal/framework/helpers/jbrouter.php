@@ -891,17 +891,16 @@ class JBRouterHelper extends AppHelper
                         {
                             $key = implode(', ', array_map(
                                 function ($v, $k) {
-                                    // if (is_array($v)) {
-                                    //     $v = implode('||', $v);
-                                    // }
-                                    // return sprintf("%s:%s", $k, $v);
-
+                                    // Рекурсивная обработка массивов
                                     if (is_array($v)) {
+                                        $v = array_map(function ($item) {
+                                            return is_array($item) ? json_encode($item) : $item;
+                                        }, $v);
                                         $v = implode('||', $v);
-                                      } else {
-                                        $v = ''; // или выполнить другую обработку, если $v не является массивом
-                                      }
-                                      return sprintf("%s:%s", $k, $v);
+                                    } else {
+                                        $v = (string) $v; // На всякий случай приводим к строке
+                                    }
+                                    return sprintf("%s:%s", $k, $v);
                                 },
                                 $elements,
                                 array_keys($elements)
