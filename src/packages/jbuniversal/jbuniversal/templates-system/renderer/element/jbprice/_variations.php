@@ -1,4 +1,5 @@
 <?php
+use Joomla\String\StringHelper;
 /**
  * JBZoo Application
  *
@@ -10,11 +11,11 @@
  * @license    GPL-2.0
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
  * @link       https://github.com/JBZoo/JBZoo
+ * @author     Denis Smetannikov <denis@jbzoo.com>
  */
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-use Joomla\String\StringHelper;
 
 $jbPrice = $element->getJBPrice();
 
