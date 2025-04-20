@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    JBZoo Application
+
+    This file is part of the JBZoo CCK package.
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+
+    @package    Application
+    @license    GPL-2.0
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
+    @link       https://github.com/JBZoo/JBZoo
+-->
+<template>
+    <name>UIkit3 (Yootheme)</name>
+    <description>JBZoo uikit3 template</description>
+    <author>JBZoo.com</author>
+    <creationDate>2014 06</creationDate>
+    <copyright>Copyright (C) JBZoo.com, All rights reserved.</copyright>
+    <authorEmail>admin@jbzoo.com</authorEmail>
+    <authorUrl>http://jbzoo.com</authorUrl>
+    <version>1.0</version>
+
+    <params group="category">
+        <param name="show_alpha_index" type="jbbool" default="0" label="JBZOO_SHOW_ALPHA_INDEX"/>
+
+        <param name="@spacer" type="jbspacer" default="JBZOO_CONFIG_CATEGORIES"/>
+
+        <param name="category_title_show" type="jbbool" default="1" label="JBZOO_CATEGORY_TITLE_SHOW"
+               description="JBZOO_CATEGORY_TITLE_SHOW_DESC"/>
+
+        <param name="category_show" type="jbbool" default="1" label="JBZOO_CATEGORY_SHOW"
+               description="JBZOO_CATEGORY_SHOW_DESC"/>
+
+        <param name="category_subtitle" type="jbbool" default="1" label="JBZOO_CATEGORY_SUBTITLE"
+               description="JBZOO_CATEGORY_SUBTITLE_DESC"/>
+
+        <param name="category_teaser_text" type="jbbool" default="1" label="JBZOO_CATEGORY_TEASER_TEXT"
+               description="JBZOO_CATEGORY_TEASER_TEXT_DESC"/>
+
+        <param name="category_image" type="jbbool" default="1" label="JBZOO_CATEGORY_IMAGE"
+               description="JBZOO_CATEGORY_IMAGE_DESC"/>
+
+        <param name="category_image_align" type="list" default="left" label="JBZOO_CATEGORY_IMAGE_ALIGN"
+               description="JBZOO_CATEGORY_IMAGE_ALIGN_DESC">
+            <option value="left">JBZOO_LEFT</option>
+            <option value="right">JBZOO_RIGHT</option>
+            <option value="center">JBZOO_CENTER</option>
+            <option value="none">JBZOO_NONE</option>
+        </param>
+
+        <param name="category_text" type="jbbool" default="1" label="JBZOO_CATEGORY_TEXT"
+               description="JBZOO_CATEGORY_TEXT_DESC"/>
+
+        <param name="@spacer" type="jbspacer" default="JBZOO_CONFIG_SUBCATEGORIES"/>
+
+        <param name="subcategory_show" type="jbbool" default="1" label="JBZOO_SUBCATEGORY_SHOW"
+               description="JBZOO_SUBCATEGORY_SHOW_DESC"/>
+
+        <param name="subcategory_teaser_text" type="jbbool" default="1" label="JBZOO_SUBCATEGORY_TEASER_TEXT"
+               description="JBZOO_SUBCATEGORY_TEASER_TEXT_DESC"/>
+
+        <param name="subcategory_teaser_image" type="jbbool" default="1" label="JBZOO_SUBCATEGORY_TEASER_IMAGE"
+               description="JBZOO_SUBCATEGORY_TEASER_IMAGE_DESC"/>
+
+        <param name="subcategory_teaser_image_align" type="list" default="left"
+               label="JBZOO_SUBCATEGORY_TEASER_IMAGE_ALIGN"
+               description="JBZOO_SUBCATEGORY_TEASER_IMAGE_ALIGN_DESC">
+            <option value="left">JBZOO_LEFT</option>
+            <option value="right">JBZOO_RIGHT</option>
+            <option value="center">JBZOO_CENTER</option>
+            <option value="none">JBZOO_NONE</option>
+        </param>
+
+        <param name="subcategory_empty" type="jbbool" default="1" label="JBZOO_SUBCATEGORY_EMPTY"
+               description="JBZOO_SUBCATEGORY_EMPTY_DESC"/>
+
+        <param name="subcategory_cols" type="radio" default="1" label="JBZOO_SUBCATEGORY_COLS"
+               description="JBZOO_SUBCATEGORY_COLS_DESC">
+            <option value="1">JBZOO_NUMBERS_1</option>
+            <option value="2">JBZOO_NUMBERS_2</option>
+            <option value="3">JBZOO_NUMBERS_3</option>
+            <option value="4">JBZOO_NUMBERS_4</option>
+            <option value="5">JBZOO_NUMBERS_5</option>
+            <option value="6">JBZOO_NUMBERS_6</option>
+        </param>
+
+        <param name="subcategory_order" type="list" default="0" label="JBZOO_SUBCATEGORY_ORDER"
+               description="JBZOO_SUBCATEGORY_ORDER_DESC">
+            <option value="0">JBZOO_ACROSS</option>
+            <option value="1">JBZOO_DOWN</option>
+        </param>
+
+        <param name="subcategory_items_count_show" type="radio" default="1" label="JBZOO_SUBCATEGORY_ITEMS_COUNT_SHOW"
+               description="JBZOO_SUBCATEGORY_ITEMS_COUNT_SHOW_DESC">
+            <option value="0">JBZOO_HIDE</option>
+            <option value="1">JBZOO_SHOW</option>
+        </param>
+
+        <param name="subcategory_items_count" type="text" default="5" label="JBZOO_SUBCATEGORY_ITEMS_COUNT"
+               description="JBZOO_SUBCATEGORY_ITEMS_COUNT_DESC"/>
+
+        <param name="@spacer" type="jbspacer" default="JBZOO_CONFIG_ITEMS"/>
+
+        <param name="item_cols" type="radio" default="1" label="JBZOO_ITEM_COLS" description="JBZOO_ITEM_COLS_DESC">
+            <option value="1">JBZOO_NUMBERS_1</option>
+            <option value="2">JBZOO_NUMBERS_2</option>
+            <option value="3">JBZOO_NUMBERS_3</option>
+            <option value="4">JBZOO_NUMBERS_4</option>
+            <option value="5">JBZOO_NUMBERS_5</option>
+            <option value="6">JBZOO_NUMBERS_6</option>
+        </param>
+
+        <param name="item_order" type="list" default="0" label="JBZOO_ITEM_ORDER" description="JBZOO_ITEM_ORDER_DESC">
+            <option value="0">JBZOO_ACROSS</option>
+            <option value="1">JBZOO_DOWN</option>
+        </param>
+
+        <param name="item_pagination" type="jbbool" default="1" label="JBZOO_ITEM_PAGINATION"
+               description="JBZOO_ITEM_PAGINATION_DESC"/>
+        <param name="lastmodified" type="jbtimestamp"/>
+    </params>
+
+    <params group="item">
+        <param name="@spacer" type="jbspacer" default="JBZOO_UIKIT_PARAMS"/>
+
+        <param name="add_css" type="radio" default="yes_gradient" label="JBZOO_UIKIT_ADD_CSS"
+               description="JBZOO_CATEGORY_IMAGE_ALIGN_DESC">
+            <option value="no">JBZOO_NO</option>
+            <option value="yes">JBZOO_YES</option>
+            <option value="yes_gradient">JBZOO_UIKIT_YES_WITH_GRADIENT</option>
+        </param>
+
+        <param name="add_js" type="jbbool" default="1" label="JBZOO_UIKIT_ADD_JS"/>
+
+        <param name="@spacer" type="jbspacer" default="JBZOO_ITEM_IMAGE_ALIGN"/>
+
+        <param name="item_full_image_align" type="list" default="left" label="JBZOO_ITEM_FULL_IMAGE_ALIGN"
+               description="JBZOO_ITEM_FULL_IMAGE_ALIGN_DESC">
+            <option value="left">JBZOO_LEFT</option>
+            <option value="right">JBZOO_RIGHT</option>
+            <option value="center">JBZOO_CENTER</option>
+            <option value="none">JBZOO_NONE</option>
+        </param>
+
+        <param name="item_teaser_image_align" type="list" default="left" label="JBZOO_ITEM_TEASER_IMAGE_ALIGN"
+               description="JBZOO_ITEM_TEASER_IMAGE_ALIGN_DESC">
+            <option value="left">JBZOO_LEFT</option>
+            <option value="right">JBZOO_RIGHT</option>
+            <option value="center">JBZOO_CENTER</option>
+            <option value="none">JBZOO_NONE</option>
+        </param>
+
+        <param name="item_related_image_align" type="list" default="left" label="JBZOO_ITEM_RELATED_IMAGE_ALIGN"
+               description="JBZOO_ITEM_RELATED_IMAGE_ALIGN_DESC">
+            <option value="left">JBZOO_LEFT</option>
+            <option value="right">JBZOO_RIGHT</option>
+            <option value="center">JBZOO_CENTER</option>
+            <option value="none">JBZOO_NONE</option>
+        </param>
+
+        <param name="item_subcategory_item_image_align" type="list" default="left"
+               label="JBZOO_ITEM_SUBCATEGORY_ITEM_IMAGE_ALIGN"
+               description="JBZOO_ITEM_SUBCATEGORY_ITEM_IMAGE_ALIGN_DESC">
+            <option value="left">JBZOO_LEFT</option>
+            <option value="right">JBZOO_RIGHT</option>
+            <option value="center">JBZOO_CENTER</option>
+            <option value="none">JBZOO_NONE</option>
+        </param>
+
+    </params>
+</template>

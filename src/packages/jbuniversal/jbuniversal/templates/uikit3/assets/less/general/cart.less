@@ -1,0 +1,91 @@
+//
+// JBZoo Application
+//
+// This file is part of the JBZoo CCK package.
+// For the full copyright and license information, please view the LICENSE
+// file that was distributed with this source code.
+//
+// @package    Application
+// @license    GPL-2.0
+// @copyright  Copyright (C) JBZoo.com, All rights reserved.
+// @link       https://github.com/JBZoo/JBZoo
+//
+
+//  JBZoo core styles.
+@import "jbzoo.less";
+@import "general/system.less";
+@import "media/zoo/applications/jbuniversal/assets/less/cart/mobile-tools.less";
+
+//  Mobile uikit styles for cart.
+@import "../media/mobile.cart.less";
+
+.jbzoo {
+
+    .jbcart {
+
+        &-payment {
+            border-bottom: none !important;
+        }
+
+        &-payment-ui-row {
+
+            padding-right: 0;
+
+            .jbcart-payment-label {
+                padding: 20px;
+                .transition(0.3s);
+                .box-shadow(0 0 40px rgba(215, 215, 215, 0.5) inset);
+
+                &:hover {
+                    cursor: pointer;
+                    .transition(0.3s);
+                    .box-shadow(0 0 40px rgba(186, 186, 186, 0.5) inset);
+                }
+
+            }
+
+        }
+
+        &-row {
+
+            &.jbloading:after {
+                display: none;
+            }
+
+        }
+
+        &-item-image {
+            padding: 4px;
+            border: 1px solid #dddddd;
+            .border-radius(4px);
+        }
+
+        &-mobile-tools {
+
+            .jbform-actions {
+
+                .uk-button-default {
+                    min-height: 34px;
+                    padding: 0 14px;
+                    line-height: 34px;
+                    margin-bottom: 10px;
+                }
+
+            }
+
+
+        }
+
+    }
+
+    .jbform-actions {
+
+        .uk-button-default {
+            font-size: 16px;
+            color: #fff;
+            .border-radius(4px);
+        }
+
+    }
+
+}
