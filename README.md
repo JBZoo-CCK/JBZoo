@@ -72,7 +72,7 @@ See files `jbzoo_clean_install.zip` and `jbzoo_update.zip` in [releases](https:/
 
 
 ## PHP Unit tests
-Unfortunately now we are checking only copyrights, and some code styles. [See details](https://travis-ci.org/JBZoo-CCK/JBZoo).
+Unfortunately now we are checking only copyrights, and some code styles. [See details](https://travis-ci.org/JBZoo-CCK/JBZoo). [Temporarily disabled]
 
 ```sh
 make dev
