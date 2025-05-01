@@ -782,7 +782,7 @@ class JBRouterHelper extends AppHelper
 
         } else {
             $root        = JUri::root();
-            $application = JApplication::getInstance('site');
+            $application = \Joomla\CMS\Factory::getApplication();
             $router      = $application->getRouter();
             $link        = $router->build($this->app->route->item($item, false));
 
